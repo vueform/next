@@ -1,5 +1,5 @@
 /**
- * Generates a package's component registry (<package>/registry, committed —
+ * Generates a package's component registry (<package>/.registry, committed —
  * referenceable on GitHub) — the manifests and
  * copy-ready source files consumed by the Vueform CLI's `copy` command.
  *
@@ -851,12 +851,12 @@ function sha256(content: string): string {
   return `sha256:${createHash("sha256").update(content).digest("hex")}`;
 }
 
-/** Compiled validators for the canonical schemas in packages/core/registry. */
+/** Compiled validators for the canonical schemas in packages/core/.schemas. */
 function loadValidators() {
   const ajv = new Ajv({ allErrors: true });
   const read = (name: string) =>
     JSON.parse(
-      fs.readFileSync(path.join(repoRoot, "packages/core/schemas", name), "utf8"),
+      fs.readFileSync(path.join(repoRoot, "packages/core/.schemas", name), "utf8"),
     );
 
   return {
@@ -881,7 +881,7 @@ function runCheck(target: Target) {
 
   const checkDir = path.join(playground, "src", ".registry-check");
   const tsconfigPath = path.join(playground, "tsconfig.registry-check.json");
-  const filesDir = path.join(target.packageDir, "registry/copies");
+  const filesDir = path.join(target.packageDir, ".registry/copies");
 
   fs.rmSync(checkDir, { recursive: true, force: true });
   fs.mkdirSync(checkDir, { recursive: true });
@@ -892,7 +892,7 @@ function runCheck(target: Target) {
 
   // Clone templates are checked as concrete instantiations (VfTextClone /
   // 'text-clone') — exactly what the CLI's substitution produces.
-  const clonesDir = path.join(target.packageDir, "registry/clones");
+  const clonesDir = path.join(target.packageDir, ".registry/clones");
 
   for (const file of fs.readdirSync(clonesDir)) {
     const base = path.basename(file, ".vue");
@@ -967,7 +967,7 @@ async function main() {
   const descriptions = loadDescriptions(flag);
   const validators = loadValidators();
   const version = JSON.parse(fs.readFileSync(path.join(target.packageDir, "package.json"), "utf8")).version;
-  const registryDir = path.join(target.packageDir, "registry");
+  const registryDir = path.join(target.packageDir, ".registry");
 
   fs.rmSync(registryDir, { recursive: true, force: true });
   fs.mkdirSync(path.join(registryDir, "schemas"), { recursive: true });

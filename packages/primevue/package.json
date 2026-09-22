@@ -134,7 +134,7 @@
   "files": [
     "dist",
     "nuxt",
-    "registry"
+    ".registry"
   ],
   "sideEffects": [
     "**/*.css",

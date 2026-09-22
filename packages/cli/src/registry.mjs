@@ -16,7 +16,7 @@ function readJson(filePath) {
 }
 
 /**
- * Locates the installed Vueform adapter's registry (<package>/registry). Only
+ * Locates the installed Vueform adapter's registry (<package>/.registry). Only
  * adapters ship registries — @vueform/core is a dependency of adapters, not a
  * supported direct source of copies. Returns `{ package, dir, index }` or `{
  * error, package? }` with error one of 'no-package' | 'no-registry' |
@@ -33,7 +33,7 @@ export function loadRegistry(cwd) {
 
   if (!pkgDir) return { error: 'no-package' }
 
-  const dir = path.join(pkgDir, 'registry')
+  const dir = path.join(pkgDir, '.registry')
   const indexPath = path.join(dir, 'index.json')
 
   if (!existsSync(indexPath)) return { error: 'no-registry', package: name }

@@ -44,7 +44,7 @@ export default [
       '**/dist/**',
       // Generated component registries (gen:registry) — committed for GitHub
       // reference, but generated code isn't linted.
-      'packages/*/registry/**',
+      'packages/*/.registry/**',
       '**/playground/**',
       '**/docs/.vitepress/cache/**',
       '**/docs/.vitepress/dist/**',
