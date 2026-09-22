@@ -1,0 +1,21 @@
+# Auto-squash: a commit whose message is identical to the previous one is
+# folded into it. Escape hatch: SQUASH_GUARD=1 git commit …
+[ -n "$SQUASH_GUARD" ] && exit 0
+
+# Only touch pure local history: skip merge commits …
+parents=$(git rev-list --no-walk --count 'HEAD^@' 2>/dev/null || echo 1)
+[ "${parents:-1}" -gt 1 ] && exit 0
+
+# … and never rewrite commits that already exist on the upstream branch.
+if upstream=$(git rev-parse --abbrev-ref '@{u}' 2>/dev/null); then
+  git merge-base --is-ancestor HEAD~1 "$upstream" 2>/dev/null && exit 0
+fi
+
+# Needs a parent pair to compare at all.
+git rev-parse --verify -q HEAD~1 >/dev/null || exit 0
+
+if [ "$(git log -1 --format=%B HEAD)" = "$(git log -1 --format=%B HEAD~1)" ]; then
+  git reset --soft HEAD~2
+  SQUASH_GUARD=1 git commit --quiet --no-verify --allow-empty --reuse-message=ORIG_HEAD
+  echo "post-commit: auto-squashed into previous commit (same message)"
+fi

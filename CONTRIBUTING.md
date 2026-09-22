@@ -24,17 +24,20 @@ which throw because `_zod` is non-configurable.
 
 ### Types
 
-| Type       | Use for                                        |
-| ---------- | ---------------------------------------------- |
-| `feat`     | new user-facing capability                     |
-| `fix`      | bug fix                                        |
-| `refactor` | code change that is neither a feature nor fix  |
-| `perf`     | performance improvement                        |
-| `test`     | adding or fixing tests                         |
-| `docs`     | documentation only                             |
-| `build`    | build system, bundling, dependencies           |
-| `ci`       | CI configuration                               |
-| `chore`    | maintenance that fits nothing above            |
+| Type       | Use for                                                            |
+| ---------- | ------------------------------------------------------------------ |
+| `feat`     | new user-facing capability                                         |
+| `fix`      | bug fix                                                            |
+| `refactor` | code change that is neither a feature nor fix                      |
+| `perf`     | performance improvement                                            |
+| `test`     | adding or fixing tests                                             |
+| `docs`     | documentation only                                                 |
+| `build`    | build system, bundling, dependencies (`build(deps)` for bumps)     |
+| `ci`       | pipeline config: workflows, CI jobs/scripts, release automation    |
+| `chore`    | maintenance fitting nothing above: repo housekeeping, local dev    |
+|            | tooling (husky hooks, commitlint, editor config)                   |
+
+`ci` vs `chore`: `ci` = runs in the pipeline; `chore` = runs nowhere or only on dev machines. When a more specific type fits, `chore` is wrong.
 
 Breaking changes: append `!` after the type/scope (`feat(core)!: …`) or add a `BREAKING CHANGE:` footer.
 
@@ -57,6 +60,10 @@ When a commit has secondary effects in other packages worth noting, keep the sub
 - Lowercase after the colon, no trailing period.
 - Keep it under 72 characters.
 - Say **what** and **why** — the diff already shows the how. Put the why (root cause, constraint, rejected alternative) in the body.
+
+### Auto-squash on identical messages
+
+A `post-commit` hook folds a commit into its predecessor when both carry the **exact same message** — committing twice with one message is the "amend" gesture. It never rewrites merge commits or anything already pushed to the upstream. To opt out for one commit: `SQUASH_GUARD=1 git commit …`. Corollary: don't reuse lazy messages like `wip` for unrelated changes — they will be squashed together.
 
 ### One commit, one logical change
 
