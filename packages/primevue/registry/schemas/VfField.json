@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "name": "VfField",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Base element for building custom fields",
+  "files": [
+    {
+      "path": "VfField.vue",
+      "target": "{componentsDir}/VfField.vue",
+      "kind": "component",
+      "hash": "sha256:3651ebf72cc779928e348dc98afe0e71f35c6454fa1db5d7f823e26af31c7446"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue/blueprints/field",
+    "@vueform/primevue",
+    "@vueform/primevue/components/VfField"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfField.vue",
+    "blueprint": "field",
+    "hash": "sha256:a42d2e626363ea33ea473907e86a22d74307f763bb862667ac58c4a02ae3d681",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfField",
+    "import": "{componentsDir}/VfField.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

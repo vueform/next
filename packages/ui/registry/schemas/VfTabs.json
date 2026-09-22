@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "name": "VfTabs",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Tabbed form navigation",
+  "files": [
+    {
+      "path": "VfTabs.vue",
+      "target": "{componentsDir}/VfTabs.vue",
+      "kind": "component",
+      "hash": "sha256:a26cb194698ef3caad0392a9b86fa6af7923118d60c18c4c0d73b28f6e93338a"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/tabs",
+    "@vueform/ui",
+    "@vueform/ui/components/VfTabs",
+    "@vueform/ui/tabs.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "tabs"
+  ],
+  "register": {
+    "component": "VfTabs",
+    "import": "{componentsDir}/VfTabs.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

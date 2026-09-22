@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vueform registry item",
+  "description": "One installable item of a Vueform package registry (registry/schemas/*.json). Files it references are copy-ready sources under registry/copies; elements also carry a clone template under registry/clones.",
+  "type": "object",
+  "required": [
+    "schemaVersion",
+    "name",
+    "type",
+    "package",
+    "version",
+    "files",
+    "imports",
+    "register"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1
+    },
+    "type": {
+      "enum": ["component"]
+    },
+    "package": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "description": {
+      "type": "string"
+    },
+    "files": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": ["path", "target", "kind", "hash"],
+        "additionalProperties": false,
+        "properties": {
+          "path": {
+            "type": "string",
+            "minLength": 1
+          },
+          "target": {
+            "type": "string",
+            "minLength": 1
+          },
+          "kind": {
+            "enum": ["component", "types", "style"]
+          },
+          "optional": {
+            "type": "boolean"
+          },
+          "hash": {
+            "type": "string",
+            "pattern": "^sha256:[0-9a-f]{64}$"
+          }
+        }
+      }
+    },
+    "imports": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "dependencies": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      }
+    },
+    "registryDependencies": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "styles": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1
+      }
+    },
+    "register": {
+      "type": "object",
+      "required": ["component", "import"],
+      "additionalProperties": false,
+      "properties": {
+        "component": {
+          "type": "string",
+          "minLength": 1
+        },
+        "import": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    },
+    "docs": {
+      "type": "string"
+    },
+    "element": {
+      "type": "boolean",
+      "description": "True when the component is an element (defineOptions element: true) \u2014 clonable via `vueform clone`."
+    },
+    "clone": {
+      "type": "object",
+      "required": ["path", "blueprint", "hash"],
+      "additionalProperties": false,
+      "properties": {
+        "path": {
+          "type": "string",
+          "minLength": 1,
+          "description": "Template file under registry/clones, with __NAME__/__TYPE__ placeholders."
+        },
+        "blueprint": {
+          "type": "string",
+          "minLength": 1
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^sha256:[0-9a-f]{64}$"
+        },
+        "docs": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

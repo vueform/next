@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "name": "VfInputText",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Text input element",
+  "files": [
+    {
+      "path": "VfInputText.vue",
+      "target": "{componentsDir}/VfInputText.vue",
+      "kind": "component",
+      "hash": "sha256:3c5caa122787e514b340a8b29cd3dd33ba3da2f75d07e8904ce1c6c9da379e77"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/inputtext",
+    "@vueform/primevue/blueprints/input-text",
+    "@vueform/primevue/components/VfInputText",
+    "vue"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfInputText.vue",
+    "blueprint": "input-text",
+    "hash": "sha256:c78828d1e8a3864409dd41fb970ccebe7fe3cff2df51cbf9eb4b1db92ef12196",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfInputText",
+    "import": "{componentsDir}/VfInputText.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

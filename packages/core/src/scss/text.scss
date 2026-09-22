@@ -1,0 +1,24 @@
+/**
+ * Native text input element within an input wrapper.
+ */
+.vf-text-input {
+  flex: 1 1 0%;
+  width: 100%;
+  min-height: 100%;
+  padding: var(--vf-input-pt) var(--vf-input-pr) var(--vf-input-pb) var(--vf-input-pl);
+  font-family: inherit;
+  font-size: 1rem;
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-box-shadow: 0 0 0 99px var(--vf-input-bg-autofill) inset !important;
+    box-shadow: var(--vf-input-shadow);
+  }
+
+  &:-webkit-autofill {
+    -webkit-text-fill-color: var(--vf-input-color-autofill) !important;
+    caret-color: inherit;
+  }
+}

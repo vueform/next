@@ -1,0 +1,58 @@
+/**
+ * Container for the language selector tabs.
+ */
+.vf-languages {
+  margin: var(--vf-languages-margin);
+}
+
+/**
+ * Flex container holding individual language tab items.
+ */
+.vf-languages-wrapper {
+  display: flex;
+  gap: var(--vf-languages-gutter);
+  align-items: flex-end;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/**
+ * List item wrapping a single language tab, carrying its selected and
+ * invalid state classes.
+ *
+ * @class .vf-language-wrapper
+ */
+.vf-language-wrapper.vf-selected .vf-language {
+  color: var(--vf-language-color-selected);
+  background: var(--vf-language-bg-selected);
+  border-color: var(--vf-language-border-color-selected);
+}
+
+.vf-language-wrapper.vf-invalid .vf-language {
+  color: var(--vf-language-color-danger);
+  background: var(--vf-language-bg-danger);
+  border-color: var(--vf-language-border-color-danger);
+}
+
+.vf-language-wrapper.vf-selected.vf-invalid .vf-language {
+  color: var(--vf-language-color-selected-danger);
+  background: var(--vf-language-bg-selected-danger);
+  border-color: var(--vf-language-border-color-selected-danger);
+}
+
+/**
+ * Individual language tab button.
+ */
+.vf-language {
+  padding: var(--vf-language-padding);
+  font-size: var(--vf-languages-font-size);
+  color: var(--vf-language-color);
+  appearance: none;
+  cursor: pointer;
+  background: var(--vf-language-bg);
+  border-color: var(--vf-language-border-color);
+  border-style: solid;
+  border-width: var(--vf-language-border-width);
+  border-radius: var(--vf-language-radius);
+}

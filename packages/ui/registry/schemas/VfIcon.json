@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "name": "VfIcon",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Icon component",
+  "files": [
+    {
+      "path": "VfIcon.vue",
+      "target": "{componentsDir}/VfIcon.vue",
+      "kind": "component",
+      "hash": "sha256:67f18580ca46ad0cebf3fdb90d091541e2b604fd6123bfa45d9e6f412d225d41"
+    }
+  ],
+  "imports": [
+    "vue",
+    "@vueform/ui/blueprints/icon",
+    "@vueform/ui",
+    "@vueform/ui/components/VfIcon",
+    "@vueform/ui/icon.css",
+    "@vueform/ui/animation.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "icon",
+    "animation"
+  ],
+  "register": {
+    "component": "VfIcon",
+    "import": "{componentsDir}/VfIcon.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

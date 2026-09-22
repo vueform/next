@@ -1,0 +1,241 @@
+@use './tabular-cell' as *;
+
+/**
+ * Tabular display variant that removes gaps and adds cell borders.
+ *
+ * @class .vf-tabular
+ */
+.vf-grid.vf-tabular {
+  .vf-grid-grid {
+    row-gap: 0;
+    column-gap: 0;
+    background: var(--vf-tabular-bg);
+    border-radius: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-col-header,
+  .vf-grid-row-header {
+    padding: var(--vf-tabular-header-padding);
+    font-size: var(--vf-tabular-header-font-size);
+    font-weight: var(--vf-tabular-header-font-weight);
+    border-style: var(--vf-tabular-border-style);
+    border-width: var(--vf-tabular-border-width);
+  }
+
+  .vf-grid-col-header {
+    color: var(--vf-tabular-col-header-color);
+    background: var(--vf-tabular-col-header-bg);
+    border-color: var(--vf-tabular-col-header-border-color);
+  }
+
+  .vf-grid-row-header {
+    color: var(--vf-tabular-row-header-color);
+    background: var(--vf-tabular-row-header-bg);
+    border-color: var(--vf-tabular-row-header-border-color);
+  }
+
+  .vf-grid-cell:not([data-row='0']) {
+    border-top: 0;
+  }
+
+  .vf-grid-cell:not([data-col='0']) {
+    border-left: 0;
+  }
+
+  .vf-grid-cell[data-row='0'][data-col='0'] {
+    --vf-tabular-radius-tl: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-cell[data-row='0'][data-last-col] {
+    --vf-tabular-radius-tr: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-cell[data-last-row][data-last-col] {
+    --vf-tabular-radius-br: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-cell[data-last-row][data-col='0'] {
+    --vf-tabular-radius-bl: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-cell {
+    --vf-tabular-radius-tl: 0px;
+    --vf-tabular-radius-tr: 0px;
+    --vf-tabular-radius-br: 0px;
+    --vf-tabular-radius-bl: 0px;
+
+    --vf-tabular-cell-radius: var(--vf-tabular-radius-tl) var(--vf-tabular-radius-tr) var(--vf-tabular-radius-br) var(--vf-tabular-radius-bl);
+
+    --vf-tabular-input-radius: calc(var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width))
+      calc(var(--vf-tabular-radius-br) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width));
+
+    --vf-input-radius: var(--vf-tabular-input-radius);
+    --vf-btn-radius: var(--vf-tabular-input-radius);
+    min-height: var(--vf-tabular-cell-min-height);
+
+    color: var(--vf-tabular-color);
+    border-color: var(--vf-tabular-border-color);
+    border-style: var(--vf-tabular-border-style);
+    border-width: var(--vf-tabular-border-width);
+    border-radius: var(--vf-tabular-cell-radius);
+
+    &:not(:has(*)) {
+      padding: var(--vf-tabular-text-cell-padding);
+    }
+
+    @include tabular-cell-contents;
+  }
+}
+
+.vf-matrix.vf-tabular {
+  .vf-matrix-grid {
+    row-gap: 0;
+    column-gap: 0;
+    background: var(--vf-tabular-bg);
+    border-radius: var(--vf-tabular-radius);
+  }
+
+  .vf-matrix-col-header,
+  .vf-matrix-row-header {
+    display: flex;
+    align-items: center;
+    min-height: var(--vf-tabular-cell-min-height);
+    padding: var(--vf-tabular-header-padding);
+    font-size: var(--vf-tabular-header-font-size);
+    font-weight: var(--vf-tabular-header-font-weight);
+    border-style: var(--vf-tabular-border-style);
+    border-width: var(--vf-tabular-border-width);
+  }
+
+  .vf-matrix-col-header {
+    justify-content: center;
+    color: var(--vf-tabular-col-header-color);
+    background: var(--vf-tabular-col-header-bg);
+    border-color: var(--vf-tabular-col-header-border-color);
+
+    &:not(:first-of-type) {
+      border-left-width: 0;
+    }
+  }
+
+  .vf-matrix-row-header {
+    align-self: stretch;
+
+    /* Override base `margin: auto 0` that floats headers as detached pills. */
+    margin: 0;
+    color: var(--vf-tabular-row-header-color);
+    background: var(--vf-tabular-row-header-bg);
+    border-color: var(--vf-tabular-row-header-border-color);
+  }
+
+  .vf-matrix-cell,
+  .vf-matrix-row-remove,
+  .vf-matrix-row-sort {
+    align-self: stretch;
+    min-height: var(--vf-tabular-cell-min-height);
+    border-color: var(--vf-tabular-border-color);
+    border-style: var(--vf-tabular-border-style);
+    border-width: var(--vf-tabular-border-width);
+  }
+
+  .vf-matrix-cell:not(:has(*)),
+  .vf-matrix-row-remove:not(:has(*)) {
+    padding: var(--vf-tabular-text-cell-padding);
+  }
+
+  .vf-matrix-header ~ .vf-matrix-row .vf-matrix-row-header,
+  .vf-matrix-row ~ .vf-matrix-row .vf-matrix-row-header,
+  .vf-matrix-header ~ .vf-matrix-row .vf-matrix-cell,
+  .vf-matrix-header ~ .vf-matrix-row .vf-matrix-row-remove,
+  .vf-matrix-header ~ .vf-matrix-row .vf-matrix-row-sort,
+  .vf-matrix-row ~ .vf-matrix-row .vf-matrix-cell,
+  .vf-matrix-row ~ .vf-matrix-row .vf-matrix-row-remove,
+  .vf-matrix-row ~ .vf-matrix-row .vf-matrix-row-sort {
+    border-top: 0;
+  }
+
+  .vf-matrix-row-sort ~ .vf-matrix-row-header,
+  .vf-matrix-row-sort ~ .vf-matrix-cell,
+  .vf-matrix-row-sort ~ .vf-matrix-row-remove,
+  .vf-matrix-row-header ~ .vf-matrix-cell,
+  .vf-matrix-row-remove ~ .vf-matrix-cell,
+  .vf-matrix-cell ~ .vf-matrix-cell,
+  .vf-matrix-cell ~ .vf-matrix-row-remove {
+    border-left: 0;
+  }
+
+  .vf-matrix-col-header:first-of-type,
+  .vf-matrix-row:first-of-type .vf-matrix-row-sort,
+  .vf-matrix-row:first-of-type .vf-matrix-row-header,
+  .vf-matrix-row:first-of-type .vf-matrix-row-remove:first-of-type,
+  .vf-matrix-row:first-of-type .sr-only:first-of-type + .vf-matrix-cell,
+  .vf-matrix-row:first-of-type .sr-only:first-of-type ~ .sr-only + .vf-matrix-cell {
+    --vf-tabular-radius-tl: var(--vf-tabular-radius);
+  }
+
+  .vf-matrix-row:first-of-type .vf-matrix-row-sort ~ .vf-matrix-row-header,
+  .vf-matrix-row:first-of-type .vf-matrix-row-sort ~ .sr-only + .vf-matrix-cell,
+  .vf-matrix-row:first-of-type .vf-matrix-row-sort ~ .sr-only ~ .sr-only + .vf-matrix-cell {
+    --vf-tabular-radius-tl: 0px;
+  }
+
+  .vf-matrix-row:last-of-type .vf-matrix-row-sort,
+  .vf-matrix-row:last-of-type .vf-matrix-row-header,
+  .vf-matrix-row:last-of-type .vf-matrix-row-remove:first-of-type,
+  .vf-matrix-row:last-of-type .sr-only:first-of-type + .vf-matrix-cell,
+  .vf-matrix-row:last-of-type .sr-only:first-of-type ~ .sr-only + .vf-matrix-cell {
+    --vf-tabular-radius-bl: var(--vf-tabular-radius);
+  }
+
+  .vf-matrix-row:last-of-type .vf-matrix-row-sort ~ .vf-matrix-row-header,
+  .vf-matrix-row:last-of-type .vf-matrix-row-sort ~ .sr-only + .vf-matrix-cell,
+  .vf-matrix-row:last-of-type .vf-matrix-row-sort ~ .sr-only ~ .sr-only + .vf-matrix-cell {
+    --vf-tabular-radius-bl: 0px;
+  }
+
+  .vf-matrix-col-header:last-of-type,
+  .vf-matrix-row:first-of-type .vf-matrix-cell + .vf-matrix-row-remove,
+  .vf-matrix-row:first-of-type .vf-matrix-cell:last-of-type {
+    --vf-tabular-radius-tr: var(--vf-tabular-radius);
+  }
+
+  .vf-matrix-row:last-of-type .vf-matrix-cell + .vf-matrix-row-remove,
+  .vf-matrix-row:last-of-type .vf-matrix-cell:last-of-type {
+    --vf-tabular-radius-br: var(--vf-tabular-radius);
+  }
+
+  .vf-matrix-cell,
+  .vf-matrix-col-header,
+  .vf-matrix-row-header,
+  .vf-matrix-row-remove,
+  .vf-matrix-row-sort {
+    --vf-tabular-radius-tl: 0px;
+    --vf-tabular-radius-tr: 0px;
+    --vf-tabular-radius-br: 0px;
+    --vf-tabular-radius-bl: 0px;
+
+    --vf-tabular-cell-radius: var(--vf-tabular-radius-tl) var(--vf-tabular-radius-tr) var(--vf-tabular-radius-br) var(--vf-tabular-radius-bl);
+
+    --vf-tabular-input-radius: calc(var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width))
+      calc(var(--vf-tabular-radius-br) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width));
+
+    border-radius: var(--vf-tabular-cell-radius);
+  }
+
+  .vf-matrix-cell {
+    --vf-input-radius: var(--vf-tabular-input-radius);
+    --vf-btn-radius: var(--vf-tabular-input-radius);
+
+    color: var(--vf-tabular-color);
+
+    @include tabular-cell-contents;
+  }
+
+  .vf-matrix-sort,
+  .vf-matrix-remove {
+    width: 100%;
+    height: 100%;
+    border: 0;
+    border-radius: 0;
+  }
+}

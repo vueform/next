@@ -1,0 +1,20 @@
+.vf-knob {
+  &.vf-centered {
+    .vf-label-group {
+      text-align: center;
+    }
+
+    .p-knob {
+      display: flex;
+      justify-content: center;
+    }
+
+    .p-message-text {
+      margin: 0 auto;
+    }
+  }
+
+  .vf-label-group.vf-horizontal {
+    margin: auto 0;
+  }
+}

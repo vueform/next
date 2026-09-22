@@ -1,0 +1,113 @@
+.vf-editor-input.vf-editor-loading {
+  position: absolute;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+  opacity: 0;
+}
+
+.vf-editor-input:not(.vf-editor-loading) {
+  opacity: 1;
+  transition: opacity 0.15s ease;
+}
+
+.vf-editor-placeholder {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.vf-editor-placeholder-toolbar {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  padding: 1rem;
+  background: var(--p-editor-toolbar-background);
+  border: 1px solid var(--p-editor-toolbar-border-color);
+  border-start-start-radius: var(--p-editor-toolbar-border-radius);
+  border-start-end-radius: var(--p-editor-toolbar-border-radius);
+}
+
+.vf-editor-placeholder-toolbar span {
+  display: block;
+  height: 10px;
+  background: var(--vf-editor-loading-bg);
+  background-size: 200% 100%;
+  border-radius: 4px;
+  animation: vf-editor-shimmer 1.5s ease infinite;
+}
+
+.vf-editor-placeholder-toolbar span:nth-child(1) {
+  width: 206px;
+}
+
+.vf-editor-placeholder-toolbar span:nth-child(2) {
+  width: 84px;
+}
+
+.vf-editor-placeholder-toolbar span:nth-child(3) {
+  width: 56px;
+}
+
+.vf-editor-placeholder-toolbar span:nth-child(4) {
+  width: 84px;
+}
+
+.vf-editor-placeholder-toolbar span:nth-child(5) {
+  width: 84px;
+}
+
+.vf-editor-placeholder-toolbar span:nth-child(6) {
+  width: 28px;
+}
+
+.vf-editor-placeholder-content {
+  min-height: 120px;
+  background: var(--p-editor-content-background);
+  border: 1px solid var(--p-editor-content-border-color);
+  border-top: 0;
+  border-end-start-radius: var(--p-editor-content-border-radius);
+  border-end-end-radius: var(--p-editor-content-border-radius);
+}
+
+.ql-picker.ql-vflanguage {
+  width: 98px;
+
+  .ql-picker-label::before {
+    display: block;
+    padding-right: 20px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .ql-picker-label[data-value]::before {
+    content: attr(data-value);
+  }
+
+  .ql-picker-item[data-value]::before {
+    content: attr(data-value);
+  }
+
+  .ql-picker-label[data-label][data-value]::before {
+    content: attr(data-label);
+  }
+
+  .ql-picker-item[data-label][data-value]::before {
+    content: attr(data-label);
+  }
+}
+
+@keyframes vf-editor-shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+
+  50% {
+    background-position: 0 0;
+  }
+
+  100% {
+    background-position: 100% 0;
+  }
+}

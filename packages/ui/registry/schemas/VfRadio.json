@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "name": "VfRadio",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Single radio element",
+  "files": [
+    {
+      "path": "VfRadio.vue",
+      "target": "{componentsDir}/VfRadio.vue",
+      "kind": "component",
+      "hash": "sha256:e70a5243a122f7ba6d761e7fe702f4105e499582f82b25fa7c69c7d9d99ed4b4"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/radio",
+    "@vueform/ui",
+    "@vueform/ui/components/VfRadio",
+    "vue",
+    "@vueform/ui/choice.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "choice"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfRadio.vue",
+    "blueprint": "radio",
+    "hash": "sha256:f5e73f3b3299551bc3cc4e8c2e3ed73cf019fff9e1c7a02dbc52ec9c1cee71c3",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfRadio",
+    "import": "{componentsDir}/VfRadio.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

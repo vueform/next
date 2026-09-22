@@ -1,0 +1,65 @@
+[
+  {
+    "name": "Australia",
+    "code": "AU",
+    "states": [
+      {
+        "name": "New South Wales",
+        "cities": [
+          { "cname": "Sydney", "code": "SYD" },
+          { "cname": "Newcastle", "code": "NTL" },
+          { "cname": "Wollongong", "code": "WOL" }
+        ]
+      },
+      {
+        "name": "Queensland",
+        "cities": [
+          { "cname": "Brisbane", "code": "BNE" },
+          { "cname": "Gold Coast", "code": "OOL" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "Canada",
+    "code": "CA",
+    "states": [
+      {
+        "name": "Ontario",
+        "cities": [
+          { "cname": "Toronto", "code": "YYZ" },
+          { "cname": "Ottawa", "code": "YOW" }
+        ]
+      },
+      {
+        "name": "British Columbia",
+        "cities": [
+          { "cname": "Vancouver", "code": "YVR" },
+          { "cname": "Victoria", "code": "YYJ" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "United States",
+    "code": "US",
+    "states": [
+      {
+        "name": "California",
+        "cities": [
+          { "cname": "Los Angeles", "code": "LAX" },
+          { "cname": "San Francisco", "code": "SFO" },
+          { "cname": "San Diego", "code": "SAN" }
+        ]
+      },
+      {
+        "name": "Texas",
+        "cities": [
+          { "cname": "Austin", "code": "AUS" },
+          { "cname": "Dallas", "code": "DFW" },
+          { "cname": "Houston", "code": "IAH" }
+        ]
+      }
+    ]
+  }
+]

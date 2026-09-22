@@ -1,0 +1,6 @@
+[
+  { "key": "annual", "label": "Annual Report", "icon": "pi pi-file" },
+  { "key": "q4", "label": "Q4 Summary", "icon": "pi pi-file" },
+  { "key": "roadmap", "label": "Roadmap 2025", "icon": "pi pi-file" },
+  { "key": "team-intro", "label": "Team Intro", "icon": "pi pi-file" }
+]

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "name": "VfRadioButton",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Single radio button element",
+  "files": [
+    {
+      "path": "VfRadioButton.vue",
+      "target": "{componentsDir}/VfRadioButton.vue",
+      "kind": "component",
+      "hash": "sha256:0608a1b3c6b2eb73536550db92b3d4e92d519736c14066ca649f68aa47ead1dd"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/radiobutton",
+    "@vueform/primevue/blueprints/radio-button",
+    "@vueform/primevue/components/VfRadioButton",
+    "vue",
+    "@vueform/primevue/choice.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "choice"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfRadioButton.vue",
+    "blueprint": "radio-button",
+    "hash": "sha256:54a70642fe9ac1ae74ecb6d46ca4ca88619c9da33a6544891ff23892e02cede9",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfRadioButton",
+    "import": "{componentsDir}/VfRadioButton.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

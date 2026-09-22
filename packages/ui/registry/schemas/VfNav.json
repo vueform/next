@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "name": "VfNav",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Form navigation controls",
+  "files": [
+    {
+      "path": "VfNav.vue",
+      "target": "{componentsDir}/VfNav.vue",
+      "kind": "component",
+      "hash": "sha256:3243f3102706eb74242f34284f6c17d2c7c6e3fbb12c7cba60116f5383bb89aa"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/nav",
+    "@vueform/ui",
+    "@vueform/ui/components/VfNav",
+    "@vueform/ui/nav.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "nav"
+  ],
+  "register": {
+    "component": "VfNav",
+    "import": "{componentsDir}/VfNav.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

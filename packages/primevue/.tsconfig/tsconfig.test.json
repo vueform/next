@@ -1,0 +1,33 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "paths": {
+      "#shorthands": ["../src/types/shorthands.ts"],
+      "~/*": ["../../core/src/*"],
+      "@/*": ["../src/*"],
+      "@vueform/primevue": ["../src/index.ts"],
+      "@vueform/primevue/full": ["../src/full.ts"],
+      "@vueform/primevue/themes": ["../src/themes/index.ts"],
+      "@vueform/primevue/tokens": ["../src/themes/tokens.ts"],
+      "@vueform/primevue/components": ["../src/components/index.ts"],
+      "@vueform/primevue/*": ["../src/*"]
+    },
+    "noImplicitAny": false
+  },
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.d.ts",
+    "../src/**/*.vue",
+    "../tests/**/*.ts",
+    "../tests/**/*.vue"
+  ],
+  "exclude": [
+    "../tests/test-utils/**/*",
+    "../tests/types/**/*",
+    "../tests/**/vitest.config.ts",
+    "../tests/vitest.config.ts",
+    "../tests/screenshots/**/*",
+    "../tests/vapor/**/*"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "schemaVersion": 1,
+  "name": "VfCheckbox",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Single checkbox element",
+  "files": [
+    {
+      "path": "VfCheckbox.vue",
+      "target": "{componentsDir}/VfCheckbox.vue",
+      "kind": "component",
+      "hash": "sha256:c2c9d5dd327327fe42a65d0d26c590c2dc7780d20ca244c87549bd2cd64a5f2c"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/checkbox",
+    "@vueform/ui",
+    "@vueform/ui/components/VfCheckbox",
+    "vue",
+    "@vueform/ui/choice.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "choice"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfCheckbox.vue",
+    "blueprint": "checkbox",
+    "hash": "sha256:c45faac4f0fdaf79c49b7281469d28144543686850ed7d15e474e8cf4b820f8c",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfCheckbox",
+    "import": "{componentsDir}/VfCheckbox.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

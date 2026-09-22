@@ -1,0 +1,126 @@
+/**
+ * Icon group wrapper that positions before/after icons alongside the input
+ * control, visually contained within the input border.
+ */
+.vf-icon-group {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  > .vf-input {
+    flex: 1;
+    width: 100%;
+  }
+}
+
+.vf-icon-group > .vf-icon {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--vf-icon-group-width);
+  font-size: var(--vf-icon-font-size);
+  color: var(--vf-icon-group-color);
+  pointer-events: none;
+}
+
+.vf-icon-group > .vf-icon:first-child {
+  left: var(--vf-input-border-width-l);
+}
+
+.vf-icon-group > .vf-icon:first-child ~ .vf-input {
+  padding-left: var(--vf-icon-group-width);
+}
+
+.vf-icon-group > .vf-input ~ .vf-icon {
+  right: 0;
+}
+
+.vf-icon-group > .vf-input:has(~ .vf-icon) {
+  padding-right: var(--vf-icon-group-width);
+}
+
+.vf-icon-group:has(.vf-input.vf-danger) > .vf-icon {
+  color: var(--vf-icon-group-color-danger);
+}
+
+/**
+ * Mask-image icon displaying the "add" symbol. Resolved from the `$add`
+ * semantic icon name in the default theme.
+ */
+.vf-icon-add {
+  display: inline-block;
+  width: var(--vf-icon-width);
+  height: var(--vf-icon-height);
+  background-color: currentcolor;
+  -webkit-mask-image: var(--vf-icon-add);
+  mask-image: var(--vf-icon-add);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/**
+ * Mask-image icon displaying the "remove" symbol. Resolved from the `$remove`
+ * semantic icon name in the default theme.
+ */
+.vf-icon-remove {
+  display: inline-block;
+  width: var(--vf-icon-width);
+  height: var(--vf-icon-height);
+  background-color: currentcolor;
+  -webkit-mask-image: var(--vf-icon-remove);
+  mask-image: var(--vf-icon-remove);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/**
+ * Mask-image icon displaying the "sort/drag" symbol. Resolved from the `$sort`
+ * semantic icon name in the default theme.
+ */
+.vf-icon-sort {
+  display: inline-block;
+  width: var(--vf-icon-width);
+  height: var(--vf-icon-height);
+  background-color: currentcolor;
+  -webkit-mask-image: var(--vf-icon-sort);
+  mask-image: var(--vf-icon-sort);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+}
+
+/** Loading spinner rendered in place of an after icon. */
+.vf-icon-group > .vf-icon-loading {
+  &:after {
+    display: block;
+    width: var(--vf-icon-width);
+    height: var(--vf-icon-height);
+    content: '';
+    background-color: currentcolor;
+    -webkit-mask-image: var(--vf-icon-loading);
+    mask-image: var(--vf-icon-loading);
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    animation: vf-spin 1s linear infinite;
+  }
+}

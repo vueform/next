@@ -1,0 +1,31 @@
+/**
+ * Wrapper for a single checkbox or radio choice, laying out the input
+ * and its label text side by side.
+ */
+.vf-choice-wrapper {
+  display: flex;
+  gap: var(--vf-choice-gutter);
+  align-items: center;
+
+  /** Reverses layout so the input appears on the right. */
+  &.vf-right {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+
+    .vf-choice-text {
+      text-align: right;
+    }
+  }
+
+  &.vf-aligned {
+    margin: var(--vf-choice-aligned-margin);
+  }
+}
+
+/**
+ * Label text displayed next to the choice input.
+ */
+.vf-choice-text {
+  color: var(--vf-choice-color);
+  cursor: pointer;
+}

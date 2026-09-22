@@ -1,0 +1,52 @@
+/**
+ * Flex container that wraps an input with optional addons.
+ */
+.vf-addon-group {
+  display: flex;
+  align-items: stretch;
+  width: 100%;
+  margin: 0;
+}
+
+/**
+ * Base input wrapper providing border, background and focus styles.
+ */
+.vf-input {
+  position: relative;
+  color: var(--vf-input-color);
+  outline: var(--vf-input-ring-width) var(--vf-input-ring-style) transparent;
+  outline-offset: var(--vf-input-ring-offset);
+  background: var(--vf-input-bg);
+  border-color: var(--vf-input-border-color);
+  border-style: var(--vf-input-border-style);
+  border-width: var(--vf-input-border-width-t) var(--vf-input-border-width-r) var(--vf-input-border-width-b) var(--vf-input-border-width-l);
+  border-radius: var(--vf-input-radius);
+  box-shadow: var(--vf-input-shadow);
+
+  /** Disabled state with muted colors and no pointer events. */
+  &:disabled {
+    color: var(--vf-input-color-disabled);
+    pointer-events: none;
+    background: var(--vf-input-bg-disabled);
+    border-color: var(--vf-input-border-color-disabled);
+  }
+
+  /** Focused state with ring outline. */
+  &:focus {
+    outline-color: var(--vf-input-ring-color);
+    box-shadow: var(--vf-input-ring-shadow);
+
+    &.vf-danger {
+      outline-color: var(--vf-input-ring-color-danger);
+      box-shadow: var(--vf-input-ring-shadow-danger);
+    }
+  }
+
+  /** Danger/error state with highlighted colors. */
+  &.vf-danger {
+    color: var(--vf-input-color-danger);
+    caret-color: var(--vf-input-color-danger);
+    background: var(--vf-input-bg-danger);
+    border-color: var(--vf-input-border-color-danger);
+  }
+}

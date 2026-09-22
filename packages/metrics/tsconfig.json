@@ -1,0 +1,23 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "strict": true,
+    "jsx": "preserve",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "types": ["vitest", "node"]
+  },
+  "include": [
+    "bench/**/*.ts",
+    "size/**/*.ts",
+    "lib/**/*.ts",
+    "vitest.config.ts"
+  ],
+  "exclude": ["size/fixtures"]
+}

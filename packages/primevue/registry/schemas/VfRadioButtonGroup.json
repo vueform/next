@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "name": "VfRadioButtonGroup",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Radio button group element",
+  "files": [
+    {
+      "path": "VfRadioButtonGroup.vue",
+      "target": "{componentsDir}/VfRadioButtonGroup.vue",
+      "kind": "component",
+      "hash": "sha256:2241664c58900e478976c579e475d0a017dd1030fbb490925aa4617fcd680312"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "@vueform/primevue/blueprints/radio-button-group",
+    "@vueform/primevue/components/VfRadioButtonGroup",
+    "@vueform/primevue/choices.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "choices"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfRadioButtonGroup.vue",
+    "blueprint": "radio-button-group",
+    "hash": "sha256:3528378033d823205b5b21cc1c5702809819b736448c38772bf78ee97afd0bee",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfRadioButtonGroup",
+    "import": "{componentsDir}/VfRadioButtonGroup.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

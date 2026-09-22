@@ -1,0 +1,23 @@
+.vf-content {
+  &.vf-left {
+    text-align: left;
+  }
+
+  &.vf-center {
+    text-align: center;
+  }
+
+  &.vf-right {
+    text-align: right;
+  }
+
+  &.vf-justify {
+    text-align: justify;
+  }
+
+  &.vf-aligned {
+    .vf-element-wrapper {
+      margin: var(--vf-content-aligned-margin);
+    }
+  }
+}

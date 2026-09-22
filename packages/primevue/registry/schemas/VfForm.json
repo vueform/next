@@ -1,0 +1,59 @@
+{
+  "schemaVersion": 1,
+  "name": "VfForm",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Form root component",
+  "files": [
+    {
+      "path": "VfForm.vue",
+      "target": "{componentsDir}/VfForm.vue",
+      "kind": "component",
+      "hash": "sha256:8cd8fda83b1861c65de6c93cc120073d251fce98c4abe47708420e70b5b4bd28"
+    },
+    {
+      "path": "FormNav.vue",
+      "target": "{componentsDir}/FormNav.vue",
+      "kind": "component",
+      "hash": "sha256:e927c0033fe60382a9b3988bb4aedfb0dd4ecfca4d834de1567c577878db5000"
+    },
+    {
+      "path": "FormStep.vue",
+      "target": "{componentsDir}/FormStep.vue",
+      "kind": "component",
+      "hash": "sha256:ad42abd2e801355a9d7ab19105968d40393b7a44e1f9355151ad418ce269ad9d"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/stepitem",
+    "primevue/steplist",
+    "primevue/steppanel",
+    "primevue/steppanels",
+    "primevue/stepper",
+    "primevue/tab",
+    "primevue/tablist",
+    "primevue/tabpanels",
+    "primevue/tabs",
+    "vue",
+    "@vueform/primevue/blueprints/form",
+    "@vueform/primevue/components/VfForm",
+    "@vueform/primevue/form.css",
+    "@vueform/primevue/utils.css",
+    "@vueform/primevue/blueprints/nav",
+    "primevue/divider",
+    "primevue/step"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "form",
+    "utils"
+  ],
+  "register": {
+    "component": "VfForm",
+    "import": "{componentsDir}/VfForm.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

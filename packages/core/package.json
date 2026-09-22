@@ -1,0 +1,174 @@
+{
+  "name": "@vueform/core",
+  "version": "2.0.0",
+  "description": "Vueform Core 2.0",
+  "author": "Adam Berecz",
+  "license": "MIT",
+  "private": false,
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    },
+    "./blueprints/*": {
+      "types": "./dist/blueprints/*.d.ts",
+      "import": "./dist/blueprints/*.mjs"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.mjs"
+    },
+    "./components/shared": {
+      "types": "./dist/components/shared/index.d.ts",
+      "import": "./dist/components/shared/index.mjs"
+    },
+    "./components/*/raw": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.mjs"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/unstyled.d.ts",
+      "import": "./dist/components/*/unstyled.mjs"
+    },
+    "./rules": {
+      "types": "./dist/defaultRules.d.ts",
+      "import": "./dist/defaultRules.mjs"
+    },
+    "./modules": {
+      "types": "./dist/modules/modules.d.ts",
+      "import": "./dist/modules/modules.mjs"
+    },
+    "./locales": {
+      "types": "./dist/locales/index.d.ts",
+      "import": "./dist/locales/index.mjs"
+    },
+    "./tokens": {
+      "types": "./dist/tokens/index.d.ts",
+      "import": "./dist/tokens/index.mjs"
+    },
+    "./*.css": {
+      "node": "./dist/css/*.css.mjs",
+      "default": "./dist/css/*.css"
+    },
+    "./*.scss": {
+      "node": "./dist/scss/*.scss.mjs",
+      "default": "./dist/scss/*.scss"
+    },
+    "./vapor": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vapor/index.mjs"
+    },
+    "./vapor/blueprints/*": {
+      "types": "./dist/blueprints/*.d.ts",
+      "import": "./dist/vapor/blueprints/*.mjs"
+    },
+    "./vapor/components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/vapor/components/index.mjs"
+    },
+    "./vapor/components/shared": {
+      "types": "./dist/components/shared/index.d.ts",
+      "import": "./dist/vapor/components/shared/index.mjs"
+    },
+    "./vapor/components/*/raw": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/vapor/components/*/index.mjs"
+    },
+    "./vapor/components/*": {
+      "types": "./dist/components/*/unstyled.d.ts",
+      "import": "./dist/vapor/components/*/unstyled.mjs"
+    },
+    "./vapor/rules": {
+      "types": "./dist/defaultRules.d.ts",
+      "import": "./dist/vapor/defaultRules.mjs"
+    },
+    "./vapor/modules": {
+      "types": "./dist/modules/modules.d.ts",
+      "import": "./dist/vapor/modules/modules.mjs"
+    },
+    "./vapor/locales": {
+      "types": "./dist/locales/index.d.ts",
+      "import": "./dist/vapor/locales/index.mjs"
+    },
+    "./vapor/tokens": {
+      "types": "./dist/tokens/index.d.ts",
+      "import": "./dist/vapor/tokens/index.mjs"
+    },
+    "./nuxt": {
+      "types": "./nuxt/index.ts",
+      "import": "./nuxt/index.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "nuxt"
+  ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
+  "scripts": {
+    "build": "pnpm run build:vdom && pnpm run build:vapor",
+    "build:vdom": "vite build",
+    "build:vapor": "vite build --config build/vite.config.vapor.ts",
+    "gen": "tsx ./scripts/generate-blueprints.ts",
+    "gen:deps": "tsx ./scripts/generate-factory-deps.ts",
+    "gen:schema-perf": "tsx ./scripts/generate-schema-perf.ts",
+    "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json",
+    "tsc:types": "pnpm exec vue-tsc --project .tsconfig/tsconfig.types.json",
+    "tsc:types:perf": "tsx ./scripts/run-schema-perf.ts",
+    "test": "vitest --config tests/vitest.config.ts --maxWorkers=16",
+    "bench:perf": "node tests/perf/scripts/run.mjs",
+    "bench:perf:save": "node tests/perf/scripts/run.mjs --save",
+    "bench:perf:report": "node tests/perf/scripts/run.mjs --report",
+    "perf:rebase": "node tests/perf/scripts/run.mjs --rebase",
+    "test:prod": "vitest --config tests/vitest.config.ts --maxWorkers=16 --mode production",
+    "test:vapor": "vitest run --config tests/vapor/vitest.config.ts",
+    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/vapor/vitest.config.ts",
+    "publish": "pnpm build && pnpm republish",
+    "republish": "pnpm unpublish --force --no-git-checks && pnpm publish --no-git-checks"
+  },
+  "dependencies": {
+    "@vueform/devtools": "workspace:*",
+    "@vueuse/core": "^13.7.0",
+    "type-fest": "^4.41.0",
+    "vue-component-type-helpers": "^3.0.4"
+  },
+  "devDependencies": {
+    "@nuxt/kit": "^3.17.5",
+    "@nuxt/schema": "^3.17.5",
+    "@vitest/browser": "^4.0.0-beta.18",
+    "@vitest/browser-playwright": "^4.0.0-beta.18",
+    "@vue/shared": "^3.5.28",
+    "@vue/test-utils": "^2.4.6",
+    "@vueform/dompurify": "workspace:*",
+    "@vueform/expr-eval": "workspace:*",
+    "@vueform/vite": "workspace:*",
+    "happy-dom": "^20.0.10",
+    "sass": "^1.99.0",
+    "terser": "^5.49.0",
+    "ts-json-schema-generator": "^2.9.0",
+    "tsx": "^4.21.0",
+    "vite-plugin-lib-inject-css": "^2.2.2",
+    "vite-plugin-static-copy": "^3.1.5",
+    "vitest": "^4.0.0-beta.18",
+    "vitest-browser-vue": "^2.0.0-beta.1",
+    "zod": "^4.4.3"
+  },
+  "peerDependencies": {
+    "@nuxt/kit": "^3.17.5",
+    "@nuxt/schema": "^3.17.5",
+    "vue": "^3.5.13"
+  },
+  "peerDependenciesMeta": {
+    "@nuxt/kit": {
+      "optional": true
+    },
+    "@nuxt/schema": {
+      "optional": true
+    }
+  }
+}

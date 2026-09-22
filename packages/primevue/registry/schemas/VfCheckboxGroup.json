@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "name": "VfCheckboxGroup",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Checkbox group element",
+  "files": [
+    {
+      "path": "VfCheckboxGroup.vue",
+      "target": "{componentsDir}/VfCheckboxGroup.vue",
+      "kind": "component",
+      "hash": "sha256:d035725e0c1c7d0b5b91370a5ca9212e9168776e7a6b7d3786bf7bf8560ed0b9"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "@vueform/primevue/blueprints/checkbox-group",
+    "@vueform/primevue/components/VfCheckboxGroup",
+    "@vueform/primevue/choices.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "choices"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfCheckboxGroup.vue",
+    "blueprint": "checkbox-group",
+    "hash": "sha256:3944a49a9e2f57484da15f9f68ed2ee8036b7c5888ced26ca1785c8fc8579a21",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfCheckboxGroup",
+    "import": "{componentsDir}/VfCheckboxGroup.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

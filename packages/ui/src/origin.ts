@@ -1,0 +1,36 @@
+import './components'
+import './themes'
+import {
+  createVueformFactory,
+  defineConfig,
+  fetchHttpAdapter,
+  nativeDateAdapter,
+  pathExpressionAdapter,
+} from '@vueform/core'
+import { en_US } from '@vueform/core/locales'
+import * as components from '@/components'
+import defaultConfig from '@/config'
+import * as modules from '@/modules'
+import * as rules from '@/rules'
+import { origin as theme } from '@/themes'
+
+/**
+ * Creates a pre-configured Vueform plugin with all components, rules, modules,
+ * the Origin theme, and the `en_US` locale registered by default. Every config
+ * option is optional; app `tokens` merge on top of the Origin theme, and a
+ * `theme` replaces it wholesale.
+ */
+export const createVueform = createVueformFactory(
+  defineConfig({
+    ...defaultConfig,
+    $date: { adapter: nativeDateAdapter },
+    $http: { adapter: fetchHttpAdapter },
+    $expression: { adapter: pathExpressionAdapter },
+    components,
+    rules,
+    modules,
+    theme,
+    locales: { en_US },
+    locale: 'en_US',
+  })
+)

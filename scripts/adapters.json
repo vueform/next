@@ -1,0 +1,33 @@
+{
+  "primevue": {
+    "home": "https://v4.primevue.org",
+    "docs": "https://v4.primevue.org/{compname}",
+    "elements": {
+      "Button": {},
+      "AutoComplete": {},
+      "CascadeSelect": {},
+      "Checkbox": {},
+      "ColorPicker": {},
+      "DatePicker": {},
+      "Editor": {},
+      "FileUpload": {},
+      "InputMask": {},
+      "InputNumber": {},
+      "InputOtp": {},
+      "InputText": {},
+      "Knob": {},
+      "Listbox": {},
+      "MultiSelect": {},
+      "Password": {},
+      "RadioButton": {},
+      "Rating": {},
+      "Select": {},
+      "SelectButton": {},
+      "Slider": {},
+      "Textarea": {},
+      "ToggleButton": {},
+      "ToggleSwitch": {},
+      "TreeSelect": {}
+    }
+  }
+}

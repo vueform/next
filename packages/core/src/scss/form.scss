@@ -1,0 +1,59 @@
+/**
+ * Root form container with vertical flex layout.
+ */
+.vf-form {
+  display: flex;
+  flex-direction: column;
+}
+
+/**
+ * Form-level error message list displayed above or below elements.
+ */
+.vf-form-errors {
+  padding: var(--vf-form-errors-padding);
+  margin: var(--vf-form-errors-margin);
+  color: var(--vf-form-errors-color);
+  list-style: none;
+  background-color: var(--vf-form-errors-bg);
+  border-color: var(--vf-form-errors-border-color);
+  border-style: var(--vf-form-errors-border-style);
+  border-width: var(--vf-form-errors-border-width);
+  border-radius: var(--vf-form-errors-radius);
+}
+
+/**
+ * Form-level informational message list.
+ */
+.vf-form-messages {
+  padding: var(--vf-form-messages-padding);
+  margin: var(--vf-form-messages-margin);
+  color: var(--vf-form-messages-color);
+  list-style: none;
+  background-color: var(--vf-form-messages-bg);
+  border-color: var(--vf-form-messages-border-color);
+  border-style: var(--vf-form-messages-border-style);
+  border-width: var(--vf-form-messages-border-width);
+  border-radius: var(--vf-form-messages-radius);
+}
+
+/**
+ * 12-column grid container that holds all form elements.
+ */
+.vf-elements {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  row-gap: var(--vf-elements-gutter-y);
+  column-gap: min(calc(100% / 12), var(--vf-elements-gutter-x));
+  align-items: flex-start;
+}
+
+/**
+ * Uses horizontal flex-wrap layout instead of grid when form is stacked.
+ */
+.vf-form.vf-stacked > .vf-elements {
+  display: flex;
+  flex-wrap: wrap;
+  row-gap: var(--vf-elements-gutter-stacked-y, 0);
+  column-gap: var(--vf-elements-gutter-stacked-x, 0);
+  align-items: center;
+}

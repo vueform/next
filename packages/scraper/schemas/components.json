@@ -1,0 +1,283 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://vueform.com/schemas/scraper/components.json",
+  "title": "Vueform scraped components",
+  "description": "Components keyed by component name (.generated/<source>/components.json).",
+  "type": "object",
+  "propertyNames": {
+    "pattern": "^Vf[A-Za-z0-9]+$"
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": ["blueprint", "props", "events", "parts", "slots", "classes"],
+    "additionalProperties": false,
+    "properties": {
+      "blueprint": {
+        "type": "string",
+        "description": "The element type the component implements.",
+        "minLength": 1
+      },
+      "element": {
+        "type": "boolean",
+        "const": true,
+        "description": "Present on element components — those rendering <VfLayout>; absent otherwise."
+      },
+      "props": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/prop"
+        }
+      },
+      "events": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/event"
+        }
+      },
+      "parts": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/part"
+        }
+      },
+      "slots": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/slot"
+        }
+      },
+      "classes": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/classInfo"
+        }
+      },
+      "api": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/apiMember"
+        }
+      },
+      "adapterFeatures": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "Adapter-side features (make*) augmenting the component."
+      },
+      "adapterTypeInfo": {
+        "$ref": "#/definitions/adapterTypeInfo"
+      }
+    }
+  },
+  "definitions": {
+    "prop": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "const": true
+        },
+        "private": {
+          "const": true
+        },
+        "default": {
+          "description": "Default value; scalars, or the structured default of complex props."
+        },
+        "source": {
+          "enum": ["vueform", "adapter", "html"],
+          "description": "Where the prop comes from: the shared Vueform blueprint, the adapter's own typing, or a passed-through HTML attribute."
+        },
+        "params": {
+          "type": "object",
+          "description": "Parameters, for function-typed props.",
+          "additionalProperties": {
+            "$ref": "common.json#/definitions/param"
+          }
+        },
+        "returns": {
+          "$ref": "common.json#/definitions/returns"
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": ["description", "params"],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "common.json#/definitions/param"
+          }
+        }
+      }
+    },
+    "part": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "tag": {
+          "type": "string",
+          "description": "The HTML tag the part renders as.",
+          "minLength": 1
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "common.json#/definitions/param"
+          }
+        }
+      }
+    },
+    "slotParam": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "description": "Parameters, for function-typed slot payload members.",
+          "additionalProperties": {
+            "$ref": "common.json#/definitions/param"
+          }
+        },
+        "returns": {
+          "$ref": "common.json#/definitions/returns"
+        }
+      }
+    },
+    "slot": {
+      "type": "object",
+      "required": ["description"],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "exposes": {
+          "type": "string",
+          "description": "Name of the payload type the slot exposes.",
+          "minLength": 1
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/slotParam"
+          }
+        }
+      }
+    },
+    "classInfo": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "default": {
+          "type": "string",
+          "minLength": 1
+        },
+        "params": {
+          "type": "object",
+          "description": "For function-typed class entries: parameter name → type string, or an expanded object parameter.",
+          "additionalProperties": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "object",
+                "required": ["type", "description"],
+                "additionalProperties": false,
+                "properties": {
+                  "description": {
+                    "type": "string"
+                  },
+                  "type": {
+                    "type": "object",
+                    "additionalProperties": {
+                      "$ref": "common.json#/definitions/param"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "apiMember": {
+      "$ref": "common.json#/definitions/apiMember"
+    },
+    "adapterTypeInfo": {
+      "type": "object",
+      "required": [
+        "typeName",
+        "componentName",
+        "omittedProps",
+        "overwrittenProps",
+        "unavailableProps"
+      ],
+      "additionalProperties": false,
+      "properties": {
+        "typeName": {
+          "type": "string"
+        },
+        "componentName": {
+          "type": "string"
+        },
+        "omittedProps": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "overwrittenProps": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "common.json#/definitions/param"
+          }
+        },
+        "unavailableProps": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "common.json#/definitions/param"
+          }
+        }
+      }
+    }
+  }
+}

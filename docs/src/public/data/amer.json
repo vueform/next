@@ -1,0 +1,44 @@
+[
+  {
+    "name": "Canada",
+    "code": "CA",
+    "states": [
+      {
+        "name": "Ontario",
+        "cities": [
+          { "cname": "Toronto", "code": "YYZ" },
+          { "cname": "Ottawa", "code": "YOW" }
+        ]
+      },
+      {
+        "name": "British Columbia",
+        "cities": [
+          { "cname": "Vancouver", "code": "YVR" },
+          { "cname": "Victoria", "code": "YYJ" }
+        ]
+      }
+    ]
+  },
+  {
+    "name": "United States",
+    "code": "US",
+    "states": [
+      {
+        "name": "California",
+        "cities": [
+          { "cname": "Los Angeles", "code": "LAX" },
+          { "cname": "San Francisco", "code": "SFO" },
+          { "cname": "San Diego", "code": "SAN" }
+        ]
+      },
+      {
+        "name": "Texas",
+        "cities": [
+          { "cname": "Austin", "code": "AUS" },
+          { "cname": "Dallas", "code": "DFW" },
+          { "cname": "Houston", "code": "IAH" }
+        ]
+      }
+    ]
+  }
+]

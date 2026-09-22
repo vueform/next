@@ -1,0 +1,12 @@
+@use '@vueform/core/nav.scss';
+
+.vf-nav {
+  padding: var(--p-stepper-steppanels-padding);
+  padding-top: 0;
+  margin: 0;
+}
+
+.p-steppanel-content .vf-nav {
+  padding: 0;
+  margin: var(--vf-nav-margin);
+}

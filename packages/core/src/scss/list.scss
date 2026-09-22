@@ -1,0 +1,76 @@
+/**
+ * Grid container holding all list item rows.
+ */
+.vf-list-items {
+  display: grid;
+  row-gap: var(--vf-list-gutter-y);
+  column-gap: min(calc(100% / 12), var(--vf-list-gutter-x));
+}
+
+/**
+ * Single row in a list element containing the element and controls.
+ */
+.vf-list-item {
+  position: relative;
+  display: flex;
+  row-gap: var(--vf-list-item-gutter-y);
+  column-gap: var(--vf-list-item-gutter-x);
+  align-items: var(--vf-list-item-align);
+
+  /** Visual state while being dragged. */
+  &.vf-dragging {
+    cursor: grabbing;
+    opacity: var(--vf-list-dragging-opacity);
+  }
+}
+
+/**
+ * Grid wrapper for the element content within a list item.
+ */
+.vf-list-element {
+  display: grid;
+  flex-grow: 1;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+}
+
+/**
+ * Placeholder shown when the list is empty.
+ */
+.vf-list-placeholder {
+  padding: var(--vf-list-placeholder-padding);
+  font-style: var(--vf-list-placeholder-font-style);
+  color: var(--vf-list-placeholder-color);
+  text-align: var(--vf-list-placeholder-align);
+  background: var(--vf-list-placeholder-bg);
+  border-color: var(--vf-list-placeholder-border-color);
+  border-style: var(--vf-list-placeholder-border-style);
+  border-width: var(--vf-list-placeholder-border-width);
+  border-radius: var(--vf-list-placeholder-radius);
+}
+
+/**
+ * Container for the add item button below a list.
+ */
+.vf-list-add {
+  margin: var(--vf-list-add-margin);
+  margin-top: 0;
+}
+
+.vf-list-items + .vf-list-add {
+  margin: var(--vf-list-add-margin);
+}
+
+.vf-list-placeholder + .vf-list-add {
+  margin: var(--vf-list-add-margin);
+}
+
+.vf-list-item.vf-wrapped {
+  & > .vf-list-element > .vf-element > .vf-element-group > .vf-element-wrapper {
+    padding: var(--vf-group-wrapped-padding);
+    background-color: var(--vf-group-wrapped-bg);
+    border-color: var(--vf-group-wrapped-border-color);
+    border-style: var(--vf-group-wrapped-border-style);
+    border-width: var(--vf-group-wrapped-border-width);
+    border-radius: var(--vf-group-wrapped-radius);
+  }
+}

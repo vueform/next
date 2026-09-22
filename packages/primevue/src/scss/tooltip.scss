@@ -1,0 +1,21 @@
+.vf-tooltip {
+  &.p-tooltip-top,
+  &[data-p-position='top'] {
+    transform: translateY(calc(var(--vf-tooltip-fix-space) * -1));
+  }
+
+  &.p-tooltip-right,
+  &[data-p-position='right'] {
+    transform: translateX(var(--vf-tooltip-fix-space));
+  }
+
+  &.p-tooltip-bottom,
+  &[data-p-position='bottom'] {
+    transform: translateY(var(--vf-tooltip-fix-space));
+  }
+
+  &.p-tooltip-left,
+  &[data-p-position='left'] {
+    transform: translateX(calc(var(--vf-tooltip-fix-space) * -1));
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "name": "VfSelect",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Select element",
+  "files": [
+    {
+      "path": "VfSelect.vue",
+      "target": "{componentsDir}/VfSelect.vue",
+      "kind": "component",
+      "hash": "sha256:edf5f125de64b66d30274768ef16208d2630b3004df758ccb829e4fa2c12177f"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/select",
+    "@vueform/ui",
+    "@vueform/ui/components/VfSelect",
+    "@vueform/ui/select.css",
+    "@vueform/ui/input.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "select",
+    "input"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfSelect.vue",
+    "blueprint": "select",
+    "hash": "sha256:a2839907235de959bfd01b4c852b7f2b235a621fe7b93e28d62ebfb696503ea7",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfSelect",
+    "import": "{componentsDir}/VfSelect.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "name": "VfKnob",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Knob dial element",
+  "files": [
+    {
+      "path": "VfKnob.vue",
+      "target": "{componentsDir}/VfKnob.vue",
+      "kind": "component",
+      "hash": "sha256:f6e7f67d6227bab826465c5e24adf847cfac0edd4e05af35dd509bb7e202eb1b"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/knob",
+    "@vueform/primevue/blueprints/knob",
+    "@vueform/primevue/components/VfKnob",
+    "vue",
+    "@vueform/primevue/knob.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "knob"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfKnob.vue",
+    "blueprint": "knob",
+    "hash": "sha256:462d6a9961d21fabf994322406d96dfaaaab5c8f04e76feaf6c3d09ab1867773",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfKnob",
+    "import": "{componentsDir}/VfKnob.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

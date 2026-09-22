@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "name": "VfHidden",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Hidden input element",
+  "files": [
+    {
+      "path": "VfHidden.vue",
+      "target": "{componentsDir}/VfHidden.vue",
+      "kind": "component",
+      "hash": "sha256:4d1eb4f6c46396ae934d4b9d1e0e878c4587b248e67ca43144b73a4c78738372"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/hidden",
+    "@vueform/ui",
+    "@vueform/ui/components/VfHidden"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfHidden.vue",
+    "blueprint": "hidden",
+    "hash": "sha256:e4435e7a0ecc50e3e4295fed0972cf616d8d36693f01621f8445f972ee1b515b",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfHidden",
+    "import": "{componentsDir}/VfHidden.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

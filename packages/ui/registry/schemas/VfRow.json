@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "name": "VfRow",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Grid row layout component",
+  "files": [
+    {
+      "path": "VfRow.vue",
+      "target": "{componentsDir}/VfRow.vue",
+      "kind": "component",
+      "hash": "sha256:03f50c5795bd003d8b63b57272da906df93c532f36b76a79d57c9223aff9726a"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/row",
+    "@vueform/ui",
+    "@vueform/ui/components/VfRow",
+    "@vueform/ui/grid.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "grid"
+  ],
+  "register": {
+    "component": "VfRow",
+    "import": "{componentsDir}/VfRow.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,219 @@
+/**
+ * The engine behind the security module's _sanitize_ capability — a function
+ * taking raw HTML and returning the safe output (e.g. the DOMPurify wrapper).
+ * Engine slots are per-capability, never module-wide: a sanitizer knows nothing
+ * about the module's other capabilities (like the encryption ciphers), and a
+ * future externally-backed capability would get its own slot.
+ */
+export type SecuritySanitizer = (html: string) => string
+
+/**
+ * An app-provided encryption or decryption function. Receives the value and a
+ * purpose tag identifying the call site (e.g. `'autosave:local'`), so one
+ * implementation can serve every feature that encrypts — branching per purpose
+ * if it ever needs to. May be async (Web Crypto).
+ */
+export type SecurityCipher = (
+  value: string,
+  purpose: string
+) => string | Promise<string>
+
+/**
+ * The areas where a schema string may render as HTML: `content` is
+ * `VfContent`'s `content` prop, `slots` are string `slots` entries, and `grid`
+ * covers grid string cells.
+ */
+export type SecurityHtmlArea = 'content' | 'grid' | 'slots'
+
+/**
+ * Configuration options for the security module (`config.$security`).
+ */
+export interface SecurityModuleOptions {
+  /**
+   * The sanitization engine (e.g. the DOMPurify wrapper). Like the ciphers,
+   * there is no built-in one, and HTML rendering in `allowHtml` areas always
+   * passes through it. Without an engine, HTML renders raw with a dev warning
+   * in development and renders **empty** in production — install
+   * `@vueform/dompurify`, or consciously opt out of sanitization by registering
+   * an identity function (`sanitizer: (html) => html`).
+   */
+  sanitizer?: SecuritySanitizer
+
+  /**
+   * Encrypts values before features persist them (e.g. local autosave drafts).
+   * There is no built-in cipher — bring a scheme whose key lives outside the
+   * stored data, such as a session-delivered key held in memory. When omitted,
+   * values are stored as-is.
+   */
+  encrypt?: SecurityCipher
+
+  /**
+   * The inverse of `encrypt`, applied when persisted values are read back. A
+   * `decrypt` that throws marks the stored value unreadable — features treat it
+   * as absent (e.g. autosave discards the draft).
+   */
+  decrypt?: SecurityCipher
+
+  /**
+   * The areas where strings may render as **HTML**. Empty by default: plain
+   * text strings always render (escaped), and HTML-looking strings in an area
+   * not listed here render escaped. HTML in an allowed area always passes
+   * through `sanitizeHtml` — the `sanitizer` engine, or its fallback (raw + dev
+   * warning in development, empty in production).
+   */
+  allowHtml?: SecurityHtmlArea[]
+
+  /**
+   * The globally registered component names a string may resolve to — in
+   * `slots` entries, the `template` prop, the `layout` prop, and the schema
+   * `component` key. Empty by default, so no name resolves; a name outside the
+   * list is ignored with a dev warning. Built-in `Vf*` names derived from an
+   * element's `type` are exempt (they are the element vocabulary itself).
+   */
+  allowComponents?: string[]
+
+  /**
+   * The **cross-origin** destinations HTTP requests may target, as absolute
+   * origins (e.g. `'https://api.example.com'`). Unset is equivalent to `[]`:
+   * requests to the app's own origin — relative URLs, and absolute URLs
+   * spelling out the current origin — always pass, while everything else is
+   * rejected before the request is sent unless its origin is listed. `['*']`
+   * opts out of the restriction entirely.
+   *
+   * Two wildcard forms are supported: `'https://*.example.com'` matches any
+   * subdomain (at any depth, never the apex host itself), and
+   * `'https://example.com:*'` matches that exact host on any port. A wildcard
+   * never widens the scheme.
+   *
+   * Outside a browser nothing is trusted implicitly — no page origin, no
+   * `baseURL` — so an absolute URL passes only when its origin is listed. The
+   * HTTP stack is client-side anyway: the built-in fetch adapter refuses SSR
+   * requests.
+   */
+  allowOrigins?: string[]
+
+  /**
+   * Additional keys to drop from every schema-reachable prop bag — schema
+   * entries themselves (form entries, group children, flat list prototypes,
+   * grid cell / matrix column schemas), `parts` bags, and grid cell `attrs` —
+   * **in every value form**. Case-insensitive. Slot HTML is not a prop bag: its
+   * attributes are the sanitizer's domain (`sanitizeOptions`).
+   *
+   * A core set is always banned regardless of this option and cannot be
+   * relaxed: prototype keys, `innerHTML` / `outerHTML` / `srcdoc`, and
+   * string-valued `on*` entries (function listeners from developer code keep
+   * working) — the entries where data would escalate into script or markup.
+   * `banProps` only ever tightens. Because schema entries pass the same filter,
+   * listing a prop name disables that **channel** for schemas while template
+   * usage keeps working — e.g. `['style']` (beacon / overlay CSS in both its
+   * string and object forms), `['id', 'name']` (DOM clobbering), or `['parts',
+   * 'slots', 'tokens']` (no schema-driven presentation at all).
+   */
+  banProps?: string[]
+}
+
+/**
+ * The security module instance providing HTML sanitization, schema gating,
+ * request-origin policy, and app-level encryption for persisted values.
+ */
+export interface SecurityModule {
+  /**
+   * Sanitizes an HTML string for an HTML sink. With a `$security.sanitizer`
+   * engine, its output. Without one — like an unconfigured cipher, a state the
+   * app should resolve — the string passes through raw with a one-time dev
+   * warning in development, and comes back **empty** in production
+   * (unsanitizable HTML never ships). Register an identity `sanitizer` to
+   * consciously opt out. Returns an empty string for non-string input.
+   *
+   * @param value The HTML string to sanitize.
+   */
+  sanitizeHtml: (value?: string) => string
+
+  /**
+   * Filters a schema-reachable prop bag (schema entries, `parts` bags, grid
+   * cell `attrs`) down to entries safe to bind: the built-in denylist
+   * (`innerHTML`/`outerHTML`/`srcdoc`, string-valued `on*`, prototype keys)
+   * plus the keys listed in `$security.banProps`, dropped in every value form.
+   * Returns the same reference when nothing needs stripping. Filtering is a
+   * module feature: without the `security` module registered, bags pass through
+   * unchanged.
+   *
+   * @param props The prop bag to filter.
+   */
+  sanitizeProps: <T extends Record<string, any>>(props: T) => T
+
+  /**
+   * Guards a schema-supplied CSS value fragment before interpolation into
+   * `<style>` text: a `{`/`}` could close the scoped rule and inject arbitrary
+   * selectors (e.g. attribute-selector exfiltration of typed input values), so
+   * brace-bearing values resolve to `undefined` with a dev warning. Numbers
+   * stringify; `null`/`undefined` pass through as `undefined`. Consumed by
+   * grid/matrix layout CSS and theme token values. Without the module, values
+   * pass through unchecked.
+   *
+   * @param value The candidate CSS value fragment.
+   */
+  sanitizeCss: (value: string | number | null | undefined) => string | undefined
+
+  /**
+   * Validates a URL against an allowlist of schemes, returning the URL when
+   * safe and `undefined` (with a dev warning) when not. Relative URLs always
+   * pass; tab/newline/carriage-return characters are stripped before scheme
+   * detection, mirroring browser URL parsing — this is what keeps `javascript:`
+   * (and obfuscations like `java\tscript:`) out of `href`, `redirect`, and file
+   * URL sinks. Without the module, URLs pass through unchecked.
+   *
+   * @param url The candidate URL (non-strings resolve to `undefined`).
+   * @param schemes Lowercase schemes to allow, without the trailing colon.
+   */
+  sanitizeUrl: (url: unknown, schemes: string[]) => string | undefined
+
+  /**
+   * Whether strings in the given area may render as HTML — pure
+   * `$security.allowHtml` membership. A refusal renders the string escaped.
+   * Sanitization is not this gate's concern: HTML that passes always renders
+   * through `sanitizeHtml`.
+   *
+   * @param area The HTML area (`'content'`, `'grid'`, or `'slots'`).
+   */
+  allowsHtml: (area: SecurityHtmlArea) => boolean
+
+  /**
+   * Whether a component name string may resolve to the globally registered
+   * component of that name (`$security.allowComponents`). Warns once per name
+   * in dev when it rejects. Callers consult it only for strings intended as
+   * component names (explicit `component` / `template` / `layout` props, or
+   * slot strings shaped like a component name), so a miss is always worth
+   * surfacing.
+   *
+   * @param name The component name.
+   */
+  allowsComponent: (name: string) => boolean
+
+  /**
+   * Whether an HTTP request URL is permitted by `$security.allowOrigins`.
+   * Always `true` when the option is unset; purely relative URLs are always
+   * allowed. Consulted by the HTTP module before sending any request.
+   *
+   * @param url The request URL, resolved or as passed to the HTTP module.
+   */
+  allowsOrigin: (url: string) => boolean
+
+  /**
+   * Encrypts a value with the configured `$security.encrypt`, passing the
+   * calling feature's purpose tag. Identity when no cipher is configured.
+   *
+   * @param value The plaintext value.
+   * @param purpose The call-site tag (e.g. `'autosave:local'`).
+   */
+  encrypt: SecurityCipher
+
+  /**
+   * Decrypts a value with the configured `$security.decrypt`, passing the
+   * calling feature's purpose tag. Identity when no cipher is configured.
+   *
+   * @param value The stored value.
+   * @param purpose The call-site tag (e.g. `'autosave:local'`).
+   */
+  decrypt: SecurityCipher
+}

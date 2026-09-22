@@ -1,0 +1,23 @@
+.vp-doc .vp-usage-preview {
+  a {
+    font-weight: unset;
+    text-decoration: unset;
+    text-decoration-thickness: unset;
+    text-underline-offset: unset;
+  }
+}
+
+.vp-usage-preview .p-floatlabel,
+.vp-usage-preview .p-iftalabel {
+  font-size: 14px;
+  line-height: normal;
+}
+
+.p-autocomplete-input-chip,
+.p-autocomplete-chip-item {
+  margin-top: 0;
+}
+
+.ql-editor p {
+  line-height: 1.42;
+}

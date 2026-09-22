@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "name": "VfLayout",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Element layout with label, description, and errors",
+  "files": [
+    {
+      "path": "VfLayout.vue",
+      "target": "{componentsDir}/VfLayout.vue",
+      "kind": "component",
+      "hash": "sha256:ca7890250e3c06de53927cc13cbc7c60384e32ed924fa1a855a3db75871e90ba"
+    }
+  ],
+  "imports": [
+    "vue",
+    "@vueform/ui/blueprints/layout",
+    "@vueform/ui",
+    "@vueform/ui/components/VfLayout",
+    "@vueform/ui/element.css",
+    "@vueform/ui/input.css",
+    "@vueform/ui/icon.css",
+    "@vueform/ui/animation.css",
+    "@vueform/ui/utils.css",
+    "@vueform/ui/hr.css",
+    "@vueform/ui/blockquote.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "element",
+    "input",
+    "icon",
+    "animation",
+    "utils",
+    "hr",
+    "blockquote"
+  ],
+  "register": {
+    "component": "VfLayout",
+    "import": "{componentsDir}/VfLayout.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,28 @@
+{
+  "name": "pv-template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -p .tsconfig/tsconfig.build.json && vite build",
+    "preview": "vite preview"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@primevue/core": "^4.5.5",
+    "@primeuix/themes": "^2.0.3",
+    "@vueform/primevue": "workspace:*",
+    "@vueform/expr-eval": "workspace:*",
+    "@vueform/dompurify": "workspace:*",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vue/tsconfig": "^0.7.0",
+    "@vueform/cli": "workspace:*",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  }
+}

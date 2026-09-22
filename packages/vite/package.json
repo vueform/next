@@ -1,0 +1,24 @@
+{
+  "name": "@vueform/vite",
+  "version": "2.0.0",
+  "description": "Vueform tooling for Vite",
+  "author": "Adam Berecz",
+  "license": "MIT",
+  "private": false,
+  "exports": {
+    "./build": {
+      "types": "./dist/build/index.d.ts",
+      "require": "./dist/build/index.js",
+      "default": "./dist/build/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc"
+  },
+  "peerDependencies": {
+    "vite": ">=5"
+  }
+}

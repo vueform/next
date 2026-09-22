@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "name": "VfSteps",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Step-based form navigation",
+  "files": [
+    {
+      "path": "VfSteps.vue",
+      "target": "{componentsDir}/VfSteps.vue",
+      "kind": "component",
+      "hash": "sha256:c08b34b06d0ff27377b56682cdf1d4a212a48ed6632eb6d0943058f84e0be76d"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/steps",
+    "@vueform/ui",
+    "@vueform/ui/components/VfSteps",
+    "@vueform/ui/steps.css",
+    "@vueform/ui/animation.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "steps",
+    "animation"
+  ],
+  "register": {
+    "component": "VfSteps",
+    "import": "{componentsDir}/VfSteps.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

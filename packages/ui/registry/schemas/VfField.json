@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "name": "VfField",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Base element for building custom fields",
+  "files": [
+    {
+      "path": "VfField.vue",
+      "target": "{componentsDir}/VfField.vue",
+      "kind": "component",
+      "hash": "sha256:ffd8644aa84acfe63239e87824ea1f64fa1e3d94d4ff754bdc558ebc49118c38"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/field",
+    "@vueform/ui",
+    "@vueform/ui/components/VfField",
+    "@vueform/ui/input.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "input"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfField.vue",
+    "blueprint": "field",
+    "hash": "sha256:41f234a4faa73be60074d5a7d6ed16c3476c979a57cf6eb61e9d999777b8e403",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfField",
+    "import": "{componentsDir}/VfField.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "name": "VfInputNumber",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Number input element",
+  "files": [
+    {
+      "path": "VfInputNumber.vue",
+      "target": "{componentsDir}/VfInputNumber.vue",
+      "kind": "component",
+      "hash": "sha256:79bece2aa982d843e23a087de69950a78dffb5223802d2b6beaa9b00a906d417"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/inputnumber",
+    "@vueform/primevue/blueprints/input-number",
+    "@vueform/primevue/components/VfInputNumber",
+    "vue"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfInputNumber.vue",
+    "blueprint": "input-number",
+    "hash": "sha256:496e065d001208fab30ff3db3ecf718b41e24060df9903a8ba7e7ae59e4c39ec",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfInputNumber",
+    "import": "{componentsDir}/VfInputNumber.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "name": "VfLanguages",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Language switcher for multilingual forms",
+  "files": [
+    {
+      "path": "VfLanguages.vue",
+      "target": "{componentsDir}/VfLanguages.vue",
+      "kind": "component",
+      "hash": "sha256:bca735716b3eb08fbb96e38bc3821d2ecc1d22c6482bdf82c96ec53976f61e85"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/languages",
+    "@vueform/ui",
+    "@vueform/ui/components/VfLanguages",
+    "@vueform/ui/languages.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "languages"
+  ],
+  "register": {
+    "component": "VfLanguages",
+    "import": "{componentsDir}/VfLanguages.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,32 @@
+{
+  "schemaVersion": 1,
+  "name": "VfCol",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Grid column layout component",
+  "files": [
+    {
+      "path": "VfCol.vue",
+      "target": "{componentsDir}/VfCol.vue",
+      "kind": "component",
+      "hash": "sha256:d9fac4f5aa32cc972fd844cf95a6a23a5686a129e8d6527de6790838547ebf49"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue/blueprints/col",
+    "@vueform/primevue",
+    "@vueform/primevue/components/VfCol",
+    "@vueform/primevue/grid.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "grid"
+  ],
+  "register": {
+    "component": "VfCol",
+    "import": "{componentsDir}/VfCol.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

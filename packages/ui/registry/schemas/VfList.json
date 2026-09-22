@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "name": "VfList",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Repeatable list element",
+  "files": [
+    {
+      "path": "VfList.vue",
+      "target": "{componentsDir}/VfList.vue",
+      "kind": "component",
+      "hash": "sha256:63f73a427953a80992e63042bd0e986bb7c99bfa783b075426caa1ec096c0163"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/list",
+    "@vueform/ui",
+    "@vueform/ui/components/VfList",
+    "@vueform/ui/list.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "list"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfList.vue",
+    "blueprint": "list",
+    "hash": "sha256:87582195fb41cb4b1d88353ca741f749fdeb322e3ad5c100c2cd0ffdd2376c50",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfList",
+    "import": "{componentsDir}/VfList.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

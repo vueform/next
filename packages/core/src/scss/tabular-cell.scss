@@ -1,0 +1,123 @@
+/**
+ * Shared Vueform-in-cell styles for tabular grid / matrix cells.
+ * Included inside `.vf-grid-cell` / `.vf-matrix-cell`.
+ */
+@mixin tabular-cell-contents {
+  .vf-input {
+    position: relative;
+    transition: none;
+
+    &:hover {
+      z-index: 1;
+    }
+
+    &:focus {
+      z-index: 2;
+    }
+  }
+
+  .vf-icon-group {
+    &:hover,
+    &:has(.vf-input:focus) {
+      .vf-icon {
+        z-index: 3;
+      }
+    }
+  }
+
+  /**
+   * Reset input radius inside addon groups — corners are applied to the
+   * first/last group children instead.
+   */
+  & > .vf-addon-group > .vf-input,
+  & > .vf-addon-group > .vf-icon-group > .vf-input {
+    border-radius: 0;
+  }
+
+  /**
+   * Position inputs to overflow cell borders so their own border replaces
+   * the cell border.
+   */
+  & > .vf-input,
+  & > .vf-icon-group,
+  & > .vf-addon-group {
+    width: calc(100% + 2 * var(--vf-tabular-border-width));
+    height: calc(100% + 2 * var(--vf-tabular-border-width));
+    margin: calc(-1 * var(--vf-tabular-border-width));
+  }
+
+  /**
+   * Autogrow writes an inline height from scrollHeight, which can shrink a
+   * textarea below the cell and leave a double top/bottom border. Keep the
+   * filled overflow size as a minimum so the inline height can't win.
+   */
+  & > .vf-textarea-input {
+    min-height: calc(100% + 2 * var(--vf-tabular-border-width));
+  }
+
+  /**
+   * Set tabular border radius for direct input children.
+   */
+  & > .vf-input {
+    border-radius: var(--vf-tabular-input-radius);
+  }
+
+  /**
+   * Make buttons fill cell space.
+   */
+  & > .vf-btn {
+    width: 100%;
+    height: 100%;
+    border-radius: var(--vf-tabular-input-radius);
+  }
+
+  & > .vf-icon-group {
+    /**
+     * Make inputs fill cell space inside icon group.
+     */
+    & > .vf-input {
+      height: 100%;
+      border-radius: var(--vf-tabular-input-radius);
+    }
+
+    & > .vf-textarea-input {
+      min-height: 100%;
+    }
+  }
+
+  & > .vf-addon-group {
+    & > .vf-input:first-child,
+    & > .vf-icon-group:first-child > .vf-input,
+    & > .vf-addon:first-child {
+      border-start-start-radius: var(--vf-tabular-radius-tl);
+      border-end-start-radius: var(--vf-tabular-radius-bl);
+    }
+
+    & > .vf-input:last-child,
+    & > .vf-icon-group:last-child > .vf-input,
+    & > .vf-addon:last-child {
+      border-start-end-radius: var(--vf-tabular-radius-tr);
+      border-end-end-radius: var(--vf-tabular-radius-br);
+    }
+
+    & > .vf-icon-group > .vf-input {
+      height: 100%;
+    }
+
+    & > .vf-textarea-input,
+    & > .vf-icon-group > .vf-textarea-input {
+      min-height: 100%;
+    }
+  }
+
+  &:has(*) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  &:has(> .vf-choice-wrapper),
+  &:has(.vf-choices-group:not(.vf-stacked)) {
+    padding: var(--vf-tabular-boxed-cell-padding);
+  }
+}

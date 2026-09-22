@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "name": "VfDatePicker",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Date picker element",
+  "files": [
+    {
+      "path": "VfDatePicker.vue",
+      "target": "{componentsDir}/VfDatePicker.vue",
+      "kind": "component",
+      "hash": "sha256:479d60f20f2400909f85730b708b9a89987c87232903d04ea848680a251b18cf"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/datepicker",
+    "@vueform/primevue/blueprints/date-picker",
+    "@vueform/primevue/components/VfDatePicker",
+    "vue"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfDatePicker.vue",
+    "blueprint": "date-picker",
+    "hash": "sha256:3a6168031c311372c6bfbf741c62e8c1be68abdd16b5da3b110e6729150db25d",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfDatePicker",
+    "import": "{componentsDir}/VfDatePicker.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

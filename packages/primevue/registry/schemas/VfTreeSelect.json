@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "name": "VfTreeSelect",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Tree select element",
+  "files": [
+    {
+      "path": "VfTreeSelect.vue",
+      "target": "{componentsDir}/VfTreeSelect.vue",
+      "kind": "component",
+      "hash": "sha256:51e5bbc5758a811453e47fb29cc7185e187214e08db0a97ad929d0169ba299e1"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/treeselect",
+    "@vueform/primevue/blueprints/tree-select",
+    "@vueform/primevue/components/VfTreeSelect"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfTreeSelect.vue",
+    "blueprint": "tree-select",
+    "hash": "sha256:1b2f4c0f72e6990518ff73aad581ba90e563049b6c79409674e22ec8924011e0",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfTreeSelect",
+    "import": "{componentsDir}/VfTreeSelect.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

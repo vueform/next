@@ -1,0 +1,13 @@
+.vf-element {
+  .p-iconfield .p-textarea:not(:first-child) {
+    padding-inline-start: calc(var(--p-form-field-padding-x) * 2 + var(--p-icon-size));
+  }
+
+  .p-iconfield:has([data-pc-section='dropdown']) .p-inputicon:last-child {
+    margin-inline-end: calc(var(--p-form-field-padding-x) + var(--p-icon-size));
+  }
+
+  .p-iconfield:has(.p-autocomplete [data-pc-section='dropdown']) .p-inputicon:last-child {
+    margin-inline-end: calc(var(--p-form-field-padding-x) * 2 + var(--p-icon-size));
+  }
+}

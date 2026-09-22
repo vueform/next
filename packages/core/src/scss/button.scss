@@ -1,0 +1,287 @@
+/**
+ * Button component for actions and form controls.
+ */
+a.vf-btn,
+button.vf-btn {
+  position: relative;
+  display: flex;
+  row-gap: var(--vf-btn-gutter-y);
+  column-gap: var(--vf-btn-gutter-x);
+  align-items: center;
+  justify-content: center;
+  width: var(--vf-btn-width);
+  padding: var(--vf-btn-padding-y) var(--vf-btn-padding-x);
+  font-family: inherit;
+  font-size: var(--vf-btn-font-size);
+  white-space: nowrap;
+  text-decoration: none;
+  appearance: none;
+  cursor: pointer;
+  outline: var(--vf-btn-ring-width) var(--vf-btn-ring-style) transparent;
+  outline-offset: var(--vf-btn-ring-offset);
+  border-style: var(--vf-btn-border-style);
+  border-width: var(--vf-btn-border-width);
+  border-radius: var(--vf-btn-radius);
+  box-shadow: var(--vf-btn-shadow);
+
+  &.vf-icon-only {
+    min-height: calc(1lh + 2 * var(--vf-btn-padding-y));
+
+    // max-height: calc(1lh + 2 * var(--vf-btn-padding-y));
+    aspect-ratio: 1;
+
+    &.vf-sm {
+      min-height: calc(1lh + 2 * var(--vf-btn-padding-y-sm));
+
+      // max-height: calc(1lh + 2 * var(--vf-btn-padding-y-sm));
+    }
+  }
+
+  /** Makes the button full-width. */
+  &.vf-fluid {
+    width: 100%;
+  }
+
+  /** Aligns the button to the left within its container. */
+  &.vf-left {
+    margin-right: auto;
+  }
+
+  /** Aligns the button to the right within its container. */
+  &.vf-right {
+    margin-left: auto;
+  }
+
+  /** Centers the button horizontally within its container. */
+  &.vf-center {
+    margin-right: auto;
+    margin-left: auto;
+  }
+
+  /** Small size variant with reduced padding and font size. */
+  &.vf-sm {
+    row-gap: var(--vf-btn-gutter-y-sm);
+    column-gap: var(--vf-btn-gutter-x-sm);
+    padding: var(--vf-btn-padding-y-sm) var(--vf-btn-padding-x-sm);
+    font-size: var(--vf-btn-font-size-sm);
+    border-radius: var(--vf-btn-radius-sm);
+  }
+
+  &:focus-visible {
+    outline-color: var(--vf-btn-ring-color);
+    box-shadow: var(--vf-btn-ring-shadow);
+  }
+
+  /** Disabled state with muted colors and no pointer events. */
+  &:disabled {
+    pointer-events: none;
+    opacity: var(--vf-btn-disabled-opacity);
+  }
+
+  /** Loading state that overlays a spinner icon. */
+  &.vf-loading {
+    &:before {
+      position: absolute;
+      inset: 0;
+      content: '';
+      background-color: transparent;
+    }
+
+    &:after {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: var(--vf-icon-width);
+      height: var(--vf-icon-height);
+      margin: auto;
+      content: '';
+      background-color: currentcolor;
+      -webkit-mask-image: var(--vf-icon-loading);
+      mask-image: var(--vf-icon-loading);
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      animation: vf-spin 1s linear infinite;
+    }
+
+    &:hover {
+      text-decoration: none !important;
+    }
+
+    .vf-btn-text,
+    .vf-btn-icon {
+      color: transparent !important;
+    }
+  }
+
+  /** Solid filled style variant. */
+  &.vf-filled {
+    color: var(--vf-btn-color);
+    background-color: var(--vf-btn-bg);
+    border-color: var(--vf-btn-border-color);
+
+    &:hover {
+      color: var(--vf-btn-color-hover);
+      background-color: var(--vf-btn-bg-hover);
+      border-color: var(--vf-btn-border-color-hover);
+    }
+  }
+
+  /** Outlined style variant with a transparent background. */
+  &.vf-outlined {
+    color: var(--vf-btn-outline-color);
+    background-color: transparent;
+    border-color: var(--vf-btn-outline-color);
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--vf-btn-bg) var(--vf-btn-outline-bg-percent), transparent var(--vf-btn-outline-transparent-percent));
+    }
+  }
+
+  /** Text style variant with no background or border. */
+  &.vf-text {
+    color: var(--vf-btn-outline-color);
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover {
+      background-color: color-mix(in srgb, var(--vf-btn-bg) var(--vf-btn-outline-bg-percent), transparent var(--vf-btn-outline-transparent-percent));
+    }
+  }
+
+  /** Link style variant rendered as an underlined text link. */
+  &.vf-link {
+    color: var(--vf-btn-outline-color);
+    background-color: transparent;
+    border-color: transparent;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  /** Primary color theme. */
+  &.vf-primary {
+    --vf-btn-bg: var(--vf-btn-bg-primary);
+    --vf-btn-color: var(--vf-btn-color-primary);
+    --vf-btn-outline-color: var(--vf-btn-outline-primary);
+    --vf-btn-border-color: var(--vf-btn-border-color-primary);
+    --vf-btn-bg-hover: var(--vf-btn-bg-primary-hover);
+    --vf-btn-color-hover: var(--vf-btn-color-primary-hover);
+    --vf-btn-border-color-hover: var(--vf-btn-border-color-primary-hover);
+    --vf-btn-ring-color: var(--vf-btn-ring-color-primary);
+    --vf-btn-ring-shadow: var(--vf-btn-ring-shadow-primary);
+  }
+
+  /** Secondary color theme. */
+  &.vf-secondary {
+    --vf-btn-bg: var(--vf-btn-bg-secondary);
+    --vf-btn-color: var(--vf-btn-color-secondary);
+    --vf-btn-outline-color: var(--vf-btn-outline-secondary);
+    --vf-btn-border-color: var(--vf-btn-border-color-secondary);
+    --vf-btn-bg-hover: var(--vf-btn-bg-secondary-hover);
+    --vf-btn-color-hover: var(--vf-btn-color-secondary-hover);
+    --vf-btn-border-color-hover: var(--vf-btn-border-color-secondary-hover);
+    --vf-btn-ring-color: var(--vf-btn-ring-color-secondary);
+    --vf-btn-ring-shadow: var(--vf-btn-ring-shadow-secondary);
+  }
+
+  /** Success color theme. */
+  &.vf-success {
+    --vf-btn-bg: var(--vf-btn-bg-success);
+    --vf-btn-color: var(--vf-btn-color-success);
+    --vf-btn-outline-color: var(--vf-btn-outline-success);
+    --vf-btn-border-color: var(--vf-btn-border-color-success);
+    --vf-btn-bg-hover: var(--vf-btn-bg-success-hover);
+    --vf-btn-color-hover: var(--vf-btn-color-success-hover);
+    --vf-btn-border-color-hover: var(--vf-btn-border-color-success-hover);
+    --vf-btn-ring-color: var(--vf-btn-ring-color-success);
+    --vf-btn-ring-shadow: var(--vf-btn-ring-shadow-success);
+  }
+
+  /** Info color theme. */
+  &.vf-info {
+    --vf-btn-bg: var(--vf-btn-bg-info);
+    --vf-btn-color: var(--vf-btn-color-info);
+    --vf-btn-outline-color: var(--vf-btn-outline-info);
+    --vf-btn-border-color: var(--vf-btn-border-color-info);
+    --vf-btn-bg-hover: var(--vf-btn-bg-info-hover);
+    --vf-btn-color-hover: var(--vf-btn-color-info-hover);
+    --vf-btn-border-color-hover: var(--vf-btn-border-color-info-hover);
+    --vf-btn-ring-color: var(--vf-btn-ring-color-info);
+    --vf-btn-ring-shadow: var(--vf-btn-ring-shadow-info);
+  }
+
+  /** Warning color theme. */
+  &.vf-warn {
+    --vf-btn-bg: var(--vf-btn-bg-warn);
+    --vf-btn-color: var(--vf-btn-color-warn);
+    --vf-btn-outline-color: var(--vf-btn-outline-warn);
+    --vf-btn-border-color: var(--vf-btn-border-color-warn);
+    --vf-btn-bg-hover: var(--vf-btn-bg-warn-hover);
+    --vf-btn-color-hover: var(--vf-btn-color-warn-hover);
+    --vf-btn-border-color-hover: var(--vf-btn-border-color-warn-hover);
+    --vf-btn-ring-color: var(--vf-btn-ring-color-warn);
+    --vf-btn-ring-shadow: var(--vf-btn-ring-shadow-warn);
+  }
+
+  /** Help color theme. */
+  &.vf-help {
+    --vf-btn-bg: var(--vf-btn-bg-help);
+    --vf-btn-color: var(--vf-btn-color-help);
+    --vf-btn-outline-color: var(--vf-btn-outline-help);
+    --vf-btn-border-color: var(--vf-btn-border-color-help);
+    --vf-btn-bg-hover: var(--vf-btn-bg-help-hover);
+    --vf-btn-color-hover: var(--vf-btn-color-help-hover);
+    --vf-btn-border-color-hover: var(--vf-btn-border-color-help-hover);
+    --vf-btn-ring-color: var(--vf-btn-ring-color-help);
+    --vf-btn-ring-shadow: var(--vf-btn-ring-shadow-help);
+  }
+
+  /** Danger color theme. */
+  &.vf-danger {
+    --vf-btn-bg: var(--vf-btn-bg-danger);
+    --vf-btn-color: var(--vf-btn-color-danger);
+    --vf-btn-outline-color: var(--vf-btn-outline-danger);
+    --vf-btn-border-color: var(--vf-btn-border-color-danger);
+    --vf-btn-bg-hover: var(--vf-btn-bg-danger-hover);
+    --vf-btn-color-hover: var(--vf-btn-color-danger-hover);
+    --vf-btn-border-color-hover: var(--vf-btn-border-color-danger-hover);
+    --vf-btn-ring-color: var(--vf-btn-ring-color-danger);
+    --vf-btn-ring-shadow: var(--vf-btn-ring-shadow-danger);
+  }
+
+  /** Contrast color theme. */
+  &.vf-contrast {
+    --vf-btn-bg: var(--vf-btn-bg-contrast);
+    --vf-btn-color: var(--vf-btn-color-contrast);
+    --vf-btn-outline-color: var(--vf-btn-outline-contrast);
+    --vf-btn-border-color: var(--vf-btn-border-color-contrast);
+    --vf-btn-bg-hover: var(--vf-btn-bg-contrast-hover);
+    --vf-btn-color-hover: var(--vf-btn-color-contrast-hover);
+    --vf-btn-border-color-hover: var(--vf-btn-border-color-contrast-hover);
+    --vf-btn-ring-color: var(--vf-btn-ring-color-contrast);
+    --vf-btn-ring-shadow: var(--vf-btn-ring-shadow-contrast);
+  }
+}
+
+/**
+ * Icon element rendered inside a button via the `icon` prop.
+ */
+.vf-btn-icon {
+  font-size: var(--vf-btn-font-size);
+  color: inherit;
+}
+
+.vf-btn:has(.vf-btn-icon.vf-right) {
+  flex-direction: row-reverse;
+}
+
+.vf-btn:has(.vf-btn-icon.vf-top) {
+  flex-direction: column;
+}
+
+.vf-btn:has(.vf-btn-icon.vf-bottom) {
+  flex-direction: column-reverse;
+}

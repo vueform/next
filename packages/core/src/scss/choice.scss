@@ -1,0 +1,124 @@
+/**
+ * Wrapper for a single checkbox or radio choice, laying out the input
+ * and its label text side by side.
+ */
+.vf-choice-wrapper {
+  display: flex;
+  gap: var(--vf-choice-gutter);
+  align-items: center;
+
+  /** Reverses layout so the input appears on the right. */
+  &.vf-right {
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+
+    .vf-choice-text {
+      text-align: right;
+    }
+  }
+
+  &.vf-aligned {
+    margin: var(--vf-choice-aligned-margin);
+  }
+}
+
+/**
+ * Custom-styled checkbox or radio input element with check/dot indicator
+ * rendered via mask-image on the ::after pseudo-element when checked.
+ */
+.vf-choice-input {
+  flex-shrink: 0;
+  width: var(--vf-choice-width);
+  height: var(--vf-choice-height);
+  margin: 0;
+  appearance: none;
+  cursor: pointer;
+  outline: var(--vf-choice-ring-width) var(--vf-choice-ring-style) transparent;
+  outline-offset: var(--vf-choice-ring-offset);
+  background: var(--vf-choice-bg);
+  border-color: var(--vf-choice-border-color);
+  border-style: solid;
+  border-width: var(--vf-choice-border-width-t) var(--vf-choice-border-width-r) var(--vf-choice-border-width-b) var(--vf-choice-border-width-l);
+  border-radius: var(--vf-choice-radius);
+  box-shadow: var(--vf-choice-shadow);
+
+  &:focus {
+    outline-color: var(--vf-choice-ring-color);
+    box-shadow: var(--vf-choice-ring-shadow);
+  }
+
+  &:checked {
+    background: var(--vf-choice-bg-checked);
+    border-color: var(--vf-choice-border-color-checked);
+
+    &:after {
+      position: relative;
+      top: calc(var(--vf-choice-border-width-t) * (-1));
+      left: calc(var(--vf-choice-border-width-l) * (-1));
+      display: block;
+      width: calc(100% + var(--vf-choice-border-width-l) + var(--vf-choice-border-width-r));
+      height: calc(100% + var(--vf-choice-border-width-t) + var(--vf-choice-border-width-b));
+      content: ' ';
+      background: var(--vf-choice-icon-color);
+      mask-image: var(--vf-choice-icon-checked);
+      mask-repeat: no-repeat;
+      mask-position: center center;
+      mask-size: contain;
+    }
+  }
+
+  /** Disabled state with muted colors and no pointer events. */
+  &:disabled {
+    background: var(--vf-choice-bg-disabled);
+    border-color: var(--vf-choice-border-color-disabled);
+
+    &:checked {
+      background: var(--vf-choice-bg-checked-disabled);
+      border-color: var(--vf-choice-border-color-checked-disabled);
+
+      &:after {
+        background: var(--vf-choice-icon-color-disabled);
+      }
+    }
+  }
+
+  /** Danger/error state with highlighted colors. */
+  &.vf-danger:not(:disabled) {
+    background: var(--vf-choice-bg-danger);
+    border-color: var(--vf-choice-border-color-danger);
+
+    &:focus {
+      outline-color: var(--vf-choice-ring-color-danger);
+      box-shadow: var(--vf-choice-ring-shadow-danger);
+    }
+
+    &:checked {
+      background: var(--vf-choice-bg-checked-danger);
+      border-color: var(--vf-choice-border-color-checked-danger);
+
+      &:focus {
+        border-color: var(--vf-choice-border-color-checked-danger);
+      }
+
+      &:after {
+        background: var(--vf-choice-icon-color-danger);
+      }
+    }
+  }
+}
+
+.vf-choice-input[type='radio'] {
+  border-radius: 999px;
+
+  &:checked:after {
+    mask-image: var(--vf-choice-icon-selected);
+  }
+}
+
+/**
+ * Label text displayed next to the choice input.
+ */
+.vf-choice-text {
+  color: var(--vf-choice-color);
+  cursor: pointer;
+}

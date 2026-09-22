@@ -1,0 +1,100 @@
+@use '@vueform/core/grid.scss';
+
+@use './tabular-cell' as *;
+
+.vf-grid-cell.vf-baseline {
+  .p-textarea {
+    min-height: 100%;
+  }
+}
+
+/**
+ * Tabular display variant that removes gaps and adds cell borders.
+ *
+ * @class .vf-tabular
+ */
+.vf-grid.vf-tabular {
+  .vf-grid-grid {
+    row-gap: 0;
+    column-gap: 0;
+    background: var(--vf-tabular-bg);
+    border-radius: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-col-header,
+  .vf-grid-row-header {
+    padding: var(--vf-tabular-header-padding);
+    font-size: var(--vf-tabular-header-font-size);
+    font-weight: var(--vf-tabular-header-font-weight);
+    line-height: var(--vf-tabular-header-line-height);
+    border-style: var(--vf-tabular-border-style);
+    border-width: var(--vf-tabular-border-width);
+  }
+
+  .vf-grid-col-header {
+    color: var(--vf-tabular-col-header-color);
+    background: var(--vf-tabular-col-header-bg);
+    border-color: var(--vf-tabular-col-header-border-color);
+  }
+
+  .vf-grid-row-header {
+    color: var(--vf-tabular-row-header-color);
+    background: var(--vf-tabular-row-header-bg);
+    border-color: var(--vf-tabular-row-header-border-color);
+  }
+
+  .vf-grid-cell:not([data-row='0']) {
+    border-top: 0;
+  }
+
+  .vf-grid-cell:not([data-col='0']) {
+    border-left: 0;
+  }
+
+  .vf-grid-cell[data-row='0'][data-col='0'] {
+    --vf-tabular-radius-tl: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-cell[data-row='0'][data-last-col] {
+    --vf-tabular-radius-tr: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-cell[data-last-row][data-last-col] {
+    --vf-tabular-radius-br: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-cell[data-last-row][data-col='0'] {
+    --vf-tabular-radius-bl: var(--vf-tabular-radius);
+  }
+
+  .vf-grid-cell {
+    --vf-addon-border-width: 0px;
+
+    --vf-tabular-radius-tl: 0px;
+    --vf-tabular-radius-tr: 0px;
+    --vf-tabular-radius-br: 0px;
+    --vf-tabular-radius-bl: 0px;
+
+    --vf-tabular-cell-radius: var(--vf-tabular-radius-tl) var(--vf-tabular-radius-tr) var(--vf-tabular-radius-br) var(--vf-tabular-radius-bl);
+
+    --vf-tabular-input-radius: calc(var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width))
+      calc(var(--vf-tabular-radius-br) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width));
+
+    --vf-input-radius: var(--vf-tabular-input-radius);
+    --vf-btn-radius: var(--vf-tabular-input-radius);
+    min-height: var(--vf-tabular-cell-min-height);
+    line-height: var(--vf-tabular-text-cell-line-height);
+
+    color: var(--vf-tabular-color);
+    border-color: var(--vf-tabular-border-color);
+    border-style: var(--vf-tabular-border-style);
+    border-width: var(--vf-tabular-border-width);
+    border-radius: var(--vf-tabular-cell-radius);
+
+    &:not(:has(*)) {
+      padding: var(--vf-tabular-text-cell-padding);
+    }
+
+    @include tabular-cell-contents;
+  }
+}

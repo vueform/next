@@ -1,0 +1,120 @@
+/**
+ * CSS Grid container for the matrix rows and cells.
+ */
+.vf-matrix-grid {
+  position: relative;
+  display: grid;
+  row-gap: var(--vf-matrix-gutter-y);
+  column-gap: var(--vf-matrix-gutter-x);
+  overflow: visible;
+
+  /** Enables scrolling when the matrix overflows. */
+  &.vf-scrollable {
+    overflow: auto;
+  }
+}
+
+/**
+ * Header row container using display:contents.
+ */
+.vf-matrix-header {
+  display: contents;
+}
+
+/**
+ * Column header cell in the matrix.
+ */
+.vf-matrix-col-header,
+.vf-matrix-row-header {
+  font-size: var(--vf-matrix-header-font-size);
+  font-weight: var(--vf-matrix-header-font-weight);
+  white-space: nowrap;
+
+  /** Makes the header stick to the viewport edge on scroll. */
+  &.vf-sticky {
+    position: sticky;
+  }
+}
+
+.vf-wrap-col-headers .vf-matrix-col-header {
+  white-space: normal;
+}
+
+.vf-wrap-row-headers .vf-matrix-row-header {
+  white-space: normal;
+}
+
+.vf-matrix-col-header {
+  color: var(--vf-matrix-col-header-color);
+  text-align: center;
+
+  &.vf-sticky {
+    top: 0;
+    z-index: 1;
+  }
+}
+
+/**
+ * A single data row in the matrix using display:contents.
+ */
+.vf-matrix-row {
+  display: contents;
+
+  /** Visual state while the row is being dragged. */
+  &.vf-dragging > * {
+    cursor: grabbing;
+    opacity: var(--vf-matrix-dragging-opacity);
+  }
+}
+
+/**
+ * Row header cell in the matrix.
+ */
+.vf-matrix-row-header {
+  margin: auto 0;
+  color: var(--vf-matrix-row-header-color);
+
+  &.vf-sticky {
+    left: 0;
+    z-index: 2;
+  }
+}
+
+/**
+ * Individual data cell in the matrix.
+ */
+.vf-matrix-cell {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vf-matrix .vf-group {
+  display: contents;
+}
+
+/**
+ * Container for the sort handle within a matrix row.
+ */
+.vf-matrix-row-sort {
+  display: flex;
+  flex-grow: 0;
+  overflow: hidden;
+}
+
+/**
+ * Container for the remove button within a matrix row.
+ */
+.vf-matrix-row-remove {
+  display: flex;
+  flex-grow: 0;
+  overflow: hidden;
+}
+
+/**
+ * Container for the add row button below the matrix.
+ */
+.vf-matrix-add {
+  margin: var(--vf-matrix-add-margin);
+}

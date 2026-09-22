@@ -1,0 +1,23 @@
+/**
+ * Screen-reader-only utility that visually hides an element.
+ *
+ * @class .sr-only
+ */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  white-space: nowrap;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+}
+
+/**
+ * Utility class that makes an element invisible to layout via display:contents.
+ */
+.vf-passthrough {
+  display: contents;
+}

@@ -1,0 +1,185 @@
+{
+  "name": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Vueform UI 2.0",
+  "author": "Adam Berecz",
+  "license": "MIT",
+  "private": false,
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/origin.global.js",
+  "jsdelivr": "./dist/origin.global.js",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
+    },
+    "./origin": {
+      "types": "./dist/origin.d.ts",
+      "import": "./dist/origin.mjs"
+    },
+    "./material": {
+      "types": "./dist/material.d.ts",
+      "import": "./dist/material.mjs"
+    },
+    "./blueprints/*": {
+      "types": "./dist/blueprints/*.d.ts",
+      "import": "./dist/blueprints/*.mjs"
+    },
+    "./rules": {
+      "types": "./dist/rules.d.ts",
+      "import": "./dist/rules.mjs"
+    },
+    "./modules": {
+      "types": "./dist/modules.d.ts",
+      "import": "./dist/modules.mjs"
+    },
+    "./locales": {
+      "types": "./dist/locales.d.ts",
+      "import": "./dist/locales.mjs"
+    },
+    "./*.css": {
+      "node": "./dist/css/*.css.mjs",
+      "default": "./dist/css/*.css"
+    },
+    "./*.scss": {
+      "node": "./dist/scss/*.scss.mjs",
+      "default": "./dist/scss/*.scss"
+    },
+    "./themes": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/themes/index.mjs"
+    },
+    "./tokens": {
+      "types": "./dist/themes/tokens.d.ts",
+      "import": "./dist/themes/tokens.mjs"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/components/index.mjs"
+    },
+    "./components/names": {
+      "types": "./dist/components/names.d.ts"
+    },
+    "./components/*/raw": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.mjs"
+    },
+    "./components/*/unstyled": {
+      "types": "./dist/components/*/unstyled.d.ts",
+      "import": "./dist/components/*/unstyled.mjs"
+    },
+    "./components/*/styles": {
+      "types": "./dist/components/*/styles.d.ts",
+      "import": "./dist/components/*/styles.mjs"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/styled.d.ts",
+      "import": "./dist/components/*/styled.mjs"
+    },
+    "./vapor": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/vapor/index.mjs"
+    },
+    "./vapor/origin": {
+      "types": "./dist/origin.d.ts",
+      "import": "./dist/vapor/origin.mjs"
+    },
+    "./vapor/material": {
+      "types": "./dist/material.d.ts",
+      "import": "./dist/vapor/material.mjs"
+    },
+    "./vapor/blueprints/*": {
+      "types": "./dist/blueprints/*.d.ts",
+      "import": "./dist/vapor/blueprints/*.mjs"
+    },
+    "./vapor/rules": {
+      "types": "./dist/rules.d.ts",
+      "import": "./dist/vapor/rules.mjs"
+    },
+    "./vapor/modules": {
+      "types": "./dist/modules.d.ts",
+      "import": "./dist/vapor/modules.mjs"
+    },
+    "./vapor/locales": {
+      "types": "./dist/locales.d.ts",
+      "import": "./dist/vapor/locales.mjs"
+    },
+    "./vapor/themes": {
+      "types": "./dist/themes/index.d.ts",
+      "import": "./dist/vapor/themes/index.mjs"
+    },
+    "./vapor/tokens": {
+      "types": "./dist/themes/tokens.d.ts",
+      "import": "./dist/vapor/themes/tokens.mjs"
+    },
+    "./vapor/components": {
+      "types": "./dist/components/index.d.ts",
+      "import": "./dist/vapor/components/index.mjs"
+    },
+    "./vapor/components/*/raw": {
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/vapor/components/*/index.mjs"
+    },
+    "./vapor/components/*/unstyled": {
+      "types": "./dist/components/*/unstyled.d.ts",
+      "import": "./dist/vapor/components/*/unstyled.mjs"
+    },
+    "./vapor/components/*/styles": {
+      "types": "./dist/components/*/styles.d.ts",
+      "import": "./dist/vapor/components/*/styles.mjs"
+    },
+    "./vapor/components/*": {
+      "types": "./dist/components/*/styled.d.ts",
+      "import": "./dist/vapor/components/*/styled.mjs"
+    },
+    "./nuxt": {
+      "types": "./nuxt/module.ts",
+      "import": "./nuxt/module.ts"
+    }
+  },
+  "files": [
+    "dist",
+    "nuxt",
+    "registry"
+  ],
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss",
+    "./src/components/*/styles.ts",
+    "./src/components/*/styled.ts",
+    "./dist/components/*/styles.mjs",
+    "./dist/vapor/components/*/styles.mjs",
+    "./dist/origin.mjs",
+    "./dist/material.mjs",
+    "./dist/vapor/origin.mjs",
+    "./dist/vapor/material.mjs"
+  ],
+  "scripts": {
+    "build": "pnpm run build:vdom && pnpm run validate:styles && pnpm run build:vapor && pnpm run gen:registry",
+    "validate:styles": "pnpm -w validate:styles --adapter ui",
+    "build:vdom": "vite build",
+    "build:vapor": "vite build --config build/vite.config.vapor.ts",
+    "build:cdn": "for theme in origin material; do THEME=$theme vite build --config build/vite.config.cdn.ts; done",
+    "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json",
+    "test:screenshots": "playwright test",
+    "test:screenshots:update": "playwright test --update-snapshots=all",
+    "gen:registry": "pnpm -w gen:registry --ui"
+  },
+  "dependencies": {
+    "@vueform/core": "workspace:*",
+    "@vueform/devtools": "workspace:*"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@vueform/expr-eval": "workspace:*",
+    "@vueform/testing": "workspace:*",
+    "@vueform/vite": "workspace:*",
+    "sass-embedded": "^1.87.0",
+    "terser": "^5.49.0"
+  },
+  "peerDependencies": {
+    "vue": "^3.5.13"
+  }
+}

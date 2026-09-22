@@ -1,0 +1,1 @@
+export { vTooltip } from './tooltip'

@@ -1,0 +1,14 @@
+{
+  "data": {
+    "team": [
+      { "id": "alice", "name": "Alice", "role": "Lead" },
+      { "id": "bob", "name": "Bob", "role": "Senior" },
+      { "id": "carol", "name": "Carol", "role": "Junior" }
+    ],
+    "skills": [
+      { "id": "frontend", "title": "Frontend" },
+      { "id": "backend", "title": "Backend" },
+      { "id": "devops", "title": "DevOps" }
+    ]
+  }
+}

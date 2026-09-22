@@ -1,0 +1,28 @@
+/**
+ * Fieldset wrapper for a group of choice (checkbox/radio) elements.
+ */
+.vf-choices {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+/**
+ * Layout container for choice items within a choices fieldset.
+ */
+.vf-choices-group {
+  display: flex;
+  flex-direction: var(--vf-choices-direction);
+  flex-wrap: wrap;
+  row-gap: var(--vf-choices-gutter-y);
+  column-gap: var(--vf-choices-gutter-x);
+
+  /** Arranges choices in a horizontal row layout. */
+  &.vf-stacked {
+    --vf-choices-direction: row;
+  }
+
+  &.vf-aligned {
+    margin: var(--vf-choice-aligned-margin);
+  }
+}

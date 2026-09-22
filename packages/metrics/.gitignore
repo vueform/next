@@ -1,0 +1,4 @@
+node_modules
+.stats
+size/fixtures/*/src/main.ts
+size/fixtures/*/dist

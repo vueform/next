@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "name": "VfGroup",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Group element for structuring schema",
+  "files": [
+    {
+      "path": "VfGroup.vue",
+      "target": "{componentsDir}/VfGroup.vue",
+      "kind": "component",
+      "hash": "sha256:c7b5b785bf70d151a861da6686dc36f5b3b8aca711bfa75c4a21af021759bbb9"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/group",
+    "@vueform/ui",
+    "@vueform/ui/components/VfGroup",
+    "@vueform/ui/group.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "group"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfGroup.vue",
+    "blueprint": "group",
+    "hash": "sha256:972107b83fe306aa170e55f4b506dc7745475568c3d4693471599dff40c4a937",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfGroup",
+    "import": "{componentsDir}/VfGroup.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

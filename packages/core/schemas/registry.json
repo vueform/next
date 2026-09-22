@@ -1,0 +1,48 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vueform registry index",
+  "description": "Catalog of the registry items a Vueform package ships in registry/.",
+  "type": "object",
+  "required": ["schemaVersion", "package", "version", "items"],
+  "additionalProperties": false,
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "schemaVersion": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "package": {
+      "type": "string",
+      "minLength": 1
+    },
+    "version": {
+      "type": "string",
+      "minLength": 1
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["name", "type"],
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string",
+            "minLength": 1
+          },
+          "type": {
+            "enum": ["component"]
+          },
+          "description": {
+            "type": "string"
+          },
+          "element": {
+            "type": "boolean"
+          }
+        }
+      }
+    }
+  }
+}

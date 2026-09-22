@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="452" viewBox="0 0 720 452" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<rect width="720" height="452" fill="#0f0f11"/>
+<text x="360" y="34" font-size="16" font-weight="600" fill="#e6edf3" text-anchor="middle">Update Full Data of N Elements — memory</text>
+<rect x="182.5" y="52" width="12" height="12" rx="2" fill="#6366f1"/><text x="199.5" y="62" font-size="12" fill="#8b949e">Vueform 2.0.0 (vdom)</text>
+<rect x="364.5" y="52" width="12" height="12" rx="2" fill="#10b981"/><text x="381.5" y="62" font-size="12" fill="#8b949e">Vueform 2.0.0 (vapor)</text>
+<line x1="80" y1="388" x2="688" y2="388" stroke="#21262d" stroke-width="1"/>
+<text x="72" y="392" font-size="11" fill="#8b949e" text-anchor="end">0</text>
+<line x1="80" y1="290.6666666666667" x2="688" y2="290.6666666666667" stroke="#21262d" stroke-width="1"/>
+<text x="72" y="294.6666666666667" font-size="11" fill="#8b949e" text-anchor="end">1</text>
+<line x1="80" y1="193.33333333333334" x2="688" y2="193.33333333333334" stroke="#21262d" stroke-width="1"/>
+<text x="72" y="197.33333333333334" font-size="11" fill="#8b949e" text-anchor="end">2</text>
+<line x1="80" y1="96" x2="688" y2="96" stroke="#21262d" stroke-width="1"/>
+<text x="72" y="100" font-size="11" fill="#8b949e" text-anchor="end">3</text>
+<line x1="80" y1="96" x2="80" y2="388" stroke="#21262d" stroke-width="1"/>
+<text x="80" y="406" font-size="11" fill="#8b949e" text-anchor="middle">0</text>
+<line x1="384" y1="96" x2="384" y2="388" stroke="#21262d" stroke-width="1"/>
+<text x="384" y="406" font-size="11" fill="#8b949e" text-anchor="middle">500</text>
+<line x1="688" y1="96" x2="688" y2="388" stroke="#21262d" stroke-width="1"/>
+<text x="688" y="406" font-size="11" fill="#8b949e" text-anchor="middle">1k</text>
+<line x1="80" y1="388" x2="688" y2="388" stroke="#484f58" stroke-width="1"/>
+<line x1="80" y1="96" x2="80" y2="388" stroke="#484f58" stroke-width="1"/>
+<text x="384" y="430" font-size="12" fill="#8b949e" text-anchor="middle">N (number of elements)</text>
+<text x="28" y="242" font-size="12" fill="#8b949e" text-anchor="middle" transform="rotate(-90 28 242)">Avg heap delta (MB)</text>
+<polyline points="140.8,324.5 232.0,228.4 384.0,315.0 536.0,143.8 688.0,190.3" fill="none" stroke="#6366f1" stroke-width="2"/>
+<circle cx="140.8" cy="324.5" r="3.5" fill="#6366f1"/>
+<circle cx="232.0" cy="228.4" r="3.5" fill="#6366f1"/>
+<circle cx="384.0" cy="315.0" r="3.5" fill="#6366f1"/>
+<circle cx="536.0" cy="143.8" r="3.5" fill="#6366f1"/>
+<circle cx="688.0" cy="190.3" r="3.5" fill="#6366f1"/>
+<polyline points="140.8,365.4 232.0,329.8 384.0,256.8 536.0,168.4 688.0,371.9" fill="none" stroke="#10b981" stroke-width="2"/>
+<circle cx="140.8" cy="365.4" r="3.5" fill="#10b981"/>
+<circle cx="232.0" cy="329.8" r="3.5" fill="#10b981"/>
+<circle cx="384.0" cy="256.8" r="3.5" fill="#10b981"/>
+<circle cx="536.0" cy="168.4" r="3.5" fill="#10b981"/>
+<circle cx="688.0" cy="371.9" r="3.5" fill="#10b981"/>
+</svg>

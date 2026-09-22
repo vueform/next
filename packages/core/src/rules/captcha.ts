@@ -1,0 +1,8 @@
+import { createRule } from '~/helpers'
+
+/**
+ * Validates that the captcha element has been verified.
+ */
+export const captcha = createRule('captcha', async (_value, { el$ }) =>
+  el$.verify ? await el$.verify() : true
+)

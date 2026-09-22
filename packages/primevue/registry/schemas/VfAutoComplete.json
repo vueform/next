@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "name": "VfAutoComplete",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Autocomplete input element",
+  "files": [
+    {
+      "path": "VfAutoComplete.vue",
+      "target": "{componentsDir}/VfAutoComplete.vue",
+      "kind": "component",
+      "hash": "sha256:abbf3972fceb0cbeaf208817138597a3a33f8c2dc4db47019abf7549d25da6a1"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/autocomplete",
+    "@vueform/primevue/blueprints/auto-complete",
+    "@vueform/primevue/components/VfAutoComplete"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfAutoComplete.vue",
+    "blueprint": "auto-complete",
+    "hash": "sha256:37c5e34a4bed79faffe19b898d6c05bb515d3af7bb284ec80f424a9ee0bbb298",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfAutoComplete",
+    "import": "{componentsDir}/VfAutoComplete.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

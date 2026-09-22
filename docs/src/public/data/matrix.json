@@ -1,0 +1,12 @@
+{
+  "skills": [
+    { "value": "frontend", "label": "Frontend" },
+    { "value": "backend", "label": "Backend" },
+    { "value": "devops", "label": "DevOps" }
+  ],
+  "users": [
+    { "value": "alice", "label": "Alice" },
+    { "value": "bob", "label": "Bob" },
+    { "value": "carol", "label": "Carol" }
+  ]
+}

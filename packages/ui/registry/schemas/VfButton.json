@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "name": "VfButton",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Button element",
+  "files": [
+    {
+      "path": "VfButton.vue",
+      "target": "{componentsDir}/VfButton.vue",
+      "kind": "component",
+      "hash": "sha256:d22013ab49881520a69840e811acb3bcf900e8b2a8bb89775f39b8c7c666544f"
+    }
+  ],
+  "imports": [
+    "vue",
+    "@vueform/ui/blueprints/button",
+    "@vueform/ui",
+    "@vueform/ui/components/VfButton",
+    "@vueform/ui/button.css",
+    "@vueform/ui/animation.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "button",
+    "animation"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfButton.vue",
+    "blueprint": "button",
+    "hash": "sha256:e05aeb16f3777fb60d3f9fbbe133514766691e1fb69478cf66e69190a1737381",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfButton",
+    "import": "{componentsDir}/VfButton.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

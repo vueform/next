@@ -1,0 +1,121 @@
+/**
+ * Root container for a grid-based layout element.
+ */
+.vf-grid {
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+/**
+ * Outer wrapper for the grid that can enable horizontal scrolling.
+ */
+.vf-grid-wrapper {
+  /** Enables horizontal scroll when grid overflows. */
+  &.vf-scrollable {
+    overflow-x: auto;
+  }
+}
+
+/**
+ * CSS Grid container for grid rows and cells.
+ */
+.vf-grid-grid {
+  display: grid;
+  row-gap: var(--vf-grid-gutter-y);
+  column-gap: var(--vf-grid-gutter-x);
+
+  /** Shrinks the grid width to fit its content. */
+  &.vf-fit {
+    width: fit-content;
+  }
+}
+
+/**
+ * A single row within the grid, using display:contents for subgrid behavior.
+ */
+.vf-grid-row {
+  display: contents;
+}
+
+/**
+ * Individual cell within a grid row.
+ */
+.vf-grid-cell {
+  display: grid;
+
+  /** Aligns cell content to the left. */
+  &.vf-left {
+    text-align: left;
+  }
+
+  /** Centers cell content horizontally. */
+  &.vf-center {
+    text-align: center;
+  }
+
+  /** Aligns cell content to the right. */
+  &.vf-right {
+    text-align: right;
+  }
+
+  /** Aligns cell content to the top. */
+  &.vf-top {
+    align-items: flex-start;
+  }
+
+  /** Vertically centers cell content. */
+  &.vf-middle {
+    align-items: center;
+  }
+
+  /** Aligns cell content to the bottom. */
+  &.vf-bottom {
+    align-items: flex-end;
+  }
+
+  /** Stretches cell content to fill the cell height. */
+  &.vf-baseline {
+    align-items: stretch;
+  }
+}
+
+/**
+ * Column header cell in a grid layout.
+ */
+.vf-grid-col-header,
+.vf-grid-row-header {
+  font-size: var(--vf-grid-header-font-size);
+  white-space: nowrap;
+}
+
+.vf-grid-col-header {
+  color: var(--vf-grid-col-header-color);
+}
+
+/**
+ * Row header cell in a grid layout.
+ */
+.vf-grid-row-header {
+  color: var(--vf-grid-row-header-color);
+}
+
+/**
+ * Allows column header labels to wrap onto multiple lines instead of
+ * staying on a single line.
+ *
+ * @class .vf-wrap-col-headers
+ */
+.vf-wrap-col-headers .vf-grid-col-header {
+  white-space: normal;
+}
+
+/**
+ * Allows row header labels to wrap onto multiple lines instead of
+ * staying on a single line.
+ *
+ * @class .vf-wrap-row-headers
+ */
+.vf-wrap-row-headers .vf-grid-row-header {
+  white-space: normal;
+}

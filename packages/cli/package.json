@@ -1,0 +1,23 @@
+{
+  "name": "@vueform/cli",
+  "version": "2.0.0",
+  "description": "Vueform CLI",
+  "author": "Adam Berecz",
+  "license": "MIT",
+  "private": false,
+  "type": "module",
+  "bin": {
+    "vueform": "./bin/vueform.mjs"
+  },
+  "exports": {
+    ".": "./src/index.mjs"
+  },
+  "files": [
+    "bin",
+    "src",
+    "schema.json"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

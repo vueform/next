@@ -1,0 +1,61 @@
+/**
+ * Container for the tab navigation bar in a tabbed form.
+ */
+.vf-tabs {
+  margin: var(--vf-tabs-margin);
+}
+
+/**
+ * Flex container holding individual tab items.
+ */
+.vf-tabs-wrapper {
+  display: flex;
+  row-gap: var(--vf-tabs-gutter-y);
+  column-gap: var(--vf-tabs-gutter-x);
+  align-items: flex-end;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/**
+ * List item wrapping a single tab, carrying its selected and invalid
+ * state classes.
+ *
+ * @class .vf-tab-wrapper
+ */
+.vf-tab-wrapper.vf-selected .vf-tab {
+  color: var(--vf-tab-color-selected);
+  background: var(--vf-tab-bg-selected);
+  border-color: var(--vf-tab-border-color-selected);
+}
+
+.vf-tab-wrapper.vf-invalid .vf-tab {
+  color: var(--vf-tab-color-danger);
+  background: var(--vf-tab-bg-danger);
+  border-color: var(--vf-tab-border-color-danger);
+}
+
+.vf-tab-wrapper.vf-selected.vf-invalid .vf-tab {
+  color: var(--vf-tab-color-selected-danger);
+  background: var(--vf-tab-bg-selected-danger);
+  border-color: var(--vf-tab-border-color-selected-danger);
+}
+
+/**
+ * Individual tab button element.
+ */
+.vf-tab {
+  padding: var(--vf-tab-padding);
+  font-family: inherit;
+  font-size: var(--vf-tabs-font-size);
+  color: var(--vf-tab-color);
+  white-space: nowrap;
+  appearance: none;
+  cursor: pointer;
+  background: var(--vf-tab-bg);
+  border-color: var(--vf-tab-border-color);
+  border-style: solid;
+  border-width: var(--vf-tab-border-width);
+  border-radius: var(--vf-tab-radius);
+}

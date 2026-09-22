@@ -1,0 +1,5 @@
+[
+  { "key": "documents", "label": "Documents", "icon": "pi pi-folder" },
+  { "key": "media", "label": "Media", "icon": "pi pi-folder" },
+  { "key": "projects", "label": "Projects", "icon": "pi pi-folder" }
+]

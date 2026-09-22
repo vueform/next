@@ -1,0 +1,17 @@
+import { createRule } from '~/helpers'
+import { compileRulePattern } from './regex'
+
+/**
+ * Validates that the value does not match a given regular expression.
+ */
+export const not_regex = createRule(
+  'not_regex',
+  (value, { params }) => {
+    const re = compileRulePattern(params.pattern)
+    return re ? !re.test(String(value)) : false
+  },
+  {
+    params: ['pattern'],
+    message: 'rule_regex_error',
+  }
+)

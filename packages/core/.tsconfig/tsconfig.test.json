@@ -1,0 +1,34 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "types": ["node", "vitest/globals"],
+    "paths": {
+      "~/*": ["../src/*"],
+      "#shorthands": ["../src/types/shorthands.ts"],
+      "@vueform/core": ["../src/index.ts"],
+      "@vueform/core/blueprints/*": ["../src/blueprints/*"],
+      "@vueform/core/components": ["../src/components/index.ts"],
+      "@vueform/core/components/*/raw": ["../src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../src/components/*/unstyled.ts"],
+      "@vueform/core/rules": ["../src/rules/index.ts"],
+      "@vueform/core/modules": ["../src/modules/modules.ts"],
+      "@vueform/core/locales": ["../src/locales/index.ts"],
+      "@vueform/core/*": ["../src/*"]
+    },
+    "noImplicitAny": false
+  },
+  "include": [
+    "../src/**/*.ts",
+    "../src/**/*.d.ts",
+    "../src/**/*.vue",
+    "../tests/**/*.ts",
+    "../tests/**/*.vue"
+  ],
+  "exclude": [
+    "../tests/test-utils/**/*",
+    "../tests/types/**/*",
+    "../tests/**/vitest.config.ts",
+    "../tests/vitest.config.ts",
+    "../tests/vapor/**/*"
+  ]
+}

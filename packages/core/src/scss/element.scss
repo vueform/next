@@ -1,0 +1,200 @@
+/**
+ * Root container for a single form element, using a 12-column grid.
+ */
+.vf-element {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  padding: 0;
+  margin: 0;
+  border: 0;
+}
+
+/**
+ * Transparent wrapper that participates in the parent grid layout.
+ */
+.vf-panel {
+  display: contents;
+}
+
+/**
+ * Text label for a form element.
+ */
+span.vf-label,
+div.vf-label,
+label.vf-label {
+  display: inline-block;
+  font-size: var(--vf-label-font-size);
+  font-weight: var(--vf-label-font-weight);
+  cursor: text;
+}
+
+/**
+ * Container for heading-level labels within group elements.
+ */
+.vf-label-group {
+  display: block;
+}
+
+.vf-label-group.vf-vertical {
+  padding: var(--vf-label-group-v-padding);
+}
+
+/**
+ * Aligns the label padding for horizontal labels.
+ *
+ * @class .vf-align-label
+ */
+.vf-align-label .vf-horizontal .vf-label {
+  padding: var(--vf-label-group-h-padding);
+}
+
+/**
+ * Required indicator displayed after a label via ::after pseudo-element.
+ *
+ * @class .vf-required
+ */
+.vf-required:after {
+  position: relative;
+  display: inline-block;
+  width: var(--vf-required-w);
+  height: var(--vf-required-h);
+  color: var(--vf-required-color);
+  content: var(--vf-required-content);
+  background-color: var(--vf-required-bg);
+  mask-image: var(--vf-required-icon);
+  mask-repeat: no-repeat;
+  mask-position: center center;
+  mask-size: contain;
+}
+
+/**
+ * Grid container for nested elements within an element's body.
+ */
+.vf-element-group {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  row-gap: var(--vf-element-group-gutter-y);
+  column-gap: var(--vf-element-group-gutter-x);
+}
+
+/**
+ * Padding wrapper around an element's content area.
+ */
+.vf-element-wrapper {
+  padding: var(--vf-element-wrapper-padding);
+}
+
+/**
+ * Help text block displayed below a form element.
+ */
+.vf-help {
+  padding: var(--vf-help-padding);
+  font-size: var(--vf-help-font-size);
+  color: var(--vf-help-color);
+  background: var(--vf-help-bg);
+  border: var(--vf-help-border-width) var(--vf-help-border-style) var(--vf-help-border-color);
+  border-radius: var(--vf-help-radius);
+}
+
+/**
+ * Description text shown below the input within an element.
+ */
+.vf-description {
+  grid-column: span 12 / span 12;
+  padding: var(--vf-description-padding);
+  font-size: var(--vf-description-font-size);
+  color: var(--vf-description-color);
+  background: var(--vf-description-bg);
+  border: var(--vf-description-border-width) var(--vf-description-border-style) var(--vf-description-border-color);
+  border-radius: var(--vf-description-radius);
+}
+
+/**
+ * Container for validation error messages within an element.
+ */
+.vf-errors {
+  grid-column: span 12 / span 12;
+  padding: var(--vf-errors-padding);
+  font-size: var(--vf-errors-font-size);
+  color: var(--vf-errors-color);
+  background: var(--vf-errors-bg);
+  border: var(--vf-errors-border-width) var(--vf-errors-border-style) var(--vf-errors-border-color);
+  border-radius: var(--vf-errors-radius);
+}
+
+/**
+ * Container for informational messages within an element.
+ */
+.vf-messages {
+  grid-column: span 12 / span 12;
+  padding: var(--vf-messages-padding);
+  font-size: var(--vf-messages-font-size);
+  color: var(--vf-messages-color);
+  background: var(--vf-messages-bg);
+  border: var(--vf-messages-border-width) var(--vf-messages-border-style) var(--vf-messages-border-color);
+  border-radius: var(--vf-messages-radius);
+}
+
+/**
+ * Adds small top padding to an element.
+ */
+.vf-space-top-1,
+.vf-element.vf-space-top-1 {
+  padding-top: var(--vf-space-1);
+}
+
+/**
+ * Adds medium top padding to an element.
+ */
+.vf-space-top-2,
+.vf-element.vf-space-top-2 {
+  padding-top: var(--vf-space-2);
+}
+
+/**
+ * Adds large top padding to an element.
+ */
+.vf-space-top-3,
+.vf-element.vf-space-top-3 {
+  padding-top: var(--vf-space-3);
+}
+
+/**
+ * Adds small bottom padding to an element.
+ */
+.vf-space-bottom-1,
+.vf-element.vf-space-bottom-1 {
+  padding-bottom: var(--vf-space-1);
+}
+
+/**
+ * Adds medium bottom padding to an element.
+ */
+.vf-space-bottom-2,
+.vf-element.vf-space-bottom-2 {
+  padding-bottom: var(--vf-space-2);
+}
+
+/**
+ * Adds large bottom padding to an element.
+ */
+.vf-space-bottom-3,
+.vf-element.vf-space-bottom-3 {
+  padding-bottom: var(--vf-space-3);
+}
+
+/**
+ * Adds a top border line to an element.
+ */
+.vf-line-top,
+.vf-element.vf-line-top {
+  border-top: 1px solid var(--vf-element-line-color);
+}
+
+/**
+ * Adds a bottom border line to an element.
+ */
+.vf-line-bottom,
+.vf-element.vf-line-bottom {
+  border-bottom: 1px solid var(--vf-element-line-color);
+}

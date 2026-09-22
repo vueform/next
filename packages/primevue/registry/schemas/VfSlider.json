@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "name": "VfSlider",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Slider element",
+  "files": [
+    {
+      "path": "VfSlider.vue",
+      "target": "{componentsDir}/VfSlider.vue",
+      "kind": "component",
+      "hash": "sha256:0ef44787dae47dfc598cee4c343f52908e5188b2402dabe0e6e5ef4fdda25aea"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/slider",
+    "@vueform/primevue/blueprints/slider",
+    "@vueform/primevue/components/VfSlider",
+    "vue",
+    "@vueform/primevue/slider.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "slider"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfSlider.vue",
+    "blueprint": "slider",
+    "hash": "sha256:8cc4d293ccbdedb589ee3e5b5f1b8ebf790654ac2a1742293ab8c123176bd4cd",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfSlider",
+    "import": "{componentsDir}/VfSlider.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

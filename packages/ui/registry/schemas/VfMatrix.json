@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "name": "VfMatrix",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Matrix element of rows and columns",
+  "files": [
+    {
+      "path": "VfMatrix.vue",
+      "target": "{componentsDir}/VfMatrix.vue",
+      "kind": "component",
+      "hash": "sha256:a72217d0c1be50f475c3b85e7b5251cca5e5047dc3e0ff871ee316221b10ec4c"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/matrix",
+    "@vueform/ui",
+    "@vueform/ui/components/VfMatrix",
+    "@vueform/ui/matrix.css",
+    "@vueform/ui/tabular.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "matrix",
+    "tabular"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfMatrix.vue",
+    "blueprint": "matrix",
+    "hash": "sha256:6fe89534337d1ef4e5f7cf4eaa1eaf08cf0bce8986698788efd8a95345f747ff",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfMatrix",
+    "import": "{componentsDir}/VfMatrix.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

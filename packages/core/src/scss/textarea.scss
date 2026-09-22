@@ -1,0 +1,24 @@
+/**
+ * Native textarea element within an input wrapper. Non-resizable by default —
+ * classes carry the `resize` / `autogrow` prop state instead of inline styles,
+ * keeping strict CSP (`style-src-attr`) satisfied even in SSR output.
+ */
+.vf-textarea-input {
+  flex: 1 1 0%;
+  width: 100%;
+  min-height: 100%;
+  padding: var(--vf-input-pt) var(--vf-input-pr) var(--vf-input-pb) var(--vf-input-pl);
+  font-family: inherit;
+  font-size: 1rem;
+  resize: none;
+
+  /** Restores the native resize handle (the `resize` prop). */
+  &.vf-resizable {
+    resize: both;
+  }
+
+  /** Height is script-driven (the `autogrow` prop), so never scroll. */
+  &.vf-autogrow {
+    overflow: hidden;
+  }
+}

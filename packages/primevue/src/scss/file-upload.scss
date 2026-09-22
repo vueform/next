@@ -1,0 +1,15 @@
+.vf-file-upload-wrapper {
+  display: contents;
+
+  &.vf-basic {
+    display: flex;
+    gap: var(--p-button-gap);
+    align-items: flex-start;
+    justify-content: space-between;
+
+    & > .p-button {
+      flex-grow: 0;
+      flex-shrink: 0;
+    }
+  }
+}

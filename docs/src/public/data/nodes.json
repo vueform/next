@@ -1,0 +1,52 @@
+[
+  {
+    "key": "documents",
+    "label": "Documents",
+    "icon": "pi pi-folder",
+    "children": [
+      {
+        "key": "reports",
+        "label": "Reports",
+        "icon": "pi pi-folder",
+        "children": [
+          { "key": "annual", "label": "Annual Report", "icon": "pi pi-file" },
+          { "key": "q4", "label": "Q4 Summary", "icon": "pi pi-file" }
+        ]
+      },
+      {
+        "key": "presentations",
+        "label": "Presentations",
+        "icon": "pi pi-folder",
+        "children": [
+          { "key": "roadmap", "label": "Roadmap 2025", "icon": "pi pi-file" },
+          { "key": "team-intro", "label": "Team Intro", "icon": "pi pi-file" }
+        ]
+      }
+    ]
+  },
+  {
+    "key": "media",
+    "label": "Media",
+    "icon": "pi pi-folder",
+    "children": [
+      {
+        "key": "photos",
+        "label": "Photos",
+        "icon": "pi pi-folder",
+        "children": [
+          { "key": "vacation", "label": "Vacation", "icon": "pi pi-image" },
+          { "key": "family", "label": "Family", "icon": "pi pi-image" }
+        ]
+      },
+      {
+        "key": "videos",
+        "label": "Videos",
+        "icon": "pi pi-folder",
+        "children": [
+          { "key": "tutorial", "label": "Tutorial", "icon": "pi pi-video" },
+          { "key": "demo", "label": "Product Demo", "icon": "pi pi-video" }
+        ]
+      }
+    ]
+  }
+]

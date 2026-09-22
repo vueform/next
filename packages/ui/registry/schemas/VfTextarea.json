@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "name": "VfTextarea",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Multiline text input element",
+  "files": [
+    {
+      "path": "VfTextarea.vue",
+      "target": "{componentsDir}/VfTextarea.vue",
+      "kind": "component",
+      "hash": "sha256:8764d93e706e0a24dcfe5305e556f795de736c4474ad7034e1d88d5178739003"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/textarea",
+    "@vueform/ui",
+    "@vueform/ui/components/VfTextarea",
+    "vue",
+    "@vueform/ui/textarea.css",
+    "@vueform/ui/input.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "textarea",
+    "input"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfTextarea.vue",
+    "blueprint": "textarea",
+    "hash": "sha256:224cf27055cd925b3bd23de6263ddf95862b4b3daeb53e1da756f3a6aaab9851",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfTextarea",
+    "import": "{componentsDir}/VfTextarea.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,121 @@
+/**
+ * Input addon container that sits before or after an input inside an
+ * input group, providing a connected visual slot for icons, text or buttons.
+ */
+.vf-addon {
+  --vf-input-bg: var(--vf-addon-bg);
+  --vf-input-bg-danger: var(--vf-addon-bg-danger);
+
+  --vf-input-color: var(--vf-addon-color);
+  --vf-input-color-danger: var(--vf-addon-color-danger);
+
+  display: flex;
+  align-items: center;
+  color: var(--vf-addon-color);
+  background: var(--vf-addon-bg);
+
+  .vf-addon-group,
+  .vf-input,
+  .vf-icon-group,
+  .vf-btn {
+    height: 100%;
+  }
+
+  .vf-input,
+  .vf-addon-group,
+  .vf-icon-group,
+  .vf-btn {
+    background: transparent;
+    border: 0;
+    border-radius: 0;
+  }
+}
+
+.vf-btn > .vf-addon {
+  background: transparent;
+
+  --vf-input-bg: transparent;
+  --vf-input-bg-danger: transparent;
+
+  --vf-input-color: inherit;
+  --vf-input-color-danger: inherit;
+}
+
+.vf-addon:has(> [style*='display: none']) {
+  display: none;
+}
+
+.vf-addon:has(.vf-danger) {
+  color: var(--vf-addon-color-danger);
+  background: var(--vf-addon-bg-danger);
+}
+
+.vf-addon-group:has(.vf-input.vf-danger) .vf-addon {
+  --vf-addon-border-color: var(--vf-addon-border-color-danger);
+}
+
+.vf-addon:has(~ .vf-input),
+.vf-addon:has(~ .vf-icon-group) {
+  margin: var(--vf-addon-before-margin);
+  border-top: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-right: 0px var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-bottom: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-left: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+
+  &:not(:has(.vf-input), :has(.vf-btn), :has(.vf-icon-group)) {
+    padding: var(--vf-addon-before-padding);
+  }
+}
+
+.vf-addon:first-child:has(~ .vf-input),
+.vf-addon:first-child:has(~ .vf-icon-group) {
+  border-top-left-radius: var(--vf-addon-radius);
+  border-bottom-left-radius: var(--vf-addon-radius);
+
+  .vf-input,
+  .vf-addon-group,
+  .vf-icon-group,
+  .vf-btn {
+    border-top-left-radius: calc(var(--vf-addon-radius) - var(--vf-addon-border-width));
+    border-bottom-left-radius: calc(var(--vf-addon-radius) - var(--vf-addon-border-width));
+  }
+}
+
+.vf-input ~ .vf-addon,
+.vf-icon-group ~ .vf-addon {
+  margin: var(--vf-addon-before-margin);
+  border-top: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-right: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-bottom: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-left: 0px var(--vf-addon-border-style) var(--vf-addon-border-color);
+
+  &:not(:has(.vf-input), :has(.vf-btn), :has(.vf-icon-group)) {
+    padding: var(--vf-addon-after-padding);
+  }
+}
+
+.vf-input ~ .vf-addon:last-child,
+.vf-icon-group ~ .vf-addon:last-child {
+  border-top-right-radius: var(--vf-addon-radius);
+  border-bottom-right-radius: var(--vf-addon-radius);
+
+  .vf-input,
+  .vf-addon-group,
+  .vf-icon-group,
+  .vf-btn {
+    border-top-right-radius: calc(var(--vf-addon-radius) - var(--vf-addon-border-width));
+    border-bottom-right-radius: calc(var(--vf-addon-radius) - var(--vf-addon-border-width));
+  }
+}
+
+.vf-addon + .vf-input,
+.vf-addon + .vf-icon-group > .vf-input {
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+}
+
+.vf-input:has(~ .vf-addon),
+.vf-icon-group:has(~ .vf-addon) > .vf-input {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}

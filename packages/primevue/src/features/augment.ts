@@ -1,0 +1,256 @@
+import { type ClassValue, type DOMAttrs, type HeadingProp } from '@vueform/core'
+import type { MessageProps } from 'primevue/message'
+import type { TabPanelProps } from 'primevue/tabpanel'
+import type { TabsProps } from 'primevue/tabs'
+import type { VNode } from 'vue'
+
+declare module '@vueform/core' {
+  interface BaseElementParts {
+    /**
+     * The wrapper around `root` with `display: contents` when the element is a
+     * step or a tab.
+     *
+     * @tag TabPanel
+     */
+    panel?: TabPanelProps
+
+    /**
+     * The element's root wrapper.
+     *
+     * @tag div | fieldset
+     */
+    root?: DOMAttrs['div' | 'fieldset']
+
+    /**
+     * The container holding the label and required indicator.
+     *
+     * @tag div | legend
+     */
+    labelGroup?: DOMAttrs['div' | 'legend']
+
+    /**
+     * The label element.
+     *
+     * @tag label | span | h1 | h2 | h3 | h4 | h5 | h6
+     */
+    label?: DOMAttrs['label' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6']
+
+    /**
+     * The required indicator.
+     *
+     * @tag div
+     */
+    required?: DOMAttrs['div']
+
+    /**
+     * Info container.
+     *
+     * @tag div
+     */
+    info?: DOMAttrs['div']
+
+    /**
+     * Icon for displaying info tooltip.
+     *
+     * @tag span
+     */
+    infoIcon?: DOMAttrs['span']
+
+    /**
+     * The container wrapping the input and related UI.
+     *
+     * @tag div | TabsProps
+     */
+    elementGroup?: DOMAttrs['div'] | TabsProps
+
+    /**
+     * The wrapper directly around the input control.
+     *
+     * @tag div
+     */
+    elementWrapper?: DOMAttrs['div']
+
+    /**
+     * The help text area.
+     *
+     * @tag Message
+     */
+    help?: MessageProps & Record<string, any>
+
+    /**
+     * The description text area.
+     *
+     * @tag Message
+     */
+    description?: MessageProps & Record<string, any>
+
+    /**
+     * The validation errors container.
+     *
+     * @tag Message
+     */
+    errors?: MessageProps & Record<string, any>
+
+    /**
+     * An individual validation error.
+     *
+     * @tag div
+     */
+    error?: DOMAttrs['div']
+
+    /**
+     * The info messages container.
+     *
+     * @tag div
+     */
+    messages?: DOMAttrs['div']
+
+    /**
+     * An individual info message.
+     *
+     * @tag div
+     */
+    message?: DOMAttrs['div']
+  }
+
+  interface BaseElementSlots {
+    /**
+     * Slot for customizing the element's label content.
+     *
+     * @param props.label The resolved label text.
+     */
+    label: (props: { label?: string }) => VNode[]
+
+    /**
+     * Slot for customizing the required indicator.
+     */
+    required: () => VNode[]
+
+    /**
+     * Slot for customizing the help text.
+     *
+     * @param props.help The resolved help text.
+     */
+    help: (props: { help?: string }) => VNode[]
+
+    /**
+     * Slot for customizing the description text.
+     *
+     * @param props.description The resolved description text.
+     */
+    description: (props: { description?: string }) => VNode[]
+
+    /**
+     * Slot for customizing the validation errors display.
+     *
+     * @param props.errors The list of validation error messages.
+     */
+    errors: (props: { errors: string[] }) => VNode[]
+
+    /**
+     * Slot for customizing the info messages display.
+     *
+     * @param props.messages The list of info messages.
+     */
+    messages: (props: { messages: string[] }) => VNode[]
+
+    /**
+     * Slot for customizing the info tooltip or helper content.
+     *
+     * @param props.info The info text.
+     */
+    info: (props: { info?: string }) => VNode[]
+  }
+
+  interface BaseElementClasses {
+    /**
+     * The element's root wrapper.
+     */
+    root: (props: {
+      spaceTop?: number
+      spaceBottom?: number
+      lineTop?: boolean
+      lineBottom?: boolean
+    }) => ClassValue
+
+    /**
+     * The main content panel.
+     */
+    panel: ClassValue
+
+    /**
+     * The container holding the label and required indicator.
+     */
+    labelGroup: (heading?: HeadingProp) => ClassValue
+
+    /**
+     * The label element.
+     */
+    label: ClassValue
+
+    /**
+     * The required indicator.
+     */
+    required: ClassValue
+
+    /**
+     * The info tooltip or helper wrapper.
+     */
+    info: ClassValue
+
+    /**
+     * The info icon element.
+     */
+    infoIcon: ClassValue
+
+    /**
+     * The help text area.
+     */
+    help: ClassValue
+
+    /**
+     * The info tooltip.
+     */
+    infoTooltip: ClassValue
+
+    /**
+     * The container wrapping the input and related UI.
+     */
+    elementGroup: ClassValue
+
+    /**
+     * The wrapper directly around the input control.
+     */
+    elementWrapper: ClassValue
+
+    /**
+     * The loading indicator shown while the element is busy.
+     */
+    loading: ClassValue
+
+    /**
+     * The description text area.
+     */
+    description: ClassValue
+
+    /**
+     * The validation errors container.
+     */
+    errors: ClassValue
+
+    /**
+     * An individual validation error.
+     */
+    error: ClassValue
+
+    /**
+     * The info messages container.
+     */
+    messages: ClassValue
+
+    /**
+     * An individual info message.
+     */
+    message: ClassValue
+  }
+}

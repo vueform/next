@@ -1,0 +1,239 @@
+{
+  "94b720b36": {
+    "timestamp": "2026-08-17T10:11:22.810Z",
+    "time": {
+      "form-registry > mount+unmount n=100": {
+        "mean": 103.0498583000001,
+        "rme": 1.926736118743504
+      },
+      "form-registry > mount+unmount n=300": {
+        "mean": 411.2170791000003,
+        "rme": 30.388480975777092
+      },
+      "form-registry > payload reads n=300": {
+        "mean": 0.0023517781436060976,
+        "rme": 0.8964798219615658
+      },
+      "form-registry > condition toggle + payload n=300": {
+        "mean": 3.2403581096774183,
+        "rme": 6.71641939079685
+      },
+      "form-registry > list row add/remove": {
+        "mean": 29.44087163999997,
+        "rme": 23.077833457444807
+      },
+      "registry > derived views: repeated reads": {
+        "mean": 6.47579375641026,
+        "rme": 0.6410979593995262
+      },
+      "registry > derived views: invalidate + read": {
+        "mean": 0.13043823578507774,
+        "rme": 0.3793222209480245
+      },
+      "registry > registration churn": {
+        "mean": 0.6534121984334166,
+        "rme": 0.7597460552773281
+      }
+    },
+    "memory": {
+      "idle n=300": {
+        "mean": 12433538.666666666
+      },
+      "idle n=1000": {
+        "mean": 41190093.333333336
+      },
+      "hot reads n=300": {
+        "mean": 11947720
+      },
+      "after unmount n=300": {
+        "mean": -68117.33333333333
+      }
+    }
+  },
+  "bc969fb53": {
+    "timestamp": "2026-08-17T10:58:45.227Z",
+    "time": {
+      "form-registry > mount+unmount n=100": {
+        "mean": 94.33027919999999,
+        "rme": 1.6404652523328636
+      },
+      "form-registry > mount+unmount n=300": {
+        "mean": 378.5637205999998,
+        "rme": 29.117761575372842
+      },
+      "form-registry > payload reads n=300": {
+        "mean": 0.0022679572037040217,
+        "rme": 1.2739364062618022
+      },
+      "form-registry > condition toggle + payload n=300": {
+        "mean": 2.969865893491115,
+        "rme": 14.261748791120748
+      },
+      "form-registry > list row add/remove": {
+        "mean": 19.261163518518313,
+        "rme": 5.309336230887949
+      },
+      "registry > derived views: repeated reads": {
+        "mean": 0.0005415010916652018,
+        "rme": 0.09040649734733543
+      },
+      "registry > derived views: invalidate + read": {
+        "mean": 0.09835772501966845,
+        "rme": 0.38992396024696335
+      },
+      "registry > registration churn": {
+        "mean": 0.6578712168199703,
+        "rme": 0.2950868871767724
+      }
+    },
+    "memory": {
+      "idle n=300": {
+        "mean": 12512941.333333334
+      },
+      "idle n=1000": {
+        "mean": 40502610.666666664
+      },
+      "hot reads n=300": {
+        "mean": 12334970.666666666
+      },
+      "after unmount n=300": {
+        "mean": 46797.333333333336
+      }
+    }
+  },
+  "92c3dcaac-before": {
+    "timestamp": "2026-08-24T10:24:50.371Z",
+    "time": {
+      "form-registry > mount+unmount n=100": {
+        "mean": 140.48639580000003,
+        "rme": 0.7258266386332068
+      },
+      "form-registry > mount+unmount n=300": {
+        "mean": 821.7261167000004,
+        "rme": 14.318809148091546
+      },
+      "form-registry > payload reads n=300": {
+        "mean": 0.003151948327269745,
+        "rme": 0.05575936746659713
+      },
+      "form-registry > condition toggle + payload n=300": {
+        "mean": 3.011389437125724,
+        "rme": 4.531637162039901
+      },
+      "form-registry > list row add/remove": {
+        "mean": 83.26934020000044,
+        "rme": 2.199927880785239
+      },
+      "registry > derived views: repeated reads": {
+        "mean": 0.0008547513052040432,
+        "rme": 0.07479717611147345
+      },
+      "registry > derived views: invalidate + read": {
+        "mean": 0.09666707945099613,
+        "rme": 0.33428846229538894
+      },
+      "registry > registration churn": {
+        "mean": 0.6606267556142711,
+        "rme": 0.2731798478081131
+      },
+      "validation-list > container validate (rows filled) rows=200": {
+        "mean": 0.033786435232107545,
+        "rme": 0.9311916672635003
+      },
+      "validation-list > full validate (rows empty) rows=200": {
+        "mean": 356.2236542000002,
+        "rme": 6.430397948995872
+      },
+      "validation-list > keystroke w/ container rules rows=200": {
+        "mean": 1.1514853264367695,
+        "rme": 1.6447544091623425
+      },
+      "validation-list > keystroke w/o container rules rows=200": {
+        "mean": 0.909229660617081,
+        "rme": 2.025371434417911
+      }
+    },
+    "memory": {
+      "idle n=300": {
+        "mean": 13788285.333333334
+      },
+      "idle n=1000": {
+        "mean": 47846458.666666664
+      },
+      "hot reads n=300": {
+        "mean": 14214493.333333334
+      },
+      "after unmount n=300": {
+        "mean": 24613.333333333332
+      }
+    },
+    "base": true
+  },
+  "92c3dcaac": {
+    "timestamp": "2026-08-24T10:30:16.292Z",
+    "time": {
+      "form-registry > mount+unmount n=100": {
+        "mean": 150.9108416,
+        "rme": 7.859639016856114
+      },
+      "form-registry > mount+unmount n=300": {
+        "mean": 851.3612251000002,
+        "rme": 11.197093608015814
+      },
+      "form-registry > payload reads n=300": {
+        "mean": 0.0023412315454264484,
+        "rme": 0.09972292729721961
+      },
+      "form-registry > condition toggle + payload n=300": {
+        "mean": 2.9336569298244943,
+        "rme": 3.9229295505787687
+      },
+      "form-registry > list row add/remove": {
+        "mean": 100.3217499600003,
+        "rme": 43.771387077300425
+      },
+      "registry > derived views: repeated reads": {
+        "mean": 0.0009155619478019856,
+        "rme": 0.09679479983650742
+      },
+      "registry > derived views: invalidate + read": {
+        "mean": 0.10957498860648235,
+        "rme": 0.619671313891584
+      },
+      "registry > registration churn": {
+        "mean": 0.6708437841823107,
+        "rme": 0.27400353596320154
+      },
+      "validation-list > container validate (rows filled) rows=200": {
+        "mean": 0.048061310169162534,
+        "rme": 0.7531601770081928
+      },
+      "validation-list > full validate (rows empty) rows=200": {
+        "mean": 0.6812819754768361,
+        "rme": 1.9309547304340122
+      },
+      "validation-list > keystroke w/ container rules rows=200": {
+        "mean": 1.1744039553990544,
+        "rme": 1.5015150361352425
+      },
+      "validation-list > keystroke w/o container rules rows=200": {
+        "mean": 0.9117695774134575,
+        "rme": 1.5548191122938326
+      }
+    },
+    "memory": {
+      "idle n=300": {
+        "mean": 13941960
+      },
+      "idle n=1000": {
+        "mean": 46740205.333333336
+      },
+      "hot reads n=300": {
+        "mean": 14098410.666666666
+      },
+      "after unmount n=300": {
+        "mean": 7336
+      }
+    }
+  }
+}

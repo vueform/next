@@ -1,0 +1,7 @@
+import '@/scss/element.scss'
+import '@/scss/input.scss'
+import '@/scss/icon.scss'
+import '@/scss/animation.scss'
+import '@/scss/utils.scss'
+import '@/scss/hr.scss'
+import '@/scss/blockquote.scss'

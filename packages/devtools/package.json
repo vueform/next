@@ -1,0 +1,31 @@
+{
+  "name": "@vueform/devtools",
+  "version": "2.0.0",
+  "description": "Vue DevTools integration for Vueform",
+  "author": "Adam Berecz",
+  "license": "MIT",
+  "private": false,
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.mjs",
+      "types": "./dist/index.d.ts"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json"
+  },
+  "dependencies": {
+    "@vue/devtools-api": "^7.7.0"
+  },
+  "peerDependencies": {
+    "@vueform/core": "workspace:*",
+    "vue": "^3.5.13"
+  }
+}

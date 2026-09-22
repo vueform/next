@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "name": "VfInputOtp",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "One-time passcode input element",
+  "files": [
+    {
+      "path": "VfInputOtp.vue",
+      "target": "{componentsDir}/VfInputOtp.vue",
+      "kind": "component",
+      "hash": "sha256:6ee1afbb650b9e0b1504d96b969af1a738c30469bf3c7d7be53f88e05ef67e0f"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/inputotp",
+    "@vueform/primevue/blueprints/input-otp",
+    "@vueform/primevue/components/VfInputOtp",
+    "vue"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfInputOtp.vue",
+    "blueprint": "input-otp",
+    "hash": "sha256:f8ca1359ae067fbcb96d000027e211255e69eabaa7b7d763e5e2bad2793e227e",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfInputOtp",
+    "import": "{componentsDir}/VfInputOtp.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

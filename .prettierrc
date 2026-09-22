@@ -1,0 +1,38 @@
+{
+  "semi": false,
+  "singleQuote": true,
+  "tabWidth": 2,
+  "trailingComma": "es5",
+  "printWidth": 80,
+  "plugins": ["prettier-plugin-jsdoc"],
+  "jsdocPrintWidth": 80,
+  "jsdocDescriptionWithDot": false,
+  "jsdocCapitalizeDescription": false,
+  "jsdocCommentLineStrategy": "multiline",
+  "overrides": [
+    {
+      "files": "docs/**/*.md",
+      "options": {
+        "embeddedLanguageFormatting": "off"
+      }
+    },
+    {
+      "files": ["docs/.vitepress/config.mts", "docs/.vitepress/adapters/ui/config.ts", "docs/.vitepress/adapters/primevue/config.ts"],
+      "options": {
+        "printWidth": 200
+      }
+    },
+    {
+      "files": "**/*.scss",
+      "options": {
+        "printWidth": 200
+      }
+    },
+    {
+      "files": "packages/core/tests/types/**/*",
+      "options": {
+        "printWidth": 300
+      }
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "schemaVersion": 1,
+  "name": "VfLayout",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Element layout with label, description, and errors",
+  "files": [
+    {
+      "path": "VfLayout.vue",
+      "target": "{componentsDir}/VfLayout.vue",
+      "kind": "component",
+      "hash": "sha256:c93e49bc4f9c6ce05fc3ba62d4407fa73d12ecc695a0b2320a0ea2f1a2e21030"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/floatlabel",
+    "primevue/iconfield",
+    "primevue/iftalabel",
+    "primevue/inputgroup",
+    "primevue/inputgroupaddon",
+    "primevue/inputicon",
+    "primevue/message",
+    "primevue/select",
+    "primevue/steppanel",
+    "primevue/tab",
+    "primevue/tablist",
+    "primevue/tabpanel",
+    "primevue/tabpanels",
+    "primevue/tabs",
+    "vue",
+    "@vueform/primevue/blueprints/layout",
+    "@vueform/primevue/components/VfLayout",
+    "@vueform/primevue/blockquote.css",
+    "@vueform/primevue/element.css",
+    "@vueform/primevue/hr.css",
+    "@vueform/primevue/icon.css",
+    "@vueform/primevue/info.css",
+    "@vueform/primevue/tooltip.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "blockquote",
+    "element",
+    "hr",
+    "icon",
+    "info",
+    "tooltip"
+  ],
+  "register": {
+    "component": "VfLayout",
+    "import": "{componentsDir}/VfLayout.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "name": "VfNav",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Form navigation controls",
+  "files": [
+    {
+      "path": "VfNav.vue",
+      "target": "{componentsDir}/VfNav.vue",
+      "kind": "component",
+      "hash": "sha256:ef2877ddac78c9f9bac92b409c8c1d51975a62ffb9aa542306eb312171d931d7"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue/blueprints/nav",
+    "@vueform/primevue",
+    "@vueform/primevue/components/VfNav",
+    "@vueform/primevue/nav.css",
+    "@vueform/primevue/steps.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "nav",
+    "steps"
+  ],
+  "register": {
+    "component": "VfNav",
+    "import": "{componentsDir}/VfNav.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

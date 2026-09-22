@@ -1,0 +1,41 @@
+{
+  "schemaVersion": 1,
+  "name": "VfRating",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Rating element",
+  "files": [
+    {
+      "path": "VfRating.vue",
+      "target": "{componentsDir}/VfRating.vue",
+      "kind": "component",
+      "hash": "sha256:d342bcd9a05b5661ebee3ac36c5b2e0731a46c866d2b9834121d4f3f8db78c5d"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/rating",
+    "@vueform/primevue/blueprints/rating",
+    "@vueform/primevue/components/VfRating",
+    "vue",
+    "@vueform/primevue/rating.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "rating"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfRating.vue",
+    "blueprint": "rating",
+    "hash": "sha256:e5ff4562cdfbebb158d8a1c2f0533d67963b76d8afff8112d7c4e69ae9a60823",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfRating",
+    "import": "{componentsDir}/VfRating.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

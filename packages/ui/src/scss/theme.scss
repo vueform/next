@@ -1,0 +1,30 @@
+// Aggregate recipe for the flattened `@vueform/ui/theme.css` artifact
+// (<link>/CDN consumers) — no JS entry loads this; each component imports its
+// own chunks. CSS is identical across themes; themes differ only in
+// runtime-injected tokens.
+@use './addon.scss';
+@use './animation.scss';
+@use './blockquote.scss';
+@use './button.scss';
+@use './choice.scss';
+@use './choices.scss';
+@use './content.scss';
+@use './element.scss';
+@use './file.scss';
+@use './form.scss';
+@use './grid.scss';
+@use './group.scss';
+@use './hr.scss';
+@use './icon.scss';
+@use './input.scss';
+@use './languages.scss';
+@use './list.scss';
+@use './matrix.scss';
+@use './nav.scss';
+@use './select.scss';
+@use './steps.scss';
+@use './tabular.scss';
+@use './tabs.scss';
+@use './text.scss';
+@use './textarea.scss';
+@use './utils.scss';

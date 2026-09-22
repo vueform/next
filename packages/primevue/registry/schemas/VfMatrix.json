@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "name": "VfMatrix",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Matrix element of rows and columns",
+  "files": [
+    {
+      "path": "VfMatrix.vue",
+      "target": "{componentsDir}/VfMatrix.vue",
+      "kind": "component",
+      "hash": "sha256:e52904b1afb1e2e03caba28573ec6df5239f91d1503a2bde5bece8296dcddfd0"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue/blueprints/matrix",
+    "@vueform/primevue",
+    "@vueform/primevue/components/VfMatrix",
+    "@vueform/primevue/matrix.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "matrix"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfMatrix.vue",
+    "blueprint": "matrix",
+    "hash": "sha256:8764d72185f806a14dacfd6b40efa85aa7b0ec5dbdee7a2c249cd57a8265b1af",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfMatrix",
+    "import": "{componentsDir}/VfMatrix.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

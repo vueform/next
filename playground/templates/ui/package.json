@@ -1,0 +1,24 @@
+{
+  "name": "ui-template",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc -p .tsconfig/tsconfig.build.json && vite build",
+    "preview": "vite preview"
+  },
+  "sideEffects": false,
+  "dependencies": {
+    "@vueform/ui": "workspace:*",
+    "@vueform/expr-eval": "workspace:*",
+    "@vueform/dompurify": "workspace:*"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "@vue/tsconfig": "^0.7.0",
+    "@vueform/cli": "workspace:*",
+    "typescript": "~5.8.3",
+    "vite": "^6.3.5"
+  }
+}

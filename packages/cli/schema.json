@@ -1,0 +1,102 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Vueform CLI configuration",
+  "description": "Configuration for the Vueform CLI (npx vueform).",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "componentsDir": {
+      "type": "string",
+      "description": "The directory where `vueform copy` places local component copies, relative to the project root."
+    },
+    "autoRegister": {
+      "type": "boolean",
+      "description": "Set to false by `vueform copy` when automatic registration was declined \u2014 the CLI won't offer to edit your entry file again. Delete or set to true to re-enable the offer."
+    },
+    "postCopy": {
+      "type": "string",
+      "description": "Shell command run once after `vueform copy` writes files, from the project root \u2014 use it to format/lint the new copies with your own tooling before their hashes are recorded. `{files}` is replaced with the shell-quoted list of written files; without it the command runs as-is. When unset, the CLI runs your project's prettier over the written files instead (only if prettier is installed and a project config resolves)."
+    },
+    "copies": {
+      "type": "object",
+      "description": "Provenance of copied components, written by `vueform copy` \u2014 the source package, its version, and per-file hashes.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["package", "version", "files"],
+        "additionalProperties": false,
+        "properties": {
+          "package": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "files": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["hash"],
+              "additionalProperties": false,
+              "properties": {
+                "hash": {
+                  "type": "string",
+                  "description": "Hash of the file as it landed in the project (after formatting settled) \u2014 the baseline for modified/conflict checks."
+                },
+                "registryHash": {
+                  "type": "string",
+                  "description": "Hash of the pristine registry source the copy came from."
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "clones": {
+      "type": "object",
+      "description": "Elements created with `vueform clone` \u2014 the base component and blueprint provenance. Clones are your own code: they are never updated or diffed against the registry.",
+      "additionalProperties": {
+        "type": "object",
+        "required": ["base", "type", "package", "version", "files"],
+        "additionalProperties": false,
+        "properties": {
+          "base": {
+            "type": "string",
+            "description": "The element the clone was created from."
+          },
+          "type": {
+            "type": "string",
+            "description": "The new element's `type` used in schemas."
+          },
+          "package": {
+            "type": "string"
+          },
+          "version": {
+            "type": "string"
+          },
+          "files": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "object",
+              "required": ["hash"],
+              "additionalProperties": false,
+              "properties": {
+                "hash": {
+                  "type": "string",
+                  "description": "Hash of the file as it landed in the project (after formatting settled) \u2014 the baseline for modified/conflict checks."
+                },
+                "registryHash": {
+                  "type": "string",
+                  "description": "Hash of the pristine registry source the copy came from."
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

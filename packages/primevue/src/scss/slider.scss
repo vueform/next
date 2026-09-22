@@ -1,0 +1,12 @@
+.vf-slider {
+  .vf-label-group.vf-horizontal + .vf-element-group {
+    .p-slider {
+      top: 50%;
+      transform: translateY(-50%);
+    }
+  }
+
+  .vf-label-group.vf-vertical {
+    padding: var(--vf-slider-label-group-v-padding);
+  }
+}

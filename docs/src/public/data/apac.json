@@ -1,0 +1,23 @@
+[
+  {
+    "name": "Australia",
+    "code": "AU",
+    "states": [
+      {
+        "name": "New South Wales",
+        "cities": [
+          { "cname": "Sydney", "code": "SYD" },
+          { "cname": "Newcastle", "code": "NTL" },
+          { "cname": "Wollongong", "code": "WOL" }
+        ]
+      },
+      {
+        "name": "Queensland",
+        "cities": [
+          { "cname": "Brisbane", "code": "BNE" },
+          { "cname": "Gold Coast", "code": "OOL" }
+        ]
+      }
+    ]
+  }
+]

@@ -1,0 +1,98 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://vueform.com/schemas/scraper/blueprints.json",
+  "title": "Vueform scraped blueprints",
+  "description": "Element blueprints keyed by element type (.generated/<source>/blueprints.json).",
+  "type": "object",
+  "propertyNames": {
+    "pattern": "^[a-z][a-z0-9-]*$"
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": ["props", "events"],
+    "additionalProperties": false,
+    "properties": {
+      "props": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/prop"
+        }
+      },
+      "events": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "#/definitions/event"
+        }
+      },
+      "api": {
+        "type": "object",
+        "description": "Public API members exposed by the element.",
+        "additionalProperties": {
+          "$ref": "#/definitions/apiMember"
+        }
+      },
+      "features": {
+        "type": "array",
+        "description": "Features (make* factories) the blueprint composes.",
+        "items": {
+          "type": "string",
+          "minLength": 1
+        }
+      }
+    }
+  },
+  "definitions": {
+    "prop": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "required": {
+          "const": true
+        },
+        "private": {
+          "const": true
+        },
+        "default": {
+          "description": "Default value; scalars, or the structured default of complex props."
+        },
+        "params": {
+          "type": "object",
+          "description": "Parameters, for function-typed props.",
+          "additionalProperties": {
+            "$ref": "common.json#/definitions/param"
+          }
+        },
+        "returns": {
+          "$ref": "common.json#/definitions/returns"
+        }
+      }
+    },
+    "event": {
+      "type": "object",
+      "required": ["description", "params"],
+      "additionalProperties": false,
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "common.json#/definitions/param"
+          }
+        }
+      }
+    },
+    "apiMember": {
+      "$ref": "common.json#/definitions/apiMember"
+    }
+  }
+}

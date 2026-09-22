@@ -1,0 +1,47 @@
+/**
+ * Fieldset container for grouping form elements together.
+ */
+.vf-group {
+  padding: 0;
+  margin: 0;
+  border: 0;
+
+  /** Applies visual wrapping with background, border and padding. */
+  &.vf-wrapped {
+    padding: var(--vf-group-wrapped-padding);
+    background-color: var(--vf-group-wrapped-bg);
+    border-color: var(--vf-group-wrapped-border-color);
+    border-style: var(--vf-group-wrapped-border-style);
+    border-width: var(--vf-group-wrapped-border-width);
+    border-radius: var(--vf-group-wrapped-radius);
+  }
+}
+
+/**
+ * Grid layout container for elements within a group.
+ */
+.vf-group-elements {
+  display: grid;
+  grid-template-columns: var(--vf-group-grid-template-columns);
+  row-gap: var(--vf-group-gutter-y, 0);
+  column-gap: min(calc(100% / 12), var(--vf-group-gutter-x, 0));
+
+  /** Uses horizontal flex-wrap layout instead of grid. */
+  &.vf-stacked {
+    display: flex;
+    flex-wrap: wrap;
+    row-gap: var(--vf-group-gutter-stacked-y, 0);
+    column-gap: var(--vf-group-gutter-stacked-x, 0);
+    align-items: center;
+  }
+
+  /** Applies visual wrapping with background, border and padding. */
+  &.vf-wrapped {
+    padding: var(--vf-group-wrapped-padding);
+    background-color: var(--vf-group-wrapped-bg);
+    border-color: var(--vf-group-wrapped-border-color);
+    border-style: var(--vf-group-wrapped-border-style);
+    border-width: var(--vf-group-wrapped-border-width);
+    border-radius: var(--vf-group-wrapped-radius);
+  }
+}

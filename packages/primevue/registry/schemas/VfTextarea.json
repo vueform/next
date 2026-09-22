@@ -1,0 +1,37 @@
+{
+  "schemaVersion": 1,
+  "name": "VfTextarea",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Multiline text input element",
+  "files": [
+    {
+      "path": "VfTextarea.vue",
+      "target": "{componentsDir}/VfTextarea.vue",
+      "kind": "component",
+      "hash": "sha256:2307a87737629fb5bf39c338408b7ae84863e470d0220850ca1f99c48a9a213e"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/textarea",
+    "@vueform/primevue/blueprints/textarea",
+    "@vueform/primevue/components/VfTextarea",
+    "vue"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfTextarea.vue",
+    "blueprint": "textarea",
+    "hash": "sha256:72b4836727ccda779728eb4f6c8a538e3ef281af7050f0dd730bb5098dea7aae",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfTextarea",
+    "import": "{componentsDir}/VfTextarea.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

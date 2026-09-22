@@ -1,0 +1,38 @@
+{
+  "name": "@vueform/metrics",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bench": "tsx bench/scripts/run.ts",
+    "bench:charts": "tsx bench/scripts/charts.ts",
+    "bench:report": "tsx bench/scripts/report.ts",
+    "size": "tsx size/scripts/run.ts",
+    "size:report": "tsx size/scripts/report.ts"
+  },
+  "devDependencies": {
+    "@primeuix/themes": "^2.0.3",
+    "@types/node": "^24.13.5",
+    "@vitejs/plugin-vue": "^6.0.8",
+    "@vitest/browser": "^4.0.17",
+    "@vitest/browser-playwright": "^4.0.17",
+    "@vueform/core": "workspace:*",
+    "@vueform/dompurify": "workspace:*",
+    "@vueform/expr-eval": "workspace:*",
+    "@vueform/primevue": "workspace:*",
+    "@vueform/ui": "workspace:*",
+    "expr-eval-fork": "^3.0.3",
+    "isomorphic-dompurify": "^3.19.0",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.5",
+    "quill": "^2.0.3",
+    "rollup-plugin-visualizer": "^7.1.1",
+    "tsx": "^4.23.13",
+    "typescript": "~5.9.3",
+    "vite": "^6.4.3",
+    "vitest": "^4.0.0-beta.18",
+    "vue": "^3.5.42",
+    "vue-compiler-sfc-vapor": "npm:@vue/compiler-sfc@3.6.0-rc.7",
+    "vue-vapor": "npm:vue@3.6.0-rc.7"
+  }
+}

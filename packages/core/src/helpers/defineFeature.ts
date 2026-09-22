@@ -1,0 +1,50 @@
+/**
+ * Options object passed to a feature's inner function. Prefer a concrete
+ * `MakeXOptions` (or this type with concrete type args) unless the return type
+ * depends on props/deps generics (e.g. `MakeItemsReturn<P>`).
+ */
+export type FeatureContext<
+  Props extends Record<string, any> = Record<string, any>,
+  Deps extends Record<string, any> = {},
+  Events = unknown,
+> = {
+  props: Props
+  deps: Deps
+  events: Events
+}
+
+/**
+ * Defines a feature factory (make*) with automatic type inference and optional
+ * config.
+ * @private
+ */
+export function defineFeature<
+  C extends any,
+  T extends Record<string, any>,
+  R extends Record<string, any>,
+>(factory: (config?: C) => (options: T) => R): typeof factory
+
+/**
+ * Defines a feature factory (make*) with automatic type inference and required
+ * config.
+ * @private
+ */
+export function defineFeature<
+  C extends any,
+  T extends Record<string, any>,
+  R extends Record<string, any>,
+>(factory: (config: C) => (options: T) => R): typeof factory
+
+/**
+ * Defines a feature factory (make*) with an explicit output type. Use when the
+ * feature needs a generic or overloaded call signature that can't be inferred
+ * automatically.
+ * @private
+ */
+export function defineFeature<F extends (...args: any[]) => any>(
+  factory: (...args: any[]) => any
+): F
+
+export function defineFeature(factory: any) {
+  return factory
+}

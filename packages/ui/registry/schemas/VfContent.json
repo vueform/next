@@ -1,0 +1,39 @@
+{
+  "schemaVersion": 1,
+  "name": "VfContent",
+  "type": "component",
+  "package": "@vueform/ui",
+  "version": "2.0.0",
+  "description": "Static content element",
+  "files": [
+    {
+      "path": "VfContent.vue",
+      "target": "{componentsDir}/VfContent.vue",
+      "kind": "component",
+      "hash": "sha256:cc363382949a810ab694062f8e7665ed9e5d5490761009eadb69b6d27a018a4a"
+    }
+  ],
+  "imports": [
+    "@vueform/ui/blueprints/content",
+    "@vueform/ui",
+    "@vueform/ui/components/VfContent",
+    "@vueform/ui/content.css"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "styles": [
+    "content"
+  ],
+  "element": true,
+  "clone": {
+    "path": "VfContent.vue",
+    "blueprint": "content",
+    "hash": "sha256:1247607f71538418347f4d4277fe19321f5f0109589c7623a58f4f11762ef445",
+    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfContent",
+    "import": "{componentsDir}/VfContent.vue"
+  },
+  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "name": "VfToggleButton",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Toggle button element",
+  "files": [
+    {
+      "path": "VfToggleButton.vue",
+      "target": "{componentsDir}/VfToggleButton.vue",
+      "kind": "component",
+      "hash": "sha256:13b6f6ec6f5961d417b2e10f79f7674568613fb1c17bd8c2b71e8d7c544be731"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/togglebutton",
+    "@vueform/primevue/blueprints/toggle-button",
+    "@vueform/primevue/components/VfToggleButton"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfToggleButton.vue",
+    "blueprint": "toggle-button",
+    "hash": "sha256:c8a4d292cdf59ae60c1b9f2cfc648bf022df89f486be93ff7eacd0aea2c25998",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfToggleButton",
+    "import": "{componentsDir}/VfToggleButton.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

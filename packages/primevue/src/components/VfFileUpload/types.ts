@@ -1,0 +1,163 @@
+import type {
+  FileUploadApi,
+  FileUploadClasses,
+  FileUploadEmits,
+  FileUploadExpose,
+  FileUploadParts,
+  FileUploadProps,
+  FileUploadSlots,
+  forwards,
+} from '@/blueprints/file-upload'
+import type { ForwardedSlots } from '@/types'
+import type {
+  ClassValue,
+  DomAttrsOf,
+  PartOf,
+  DefineElementContext,
+  DefineRegistryEntry,
+  EntryMultipleOf,
+  WidenProps,
+} from '@vueform/core'
+import type {
+  FileUploadProps as PvFileUploadProps,
+  FileUploadSlots as AFileUploadSlots,
+} from 'primevue/fileupload'
+import type { VNode } from 'vue'
+
+/**
+ * VfFileUpload props narrowed from a registry `TEntry` payload, applying the
+ * entry's `multiple` prop as a generic.
+ */
+export type EntryProps<TEntry> = VfFileUploadProps<EntryMultipleOf<TEntry>>
+
+/**
+ * Generic props interface for the VfFileUpload component, parameterized by the
+ * model-driving type argument (e.g. `VfFileUploadProps<true>`). Reach for
+ * `VfFileUploadProps` instead when no narrowing is needed.
+ *
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
+ * by `@vueform/vite/build` (see the `#shorthands` marker import on
+ * `unstyled.ts`).
+ */
+export interface VfFileUploadProps<
+  TMultiple extends boolean = boolean,
+> extends FileUploadProps<
+  'file-upload',
+  TMultiple,
+  VfFileUploadSlots<TMultiple>,
+  VfFileUploadParts,
+  VfFileUploadClasses,
+  VfFileUploadContext<VfFileUploadProps<TMultiple>>
+> {}
+
+/**
+ * Events emitted by the VfFileUpload component, parameterized by the
+ * model-driving type argument so event handlers (e.g. `@change`) receive the
+ * narrowed context — same pattern as `VfFileUploadSlots`. Plain usage
+ * (`VfFileUploadEmits`) keeps the context wide.
+ */
+export interface VfFileUploadEmits<
+  TMultiple extends boolean = boolean,
+> extends FileUploadEmits<VfFileUploadContext<VfFileUploadProps<TMultiple>>> {}
+
+/**
+ * Slots available in the VfFileUpload component.
+ */
+export interface VfFileUploadSlots<TMultiple extends boolean = boolean>
+  extends
+    FileUploadSlots<VfFileUploadContext<VfFileUploadProps<TMultiple>>>,
+    /* @vue-ignore */ ForwardedSlots<
+      AFileUploadSlots,
+      (typeof forwards.slots)[number]
+    > {
+  /**
+   * Slot that replaces the upload button. Receives the upload handler.
+   *
+   * @param props.upload The upload handler function.
+   */
+  button: (props: { upload: () => void }) => VNode[]
+}
+
+/**
+ * Structural parts of the VfFileUpload component.
+ */
+export interface VfFileUploadParts extends FileUploadParts {
+  /**
+   * @write
+   */
+  wrapper: DomAttrsOf<'div'>
+
+  /**
+   * The file upload element.
+   *
+   * @tag FileUpload
+   */
+  input: PvFileUploadProps
+
+  /**
+   * The upload button.
+   *
+   * @tag VfButton
+   */
+  button: PartOf<'VfButton'>
+}
+
+/**
+ * CSS classes for the VfFileUpload component's structural parts.
+ */
+export interface VfFileUploadClasses extends FileUploadClasses {
+  /**
+   * @write
+   */
+  wrapper: ClassValue
+
+  /**
+   * The file upload element.
+   */
+  input: ClassValue
+}
+
+/**
+ * Augmentable public API surface for VfFileUpload.
+ *
+ * Plugins that add runtime API members should declaration-merge the same
+ * members here (or on `FileUploadExpose` for all file-upload-based components)
+ * so they appear on `ContextOf<'VfFileUpload'>` / `context$` / `defineExpose`.
+ */
+export interface VfFileUploadExpose extends FileUploadExpose {}
+
+/**
+ * Public context for VfFileUpload, optionally parameterized by concrete props
+ * (e.g. `VfFileUploadContext<VfFileUploadProps<true>>`).
+ *
+ * Must be an interface — it sits on the recursive type loop (props → context →
+ * api → props) and only a nominal, lazily-resolved interface breaks that cycle
+ * (a type alias here degrades the whole registry with TS2456).
+ */
+export interface VfFileUploadContext<
+  TProps extends WidenProps<VfFileUploadProps, FileUploadProps> =
+    VfFileUploadProps,
+> extends DefineElementContext<
+  TProps,
+  VfFileUploadEmits,
+  VfFileUploadSlots,
+  VfFileUploadParts,
+  VfFileUploadClasses,
+  VfFileUploadExpose,
+  FileUploadApi<TProps>
+> {}
+
+/**
+ * Registry entry for VfFileUpload. `TEntry` narrows the props / emits / context
+ * by the entry's model-driving props, the same way SFC generics do.
+ */
+export interface VfFileUploadEntry<
+  TEntry = Record<string, any>,
+> extends DefineRegistryEntry<
+  EntryProps<TEntry>,
+  VfFileUploadEmits<EntryMultipleOf<TEntry>>,
+  VfFileUploadSlots,
+  VfFileUploadParts,
+  VfFileUploadClasses,
+  VfFileUploadContext<EntryProps<TEntry>>
+> {}

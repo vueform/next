@@ -1,0 +1,36 @@
+{
+  "schemaVersion": 1,
+  "name": "VfSelect",
+  "type": "component",
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "description": "Select element",
+  "files": [
+    {
+      "path": "VfSelect.vue",
+      "target": "{componentsDir}/VfSelect.vue",
+      "kind": "component",
+      "hash": "sha256:5da8b3a98744e64ebabbb2fb449ee63fe75160463b0a2373d1621842c922fcbd"
+    }
+  ],
+  "imports": [
+    "@vueform/primevue",
+    "primevue/select",
+    "@vueform/primevue/blueprints/select",
+    "@vueform/primevue/components/VfSelect"
+  ],
+  "dependencies": {},
+  "registryDependencies": [],
+  "element": true,
+  "clone": {
+    "path": "VfSelect.vue",
+    "blueprint": "select",
+    "hash": "sha256:e776781a96b94a1e5770bd5d3d4ce1e5af2d81c06c300b57a8cc8f7a358870e4",
+    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  },
+  "register": {
+    "component": "VfSelect",
+    "import": "{componentsDir}/VfSelect.vue"
+  },
+  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+}

@@ -1,0 +1,23 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "paths": {
+      "#shorthands": ["../src/types/shorthands.ts"],
+      "@vueform/core": ["../../core/src/index.ts"],
+      "@vueform/core/blueprints/*": ["../../core/src/blueprints/*"],
+      "@vueform/core/components": ["../../core/src/components/index.ts"],
+      "@vueform/core/components/*/raw": [
+        "../../core/src/components/*/index.ts"
+      ],
+      "@vueform/core/components/*": ["../../core/src/components/*/unstyled.ts"],
+      "@vueform/core/rules": ["../../core/src/rules/index.ts"],
+      "@vueform/core/services": ["../../core/src/defaultServices.ts"],
+      "@vueform/core/*": ["../../core/src/*"],
+      "~/*": ["../../core/src/*"],
+      "@/*": ["../src/*"]
+    },
+    "types": ["node"]
+  },
+  "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue"],
+  "references": [{ "path": "../../core/.tsconfig/tsconfig.dev.json" }]
+}

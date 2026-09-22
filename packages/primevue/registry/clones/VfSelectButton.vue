@@ -1,0 +1,414 @@
+<script
+  setup
+  lang="ts"
+  generic="
+    TOptions extends OptionsProp = OptionsProp,
+    TOptionValueKey extends OptionValueProp = undefined,
+    TOptionValueReturn = unknown,
+    TMultiple extends boolean = false,
+    TModel = any
+  "
+>
+/**
+ * VfCloneName — a custom element created from Vueform's `select-button`
+ * blueprint.
+ *
+ * @see https://primevue.vueform.com/guide/components#building-on-blueprints
+ */
+
+import {
+  defineEvents,
+  useBlueprint,
+  type OptionsProp,
+  type OptionValueProp,
+  vdomPrime,
+  type ClassValue,
+  type DefineElementContext,
+  type ForwardedSlots,
+  type OverrideSlots,
+  type WidenProps,
+  type WithPtShorthands,
+} from '@vueform/primevue'
+import PrimeSelectButton, {
+  type SelectButtonSlots as ASelectButtonSlots,
+} from 'primevue/selectbutton'
+import {
+  blueprint,
+  defaults,
+  type SelectButtonApi,
+  type SelectButtonClasses,
+  type SelectButtonEmits,
+  type SelectButtonExpose,
+  type SelectButtonParts,
+  type SelectButtonProps,
+  type SelectButtonSlots,
+  type forwards,
+} from '@vueform/primevue/blueprints/select-button'
+import type { SelectButtonProps as PvSelectButtonProps } from 'primevue'
+import type { VNode } from 'vue'
+
+/**
+ * Prop definitions.
+ *
+ * @example
+ *   custom?: any
+ */
+export interface VfCloneNameProps<
+  TOptions extends OptionsProp = OptionsProp,
+  TOptionValueKey extends OptionValueProp = undefined,
+  TMultiple extends boolean = false,
+  TModel = any,
+  TOptionValueReturn = unknown,
+> extends SelectButtonProps<
+  '__TYPE__',
+  TOptions,
+  TOptionValueKey,
+  TMultiple,
+  TModel,
+  TOptionValueReturn,
+  VfCloneNameSlots<
+    TOptions,
+    TOptionValueKey,
+    TMultiple,
+    TModel,
+    TOptionValueReturn
+  >,
+  VfCloneNameParts,
+  VfCloneNameClasses,
+  VfCloneNameContext<
+    VfCloneNameProps<
+      TOptions,
+      TOptionValueKey,
+      TMultiple,
+      TModel,
+      TOptionValueReturn
+    >
+  >
+> {}
+
+/**
+ * Emit / event definitions.
+ *
+ * @example
+ *   custom: [arg1: any, arg2: any, context$: VfCloneNameContext]
+ *
+ * @see https://primevue.vueform.com/guide/event-handlers
+ */
+export interface VfCloneNameEmits<
+  TOptions extends OptionsProp = OptionsProp,
+  TOptionValueKey extends OptionValueProp = undefined,
+  TMultiple extends boolean = false,
+  TModel = any,
+  TOptionValueReturn = unknown,
+> extends SelectButtonEmits<
+  VfCloneNameContext<
+    VfCloneNameProps<
+      TOptions,
+      TOptionValueKey,
+      TMultiple,
+      TModel,
+      TOptionValueReturn
+    >
+  >
+> {}
+
+/**
+ * Slot definitions.
+ *
+ * @example
+ *   custom: (props: { prop1: any; prop2: any }) => import('vue').VNode[]
+ *
+ * @see https://primevue.vueform.com/guide/slots
+ */
+export interface VfCloneNameSlots<
+  TOptions extends OptionsProp = OptionsProp,
+  TOptionValueKey extends OptionValueProp = undefined,
+  TMultiple extends boolean = false,
+  TModel = any,
+  TOptionValueReturn = unknown,
+>
+  extends
+    SelectButtonSlots<
+      VfCloneNameContext<
+        VfCloneNameProps<
+          TOptions,
+          TOptionValueKey,
+          TMultiple,
+          TModel,
+          TOptionValueReturn
+        >
+      >
+    >,
+    /* @vue-ignore */ OverrideSlots<
+      ForwardedSlots<ASelectButtonSlots, (typeof forwards.slots)[number]>,
+      {
+        /**
+         * Custom content for each option.
+         */
+        option: (props: {
+          /**
+           * The raw option item.
+           */
+          option: any
+
+          /**
+           * Index of the option.
+           */
+          index: number
+        }) => VNode[]
+      }
+    > {}
+
+/**
+ * Part definitions.
+ *
+ * @example
+ *   tag: import('@vueform/primevue').DomAttrsOf<'div'>
+ *   component: import('@vueform/primevue').PartOf<'VfButton'>
+ *
+ * @see https://primevue.vueform.com/guide/parts
+ */
+export interface VfCloneNameParts extends SelectButtonParts {
+  /**
+   * The select button input element.
+   *
+   * @tag SelectButton
+   */
+  input: WithPtShorthands<PvSelectButtonProps>
+}
+
+/**
+ * Class definitions.
+ *
+ * @example
+ *   plain: import('@vueform/primevue').ClassValue
+ *   dynamic: (arg1: any, arg2: any) => import('@vueform/primevue').ClassValue
+ *
+ * @see https://primevue.vueform.com/guide/classes
+ */
+export interface VfCloneNameClasses extends SelectButtonClasses {
+  /**
+   * The select button input element.
+   */
+  input: ClassValue
+}
+
+/**
+ * Custom exposed API members. Add props you return from useBlueprint's 5th
+ * 'extend' callback.
+ *
+ * @example
+ *   plain: string
+ *   vueRef: import('vue').Ref<string>
+ *   method: (arg1: any, arg2: any) => string
+ *
+ * @see https://primevue.vueform.com/guide/components#expose-interface
+ */
+export interface VfCloneNameExpose extends SelectButtonExpose {}
+
+/**
+ * The element's context — the object slots, outlets, and event handlers receive
+ * (`context$`). Its shape is derived from the blueprint and the interfaces
+ * above — customize those; don't extend or edit this one.
+ */
+export interface VfCloneNameContext<
+  TProps extends WidenProps<
+    VfCloneNameProps,
+    SelectButtonProps<string, OptionsProp, OptionValueProp>
+  > = VfCloneNameProps,
+> extends DefineElementContext<
+  TProps,
+  VfCloneNameEmits,
+  VfCloneNameSlots,
+  VfCloneNameParts,
+  VfCloneNameClasses,
+  VfCloneNameExpose,
+  SelectButtonApi<TProps>
+> {}
+
+const SelectButton = vdomPrime(PrimeSelectButton)
+
+defineOptions({
+  name: 'VfCloneName',
+  element: true,
+  inheritAttrs: false,
+  expressionable: true,
+  nullValue: (props) => (props.multiple ? [] : null),
+})
+defineEmits<
+  VfCloneNameEmits<
+    TOptions,
+    TOptionValueKey,
+    TMultiple,
+    TModel,
+    TOptionValueReturn
+  >
+>()
+
+const props = withDefaults(
+  defineProps<
+    VfCloneNameProps<
+      TOptions,
+      TOptionValueKey,
+      TMultiple,
+      TModel,
+      TOptionValueReturn
+    >
+  >(),
+  {
+    ...defaults,
+    type: '__TYPE__',
+  }
+)
+const events =
+  defineEvents<
+    VfCloneNameEmits<
+      TOptions,
+      TOptionValueKey,
+      TMultiple,
+      TModel,
+      TOptionValueReturn
+    >
+  >()
+const slots =
+  defineSlots<
+    VfCloneNameSlots<
+      TOptions,
+      TOptionValueKey,
+      TMultiple,
+      TModel,
+      TOptionValueReturn
+    >
+  >()
+
+/**
+ * Extend the element's API by passing a 5th 'extend' callback to useBlueprint —
+ * whatever it returns merges into the api / expose (declare the members on
+ * VfCloneNameExpose above).
+ *
+ * @example
+ *   useBlueprint(blueprint, props, events, slots, () => ({
+ *     plain: '',
+ *     vueRef: ref(''),
+ *     method: (arg1: any, arg2: any) => '',
+ *   }))
+ *
+ * @see https://primevue.vueform.com/guide/components#extending-the-logic
+ */
+const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
+  useBlueprint(blueprint, props, events, slots)
+
+/**
+ * The element's own classes, per part — reactive via the callback's api refs.
+ * The class keys come from VfCloneNameClasses above.
+ *
+ * @see https://primevue.vueform.com/guide/classes
+ */
+useClasses(({ help, props }) => ({
+  root: {
+    'vf-select-button': true,
+    'vf-align-label': !help.value,
+  },
+  input: props.layout === false ? props.class : null,
+}))
+
+const {
+  value,
+  viewLoaded,
+  disabled,
+  invalid,
+  input,
+  rawItems,
+  itemLabel,
+  itemValue,
+  itemDisabled,
+  forwardProps,
+  forwardSlots,
+  handleInput,
+  handleFocus,
+  handleBlur,
+} = api
+
+const { multiple } = propRefs
+
+defineExpose(expose)
+</script>
+
+<script lang="ts">
+import type {
+  DefineRegistryEntry,
+  EntryMultipleOf,
+  EntryOptionValueKeyOf,
+  EntryOptionValueReturnOf,
+  EntryOptionsOf,
+} from '@vueform/primevue'
+
+type EntryProps<TEntry> = VfCloneNameProps<
+  EntryOptionsOf<TEntry>,
+  EntryOptionValueKeyOf<TEntry>,
+  EntryMultipleOf<TEntry>,
+  any,
+  EntryOptionValueReturnOf<TEntry>
+>
+
+declare module '@vueform/core' {
+  interface ControlRegistry<TEntry = Record<string, any>> {
+    VfCloneName: DefineRegistryEntry<
+      EntryProps<TEntry>,
+      VfCloneNameEmits<
+        EntryOptionsOf<TEntry>,
+        EntryOptionValueKeyOf<TEntry>,
+        EntryMultipleOf<TEntry>,
+        any,
+        EntryOptionValueReturnOf<TEntry>
+      >,
+      VfCloneNameSlots,
+      VfCloneNameParts,
+      VfCloneNameClasses,
+      VfCloneNameContext<EntryProps<TEntry>>
+    >
+  }
+}
+
+declare module 'vue' {
+  interface GlobalComponents {
+    VfCloneName: (typeof import('./VfCloneName.vue'))['default']
+  }
+}
+</script>
+
+<template>
+  <slot v-if="viewLoaded" name="template" :context>
+    <component v-if="outlets.template" :is="outlets.template" :context />
+    <VfLayout v-else>
+      <SelectButton
+        :class="classes.input"
+        v-model="value"
+        :options="rawItems"
+        :option-label="itemLabel"
+        :option-value="itemValue"
+        :option-disabled="itemDisabled"
+        :disabled
+        :invalid
+        :multiple
+        fluid
+        v-bind="{
+          ...forwardProps,
+          ...parts.input,
+        }"
+        :ref="(el) => (input = el)"
+        @focus="handleFocus"
+        @blur="handleBlur"
+        @change="(e) => handleInput(e.value, e.originalEvent)"
+      >
+        <template
+          v-for="(slot, slotName) in forwardSlots"
+          :key="slotName"
+          #[slotName]="scope"
+        >
+          <component :is="slot" v-bind="scope" />
+        </template>
+      </SelectButton>
+    </VfLayout>
+  </slot>
+</template>

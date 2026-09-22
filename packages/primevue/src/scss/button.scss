@@ -1,0 +1,23 @@
+/**
+ * Button component for actions and form controls.
+ */
+.p-button {
+  /** Aligns the button to the left within its container. */
+  &.vf-left {
+    display: flex;
+    margin-right: auto;
+  }
+
+  /** Aligns the button to the right within its container. */
+  &.vf-right {
+    display: flex;
+    margin-left: auto;
+  }
+
+  /** Centers the button horizontally within its container. */
+  &.vf-center {
+    display: flex;
+    margin-right: auto;
+    margin-left: auto;
+  }
+}

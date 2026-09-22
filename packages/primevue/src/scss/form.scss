@@ -1,0 +1,15 @@
+@use '@vueform/core/form.scss';
+
+.vf-form-languages {
+  margin: var(--vf-languages-margin);
+
+  .p-togglebutton[invalid='true'] .p-togglebutton-content {
+    color: var(--p-inputtext-invalid-placeholder-color);
+
+    &[data-p='checked'] {
+      margin: -1px;
+      border-block: 1px solid var(--p-inputtext-invalid-border-color);
+      border-inline: 1px solid var(--p-inputtext-invalid-border-color);
+    }
+  }
+}

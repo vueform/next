@@ -1,0 +1,20 @@
+/**
+ * Container for the list of uploaded file items.
+ */
+.vf-file-list {
+  display: flex;
+  flex-direction: column;
+  row-gap: var(--vf-file-gutter-y);
+  column-gap: var(--vf-file-gutter-x);
+  margin: var(--vf-file-margin);
+}
+
+/**
+ * Single file entry displaying filename and controls.
+ */
+.vf-file-item {
+  display: flex;
+  row-gap: var(--vf-file-item-gutter-y);
+  column-gap: var(--vf-file-item-gutter-x);
+  align-items: center;
+}

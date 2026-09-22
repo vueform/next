@@ -1,0 +1,40 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="452" viewBox="0 0 720 452" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
+<rect width="720" height="452" fill="#ffffff"/>
+<text x="360" y="34" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Input into One of N Text Elements — time</text>
+<rect x="182.5" y="52" width="12" height="12" rx="2" fill="#6366f1"/><text x="199.5" y="62" font-size="12" fill="#57606a">Vueform 2.0.0 (vdom)</text>
+<rect x="364.5" y="52" width="12" height="12" rx="2" fill="#10b981"/><text x="381.5" y="62" font-size="12" fill="#57606a">Vueform 2.0.0 (vapor)</text>
+<line x1="80" y1="388" x2="688" y2="388" stroke="#eaeef2" stroke-width="1"/>
+<text x="72" y="392" font-size="11" fill="#57606a" text-anchor="end">0</text>
+<line x1="80" y1="329.6" x2="688" y2="329.6" stroke="#eaeef2" stroke-width="1"/>
+<text x="72" y="333.6" font-size="11" fill="#57606a" text-anchor="end">0.01</text>
+<line x1="80" y1="271.2" x2="688" y2="271.2" stroke="#eaeef2" stroke-width="1"/>
+<text x="72" y="275.2" font-size="11" fill="#57606a" text-anchor="end">0.02</text>
+<line x1="80" y1="212.8" x2="688" y2="212.8" stroke="#eaeef2" stroke-width="1"/>
+<text x="72" y="216.8" font-size="11" fill="#57606a" text-anchor="end">0.03</text>
+<line x1="80" y1="154.4" x2="688" y2="154.4" stroke="#eaeef2" stroke-width="1"/>
+<text x="72" y="158.4" font-size="11" fill="#57606a" text-anchor="end">0.04</text>
+<line x1="80" y1="96" x2="688" y2="96" stroke="#eaeef2" stroke-width="1"/>
+<text x="72" y="100" font-size="11" fill="#57606a" text-anchor="end">0.05</text>
+<line x1="80" y1="96" x2="80" y2="388" stroke="#eaeef2" stroke-width="1"/>
+<text x="80" y="406" font-size="11" fill="#57606a" text-anchor="middle">0</text>
+<line x1="384" y1="96" x2="384" y2="388" stroke="#eaeef2" stroke-width="1"/>
+<text x="384" y="406" font-size="11" fill="#57606a" text-anchor="middle">500</text>
+<line x1="688" y1="96" x2="688" y2="388" stroke="#eaeef2" stroke-width="1"/>
+<text x="688" y="406" font-size="11" fill="#57606a" text-anchor="middle">1k</text>
+<line x1="80" y1="388" x2="688" y2="388" stroke="#8c959f" stroke-width="1"/>
+<line x1="80" y1="96" x2="80" y2="388" stroke="#8c959f" stroke-width="1"/>
+<text x="384" y="430" font-size="12" fill="#57606a" text-anchor="middle">N (number of elements)</text>
+<text x="28" y="242" font-size="12" fill="#57606a" text-anchor="middle" transform="rotate(-90 28 242)">Mean time (ms)</text>
+<polyline points="140.8,134.4 232.0,210.2 384.0,176.1 536.0,152.5 688.0,180.3" fill="none" stroke="#6366f1" stroke-width="2"/>
+<circle cx="140.8" cy="134.4" r="3.5" fill="#6366f1"/>
+<circle cx="232.0" cy="210.2" r="3.5" fill="#6366f1"/>
+<circle cx="384.0" cy="176.1" r="3.5" fill="#6366f1"/>
+<circle cx="536.0" cy="152.5" r="3.5" fill="#6366f1"/>
+<circle cx="688.0" cy="180.3" r="3.5" fill="#6366f1"/>
+<polyline points="140.8,141.5 232.0,239.9 384.0,216.0 536.0,192.0 688.0,178.1" fill="none" stroke="#10b981" stroke-width="2"/>
+<circle cx="140.8" cy="141.5" r="3.5" fill="#10b981"/>
+<circle cx="232.0" cy="239.9" r="3.5" fill="#10b981"/>
+<circle cx="384.0" cy="216.0" r="3.5" fill="#10b981"/>
+<circle cx="536.0" cy="192.0" r="3.5" fill="#10b981"/>
+<circle cx="688.0" cy="178.1" r="3.5" fill="#10b981"/>
+</svg>

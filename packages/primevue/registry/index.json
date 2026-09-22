@@ -1,0 +1,246 @@
+{
+  "schemaVersion": 1,
+  "package": "@vueform/primevue",
+  "version": "2.0.0",
+  "items": [
+    {
+      "name": "VfAddon",
+      "type": "component",
+      "description": "Input addon for prefix and suffix content"
+    },
+    {
+      "name": "VfAutoComplete",
+      "type": "component",
+      "description": "Autocomplete input element",
+      "element": true
+    },
+    {
+      "name": "VfButton",
+      "type": "component",
+      "description": "Button element",
+      "element": true
+    },
+    {
+      "name": "VfCascadeSelect",
+      "type": "component",
+      "description": "Cascading select element",
+      "element": true
+    },
+    {
+      "name": "VfCheckbox",
+      "type": "component",
+      "description": "Single checkbox element",
+      "element": true
+    },
+    {
+      "name": "VfCheckboxGroup",
+      "type": "component",
+      "description": "Checkbox group element",
+      "element": true
+    },
+    {
+      "name": "VfCol",
+      "type": "component",
+      "description": "Grid column layout component"
+    },
+    {
+      "name": "VfColorPicker",
+      "type": "component",
+      "description": "Color picker element",
+      "element": true
+    },
+    {
+      "name": "VfContent",
+      "type": "component",
+      "description": "Static content element",
+      "element": true
+    },
+    {
+      "name": "VfDatePicker",
+      "type": "component",
+      "description": "Date picker element",
+      "element": true
+    },
+    {
+      "name": "VfEditor",
+      "type": "component",
+      "description": "Rich text editor element",
+      "element": true
+    },
+    {
+      "name": "VfElements",
+      "type": "component",
+      "description": "Renders a schema's elements"
+    },
+    {
+      "name": "VfField",
+      "type": "component",
+      "description": "Base element for building custom fields",
+      "element": true
+    },
+    {
+      "name": "VfFileUpload",
+      "type": "component",
+      "description": "File upload element",
+      "element": true
+    },
+    {
+      "name": "VfForm",
+      "type": "component",
+      "description": "Form root component"
+    },
+    {
+      "name": "VfGrid",
+      "type": "component",
+      "description": "Grid layout component",
+      "element": true
+    },
+    {
+      "name": "VfGroup",
+      "type": "component",
+      "description": "Group element for structuring schema",
+      "element": true
+    },
+    {
+      "name": "VfHidden",
+      "type": "component",
+      "description": "Hidden input element",
+      "element": true
+    },
+    {
+      "name": "VfInputMask",
+      "type": "component",
+      "description": "Masked input element",
+      "element": true
+    },
+    {
+      "name": "VfInputNumber",
+      "type": "component",
+      "description": "Number input element",
+      "element": true
+    },
+    {
+      "name": "VfInputOtp",
+      "type": "component",
+      "description": "One-time passcode input element",
+      "element": true
+    },
+    {
+      "name": "VfInputText",
+      "type": "component",
+      "description": "Text input element",
+      "element": true
+    },
+    {
+      "name": "VfKnob",
+      "type": "component",
+      "description": "Knob dial element",
+      "element": true
+    },
+    {
+      "name": "VfLayout",
+      "type": "component",
+      "description": "Element layout with label, description, and errors"
+    },
+    {
+      "name": "VfList",
+      "type": "component",
+      "description": "Repeatable list element",
+      "element": true
+    },
+    {
+      "name": "VfListbox",
+      "type": "component",
+      "description": "Listbox element",
+      "element": true
+    },
+    {
+      "name": "VfMatrix",
+      "type": "component",
+      "description": "Matrix element of rows and columns",
+      "element": true
+    },
+    {
+      "name": "VfMultiSelect",
+      "type": "component",
+      "description": "Multi-select element",
+      "element": true
+    },
+    {
+      "name": "VfNav",
+      "type": "component",
+      "description": "Form navigation controls"
+    },
+    {
+      "name": "VfPassword",
+      "type": "component",
+      "description": "Password input element",
+      "element": true
+    },
+    {
+      "name": "VfRadioButton",
+      "type": "component",
+      "description": "Single radio button element",
+      "element": true
+    },
+    {
+      "name": "VfRadioButtonGroup",
+      "type": "component",
+      "description": "Radio button group element",
+      "element": true
+    },
+    {
+      "name": "VfRating",
+      "type": "component",
+      "description": "Rating element",
+      "element": true
+    },
+    {
+      "name": "VfRow",
+      "type": "component",
+      "description": "Grid row layout component"
+    },
+    {
+      "name": "VfSelect",
+      "type": "component",
+      "description": "Select element",
+      "element": true
+    },
+    {
+      "name": "VfSelectButton",
+      "type": "component",
+      "description": "Select button element",
+      "element": true
+    },
+    {
+      "name": "VfSlider",
+      "type": "component",
+      "description": "Slider element",
+      "element": true
+    },
+    {
+      "name": "VfTextarea",
+      "type": "component",
+      "description": "Multiline text input element",
+      "element": true
+    },
+    {
+      "name": "VfToggleButton",
+      "type": "component",
+      "description": "Toggle button element",
+      "element": true
+    },
+    {
+      "name": "VfToggleSwitch",
+      "type": "component",
+      "description": "Toggle switch element",
+      "element": true
+    },
+    {
+      "name": "VfTreeSelect",
+      "type": "component",
+      "description": "Tree select element",
+      "element": true
+    }
+  ]
+}

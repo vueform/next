@@ -1,0 +1,5 @@
+[
+  { "value": "frontend", "label": "Frontend" },
+  { "value": "backend", "label": "Backend" },
+  { "value": "devops", "label": "DevOps" }
+]

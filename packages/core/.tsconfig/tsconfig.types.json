@@ -1,0 +1,31 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "baseUrl": "..",
+    "paths": {
+      "~/*": ["src/*"],
+      "#shorthands": ["src/types/shorthands.ts"],
+      "@vueform/core": ["src/index.ts"],
+      "@vueform/core/*": ["src/*"]
+    },
+    "types": ["node"]
+  },
+  "include": [
+    "../tests/types/**/*.ts",
+    "../tests/types/**/*.vue",
+    "../src/components/**/*.ts",
+    "../src/components/**/*.vue",
+    "../src/blueprints/**/*.ts",
+    "../src/features/**/*.ts",
+    "../src/composables/**/*.ts",
+    "../src/contexts/**/*.ts",
+    "../src/helpers/**/*.ts",
+    "../src/types/**/*.ts",
+    "../src/utils/**/*.ts",
+    "../src/services/**/*.ts",
+    "../src/index.ts"
+  ]
+}
