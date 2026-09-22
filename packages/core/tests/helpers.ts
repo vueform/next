@@ -1,3 +1,4 @@
+import { mount, DOMWrapper, flushPromises } from '@vue/test-utils'
 import {
   createVueform,
   fetchHttpAdapter,
@@ -21,7 +22,6 @@ import {
   type DefineComponent,
 } from 'vue'
 import VfTest from './assets/VfTest.vue'
-import { mount, DOMWrapper, flushPromises } from './test-utils'
 
 export { flushPromises, mount }
 

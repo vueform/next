@@ -23,7 +23,6 @@
     "../tests/**/*.vue"
   ],
   "exclude": [
-    "../tests/test-utils/**/*",
     "../tests/types/**/*",
     "../tests/**/vitest.config.ts",
     "../tests/vitest.config.ts",
