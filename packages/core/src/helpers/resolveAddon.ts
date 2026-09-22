@@ -8,9 +8,7 @@ import { kebabToPascal } from '~/utils'
  * (`{ component, props }`) for schema addons.
  */
 export type ResolvedAddon =
-  | string
-  | { component: string; props: Record<string, any> }
-  | undefined
+  string | { component: string; props: Record<string, any> } | undefined
 
 /**
  * Modules `resolveAddon` needs from the caller's setup context — gather them
@@ -29,6 +27,7 @@ export interface ResolveAddonModules {
  * expression-resolved; rendered escaped downstream) or a dynamic component
  * descriptor — the resolution the addon blueprint performs, exposed for layout
  * components that render addons without a dedicated addon component.
+ *
  * @private
  */
 export function resolveAddon(

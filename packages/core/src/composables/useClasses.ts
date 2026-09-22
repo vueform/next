@@ -59,8 +59,9 @@ export type TemplateClassesOf<
   T extends ComponentNames,
   D extends TemplateClassDefs<T>[],
 > = ClassesOf<T> & {
-  [K in Exclude<TemplateClassKeys<D[number]>, keyof ClassesOf<T>> &
-    string]: ClassValue
+  [
+    K in Exclude<TemplateClassKeys<D[number]>, keyof ClassesOf<T>> & string
+  ]: ClassValue
 }
 
 /**

@@ -21,9 +21,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "languages"
-  ],
+  "styles": ["languages"],
   "register": {
     "component": "VfLanguages",
     "import": "{componentsDir}/VfLanguages.vue"

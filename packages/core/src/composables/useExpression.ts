@@ -17,6 +17,7 @@ type Resolved<T extends string | undefined> = T extends string
  * expressions within form element props. Setup-only: throws when called outside
  * a component setup context. When the `expression` module is not registered,
  * uses the inert passthrough surface (`installed: false`).
+ *
  * @private
  */
 export function useExpression() {

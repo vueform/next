@@ -551,8 +551,7 @@ export type ComponentOptions = {
  * structurally even though they are valid components at runtime.
  */
 export type VueformComponent = (
-  | Component<any, any, any>
-  | ((props: any, ctx?: any, ...args: any[]) => any)
+  Component<any, any, any> | ((props: any, ctx?: any, ...args: any[]) => any)
 ) & {
   /**
    * Whether the component is a form element (participates in form data and

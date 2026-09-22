@@ -26,8 +26,8 @@ export type UseAutosaveOptions = Omit<
  * takes over: the `autosave` prop has no effect (with a dev warning) and the
  * returned methods are no-ops.
  *
- * @param options Form-specific autosave wiring options.
  * @private
+ * @param options Form-specific autosave wiring options.
  */
 export function useAutosave(options: UseAutosaveOptions): AutosaveInstance {
   const module = getAutosaveModule()

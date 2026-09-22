@@ -136,18 +136,16 @@ createApp(App).mount('#app')
       description: 'the required model module alone, measured against core',
       entry: coreEntry({ modules: ['model'] }),
     },
-    ...moduleNames(monorepoRoot).map(
-      (name): Scenario => ({
-        name: `module+${name}`,
-        group: 'module',
-        item: name,
-        base: 'model',
-        // CSS is only counted where the theme module is registered.
-        themed: name === 'theme',
-        description: `model plus the ${name} module`,
-        entry: coreEntry({ modules: ['model', name] }),
-      })
-    ),
+    ...moduleNames(monorepoRoot).map((name): Scenario => ({
+      name: `module+${name}`,
+      group: 'module',
+      item: name,
+      base: 'model',
+      // CSS is only counted where the theme module is registered.
+      themed: name === 'theme',
+      description: `model plus the ${name} module`,
+      entry: coreEntry({ modules: ['model', name] }),
+    })),
   ]
 
   // Directly measured all-included builds for the Total rows: modules and

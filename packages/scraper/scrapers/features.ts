@@ -865,8 +865,7 @@ function traceSpreadSource(
 
 function resolveSpreadMembers(
   source:
-    | { kind: 'factory'; name: string }
-    | { kind: 'composable'; name: string },
+    { kind: 'factory'; name: string } | { kind: 'composable'; name: string },
   spreadExpr: ts.Expression,
   checker: ts.TypeChecker
 ): Record<string, any> {

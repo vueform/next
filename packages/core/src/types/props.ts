@@ -18,11 +18,7 @@ export type AlignProp = 'left' | 'center' | 'right' | 'justify' | (string & {})
  * Vertical alignment options for layout and grid cells.
  */
 export type ValignProp =
-  | 'top'
-  | 'middle'
-  | 'bottom'
-  | 'baseline'
-  | (string & {})
+  'top' | 'middle' | 'bottom' | 'baseline' | (string & {})
 
 /**
  * Controls at which level validation errors are displayed.
@@ -39,24 +35,14 @@ export type ElementValidateOnProp = ('change' | 'blur' | (string & {}))[]
  * events.
  */
 export type ValidateOnProp = (
-  | 'change'
-  | 'blur'
-  | 'next'
-  | 'back'
-  | 'submit'
-  | (string & {})
+  'change' | 'blur' | 'next' | 'back' | 'submit' | (string & {})
 )[]
 
 /**
  * Navigation events that trigger scrolling to the top of the form.
  */
 export type ScrollTopOnProp = (
-  | 'always'
-  | 'next'
-  | 'back'
-  | 'success'
-  | 'error'
-  | (string & {})
+  'always' | 'next' | 'back' | 'success' | 'error' | (string & {})
 )[]
 
 /**
@@ -90,8 +76,7 @@ export type EndpointProp<TContext = any> = string | EndpointHandler<TContext>
  * entirely.
  */
 export type ShowRequiredProp =
-  | false
-  | ('label' | 'placeholder' | (string & {}))[]
+  false | ('label' | 'placeholder' | (string & {}))[]
 
 /**
  * Custom validation messages keyed by rule name, supporting text props.
@@ -143,8 +128,7 @@ export type PresetsProp = (string | PresetDefinition)[]
  * @param context$ The component context when used as a function.
  */
 export type TProp<T = string, TContext = any> =
-  | DProp<T, TContext>
-  | Record<string, T | (string & {})>
+  DProp<T, TContext> | Record<string, T | (string & {})>
 
 /**
  * A prop value of type `T` that can also be provided as a plain string (e.g. an
@@ -348,10 +332,9 @@ export type ReclassProp<T, TContext = any> = LooseClasses<T, TContext> &
 export type PartValue<V, TContext = any> = V extends (
   ...args: infer A
 ) => infer R
-  ?
-      | OpenObject<R>
-      | ((...args: A) => OpenObject<R>)
-      | ((...args: [...A, TContext]) => OpenObject<R>)
+  ? | OpenObject<R>
+    | ((...args: A) => OpenObject<R>)
+    | ((...args: [...A, TContext]) => OpenObject<R>)
   : OpenObject<V> | ((context$: TContext) => OpenObject<V>)
 
 /**

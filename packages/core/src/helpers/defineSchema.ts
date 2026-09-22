@@ -33,8 +33,8 @@ export function attachValidationSchema(
  * through `toRaw` since schemas passed as props arrive as reactive proxies
  * while the WeakMap is keyed by the original object.
  *
- * @param schema The schema object or ref to look up.
  * @private
+ * @param schema The schema object or ref to look up.
  */
 export function getAttachedValidationSchema(
   schema: unknown

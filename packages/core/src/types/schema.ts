@@ -218,9 +218,11 @@ type ListRowEntry<S> = { type: 'group'; nested: true; schema: S }
  */
 type ToObjectSchema<T> = [T] extends [ArraySchemaType]
   ? {
-      readonly [El in T[number] as El extends { name: infer K extends string }
-        ? K
-        : never]: El extends {
+      readonly [
+        El in T[number] as El extends { name: infer K extends string }
+          ? K
+          : never
+      ]: El extends {
         type: GroupTypes
         schema: infer S
       }
@@ -252,11 +254,13 @@ type ModelOfElement<
  */
 type ObjectSchemaToModel<T> = Prettify<
   {
-    [K in keyof T & string as T[K] extends { type: GroupTypes | GridTypes }
-      ? T[K] extends { nested: true }
-        ? K
-        : never
-      : K]: ElementToModel<T[K]>
+    [
+      K in keyof T & string as T[K] extends { type: GroupTypes | GridTypes }
+        ? T[K] extends { nested: true }
+          ? K
+          : never
+        : K
+    ]: ElementToModel<T[K]>
   } & UnionToIntersection<
     | {
         [K in keyof T & string]: T[K] extends {
@@ -544,18 +548,18 @@ export type Paths<T> = [FormSchema] extends [T]
                     schema: infer S
                   }
                 ? // List indices use a literal `'0'` (not `${bigint}`) so
-                    // suggestions can actually display a concrete path —
-                    // template-literal types never appear in IDE completions.
-                    // Other indices (`list.3.…`) are still accepted and fully
-                    // narrowed: `find` also takes `string & {}` and path
-                    // resolution matches any numeric segment.
-                    | K
-                    | Join<
-                        K,
-                        Paths<{
-                          [I in '0']: SingleSchemaElement<ToObjectSchema<S>>
-                        }>
-                      >
+                  // suggestions can actually display a concrete path —
+                  // template-literal types never appear in IDE completions.
+                  // Other indices (`list.3.…`) are still accepted and fully
+                  // narrowed: `find` also takes `string & {}` and path
+                  // resolution matches any numeric segment.
+                  | K
+                  | Join<
+                      K,
+                      Paths<{
+                        [I in '0']: SingleSchemaElement<ToObjectSchema<S>>
+                      }>
+                    >
                 : El extends { type: ListTypes; schema: infer S }
                   ? K | Join<K, '0'> | Join<Join<K, '0'>, Paths<S>>
                   : El extends {

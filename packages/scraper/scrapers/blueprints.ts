@@ -187,8 +187,7 @@ function getPropertyTypeInfo(
     if (ts.isTypeReferenceNode(decl.type) && !decl.type.typeArguments) {
       const sym = checker.getSymbolAtLocation(decl.type.typeName)
       const tpDecl = sym?.declarations?.find(ts.isTypeParameterDeclaration) as
-        | ts.TypeParameterDeclaration
-        | undefined
+        ts.TypeParameterDeclaration | undefined
 
       if (tpDecl?.constraint) {
         text = tpDecl.constraint

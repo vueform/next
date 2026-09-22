@@ -22,10 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "select",
-    "input"
-  ],
+  "styles": ["select", "input"],
   "element": true,
   "clone": {
     "path": "VfSelect.vue",

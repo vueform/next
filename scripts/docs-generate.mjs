@@ -2,13 +2,12 @@
 /**
  * Orchestrates docs generators with dependency ordering.
  *
- * Usage:
- *   pnpm docs:generate                    # run all
- *   pnpm docs:generate -- contexts,ui     # only these (+ their deps)
- *   pnpm docs:generate -- contexts ui     # same, space-separated
+ * Usage: pnpm docs:generate # run all pnpm docs:generate -- contexts,ui # only
+ * these (+ their deps) pnpm docs:generate -- contexts ui # same,
+ * space-separated
  *
- * Generators: blueprints, composables, factories, contexts, types, runtime, components,
- *   adapter-components, adapter-factories, ui, primevue
+ * Generators: blueprints, composables, factories, contexts, types, runtime,
+ * components, adapter-components, adapter-factories, ui, primevue
  */
 
 import { spawnSync } from 'node:child_process'
@@ -74,7 +73,9 @@ const ADAPTER_ARGS = {
 function runGenerator(name) {
   const script = `generate:${name}`
   const extraArgs = ADAPTER_ARGS[name] ?? []
-  console.log(`\n▶ docs ${script}${extraArgs.length ? ` ${extraArgs.join(' ')}` : ''}\n`)
+  console.log(
+    `\n▶ docs ${script}${extraArgs.length ? ` ${extraArgs.join(' ')}` : ''}\n`
+  )
   const r = spawnSync(
     'pnpm',
     ['--filter', 'docs', 'run', script, ...extraArgs],

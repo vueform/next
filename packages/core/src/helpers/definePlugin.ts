@@ -20,11 +20,7 @@ import type { App, ComponentPropsOptions } from 'vue'
  * wildcards, and pattern matchers.
  */
 type PluginApplyName =
-  | ComponentNames
-  | '*element'
-  | '*'
-  | RegExp
-  | (string & {})
+  ComponentNames | '*element' | '*' | RegExp | (string & {})
 
 /**
  * The context passed to a plugin's `install` hook when Vueform is installed

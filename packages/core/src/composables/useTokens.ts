@@ -12,10 +12,10 @@ import { useConfig } from './useConfig'
  * (`false`) mode for this component's `tokens.dark` inline overrides. Omit to
  * follow the global dark-mode detection.
  *
+ * @private
  * @param tokens Token overrides — typically `toRef(props, 'tokens')`.
  * @param dark Force dark (`true`) or light (`false`) for `tokens.dark`
  *   overrides. Omit to inherit from the global config.
- * @private
  */
 export function useTokens(
   source: MaybeRefOrGetter<Record<string, any>>,

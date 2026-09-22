@@ -429,8 +429,8 @@ export type Pager = {
  * Manages multi-page form navigation with sequential/free-form modes,
  * validation, history, and keyboard support.
  *
- * @param options Pager configuration object.
  * @private
+ * @param options Pager configuration object.
  */
 export function usePager(options: UsePagesOptions): Pager {
   const {

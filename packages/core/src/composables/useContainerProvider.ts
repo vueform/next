@@ -114,8 +114,8 @@ type UseContainerProviderOptions = {
  * to the parent container or creates a specialized container with custom model,
  * registration, and update logic.
  *
- * @param options The container provider configuration.
  * @private
+ * @param options The container provider configuration.
  */
 export function useContainerProvider(options: UseContainerProviderOptions) {
   const {

@@ -143,10 +143,10 @@ export type VueformChildren = {
  * providing reactive lists and event hooks. Derived child lists are lazy
  * computeds — they are not allocated until first read.
  *
+ * @private
  * @param namespace Optional base path used to compute relative child paths.
  * @param options Optional registry flags.
  * @related useContainer
- * @private
  */
 export function useChildren(
   namespace?: MaybeRef<string>,

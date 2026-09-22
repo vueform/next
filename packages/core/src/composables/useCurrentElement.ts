@@ -6,6 +6,7 @@ import { getGenericInstance, getInstanceRootNode } from '~/utils'
  * mount and after updates. Vapor-generic replacement for vueuse's
  * `useCurrentElement`, which reads `instance.proxy.$el` and throws inside Vapor
  * components.
+ *
  * @private
  */
 export function useCurrentElement<T extends Node = HTMLElement>() {

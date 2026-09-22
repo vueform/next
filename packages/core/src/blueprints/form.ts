@@ -816,13 +816,7 @@ export interface SubmitFail {
    * blocked by `$security.allowOrigins`, or an SSR-time request).
    */
   reason:
-    | 'network'
-    | 'timeout'
-    | 'http'
-    | 'abort'
-    | 'blocked'
-    | 'ssr'
-    | 'unknown'
+    'network' | 'timeout' | 'http' | 'abort' | 'blocked' | 'ssr' | 'unknown'
 
   /**
    * The HTTP status code, or null if no response was received.
@@ -875,10 +869,7 @@ export interface SubmitCancelled {
  * Discriminated union of all possible form submission outcomes.
  */
 export type SubmitResult =
-  | SubmitSuccess
-  | SubmitInvalid
-  | SubmitFail
-  | SubmitCancelled
+  SubmitSuccess | SubmitInvalid | SubmitFail | SubmitCancelled
 
 /**
  * Factory API produced by the form blueprint's `blueprint` function, optionally

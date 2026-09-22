@@ -21,9 +21,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "list"
-  ],
+  "styles": ["list"],
   "element": true,
   "clone": {
     "path": "VfList.vue",

@@ -86,6 +86,7 @@ type FeatureBuilder<
  * props/deps/events requirements and prop-dependent returns (e.g.
  * `MakeItemsReturn<P>`) stay intact.
  *
+ * @private
  * @example
  *   ;```ts
  *   return useFeatures(props, events)
@@ -97,7 +98,6 @@ type FeatureBuilder<
  *
  * @param props The component's props to pass to each composable.
  * @param events The component's events to pass to each composable.
- * @private
  */
 export function useFeatures<P, E>(props: P, events: E): FeatureBuilder<P, E>
 
@@ -106,6 +106,7 @@ export function useFeatures<P, E>(props: P, events: E): FeatureBuilder<P, E>
  * the first `.use()` as `deps` and are included in `.build()`'s return type at
  * the top level (not through `type`-narrowing).
  *
+ * @private
  * @example
  *   ;```ts
  *   return useFeatures(props, events, { nullValue, multiple: true })
@@ -118,7 +119,6 @@ export function useFeatures<P, E>(props: P, events: E): FeatureBuilder<P, E>
  * @param props The component's props to pass to each composable.
  * @param events The component's events to pass to each composable.
  * @param initial Dependencies used as the starting accumulator value.
- * @private
  */
 export function useFeatures<P, E, I extends Record<string, any>>(
   props: P,

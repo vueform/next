@@ -22,9 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "color-picker"
-  ],
+  "styles": ["color-picker"],
   "element": true,
   "clone": {
     "path": "VfColorPicker.vue",

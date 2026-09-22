@@ -10,8 +10,8 @@ import type { VueformInstance } from '~/createVueform'
  * their `createVueform()` instance and use it directly. Throws
  * `NotInstalledError` when neither is available.
  *
- * @param vueform Explicit instance, when the caller passed one.
  * @private
+ * @param vueform Explicit instance, when the caller passed one.
  */
 export function resolveVueform(vueform?: VueformInstance): VueformInstance {
   return vueform ?? useVueformContext()

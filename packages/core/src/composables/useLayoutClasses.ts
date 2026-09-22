@@ -42,8 +42,8 @@ const normalizeLayoutClasses = (
  * default. Static values for keys the layout's map defines as functions (e.g.
  * `root`) are wrapped back into functions.
  *
- * @param defs The layout's shared class map.
  * @private
+ * @param defs The layout's shared class map.
  */
 export function useLayoutClasses(defs: Record<string, any>) {
   const el$ = useElementContext()

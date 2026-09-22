@@ -7,8 +7,8 @@ import { typedEntries, warn, isDev } from '~/utils'
  * Resolves a form schema definition into a normalized array of named element
  * schemas with their component names.
  *
- * @param schema The form schema to resolve, either as an array or keyed object.
  * @private
+ * @param schema The form schema to resolve, either as an array or keyed object.
  */
 export function useSchema(schema: Ref<FormSchema | undefined>) {
   const { sanitizeProps } = useSecurity()

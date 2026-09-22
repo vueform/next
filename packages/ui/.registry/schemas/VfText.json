@@ -22,10 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "input",
-    "text"
-  ],
+  "styles": ["input", "text"],
   "element": true,
   "clone": {
     "path": "VfText.vue",

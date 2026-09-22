@@ -24,10 +24,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "editor",
-    "utils"
-  ],
+  "styles": ["editor", "utils"],
   "element": true,
   "clone": {
     "path": "VfEditor.vue",

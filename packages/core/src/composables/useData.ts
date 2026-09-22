@@ -273,8 +273,8 @@ function nextListItemId() {
  * - `translatable` enables per-language validation
  * - `root` designates the form root
  *
- * @param options Element data configuration object.
  * @private
+ * @param options Element data configuration object.
  */
 export function useData(options: UseDataOptions) {
   const { children, fire } = options
@@ -573,8 +573,7 @@ export function useData(options: UseDataOptions) {
     for (const lang of Object.keys(languages.value)) {
       const value =
         ((isPlainObject(rawDefault) ? rawDefault[lang] : rawDefault) as
-          | string
-          | undefined) ?? nullValue.value[lang]
+          string | undefined) ?? nullValue.value[lang]
       defaults[lang] = expression.resolveIfAllowed('default', value)
     }
     return defaults

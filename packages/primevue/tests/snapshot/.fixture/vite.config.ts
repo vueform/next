@@ -24,7 +24,10 @@ export default defineConfig({
   resolve: {
     alias: [
       { find: 'vue', replacement: 'vue/dist/vue.esm-bundler.js' },
-      { find: '#shorthands', replacement: `${primevueSrc}/types/shorthands.ts` },
+      {
+        find: '#shorthands',
+        replacement: `${primevueSrc}/types/shorthands.ts`,
+      },
       { find: '@', replacement: primevueSrc },
       { find: '~', replacement: coreSrc },
       {

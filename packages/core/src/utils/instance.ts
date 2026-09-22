@@ -14,8 +14,7 @@ import { camelToKebab } from './string'
  * or a plain props object.
  */
 type DynamicPropsSource =
-  | (() => Record<string, unknown>)
-  | Record<string, unknown>
+  (() => Record<string, unknown>) | Record<string, unknown>
 
 /**
  * Structural type for Vue 3.6+ Vapor component instances. Vue does not publicly
@@ -250,8 +249,7 @@ export function getInstanceRawPropKeys(vm: GenericInstance): string[] {
   if (raw.$) {
     for (const source of raw.$) {
       const resolved = resolveSource(source) as
-        | Record<string, unknown>
-        | undefined
+        Record<string, unknown> | undefined
       if (!resolved) continue
       for (const key in resolved) {
         if (!keys.includes(key)) keys.push(key)
@@ -285,8 +283,7 @@ export function hasInstanceRawProp(vm: GenericInstance, key: string): boolean {
     let i = dynamicSources.length
     while (i--) {
       const source = resolveSource(dynamicSources[i]) as
-        | Record<string, unknown>
-        | undefined
+        Record<string, unknown> | undefined
       if (source && Object.prototype.hasOwnProperty.call(source, key)) {
         return true
       }
@@ -342,8 +339,7 @@ export function getInstanceRawProp(vm: GenericInstance, key: string): unknown {
       const source = dynamicSources[i]
       const isDynamic = typeof source === 'function'
       const resolved = (isDynamic ? resolveSource(source) : source) as
-        | Record<string, unknown>
-        | undefined
+        Record<string, unknown> | undefined
       if (resolved && Object.prototype.hasOwnProperty.call(resolved, key)) {
         return isDynamic ? resolved[key] : resolveSource(resolved[key])
       }

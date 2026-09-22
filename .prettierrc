@@ -11,12 +11,6 @@
   "jsdocCommentLineStrategy": "multiline",
   "overrides": [
     {
-      "files": "docs/**/*.md",
-      "options": {
-        "embeddedLanguageFormatting": "off"
-      }
-    },
-    {
       "files": [
         "docs/.vitepress/config.mts",
         "docs/.vitepress/adapters/ui/config.ts",

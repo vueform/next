@@ -8,15 +8,27 @@
     "skipLibCheck": true,
     "baseUrl": ".",
     "paths": {
-      "@vueform/core/blueprints/*": ["node_modules/@vueform/core/src/blueprints/*"],
-      "@vueform/core/components": ["node_modules/@vueform/core/src/components/index.ts"],
-      "@vueform/core/components/*/raw": ["node_modules/@vueform/core/src/components/*/index.ts"],
-      "@vueform/core/components/*": ["node_modules/@vueform/core/src/components/*/unstyled.ts"],
+      "@vueform/core/blueprints/*": [
+        "node_modules/@vueform/core/src/blueprints/*"
+      ],
+      "@vueform/core/components": [
+        "node_modules/@vueform/core/src/components/index.ts"
+      ],
+      "@vueform/core/components/*/raw": [
+        "node_modules/@vueform/core/src/components/*/index.ts"
+      ],
+      "@vueform/core/components/*": [
+        "node_modules/@vueform/core/src/components/*/unstyled.ts"
+      ],
       "@vueform/core": ["node_modules/@vueform/core/src/index.ts"],
       "@vueform/ui/origin": ["node_modules/@vueform/ui/src/origin.ts"],
       "@vueform/ui/blueprints/*": ["node_modules/@vueform/ui/src/blueprints/*"],
-      "@vueform/ui/components": ["node_modules/@vueform/ui/src/components/index.ts"],
-      "@vueform/ui/components/*": ["node_modules/@vueform/ui/src/components/*/styled.ts"],
+      "@vueform/ui/components": [
+        "node_modules/@vueform/ui/src/components/index.ts"
+      ],
+      "@vueform/ui/components/*": [
+        "node_modules/@vueform/ui/src/components/*/styled.ts"
+      ],
       "@vueform/ui": ["node_modules/@vueform/ui/src/index.ts"],
       "~/*": ["node_modules/@vueform/core/src/*"],
       "@/*": ["node_modules/@vueform/ui/src/*"]

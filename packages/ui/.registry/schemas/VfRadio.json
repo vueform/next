@@ -22,9 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "choice"
-  ],
+  "styles": ["choice"],
   "element": true,
   "clone": {
     "path": "VfRadio.vue",

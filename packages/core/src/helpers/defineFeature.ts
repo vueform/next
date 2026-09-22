@@ -16,6 +16,7 @@ export type FeatureContext<
 /**
  * Defines a feature factory (make*) with automatic type inference and optional
  * config.
+ *
  * @private
  */
 export function defineFeature<
@@ -27,6 +28,7 @@ export function defineFeature<
 /**
  * Defines a feature factory (make*) with automatic type inference and required
  * config.
+ *
  * @private
  */
 export function defineFeature<
@@ -39,6 +41,7 @@ export function defineFeature<
  * Defines a feature factory (make*) with an explicit output type. Use when the
  * feature needs a generic or overloaded call signature that can't be inferred
  * automatically.
+ *
  * @private
  */
 export function defineFeature<F extends (...args: any[]) => any>(

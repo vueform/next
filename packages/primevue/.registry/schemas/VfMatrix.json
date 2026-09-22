@@ -21,9 +21,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "matrix"
-  ],
+  "styles": ["matrix"],
   "element": true,
   "clone": {
     "path": "VfMatrix.vue",

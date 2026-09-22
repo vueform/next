@@ -21,9 +21,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "tabs"
-  ],
+  "styles": ["tabs"],
   "register": {
     "component": "VfTabs",
     "import": "{componentsDir}/VfTabs.vue"

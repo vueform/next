@@ -56,9 +56,8 @@ type FieldTranslateModel<
   TLanguages extends LanguagesProp = LanguagesProp,
   TNullValue = any,
 > = [boolean] extends [TTranslate]
-  ?
-      | FieldNullValue<TNullValue>
-      | TranslateModel<boolean, TLanguages, FieldNullValue<TNullValue>>
+  ? | FieldNullValue<TNullValue>
+    | TranslateModel<boolean, TLanguages, FieldNullValue<TNullValue>>
   : [TTranslate] extends [true]
     ? TranslateModel<true, TLanguages, FieldNullValue<TNullValue>>
     : FieldNullValue<TNullValue>

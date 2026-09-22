@@ -25,21 +25,14 @@ import type { Ref, WritableComputedRef } from 'vue'
  * `rows` option).
  */
 type UseDataRepeatableKeys =
-  | 'items'
-  | 'dragIndex'
-  | 'dropIndex'
-  | 'add'
-  | 'remove'
-  | 'sort'
+  'items' | 'dragIndex' | 'dropIndex' | 'add' | 'remove' | 'sort'
 
 /**
  * Keys returned by useData only when the element supports translation (has the
  * `translate` option).
  */
 type UseDataTranslatableKeys =
-  | 'currentValidation'
-  | 'invalidLanguages'
-  | 'validateCurrent'
+  'currentValidation' | 'invalidLanguages' | 'validateCurrent'
 
 /**
  * The full return type of useData, including all conditional groups.

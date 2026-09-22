@@ -10,11 +10,11 @@ import type { UseConditionsOptions } from './useConditions'
  * outside a component setup context. When the `conditions` module is not
  * registered, returns an empty list.
  *
+ * @private
  * @param source A ref or getter returning the list of items.
  * @param getConditions Extracts the conditions prop from each item.
  * @param options Path, debounce, trigger, date format, model, and context
  *   overrides.
- * @private
  */
 export function useConditionalList<T>(
   source: Ref<T[]>,

@@ -34,6 +34,7 @@ import type { Ref } from 'vue'
  * model$.dirty // true
  * ```
  *
+ * @private
  * @param schema The form schema describing the model's shape. When a
  *   ref/computed is passed (e.g. from `defineComputedSchema`), the instance
  *   follows schema changes: added elements seed their defaults, removed
@@ -46,7 +47,6 @@ import type { Ref } from 'vue'
  *   `validate()` against the whole model for form-level (cross-field)
  *   validation. Overrides a Standard Schema attached via `defineSchema`'s
  *   second argument.
- * @private
  */
 export function useModel<
   const S extends (ObjectSchema | ArraySchema) & ExactValidatedSchema<S>,

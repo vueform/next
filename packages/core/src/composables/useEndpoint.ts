@@ -5,9 +5,7 @@ import { useHttp } from './useHttp'
  * A string URL, request config, or function that `useEndpoint` can resolve.
  */
 type EndpointDefinition =
-  | string
-  | HttpRequestConfig
-  | ((http: HttpInstance, ...args: any[]) => any)
+  string | HttpRequestConfig | ((http: HttpInstance, ...args: any[]) => any)
 
 /**
  * Resolves an endpoint definition into an HTTP response, handling string URLs,
@@ -16,9 +14,9 @@ type EndpointDefinition =
  * Setup-only (resolves the calling component's instance). Throws when the
  * `http` module is not registered.
  *
+ * @private
  * @param endpoint The endpoint definition to resolve.
  * @param data Optional data payload to send with the request.
- * @private
  */
 export async function useEndpoint<T = any>(
   endpoint: EndpointDefinition | undefined,

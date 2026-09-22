@@ -146,8 +146,8 @@ const COMPONENT_NAME_RE =
  * directly to post-process the result (e.g. the layout blueprint resolving the
  * element's `layout` prop into `template`).
  *
- * @param options Outlet resolution options.
  * @private
+ * @param options Outlet resolution options.
  */
 export function useOutlets(options: UseOutletsOptions): UseOutletsReturn {
   const $security = useSecurity()
@@ -197,13 +197,11 @@ export function useOutlets(options: UseOutletsOptions): UseOutletsReturn {
         // resolve; plain text always renders, and HTML rendering is
         // the string-content component's decision (`$security.allowHtml`, with
         // sanitization applied at the sink).
-        if (
-          !(
-            COMPONENT_NAME_RE.test(slot) &&
-            isRegisteredComponent(slot) &&
-            allowsComponent(slot)
-          )
-        ) {
+        if (!(
+          COMPONENT_NAME_RE.test(slot) &&
+          isRegisteredComponent(slot) &&
+          allowsComponent(slot)
+        )) {
           slot = makeFromString(slot, {
             htmlArea: 'slots',
             exprKey: 'slots',

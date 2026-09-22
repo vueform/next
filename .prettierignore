@@ -5,4 +5,13 @@ pnpm-lock.yaml
 package-lock.json
 yarn.lock
 *.min.*
-docs/src/components/
+
+# Markdown is not prettier-formatted: prettier unconditionally normalizes GFM
+# tables to padded style (no option exists to tune it), which fights the
+# generators' compact tables and restyles docs on prettier upgrades.
+*.md
+
+# Generated outputs own their formatting entirely.
+packages/metrics/results/
+packages/core/tests/perf/runtime/.results/
+packages/core/tests/perf/types/.results/

@@ -63,13 +63,7 @@ export type RequestType = 'json' | 'form' | 'multipart' | 'text' | 'urlencoded'
  * The reason category for an HTTP error.
  */
 export type HttpErrorReason =
-  | 'timeout'
-  | 'network'
-  | 'abort'
-  | 'http'
-  | 'blocked'
-  | 'ssr'
-  | 'unknown'
+  'timeout' | 'network' | 'abort' | 'http' | 'blocked' | 'ssr' | 'unknown'
 
 /**
  * Global configuration options for the http module (`config.$http`).

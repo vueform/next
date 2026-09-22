@@ -136,6 +136,7 @@ export type MessageBagSnapshot = {
  * messages.
  *
  * Callable anywhere; it has no configuration and no app dependency.
+ *
  * @private
  */
 export function useMessageBag(): MessageBagInstance {

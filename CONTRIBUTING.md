@@ -24,18 +24,18 @@ which throw because `_zod` is non-configurable.
 
 ### Types
 
-| Type       | Use for                                                            |
-| ---------- | ------------------------------------------------------------------ |
-| `feat`     | new user-facing capability                                         |
-| `fix`      | bug fix                                                            |
-| `refactor` | code change that is neither a feature nor fix                      |
-| `perf`     | performance improvement                                            |
-| `test`     | adding or fixing tests                                             |
-| `docs`     | documentation only                                                 |
-| `build`    | build system, bundling, dependencies (`build(deps)` for bumps)     |
-| `ci`       | pipeline config: workflows, CI jobs/scripts, release automation    |
-| `chore`    | maintenance fitting nothing above: repo housekeeping, local dev    |
-|            | tooling (husky hooks, commitlint, editor config)                   |
+| Type       | Use for                                                         |
+| ---------- | --------------------------------------------------------------- |
+| `feat`     | new user-facing capability                                      |
+| `fix`      | bug fix                                                         |
+| `refactor` | code change that is neither a feature nor fix                   |
+| `perf`     | performance improvement                                         |
+| `test`     | adding or fixing tests                                          |
+| `docs`     | documentation only                                              |
+| `build`    | build system, bundling, dependencies (`build(deps)` for bumps)  |
+| `ci`       | pipeline config: workflows, CI jobs/scripts, release automation |
+| `chore`    | maintenance fitting nothing above: repo housekeeping, local dev |
+|            | tooling (husky hooks, commitlint, editor config)                |
 
 `ci` vs `chore`: `ci` = runs in the pipeline; `chore` = runs nowhere or only on dev machines. When a more specific type fits, `chore` is wrong.
 

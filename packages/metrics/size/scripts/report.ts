@@ -466,10 +466,9 @@ export function writeReport(
 }
 
 /**
- * The markdown report of each suite. The `core` suite has no report of its
- * own — its building blocks (per-module / per-rule / per-locale costs) are
- * embedded into the UI and PrimeVue reports. The plugins report does not
- * embed them.
+ * The markdown report of each suite. The `core` suite has no report of its own
+ * — its building blocks (per-module / per-rule / per-locale costs) are embedded
+ * into the UI and PrimeVue reports. The plugins report does not embed them.
  */
 const MD_FILES: Record<string, string> = {
   ui: 'UI.md',
@@ -488,8 +487,8 @@ export function readResults(adapter: string): Results | undefined {
 }
 
 /**
- * Regenerates every size md report that has results. Always all of them:
- * the core building blocks are embedded into multiple reports, so partial
+ * Regenerates every size md report that has results. Always all of them: the
+ * core building blocks are embedded into multiple reports, so partial
  * regeneration would let them drift apart.
  */
 export function writeAllReports(): string[] {

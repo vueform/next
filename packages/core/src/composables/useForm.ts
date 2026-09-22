@@ -160,12 +160,12 @@ function syncReactive(target: Record<string, any>, data: Record<string, any>) {
  * pass your instance, or use its bound method, which does the same:
  * `vueform.useForm({ schema }, model)`.
  *
+ * @private
  * @param formProps Props forwarded to VfForm (e.g. `schema`).
  * @param model The form data: `useModel` instance, ref, reactive, or plain
  *   object.
  * @param vueform The Vueform instance to build from. Required outside a
  *   component context.
- * @private
  */
 export function useForm<
   const S extends (ObjectSchema | ArraySchema) & ExactValidatedSchema<S>,

@@ -29,8 +29,7 @@ import {
 const save = process.argv.includes('--save')
 const reportOnly =
   process.argv.includes('--report') || process.argv[2] === 'report'
-const rebase =
-  process.argv.includes('--rebase') || process.argv[2] === 'rebase'
+const rebase = process.argv.includes('--rebase') || process.argv[2] === 'rebase'
 
 const here = dirname(fileURLToPath(import.meta.url))
 const coreDir = resolve(here, '../../..')

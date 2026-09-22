@@ -21,9 +21,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "input"
-  ],
+  "styles": ["input"],
   "element": true,
   "clone": {
     "path": "VfField.vue",

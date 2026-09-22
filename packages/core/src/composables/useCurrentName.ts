@@ -4,6 +4,7 @@ import { getComponentDef, getGenericInstance } from '~/utils'
 /**
  * Returns the registered component name of the current component instance (VDOM
  * or Vapor).
+ *
  * @private
  */
 export function useCurrentName() {

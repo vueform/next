@@ -90,8 +90,8 @@ type UseItemsSourceOptions = {
  * (async) functions are invoked with the component context. Re-resolution can
  * be driven by an optional trigger source with debouncing.
  *
- * @param options Items source configuration object.
  * @private
+ * @param options Items source configuration object.
  */
 export function useItemsSource(options: UseItemsSourceOptions) {
   const { props, key = 'items', immediate = true } = options

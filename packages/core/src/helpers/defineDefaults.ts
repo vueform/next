@@ -3,21 +3,14 @@
  * factory wrapper.
  */
 type NativeType =
-  | null
-  | undefined
-  | number
-  | string
-  | boolean
-  | symbol
-  | Function
+  null | undefined | number | string | boolean | symbol | Function
 
 /**
  * Either a factory that receives props and returns the default, or a literal
  * value when it is a native type.
  */
 type InferDefault<P, T> =
-  | ((props: P) => T & {})
-  | (T extends NativeType ? T : never)
+  ((props: P) => T & {}) | (T extends NativeType ? T : never)
 
 /**
  * Maps each prop to an optional default expressed as a factory or a matching
@@ -36,6 +29,7 @@ export type InferDefaults<T> = {
  * object (and its precise `const` shape) is inferred in a second. A single
  * `defineDefaults<TProps>(…)` call would widen the return to
  * `InferDefaults<TProps>`, which breaks Vue `withDefaults` on generic SFCs.
+ *
  * @private
  */
 export function defineDefaults<TProps>() {
@@ -53,6 +47,7 @@ export function defineDefaults<TProps>() {
  * `withDefaults` — its `type` prop expects the component's own literal, at both
  * type level and runtime. The generic parameter keeps the literal inferred, so
  * no `as const` is needed at the call site.
+ *
  * @private
  */
 export function withType<TDefaults extends { type: string }, T extends string>(

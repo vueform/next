@@ -93,10 +93,7 @@ export type TreeKeysModelProp<
  * stay assignable to the component's canonical (defaulted) context.
  */
 export type TreeSelectionModeProp =
-  | 'single'
-  | 'multiple'
-  | 'checkbox'
-  | undefined
+  'single' | 'multiple' | 'checkbox' | undefined
 
 /**
  * Resolved model value for a tree-select given `options` + `selectionMode`.

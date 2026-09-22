@@ -1,14 +1,13 @@
 /**
  * Generates the types-perf fixtures:
  *
- * - `tests/perf/types/define-schema-500.ts` — 500 leaf elements across
- *   2 nesting levels of `group` containers.
- * - `tests/perf/types/define-schema-validation-500.ts` — the same schema with
- *   a Standard Schema second argument, forcing `MatchesSchemaModel` across all
+ * - `tests/perf/types/define-schema-500.ts` — 500 leaf elements across 2 nesting
+ *   levels of `group` containers.
+ * - `tests/perf/types/define-schema-validation-500.ts` — the same schema with a
+ *   Standard Schema second argument, forcing `MatchesSchemaModel` across all
  *   500 (flattened) leaves.
  *
- * Usage:
- *   pnpm --dir packages/core gen:schema-perf
+ * Usage: pnpm --dir packages/core gen:schema-perf
  */
 import { mkdirSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'

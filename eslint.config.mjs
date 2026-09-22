@@ -3,7 +3,6 @@ import tsParser from '@typescript-eslint/parser'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import pluginImport from 'eslint-plugin-import'
 import perfectionist from 'eslint-plugin-perfectionist'
-import prettier from 'eslint-plugin-prettier'
 import unusedImports from 'eslint-plugin-unused-imports'
 import vue from 'eslint-plugin-vue'
 import vueParser from 'vue-eslint-parser'
@@ -98,7 +97,6 @@ export default [
     plugins: {
       '@typescript-eslint': tseslint,
       'unused-imports': unusedImports,
-      prettier,
       import: pluginImport,
     },
     rules: {
@@ -155,8 +153,6 @@ export default [
           ],
         },
       ],
-
-      'prettier/prettier': 'error',
     },
   },
 
@@ -202,7 +198,6 @@ export default [
     plugins: {
       '@typescript-eslint': tseslint,
       'unused-imports': unusedImports,
-      prettier,
       import: pluginImport,
     },
     rules: {
@@ -212,8 +207,6 @@ export default [
           patterns: [noParentRelativeImports],
         },
       ],
-
-      'prettier/prettier': 'error',
     },
   },
 

@@ -54,8 +54,7 @@ export type ItemDisabled = string | ((item: any) => ConditionalProp | undefined)
  * evaluation. Items whose conditions are not met are omitted from the list.
  */
 export type ItemConditions =
-  | string
-  | ((item: any) => ConditionalProp | undefined)
+  string | ((item: any) => ConditionalProp | undefined)
 
 /**
  * Determines whether a group is available. A string key for direct property
@@ -63,8 +62,7 @@ export type ItemConditions =
  * are not met are omitted entirely.
  */
 export type GroupConditions =
-  | string
-  | ((group: any) => ConditionalProp | undefined)
+  string | ((group: any) => ConditionalProp | undefined)
 
 /**
  * Resolves the label for a group. A string key or a mapping function.
@@ -76,9 +74,7 @@ export type GroupLabel = string | ((group: any) => string)
  * returning children in any ItemsProp format.
  */
 export type GroupChildren =
-  | string[]
-  | string
-  | ((group: any) => any[] | Record<string, any>)
+  string[] | string | ((group: any) => any[] | Record<string, any>)
 
 /**
  * A normalized item with resolved value, label, and disabled state. Items

@@ -89,7 +89,7 @@ const AREAS = [
     title: 'Child registry',
     blurb: [
       'How expensive it is to track child element instances (`useChildren`) and',
-      'the form’s full-path descendant index (`elements$`).'
+      'the form’s full-path descendant index (`elements$`).',
     ].join(' '),
     summary: [
       {
@@ -334,9 +334,9 @@ function fmtPct(latest, base) {
  * The relative floor is noise-aware: each vitest bench records an `rme`
  * (relative margin of error, %), and the two compared runs' rme values are
  * summed into the threshold. Time benches also get a 10% base floor because
- * run-to-run variance (JIT/GC/machine state) routinely exceeds the
- * within-run rme on mount-style benches. Memory means have no rme and are
- * stable across runs, so they keep a plain 5% floor.
+ * run-to-run variance (JIT/GC/machine state) routinely exceeds the within-run
+ * rme on mount-style benches. Memory means have no rme and are stable across
+ * runs, so they keep a plain 5% floor.
  */
 const TIME_REL_PCT = 10
 const MEM_REL_PCT = 5
@@ -422,10 +422,10 @@ function table(headers, rows) {
 }
 
 /**
- * Rows newest-first, each resolved to the entry it is graded against:
- * rows newer than the base compare to the base, the base row itself is a
- * plain reference (no comparison), and older rows keep comparing to their
- * own previous row so gradings recorded before a rebase stay meaningful.
+ * Rows newest-first, each resolved to the entry it is graded against: rows
+ * newer than the base compare to the base, the base row itself is a plain
+ * reference (no comparison), and older rows keep comparing to their own
+ * previous row so gradings recorded before a rebase stay meaningful.
  */
 function commitRows(history) {
   const rows = [...Object.entries(history)].reverse()

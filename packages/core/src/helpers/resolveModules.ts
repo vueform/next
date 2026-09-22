@@ -10,8 +10,8 @@ import type { VueformInstanceModules } from './defineConfig'
  * `resolveModules(vueform).x ?? noopX`). See `resolveVueform` for the
  * resolution order and failure mode.
  *
- * @param vueform Explicit instance, when the caller passed one.
  * @private
+ * @param vueform Explicit instance, when the caller passed one.
  */
 export function resolveModules(
   vueform?: VueformInstance

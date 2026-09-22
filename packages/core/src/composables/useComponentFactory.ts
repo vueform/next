@@ -45,6 +45,7 @@ function countTopLevelNodes(html: string): number {
  * A factory for components built from schema data. Resolves its modules once at
  * the setup boundary; the returned makers are plain closures, callable later
  * (inside computeds, render paths).
+ *
  * @private
  */
 export function useComponentFactory() {

@@ -21,9 +21,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "nav"
-  ],
+  "styles": ["nav"],
   "register": {
     "component": "VfNav",
     "import": "{componentsDir}/VfNav.vue"

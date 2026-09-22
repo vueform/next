@@ -23,9 +23,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "knob"
-  ],
+  "styles": ["knob"],
   "element": true,
   "clone": {
     "path": "VfKnob.vue",

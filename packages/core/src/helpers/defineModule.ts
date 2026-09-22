@@ -84,8 +84,8 @@ export type VueformModule<T = unknown> = {
  * Defines a Vueform module. A typed identity helper — it does not transform the
  * definition at runtime.
  *
- * @param module The module definition.
  * @private
+ * @param module The module definition.
  */
 export function defineModule<T>(module: VueformModule<T>): VueformModule<T> {
   return module

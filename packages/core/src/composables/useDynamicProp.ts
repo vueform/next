@@ -308,10 +308,10 @@ function resolveDynamicPropHelpers(
 /**
  * Resolves a raw ref value into an expression-aware computed.
  *
+ * @private
  * @param key The expression allow-list key.
  * @param prop The dynamic prop value ref to resolve.
  * @param options Resolution options.
- * @private
  */
 export function useDynamicProp(
   key: string,
@@ -348,10 +348,10 @@ export function useDynamicProp<V = void, T = any>(
  * computed's value type is inferred from the prop's declared type, or the
  * `transform` option's return type when provided.
  *
+ * @private
  * @param name The prop name (key in the props object).
  * @param props The component props object.
  * @param options Resolution options.
- * @private
  */
 export function useDynamicProp<
   P extends Record<string, any>,
@@ -438,6 +438,7 @@ export function useDynamicProp(
  * Creates a factory function for resolving raw dynamic prop values into
  * expression-aware computeds. Helpers are bound once so the returned maker can
  * be invoked outside of setup (e.g. inside `reactiveComputed`).
+ *
  * @private
  */
 export function useDynamicPropFactory(): MakeDynamicPropFn {

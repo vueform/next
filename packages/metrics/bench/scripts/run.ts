@@ -2,15 +2,15 @@
  * Runs the benchmark suite and regenerates the charts and BENCHMARKS.md.
  *
  * Flags:
- * - `--vapor` / `--vdom`  run only that rendering mode (default: both)
- * - `--case=a,b`          run only the listed cases
- * - `--n=100,500`         override the sweep values
- * - `--runs=10`           run each measurement this many times
- * - `--dry`               print results to the terminal only — nothing is
- *                         written (no json, charts or md)
- * - `--no-isolate`        run a whole mode in one browser page (faster to
- *                         start, but memory retained across sweep points adds
- *                         up — see README)
+ *
+ * - `--vapor` / `--vdom` run only that rendering mode (default: both)
+ * - `--case=a,b` run only the listed cases
+ * - `--n=100,500` override the sweep values
+ * - `--runs=10` run each measurement this many times
+ * - `--dry` print results to the terminal only — nothing is written (no json,
+ *   charts or md)
+ * - `--no-isolate` run a whole mode in one browser page (faster to start, but
+ *   memory retained across sweep points adds up — see README)
  *
  * Partial runs (mode/case/n filters) merge into the persisted
  * results/json/benchmarks.json; charts and the report are always regenerated
@@ -66,9 +66,9 @@ const allowedCases = caseArg
 const allowedNs = nArg ? nArg.split(',').map((v) => parseInt(v, 10)) : null
 
 /**
- * Reads the case registry from the case files: id (the filename) and the
- * `ns` sweep, so each sweep point can run in its own vitest process (a fresh
- * browser page). The `ns` array is read with a regex — keep it a literal.
+ * Reads the case registry from the case files: id (the filename) and the `ns`
+ * sweep, so each sweep point can run in its own vitest process (a fresh browser
+ * page). The `ns` array is read with a regex — keep it a literal.
  */
 function readCases() {
   const dir = resolve(pkgRoot, 'bench/cases')
@@ -107,8 +107,8 @@ interface Unit {
 }
 
 /**
- * The (case, n) units to run. Isolated: one unit per sweep point. Otherwise:
- * a single unit covering everything the filters allow.
+ * The (case, n) units to run. Isolated: one unit per sweep point. Otherwise: a
+ * single unit covering everything the filters allow.
  */
 function units(): Unit[] {
   if (!isolate) return [{}]

@@ -53,10 +53,10 @@ export interface UseConditionsOptions {
  * component setup context. When the `conditions` module is not registered,
  * returns a ref that always treats conditions as met.
  *
+ * @private
  * @param conditions The raw conditional value (or a ref/getter to it).
  * @param options Path, debounce, trigger, date format, model, and context
  *   overrides.
- * @private
  */
 export function useConditions(
   conditions: MaybeRef<ConditionalProp | undefined>,

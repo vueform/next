@@ -128,10 +128,12 @@ export type AutoRowOf<TEntry> =
         : C extends readonly (infer E)[]
           ? Prettify<
               {
-                [Col in Extract<E, Record<string, any>> as Extract<
-                  Col[ColValueKeyOf<TEntry> & keyof Col],
-                  string | number
-                >]: CellModelOf<Col, ColSchemaKeyOf<TEntry>>
+                [
+                  Col in Extract<E, Record<string, any>> as Extract<
+                    Col[ColValueKeyOf<TEntry> & keyof Col],
+                    string | number
+                  >
+                ]: CellModelOf<Col, ColSchemaKeyOf<TEntry>>
               } & {
                 [V in Extract<E, string | number>]: any
               }

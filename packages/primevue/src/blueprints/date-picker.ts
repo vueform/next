@@ -82,10 +82,7 @@ type DatePickerModel = Required<DatePickerProps>['modelValue']
  * stay assignable to the component's canonical (defaulted) context.
  */
 export type DatePickerSelectionModeProp =
-  | 'single'
-  | 'multiple'
-  | 'range'
-  | undefined
+  'single' | 'multiple' | 'range' | undefined
 
 /**
  * Date-picker model shaped by `selectionMode`:

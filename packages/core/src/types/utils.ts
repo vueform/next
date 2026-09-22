@@ -316,9 +316,11 @@ export type MakeRequired<T, K extends PropertyKey> = T extends any
  * converting them to camelCase and kebab-case.
  */
 export type EventKeysFromProps<T> = keyof {
-  [K in keyof T as K extends `on${infer E extends Capitalize<string>}`
-    ? CamelCase<E> | KebabCase<E>
-    : never]: any
+  [
+    K in keyof T as K extends `on${infer E extends Capitalize<string>}`
+      ? CamelCase<E> | KebabCase<E>
+      : never
+  ]: any
 }
 
 /**
@@ -374,8 +376,7 @@ export type EmitsToProps<T> = {
  * @param context$ The component context passed when used as a function.
  */
 export type MaybeContextual<T, TContext = any> =
-  | T
-  | ((context$: TContext) => T | void)
+  T | ((context$: TContext) => T | void)
 
 /**
  * Replaces the `type` property of `T` with `any`, allowing any element type

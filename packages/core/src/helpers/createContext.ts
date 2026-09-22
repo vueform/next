@@ -56,10 +56,10 @@ function useContext<T>(key: ContextKey<T>): T | undefined {
  * Provides a context to all descendant components and records it as local state
  * so the providing component can inject it itself.
  *
+ * @private
  * @param key The key of the context to provide.
  * @param context The context to provide.
  * @param app The Vue app instance to provide the context to.
- * @private
  */
 export function provideContext<T>(key: ContextKey<T>, context: T, app?: App) {
   if (app) {
@@ -86,8 +86,8 @@ export function provideContext<T>(key: ContextKey<T>, context: T, app?: App) {
 /**
  * Creates a new context for providing and injecting data.
  *
- * @param key The key of the context to create.
  * @private
+ * @param key The key of the context to create.
  */
 export function createContext<T>(_key: ContextKey<T>) {
   function _provideContext(context: T, app?: App) {

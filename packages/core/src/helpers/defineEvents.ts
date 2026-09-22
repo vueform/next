@@ -112,6 +112,7 @@ export type DefineEvents<T extends Record<string, any>> = ReturnType<
 /**
  * Creates a typed event system with synchronous and async firing, listener
  * registration, and before/after hooks.
+ *
  * @private
  */
 export function defineEvents<

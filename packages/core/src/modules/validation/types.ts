@@ -129,10 +129,7 @@ export type RulesProp<TContext = any> =
   | RuleDefinition
   | ConditionalRule<TContext>
   | (
-      | RuleString
-      | ConditionalRule<TContext>
-      | RuleDefinition
-      | StandardSchemaV1
+      RuleString | ConditionalRule<TContext> | RuleDefinition | StandardSchemaV1
     )[]
 
 /**
@@ -145,8 +142,7 @@ export type TOnlyRulesProp<TContext = any> = Record<string, RulesProp<TContext>>
  * object.
  */
 export type TRulesProp<TContext = any> =
-  | RulesProp<TContext>
-  | TOnlyRulesProp<TContext>
+  RulesProp<TContext> | TOnlyRulesProp<TContext>
 
 /**
  * A single `validateOn` trigger.

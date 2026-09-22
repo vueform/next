@@ -3,12 +3,13 @@
  * json per suite under results/json and regenerating every size md report.
  *
  * Flags:
- * - `--core` / `--ui` / `--primevue` / `--plugins`  rerun only the named
- *   suites (default: all); all md reports are regenerated either way
- * - `--only=a,b`  rerun only the matching scenarios of the selected suites,
+ *
+ * - `--core` / `--ui` / `--primevue` / `--plugins` rerun only the named suites
+ *   (default: all); all md reports are regenerated either way
+ * - `--only=a,b` rerun only the matching scenarios of the selected suites,
  *   merging into the previous results
- * - `--stats`     also emit rollup-visualizer treemaps under .stats/
- * - `--list`      print the selected suites' scenarios without building
+ * - `--stats` also emit rollup-visualizer treemaps under .stats/
+ * - `--list` print the selected suites' scenarios without building
  */
 import {
   existsSync,
@@ -35,9 +36,13 @@ import type { Results, Scenario } from '../lib/types'
 
 interface Suite {
   scenarios: (root: string) => Scenario[]
-  /** Package directories (under packages/) whose dist artifacts are needed. */
+  /**
+   * Package directories (under packages/) whose dist artifacts are needed.
+   */
   packages: string[]
-  /** Packages whose versions are recorded as the measurement environment. */
+  /**
+   * Packages whose versions are recorded as the measurement environment.
+   */
   deps: string[]
 }
 
