@@ -40,7 +40,16 @@ Breaking changes: append `!` after the type/scope (`feat(core)!: …`) or add a 
 
 ### Scopes
 
-Scopes mirror workspace packages — the directory names under `packages/` (e.g. `core`, `ui`, `primevue`) — plus `docs`, `playground`, `deps`, `ci`, and `repo` for repo-level work. The list is derived from `packages/` automatically at lint time (see `commitlint.config.mjs`), so new packages need no config change. Omit the scope when a change genuinely spans everything. Unknown scopes produce a warning, not an error.
+Scopes mirror workspace packages — the directory names under `packages/` (e.g. `core`, `ui`, `primevue`) — plus `docs`, `playground`, `deps`, `ci`, and `repo` for repo-level work. Group scopes cover a whole category of packages: a package declares its group via `"vueform": { "group": "adapters" }` in its `package.json` (currently `adapters` and `plugins`), and a change touching several packages of one group can use the group as its scope: `fix(adapters): …`. Both lists are derived automatically at lint time (see `commitlint.config.mjs`), so new packages and groups need no config change. Omit the scope when a change genuinely spans everything. Unknown scopes produce a warning, not an error.
+
+### Cross-package changes
+
+- **One package + its docs/tests** → scope is that package. Docs and tests that exist because of a code change ride along in the same commit; the scope names where the behavior lives: `feat(core): make prop banning opt-in via banProps` (docs updated in the same commit).
+- **Multiple packages, one logical change** (e.g. core + an adapter or plugin) → list the scopes comma-separated, originating package first: `fix(core,primevue): …`. commitlint validates each scope individually.
+- **More than ~3 packages, or no primary one** → drop the scope. A scope listing half the monorepo carries no information.
+- **Separable changes** → separate commits, even on one branch. The test: could you revert one without breaking the other, and would each message still be accurate alone?
+
+When a commit has secondary effects in other packages worth noting, keep the subject scoped to the primary package and name the rest in the body (e.g. "primevue tests updated for the new default").
 
 ### Subject rules
 
