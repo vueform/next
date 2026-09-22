@@ -1,5 +1,6 @@
+// Editor project for src (references core dev for cross-package types).
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "paths": {
       "#shorthands": ["../src/types/shorthands.ts"],
@@ -19,5 +20,9 @@
     "types": ["node"]
   },
   "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue"],
-  "references": [{ "path": "../../core/.tsconfig/tsconfig.dev.json" }]
+  "references": [
+    {
+      "path": "../../core/.tsconfig/tsconfig.dev.json"
+    }
+  ]
 }

@@ -1,12 +1,12 @@
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import { spawnSync } from 'node:child_process'
 
 const repoRoot = process.cwd()
 const templatesDir = path.join(repoRoot, 'playground', 'templates')
 const outputDir = path.join(repoRoot, '.playgrounds', 'templates')
 
-function exists(p) {
+function exists(p: string) {
   try {
     fs.accessSync(p)
     return true
@@ -15,7 +15,7 @@ function exists(p) {
   }
 }
 
-const ALIASES = {
+const ALIASES: Record<string, string> = {
   pv: 'primevue',
   'nuxt-pv': 'nuxt-primevue',
   'vapor-pv': 'vapor-primevue',
@@ -23,7 +23,7 @@ const ALIASES = {
 // Playgrounds excluded from the pnpm workspace (own lockfile/node_modules).
 // Root installs don't cover them, so restore deps here when missing.
 const STANDALONE = new Set(['vapor', 'vapor-primevue'])
-function resolveAlias(name) {
+function resolveAlias(name: string) {
   return ALIASES[name] ?? name
 }
 
@@ -35,7 +35,12 @@ function listPlaygrounds() {
     .map((e) => e.name)
 }
 
-function run(cmd, args, cwd, env = {}) {
+function run(
+  cmd: string,
+  args: string[],
+  cwd?: string,
+  env: Record<string, string> = {}
+) {
   const res = spawnSync(cmd, args, {
     cwd,
     stdio: 'inherit',

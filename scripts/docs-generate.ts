@@ -11,8 +11,8 @@
  */
 
 import { spawnSync } from 'node:child_process'
-import { fileURLToPath } from 'node:url'
 import path from 'node:path'
+import { fileURLToPath } from 'node:url'
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -32,7 +32,7 @@ const FULL_ORDER = [
   'reference',
 ]
 
-const DEPS = {
+const DEPS: Record<string, string[]> = {
   ui: ['blueprints', 'composables', 'factories', 'components'],
   'adapter-components': ['components'],
   primevue: [
@@ -55,8 +55,8 @@ function parseArgs() {
   return tokens.length ? tokens : null
 }
 
-function collectRequired(requested) {
-  const set = new Set(requested)
+function collectRequired(requested: string[]) {
+  const set = new Set<string>(requested)
   for (const name of requested) {
     for (const d of DEPS[name] ?? []) {
       set.add(d)
@@ -65,12 +65,12 @@ function collectRequired(requested) {
   return [...set].sort((a, b) => FULL_ORDER.indexOf(a) - FULL_ORDER.indexOf(b))
 }
 
-const ADAPTER_ARGS = {
+const ADAPTER_ARGS: Record<string, string[]> = {
   'adapter-components': ['primevue'],
   'adapter-factories': ['primevue'],
 }
 
-function runGenerator(name) {
+function runGenerator(name: string) {
   const script = `generate:${name}`
   const extraArgs = ADAPTER_ARGS[name] ?? []
   console.log(

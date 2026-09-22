@@ -22,7 +22,15 @@ import path from 'node:path'
 const repoRoot = process.cwd()
 const require = createRequire(path.join(repoRoot, 'noop.js'))
 
-const TARGETS = {
+interface SmokeTarget {
+  pkg: string
+  links: Record<string, string>
+  markerFile: string
+  markerAnchor: string
+  port: number
+}
+
+const TARGETS: Record<string, SmokeTarget> = {
   ui: {
     pkg: '@vueform/ui',
     links: {
@@ -64,7 +72,7 @@ function resolvePlaywright() {
   }
 }
 
-function scaffold(name, target) {
+function scaffold(name: string, target: SmokeTarget) {
   const tmp = path.join(repoRoot, '.smoke-tmp', name)
   fs.rmSync(tmp, { recursive: true, force: true })
   fs.cpSync(path.join(repoRoot, 'scripts', 'smoke', name), tmp, {
@@ -96,7 +104,7 @@ function scaffold(name, target) {
   return tmp
 }
 
-function runCli(tmp) {
+function runCli(tmp: string) {
   execFileSync(
     process.execPath,
     [
@@ -110,7 +118,7 @@ function runCli(tmp) {
   )
 }
 
-function injectMarker(tmp, target) {
+function injectMarker(tmp: string, target: SmokeTarget) {
   const file = path.join(tmp, 'src', 'vueform', target.markerFile)
   const source = fs.readFileSync(file, 'utf8')
   if (!source.includes(target.markerAnchor)) {
@@ -125,7 +133,7 @@ function injectMarker(tmp, target) {
   )
 }
 
-function startVite(tmp, port) {
+function startVite(tmp: string, port: number) {
   const child = spawn(
     'pnpm',
     [
@@ -145,7 +153,7 @@ function startVite(tmp, port) {
   return { child, getOutput: () => output }
 }
 
-async function waitForServer(port, timeoutMs = 30000) {
+async function waitForServer(port: number, timeoutMs = 30000) {
   const deadline = Date.now() + timeoutMs
   while (Date.now() < deadline) {
     try {
@@ -159,16 +167,16 @@ async function waitForServer(port, timeoutMs = 30000) {
   throw new Error(`vite did not start on :${port} within ${timeoutMs}ms`)
 }
 
-async function drive(name, port, chromium) {
+async function drive(_name: string, port: number, chromium: any) {
   const browser = await chromium.launch()
   try {
     const page = await browser.newPage({
       viewport: { width: 900, height: 600 },
     })
     // Fail on any page error (missing directive, resolution errors, ...).
-    const pageErrors = []
-    page.on('pageerror', (err) => pageErrors.push(err.message))
-    page.on('console', (msg) => {
+    const pageErrors: string[] = []
+    page.on('pageerror', (err: Error) => pageErrors.push(err.message))
+    page.on('console', (msg: { type(): string; text(): string }) => {
       if (msg.type() === 'error') pageErrors.push(msg.text())
     })
 
@@ -193,7 +201,7 @@ async function drive(name, port, chromium) {
   }
 }
 
-async function smokeTarget(name, chromium) {
+async function smokeTarget(name: string, chromium: any) {
   const target = TARGETS[name]
   console.log(`[smoke:${name}] scaffolding throwaway app`)
   const tmp = scaffold(name, target)
@@ -212,7 +220,7 @@ async function smokeTarget(name, chromium) {
     console.log(`[smoke:${name}] PASS — local copy rendered, model synced`)
     return true
   } catch (err) {
-    console.error(`[smoke:${name}] FAIL — ${err.message}`)
+    console.error(`[smoke:${name}] FAIL — ${(err as Error).message}`)
     const tail = server.getOutput().split('\n').slice(-15).join('\n')
     if (tail.trim()) console.error(`[smoke:${name}] vite output:\n${tail}`)
     return false

@@ -1,13 +1,5 @@
+// `pnpm tsc` — typechecks the package sources.
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "compilerOptions": {
-    "baseUrl": "..",
-    "paths": {
-      "~/*": ["src/*"],
-      "#shorthands": ["src/types/shorthands.ts"],
-      "@vueform/core": ["src/index.ts"]
-    },
-    "types": ["node"]
-  },
+  "extends": "./tsconfig.base.json",
   "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue"]
 }

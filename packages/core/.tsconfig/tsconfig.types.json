@@ -1,15 +1,15 @@
+// `pnpm tsc:types` — the compile-time contract suite (tests/type).
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "strict": true,
     "noEmit": true,
     "skipLibCheck": true,
-    "baseUrl": "..",
     "paths": {
-      "~/*": ["src/*"],
-      "#shorthands": ["src/types/shorthands.ts"],
-      "@vueform/core": ["src/index.ts"],
-      "@vueform/core/*": ["src/*"]
+      "~/*": ["../src/*"],
+      "#shorthands": ["../src/types/shorthands.ts"],
+      "@vueform/core": ["../src/index.ts"],
+      "@vueform/core/*": ["../src/*"]
     },
     "types": ["node"]
   },

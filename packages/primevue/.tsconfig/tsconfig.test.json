@@ -1,5 +1,8 @@
+// Editor + reference project for the runtime test suites (src + tests).
+// DELIBERATELY UNGUARDED (~23 known errors) — same policy as core's test
+// project; see its header.
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "types": ["node", "vitest/globals"],
     "paths": {
@@ -25,9 +28,9 @@
   ],
   "exclude": [
     "../tests/types/**/*",
+    "../tests/snapshot/**/*",
+    "../tests/env/vapor/**/*",
     "../tests/**/vitest.config.ts",
-    "../tests/vitest.config.ts",
-    "../tests/screenshots/**/*",
-    "../tests/env/vapor/**/*"
+    "../tests/vitest.config.ts"
   ]
 }

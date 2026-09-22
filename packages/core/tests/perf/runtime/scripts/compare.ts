@@ -1,12 +1,50 @@
 import { readFileSync } from 'node:fs'
 
 /**
+ * One flattened benchmark entry: mean time/heap plus vitest's error margin.
+ */
+export interface Stat {
+  mean: number
+  rme?: number
+}
+
+/**
+ * Flat map of benchmark name → stat, per section (time / memory).
+ */
+export type StatMap = Record<string, Stat>
+
+/**
+ * The shape persisted to current.json / baseline.json.
+ */
+export interface Results {
+  time: StatMap
+  memory: StatMap
+}
+
+/**
+ * Vitest `--outputJson` bench shapes (only the fields walked here).
+ */
+interface VitestBenchJson {
+  files?: VitestBenchFile[]
+}
+
+interface VitestBenchFile {
+  groups?: {
+    fullName?: string
+    name?: string
+    benchmarks?: { name: string; mean: number; rme?: number }[]
+  }[]
+}
+
+/**
  * Walks vitest `--outputJson` (files → groups → benchmarks) into a flat map.
  *
  * @param json Parsed vitest bench output.
  */
-export function flattenTimeJson(json) {
-  const out = {}
+export function flattenTimeJson(
+  json: VitestBenchJson | VitestBenchFile[]
+): StatMap {
+  const out: StatMap = {}
 
   const files = Array.isArray(json)
     ? json
@@ -34,8 +72,10 @@ export function flattenTimeJson(json) {
  *
  * @param json Parsed memory results.
  */
-export function flattenMemoryJson(json) {
-  const out = {}
+export function flattenMemoryJson(json: {
+  cases?: { name: string; mean: number }[]
+}): StatMap {
+  const out: StatMap = {}
 
   for (const c of json.cases ?? []) {
     out[c.name] = { mean: c.mean }
@@ -44,18 +84,24 @@ export function flattenMemoryJson(json) {
   return out
 }
 
-function pct(current, baseline) {
+function pct(current?: number, baseline?: number): number | null {
   if (!baseline || baseline === 0) return null
-  return ((current - baseline) / Math.abs(baseline)) * 100
+  return (((current ?? 0) - baseline) / Math.abs(baseline)) * 100
 }
 
-function formatPct(value) {
+function formatPct(value: number | null): string {
   if (value == null || !Number.isFinite(value)) return 'n/a'
   const sign = value > 0 ? '+' : ''
   return `${sign}${value.toFixed(1)}%`
 }
 
-function isSame(change, threshold, current, baseline, noiseFloor) {
+function isSame(
+  change: number | null,
+  threshold: number,
+  current: Stat | undefined,
+  baseline: Stat | undefined,
+  noiseFloor: number
+): boolean {
   if (change == null || !Number.isFinite(change)) return false
 
   const latest = current?.mean ?? 0
@@ -68,7 +114,13 @@ function isSame(change, threshold, current, baseline, noiseFloor) {
   return Math.abs(change) <= Math.max(threshold, rme)
 }
 
-function row(name, current, baseline, threshold, noiseFloor) {
+function row(
+  name: string,
+  current: Stat | undefined,
+  baseline: Stat | undefined,
+  threshold: number,
+  noiseFloor: number
+): string {
   const change = pct(current?.mean, baseline?.mean)
   const same = isSame(change, threshold, current, baseline, noiseFloor)
   const noisy =
@@ -88,7 +140,13 @@ function row(name, current, baseline, threshold, noiseFloor) {
   return `  ${name.padEnd(48)} ${formatPct(change).padStart(8)}${tag}${noisy}`
 }
 
-function section(title, threshold, currentMap, baselineMap, noiseFloor) {
+function section(
+  title: string,
+  threshold: number,
+  currentMap: StatMap,
+  baselineMap: StatMap,
+  noiseFloor: number
+): string[] {
   const names = [
     ...new Set([...Object.keys(baselineMap), ...Object.keys(currentMap)]),
   ].sort()
@@ -115,7 +173,7 @@ function section(title, threshold, currentMap, baselineMap, noiseFloor) {
  * @param current Latest run.
  * @param baseline Saved run.
  */
-export function printComparison(current, baseline) {
+export function printComparison(current: Results, baseline: Results): void {
   const lines = [
     '',
     'Perf vs baseline  (negative = faster / less memory)',
@@ -140,6 +198,6 @@ export function printComparison(current, baseline) {
  *
  * @param path File path.
  */
-export function loadResults(path) {
+export function loadResults(path: string): Results {
   return JSON.parse(readFileSync(path, 'utf8'))
 }

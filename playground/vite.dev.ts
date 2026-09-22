@@ -255,7 +255,7 @@ export function vueformDev(adapter: Adapter): Plugin {
       return { resolve: { alias } }
     },
 
-    resolveId(source, importer) {
+    resolveId(source: string, importer?: string) {
       if (isBuild || !importer) return null
 
       // In dev the `./vapor` subpaths serve the same source files as the main

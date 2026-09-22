@@ -1,3 +1,4 @@
+// `pnpm tsc:types:perf` — compiler-cost fixtures (tests/perf/types).
 {
   "extends": "./tsconfig.types.json",
   "include": [

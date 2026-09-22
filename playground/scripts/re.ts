@@ -1,6 +1,6 @@
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import { spawnSync } from 'node:child_process'
 
 const repoRoot = process.cwd()
 const templatesDir = path.join(repoRoot, 'playground', 'templates')
@@ -17,16 +17,16 @@ const TEMPLATES = [
 // Playgrounds excluded from the pnpm workspace (own lockfile/node_modules),
 // installed with `pnpm install --ignore-workspace` inside their directory.
 const STANDALONE = new Set(['vapor', 'vapor-primevue'])
-const ALIASES = {
+const ALIASES: Record<string, string> = {
   pv: 'primevue',
   'nuxt-pv': 'nuxt-primevue',
   'vapor-pv': 'vapor-primevue',
 }
-function resolveAlias(name) {
+function resolveAlias(name: string) {
   return ALIASES[name] ?? name
 }
 
-function exists(p) {
+function exists(p: string) {
   try {
     fs.accessSync(p)
     return true
@@ -35,7 +35,7 @@ function exists(p) {
   }
 }
 
-function run(cmd, args, cwd) {
+function run(cmd: string, args: string[], cwd?: string) {
   const res = spawnSync(cmd, args, {
     cwd,
     stdio: 'inherit',
@@ -45,7 +45,7 @@ function run(cmd, args, cwd) {
   if (res.status !== 0) process.exit(res.status ?? 1)
 }
 
-function patchPackageName(pkgPath, name) {
+function patchPackageName(pkgPath: string, name: string) {
   if (!exists(pkgPath)) return
 
   const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
@@ -66,38 +66,32 @@ function patchPackageName(pkgPath, name) {
   }
 }
 
-function parseArgs(argv) {
-  const selected = new Set()
-  let force = false
+function parseArgs(argv: string[]) {
+  const selected = new Set<string>()
 
   for (const a of argv) {
-    if (a === '--force') {
-      force = true
-      continue
-    }
-
     if (a.startsWith('--')) {
       selected.add(resolveAlias(a.slice(2)))
     }
   }
 
-  if (selected.size === 0) return { selected: null, force }
+  if (selected.size === 0) return null
 
   const available = new Set(TEMPLATES)
   const unknown = [...selected].filter((t) => !available.has(t))
 
   if (unknown.length) {
     console.error(
-      `[pg:up] Unknown playground(s): ${unknown.join(', ')}\nAvailable: ${TEMPLATES.join(', ')}`
+      `[pg:re] Unknown playground(s): ${unknown.join(', ')}\nAvailable: ${TEMPLATES.join(', ')}`
     )
     process.exit(1)
   }
 
-  return { selected, force }
+  return selected
 }
 
 const argv = process.argv.slice(2)
-const { selected, force } = parseArgs(argv)
+const selected = parseArgs(argv)
 
 const toProcess = selected
   ? TEMPLATES.filter((t) => selected.has(t))
@@ -107,8 +101,6 @@ if (!exists(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true })
 }
 
-let createdCount = 0
-
 for (const name of toProcess) {
   const src = path.join(templatesDir, name)
   const dest = path.join(outputDir, name)
@@ -116,47 +108,27 @@ for (const name of toProcess) {
 
   if (!exists(src)) {
     console.error(
-      `[pg:up] Template "${name}" not found at: ${path.relative(repoRoot, src)}`
+      `[pg:re] Template "${name}" not found at: ${path.relative(repoRoot, src)}`
     )
     process.exit(1)
   }
 
-  let recreated = false
-
   if (exists(dest)) {
-    if (force) {
-      console.log(`[pg:up] --force: removing existing "${name}"...`)
-      fs.rmSync(dest, { recursive: true, force: true })
-      recreated = true
-    } else {
-      console.log(
-        `[pg:up] "${name}" already exists, skipping. Use pg:re to recreate.`
-      )
-      continue
-    }
+    console.log(`[pg:re] Removing existing "${name}"...`)
+    fs.rmSync(dest, { recursive: true, force: true })
   }
 
-  if (!exists(dest)) {
-    console.log(
-      `[pg:up] Creating "${name}" from playground/templates/${name}...`
-    )
-    fs.cpSync(src, dest, { recursive: true })
-    recreated = true
-    createdCount++
-  }
+  console.log(`[pg:re] Creating "${name}" from playground/templates/${name}...`)
+  fs.cpSync(src, dest, { recursive: true })
 
   patchPackageName(destPkg, name)
 
-  if (recreated && exists(destPkg)) {
-    console.log(`[pg:up] Installing deps for "${name}"...`)
+  if (exists(destPkg)) {
+    console.log(`[pg:re] Installing deps for "${name}"...`)
     if (STANDALONE.has(name)) {
       run('pnpm', ['install', '--ignore-workspace'], dest)
     } else {
       run('pnpm', ['install'], repoRoot)
     }
   }
-}
-
-if (!createdCount && !force) {
-  console.log('[pg:up] Done. Nothing new was created.')
 }

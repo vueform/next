@@ -1,14 +1,12 @@
+// Solution-style root: no files of its own; the editor resolves each file to
+// the FIRST referenced project that includes it — dev must stay ahead of
+// test so src files land in dev. CLI-only entry: `pnpm tsc` (build).
 {
   "files": [],
   "references": [
-    {
-      "path": "./.tsconfig/tsconfig.dev.json"
-    },
-    {
-      "path": "./.tsconfig/tsconfig.test.json"
-    },
-    {
-      "path": "./.tsconfig/tsconfig.node.json"
-    }
+    { "path": "./.tsconfig/tsconfig.dev.json" },
+    { "path": "./.tsconfig/tsconfig.node.json" },
+    { "path": "./.tsconfig/tsconfig.test.json" },
+    { "path": "./.tsconfig/tsconfig.types.json" }
   ]
 }

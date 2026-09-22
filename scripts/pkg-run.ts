@@ -4,7 +4,7 @@
  * Flags that match a package name (or alias) select which packages to run. Any
  * other flags are passed through to the underlying script.
  *
- * Usage (from another script): import { pkgRun } from './pkg-run.mjs'
+ * Usage (from another script): import { pkgRun } from './pkg-run.ts'
  * pkgRun('build') // reads process.argv for --flags pkgRun('build', { defaults:
  * ['core', 'ui'] }) // only core+ui when no flags pkgRun('tc')
  *
@@ -14,18 +14,18 @@
  * build --core --watch # core with --watch passed through
  */
 
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import { spawnSync } from 'node:child_process'
 
 const repoRoot = process.cwd()
 const packagesDir = path.join(repoRoot, 'packages')
 
-const ALIASES = {
+const ALIASES: Record<string, string> = {
   pv: 'primevue',
 }
 
-function exists(p) {
+function exists(p: string) {
   try {
     fs.accessSync(p)
     return true
@@ -34,7 +34,7 @@ function exists(p) {
   }
 }
 
-function listPackagesWithScript(scriptName) {
+function listPackagesWithScript(scriptName: string) {
   if (!exists(packagesDir)) return []
   return fs
     .readdirSync(packagesDir, { withFileTypes: true })
@@ -48,7 +48,7 @@ function listPackagesWithScript(scriptName) {
     })
 }
 
-function run(cmd, args) {
+function run(cmd: string, args: string[]) {
   const res = spawnSync(cmd, args, {
     cwd: repoRoot,
     stdio: 'inherit',
@@ -58,7 +58,15 @@ function run(cmd, args) {
   if (res.status !== 0) process.exit(res.status ?? 1)
 }
 
-export function pkgRun(scriptName, { defaults, groups } = {}) {
+export interface PkgRunOptions {
+  defaults?: string[]
+  groups?: Record<string, string[]>
+}
+
+export function pkgRun(
+  scriptName: string,
+  { defaults, groups }: PkgRunOptions = {}
+) {
   const available = listPackagesWithScript(scriptName)
   const allNames = new Set([...available, ...Object.keys(ALIASES)])
   const groupNames = new Set(Object.keys(groups ?? {}))
@@ -67,13 +75,13 @@ export function pkgRun(scriptName, { defaults, groups } = {}) {
   const flags = argv.filter((a) => a.startsWith('--')).map((a) => a.slice(2))
 
   const runAll = flags.includes('all')
-  const pkgFlags = []
-  const passthrough = []
+  const pkgFlags: string[] = []
+  const passthrough: string[] = []
 
   for (const flag of flags) {
     if (flag === 'all') continue
     if (groupNames.has(flag)) {
-      pkgFlags.push(...groups[flag])
+      pkgFlags.push(...(groups?.[flag] ?? []))
     } else if (allNames.has(flag)) {
       pkgFlags.push(flag)
     } else {

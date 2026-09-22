@@ -12,16 +12,16 @@ const TEMPLATES = [
   'vapor',
   'vapor-primevue',
 ]
-const ALIASES = {
+const ALIASES: Record<string, string> = {
   pv: 'primevue',
   'nuxt-pv': 'nuxt-primevue',
   'vapor-pv': 'vapor-primevue',
 }
-function resolveAlias(name) {
+function resolveAlias(name: string) {
   return ALIASES[name] ?? name
 }
 
-function exists(p) {
+function exists(p: string) {
   try {
     fs.accessSync(p)
     return true
@@ -30,8 +30,8 @@ function exists(p) {
   }
 }
 
-function parseArgs(argv) {
-  const selected = new Set()
+function parseArgs(argv: string[]) {
+  const selected = new Set<string>()
 
   for (const a of argv) {
     if (a.startsWith('--')) {

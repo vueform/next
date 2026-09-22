@@ -21,7 +21,7 @@ Time = mean duration. Heap = bytes still alive after forced GC.
 - `pnpm bench:perf:report` → regenerate this file
 - `pnpm perf:rebase` → make the newest row the new base
 
-_Last updated: 2026-09-22 07:42:53 UTC_
+_Last updated: 2026-09-22 13:33:15 UTC_
 
 ## Child registry
 

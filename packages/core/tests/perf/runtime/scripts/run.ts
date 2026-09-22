@@ -12,7 +12,7 @@ import {
   flattenMemoryJson,
   flattenTimeJson,
   printComparison,
-} from './compare.mjs'
+} from './compare.ts'
 import {
   comparisonTarget,
   gitHead,
@@ -24,7 +24,7 @@ import {
   upsertHistory,
   writeHistory,
   writeReport,
-} from './report.mjs'
+} from './report.ts'
 
 const save = process.argv.includes('--save')
 const reportOnly =
@@ -53,7 +53,7 @@ if (rebase) {
   try {
     next = rebaseHistory(history, commit)
   } catch (err) {
-    console.error(err.message)
+    console.error((err as Error).message)
     process.exit(1)
   }
   writeHistory(next)
@@ -76,7 +76,11 @@ if (reportOnly) {
   process.exit(0)
 }
 
-function run(command, args, extraEnv = {}) {
+function run(
+  command: string,
+  args: string[],
+  extraEnv: Record<string, string> = {}
+) {
   const result = spawnSync(command, args, {
     cwd: coreDir,
     stdio: 'inherit',

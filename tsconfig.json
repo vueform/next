@@ -1,0 +1,11 @@
+// Root scripts project — gives repo-level tooling (gen-registry, validators)
+// a real TypeScript program instead of the editor's inferred one.
+{
+  "extends": "./tsconfig.node.base.json",
+  "include": [
+    "scripts/**/*.ts",
+    "playground/scripts/**/*.ts",
+    "playground/vite.dev.ts"
+  ],
+  "exclude": ["scripts/smoke/**"]
+}

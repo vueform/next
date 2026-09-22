@@ -2,6 +2,55 @@ import { spawnSync } from 'node:child_process'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+import type { Results, Stat, StatMap } from './compare.ts'
+
+/**
+ * One recorded run in history.json.
+ */
+export interface HistoryEntry {
+  timestamp: string
+  time: StatMap
+  memory: StatMap
+  base?: boolean
+}
+
+/**
+ * history.json: commit id → run, insertion-ordered oldest → newest.
+ */
+export type History = Record<string, HistoryEntry>
+
+type Kind = 'time' | 'mem'
+type Source = 'time' | 'memory'
+
+interface SummarySpec {
+  key: Source
+  name: string
+  label: string
+  kind: Kind
+}
+
+interface TableSpec {
+  title: string
+  blurb: string
+  source: Source
+  prefix: string
+  order?: string[]
+}
+
+interface Area {
+  title: string
+  blurb: string
+  summary: SummarySpec[]
+  tables: TableSpec[]
+}
+
+interface CommitRow {
+  commit: string
+  entry: HistoryEntry
+  isBase: boolean
+  vsCommit?: string
+  vsEntry?: HistoryEntry
+}
 
 const here = dirname(fileURLToPath(import.meta.url))
 const perfDir = resolve(here, '..')
@@ -13,7 +62,7 @@ export const reportPath = resolve(resultsDir, 'RESULTS.md')
 /**
  * Catalog of every recorded bench. `id` is the history.json key.
  */
-const BENCHES = {
+const BENCHES: Record<string, { label: string; desc: string }> = {
   'registry > derived views: repeated reads': {
     label: 'list reads',
     desc: 'Re-read `statefulChildren$`, `availableStatefulChildren$`, and `hoistedChildren$` 50 times on a 500-child `useChildren` registry (no form, no DOM). Measures whether those lists are cached or rebuilt on every access.',
@@ -84,7 +133,7 @@ const BENCHES = {
  * Report sections. Each area is a `##` heading (like types-perf's
  * `define-schema-500`). Add a new area when a new class of benches lands.
  */
-const AREAS = [
+const AREAS: Area[] = [
   {
     title: 'Child registry',
     blurb: [
@@ -213,7 +262,7 @@ export function gitHead() {
 /**
  * Reads `results/history.json` (`commit → { timestamp, time, memory }`).
  */
-export function readHistory() {
+export function readHistory(): History {
   if (!existsSync(historyPath)) return {}
   try {
     return JSON.parse(readFileSync(historyPath, 'utf8'))
@@ -227,7 +276,7 @@ export function readHistory() {
  *
  * @param history Commit-keyed results.
  */
-export function writeHistory(history) {
+export function writeHistory(history: History) {
   mkdirSync(resultsDir, { recursive: true })
   writeFileSync(historyPath, `${JSON.stringify(history, null, 2)}\n`)
 }
@@ -240,8 +289,12 @@ export function writeHistory(history) {
  * @param commit Commit id.
  * @param current Flattened time + memory maps.
  */
-export function upsertHistory(history, commit, current) {
-  const next = {}
+export function upsertHistory(
+  history: History,
+  commit: string,
+  current: Results
+): History {
+  const next: History = {}
   for (const [id, entry] of Object.entries(history)) {
     if (id !== commit) next[id] = entry
   }
@@ -262,7 +315,7 @@ export function upsertHistory(history, commit, current) {
  * @param history Existing history.
  * @param commit Commit id to promote; defaults to the newest entry.
  */
-export function rebaseHistory(history, commit) {
+export function rebaseHistory(history: History, commit?: string): History {
   const ids = Object.keys(history)
   if (!ids.length) return history
   const target = commit ?? ids[ids.length - 1]
@@ -271,9 +324,9 @@ export function rebaseHistory(history, commit) {
       `Unknown commit "${target}". Recorded commits: ${ids.join(', ')}`
     )
   }
-  const next = {}
+  const next: History = {}
   for (const [id, entry] of Object.entries(history)) {
-    const { base, ...rest } = entry
+    const { base: _base, ...rest } = entry
     next[id] = id === target ? { ...rest, base: true } : rest
   }
   return next
@@ -286,7 +339,7 @@ export function rebaseHistory(history, commit) {
  * @param history Existing history.
  * @param commit Commit id about to be written.
  */
-export function comparisonTarget(history, commit) {
+export function comparisonTarget(history: History, commit: string) {
   if (history[commit]) {
     return { kind: 'same-commit', commit, entry: history[commit] }
   }
@@ -296,11 +349,15 @@ export function comparisonTarget(history, commit) {
   return { kind: 'previous-commit', commit: id, entry: history[id] }
 }
 
-function metric(entry, source, name) {
+function metric(
+  entry: HistoryEntry | undefined,
+  source: Source,
+  name: string
+): Stat | undefined {
   return entry?.[source]?.[name]
 }
 
-function fmtTime(ms) {
+function fmtTime(ms: number | undefined) {
   if (ms == null || !Number.isFinite(ms)) return '—'
   if (ms >= 100) return `${ms.toFixed(0)}ms`
   if (ms >= 10) return `${ms.toFixed(1)}ms`
@@ -308,18 +365,18 @@ function fmtTime(ms) {
   return `${ms.toFixed(3)}ms`
 }
 
-function fmtMem(bytes) {
+function fmtMem(bytes: number | undefined) {
   if (bytes == null || !Number.isFinite(bytes)) return '—'
   if (Math.abs(bytes) < 512 * 1024) return '~0'
   if (Math.abs(bytes) < 1024 ** 3) return `${(bytes / 1024 ** 2).toFixed(1)} MB`
   return `${(bytes / 1024 ** 3).toFixed(2)} GB`
 }
 
-function fmtValue(mean, kind) {
+function fmtValue(mean: number | undefined, kind: Kind) {
   return kind === 'mem' ? fmtMem(mean) : fmtTime(mean)
 }
 
-function fmtPct(latest, base) {
+function fmtPct(latest: number | undefined, base: number | undefined) {
   if (base == null || base === 0 || latest == null) return null
   if (latest === base) return '—'
   const pct = ((latest - base) / Math.abs(base)) * 100
@@ -343,12 +400,16 @@ const MEM_REL_PCT = 5
 const TIME_ABS_MS = 1
 const MEM_ABS_BYTES = 512 * 1024
 
-function noiseThresholdPct(latest, older, kind) {
+function noiseThresholdPct(
+  latest: Stat | undefined,
+  older: Stat | undefined,
+  kind: Kind
+) {
   if (kind === 'mem') return MEM_REL_PCT
   return Math.max(TIME_REL_PCT, (latest?.rme ?? 0) + (older?.rme ?? 0))
 }
 
-function absFloor(kind) {
+function absFloor(kind: Kind) {
   return kind === 'mem' ? MEM_ABS_BYTES : TIME_ABS_MS
 }
 
@@ -356,7 +417,11 @@ function absFloor(kind) {
  * Lower is better. `null` unless the change clears both the noise-aware
  * relative threshold and the absolute floor (1ms time / 0.5 MB heap).
  */
-function changeEmoji(latest, older, kind) {
+function changeEmoji(
+  latest: Stat | undefined,
+  older: Stat | undefined,
+  kind: Kind
+) {
   const mean = latest?.mean
   const base = older?.mean
   if (mean == null || base == null || mean === base || base === 0) {
@@ -369,7 +434,11 @@ function changeEmoji(latest, older, kind) {
   return pct < 0 ? '🟢' : '🔴'
 }
 
-function fmtPctWithEmoji(latest, older, kind) {
+function fmtPctWithEmoji(
+  latest: Stat | undefined,
+  older: Stat | undefined,
+  kind: Kind
+) {
   const emoji = changeEmoji(latest, older, kind)
   if (!emoji) return null
   const pct = fmtPct(latest?.mean, older?.mean)
@@ -377,7 +446,7 @@ function fmtPctWithEmoji(latest, older, kind) {
   return `${emoji} ${pct}`
 }
 
-function cell(latest, older, kind) {
+function cell(latest: Stat | undefined, older: Stat | undefined, kind: Kind) {
   if (latest?.mean == null) return '—'
   const value = fmtValue(latest.mean, kind)
   if (older?.mean == null) return value
@@ -385,18 +454,18 @@ function cell(latest, older, kind) {
   return delta ? `${value} (${delta})` : value
 }
 
-function columnLabel(name) {
+function columnLabel(name: string) {
   return BENCHES[name]?.label ?? name
 }
 
-function columnDesc(name) {
+function columnDesc(name: string) {
   const bench = BENCHES[name]
   if (!bench) return null
   return `- **${bench.label}** — ${bench.desc}`
 }
 
-function namesFor(history, spec) {
-  const set = new Set()
+function namesFor(history: History, spec: TableSpec) {
+  const set = new Set<string>()
   for (const entry of Object.values(history)) {
     for (const name of Object.keys(entry[spec.source] ?? {})) {
       if (!spec.prefix || name.startsWith(spec.prefix)) set.add(name)
@@ -406,11 +475,11 @@ function namesFor(history, spec) {
   return [...(spec.order ?? []).filter((n) => set.has(n)), ...extra]
 }
 
-function when(entry) {
+function when(entry: HistoryEntry) {
   return entry.timestamp.replace('T', ' ').replace(/\.\d{3}Z$/, '')
 }
 
-function table(headers, rows) {
+function table(headers: string[], rows: string[][]) {
   const lines = [
     `| ${headers.join(' | ')} |`,
     `| ${headers.map((h, i) => (i === 0 || h === 'When (UTC)' ? '---' : '---:')).join(' | ')} |`,
@@ -427,7 +496,7 @@ function table(headers, rows) {
  * reference (no comparison), and older rows keep comparing to their own
  * previous row so gradings recorded before a rebase stay meaningful.
  */
-function commitRows(history) {
+function commitRows(history: History): CommitRow[] {
   const rows = [...Object.entries(history)].reverse()
   const baseIdx = rows.findIndex(([, entry]) => entry.base)
 
@@ -445,12 +514,12 @@ function commitRows(history) {
   })
 }
 
-function commitCell(row) {
+function commitCell(row: CommitRow) {
   const name = row.isBase ? `${row.commit} (base)` : row.commit
   return row.vsCommit ? `${name} vs ${row.vsCommit}` : name
 }
 
-function summarySection(history, area) {
+function summarySection(history: History, area: Area) {
   const rows = commitRows(history)
   const headers = ['Commit', ...area.summary.map((c) => c.label), 'When (UTC)']
   const body = rows.map((row) => {
@@ -473,12 +542,14 @@ function summarySection(history, area) {
     '',
     ...table(headers, body),
     '',
-    ...area.summary.map((c) => columnDesc(c.name)).filter(Boolean),
+    ...area.summary
+      .map((c) => columnDesc(c.name))
+      .filter((l): l is string => l != null),
     '',
   ]
 }
 
-function subtable(history, spec) {
+function subtable(history: History, spec: TableSpec) {
   const rows = commitRows(history)
   const names = namesFor(history, spec)
   if (!names.length) return []
@@ -506,7 +577,7 @@ function subtable(history, spec) {
     '',
     ...table(headers, body),
     '',
-    ...names.map((n) => columnDesc(n)).filter(Boolean),
+    ...names.map((n) => columnDesc(n)).filter((l): l is string => l != null),
     '',
     '</details>',
     '',
@@ -519,7 +590,7 @@ function subtable(history, spec) {
  *
  * @param history Commit-keyed results.
  */
-export function writeReport(history) {
+export function writeReport(history: History) {
   mkdirSync(resultsDir, { recursive: true })
 
   const updated = new Date()

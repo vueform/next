@@ -1,0 +1,13 @@
+// Package base: repo policy + this package's aliases. Projects with a wider
+// alias surface (test, types) redefine `paths` wholesale — TS replaces,
+// never merges, that property.
+{
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["../src/*"],
+      "#shorthands": ["../src/types/shorthands.ts"],
+      "@vueform/core": ["../src/index.ts"]
+    }
+  }
+}

@@ -1,21 +1,12 @@
+// Non-Vue node-side files (vite config, vls).
 {
+  "extends": "../../../tsconfig.node.base.json",
   "compilerOptions": {
-    "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.node.tsbuildinfo",
-    "target": "ES2022",
-    "lib": ["ES2023"],
-    "moduleDetection": "force",
-    "types": ["node"],
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "allowImportingTsExtensions": true,
-    "strict": true,
-    "noFallthroughCasesInSwitch": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noEmit": true,
-    "isolatedModules": true,
-    "skipLibCheck": true,
-    "noUncheckedSideEffectImports": true
+    "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.node.tsbuildinfo"
   },
-  "include": ["../vite.config.ts", "../vls/**/*.cjs"]
+  "include": [
+    "../vite.config.ts",
+    "../vls/**/*.cjs",
+    "../tests/perf/runtime/scripts/**/*.ts"
+  ]
 }

@@ -6,11 +6,10 @@
     "preview": "tsx scripts/run.ts preview",
     "pre": "tsx scripts/run.ts pre",
     "gen": "tsx scripts/gen.ts",
-    "cli": "tsx scripts/cli.ts"
+    "tsc": "vue-tsc --project tsconfig.json --noEmit"
   },
   "devDependencies": {
-    "@inquirer/core": "catalog:",
-    "@inquirer/prompts": "catalog:",
+    "@types/hast": "catalog:",
     "tsx": "catalog:"
   },
   "dependencies": {

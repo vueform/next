@@ -1,5 +1,11 @@
+// Editor + reference project for the runtime test suites (src + tests).
+// DELIBERATELY UNGUARDED: no script gates this project; vitest transpiles
+// without typechecking. Known debt: ~208 errors, mostly design-level (tests
+// exercising looser inputs than the public types admit, e.g. string file
+// defaults). Burn-down tracked as its own pre-release task — do not "fix"
+// with casts.
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "extends": "./tsconfig.base.json",
   "compilerOptions": {
     "types": ["node", "vitest/globals"],
     "paths": {
@@ -27,5 +33,9 @@
     "../tests/**/*.vue",
     "../tests/integration/.fixture/**/*.vue"
   ],
-  "exclude": ["../tests/type/**/*", "../tests/env/vapor/**/*"]
+  "exclude": [
+    "../tests/type/**/*",
+    "../tests/env/vapor/**/*",
+    "../tests/perf/runtime/scripts/**/*"
+  ]
 }

@@ -1,7 +1,7 @@
 import { spawnSync } from 'node:child_process'
-import { pkgRun } from './pkg-run.mjs'
+import { pkgRun } from './pkg-run.ts'
 
-const ALIASES = {
+const ALIASES: Record<string, string> = {
   pv: 'primevue',
 }
 

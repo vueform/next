@@ -1,20 +1,18 @@
 packages:
-  - 'packages/*'
-  - '.playgrounds/*'
-  - 'docs'
-
-catalogMode: strict
+  - packages/*
+  - .playgrounds/*
+  - docs
 
 catalog:
   '@commitlint/cli': ^21.2.3
   '@commitlint/config-conventional': ^21.2.3
-  '@inquirer/core': ^11.2.1
-  '@inquirer/prompts': ^8.5.2
   '@nuxt/kit': ^3.17.5
   '@nuxt/schema': ^3.17.5
   '@playwright/test': ^1.51.1
   '@primeuix/themes': ^2.0.3
   '@primevue/core': ^4.5.5
+  '@tsconfig/node22': ^22.0.6
+  '@types/hast': ^3.0.5
   '@types/node': ^24.13.6
   '@typescript-eslint/eslint-plugin': ^8.52.0
   '@typescript-eslint/parser': ^8.52.0
@@ -57,22 +55,21 @@ catalog:
   tsx: ^4.23.15
   type-fest: ^4.41.0
   typescript: ~5.9.3
-  vite: ^6.4.3
+  vite: 6.4.3
   vite-plugin-dts: ^4.5.4
   vitepress: 2.0.0-alpha.16
   vitepress-plugin-group-icons: ^1.7.3
   vitest: ^4.1.11
   vue: ^3.5.42
   vue-compiler-sfc-vapor: npm:@vue/compiler-sfc@3.6.0-rc.5
-  vue-vapor: npm:vue@3.6.0-rc.5
   vue-eslint-parser: ^10.2.0
   vue-tsc: ^2.2.12
+  vue-vapor: npm:vue@3.6.0-rc.5
   zod: ^4.6.5
 
-# Consumer compatibility contracts — deliberately separate from the main
-# catalog: the peer range is the minimum we support, not the version we
-# develop against.
+catalogMode: strict
+
 catalogs:
   peer:
-    vue: ^3.5.13
     vite: '>=5'
+    vue: ^3.5.13
