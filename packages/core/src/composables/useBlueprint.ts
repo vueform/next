@@ -917,10 +917,10 @@ function useParts<TProps extends Record<string, any>>(
       const source = resolveSource(key)
       if (typeof source !== 'function') {
         // `parts` is a schema-reachable attribute bag: strip HTML sinks
-        // (`innerHTML`/`srcdoc`), string-valued `on*` entries, and
-        // `$security.banProps` keys before the object hits a `v-bind`
-        // spread. Clean bags (the common case) return the same reference,
-        // keeping identity and reactivity.
+        // (`innerHTML`/`outerHTML`), prototype keys, and entries matching
+        // `$security.banProps` before the object hits a `v-bind` spread.
+        // Clean bags (the common case) return the same reference, keeping
+        // identity and reactivity.
         return source != null && typeof source === 'object'
           ? $security.sanitizeProps(source)
           : source
@@ -1358,6 +1358,7 @@ export function getResolvedProps(instance: GenericInstance) {
  * Component-level defaults come from Vue's `withDefaults` on the SFC;
  * `useProps` only merges global config defaults and presets.
  *
+ * @private
  * @param setup Blueprint setup receiving resolved props and events.
  * @param rawProps Raw props from `defineProps` / `withDefaults`.
  * @param events Event emitter from `defineEvents`.
@@ -1365,7 +1366,6 @@ export function getResolvedProps(instance: GenericInstance) {
  *   outlets' `TSlots`; the runtime outlets come from `useOutlets` (which reads
  *   the same slots via `useSlots()`).
  * @param extension Optional callback to add or overwrite API members.
- * @private
  */
 export function useBlueprint<
   TProps extends Record<string, any>,

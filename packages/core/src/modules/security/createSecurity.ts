@@ -1,5 +1,13 @@
 import type { VueformInstance } from '~/createVueform'
-import { isClient, isDev, isForbiddenKey, isProd, own, warn } from '~/utils'
+import {
+  isClient,
+  isDev,
+  isForbiddenKey,
+  isProd,
+  own,
+  toCamelCase,
+  warn,
+} from '~/utils'
 import type {
   SecurityHtmlArea,
   SecurityModule,
@@ -162,31 +170,72 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
         return value
       }
 
-  const bannedProps: ReadonlySet<string> = new Set(
-    (own(options, 'banProps') ?? []).map((key) => key.toLowerCase())
+  const banProps = own(options, 'banProps') ?? []
+
+  const bannedKeys: ReadonlySet<string> = new Set(
+    banProps
+      .filter((entry): entry is string => typeof entry === 'string')
+      .map((key) => key.toLowerCase())
   )
+
+  // Rebuilt without global/sticky flags: those make `test` stateful across
+  // keys, and config-held instances may be frozen (no `lastIndex` writes).
+  const bannedPatterns: readonly RegExp[] = banProps
+    .filter((entry): entry is RegExp => entry instanceof RegExp)
+    .map((entry) => new RegExp(entry.source, entry.flags.replace(/[gy]/g, '')))
 
   /**
    * Whether an attribute entry must never reach a DOM element from an attribute
-   * bag. The built-in denylist covers the entries where data escalates into
-   * script or markup: `innerHTML`/`outerHTML`/`srcdoc` keys turn a `v-bind`
-   * spread into an HTML sink, a _string-valued_ `on*` key becomes a live inline
-   * event handler (Vue sets lowercase `on*` strings via `setAttribute`), and
-   * prototype keys would re-point objects. Function values under `on*` keys are
-   * Vue listeners from developer code — functions can't arrive through
-   * serialized schemas — and stay untouched. Keys in `bannedProps` (the
-   * resolved `$security.banProps`) are dropped in every value form.
+   * bag. Only the entries where data escalates into markup or re-points objects
+   * are hardcoded: `innerHTML`/`outerHTML` keys turn a `v-bind` spread into an
+   * HTML sink, and prototype keys would re-point objects. Everything else —
+   * inline event handlers (`onclick`, …), `srcdoc`, DOM-clobbering ids — is the
+   * app's policy via `$security.banProps`: string entries match
+   * case-insensitively, RegExp entries as written (add `i` yourself, e.g.
+   * `/^on/i`); both are checked against the original key spelling and its
+   * camelized form. Entries are dropped in every value form.
    */
-  const isDangerousProp = (key: string, value: unknown): boolean => {
+  const hasBans = bannedKeys.size > 0 || bannedPatterns.length > 0
+
+  const computeDangerousProp = (key: string): boolean => {
     if (isForbiddenKey(key)) return true
 
     const k = key.toLowerCase()
 
-    if (k === 'innerhtml' || k === 'outerhtml' || k === 'srcdoc') return true
+    if (k === 'innerhtml' || k === 'outerhtml') return true
 
-    if (bannedProps.has(k)) return true
+    if (!hasBans) return false
 
-    return k.startsWith('on') && typeof value === 'string'
+    // Vue camelizes spread keys when matching a component's declared props
+    // (an `on-label` schema key reaches an `onLabel` prop), so a ban covers
+    // both spellings: the original (the DOM attribute route) and the
+    // camelized one (the component prop route).
+    const camel = toCamelCase(key)
+
+    if (bannedKeys.has(k) || bannedKeys.has(camel.toLowerCase())) return true
+
+    return bannedPatterns.some(
+      (pattern) => pattern.test(key) || pattern.test(camel)
+    )
+  }
+
+  // Verdicts are memoized per instance: `parts` bags re-filter on proxy
+  // access, so the same keys recur constantly and pattern bans shouldn't
+  // re-run for each. Per instance, not global — the verdict depends on this
+  // app's `banProps`. Capped because untrusted schemas mint the key names:
+  // a flood of unique keys resets the cache instead of growing it.
+  const verdictCache = new Map<string, boolean>()
+
+  const isDangerousProp = (key: string): boolean => {
+    let verdict = verdictCache.get(key)
+
+    if (verdict === undefined) {
+      verdict = computeDangerousProp(key)
+      if (verdictCache.size >= 2048) verdictCache.clear()
+      verdictCache.set(key, verdict)
+    }
+
+    return verdict
   }
 
   /**
@@ -201,7 +250,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     let dirty = false
 
     for (const key in attrs) {
-      if (isDangerousProp(key, attrs[key])) {
+      if (isDangerousProp(key)) {
         dirty = true
         break
       }
@@ -212,10 +261,10 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     const out: Record<string, any> = {}
 
     for (const key in attrs) {
-      if (isDangerousProp(key, attrs[key])) {
+      if (isDangerousProp(key)) {
         if (isDev()) {
           warn(
-            `the \`${key}\` prop was removed from a schema-reachable bag — \`innerHTML\`/\`outerHTML\`/\`srcdoc\`, string-valued \`on*\` entries, and keys listed in \`$security.banProps\` never reach the DOM.`
+            `the \`${key}\` prop was removed from a schema-reachable bag — \`innerHTML\`/\`outerHTML\`, prototype keys, and entries matching \`$security.banProps\` never reach the DOM.`
           )
         }
         continue

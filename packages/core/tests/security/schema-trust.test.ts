@@ -4,9 +4,12 @@
  * Threat model: the form schema is a JSON document from a semi-trusted source
  * (CMS, form builder, database). It legitimately describes elements, labels,
  * and layout — and must not be able to do anything else: no mounting of
- * arbitrary registered components, no live event handlers, no HTML sinks
- * through attribute bags. Functions cannot travel through JSON, so
- * function-valued props remain the developer-code trust boundary.
+ * arbitrary registered components, no HTML sinks through attribute bags.
+ * `innerHTML`/`outerHTML` and prototype keys are blocked unconditionally;
+ * inline event handlers and other channels are the app's policy via
+ * `$security.banProps` (documented hardening baseline: `[/^on/i, 'srcdoc']`).
+ * Functions cannot travel through JSON, so function-valued props remain the
+ * developer-code trust boundary.
  */
 import { defineSchema } from '@vueform/core'
 import * as modules from '@vueform/core/modules'
@@ -131,24 +134,26 @@ describe('Security: untrusted-schema containment', () => {
      * string-valued inline handler that Vue would set via `setAttribute`,
      * creating live script from pure data.
      *
-     * Measure: string-valued `on*` keys are stripped from every parts source
-     * before the `v-bind` spread.
-     *
-     * Verified red→green: the handler attribute reached the DOM before the
-     * filter.
+     * Measure: inline handlers are the app's policy — a `banProps` RegExp entry
+     * (`/^on/i`, the documented hardening baseline) strips `on*` keys from
+     * every parts source before the `v-bind` spread, with a dev warning naming
+     * the dropped key.
      */
-    test('it should strip string-valued on* keys from `parts`', async () => {
+    test('it should strip on* keys from `parts` with a banProps pattern', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-      const { form } = createForm({
-        schema: defineSchema({
-          el: {
-            type: 'text',
-            label: 'Foo',
-            parts: { input: { onclick: 'window.__schema1 = true' } } as any,
-          },
-        }),
-      })
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            el: {
+              type: 'text',
+              label: 'Foo',
+              parts: { input: { onclick: 'window.__schema1 = true' } } as any,
+            },
+          }),
+        },
+        { $security: { banProps: [/^on/i] } }
+      )
 
       await nextTick()
 
@@ -158,7 +163,70 @@ describe('Security: untrusted-schema containment', () => {
       input.element.dispatchEvent(new Event('click'))
       expect((window as any).__schema1).toBeUndefined()
 
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('`onclick`'))
+
       warn.mockRestore()
+    })
+
+    /**
+     * Threat: kebab-case bypass — Vue camelizes spread keys when matching a
+     * component's declared props, so an `on-label` schema key reaches an
+     * `onLabel` prop even though the ban was written against the camelCase
+     * spelling.
+     *
+     * Measure: bans match both the original key and its camelized form.
+     *
+     * Verified red→green: the kebab spelling passed the filter before the
+     * camelized-form check.
+     */
+    test('it should ban the kebab-case spelling of a banned prop', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            el: {
+              type: 'text',
+              label: 'Foo',
+              parts: { input: { 'on-click': 'window.__kebab1 = true' } } as any,
+            },
+          }),
+        },
+        { $security: { banProps: [/^on/i] } }
+      )
+
+      await nextTick()
+
+      expect(form.find('input').attributes('on-click')).toBeUndefined()
+      expect((window as any).__kebab1).toBeUndefined()
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('`on-click`'))
+
+      warn.mockRestore()
+    })
+
+    /**
+     * Threat: without a `banProps` policy, an app might assume inline handlers
+     * are still blocked by a built-in `on*` rule.
+     *
+     * Measure: only `innerHTML`/`outerHTML` and prototype keys are built in —
+     * an `onclick` string passes through unless the app configures `banProps`.
+     * This test pins the deliberate default so a future change is a conscious
+     * one.
+     */
+    test('it should pass on* keys through without a banProps policy', async () => {
+      const { form } = createForm({
+        schema: defineSchema({
+          el: {
+            type: 'text',
+            label: 'Foo',
+            parts: { input: { onclick: '__unblocked' } } as any,
+          },
+        }),
+      })
+
+      await nextTick()
+
+      expect(form.find('input').attributes('onclick')).toBe('__unblocked')
     })
 
     /**
@@ -166,7 +234,7 @@ describe('Security: untrusted-schema containment', () => {
      * attribute bag as an HTML sink (Vue treats an `innerHTML` key as a DOM
      * property assignment).
      *
-     * Measure: `innerHTML`/`outerHTML`/`srcdoc` keys never survive the filter.
+     * Measure: `innerHTML`/`outerHTML` keys never survive the filter.
      */
     test('it should strip innerHTML keys from `parts`', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -288,9 +356,8 @@ describe('Security: untrusted-schema containment', () => {
      * keys could somehow stand in for the built-in denylist, a configured app
      * might weaken the core guarantees.
      *
-     * Measure: the built-in denylist (`innerHTML`/`outerHTML`/`srcdoc`,
-     * string-valued `on*`, prototype keys) applies always and is not relaxable;
-     * `banProps` only ever adds to it.
+     * Measure: the built-in denylist (`innerHTML`/`outerHTML`, prototype keys)
+     * applies always and is not relaxable; `banProps` only ever adds to it.
      */
     test('it should keep the built-in denylist with `banProps` configured', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -304,7 +371,6 @@ describe('Security: untrusted-schema containment', () => {
               parts: {
                 button: {
                   innerHTML: '<img src=x onerror="window.__ban1 = true">',
-                  onclick: 'window.__ban2 = true',
                 },
               } as any,
             },
@@ -316,9 +382,7 @@ describe('Security: untrusted-schema containment', () => {
       await nextTick()
 
       expect(form.find('button img').exists()).toBe(false)
-      expect(form.find('button').attributes('onclick')).toBeUndefined()
       expect((window as any).__ban1).toBeUndefined()
-      expect((window as any).__ban2).toBeUndefined()
 
       warn.mockRestore()
     })
@@ -328,8 +392,8 @@ describe('Security: untrusted-schema containment', () => {
      * are legitimate (functions cannot come from JSON) and must keep firing,
      * and benign attributes must pass.
      *
-     * Measure: only _string-valued_ `on*` keys are dropped; functions and
-     * ordinary attributes flow through.
+     * Measure: without a `banProps` policy nothing `on*`-shaped is dropped;
+     * functions and ordinary attributes flow through.
      */
     test('it should keep function listeners and benign attrs in `parts`', async () => {
       let fired = false
@@ -369,22 +433,24 @@ describe('Security: untrusted-schema containment', () => {
      * documented API.
      *
      * Measure: schema entry props are attr-sanitized before they reach the
-     * component.
-     *
-     * Verified red→green: the handler fired from schema JSON before the fix.
+     * component — with the documented `banProps: [/^on/i]` hardening in place,
+     * the handler never lands.
      */
     test('it should not turn undeclared schema keys into live handlers', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-      const { form } = createForm({
-        schema: defineSchema({
-          el: {
-            type: 'button',
-            text: 'Go',
-            onclick: 'window.__schema3 = true',
-          } as any,
-        }),
-      })
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            el: {
+              type: 'button',
+              text: 'Go',
+              onclick: 'window.__schema3 = true',
+            } as any,
+          }),
+        },
+        { $security: { banProps: [/^on/i] } }
+      )
 
       await nextTick()
 
@@ -404,30 +470,34 @@ describe('Security: untrusted-schema containment', () => {
      * Threat: grid cell `attrs` bags — the same attribute-bag vector through
      * the grid schema.
      *
-     * Measure: cell attrs pass through the same filter as `parts`.
+     * Measure: cell attrs pass through the same filter as `parts`, honoring the
+     * configured `banProps` policy.
      */
     test('it should strip dangerous keys from grid cell attrs', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-      const { form } = createForm({
-        schema: defineSchema({
-          g: {
-            type: 'grid',
-            cols: 1,
-            grid: [
-              [
-                {
-                  content: 'cell',
-                  attrs: {
-                    onclick: 'window.__schema4 = true',
-                    'data-kept': 'yes',
-                  },
-                } as any,
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            g: {
+              type: 'grid',
+              cols: 1,
+              grid: [
+                [
+                  {
+                    content: 'cell',
+                    attrs: {
+                      onclick: 'window.__schema4 = true',
+                      'data-kept': 'yes',
+                    },
+                  } as any,
+                ],
               ],
-            ],
-          },
-        }),
-      })
+            },
+          }),
+        },
+        { $security: { banProps: [/^on/i] } }
+      )
 
       await nextTick()
 
@@ -498,30 +568,30 @@ describe('Security: untrusted-schema containment', () => {
      * closes for form-level entries.
      *
      * Measure: the flat prototype passes through the same attribute-bag filter
-     * before the spread.
-     *
-     * Verified red→green: the handler attribute reached the DOM before the
-     * filter.
+     * before the spread, honoring the configured `banProps` policy.
      */
     test('it should filter flat list prototypes like schema entries', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
-      const { form } = createForm({
-        schema: defineSchema({
-          items: {
-            type: 'list',
-            flat: true,
-            default: ['x'],
-            schema: {
-              item: {
-                type: 'button',
-                text: 'Go',
-                onclick: 'window.__list1 = true',
-              } as any,
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            items: {
+              type: 'list',
+              flat: true,
+              default: ['x'],
+              schema: {
+                item: {
+                  type: 'button',
+                  text: 'Go',
+                  onclick: 'window.__list1 = true',
+                } as any,
+              },
             },
-          },
-        }),
-      })
+          }),
+        },
+        { $security: { banProps: [/^on/i] } }
+      )
 
       await nextTick()
 
@@ -600,29 +670,29 @@ describe('Security: untrusted-schema containment', () => {
      * schema object, the same fallthrough vector at the grid level.
      *
      * Measure: cell schemas pass through the attribute-bag filter when the cell
-     * is resolved.
-     *
-     * Verified red→green: the handler attribute reached the DOM before the
-     * filter.
+     * is resolved, honoring the configured `banProps` policy.
      */
     test('it should filter grid cell schemas like schema entries', async () => {
-      const { form } = createForm({
-        schema: defineSchema({
-          g: {
-            type: 'grid',
-            cols: 1,
-            grid: [
-              [
-                {
-                  type: 'button',
-                  text: 'Go',
-                  onclick: 'window.__grid1 = true',
-                } as any,
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            g: {
+              type: 'grid',
+              cols: 1,
+              grid: [
+                [
+                  {
+                    type: 'button',
+                    text: 'Go',
+                    onclick: 'window.__grid1 = true',
+                  } as any,
+                ],
               ],
-            ],
-          },
-        }),
-      })
+            },
+          }),
+        },
+        { $security: { banProps: [/^on/i] } }
+      )
 
       await nextTick()
 
@@ -637,31 +707,31 @@ describe('Security: untrusted-schema containment', () => {
      * into the cell element's props — the same vector at the matrix level.
      *
      * Measure: column schemas pass through the attribute-bag filter before the
-     * spread.
-     *
-     * Verified red→green: the handler attribute reached the DOM before the
-     * filter.
+     * spread, honoring the configured `banProps` policy.
      */
     test('it should filter matrix column schemas like schema entries', async () => {
-      const { form } = createForm({
-        schema: defineSchema({
-          m: {
-            type: 'matrix',
-            cols: [
-              {
-                value: 'a',
-                label: 'A',
-                schema: {
-                  type: 'button',
-                  text: 'Go',
-                  onclick: 'window.__matrix1 = true',
-                },
-              } as any,
-            ],
-            rows: [{ value: 'r1', label: 'Row 1' }],
-          },
-        }),
-      })
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            m: {
+              type: 'matrix',
+              cols: [
+                {
+                  value: 'a',
+                  label: 'A',
+                  schema: {
+                    type: 'button',
+                    text: 'Go',
+                    onclick: 'window.__matrix1 = true',
+                  },
+                } as any,
+              ],
+              rows: [{ value: 'r1', label: 'Row 1' }],
+            },
+          }),
+        },
+        { $security: { banProps: [/^on/i] } }
+      )
 
       await nextTick()
 

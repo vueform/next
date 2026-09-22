@@ -15,7 +15,7 @@ The protections Vueform itself provides live in one place: the `security` module
 | [`allowHtml`](#html-sanitization)                               | `[]`    | The areas where strings may render as **HTML** — `'content'`, `'grid'`, `'slots'`.                                                                                                        |
 | [`sanitizer`](#the-sanitize-step)                               | —       | The sanitization engine every allowed HTML area renders through. No built-in one — the [DOMPurify plugin](/plugins/dompurify) provides it; an identity function is the conscious opt-out. |
 | [`allowComponents`](#components-from-schemas)                   | `[]`    | The component names a schema string may resolve to.                                                                                                                                       |
-| [`banProps`](#banning-props)                                    | `[]`    | Extra attribute keys to drop from schema-reachable attribute bags, on top of the built-in denylist.                                                                                       |
+| [`banProps`](#banning-props)                                    | `[]`    | Attribute keys (strings or RegExps, e.g. `/^on/i`) to drop from schema-reachable attribute bags. Only `innerHTML`/`outerHTML` and prototype keys are built in.                            |
 | [`allowOrigins`](#request-origins)                              | `[]`    | Cross-origin destinations requests may target. Own origin allowed by default.                                                                                                             |
 | [`encrypt`](#draft-encryption) / [`decrypt`](#draft-encryption) | —       | Ciphers applied to persisted values, such as local autosave drafts.                                                                                                                       |
 
@@ -398,29 +398,47 @@ Treat `allowComponents` as a contract with your schema authors: only the compone
 
 ### What Else Is Gated
 
-| Schema surface                                                                                                                  | Treatment                                                                                                                                                                                                                                          |
-| ------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `slots` / grid cell strings, `VfContent` content                                                                                | Text always renders escaped; HTML only through [`allowHtml`](#html-sanitization), always sanitized.                                                                                                                                                |
-| `component`, `template`, `layout` name strings                                                                                  | Resolved only through [`allowComponents`](#components-from-schemas).                                                                                                                                                                               |
-| `parts` bags, grid cell `attrs`, undeclared schema keys (form entries, flat list prototypes, grid cell / matrix column schemas) | Filtered before reaching the DOM: `innerHTML`/`outerHTML`/`srcdoc` and string-valued `on*` entries are always dropped (function listeners from your own code keep working); [`banProps`](#banning-props) adds app-chosen keys in every value form. |
-| `tokens`, grid `widths`, matrix `gridTemplateColumns`                                                                           | Values that could break out of a scoped CSS rule are dropped.                                                                                                                                                                                      |
-| `redirect`, button `href` / `to`, file `url`                                                                                    | Scheme-validated — `javascript:` and other script-bearing schemes never reach a navigation sink.                                                                                                                                                   |
-| `autosave.local.key`                                                                                                            | Forced under the `vueform:` storage namespace.                                                                                                                                                                                                     |
+| Schema surface                                                                                                                  | Treatment                                                                                                                                                                                                                                      |
+| ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `slots` / grid cell strings, `VfContent` content                                                                                | Text always renders escaped; HTML only through [`allowHtml`](#html-sanitization), always sanitized.                                                                                                                                            |
+| `component`, `template`, `layout` name strings                                                                                  | Resolved only through [`allowComponents`](#components-from-schemas).                                                                                                                                                                           |
+| `parts` bags, grid cell `attrs`, undeclared schema keys (form entries, flat list prototypes, grid cell / matrix column schemas) | Filtered before reaching the DOM: `innerHTML`/`outerHTML` and prototype keys are always dropped; everything else — including inline `on*` handlers and `srcdoc` — is app policy via [`banProps`](#banning-props), dropped in every value form. |
+| `tokens`, grid `widths`, matrix `gridTemplateColumns`                                                                           | Values that could break out of a scoped CSS rule are dropped.                                                                                                                                                                                  |
+| `redirect`, button `href` / `to`, file `url`                                                                                    | Scheme-validated — `javascript:` and other script-bearing schemes never reach a navigation sink.                                                                                                                                               |
+| `autosave.local.key`                                                                                                            | Forced under the `vueform:` storage namespace.                                                                                                                                                                                                 |
 
 ### Banning Props
 
-The prop filtering above draws a deliberate line: it always removes the entries where **data would escalate into script or markup** — `innerHTML`/`outerHTML`/`srcdoc`, string-valued `on*` handlers, prototype keys — and leaves presentation-level props alone, because they are everyday developer API. Inline `style` is the notable case on the open side: hostile CSS on a single element caps out at planting a tracking beacon (`background: url(...)`) or overlaying other UI — no script, no selectors — while banning it outright would break ordinary style bindings for every app.
+The prop filtering hardcodes only the entries no app can ever want from data: `innerHTML`/`outerHTML` (an attribute bag as an HTML sink) and prototype keys (`__proto__`, `constructor`, `prototype`). **Everything else is your policy**, declared through `banProps` — including inline event handlers.
 
-Apps that ingest untrusted JSON schemas can draw the line tighter with `banProps`. A listed key is dropped from every filtered surface — schema entries themselves (form entries, group children, flat list prototypes, grid cell / matrix column schemas), `parts` bags, and grid cell `attrs` — **in every value form** (for `style`, that covers both the string and the object binding, since both are JSON-expressible):
+::: warning Configure `banProps` when schemas are untrusted
+If your schemas come from a semi-trusted source (CMS, form builder, database), configure at least:
 
 ```ts
 createVueform({
   $security: {
-    banProps: ['style'], // no schema-supplied styling at all
-    // banProps: ['style', 'id', 'name'], // also guard against DOM clobbering
+    // Ban on* keys — except element props your schemas legitimately
+    // use, carved out with a negative lookahead (here: onTrue/onFalse).
+    banProps: [/^on(?!True$|False$)/, 'srcdoc'],
   },
 })
 ```
+
+The `on*` pattern stops string-valued `onclick`/`onerror`/… entries from becoming live inline handlers via `setAttribute`, and `srcdoc` closes the iframe HTML sink. Element vocabularies have legitimate `on*`-named props (`onLabel` / `onIcon` on the PrimeVue toggle elements, for example) — list each one you use in the lookahead, anchored with `$`, rather than widening the pattern; an unlisted prop fails safe by being dropped, and the dev warning tells you which one to add. Without any of this, only `innerHTML`/`outerHTML` and prototype keys are blocked by default. Every dropped entry warns in development, naming the key.
+:::
+
+A `banProps` entry is dropped from every filtered surface — schema entries themselves (form entries, group children, flat list prototypes, grid cell / matrix column schemas), `parts` bags, and grid cell `attrs` — **in every value form** (for `style`, that covers both the string and the object binding, since both are JSON-expressible). String entries match case-insensitively; RegExp entries are tested as written, so add the `i` flag yourself. Both forms are checked against the key's original spelling **and** its camelized form — Vue camelizes spread keys when matching a component's declared props, so a ban on `onLabel` also catches a schema author writing `on-label`:
+
+```ts
+createVueform({
+  $security: {
+    banProps: [/^on/i, 'srcdoc', 'style'], // also: no schema-supplied styling
+    // banProps: [/^on/i, 'srcdoc', 'style', 'id', 'name'], // + DOM clobbering
+  },
+})
+```
+
+Note that a RegExp like `/^on/i` matches in every value form too: developer-written **function** listeners inside `parts` bags are also dropped, since the filter cannot tell trusted from untrusted objects once they merge. Keep function listeners in template code (never filtered), or scope the pattern tighter if you rely on them in `parts`.
 
 `banProps` only ever tightens: the built-in denylist applies regardless and cannot be relaxed.
 
