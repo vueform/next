@@ -69,6 +69,8 @@
     "smoke:e2e": "node scripts/smoke-e2e.mjs"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.3",
+    "@commitlint/config-conventional": "^21.2.3",
     "@inquirer/prompts": "^8.5.2",
     "@types/node": "^24.6.1",
     "@typescript-eslint/eslint-plugin": "^8.52.0",
