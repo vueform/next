@@ -14,8 +14,8 @@
     "types": ["node"]
   },
   "include": [
-    "../tests/types/**/*.ts",
-    "../tests/types/**/*.vue",
+    "../tests/type/**/*.ts",
+    "../tests/type/**/*.vue",
     "../src/components/**/*.ts",
     "../src/components/**/*.vue",
     "../src/blueprints/**/*.ts",

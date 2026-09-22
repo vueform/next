@@ -307,7 +307,7 @@ export function recordMemory(name: string, mean: number) {
 }
 
 /**
- * Writes collected memory cases to `.results/memory.json`.
+ * Writes collected memory cases to `results/memory.json`.
  */
 export function writeMemoryResults() {
   mkdirSync(resultsDir, { recursive: true })

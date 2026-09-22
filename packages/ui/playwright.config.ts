@@ -1,7 +1,9 @@
 import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({
-  testDir: './tests/screenshots',
+  testDir: './tests/snapshot',
+  outputDir: './tests/snapshot/.diagnostic',
+  snapshotPathTemplate: '{testDir}/.snapshots/{testFileName}/{arg}{-projectName}{-snapshotSuffix}{ext}',
   fullyParallel: true,
   forbidOnly: !!process.env.CI,
   retries: process.env.CI ? 2 : 0,
@@ -34,9 +36,9 @@ export default defineConfig({
     // all dep caches, then exec Vite directly so Playwright can kill it cleanly.
     command: [
       'lsof -ti :5180 | xargs kill -9 2>/dev/null || true',
-      'rm -rf tests/screenshots/fixture/node_modules/.vite node_modules/.vite',
+      'rm -rf tests/snapshot/.fixture/node_modules/.vite node_modules/.vite',
       'sleep 0.5',
-      'exec ../../node_modules/.bin/vite --port 5180 --force --config tests/screenshots/fixture/vite.config.ts',
+      'exec ../../node_modules/.bin/vite --port 5180 --force --config tests/snapshot/.fixture/vite.config.ts',
     ].join(' && '),
     url: 'http://localhost:5180',
     reuseExistingServer: false,

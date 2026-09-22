@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest'
-import BasicForm from './components/BasicForm.vue'
-import ConditionsForm from './components/ConditionsForm.vue'
-import ContentBranchesForm from './components/ContentBranchesForm.vue'
-import UseFormForm from './components/UseFormForm.vue'
-import ValidationForm from './components/ValidationForm.vue'
+import BasicForm from './.fixture/BasicForm.vue'
+import ConditionsForm from './.fixture/ConditionsForm.vue'
+import ContentBranchesForm from './.fixture/ContentBranchesForm.vue'
+import UseFormForm from './.fixture/UseFormForm.vue'
+import ValidationForm from './.fixture/ValidationForm.vue'
 import { flush, mountApp, type } from './helpers'
 
 declare const __VAPOR_ALL__: boolean

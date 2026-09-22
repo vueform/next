@@ -21,7 +21,7 @@ import {
   ref,
   type DefineComponent,
 } from 'vue'
-import VfTest from './integration/_fixtures/VfTest.vue'
+import VfTest from './integration/.fixture/VfTest.vue'
 
 export { flushPromises, mount }
 

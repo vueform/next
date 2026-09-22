@@ -27,6 +27,6 @@
     "../tests/**/vitest.config.ts",
     "../tests/vitest.config.ts",
     "../tests/screenshots/**/*",
-    "../tests/vapor/**/*"
+    "../tests/env/vapor/**/*"
   ]
 }

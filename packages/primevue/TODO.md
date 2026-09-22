@@ -1,1 +1,0 @@
-- [ ] Test VfInputText with element addons once they are implemented

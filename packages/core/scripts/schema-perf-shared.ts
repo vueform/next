@@ -1,5 +1,5 @@
 import { spawnSync } from 'node:child_process'
-import { existsSync, readFileSync, writeFileSync } from 'node:fs'
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { dirname, join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -10,8 +10,9 @@ export const DEFAULT_MEASUREMENT = 'define-schema-500'
 
 export const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..')
 export const outDir = join(rootDir, 'tests/perf/types')
-export const resultsPath = join(outDir, 'results.json')
-export const reportPath = join(outDir, 'RESULTS.md')
+export const resultsDir = join(outDir, '.results')
+export const resultsPath = join(resultsDir, 'results.json')
+export const reportPath = join(resultsDir, 'RESULTS.md')
 export const tsconfigPath = join(rootDir, '.tsconfig/tsconfig.types.perf.json')
 
 export function fixturePathFor(measurement: string) {
@@ -136,6 +137,7 @@ function isLegacyFlatResults(raw: Record<string, unknown>): boolean {
 }
 
 export function writeResults(results: ResultsFile) {
+  mkdirSync(resultsDir, { recursive: true })
   writeFileSync(resultsPath, `${JSON.stringify(results, null, 2)}\n`)
 }
 

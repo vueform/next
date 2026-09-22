@@ -1,6 +1,6 @@
 /**
  * Typechecks types-perf fixtures with --extendedDiagnostics and upserts the
- * results into `tests/perf/types/results.json` keyed by `measurement →
+ * results into `tests/perf/types/.results/results.json` keyed by `measurement →
  * commit`.
  *
  * Each fixture is measured in its own isolated `vue-tsc` run: the perf tsconfig

@@ -35,5 +35,6 @@ cache
 .playgrounds
 
 # Playwright
+packages/*/tests/snapshot/.diagnostic/
 test-results/
 playwright-report/

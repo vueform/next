@@ -22,10 +22,11 @@
     "../src/**/*.d.ts",
     "../src/**/*.vue",
     "../tests/**/*.ts",
-    "../tests/**/*.vue"
+    "../tests/**/*.vue",
+    "../tests/integration/.fixture/**/*.vue"
   ],
   "exclude": [
-    "../tests/types/**/*",
+    "../tests/type/**/*",
     "../tests/**/vitest.config.ts",
     "../tests/vitest.config.ts",
     "../tests/env/vapor/**/*"

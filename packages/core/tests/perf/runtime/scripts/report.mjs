@@ -211,7 +211,7 @@ export function gitHead() {
 }
 
 /**
- * Reads `.results/history.json` (`commit → { timestamp, time, memory }`).
+ * Reads `results/history.json` (`commit → { timestamp, time, memory }`).
  */
 export function readHistory() {
   if (!existsSync(historyPath)) return {}
@@ -514,7 +514,7 @@ function subtable(history, spec) {
 }
 
 /**
- * Writes `.results/RESULTS.md` — a summary table plus collapsible per-suite
+ * Writes `results/RESULTS.md` — a summary table plus collapsible per-suite
  * history, newest commit first, each cell % vs the older row below.
  *
  * @param history Commit-keyed results.
