@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url'
 export const DEFAULT_MEASUREMENT = 'define-schema-500'
 
 export const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..')
-export const outDir = join(rootDir, 'tests/types-perf')
+export const outDir = join(rootDir, 'tests/perf/types')
 export const resultsPath = join(outDir, 'results.json')
 export const reportPath = join(outDir, 'RESULTS.md')
 export const tsconfigPath = join(rootDir, '.tsconfig/tsconfig.types.perf.json')
@@ -390,7 +390,7 @@ export function writeReport(results: ResultsFile) {
     'before 2026-08-31 were measured without it and are noisier / not directly',
     'comparable.',
     '',
-    '- `pnpm tsc:perf` → run every `tests/types-perf/*.ts` fixture',
+    '- `pnpm tsc:perf` → run every `tests/perf/types/*.ts` fixture',
     '- `pnpm tsc:perf -- <measurement>` → run a specific fixture',
     '- `pnpm tsc:perf -- report` → regenerate this file',
     '',

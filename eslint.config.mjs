@@ -56,8 +56,8 @@ export default [
       '**/.playgrounds/**',
       '**/.ignored/**',
       'packages/metrics/size/fixtures/*/src/main.ts', // generated per-scenario entry
-      'packages/core/tests/types-perf/**/*.md',
-      'packages/core/tests/perf/.results/**',
+      'packages/core/tests/perf/types/**/*.md',
+      'packages/core/tests/perf/runtime/.results/**',
     ],
   },
 

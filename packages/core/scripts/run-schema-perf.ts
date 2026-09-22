@@ -1,13 +1,13 @@
 /**
  * Typechecks types-perf fixtures with --extendedDiagnostics and upserts the
- * results into `tests/types-perf/results.json` keyed by `measurement →
+ * results into `tests/perf/types/results.json` keyed by `measurement →
  * commit`.
  *
  * Each fixture is measured in its own isolated `vue-tsc` run: the perf tsconfig
  * is rewritten to include only that fixture, then restored to its original
  * content once all measurements are done.
  *
- * Usage: pnpm tsc:perf # every tests/types-perf/*.ts fixture pnpm tsc:perf --
+ * Usage: pnpm tsc:perf # every tests/perf/types/*.ts fixture pnpm tsc:perf --
  * define-schema-500 # a single fixture pnpm tsc:perf -- report
  */
 import { spawnSync } from 'node:child_process'
@@ -31,7 +31,7 @@ import {
 } from './schema-perf-shared'
 
 /**
- * Every `tests/types-perf/*.ts` fixture, by measurement name.
+ * Every `tests/perf/types/*.ts` fixture, by measurement name.
  */
 function allMeasurements(): string[] {
   return readdirSync(outDir)
@@ -47,7 +47,7 @@ function writeTsconfig(measurement: string) {
       {
         extends: './tsconfig.types.json',
         include: [
-          `../tests/types-perf/${measurement}.ts`,
+          `../tests/perf/types/${measurement}.ts`,
           '../src/components/**/*.ts',
           '../src/components/**/*.vue',
           '../src/blueprints/**/*.ts',
@@ -128,7 +128,7 @@ for (const measurement of measurements) {
   const fixturePath = fixturePathFor(measurement)
   if (!existsSync(fixturePath)) {
     console.error(`Missing fixture: ${fixturePath}`)
-    console.error('Expected tests/types-perf/<measurement>.ts')
+    console.error('Expected tests/perf/types/<measurement>.ts')
     process.exit(1)
   }
 }

@@ -28,6 +28,6 @@
     "../tests/types/**/*",
     "../tests/**/vitest.config.ts",
     "../tests/vitest.config.ts",
-    "../tests/vapor/**/*"
+    "../tests/env/vapor/**/*"
   ]
 }

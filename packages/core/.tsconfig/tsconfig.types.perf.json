@@ -1,8 +1,8 @@
 {
   "extends": "./tsconfig.types.json",
   "include": [
-    "../tests/types-perf/define-schema-validation-500.ts",
-    "../tests/types-perf/define-schema-500.ts",
+    "../tests/perf/types/define-schema-validation-500.ts",
+    "../tests/perf/types/define-schema-500.ts",
     "../src/components/**/*.ts",
     "../src/components/**/*.vue",
     "../src/blueprints/**/*.ts",

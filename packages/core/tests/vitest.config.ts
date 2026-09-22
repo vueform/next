@@ -8,12 +8,9 @@ export default defineConfig(({ mode }) => ({
     environment: 'happy-dom',
     setupFiles: ['./tests/vitest.setup.js'],
     include: [
-      './tests/components/*.test.ts',
-      './tests/features/*.test.ts',
-      './tests/model/*.test.ts',
-      './tests/rules/*.test.ts',
+      './tests/integration/**/*.test.ts',
       './tests/security/*.test.ts',
-      './tests/ssr/*.test.ts',
+      './tests/env/ssr/*.test.ts',
     ],
   },
 }))
