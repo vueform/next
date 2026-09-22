@@ -127,41 +127,29 @@
     "perf:rebase": "node tests/perf/runtime/scripts/run.mjs --rebase",
     "test:prod": "vitest --config tests/vitest.config.ts --maxWorkers=16 --mode production",
     "test:vapor": "vitest run --config tests/env/vapor/vitest.config.ts",
-    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts",
-    "publish": "pnpm build && pnpm republish",
-    "republish": "pnpm unpublish --force --no-git-checks && pnpm publish --no-git-checks"
+    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts"
   },
   "dependencies": {
-    "@vueform/devtools": "workspace:*",
+    "@vueform/devtools": "workspace:^",
     "@vueuse/core": "catalog:",
     "type-fest": "catalog:"
   },
   "devDependencies": {
-    "@nuxt/kit": "^3.17.5",
-    "@nuxt/schema": "^3.17.5",
+    "@nuxt/kit": "catalog:",
+    "@nuxt/schema": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
-    "@vue/shared": "^3.5.28",
+    "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
-    "@vueform/vite": "workspace:*",
+    "@vueform/vite": "workspace:^",
     "fast-glob": "catalog:",
     "happy-dom": "catalog:",
     "sass-embedded": "catalog:",
     "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vitest": "catalog:",
-    "zod": "^4.6.5"
+    "zod": "catalog:"
   },
   "peerDependencies": {
-    "@nuxt/kit": "^3.17.5",
-    "@nuxt/schema": "^3.17.5",
-    "vue": "^3.5.13"
-  },
-  "peerDependenciesMeta": {
-    "@nuxt/kit": {
-      "optional": true
-    },
-    "@nuxt/schema": {
-      "optional": true
-    }
+    "vue": "catalog:peer"
   }
 }

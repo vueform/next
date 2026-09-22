@@ -3,29 +3,76 @@ packages:
   - '.playgrounds/*'
   - 'docs'
 
+catalogMode: strict
+
 catalog:
+  '@commitlint/cli': ^21.2.3
+  '@commitlint/config-conventional': ^21.2.3
+  '@inquirer/core': ^11.2.1
+  '@inquirer/prompts': ^8.5.2
+  '@nuxt/kit': ^3.17.5
+  '@nuxt/schema': ^3.17.5
   '@playwright/test': ^1.51.1
   '@primeuix/themes': ^2.0.3
+  '@primevue/core': ^4.5.5
   '@types/node': ^24.13.6
+  '@typescript-eslint/eslint-plugin': ^8.52.0
+  '@typescript-eslint/parser': ^8.52.0
   '@vitejs/plugin-vue': ^6.0.9
   '@vitest/browser': ^4.1.11
   '@vitest/browser-playwright': ^4.1.11
+  '@vue/devtools-api': ^7.7.0
+  '@vue/repl': ^4.7.2
+  '@vue/shared': ^3.5.28
   '@vue/test-utils': ^2.4.6
+  '@vue/tsconfig': ^0.7.0
   '@vueuse/core': ^13.9.0
   ajv: ^8.20.0
+  eslint: ^9.39.2
+  eslint-config-prettier: ^10.1.8
+  eslint-plugin-import: ^2.32.0
+  eslint-plugin-perfectionist: ^5.10.1
+  eslint-plugin-prettier: ^5.5.4
+  eslint-plugin-unused-imports: ^4.3.0
+  eslint-plugin-vue: ^10.6.2
   expr-eval-fork: ^3.0.3
   fast-glob: ^3.3.3
   happy-dom: ^20.14.5
+  husky: ^9.1.7
   isomorphic-dompurify: ^3.19.0
+  lint-staged: ^16.2.7
+  prettier: ^3.7.4
+  prettier-plugin-jsdoc: ^1.8.0
   primeicons: ^7.0.0
   primevue: ^4.5.5
   quill: ^2.0.3
+  rollup-plugin-visualizer: ^7.1.1
   sass-embedded: ^1.104.1
+  shiki: ^4.0.2
+  stylelint: ^17.8.0
+  stylelint-config-recess-order: ^7.7.0
+  stylelint-config-standard-scss: ^17.0.0
+  stylelint-order: ^8.1.1
   terser: ^5.51.2
   tsx: ^4.23.15
   type-fest: ^4.41.0
   typescript: ~5.9.3
   vite: ^6.4.3
   vite-plugin-dts: ^4.5.4
+  vitepress: 2.0.0-alpha.16
+  vitepress-plugin-group-icons: ^1.7.3
   vitest: ^4.1.11
   vue: ^3.5.42
+  vue-compiler-sfc-vapor: npm:@vue/compiler-sfc@3.6.0-rc.5
+  vue-vapor: npm:vue@3.6.0-rc.5
+  vue-eslint-parser: ^10.2.0
+  vue-tsc: ^2.2.12
+  zod: ^4.6.5
+
+# Consumer compatibility contracts — deliberately separate from the main
+# catalog: the peer range is the minimum we support, not the version we
+# develop against.
+catalogs:
+  peer:
+    vue: ^3.5.13
+    vite: '>=5'

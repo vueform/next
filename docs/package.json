@@ -9,22 +9,22 @@
     "cli": "tsx scripts/cli.ts"
   },
   "devDependencies": {
-    "@inquirer/core": "^11.2.1",
-    "@inquirer/prompts": "^8.5.2",
+    "@inquirer/core": "catalog:",
+    "@inquirer/prompts": "catalog:",
     "tsx": "catalog:"
   },
   "dependencies": {
     "@primeuix/themes": "catalog:",
-    "@vue/repl": "^4.7.2",
-    "@vueform/core": "workspace:*",
-    "@vueform/expr-eval": "workspace:*",
-    "@vueform/primevue": "workspace:*",
-    "@vueform/ui": "workspace:*",
+    "@vue/repl": "catalog:",
+    "@vueform/core": "workspace:^",
+    "@vueform/expr-eval": "workspace:^",
+    "@vueform/primevue": "workspace:^",
+    "@vueform/ui": "workspace:^",
     "primeicons": "catalog:",
     "primevue": "catalog:",
-    "shiki": "^4.0.2",
-    "vitepress": "2.0.0-alpha.16",
-    "vitepress-plugin-group-icons": "^1.7.3",
+    "shiki": "catalog:",
+    "vitepress": "catalog:",
+    "vitepress-plugin-group-icons": "catalog:",
     "vue": "catalog:"
   }
 }

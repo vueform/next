@@ -22,10 +22,10 @@
     "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json"
   },
   "dependencies": {
-    "@vue/devtools-api": "^7.7.0"
+    "@vue/devtools-api": "catalog:"
   },
   "peerDependencies": {
-    "@vueform/core": "workspace:*",
-    "vue": "^3.5.13"
+    "@vueform/core": "workspace:^",
+    "vue": "catalog:peer"
   }
 }

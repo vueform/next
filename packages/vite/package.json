@@ -19,6 +19,6 @@
     "build": "rm -rf dist && tsc"
   },
   "peerDependencies": {
-    "vite": ">=5"
+    "vite": "catalog:peer"
   }
 }

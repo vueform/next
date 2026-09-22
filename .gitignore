@@ -29,7 +29,6 @@ cache
 # Local files
 .claude
 .cursor
-.local
 .temp
 .generated
 .playgrounds

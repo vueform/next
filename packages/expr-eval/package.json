@@ -25,8 +25,8 @@
     "expr-eval-fork": "catalog:"
   },
   "peerDependencies": {
-    "@vueform/core": "workspace:*",
-    "vue": "^3.5.13"
+    "@vueform/core": "workspace:^",
+    "vue": "catalog:peer"
   },
   "vueform": {
     "group": "plugins"

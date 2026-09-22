@@ -168,14 +168,14 @@
     "gen:registry": "pnpm -w gen:registry --ui"
   },
   "dependencies": {
-    "@vueform/core": "workspace:*",
-    "@vueform/devtools": "workspace:*"
+    "@vueform/core": "workspace:^",
+    "@vueform/devtools": "workspace:^"
   },
   "devDependencies": {
     "@playwright/test": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
-    "@vueform/testing": "workspace:*",
-    "@vueform/vite": "workspace:*",
+    "@vueform/testing": "workspace:^",
+    "@vueform/vite": "workspace:^",
     "fast-glob": "catalog:",
     "sass-embedded": "catalog:",
     "terser": "catalog:",
@@ -183,7 +183,7 @@
     "vite-plugin-dts": "catalog:"
   },
   "peerDependencies": {
-    "vue": "^3.5.13"
+    "vue": "catalog:peer"
   },
   "vueform": {
     "group": "adapters"
