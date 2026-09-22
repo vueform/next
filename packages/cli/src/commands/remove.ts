@@ -8,23 +8,24 @@ import {
 } from 'node:fs'
 import path from 'node:path'
 
-import { planUnregister } from '../autoregister.mjs'
-import { writeBarrel } from '../barrel.mjs'
+import { planUnregister } from '../autoregister.js'
+import { writeBarrel } from '../barrel.js'
 import {
   CONFIG_FILENAME,
   forgetEntries,
   getConfigValue,
   readComponentsDir,
-} from '../config.mjs'
-import { canPrompt, confirm } from '../prompt.mjs'
-import { canSelect, multiSelectFrom } from '../select.mjs'
-import { settleFiles } from '../settle.mjs'
+} from '../config.js'
+import { canPrompt, confirm } from '../prompt.js'
+import { canSelect, multiSelectFrom } from '../select.js'
+import { settleFiles } from '../settle.js'
+import type { CloneEntry, Command, CopyEntry } from '../types.js'
 
-function hashContent(content) {
+function hashContent(content: string) {
   return `sha256:${createHash('sha256').update(content).digest('hex')}`
 }
 
-export const remove = {
+export const remove: Command = {
   name: 'remove',
   usage: 'remove [component...|all]',
   description: 'Remove copied components from your project',
@@ -75,8 +76,14 @@ export const remove = {
       return
     }
 
-    const copies = getConfigValue(configPath, 'copies') ?? {}
-    const clones = getConfigValue(configPath, 'clones') ?? {}
+    const copies = (getConfigValue(configPath, 'copies') ?? {}) as Record<
+      string,
+      CopyEntry
+    >
+    const clones = (getConfigValue(configPath, 'clones') ?? {}) as Record<
+      string,
+      CloneEntry
+    >
     const tracked = [...Object.keys(copies), ...Object.keys(clones)]
     const onDisk = readdirSync(dirAbs)
       .filter((file) => /^Vf.+\.vue$/.test(file))
@@ -86,7 +93,7 @@ export const remove = {
     // Resolve the removal set (case-insensitive against known names).
     const all =
       positionals.length === 1 && ['all', '*'].includes(positionals[0])
-    let names
+    let names: string[]
 
     if (!positionals.length) {
       // Interactive picker over the copied components (guarded above).
@@ -95,15 +102,17 @@ export const remove = {
         return
       }
 
-      names = await multiSelectFrom(
+      const picked = await multiSelectFrom(
         `Copied components in ${dir}:`,
         [...known].sort().map((name) => ({ name }))
       )
 
-      if (!names) {
+      if (picked == null) {
         out.log('Cancelled.')
         return
       }
+
+      names = picked
     } else if (all) {
       names = known
       if (!names.length) {

@@ -108,7 +108,7 @@ function runCli(tmp: string) {
   execFileSync(
     process.execPath,
     [
-      path.join(repoRoot, 'packages', 'cli', 'bin', 'vueform.mjs'),
+      path.join(repoRoot, 'packages', 'cli', 'bin', 'vueform.js'),
       'copy',
       'all',
       '--dir',

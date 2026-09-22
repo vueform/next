@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
-import { writeBarrel } from '../barrel.mjs'
+import { writeBarrel } from '../barrel.js'
 import {
   CONFIG_FILENAME,
   componentsDirSnippet,
@@ -11,27 +11,28 @@ import {
   recommendDir,
   recordClone,
   saveComponentsDir,
-} from '../config.mjs'
-import { ask, canPrompt } from '../prompt.mjs'
-import { concludeRegistration } from '../registration.mjs'
-import { loadItem, loadRegistry, suggestItems } from '../registry.mjs'
-import { canSelect, selectFrom } from '../select.mjs'
-import { runPostCopy, settleFiles } from '../settle.mjs'
+} from '../config.js'
+import { ask, canPrompt } from '../prompt.js'
+import { concludeRegistration } from '../registration.js'
+import { loadItem, loadRegistry, suggestItems } from '../registry.js'
+import { canSelect, selectFrom } from '../select.js'
+import { runPostCopy, settleFiles } from '../settle.js'
+import type { Command } from '../types.js'
 
-function hashContent(content) {
+function hashContent(content: string) {
   return `sha256:${createHash('sha256').update(content).digest('hex')}`
 }
 
 const TYPE_PATTERN = /^[a-z][a-z0-9]*(-[a-z0-9]+)*$/
 
-function nameFor(type) {
+function nameFor(type: string) {
   return `Vf${type
     .split('-')
-    .map((part) => part[0].toUpperCase() + part.slice(1))
+    .map((part) => part[0]!.toUpperCase() + part.slice(1))
     .join('')}`
 }
 
-export const clone = {
+export const clone: Command = {
   name: 'clone',
   usage: 'clone [element] [type]',
   description: "Create a new element from an existing element's blueprint",
@@ -181,7 +182,8 @@ export const clone = {
     const configPath = path.join(cwd, CONFIG_FILENAME)
     const oneOff = typeof flags.dir === 'string'
     const yes = flags.yes === true
-    let dir = oneOff ? flags.dir.replace(/\/+$/, '') : null
+    let dir =
+      typeof flags.dir === 'string' ? flags.dir.replace(/\/+$/, '') : null
 
     if (!dir && existsSync(configPath)) dir = readComponentsDir(configPath)
 

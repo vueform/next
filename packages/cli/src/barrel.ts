@@ -8,7 +8,7 @@ import path from 'node:path'
  * conflict-checked), so copy runs keep it in sync with the directory. Returns
  * the barrel's filename, or null when the directory has no copies.
  */
-export function writeBarrel(dirAbs, useTs) {
+export function writeBarrel(dirAbs: string, useTs: boolean) {
   const names = readdirSync(dirAbs)
     .filter((file) => /^Vf.+\.vue$/.test(file))
     .map((file) => file.slice(0, -4))

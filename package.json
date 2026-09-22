@@ -25,7 +25,7 @@
     "lint:fix": "eslint . --fix && stylelint \"**/*.scss\" --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "check": "pnpm lint && pnpm format:check && pnpm --filter @vueform/core tsc && pnpm --filter @vueform/core tsc:types && pnpm --filter @vueform/primevue tsc && tsc --project tsconfig.json --noEmit && pnpm --filter @vueform/core tsc:node && pnpm --filter @vueform/docs tsc",
+    "check": "pnpm lint && pnpm format:check && pnpm --filter @vueform/core tsc && pnpm --filter @vueform/core tsc:types && pnpm --filter @vueform/primevue tsc && tsc --project tsconfig.json --noEmit && pnpm --filter @vueform/core tsc:node && pnpm --filter @vueform/docs tsc && pnpm --filter @vueform/cli tsc",
     "=== TESTS ===": "",
     "docs:update:ui": "pnpm build --vite --tools && pnpm build --core --ui && pnpm build --expr-eval && pnpm scrape && pnpm docs:gen && pnpm docs:build --ui",
     "test": "pnpm -r --filter core run test",
@@ -62,7 +62,8 @@
     "re": "pnpm clean-modules && pnpm install",
     "bump": "pnpm -r update && pnpm dedupe",
     "prepare": "husky",
-    "smoke:e2e": "tsx scripts/smoke-e2e.ts"
+    "smoke:e2e": "tsx scripts/smoke-e2e.ts",
+    "test:cli": "pnpm --filter @vueform/cli test"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",

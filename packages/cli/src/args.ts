@@ -4,10 +4,18 @@
  * `options.valueFlags` also consumes the next argument as its value (`--flag
  * value`); any other `--flag` is `true`.
  */
-export function parseArgs(args, options = {}) {
+export interface ParsedArgs {
+  positionals: string[]
+  flags: Record<string, string | boolean>
+}
+
+export function parseArgs(
+  args: string[],
+  options: { valueFlags?: string[] } = {}
+): ParsedArgs {
   const valueFlags = new Set(options.valueFlags ?? [])
-  const positionals = []
-  const flags = {}
+  const positionals: string[] = []
+  const flags: Record<string, string | boolean> = {}
 
   for (let i = 0; i < args.length; i++) {
     const arg = args[i]

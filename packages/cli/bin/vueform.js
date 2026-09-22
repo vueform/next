@@ -1,5 +1,7 @@
 #!/usr/bin/env node
-import { run } from '../src/index.mjs'
+// Plain-JS launcher: stable bin path, independent of the build layout.
+// All logic lives in the compiled library (dist/, built from src/).
+import { run } from '../dist/index.js'
 
 // Exit quietly when the consumer closes the pipe early (`vueform list | head`).
 process.stdout.on('error', (err) => {

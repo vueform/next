@@ -1,13 +1,14 @@
 import { existsSync, readFileSync } from 'node:fs'
 import path from 'node:path'
 
-import { detectAdapter, findPackageDir } from './project.mjs'
+import { detectAdapter, findPackageDir } from './project.js'
+import type { Registry, RegistryError, RegistryItem } from './types.js'
 
 // The registry format version this CLI understands. Bump together with the
 // schemas in @vueform/core/schemas when the format changes.
 export const REGISTRY_SCHEMA_VERSION = 1
 
-function readJson(filePath) {
+function readJson(filePath: string) {
   try {
     return JSON.parse(readFileSync(filePath, 'utf8'))
   } catch {
@@ -24,7 +25,7 @@ function readJson(filePath) {
  *
  * | 'version'.
  */
-export function loadRegistry(cwd) {
+export function loadRegistry(cwd: string): Registry | RegistryError {
   const name = detectAdapter(cwd)
 
   if (!name) return { error: 'no-package' }
@@ -57,7 +58,10 @@ export function loadRegistry(cwd) {
  * behave the same on case-insensitive filesystems and provenance is recorded
  * under the canonical name. Returns the manifest or null.
  */
-export function loadItem(registry, name) {
+export function loadItem(
+  registry: Registry,
+  name: string
+): RegistryItem | null {
   const names = registry.index.items.map((item) => item.name)
   const canonical =
     names.find((candidate) => candidate === name) ??
@@ -75,7 +79,7 @@ export function loadItem(registry, name) {
 /**
  * Near-matches for an unknown component name (case-insensitive, substring).
  */
-export function suggestItems(registry, name) {
+export function suggestItems(registry: Registry, name: string) {
   const query = name.toLowerCase()
 
   return registry.index.items
@@ -101,7 +105,7 @@ export function suggestItems(registry, name) {
 /**
  * The npm package a bare import specifier belongs to.
  */
-export function packageOf(specifier) {
+export function packageOf(specifier: string) {
   const segments = specifier.split('/')
   return specifier.startsWith('@')
     ? segments.slice(0, 2).join('/')
@@ -112,7 +116,7 @@ export function packageOf(specifier) {
  * Returns the import specifiers of an item whose packages don't resolve from
  * `cwd`.
  */
-export function missingImports(item, cwd) {
+export function missingImports(item: RegistryItem, cwd: string) {
   const packages = [...new Set((item.imports ?? []).map(packageOf))]
   return packages.filter((name) => !findPackageDir(name, cwd))
 }

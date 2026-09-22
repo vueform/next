@@ -3,7 +3,7 @@ import { readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { findPackageDir } from './project.mjs'
+import { findPackageDir } from './project.js'
 
 /**
  * "Settling" brings just-written copies in line with the project's own
@@ -14,7 +14,7 @@ import { findPackageDir } from './project.mjs'
 
 // Borrows the project's own prettier install (the CLI is zero-dependency, same
 // pattern as autoregister's typescript borrow). Null when not installed.
-async function loadPrettier(cwd) {
+async function loadPrettier(cwd: string) {
   const dir = findPackageDir('prettier', cwd)
 
   if (!dir) return null
@@ -38,7 +38,7 @@ async function loadPrettier(cwd) {
  * project. Returns the number of files rewritten; failures are silent — the
  * copies are already correct, settling is cosmetic.
  */
-export async function settleFiles(cwd, absPaths) {
+export async function settleFiles(cwd: string, absPaths: string[]) {
   let settled = 0
 
   try {
@@ -75,7 +75,7 @@ export async function settleFiles(cwd, absPaths) {
  * shell-quoted list of written files (project-relative); without the
  * placeholder the command runs as-is. Returns true when the command exited 0.
  */
-export function runPostCopy(cwd, command, relPaths) {
+export function runPostCopy(cwd: string, command: string, relPaths: string[]) {
   const files = relPaths
     .map((rel) => `'${rel.replace(/'/g, `'\\''`)}'`)
     .join(' ')

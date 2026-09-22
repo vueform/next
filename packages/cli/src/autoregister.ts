@@ -2,14 +2,34 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
-import { findPackageDir } from './project.mjs'
+import { findPackageDir } from './project.js'
+import type TS from 'typescript'
+
+export type RegisterPlan =
+  | { status: 'impossible'; reason: string }
+  | { status: 'registered'; rel: string }
+  | { status: 'possible'; rel: string; preview: string[]; apply(): void }
+
+export type UnregisterPlan =
+  | { status: 'not-registered' }
+  | { status: 'impossible'; reason: string }
+  | { status: 'possible'; rel: string; preview: string[]; apply(): void }
+
+// Narrow helper: keeps the barrel-path comparison type-safe without
+// restructuring the original condition chain.
+function TSHelpers_isStringLiteral(
+  ts: typeof TS,
+  node: TS.Expression
+): node is TS.StringLiteral {
+  return ts.isStringLiteral(node)
+}
 
 const IDENT = 'localComponents'
 
 /**
  * The manual-registration snippet for the barrel at `dir` (cwd-relative).
  */
-export function registrationSnippet(dir) {
+export function registrationSnippet(dir: string) {
   const barrelImport = dir.startsWith('.') ? dir : `./${dir}`
 
   return [
@@ -34,7 +54,9 @@ const ENTRY_CANDIDATES = [
 // The CLI itself is zero-dependency: the AST work borrows the project's own
 // typescript install (present in effectively every Vite+TS project). Its
 // absence is simply one more gate failure → the printed snippet.
-async function loadTs(cwd) {
+// Type-only `typescript` import: erased at runtime, so the CLI stays
+// zero-dependency — the module itself is borrowed from the user's project.
+async function loadTs(cwd: string): Promise<typeof TS | null> {
   const dir = findPackageDir('typescript', cwd)
 
   if (!dir) return null
@@ -49,7 +71,7 @@ async function loadTs(cwd) {
   }
 }
 
-function findEntry(cwd) {
+function findEntry(cwd: string) {
   for (const rel of ENTRY_CANDIDATES) {
     const abs = path.join(cwd, rel)
     if (existsSync(abs)) return { rel, abs }
@@ -58,7 +80,7 @@ function findEntry(cwd) {
   return null
 }
 
-function impossible(reason) {
+function impossible(reason: string): { status: 'impossible'; reason: string } {
   return { status: 'impossible', reason }
 }
 
@@ -75,7 +97,10 @@ function impossible(reason) {
  * object literal, `components` (when present) a plain object literal, and the
  * `vueformComponents` identifier unused.
  */
-export async function planAutoRegister(cwd, componentsDir) {
+export async function planAutoRegister(
+  cwd: string,
+  componentsDir: string
+): Promise<RegisterPlan> {
   const ts = await loadTs(cwd)
 
   if (!ts) return impossible('typescript is not installed in this project')
@@ -110,8 +135,8 @@ export async function planAutoRegister(cwd, componentsDir) {
     true
   )
 
-  const calls = []
-  const walk = (node) => {
+  const calls: TS.CallExpression[] = []
+  const walk = (node: TS.Node) => {
     if (
       ts.isCallExpression(node) &&
       ts.isIdentifier(node.expression) &&
@@ -132,8 +157,8 @@ export async function planAutoRegister(cwd, componentsDir) {
   }
 
   const call = calls[0]
-  let insertPos
-  let insertText
+  let insertPos: number
+  let insertText: string
 
   if (call.arguments.length === 0) {
     insertPos = call.arguments.pos
@@ -157,7 +182,7 @@ export async function planAutoRegister(cwd, componentsDir) {
 
     // Mimics the line indentation of an object's first property so the
     // inserted line reads as hand-written; '' when it sits on the `{` line.
-    const indentOf = (objectLiteral) => {
+    const indentOf = (objectLiteral: TS.ObjectLiteralExpression) => {
       const [first] = objectLiteral.properties
       if (!first) return null
       const start = first.getStart(sf)
@@ -165,7 +190,7 @@ export async function planAutoRegister(cwd, componentsDir) {
         return null
       }
       const lineStart = source.lastIndexOf('\n', start) + 1
-      return source.slice(lineStart, start).match(/^[ \t]*/)[0]
+      return source.slice(lineStart, start).match(/^[ \t]*/)?.[0] ?? null
     }
 
     if (!components) {
@@ -208,10 +233,11 @@ export async function planAutoRegister(cwd, componentsDir) {
       `+ components: { ...${IDENT} }  (in createVueform)`,
     ],
     apply() {
-      const edits = [
+      const edits: [number, string][] = [
         [importEnd, importText],
         [insertPos, insertText],
-      ].sort((a, b) => b[0] - a[0])
+      ]
+      edits.sort((a, b) => b[0] - a[0])
 
       let updated = source
       for (const [pos, text] of edits) {
@@ -233,7 +259,10 @@ export async function planAutoRegister(cwd, componentsDir) {
  *   and the `...<ident>` spread (or the whole `components` property when the
  *   spread is its only member)
  */
-export async function planUnregister(cwd, componentsDir) {
+export async function planUnregister(
+  cwd: string,
+  componentsDir: string
+): Promise<UnregisterPlan> {
   const entry = findEntry(cwd)
 
   if (!entry) return { status: 'not-registered' }
@@ -269,11 +298,12 @@ export async function planUnregister(cwd, componentsDir) {
     true
   )
 
-  let importDecl = null
+  let importDecl: TS.ImportDeclaration | null = null
 
   for (const statement of sf.statements) {
     if (
       ts.isImportDeclaration(statement) &&
+      TSHelpers_isStringLiteral(ts, statement.moduleSpecifier) &&
       statement.moduleSpecifier.text === barrelPath &&
       statement.importClause?.name
     ) {
@@ -289,11 +319,11 @@ export async function planUnregister(cwd, componentsDir) {
     }
   }
 
-  const ident = importDecl.importClause.name.text
-  const spreads = []
+  const ident = importDecl.importClause!.name!.text
+  const spreads: TS.SpreadAssignment[] = []
   let otherUses = 0
 
-  const walk = (node) => {
+  const walk = (node: TS.Node) => {
     if (ts.isIdentifier(node) && node.text === ident) {
       const parent = node.parent
       if (parent === importDecl.importClause) {
@@ -327,7 +357,7 @@ export async function planUnregister(cwd, componentsDir) {
 
   // Build deletion ranges: [start, end) — widened to whole `components`
   // property when the spread is its only member, and to trailing commas.
-  const ranges = []
+  const ranges: [number, number][] = []
 
   const importStart = importDecl.getStart(sf)
   let importEnd = importDecl.end
@@ -335,7 +365,7 @@ export async function planUnregister(cwd, componentsDir) {
   ranges.push([importStart, importEnd])
 
   for (const spread of spreads) {
-    const objectLiteral = spread.parent
+    const objectLiteral = spread.parent as TS.ObjectLiteralExpression
     const property = objectLiteral.parent
     const removeWholeProperty =
       objectLiteral.properties.length === 1 &&

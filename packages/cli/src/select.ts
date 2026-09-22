@@ -8,13 +8,22 @@ export function canSelect() {
   return process.stdin.isTTY === true && process.stdout.isTTY === true
 }
 
-const dim = (text) => `\x1b[2m${text}\x1b[0m`
+const dim = (text: string) => `\x1b[2m${text}\x1b[0m`
 
-function pick(title, items, multi) {
-  return new Promise((resolve) => {
+export interface SelectItem {
+  name: string
+  hint?: string
+}
+
+function pick(
+  title: string,
+  items: SelectItem[],
+  multi: boolean
+): Promise<string | string[] | null> {
+  return new Promise<string | string[] | null>((resolve) => {
     const { stdin, stdout } = process
     const height = Math.max(3, Math.min(items.length, (stdout.rows || 24) - 4))
-    const checked = new Set()
+    const checked = new Set<number>()
     let index = 0
     let top = 0
     let rendered = 0
@@ -52,7 +61,7 @@ function pick(title, items, multi) {
       rendered = lines.length
     }
 
-    const done = (value) => {
+    const done = (value: string | string[] | null) => {
       stdin.setRawMode(false)
       stdin.pause()
       stdin.off('data', onData)
@@ -61,7 +70,7 @@ function pick(title, items, multi) {
     }
 
     // Returns true when the picker finished (resolved or cancelled).
-    const handleKey = (key) => {
+    const handleKey = (key: string) => {
       if (key === '\x03' || key === 'q' || key === '\x1b') {
         done(null)
         return true
@@ -97,7 +106,7 @@ function pick(title, items, multi) {
       return false
     }
 
-    const onData = (buf) => {
+    const onData = (buf: Buffer) => {
       // Keystrokes can arrive coalesced (fast typing, paste, piped ptys) —
       // split the chunk into arrow sequences / lone escapes / single chars.
       const data = buf.toString()
@@ -124,10 +133,10 @@ function pick(title, items, multi) {
   })
 }
 
-export function selectFrom(title, items) {
-  return pick(title, items, false)
+export function selectFrom(title: string, items: SelectItem[]) {
+  return pick(title, items, false) as Promise<string | null>
 }
 
-export function multiSelectFrom(title, items) {
-  return pick(title, items, true)
+export function multiSelectFrom(title: string, items: SelectItem[]) {
+  return pick(title, items, true) as Promise<string[] | null>
 }

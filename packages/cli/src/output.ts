@@ -3,17 +3,23 @@
  * errors always print. `fail` is the single error format: an `error:` line plus
  * an optional indented hint, and a nonzero exit code.
  */
-export function createOutput({ silent = false } = {}) {
+export interface Output {
+  log(message?: string): void
+  error(message: string): void
+  fail(message: string, hint?: string): void
+}
+
+export function createOutput({ silent = false } = {}): Output {
   return {
     log(message = '') {
       if (!silent) console.log(message)
     },
 
-    error(message) {
+    error(message: string) {
       console.error(message)
     },
 
-    fail(message, hint) {
+    fail(message: string, hint?: string) {
       console.error(`error: ${message}`)
 
       if (hint) {

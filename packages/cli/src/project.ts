@@ -10,7 +10,7 @@ export const VUEFORM_PACKAGES = ['@vueform/core', ...ADAPTERS, '@vueform/cli']
  * `from`. Resolved via the directories directly (instead of require.resolve)
  * because the packages' `exports` fields don't expose ./package.json.
  */
-export function findPackageDir(name, from) {
+export function findPackageDir(name: string, from: string): string | null {
   let dir = from
 
   while (true) {
@@ -24,7 +24,7 @@ export function findPackageDir(name, from) {
   }
 }
 
-export function packageVersion(name, from) {
+export function packageVersion(name: string, from: string): string | null {
   const dir = findPackageDir(name, from)
 
   if (!dir) return null
@@ -41,7 +41,7 @@ export function packageVersion(name, from) {
  * The Vueform adapter package the project depends on (declared in
  * package.json), or null when none is found.
  */
-export function detectAdapter(cwd) {
+export function detectAdapter(cwd: string): string | null {
   try {
     const pkg = JSON.parse(readFileSync(path.join(cwd, 'package.json'), 'utf8'))
     const deps = { ...pkg.dependencies, ...pkg.devDependencies }
@@ -55,8 +55,8 @@ export function detectAdapter(cwd) {
  * The project type based on the build tool's config file: 'nuxt', 'vite', or
  * null when neither is recognized.
  */
-export function detectProjectType(cwd) {
-  const configOf = (tool) =>
+export function detectProjectType(cwd: string): 'nuxt' | 'vite' | null {
+  const configOf = (tool: string) =>
     ['ts', 'js', 'mts', 'mjs'].some((ext) =>
       existsSync(path.join(cwd, `${tool}.config.${ext}`))
     )
@@ -67,7 +67,7 @@ export function detectProjectType(cwd) {
   return null
 }
 
-const LOCKFILES = [
+const LOCKFILES: [string, string][] = [
   ['pnpm-lock.yaml', 'pnpm'],
   ['yarn.lock', 'yarn'],
   ['bun.lock', 'bun'],
@@ -75,7 +75,7 @@ const LOCKFILES = [
   ['package-lock.json', 'npm'],
 ]
 
-export function detectPackageManager(cwd) {
+export function detectPackageManager(cwd: string): string | null {
   let dir = cwd
 
   while (true) {
@@ -95,7 +95,7 @@ export function detectPackageManager(cwd) {
  * registry. @vueform/core is never a source of copies (unsupported as a direct
  * dependency).
  */
-export function listComponents(cwd) {
+export function listComponents(cwd: string) {
   const name = detectAdapter(cwd)
 
   if (!name) return null

@@ -1,16 +1,17 @@
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 
-import { CONFIG_FILENAME, readComponentsDir } from '../config.mjs'
+import { CONFIG_FILENAME, readComponentsDir } from '../config.js'
 import {
   VUEFORM_PACKAGES,
   detectAdapter,
   detectPackageManager,
   detectProjectType,
   packageVersion,
-} from '../project.mjs'
+} from '../project.js'
+import type { Command } from '../types.js'
 
-export const info = {
+export const info: Command = {
   name: 'info',
   usage: 'info',
   description: 'Print environment, project, and Vueform package details',
@@ -21,7 +22,7 @@ export const info = {
     const configPath = path.join(cwd, CONFIG_FILENAME)
     const configExists = existsSync(configPath)
 
-    const packages = {}
+    const packages: Record<string, string> = {}
 
     for (const name of VUEFORM_PACKAGES) {
       const version = packageVersion(name, cwd)

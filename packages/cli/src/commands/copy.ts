@@ -2,7 +2,7 @@ import { createHash } from 'node:crypto'
 import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
-import { writeBarrel } from '../barrel.mjs'
+import { writeBarrel } from '../barrel.js'
 import {
   CONFIG_FILENAME,
   componentsDirSnippet,
@@ -11,23 +11,31 @@ import {
   recommendDir,
   recordCopies,
   saveComponentsDir,
-} from '../config.mjs'
-import { ask, canPrompt, confirm } from '../prompt.mjs'
-import { concludeRegistration } from '../registration.mjs'
+} from '../config.js'
+import { ask, canPrompt, confirm } from '../prompt.js'
+import { concludeRegistration } from '../registration.js'
 import {
   loadItem,
   loadRegistry,
   missingImports,
   suggestItems,
-} from '../registry.mjs'
-import { canSelect, multiSelectFrom } from '../select.mjs'
-import { runPostCopy, settleFiles } from '../settle.mjs'
+} from '../registry.js'
+import { canSelect, multiSelectFrom } from '../select.js'
+import { runPostCopy, settleFiles } from '../settle.js'
+import type { Output } from '../output.js'
+import type {
+  Command,
+  CopyEntry,
+  RegistryError,
+  RegistryFile,
+  RegistryItem,
+} from '../types.js'
 
-function hashContent(content) {
+function hashContent(content: string) {
   return `sha256:${createHash('sha256').update(content).digest('hex')}`
 }
 
-function registryError(registry, out) {
+function registryError(registry: RegistryError, out: Output) {
   if (registry.error === 'no-package') {
     out.fail(
       'No Vueform package found in this project.',
@@ -48,7 +56,7 @@ function registryError(registry, out) {
   }
 }
 
-export const copy = {
+export const copy: Command = {
   name: 'copy',
   usage: 'copy [component|all]',
   description: 'Copy Vueform components into your project for customization',
@@ -116,14 +124,16 @@ export const copy = {
       }
     }
 
-    let items
+    let items: RegistryItem[]
 
     if (selection) {
-      items = selection.map((name) => loadItem(registry, name)).filter(Boolean)
+      items = selection
+        .map((name) => loadItem(registry, name))
+        .filter((item): item is RegistryItem => item != null)
     } else if (component === 'all' || component === '*') {
       items = registry.index.items
         .map(({ name }) => loadItem(registry, name))
-        .filter(Boolean)
+        .filter((item): item is RegistryItem => item != null)
 
       if (!items.length) {
         out.fail(`${registry.package}'s registry has no components.`)
@@ -162,7 +172,7 @@ export const copy = {
     const configPath = path.join(cwd, CONFIG_FILENAME)
     const oneOff = typeof flags.dir === 'string'
     const yes = flags.yes === true
-    let dir = oneOff ? flags.dir : null
+    let dir = typeof flags.dir === 'string' ? flags.dir : null
 
     if (!dir && existsSync(configPath)) dir = readComponentsDir(configPath)
 
@@ -206,8 +216,18 @@ export const copy = {
     // Plan the writes. A file is up to date when it matches the registry
     // bytes OR the settled baseline recorded at the previous copy (the
     // registry file after the project's own formatting ran over it).
-    const prior = getConfigValue(configPath, 'copies') ?? {}
-    const plan = []
+    const prior = (getConfigValue(configPath, 'copies') ?? {}) as Record<
+      string,
+      CopyEntry
+    >
+    const plan: {
+      item: RegistryItem
+      file: RegistryFile
+      rel: string
+      dest: string
+      source: string
+      action: string
+    }[] = []
 
     for (const item of items) {
       for (const file of (item.files ?? []).filter((f) => !f.optional)) {
@@ -353,10 +373,10 @@ export const copy = {
     if (!oneOff) {
       const savedDir = saveDir ? saveComponentsDir(configPath, dir) : null
 
-      const entries = {}
+      const entries: Record<string, CopyEntry> = {}
 
       for (const item of items) {
-        const fileHashes = {}
+        const fileHashes: CopyEntry['files'] = {}
         for (const entry of plan) {
           if (entry.item === item) {
             // `hash` describes the file as it landed (post-settle) — the

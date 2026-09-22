@@ -1,29 +1,30 @@
 import { existsSync, readFileSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 
-import { parseArgs } from './args.mjs'
-import { commands } from './commands/index.mjs'
-import { createOutput } from './output.mjs'
-import { closePrompts } from './prompt.mjs'
+import { parseArgs } from './args.js'
+import { commands } from './commands/index.js'
+import { createOutput } from './output.js'
+import { closePrompts } from './prompt.js'
+import type { Command } from './types.js'
 
 const pkgPath = fileURLToPath(new URL('../package.json', import.meta.url))
 
-const COMMON_FLAGS = [
+const COMMON_FLAGS: [string, string][] = [
   ['--cwd <path>', 'Run as if the CLI was started in <path>'],
   ['--silent', 'Suppress non-essential output'],
   ['-h, --help', 'Show help'],
 ]
 
-export function version() {
-  return JSON.parse(readFileSync(pkgPath, 'utf8')).version
-}
-
-function flagRows(rows) {
+function flagRows(rows: [string, string][]) {
   const pad = Math.max(...rows.map(([flag]) => flag.length)) + 2
 
   return rows.map(
     ([flag, description]) => `  ${flag.padEnd(pad)}${description}`
   )
+}
+
+export function version() {
+  return JSON.parse(readFileSync(pkgPath, 'utf8')).version
 }
 
 export function printHelp() {
@@ -50,7 +51,7 @@ export function printHelp() {
   )
 }
 
-export function printCommandHelp(command) {
+export function printCommandHelp(command: Command) {
   const lines = [
     `Usage: vueform ${command.usage}`,
     '',
@@ -72,7 +73,7 @@ export function printCommandHelp(command) {
  * CLI entry point. `argv` is the raw argument list without the node/script
  * prefix (i.e. `process.argv.slice(2)`).
  */
-export async function run(argv) {
+export async function run(argv: string[]) {
   const [name, ...rest] = argv
 
   if (!name || name === '--help' || name === '-h') {

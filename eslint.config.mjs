@@ -173,6 +173,9 @@ export default [
       'docs/**',
       'packages/metrics/**',
       'packages/scraper/**',
+      // The CLI publishes as a plain NodeNext package — relative imports
+      // are its module system, there are no aliases to prefer.
+      'packages/cli/**',
       '**/scripts/**',
     ],
     plugins: {
@@ -258,12 +261,13 @@ export default [
   },
 
   // ── Per-area relaxations ──────────────────────────────────────────────
-  // CLI scripts may use console.log.
+  // CLI scripts and the published CLI are console apps.
   {
     files: [
       'docs/scripts/**/*.ts',
       '**/scripts/**/*.{ts,mjs}',
       'packages/scraper/**/*.ts',
+      'packages/cli/**/*.ts',
     ],
     rules: {
       'no-console': 'off',

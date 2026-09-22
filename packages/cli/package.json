@@ -7,17 +7,28 @@
   "private": false,
   "type": "module",
   "bin": {
-    "vueform": "./bin/vueform.mjs"
+    "vueform": "./bin/vueform.js"
   },
   "exports": {
-    ".": "./src/index.mjs"
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
   },
   "files": [
     "bin",
-    "src",
+    "dist",
     "schema.json"
   ],
   "engines": {
     "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "tsc": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm build && vitest run --config tests/vitest.config.ts"
+  },
+  "devDependencies": {
+    "vitest": "catalog:"
   }
 }

@@ -1,7 +1,8 @@
-import { listComponents } from '../project.mjs'
-import { loadRegistry } from '../registry.mjs'
+import { listComponents } from '../project.js'
+import { loadRegistry } from '../registry.js'
+import type { Command } from '../types.js'
 
-export const list = {
+export const list: Command = {
   name: 'list',
   usage: 'list',
   description: 'List the Vueform components available for copying',

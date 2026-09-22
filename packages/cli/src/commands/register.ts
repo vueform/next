@@ -1,11 +1,12 @@
 import { existsSync } from 'node:fs'
 import path from 'node:path'
 
-import { planAutoRegister, registrationSnippet } from '../autoregister.mjs'
-import { CONFIG_FILENAME, readComponentsDir } from '../config.mjs'
-import { detectProjectType } from '../project.mjs'
+import { planAutoRegister, registrationSnippet } from '../autoregister.js'
+import { CONFIG_FILENAME, readComponentsDir } from '../config.js'
+import { detectProjectType } from '../project.js'
+import type { Command } from '../types.js'
 
-export const register = {
+export const register: Command = {
   name: 'register',
   usage: 'register',
   description: 'Register the copied components barrel in your entry file',
@@ -72,9 +73,10 @@ export const register = {
 
     plan.apply()
     out.log(
-      [`Updated ${plan.rel}:`, ...plan.preview.map((line) => `  ${line}`)].join(
-        '\n'
-      )
+      [
+        `Updated ${plan.rel}:`,
+        ...plan.preview.map((line: string) => `  ${line}`),
+      ].join('\n')
     )
   },
 }

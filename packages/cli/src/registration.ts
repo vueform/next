@@ -1,7 +1,8 @@
-import { planAutoRegister, registrationSnippet } from './autoregister.mjs'
-import { CONFIG_FILENAME, setConfigValue } from './config.mjs'
-import { detectProjectType } from './project.mjs'
-import { canPrompt, confirm } from './prompt.mjs'
+import { planAutoRegister, registrationSnippet } from './autoregister.js'
+import { CONFIG_FILENAME, setConfigValue } from './config.js'
+import { detectProjectType } from './project.js'
+import { canPrompt, confirm } from './prompt.js'
+import type { Output } from './output.js'
 
 /**
  * Shared closing move of `copy` and `clone`: make sure the barrel ends up
@@ -16,6 +17,14 @@ export async function concludeRegistration({
   yes,
   firstRun,
   out,
+}: {
+  cwd: string
+  dir: string
+  configPath: string
+  oneOff: boolean
+  yes: boolean
+  firstRun: boolean
+  out: Output
 }) {
   const nuxt = detectProjectType(cwd) === 'nuxt'
   const snippet = () => out.log(`\n${registrationSnippet(dir)}`)
@@ -44,7 +53,7 @@ export async function concludeRegistration({
       `\nYour copies are registered automatically (${registration.rel} imports the barrel).`
     )
   } else if (registration.status === 'possible' && firstRun) {
-    let accept = yes ? true : null
+    let accept: boolean | null = yes ? true : null
 
     if (accept === null && canPrompt()) {
       out.log(
@@ -52,7 +61,7 @@ export async function concludeRegistration({
           '',
           `vueform can register your copies automatically by updating ${registration.rel}:`,
           '',
-          ...registration.preview.map((line) => `  ${line}`),
+          ...registration.preview.map((line: string) => `  ${line}`),
           '',
         ].join('\n')
       )

@@ -2,8 +2,9 @@ import { spawnSync } from 'node:child_process'
 import { readFileSync } from 'node:fs'
 import path from 'node:path'
 
-import { loadItem, loadRegistry, suggestItems } from '../registry.mjs'
-import { canSelect, selectFrom } from '../select.mjs'
+import { loadItem, loadRegistry, suggestItems } from '../registry.js'
+import { canSelect, selectFrom } from '../select.js'
+import type { Command } from '../types.js'
 
 function looksLikeVSCode() {
   return (
@@ -13,7 +14,7 @@ function looksLikeVSCode() {
   )
 }
 
-export const view = {
+export const view: Command = {
   name: 'view',
   usage: 'view [component]',
   description: "View a copyable component's source before copying it",
@@ -42,7 +43,7 @@ export const view = {
       return
     }
 
-    let name = component
+    let name: string | null | undefined = component
 
     if (!name) {
       if (!canSelect()) {

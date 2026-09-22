@@ -1,7 +1,8 @@
 import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 
-import { detectProjectType } from './project.mjs'
+import { detectProjectType } from './project.js'
+import type { CliConfig, CloneEntry, CopyEntry } from './types.js'
 
 // vueform.config.json is the CLI's own config file — it does not hold the
 // Vueform instance config (defineConfig), only CLI settings. The $schema
@@ -11,7 +12,7 @@ export const CONFIG_FILENAME = 'vueform.config.json'
 
 const SCHEMA_PATH = './node_modules/@vueform/cli/schema.json'
 
-function readConfig(configPath) {
+function readConfig(configPath: string): CliConfig | null | 'invalid' {
   if (!existsSync(configPath)) return null
 
   try {
@@ -26,7 +27,7 @@ function readConfig(configPath) {
  * Reads `componentsDir` out of a vueform.config.json. Returns null when the
  * file is missing, unreadable, or doesn't hold the key.
  */
-export function readComponentsDir(configPath) {
+export function readComponentsDir(configPath: string) {
   const config = readConfig(configPath)
 
   if (!config || config === 'invalid') return null
@@ -34,7 +35,7 @@ export function readComponentsDir(configPath) {
   return typeof config.componentsDir === 'string' ? config.componentsDir : null
 }
 
-export function componentsDirSnippet(dir) {
+export function componentsDirSnippet(dir: string) {
   return `"componentsDir": "${dir}"`
 }
 
@@ -43,7 +44,7 @@ export function componentsDirSnippet(dir) {
  * merging into it otherwise. Returns 'created', 'updated', or 'manual' when the
  * existing file isn't valid JSON.
  */
-export function saveComponentsDir(configPath, dir) {
+export function saveComponentsDir(configPath: string, dir: string) {
   const existing = readConfig(configPath)
 
   if (existing === 'invalid') return 'manual'
@@ -65,7 +66,10 @@ export function saveComponentsDir(configPath, dir) {
  * is a map of component name → entry. Returns 'manual' when the config file
  * isn't valid JSON.
  */
-export function recordCopies(configPath, entries) {
+export function recordCopies(
+  configPath: string,
+  entries: Record<string, CopyEntry>
+) {
   const existing = readConfig(configPath)
 
   if (existing === 'invalid') return 'manual'
@@ -83,7 +87,11 @@ export function recordCopies(configPath, entries) {
  * type, source package/version, per-file hashes). Returns 'manual' when the
  * config file isn't valid JSON.
  */
-export function recordClone(configPath, name, entry) {
+export function recordClone(
+  configPath: string,
+  name: string,
+  entry: CloneEntry
+) {
   const existing = readConfig(configPath)
 
   if (existing === 'invalid') return 'manual'
@@ -102,13 +110,17 @@ export function recordClone(configPath, name, entry) {
  * rewritten; false when nothing was tracked (or the config is missing or
  * invalid).
  */
-export function forgetEntries(configPath, key, names) {
+export function forgetEntries(
+  configPath: string,
+  key: 'copies' | 'clones',
+  names: string[]
+) {
   const existing = readConfig(configPath)
 
   if (!existing || existing === 'invalid' || !existing[key]) return false
 
   const config = { $schema: SCHEMA_PATH, ...existing }
-  const entries = { ...config[key] }
+  const entries: Record<string, CopyEntry | CloneEntry> = { ...config[key] }
   let changed = false
 
   for (const name of names) {
@@ -120,8 +132,9 @@ export function forgetEntries(configPath, key, names) {
 
   if (!changed) return false
 
-  if (Object.keys(entries).length) config[key] = entries
-  else delete config[key]
+  if (Object.keys(entries).length) {
+    ;(config as Record<string, unknown>)[key] = entries
+  } else delete config[key]
 
   writeFileSync(configPath, JSON.stringify(config, null, 2) + '\n')
 
@@ -131,7 +144,7 @@ export function forgetEntries(configPath, key, names) {
 /**
  * Reads one top-level config value; null when the file is missing/invalid.
  */
-export function getConfigValue(configPath, key) {
+export function getConfigValue(configPath: string, key: string) {
   const config = readConfig(configPath)
   return !config || config === 'invalid' ? null : (config[key] ?? null)
 }
@@ -140,7 +153,11 @@ export function getConfigValue(configPath, key) {
  * Sets one top-level config value, merging with the existing file. Returns
  * 'manual' when the file isn't valid JSON.
  */
-export function setConfigValue(configPath, key, value) {
+export function setConfigValue(
+  configPath: string,
+  key: string,
+  value: unknown
+) {
   const existing = readConfig(configPath)
 
   if (existing === 'invalid') return 'manual'
@@ -157,8 +174,9 @@ export function setConfigValue(configPath, key, value) {
  * later) — `src/vueform/components` for Vite / src-based projects,
  * `vueform/components` otherwise (Nuxt, no src).
  */
-export function recommendDir(cwd) {
-  const exists = (...segments) => existsSync(path.join(cwd, ...segments))
+export function recommendDir(cwd: string) {
+  const exists = (...segments: string[]) =>
+    existsSync(path.join(cwd, ...segments))
   const type = detectProjectType(cwd)
 
   if (type === 'nuxt') return 'vueform/components'

@@ -1,17 +1,18 @@
-import { clone } from './clone.mjs'
-import { copy } from './copy.mjs'
-import { info } from './info.mjs'
-import { list } from './list.mjs'
-import { register } from './register.mjs'
-import { remove } from './remove.mjs'
-import { view } from './view.mjs'
+import { clone } from './clone.js'
+import { copy } from './copy.js'
+import { info } from './info.js'
+import { list } from './list.js'
+import { register } from './register.js'
+import { remove } from './remove.js'
+import { view } from './view.js'
+import type { Command } from '../types.js'
 
 /**
  * Command registry. Add a new command by creating a module in this directory
  * that exports `{ name, usage, description, valueFlags?, flags?, examples?,
  * run({ positionals, flags, out }) }` and listing it here.
  */
-export const commands = {
+export const commands: Record<string, Command> = {
   [copy.name]: copy,
   [clone.name]: clone,
   [remove.name]: remove,
