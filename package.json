@@ -22,8 +22,12 @@
     "docs:pre": "pnpm -r --filter docs run pre",
     "docs:gen": "pnpm -r --filter docs run gen && pnpm docs:format",
     "docs:cli": "pnpm -r --filter docs run cli && pnpm docs:format",
-    "docs:update:ui": "pnpm build --vite --tools && pnpm build --core --ui && pnpm build --expr-eval && pnpm scrape && pnpm docs:gen && pnpm docs:build --ui",
+    "lint": "eslint . && stylelint \"**/*.scss\"",
+    "fix": "eslint . --fix && stylelint \"**/*.scss\" --fix",
+    "format": "prettier . --write",
+    "check": "pnpm lint && prettier . --check",
     "=== TESTS ===": "",
+    "docs:update:ui": "pnpm build --vite --tools && pnpm build --core --ui && pnpm build --expr-eval && pnpm scrape && pnpm docs:gen && pnpm docs:build --ui",
     "test": "pnpm -r --filter core run test",
     "test:core": "pnpm -r --filter core run test",
     "test:pv": "pnpm --filter @vueform/primevue test",
@@ -58,11 +62,7 @@
     "re": "pnpm clean-modules && pnpm install",
     "bump": "pnpm -r update && pnpm dedupe",
     "prepare": "husky",
-    "smoke:e2e": "node scripts/smoke-e2e.mjs",
-    "lint": "eslint . && stylelint \"**/*.scss\"",
-    "fix": "eslint . --fix && stylelint \"**/*.scss\" --fix",
-    "format": "prettier . --write",
-    "check": "pnpm lint && prettier . --check"
+    "smoke:e2e": "node scripts/smoke-e2e.mjs"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",

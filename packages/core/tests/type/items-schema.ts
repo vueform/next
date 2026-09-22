@@ -344,7 +344,6 @@ void schema
 // SchemaToModel / ModelByPath
 // =============================================================================
 
-// eslint-disable-next-line
 const modelSchema = defineSchema({
   nums: {
     type: 'select',
@@ -459,7 +458,7 @@ type _findRadiosItemValue = Expect<Equal<FindRadios['items'][number]['value'], n
 type _findCheckboxesItemValue = Expect<Equal<FindCheckboxes['items'][number]['value'], number>>
 
 // Non-model elements (button) must not gain value/model/load/update from the overlay
-// eslint-disable-next-line
+
 const buttonSchema = defineSchema({
   button: { type: 'button' },
   select: { type: 'select', items: [1, 2, 3] as const },

@@ -106,7 +106,7 @@ describe('Templates as config defaults', () => {
   })
 
   it('should apply a layout set as an *element default', async () => {
-    const { form, el } = createForm(
+    const { form } = createForm(
       {
         schema: defineSchema({
           el: { type: 'text', label: 'Foo' },

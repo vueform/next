@@ -12,31 +12,17 @@ const noParentRelativeImports = {
   message: 'Do not use parent relative imports (../…). Use @/… instead.',
 }
 
-const noModulesBarrelImports = [
-  {
-    name: '~/modules',
-    message:
-      "Do not import from '~/modules'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in defaultModules.ts and index.ts.",
-  },
-  {
-    name: '~/modules/index',
-    message:
-      "Do not import from '~/modules'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in defaultModules.ts and index.ts.",
-  },
-  {
-    name: './modules',
-    message:
-      "Do not import from './modules'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in defaultModules.ts and index.ts.",
-  },
-  {
-    name: './modules/index',
-    message:
-      "Do not import from './modules'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in defaultModules.ts and index.ts.",
-  },
-]
+// The modules barrel is only allowed in defaultModules.ts (`~/modules`) and
+// index.ts (`./modules`); everything else imports a specific module.
+const noModulesBarrelImports = ['~/modules', './modules'].flatMap((name) =>
+  [name, `${name}/index`].map((n) => ({
+    name: n,
+    message: `Do not import from '${name}'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in defaultModules.ts and index.ts.`,
+  }))
+)
 
 export default [
-  // ignore build output etc
+  // ── Ignores ───────────────────────────────────────────────────────────
   {
     ignores: [
       '**/node_modules/**',
@@ -44,23 +30,25 @@ export default [
       // Generated component registries (gen:registry) — committed for GitHub
       // reference, but generated code isn't linted.
       'packages/*/.registry/**',
-      '**/playground/**',
-      '**/docs/.vitepress/cache/**',
-      '**/docs/.vitepress/dist/**',
-      '**/docs/.vitepress/.temp/**',
-      '**/docs/_generated/**',
-      '**/docs/_generator/**',
-      '**/docs/src/playground/**',
-      '**/wizard/templates/**',
+      // Playground templates and instances simulate user projects and carry
+      // their own eslint configs; the playground's own scripts and vite
+      // plugin are linted by this config.
+      'playground/templates/**',
       '**/.playgrounds/**',
-      '**/.ignored/**',
-      'packages/metrics/size/fixtures/*/src/main.ts', // generated per-scenario entry
-      'packages/core/tests/perf/types/**/*.md',
+      'docs/src/playground/**',
+      // VitePress build artifacts.
+      'docs/.vitepress/cache/**',
+      'docs/.vitepress/dist/**',
+      'docs/.vitepress/.temp/**',
+      // Generated per-scenario entries (metrics size fixtures).
+      'packages/metrics/size/fixtures/*/src/main.ts',
+      // Perf run outputs.
       'packages/core/tests/perf/runtime/.results/**',
+      'packages/core/tests/perf/types/.results/**',
     ],
   },
 
-  // JS/TS
+  // ── Parsers ───────────────────────────────────────────────────────────
   {
     files: ['**/*.{js,ts,cjs}'],
     languageOptions: {
@@ -71,8 +59,6 @@ export default [
       },
     },
   },
-
-  // Vue SFCs
   {
     files: ['**/*.vue'],
     languageOptions: {
@@ -92,6 +78,7 @@ export default [
     },
   },
 
+  // ── Base rules (everything) ───────────────────────────────────────────
   {
     files: ['**/*.{js,cjs,ts,vue}'],
     plugins: {
@@ -114,6 +101,8 @@ export default [
         },
       ],
 
+      // The base rule is off in favor of the type-aware
+      // @typescript-eslint/no-restricted-imports blocks below.
       'no-restricted-imports': 'off',
 
       'import/no-duplicates': ['error', { 'prefer-inline': true }],
@@ -122,44 +111,32 @@ export default [
       'import/order': [
         'error',
         {
-          // do NOT allow blank lines between imports
-          // 'newlines-between': 'never',
           alphabetize: { order: 'asc', caseInsensitive: true },
-
-          // keep a predictable order (optional but recommended)
           groups: [
-            'builtin', // fs, path
-            'external', // vue, lodash
-            'internal', // @/...
-            'parent', // ../
-            'sibling', // ./
-            'index', // .
+            'builtin',
+            'external',
+            'internal',
+            'parent',
+            'sibling',
+            'index',
             'object',
             'type',
           ],
-
-          // treat @/ as internal
+          // @/ and ~/ are internal aliases.
           pathGroups: [
-            {
-              pattern: '@/**',
-              group: 'internal',
-              position: 'before',
-            },
-            {
-              pattern: '~/**',
-              group: 'internal',
-              position: 'before',
-            },
+            { pattern: '@/**', group: 'internal', position: 'before' },
+            { pattern: '~/**', group: 'internal', position: 'before' },
           ],
         },
       ],
     },
   },
 
-  // File layout: private types, public types, private runtime
-  // (const/let → class → function), public runtime (export const → class →
-  // function). `const` / `export const` / `let` are not sorted (they partition
-  // the file); keep private consts after types and before private classes.
+  // ── File layout (src only) ────────────────────────────────────────────
+  // Private types, public types, private runtime (const/let → class →
+  // function), public runtime (export const → class → function). `const` /
+  // `export const` / `let` are not sorted (they partition the file); keep
+  // private consts after types and before private classes.
   {
     files: ['**/src/**/*.{js,ts}'],
     plugins: {
@@ -186,6 +163,9 @@ export default [
     },
   },
 
+  // ── Import restrictions ───────────────────────────────────────────────
+  // Package sources: no parent-relative imports (tests, docs, scripts and
+  // the tooling packages are exempt — they legitimately use relative paths).
   {
     files: ['**/*.{js,cjs,ts,vue}'],
     ignores: [
@@ -197,8 +177,6 @@ export default [
     ],
     plugins: {
       '@typescript-eslint': tseslint,
-      'unused-imports': unusedImports,
-      import: pluginImport,
     },
     rules: {
       '@typescript-eslint/no-restricted-imports': [
@@ -210,12 +188,9 @@ export default [
     },
   },
 
-  // Core: do not import the modules barrel except from defaultModules.ts
-  // (`~/modules`) and index.ts (`./modules`). Subpath imports (e.g.
-  // ~/modules/validation) remain allowed.
-  // This block re-declares the parent-relative restriction because flat config
-  // replaces the previous @typescript-eslint/no-restricted-imports options.
-  // Tests are excluded so they can use relative paths (e.g. ../helpers).
+  // Core additionally bans the modules barrel (except in defaultModules.ts
+  // and index.ts). Re-declares the parent-relative restriction because flat
+  // config replaces — not merges — rule options.
   {
     files: ['packages/core/**/*.{js,cjs,ts,vue}'],
     ignores: [
@@ -259,6 +234,9 @@ export default [
     },
   },
 
+  // ── Named exports only (src) ──────────────────────────────────────────
+  // Exempt: areas whose files are consumed as default exports by convention
+  // (plugins, services, SFC-heavy component dirs, theme/tokens, vite/nuxt).
   {
     files: ['**/src/**/*.{js,ts,vue}'],
     ignores: [
@@ -279,11 +257,12 @@ export default [
     },
   },
 
-  // CLI scripts — allow console.log
+  // ── Per-area relaxations ──────────────────────────────────────────────
+  // CLI scripts may use console.log.
   {
     files: [
       'docs/scripts/**/*.ts',
-      '**/scripts/**/*.ts',
+      '**/scripts/**/*.{ts,mjs}',
       'packages/scraper/**/*.ts',
     ],
     rules: {
@@ -291,14 +270,16 @@ export default [
     },
   },
 
-  // Type definition files may have unused generic parameters by design
+  // Type definition files may have unused generic parameters by design, and
+  // the type-test fixtures assert via deliberately "unused" type-level
+  // constructs — the rule's premise doesn't hold in either.
   {
-    files: ['**/*.d.ts'],
+    files: ['**/*.d.ts', 'packages/core/tests/type/**'],
     rules: {
       'unused-imports/no-unused-vars': 'off',
     },
   },
 
-  // Disable ESLint formatting rules that would fight Prettier
+  // ── Prettier last: disable formatting rules ───────────────────────────
   eslintConfigPrettier,
 ]

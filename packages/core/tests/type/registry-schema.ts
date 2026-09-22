@@ -80,7 +80,6 @@ type _narrowMatrixModel = Expect<Equal<NarrowMatrix['model'], (string | null)[]>
 // defineSchema — acceptance
 // ---------------------------------------------------------------------------
 
-// eslint-disable-next-line unused-imports/no-unused-vars
 const accepted = defineSchema({
   text: {
     type: 'text',
@@ -179,7 +178,6 @@ const accepted = defineSchema({
 
 type S = typeof accepted
 
-// eslint-disable-next-line unused-imports/no-unused-vars
 const arrayAccepted = defineSchema([
   { type: 'text', name: 'first' },
   { type: 'select', name: 'second', items: ['a', 'b'] },
