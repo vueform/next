@@ -1,4 +1,5 @@
-import type { ShikiTransformer, ElementContent, Element } from 'shiki'
+import type { Element, ElementContent } from 'hast'
+import type { ShikiTransformer } from 'shiki'
 
 /**
  * Shiki transformer that highlights individual words/phrases inside code

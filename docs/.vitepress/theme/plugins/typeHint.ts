@@ -1,4 +1,5 @@
-import type { Element, ElementContent, ShikiTransformer } from 'shiki'
+import type { Element, ElementContent } from 'hast'
+import type { ShikiTransformer } from 'shiki'
 
 interface HintItem {
   kind: string

@@ -7,6 +7,29 @@ declare module '*.vue' {
   export default component
 }
 
+// Vite aliases (config.mts) pointing at generated JSON: components/classes
+// come from the scraper tree at the repo root (.generated/<adapter>),
+// keywords/types from the docs generator (docs/.generated/<adapter>).
+declare module 'virtual:vf-generated/components' {
+  const data: Record<string, any>
+  export default data
+}
+
+declare module 'virtual:vf-generated/classes' {
+  const data: Record<string, any>
+  export default data
+}
+
+declare module 'virtual:vf-generated/keywords' {
+  const data: Record<string, unknown>
+  export default data
+}
+
+declare module 'virtual:vf-generated/types' {
+  const data: string[]
+  export default data
+}
+
 declare module 'virtual:vf-active-adapter' {
   import type { AdapterEntry } from './adapters/types'
 
@@ -18,6 +41,9 @@ declare module '@vueform/core' {
   import type { App } from 'vue'
 
   export const en_US: Record<string, any>
+
+  export const fetchHttpAdapter: unknown
+  export const nativeDateAdapter: unknown
 
   export function createVueform(config: {
     locales: Record<string, any>
