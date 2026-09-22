@@ -172,12 +172,15 @@
     "@vueform/devtools": "workspace:*"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.1",
-    "@vueform/expr-eval": "workspace:*",
+    "@playwright/test": "catalog:",
+    "@vitejs/plugin-vue": "catalog:",
     "@vueform/testing": "workspace:*",
     "@vueform/vite": "workspace:*",
-    "sass-embedded": "^1.87.0",
-    "terser": "^5.49.0"
+    "fast-glob": "catalog:",
+    "sass-embedded": "catalog:",
+    "terser": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-dts": "catalog:"
   },
   "peerDependencies": {
     "vue": "^3.5.13"

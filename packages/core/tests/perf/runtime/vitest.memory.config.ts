@@ -1,12 +1,10 @@
 import { defineConfig } from 'vitest/config'
-import { createBaseConfig } from '../../../vitest.config'
+import base, { baseTest } from '../../vitest.base'
 
-export default defineConfig(({ mode }) => ({
-  ...createBaseConfig(mode),
+export default defineConfig({
+  ...base,
   test: {
-    globals: true,
-    environment: 'happy-dom',
-    setupFiles: ['./tests/vitest.setup.js'],
+    ...baseTest,
     include: ['./tests/perf/**/*.mem.ts'],
     fileParallelism: false,
     isolate: false,
@@ -14,6 +12,8 @@ export default defineConfig(({ mode }) => ({
     testTimeout: 120_000,
     hookTimeout: 120_000,
     pool: 'forks',
-    execArgv: ['--expose-gc'],
+    poolOptions: {
+      forks: { execArgv: ['--expose-gc'] },
+    },
   },
-}))
+})

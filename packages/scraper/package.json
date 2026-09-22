@@ -9,9 +9,6 @@
     "issues": "tsx scripts/issues.ts"
   },
   "devDependencies": {
-    "@types/node": "^24.13.5",
-    "ajv": "^8.13.0",
-    "tsx": "^4.23.13",
-    "typescript": "~5.9.3"
+    "ajv": "catalog:"
   }
 }

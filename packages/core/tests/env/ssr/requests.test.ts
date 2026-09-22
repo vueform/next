@@ -1,4 +1,3 @@
-// @vitest-environment node
 /**
  * SSR request behavior.
  *

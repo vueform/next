@@ -1,12 +1,10 @@
 import { defineConfig } from 'vitest/config'
-import { createBaseConfig } from '../../../vitest.config'
+import base, { baseTest } from '../../vitest.base'
 
-export default defineConfig(({ mode }) => ({
-  ...createBaseConfig(mode),
+export default defineConfig({
+  ...base,
   test: {
-    globals: true,
-    environment: 'happy-dom',
-    setupFiles: ['./tests/vitest.setup.js'],
+    ...baseTest,
     include: [],
     fileParallelism: false,
     maxWorkers: 1,
@@ -17,4 +15,4 @@ export default defineConfig(({ mode }) => ({
       reporters: ['verbose'],
     },
   },
-}))
+})

@@ -11,7 +11,8 @@
       "@vueform/primevue/themes": ["../src/themes/index.ts"],
       "@vueform/primevue/tokens": ["../src/themes/tokens.ts"],
       "@vueform/primevue/components": ["../src/components/index.ts"],
-      "@vueform/primevue/*": ["../src/*"]
+      "@vueform/primevue/*": ["../src/*"],
+      "@vueform/expr-eval": ["../../expr-eval/src/index.ts"]
     },
     "noImplicitAny": false
   },

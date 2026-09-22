@@ -17,7 +17,11 @@
       }
     },
     {
-      "files": ["docs/.vitepress/config.mts", "docs/.vitepress/adapters/ui/config.ts", "docs/.vitepress/adapters/primevue/config.ts"],
+      "files": [
+        "docs/.vitepress/config.mts",
+        "docs/.vitepress/adapters/ui/config.ts",
+        "docs/.vitepress/adapters/primevue/config.ts"
+      ],
       "options": {
         "printWidth": 200
       }
@@ -29,7 +33,7 @@
       }
     },
     {
-      "files": "packages/core/tests/types/**/*",
+      "files": "packages/core/tests/type/**/*",
       "options": {
         "printWidth": 300
       }

@@ -9,6 +9,7 @@ export default defineConfig({
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src'),
+      '#shorthands': resolve(__dirname, 'src/types/shorthands.ts'),
     },
   },
   plugins: [

@@ -11,20 +11,20 @@
   "devDependencies": {
     "@inquirer/core": "^11.2.1",
     "@inquirer/prompts": "^8.5.2",
-    "tsx": "^4.21.0"
+    "tsx": "catalog:"
   },
   "dependencies": {
-    "@primeuix/themes": "^2.0.3",
+    "@primeuix/themes": "catalog:",
     "@vue/repl": "^4.7.2",
     "@vueform/core": "workspace:*",
     "@vueform/expr-eval": "workspace:*",
     "@vueform/primevue": "workspace:*",
     "@vueform/ui": "workspace:*",
-    "primeicons": "^7.0.0",
-    "primevue": "^4.5.5",
+    "primeicons": "catalog:",
+    "primevue": "catalog:",
     "shiki": "^4.0.2",
     "vitepress": "2.0.0-alpha.16",
     "vitepress-plugin-group-icons": "^1.7.3",
-    "vue": "^3.5.42"
+    "vue": "catalog:"
   }
 }

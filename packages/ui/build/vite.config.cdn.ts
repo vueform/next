@@ -8,7 +8,13 @@ const theme = process.env.THEME || 'origin'
 
 export default defineConfig({
   resolve: {
-    alias: [{ find: '@', replacement: resolve(pkgDir, 'src') }],
+    alias: [
+      { find: '@', replacement: resolve(pkgDir, 'src') },
+      {
+        find: '#shorthands',
+        replacement: resolve(pkgDir, 'src/types/shorthands.ts'),
+      },
+    ],
   },
   plugins: [
     Vue({

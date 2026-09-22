@@ -10,8 +10,11 @@
  * runs in the node environment: happy-dom's `Headers` polyfill skips the
  * validation, so asserting it there would test the wrong implementation.
  */
+// The main barrel first: entering the graph at the modules barrel alone
+// evaluates module definitions before `~/helpers` finishes initializing.
+import '@vueform/core'
+import { security } from '@vueform/core/modules'
 import { describe, expect, it } from 'vitest'
-import { createSecurity } from '../../src/modules/security/createSecurity'
 
 /**
  * Builds the security module against a bare config, the way `createVueform`
@@ -19,7 +22,7 @@ import { createSecurity } from '../../src/modules/security/createSecurity'
  * its origin policy exactly as it would during SSR.
  */
 function makeSecurity(config: Record<string, any>) {
-  return createSecurity({ config } as any)
+  return security.create({ vueform: { config } } as any)
 }
 
 describe('Security: header value validation', () => {

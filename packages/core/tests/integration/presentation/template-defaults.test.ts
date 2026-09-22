@@ -1,6 +1,5 @@
-import { defineSchema } from '@vueform/core'
+import { defineSchema, isComponentDefinition, mergeProp } from '@vueform/core'
 import { defineComponent, h, nextTick } from 'vue'
-import { isComponentDefinition, mergeProp } from '../../../src/utils'
 import { createForm } from '../../helpers'
 
 // `template` and `layout` are ordinary props, so app-wide templates are config

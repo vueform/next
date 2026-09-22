@@ -2,3 +2,30 @@ packages:
   - 'packages/*'
   - '.playgrounds/*'
   - 'docs'
+
+catalog:
+  '@playwright/test': ^1.51.1
+  '@primeuix/themes': ^2.0.3
+  '@types/node': ^24.13.6
+  '@vitejs/plugin-vue': ^6.0.9
+  '@vitest/browser': ^4.1.11
+  '@vitest/browser-playwright': ^4.1.11
+  '@vue/test-utils': ^2.4.6
+  '@vueuse/core': ^13.9.0
+  ajv: ^8.20.0
+  expr-eval-fork: ^3.0.3
+  fast-glob: ^3.3.3
+  happy-dom: ^20.14.5
+  isomorphic-dompurify: ^3.19.0
+  primeicons: ^7.0.0
+  primevue: ^4.5.5
+  quill: ^2.0.3
+  sass-embedded: ^1.104.1
+  terser: ^5.51.2
+  tsx: ^4.23.15
+  type-fest: ^4.41.0
+  typescript: ~5.9.3
+  vite: ^6.4.3
+  vite-plugin-dts: ^4.5.4
+  vitest: ^4.1.11
+  vue: ^3.5.42

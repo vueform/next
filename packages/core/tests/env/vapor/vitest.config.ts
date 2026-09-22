@@ -70,7 +70,8 @@ export default defineConfig({
     dedupe: ['vue'],
   },
   test: {
+    name: 'vapor',
     environment: 'happy-dom',
-    include: ['./tests/env/vapor/**/*.test.ts'],
+    include: [resolve(__dirname, '**/*.test.ts')],
   },
 })

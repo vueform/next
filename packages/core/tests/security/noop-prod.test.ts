@@ -16,8 +16,17 @@
  * Normal operation (module registered, or nothing configured) is identical in
  * both environments; only this misconfiguration state differs.
  */
+import { getSecurityModule, type VueformConfig } from '@vueform/core'
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { noopSecurity } from '../../src/modules/security/noop'
+
+/**
+ * The inert security surface an app observes when the `security` module is not
+ * registered — obtained through the public accessor's fallback branch, the same
+ * path components take at runtime.
+ */
+function noopSecurity(config: VueformConfig) {
+  return getSecurityModule({ config, modules: {} } as any)
+}
 
 afterEach(() => {
   vi.unstubAllEnvs()

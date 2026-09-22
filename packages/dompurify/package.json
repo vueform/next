@@ -22,7 +22,7 @@
     "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json"
   },
   "dependencies": {
-    "isomorphic-dompurify": "^3.19.0"
+    "isomorphic-dompurify": "catalog:"
   },
   "peerDependencies": {
     "@vueform/core": "workspace:*",

@@ -22,7 +22,7 @@
     "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json"
   },
   "dependencies": {
-    "expr-eval-fork": "^3.0.3"
+    "expr-eval-fork": "catalog:"
   },
   "peerDependencies": {
     "@vueform/core": "workspace:*",

@@ -1,4 +1,3 @@
-// @vitest-environment node
 import {
   createVueform,
   locale as localeModule,

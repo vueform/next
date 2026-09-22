@@ -133,30 +133,23 @@
   },
   "dependencies": {
     "@vueform/devtools": "workspace:*",
-    "@vueuse/core": "^13.7.0",
-    "type-fest": "^4.41.0",
-    "vue-component-type-helpers": "^3.0.4"
+    "@vueuse/core": "catalog:",
+    "type-fest": "catalog:"
   },
   "devDependencies": {
     "@nuxt/kit": "^3.17.5",
     "@nuxt/schema": "^3.17.5",
-    "@vitest/browser": "^4.0.0-beta.18",
-    "@vitest/browser-playwright": "^4.0.0-beta.18",
+    "@vitejs/plugin-vue": "catalog:",
     "@vue/shared": "^3.5.28",
-    "@vue/test-utils": "^2.4.6",
-    "@vueform/dompurify": "workspace:*",
-    "@vueform/expr-eval": "workspace:*",
+    "@vue/test-utils": "catalog:",
     "@vueform/vite": "workspace:*",
-    "happy-dom": "^20.0.10",
-    "sass": "^1.99.0",
-    "terser": "^5.49.0",
-    "ts-json-schema-generator": "^2.9.0",
-    "tsx": "^4.21.0",
-    "vite-plugin-lib-inject-css": "^2.2.2",
-    "vite-plugin-static-copy": "^3.1.5",
-    "vitest": "^4.0.0-beta.18",
-    "vitest-browser-vue": "^2.0.0-beta.1",
-    "zod": "^4.4.3"
+    "fast-glob": "catalog:",
+    "happy-dom": "catalog:",
+    "sass-embedded": "catalog:",
+    "vite": "catalog:",
+    "vite-plugin-dts": "catalog:",
+    "vitest": "catalog:",
+    "zod": "^4.6.5"
   },
   "peerDependencies": {
     "@nuxt/kit": "^3.17.5",
