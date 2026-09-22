@@ -8,9 +8,12 @@
     "gen": "tsx scripts/gen.ts",
     "cli": "tsx scripts/cli.ts"
   },
-  "dependencies": {
+  "devDependencies": {
     "@inquirer/core": "^11.2.1",
     "@inquirer/prompts": "^8.5.2",
+    "tsx": "^4.21.0"
+  },
+  "dependencies": {
     "@primeuix/themes": "^2.0.3",
     "@vue/repl": "^4.7.2",
     "@vueform/core": "workspace:*",
@@ -20,7 +23,6 @@
     "primeicons": "^7.0.0",
     "primevue": "^4.5.5",
     "shiki": "^4.0.2",
-    "tsx": "^4.21.0",
     "vitepress": "2.0.0-alpha.16",
     "vitepress-plugin-group-icons": "^1.7.3",
     "vue": "^3.5.42"
