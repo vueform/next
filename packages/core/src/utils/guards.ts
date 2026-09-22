@@ -1,3 +1,4 @@
+import { toRaw } from 'vue'
 import type { StandardSchemaV1 } from '~/types'
 
 /**
@@ -38,12 +39,17 @@ export function isFilled(value: any) {
  * @param value The value to test.
  */
 export function isStandardSchema(value: any): value is StandardSchemaV1 {
-  return (
-    value != null &&
-    (typeof value === 'object' || typeof value === 'function') &&
-    '~standard' in value &&
-    (value as any)['~standard']?.version === 1
-  )
+  if (
+    value == null ||
+    (typeof value !== 'object' && typeof value !== 'function') ||
+    !('~standard' in value)
+  ) {
+    return false
+  }
+  // Read `~standard` off the raw object: Zod 4 resolves it via a lazy getter
+  // that caches `this`-bound props, and a reactive-proxy `this` would poison
+  // that cache (its internals are non-configurable, so proxy reads throw).
+  return (toRaw(value) as any)['~standard']?.version === 1
 }
 
 /**

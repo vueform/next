@@ -6,6 +6,7 @@ import {
   ref,
   shallowReactive,
   shallowRef,
+  toRaw,
   toRef,
   watch,
   type ComputedRef,
@@ -663,8 +664,11 @@ function parseRuleString(rule: string): {
 }
 
 function makeFieldSchemaCheck(schema: StandardSchemaV1): RuleChecker {
+  // Vendors like Zod define internals as non-configurable, which breaks
+  // behind Vue's reactive proxies — validate against the raw schema.
+  const raw = toRaw(schema)
   return (value) => {
-    const result = schema['~standard'].validate(value)
+    const result = raw['~standard'].validate(value)
     return isThenable(result)
       ? result.then(resolveStandardSchemaResult)
       : resolveStandardSchemaResult(result)
@@ -1166,7 +1170,7 @@ function makeValidationSchemaRunner(options: {
   }
 
   const setSchema = (next?: StandardSchemaV1) => {
-    schema = next
+    schema = next && toRaw(next)
     dirty.value = true
     last = undefined
     validated.value = false
@@ -1372,7 +1376,7 @@ function buildStandardSchema(options: {
 
         const validationSchema = options.validationSchema()
         if (validationSchema) {
-          const result = validationSchema['~standard'].validate(value)
+          const result = toRaw(validationSchema)['~standard'].validate(value)
           const finish = (resolved: StandardSchemaV1.Result<unknown>) => {
             for (const issue of normalizeStandardSchemaIssues(
               resolved.issues
