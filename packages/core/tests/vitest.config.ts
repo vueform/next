@@ -6,24 +6,9 @@ export default defineConfig({
   test: {
     ...baseTest,
     projects: [
-      {
-        extends: true,
-        test: {
-          name: 'main',
-          include: [
-            './tests/integration/**/*.test.ts',
-            './tests/security/*.test.ts',
-          ],
-        },
-      },
-      {
-        extends: true,
-        test: {
-          name: 'ssr',
-          environment: 'node',
-          include: ['./tests/env/ssr/*.test.ts'],
-        },
-      },
+      './tests/integration/vitest.config.ts',
+      './tests/security/vitest.config.ts',
+      './tests/env/ssr/vitest.config.ts',
       './tests/env/vapor/vitest.config.ts',
     ],
   },

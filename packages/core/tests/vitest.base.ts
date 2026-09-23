@@ -8,7 +8,9 @@ const dompurifySrc = resolve(__dirname, '..', '..', 'dompurify', 'src')
 export const baseTest = {
   globals: true,
   environment: 'happy-dom',
-  setupFiles: ['./tests/vitest.setup.ts'],
+  // Absolute: project configs live in their own directories (their root), so
+  // a root-relative path would resolve differently per project.
+  setupFiles: [resolve(__dirname, 'vitest.setup.ts')],
 }
 
 export default {
