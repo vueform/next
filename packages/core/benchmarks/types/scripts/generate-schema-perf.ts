@@ -1,9 +1,9 @@
 /**
  * Generates the types-perf fixtures:
  *
- * - `tests/perf/types/suites/define-schema-500.ts` — 500 leaf elements across 2
+ * - `benchmarks/types/suites/define-schema-500.ts` — 500 leaf elements across 2
  *   nesting levels of `group` containers.
- * - `tests/perf/types/suites/define-schema-validation-500.ts` — the same schema
+ * - `benchmarks/types/suites/define-schema-validation-500.ts` — the same schema
  *   with a Standard Schema second argument, forcing `MatchesSchemaModel` across
  *   all 500 (flattened) leaves.
  *
@@ -19,7 +19,7 @@ const ROOTS = LEAVES / PER_GROUP // 50
 const NESTED = 1
 
 const rootDir = join(dirname(fileURLToPath(import.meta.url)), '..')
-const outDir = join(rootDir, 'tests/perf/types')
+const outDir = join(rootDir, 'suites')
 const samplePath = 'g00.g00_00.g00_00_e00'
 const sampleLeaf = 'g00_00_e00'
 

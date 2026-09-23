@@ -152,6 +152,7 @@
     "build:vdom": "vite build",
     "build:vapor": "vite build --config build/vite.config.vapor.ts",
     "build:cdn": "vite build --config build/vite.config.cdn.ts",
+    "tsc": "pnpm tsc:src",
     "typecheck": "pnpm tsc:src && pnpm tsc:test && pnpm tsc:test:vapor && pnpm tsc:test:snapshot && pnpm tsc:node",
     "tsc:src": "vue-tsc --project tsconfig.build.json --noEmit",
     "tsc:test:types": "vue-tsc --project tests/types/tsconfig.json --noEmit",

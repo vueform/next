@@ -6,7 +6,8 @@
     "preview": "tsx scripts/run.ts preview",
     "pre": "tsx scripts/run.ts pre",
     "gen": "tsx scripts/gen.ts",
-    "tsc": "vue-tsc --project tsconfig.json --noEmit"
+    "tsc": "vue-tsc --project tsconfig.json --noEmit",
+    "typecheck": "pnpm tsc"
   },
   "devDependencies": {
     "@types/hast": "catalog:",

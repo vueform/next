@@ -19,7 +19,8 @@
   ],
   "scripts": {
     "build": "vite build",
-    "typecheck": "vue-tsc --project tsconfig.json --noEmit"
+    "typecheck": "vue-tsc --project tsconfig.json --noEmit",
+    "tsc": "pnpm typecheck"
   },
   "dependencies": {
     "expr-eval-fork": "catalog:"

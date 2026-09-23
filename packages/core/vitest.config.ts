@@ -6,7 +6,7 @@
  *   `vue-vapor` runtime (`pnpm test:vapor`; `test:vapor:vdom` sets
  *   `VAPOR_ALL=0` to compile the same specs as VDOM on 3.6).
  * - `bench` / `memory` — tool-invoked perf projects
- *   (`tests/perf/runtime/scripts/run.ts`). They contribute nothing to a normal
+ *   (`benchmarks/runtime/scripts/run.ts`). They contribute nothing to a normal
  *   test sweep: `bench` only declares benchmark files, and `memory` only
  *   includes its specs when `PERF_MEMORY` is set by the runner.
  */
@@ -145,7 +145,7 @@ export default defineConfig({
           testTimeout: 60_000,
           hookTimeout: 60_000,
           benchmark: {
-            include: ['./tests/perf/**/*.bench.ts'],
+            include: ['./benchmarks/**/*.bench.ts'],
             reporters: ['verbose'],
           },
         },
@@ -154,7 +154,7 @@ export default defineConfig({
         extends: true,
         test: {
           name: 'memory',
-          include: process.env.PERF_MEMORY ? ['./tests/perf/**/*.mem.ts'] : [],
+          include: process.env.PERF_MEMORY ? ['./benchmarks/**/*.mem.ts'] : [],
           fileParallelism: false,
           isolate: false,
           maxWorkers: 1,

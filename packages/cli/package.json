@@ -26,7 +26,8 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "tsc": "tsc -p tsconfig.json --noEmit",
-    "test": "pnpm build && vitest run --config tests/vitest.config.ts"
+    "test": "pnpm build && vitest run --config tests/vitest.config.ts",
+    "typecheck": "pnpm tsc"
   },
   "devDependencies": {
     "@tsconfig/node22": "catalog:",

@@ -54,6 +54,7 @@
     "gen:events": "tsx scripts/gen-type-events.ts",
     "gen:slots": "tsx scripts/gen-type-slots.ts",
     "tsc": "tsx scripts/tsc.ts",
+    "typecheck": "pnpm -r --if-present run typecheck && pnpm exec tsc -p tsconfig.json --noEmit",
     "tsc:types": "pnpm --filter core run tsc:types",
     "tsc:perf": "pnpm --filter core run tsc:types:perf",
     "perf:rebase": "pnpm --filter @vueform/core perf:rebase",

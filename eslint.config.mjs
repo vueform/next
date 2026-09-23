@@ -170,6 +170,7 @@ export default [
     files: ['**/*.{js,cjs,ts,vue}'],
     ignores: [
       '**/tests/**',
+      '**/benchmarks/**',
       'docs/**',
       'packages/metrics/**',
       'packages/scraper/**',
@@ -200,6 +201,7 @@ export default [
       'packages/core/src/defaultModules.ts',
       'packages/core/src/index.ts',
       'packages/core/tests/**',
+      'packages/core/benchmarks/**',
     ],
     plugins: {
       '@typescript-eslint': tseslint,
@@ -217,7 +219,10 @@ export default [
 
   // Core tests: ban the ~/ alias entirely, but allow any relative imports.
   {
-    files: ['packages/core/tests/**/*.{js,cjs,ts,vue}'],
+    files: [
+      'packages/core/tests/**/*.{js,cjs,ts,vue}',
+      'packages/core/benchmarks/**/*.{js,cjs,ts,vue}',
+    ],
     plugins: {
       '@typescript-eslint': tseslint,
     },

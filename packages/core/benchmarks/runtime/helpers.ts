@@ -3,7 +3,7 @@ import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { useChildren } from '@vueform/core'
 import { defineComponent, reactive } from 'vue'
-import { createForm, mountApp } from '../../helpers'
+import { createForm, mountApp } from '../../tests/helpers'
 
 /**
  * Directory for machine-local baseline / current result JSON.
