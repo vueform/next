@@ -11,7 +11,7 @@
       "path": "./tests/tsconfig.json"
     },
     {
-      "path": "./tests/type/tsconfig.json"
+      "path": "./tests/types/tsconfig.json"
     },
     {
       "path": "./tests/env/vapor/tsconfig.json"

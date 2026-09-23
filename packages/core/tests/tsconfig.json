@@ -20,5 +20,5 @@
     }
   },
   "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue", "./**/*.ts", "./**/*.vue"],
-  "exclude": ["./type/**/*", "./env/vapor/**/*", "./perf/**/scripts/**/*", "./perf/**/scripts/**/*"]
+  "exclude": ["./types/**/*", "./env/vapor/**/*", "./perf/**/scripts/**/*"]
 }

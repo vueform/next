@@ -278,7 +278,7 @@ export default [
   // the type-test fixtures assert via deliberately "unused" type-level
   // constructs — the rule's premise doesn't hold in either.
   {
-    files: ['**/*.d.ts', 'packages/core/tests/type/**'],
+    files: ['**/*.d.ts', 'packages/core/tests/types/**'],
     rules: {
       'unused-imports/no-unused-vars': 'off',
     },

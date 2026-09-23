@@ -108,7 +108,7 @@
     "tsc:test": "pnpm exec vue-tsc --project tests/tsconfig.json --noEmit",
     "tsc:node": "tsc --project tsconfig.node.json --noEmit",
     "=== END ===": "",
-    "tsc:test:types": "pnpm exec vue-tsc --project tests/type/tsconfig.json --noEmit",
+    "tsc:test:types": "pnpm exec vue-tsc --project tests/types/tsconfig.json --noEmit",
     "tsc:test:vapor": "pnpm exec vue-tsc --project tests/env/vapor/tsconfig.json --noEmit",
     "tsc:types:perf": "tsx ./tests/perf/types/scripts/run-schema-perf.ts",
     "build": "pnpm run build:vdom && pnpm run build:vapor",
