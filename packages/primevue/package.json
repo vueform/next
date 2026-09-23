@@ -152,13 +152,15 @@
     "build:vdom": "vite build",
     "build:vapor": "vite build --config build/vite.config.vapor.ts",
     "build:cdn": "vite build --config build/vite.config.cdn.ts",
-    "typecheck": "pnpm tsc:src && pnpm tsc:test && pnpm tsc:node",
+    "typecheck": "pnpm tsc:src && pnpm tsc:test && pnpm tsc:test:vapor && pnpm tsc:test:snapshot && pnpm tsc:node",
     "tsc:src": "vue-tsc --project tsconfig.build.json --noEmit",
     "tsc:test:types": "vue-tsc --project tests/types/tsconfig.json --noEmit",
     "tsc:test": "vue-tsc --project tests/tsconfig.json --noEmit",
-    "test": "vitest --config tests/vitest.config.ts",
-    "test:vapor": "vitest run --config tests/env/vapor/vitest.config.ts",
-    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts",
+    "tsc:test:vapor": "vue-tsc --project tests/env/vapor/tsconfig.json --noEmit",
+    "tsc:test:snapshot": "vue-tsc --project tests/snapshot/tsconfig.json --noEmit",
+    "test": "vitest",
+    "test:vapor": "vitest run --project vapor",
+    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --project vapor",
     "test:screenshots": "playwright test",
     "test:screenshots:update": "playwright test --update-snapshots=all",
     "gen": "tsx ./scripts/generate-catalogue.ts",
@@ -186,7 +188,9 @@
     "terser": "catalog:",
     "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
-    "vitest": "catalog:"
+    "vitest": "catalog:",
+    "vue-compiler-sfc-vapor": "catalog:",
+    "vue-vapor": "catalog:"
   },
   "peerDependencies": {
     "vue": "catalog:peer"

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-const endpoint = () => false
+const endpoint = (): false => false
 </script>
 
 <template>

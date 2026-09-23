@@ -3,7 +3,7 @@
   "compilerOptions": {
     "types": ["node"],
     "paths": {
-      "vue": ["../../../../../node_modules/vue-vapor/dist/vue.d.mts"],
+      "vue": ["../../../node_modules/vue-vapor"],
       "~/*": ["../../../src/*"],
       "#shorthands": ["../../../src/types/shorthands.ts"],
       "@vueform/core": ["../../../src/index.ts"],

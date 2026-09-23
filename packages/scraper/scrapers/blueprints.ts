@@ -941,7 +941,7 @@ function findInterfaceOrImported(
   sourceFile: ts.SourceFile,
   localName: string,
   suffix: 'Props' | 'Emits',
-  program: ts.Program,
+  _program: ts.Program,
   checker: ts.TypeChecker
 ): ts.InterfaceDeclaration | undefined {
   const local = findInterface(sourceFile, localName)

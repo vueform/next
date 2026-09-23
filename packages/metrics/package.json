@@ -8,7 +8,8 @@
     "bench:charts": "tsx bench/scripts/charts.ts",
     "bench:report": "tsx bench/scripts/report.ts",
     "size": "tsx size/scripts/run.ts",
-    "size:report": "tsx size/scripts/report.ts"
+    "size:report": "tsx size/scripts/report.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
     "@primeuix/themes": "catalog:",

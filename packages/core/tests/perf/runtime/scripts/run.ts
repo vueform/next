@@ -99,8 +99,8 @@ run('pnpm', [
   'vitest',
   'bench',
   '--run',
-  '--config',
-  'tests/perf/runtime/vitest.config.ts',
+  '--project',
+  'bench',
   '--outputJson',
   timePath,
 ])
@@ -109,15 +109,9 @@ console.log('\n▸ Memory benches\n')
 
 run(
   'pnpm',
-  [
-    'exec',
-    'vitest',
-    'run',
-    '--config',
-    'tests/perf/runtime/vitest.memory.config.ts',
-    '--execArgv=--expose-gc',
-  ],
+  ['exec', 'vitest', 'run', '--project', 'memory', '--execArgv=--expose-gc'],
   {
+    PERF_MEMORY: '1',
     NODE_OPTIONS: [process.env.NODE_OPTIONS, '--expose-gc']
       .filter(Boolean)
       .join(' '),

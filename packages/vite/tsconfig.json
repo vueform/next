@@ -1,15 +1,18 @@
 {
+  "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "node",
-    "declaration": true,
-    "declarationMap": false,
-    "sourceMap": false,
-    "outDir": "dist",
     "rootDir": "src",
-    "strict": true,
-    "skipLibCheck": true
+    "outDir": "dist",
+    "declaration": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    "types": ["node"],
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noUncheckedSideEffectImports": true
   },
   "include": ["src"]
 }

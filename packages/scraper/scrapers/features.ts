@@ -1424,7 +1424,7 @@ function findInnerFunction(
  * Check if a call expression is a defineFeature(...) call.
  */
 function makeFactoryAliasEntry(
-  funcName: string,
+  _funcName: string,
   targetName: string,
   description: string,
   delegateCall: ts.CallExpression,

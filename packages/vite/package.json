@@ -16,12 +16,14 @@
     "dist"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc"
+    "build": "rm -rf dist && tsc",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "peerDependencies": {
     "vite": "catalog:peer"
   },
   "devDependencies": {
+    "@tsconfig/node22": "catalog:",
     "vite": "catalog:"
   }
 }

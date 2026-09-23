@@ -1,17 +1,9 @@
 {
+  "extends": "@vueform/tsconfig/node.json",
   "compilerOptions": {
-    "target": "ESNext",
-    "module": "ESNext",
-    "moduleResolution": "bundler",
-    "strict": true,
     "jsx": "preserve",
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "types": ["vitest", "node"]
+    "types": ["node", "vitest"],
+    "lib": ["ES2023", "DOM"]
   },
   "include": ["bench/**/*.ts", "size/**/*.ts", "lib/**/*.ts", "vitest.config.ts"],
   "exclude": ["size/fixtures"]

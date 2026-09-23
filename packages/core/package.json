@@ -115,14 +115,14 @@
     "build:vdom": "vite build",
     "build:vapor": "vite build --config build/vite.config.vapor.ts",
     "gen:schema-perf": "tsx ./tests/perf/types/scripts/generate-schema-perf.ts",
-    "test": "vitest --config tests/vitest.config.ts --maxWorkers=16",
+    "test": "vitest --maxWorkers=16",
     "bench:perf": "tsx tests/perf/runtime/scripts/run.ts",
     "bench:perf:save": "tsx tests/perf/runtime/scripts/run.ts --save",
     "bench:perf:report": "tsx tests/perf/runtime/scripts/run.ts --report",
     "perf:rebase": "tsx tests/perf/runtime/scripts/run.ts --rebase",
-    "test:prod": "vitest --config tests/vitest.config.ts --maxWorkers=16 --mode production",
-    "test:vapor": "vitest run --config tests/env/vapor/vitest.config.ts",
-    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts"
+    "test:prod": "vitest --maxWorkers=16 --mode production",
+    "test:vapor": "vitest run --project vapor",
+    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --project vapor"
   },
   "dependencies": {
     "@vueform/devtools": "workspace:^"
@@ -140,6 +140,8 @@
     "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vitest": "catalog:",
+    "vue-compiler-sfc-vapor": "catalog:",
+    "vue-vapor": "catalog:",
     "zod": "catalog:"
   },
   "peerDependencies": {

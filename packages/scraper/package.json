@@ -6,7 +6,8 @@
   "scripts": {
     "scrape": "tsx scripts/scrape.ts",
     "validate": "tsx scripts/validate.ts",
-    "issues": "tsx scripts/issues.ts"
+    "issues": "tsx scripts/issues.ts",
+    "typecheck": "tsc -p tsconfig.json --noEmit"
   },
   "devDependencies": {
     "ajv": "catalog:"

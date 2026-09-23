@@ -162,8 +162,9 @@
     "build:vdom": "vite build",
     "build:vapor": "vite build --config build/vite.config.vapor.ts",
     "build:cdn": "for theme in origin material; do THEME=$theme vite build --config build/vite.config.cdn.ts; done",
-    "typecheck": "pnpm tsc:src && pnpm tsc:node",
+    "typecheck": "pnpm tsc:src && pnpm tsc:test:snapshot && pnpm tsc:node",
     "tsc:src": "vue-tsc --project tsconfig.build.json --noEmit",
+    "tsc:test:snapshot": "vue-tsc --project tests/snapshot/tsconfig.json --noEmit",
     "test:screenshots": "playwright test",
     "test:screenshots:update": "playwright test --update-snapshots=all",
     "gen:registry": "pnpm -w gen:registry --ui",
@@ -182,7 +183,9 @@
     "sass-embedded": "catalog:",
     "terser": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-dts": "catalog:"
+    "vite-plugin-dts": "catalog:",
+    "vue-compiler-sfc-vapor": "catalog:",
+    "vue-vapor": "catalog:"
   },
   "peerDependencies": {
     "vue": "catalog:peer"

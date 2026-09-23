@@ -1,0 +1,38 @@
+{
+  "extends": "@vueform/tsconfig/base.json",
+  "compilerOptions": {
+    "types": ["node"],
+    "paths": {
+      "@/*": ["../../src/*"],
+      "~/*": ["../../../core/src/*"],
+      "@vueform/core": ["../../../core/src/index.ts"],
+      "@vueform/core/blueprints/*": ["../../../core/src/blueprints/*.ts"],
+      "@vueform/core/components": ["../../../core/src/components/index.ts"],
+      "@vueform/core/components/*/raw": ["../../../core/src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../../../core/src/components/*/unstyled.ts"],
+      "@vueform/core/rules": ["../../../core/src/rules/index.ts"],
+      "@vueform/core/modules": ["../../../core/src/modules/modules.ts"],
+      "@vueform/core/locales": ["../../../core/src/locales/index.ts"],
+      "@vueform/core/tokens": ["../../../core/src/tokens/index.ts"],
+      "@vueform/core/*": ["../../../core/src/*"],
+      "@vueform/ui": ["../../src/index.ts"],
+      "@vueform/ui/origin": ["../../src/origin.ts"],
+      "@vueform/ui/material": ["../../src/material.ts"],
+      "@vueform/ui/blueprints/*": ["../../src/blueprints/*.ts"],
+      "@vueform/ui/rules": ["../../src/rules.ts"],
+      "@vueform/ui/modules": ["../../src/modules.ts"],
+      "@vueform/ui/locales": ["../../src/locales.ts"],
+      "@vueform/ui/themes": ["../../src/themes/index.ts"],
+      "@vueform/ui/tokens": ["../../src/themes/tokens.ts"],
+      "@vueform/ui/components": ["../../src/components/index.ts"],
+      "@vueform/ui/components/*/raw": ["../../src/components/*/index.ts"],
+      "@vueform/ui/components/*/unstyled": ["../../src/components/*/unstyled.ts"],
+      "@vueform/ui/components/*/styles": ["../../src/components/*/styles.ts"],
+      "@vueform/ui/components/*": ["../../src/components/*/styled.ts"],
+      "@vueform/ui/*": ["../../src/*"],
+      "@vueform/expr-eval": ["../../../expr-eval/src/index.ts"]
+    }
+  },
+  "include": ["./**/*.ts", "./**/*.vue"],
+  "exclude": ["./fixtures/vite.config.ts"]
+}
