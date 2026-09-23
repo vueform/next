@@ -3,11 +3,15 @@
 Cold `vue-tsc --extendedDiagnostics` measurements. Results are keyed by
 `measurement → commit` in `results.json`.
 
-- `pnpm tsc:perf` → run default measurement (`define-schema-500`)
+Memory is post-GC live heap (vue-tsc runs with `--expose-gc`). Rows
+before 2026-08-31 were measured without it and are noisier / not directly
+comparable.
+
+- `pnpm tsc:perf` → run every `tests/perf/types/*.ts` fixture
 - `pnpm tsc:perf -- <measurement>` → run a specific fixture
 - `pnpm tsc:perf -- report` → regenerate this file
 
-_Last updated: 2026-08-18 09:31:40 UTC_
+_Last updated: 2026-09-23 09:15:55 UTC_
 
 ## define-schema-500
 

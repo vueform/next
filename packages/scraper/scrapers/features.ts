@@ -33,7 +33,7 @@ interface OverloadInfo {
 // ============= TS PROGRAM =============
 
 function createProgram(pkgDir: string) {
-  const configPath = path.join(pkgDir, '.tsconfig', 'tsconfig.dev.json')
+  const configPath = path.join(pkgDir, 'tsconfig.app.json')
   const raw = ts.readConfigFile(configPath, ts.sys.readFile)
 
   if (raw.error) {

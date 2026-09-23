@@ -25,7 +25,7 @@
     "lint:fix": "eslint . --fix && stylelint \"**/*.scss\" --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "check": "pnpm lint && pnpm format:check && tsx scripts/repair.ts --check && pnpm --filter @vueform/core tsc && pnpm --filter @vueform/core tsc:types && tsc --project tsconfig.json --noEmit && pnpm --filter @vueform/core tsc:node && pnpm --filter @vueform/core tsc:test && pnpm --filter @vueform/docs tsc && pnpm --filter @vueform/cli tsc && pnpm --filter @vueform/ui tsc:node && pnpm --filter @vueform/primevue tsc:node && pnpm --filter @vueform/primevue tsc:test && pnpm --filter @vueform/core build && pnpm --filter @vueform/ui tsc && pnpm --filter @vueform/primevue tsc",
+    "check": "pnpm lint && pnpm format:check && tsx scripts/repair.ts --check && pnpm --filter @vueform/core tsc:src && pnpm --filter @vueform/core tsc:test:types && tsc --project tsconfig.json --noEmit && pnpm --filter @vueform/core tsc:node && pnpm --filter @vueform/core tsc:test && pnpm --filter @vueform/core tsc:test:vapor && pnpm --filter @vueform/docs tsc && pnpm --filter @vueform/cli tsc && pnpm --filter @vueform/ui tsc:node && pnpm --filter @vueform/primevue tsc:node && pnpm --filter @vueform/primevue tsc:test && pnpm --filter @vueform/core build && pnpm --filter @vueform/ui tsc:src && pnpm --filter @vueform/primevue tsc:src",
     "=== TESTS ===": "",
     "docs:update:ui": "pnpm build --vite --tools && pnpm build --core --ui && pnpm build --expr-eval && pnpm scrape && pnpm docs:gen && pnpm docs:build --ui",
     "test": "pnpm -r --filter core run test",
@@ -67,13 +67,12 @@
     "repair": "tsx scripts/repair.ts"
   },
   "devDependencies": {
+    "@vueform/tsconfig": "workspace:*",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
-    "@tsconfig/node22": "catalog:",
     "@types/node": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
-    "@vue/tsconfig": "catalog:",
     "ajv": "catalog:",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",

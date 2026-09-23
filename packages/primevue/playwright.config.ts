@@ -37,9 +37,9 @@ export default defineConfig({
     // all dep caches, then exec Vite directly so Playwright can kill it cleanly.
     command: [
       'lsof -ti :5199 | xargs kill -9 2>/dev/null || true',
-      'rm -rf tests/snapshot/.fixture/node_modules/.vite node_modules/.vite',
+      'rm -rf tests/snapshot/fixtures/node_modules/.vite node_modules/.vite',
       'sleep 0.5',
-      'exec ./node_modules/.bin/vite --port 5199 --force --config tests/snapshot/.fixture/vite.config.ts',
+      'exec ./node_modules/.bin/vite --port 5199 --force --config tests/snapshot/fixtures/vite.config.ts',
     ].join(' && '),
     url: 'http://localhost:5199',
     reuseExistingServer: false,

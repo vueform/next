@@ -1,14 +1,15 @@
 /**
- * Regenerates `@vueform/*` path-alias blocks in every tsconfig under
- * packages/<pkg>/.tsconfig from the owning package's `exports` map — the single
- * source of truth. No target list to maintain: a config opts in simply by
- * containing ANY key of a scope (`@vueform/core`, or an adapter discovered via
- * `vueform.group`); all keys of that scope are then removed and regenerated in
- * place. Configs without such keys (the gates, which consume dist types) are
- * never touched.
+ * Regenerates `@vueform/*` path-alias blocks in core's and the adapters'
+ * tsconfigs from the owning package's `exports` map — the single source of
+ * truth. Scanned locations per package: `tsconfig*.json` at the package root,
+ * `.tsconfig/*.json`, and nested `tests/**\/tsconfig.json` projects. No target
+ * list to maintain: a config opts in simply by containing ANY key of a scope
+ * (`@vueform/core`, or an adapter discovered via `vueform.group`); all keys of
+ * that scope are then removed and regenerated in place. Configs without such
+ * keys (the gates, which consume dist types) are never touched.
  *
- * Location rule: a package resolves itself via `..`; everything else via
- * `../../<dir>` (packages never nest).
+ * Alias targets are computed relative to each config file's own directory, so
+ * nesting depth is arbitrary.
  *
  * A subpath's src equivalent derives from its `types` field (dist/X.d.ts →
  * src/X.ts), with per-package overrides where the build renames files. Derived
@@ -78,8 +79,10 @@ function ownedBy(key: string): Scope | undefined {
   return scopes.find((s) => key === s.name || key.startsWith(`${s.name}/`))
 }
 
-function entriesFor(scope: Scope, configPkgDir: string): [string, string][] {
-  const rel = configPkgDir === scope.dir ? '..' : `../../${scope.dir}`
+function entriesFor(scope: Scope, configDir: string): [string, string][] {
+  const scopeDir = path.join(repoRoot, 'packages', scope.dir)
+  const rel =
+    path.relative(configDir, scopeDir).split(path.sep).join('/') || '.'
   const pkg = JSON.parse(
     readFileSync(
       path.join(repoRoot, 'packages', scope.dir, 'package.json'),
@@ -105,7 +108,6 @@ function entriesFor(scope: Scope, configPkgDir: string): [string, string][] {
     const probe = target.includes('*')
       ? path.dirname(target.split('*')[0] + 'x')
       : target
-    const configDir = path.join(repoRoot, 'packages', configPkgDir, '.tsconfig')
     if (!existsSync(path.resolve(configDir, probe))) {
       const distProbe = types
         ? path.join(repoRoot, 'packages', scope.dir, types.replace('*', 'x'))
@@ -147,20 +149,47 @@ function prettify(filePath: string, content: string): string {
   )
 }
 
+/**
+ * Config files owned by a package: root `tsconfig*.json`, `.tsconfig/*.json`,
+ * and nested `tests/**\/tsconfig.json` projects.
+ */
+function collectConfigFiles(pkgDir: string): string[] {
+  const pkgRoot = path.join(repoRoot, 'packages', pkgDir)
+  const files: string[] = []
+
+  for (const file of readdirSync(pkgRoot)) {
+    if (/^tsconfig.*\.json$/.test(file)) files.push(path.join(pkgRoot, file))
+  }
+
+  const legacyDir = path.join(pkgRoot, '.tsconfig')
+  if (existsSync(legacyDir)) {
+    for (const file of readdirSync(legacyDir)) {
+      if (file.endsWith('.json')) files.push(path.join(legacyDir, file))
+    }
+  }
+
+  const walk = (dir: string) => {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      if (entry.isDirectory()) {
+        if (entry.name === 'node_modules') continue
+        walk(path.join(dir, entry.name))
+      } else if (entry.name === 'tsconfig.json') {
+        files.push(path.join(dir, entry.name))
+      }
+    }
+  }
+  const testsDir = path.join(pkgRoot, 'tests')
+  if (existsSync(testsDir)) walk(testsDir)
+
+  return files
+}
+
 let failed = false
 
 // Only core and the adapters carry generated blocks; other packages'
 // tsconfigs stay hand-owned.
-const scanDirs = scopes.map((s) => s.dir)
-
-for (const pkgDir of scanDirs) {
-  const configDir = path.join(repoRoot, 'packages', pkgDir, '.tsconfig')
-  if (!existsSync(configDir)) continue
-
-  for (const file of readdirSync(configDir).filter((f) =>
-    f.endsWith('.json')
-  )) {
-    const filePath = path.join(configDir, file)
+for (const pkgDir of scopes.map((s) => s.dir)) {
+  for (const filePath of collectConfigFiles(pkgDir)) {
     const source = readFileSync(filePath, 'utf8')
     const header = source
       .split('\n')
@@ -194,7 +223,10 @@ for (const pkgDir of scanDirs) {
       const scope = ownedBy(key)
       if (scope && anchored.has(scope.dir)) {
         if (!inserted.has(scope.dir)) {
-          for (const [alias, src] of entriesFor(scope, pkgDir)) {
+          for (const [alias, src] of entriesFor(
+            scope,
+            path.dirname(filePath)
+          )) {
             rebuilt[alias] = [src]
           }
           inserted.add(scope.dir)

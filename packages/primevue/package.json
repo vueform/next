@@ -152,9 +152,10 @@
     "build:vdom": "vite build",
     "build:vapor": "vite build --config build/vite.config.vapor.ts",
     "build:cdn": "vite build --config build/vite.config.cdn.ts",
-    "tsc": "vue-tsc --project .tsconfig/tsconfig.build.json --noEmit",
-    "tsc:types": "vue-tsc --project .tsconfig/tsconfig.types.json --noEmit",
-    "tsc:test": "vue-tsc --project .tsconfig/tsconfig.test.json --noEmit",
+    "typecheck": "pnpm tsc:src && pnpm tsc:test && pnpm tsc:node",
+    "tsc:src": "vue-tsc --project tsconfig.build.json --noEmit",
+    "tsc:test:types": "vue-tsc --project tests/types/tsconfig.json --noEmit",
+    "tsc:test": "vue-tsc --project tests/tsconfig.json --noEmit",
     "test": "vitest --config tests/vitest.config.ts",
     "test:vapor": "vitest run --config tests/env/vapor/vitest.config.ts",
     "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts",
@@ -163,7 +164,7 @@
     "gen": "tsx ./scripts/generate-catalogue.ts",
     "migrate": "tsx ./scripts/migrate.ts",
     "gen:registry": "pnpm -w gen:registry --primevue",
-    "tsc:node": "tsc --project .tsconfig/tsconfig.node.json --noEmit"
+    "tsc:node": "tsc --project tsconfig.node.json --noEmit"
   },
   "dependencies": {
     "@vueform/core": "workspace:^",

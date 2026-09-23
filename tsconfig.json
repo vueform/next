@@ -1,5 +1,5 @@
 {
-  "extends": "./tsconfig.node.base.json",
+  "extends": "@vueform/tsconfig/node.json",
   "include": [
     "scripts/**/*.ts",
     "playground/scripts/**/*.ts",

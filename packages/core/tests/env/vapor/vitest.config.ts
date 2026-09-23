@@ -16,7 +16,9 @@ import * as VaporCompiler from 'vue-compiler-sfc-vapor'
 // The `vue/compiler-sfc` wrapper normally registers TypeScript so imported
 // types (defineProps<...>) can be resolved via ts.sys. Using the raw
 // @vue/compiler-sfc package (aliased), we must register it ourselves.
-VaporCompiler.registerTS(() => ts)
+// Cast: the vapor compiler's `registerTS` is typed against its own bundled
+// `typescript` instance — same version, different package identity.
+VaporCompiler.registerTS(() => ts as any)
 
 const vaporAll = process.env.VAPOR_ALL !== '0'
 

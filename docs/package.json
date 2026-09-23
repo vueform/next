@@ -10,6 +10,7 @@
   },
   "devDependencies": {
     "@types/hast": "catalog:",
+    "@vue/tsconfig": "catalog:",
     "tsx": "catalog:"
   },
   "dependencies": {

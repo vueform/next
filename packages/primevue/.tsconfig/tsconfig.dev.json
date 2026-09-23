@@ -1,8 +1,0 @@
-// Editor project for src.
-{
-  "extends": "./tsconfig.base.json",
-  "compilerOptions": {
-    "types": ["node"]
-  },
-  "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue"]
-}

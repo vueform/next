@@ -16,7 +16,7 @@ import * as modules from '@vueform/core/modules'
 import * as rules from '@vueform/core/rules'
 import exprEval from '@vueform/expr-eval'
 import { defineComponent, nextTick, onMounted, ref, type Component } from 'vue'
-import VfTest from './integration/.fixture/VfTest.vue'
+import VfTest from './integration/fixtures/VfTest.vue'
 
 export { flushPromises, mount }
 

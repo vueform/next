@@ -1,0 +1,37 @@
+{
+  "extends": "@vueform/tsconfig/base.json",
+  "compilerOptions": {
+    "strict": true,
+    "noEmit": true,
+    "skipLibCheck": true,
+    "types": ["node"],
+    "paths": {
+      "~/*": ["../../../src/*"],
+      "#shorthands": ["../../../src/types/shorthands.ts"],
+      "@vueform/core": ["../../../src/index.ts"],
+      "@vueform/core/blueprints/*": ["../../../src/blueprints/*.ts"],
+      "@vueform/core/components": ["../../../src/components/index.ts"],
+      "@vueform/core/components/*/raw": ["../../../src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../../../src/components/*/unstyled.ts"],
+      "@vueform/core/rules": ["../../../src/rules/index.ts"],
+      "@vueform/core/modules": ["../../../src/modules/modules.ts"],
+      "@vueform/core/locales": ["../../../src/locales/index.ts"],
+      "@vueform/core/tokens": ["../../../src/tokens/index.ts"],
+      "@vueform/core/*": ["../../../src/*"]
+    }
+  },
+  "include": [
+    "./suites/*.ts",
+    "../../../src/components/**/*.ts",
+    "../../../src/components/**/*.vue",
+    "../../../src/blueprints/**/*.ts",
+    "../../../src/features/**/*.ts",
+    "../../../src/composables/**/*.ts",
+    "../../../src/contexts/**/*.ts",
+    "../../../src/helpers/**/*.ts",
+    "../../../src/types/**/*.ts",
+    "../../../src/utils/**/*.ts",
+    "../../../src/modules/**/*.ts",
+    "../../../src/index.ts"
+  ]
+}

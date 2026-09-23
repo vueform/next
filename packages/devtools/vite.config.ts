@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 export default defineConfig({
   plugins: [
     Dts({
-      tsconfigPath: resolve(__dirname, '.tsconfig/tsconfig.build.json'),
+      tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
       rollupTypes: false,
       insertTypesEntry: true,
       include: ['src'],

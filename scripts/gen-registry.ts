@@ -967,14 +967,14 @@ function sha256(content: string): string {
 }
 
 /**
- * Compiled validators for the canonical schemas in packages/core/.schemas.
+ * Compiled validators for the canonical schemas in packages/core/schemas.
  */
 function loadValidators() {
   const ajv = new Ajv({ allErrors: true })
   const read = (name: string) =>
     JSON.parse(
       fs.readFileSync(
-        path.join(repoRoot, 'packages/core/.schemas', name),
+        path.join(repoRoot, 'packages/core/schemas', name),
         'utf8'
       )
     )

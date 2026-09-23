@@ -27,7 +27,7 @@ export default defineConfig({
       },
     }),
     Dts({
-      tsconfigPath: resolve(__dirname, '.tsconfig/tsconfig.build.json'),
+      tsconfigPath: resolve(__dirname, 'tsconfig.build.json'),
       rollupTypes: false,
       copyDtsFiles: true,
       insertTypesEntry: true,

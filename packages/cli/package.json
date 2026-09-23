@@ -29,6 +29,7 @@
     "test": "pnpm build && vitest run --config tests/vitest.config.ts"
   },
   "devDependencies": {
+    "@tsconfig/node22": "catalog:",
     "vitest": "catalog:"
   }
 }

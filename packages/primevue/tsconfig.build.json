@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": {
+    "paths": {
+      "#shorthands": ["./src/types/shorthands.ts"],
+      "@/*": ["./src/*"]
+    }
+  }
+}

@@ -102,7 +102,7 @@ export interface DefaultEntry {
 // ============= TS PROGRAM =============
 
 export function createProgram(packageDir: string) {
-  const configPath = path.join(packageDir, '.tsconfig', 'tsconfig.dev.json')
+  const configPath = path.join(packageDir, 'tsconfig.app.json')
   const raw = ts.readConfigFile(configPath, ts.sys.readFile)
 
   if (raw.error) {

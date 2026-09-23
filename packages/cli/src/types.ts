@@ -3,8 +3,8 @@ import type { Output } from './output.js'
 
 /**
  * Canonical registry shapes — mirrors the JSON Schemas in
- * `packages/core/.schemas/` (registry.json for the index, registry-item.json
- * for manifests). Update together with a `schemaVersion` bump.
+ * `packages/core/schemas/` (registry.json for the index, registry-item.json for
+ * manifests). Update together with a `schemaVersion` bump.
  */
 
 export interface RegistryIndexEntry {

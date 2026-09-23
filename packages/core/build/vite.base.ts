@@ -14,7 +14,6 @@ export const external = [
   'type-fest',
   '@vueform/core',
   '@vueform/devtools',
-  '@vue/shared',
 ]
 
 function createEntries() {

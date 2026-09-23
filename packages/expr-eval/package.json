@@ -19,7 +19,9 @@
   ],
   "scripts": {
     "build": "vite build",
-    "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json"
+    "typecheck": "pnpm tsc:src && pnpm tsc:node",
+    "tsc:src": "pnpm exec vue-tsc --project tsconfig.build.json --noEmit",
+    "tsc:node": "tsc --project tsconfig.node.json --noEmit"
   },
   "dependencies": {
     "expr-eval-fork": "catalog:"
@@ -30,5 +32,9 @@
   },
   "vueform": {
     "group": "plugins"
+  },
+  "devDependencies": {
+    "vite": "catalog:",
+    "vite-plugin-dts": "catalog:"
   }
 }

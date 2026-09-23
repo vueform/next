@@ -1,0 +1,10 @@
+{
+  "extends": "@vueform/tsconfig/base.json",
+  "compilerOptions": {
+    "paths": {
+      "~/*": ["../core/src/*"],
+      "@vueform/core": ["../core/src/index.ts"]
+    }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts"]
+}

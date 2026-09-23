@@ -1,8 +1,0 @@
-// `pnpm tsc:node` — vite/build configs.
-{
-  "extends": "../../../tsconfig.node.base.json",
-  "compilerOptions": {
-    "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.node.tsbuildinfo"
-  },
-  "include": ["../*.config.ts", "../build/**/*.ts"]
-}
