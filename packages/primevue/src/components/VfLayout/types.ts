@@ -1,4 +1,3 @@
-import '@/features/augment'
 import type {
   LayoutApi,
   LayoutEmits,
