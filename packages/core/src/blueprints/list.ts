@@ -416,6 +416,7 @@ export const defaults = defineDefaults<ListProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
   addIcon: '$add',
   removeIcon: '$remove',

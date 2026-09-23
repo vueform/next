@@ -479,6 +479,7 @@ export const defaults = defineDefaults<DatePickerProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

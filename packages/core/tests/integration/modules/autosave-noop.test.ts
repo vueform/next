@@ -1,4 +1,4 @@
-import { defineSchema } from '@vueform/core'
+import { defineSchema, type HttpAdapter } from '@vueform/core'
 import * as modules from '@vueform/core/modules'
 import { nextTick } from 'vue'
 import { createForm, flushPromises } from '../../helpers'
@@ -13,9 +13,15 @@ describe('Autosave without the autosave module', () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     const calls: any[] = []
-    const adapter = async (config: any) => {
+    const adapter: HttpAdapter = async (config: any) => {
       calls.push(config)
-      return { data: null, status: 200, statusText: 'OK', headers: {}, config }
+      return {
+        data: null,
+        status: 200,
+        statusText: 'OK',
+        headers: {},
+        config,
+      } as any
     }
 
     const store: Record<string, string> = {}

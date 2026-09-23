@@ -93,7 +93,7 @@ describe('IFTA Label', () => {
           el: {
             type: 'input-text',
             slots: {
-              ifta: defineSlot('VfInputText.ifta' as any, {
+              ifta: defineSlot('VfInputText.ifta', {
                 setup() {
                   return () => 'IFTA via slot'
                 },
@@ -114,7 +114,7 @@ describe('IFTA Label', () => {
           el: {
             type: 'input-text',
             slots: {
-              ifta: defineSlot('VfInputText.ifta' as any, {
+              ifta: defineSlot('VfInputText.ifta', {
                 setup() {
                   return () => 'IFTA via slot'
                 },
@@ -207,7 +207,7 @@ describe('Float Label', () => {
           el: {
             type: 'input-text',
             slots: {
-              'float-label': defineSlot('VfInputText.float-label' as any, {
+              'float-label': defineSlot('VfInputText.floatLabel', {
                 setup() {
                   return () => 'Float via slot'
                 },
@@ -228,7 +228,7 @@ describe('Float Label', () => {
           el: {
             type: 'input-text',
             slots: {
-              'float-label': defineSlot('VfInputText.float-label' as any, {
+              'float-label': defineSlot('VfInputText.floatLabel', {
                 setup() {
                   return () => 'Float via slot'
                 },
@@ -283,7 +283,7 @@ describe('Icon Before', () => {
             type: 'input-text',
             placeholder: 'Icon before slot',
             slots: {
-              'icon-before': defineSlot('VfInputText.iconBefore' as any, {
+              'icon-before': defineSlot('VfInputText.iconBefore', {
                 setup() {
                   return () => h('i', { class: 'pi pi-search' })
                 },
@@ -303,7 +303,7 @@ describe('Icon Before', () => {
             type: 'input-text',
             placeholder: 'Icon before slot',
             slots: {
-              'icon-before': defineSlot('VfInputText.iconBefore' as any, {
+              'icon-before': defineSlot('VfInputText.iconBefore', {
                 setup() {
                   return () => h('i', { class: 'pi pi-search' })
                 },
@@ -356,7 +356,7 @@ describe('Icon After', () => {
           el: {
             type: 'input-text',
             slots: {
-              'icon-after': defineSlot('VfInputText.iconAfter' as any, {
+              'icon-after': defineSlot('VfInputText.iconAfter', {
                 setup() {
                   return () => h('i', { class: 'pi pi-lock' })
                 },
@@ -375,7 +375,7 @@ describe('Icon After', () => {
           el: {
             type: 'input-text',
             slots: {
-              'icon-after': defineSlot('VfInputText.iconAfter' as any, {
+              'icon-after': defineSlot('VfInputText.iconAfter', {
                 setup() {
                   return () => h('i', { class: 'pi pi-lock' })
                 },
@@ -450,7 +450,7 @@ describe('Addon Before', () => {
             type: 'input-text',
             placeholder: 'Addon before slot',
             slots: {
-              'addon-before': defineSlot('VfInputText.addonBefore' as any, {
+              'addon-before': defineSlot('VfInputText.addonBefore', {
                 setup() {
                   return () => h(InputGroupAddon, null, () => '$')
                 },
@@ -504,7 +504,7 @@ describe('Addon After', () => {
             type: 'input-text',
             placeholder: 'Addon after slot',
             slots: {
-              'addon-after': defineSlot('VfInputText.addonAfter' as any, {
+              'addon-after': defineSlot('VfInputText.addonAfter', {
                 setup() {
                   return () => h(InputGroupAddon, null, () => '.00')
                 },
@@ -594,7 +594,7 @@ describe('Translate', () => {
               type: 'input-text',
               translate: true,
               slots: {
-                language: defineSlot('VfInputText.language' as any, {
+                language: defineSlot('VfInputText.language', {
                   props: ['language', 'languages'],
                   setup(props: any) {
                     return () =>

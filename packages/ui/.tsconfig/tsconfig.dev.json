@@ -1,20 +1,22 @@
+// Editor project for src; `@vueform/*` blocks are generated — `pnpm repair --tsconfig`.
 {
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
+    "types": ["node"],
     "paths": {
-      "~/*": ["../core/src/*"],
+      "~/*": ["../../core/src/*"],
       "@/*": ["../src/*"],
-      "@vueform/core/blueprints/*": ["../core/src/blueprints/*"],
-      "@vueform/core/components": ["../core/src/components/index.ts"],
-      "@vueform/core/components/*/raw": ["../core/src/components/*/index.ts"],
-      "@vueform/core/components/*": ["../core/src/components/*/unstyled.ts"],
-      "@vueform/core/modules": ["../core/src/modules/modules.ts"],
-      "@vueform/core/locales": ["../core/src/locales/index.ts"],
-      "@vueform/core/tokens": ["../core/src/tokens/index.ts"],
-      "@vueform/core/plugin": ["../core/src/plugin.ts"],
-      "@vueform/core": ["../core/src/index.ts"]
-    },
-    "types": ["node"]
+      "@vueform/core": ["../../core/src/index.ts"],
+      "@vueform/core/blueprints/*": ["../../core/src/blueprints/*.ts"],
+      "@vueform/core/components": ["../../core/src/components/index.ts"],
+      "@vueform/core/components/*/raw": ["../../core/src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../../core/src/components/*/unstyled.ts"],
+      "@vueform/core/rules": ["../../core/src/rules/index.ts"],
+      "@vueform/core/modules": ["../../core/src/modules/modules.ts"],
+      "@vueform/core/locales": ["../../core/src/locales/index.ts"],
+      "@vueform/core/tokens": ["../../core/src/tokens/index.ts"],
+      "@vueform/core/*": ["../../core/src/*"]
+    }
   },
   "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue"]
 }

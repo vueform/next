@@ -204,4 +204,5 @@ export const defaults = defineDefaults<GroupProps>()({
   nested: false,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
 })

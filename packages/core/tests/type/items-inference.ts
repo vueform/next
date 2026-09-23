@@ -170,7 +170,7 @@
  * ref to a select whose items are numbers is a type error. Only the endpoint
  * string case (§4) lets `v-model` define the model type.
  */
-import type { GroupChildrenProp, ItemsModel, ItemValueOf, ItemsProp, RawItemOf } from '@vueform/core'
+import type { ExpressionString, GroupChildrenProp, ItemsModel, ItemValueOf, ItemsProp, RawItemOf } from '@vueform/core'
 import type { SelectProps } from '@vueform/core/blueprints/select'
 import type { VfSelectProps } from '@vueform/core/components/VfSelect'
 
@@ -298,7 +298,8 @@ type _selectMultiModel = Expect<Equal<ItemsModel<ObjectItems, 'id', undefined, t
 
 type SelectWithObjects = SelectProps<'select', ObjectItems, 'id'>
 type _selectPropsModel = Expect<MutuallyAssignable<SelectWithObjects['modelValue'], number | null | undefined>>
-type _selectPropsDefault = Expect<MutuallyAssignable<SelectWithObjects['default'], number | null | undefined>>
+// `default` is expressionable, so it also accepts `{...}` expression strings.
+type _selectPropsDefault = Expect<MutuallyAssignable<SelectWithObjects['default'], number | null | undefined | ExpressionString>>
 
 type VfSelectWithObjects = VfSelectProps<ObjectItems, 'id'>
 type _vfSelectModel = Expect<MutuallyAssignable<VfSelectWithObjects['modelValue'], number | null | undefined>>
@@ -324,7 +325,10 @@ type _fnObjectAllowsKeys = Expect<Equal<AllowsItemKeyProps<FnItems>, true>>
 type _fnScalarAllowsKeys = Expect<Equal<AllowsItemKeyProps<() => ('a' | 'b')[]>, false>>
 
 type _scalarForbidsItemValue = Expect<Equal<[NonNullable<SelectProps<'select', ScalarItems>['itemValue']>] extends [never] ? true : false, true>>
-type _scalarForbidsItemLabel = Expect<Equal<[NonNullable<SelectProps<'select', ScalarItems>['itemLabel']>] extends [never] ? true : false, true>>
+// Scalar arrays reject string-key lookup but still allow function mappers,
+// which receive the synthetic `{ value, label }` item.
+type _scalarForbidsItemLabelKey = Expect<Equal<'label' extends NonNullable<SelectProps<'select', ScalarItems>['itemLabel']> ? true : false, false>>
+type _scalarAllowsItemLabelMapper = Expect<Equal<((item: any) => string) extends NonNullable<SelectProps<'select', ScalarItems>['itemLabel']> ? true : false, true>>
 type _recordForbidsItemValue = Expect<Equal<[NonNullable<SelectProps<'select', RecordItems>['itemValue']>] extends [never] ? true : false, true>>
 type _objectAllowsItemLabel = Expect<Equal<'name' extends NonNullable<SelectProps<'select', ObjectItems, 'id'>['itemLabel']> ? true : false, true>>
 

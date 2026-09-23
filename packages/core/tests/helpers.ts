@@ -6,6 +6,7 @@ import {
   model,
   nativeDateAdapter,
   upperFirst,
+  type HeadingProp,
   type UserConfig,
   type VueformInstance,
 } from '@vueform/core'
@@ -14,13 +15,7 @@ import { en_US } from '@vueform/core/locales'
 import * as modules from '@vueform/core/modules'
 import * as rules from '@vueform/core/rules'
 import exprEval from '@vueform/expr-eval'
-import {
-  defineComponent,
-  nextTick,
-  onMounted,
-  ref,
-  type DefineComponent,
-} from 'vue'
+import { defineComponent, nextTick, onMounted, ref, type Component } from 'vue'
 import VfTest from './integration/.fixture/VfTest.vue'
 
 export { flushPromises, mount }
@@ -108,7 +103,11 @@ const makeTestVueform = (config: UserConfig = {}) => {
   } as any)
 }
 
-export const createForm = (props, config: UserConfig = {}, options = {}) => {
+export const createForm = (
+  props: Record<string, any>,
+  config: UserConfig = {},
+  options = {}
+) => {
   const vueform = makeTestVueform(config)
 
   const form$ = mount(components.VfForm, {
@@ -148,7 +147,11 @@ export const createForm = (props, config: UserConfig = {}, options = {}) => {
   } & Record<string, any>
 }
 
-export const createForm2 = (props, config: UserConfig = {}, options = {}) => {
+export const createForm2 = (
+  props: Record<string, any>,
+  config: UserConfig = {},
+  options = {}
+) => {
   return mount(components.VfForm, {
     props,
     ...mergeUntilDepth(
@@ -163,7 +166,7 @@ export const createForm2 = (props, config: UserConfig = {}, options = {}) => {
   })
 }
 
-export const mountApp = <T extends DefineComponent<any, any, any>>(
+export const mountApp = <T extends Component>(
   component: T,
   options = {},
   config: UserConfig = {}
@@ -180,7 +183,7 @@ export const mountApp = <T extends DefineComponent<any, any, any>>(
 }
 
 export const makeApp = <T extends string>(
-  template,
+  template: string,
   structures: readonly T[] = [],
   props?: Record<string, any>
 ) => {
@@ -193,9 +196,9 @@ export const makeApp = <T extends string>(
 
       const mvList = ref(['foo', 'bar'])
 
-      const queue = []
+      const queue: (() => void)[] = []
 
-      const handleUpdate = (type, v) => {
+      const handleUpdate = (type: string, v: unknown) => {
         if (!mounted.value) {
           queue.push(() => emit(`update:${type}`, v))
           return
@@ -244,24 +247,26 @@ export const makeApp = <T extends string>(
   })
 }
 
-export function vModelAndChange(structure) {
+export function vModelAndChange(structure: string) {
   return `:model-value="${structure}" v-on="${structure} !== undefined ? { 'update:modelValue': v => handleUpdate('${structure}', v) } : {}" @change="onChange${upperFirst(
     structure
   )}"`
 }
 
-export function el(form, path) {
+export function el(form: ReturnType<typeof mount>, path: string) {
   const types = ['VfText', 'VfGroup', 'VfObject', 'VfGrid', 'VfList']
 
-  const elements = types.reduce(
+  const elements = types.reduce<Record<string, any>>(
     (elements, name) => ({
       ...elements,
-      ...form.findAllComponents({ name }).reduce((comps, { vm }) => {
-        return {
-          ...comps,
-          [vm.path]: vm,
-        }
-      }, {}),
+      ...form
+        .findAllComponents({ name })
+        .reduce<Record<string, any>>((comps, { vm }) => {
+          return {
+            ...comps,
+            [vm.path]: vm,
+          }
+        }, {}),
     }),
     {}
   )

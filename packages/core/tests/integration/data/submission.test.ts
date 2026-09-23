@@ -252,8 +252,8 @@ describe('Form Submission', () => {
 
       await form$.submit()
 
-      expect(form$.response.data).toEqual({ id: 1 })
-      expect(form$.response.status).toBe(201)
+      expect(form$.response?.data).toEqual({ id: 1 })
+      expect(form$.response?.status).toBe(201)
     })
 
     it('should return client invalid result when validation fails', async () => {

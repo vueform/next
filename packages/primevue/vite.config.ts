@@ -4,7 +4,7 @@ import Vue from '@vitejs/plugin-vue'
 import VfBuild from '@vueform/vite/build'
 import { defineConfig } from 'vite'
 import Dts from 'vite-plugin-dts'
-import { createBuildOptions, srcDir } from './build/vite.shared'
+import { createBuildOptions, srcDir } from './build/vite.base'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -33,6 +33,19 @@ export default defineConfig({
       insertTypesEntry: true,
       clearPureImport: false,
       include: ['src'],
+      // vite-plugin-dts relocates declarations into dist and rewrites their
+      // relative imports mechanically, which turns in-src references to the
+      // package index into `(../)+src/index.ts` — unresolvable for consumers
+      // and a leak into src. Rewrite them to the public entry.
+      beforeWriteFile(filePath, content) {
+        return {
+          filePath,
+          content: content.replace(
+            /['"](?:\.\.\/)+src\/index\.ts['"]/g,
+            "'@vueform/primevue'"
+          ),
+        }
+      },
     }),
     VfBuild({
       shorthandProps: {

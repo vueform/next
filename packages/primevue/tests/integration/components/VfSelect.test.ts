@@ -321,7 +321,7 @@ describe('Forwarded slots', () => {
             type: 'select',
             options: [{ value: 'a', label: 'A' }],
             slots: {
-              option: defineSlot('VfSelect.option' as any, {
+              option: defineSlot('VfSelect.option', {
                 props: ['option', 'index'],
                 setup(props: any) {
                   return () =>

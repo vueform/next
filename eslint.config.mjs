@@ -284,6 +284,19 @@ export default [
     },
   },
 
+  // vue-eslint-parser concatenates every <script> block into one module, so
+  // these rules false-positive on the dual-script component pattern (script
+  // setup + a plain script holding registry / GlobalComponents augmentations,
+  // as in the clone templates and the VfTest fixture) — and their autofix
+  // merges the blocks, corrupting the component.
+  {
+    files: ['packages/*/tests/**/*.vue'],
+    rules: {
+      'import/first': 'off',
+      'import/no-duplicates': 'off',
+    },
+  },
+
   // ── Prettier last: disable formatting rules ───────────────────────────
   eslintConfigPrettier,
 ]

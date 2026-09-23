@@ -2200,6 +2200,7 @@ export const defaults = defineDefaults<FormProps>()({
   method: 'POST',
   dark: undefined,
   navPos: 'auto',
+  expressions: undefined,
 
   showRequired: () => ['label'],
   scrollTopOn: () => ['always'],

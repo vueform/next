@@ -1,6 +1,4 @@
-// Package base: repo policy + this package's aliases. Projects with a wider
-// alias surface (test, types) redefine `paths` wholesale — TS replaces,
-// never merges, that property.
+// Shared base extended by this package's editor projects (dev/test).
 {
   "extends": "../../../tsconfig.base.json",
   "compilerOptions": {

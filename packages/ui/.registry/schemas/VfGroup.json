@@ -21,7 +21,9 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": ["group"],
+  "styles": [
+    "group"
+  ],
   "element": true,
   "clone": {
     "path": "VfGroup.vue",

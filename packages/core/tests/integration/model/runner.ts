@@ -2,13 +2,14 @@ import { upperFirst } from '@vueform/core'
 import { describe, it } from 'vitest'
 import { nextTick } from 'vue'
 
-let vms
-let methods
+// Shared per-case state — shapes vary per template, hence `any`.
+let vms: any
+let methods: any
 
-let text
-let expectAllToEqual
-let expectAllInitialToEqual
-let expectAllToBeCalledTimesWith
+let text: any
+let expectAllToEqual: (data: any, instant?: boolean) => any
+let expectAllInitialToEqual: (data: any) => any
+let expectAllToBeCalledTimesWith: (times: number, data?: any) => any
 
 const structures = [
   'form',
@@ -23,10 +24,15 @@ const structures = [
 const lists = ['list', 'sublist']
 const vmodels = ['form', 'list', 'container', 'subcontainer', 'text']
 
-export default (name, cases, template, makeCase) =>
+export default (
+  name: string,
+  cases: any[],
+  template: string,
+  makeCase: (params: any, template: string) => Promise<any>
+) =>
   describe('Data Handling', () => {
     describe(name, () => {
-      cases.forEach((Case) => {
+      cases.forEach((Case: any) => {
         describe(Case.suite, async () => {
           const { initial, update, clear } = Case.params
 

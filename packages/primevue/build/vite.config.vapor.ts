@@ -15,11 +15,13 @@ import VfBuild from '@vueform/vite/build'
 import ts from 'typescript'
 import { defineConfig } from 'vite'
 import * as VaporCompiler from 'vue-compiler-sfc-vapor'
-import { createBuildOptions, srcDir } from './vite.shared'
+import { createBuildOptions, srcDir } from './vite.base'
 
 // The `vue/compiler-sfc` wrapper normally registers TypeScript so imported
 // types (defineProps<...>) can be resolved via ts.sys. Using the raw
 // @vue/compiler-sfc package (aliased), we must register it ourselves.
+// @ts-expect-error version skew: the rc compiler's bundled ts typings vs
+// the workspace typescript — structurally different, runtime-compatible.
 VaporCompiler.registerTS(() => ts)
 
 export default defineConfig({

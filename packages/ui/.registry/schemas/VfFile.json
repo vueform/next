@@ -21,7 +21,9 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": ["file"],
+  "styles": [
+    "file"
+  ],
   "element": true,
   "clone": {
     "path": "VfFile.vue",

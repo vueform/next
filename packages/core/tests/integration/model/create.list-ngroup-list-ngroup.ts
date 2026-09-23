@@ -2,7 +2,7 @@ import { expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { makeApp, mountApp } from '../../helpers'
 
-export default async (Case, template) => {
+export default async (Case: any, template: string) => {
   const formHasVModel = Case.hasOwnProperty('formVModel')
   const listHasVModel = Case.hasOwnProperty('listVModel')
 
@@ -25,8 +25,8 @@ export default async (Case, template) => {
     props: {
       form: Case.formVModel,
       list: Case.listVModel,
-      'onUpdate:form': (v) => app.setProps({ form: v }),
-      'onUpdate:list': (v) => app.setProps({ list: v }),
+      'onUpdate:form': (v: any) => app.setProps({ form: v }),
+      'onUpdate:list': (v: any) => app.setProps({ list: v }),
       onChangeForm,
       onChangeList,
       onChangeListContainer,
@@ -58,19 +58,19 @@ export default async (Case, template) => {
     .filter((c) => c.vm.name === 'text')
   const text = texts[0]
 
-  const listData = (data) => {
+  const listData = (data: any) => {
     return data.list
   }
 
-  const updateFormModelValue = (value) => {
+  const updateFormModelValue = (value: any) => {
     app.setProps({ form: value })
   }
 
-  const updateListModelValue = (value) => {
+  const updateListModelValue = (value: any) => {
     app.setProps({ list: value })
   }
 
-  const expectAllToEqual = async (data, instant = false) => {
+  const expectAllToEqual = async (data: any, instant = false) => {
     expect(form.vm.model).toEqual(data)
     expect(list.vm.model).toEqual(listData(data))
 
@@ -90,7 +90,7 @@ export default async (Case, template) => {
 
     await nextTick()
 
-    // listData(data).forEach((listData, i) => {
+    // listData(data).forEach((listData: any, i: number) => {
     //   const currentList = list.findAllComponents({ name: 'VfList' })[i]
 
     //   expect(currentList.vm.model).toEqual(listData)
@@ -101,11 +101,11 @@ export default async (Case, template) => {
     // })
   }
 
-  const expectAllInitialToEqual = async (data) => {
+  const expectAllInitialToEqual = async (data: any) => {
     expect(form.vm.initialModel).toEqual(data)
     expect(list.vm.initialModel).toEqual(listData(data))
 
-    // listData(data).forEach((listData, i) => {
+    // listData(data).forEach((listData: any, i: number) => {
     //   const currentList = list.findAllComponents({ name: 'VfList' })[i]
 
     //   expect(currentList.vm.model).toEqual(listData)
@@ -116,7 +116,7 @@ export default async (Case, template) => {
     // })
   }
 
-  const expectAllToBeCalledTimesWith = async (times, data) => {
+  const expectAllToBeCalledTimesWith = async (times: number, data: any) => {
     await nextTick()
 
     expect(onChangeForm).toHaveBeenCalledTimes(times)

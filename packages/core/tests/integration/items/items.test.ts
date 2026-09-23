@@ -3,6 +3,7 @@ import {
   type HttpAdapter,
   type HttpRequestConfig,
   type HttpResponse,
+  type ConditionalProp,
 } from '@vueform/core'
 import { defineComponent, nextTick, ref } from 'vue'
 import { createForm, flushPromises, mountApp } from '../../helpers'
@@ -409,9 +410,9 @@ describe('Single mode (VfSelect)', () => {
             select: {
               type: 'select',
               items: '/api/items',
-              transformItems: (data) => data.results,
-              itemValue: 'id',
-              itemLabel: 'name',
+              transformItems: (data: any) => data.results,
+              itemValue: 'id' as any,
+              itemLabel: 'name' as any,
             },
           }),
         },
@@ -534,7 +535,7 @@ describe('Multiple mode (VfSelect multiple)', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemConditions: (item) => [
+          itemConditions: (item: any): ConditionalProp => [
             [
               ['trigger', '==', 'show_all'],
               ['trigger', '==', item.group],
@@ -549,7 +550,7 @@ describe('Multiple mode (VfSelect multiple)', () => {
     trigger.update('x')
     await nextTick()
 
-    expect(select.items.map((i) => i.value)).toEqual(['a', 'c'])
+    expect(select.items.map((i: any) => i.value)).toEqual(['a', 'c'])
     expect(select.model).toEqual(['a', 'c'])
   })
 
@@ -571,8 +572,8 @@ describe('Multiple mode (VfSelect multiple)', () => {
             { ...objC, group: 'x' },
           ],
           itemLabel: 'name',
-          itemValue: (item) => ({ id: item.id, name: item.name }),
-          itemConditions: (item) => [
+          itemValue: (item: any) => ({ id: item.id, name: item.name }),
+          itemConditions: (item: any): ConditionalProp => [
             [
               ['trigger', '==', 'show_all'],
               ['trigger', '==', item.group],
@@ -623,7 +624,7 @@ describe('itemValue', () => {
             { code: 'us', name: 'United States' },
             { code: 'uk', name: 'United Kingdom' },
           ],
-          itemValue: (item) => item.code.toUpperCase(),
+          itemValue: (item: any) => item.code.toUpperCase(),
           itemLabel: 'name',
         },
       }),
@@ -667,7 +668,7 @@ describe('itemLabel', () => {
             { first: 'Jane', last: 'Smith' },
           ],
           itemValue: 'first',
-          itemLabel: (item) => `${item.first} ${item.last}`,
+          itemLabel: (item: any) => `${item.first} ${item.last}`,
         },
       }),
     })
@@ -727,7 +728,7 @@ describe('groupLabel', () => {
             { cat: 'fruit', items: ['Apple'] },
             { cat: 'veggie', items: ['Carrot'] },
           ],
-          groupLabel: (group) => group.cat.toUpperCase(),
+          groupLabel: (group: any) => group.cat.toUpperCase(),
           groupChildren: 'items',
         },
       }),
@@ -774,7 +775,7 @@ describe('groupChildren', () => {
             { name: 'Group B', data: { list: ['Z'] } },
           ],
           groupLabel: 'name',
-          groupChildren: (group) => group.data.list,
+          groupChildren: (group: any) => group.data.list,
         },
       }),
     })
@@ -863,7 +864,7 @@ describe('itemDisabled', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemDisabled: (item) => item.value === 'b',
+          itemDisabled: (item: any) => item.value === 'b',
         },
       }),
     })
@@ -884,7 +885,7 @@ describe('itemDisabled', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemDisabled: (item) => `trigger == "${item.value}"`,
+          itemDisabled: (item: any) => `trigger == "${item.value}"`,
         },
       }),
     })
@@ -909,7 +910,7 @@ describe('itemDisabled', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemDisabled: (item) => [['trigger', '==', item.value]],
+          itemDisabled: (item: any) => [['trigger', '==', item.value]],
         },
       }),
     })
@@ -933,7 +934,7 @@ describe('itemDisabled', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemDisabled: (item) => () => item.off,
+          itemDisabled: (item: any) => () => item.off,
         },
       }),
     })
@@ -953,7 +954,7 @@ describe('itemDisabled', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemDisabled: (item) => async () => item.off,
+          itemDisabled: (item: any) => async () => item.off,
         },
       }),
     })
@@ -1029,15 +1030,17 @@ describe('itemConditions', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemConditions: (item) => [['trigger', '==', item.showWhen]],
+          itemConditions: (item: any): ConditionalProp => [
+            ['trigger', '==', item.showWhen],
+          ],
         },
       }),
     })
 
-    expect(select.items.map((i) => i.value)).toEqual(['a', 'c'])
+    expect(select.items.map((i: any) => i.value)).toEqual(['a', 'c'])
 
     trigger.update('show_b')
-    expect(select.items.map((i) => i.value)).toEqual(['b'])
+    expect(select.items.map((i: any) => i.value)).toEqual(['b'])
   })
 
   it('should hide items via function returning expression string', () => {
@@ -1052,15 +1055,16 @@ describe('itemConditions', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemConditions: (item) => `trigger == "${item.show}"`,
+          itemConditions: (item: any): ConditionalProp =>
+            `trigger == "${item.show}"`,
         },
       }),
     })
 
-    expect(select.items.map((i) => i.value)).toEqual(['a'])
+    expect(select.items.map((i: any) => i.value)).toEqual(['a'])
 
     trigger.update('no')
-    expect(select.items.map((i) => i.value)).toEqual(['b'])
+    expect(select.items.map((i: any) => i.value)).toEqual(['b'])
   })
 
   it('should show all items when itemConditions is not set', () => {
@@ -1100,7 +1104,9 @@ describe('itemConditions', () => {
           groupChildren: 'options',
           itemValue: 'value',
           itemLabel: 'label',
-          itemConditions: (item) => [['trigger', '==', item.show]],
+          itemConditions: (item: any): ConditionalProp => [
+            ['trigger', '==', item.show],
+          ],
         },
       }),
     })
@@ -1130,7 +1136,7 @@ describe('groupConditions', () => {
           ],
           groupLabel: 'name',
           groupChildren: 'options',
-          groupConditions: (group) => [['trigger', '==', group.show]],
+          groupConditions: (group: any) => [['trigger', '==', group.show]],
         },
       }),
     })
@@ -1155,7 +1161,7 @@ describe('groupConditions', () => {
           ],
           groupLabel: 'name',
           groupChildren: 'options',
-          groupConditions: (group) => `trigger == "${group.show}"`,
+          groupConditions: (group: any) => `trigger == "${group.show}"`,
         },
       }),
     })
@@ -1208,7 +1214,7 @@ describe('groupConditions', () => {
           groupChildren: 'options',
           itemValue: 'value',
           itemLabel: 'label',
-          groupConditions: () => [['trigger', '==', 'show']],
+          groupConditions: (): ConditionalProp => [['trigger', '==', 'show']],
         },
       }),
     })
@@ -1240,7 +1246,9 @@ describe('Value clearing on condition change', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemConditions: () => [['trigger', '==', 'show_all']],
+          itemConditions: (): ConditionalProp => [
+            ['trigger', '==', 'show_all'],
+          ],
         },
       })
     ) as any
@@ -1272,7 +1280,7 @@ describe('Value clearing on condition change', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemConditions: (item) => [
+          itemConditions: (item: any): ConditionalProp => [
             [
               ['trigger', '==', 'show_all'],
               ['trigger', '==', item.group],
@@ -1287,7 +1295,7 @@ describe('Value clearing on condition change', () => {
     trigger.update('x')
     await nextTick()
 
-    expect(select.items.map((i) => i.value)).toEqual(['a', 'c'])
+    expect(select.items.map((i: any) => i.value)).toEqual(['a', 'c'])
     expect(select.model).toEqual(['a', 'c'])
   })
 
@@ -1304,7 +1312,7 @@ describe('Value clearing on condition change', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemConditions: () => [['trigger', '==', 'show']],
+          itemConditions: (): ConditionalProp => [['trigger', '==', 'show']],
         },
       }),
     })
@@ -1325,7 +1333,9 @@ describe('Value clearing on condition change', () => {
           default: objA,
           items: [objA, objB],
           itemLabel: 'name',
-          itemConditions: () => [['trigger', '==', 'show_all']],
+          itemConditions: (): ConditionalProp => [
+            ['trigger', '==', 'show_all'],
+          ],
         },
       }),
     })
@@ -1356,7 +1366,7 @@ describe('Value clearing on condition change', () => {
           groupChildren: 'options',
           itemValue: 'value',
           itemLabel: 'label',
-          itemConditions: () => [['trigger', '==', 'show']],
+          itemConditions: (): ConditionalProp => [['trigger', '==', 'show']],
         },
       }),
     })
@@ -1526,7 +1536,7 @@ describe('Reactivity', () => {
           ],
           itemValue: 'value',
           itemLabel: 'label',
-          itemDisabled: (item) => [['trigger', '==', item.value]],
+          itemDisabled: (item: any) => [['trigger', '==', item.value]],
         },
       }),
     })
@@ -1666,7 +1676,7 @@ describe('itemsTrigger', () => {
             callCount++
             return ['A', 'B']
           },
-          itemsTrigger: (el$) => el$.form$?.get('country'),
+          itemsTrigger: (el$: any) => el$.form$?.get('country'),
           itemsDebounce: 0,
         },
       }),
@@ -1740,9 +1750,9 @@ describe('transformItems', () => {
           select: {
             type: 'select',
             items: '/api/items',
-            transformItems: (data) => data.results,
-            itemValue: 'id',
-            itemLabel: 'name',
+            transformItems: (data: any) => data.results,
+            itemValue: 'id' as any,
+            itemLabel: 'name' as any,
           },
         }),
       },
@@ -1767,9 +1777,9 @@ describe('transformItems', () => {
               { id: 2, name: 'Bar' },
             ],
           }),
-          transformItems: (data) => data.results,
-          itemValue: 'id',
-          itemLabel: 'name',
+          transformItems: (data: any) => data.results,
+          itemValue: 'id' as any,
+          itemLabel: 'name' as any,
         },
       }),
     })
@@ -1790,9 +1800,9 @@ describe('transformItems', () => {
               { id: 2, name: 'Bar' },
             ],
           }),
-          transformItems: (data) => data.results,
-          itemValue: 'id',
-          itemLabel: 'name',
+          transformItems: (data: any) => data.results,
+          itemValue: 'id' as any,
+          itemLabel: 'name' as any,
         },
       }),
     })

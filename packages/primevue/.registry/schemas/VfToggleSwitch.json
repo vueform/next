@@ -23,7 +23,9 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": ["toggle-switch"],
+  "styles": [
+    "toggle-switch"
+  ],
   "element": true,
   "clone": {
     "path": "VfToggleSwitch.vue",

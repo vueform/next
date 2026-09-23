@@ -3,7 +3,7 @@ import { expect, vi } from 'vitest'
 import { nextTick } from 'vue'
 import { makeApp, mountApp } from '../../helpers'
 
-export default async (Case, template) => {
+export default async (Case: any, template: string) => {
   const formHasVModel = Case.hasOwnProperty('formVModel')
   const containerHasVModel = Case.hasOwnProperty('containerVModel')
   const subcontainerHasVModel = Case.hasOwnProperty('subcontainerVModel')
@@ -22,10 +22,10 @@ export default async (Case, template) => {
       container: Case.containerVModel,
       subcontainer: Case.subcontainerVModel,
       text: Case.textVModel,
-      'onUpdate:form': (v) => app.setProps({ form: v }),
-      'onUpdate:container': (v) => app.setProps({ container: v }),
-      'onUpdate:subcontainer': (v) => app.setProps({ subcontainer: v }),
-      'onUpdate:text': (v) => app.setProps({ text: v }),
+      'onUpdate:form': (v: any) => app.setProps({ form: v }),
+      'onUpdate:container': (v: any) => app.setProps({ container: v }),
+      'onUpdate:subcontainer': (v: any) => app.setProps({ subcontainer: v }),
+      'onUpdate:text': (v: any) => app.setProps({ text: v }),
       onChangeForm,
       onChangeContainer,
       onChangeSubcontainer,
@@ -43,10 +43,10 @@ export default async (Case, template) => {
   const container = form.findAllComponents({ name: 'VfGroup' })[0]
   const subcontainer = form
     .findAllComponents({ name: 'VfGroup' })
-    .find((c) => c.vm.name === 'subcontainer')
+    .find((c) => c.vm.name === 'subcontainer')!
   const text = form.findAllComponents({ name: 'VfText' })[0]
 
-  const containerData = (data) => {
+  const containerData = (data: any) => {
     let containerData = get(data, container.vm.dataPath)
 
     if (!container.vm.nested) {
@@ -60,7 +60,7 @@ export default async (Case, template) => {
     return containerData
   }
 
-  const subcontainerData = (data) => {
+  const subcontainerData = (data: any) => {
     let subcontainerData = get(data, subcontainer.vm.dataPath)
 
     if (!subcontainerNested) {
@@ -74,27 +74,27 @@ export default async (Case, template) => {
     return subcontainerData
   }
 
-  const textData = (data) => {
+  const textData = (data: any) => {
     return get(data, text.vm.dataPath)
   }
 
-  const updateFormModelValue = (value) => {
+  const updateFormModelValue = (value: any) => {
     app.setProps({ form: value })
   }
 
-  const updateContainerModelValue = (value) => {
+  const updateContainerModelValue = (value: any) => {
     app.setProps({ container: value })
   }
 
-  const updateSubcontainerModelValue = (value) => {
+  const updateSubcontainerModelValue = (value: any) => {
     app.setProps({ subcontainer: value })
   }
 
-  const updateTextModelValue = (value) => {
+  const updateTextModelValue = (value: any) => {
     app.setProps({ text: value })
   }
 
-  const expectAllToEqual = async (data, instant = false) => {
+  const expectAllToEqual = async (data: any, instant = false) => {
     expect(form.vm.model).toEqual(data)
     if (containerNested) expect(container.vm.model).toEqual(containerData(data))
     if (subcontainerNested)
@@ -128,7 +128,7 @@ export default async (Case, template) => {
     }
   }
 
-  const expectAllInitialToEqual = async (data) => {
+  const expectAllInitialToEqual = async (data: any) => {
     expect(form.vm.initialModel).toEqual(data)
     if (containerNested)
       expect(container.vm.initialModel).toEqual(containerData(data))
@@ -137,7 +137,7 @@ export default async (Case, template) => {
     expect(text.vm.initialModel).toEqual(textData(data))
   }
 
-  const expectAllToBeCalledTimesWith = async (times, data) => {
+  const expectAllToBeCalledTimesWith = async (times: number, data: any) => {
     await nextTick()
 
     expect(onChangeForm).toHaveBeenCalledTimes(times)

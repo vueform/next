@@ -1,6 +1,6 @@
 import { type Pager, type ResolvedPage } from '~/composables'
 
-import type { PartOf, SlotProps } from '~/types'
+import type { PartOf, SlotPropsOf } from '~/types'
 import type { VNode } from 'vue'
 
 /**
@@ -61,7 +61,7 @@ export interface TabbedSlots {
    *
    * @inherits VfTabs.default
    */
-  tab: (props: SlotProps['VfTabs']['default']) => VNode[]
+  tab: (props: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
 }
 
 export interface TabbedParts {

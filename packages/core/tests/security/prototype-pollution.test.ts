@@ -366,7 +366,7 @@ describe('Security: prototype pollution', () => {
       const result = await form$.submit()
       await flushPromises()
 
-      expect(result.type).toBe('invalid')
+      expect(result?.type).toBe('invalid')
       expect(name.errors).toHaveLength(1)
       expect(({} as any).polluted).toBeUndefined()
     })

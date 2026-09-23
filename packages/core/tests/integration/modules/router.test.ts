@@ -146,7 +146,7 @@ describe('Default router module', () => {
     await flushPromises()
 
     const pushCalls = pushStateSpy.mock.calls
-    const states = pushCalls.map(([state]) => {
+    const states = pushCalls.map(([state]: any[]) => {
       const key = Object.keys(state as Record<string, any>)[0]
       return (state as Record<string, any>)[key]
     })

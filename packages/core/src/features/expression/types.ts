@@ -1,7 +1,7 @@
 import type { UntrackOnProp } from '~/types'
 
 /**
- * Props for elements that track user input state changes.
+ * Props for elements participating in the expression module.
  */
 export interface ExpressionProps {
   /**

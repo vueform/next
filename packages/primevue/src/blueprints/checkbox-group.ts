@@ -208,5 +208,6 @@ export const defaults = defineDefaults<CheckboxGroupProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
 })

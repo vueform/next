@@ -345,7 +345,7 @@ describe('Forwarded slots', () => {
             type: 'listbox',
             options: [{ value: 'a', label: 'A' }],
             slots: {
-              option: defineSlot('VfListbox.option' as any, {
+              option: defineSlot('VfListbox.option', {
                 props: ['option', 'index'],
                 setup(props: any) {
                   return () =>

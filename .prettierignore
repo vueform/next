@@ -12,6 +12,7 @@ yarn.lock
 *.md
 
 # Generated outputs own their formatting entirely.
+packages/*/.registry
 packages/metrics/results/
 packages/core/tests/perf/runtime/.results/
 packages/core/tests/perf/types/.results/

@@ -188,5 +188,6 @@ export const defaults = defineDefaults<TextareaProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
   untrackOn: undefined,
 })

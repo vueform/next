@@ -527,8 +527,8 @@ describe('Security: network trust', () => {
       const result = await form$.submit()
       await flushPromises()
 
-      expect(result.type).toBe('invalid')
-      expect(result.errors).toEqual({
+      expect(result?.type).toBe('invalid')
+      expect((result as any).errors).toEqual({
         name: ['Taken'],
         misc: [],
         list: ['A', 'B'],
@@ -603,7 +603,7 @@ describe('Security: network trust', () => {
 
       const result = await form$.submit()
 
-      expect(result.type).toBe('fail')
+      expect(result?.type).toBe('fail')
       expect((result as any).reason).toBe('http')
     })
   })

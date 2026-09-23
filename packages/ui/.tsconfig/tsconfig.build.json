@@ -1,9 +1,10 @@
+// `pnpm tsc` — gate against core dist types.
 {
-  "extends": "./tsconfig.dev.json",
+  "extends": "../../../tsconfig.base.json",
   "compilerOptions": {
     "paths": {
-      "~/*": ["../core/src/*"],
       "@/*": ["../src/*"]
     }
-  }
+  },
+  "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue"]
 }

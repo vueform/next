@@ -329,7 +329,7 @@ describe('Forwarded slots', () => {
             type: 'tree-select',
             options: [{ key: 'a', label: 'A' }],
             slots: {
-              value: defineSlot('VfTreeSelect.value' as any, {
+              value: defineSlot('VfTreeSelect.value', {
                 props: ['value', 'placeholder'],
                 setup(props: any) {
                   return () =>

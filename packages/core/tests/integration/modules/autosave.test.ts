@@ -8,6 +8,15 @@ import {
 import { nextTick } from 'vue'
 import { createForm, flushPromises } from '../../helpers'
 
+/**
+ * Autosave subscribes to navigation EVENTS, not their payloads — these tests
+ * simulate the bare event on step-less forms where real navigation can't fire.
+ * The cast drops the payload tuple deliberately.
+ */
+function fireNav(form$: { fire(...args: unknown[]): void }, event: string) {
+  form$.fire(event)
+}
+
 function mockAdapter(response: Partial<HttpResponse> = {}): {
   adapter: HttpAdapter
   calls: HttpRequestConfig[]
@@ -658,7 +667,7 @@ describe('Autosave on navigation events', () => {
 
     await nextTick()
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
 
     expect(calls).toHaveLength(1)
@@ -683,7 +692,7 @@ describe('Autosave on navigation events', () => {
 
     await nextTick()
 
-    form$.fire('back')
+    fireNav(form$, 'back')
     await flushPromises()
 
     expect(calls).toHaveLength(1)
@@ -708,7 +717,7 @@ describe('Autosave on navigation events', () => {
 
     await nextTick()
 
-    form$.fire('step')
+    fireNav(form$, 'step')
     await flushPromises()
 
     expect(calls).toHaveLength(1)
@@ -733,8 +742,8 @@ describe('Autosave on navigation events', () => {
 
     await nextTick()
 
-    form$.fire('back')
-    form$.fire('step')
+    fireNav(form$, 'back')
+    fireNav(form$, 'step')
     await flushPromises()
 
     expect(calls).toHaveLength(0)
@@ -760,7 +769,7 @@ describe('Autosave on navigation events', () => {
 
     await nextTick()
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
 
     expect(calls).toHaveLength(1)
@@ -804,7 +813,7 @@ describe('Autosave on navigation events with validity gate', () => {
 
     expect(form$.invalid).toBe(true)
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
 
     expect(calls).toHaveLength(0)
@@ -829,7 +838,7 @@ describe('Autosave on navigation events with validity gate', () => {
 
     await nextTick()
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
 
     expect(calls).toHaveLength(1)
@@ -860,8 +869,8 @@ describe('Autosave on navigation events with validity gate', () => {
 
     expect(form$.invalid).toBe(true)
 
-    form$.fire('next')
-    form$.fire('back')
+    fireNav(form$, 'next')
+    fireNav(form$, 'back')
     await flushPromises()
 
     expect(calls).toHaveLength(2)
@@ -966,7 +975,7 @@ describe('Autosave success event', () => {
     form$.on('autosaveSuccess', autosaveSuccessHandler)
     await nextTick()
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
 
     expect(autosaveSuccessHandler).toHaveBeenCalledTimes(1)
@@ -1684,9 +1693,9 @@ describe('Autosave endpoint gating', () => {
 
     await nextTick()
 
-    form$.fire('next')
-    form$.fire('back')
-    form$.fire('step')
+    fireNav(form$, 'next')
+    fireNav(form$, 'back')
+    fireNav(form$, 'step')
     await flushPromises()
 
     expect(calls).toHaveLength(0)
@@ -1771,7 +1780,7 @@ describe('Autosave endpoint gating', () => {
 
     await nextTick()
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
     expect(calls).toHaveLength(0)
 
@@ -1780,7 +1789,7 @@ describe('Autosave endpoint gating', () => {
     })
     await nextTick()
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
     expect(calls).toHaveLength(1)
   })
@@ -1804,14 +1813,14 @@ describe('Autosave endpoint gating', () => {
 
     await nextTick()
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
     expect(calls).toHaveLength(1)
 
     await form.setProps({ autosave: undefined })
     await nextTick()
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
     expect(calls).toHaveLength(1)
   })
@@ -1966,7 +1975,7 @@ describe('Autosave combined triggers', () => {
     await flushPromises()
     expect(calls).toHaveLength(1)
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
     expect(calls).toHaveLength(2)
 
@@ -2003,7 +2012,7 @@ describe('Autosave combined triggers', () => {
     await flushPromises()
     expect(calls).toHaveLength(0)
 
-    form$.fire('next')
+    fireNav(form$, 'next')
     await flushPromises()
     expect(calls).toHaveLength(0)
   })
@@ -2115,7 +2124,7 @@ describe('Autosave transform', () => {
 
   it('should pass form context to transform', async () => {
     const { adapter } = mockAdapter()
-    const spy = vi.fn((data: Record<string, any>) => data)
+    const spy = vi.fn((data: Record<string, any>, _oldData?: any) => data)
 
     createForm(
       {
@@ -2254,7 +2263,7 @@ describe('Autosave local', () => {
 
     await nextTick()
 
-    form$.fire('step')
+    fireNav(form$, 'step')
     await nextTick()
 
     expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'John' })

@@ -5,6 +5,7 @@ import {
   type HttpAdapter,
   type HttpRequestConfig,
   type ModelInstance,
+  type UseFormReturn,
 } from '@vueform/core'
 import { describe, expect, it, vi } from 'vitest'
 import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
@@ -42,7 +43,7 @@ const mockAdapter = (): {
       statusText: 'OK',
       headers: {},
       config,
-    }
+    } as any
   }
 
   return { adapter, calls }
@@ -169,7 +170,7 @@ describe('useForm', () => {
   }
 
   const mountUseForm = (model?: any) => {
-    let tuple!: ReturnType<typeof useForm>
+    let tuple!: UseFormReturn<typeof schema>
     const wrapper = mountApp(
       defineComponent({
         template: '<component :is="MyForm" />',
@@ -186,7 +187,7 @@ describe('useForm', () => {
   it('returns a renderable form with a live context and ready callback', async () => {
     let readyArg: any = null
 
-    let tuple!: ReturnType<typeof useForm>
+    let tuple!: UseFormReturn<typeof schema>
     const wrapper = mountApp(
       defineComponent({
         template: '<component :is="MyForm" />',
@@ -290,7 +291,7 @@ describe('useForm', () => {
     const model$ = createModel({ name: 'John' })
     const show = ref(false)
 
-    let tuple!: ReturnType<typeof useForm>
+    let tuple!: UseFormReturn<typeof schema>
     mountApp(
       defineComponent({
         template: '<component :is="MyForm" v-if="show" />',
@@ -312,8 +313,8 @@ describe('useForm', () => {
     expect(model$.model.email).toBe('john@example.com')
 
     // Instance-only and mount-only members stay hidden.
-    expect(form$.adopted).toBeUndefined()
-    expect(form$.input).toBeUndefined()
+    expect((form$ as any).adopted).toBeUndefined()
+    expect((form$ as any).input).toBeUndefined()
     expect(form$.submitting).toBeUndefined()
 
     // After mount the context takes over — same store, values survive.
@@ -331,7 +332,7 @@ describe('useForm', () => {
     const data = ref({ name: 'John' })
     const show = ref(false)
 
-    let tuple!: ReturnType<typeof useForm>
+    let tuple!: UseFormReturn<typeof schema>
     mountApp(
       defineComponent({
         template: '<component :is="MyForm" v-if="show" />',
@@ -392,7 +393,7 @@ describe('useForm', () => {
   })
 
   it('forwards slots and template children to VfForm', async () => {
-    let tuple!: ReturnType<typeof useForm>
+    let tuple!: UseFormReturn
 
     const wrapper = mountApp(
       defineComponent({
@@ -421,7 +422,7 @@ describe('useForm', () => {
   it('unwraps ref options reactively', async () => {
     const disabled = ref(false)
 
-    let tuple!: ReturnType<typeof useForm>
+    let tuple!: UseFormReturn<typeof schema>
     mountApp(
       defineComponent({
         template: '<component :is="MyForm" />',

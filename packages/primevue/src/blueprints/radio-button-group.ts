@@ -199,5 +199,6 @@ export const defaults = defineDefaults<RadioButtonGroupProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
 })

@@ -1,5 +1,5 @@
 import { defineSchema } from '@vueform/core'
-import { computed, nextTick, unref, ref } from 'vue'
+import { computed, nextTick, unref, ref, type Ref } from 'vue'
 import { createForm, makeApp, mountApp, vModelAndChange } from '../../helpers'
 
 const staticSchema = {
@@ -32,7 +32,7 @@ const checkModelsOf = (
   mode: string = 'auto',
   model: string = 'model'
 ) => {
-  const cols = matrixSchema.cols.map(({ value }) => value)
+  const cols = matrixSchema.cols.map(({ value }: { value: string }) => value)
   const rows = Object.keys(data.matrix)
 
   expect(form$.model).toEqual(data)
@@ -41,7 +41,7 @@ const checkModelsOf = (
   rows.forEach((row) => {
     expect(form$.find(`matrix.${row}`)[model]).toEqual(data.matrix[row])
     if (mode !== 'auto') return
-    cols.forEach((col) =>
+    cols.forEach((col: string) =>
       expect(form$.find(`matrix.${row}.${col}`)[model]).toEqual(
         data.matrix[row][col]
       )
@@ -52,8 +52,8 @@ const checkModelsOf = (
 const checkEmitsOf = async (
   callback: ReturnType<typeof vi.fn>,
   count: number,
-  newData?,
-  oldData?
+  newData?: any,
+  oldData?: any
 ) => {
   await nextTick()
 
@@ -65,16 +65,17 @@ const checkEmitsOf = async (
   expect(callback.mock.calls[count - 1].slice(0, 2)).toEqual([newData, oldData])
 }
 
-let app
-let form$
-let mode
-let matrixSchema
-let baseSchema
-let createVModelForm
-let onChangeForm
-let onChangeMatrix
-let checkModels
-let checkEmits
+// Shared per-suite state — the vm shapes vary per mount, hence `any`.
+let app: any
+let form$: any
+let mode: Ref<string>
+let matrixSchema: any
+let baseSchema: any
+let createVModelForm: (models: any) => { form$: any; app: any }
+let onChangeForm: ReturnType<typeof vi.fn>
+let onChangeMatrix: ReturnType<typeof vi.fn>
+let checkModels: (data: any, checkInitials?: boolean) => void
+let checkEmits: (count: number, newData?: any, oldData?: any) => Promise<void>
 
 describe('Data Handling', () => {
   beforeEach(() => {
@@ -1735,7 +1736,7 @@ describe('Data Handling', () => {
               {
                 props: {
                   form,
-                  'onUpdate:form': (v) => app.setProps({ form: v }),
+                  'onUpdate:form': (v: any) => app.setProps({ form: v }),
                   onChangeForm,
                   onChangeMatrix,
                 },
@@ -2270,7 +2271,7 @@ describe('Data Handling', () => {
               {
                 props: {
                   form,
-                  'onUpdate:form': (v) => app.setProps({ form: v }),
+                  'onUpdate:form': (v: any) => app.setProps({ form: v }),
                   onChangeForm,
                   onChangeMatrix,
                 },
@@ -2588,7 +2589,7 @@ describe('Data Handling', () => {
               {
                 props: {
                   form,
-                  'onUpdate:form': (v) => app.setProps({ form: v }),
+                  'onUpdate:form': (v: any) => app.setProps({ form: v }),
                   onChangeForm,
                   onChangeMatrix,
                 },
@@ -2910,7 +2911,7 @@ describe('Data Handling', () => {
               {
                 props: {
                   form,
-                  'onUpdate:form': (v) => app.setProps({ form: v }),
+                  'onUpdate:form': (v: any) => app.setProps({ form: v }),
                   onChangeForm,
                   mode,
                 },
@@ -3109,8 +3110,8 @@ describe('Data Handling', () => {
               {
                 props: {
                   matrix,
-                  'onUpdate:form': (v) => app.setProps({ form: v }),
-                  'onUpdate:matrix': (v) => app.setProps({ matrix: v }),
+                  'onUpdate:form': (v: any) => app.setProps({ form: v }),
+                  'onUpdate:matrix': (v: any) => app.setProps({ matrix: v }),
                   onChangeForm,
                   onChangeMatrix,
                 },
@@ -3617,8 +3618,8 @@ describe('Data Handling', () => {
               {
                 props: {
                   matrix,
-                  'onUpdate:form': (v) => app.setProps({ form: v }),
-                  'onUpdate:matrix': (v) => app.setProps({ matrix: v }),
+                  'onUpdate:form': (v: any) => app.setProps({ form: v }),
+                  'onUpdate:matrix': (v: any) => app.setProps({ matrix: v }),
                   onChangeForm,
                   onChangeMatrix,
                 },
@@ -3912,8 +3913,8 @@ describe('Data Handling', () => {
               {
                 props: {
                   matrix,
-                  'onUpdate:form': (v) => app.setProps({ form: v }),
-                  'onUpdate:matrix': (v) => app.setProps({ matrix: v }),
+                  'onUpdate:form': (v: any) => app.setProps({ form: v }),
+                  'onUpdate:matrix': (v: any) => app.setProps({ matrix: v }),
                   onChangeForm,
                   onChangeMatrix,
                 },
@@ -4212,7 +4213,7 @@ describe('Data Handling', () => {
               {
                 props: {
                   matrix,
-                  'onUpdate:matrix': (v) => app.setProps({ matrix: v }),
+                  'onUpdate:matrix': (v: any) => app.setProps({ matrix: v }),
                   onChangeMatrix,
                   mode,
                 },
@@ -4403,7 +4404,7 @@ describe('Checked state rendering', () => {
     await nextTick()
 
     // Order: row_1/col_1, row_1/col_2, row_2/col_1, row_2/col_2
-    const radios = form.findAll('input[type="radio"]')
+    const radios = form.findAll<HTMLInputElement>('input[type="radio"]')
 
     expect(radios.map((r) => r.element.checked)).toEqual([
       false,
@@ -4446,7 +4447,7 @@ describe('Checked state rendering', () => {
     await nextTick()
 
     // Order: row_1/col_1, row_1/col_2, row_2/col_1, row_2/col_2
-    const checkboxes = form.findAll('input[type="checkbox"]')
+    const checkboxes = form.findAll<HTMLInputElement>('input[type="checkbox"]')
 
     expect(checkboxes.map((c) => c.element.checked)).toEqual([
       true,

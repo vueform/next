@@ -3,8 +3,7 @@
  * Vue-level options → selection-keys model inference for PrimeVue VfTreeSelect.
  */
 import { ref } from 'vue'
-import '@/components/VfTreeSelect/augment'
-import VfTreeSelect from '@/components/VfTreeSelect/VfTreeSelect.vue'
+import VfTreeSelect from '@/components/VfTreeSelect/unstyled'
 
 const treeOptions = [
   {

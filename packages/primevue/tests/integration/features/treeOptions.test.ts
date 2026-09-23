@@ -327,7 +327,7 @@ describe('Conditions - functional', () => {
             {
               key: 'a',
               label: 'Alpha',
-              conditions: (context$) =>
+              conditions: (context$: any) =>
                 context$.form$?.get('trigger') === 'yes',
             },
             { key: 'b', label: 'Beta' },
@@ -358,7 +358,7 @@ describe('Conditions - async functional', () => {
             {
               key: 'a',
               label: 'Alpha',
-              conditions: async (context$) =>
+              conditions: async (context$: any) =>
                 context$.form$?.get('trigger') === 'yes',
             },
             { key: 'b', label: 'Beta' },
@@ -598,7 +598,7 @@ describe('Unset selected values when conditions change', () => {
               {
                 key: 'a',
                 label: 'Alpha',
-                conditions: (context$) =>
+                conditions: (context$: any) =>
                   context$.form$?.get('trigger') === 'show',
               },
               { key: 'b', label: 'Beta' },
@@ -629,7 +629,7 @@ describe('Unset selected values when conditions change', () => {
               {
                 key: 'a',
                 label: 'Alpha',
-                conditions: async (context$) =>
+                conditions: async (context$: any) =>
                   context$.form$?.get('trigger') === 'show',
               },
               { key: 'b', label: 'Beta' },

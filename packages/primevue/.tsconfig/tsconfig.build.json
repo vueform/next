@@ -1,5 +1,11 @@
-// `pnpm tsc` — typechecks the package sources.
+// `pnpm tsc` — gate against core dist types.
 {
-  "extends": "./tsconfig.base.json",
+  "extends": "../../../tsconfig.base.json",
+  "compilerOptions": {
+    "paths": {
+      "#shorthands": ["../src/types/shorthands.ts"],
+      "@/*": ["../src/*"]
+    }
+  },
   "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue"]
 }

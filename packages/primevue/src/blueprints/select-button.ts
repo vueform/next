@@ -237,6 +237,7 @@ export const defaults = defineDefaults<SelectButtonProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

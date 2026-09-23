@@ -22,7 +22,10 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": ["steps", "animation"],
+  "styles": [
+    "steps",
+    "animation"
+  ],
   "register": {
     "component": "VfSteps",
     "import": "{componentsDir}/VfSteps.vue"

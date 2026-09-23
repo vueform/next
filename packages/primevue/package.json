@@ -151,9 +151,10 @@
     "validate:styles": "pnpm -w validate:styles --adapter primevue",
     "build:vdom": "vite build",
     "build:vapor": "vite build --config build/vite.config.vapor.ts",
-    "build:cdn": "vite build --config vite.config.cdn.ts",
+    "build:cdn": "vite build --config build/vite.config.cdn.ts",
     "tsc": "vue-tsc --project .tsconfig/tsconfig.build.json --noEmit",
     "tsc:types": "vue-tsc --project .tsconfig/tsconfig.types.json --noEmit",
+    "tsc:test": "vue-tsc --project .tsconfig/tsconfig.test.json --noEmit",
     "test": "vitest --config tests/vitest.config.ts",
     "test:vapor": "vitest run --config tests/env/vapor/vitest.config.ts",
     "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts",
@@ -161,7 +162,8 @@
     "test:screenshots:update": "playwright test --update-snapshots=all",
     "gen": "tsx ./scripts/generate-catalogue.ts",
     "migrate": "tsx ./scripts/migrate.ts",
-    "gen:registry": "pnpm -w gen:registry --primevue"
+    "gen:registry": "pnpm -w gen:registry --primevue",
+    "tsc:node": "tsc --project .tsconfig/tsconfig.node.json --noEmit"
   },
   "dependencies": {
     "@vueform/core": "workspace:^",

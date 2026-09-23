@@ -12,8 +12,6 @@ export default defineConfig({
     testTimeout: 120_000,
     hookTimeout: 120_000,
     pool: 'forks',
-    poolOptions: {
-      forks: { execArgv: ['--expose-gc'] },
-    },
+    execArgv: ['--expose-gc'],
   },
 })

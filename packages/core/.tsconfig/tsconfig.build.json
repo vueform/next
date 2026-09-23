@@ -1,4 +1,4 @@
-// `pnpm tsc` — typechecks the package sources.
+// `pnpm tsc`.
 {
   "extends": "./tsconfig.base.json",
   "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue"]

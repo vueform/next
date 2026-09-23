@@ -1,6 +1,3 @@
-// Repo-wide policy for node-side TypeScript (vite configs, repo scripts):
-// @tsconfig/node22 pins target/lib/strict/interop; overrides here are the
-// bundler-execution reality (tsx/vite run these files, tsc never emits).
 {
   "extends": "@tsconfig/node22/tsconfig.json",
   "compilerOptions": {

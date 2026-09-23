@@ -21,7 +21,9 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": ["grid"],
+  "styles": [
+    "grid"
+  ],
   "element": true,
   "clone": {
     "path": "VfGrid.vue",

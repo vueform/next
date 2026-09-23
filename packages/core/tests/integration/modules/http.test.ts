@@ -37,7 +37,7 @@ describe('HTTP Provider', () => {
     it('should use custom adapter from config', async () => {
       let adapterCalled = false
 
-      const customAdapter: HttpAdapter = async <T = any>(config) => {
+      const customAdapter: HttpAdapter = async <T = any>(config: any) => {
         adapterCalled = true
         return {
           data: { custom: true } as T,

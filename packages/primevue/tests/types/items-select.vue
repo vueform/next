@@ -3,8 +3,7 @@
  * Vue-level options → model inference for PrimeVue VfSelect.
  */
 import { ref } from 'vue'
-import '@/components/VfSelect/augment'
-import VfSelect from '@/components/VfSelect/VfSelect.vue'
+import VfSelect from '@/components/VfSelect/unstyled'
 
 const ok = ref<1 | 2 | 3 | null>(1)
 const bad = ref('foo')

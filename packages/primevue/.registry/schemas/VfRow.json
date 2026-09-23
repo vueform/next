@@ -21,7 +21,9 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": ["grid"],
+  "styles": [
+    "grid"
+  ],
   "register": {
     "component": "VfRow",
     "import": "{componentsDir}/VfRow.vue"

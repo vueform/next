@@ -106,7 +106,7 @@ describe('VfField props', () => {
     it('should reset to custom nullValue when cleared', async () => {
       const { el } = createForm({
         schema: defineSchema({
-          el: { type: 'field', default: 'filled', nullValue: [] },
+          el: { type: 'field', default: 'filled', nullValue: [] as any },
         }),
       })
 

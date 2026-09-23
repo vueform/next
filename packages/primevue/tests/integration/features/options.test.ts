@@ -327,14 +327,14 @@ describe('optionDisabled with ConditionalProp', () => {
         }),
       })
 
-      const disabled = select.rawItems.map((o) => o.__disabled)
+      const disabled = select.rawItems.map((o: any) => o.__disabled)
       expect(disabled[0]).toBe(true)
       expect(disabled[1]).toBe(false)
       expect(disabled[2]).toBe(false)
       expect(select.itemDisabled).toBe('__disabled')
 
       trigger.update('Bar')
-      const disabled2 = select.rawItems.map((o) => o.__disabled)
+      const disabled2 = select.rawItems.map((o: any) => o.__disabled)
       expect(disabled2[0]).toBe(false)
       expect(disabled2[1]).toBe(true)
     })
@@ -353,7 +353,7 @@ describe('optionDisabled with ConditionalProp', () => {
         }),
       })
 
-      const disabled = select.rawItems.map((o) => o.__disabled)
+      const disabled = select.rawItems.map((o: any) => o.__disabled)
       expect(disabled[0]).toBe(true)
       expect(disabled[1]).toBe(false)
       expect(select.itemDisabled).toBe('__disabled')
@@ -589,7 +589,7 @@ describe('Multiple mode (VfMultiSelect)', () => {
     trigger.update('x')
     await nextTick()
 
-    expect(ms.rawItems.map((o) => o.id)).toEqual(['a', 'c'])
+    expect(ms.rawItems.map((o: any) => o.id)).toEqual(['a', 'c'])
     expect(ms.model).toEqual(['a', 'c'])
   })
 })

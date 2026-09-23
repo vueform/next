@@ -267,7 +267,7 @@ describe('Forwarded slots', () => {
           el: {
             type: 'checkbox',
             slots: {
-              icon: defineSlot('VfCheckbox.icon' as any, {
+              icon: defineSlot('VfCheckbox.icon', {
                 props: ['checked', 'indeterminate', 'class'],
                 setup(props: any) {
                   return () =>

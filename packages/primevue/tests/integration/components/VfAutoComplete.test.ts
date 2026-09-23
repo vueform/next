@@ -309,7 +309,7 @@ describe('Forwarded slots', () => {
             type: 'auto-complete',
             suggestions: ['Apple', 'Banana'],
             slots: {
-              option: defineSlot('VfAutoComplete.option' as any, {
+              option: defineSlot('VfAutoComplete.option', {
                 props: ['option', 'index'],
                 setup(props: any) {
                   return () =>

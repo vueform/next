@@ -321,6 +321,7 @@ export const defaults = defineDefaults<EditorProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
   translate: false,
   untrackOn: undefined,

@@ -190,9 +190,17 @@ export type ExpressionableKeys =
   | (string & {}) // @todo: list all
 
 /**
- * An array of prop keys that should have expression resolution enabled.
+ * Controls expression resolution: `false` disables it, `true` enables it for
+ * all expressionable props, an array enables it for the listed keys only.
  */
-export type ExpressionsProp = ExpressionableKeys[]
+export type ExpressionsProp = boolean | ExpressionableKeys[]
+
+/**
+ * A string containing a `{...}` expression, accepted by expressionable props
+ * (e.g. `default: '{source}'`) and resolved by the expression module at
+ * runtime.
+ */
+export type ExpressionString = `${string}{${string}}${string}`
 
 /**
  * @write

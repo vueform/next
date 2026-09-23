@@ -10,7 +10,6 @@ import type {
 import type { NavPosProp } from '@/blueprints/nav'
 import type {
   Pager,
-  SlotProps,
   PartOf,
   ClassValue,
   DomAttrsOf,
@@ -23,6 +22,7 @@ import type {
   FormSchema,
   ResolvedSchema,
   EntrySchemaOf,
+  SlotPropsOf,
 } from '@vueform/core'
 import type { StepperProps, TabListProps, TabProps } from 'primevue'
 import type { StepProps } from 'primevue/step'
@@ -157,42 +157,42 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
    *
    * @inherits VfNav.back
    */
-  back: (props: SlotProps['VfNav']['back']) => VNode[]
+  back: (props: SlotPropsOf<'VfNav', 'back'>) => VNode[]
 
   /**
    * Slot that replaces the back button's text label.
    *
    * @inherits VfNav.backText
    */
-  backText: (props: SlotProps['VfNav']['backText']) => VNode[]
+  backText: (props: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
 
   /**
    * Slot that replaces the next button in the navigation bar.
    *
    * @inherits VfNav.next
    */
-  next: (props: SlotProps['VfNav']['next']) => VNode[]
+  next: (props: SlotPropsOf<'VfNav', 'next'>) => VNode[]
 
   /**
    * Slot that replaces the next button's text label.
    *
    * @inherits VfNav.nextText
    */
-  nextText: (props: SlotProps['VfNav']['nextText']) => VNode[]
+  nextText: (props: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
 
   /**
    * Slot that replaces the finish button in the navigation bar.
    *
    * @inherits VfNav.finish
    */
-  finish: (props: SlotProps['VfNav']['finish']) => VNode[]
+  finish: (props: SlotPropsOf<'VfNav', 'finish'>) => VNode[]
 
   /**
    * Slot that replaces the finish button's text label.
    *
    * @inherits VfNav.finishText
    */
-  finishText: (props: SlotProps['VfNav']['finishText']) => VNode[]
+  finishText: (props: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
 
   /**
    * Slot for the default form body content. Receives the resolved schema.

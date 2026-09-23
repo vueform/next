@@ -391,7 +391,7 @@ describe('useModel destructuring', () => {
     expect(data).toBe(model)
 
     // The destructured reference tracks in computeds.
-    const upper = computed(() => (model.name ?? '').toUpperCase())
+    const upper = computed(() => String(model.name ?? '').toUpperCase())
     expect(upper.value).toBe('')
 
     set('name', 'john')

@@ -9,7 +9,7 @@
  * - classes / parts / reclass object forms receive VfSelectContext
  * - class:* / reclass:* / part:* attrs are dist-only (see shorthand-attrs-dist.ts)
  */
-import { defineSchema, type ComponentRegistry, type ContextOf, type SchemaEntryOf } from '@vueform/core'
+import { defineSchema, type ComponentRegistry, type ContextOf, type ExpressionString, type SchemaEntryOf } from '@vueform/core'
 import '@vueform/core/components'
 import type { VfSelectContext, VfSelectEmits, VfSelectExpose, VfSelectProps, VfSelectSlots } from '@vueform/core/components/VfSelect'
 
@@ -64,7 +64,7 @@ type ExactProps = VfSelectProps<ObjectItems, 'id'>
 type ExactMultiProps = VfSelectProps<ObjectItems, 'id', undefined, true>
 
 type _modelIsId = Expect<NonNullable<ExactProps['modelValue']> extends 1 | 2 | null ? true : false>
-type _defaultIsId = Expect<NonNullable<ExactProps['default']> extends 1 | 2 | null ? true : false>
+type _defaultIsId = Expect<NonNullable<ExactProps['default']> extends 1 | 2 | null | ExpressionString ? true : false>
 type _multiModelIsArray = Expect<NonNullable<ExactMultiProps['modelValue']> extends (1 | 2)[] ? true : false>
 
 defineSchema({

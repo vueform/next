@@ -299,6 +299,7 @@ export const defaults = defineDefaults<AutoCompleteProps>()({
   layout: true,
   multiple: false,
   conditions: undefined,
+  expressions: undefined,
   submit: true,
   maxErrors: 1,
   bail: true,

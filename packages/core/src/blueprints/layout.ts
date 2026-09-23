@@ -376,4 +376,5 @@ export const defaults = defineDefaults<LayoutProps>()({
   addons: undefined,
   loading: undefined,
   languages: undefined,
+  expressions: undefined,
 })

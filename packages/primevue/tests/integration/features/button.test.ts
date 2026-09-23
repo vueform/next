@@ -246,7 +246,9 @@ describe('Click action', () => {
     })
 
     const form$ = form.vm
-    const submitSpy = vi.spyOn(form$, 'submit').mockImplementation(() => {})
+    const submitSpy = vi
+      .spyOn(form$, 'submit')
+      .mockImplementation(async () => undefined)
     const button = form.findComponent({ name: 'Button' })
     await button.trigger('click')
 
@@ -260,7 +262,9 @@ describe('Click action', () => {
       }),
     })
 
-    const submitSpy = vi.spyOn(form$, 'submit').mockImplementation(() => {})
+    const submitSpy = vi
+      .spyOn(form$, 'submit')
+      .mockImplementation(async () => undefined)
     const button = form.findComponent({ name: 'Button' })
     await button.trigger('click')
 
@@ -402,7 +406,7 @@ describe('Forwarded slots', () => {
           type: 'button',
           text: 'Custom Icon',
           slots: {
-            icon: defineSlot('VfButton.icon' as any, {
+            icon: defineSlot('VfButton.icon', {
               props: ['class'],
               setup(props: any) {
                 return () => h('i', { class: [props.class, 'custom-icon'] })
@@ -450,7 +454,7 @@ describe('Default slot override', () => {
         el: {
           type: 'button',
           slots: {
-            default: defineSlot('VfButton.default' as any, {
+            default: defineSlot('VfButton.default', {
               setup() {
                 return () =>
                   h('span', { class: 'slot-prop-content' }, 'From slot prop')

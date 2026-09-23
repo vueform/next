@@ -54,7 +54,7 @@ const FileTpl = template((ctx) =>
   h('input', { type: 'file', onInput: ctx.handleInput })
 )
 
-const mountWith = async (entry: Record<string, any>) => {
+const mountWith = async (entry: any) => {
   const result = createForm({ schema: defineSchema({ el: entry }) })
   await nextTick()
   return result

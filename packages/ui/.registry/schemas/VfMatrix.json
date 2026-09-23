@@ -22,7 +22,10 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": ["matrix", "tabular"],
+  "styles": [
+    "matrix",
+    "tabular"
+  ],
   "element": true,
   "clone": {
     "path": "VfMatrix.vue",

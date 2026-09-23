@@ -31,6 +31,12 @@
       "options": {
         "printWidth": 300
       }
+    },
+    {
+      "files": "packages/*/.tsconfig/*",
+      "options": {
+        "printWidth": 120
+      }
     }
   ]
 }

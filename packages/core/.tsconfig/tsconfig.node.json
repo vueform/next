@@ -1,4 +1,4 @@
-// Non-Vue node-side files (vite config, vls).
+// `pnpm tsc:node` — vite/build configs, nuxt module, scripts, perf runner.
 {
   "extends": "../../../tsconfig.node.base.json",
   "compilerOptions": {
@@ -6,7 +6,9 @@
   },
   "include": [
     "../vite.config.ts",
-    "../vls/**/*.cjs",
+    "../build/**/*.ts",
+    "../nuxt/*.ts",
+    "../scripts/**/*.ts",
     "../tests/perf/runtime/scripts/**/*.ts"
   ]
 }

@@ -52,22 +52,22 @@ type UseFormModelArg<M extends Record<string, any>> =
   | (DeepPartial<M> & Record<string, any>)
 
 /**
- * The tuple returned by `useForm`: the renderable form component, the unwrapped
- * form context, and the ready registrar.
- */
-type UseFormReturn<TSchema = FormSchema> = [
-  Component,
-  VfFormContext<VfFormProps<TSchema>>,
-  FormReady<VfFormContext<VfFormProps<TSchema>>>,
-]
-
-/**
  * Widens each form option to also accept a ref or computed — `useForm` unwraps
  * them at render time, so any option can be reactive.
  */
 type MaybeRefProps<T> = {
   [K in keyof T]: MaybeRef<T[K]>
 }
+
+/**
+ * The tuple returned by `useForm`: the renderable form component, the unwrapped
+ * form context, and the ready registrar.
+ */
+export type UseFormReturn<TSchema = FormSchema> = [
+  Component,
+  VfFormContext<VfFormProps<TSchema>>,
+  FormReady<VfFormContext<VfFormProps<TSchema>>>,
+]
 
 /**
  * Unwraps ref/computed option values. Called inside the render function, so the

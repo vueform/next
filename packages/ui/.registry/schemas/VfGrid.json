@@ -22,7 +22,10 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": ["grid", "tabular"],
+  "styles": [
+    "grid",
+    "tabular"
+  ],
   "element": true,
   "clone": {
     "path": "VfGrid.vue",

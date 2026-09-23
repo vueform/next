@@ -1,7 +1,7 @@
 import { basename, dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import fg from 'fast-glob'
-import type { BuildOptions } from 'vite'
+import type { BuildOptions, Rollup } from 'vite'
 
 const pkgDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
@@ -84,8 +84,8 @@ function createEntries() {
 }
 
 function onwarn(
-  warning: { code?: string; exporter?: string; names?: string[] },
-  defaultHandler: (warning: unknown) => void
+  warning: Rollup.RollupLog,
+  defaultHandler: Rollup.LoggingFunction
 ) {
   if (
     warning.code === 'UNUSED_EXTERNAL_IMPORT' &&

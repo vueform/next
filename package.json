@@ -25,7 +25,7 @@
     "lint:fix": "eslint . --fix && stylelint \"**/*.scss\" --fix",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
-    "check": "pnpm lint && pnpm format:check && pnpm --filter @vueform/core tsc && pnpm --filter @vueform/core tsc:types && pnpm --filter @vueform/primevue tsc && tsc --project tsconfig.json --noEmit && pnpm --filter @vueform/core tsc:node && pnpm --filter @vueform/docs tsc && pnpm --filter @vueform/cli tsc",
+    "check": "pnpm lint && pnpm format:check && tsx scripts/repair.ts --check && pnpm --filter @vueform/core tsc && pnpm --filter @vueform/core tsc:types && tsc --project tsconfig.json --noEmit && pnpm --filter @vueform/core tsc:node && pnpm --filter @vueform/core tsc:test && pnpm --filter @vueform/docs tsc && pnpm --filter @vueform/cli tsc && pnpm --filter @vueform/ui tsc:node && pnpm --filter @vueform/primevue tsc:node && pnpm --filter @vueform/primevue tsc:test && pnpm --filter @vueform/core build && pnpm --filter @vueform/ui tsc && pnpm --filter @vueform/primevue tsc",
     "=== TESTS ===": "",
     "docs:update:ui": "pnpm build --vite --tools && pnpm build --core --ui && pnpm build --expr-eval && pnpm scrape && pnpm docs:gen && pnpm docs:build --ui",
     "test": "pnpm -r --filter core run test",
@@ -46,7 +46,7 @@
     "bench:perf:save": "pnpm --filter @vueform/core bench:perf:save",
     "bench:perf:report": "pnpm --filter @vueform/core bench:perf:report",
     "docs:format": "prettier ./docs --write",
-    "gen": "pnpm gen:factory-deps && pnpm gen:pv && pnpm gen:props && pnpm gen:events && pnpm gen:slots",
+    "gen": "pnpm gen:pv && pnpm gen:props && pnpm gen:events && pnpm gen:slots",
     "gen:registry": "tsx scripts/gen-registry.ts",
     "validate:styles": "tsx scripts/validate-style-imports.ts",
     "gen:pv": "tsx scripts/gen-primevue.ts",
@@ -63,7 +63,8 @@
     "bump": "pnpm -r update && pnpm dedupe",
     "prepare": "husky",
     "smoke:e2e": "tsx scripts/smoke-e2e.ts",
-    "test:cli": "pnpm --filter @vueform/cli test"
+    "test:cli": "pnpm --filter @vueform/cli test",
+    "repair": "tsx scripts/repair.ts"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",

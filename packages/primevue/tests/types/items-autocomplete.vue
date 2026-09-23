@@ -3,8 +3,7 @@
  * Vue-level suggestions → model inference for PrimeVue VfAutoComplete.
  */
 import { ref } from 'vue'
-import '@/components/VfAutoComplete/augment'
-import VfAutoComplete from '@/components/VfAutoComplete/VfAutoComplete.vue'
+import VfAutoComplete from '@/components/VfAutoComplete/unstyled'
 
 const scalarOk = ref<1 | 2 | 3 | null>(1)
 const scalarBad = ref('foo')

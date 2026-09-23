@@ -464,6 +464,7 @@ export const defaults = defineDefaults<FileProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
   remove: true,
   add: true,

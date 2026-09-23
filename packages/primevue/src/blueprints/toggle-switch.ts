@@ -266,6 +266,7 @@ export const defaults = defineDefaults<ToggleSwitchProps>()({
   falseValue: false,
   modelValue: undefined,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

@@ -1,11 +1,10 @@
+import type { VueformInstance } from '~/createVueform'
 import type { ConditionalProp } from '~/modules/conditions'
-import { type StatefulElement, type StandardSchemaV1 } from '~/types'
-import type {
-  CheckContext,
-  MessageContext,
-  OwnerView,
-  RawParams,
-} from './createValidation'
+import {
+  type FormContext,
+  type StatefulElement,
+  type StandardSchemaV1,
+} from '~/types'
 import type { RULE_BRAND } from './symbols'
 import type { ComputedRef } from 'vue'
 
@@ -21,6 +20,44 @@ type RuleName = BuiltInRules | keyof CustomRules
  * the `string & {}` fallback.
  */
 type RuleString = RuleName | `${RuleName}:${string}` | (string & {})
+
+// Extracts parameter keys that require string values.
+type RequiredStringParamKeys<T extends readonly string[]> = {
+  [I in keyof T]: T[I] extends `${string}$?`
+    ? never
+    : T[I] extends `${string}?`
+      ? never
+      : T[I] extends `${infer K}$`
+        ? K
+        : T[I]
+}[number] &
+  string
+
+// Extracts parameter keys that require element path references.
+type RequiredElementParamKeys<T extends readonly string[]> = {
+  [I in keyof T]: T[I] extends `${infer K}$`
+    ? T[I] extends `${string}?`
+      ? never
+      : `${K}$`
+    : never
+}[number] &
+  string
+
+// Extracts parameter keys with optional string values.
+type OptionalStringParamKeys<T extends readonly string[]> = {
+  [I in keyof T]: T[I] extends `${infer K}?`
+    ? T[I] extends `${string}$?`
+      ? never
+      : K
+    : never
+}[number] &
+  string
+
+// Extracts parameter keys with optional element path references.
+type OptionalElementParamKeys<T extends readonly string[]> = {
+  [I in keyof T]: T[I] extends `${infer K}$?` ? `${K}$` : never
+}[number] &
+  string
 
 /**
  * Union of all built-in validation rule names shipped with Vueform.
@@ -201,6 +238,8 @@ export type RuleOptions<T extends readonly string[] | true = true> = {
   transformParams?: (context: { params: RawParams<T> }) => RawParams<T>
 }
 
+// ================= RULE / OWNER SURFACE =================
+
 /**
  * Function that performs the actual validation check.
  */
@@ -289,6 +328,243 @@ export type ValidationOwner = {
    * during whole-form / headless sweeps.
    */
   available?: () => boolean
+}
+/**
+ * Context object passed to rule check functions, providing access to the
+ * element, form, module instances, and utility helpers.
+ */
+export type RuleContext = {
+  /**
+   * The element instance being validated.
+   */
+  el$: StatefulElement
+
+  /**
+   * The parent form context, if available.
+   */
+  form$?: FormContext
+
+  /**
+   * The Vueform instance the rule runs under: its `config`, `$locale`, and the
+   * module doorways (`getDateModule(vueform)`, `useDate(v, f, vueform)`).
+   */
+  vueform: VueformInstance
+
+  /**
+   * The size-type category of the element (`'string'`, `'number'`, `'array'`,
+   * or `'file'`).
+   */
+  type: SizeTypes
+
+  /**
+   * The element's human-readable display name for error messages.
+   */
+  attribute: string
+
+  /**
+   * Returns whether a value is considered non-empty by the element.
+   *
+   * @param value The value to check.
+   */
+  filled: (value: any) => boolean
+
+  /**
+   * Returns the size of a value according to the element's type (length,
+   * numeric value, file size in KB, or array length).
+   *
+   * @param value The value to measure.
+   * @param el$ Optional element to derive the type from.
+   */
+  size: (value: any, el$?: StatefulElement) => number | undefined
+
+  /**
+   * Derives the size-type category for a given element.
+   *
+   * @param el$ The element to inspect.
+   */
+  getType: (el$: StatefulElement) => SizeTypes
+
+  /**
+   * Looks up another element by path, resolving wildcards relative to the
+   * current element.
+   *
+   * @param path The target element path.
+   */
+  getOther$: (path: string) => StatefulElement | undefined
+}
+/**
+ * Resolved validator parameters combining required and optional params.
+ */
+export type ValidatorParams<T extends readonly string[] | true = string[]> =
+  T extends readonly string[]
+    ? {
+        [K in RequiredStringParamKeys<T>]: string
+      } & {
+        [K in RequiredElementParamKeys<T>]: StatefulElement | undefined
+      } & {
+        [K in OptionalStringParamKeys<T>]?: string
+      } & {
+        [K in OptionalElementParamKeys<T>]?: StatefulElement
+      }
+    : string[]
+
+/**
+ * Resolved message parameters combining string and element params.
+ */
+export type MessageParams<T extends readonly string[] | true = string[]> =
+  T extends readonly string[]
+    ? {
+        [K in RequiredStringParamKeys<T>]: string
+      } & {
+        [K in RequiredElementParamKeys<T>]: StatefulElement | undefined
+      } & {
+        [K in OptionalStringParamKeys<T>]?: string
+      } & {
+        [K in OptionalElementParamKeys<T>]?: StatefulElement
+      } & {
+        attribute: string
+      }
+    : {
+        attribute: string
+      }
+
+/**
+ * Context passed to rule message formatters including resolved parameters.
+ */
+export type MessageContext<T extends readonly string[] | true = true> =
+  RuleContext & {
+    params: MessageParams<T>
+  }
+
+/**
+ * Context passed to rule check functions including resolved parameters.
+ */
+export type CheckContext<T extends readonly string[] | true = true> =
+  RuleContext & {
+    params: ValidatorParams<T>
+  }
+
+/**
+ * Raw unprocessed parameter tuple as received from rule parsing.
+ */
+export type RawParams<T extends readonly string[] | true = string[]> =
+  T extends readonly string[]
+    ? {
+        [K in T[number] as K extends `${string}?` ? never : K]: string
+      } & {
+        [K in T[number] as K extends `${infer V}?` ? V : never]?: string
+      }
+    : string[]
+
+/**
+ * Per-language (or `'default'`) read-only view of an owner's validation state.
+ * Shape-compatible with the former `ElementValidation` so `el$.validation` /
+ * `el$.currentValidation` keep working.
+ */
+export type ValidationView = {
+  /**
+   * The language key used for multilingual validation.
+   */
+  language: string | undefined
+
+  /**
+   * Whether any active unit is currently invalid.
+   */
+  invalid: ComputedRef<boolean>
+
+  /**
+   * Whether any async unit is awaiting a result.
+   */
+  pending: ComputedRef<boolean>
+
+  /**
+   * Whether any unit is waiting for its debounce timer.
+   */
+  debouncing: ComputedRef<boolean>
+
+  /**
+   * Whether validation is pending or debouncing.
+   */
+  busy: ComputedRef<boolean>
+
+  /**
+   * Whether a `required` or `accepted` unit is active.
+   */
+  required: ComputedRef<boolean>
+
+  /**
+   * Aggregated error messages from invalid units.
+   */
+  errors: ComputedRef<string[]>
+
+  /**
+   * Structured issues from invalid units.
+   */
+  issues: ComputedRef<Issue[]>
+
+  /**
+   * Whether every active unit has been run at least once.
+   */
+  validated: ComputedRef<boolean>
+
+  /**
+   * Runs this language's units against the given value (or the owner's current
+   * value when omitted).
+   *
+   * @param value The value to validate.
+   */
+  validate: (value?: any) => Promise<boolean>
+
+  /**
+   * Marks units as not yet validated, requiring re-validation.
+   */
+  invalidate: () => void
+
+  /**
+   * Resets units to their initial state.
+   */
+  reset: () => void
+}
+
+/**
+ * Per-owner rollup of validation state across languages, plus per-language
+ * views.
+ */
+export type OwnerView = {
+  /**
+   * Per-language views keyed by language (`'default'` when not translatable).
+   */
+  languages: Record<string, ValidationView>
+
+  /**
+   * Whether any language is invalid.
+   */
+  invalid: ComputedRef<boolean>
+
+  /**
+   * Whether any language is pending.
+   */
+  pending: ComputedRef<boolean>
+
+  /**
+   * Whether any language is debouncing.
+   */
+  debouncing: ComputedRef<boolean>
+
+  /**
+   * Whether every language has been validated.
+   */
+  validated: ComputedRef<boolean>
+
+  /**
+   * Aggregated error messages across languages.
+   */
+  errors: ComputedRef<string[]>
+
+  /**
+   * Structured issues across languages.
+   */
+  issues: ComputedRef<Issue[]>
 }
 
 /**

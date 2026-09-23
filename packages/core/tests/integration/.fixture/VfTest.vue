@@ -8,20 +8,20 @@
 >
 import {
   defineEvents,
-  AddonsSlots,
-  IconsClasses,
-  IconsParts,
-  IconsSlots,
-  TranslateSlots,
-  AddonsParts,
-  TranslateParts,
-  AddonGroupClasses,
-  AddonGroupParts,
-  ClassValue,
-  DomAttrsOf,
-  PartProps,
-  ClassProps,
-  ReclassProps,
+  type AddonsSlots,
+  type IconsClasses,
+  type IconsParts,
+  type IconsSlots,
+  type TranslateSlots,
+  type AddonsParts,
+  type TranslateParts,
+  type AddonGroupClasses,
+  type AddonGroupParts,
+  type ClassValue,
+  type DomAttrsOf,
+  type PartProps,
+  type ClassProps,
+  type ReclassProps,
   useBlueprint,
   type WidenProps,
   type DefineElementContext,
@@ -256,9 +256,21 @@ defineExpose(expose)
 </template>
 
 <script lang="ts">
+import type { DefineRegistryEntry } from '@vueform/core'
+
 declare module '@vueform/core' {
-  interface ControlDefinitions {
-    VfTest: any
+  // The augmentation must repeat the interface's type parameter; the fixture
+  // entry doesn't narrow by it.
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  interface ControlRegistry<TEntry = Record<string, any>> {
+    VfTest: DefineRegistryEntry<
+      VfTestProps,
+      VfTestEmits,
+      VfTestSlots,
+      VfTestParts,
+      VfTestClasses,
+      VfTestContext<VfTestProps>
+    >
   }
 }
 

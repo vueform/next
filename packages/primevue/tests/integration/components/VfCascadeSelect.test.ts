@@ -385,7 +385,7 @@ describe('Forwarded slots', () => {
             optionGroupLabel: 'name',
             optionGroupChildren: ['items', 'items'],
             slots: {
-              option: defineSlot('VfCascadeSelect.option' as any, {
+              option: defineSlot('VfCascadeSelect.option', {
                 props: ['option'],
                 setup(props: any) {
                   return () =>

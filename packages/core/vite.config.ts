@@ -4,7 +4,7 @@ import Vue from '@vitejs/plugin-vue'
 import VfBuild from '@vueform/vite/build'
 import { defineConfig } from 'vite'
 import Dts from 'vite-plugin-dts'
-import { createBuildOptions, srcDir } from './build/vite.shared'
+import { createBuildOptions, srcDir } from './build/vite.base'
 
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
@@ -35,7 +35,7 @@ export default defineConfig({
         return {
           filePath,
           content: content.replace(
-            /declare module ['"](?:\.\.\/)*index\.ts['"]/g,
+            /declare module ['"](?:\.\.\/)*(?:src\/)?index\.ts['"]/g,
             "declare module '@vueform/core'"
           ),
         }

@@ -1,12 +1,13 @@
 import { computed, toRef } from 'vue'
 import type { StandardSchemaV1 } from '~/types'
 import { warn, isDev } from '~/utils'
-import type { OwnerView, ValidationView } from './createValidation'
 import type {
   Issue,
-  Validator,
+  OwnerView,
   ValidationModule,
   ValidationOwner,
+  ValidationView,
+  Validator,
 } from './types'
 
 let warnedMissingModule = false

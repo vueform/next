@@ -177,6 +177,7 @@ export const defaults = defineDefaults<RadioProps>()({
   maxErrors: 1,
   radioValue: true,
   conditions: undefined,
+  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

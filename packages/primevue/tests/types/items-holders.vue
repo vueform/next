@@ -4,16 +4,11 @@
  * select-button / checkbox-group / radio-button-group.
  */
 import { ref } from 'vue'
-import '@/components/VfListbox/augment'
-import '@/components/VfMultiSelect/augment'
-import '@/components/VfSelectButton/augment'
-import '@/components/VfCheckboxGroup/augment'
-import '@/components/VfRadioButtonGroup/augment'
-import VfCheckboxGroup from '@/components/VfCheckboxGroup/VfCheckboxGroup.vue'
-import VfListbox from '@/components/VfListbox/VfListbox.vue'
-import VfMultiSelect from '@/components/VfMultiSelect/VfMultiSelect.vue'
-import VfRadioButtonGroup from '@/components/VfRadioButtonGroup/VfRadioButtonGroup.vue'
-import VfSelectButton from '@/components/VfSelectButton/VfSelectButton.vue'
+import VfCheckboxGroup from '@/components/VfCheckboxGroup/unstyled'
+import VfListbox from '@/components/VfListbox/unstyled'
+import VfMultiSelect from '@/components/VfMultiSelect/unstyled'
+import VfRadioButtonGroup from '@/components/VfRadioButtonGroup/unstyled'
+import VfSelectButton from '@/components/VfSelectButton/unstyled'
 
 const singleOk = ref<1 | 2 | 3 | null>(1)
 const singleBad = ref('foo')

@@ -3,8 +3,7 @@
  * Vue-level options → model inference for PrimeVue VfCascadeSelect.
  */
 import { ref } from 'vue'
-import '@/components/VfCascadeSelect/augment'
-import VfCascadeSelect from '@/components/VfCascadeSelect/VfCascadeSelect.vue'
+import VfCascadeSelect from '@/components/VfCascadeSelect/unstyled'
 
 const cascadeOptions = [
   {

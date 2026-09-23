@@ -21,10 +21,6 @@
       "types": "./dist/components/index.d.ts",
       "import": "./dist/components/index.mjs"
     },
-    "./components/shared": {
-      "types": "./dist/components/shared/index.d.ts",
-      "import": "./dist/components/shared/index.mjs"
-    },
     "./components/*/raw": {
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/components/*/index.mjs"
@@ -69,10 +65,6 @@
       "types": "./dist/components/index.d.ts",
       "import": "./dist/vapor/components/index.mjs"
     },
-    "./vapor/components/shared": {
-      "types": "./dist/components/shared/index.d.ts",
-      "import": "./dist/vapor/components/shared/index.mjs"
-    },
     "./vapor/components/*/raw": {
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/vapor/components/*/index.mjs"
@@ -111,13 +103,14 @@
     "**/*.scss"
   ],
   "scripts": {
+    "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json",
+    "tsc:node": "tsc --project .tsconfig/tsconfig.node.json --noEmit",
+    "tsc:test": "pnpm exec vue-tsc --project .tsconfig/tsconfig.test.json --noEmit",
+    "=== END ===": "",
     "build": "pnpm run build:vdom && pnpm run build:vapor",
     "build:vdom": "vite build",
     "build:vapor": "vite build --config build/vite.config.vapor.ts",
-    "gen": "tsx ./scripts/generate-blueprints.ts",
-    "gen:deps": "tsx ./scripts/generate-factory-deps.ts",
     "gen:schema-perf": "tsx ./scripts/generate-schema-perf.ts",
-    "tsc": "pnpm exec vue-tsc --project .tsconfig/tsconfig.build.json",
     "tsc:types": "pnpm exec vue-tsc --project .tsconfig/tsconfig.types.json",
     "tsc:types:perf": "tsx ./scripts/run-schema-perf.ts",
     "test": "vitest --config tests/vitest.config.ts --maxWorkers=16",
@@ -127,8 +120,7 @@
     "perf:rebase": "tsx tests/perf/runtime/scripts/run.ts --rebase",
     "test:prod": "vitest --config tests/vitest.config.ts --maxWorkers=16 --mode production",
     "test:vapor": "vitest run --config tests/env/vapor/vitest.config.ts",
-    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts",
-    "tsc:node": "tsc --project .tsconfig/tsconfig.node.json --noEmit"
+    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts"
   },
   "dependencies": {
     "@vueform/devtools": "workspace:^",

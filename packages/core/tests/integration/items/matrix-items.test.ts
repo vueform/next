@@ -169,11 +169,11 @@ describe('Array of objects cols/rows', () => {
         matrix: {
           type: 'matrix',
           cols: [{ meta: { key: 'q1', text: 'Question 1' } }],
-          colValue: (col) => col.meta.key,
-          colLabel: (col) => col.meta.text,
+          colValue: (col: any) => col.meta.key,
+          colLabel: (col: any) => col.meta.text,
           rows: [{ meta: { key: 'r1', text: 'Row 1' } }],
-          rowValue: (row) => row.meta.key,
-          rowLabel: (row) => row.meta.text,
+          rowValue: (row: any) => row.meta.key,
+          rowLabel: (row: any) => row.meta.text,
         },
       }),
     })
@@ -312,7 +312,8 @@ describe('colSchema', () => {
         matrix: {
           type: 'matrix',
           cols: [{ value: 'qty', label: 'Qty', input: 'textarea' }],
-          colSchema: (col) => (col.input ? { type: col.input } : undefined),
+          colSchema: (col: any) =>
+            col.input ? { type: col.input } : undefined,
           rows: ['row_1'],
         },
       }),
@@ -430,7 +431,7 @@ describe('rowRules', () => {
             { value: 'row_1', label: 'Row 1', mandatory: true },
             { value: 'row_2', label: 'Row 2', mandatory: false },
           ],
-          rowRules: (row) => (row.mandatory ? 'required' : undefined),
+          rowRules: (row: any) => (row.mandatory ? 'required' : undefined),
         },
       }),
     })
@@ -526,7 +527,7 @@ describe('colConditions', () => {
             { value: 'col_1', label: 'Col 1', restricted: true },
             { value: 'col_2', label: 'Col 2', restricted: false },
           ],
-          colConditions: (col) =>
+          colConditions: (col: any) =>
             col.restricted ? [['trigger', '==', 'yes']] : undefined,
           rows: ['row_1'],
         },
@@ -694,7 +695,7 @@ describe('rowConditions', () => {
             { value: 'row_1', label: 'Row 1', restricted: true },
             { value: 'row_2', label: 'Row 2', restricted: false },
           ],
-          rowConditions: (row) =>
+          rowConditions: (row: any) =>
             row.restricted ? [['trigger', '==', 'yes']] : undefined,
         },
       }),
@@ -913,7 +914,7 @@ describe('Function cols/rows', () => {
       schema: defineSchema({
         matrix: {
           type: 'matrix',
-          cols: (context$) => {
+          cols: (context$: any) => {
             receivedContext$ = context$
             return ['col_1', 'col_2']
           },
@@ -1093,8 +1094,8 @@ describe('endpoint (shared cols + rows)', () => {
           matrix: {
             type: 'matrix',
             endpoint: '/api/matrix',
-            colsKey: (data) => data.definition?.cols,
-            rowsKey: (data) => data.definition?.rows,
+            colsKey: (data: any) => data.definition?.cols,
+            rowsKey: (data: any) => data.definition?.rows,
           },
         }),
       },
@@ -1124,7 +1125,7 @@ describe('endpoint (shared cols + rows)', () => {
           matrix: {
             type: 'matrix',
             endpoint: '/api/matrix',
-            transformEndpoint: (data) => data.data,
+            transformEndpoint: (data: any) => data.data,
           },
         }),
       },
@@ -1433,7 +1434,7 @@ describe('transformCols / transformRows', () => {
           matrix: {
             type: 'matrix',
             cols: '/api/cols',
-            transformCols: (data) => data.results,
+            transformCols: (data: any) => data.results,
             colValue: 'id',
             colLabel: 'name',
             rows: ['row_1'],
@@ -1460,7 +1461,7 @@ describe('transformCols / transformRows', () => {
           rows: async () => ({
             items: [{ id: 'r1', title: 'Row 1' }],
           }),
-          transformRows: (data) => data.items,
+          transformRows: (data: any) => data.items,
           rowValue: 'id',
           rowLabel: 'title',
         },
