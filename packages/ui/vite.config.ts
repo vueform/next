@@ -23,10 +23,11 @@ export default defineConfig({
       insertTypesEntry: true,
       clearPureImport: false,
       include: ['src'],
-      // vite-plugin-dts relocates declarations into dist and rewrites their
-      // relative imports mechanically, which turns in-src references to the
-      // package index into `(../)+src/index.ts` — unresolvable for consumers
-      // and a leak into src. Rewrite them to the public entry.
+      // TS declaration emit names inferred types via the nearest in-program
+      // re-exporter — this package's own src/index.ts — as a source-relative
+      // `.ts` specifier (raw `vue-tsc --declaration` does it too; bare
+      // `@vueform/core` and `paths` self-mappings are both ignored). src is
+      // not shipped, so rewrite those references to the public entry.
       beforeWriteFile(filePath, content) {
         return {
           filePath,
