@@ -4,19 +4,11 @@
     "baseUrl": ".",
     "paths": {
       "@vueform/core/blueprints/*": ["../../../packages/core/src/blueprints/*"],
-      "@vueform/core/components": [
-        "../../../packages/core/src/components/index.ts"
-      ],
-      "@vueform/core/components/*/raw": [
-        "../../../packages/core/src/components/*/index.ts"
-      ],
-      "@vueform/core/components/*": [
-        "../../../packages/core/src/components/*/unstyled.ts"
-      ],
+      "@vueform/core/components": ["../../../packages/core/src/components/index.ts"],
+      "@vueform/core/components/*/raw": ["../../../packages/core/src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../../../packages/core/src/components/*/unstyled.ts"],
       "@vueform/core/rules": ["../../../packages/core/src/rules/index.ts"],
-      "@vueform/core/services": [
-        "../../../packages/core/src/defaultServices.ts"
-      ],
+      "@vueform/core/services": ["../../../packages/core/src/defaultServices.ts"],
       "@vueform/core/nuxt": ["../../../packages/core/nuxt/index.ts"],
       "@vueform/core": ["../../../packages/core/src/index.ts"],
 
@@ -28,12 +20,8 @@
       "@vueform/ui/services": ["../../../packages/ui/src/services.ts"],
       "@vueform/ui/blueprints/*": ["../../../packages/ui/src/blueprints/*"],
       "@vueform/ui/nuxt": ["../../../packages/ui/nuxt/module.ts"],
-      "@vueform/ui/components": [
-        "../../../packages/ui/src/components/index.ts"
-      ],
-      "@vueform/ui/components/*": [
-        "../../../packages/ui/src/components/*/styled.ts"
-      ],
+      "@vueform/ui/components": ["../../../packages/ui/src/components/index.ts"],
+      "@vueform/ui/components/*": ["../../../packages/ui/src/components/*/styled.ts"],
       "@vueform/ui": ["../../../packages/ui/src/index.ts"],
       "~/*": ["../../../packages/core/src/*"],
       "@/*": ["../../../packages/ui/src/*"]

@@ -4,35 +4,19 @@
     "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.dev.tsbuildinfo",
     "baseUrl": "..",
     "paths": {
-      "@vueform/core/vapor/blueprints/*": [
-        "../../../packages/core/src/blueprints/*"
-      ],
-      "@vueform/core/vapor/components": [
-        "../../../packages/core/src/components/index.ts"
-      ],
-      "@vueform/core/vapor/components/*/raw": [
-        "../../../packages/core/src/components/*/index.ts"
-      ],
-      "@vueform/core/vapor/components/*": [
-        "../../../packages/core/src/components/*/unstyled.ts"
-      ],
-      "@vueform/core/vapor/rules": [
-        "../../../packages/core/src/rules/index.ts"
-      ],
-      "@vueform/core/vapor/modules": [
-        "../../../packages/core/src/modules/modules.ts"
-      ],
+      "@vueform/core/vapor/blueprints/*": ["../../../packages/core/src/blueprints/*"],
+      "@vueform/core/vapor/components": ["../../../packages/core/src/components/index.ts"],
+      "@vueform/core/vapor/components/*/raw": ["../../../packages/core/src/components/*/index.ts"],
+      "@vueform/core/vapor/components/*": ["../../../packages/core/src/components/*/unstyled.ts"],
+      "@vueform/core/vapor/rules": ["../../../packages/core/src/rules/index.ts"],
+      "@vueform/core/vapor/modules": ["../../../packages/core/src/modules/modules.ts"],
       "@vueform/core/vapor": ["../../../packages/core/src/index.ts"],
 
       // Non-vapor keys kept only for module augmentation: unstyled.ts files
       // `declare module '@vueform/core'` (and VfGroup subpaths), which must
       // resolve for ComponentRegistry/SlotProps to be populated.
-      "@vueform/core/components/*/raw": [
-        "../../../packages/core/src/components/*/index.ts"
-      ],
-      "@vueform/core/components/*": [
-        "../../../packages/core/src/components/*/unstyled.ts"
-      ],
+      "@vueform/core/components/*/raw": ["../../../packages/core/src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../../../packages/core/src/components/*/unstyled.ts"],
       "@vueform/core": ["../../../packages/core/src/index.ts"],
 
       "@vueform/ui/vapor/origin": ["../../../packages/ui/src/origin.ts"],
@@ -41,15 +25,9 @@
       "@vueform/ui/vapor/tokens": ["../../../packages/ui/src/themes/tokens.ts"],
       "@vueform/ui/vapor/rules": ["../../../packages/ui/src/rules.ts"],
       "@vueform/ui/vapor/modules": ["../../../packages/ui/src/modules.ts"],
-      "@vueform/ui/vapor/blueprints/*": [
-        "../../../packages/ui/src/blueprints/*"
-      ],
-      "@vueform/ui/vapor/components": [
-        "../../../packages/ui/src/components/index.ts"
-      ],
-      "@vueform/ui/vapor/components/*": [
-        "../../../packages/ui/src/components/*/styled.ts"
-      ],
+      "@vueform/ui/vapor/blueprints/*": ["../../../packages/ui/src/blueprints/*"],
+      "@vueform/ui/vapor/components": ["../../../packages/ui/src/components/index.ts"],
+      "@vueform/ui/vapor/components/*": ["../../../packages/ui/src/components/*/styled.ts"],
       "@vueform/ui/vapor": ["../../../packages/ui/src/index.ts"],
       "~/*": ["../../../packages/core/src/*"],
       "@/*": ["../../../packages/ui/src/*"]

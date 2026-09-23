@@ -4,10 +4,5 @@
     "types": ["node"],
     "lib": ["es2022", "dom", "dom.iterable"]
   },
-  "include": [
-    ".vitepress/**/*.ts",
-    ".vitepress/**/*.vue",
-    ".vitepress/**/*.d.ts",
-    "scripts/**/*.ts"
-  ]
+  "include": [".vitepress/**/*.ts", ".vitepress/**/*.vue", ".vitepress/**/*.d.ts", "scripts/**/*.ts"]
 }

@@ -40,10 +40,7 @@ const OVERRIDES: Record<string, Record<string, string>> = {
  * Never aliased: different runtime target, or no src equivalent.
  */
 const skipped = (key: string) =>
-  key.startsWith('./vapor') ||
-  key.includes('css') ||
-  key.includes('scss') ||
-  key === './nuxt'
+  key.startsWith('./vapor') || key.includes('css') || key.includes('scss') || key === './nuxt'
 
 interface Scope {
   /**
@@ -81,37 +78,22 @@ function ownedBy(key: string): Scope | undefined {
 
 function entriesFor(scope: Scope, configDir: string): [string, string][] {
   const scopeDir = path.join(repoRoot, 'packages', scope.dir)
-  const rel =
-    path.relative(configDir, scopeDir).split(path.sep).join('/') || '.'
-  const pkg = JSON.parse(
-    readFileSync(
-      path.join(repoRoot, 'packages', scope.dir, 'package.json'),
-      'utf8'
-    )
-  )
+  const rel = path.relative(configDir, scopeDir).split(path.sep).join('/') || '.'
+  const pkg = JSON.parse(readFileSync(path.join(repoRoot, 'packages', scope.dir, 'package.json'), 'utf8'))
   const out: [string, string][] = []
 
   for (const [key, entry] of Object.entries(pkg.exports ?? {})) {
     if (skipped(key)) continue
-    const types =
-      typeof entry === 'object' && entry !== null
-        ? (entry as Record<string, string>).types
-        : undefined
+    const types = typeof entry === 'object' && entry !== null ? (entry as Record<string, string>).types : undefined
     const src =
       OVERRIDES[scope.dir]?.[key] ??
-      (types?.startsWith('./dist/')
-        ? types.replace('./dist/', 'src/').replace(/\.d\.ts$/, '.ts')
-        : null)
+      (types?.startsWith('./dist/') ? types.replace('./dist/', 'src/').replace(/\.d\.ts$/, '.ts') : null)
     if (!src) continue
 
     const target = `${rel}/${src}`
-    const probe = target.includes('*')
-      ? path.dirname(target.split('*')[0] + 'x')
-      : target
+    const probe = target.includes('*') ? path.dirname(target.split('*')[0] + 'x') : target
     if (!existsSync(path.resolve(configDir, probe))) {
-      const distProbe = types
-        ? path.join(repoRoot, 'packages', scope.dir, types.replace('*', 'x'))
-        : null
+      const distProbe = types ? path.join(repoRoot, 'packages', scope.dir, types.replace('*', 'x')) : null
       if (!distProbe || !existsSync(distProbe)) {
         console.error(
           `[repair:tsconfig] ${scope.name}${key.slice(1)}: neither src ("${target}") nor dist types exist — broken export`
@@ -127,9 +109,7 @@ function entriesFor(scope: Scope, configDir: string): [string, string][] {
   // Wildcard fallback closes the block — only for packages that actually
   // export subpaths; a bare '.'-only package must not invite resolving
   // paths it doesn't publish.
-  const hasSubpaths = Object.keys(pkg.exports ?? {}).some(
-    (key) => key !== '.' && !skipped(key)
-  )
+  const hasSubpaths = Object.keys(pkg.exports ?? {}).some((key) => key !== '.' && !skipped(key))
   if (hasSubpaths) out.push([`${scope.name}/*`, `${rel}/src/*`])
   return out
 }
@@ -142,11 +122,7 @@ function inlineArrays(json: string): string {
 }
 
 function prettify(filePath: string, content: string): string {
-  return execFileSync(
-    'pnpm',
-    ['exec', 'prettier', '--stdin-filepath', filePath],
-    { input: content, encoding: 'utf8' }
-  )
+  return execFileSync('pnpm', ['exec', 'prettier', '--stdin-filepath', filePath], { input: content, encoding: 'utf8' })
 }
 
 /**
@@ -223,10 +199,7 @@ for (const pkgDir of scopes.map((s) => s.dir)) {
       const scope = ownedBy(key)
       if (scope && anchored.has(scope.dir)) {
         if (!inserted.has(scope.dir)) {
-          for (const [alias, src] of entriesFor(
-            scope,
-            path.dirname(filePath)
-          )) {
+          for (const [alias, src] of entriesFor(scope, path.dirname(filePath))) {
             rebuilt[alias] = [src]
           }
           inserted.add(scope.dir)
@@ -237,18 +210,13 @@ for (const pkgDir of scopes.map((s) => s.dir)) {
     }
 
     config.compilerOptions!.paths = rebuilt
-    const raw =
-      (header ? header + '\n' : '') +
-      inlineArrays(JSON.stringify(config, null, 2)) +
-      '\n'
+    const raw = (header ? header + '\n' : '') + inlineArrays(JSON.stringify(config, null, 2)) + '\n'
     const next = prettify(filePath, raw)
 
     if (next !== source) {
       const rel = path.relative(repoRoot, filePath)
       if (check) {
-        console.error(
-          `[repair:tsconfig] ${rel} is out of date — run \`pnpm repair --tsconfig\``
-        )
+        console.error(`[repair:tsconfig] ${rel} is out of date — run \`pnpm repair --tsconfig\``)
         failed = true
       } else {
         writeFileSync(filePath, next)
@@ -259,5 +227,4 @@ for (const pkgDir of scopes.map((s) => s.dir)) {
 }
 
 if (failed) process.exit(1)
-if (check)
-  console.log('[repair:tsconfig] alias blocks in sync with package exports')
+if (check) console.log('[repair:tsconfig] alias blocks in sync with package exports')

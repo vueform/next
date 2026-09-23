@@ -4,68 +4,34 @@
     "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.dev.tsbuildinfo",
     "baseUrl": "..",
     "paths": {
-      "@vueform/core/vapor/blueprints/*": [
-        "../../../packages/core/src/blueprints/*"
-      ],
-      "@vueform/core/vapor/components": [
-        "../../../packages/core/src/components/index.ts"
-      ],
-      "@vueform/core/vapor/components/*/raw": [
-        "../../../packages/core/src/components/*/index.ts"
-      ],
-      "@vueform/core/vapor/components/*": [
-        "../../../packages/core/src/components/*/unstyled.ts"
-      ],
-      "@vueform/core/vapor/rules": [
-        "../../../packages/core/src/rules/index.ts"
-      ],
-      "@vueform/core/vapor/services": [
-        "../../../packages/core/src/defaultServices.ts"
-      ],
+      "@vueform/core/vapor/blueprints/*": ["../../../packages/core/src/blueprints/*"],
+      "@vueform/core/vapor/components": ["../../../packages/core/src/components/index.ts"],
+      "@vueform/core/vapor/components/*/raw": ["../../../packages/core/src/components/*/index.ts"],
+      "@vueform/core/vapor/components/*": ["../../../packages/core/src/components/*/unstyled.ts"],
+      "@vueform/core/vapor/rules": ["../../../packages/core/src/rules/index.ts"],
+      "@vueform/core/vapor/services": ["../../../packages/core/src/defaultServices.ts"],
       "@vueform/core/vapor": ["../../../packages/core/src/index.ts"],
 
       // Non-vapor keys kept only for module augmentation: unstyled.ts files
       // `declare module '@vueform/core'` (and VfGroup subpaths), which must
       // resolve for ComponentRegistry/SlotProps to be populated.
-      "@vueform/core/components/*/raw": [
-        "../../../packages/core/src/components/*/index.ts"
-      ],
-      "@vueform/core/components/*": [
-        "../../../packages/core/src/components/*/unstyled.ts"
-      ],
+      "@vueform/core/components/*/raw": ["../../../packages/core/src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../../../packages/core/src/components/*/unstyled.ts"],
       "@vueform/core": ["../../../packages/core/src/index.ts"],
 
-      "@vueform/primevue/vapor/full": [
-        "../../../packages/primevue/src/full.ts"
-      ],
-      "@vueform/primevue/vapor/theme": [
-        "../../../packages/primevue/src/theme/index.ts"
-      ],
-      "@vueform/primevue/vapor/rules": [
-        "../../../packages/primevue/src/rules.ts"
-      ],
-      "@vueform/primevue/vapor/services": [
-        "../../../packages/primevue/src/services.ts"
-      ],
-      "@vueform/primevue/vapor/blueprints/*": [
-        "../../../packages/primevue/src/blueprints/*"
-      ],
-      "@vueform/primevue/vapor/components": [
-        "../../../packages/primevue/src/components/index.ts"
-      ],
-      "@vueform/primevue/vapor/components/*": [
-        "../../../packages/primevue/src/components/*/unstyled.ts"
-      ],
+      "@vueform/primevue/vapor/full": ["../../../packages/primevue/src/full.ts"],
+      "@vueform/primevue/vapor/theme": ["../../../packages/primevue/src/theme/index.ts"],
+      "@vueform/primevue/vapor/rules": ["../../../packages/primevue/src/rules.ts"],
+      "@vueform/primevue/vapor/services": ["../../../packages/primevue/src/services.ts"],
+      "@vueform/primevue/vapor/blueprints/*": ["../../../packages/primevue/src/blueprints/*"],
+      "@vueform/primevue/vapor/components": ["../../../packages/primevue/src/components/index.ts"],
+      "@vueform/primevue/vapor/components/*": ["../../../packages/primevue/src/components/*/unstyled.ts"],
       "@vueform/primevue/vapor": ["../../../packages/primevue/src/index.ts"],
 
       // Non-vapor keys for module augmentation from unstyled.ts files.
       "@vueform/primevue/full": ["../../../packages/primevue/src/full.ts"],
-      "@vueform/primevue/components/*/raw": [
-        "../../../packages/primevue/src/components/*/index.ts"
-      ],
-      "@vueform/primevue/components/*": [
-        "../../../packages/primevue/src/components/*/unstyled.ts"
-      ],
+      "@vueform/primevue/components/*/raw": ["../../../packages/primevue/src/components/*/index.ts"],
+      "@vueform/primevue/components/*": ["../../../packages/primevue/src/components/*/unstyled.ts"],
       "@vueform/primevue": ["../../../packages/primevue/src/index.ts"],
       "~/*": ["../../../packages/core/src/*"],
       "@/*": ["../../../packages/primevue/src/*"]

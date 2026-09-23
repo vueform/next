@@ -4,36 +4,20 @@
     "baseUrl": ".",
     "paths": {
       "@vueform/core/blueprints/*": ["../../../packages/core/src/blueprints/*"],
-      "@vueform/core/components": [
-        "../../../packages/core/src/components/index.ts"
-      ],
-      "@vueform/core/components/*/raw": [
-        "../../../packages/core/src/components/*/index.ts"
-      ],
-      "@vueform/core/components/*": [
-        "../../../packages/core/src/components/*/unstyled.ts"
-      ],
+      "@vueform/core/components": ["../../../packages/core/src/components/index.ts"],
+      "@vueform/core/components/*/raw": ["../../../packages/core/src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../../../packages/core/src/components/*/unstyled.ts"],
       "@vueform/core/rules": ["../../../packages/core/src/rules/index.ts"],
-      "@vueform/core/services": [
-        "../../../packages/core/src/defaultServices.ts"
-      ],
+      "@vueform/core/services": ["../../../packages/core/src/defaultServices.ts"],
       "@vueform/core/nuxt": ["../../../packages/core/nuxt/index.ts"],
       "@vueform/core": ["../../../packages/core/src/index.ts"],
 
       "@vueform/primevue/rules": ["../../../packages/primevue/src/rules.ts"],
-      "@vueform/primevue/services": [
-        "../../../packages/primevue/src/services.ts"
-      ],
-      "@vueform/primevue/blueprints/*": [
-        "../../../packages/primevue/src/blueprints/*"
-      ],
+      "@vueform/primevue/services": ["../../../packages/primevue/src/services.ts"],
+      "@vueform/primevue/blueprints/*": ["../../../packages/primevue/src/blueprints/*"],
       "@vueform/primevue/nuxt": ["../../../packages/primevue/nuxt/module.ts"],
-      "@vueform/primevue/components": [
-        "../../../packages/primevue/src/components/index.ts"
-      ],
-      "@vueform/primevue/components/*": [
-        "../../../packages/primevue/src/components/*/unstyled.ts"
-      ],
+      "@vueform/primevue/components": ["../../../packages/primevue/src/components/index.ts"],
+      "@vueform/primevue/components/*": ["../../../packages/primevue/src/components/*/unstyled.ts"],
       "@vueform/primevue": ["../../../packages/primevue/src/index.ts"],
       "~/*": ["../../../packages/core/src/*"],
       "@/*": ["../../../packages/primevue/src/*"]

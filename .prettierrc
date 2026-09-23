@@ -33,7 +33,7 @@
       }
     },
     {
-      "files": "packages/*/.tsconfig/*",
+      "files": "tsconfig.*",
       "options": {
         "printWidth": 120
       }

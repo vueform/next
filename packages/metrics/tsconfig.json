@@ -13,11 +13,6 @@
     "noEmit": true,
     "types": ["vitest", "node"]
   },
-  "include": [
-    "bench/**/*.ts",
-    "size/**/*.ts",
-    "lib/**/*.ts",
-    "vitest.config.ts"
-  ],
+  "include": ["bench/**/*.ts", "size/**/*.ts", "lib/**/*.ts", "vitest.config.ts"],
   "exclude": ["size/fixtures"]
 }

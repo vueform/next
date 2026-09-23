@@ -9,9 +9,7 @@
       "@vueform/core": ["../../core/src/index.ts"],
       "@vueform/core/blueprints/*": ["../../core/src/blueprints/*.ts"],
       "@vueform/core/components": ["../../core/src/components/index.ts"],
-      "@vueform/core/components/*/raw": [
-        "../../core/src/components/*/index.ts"
-      ],
+      "@vueform/core/components/*/raw": ["../../core/src/components/*/index.ts"],
       "@vueform/core/components/*": ["../../core/src/components/*/unstyled.ts"],
       "@vueform/core/rules": ["../../core/src/rules/index.ts"],
       "@vueform/core/modules": ["../../core/src/modules/modules.ts"],
@@ -28,29 +26,13 @@
       "@vueform/primevue/blueprints/*": ["../src/blueprints/*.ts"],
       "@vueform/primevue/components": ["../src/components/index.ts"],
       "@vueform/primevue/components/*/raw": ["../src/components/*/index.ts"],
-      "@vueform/primevue/components/*/unstyled": [
-        "../src/components/*/unstyled.ts"
-      ],
-      "@vueform/primevue/components/*/styles": [
-        "../src/components/*/styles.ts"
-      ],
+      "@vueform/primevue/components/*/unstyled": ["../src/components/*/unstyled.ts"],
+      "@vueform/primevue/components/*/styles": ["../src/components/*/styles.ts"],
       "@vueform/primevue/components/*": ["../src/components/*/styled.ts"],
       "@vueform/primevue/*": ["../src/*"],
       "@vueform/expr-eval": ["../../expr-eval/src/index.ts"]
     }
   },
-  "include": [
-    "../src/**/*.ts",
-    "../src/**/*.d.ts",
-    "../src/**/*.vue",
-    "./**/*.ts",
-    "./**/*.vue"
-  ],
-  "exclude": [
-    "./types/**/*",
-    "./snapshot/**/*",
-    "./env/vapor/**/*",
-    "./**/vitest.config.ts",
-    "./vitest.config.ts"
-  ]
+  "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue", "./**/*.ts", "./**/*.vue"],
+  "exclude": ["./types/**/*", "./snapshot/**/*", "./env/vapor/**/*", "./**/vitest.config.ts", "./vitest.config.ts"]
 }

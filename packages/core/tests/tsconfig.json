@@ -19,17 +19,6 @@
       "@vueform/expr-eval": ["../../expr-eval/src/index.ts"]
     }
   },
-  "include": [
-    "../src/**/*.ts",
-    "../src/**/*.d.ts",
-    "../src/**/*.vue",
-    "./**/*.ts",
-    "./**/*.vue"
-  ],
-  "exclude": [
-    "./type/**/*",
-    "./env/vapor/**/*",
-    "./perf/**/scripts/**/*",
-    "./perf/**/scripts/**/*"
-  ]
+  "include": ["../src/**/*.ts", "../src/**/*.d.ts", "../src/**/*.vue", "./**/*.ts", "./**/*.vue"],
+  "exclude": ["./type/**/*", "./env/vapor/**/*", "./perf/**/scripts/**/*", "./perf/**/scripts/**/*"]
 }

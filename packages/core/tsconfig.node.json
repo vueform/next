@@ -1,10 +1,4 @@
 {
   "extends": "@vueform/tsconfig/node.json",
-  "include": [
-    "build/**/*.ts",
-    "nuxt/*.ts",
-    "tests/**/scripts/**/*.ts",
-    "tests/**/scripts/**/*.ts",
-    "vite.config.ts"
-  ]
+  "include": ["build/**/*.ts", "nuxt/*.ts", "tests/**/scripts/**/*.ts", "tests/**/scripts/**/*.ts", "vite.config.ts"]
 }

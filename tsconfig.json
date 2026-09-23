@@ -1,9 +1,5 @@
 {
   "extends": "@vueform/tsconfig/node.json",
-  "include": [
-    "scripts/**/*.ts",
-    "playground/scripts/**/*.ts",
-    "playground/vite.dev.ts"
-  ],
+  "include": ["scripts/**/*.ts", "playground/scripts/**/*.ts", "playground/vite.dev.ts"],
   "exclude": ["scripts/smoke/**"]
 }

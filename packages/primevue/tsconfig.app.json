@@ -26,9 +26,7 @@
       "@vueform/primevue/blueprints/*": ["./src/blueprints/*.ts"],
       "@vueform/primevue/components": ["./src/components/index.ts"],
       "@vueform/primevue/components/*/raw": ["./src/components/*/index.ts"],
-      "@vueform/primevue/components/*/unstyled": [
-        "./src/components/*/unstyled.ts"
-      ],
+      "@vueform/primevue/components/*/unstyled": ["./src/components/*/unstyled.ts"],
       "@vueform/primevue/components/*/styles": ["./src/components/*/styles.ts"],
       "@vueform/primevue/components/*": ["./src/components/*/styled.ts"],
       "@vueform/primevue/*": ["./src/*"],

@@ -3,22 +3,12 @@
   "compilerOptions": {
     "tsBuildInfoFile": "../node_modules/.tmp/tsconfig.dev.tsbuildinfo",
     "paths": {
-      "@vueform/core/blueprints/*": [
-        "../../../../packages/core/src/blueprints/*"
-      ],
-      "@vueform/core/components": [
-        "../../../../packages/core/src/components/index.ts"
-      ],
-      "@vueform/core/components/*/raw": [
-        "../../../../packages/core/src/components/*/index.ts"
-      ],
-      "@vueform/core/components/*": [
-        "../../../../packages/core/src/components/*/unstyled.ts"
-      ],
+      "@vueform/core/blueprints/*": ["../../../../packages/core/src/blueprints/*"],
+      "@vueform/core/components": ["../../../../packages/core/src/components/index.ts"],
+      "@vueform/core/components/*/raw": ["../../../../packages/core/src/components/*/index.ts"],
+      "@vueform/core/components/*": ["../../../../packages/core/src/components/*/unstyled.ts"],
       "@vueform/core/rules": ["../../../../packages/core/src/rules/index.ts"],
-      "@vueform/core/modules": [
-        "../../../../packages/core/src/modules/modules.ts"
-      ],
+      "@vueform/core/modules": ["../../../../packages/core/src/modules/modules.ts"],
       "@vueform/core": ["../../../../packages/core/src/index.ts"],
 
       "@vueform/ui/origin": ["../../../../packages/ui/src/origin.ts"],
@@ -28,12 +18,8 @@
       "@vueform/ui/rules": ["../../../../packages/ui/src/rules.ts"],
       "@vueform/ui/modules": ["../../../../packages/ui/src/modules.ts"],
       "@vueform/ui/blueprints/*": ["../../../../packages/ui/src/blueprints/*"],
-      "@vueform/ui/components": [
-        "../../../../packages/ui/src/components/index.ts"
-      ],
-      "@vueform/ui/components/*": [
-        "../../../../packages/ui/src/components/*/styled.ts"
-      ],
+      "@vueform/ui/components": ["../../../../packages/ui/src/components/index.ts"],
+      "@vueform/ui/components/*": ["../../../../packages/ui/src/components/*/styled.ts"],
       "@vueform/ui": ["../../../../packages/ui/src/index.ts"],
       "~/*": ["../../../../packages/core/src/*"],
       "@/*": ["../../../../packages/ui/src/*"]
