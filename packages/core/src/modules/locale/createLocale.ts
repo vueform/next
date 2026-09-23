@@ -1,5 +1,5 @@
 import { computed, isRef, unref } from 'vue'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import type { en_US } from '~/locales'
 import { typedEntries } from '~/utils'
 import type { LocaleModule, LocaleModuleOptions } from './types'

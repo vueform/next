@@ -1,6 +1,6 @@
 import { computed, onMounted, onUnmounted, unref, watch } from 'vue'
 import { useHttp, useSecurity } from '~/composables'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import { HttpError, type HttpResponse } from '~/modules/http'
 import { debounce, isFileValue, unset, warn, isDev, isProd } from '~/utils'
 import type {

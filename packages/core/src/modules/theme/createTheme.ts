@@ -8,8 +8,7 @@ import {
   type MaybeRefOrGetter,
   type Ref,
 } from 'vue'
-import type { VueformInstance } from '~/createVueform'
-import type { VueformConfig } from '~/helpers'
+import { type VueformInstance, type VueformConfig } from '~/helpers'
 import { getSecurityModule, type SecurityModule } from '~/modules/security'
 import { isDev, normalize, warn } from '~/utils'
 import type { DarkModeConfig, ThemeModule } from './types'

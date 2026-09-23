@@ -13,7 +13,7 @@ import {
   type WatchSource,
 } from 'vue'
 import { useDate } from '~/composables'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import { getExpressionModule } from '~/modules/expression'
 import type { FormContext } from '~/types'
 import {

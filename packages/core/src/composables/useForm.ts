@@ -16,7 +16,7 @@ import type {
   VfFormEmits,
   VfFormProps,
 } from '~/components/VfForm/types'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import { resolveVueform } from '~/helpers/resolveVueform'
 import type { ModelInstance } from '~/modules/model'
 import type {

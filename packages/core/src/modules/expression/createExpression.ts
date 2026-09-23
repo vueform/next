@@ -1,5 +1,5 @@
 import { computed, ref, watch, type WatchHandle } from 'vue'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import type { ModelNode, SchemaIndex } from '~/modules/model'
 import {
   get as getByPath,

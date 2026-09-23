@@ -1,7 +1,7 @@
 // Private: imported by deep path from `resolveModules`, the security doorway,
 // and `useForm`; never re-exported from the helpers barrel.
 import { useVueformContext } from '~/contexts/vueform'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from './createVueform'
 
 /**
  * Resolves the Vueform instance a call should read from: the explicit instance

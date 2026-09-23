@@ -1,5 +1,5 @@
 import { useVueformContext } from '~/contexts'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 
 /**
  * Returns the Vueform instance of the calling component's app — its `config`

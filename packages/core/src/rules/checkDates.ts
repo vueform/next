@@ -1,5 +1,5 @@
 import { useDate } from '~/composables'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import type { DateInstance } from '~/modules/date'
 import type { StatefulElement } from '~/types'
 

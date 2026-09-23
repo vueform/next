@@ -13,8 +13,7 @@ import {
   type EffectScope,
   type Ref,
 } from 'vue'
-import type { VueformInstance } from '~/createVueform'
-import type { VueformConfig } from '~/helpers'
+import { type VueformInstance, type VueformConfig } from '~/helpers'
 import {
   getConditionsModule,
   hasConditionsModule,

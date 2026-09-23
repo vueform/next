@@ -14,3 +14,6 @@ export * from './defineSlot'
 export * from './extendTheme'
 export * from './resolveAddon'
 export { default as VfPassthrough } from './VfPassthrough.vue'
+// Last: `createVueform` imports sibling helpers at module scope — the barrel
+// must have evaluated them before this cycle re-enters it.
+export * from './createVueform'

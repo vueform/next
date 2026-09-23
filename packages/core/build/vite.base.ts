@@ -8,13 +8,7 @@ const pkgDir = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 
 export const srcDir = resolve(pkgDir, 'src')
 
-export const external = [
-  'vue',
-  '@vueuse/core',
-  'type-fest',
-  '@vueform/core',
-  '@vueform/devtools',
-]
+export const external = ['vue', '@vueform/core', '@vueform/devtools']
 
 function createEntries() {
   const blueprintEntries = Object.fromEntries(

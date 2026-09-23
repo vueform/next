@@ -1,4 +1,4 @@
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import { getRouterModule, type RouterHistory } from '~/modules/router'
 import type { MaybeRef } from 'vue'
 

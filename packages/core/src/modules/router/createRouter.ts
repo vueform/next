@@ -6,7 +6,7 @@ import {
   watch,
   type MaybeRef,
 } from 'vue'
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import {
   isClient,
   isServer,

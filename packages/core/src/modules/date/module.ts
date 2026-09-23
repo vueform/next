@@ -1,4 +1,4 @@
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import { resolveModules } from '~/helpers/resolveModules'
 import type { DateModule } from './types'
 

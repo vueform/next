@@ -15,16 +15,6 @@ import {
 } from '~/composables'
 import { defaultConfig } from '~/config'
 import { createVueformContext } from '~/contexts'
-import {
-  extendTheme,
-  type UserConfig,
-  type VueformConfig,
-  type VueformGlobals,
-  type VueformInstanceModules,
-  type VueformModule,
-  type VueformModules,
-  type VueformPlugin,
-} from '~/helpers'
 import type { HttpInstance } from '~/modules/http'
 import { getLocaleModule, type LocaleModule } from '~/modules/locale'
 import type {
@@ -34,6 +24,16 @@ import type {
   VueformComponent,
 } from '~/types'
 import { mergeProp, normalizePreset, warn, isDev } from '~/utils'
+import {
+  type UserConfig,
+  type VueformConfig,
+  type VueformGlobals,
+  type VueformInstanceModules,
+  type VueformModules,
+} from './defineConfig'
+import { extendTheme } from './extendTheme'
+import type { VueformModule } from './defineModule'
+import type { VueformPlugin } from './definePlugin'
 
 // @todo: shouldn't this be moved into helpers?
 

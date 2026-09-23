@@ -12,8 +12,7 @@ import {
   type Ref,
   type WatchStopHandle,
 } from 'vue'
-import type { VueformInstance } from '~/createVueform'
-import { getAttachedValidationSchema } from '~/helpers'
+import { type VueformInstance, getAttachedValidationSchema } from '~/helpers'
 import { getConditionsModule, hasConditionsModule } from '~/modules/conditions'
 import { getExpressionModule } from '~/modules/expression'
 import {

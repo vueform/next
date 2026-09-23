@@ -1,4 +1,4 @@
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import type { ConditionalProp } from '~/modules/conditions'
 import {
   type FormContext,

@@ -1,4 +1,3 @@
-import type { VueformInstance } from '~/createVueform'
 import type {
   RawContextOf,
   PropsOf,
@@ -7,6 +6,7 @@ import type {
   ComponentOptions,
   VueformComponent,
 } from '~/types'
+import type { VueformInstance } from './createVueform'
 import type {
   GlobalsHookContext,
   VueformConfig,

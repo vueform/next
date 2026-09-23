@@ -1,4 +1,4 @@
-import type { VueformInstance } from '~/createVueform'
+import type { VueformInstance } from '~/helpers'
 import { getSecurityModule } from '~/modules/security'
 import { HttpError } from './error'
 import { resolveRequestUrl } from './resolveUrl'
