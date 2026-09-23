@@ -1,4 +1,3 @@
-import { toReactive } from '@vueuse/core'
 import { computed } from 'vue'
 import { useFeatures } from '~/composables'
 import {
@@ -41,6 +40,7 @@ import {
 } from '~/features'
 import { defineDefaults, type DefineEvents } from '~/helpers'
 import type { LanguagesProp, LooseRequired } from '~/types'
+import { toReactive } from '~/utils'
 
 /**
  * Field model shape. `TNullValue` always types **one value** — the model itself

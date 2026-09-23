@@ -1,5 +1,4 @@
 import type { LooseContext } from './shared'
-import type { CamelCase, KebabCase } from 'type-fest'
 import type { Ref } from 'vue'
 
 /**
@@ -41,6 +40,12 @@ type OptionalKeys<T> = {
 type RequirePropsButKeepUndefined<T> = Omit<Required<T>, OptionalKeys<T>> & {
   [K in OptionalKeys<T>]-?: Exclude<T[K], undefined> | undefined
 }
+
+type CamelCaseJoin<S extends string> = S extends `${infer A}-${infer B}`
+  ? CamelCaseJoin<`${A}${Capitalize<B>}`>
+  : S extends `${infer A}_${infer B}`
+    ? CamelCaseJoin<`${A}${Capitalize<B>}`>
+    : S
 
 /**
  * Replaces the wide (constraint-instantiated) members of an Expose surface with
@@ -310,6 +315,23 @@ export type MakeRequired<T, K extends PropertyKey> = T extends any
     ? Omit<T, K> & Required<Pick<T, K>>
     : T
   : never
+
+/**
+ * Camel-cases an identifier: lowers the first character and collapses `-` / `_`
+ * separators (`update-model-value` → `updateModelValue`).
+ */
+export type CamelCase<S extends string> = CamelCaseJoin<Uncapitalize<S>>
+
+/**
+ * Kebab-cases an identifier: a `-` is inserted before every uppercase
+ * character, which is then lowered (`updateModelValue` →
+ * `update-model-value`).
+ */
+export type KebabCase<S extends string> = S extends `${infer H}${infer T}`
+  ? T extends Uncapitalize<T>
+    ? `${Uncapitalize<H>}${KebabCase<T>}`
+    : `${Uncapitalize<H>}-${KebabCase<T>}`
+  : S
 
 /**
  * Extracts event names from a props type by finding `on`-prefixed keys and

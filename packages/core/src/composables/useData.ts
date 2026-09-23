@@ -1,4 +1,3 @@
-import { reactiveComputed } from '@vueuse/core'
 import {
   computed,
   getCurrentScope,
@@ -32,6 +31,7 @@ import type {
   Booleanish,
 } from '~/types'
 import {
+  reactiveComputed,
   alwaysFalse,
   asyncForEach,
   clone,

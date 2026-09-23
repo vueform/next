@@ -167,8 +167,7 @@
     "tsc:node": "tsc --project tsconfig.node.json --noEmit"
   },
   "dependencies": {
-    "@vueform/core": "workspace:^",
-    "type-fest": "catalog:"
+    "@vueform/core": "workspace:^"
   },
   "devDependencies": {
     "@playwright/test": "catalog:",

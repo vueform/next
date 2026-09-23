@@ -1,9 +1,13 @@
 import {
   computed,
   getCurrentScope,
+  isRef,
+  reactive,
   toRef,
+  unref,
   type ComputedGetter,
   type ComputedRef,
+  type MaybeRef,
   type Ref,
 } from 'vue'
 import type { VueformRouter } from '~/modules/router'
@@ -212,4 +216,52 @@ export function resolveRouter(
   const instance = getGenericInstance()
   const $router = instance?.appContext.config.globalProperties.$router
   return $router?.push ? $router : undefined
+}
+
+/**
+ * Converts a ref of an object into a reactive-like proxy whose property reads
+ * and writes are forwarded to the current ref value (nested refs unwrapped on
+ * read). Replacing the ref's value is reflected on the proxy immediately.
+ */
+export function toReactive<T extends object>(objectRef: MaybeRef<T>): T {
+  // Cast: `Reactive<T>` ref-unwraps, but callers pass plain object shapes.
+  if (!isRef(objectRef)) return reactive(objectRef) as T
+
+  const proxy = new Proxy({} as T, {
+    get(_, p, receiver) {
+      return unref(Reflect.get(objectRef.value, p, receiver))
+    },
+    set(_, p, value) {
+      const target = objectRef.value as Record<PropertyKey, unknown>
+      if (isRef(target[p]) && !isRef(value)) {
+        ;(target[p] as Ref<unknown>).value = value
+      } else {
+        target[p] = value
+      }
+      return true
+    },
+    deleteProperty(_, p) {
+      return Reflect.deleteProperty(objectRef.value, p)
+    },
+    has(_, p) {
+      return Reflect.has(objectRef.value, p)
+    },
+    ownKeys() {
+      return Object.keys(objectRef.value)
+    },
+    getOwnPropertyDescriptor() {
+      return { enumerable: true, configurable: true, writable: true }
+    },
+  })
+
+  return reactive(proxy) as T
+}
+
+/**
+ * A computed whose object result is exposed as a reactive-like proxy, so
+ * property access stays reactive without `.value` (equivalent to
+ * `toReactive(computed(fn))`).
+ */
+export function reactiveComputed<T extends object>(fn: () => T): T {
+  return toReactive(computed(fn))
 }

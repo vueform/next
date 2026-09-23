@@ -106,11 +106,11 @@
     "typecheck": "pnpm tsc:src && pnpm tsc:test && pnpm tsc:test:types && pnpm tsc:test:vapor && pnpm tsc:node",
     "tsc:src": "pnpm exec vue-tsc --project tsconfig.build.json",
     "tsc:test": "pnpm exec vue-tsc --project tests/tsconfig.json --noEmit",
+    "tsc:node": "tsc --project tsconfig.node.json --noEmit",
+    "=== END ===": "",
     "tsc:test:types": "pnpm exec vue-tsc --project tests/type/tsconfig.json --noEmit",
     "tsc:test:vapor": "pnpm exec vue-tsc --project tests/env/vapor/tsconfig.json --noEmit",
     "tsc:types:perf": "tsx ./tests/perf/types/scripts/run-schema-perf.ts",
-    "tsc:node": "tsc --project tsconfig.node.json --noEmit",
-    "=== END ===": "",
     "build": "pnpm run build:vdom && pnpm run build:vapor",
     "build:vdom": "vite build",
     "build:vapor": "vite build --config build/vite.config.vapor.ts",
@@ -125,9 +125,7 @@
     "test:vapor:vdom": "VAPOR_ALL=0 vitest run --config tests/env/vapor/vitest.config.ts"
   },
   "dependencies": {
-    "@vueform/devtools": "workspace:^",
-    "@vueuse/core": "catalog:",
-    "type-fest": "catalog:"
+    "@vueform/devtools": "workspace:^"
   },
   "devDependencies": {
     "@nuxt/kit": "catalog:",

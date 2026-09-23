@@ -1,5 +1,4 @@
-import type { LooseContext } from '@vueform/core'
-import type { CamelCase } from 'type-fest'
+import { type LooseContext, type CamelCase } from '@vueform/core'
 
 /**
  * Picks the listed events from an emit interface and converts them to Vueform

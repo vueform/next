@@ -1,5 +1,11 @@
-import { unref, type MaybeRef } from 'vue'
-import type { MaybeElement } from '@vueuse/core'
+import { unref, type ComponentPublicInstance, type MaybeRef } from 'vue'
+
+/**
+ * A DOM element, a component instance (resolved via its root element), or
+ * nothing.
+ */
+export type MaybeElement =
+  HTMLElement | SVGElement | ComponentPublicInstance | null | undefined
 
 /**
  * Returns the root DOM element for a component ref, handling fragment
