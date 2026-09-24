@@ -11,7 +11,7 @@ import {
   toFormData,
   unset,
   warn,
-} from '~/utils'
+} from '@core/utils'
 import type { ModelInstance, ModelStore } from './types'
 
 /**

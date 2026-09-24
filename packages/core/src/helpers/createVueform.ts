@@ -12,18 +12,18 @@ import {
   useForm,
   useHttp,
   type useModel,
-} from '~/composables'
-import { defaultConfig } from '~/config'
-import { createVueformContext } from '~/contexts'
-import type { HttpInstance } from '~/modules/http'
-import { getLocaleModule, type LocaleModule } from '~/modules/locale'
+} from '@core/composables'
+import { defaultConfig } from '@core/config'
+import { createVueformContext } from '@core/contexts'
+import type { HttpInstance } from '@core/modules/http'
+import { getLocaleModule, type LocaleModule } from '@core/modules/locale'
 import type {
   ComponentNames,
   NormalizedPresetDefinition,
   PresetDefinition,
   VueformComponent,
-} from '~/types'
-import { mergeProp, normalizePreset, warn, isDev } from '~/utils'
+} from '@core/types'
+import { mergeProp, normalizePreset, warn, isDev } from '@core/utils'
 import {
   type UserConfig,
   type VueformConfig,

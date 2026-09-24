@@ -1,7 +1,7 @@
 import { computed, toRef, useId } from 'vue'
-import { useDynamicProp, type Pager, useLocale } from '~/composables'
-import { useFormContext } from '~/contexts'
-import { defineDefaults, type DefineEvents } from '~/helpers'
+import { useDynamicProp, type Pager, useLocale } from '@core/composables'
+import { useFormContext } from '@core/contexts'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -11,7 +11,7 @@ import type {
   BaseComponentClasses,
   LooseRequired,
   TProp,
-} from '~/types'
+} from '@core/types'
 
 /**
  * Positioning options for the nav component.

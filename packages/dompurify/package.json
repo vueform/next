@@ -17,11 +17,6 @@
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "vite build",
-    "typecheck": "vue-tsc --project tsconfig.json --noEmit",
-    "tsc": "pnpm typecheck"
-  },
   "dependencies": {
     "isomorphic-dompurify": "catalog:"
   },

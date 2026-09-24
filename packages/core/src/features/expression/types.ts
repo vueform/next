@@ -1,4 +1,4 @@
-import type { UntrackOnProp } from '~/types'
+import type { UntrackOnProp } from '@core/types'
 
 /**
  * Props for elements participating in the expression module.

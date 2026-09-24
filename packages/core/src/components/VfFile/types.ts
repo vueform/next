@@ -7,8 +7,8 @@ import {
   type FileParts,
   type FileProps,
   type FileSlots,
-} from '~/blueprints/file'
-import type { EntryMultipleOf } from '~/features'
+} from '@core/blueprints/file'
+import type { EntryMultipleOf } from '@core/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -17,7 +17,7 @@ import type {
   DomAttrsOf,
   PartOf,
   FileProp,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

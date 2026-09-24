@@ -6,8 +6,8 @@ import {
   type ContentParts,
   type ContentProps,
   type ContentSlots,
-} from '~/blueprints/content'
-import type { DefineElementContext, DefineRegistryEntry } from '~/types'
+} from '@core/blueprints/content'
+import type { DefineElementContext, DefineRegistryEntry } from '@core/types'
 import type { VNode } from 'vue'
 
 /**

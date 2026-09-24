@@ -6,14 +6,14 @@ import {
   watch,
   type MaybeRef,
 } from 'vue'
-import type { VueformInstance } from '~/helpers'
+import type { VueformInstance } from '@core/helpers'
 import {
   isClient,
   isServer,
   resolveRouter,
   getGenericInstance,
   warn,
-} from '~/utils'
+} from '@core/utils'
 import type {
   RouterHistory,
   RouterModule,

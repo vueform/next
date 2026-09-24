@@ -1,6 +1,6 @@
-import type { GridCell, InlineGrid } from '~/blueprints/grid'
-import { createContext } from '~/helpers'
-import type { AlignProp, ValignProp } from '~/types'
+import type { GridCell, InlineGrid } from '@core/blueprints/grid'
+import { createContext } from '@core/helpers'
+import type { AlignProp, ValignProp } from '@core/types'
 import type { Ref } from 'vue'
 
 /**

@@ -1,5 +1,5 @@
-import type { VueformInstance } from '~/helpers'
-import { getLocaleModule, type LocaleModule } from '~/modules/locale'
+import type { VueformInstance } from '@core/helpers'
+import { getLocaleModule, type LocaleModule } from '@core/modules/locale'
 
 /**
  * Returns the locale module, or its inert surface (raw tags, first-entry locale

@@ -6,8 +6,8 @@ import {
   useRootDom,
   useSecurity,
   useComponentFactory,
-} from '~/composables'
-import { createGridContext } from '~/contexts'
+} from '@core/composables'
+import { createGridContext } from '@core/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -28,8 +28,8 @@ import {
   type ModelEmits,
   type ObjectModel,
   type ValidationEmits,
-} from '~/features'
-import { defineDefaults, type DefineEvents } from '~/helpers'
+} from '@core/features'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
 import type {
   GridSchema,
   AlignProp,
@@ -39,8 +39,8 @@ import type {
   GridCellContent,
   GridCellSchema,
   NamedElementSchema,
-} from '~/types'
-import { walkCells } from '~/utils'
+} from '@core/types'
+import { walkCells } from '@core/utils'
 
 /**
  * A resolved column tuple: [cell, colspan, rowspan, alignment].

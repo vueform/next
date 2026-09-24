@@ -1,7 +1,7 @@
 import { computed } from 'vue'
-import { type makeLayout, type makeData } from '~/features'
-import { defineFeature } from '~/helpers'
-import type { AriaProp, ReturnsOf } from '~/types'
+import { type makeLayout, type makeData } from '@core/features'
+import { defineFeature } from '@core/helpers'
+import type { AriaProp, ReturnsOf } from '@core/types'
 
 /**
  * Configuration for the ARIA factory wiring ARIA attributes and described-by

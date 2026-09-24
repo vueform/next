@@ -6,8 +6,8 @@ import {
   type GroupParts,
   type GroupProps,
   type GroupSlots,
-} from '~/blueprints/group'
-import type { ObjectModel } from '~/features'
+} from '@core/blueprints/group'
+import type { ObjectModel } from '@core/features'
 import type {
   ClassValue,
   DefineElementContext,
@@ -19,7 +19,7 @@ import type {
   WidenProps,
   ResolvedSchema,
   EntrySchemaOf,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

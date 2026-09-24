@@ -1,10 +1,10 @@
 import { toRef, type MaybeRef, type Ref } from 'vue'
-import { useComponentContext, useFormContext } from '~/contexts'
+import { useComponentContext, useFormContext } from '@core/contexts'
 import {
   getConditionsModule,
   type ConditionalProp,
   type ConditionsTriggerProp,
-} from '~/modules/conditions'
+} from '@core/modules/conditions'
 
 /**
  * Options for the `useConditions` / `useConditionalList` composables.

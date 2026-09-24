@@ -1,4 +1,4 @@
-import { createRule } from '~/helpers'
+import { createRule } from '@core/helpers'
 
 /**
  * Validates that the value is the same as another field's value.

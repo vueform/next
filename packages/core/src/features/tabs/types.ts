@@ -1,6 +1,6 @@
-import { type Pager, type ResolvedPage } from '~/composables'
+import { type Pager, type ResolvedPage } from '@core/composables'
 
-import type { PartOf, SlotPropsOf } from '~/types'
+import type { PartOf, SlotPropsOf } from '@core/types'
 import type { VNode } from 'vue'
 
 /**

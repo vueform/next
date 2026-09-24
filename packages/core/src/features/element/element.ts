@@ -1,7 +1,7 @@
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
-} from '~/modules/conditions'
+} from '@core/modules/conditions'
 import type {
   BaseComponentClasses,
   BaseComponentEmits,
@@ -12,7 +12,7 @@ import type {
   ElementName,
   LooseContext,
   TProp,
-} from '~/types'
+} from '@core/types'
 
 /**
  * Base props shared by all form element types (text, checkbox, select, etc.).

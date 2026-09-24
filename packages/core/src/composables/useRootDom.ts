@@ -1,5 +1,5 @@
 import { toRef } from 'vue'
-import { rootDomOf } from '~/utils'
+import { rootDomOf } from '@core/utils'
 import { useCurrentElement } from './useCurrentElement'
 
 /**

@@ -6,7 +6,7 @@ import {
   type RadioParts,
   type RadioProps,
   type RadioSlots,
-} from '~/blueprints/radio'
+} from '@core/blueprints/radio'
 import type {
   WidenProps,
   DefineElementContext,
@@ -15,7 +15,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   EntryPropOr,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

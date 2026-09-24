@@ -6,15 +6,15 @@ import type {
   TabbedSlots,
   TabsExpose,
   TabsClasses,
-} from '~/blueprints/tabs'
-import type { ResolvedPage } from '~/composables'
+} from '@core/blueprints/tabs'
+import type { ResolvedPage } from '@core/composables'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   UnknownElement,
   DefineRegistryEntry,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

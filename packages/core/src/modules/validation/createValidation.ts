@@ -13,18 +13,18 @@ import {
   type EffectScope,
   type Ref,
 } from 'vue'
-import { type VueformInstance, type VueformConfig } from '~/helpers'
+import { type VueformInstance, type VueformConfig } from '@core/helpers'
 import {
   getConditionsModule,
   hasConditionsModule,
   type ConditionalProp,
-} from '~/modules/conditions'
-import { hasLocaleModule } from '~/modules/locale'
+} from '@core/modules/conditions'
+import { hasLocaleModule } from '@core/modules/locale'
 import {
   type FormContext,
   type StandardSchemaV1,
   type StatefulElement,
-} from '~/types'
+} from '@core/types'
 import {
   alwaysFalse,
   alwaysTrue,
@@ -39,7 +39,7 @@ import {
   toArray,
   own,
   warn,
-} from '~/utils'
+} from '@core/utils'
 import { RULE_BRAND } from './symbols'
 import type {
   ConditionalRule,

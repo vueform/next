@@ -1,12 +1,12 @@
 import { computed, toRef, unref } from 'vue'
-import { useConditions } from '~/composables'
-import { type makeElement, type makeData } from '~/features'
-import { defineFeature } from '~/helpers'
+import { useConditions } from '@core/composables'
+import { type makeElement, type makeData } from '@core/features'
+import { defineFeature } from '@core/helpers'
 import {
   type ConditionalProp,
   type ConditionsTriggerProp,
-} from '~/modules/conditions'
-import type { ReturnsOf } from '~/types'
+} from '@core/modules/conditions'
+import type { ReturnsOf } from '@core/types'
 
 /**
  * Configuration for the loading factory combining explicit loading props with

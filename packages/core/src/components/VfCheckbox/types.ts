@@ -6,7 +6,7 @@ import {
   type CheckboxParts,
   type CheckboxProps,
   type CheckboxSlots,
-} from '~/blueprints/checkbox'
+} from '@core/blueprints/checkbox'
 import type {
   WidenProps,
   DefineElementContext,
@@ -15,7 +15,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   EntryPropOr,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

@@ -1,4 +1,4 @@
-import type { KebabToPascal } from '~/types'
+import type { KebabToPascal } from '@core/types'
 import { warn } from './warn'
 
 /**

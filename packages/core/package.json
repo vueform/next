@@ -102,29 +102,6 @@
     "**/*.css",
     "**/*.scss"
   ],
-  "scripts": {
-    "tsc": "pnpm tsc:src",
-    "typecheck": "pnpm tsc:src && pnpm tsc:test && pnpm tsc:test:types && pnpm tsc:test:vapor && pnpm tsc:node",
-    "tsc:src": "pnpm exec vue-tsc --project tsconfig.build.json",
-    "tsc:test": "pnpm exec vue-tsc --project tests/tsconfig.json --noEmit",
-    "tsc:node": "tsc --project tsconfig.node.json --noEmit",
-    "=== END ===": "",
-    "tsc:test:types": "pnpm exec vue-tsc --project tests/types/tsconfig.json --noEmit",
-    "tsc:test:vapor": "pnpm exec vue-tsc --project tests/env/vapor/tsconfig.json --noEmit",
-    "tsc:types:perf": "tsx ./benchmarks/types/scripts/run-schema-perf.ts",
-    "build": "pnpm run build:vdom && pnpm run build:vapor",
-    "build:vdom": "vite build",
-    "build:vapor": "vite build --config build/vite.config.vapor.ts",
-    "gen:schema-perf": "tsx ./benchmarks/types/scripts/generate-schema-perf.ts",
-    "test": "vitest --maxWorkers=16",
-    "bench:perf": "tsx benchmarks/runtime/scripts/run.ts",
-    "bench:perf:save": "tsx benchmarks/runtime/scripts/run.ts --save",
-    "bench:perf:report": "tsx benchmarks/runtime/scripts/run.ts --report",
-    "perf:rebase": "tsx benchmarks/runtime/scripts/run.ts --rebase",
-    "test:prod": "vitest --maxWorkers=16 --mode production",
-    "test:vapor": "vitest run --project vapor",
-    "test:vapor:vdom": "VAPOR_ALL=0 vitest run --project vapor"
-  },
   "dependencies": {
     "@vueform/devtools": "workspace:^"
   },

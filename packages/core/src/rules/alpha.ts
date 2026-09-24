@@ -1,4 +1,4 @@
-import { createRule } from '~/helpers'
+import { createRule } from '@core/helpers'
 
 /**
  * Validates that the value contains only alphabetic characters.

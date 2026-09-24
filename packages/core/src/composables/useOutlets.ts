@@ -8,14 +8,14 @@ import {
   type ComputedRef,
   type FunctionalComponent,
 } from 'vue'
-import { useComponentFactory, useSecurity } from '~/composables'
-import type { ComponentProp } from '~/types'
+import { useComponentFactory, useSecurity } from '@core/composables'
+import type { ComponentProp } from '@core/types'
 import {
   getGenericInstance,
   isVaporInstance,
   toCamelCase,
   toVdomRenderableSlot,
-} from '~/utils'
+} from '@core/utils'
 
 /**
  * Configuration options for the useOutlets composable.

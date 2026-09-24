@@ -1,4 +1,4 @@
-import type { ExpressionString, LooseContext, FileProp } from '~/types'
+import type { ExpressionString, LooseContext, FileProp } from '@core/types'
 
 /**
  * @write

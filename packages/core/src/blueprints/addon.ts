@@ -1,6 +1,6 @@
 import { computed } from 'vue'
-import { useExpression, useLocale, useSecurity } from '~/composables'
-import { defineDefaults, resolveAddon, type DefineEvents } from '~/helpers'
+import { useExpression, useLocale, useSecurity } from '@core/composables'
+import { defineDefaults, resolveAddon, type DefineEvents } from '@core/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -10,7 +10,7 @@ import type {
   BaseComponentExpose,
   AddonItem,
   LooseRequired,
-} from '~/types'
+} from '@core/types'
 
 /**
  * Props for the addon component blueprint.

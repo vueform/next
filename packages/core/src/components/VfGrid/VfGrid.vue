@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { defaults, blueprint } from '~/blueprints/grid'
-import { useBlueprint } from '~/composables'
-import { defineEvents } from '~/helpers'
+import { defaults, blueprint } from '@core/blueprints/grid'
+import { useBlueprint } from '@core/composables'
+import { defineEvents } from '@core/helpers'
 import type { VfGridEmits, VfGridProps, VfGridSlots } from './types'
 
 defineOptions({

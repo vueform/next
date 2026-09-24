@@ -7,8 +7,8 @@ import type {
   GridProps,
   GridSlots,
   GridCell,
-} from '~/blueprints/grid'
-import type { ObjectModel } from '~/features'
+} from '@core/blueprints/grid'
+import type { ObjectModel } from '@core/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -21,7 +21,7 @@ import type {
   IsAny,
   SchemaToModel,
   WidenProps,
-} from '~/types'
+} from '@core/types'
 import type { Ref, VNode } from 'vue'
 
 /**

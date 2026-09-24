@@ -6,13 +6,13 @@ import {
   type AddonSlots,
   type AddonClasses,
   type AddonExpose,
-} from '~/blueprints/addon'
+} from '@core/blueprints/addon'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   DefineRegistryEntry,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

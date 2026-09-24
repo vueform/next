@@ -6,13 +6,13 @@ import {
   type ElementsSlots,
   type ElementsExpose,
   type ElementsClasses,
-} from '~/blueprints/elements'
+} from '@core/blueprints/elements'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   DefineRegistryEntry,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

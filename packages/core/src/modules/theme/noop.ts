@@ -1,5 +1,5 @@
 import { computed, toValue, type CSSProperties } from 'vue'
-import { warn, isDev } from '~/utils'
+import { warn, isDev } from '@core/utils'
 import type { ThemeModule } from './types'
 
 let warnedMissingModule = false

@@ -1,7 +1,7 @@
-import { useContainerProvider } from '~/composables'
-import type { makeElement } from '~/features'
-import { defineFeature } from '~/helpers'
-import type { ReturnsOf } from '~/types'
+import { useContainerProvider } from '@core/composables'
+import type { makeElement } from '@core/features'
+import { defineFeature } from '@core/helpers'
+import type { ReturnsOf } from '@core/types'
 
 /**
  * Configuration for the provider factory wiring container context for child

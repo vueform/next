@@ -1,6 +1,6 @@
 import { computed, toRef } from 'vue'
-import type { StandardSchemaV1 } from '~/types'
-import { warn, isDev } from '~/utils'
+import type { StandardSchemaV1 } from '@core/types'
+import { warn, isDev } from '@core/utils'
 import type {
   Issue,
   OwnerView,

@@ -6,9 +6,9 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
-import { useComponentContext } from '~/contexts'
-import type { DProp } from '~/types'
-import { containsHtml, normalize, resolveIcon, toKebabCase } from '~/utils'
+import { useComponentContext } from '@core/contexts'
+import type { DProp } from '@core/types'
+import { containsHtml, normalize, resolveIcon, toKebabCase } from '@core/utils'
 import { useExpression } from './useExpression'
 import { useLocale } from './useLocale'
 import { useSecurity } from './useSecurity'

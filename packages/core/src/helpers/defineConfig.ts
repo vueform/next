@@ -1,33 +1,39 @@
-import type { AutosaveModule, AutosaveModuleOptions } from '~/modules/autosave'
+import type {
+  AutosaveModule,
+  AutosaveModuleOptions,
+} from '@core/modules/autosave'
 import type {
   ConditionsModule,
   ConditionsModuleOptions,
-} from '~/modules/conditions'
-import type { DateModule, DateModuleOptions } from '~/modules/date'
+} from '@core/modules/conditions'
+import type { DateModule, DateModuleOptions } from '@core/modules/date'
 import type {
   ExpressionModule,
   ExpressionModuleOptions,
-} from '~/modules/expression'
-import type { HttpModule, HttpModuleOptions } from '~/modules/http'
-import type { LocaleModule, LocaleModuleOptions } from '~/modules/locale'
-import type { ModelModule, ModelModuleOptions } from '~/modules/model'
+} from '@core/modules/expression'
+import type { HttpModule, HttpModuleOptions } from '@core/modules/http'
+import type { LocaleModule, LocaleModuleOptions } from '@core/modules/locale'
+import type { ModelModule, ModelModuleOptions } from '@core/modules/model'
 import type {
   RouterModule,
   RouterModuleOptions,
   VueformRouter,
-} from '~/modules/router'
-import type { SecurityModule, SecurityModuleOptions } from '~/modules/security'
+} from '@core/modules/router'
+import type {
+  SecurityModule,
+  SecurityModuleOptions,
+} from '@core/modules/security'
 import type {
   DarkModeConfig,
   ThemeModule,
   ThemeModuleOptions,
-} from '~/modules/theme'
+} from '@core/modules/theme'
 import type {
   SizeTypes,
   RuleDefinition,
   ValidationModule,
   ValidationModuleOptions,
-} from '~/modules/validation'
+} from '@core/modules/validation'
 import {
   type ComponentRegistry,
   type ComponentNames,
@@ -41,7 +47,7 @@ import {
   type UID,
   type VueformComponent,
   type ThemeTokens,
-} from '~/types'
+} from '@core/types'
 import type { VueformModule } from './defineModule'
 import type { VueformPlugin } from './definePlugin'
 import type { ComputedRef, MaybeRef } from 'vue'

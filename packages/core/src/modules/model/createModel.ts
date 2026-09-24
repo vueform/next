@@ -12,16 +12,22 @@ import {
   type Ref,
   type WatchStopHandle,
 } from 'vue'
-import { type VueformInstance, getAttachedValidationSchema } from '~/helpers'
-import { getConditionsModule, hasConditionsModule } from '~/modules/conditions'
-import { getExpressionModule } from '~/modules/expression'
+import {
+  type VueformInstance,
+  getAttachedValidationSchema,
+} from '@core/helpers'
+import {
+  getConditionsModule,
+  hasConditionsModule,
+} from '@core/modules/conditions'
+import { getExpressionModule } from '@core/modules/expression'
 import {
   getValidationModule,
   hasValidationModule,
   type TRulesProp,
   type Validator,
   type ValidationOwner,
-} from '~/modules/validation'
+} from '@core/modules/validation'
 import {
   type ElementName,
   type FormSchema,
@@ -29,7 +35,7 @@ import {
   type StatefulElement,
   type VueformComponent,
   type StandardSchemaV1,
-} from '~/types'
+} from '@core/types'
 import {
   alwaysTrue,
   clone,
@@ -44,7 +50,7 @@ import {
   unset,
   warn,
   isDev,
-} from '~/utils'
+} from '@core/utils'
 import {
   getModelStore,
   hasModelStore,

@@ -1,6 +1,6 @@
-import type { VueformPlugin } from '~/helpers'
-import type { VueformComponent, ComponentOptions } from '~/types'
-import { toArray, getComponentDef, getGenericInstance } from '~/utils'
+import type { VueformPlugin } from '@core/helpers'
+import type { VueformComponent, ComponentOptions } from '@core/types'
+import { toArray, getComponentDef, getGenericInstance } from '@core/utils'
 import { useConfig } from './useConfig'
 
 /**

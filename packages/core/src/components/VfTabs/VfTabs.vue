@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { defaults, blueprint } from '~/blueprints/tabs'
-import { useBlueprint } from '~/composables'
-import { defineEvents } from '~/helpers'
+import { defaults, blueprint } from '@core/blueprints/tabs'
+import { useBlueprint } from '@core/composables'
+import { defineEvents } from '@core/helpers'
 import type { VfTabsEmits, VfTabsProps, VfTabsSlots } from './types'
 
 defineOptions({ name: 'VfTabs' })

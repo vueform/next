@@ -6,10 +6,10 @@ import type {
   FormSlots,
   FormExpose,
   FormClasses,
-} from '~/blueprints/form'
-import type { NavPosProp } from '~/blueprints/nav'
-import type { Pager } from '~/composables'
-import type { TabbedSlots } from '~/features'
+} from '@core/blueprints/form'
+import type { NavPosProp } from '@core/blueprints/nav'
+import type { Pager } from '@core/composables'
+import type { TabbedSlots } from '@core/features'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,
@@ -23,7 +23,7 @@ import {
   type TProp,
   type ResolvedSchema,
   type EntrySchemaOf,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

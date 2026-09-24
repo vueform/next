@@ -1,4 +1,4 @@
-import type { ConditionalProp } from '~/modules/conditions'
+import type { ConditionalProp } from '@core/modules/conditions'
 
 /**
  * @write

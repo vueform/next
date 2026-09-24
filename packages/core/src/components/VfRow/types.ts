@@ -6,13 +6,13 @@ import {
   type RowParts,
   type RowProps,
   type RowSlots,
-} from '~/blueprints/row'
+} from '@core/blueprints/row'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   DefineRegistryEntry,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

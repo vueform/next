@@ -8,11 +8,11 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
-import { useComponentContext, useFormContext } from '~/contexts'
-import type { ItemsProp } from '~/features'
-import type { ConditionsTriggerProp } from '~/modules/conditions'
-import type { HttpResponse } from '~/modules/http'
-import type { ExpressionableKeys } from '~/types'
+import { useComponentContext, useFormContext } from '@core/contexts'
+import type { ItemsProp } from '@core/features'
+import type { ConditionsTriggerProp } from '@core/modules/conditions'
+import type { HttpResponse } from '@core/modules/http'
+import type { ExpressionableKeys } from '@core/types'
 import {
   debounce,
   isPlainObject,
@@ -20,7 +20,7 @@ import {
   isThenable,
   warn,
   isDev,
-} from '~/utils'
+} from '@core/utils'
 import { useExpression } from './useExpression'
 import { useHttp } from './useHttp'
 

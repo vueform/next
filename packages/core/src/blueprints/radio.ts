@@ -1,4 +1,4 @@
-import { useFeatures } from '~/composables'
+import { useFeatures } from '@core/composables'
 import {
   makeElement,
   makeInteraction,
@@ -29,9 +29,9 @@ import {
   type ValidationEmits,
   type AlignedProps,
   type ModelApi,
-} from '~/features'
-import { defineDefaults, type DefineEvents } from '~/helpers'
-import type { LooseRequired, TProp } from '~/types'
+} from '@core/features'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
+import type { LooseRequired, TProp } from '@core/types'
 
 /**
  * Radio model shape: the `radioValue` prop type, or `null` when unselected.

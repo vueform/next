@@ -1,5 +1,5 @@
 import { toRaw, type Ref } from 'vue'
-import { CLASS_REGISTRAR, useComponentContext } from '~/contexts'
+import { CLASS_REGISTRAR, useComponentContext } from '@core/contexts'
 import type {
   ClassesOf,
   ClassInput,
@@ -9,7 +9,7 @@ import type {
   ContextOf,
   LooseClasses,
   PropsOf,
-} from '~/types'
+} from '@core/types'
 
 /**
  * Keys a single class definition introduces: for factories, the keys of the

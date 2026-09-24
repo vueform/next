@@ -3,13 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "scripts": {
-    "scrape": "tsx scripts/scrape.ts",
-    "validate": "tsx scripts/validate.ts",
-    "issues": "tsx scripts/issues.ts",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "tsc": "pnpm typecheck"
-  },
   "devDependencies": {
     "ajv": "catalog:"
   }

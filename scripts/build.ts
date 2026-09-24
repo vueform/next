@@ -1,4 +1,4 @@
-import { pkgRun } from './pkg-run.ts'
+import { pkgRun } from './run.js'
 
 // `--vdom` / `--vapor` select the corresponding package script instead of the
 // full `build` (which runs both dists where a vapor config exists). The flags

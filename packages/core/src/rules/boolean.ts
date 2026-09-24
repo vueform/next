@@ -1,4 +1,4 @@
-import { createRule } from '~/helpers'
+import { createRule } from '@core/helpers'
 
 /**
  * Validates that the value is a boolean-like value (true, false, 0, 1, '0',

@@ -4,8 +4,8 @@ import {
   type HttpRequestConfig,
   type HttpResponse,
   type RequestType,
-} from '~/modules/http'
-import { isFileValue, toFormData, warn, isDev } from '~/utils'
+} from '@core/modules/http'
+import { isFileValue, toFormData, warn, isDev } from '@core/utils'
 import { resolveRequestUrl } from './resolveUrl'
 
 function buildURL(config: HttpRequestConfig): string {

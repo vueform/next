@@ -1,4 +1,4 @@
-import { createRule } from '~/helpers'
+import { createRule } from '@core/helpers'
 import { ipv4regex } from './ipv4'
 import { ipv6regex } from './ipv6'
 

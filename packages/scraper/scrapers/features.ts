@@ -1,12 +1,12 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import * as ts from 'typescript'
-import { corePackage, nonCoreAdapters } from '../lib/adapters'
+import { corePackage, nonCoreAdapters } from '../lib/adapters.js'
 import { importedCalleeName } from '../lib/extract.js'
 
-import { updateIssues, type Issue } from '../lib/issues'
-import { generatedDir, monorepoRoot } from '../lib/paths'
-import { parseScope } from '../lib/scope'
+import { updateIssues, type Issue } from '../lib/issues.js'
+import { generatedDir, monorepoRoot } from '../lib/paths.js'
+import { parseScope } from '../lib/scope.js'
 
 // =============== PATHS ================
 

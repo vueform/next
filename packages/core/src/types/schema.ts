@@ -23,7 +23,7 @@ import {
   type ComponentProp,
   type EntryPropOf,
   type ExpressionString,
-} from '~/types'
+} from '@core/types'
 import type { Ref } from 'vue'
 
 // ============ TYPE UNIONS =============

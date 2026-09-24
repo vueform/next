@@ -9,14 +9,14 @@ import {
   type ComputedRef,
   type MaybeRef,
 } from 'vue'
-import { useComponentContext } from '~/contexts'
+import { useComponentContext } from '@core/contexts'
 import {
   defineEvents,
   type EventListener,
   type TypeEmitsToOptions,
-} from '~/helpers'
-import type { ConditionalProp } from '~/modules/conditions'
-import { getValidationModule } from '~/modules/validation'
+} from '@core/helpers'
+import type { ConditionalProp } from '@core/modules/conditions'
+import { getValidationModule } from '@core/modules/validation'
 import type {
   ComponentProp,
   ElementName,
@@ -25,8 +25,8 @@ import type {
   PageName,
   PageProp,
   ValidateOnProp,
-} from '~/types'
-import { resolveIcon, typedEntries } from '~/utils'
+} from '@core/types'
+import { resolveIcon, typedEntries } from '@core/utils'
 import {
   useConfig,
   useRootDom,

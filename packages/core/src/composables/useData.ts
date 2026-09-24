@@ -17,11 +17,11 @@ import {
   useComponentContext,
   useFormContext,
   type ContainerContext,
-} from '~/contexts'
-import type { FeatureEvents } from '~/helpers'
-import { getExpressionModule } from '~/modules/expression'
-import { getModelModule, type ModelNode } from '~/modules/model'
-import { getValidationModule, type TRulesProp } from '~/modules/validation'
+} from '@core/contexts'
+import type { FeatureEvents } from '@core/helpers'
+import { getExpressionModule } from '@core/modules/expression'
+import { getModelModule, type ModelNode } from '@core/modules/model'
+import { getValidationModule, type TRulesProp } from '@core/modules/validation'
 import type {
   ElementName,
   RuleMessagesProp,
@@ -29,7 +29,7 @@ import type {
   StatefulElement,
   ValidateOnProp,
   Booleanish,
-} from '~/types'
+} from '@core/types'
 import {
   reactiveComputed,
   alwaysFalse,
@@ -43,7 +43,7 @@ import {
   move,
   normalize,
   warn,
-} from '~/utils'
+} from '@core/utils'
 import { useExpression } from './useExpression'
 import { useMessageBag } from './useMessageBag'
 import {

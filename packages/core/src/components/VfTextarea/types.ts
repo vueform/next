@@ -6,7 +6,7 @@ import {
   type TextareaParts,
   type TextareaProps,
   type TextareaSlots,
-} from '~/blueprints/textarea'
+} from '@core/blueprints/textarea'
 import type {
   AddonsParts,
   AddonsSlots,
@@ -18,7 +18,7 @@ import type {
   TranslateSlots,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '~/features'
+} from '@core/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -26,7 +26,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   LanguagesProp,
-} from '~/types'
+} from '@core/types'
 
 /**
  * VfTextarea props narrowed from a registry `TEntry` payload, applying the

@@ -6,7 +6,7 @@ import {
   type SelectParts,
   type SelectProps,
   type SelectSlots,
-} from '~/blueprints/select'
+} from '@core/blueprints/select'
 import type {
   AddonsParts,
   AddonsSlots,
@@ -25,14 +25,14 @@ import type {
   EntryItemValueReturnOf,
   EntryGroupChildrenOf,
   EntryMultipleOf,
-} from '~/features'
+} from '@core/features'
 import type {
   WidenProps,
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
   DomAttrsOf,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

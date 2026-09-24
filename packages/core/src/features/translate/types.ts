@@ -1,4 +1,4 @@
-import { type LanguagesProp, type PartOf, type EntryPropOf } from '~/types'
+import { type LanguagesProp, type PartOf, type EntryPropOf } from '@core/types'
 import type { VNode } from 'vue'
 
 // ========== ENTRY GENERICS ============

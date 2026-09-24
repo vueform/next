@@ -1,5 +1,5 @@
-import type { BlueprintContext } from '~/composables'
-import type { DefineEvents } from '~/helpers'
+import type { BlueprintContext } from '@core/composables'
+import type { DefineEvents } from '@core/helpers'
 import type { ClassValue } from './classes'
 import type {
   ClassesProp,

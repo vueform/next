@@ -1,9 +1,9 @@
-import { useFormContext } from '~/contexts'
+import { useFormContext } from '@core/contexts'
 import {
   getAutosaveModule,
   type AutosaveInstance,
   type MakeAutosaveOptions,
-} from '~/modules/autosave'
+} from '@core/modules/autosave'
 import { useExpression } from './useExpression'
 
 /**

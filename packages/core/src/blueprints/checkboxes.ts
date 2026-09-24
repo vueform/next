@@ -1,5 +1,5 @@
 import { ref } from 'vue'
-import { useFeatures } from '~/composables'
+import { useFeatures } from '@core/composables'
 import {
   makeElement,
   makeInteraction,
@@ -31,9 +31,9 @@ import {
   type AlignedProps,
   type ItemsProp,
   type ItemsModelApi,
-} from '~/features'
-import { defineDefaults, type DefineEvents } from '~/helpers'
-import type { LooseRequired } from '~/types'
+} from '@core/features'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
+import type { LooseRequired } from '@core/types'
 
 /**
  * Plain props type for the checkboxes element blueprint — the widest

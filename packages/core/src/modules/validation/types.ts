@@ -1,10 +1,10 @@
-import type { VueformInstance } from '~/helpers'
-import type { ConditionalProp } from '~/modules/conditions'
+import type { VueformInstance } from '@core/helpers'
+import type { ConditionalProp } from '@core/modules/conditions'
 import {
   type FormContext,
   type StatefulElement,
   type StandardSchemaV1,
-} from '~/types'
+} from '@core/types'
 import type { RULE_BRAND } from './symbols'
 import type { ComputedRef } from 'vue'
 

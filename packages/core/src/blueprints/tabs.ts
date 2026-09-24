@@ -1,5 +1,5 @@
-import { type Pager } from '~/composables'
-import { defineDefaults, type DefineEvents } from '~/helpers'
+import { type Pager } from '@core/composables'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -8,7 +8,7 @@ import type {
   BaseComponentExpose,
   BaseComponentClasses,
   LooseRequired,
-} from '~/types'
+} from '@core/types'
 
 /**
  * Props for the tabs component blueprint.

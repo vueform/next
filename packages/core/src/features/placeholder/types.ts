@@ -1,4 +1,4 @@
-import type { TProp } from '~/types'
+import type { TProp } from '@core/types'
 
 /**
  * @write

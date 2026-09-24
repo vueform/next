@@ -1,5 +1,5 @@
-import type { VueformInstance } from '~/helpers'
-import { resolveModules } from '~/helpers/resolveModules'
+import type { VueformInstance } from '@core/helpers'
+import { resolveModules } from '@core/helpers/resolveModules'
 import { noopExpression } from './noop'
 import type { ExpressionModule } from './types'
 

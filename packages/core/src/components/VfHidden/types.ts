@@ -6,8 +6,8 @@ import {
   type HiddenParts,
   type HiddenProps,
   type HiddenSlots,
-} from '~/blueprints/hidden'
-import type { DefineElementContext, DefineRegistryEntry } from '~/types'
+} from '@core/blueprints/hidden'
+import type { DefineElementContext, DefineRegistryEntry } from '@core/types'
 
 /**
  * Props for the VfHidden component.

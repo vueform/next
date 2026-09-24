@@ -10,7 +10,7 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
-import type { VueformRouter } from '~/modules/router'
+import type { VueformRouter } from '@core/modules/router'
 import { joinMaybeArrays } from './array'
 import { getGenericInstance } from './instance'
 

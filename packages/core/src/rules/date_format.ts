@@ -1,5 +1,5 @@
-import { useDate } from '~/composables'
-import { createRule } from '~/helpers'
+import { useDate } from '@core/composables'
+import { createRule } from '@core/helpers'
 
 /**
  * Validates that the value matches a specific date format.

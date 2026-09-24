@@ -1,5 +1,5 @@
 import { computed, toRef, useId, type MaybeRefOrGetter } from 'vue'
-import { getThemeModule } from '~/modules/theme'
+import { getThemeModule } from '@core/modules/theme'
 import { useConfig } from './useConfig'
 
 /**

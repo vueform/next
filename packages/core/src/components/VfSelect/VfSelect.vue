@@ -10,10 +10,14 @@
     TModel = any
   "
 >
-import { defaults, blueprint } from '~/blueprints/select'
-import { useBlueprint } from '~/composables'
-import type { ItemsProp, GroupChildrenProp, ItemValueProp } from '~/features'
-import { defineEvents } from '~/helpers'
+import { defaults, blueprint } from '@core/blueprints/select'
+import { useBlueprint } from '@core/composables'
+import type {
+  ItemsProp,
+  GroupChildrenProp,
+  ItemValueProp,
+} from '@core/features'
+import { defineEvents } from '@core/helpers'
 import type { VfSelectEmits, VfSelectProps, VfSelectSlots } from './types'
 
 defineOptions({

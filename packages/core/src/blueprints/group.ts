@@ -4,8 +4,8 @@ import {
   useFeatures,
   usePager,
   useSchema,
-} from '~/composables'
-import { useComponentContext } from '~/contexts'
+} from '@core/composables'
+import { useComponentContext } from '@core/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -29,9 +29,9 @@ import {
   type ModelEmits,
   type ObjectModel,
   type ValidationEmits,
-} from '~/features'
-import { defineDefaults, type DefineEvents } from '~/helpers'
-import type { FormSchema, LooseRequired } from '~/types'
+} from '@core/features'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
+import type { FormSchema, LooseRequired } from '@core/types'
 
 /**
  * Props for the group element blueprint.

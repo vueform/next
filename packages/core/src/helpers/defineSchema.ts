@@ -6,7 +6,7 @@ import type {
   MatchesSchemaModel,
   ObjectSchema,
   StandardSchemaV1,
-} from '~/types'
+} from '@core/types'
 
 // Side-table: never mutates the user's schema, GC'd with it. Reactive schemas
 // key by the computed ref (its getter returns a fresh object each time).

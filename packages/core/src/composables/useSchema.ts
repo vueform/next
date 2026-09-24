@@ -1,7 +1,7 @@
 import { computed, unref, type Ref } from 'vue'
-import { useComponentFactory, useSecurity } from '~/composables'
-import type { FormSchema, NamedElementSchema } from '~/types'
-import { typedEntries, warn, isDev } from '~/utils'
+import { useComponentFactory, useSecurity } from '@core/composables'
+import type { FormSchema, NamedElementSchema } from '@core/types'
+import { typedEntries, warn, isDev } from '@core/utils'
 
 /**
  * Resolves a form schema definition into a normalized array of named element

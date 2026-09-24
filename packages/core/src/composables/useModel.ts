@@ -1,4 +1,4 @@
-import { getModelModule, type ModelInstance } from '~/modules/model'
+import { getModelModule, type ModelInstance } from '@core/modules/model'
 import type {
   ArraySchema,
   DeepPartial,
@@ -8,7 +8,7 @@ import type {
   ObjectSchema,
   SchemaToModel,
   StandardSchemaV1,
-} from '~/types'
+} from '@core/types'
 import type { Ref } from 'vue'
 
 /**

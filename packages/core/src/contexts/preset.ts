@@ -1,5 +1,5 @@
-import { createContext } from '~/helpers'
-import type { NormalizedPresetDefinition } from '~/types'
+import { createContext } from '@core/helpers'
+import type { NormalizedPresetDefinition } from '@core/types'
 import type { Ref } from 'vue'
 
 /**

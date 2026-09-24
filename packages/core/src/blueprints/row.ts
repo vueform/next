@@ -1,7 +1,7 @@
 import { computed } from 'vue'
-import { useCurrentInstance } from '~/composables'
-import { createRowContext, useGridContext } from '~/contexts'
-import { defineDefaults, type DefineEvents } from '~/helpers'
+import { useCurrentInstance } from '@core/composables'
+import { createRowContext, useGridContext } from '@core/contexts'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -12,7 +12,7 @@ import type {
   AlignProp,
   ValignProp,
   LooseRequired,
-} from '~/types'
+} from '@core/types'
 
 /**
  * Props for the row component blueprint that represents a row within a grid.

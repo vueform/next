@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { defaults, blueprint } from '~/blueprints/group'
-import { useBlueprint } from '~/composables'
-import { defineEvents } from '~/helpers'
-import { schemaEntries } from '~/utils'
+import { defaults, blueprint } from '@core/blueprints/group'
+import { useBlueprint } from '@core/composables'
+import { defineEvents } from '@core/helpers'
+import { schemaEntries } from '@core/utils'
 import type { VfGroupEmits, VfGroupProps, VfGroupSlots } from './types'
 
 defineOptions({

@@ -1,6 +1,9 @@
 import { toRef, type Ref } from 'vue'
-import { useComponentContext, useFormContext } from '~/contexts'
-import { getConditionsModule, type ConditionalProp } from '~/modules/conditions'
+import { useComponentContext, useFormContext } from '@core/contexts'
+import {
+  getConditionsModule,
+  type ConditionalProp,
+} from '@core/modules/conditions'
 import type { UseConditionsOptions } from './useConditions'
 
 /**

@@ -6,8 +6,8 @@ import type {
   ListParts,
   ListProps,
   ListSlots,
-} from '~/blueprints/list'
-import type { ArrayModel } from '~/features'
+} from '@core/blueprints/list'
+import type { ArrayModel } from '@core/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -21,7 +21,7 @@ import type {
   SchemaToModel,
   WidenProps,
   EntrySchemaOf,
-} from '~/types'
+} from '@core/types'
 import type { Component, VNode } from 'vue'
 
 /**

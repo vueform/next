@@ -1,6 +1,6 @@
-import { useDynamicProp } from '~/composables'
-import { defineFeature } from '~/helpers'
-import type { TProp } from '~/types'
+import { useDynamicProp } from '@core/composables'
+import { defineFeature } from '@core/helpers'
+import type { TProp } from '@core/types'
 
 /**
  * Configuration for the icons factory providing before/after icon props.

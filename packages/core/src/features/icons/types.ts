@@ -3,7 +3,7 @@ import {
   type DomAttrsOf,
   type PartOf,
   type DProp,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

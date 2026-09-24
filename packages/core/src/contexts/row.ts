@@ -1,4 +1,4 @@
-import { createContext } from '~/helpers'
+import { createContext } from '@core/helpers'
 import type { GridContext } from './'
 import type { ComputedRef } from 'vue'
 

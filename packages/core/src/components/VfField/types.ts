@@ -6,7 +6,7 @@ import {
   type FieldParts,
   type FieldProps,
   type FieldSlots,
-} from '~/blueprints/field'
+} from '@core/blueprints/field'
 import type {
   AddonsSlots,
   IconsClasses,
@@ -18,7 +18,7 @@ import type {
   AddonGroupClasses,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '~/features'
+} from '@core/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -26,7 +26,7 @@ import type {
   DomAttrsOf,
   EntryPropOr,
   LanguagesProp,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

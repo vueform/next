@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="const TMultiple extends boolean = false">
-import { defaults, blueprint } from '~/blueprints/file'
-import { useBlueprint } from '~/composables'
-import { defineEvents } from '~/helpers'
+import { defaults, blueprint } from '@core/blueprints/file'
+import { useBlueprint } from '@core/composables'
+import { defineEvents } from '@core/helpers'
 import type { VfFileEmits, VfFileProps, VfFileSlots } from './types'
 
 defineOptions({

@@ -5,7 +5,7 @@ import type {
   ExpressionsProp,
   PageProp,
   TProp,
-} from '~/types'
+} from '@core/types'
 
 /**
  * @write

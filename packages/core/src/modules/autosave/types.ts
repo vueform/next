@@ -1,5 +1,5 @@
-import type { HttpError, HttpResponse, RequestMethod } from '~/modules/http'
-import type { EndpointHandler } from '~/types'
+import type { HttpError, HttpResponse, RequestMethod } from '@core/modules/http'
+import type { EndpointHandler } from '@core/types'
 import type { ComputedRef, Ref } from 'vue'
 
 /**

@@ -4,8 +4,8 @@ import {
   useFeatures,
   useLocale,
   useSecurity,
-} from '~/composables'
-import { useComponentContext } from '~/contexts'
+} from '@core/composables'
+import { useComponentContext } from '@core/contexts'
 import {
   makeAria,
   makeData,
@@ -34,10 +34,10 @@ import {
   type InputEmits,
   type ValidationEmits,
   type ModelApi,
-} from '~/features'
-import { defineDefaults, type DefineEvents } from '~/helpers'
-import type { SecurityModule } from '~/modules/security'
-import type { DProp, FileProp, LooseRequired, TProp } from '~/types'
+} from '@core/features'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
+import type { SecurityModule } from '@core/modules/security'
+import type { DProp, FileProp, LooseRequired, TProp } from '@core/types'
 
 /**
  * The model value type carried by the file element's wide props.

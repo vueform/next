@@ -6,10 +6,10 @@ import {
   getResolvedProps,
   useHttp,
   useLocale,
-} from '~/composables'
-import { useFormContext } from '~/contexts'
-import { createContext } from '~/helpers'
-import type { UnknownComponent } from '~/types'
+} from '@core/composables'
+import { useFormContext } from '@core/contexts'
+import { createContext } from '@core/helpers'
+import type { UnknownComponent } from '@core/types'
 
 /**
  * Symbol key under which a component's exposed context carries its class

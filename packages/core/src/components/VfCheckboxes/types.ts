@@ -6,8 +6,8 @@ import {
   type CheckboxesParts,
   type CheckboxesProps,
   type CheckboxesSlots,
-} from '~/blueprints/checkboxes'
-import type { VfCheckboxSlots } from '~/components/VfCheckbox/types'
+} from '@core/blueprints/checkboxes'
+import type { VfCheckboxSlots } from '@core/components/VfCheckbox/types'
 import type {
   ResolvedGroup,
   ResolvedItem,
@@ -20,7 +20,7 @@ import type {
   EntryItemValueKeyOf,
   EntryItemValueReturnOf,
   EntryGroupChildrenOf,
-} from '~/features'
+} from '@core/features'
 import type {
   WidenProps,
   ClassValue,
@@ -28,7 +28,7 @@ import type {
   DefineRegistryEntry,
   DomAttrsOf,
   PartOf,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

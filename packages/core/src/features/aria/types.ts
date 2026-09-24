@@ -1,4 +1,4 @@
-import type { AriaProp } from '~/types'
+import type { AriaProp } from '@core/types'
 
 /**
  * @write

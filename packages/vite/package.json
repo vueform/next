@@ -15,11 +15,6 @@
   "files": [
     "dist"
   ],
-  "scripts": {
-    "build": "rm -rf dist && tsc",
-    "typecheck": "tsc -p tsconfig.json --noEmit",
-    "tsc": "pnpm typecheck"
-  },
   "peerDependencies": {
     "vite": "catalog:peer"
   },

@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { useAttrs } from 'vue'
-import { defaults, blueprint } from '~/blueprints/button'
-import { useBlueprint } from '~/composables'
-import { defineEvents } from '~/helpers'
+import { defaults, blueprint } from '@core/blueprints/button'
+import { useBlueprint } from '@core/composables'
+import { defineEvents } from '@core/helpers'
 import type { VfButtonEmits, VfButtonProps, VfButtonSlots } from './types'
 
 defineOptions({ name: 'VfButton', element: true, inheritAttrs: false })

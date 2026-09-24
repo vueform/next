@@ -10,7 +10,7 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
-import type { NavPosProp } from '~/blueprints/nav'
+import type { NavPosProp } from '@core/blueprints/nav'
 import {
   useAutosave,
   useChildren,
@@ -26,31 +26,31 @@ import {
   useHttp,
   useLocale,
   useTokens,
-} from '~/composables'
-import { createFormContext, createContainerContext } from '~/contexts'
-import type { StackedProps, TabbedEmits, TabbedProps } from '~/features'
+} from '@core/composables'
+import { createFormContext, createContainerContext } from '@core/contexts'
+import type { StackedProps, TabbedEmits, TabbedProps } from '@core/features'
 import {
   defineDefaults,
   getAttachedValidationSchema,
   type DefineEvents,
-} from '~/helpers'
-import type { AutosaveProp } from '~/modules/autosave'
+} from '@core/helpers'
+import type { AutosaveProp } from '@core/modules/autosave'
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
-} from '~/modules/conditions'
-import { getExpressionModule } from '~/modules/expression'
+} from '@core/modules/conditions'
+import { getExpressionModule } from '@core/modules/expression'
 import {
   HttpError,
   type HttpResponse,
   type RequestMethod,
-} from '~/modules/http'
+} from '@core/modules/http'
 import {
   getModelModule,
   type ModelInstance,
   type ModelNode,
-} from '~/modules/model'
-import { getValidationModule, type Issue } from '~/modules/validation'
+} from '@core/modules/model'
+import { getValidationModule, type Issue } from '@core/modules/validation'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -77,7 +77,7 @@ import type {
   Paths,
   SchemaToModel,
   StandardSchemaV1,
-} from '~/types'
+} from '@core/types'
 import {
   get as getByPath,
   isPlainObject,
@@ -85,7 +85,7 @@ import {
   scrollIntoViewIfNeeded,
   warn,
   isDev,
-} from '~/utils'
+} from '@core/utils'
 
 /**
  * The non-generic bulk of the form factory API, computed and cached once at the

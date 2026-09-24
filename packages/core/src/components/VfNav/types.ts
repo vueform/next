@@ -8,9 +8,9 @@ import type {
   NavSlots,
   NavExpose,
   NavClasses,
-} from '~/blueprints/nav'
-import type { Pager } from '~/composables'
-import type { ConditionalProp } from '~/modules/conditions'
+} from '@core/blueprints/nav'
+import type { Pager } from '@core/composables'
+import type { ConditionalProp } from '@core/modules/conditions'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,
@@ -18,7 +18,7 @@ import {
   type DomAttrsOf,
   type PartOf,
   type TProp,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

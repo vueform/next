@@ -6,14 +6,18 @@ import {
   type LayoutParts,
   type LayoutSlots,
   type LayoutClasses,
-} from '~/blueprints/layout'
-import type { TabbedSlots, AddonGroupClasses, IconsClasses } from '~/features'
+} from '@core/blueprints/layout'
+import type {
+  TabbedSlots,
+  AddonGroupClasses,
+  IconsClasses,
+} from '@core/features'
 import type {
   DefineElementContext,
   ClassValue,
   HeadingProp,
   DefineRegistryEntry,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

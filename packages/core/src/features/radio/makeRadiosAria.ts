@@ -1,7 +1,7 @@
 import { computed } from 'vue'
-import { type makeLayout, type makeData } from '~/features'
-import { defineFeature } from '~/helpers'
-import type { ReturnsOf } from '~/types'
+import { type makeLayout, type makeData } from '@core/features'
+import { defineFeature } from '@core/helpers'
+import type { ReturnsOf } from '@core/types'
 
 /**
  * Configuration for the radios group ARIA factory resolving invalid, required,

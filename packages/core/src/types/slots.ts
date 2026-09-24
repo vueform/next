@@ -1,4 +1,4 @@
-import type { ComponentRegistry } from '~/types'
+import type { ComponentRegistry } from '@core/types'
 import type { Component } from 'vue'
 
 /**

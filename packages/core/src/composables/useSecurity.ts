@@ -1,4 +1,4 @@
-import { getSecurityModule, type SecurityModule } from '~/modules/security'
+import { getSecurityModule, type SecurityModule } from '@core/modules/security'
 
 /**
  * Returns the security module (sanitizer and `encrypt` / `decrypt` ciphers), or

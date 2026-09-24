@@ -1,5 +1,5 @@
-import type { VueformInstance } from '~/helpers'
-import { resolveVueform } from '~/helpers/resolveVueform'
+import type { VueformInstance } from '@core/helpers'
+import { resolveVueform } from '@core/helpers/resolveVueform'
 import { noopSecurity } from './noop'
 import type { SecurityModule } from './types'
 

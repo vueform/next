@@ -1,3 +1,3 @@
 export { default } from './VfElements.vue'
 export type * from './types'
-export { defaults, blueprint } from '~/blueprints/elements'
+export { defaults, blueprint } from '@core/blueprints/elements'

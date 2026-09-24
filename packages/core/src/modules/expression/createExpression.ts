@@ -1,6 +1,6 @@
 import { computed, ref, watch, type WatchHandle } from 'vue'
-import type { VueformInstance } from '~/helpers'
-import type { ModelNode, SchemaIndex } from '~/modules/model'
+import type { VueformInstance } from '@core/helpers'
+import type { ModelNode, SchemaIndex } from '@core/modules/model'
 import {
   get as getByPath,
   getComponentDef,
@@ -8,7 +8,7 @@ import {
   normalize,
   warn as vfWarn,
   isDev,
-} from '~/utils'
+} from '@core/utils'
 import { noopExpression } from './noop'
 import type {
   ExpressionInitOptions,

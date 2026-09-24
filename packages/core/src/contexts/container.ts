@@ -1,6 +1,6 @@
 import { toRef, unref, type MaybeRef, type Ref } from 'vue'
-import type { Pager, VueformChildren } from '~/composables'
-import { createContext } from '~/helpers'
+import type { Pager, VueformChildren } from '@core/composables'
+import { createContext } from '@core/helpers'
 
 /**
  * Context for a container component (form, list, group, etc.) managing child

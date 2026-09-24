@@ -1,4 +1,4 @@
-import type { HttpResponse } from '~/modules/http'
+import type { HttpResponse } from '@core/modules/http'
 import {
   type AddonSchema,
   type ClassInput,
@@ -6,7 +6,7 @@ import {
   type LooseClasses,
   type OpenObject,
   type PresetDefinition,
-} from '~/types'
+} from '@core/types'
 import type { Component, Ref } from 'vue'
 
 /**

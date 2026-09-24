@@ -1,5 +1,5 @@
-import { createRule } from '~/helpers'
-import { isFile } from '~/utils'
+import { createRule } from '@core/helpers'
+import { isFile } from '@core/utils'
 
 /**
  * Validates that the file has an allowed MIME type.

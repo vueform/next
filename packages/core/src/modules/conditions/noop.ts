@@ -1,5 +1,5 @@
 import { shallowRef, type Ref } from 'vue'
-import { alwaysTrue } from '~/utils'
+import { alwaysTrue } from '@core/utils'
 import type { ConditionsModule } from './types'
 
 // Never mutated — shared by every caller.

@@ -1,6 +1,10 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import { corePackage, nonCoreAdapters, type AdapterDef } from '../lib/adapters'
+import {
+  corePackage,
+  nonCoreAdapters,
+  type AdapterDef,
+} from '../lib/adapters.js'
 import {
   classifyPropSources,
   createProgram,
@@ -25,8 +29,8 @@ import {
   type SlotInfo,
   type DefaultEntry,
 } from '../lib/extract.js'
-import { generatedDir, monorepoRoot } from '../lib/paths'
-import { parseScope } from '../lib/scope'
+import { generatedDir, monorepoRoot } from '../lib/paths.js'
+import { parseScope } from '../lib/scope.js'
 
 // =============== PATHS ================
 

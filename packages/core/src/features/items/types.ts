@@ -1,8 +1,8 @@
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
-} from '~/modules/conditions'
-import type { EntryPropOf } from '~/types'
+} from '@core/modules/conditions'
+import type { EntryPropOf } from '@core/types'
 import type { MaybeRef, Ref } from 'vue'
 
 /**

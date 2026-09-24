@@ -6,13 +6,13 @@ import {
   type ButtonParts,
   type ButtonProps,
   type ButtonSlots,
-} from '~/blueprints/button'
+} from '@core/blueprints/button'
 import type {
   DefineElementContext,
   DomAttrsOf,
   ClassValue,
   DefineRegistryEntry,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

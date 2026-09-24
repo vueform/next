@@ -1,4 +1,4 @@
-import type { PresetDefinition, NormalizedPresetDefinition } from '~/types'
+import type { PresetDefinition, NormalizedPresetDefinition } from '@core/types'
 
 /**
  * Normalizes a preset definition into an array with resolved `$apply`,

@@ -5,16 +5,16 @@ import {
   useConditions,
   useMessageBag,
   useTokens,
-} from '~/composables'
-import { useComponentContext, useFormContext } from '~/contexts'
-import { type makeDisabled, type makeElement } from '~/features'
-import { defineFeature, type FeatureEvents } from '~/helpers'
+} from '@core/composables'
+import { useComponentContext, useFormContext } from '@core/contexts'
+import { type makeDisabled, type makeElement } from '@core/features'
+import { defineFeature, type FeatureEvents } from '@core/helpers'
 import {
   type ConditionalProp,
   type ConditionsTriggerProp,
-} from '~/modules/conditions'
-import type { LooseContext, ReturnsOf, ThemeTokens, TProp } from '~/types'
-import { resolveRouter } from '~/utils'
+} from '@core/modules/conditions'
+import type { LooseContext, ReturnsOf, ThemeTokens, TProp } from '@core/types'
+import { resolveRouter } from '@core/utils'
 
 /**
  * Configuration for the button factory providing click handling, loading state,

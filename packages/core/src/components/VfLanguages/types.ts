@@ -6,14 +6,14 @@ import {
   type LanguagesSlots,
   type LanguagesExpose,
   type LanguagesClasses,
-} from '~/blueprints/languages'
+} from '@core/blueprints/languages'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   ResolvedLanguagesProp,
   DefineRegistryEntry,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

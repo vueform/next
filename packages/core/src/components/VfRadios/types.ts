@@ -6,8 +6,8 @@ import {
   type RadiosParts,
   type RadiosProps,
   type RadiosSlots,
-} from '~/blueprints/radios'
-import type { VfRadioSlots } from '~/components/VfRadio/types'
+} from '@core/blueprints/radios'
+import type { VfRadioSlots } from '@core/components/VfRadio/types'
 import type {
   ResolvedGroup,
   ResolvedItem,
@@ -20,7 +20,7 @@ import type {
   EntryItemValueKeyOf,
   EntryItemValueReturnOf,
   EntryGroupChildrenOf,
-} from '~/features'
+} from '@core/features'
 import type {
   WidenProps,
   ClassValue,
@@ -28,7 +28,7 @@ import type {
   DefineRegistryEntry,
   DomAttrsOf,
   PartOf,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

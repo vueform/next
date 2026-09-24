@@ -1,8 +1,8 @@
 import { computed } from 'vue'
-import { useDynamicProp } from '~/composables'
-import type { makeElement } from '~/features'
-import { defineFeature } from '~/helpers'
-import type { ReturnsOf, TProp } from '~/types'
+import { useDynamicProp } from '@core/composables'
+import type { makeElement } from '@core/features'
+import { defineFeature } from '@core/helpers'
+import type { ReturnsOf, TProp } from '@core/types'
 
 /**
  * Configuration for the checkbox name factory resolving the HTML name

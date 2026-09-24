@@ -6,15 +6,15 @@ import {
   useOutlets,
   useSecurity,
   useTokens,
-} from '~/composables'
-import { useElementContext } from '~/contexts'
+} from '@core/composables'
+import { useElementContext } from '@core/contexts'
 import {
   type LoadingProps,
   type BaseElementParts,
   type BaseElementSlots,
   type BaseElementClasses,
-} from '~/features'
-import { defineDefaults, type DefineEvents } from '~/helpers'
+} from '@core/features'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -23,12 +23,12 @@ import type {
   ErrorLevelProp,
   LooseRequired,
   ShowRequiredProp,
-} from '~/types'
+} from '@core/types'
 import {
   withDefaultProps as withDefaultPropsBase,
   pickRefs,
   mergeClass,
-} from '~/utils'
+} from '@core/utils'
 
 /**
  * Props for the element layout blueprint that provides layout, labels, and

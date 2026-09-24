@@ -1,23 +1,23 @@
-import { useData, type CastOption } from '~/composables'
+import { useData, type CastOption } from '@core/composables'
 import {
   type makeElement,
   type makeInteraction,
   type makeMultilingual,
-} from '~/features'
+} from '@core/features'
 import {
   defineFeature,
   type FeatureContext,
   type FeatureEvents,
-} from '~/helpers'
-import type { RulesProp, TRulesProp } from '~/modules/validation'
+} from '@core/helpers'
+import type { RulesProp, TRulesProp } from '@core/modules/validation'
 import type {
   Booleanish,
   ElementName,
   LanguagesProp,
   ReturnsOf,
   RuleMessagesProp,
-} from '~/types'
-import { pickRefs } from '~/utils'
+} from '@core/types'
+import { pickRefs } from '@core/utils'
 import type { Ref, WritableComputedRef } from 'vue'
 
 /**

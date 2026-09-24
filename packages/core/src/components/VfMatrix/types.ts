@@ -8,8 +8,8 @@ import type {
   MatrixProps,
   MatrixSlots,
   ResolvedMatrixCol,
-} from '~/blueprints/matrix'
-import type { ObjectModel } from '~/features'
+} from '@core/blueprints/matrix'
+import type { ObjectModel } from '@core/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -24,7 +24,7 @@ import type {
   WidenProps,
   UnwrapEntryRef,
   WidenScalar,
-} from '~/types'
+} from '@core/types'
 import type { Component, VNode } from 'vue'
 
 /**

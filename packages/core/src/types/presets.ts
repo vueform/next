@@ -1,4 +1,4 @@
-import { type ComponentNames, type MaybeArray } from '~/types'
+import { type ComponentNames, type MaybeArray } from '@core/types'
 import type { ComponentOptions } from 'vue'
 
 /**

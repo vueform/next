@@ -15,10 +15,10 @@ import type {
   VfFormContext,
   VfFormEmits,
   VfFormProps,
-} from '~/components/VfForm/types'
-import type { VueformInstance } from '~/helpers'
-import { resolveVueform } from '~/helpers/resolveVueform'
-import type { ModelInstance } from '~/modules/model'
+} from '@core/components/VfForm/types'
+import type { VueformInstance } from '@core/helpers'
+import { resolveVueform } from '@core/helpers/resolveVueform'
+import type { ModelInstance } from '@core/modules/model'
 import type {
   ArraySchema,
   DeepPartial,
@@ -29,7 +29,7 @@ import type {
   ObjectSchema,
   SchemaToModel,
   StandardSchemaV1,
-} from '~/types'
+} from '@core/types'
 
 /**
  * Registers a callback fired with the form context once the form is mounted

@@ -4,7 +4,7 @@ import {
   type PartOf,
   type ClassValue,
   type DomAttrsOf,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

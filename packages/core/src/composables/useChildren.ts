@@ -5,9 +5,9 @@ import {
   type ShallowReactive,
   type Ref,
 } from 'vue'
-import { defineEvents } from '~/helpers'
-import type { ElementName, StatefulElement } from '~/types'
-import { lazyComputed } from '~/utils'
+import { defineEvents } from '@core/helpers'
+import type { ElementName, StatefulElement } from '@core/types'
+import { lazyComputed } from '@core/utils'
 
 /**
  * Event map for child element registration and unregistration.

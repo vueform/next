@@ -1,7 +1,7 @@
 import { computed, ref } from 'vue'
-import { type makeDisabled, type makeRData } from '~/features'
-import { defineFeature } from '~/helpers'
-import type { ReturnsOf } from '~/types'
+import { type makeDisabled, type makeRData } from '@core/features'
+import { defineFeature } from '@core/helpers'
+import type { ReturnsOf } from '@core/types'
 
 /**
  * Configuration for the sortable factory enabling drag-and-drop reordering of

@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { defaults, blueprint } from '~/blueprints/content'
-import { useBlueprint } from '~/composables'
-import { defineEvents } from '~/helpers'
+import { defaults, blueprint } from '@core/blueprints/content'
+import { useBlueprint } from '@core/composables'
+import { defineEvents } from '@core/helpers'
 import type { VfContentEmits, VfContentProps, VfContentSlots } from './types'
 
 defineOptions({ name: 'VfContent', element: true, inheritAttrs: false })

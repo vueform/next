@@ -6,7 +6,7 @@ import {
   type ColParts,
   type ColProps,
   type ColSlots,
-} from '~/blueprints/col'
+} from '@core/blueprints/col'
 import type {
   DefineElementContext,
   AlignProp,
@@ -14,7 +14,7 @@ import type {
   DomAttrsOf,
   ValignProp,
   DefineRegistryEntry,
-} from '~/types'
+} from '@core/types'
 import type { VNode } from 'vue'
 
 /**

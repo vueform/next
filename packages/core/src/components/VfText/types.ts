@@ -6,7 +6,7 @@ import {
   type TextParts,
   type TextProps,
   type TextSlots,
-} from '~/blueprints/text'
+} from '@core/blueprints/text'
 import type {
   AddonsSlots,
   IconsClasses,
@@ -19,7 +19,7 @@ import type {
   AddonGroupParts,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '~/features'
+} from '@core/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -27,7 +27,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   LanguagesProp,
-} from '~/types'
+} from '@core/types'
 
 /**
  * VfText props narrowed from a registry `TEntry` payload, applying the entry's

@@ -6,7 +6,7 @@ import type {
   MatchesSchemaModel,
   ObjectSchema,
   StandardSchemaV1,
-} from '~/types'
+} from '@core/types'
 import { attachValidationSchema } from './defineSchema'
 
 /**

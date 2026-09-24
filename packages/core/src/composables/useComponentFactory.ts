@@ -4,8 +4,8 @@ import {
   type Component,
   type FunctionalComponent,
 } from 'vue'
-import type { SecurityHtmlArea } from '~/modules/security'
-import { containsHtml, kebabToPascal } from '~/utils'
+import type { SecurityHtmlArea } from '@core/modules/security'
+import { containsHtml, kebabToPascal } from '@core/utils'
 import { useExpression } from './useExpression'
 import { useSecurity } from './useSecurity'
 

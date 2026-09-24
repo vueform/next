@@ -1,12 +1,12 @@
 import { ref } from 'vue'
-import { useConfig, useCurrentInstance } from '~/composables'
-import type { UnionToIntersection } from '~/types'
+import { useConfig, useCurrentInstance } from '@core/composables'
+import type { UnionToIntersection } from '@core/types'
 import {
   isThenable,
   toKebabCase,
   toPascalCase,
   getInstanceRawProp,
-} from '~/utils'
+} from '@core/utils'
 
 /**
  * Converts a Vue emit declaration record into a map of event names to their

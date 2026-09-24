@@ -1,4 +1,4 @@
-import { useFeatures } from '~/composables'
+import { useFeatures } from '@core/composables'
 import {
   makeAddons,
   makeElement,
@@ -41,9 +41,9 @@ import {
   type InputEmits,
   type ValidationEmits,
   type TranslatableModelApi,
-} from '~/features'
-import { defineDefaults, type DefineEvents } from '~/helpers'
-import type { InputTypeProp, LanguagesProp, LooseRequired } from '~/types'
+} from '@core/features'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
+import type { InputTypeProp, LanguagesProp, LooseRequired } from '@core/types'
 
 /**
  * The model value type carried by the text element's wide props.

@@ -4,7 +4,7 @@ import {
   useFeatures,
   useMessageBag,
   useSecurity,
-} from '~/composables'
+} from '@core/composables'
 import {
   makeElement,
   makeLayout,
@@ -16,10 +16,10 @@ import {
   type BaseElementExpose,
   type BaseElementSlots,
   type LayoutProps,
-} from '~/features'
-import { defineDefaults, type DefineEvents } from '~/helpers'
-import type { AlignProp, LooseRequired, TProp } from '~/types'
-import { containsHtml } from '~/utils'
+} from '@core/features'
+import { defineDefaults, type DefineEvents } from '@core/helpers'
+import type { AlignProp, LooseRequired, TProp } from '@core/types'
+import { containsHtml } from '@core/utils'
 
 /**
  * Props for the content element blueprint.

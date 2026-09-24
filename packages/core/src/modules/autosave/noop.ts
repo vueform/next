@@ -1,5 +1,5 @@
 import { unref, watch } from 'vue'
-import { warn, isDev } from '~/utils'
+import { warn, isDev } from '@core/utils'
 import type {
   AutosaveInstance,
   AutosaveModule,

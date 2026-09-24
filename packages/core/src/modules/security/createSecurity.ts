@@ -1,4 +1,4 @@
-import type { VueformInstance } from '~/helpers'
+import type { VueformInstance } from '@core/helpers'
 import {
   isClient,
   isDev,
@@ -7,7 +7,7 @@ import {
   own,
   toCamelCase,
   warn,
-} from '~/utils'
+} from '@core/utils'
 import type {
   SecurityHtmlArea,
   SecurityModule,

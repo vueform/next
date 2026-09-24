@@ -9,10 +9,14 @@
     TModel = any
   "
 >
-import { defaults, blueprint } from '~/blueprints/radios'
-import { useBlueprint } from '~/composables'
-import type { ItemsProp, ItemValueProp, GroupChildrenProp } from '~/features'
-import { defineEvents } from '~/helpers'
+import { defaults, blueprint } from '@core/blueprints/radios'
+import { useBlueprint } from '@core/composables'
+import type {
+  ItemsProp,
+  ItemValueProp,
+  GroupChildrenProp,
+} from '@core/features'
+import { defineEvents } from '@core/helpers'
 import type { VfRadiosEmits, VfRadiosProps, VfRadiosSlots } from './types'
 
 defineOptions({ name: 'VfRadios', element: true, inheritAttrs: false })
