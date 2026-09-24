@@ -157,8 +157,7 @@
     "./dist/vapor/material.mjs"
   ],
   "dependencies": {
-    "@vueform/core": "workspace:^",
-    "@vueform/devtools": "workspace:^"
+    "@vueform/core": "workspace:^"
   },
   "devDependencies": {
     "@playwright/test": "catalog:",
@@ -168,7 +167,6 @@
     "fast-glob": "catalog:",
     "sass-embedded": "catalog:",
     "terser": "catalog:",
-    "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
     "vue-vapor": "catalog:"

@@ -21,7 +21,6 @@
     "isomorphic-dompurify": "catalog:"
   },
   "devDependencies": {
-    "vite": "catalog:",
     "vite-plugin-dts": "catalog:"
   },
   "peerDependencies": {

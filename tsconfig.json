@@ -1,8 +1,7 @@
 {
   "compilerOptions": {
-    "outDir": "temp",
     "sourceMap": false,
-    "target": "es2016",
+    "target": "ES2022",
     "newLine": "LF",
     "useDefineForClassFields": false,
     "module": "esnext",
@@ -16,33 +15,16 @@
     "skipLibCheck": true,
     "esModuleInterop": true,
     "removeComments": false,
+    "isolatedDeclarations": false,
+    "composite": true,
     "jsx": "preserve",
-    "lib": ["es2016", "dom"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "types": ["vitest/globals", "node"],
-    "rootDir": ".",
-    "paths": {
-      "@core": ["./packages/core/src"],
-      "@core/components/*/raw": ["./packages/core/src/components/*/index.ts"],
-      "@core/components/*": ["./packages/core/src/components/*/unstyled.ts"],
-      "@vueform/core/*": ["./packages/core/src"],
-      "@ui": ["./packages/ui/src"],
-      "@ui/components/*/raw": ["./packages/ui/src/components/*/index.ts"],
-      "@ui/components/*": ["./packages/ui/src/components/*/unstyled.ts"],
-      "@vueform/ui/*": ["./packages/ui/src"],
-      "@primevue": ["./packages/primevue/src"],
-      "@primevue/components/*/raw": ["./packages/primevue/src/components/*/index.ts"],
-      "@primevue/components/*": ["./packages/primevue/src/components/*/unstyled.ts"],
-      "@vueform/primevue/*": ["./packages/primevue/src"]
-    },
-    "isolatedDeclarations": true,
-    "composite": true
+    "rootDir": "."
   },
   "include": [
-    "packages/*/src",
-    "packages/*/tests",
-    "packages/*/scripts",
-    "scripts/*",
-    "**/*.config.ts",
-    "**/*.config.*.ts"
+    "packages/cli/src",
+    "packages/cli/tests",
+    "packages/cli/*.config.ts"
   ]
 }

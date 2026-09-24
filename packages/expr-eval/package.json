@@ -28,7 +28,6 @@
     "group": "plugins"
   },
   "devDependencies": {
-    "vite": "catalog:",
     "vite-plugin-dts": "catalog:"
   }
 }

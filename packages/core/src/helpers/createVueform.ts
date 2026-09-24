@@ -1,4 +1,14 @@
 import {
+  shouldApplyPlugin,
+  useForm,
+  useHttp,
+  type useModel,
+} from '@core/composables'
+import { defaultConfig } from '@core/config'
+import { createVueformContext } from '@core/contexts'
+import { getLocaleModule, type LocaleModule } from '@core/modules/locale'
+import { mergeProp, normalizePreset, warn, isDev } from '@core/utils'
+import {
   isReactive,
   isRef,
   onUnmounted,
@@ -7,23 +17,6 @@ import {
   watch,
   type App,
 } from 'vue'
-import {
-  shouldApplyPlugin,
-  useForm,
-  useHttp,
-  type useModel,
-} from '@core/composables'
-import { defaultConfig } from '@core/config'
-import { createVueformContext } from '@core/contexts'
-import type { HttpInstance } from '@core/modules/http'
-import { getLocaleModule, type LocaleModule } from '@core/modules/locale'
-import type {
-  ComponentNames,
-  NormalizedPresetDefinition,
-  PresetDefinition,
-  VueformComponent,
-} from '@core/types'
-import { mergeProp, normalizePreset, warn, isDev } from '@core/utils'
 import {
   type UserConfig,
   type VueformConfig,
@@ -34,6 +27,13 @@ import {
 import { extendTheme } from './extendTheme'
 import type { VueformModule } from './defineModule'
 import type { VueformPlugin } from './definePlugin'
+import type { HttpInstance } from '@core/modules/http'
+import type {
+  ComponentNames,
+  NormalizedPresetDefinition,
+  PresetDefinition,
+  VueformComponent,
+} from '@core/types'
 
 // @todo: shouldn't this be moved into helpers?
 

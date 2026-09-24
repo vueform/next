@@ -244,12 +244,7 @@ export function vueformDev(adapter: Adapter): Plugin {
         },
         {
           find: new RegExp(`^${adapterScope}$`),
-          replacement: p(`packages/${adapterPkg}/src/index.ts`),
-        },
-        {
-          find: '@vueform/devtools',
-          replacement: p('packages/devtools/src/index.ts'),
-        },
+          replacement: p(`packages/${adapterPkg}/src/index.ts`)
       ]
 
       return { resolve: { alias } }

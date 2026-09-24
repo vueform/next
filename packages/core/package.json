@@ -102,9 +102,6 @@
     "**/*.css",
     "**/*.scss"
   ],
-  "dependencies": {
-    "@vueform/devtools": "workspace:^"
-  },
   "devDependencies": {
     "@nuxt/kit": "catalog:",
     "@nuxt/schema": "catalog:",
@@ -115,9 +112,7 @@
     "fast-glob": "catalog:",
     "happy-dom": "catalog:",
     "sass-embedded": "catalog:",
-    "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
-    "vitest": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
     "vue-vapor": "catalog:",
     "zod": "catalog:"

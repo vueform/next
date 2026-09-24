@@ -23,7 +23,6 @@
   },
   "devDependencies": {
     "@nuxt/kit": "^3.17.5",
-    "@nuxt/schema": "^3.17.5",
-    "@vueform/cli": "workspace:*"
+    "@nuxt/schema": "^3.17.5"
   }
 }

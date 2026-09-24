@@ -164,9 +164,7 @@
     "quill": "catalog:",
     "sass-embedded": "catalog:",
     "terser": "catalog:",
-    "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
-    "vitest": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
     "vue-vapor": "catalog:"
   },

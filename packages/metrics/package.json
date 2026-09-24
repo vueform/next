@@ -19,8 +19,6 @@
     "primevue": "catalog:",
     "quill": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
-    "vite": "catalog:",
-    "vitest": "catalog:",
     "vue": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
     "vue-vapor": "catalog:"
