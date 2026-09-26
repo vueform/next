@@ -202,12 +202,11 @@ export function selectTasks(tasks: Task[], args: string[]): Task[] {
     const matches = matchTasks(tasks, raw)
     if (matches.length === 0) {
       const groups = new Set(tasks.map((t) => t.group).filter(Boolean))
-      const available = tasks
-        .map((t) => [t.id, ...t.aliases].join('/'))
-        .join(', ')
-      console.error(
-        `Unknown selector "${raw}". Available: ${available}, ${[...groups].join(', ')}`
-      )
+      const available = [
+        ...tasks.map((t) => [t.id, ...t.aliases].join('/')),
+        ...groups,
+      ].join(', ')
+      console.error(`Unknown selector "${raw}". Available: ${available}`)
       process.exit(1)
     }
     for (const task of matches) selected.add(task)
