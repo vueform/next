@@ -1,3 +1,11 @@
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  ResolvedLanguagesProp,
+  DefineRegistryEntry,
+} from '#core/types'
+import type { VNode } from 'vue'
 import {
   type LanguagesApi,
   type LanguagesProps,
@@ -6,22 +14,13 @@ import {
   type LanguagesSlots,
   type LanguagesExpose,
   type LanguagesClasses,
-} from '@core/blueprints/languages'
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  ResolvedLanguagesProp,
-  DefineRegistryEntry,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/blueprints/languages'
 
 /**
  * Props for the VfLanguages component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfLanguagesProps extends LanguagesProps<
   VfLanguagesSlots,

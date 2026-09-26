@@ -1,6 +1,6 @@
-import { defineSchema, isComponentDefinition, mergeProp } from '@vueform/core'
 import { defineComponent, h, nextTick } from 'vue'
 import { createForm } from '../../helpers'
+import { defineSchema, isComponentDefinition, mergeProp } from '#core'
 
 // `template` and `layout` are ordinary props, so app-wide templates are config
 // `defaults`. The catch: a compiled SFC / `defineComponent` result is a plain

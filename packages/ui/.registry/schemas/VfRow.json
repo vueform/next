@@ -3,20 +3,19 @@
   "name": "VfRow",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Grid row layout component",
+  "version": "2.0.0-alpha.1",
+  "description": "VfRow component",
   "files": [
     {
       "path": "VfRow.vue",
       "target": "{componentsDir}/VfRow.vue",
       "kind": "component",
-      "hash": "sha256:03f50c5795bd003d8b63b57272da906df93c532f36b76a79d57c9223aff9726a"
+      "hash": "sha256:50449831ba19b0368a252c29f6ebcf81ed1a668e88facc5eb20047a4e1566f28"
     }
   ],
   "imports": [
-    "@vueform/ui/blueprints/row",
-    "@vueform/ui",
     "@vueform/ui/components/VfRow",
+    "@vueform/ui",
     "@vueform/ui/grid.css"
   ],
   "dependencies": {},
@@ -28,5 +27,5 @@
     "component": "VfRow",
     "import": "{componentsDir}/VfRow.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

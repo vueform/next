@@ -4,13 +4,14 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/primevue/blueprints/row'
-import { useBlueprint, defineEvents } from '@vueform/primevue'
-import type {
-  VfRowEmits,
-  VfRowProps,
-  VfRowSlots,
+import {
+  type VfRowEmits,
+  type VfRowProps,
+  type VfRowSlots,
+  defaults,
+  blueprint,
 } from '@vueform/primevue/components/VfRow'
+import { useBlueprint, defineEvents } from '@vueform/primevue'
 import '@vueform/primevue/grid.css'
 
 defineOptions({ name: 'VfRow', inheritAttrs: false })

@@ -3,20 +3,19 @@
   "name": "VfCol",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Grid column layout component",
+  "version": "2.0.0-alpha.1",
+  "description": "VfCol component",
   "files": [
     {
       "path": "VfCol.vue",
       "target": "{componentsDir}/VfCol.vue",
       "kind": "component",
-      "hash": "sha256:ea019888bd96cb1678b82d9b01a855cefa871cc778ea107ec1dae23890ddf853"
+      "hash": "sha256:a5e65a1b7d3d7fde32badfcf9b50789df46144b5792bd331c9487dc5fb63a5fb"
     }
   ],
   "imports": [
-    "@vueform/ui/blueprints/col",
-    "@vueform/ui",
     "@vueform/ui/components/VfCol",
+    "@vueform/ui",
     "@vueform/ui/grid.css"
   ],
   "dependencies": {},
@@ -28,5 +27,5 @@
     "component": "VfCol",
     "import": "{componentsDir}/VfCol.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

@@ -8,17 +8,18 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/form'
 import {
+  type FormSchema,
   useConfig,
   useBlueprint,
   defineEvents,
-  type FormSchema,
 } from '@vueform/ui'
-import type {
-  VfFormEmits,
-  VfFormProps,
-  VfFormSlots,
+import {
+  type VfFormEmits,
+  type VfFormProps,
+  type VfFormSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfForm'
 import '@vueform/ui/form.css'
 

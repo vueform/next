@@ -1,4 +1,3 @@
-import { defineDefaults, type DefineEvents } from '@core/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -7,7 +6,8 @@ import type {
   BaseComponentExpose,
   BaseComponentClasses,
   LooseRequired,
-} from '@core/types'
+} from '#core/types'
+import { defineDefaults, type DefineEvents } from '#core/helpers'
 
 /**
  * Props for the elements component blueprint.

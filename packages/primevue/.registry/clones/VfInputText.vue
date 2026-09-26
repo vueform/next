@@ -35,6 +35,7 @@ import {
   type WidenProps,
 } from '@vueform/primevue'
 import PrimeInputText from 'primevue/inputtext'
+import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -46,7 +47,6 @@ import {
   type InputTextProps,
   type InputTextSlots,
 } from '@vueform/primevue/blueprints/input-text'
-import type { WritableComputedRef } from 'vue'
 import type { InputTextProps as PvInputTextProps } from 'primevue'
 
 /**

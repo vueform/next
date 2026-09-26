@@ -1,4 +1,3 @@
-import { setupInspector, refreshInspector } from './inspector'
-import { registerForm, unregisterForm } from './registry'
-
-export { registerForm, unregisterForm, setupInspector, refreshInspector }
+export { devtools } from './definition'
+export * from './module'
+export * from './types'

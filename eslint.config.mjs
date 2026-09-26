@@ -27,13 +27,14 @@ export default [
     ignores: [
       '**/node_modules/**',
       '**/dist/**',
+      '.temp',
       // Generated component registries (gen:registry) — committed for GitHub
       // reference, but generated code isn't linted.
       'packages/*/.registry/**',
       // Playground templates and instances simulate user projects and carry
       // their own eslint configs; the playground's own scripts and vite
       // plugin are linted by this config.
-      'playground/templates/**',
+      'scripts/playground/templates/**',
       '**/.playgrounds/**',
       'docs/src/playground/**',
       // VitePress build artifacts.
@@ -253,7 +254,7 @@ export default [
       '**/src/components/**',
       '**/src/theme/**',
       '**/src/tokens/**',
-      '**/packages/vite/src/**',
+      '**/packages/utils/src/**',
       '**/nuxt/src/**',
       'packages/metrics/**',
     ],

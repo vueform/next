@@ -1,13 +1,5 @@
 import { computed, nextTick, ref, toRef, unref, useSlots, watch } from 'vue'
-import {
-  useCurrentElement,
-  useDynamicProp,
-  useGlobals,
-  useExpression,
-} from '@core/composables'
-import { useComponentContext } from '@core/contexts'
-import type { makeElement } from '@core/features'
-import { defineFeature } from '@core/helpers'
+import type { makeElement } from '#core/features'
 import type {
   BreakpointsColumns,
   ColumnKeys,
@@ -20,8 +12,16 @@ import type {
   ResolvedColumns,
   ReturnsOf,
   TProp,
-} from '@core/types'
-import { clone, isTopInViewport, rootDomOf } from '@core/utils'
+} from '#core/types'
+import {
+  useCurrentElement,
+  useDynamicProp,
+  useGlobals,
+  useExpression,
+} from '#core/composables'
+import { useComponentContext } from '#core/contexts'
+import { defineFeature } from '#core/helpers'
+import { clone, isTopInViewport, rootDomOf } from '#core/utils'
 
 /**
  * Configuration for the element factory providing core lifecycle, state, and

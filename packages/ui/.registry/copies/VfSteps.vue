@@ -4,13 +4,14 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/steps'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfStepsEmits,
-  VfStepsProps,
-  VfStepsSlots,
+import {
+  type VfStepsEmits,
+  type VfStepsProps,
+  type VfStepsSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfSteps'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/steps.css'
 import '@vueform/ui/animation.css'
 

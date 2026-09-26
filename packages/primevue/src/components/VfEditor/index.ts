@@ -1,3 +1,3 @@
 export { default } from './VfEditor.vue'
 export type * from './types'
-export { blueprint, defaults } from '@/blueprints/editor'
+export { blueprint, defaults } from '#primevue/blueprints/editor'

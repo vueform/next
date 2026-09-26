@@ -37,17 +37,17 @@ import {
   type DProp,
 } from '@vueform/core'
 import { computed, toRef } from 'vue'
+import type { ForwardedEmits } from '#primevue/types'
+import type {
+  ToggleSwitchProps as AToggleSwitchProps,
+  ToggleSwitchEmitsOptions as AToggleSwitchEmits,
+} from 'primevue/toggleswitch'
 import {
   makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
-import type {
-  ToggleSwitchProps as AToggleSwitchProps,
-  ToggleSwitchEmitsOptions as AToggleSwitchEmits,
-} from 'primevue/toggleswitch'
+} from '#primevue/features'
 
 /**
  * Toggle-switch model shape: the union of `trueValue` and `falseValue`.

@@ -1,10 +1,6 @@
-import {
-  defineSchema,
-  type RouterModule,
-  type VueformRouter,
-} from '@vueform/core'
 import { ref } from 'vue'
 import { createForm, flushPromises } from '../../helpers'
+import { defineSchema, type RouterModule, type VueformRouter } from '#core'
 
 function mockRouter(overrides: Partial<VueformRouter> = {}): VueformRouter {
   return {

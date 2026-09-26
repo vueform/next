@@ -1,0 +1,33 @@
+{
+  "name": "@vueform/utils",
+  "version": "2.0.0-alpha.1",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    }
+  },
+  "bin": {
+    "vf-registry": "./dist/registry-cli.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@vitejs/plugin-vue": "catalog:",
+    "ajv": "catalog:",
+    "fast-glob": "catalog:",
+    "prettier": "catalog:",
+    "typescript": "catalog:",
+    "vite-plugin-dts": "catalog:",
+    "vue": "catalog:"
+  },
+  "peerDependencies": {
+    "vite": "catalog:peer"
+  }
+}

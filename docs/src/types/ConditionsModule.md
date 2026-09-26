@@ -13,7 +13,7 @@ interface ConditionsModule {
    * @param options Path, debounce, trigger, and date format options.
    */
   makeConditional: (
-    conditions: MaybeRef<ConditionalProp | undefined>,
+    conditions: MaybeRef<ConditionsResult | undefined>,
     model: MaybeRef<Record<string, any> | undefined>,
     context$: any,
     options?: MakeConditionalOptions
@@ -32,7 +32,7 @@ interface ConditionsModule {
    */
   makeConditionalList: <T>(
     source: Ref<T[]>,
-    getConditions: (item: T) => ConditionalProp | undefined,
+    getConditions: (item: T) => ConditionsResult | undefined,
     model: MaybeRef<Record<string, any> | undefined>,
     context$: any,
     options?: MakeConditionalOptions

@@ -1,10 +1,10 @@
 import { toRef, type Ref } from 'vue'
-import { useComponentContext, useFormContext } from '@core/contexts'
+import type { UseConditionsOptions } from './useConditions'
+import { useComponentContext, useFormContext } from '#core/contexts'
 import {
   getConditionsModule,
-  type ConditionalProp,
-} from '@core/modules/conditions'
-import type { UseConditionsOptions } from './useConditions'
+  type ConditionsResult,
+} from '#core/modules/conditions'
 
 /**
  * Resolves conditions for a dynamic list of items into a parallel array of
@@ -21,7 +21,7 @@ import type { UseConditionsOptions } from './useConditions'
  */
 export function useConditionalList<T>(
   source: Ref<T[]>,
-  getConditions: (item: T) => ConditionalProp | undefined,
+  getConditions: (item: T) => ConditionsResult | undefined,
   options: UseConditionsOptions = {}
 ): Ref<Ref<boolean>[]> {
   const module = getConditionsModule()

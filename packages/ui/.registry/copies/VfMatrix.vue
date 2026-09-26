@@ -5,8 +5,13 @@
  */
 
 import {
+  type VfMatrixEmits,
+  type VfMatrixProps,
+  type VfMatrixSlots,
   blueprint,
   defaults,
+} from '@vueform/ui/components/VfMatrix'
+import {
   normalizeSourceItems,
   resolveItemProp,
 } from '@vueform/ui/blueprints/matrix'
@@ -16,11 +21,6 @@ import {
   defineEvents,
   isPlainObject,
 } from '@vueform/ui'
-import type {
-  VfMatrixEmits,
-  VfMatrixProps,
-  VfMatrixSlots,
-} from '@vueform/ui/components/VfMatrix'
 import '@vueform/ui/matrix.css'
 import '@vueform/ui/tabular.css'
 

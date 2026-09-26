@@ -8,8 +8,8 @@ import type {
   MatrixProps,
   MatrixSlots,
   ResolvedMatrixCol,
-} from '@core/blueprints/matrix'
-import type { ObjectModel } from '@core/features'
+} from '#core/blueprints/matrix'
+import type { ObjectModel } from '#core/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -24,7 +24,7 @@ import type {
   WidenProps,
   UnwrapEntryRef,
   WidenScalar,
-} from '@core/types'
+} from '#core/types'
 import type { Component, VNode } from 'vue'
 
 /**
@@ -225,8 +225,7 @@ export type EntryProps<TEntry> = Omit<VfMatrixProps, 'modelValue'> & {
  * Props for the VfMatrix component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfMatrixProps extends MatrixProps<
   'matrix',

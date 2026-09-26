@@ -67,22 +67,28 @@ interface SecurityModuleOptions {
   allowOrigins?: string[]
 
   /**
-   * Additional keys to drop from every schema-reachable prop bag — schema
-   * entries themselves (form entries, group children, flat list prototypes,
-   * grid cell / matrix column schemas), `parts` bags, and grid cell `attrs` —
-   * **in every value form**. Case-insensitive. Slot HTML is not a prop bag: its
-   * attributes are the sanitizer's domain (`sanitizeOptions`).
+   * Keys to drop from every schema-reachable prop bag — schema entries
+   * themselves (form entries, group children, flat list prototypes, grid cell /
+   * matrix column schemas), `parts` bags, and grid cell `attrs` — **in every
+   * value form**. String entries match case-insensitively; RegExp entries as
+   * written (add the `i` flag yourself, e.g. `/^on/i`). Both are checked
+   * against the original key spelling and its camelized form — Vue camelizes
+   * spread keys when matching declared component props, so a ban on `onLabel`
+   * also catches `on-label`. Slot HTML is not a prop bag: its attributes are
+   * the sanitizer's domain (`sanitizeOptions`).
    *
-   * A core set is always banned regardless of this option and cannot be
-   * relaxed: prototype keys, `innerHTML` / `outerHTML` / `srcdoc`, and
-   * string-valued `on*` entries (function listeners from developer code keep
-   * working) — the entries where data would escalate into script or markup.
-   * `banProps` only ever tightens. Because schema entries pass the same filter,
-   * listing a prop name disables that **channel** for schemas while template
-   * usage keeps working — e.g. `['style']` (beacon / overlay CSS in both its
-   * string and object forms), `['id', 'name']` (DOM clobbering), or `['parts',
-   * 'slots', 'tokens']` (no schema-driven presentation at all).
+   * Only a minimal set is banned regardless of this option and cannot be
+   * relaxed: prototype keys and `innerHTML` / `outerHTML` — the entries that
+   * turn a `v-bind` spread into an HTML sink or re-point object prototypes.
+   * Everything else is this option's responsibility. **When schemas can come
+   * from untrusted sources, configure at least `[/^on/i, 'srcdoc']`** so inline
+   * event handlers (`onclick`, …) and iframe HTML never reach the DOM. Because
+   * schema entries pass the same filter, listing a prop name disables that
+   * **channel** for schemas while template usage keeps working — e.g.
+   * `['style']` (beacon / overlay CSS in both its string and object forms),
+   * `['id', 'name']` (DOM clobbering), or `['parts', 'slots', 'tokens']` (no
+   * schema-driven presentation at all). Dropped entries warn in development.
    */
-  banProps?: string[]
+  banProps?: (string | RegExp)[]
 }
 ```

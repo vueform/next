@@ -16,8 +16,8 @@
  * Normal operation (module registered, or nothing configured) is identical in
  * both environments; only this misconfiguration state differs.
  */
-import { getSecurityModule, type VueformConfig } from '@vueform/core'
 import { afterEach, describe, expect, it, vi } from 'vitest'
+import { getSecurityModule, type VueformConfig } from '#core'
 
 /**
  * The inert security surface an app observes when the `security` module is not

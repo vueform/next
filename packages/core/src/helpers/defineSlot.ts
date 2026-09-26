@@ -5,7 +5,7 @@ import {
   type ComponentPublicInstance,
   type VNodeChild,
 } from 'vue'
-import type { SlotProps } from '@core/types'
+import type { SlotProps } from '#core/types'
 
 /**
  * Readonly map from selected slot prop names to their types for the given

@@ -85,7 +85,6 @@ const [MyForm] = useForm({
 ## Props
 
 <!-- @props-intro-start -->
-
 Configure the component's behavior and appearance with these props.
 <!-- @props-intro-end -->
 
@@ -94,29 +93,29 @@ Configure the component's behavior and appearance with these props.
 
 ### Component {#props-languages}
 
-| Prop                                                             | Default | Description                                                  |
-| ---------------------------------------------------------------- | ------- | ------------------------------------------------------------ |
-| [`invalidLanguages`](!code#props.invalidLanguages 'Set<string>') | —       | Set of language codes that currently have validation errors. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`invalidLanguages`](!code#props.invalidLanguages "Set<string>") | — | Set of language codes that currently have validation errors. |
 
 ### I18n {#props-i18n}
 
-| Prop                                                         | Default | Description                                                                        |
-| ------------------------------------------------------------ | ------- | ---------------------------------------------------------------------------------- |
-| [`language`](!code#props.language 'string')                  | —       | **Required.** The currently active language code.                                  |
-| [`languages`](!code#props.languages 'ResolvedLanguagesProp') | —       | **Required.** The available languages as a map of language codes to display names. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`language`](!code#props.language "string") | — | **Required.** The currently active language code. |
+| [`languages`](!code#props.languages "ResolvedLanguagesProp") | — | **Required.** The available languages as a map of language codes to display names. |
 
 ### Customization {#props-customization}
 
-| Prop                                                      | Default | Description                                                                                                                         |
-| --------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| [`parts`](!code#props.parts 'P')                          | —       | Custom DOM attribute overrides for the component's structural parts.                                                                |
-| [`class`](!code#props.class 'ClassValue')                 | —       | CSS classes to apply to the component's root element.                                                                               |
-| [`classes`](!code#props.classes 'C')                      | —       | Custom CSS class overrides for the component's structural parts.                                                                    |
-| [`reclass`](!code#props.reclass 'C')                      | —       | CSS class overrides that replace (rather than merge with) default classes.                                                          |
-| [`slots`](!code#props.slots 'S')                          | —       | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
-| [`presets`](!code#props.presets 'PresetsProp')            | —       | Named configuration presets to apply to the component.                                                                              |
-| [`template`](!code#props.template 'ComponentProp \| null') | —       | A custom Vue component to use as the template instead of the default.                                                               |
-| [`component`](!code#props.component 'ComponentProp')      | —       | A custom Vue component to render in the component's default slot.                                                                   |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`parts`](!code#props.parts "P") | — | Custom DOM attribute overrides for the component's structural parts. |
+| [`class`](!code#props.class "ClassValue") | — | CSS classes to apply to the component's root element. |
+| [`classes`](!code#props.classes "C") | — | Custom CSS class overrides for the component's structural parts. |
+| [`reclass`](!code#props.reclass "C") | — | CSS class overrides that replace (rather than merge with) default classes. |
+| [`slots`](!code#props.slots "S") | — | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
+| [`presets`](!code#props.presets "PresetsProp") | — | Named configuration presets to apply to the component. |
+| [`template`](!code#props.template "ComponentProp \| null") | — | A custom Vue component to use as the template instead of the default. |
+| [`component`](!code#props.component "ComponentProp") | — | A custom Vue component to render in the component's default slot. |
 
 <!-- @endcollapsible -->
 <!-- @props-end -->
@@ -132,26 +131,24 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 <!-- @collapsible -->
 <!-- @context-start -->
-
 ### General {#section-general}
 
-| Name                                    | Description                                         |
-| --------------------------------------- | --------------------------------------------------- |
-| [`props`](!code#context.props 'object') | The resolved component props with defaults applied. |
+| Name | Description |
+| --- | --- |
+| [`props`](!code#context.props "object") | The resolved component props with defaults applied. |
 
 ### Layout {#section-layout}
 
-| Name                                        | Description                                                 |
-| ------------------------------------------- | ----------------------------------------------------------- |
-| [`classes`](!code#context.classes 'object') | The resolved CSS class map for the component.               |
-| [`parts`](!code#context.parts 'object')     | The resolved DOM attribute overrides for internal elements. |
+| Name | Description |
+| --- | --- |
+| [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
+| [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 
 ### Handlers {#section-handlers}
 
-| Name                                                                        | Description                                              |
-| --------------------------------------------------------------------------- | -------------------------------------------------------- |
-| [`handleSelect()`](!code#context.handleSelect '(language: string) => void') | Handles language selection by firing the `select` event. |
-
+| Name | Description |
+| --- | --- |
+| [`handleSelect()`](!code#context.handleSelect "(language: string) => void") | Handles language selection by firing the `select` event. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -164,16 +161,14 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 Events emitted by the component. See [Events](/guide/event-handlers) for details.
 
 <!-- @events-start -->
-
-| Name            | Params                                                       | Description                                      |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------------ |
-| `select`        | [`language`](!code#events.select.language 'string')          | Emitted when a language is selected by the user. |
-| `beforeMount`   | [`context$`](!code#events.beforeMount.context$ 'TContext')   | Emitted before the component is mounted.         |
-| `mounted`       | [`context$`](!code#events.mounted.context$ 'TContext')       | Emitted after the component is mounted.          |
-| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ 'TContext') | Emitted before the component is unmounted.       |
-| `unmounted`     | [`context$`](!code#events.unmounted.context$ 'TContext')     | Emitted after the component is unmounted.        |
-| `updated`       | [`context$`](!code#events.updated.context$ 'TContext')       | Emitted after the component is updated.          |
-
+| Name | Params | Description |
+| --- | --- | --- |
+| `select` | [`language`](!code#events.select.language "string") | Emitted when a language is selected by the user. |
+| `beforeMount` | [`context$`](!code#events.beforeMount.context$ "TContext") | Emitted before the component is mounted. |
+| `mounted` | [`context$`](!code#events.mounted.context$ "TContext") | Emitted after the component is mounted. |
+| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ "TContext") | Emitted before the component is unmounted. |
+| `unmounted` | [`context$`](!code#events.unmounted.context$ "TContext") | Emitted after the component is unmounted. |
+| `updated` | [`context$`](!code#events.updated.context$ "TContext") | Emitted after the component is updated. |
 <!-- @events-end -->
 <!-- @endtab -->
 
@@ -184,12 +179,10 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 
 <!-- @slots-start -->
-
-| Name       | Scope                                                                                                                                                                                                                                                                                                                                         | Description                                                                                                        |
-| ---------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `template` | [`context`](!code#slot.template.context 'TContext')                                                                                                                                                                                                                                                                                           | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `default`  | [`parts`](!code#slot.default.parts 'Partial<VfLanguagesParts>') [`classes`](!code#slot.default.classes 'VfLanguagesClasses') [`language`](!code#slot.default.language 'string') [`languages`](!code#slot.default.languages 'ResolvedLanguagesProp') [`value`](!code#slot.default.value 'string') [`label`](!code#slot.default.label 'string') | Slot that replaces each individual language option rendering.                                                      |
-
+| Name | Scope | Description |
+| --- | --- | --- |
+| `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `default` | [`parts`](!code#slot.default.parts "Partial<VfLanguagesParts>") [`classes`](!code#slot.default.classes "VfLanguagesClasses") [`language`](!code#slot.default.language "string") [`languages`](!code#slot.default.languages "ResolvedLanguagesProp") [`value`](!code#slot.default.value "string") [`label`](!code#slot.default.label "string") | Slot that replaces each individual language option rendering. |
 <!-- @slots-end -->
 <!-- @endtab -->
 
@@ -208,43 +201,41 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
-
 ### `root`
 
 The root language selector element.
 
-|             |                 |
-| ----------- | --------------- |
-| **Element** | `<div>`         |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-languages` |
 
 ### `list`
 
 The language list element.
 
-|             |                         |
-| ----------- | ----------------------- |
-| **Element** | `<ul>`                  |
+| | |
+| --- | --- |
+| **Element** | `<ul>` |
 | **Classes** | `.vf-languages-wrapper` |
 
 ### `wrapper`
 
 Each language wrapper. Receives whether this option is currently selected and whether this language has validation errors.
 
-|             |                                                       |
-| ----------- | ----------------------------------------------------- |
-| **Element** | `<li>`                                                |
+| | |
+| --- | --- |
+| **Element** | `<li>` |
 | **Classes** | `.vf-language-wrapper` `.vf-selected?` `.vf-invalid?` |
 
 ### `language`
 
 The language button element.
 
-|             |                |
-| ----------- | -------------- |
-| **Element** | `<button>`     |
+| | |
+| --- | --- |
+| **Element** | `<button>` |
 | **Classes** | `.vf-language` |
-
 <!-- @parts-end -->
 <!-- @endtab -->
 

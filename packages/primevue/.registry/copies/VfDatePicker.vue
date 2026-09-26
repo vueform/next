@@ -11,16 +11,14 @@
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
 import PrimeDatePicker from 'primevue/datepicker'
 import {
+  type VfDatePickerEmits,
+  type VfDatePickerProps,
+  type VfDatePickerSlots,
   blueprint,
   defaults,
-  type DatePickerSelectionModeProp,
-} from '@vueform/primevue/blueprints/date-picker'
-import type {
-  VfDatePickerEmits,
-  VfDatePickerProps,
-  VfDatePickerSlots,
 } from '@vueform/primevue/components/VfDatePicker'
 import type { ComputedRef, WritableComputedRef } from 'vue'
+import type { DatePickerSelectionModeProp } from '@vueform/primevue/blueprints/date-picker'
 
 const DatePicker = vdomPrime(PrimeDatePicker)
 

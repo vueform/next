@@ -6,11 +6,11 @@
     TLanguages extends LanguagesProp = LanguagesProp
   "
 >
-import { defaults, blueprint } from '@core/blueprints/text'
-import { useBlueprint } from '@core/composables'
-import { defineEvents } from '@core/helpers'
-import type { LanguagesProp } from '@core/types'
+import type { LanguagesProp } from '#core/types'
 import type { VfTextEmits, VfTextProps, VfTextSlots } from './types'
+import { defaults, blueprint } from '#core/blueprints/text'
+import { useBlueprint } from '#core/composables'
+import { defineEvents } from '#core/helpers'
 
 defineOptions({
   name: 'VfText',

@@ -7,8 +7,8 @@ import type {
   GridProps,
   GridSlots,
   GridCell,
-} from '@core/blueprints/grid'
-import type { ObjectModel } from '@core/features'
+} from '#core/blueprints/grid'
+import type { ObjectModel } from '#core/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -21,7 +21,7 @@ import type {
   IsAny,
   SchemaToModel,
   WidenProps,
-} from '@core/types'
+} from '#core/types'
 import type { Ref, VNode } from 'vue'
 
 /**
@@ -64,8 +64,7 @@ export type EntryProps<TEntry> = Omit<VfGridProps, 'modelValue'> & {
  * Props for the VfGrid component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfGridProps extends GridProps<
   'grid',

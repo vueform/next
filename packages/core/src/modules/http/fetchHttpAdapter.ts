@@ -1,12 +1,12 @@
+import { resolveRequestUrl } from './resolveUrl'
 import {
   HttpError,
   type HttpAdapter,
   type HttpRequestConfig,
   type HttpResponse,
   type RequestType,
-} from '@core/modules/http'
-import { isFileValue, toFormData, warn, isDev } from '@core/utils'
-import { resolveRequestUrl } from './resolveUrl'
+} from '#core/modules/http'
+import { isFileValue, toFormData, warn, isDev } from '#core/utils'
 
 function buildURL(config: HttpRequestConfig): string {
   const { baseURL, params } = config

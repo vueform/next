@@ -3,20 +3,19 @@
   "name": "VfList",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Repeatable list element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfList component",
   "files": [
     {
       "path": "VfList.vue",
       "target": "{componentsDir}/VfList.vue",
       "kind": "component",
-      "hash": "sha256:b76c1c884009c826e6b0e4ff9dae58a8cb1916e8ac8d8e43ad80487ff8179667"
+      "hash": "sha256:7e94ca82a23fab16289d1804dc7495d0a6a2eba2504b633aa3757d367bd030ac"
     }
   ],
   "imports": [
-    "@vueform/primevue/blueprints/list",
-    "@vueform/primevue",
     "@vueform/primevue/components/VfList",
+    "@vueform/primevue",
     "@vueform/primevue/list.css"
   ],
   "dependencies": {},
@@ -29,11 +28,11 @@
     "path": "VfList.vue",
     "blueprint": "list",
     "hash": "sha256:869be7ba771dee3aabc067cfca99a7862b10cc2a226e46731c6241eb4f31a31f",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfList",
     "import": "{componentsDir}/VfList.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

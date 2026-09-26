@@ -5,13 +5,14 @@
  */
 
 import { useAttrs } from 'vue'
-import { defaults, blueprint } from '@vueform/ui/blueprints/addon'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfAddonEmits,
-  VfAddonProps,
-  VfAddonSlots,
+import {
+  type VfAddonEmits,
+  type VfAddonProps,
+  type VfAddonSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfAddon'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/addon.css'
 
 defineOptions({ name: 'VfAddon', inheritAttrs: false })

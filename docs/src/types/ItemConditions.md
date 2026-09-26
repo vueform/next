@@ -4,5 +4,5 @@
  * property lookup, or a function returning a `ConditionalProp` for reactive
  * evaluation. Items whose conditions are not met are omitted from the list.
  */
-type ItemConditions = string | ((item: any) => ConditionalProp | undefined)
+type ItemConditions = string | ((item: any) => ConditionsResult | undefined)
 ```

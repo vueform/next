@@ -10,11 +10,12 @@
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
 import PrimeToggleSwitch from 'primevue/toggleswitch'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/toggle-switch'
-import type {
-  VfToggleSwitchEmits,
-  VfToggleSwitchProps,
-  VfToggleSwitchSlots,
+import {
+  type VfToggleSwitchEmits,
+  type VfToggleSwitchProps,
+  type VfToggleSwitchSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfToggleSwitch'
 import type { Ref, WritableComputedRef } from 'vue'
 import '@vueform/primevue/toggle-switch.css'

@@ -1,2 +1,2 @@
-import '@/scss/grid.scss'
-import '@/scss/tabular.scss'
+import '#ui/scss/grid.scss'
+import '#ui/scss/tabular.scss'

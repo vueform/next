@@ -1,12 +1,3 @@
-import {
-  type CheckboxApi,
-  type CheckboxClasses,
-  type CheckboxEmits,
-  type CheckboxExpose,
-  type CheckboxParts,
-  type CheckboxProps,
-  type CheckboxSlots,
-} from '@core/blueprints/checkbox'
 import type {
   WidenProps,
   DefineElementContext,
@@ -15,8 +6,17 @@ import type {
   ClassValue,
   DomAttrsOf,
   EntryPropOr,
-} from '@core/types'
+} from '#core/types'
 import type { VNode } from 'vue'
+import {
+  type CheckboxApi,
+  type CheckboxClasses,
+  type CheckboxEmits,
+  type CheckboxExpose,
+  type CheckboxParts,
+  type CheckboxProps,
+  type CheckboxSlots,
+} from '#core/blueprints/checkbox'
 
 /**
  * VfCheckbox props narrowed from a registry `TEntry` payload, applying the
@@ -33,8 +33,7 @@ export type EntryProps<TEntry> = VfCheckboxProps<
  * `VfCheckboxProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfCheckboxProps<
   TTrueValue = any,

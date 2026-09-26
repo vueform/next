@@ -4,13 +4,14 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/primevue/blueprints/list'
-import { useBlueprint, useLocale, defineEvents } from '@vueform/primevue'
-import type {
-  VfListEmits,
-  VfListProps,
-  VfListSlots,
+import {
+  type VfListEmits,
+  type VfListProps,
+  type VfListSlots,
+  defaults,
+  blueprint,
 } from '@vueform/primevue/components/VfList'
+import { useBlueprint, useLocale, defineEvents } from '@vueform/primevue'
 import '@vueform/primevue/list.css'
 
 defineOptions({

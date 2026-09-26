@@ -1,3 +1,4 @@
+import type { DefineElementContext, DefineRegistryEntry } from '#core/types'
 import {
   type HiddenApi,
   type HiddenClasses,
@@ -6,15 +7,13 @@ import {
   type HiddenParts,
   type HiddenProps,
   type HiddenSlots,
-} from '@core/blueprints/hidden'
-import type { DefineElementContext, DefineRegistryEntry } from '@core/types'
+} from '#core/blueprints/hidden'
 
 /**
  * Props for the VfHidden component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfHiddenProps extends HiddenProps<
   'hidden',

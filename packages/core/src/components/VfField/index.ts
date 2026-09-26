@@ -1,3 +1,3 @@
 export { default } from './VfField.vue'
 export type * from './types'
-export { defaults, blueprint } from '@core/blueprints/field'
+export { defaults, blueprint } from '#core/blueprints/field'

@@ -12,6 +12,7 @@ node_modules
 dist
 cache
 *.local
+*.tsbuildinfo
 
 # Editor directories and files
 .vscode/*
@@ -31,9 +32,11 @@ cache
 .cursor
 .temp
 .generated
+.api
 .playgrounds
 
 # Playwright
 packages/*/tests/snapshot/.diagnostic/
 test-results/
 playwright-report/
+.output/

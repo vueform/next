@@ -1,5 +1,5 @@
 import { type TProp, type ClassValue, type DOMAttrs } from '@vueform/core'
-import type { FloatProp } from '@/types'
+import type { FloatProp } from '#primevue/types'
 import type { FloatLabelProps as AFloatLabelProps } from 'primevue'
 import type { VNode } from 'vue'
 

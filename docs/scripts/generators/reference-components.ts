@@ -8,7 +8,7 @@ import {
   discoverTokenGroups,
   camelToKebab,
   type TokenJsonEntry,
-} from '../../../packages/scraper/lib/token-utils'
+} from '../../../scripts/api-extractor/lib/token-utils'
 import { requireData, SCRAPE_HINT } from './ensureData'
 
 // =============== PATHS ================
@@ -17,7 +17,7 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
 const GENERATED_DIR = path.join(DOCS_ROOT, '.generated')
-const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.generated')
+const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.api')
 
 requireData(
   'reference',

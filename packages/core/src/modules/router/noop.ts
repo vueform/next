@@ -1,6 +1,6 @@
 import { unref, type MaybeRef } from 'vue'
-import { warn, isDev } from '@core/utils'
 import type { RouterModule } from './types'
+import { warn, isDev } from '#core/utils'
 
 let warnedMissingModule = false
 

@@ -1,12 +1,3 @@
-import {
-  type TextareaApi,
-  type TextareaClasses,
-  type TextareaEmits,
-  type TextareaExpose,
-  type TextareaParts,
-  type TextareaProps,
-  type TextareaSlots,
-} from '@core/blueprints/textarea'
 import type {
   AddonsParts,
   AddonsSlots,
@@ -18,7 +9,7 @@ import type {
   TranslateSlots,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '@core/features'
+} from '#core/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -26,7 +17,16 @@ import type {
   ClassValue,
   DomAttrsOf,
   LanguagesProp,
-} from '@core/types'
+} from '#core/types'
+import {
+  type TextareaApi,
+  type TextareaClasses,
+  type TextareaEmits,
+  type TextareaExpose,
+  type TextareaParts,
+  type TextareaProps,
+  type TextareaSlots,
+} from '#core/blueprints/textarea'
 
 /**
  * VfTextarea props narrowed from a registry `TEntry` payload, applying the
@@ -45,8 +45,7 @@ export type EntryProps<TEntry> = VfTextareaProps<
  * needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfTextareaProps<
   TTranslate extends boolean = boolean,

@@ -1,6 +1,6 @@
-import type { SecurityModule } from '@core/modules/security'
-import type { AddonItem } from '@core/types'
-import { kebabToPascal } from '@core/utils'
+import type { SecurityModule } from '#core/modules/security'
+import type { AddonItem } from '#core/types'
+import { kebabToPascal } from '#core/utils'
 
 /**
  * A resolved addon value: display text (rendered escaped by the addon

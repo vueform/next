@@ -4,38 +4,34 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "printWidth": 80,
-  "plugins": ["prettier-plugin-jsdoc"],
+  "plugins": ["prettier-plugin-jsdoc", "prettier-plugin-packagejson"],
   "jsdocPrintWidth": 80,
   "jsdocDescriptionWithDot": false,
   "jsdocCapitalizeDescription": false,
   "jsdocCommentLineStrategy": "multiline",
   "overrides": [
     {
+      "files": "tsconfig.*",
+      "options": {
+        "printWidth": 120
+      }
+    },
+    {
       "files": [
         "docs/.vitepress/config.mts",
         "docs/.vitepress/adapters/ui/config.ts",
-        "docs/.vitepress/adapters/primevue/config.ts"
+        "docs/.vitepress/adapters/primevue/config.ts",
+        "**/*.scss",
+        "packages/core/vitest.config.ts"
       ],
       "options": {
         "printWidth": 200
       }
     },
     {
-      "files": "**/*.scss",
-      "options": {
-        "printWidth": 200
-      }
-    },
-    {
-      "files": "packages/core/tests/type/**/*",
+      "files": ["packages/core/tests/dts/**/*"],
       "options": {
         "printWidth": 300
-      }
-    },
-    {
-      "files": "tsconfig.*",
-      "options": {
-        "printWidth": 120
       }
     }
   ]

@@ -22,13 +22,11 @@ import {
   type OptionValueProp,
 } from '@vueform/primevue'
 import {
+  type VfRadioButtonGroupEmits,
+  type VfRadioButtonGroupProps,
+  type VfRadioButtonGroupSlots,
   blueprint,
   defaults,
-} from '@vueform/primevue/blueprints/radio-button-group'
-import type {
-  VfRadioButtonGroupEmits,
-  VfRadioButtonGroupProps,
-  VfRadioButtonGroupSlots,
 } from '@vueform/primevue/components/VfRadioButtonGroup'
 import '@vueform/primevue/choices.css'
 

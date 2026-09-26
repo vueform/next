@@ -1,82 +1,23 @@
 import { mount, DOMWrapper, flushPromises } from '@vue/test-utils'
+import { defineComponent, nextTick, onMounted, ref, type Component } from 'vue'
+import VfTest from './integration/fixtures/VfTest.vue'
+import './integration/fixtures/base'
 import {
   createVueform,
   fetchHttpAdapter,
   mergeUntilDepth,
-  model,
   nativeDateAdapter,
   upperFirst,
-  type HeadingProp,
   type UserConfig,
   type VueformInstance,
-} from '@vueform/core'
-import * as components from '@vueform/core/components'
-import { en_US } from '@vueform/core/locales'
-import * as modules from '@vueform/core/modules'
-import * as rules from '@vueform/core/rules'
-import exprEval from '@vueform/expr-eval'
-import { defineComponent, nextTick, onMounted, ref, type Component } from 'vue'
-import VfTest from './integration/fixtures/VfTest.vue'
+} from '#core'
+import * as components from '#core/components'
+import { en_US } from '#core/locales'
+import * as modules from '#core/modules'
+import * as rules from '#core/rules'
+import exprEval from '#expr-eval'
 
 export { flushPromises, mount }
-
-// Per-key overrides for the shared element classes VfLayout installs —
-// applied via the `layoutClasses` config option, which also keeps the option
-// covered by the whole suite.
-const layoutClasses = {
-  root: ({
-    spaceTop,
-    spaceBottom,
-    lineTop,
-    lineBottom,
-  }: {
-    spaceTop?: number
-    spaceBottom?: number
-    lineTop?: boolean
-    lineBottom?: boolean
-  } = {}) => {
-    return {
-      'vf-element': true,
-      [`vf-space-top-${spaceTop}`]: !!spaceTop,
-      [`vf-space-bottom-${spaceBottom}`]: !!spaceBottom,
-      'vf-line-top': !!lineTop,
-      'vf-line-bottom': !!lineBottom,
-    }
-  },
-  rootInline: ({
-    spaceTop,
-    spaceBottom,
-    lineTop,
-    lineBottom,
-  }: {
-    spaceTop?: number
-    spaceBottom?: number
-    lineTop?: boolean
-    lineBottom?: boolean
-  } = {}) => ({
-    'vf-inline-element': true,
-    [`vf-space-top-${spaceTop}`]: !!spaceTop,
-    [`vf-space-bottom-${spaceBottom}`]: !!spaceBottom,
-    'vf-line-top': !!lineTop,
-    'vf-line-bottom': !!lineBottom,
-  }),
-  panel: 'vf-panel',
-  labelGroup: (heading?: HeadingProp) => ({
-    'vf-label-group': true,
-    [`vf-h${heading}`]: !!heading,
-  }),
-  label: 'vf-label',
-  required: 'vf-required',
-  elementGroup: 'vf-element-group',
-  elementWrapper: 'vf-element-wrapper',
-  loading: 'vf-icon vf-icon-loading',
-  help: 'vf-help',
-  description: 'vf-description',
-  errors: 'vf-errors',
-  error: 'vf-error',
-  messages: 'vf-messages',
-  message: 'vf-message',
-}
 
 /**
  * Creates a test Vueform instance. Mount helpers expose it (`vueform`) so test
@@ -88,15 +29,12 @@ const makeTestVueform = (config: UserConfig = {}) => {
   return createVueform({
     locales: { en_US },
     rules,
-    modules: { ...modules, model },
+    modules,
     components: {
       ...components,
       VfTest,
     },
-    layoutClasses,
     ...config,
-    // User plugins add to the expression plugin rather than replacing it —
-    // tests routinely need both (e.g. dompurify + expressions).
     plugins: [exprEval(), ...(config.plugins ?? [])],
     $date: { adapter: nativeDateAdapter, ...config.$date },
     $http: { adapter: fetchHttpAdapter, ...config.$http },

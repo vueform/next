@@ -1,9 +1,9 @@
-import type { ConditionalProp } from '@core/modules/conditions'
+import type { ConditionalProp } from '#core/modules/conditions'
 import type {
   ExpressionNodeState,
   ExpressionTracker,
-} from '@core/modules/expression'
-import type { Issue, RulesProp, TRulesProp } from '@core/modules/validation'
+} from '#core/modules/expression'
+import type { Issue, RulesProp, TRulesProp } from '#core/modules/validation'
 import type {
   ArraySchema,
   DeepPartial,
@@ -15,7 +15,7 @@ import type {
   SchemaToModel,
   StandardSchemaV1,
   StatefulElement,
-} from '@core/types'
+} from '#core/types'
 import type {
   makeChildModel,
   makeMountedNode,

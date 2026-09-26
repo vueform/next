@@ -13,7 +13,7 @@
  */
 function useConditionalList<T>(
   source: Ref<T[]>,
-  getConditions: (item: T) => ConditionalProp | undefined,
+  getConditions: (item: T) => ConditionsResult | undefined,
   options: UseConditionsOptions = {}
 ): Ref<Ref<boolean>[]>
 ```

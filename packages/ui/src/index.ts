@@ -1,8 +1,8 @@
 import { createVueformFactory } from '@vueform/core'
-import defaultConfig from '@/config'
+import defaultConfig from '#ui/config'
 
 export * from '@vueform/core'
-export type * from '@/features'
+export type * from '#ui/features'
 
 export { defaultConfig }
 

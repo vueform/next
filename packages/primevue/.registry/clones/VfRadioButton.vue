@@ -19,6 +19,7 @@ import {
 import PrimeRadioButton, {
   type RadioButtonProps as PvRadioButtonProps,
 } from 'primevue/radiobutton'
+import type { Ref, VNode } from 'vue'
 import {
   blueprint,
   defaults,
@@ -30,7 +31,6 @@ import {
   type RadioButtonProps,
   type RadioButtonSlots,
 } from '@vueform/primevue/blueprints/radio-button'
-import type { Ref, VNode } from 'vue'
 import '@vueform/primevue/choice.css'
 
 /**

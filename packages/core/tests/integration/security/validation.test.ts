@@ -8,8 +8,8 @@
  * `validate()`/`submit()`), and must not burn quadratic CPU on crafted values
  * (regex denial of service).
  */
-import { defineSchema } from '@vueform/core'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
 
 describe('Security: validation integrity', () => {
   describe('`regex` / `not_regex` rules', () => {

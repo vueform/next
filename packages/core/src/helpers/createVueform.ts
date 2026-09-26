@@ -1,22 +1,4 @@
-import {
-  shouldApplyPlugin,
-  useForm,
-  useHttp,
-  type useModel,
-} from '@core/composables'
-import { defaultConfig } from '@core/config'
-import { createVueformContext } from '@core/contexts'
-import { getLocaleModule, type LocaleModule } from '@core/modules/locale'
-import { mergeProp, normalizePreset, warn, isDev } from '@core/utils'
-import {
-  isReactive,
-  isRef,
-  onUnmounted,
-  ref,
-  unref,
-  watch,
-  type App,
-} from 'vue'
+import { isReactive, isRef, ref, type App } from 'vue'
 import {
   type UserConfig,
   type VueformConfig,
@@ -25,15 +7,25 @@ import {
   type VueformModules,
 } from './defineConfig'
 import { extendTheme } from './extendTheme'
-import type { VueformModule } from './defineModule'
-import type { VueformPlugin } from './definePlugin'
-import type { HttpInstance } from '@core/modules/http'
+import type { HttpInstance } from '#core/modules/http'
 import type {
   ComponentNames,
   NormalizedPresetDefinition,
   PresetDefinition,
   VueformComponent,
-} from '@core/types'
+} from '#core/types'
+import type { VueformModule } from './defineModule'
+import type { VueformPlugin } from './definePlugin'
+import {
+  shouldApplyPlugin,
+  useForm,
+  useHttp,
+  type useModel,
+} from '#core/composables'
+import { defaultConfig } from '#core/config'
+import { createVueformContext } from '#core/contexts'
+import { getLocaleModule, type LocaleModule } from '#core/modules/locale'
+import { mergeProp, normalizePreset, warn, isDev } from '#core/utils'
 
 // @todo: shouldn't this be moved into helpers?
 
@@ -507,8 +499,6 @@ export function createVueformFactory<
      */
     const clonedComponents = new Set<string>()
 
-    let devtoolsRegistered = false
-
     // The only place a partial config is promoted to `VueformConfig`:
     // completeness comes from the entry's defaults plus the modules
     // `TRequired` forces the caller to provide.
@@ -562,6 +552,10 @@ export function createVueformFactory<
       $date: {
         ...defaultOptions.$date,
         ...userConfig.$date,
+      },
+      $devtools: {
+        ...defaultOptions.$devtools,
+        ...userConfig.$devtools,
       },
       $expression: {
         ...defaultOptions.$expression,
@@ -712,82 +706,6 @@ export function createVueformFactory<
             applyPluginInstall(plugin, app, vueform)
           )
         })
-
-        if (isDev() && !devtoolsRegistered) {
-          devtoolsRegistered = true
-
-          const earlyForms = new Map<string, any>()
-          let register: ((uid: string, ctx: any) => void) | undefined
-          let unregister: ((uid: string) => void) | undefined
-          let refresh: (() => void) | undefined
-
-          config.plugins.push({
-            name: 'devtools',
-            apply: 'VfForm',
-            extend(_props: any, api: any) {
-              const uid = String(unref(api.uid))
-              if (register) {
-                register(uid, api)
-              } else {
-                earlyForms.set(uid, api)
-              }
-
-              watch(
-                () => [
-                  unref(api.model),
-                  unref(api.payload),
-                  unref(api.initialModel),
-                  unref(api.dirty),
-                  unref(api.invalid),
-                  unref(api.validated),
-                  unref(api.completed),
-                  unref(api.submitting),
-                  unref(api.pending),
-                  unref(api.debouncing),
-                  unref(api.loading),
-                  unref(api.empty),
-                  unref(api.busy),
-                  unref(api.errors),
-                  unref(api.messages),
-                  unref(api.language),
-                  unref(api.result),
-                  unref(api.response),
-                  unref(api.submits),
-                ],
-                () => refresh?.(),
-                { deep: true, flush: 'post' }
-              )
-
-              onUnmounted(() => {
-                if (unregister) {
-                  unregister(uid)
-                } else {
-                  earlyForms.delete(uid)
-                }
-              })
-            },
-          })
-
-          import('@vueform/devtools')
-            .then(
-              ({
-                registerForm,
-                unregisterForm,
-                setupInspector,
-                refreshInspector,
-              }: any) => {
-                for (const [uid, ctx] of earlyForms) {
-                  registerForm(uid, ctx)
-                }
-                earlyForms.clear()
-                register = registerForm
-                unregister = unregisterForm
-                refresh = refreshInspector
-                setupInspector(app)
-              }
-            )
-            .catch(() => {})
-        }
 
         $installed = true
 

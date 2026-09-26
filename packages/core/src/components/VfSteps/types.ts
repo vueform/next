@@ -1,3 +1,12 @@
+import type { ResolvedPage } from '#core/composables'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  UnknownElement,
+  DefineRegistryEntry,
+} from '#core/types'
+import type { VNode } from 'vue'
 import {
   type StepsApi,
   type StepsClasses,
@@ -6,23 +15,13 @@ import {
   type StepsParts,
   type StepsProps,
   type StepsSlots,
-} from '@core/blueprints/steps'
-import type { ResolvedPage } from '@core/composables'
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  UnknownElement,
-  DefineRegistryEntry,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/blueprints/steps'
 
 /**
  * Props for the VfSteps component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfStepsProps extends StepsProps<
   VfStepsSlots,

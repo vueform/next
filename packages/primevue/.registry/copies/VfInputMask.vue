@@ -18,11 +18,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimeInputMask from 'primevue/inputmask'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/input-mask'
-import type {
-  VfInputMaskEmits,
-  VfInputMaskProps,
-  VfInputMaskSlots,
+import {
+  type VfInputMaskEmits,
+  type VfInputMaskProps,
+  type VfInputMaskSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfInputMask'
 import type { WritableComputedRef } from 'vue'
 

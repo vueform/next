@@ -29,12 +29,13 @@ import PrimeTabPanel from 'primevue/tabpanel'
 import PrimeTabPanels from 'primevue/tabpanels'
 import PrimeTabs from 'primevue/tabs'
 import { computed } from 'vue'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/layout'
-import type {
-  VfLayoutEmits,
-  VfLayoutParts,
-  VfLayoutProps,
-  VfLayoutSlots,
+import {
+  type VfLayoutEmits,
+  type VfLayoutParts,
+  type VfLayoutProps,
+  type VfLayoutSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfLayout'
 import '@vueform/primevue/blockquote.css'
 import '@vueform/primevue/element.css'

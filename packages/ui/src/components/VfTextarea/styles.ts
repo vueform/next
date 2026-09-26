@@ -1,2 +1,2 @@
-import '@/scss/textarea.scss'
-import '@/scss/input.scss'
+import '#ui/scss/textarea.scss'
+import '#ui/scss/input.scss'

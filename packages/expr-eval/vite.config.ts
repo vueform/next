@@ -1,33 +1,6 @@
-import { dirname, resolve } from 'node:path'
-import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'vite'
-import Dts from 'vite-plugin-dts'
+import { createPluginConfig } from '@vueform/utils'
 
-const __dirname = dirname(fileURLToPath(import.meta.url))
-
-export default defineConfig({
-  plugins: [
-    Dts({
-      tsconfigPath: resolve(__dirname, 'tsconfig.json'),
-      rollupTypes: false,
-      insertTypesEntry: true,
-      include: ['src'],
-    }),
-  ],
-  logLevel: 'warn',
-  build: {
-    minify: false,
-    lib: {
-      formats: ['es'],
-      name: '@vueform/expr-eval',
-      fileName: (_, name) => `${name}.mjs`,
-      entry: {
-        index: resolve(__dirname, 'src/index.ts'),
-      },
-    },
-    outDir: './dist',
-    rollupOptions: {
-      external: ['vue', /^@vueform\/core/, 'expr-eval-fork'],
-    },
-  },
+export default createPluginConfig({
+  name: '@vueform/expr-eval',
+  external: ['expr-eval-fork'],
 })

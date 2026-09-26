@@ -4,13 +4,14 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/col'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfColEmits,
-  VfColProps,
-  VfColSlots,
+import {
+  type VfColEmits,
+  type VfColProps,
+  type VfColSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfCol'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/grid.css'
 
 defineOptions({ name: 'VfCol', inheritAttrs: false })

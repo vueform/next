@@ -16,21 +16,10 @@
  */
 
 import {
-  defaults,
-  blueprint,
-  type CheckboxesApi,
-  type CheckboxesClasses,
-  type CheckboxesEmits,
-  type CheckboxesExpose,
-  type CheckboxesParts,
-  type CheckboxesProps,
-  type CheckboxesSlots,
-} from '@vueform/ui/blueprints/checkboxes'
-import {
-  useBlueprint,
   type ItemsProp,
   type ItemValueProp,
   type GroupChildrenProp,
+  useBlueprint,
   defineEvents,
   type ClassValue,
   type DefineElementContext,
@@ -42,6 +31,17 @@ import {
   type ResolvedItem,
   type WidenProps,
 } from '@vueform/ui'
+import {
+  defaults,
+  blueprint,
+  type CheckboxesApi,
+  type CheckboxesClasses,
+  type CheckboxesEmits,
+  type CheckboxesExpose,
+  type CheckboxesParts,
+  type CheckboxesProps,
+  type CheckboxesSlots,
+} from '@vueform/ui/blueprints/checkboxes'
 import '@vueform/ui/choices.css'
 import type { VNode } from 'vue'
 import type { VfCheckboxSlots } from '@vueform/ui/components/VfCheckbox'

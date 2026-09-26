@@ -1,5 +1,5 @@
-import { createRule } from '@core/helpers'
-import { normalize } from '@core/utils'
+import { createRule } from '#core/helpers'
+import { normalize } from '#core/utils'
 
 /**
  * Validates that the value is an integer.

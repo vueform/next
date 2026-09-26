@@ -1,4 +1,4 @@
-import type { TooltipPosProp } from '@/types'
+import type { TooltipPosProp } from '#primevue/types'
 import type { TProp } from '@vueform/core'
 
 /**

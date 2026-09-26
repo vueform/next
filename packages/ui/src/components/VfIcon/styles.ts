@@ -1,2 +1,2 @@
-import '@/scss/icon.scss'
-import '@/scss/animation.scss'
+import '#ui/scss/icon.scss'
+import '#ui/scss/animation.scss'

@@ -1,7 +1,7 @@
-import type { VueformInstance } from '@core/helpers'
-import { resolveVueform } from '@core/helpers/resolveVueform'
 import { noopSecurity } from './noop'
+import type { VueformInstance } from '#core/helpers'
 import type { SecurityModule } from './types'
+import { resolveVueform } from '#core/helpers/resolveVueform'
 
 /**
  * Returns the resolved instance's security module, or the inert `noopSecurity`

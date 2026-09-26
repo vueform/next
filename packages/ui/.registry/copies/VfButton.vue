@@ -5,13 +5,14 @@
  */
 
 import { useAttrs } from 'vue'
-import { defaults, blueprint } from '@vueform/ui/blueprints/button'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfButtonEmits,
-  VfButtonProps,
-  VfButtonSlots,
+import {
+  type VfButtonEmits,
+  type VfButtonProps,
+  type VfButtonSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfButton'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/button.css'
 import '@vueform/ui/animation.css'
 

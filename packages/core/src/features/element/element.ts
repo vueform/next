@@ -1,7 +1,7 @@
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
-} from '@core/modules/conditions'
+} from '#core/modules/conditions'
 import type {
   BaseComponentClasses,
   BaseComponentEmits,
@@ -10,9 +10,10 @@ import type {
   BaseComponentProps,
   BaseComponentSlots,
   ElementName,
+  ExpressionsProp,
   LooseContext,
   TProp,
-} from '@core/types'
+} from '#core/types'
 
 /**
  * Base props shared by all form element types (text, checkbox, select, etc.).
@@ -66,6 +67,11 @@ export interface BaseElementProps<
    * model (if applicable).
    */
   detached?: boolean
+
+  /**
+   * @write
+   */
+  expressions?: ExpressionsProp
 }
 
 /**

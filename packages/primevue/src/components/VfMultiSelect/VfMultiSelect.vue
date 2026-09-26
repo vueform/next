@@ -11,18 +11,18 @@
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeMultiSelect from 'primevue/multiselect'
-import { blueprint, defaults } from '@/blueprints/multi-select'
 import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '@/features'
-import { vdomPrime } from '@/helpers'
+} from '#primevue/features'
 import type {
   VfMultiSelectEmits,
   VfMultiSelectProps,
   VfMultiSelectSlots,
 } from './types'
+import { blueprint, defaults } from '#primevue/blueprints/multi-select'
+import { vdomPrime } from '#primevue/helpers'
 
 const MultiSelect = vdomPrime(PrimeMultiSelect)
 

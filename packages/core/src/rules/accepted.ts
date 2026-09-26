@@ -1,4 +1,4 @@
-import { createRule } from '@core/helpers'
+import { createRule } from '#core/helpers'
 
 /**
  * Validates that the value is accepted (truthy: yes, on, 1, true).

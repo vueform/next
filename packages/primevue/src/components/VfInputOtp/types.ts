@@ -7,7 +7,7 @@ import type {
   InputOtpProps,
   InputOtpSlots,
   forwards,
-} from '@/blueprints/input-otp'
+} from '#primevue/blueprints/input-otp'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -15,8 +15,8 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '@/features'
-import type { ForwardedSlots } from '@/types'
+} from '#primevue/features'
+import type { ForwardedSlots } from '#primevue/types'
 import type {
   ClassValue,
   DefineElementContext,
@@ -34,8 +34,7 @@ import type {
  * item-parameterized. The interface itself is the props type.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfInputOtpProps extends InputOtpProps<
   'input-otp',

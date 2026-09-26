@@ -1,2 +1,2 @@
-import '@/scss/steps.scss'
-import '@/scss/animation.scss'
+import '#ui/scss/steps.scss'
+import '#ui/scss/animation.scss'

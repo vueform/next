@@ -1,4 +1,4 @@
-import type { DProp, LooseContext, TProp } from '@core/types'
+import type { DProp, LooseContext, TProp } from '#core/types'
 
 /**
  * @write

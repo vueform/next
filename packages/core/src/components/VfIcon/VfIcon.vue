@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { useAttrs } from 'vue'
-import { defaults, blueprint } from '@core/blueprints/icon'
-import { useBlueprint } from '@core/composables'
-import { defineEvents } from '@core/helpers'
 import type { VfIconEmits, VfIconProps, VfIconSlots } from './types'
+import { defaults, blueprint } from '#core/blueprints/icon'
+import { useBlueprint } from '#core/composables'
+import { defineEvents } from '#core/helpers'
 
 defineOptions({ name: 'VfIcon', inheritAttrs: false })
 defineEmits<VfIconEmits>()

@@ -1,5 +1,5 @@
 import { toRef, type Ref } from 'vue'
-import { useElementContext, useFormContext } from '@core/contexts'
+import { useElementContext, useFormContext } from '#core/contexts'
 
 /**
  * Returns a reactive ref that resolves a prop value by falling back from the

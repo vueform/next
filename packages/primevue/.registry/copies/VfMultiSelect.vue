@@ -23,11 +23,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimeMultiSelect from 'primevue/multiselect'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/multi-select'
-import type {
-  VfMultiSelectEmits,
-  VfMultiSelectProps,
-  VfMultiSelectSlots,
+import {
+  type VfMultiSelectEmits,
+  type VfMultiSelectProps,
+  type VfMultiSelectSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfMultiSelect'
 
 const MultiSelect = vdomPrime(PrimeMultiSelect)

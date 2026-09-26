@@ -184,64 +184,64 @@ Configure the component's behavior and appearance with these props.
 
 ### General {#props-general}
 
-| Prop                                             | Default     | Description                                                                                     |
-| ------------------------------------------------ | ----------- | ----------------------------------------------------------------------------------------------- |
-| [`name`](!code#props.name 'ElementName')         | —           | **Required.** The element's unique identifier and path in the current level of form data model. |
-| [`type`](!code#props.type 'string')              | `'content'` | The element type identifier.                                                                    |
-| [`id`](!code#props.id 'TProp<string, TContext>') | —           | The HTML `id` attribute for the input element.                                                  |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`name`](!code#props.name "ElementName") | — | **Required.** The element's unique identifier and path in the current level of form data model. |
+| [`type`](!code#props.type "string") | `'content'` | The element type identifier. |
+| [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
 ### Element {#props-content}
 
-| Prop                                                               | Default | Description                                                              |
-| ------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------ |
-| [`description`](!code#props.description 'TProp<string, TContext>') | —       | A description text displayed below the element.                          |
-| [`aligned`](!code#props.aligned 'boolean')                         | `false` | Whether the element should vertically align with adjacent form controls. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
+| [`aligned`](!code#props.aligned "boolean") | `false` | Whether the element should vertically align with adjacent form controls. |
 
 ### Data {#props-data}
 
-| Prop                                         | Default | Description                                                                                      |
-| -------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------ |
-| [`detached`](!code#props.detached 'boolean') | `false` | Whether the element is detached from the form's element registry and data model (if applicable). |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`detached`](!code#props.detached "boolean") | `false` | Whether the element is detached from the form's element registry and data model (if applicable). |
 
 ### Conditions {#props-conditions}
 
-| Prop                                                                                   | Default | Description                                                                                                                                                                                                                                                                                                                            |
-| -------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`conditions`](!code#props.conditions 'ConditionalProp<TContext>')                     | —       | Conditions that control the element's visibility and availability.                                                                                                                                                                                                                                                                     |
-| [`conditionsTrigger`](!code#props.conditionsTrigger 'ConditionsTriggerProp<TContext>') | —       | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
-| [`conditionsDebounce`](!code#props.conditionsDebounce 'number')                        | —       | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`).                                                                                                                            |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`conditions`](!code#props.conditions "ConditionalProp<TContext>") | — | Conditions that control the element's visibility and availability. |
+| [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp<TContext>") | — | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
+| [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
 
 ### Layout {#props-layout}
 
-| Prop                                                       | Default | Description                                                                                                                                                                                                   |
-| ---------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`columns`](!code#props.columns 'ColumnsProp<TContext>')   | —       | Responsive grid column sizing for the element's layout.                                                                                                                                                       |
-| [`layout`](!code#props.layout 'ComponentProp \| boolean')   | `true`  | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout.                                                                     |
-| [`label`](!code#props.label 'TProp<string, TContext>')     | —       | The label displayed alongside the element.                                                                                                                                                                    |
-| [`hideLabel`](!code#props.hideLabel 'boolean')             | `false` | Whether to visually hide the element's label.                                                                                                                                                                 |
-| [`page`](!code#props.page 'PageProp<TContext>')            | —       | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property.                                                                                     |
-| [`content`](!code#props.content 'TProp<string, TContext>') | —       | The text content rendered inside the element.                                                                                                                                                                 |
-| [`help`](!code#props.help 'TProp<string, TContext>')       | —       | A help text displayed below the label.                                                                                                                                                                        |
-| [`align`](!code#props.align 'AlignProp')                   | —       | Horizontal alignment of the element within its layout container.                                                                                                                                              |
-| [`spaceTop`](!code#props.spaceTop 'number')                | —       | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, ....                                                                                   |
-| [`spaceBottom`](!code#props.spaceBottom 'number')          | —       | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, ....                                                                                   |
-| [`lineTop`](!code#props.lineTop 'boolean')                 | `false` | Renders a horizontal line (border) above the element.                                                                                                                                                         |
-| [`lineBottom`](!code#props.lineBottom 'boolean')           | `false` | Renders a horizontal line (border) below the element.                                                                                                                                                         |
-| [`expressions`](!code#props.expressions 'ExpressionsProp') | —       | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
+| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
+| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
+| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
+| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
+| [`content`](!code#props.content "TProp<string, TContext>") | — | The text content rendered inside the element. |
+| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
+| [`align`](!code#props.align "AlignProp") | — | Horizontal alignment of the element within its layout container. |
+| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
+| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — |  |
 
 ### Customization {#props-customization}
 
-| Prop                                                      | Default | Description                                                                                                                         |
-| --------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| [`parts`](!code#props.parts 'P')                          | —       | Custom DOM attribute overrides for the component's structural parts.                                                                |
-| [`class`](!code#props.class 'ClassValue')                 | —       | CSS classes to apply to the component's root element.                                                                               |
-| [`classes`](!code#props.classes 'C')                      | —       | Custom CSS class overrides for the component's structural parts.                                                                    |
-| [`reclass`](!code#props.reclass 'C')                      | —       | CSS class overrides that replace (rather than merge with) default classes.                                                          |
-| [`tokens`](!code#props.tokens 'ThemeTokens')              | —       | Token overrides applied to the element's CSS custom properties.                                                                     |
-| [`slots`](!code#props.slots 'S')                          | —       | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
-| [`presets`](!code#props.presets 'PresetsProp')            | —       | Named configuration presets to apply to the component.                                                                              |
-| [`template`](!code#props.template 'ComponentProp \| null') | —       | A custom Vue component to use as the template instead of the default.                                                               |
-| [`component`](!code#props.component 'ComponentProp')      | —       | A custom Vue component to render in the component's default slot.                                                                   |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`parts`](!code#props.parts "P") | — | Custom DOM attribute overrides for the component's structural parts. |
+| [`class`](!code#props.class "ClassValue") | — | CSS classes to apply to the component's root element. |
+| [`classes`](!code#props.classes "C") | — | Custom CSS class overrides for the component's structural parts. |
+| [`reclass`](!code#props.reclass "C") | — | CSS class overrides that replace (rather than merge with) default classes. |
+| [`tokens`](!code#props.tokens "ThemeTokens") | — | Token overrides applied to the element's CSS custom properties. |
+| [`slots`](!code#props.slots "S") | — | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
+| [`presets`](!code#props.presets "PresetsProp") | — | Named configuration presets to apply to the component. |
+| [`template`](!code#props.template "ComponentProp \| null") | — | A custom Vue component to use as the template instead of the default. |
+| [`component`](!code#props.component "ComponentProp") | — | A custom Vue component to render in the component's default slot. |
 
 <!-- @endcollapsible -->
 <!-- @props-end -->
@@ -255,78 +255,76 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 <!-- @collapsible -->
 <!-- @context-start -->
-
 ### General {#section-general}
 
-| Name                                    | Description                                                        |
-| --------------------------------------- | ------------------------------------------------------------------ |
-| [`type`](!code#context.type 'string')   | The element's type identifier (e.g. "text", "checkbox", "select"). |
-| [`name`](!code#context.name 'string')   | The element's name as a string ref.                                |
-| [`props`](!code#context.props 'object') | The resolved component props with defaults applied.                |
+| Name | Description |
+| --- | --- |
+| [`type`](!code#context.type "string") | The element's type identifier (e.g. "text", "checkbox", "select"). |
+| [`name`](!code#context.name "string") | The element's name as a string ref. |
+| [`props`](!code#context.props "object") | The resolved component props with defaults applied. |
 
 ### Content {#section-content}
 
-| Name                                                                                                 | Description                                                                                                                                                                                                                                                                                |
-| ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [`description`](!code#context.description 'string \| (string & {}) \| undefined')                      | The resolved description text for the element.                                                                                                                                                                                                                                             |
-| [`descriptionId`](!code#context.descriptionId 'string')                                              | The DOM id for the element's description text region.                                                                                                                                                                                                                                      |
-| [`content`](!code#context.content 'UnwrapDynamicProp<LooseRequired<TProps>["content"]> \| undefined') | The resolved text content for the element — sanitized in the resolution pipeline after localization and expressions, and only when the resolved string actually contains markup, so plain text never enters the engine.                                                                    |
-| [`isHtml`](!code#context.isHtml 'boolean')                                                           | Whether the content renders as HTML. `$security.allowHtml: ['content']` must list the area, so no schema entry can grant itself HTML rendering. When refused, the markup renders as escaped text instead. Markup-free content never consults the gate — it renders identically either way. |
-| [`tag`](!code#context.tag 'string')                                                                  | The HTML tag used to render the content wrapper.                                                                                                                                                                                                                                           |
+| Name | Description |
+| --- | --- |
+| [`description`](!code#context.description "string \| (string & {}) \| undefined") | The resolved description text for the element. |
+| [`descriptionId`](!code#context.descriptionId "string") | The DOM id for the element's description text region. |
+| [`content`](!code#context.content "UnwrapDynamicProp<LooseRequired<TProps>[\"content\"]> \| undefined") | The resolved text content for the element — sanitized in the resolution pipeline after localization and expressions, and only when the resolved string actually contains markup, so plain text never enters the engine. |
+| [`isHtml`](!code#context.isHtml "boolean") | Whether the content renders as HTML. `$security.allowHtml: ['content']` must list the area, so no schema entry can grant itself HTML rendering. When refused, the markup renders as escaped text instead. Markup-free content never consults the gate — it renders identically either way. |
+| [`tag`](!code#context.tag "string") | The HTML tag used to render the content wrapper. |
 
 ### State {#section-state}
 
-| Name                                             | Description                                                                                             |
-| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------- |
-| [`visible`](!code#context.visible 'boolean')     | Whether the element is currently visible, based on availability, container visibility, and pager state. |
-| [`available`](!code#context.available 'boolean') | Whether the element is available (not hidden by conditional logic).                                     |
+| Name | Description |
+| --- | --- |
+| [`visible`](!code#context.visible "boolean") | Whether the element is currently visible, based on availability, container visibility, and pager state. |
+| [`available`](!code#context.available "boolean") | Whether the element is available (not hidden by conditional logic). |
 
 ### Validation {#section-validation}
 
-| Name                                                          | Description                                                                                                |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [`errors`](!code#context.errors 'string[]')                   | The reactive list of validation error messages.                                                            |
-| [`displayErrors`](!code#context.displayErrors 'string[]')     | The reactive list of validation error messages.                                                            |
-| [`messages`](!code#context.messages 'string[]')               | The reactive list of informational messages.                                                               |
-| [`messageBag`](!code#context.messageBag 'MessageBagInstance') | The element's message bag for managing custom errors, messages, and prepended/appended messages.           |
-| [`genericName`](!code#context.genericName 'string')           | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop. |
+| Name | Description |
+| --- | --- |
+| [`errors`](!code#context.errors "string[]") | The reactive list of validation error messages. |
+| [`displayErrors`](!code#context.displayErrors "string[]") | The reactive list of validation error messages. |
+| [`messages`](!code#context.messages "string[]") | The reactive list of informational messages. |
+| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for managing custom errors, messages, and prepended/appended messages. |
+| [`genericName`](!code#context.genericName "string") | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop. |
 
 ### Layout {#section-layout}
 
-| Name                                                                                                                                  | Description                                                                                                                                   |
-| ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`id`](!code#context.id 'string')                                                                                                     | The resolved element id, using the id prop or falling back to the auto-generated uid.                                                         |
-| [`label`](!code#context.label 'string \| undefined')                                                                                   | The resolved label text for the element.                                                                                                      |
-| [`help`](!code#context.help 'string')                                                                                                 | The resolved help text for the element.                                                                                                       |
-| [`page`](!code#context.page 'PageProp \| undefined')                                                                                   | Page metadata for stepped/tabbed forms.                                                                                                       |
-| [`classes`](!code#context.classes 'object')                                                                                           | The resolved CSS class map for the component.                                                                                                 |
-| [`parts`](!code#context.parts 'object')                                                                                               | The resolved DOM attribute overrides for internal elements.                                                                                   |
-| [`viewLoaded`](!code#context.viewLoaded 'boolean')                                                                                    | Whether the element's view has been loaded (used for lazy rendering optimization).                                                            |
-| [`$el`](!code#context.$el 'HTMLElement \| null')                                                                                       | Reference to the component's root DOM element.                                                                                                |
-| [`resolvedColumns`](!code#context.resolvedColumns 'object')                                                                           | Resolved column sizes per breakpoint, normalized into container/label/wrapper/group values.                                                   |
-| [`updateColumns()`](!code#context.updateColumns '(v: any) => any')                                                                    | Updates the column configuration programmatically.                                                                                            |
-| [`scrollTo()`](!code#context.scrollTo '(options: ScrollIntoViewOptions \| undefined, force: boolean \| undefined) => Promise<boolean>') | Scrolls the window to this element. If the element belongs to a step or tab, that page is selected first before scrolling.                    |
-| [`focus()`](!code#context.focus '(scroll: boolean \| undefined) => Promise<boolean>')                                                  | Focuses the first focusable HTML element (input, select, textarea, button, etc.) within the wrapper. Optionally scrolls to the element first. |
+| Name | Description |
+| --- | --- |
+| [`id`](!code#context.id "string") | The resolved element id, using the id prop or falling back to the auto-generated uid. |
+| [`label`](!code#context.label "string \| undefined") | The resolved label text for the element. |
+| [`help`](!code#context.help "string") | The resolved help text for the element. |
+| [`page`](!code#context.page "PageProp \| undefined") | Page metadata for stepped/tabbed forms. |
+| [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
+| [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
+| [`viewLoaded`](!code#context.viewLoaded "boolean") | Whether the element's view has been loaded (used for lazy rendering optimization). |
+| [`$el`](!code#context.$el "HTMLElement \| null") | Reference to the component's root DOM element. |
+| [`resolvedColumns`](!code#context.resolvedColumns "object") | Resolved column sizes per breakpoint, normalized into container/label/wrapper/group values. |
+| [`updateColumns()`](!code#context.updateColumns "(v: any) => any") | Updates the column configuration programmatically. |
+| [`scrollTo()`](!code#context.scrollTo "(options: ScrollIntoViewOptions \| undefined, force: boolean \| undefined) => Promise<boolean>") | Scrolls the window to this element. If the element belongs to a step or tab, that page is selected first before scrolling. |
+| [`focus()`](!code#context.focus "(scroll: boolean \| undefined) => Promise<boolean>") | Focuses the first focusable HTML element (input, select, textarea, button, etc.) within the wrapper. Optionally scrolls to the element first. |
 
 ### Tree {#section-tree}
 
-| Name                                                                                          | Description                                                                                  |
-| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [`form$`](!code#context.form$ 'VfFormContext<EntryProps<Record<string, any>>> \| undefined')   | The parent form's context, providing access to form-level state and methods.                 |
-| [`path`](!code#context.path 'string')                                                         | The element's dot-notation path in the form tree (e.g. "user.name").                         |
-| [`componentName`](!code#context.componentName 'keyof ComponentRegistry<Record<string, any>>') | The resolved Vue component name for this element.                                            |
-| [`container`](!code#context.container 'ContainerContext \| undefined')                         | The container context providing path, model, and registration methods for child elements.    |
-| [`children`](!code#context.children 'VueformChildren')                                        | The child element registry providing registration, unregistration, and reactive child lists. |
+| Name | Description |
+| --- | --- |
+| [`form$`](!code#context.form$ "VfFormContext<EntryProps<Record<string, any>>> \| undefined") | The parent form's context, providing access to form-level state and methods. |
+| [`path`](!code#context.path "string") | The element's dot-notation path in the form tree (e.g. "user.name"). |
+| [`componentName`](!code#context.componentName "keyof ComponentRegistry<Record<string, any>>") | The resolved Vue component name for this element. |
+| [`container`](!code#context.container "ContainerContext \| undefined") | The container context providing path, model, and registration methods for child elements. |
+| [`children`](!code#context.children "VueformChildren") | The child element registry providing registration, unregistration, and reactive child lists. |
 
 ### Accessibility {#section-a11y}
 
-| Name                                        | Description                                         |
-| ------------------------------------------- | --------------------------------------------------- |
-| [`uid`](!code#context.uid 'string')         | A unique auto-generated identifier for the element. |
-| [`helpId`](!code#context.helpId 'string')   | The DOM id for the element's help text region.      |
-| [`errorId`](!code#context.errorId 'string') | The DOM id for the element's error message region.  |
-| [`labelId`](!code#context.labelId 'string') | The DOM id for the element's label region.          |
-
+| Name | Description |
+| --- | --- |
+| [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
+| [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
+| [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
+| [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -338,15 +336,13 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 Events emitted by the component. See [Events](/guide/event-handlers) for details.
 
 <!-- @events-start -->
-
-| Name            | Params                                                       | Description                                |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------ |
-| `beforeMount`   | [`context$`](!code#events.beforeMount.context$ 'TContext')   | Emitted before the component is mounted.   |
-| `mounted`       | [`context$`](!code#events.mounted.context$ 'TContext')       | Emitted after the component is mounted.    |
-| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ 'TContext') | Emitted before the component is unmounted. |
-| `unmounted`     | [`context$`](!code#events.unmounted.context$ 'TContext')     | Emitted after the component is unmounted.  |
-| `updated`       | [`context$`](!code#events.updated.context$ 'TContext')       | Emitted after the component is updated.    |
-
+| Name | Params | Description |
+| --- | --- | --- |
+| `beforeMount` | [`context$`](!code#events.beforeMount.context$ "TContext") | Emitted before the component is mounted. |
+| `mounted` | [`context$`](!code#events.mounted.context$ "TContext") | Emitted after the component is mounted. |
+| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ "TContext") | Emitted before the component is unmounted. |
+| `unmounted` | [`context$`](!code#events.unmounted.context$ "TContext") | Emitted after the component is unmounted. |
+| `updated` | [`context$`](!code#events.updated.context$ "TContext") | Emitted after the component is updated. |
 <!-- @events-end -->
 
 <!-- @endtab -->
@@ -357,18 +353,16 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 
 <!-- @slots-start -->
-
-| Name          | Scope                                                        | Description                                                                                                        |
-| ------------- | ------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `template`    | [`context`](!code#slot.template.context 'TContext')          | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `label`       | [`label`](!code#slot.label.label 'string')                   | Slot for customizing the element's label content.                                                                  |
-| `required`    | —                                                            | Slot for customizing the required indicator.                                                                       |
-| `help`        | [`help`](!code#slot.help.help 'string')                      | Slot for customizing the help text.                                                                                |
-| `default`     | [`Context`](#context 'Full context available. Click to see') | Default slot that replaces the content. Receives the full component context.                                       |
-| `description` | [`description`](!code#slot.description.description 'string') | Slot for customizing the description text.                                                                         |
-| `errors`      | [`errors`](!code#slot.errors.errors 'string[]')              | Slot for customizing the validation errors display.                                                                |
-| `messages`    | [`messages`](!code#slot.messages.messages 'string[]')        | Slot for customizing the info messages display.                                                                    |
-
+| Name | Scope | Description |
+| --- | --- | --- |
+| `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
+| `required` | — | Slot for customizing the required indicator. |
+| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
+| `default` | [`Context`](#context "Full context available. Click to see") | Default slot that replaces the content. Receives the full component context. |
+| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
+| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -406,124 +400,122 @@ messageBag.append('Content loaded', 'message')
 </VPParts>
 
 <!-- @parts-start -->
-
 ### `panel`
 
 The wrapper around `root` with `display: contents` when the element is a step or a tab.
 
-|             |             |
-| ----------- | ----------- |
-| **Element** | `<div>`     |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-panel` |
 
 ### `root`
 
 The element's root wrapper.
 
-|             |                                                                                                                                                                                                                                                                |
-| ----------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Element** | `<div>` `<fieldset>`                                                                                                                                                                                                                                           |
+| | |
+| --- | --- |
+| **Element** | `<div>` `<fieldset>` |
 | **Classes** | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-content` `.vf-left?` `.vf-center?` `.vf-right?` `.vf-justify?` `.vf-aligned?` |
 
 ### `labelGroup`
 
 The container holding the label and required indicator.
 
-|             |                                                                               |
-| ----------- | ----------------------------------------------------------------------------- |
-| **Element** | `<div>`                                                                       |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-label-group` `.vf-h1?` `.vf-h2?` `.vf-h3?` `.vf-h4?` `.vf-h5?` `.vf-h6?` |
 
 ### `label`
 
 The label element.
 
-|             |                                                              |
-| ----------- | ------------------------------------------------------------ |
+| | |
+| --- | --- |
 | **Element** | `<label>` `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
-| **Classes** | `.vf-label`                                                  |
+| **Classes** | `.vf-label` |
 
 ### `required`
 
 The required indicator.
 
-|             |                |
-| ----------- | -------------- |
-| **Element** | `<div>`        |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-required` |
 
 ### `elementGroup`
 
 The container wrapping the input and related UI.
 
-|             |                     |
-| ----------- | ------------------- |
-| **Element** | `<div>`             |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-element-group` |
 
 ### `elementWrapper`
 
 The wrapper directly around the input control.
 
-|             |                       |
-| ----------- | --------------------- |
-| **Element** | `<div>`               |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-element-wrapper` |
 
 ### `help`
 
 The help text area.
 
-|             |            |
-| ----------- | ---------- |
-| **Element** | `<div>`    |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-help` |
 
 ### `description`
 
 The description text area.
 
-|             |                   |
-| ----------- | ----------------- |
-| **Element** | `<div>`           |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-description` |
 
 ### `errors`
 
 The validation errors container.
 
-|             |              |
-| ----------- | ------------ |
-| **Element** | `<div>`      |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-errors` |
 
 ### `error`
 
 An individual validation error.
 
-|             |             |
-| ----------- | ----------- |
-| **Element** | `<div>`     |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-error` |
 
 ### `messages`
 
 The info messages container.
 
-|             |                |
-| ----------- | -------------- |
-| **Element** | `<div>`        |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-messages` |
 
 ### `message`
 
 An individual info message.
 
-|             |               |
-| ----------- | ------------- |
-| **Element** | `<div>`       |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-message` |
-
 <!-- @parts-end -->
 <!-- @endtab -->
 

@@ -80,7 +80,6 @@ const [MyForm] = useForm({
 ## Props
 
 <!-- @props-intro-start -->
-
 Configure the component's behavior and appearance with these props.
 <!-- @props-intro-end -->
 
@@ -89,22 +88,22 @@ Configure the component's behavior and appearance with these props.
 
 ### Component {#props-tabs}
 
-| Prop                                 | Default | Description                                               |
-| ------------------------------------ | ------- | --------------------------------------------------------- |
-| [`pager`](!code#props.pager 'Pager') | —       | **Required.** The pager instance managing tab navigation. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`pager`](!code#props.pager "Pager") | — | **Required.** The pager instance managing tab navigation. |
 
 ### Customization {#props-customization}
 
-| Prop                                                      | Default | Description                                                                                                                         |
-| --------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| [`parts`](!code#props.parts 'P')                          | —       | Custom DOM attribute overrides for the component's structural parts.                                                                |
-| [`class`](!code#props.class 'ClassValue')                 | —       | CSS classes to apply to the component's root element.                                                                               |
-| [`classes`](!code#props.classes 'C')                      | —       | Custom CSS class overrides for the component's structural parts.                                                                    |
-| [`reclass`](!code#props.reclass 'C')                      | —       | CSS class overrides that replace (rather than merge with) default classes.                                                          |
-| [`slots`](!code#props.slots 'S')                          | —       | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
-| [`presets`](!code#props.presets 'PresetsProp')            | —       | Named configuration presets to apply to the component.                                                                              |
-| [`template`](!code#props.template 'ComponentProp \| null') | —       | A custom Vue component to use as the template instead of the default.                                                               |
-| [`component`](!code#props.component 'ComponentProp')      | —       | A custom Vue component to render in the component's default slot.                                                                   |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`parts`](!code#props.parts "P") | — | Custom DOM attribute overrides for the component's structural parts. |
+| [`class`](!code#props.class "ClassValue") | — | CSS classes to apply to the component's root element. |
+| [`classes`](!code#props.classes "C") | — | Custom CSS class overrides for the component's structural parts. |
+| [`reclass`](!code#props.reclass "C") | — | CSS class overrides that replace (rather than merge with) default classes. |
+| [`slots`](!code#props.slots "S") | — | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
+| [`presets`](!code#props.presets "PresetsProp") | — | Named configuration presets to apply to the component. |
+| [`template`](!code#props.template "ComponentProp \| null") | — | A custom Vue component to use as the template instead of the default. |
+| [`component`](!code#props.component "ComponentProp") | — | A custom Vue component to render in the component's default slot. |
 
 <!-- @endcollapsible -->
 <!-- @props-end -->
@@ -120,20 +119,18 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 <!-- @collapsible -->
 <!-- @context-start -->
-
 ### General {#section-general}
 
-| Name                                    | Description                                         |
-| --------------------------------------- | --------------------------------------------------- |
-| [`props`](!code#context.props 'object') | The resolved component props with defaults applied. |
+| Name | Description |
+| --- | --- |
+| [`props`](!code#context.props "object") | The resolved component props with defaults applied. |
 
 ### Layout {#section-layout}
 
-| Name                                        | Description                                                 |
-| ------------------------------------------- | ----------------------------------------------------------- |
-| [`classes`](!code#context.classes 'object') | The resolved CSS class map for the component.               |
-| [`parts`](!code#context.parts 'object')     | The resolved DOM attribute overrides for internal elements. |
-
+| Name | Description |
+| --- | --- |
+| [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
+| [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -146,15 +143,13 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 Events emitted by the component. See [Events](/guide/event-handlers) for details.
 
 <!-- @events-start -->
-
-| Name            | Params                                                       | Description                                |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------ |
-| `beforeMount`   | [`context$`](!code#events.beforeMount.context$ 'TContext')   | Emitted before the component is mounted.   |
-| `mounted`       | [`context$`](!code#events.mounted.context$ 'TContext')       | Emitted after the component is mounted.    |
-| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ 'TContext') | Emitted before the component is unmounted. |
-| `unmounted`     | [`context$`](!code#events.unmounted.context$ 'TContext')     | Emitted after the component is unmounted.  |
-| `updated`       | [`context$`](!code#events.updated.context$ 'TContext')       | Emitted after the component is updated.    |
-
+| Name | Params | Description |
+| --- | --- | --- |
+| `beforeMount` | [`context$`](!code#events.beforeMount.context$ "TContext") | Emitted before the component is mounted. |
+| `mounted` | [`context$`](!code#events.mounted.context$ "TContext") | Emitted after the component is mounted. |
+| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ "TContext") | Emitted before the component is unmounted. |
+| `unmounted` | [`context$`](!code#events.unmounted.context$ "TContext") | Emitted after the component is unmounted. |
+| `updated` | [`context$`](!code#events.updated.context$ "TContext") | Emitted after the component is updated. |
 <!-- @events-end -->
 <!-- @endtab -->
 
@@ -165,13 +160,11 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 
 <!-- @slots-start -->
-
-| Name       | Scope                                                                                                                                                                                                                                                                                                                                                                                                                                                        | Description                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `template` | [`context`](!code#slot.template.context 'TContext')                                                                                                                                                                                                                                                                                                                                                                                                          | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `wrapper`  | [`class`](!code#slot.wrapper.class 'ClassValue') [`index`](!code#slot.wrapper.index 'number') [`label`](!code#slot.wrapper.label 'string') [`meta`](!code#slot.wrapper.meta 'Record<string, any>') [`selected`](!code#slot.wrapper.selected 'boolean') [`invalid`](!code#slot.wrapper.invalid 'boolean') [`loading`](!code#slot.wrapper.loading 'boolean') [`el$`](!code#slot.wrapper.el$ 'UnknownElement') [`page`](!code#slot.wrapper.page 'ResolvedPage') | Slot that replaces each tab wrapper element. Receives tab state and page info.                                     |
-| `default`  | [`index`](!code#slot.default.index 'number') [`label`](!code#slot.default.label 'string') [`meta`](!code#slot.default.meta 'Record<string, any>') [`selected`](!code#slot.default.selected 'boolean') [`invalid`](!code#slot.default.invalid 'boolean') [`loading`](!code#slot.default.loading 'boolean') [`el$`](!code#slot.default.el$ 'UnknownElement')                                                                                                   | Slot that replaces each tab's inner content. Receives tab state.                                                   |
-
+| Name | Scope | Description |
+| --- | --- | --- |
+| `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `wrapper` | [`class`](!code#slot.wrapper.class "ClassValue") [`index`](!code#slot.wrapper.index "number") [`label`](!code#slot.wrapper.label "string") [`meta`](!code#slot.wrapper.meta "Record<string, any>") [`selected`](!code#slot.wrapper.selected "boolean") [`invalid`](!code#slot.wrapper.invalid "boolean") [`loading`](!code#slot.wrapper.loading "boolean") [`el$`](!code#slot.wrapper.el$ "UnknownElement") [`page`](!code#slot.wrapper.page "ResolvedPage") | Slot that replaces each tab wrapper element. Receives tab state and page info. |
+| `default` | [`index`](!code#slot.default.index "number") [`label`](!code#slot.default.label "string") [`meta`](!code#slot.default.meta "Record<string, any>") [`selected`](!code#slot.default.selected "boolean") [`invalid`](!code#slot.default.invalid "boolean") [`loading`](!code#slot.default.loading "boolean") [`el$`](!code#slot.default.el$ "UnknownElement") | Slot that replaces each tab's inner content. Receives tab state. |
 <!-- @slots-end -->
 <!-- @endtab -->
 
@@ -190,43 +183,41 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
-
 ### `root`
 
 The root tabs container element.
 
-|             |            |
-| ----------- | ---------- |
-| **Element** | `<div>`    |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-tabs` |
 
 ### `list`
 
 The tab list element.
 
-|             |                    |
-| ----------- | ------------------ |
-| **Element** | `<ul>`             |
+| | |
+| --- | --- |
+| **Element** | `<ul>` |
 | **Classes** | `.vf-tabs-wrapper` |
 
 ### `wrapper`
 
 Each tab wrapper. Receives the resolved page data.
 
-|             |                                                  |
-| ----------- | ------------------------------------------------ |
-| **Element** | `<li>`                                           |
+| | |
+| --- | --- |
+| **Element** | `<li>` |
 | **Classes** | `.vf-tab-wrapper` `.vf-selected?` `.vf-invalid?` |
 
 ### `tab`
 
 The tab button element.
 
-|             |            |
-| ----------- | ---------- |
+| | |
+| --- | --- |
 | **Element** | `<button>` |
-| **Classes** | `.vf-tab`  |
-
+| **Classes** | `.vf-tab` |
 <!-- @parts-end -->
 <!-- @endtab -->
 

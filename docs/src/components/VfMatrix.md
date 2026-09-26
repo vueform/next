@@ -1550,128 +1550,128 @@ Configure the component's behavior and appearance with these props.
 
 ### General {#props-general}
 
-| Prop                                             | Default    | Description                                                                                     |
-| ------------------------------------------------ | ---------- | ----------------------------------------------------------------------------------------------- |
-| [`name`](!code#props.name 'ElementName')         | —          | **Required.** The element's unique identifier and path in the current level of form data model. |
-| [`type`](!code#props.type 'string')              | `'matrix'` | The element type identifier.                                                                    |
-| [`id`](!code#props.id 'TProp<string, TContext>') | —          | The HTML `id` attribute for the input element.                                                  |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`name`](!code#props.name "ElementName") | — | **Required.** The element's unique identifier and path in the current level of form data model. |
+| [`type`](!code#props.type "string") | `'matrix'` | The element type identifier. |
+| [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
 ### Input {#props-matrix}
 
-| Prop                                                                                                          | Default         | Description                                                                                                                                                                                                                                                                                                  |
-| ------------------------------------------------------------------------------------------------------------- | --------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [`mode`](!code#props.mode 'MatrixModes \| (string & {})')                                                      | `'auto'`        | The selection mode for the matrix.                                                                                                                                                                                                                                                                           |
-| [`tabular`](!code#props.tabular 'boolean')                                                                    | `false`         | Whether the matrix uses a tabular visual style with borders and headers.                                                                                                                                                                                                                                     |
-| [`sort`](!code#props.sort 'boolean')                                                                          | `false`         | Whether to enable drag-and-drop sorting of matrix rows.                                                                                                                                                                                                                                                      |
-| [`scrollable`](!code#props.scrollable 'boolean')                                                              | `false`         | Whether the matrix is horizontally scrollable on overflow.                                                                                                                                                                                                                                                   |
-| [`stickyCols`](!code#props.stickyCols 'boolean')                                                              | `false`         | Whether column headers stick to the left when scrolling.                                                                                                                                                                                                                                                     |
-| [`stickyRows`](!code#props.stickyRows 'boolean')                                                              | `false`         | Whether row headers stick to the top when scrolling.                                                                                                                                                                                                                                                         |
-| [`wrapColHeaders`](!code#props.wrapColHeaders 'boolean')                                                      | `false`         | Whether column header text can wrap.                                                                                                                                                                                                                                                                         |
-| [`wrapRowHeaders`](!code#props.wrapRowHeaders 'boolean')                                                      | `false`         | Whether row header text can wrap.                                                                                                                                                                                                                                                                            |
-| [`addLabel`](!code#props.addLabel 'TProp<string, TContext>')                                                  | —               | The label text for the "add row" button.                                                                                                                                                                                                                                                                     |
-| [`removeLabel`](!code#props.removeLabel 'TProp<string, TContext>')                                            | —               | The label text for the "remove row" button.                                                                                                                                                                                                                                                                  |
-| [`addIcon`](!code#props.addIcon 'DProp<string, TContext>')                                                    | `'$add'`        | The icon identifier for the "add row" button.                                                                                                                                                                                                                                                                |
-| [`removeIcon`](!code#props.removeIcon 'DProp<string, TContext>')                                              | `'$remove'`     | The icon identifier for the "remove row" button.                                                                                                                                                                                                                                                             |
-| [`sortIcon`](!code#props.sortIcon 'DProp<string, TContext>')                                                  | `'$sort'`       | The icon identifier for the sort handle button.                                                                                                                                                                                                                                                              |
-| [`colHeaders`](!code#props.colHeaders 'boolean')                                                              | `true`          | Whether to display column headers.                                                                                                                                                                                                                                                                           |
-| [`rowHeaders`](!code#props.rowHeaders 'boolean')                                                              | `true`          | Whether to display row headers.                                                                                                                                                                                                                                                                              |
-| [`minWidth`](!code#props.minWidth 'number \| string')                                                          | `'min-content'` | The minimum width of each matrix column.                                                                                                                                                                                                                                                                     |
-| [`maxWidth`](!code#props.maxWidth 'number \| string')                                                          | `'1fr'`         | The maximum width of each matrix column.                                                                                                                                                                                                                                                                     |
-| [`min`](!code#props.min 'number')                                                                             | `-1`            | The minimum number of rows allowed.                                                                                                                                                                                                                                                                          |
-| [`max`](!code#props.max 'number')                                                                             | `-1`            | The maximum number of rows allowed.                                                                                                                                                                                                                                                                          |
-| [`gridTemplateColumns`](!code#props.gridTemplateColumns 'string \| ((context$: any) => any)')                  | —               | CSS `grid-template-columns` value or a function returning it.                                                                                                                                                                                                                                                |
-| [`add`](!code#props.add 'boolean')                                                                            | `true`          | Whether adding new rows is enabled. When `false`, the add button is not rendered.                                                                                                                                                                                                                            |
-| [`remove`](!code#props.remove 'boolean')                                                                      | `true`          | Whether removing rows is enabled. When `false`, remove buttons are not rendered.                                                                                                                                                                                                                             |
-| [`headers`](!code#props.headers 'Record<string, string>')                                                     | —               | Custom HTTP headers to include when loading cols or rows from an endpoint.                                                                                                                                                                                                                                   |
-| [`method`](!code#props.method 'string')                                                                       | —               | The HTTP method to use when loading cols or rows from an endpoint. Defaults to `'GET'`.                                                                                                                                                                                                                      |
-| [`cols`](!code#props.cols 'MatrixCols')                                                                       | —               | The column definitions for the matrix grid. Accepts a plain array, a plain object, an array of objects (customizable via `colValue`, `colLabel`, and related props), an endpoint URL string (supporting expressions), or a (possibly async) function receiving the component context.                        |
-| [`rows`](!code#props.rows 'MatrixRows \| number')                                                              | —               | The row definitions or a fixed number of rows for the matrix grid. Accepts a plain array, a plain object, an array of objects (customizable via `rowValue`, `rowLabel`, and related props), an endpoint URL string (supporting expressions), or a (possibly async) function receiving the component context. |
-| [`colValue`](!code#props.colValue 'string \| ((col: any) => any) \| null')                                      | `'value'`       | The key or function that resolves each column's value (the key used in the matrix data object) when `cols` is an array of objects. Defaults to `'value'`. Set to `null` to use the full column object as the value.                                                                                          |
-| [`colLabel`](!code#props.colLabel 'string \| ((col: any) => string \| number \| undefined)')                     | `'label'`       | The key or function that resolves each column's header label when `cols` is an array of objects. Defaults to `'label'`.                                                                                                                                                                                      |
-| [`colConditions`](!code#props.colConditions 'string \| ((col: any) => ConditionalProp<TContext> \| undefined)') | `'conditions'`  | The key or function that resolves each column's conditions when `cols` is an array of objects. Defaults to `'conditions'`.                                                                                                                                                                                   |
-| [`colSchema`](!code#props.colSchema 'string \| ((col: any) => MatrixElement \| undefined)')                     | `'schema'`      | The key or function that resolves each column's custom element schema when `cols` is an array of objects. Defaults to `'schema'`.                                                                                                                                                                            |
-| [`colMinWidth`](!code#props.colMinWidth 'string \| ((col: any) => string \| number \| undefined)')               | `'minWidth'`    | The key or function that resolves each column's minimum width when `cols` is an array of objects. Defaults to `'minWidth'`.                                                                                                                                                                                  |
-| [`colMaxWidth`](!code#props.colMaxWidth 'string \| ((col: any) => string \| number \| undefined)')               | `'maxWidth'`    | The key or function that resolves each column's maximum width when `cols` is an array of objects. Defaults to `'maxWidth'`.                                                                                                                                                                                  |
-| [`rowValue`](!code#props.rowValue 'string \| ((row: any) => string \| number)')                                 | `'value'`       | The key or function that resolves each row's value (the key used in the matrix data object) when `rows` is an array of objects. Defaults to `'value'`.                                                                                                                                                       |
-| [`rowLabel`](!code#props.rowLabel 'string \| ((row: any) => string \| number \| undefined)')                     | `'label'`       | The key or function that resolves each row's header label when `rows` is an array of objects. Defaults to `'label'`.                                                                                                                                                                                         |
-| [`rowConditions`](!code#props.rowConditions 'string \| ((row: any) => ConditionalProp \| undefined)')           | `'conditions'`  | The key or function that resolves each row's conditions when `rows` is an array of objects. Defaults to `'conditions'`.                                                                                                                                                                                      |
-| [`rowRules`](!code#props.rowRules 'string \| ((row: any) => RulesProp \| undefined)')                           | `'rules'`       | The key or function that resolves each row's validation rules when `rows` is an array of objects. Defaults to `'rules'`.                                                                                                                                                                                     |
-| [`colsTrigger`](!code#props.colsTrigger 'ConditionsTriggerProp')                                              | —               | The source that triggers re-resolution of function-based `cols`. Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, function-based cols are only re-resolved when the `cols` prop reference itself changes.                            |
-| [`colsDebounce`](!code#props.colsDebounce 'number')                                                           | —               | The debounce delay in milliseconds applied before re-resolving `cols` when an expression path or the `colsTrigger` source changes. Defaults to no debounce (immediate re-resolution).                                                                                                                        |
-| [`transformCols`](!code#props.transformCols '(data: any) => any[] \| Record<string, any>')                     | —               | Transforms data received from a `cols` endpoint or function into the cols format before normalization.                                                                                                                                                                                                       |
-| [`rowsTrigger`](!code#props.rowsTrigger 'ConditionsTriggerProp')                                              | —               | The source that triggers re-resolution of function-based `rows`. Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, function-based rows are only re-resolved when the `rows` prop reference itself changes.                            |
-| [`rowsDebounce`](!code#props.rowsDebounce 'number')                                                           | —               | The debounce delay in milliseconds applied before re-resolving `rows` when an expression path or the `rowsTrigger` source changes. Defaults to no debounce (immediate re-resolution).                                                                                                                        |
-| [`transformRows`](!code#props.transformRows '(data: any) => any[] \| Record<string, any>')                     | —               | Transforms data received from a `rows` endpoint or function into the rows format before normalization.                                                                                                                                                                                                       |
-| [`endpoint`](!code#props.endpoint 'string')                                                                   | —               | An endpoint URL (supporting expressions) that loads both the column and row definitions from a single request. Each side can still be overridden by defining `cols` or `rows` explicitly.                                                                                                                    |
-| [`colsKey`](!code#props.colsKey 'string \| ((data: any) => any)')                                              | `'cols'`        | The key or function that resolves the column definitions from the `endpoint` response. Defaults to `'cols'`.                                                                                                                                                                                                 |
-| [`rowsKey`](!code#props.rowsKey 'string \| ((data: any) => any)')                                              | `'rows'`        | The key or function that resolves the row definitions from the `endpoint` response. Defaults to `'rows'`.                                                                                                                                                                                                    |
-| [`transformEndpoint`](!code#props.transformEndpoint '(data: any) => any[] \| Record<string, any>')             | —               | Transforms data received from the `endpoint` before the column and row definitions are extracted.                                                                                                                                                                                                            |
-| [`description`](!code#props.description 'TProp<string, TContext>')                                            | —               | A description text displayed below the element.                                                                                                                                                                                                                                                              |
-| [`sensitive`](!code#props.sensitive 'boolean')                                                                | `false`         | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded.                                                                                                                  |
-| [`disabled`](!code#props.disabled 'ConditionalProp<TContext>')                                                | —               | Whether the element is disabled.                                                                                                                                                                                                                                                                             |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`mode`](!code#props.mode "MatrixModes \| (string & {})") | `'auto'` | The selection mode for the matrix. |
+| [`tabular`](!code#props.tabular "boolean") | `false` | Whether the matrix uses a tabular visual style with borders and headers. |
+| [`sort`](!code#props.sort "boolean") | `false` | Whether to enable drag-and-drop sorting of matrix rows. |
+| [`scrollable`](!code#props.scrollable "boolean") | `false` | Whether the matrix is horizontally scrollable on overflow. |
+| [`stickyCols`](!code#props.stickyCols "boolean") | `false` | Whether column headers stick to the left when scrolling. |
+| [`stickyRows`](!code#props.stickyRows "boolean") | `false` | Whether row headers stick to the top when scrolling. |
+| [`wrapColHeaders`](!code#props.wrapColHeaders "boolean") | `false` | Whether column header text can wrap. |
+| [`wrapRowHeaders`](!code#props.wrapRowHeaders "boolean") | `false` | Whether row header text can wrap. |
+| [`addLabel`](!code#props.addLabel "TProp<string, TContext>") | — | The label text for the "add row" button. |
+| [`removeLabel`](!code#props.removeLabel "TProp<string, TContext>") | — | The label text for the "remove row" button. |
+| [`addIcon`](!code#props.addIcon "DProp<string, TContext>") | `'$add'` | The icon identifier for the "add row" button. |
+| [`removeIcon`](!code#props.removeIcon "DProp<string, TContext>") | `'$remove'` | The icon identifier for the "remove row" button. |
+| [`sortIcon`](!code#props.sortIcon "DProp<string, TContext>") | `'$sort'` | The icon identifier for the sort handle button. |
+| [`colHeaders`](!code#props.colHeaders "boolean") | `true` | Whether to display column headers. |
+| [`rowHeaders`](!code#props.rowHeaders "boolean") | `true` | Whether to display row headers. |
+| [`minWidth`](!code#props.minWidth "number \| string") | `'min-content'` | The minimum width of each matrix column. |
+| [`maxWidth`](!code#props.maxWidth "number \| string") | `'1fr'` | The maximum width of each matrix column. |
+| [`min`](!code#props.min "number") | `-1` | The minimum number of rows allowed. |
+| [`max`](!code#props.max "number") | `-1` | The maximum number of rows allowed. |
+| [`gridTemplateColumns`](!code#props.gridTemplateColumns "string \| ((context$: any) => any)") | — | CSS `grid-template-columns` value or a function returning it. |
+| [`add`](!code#props.add "boolean") | `true` | Whether adding new rows is enabled. When `false`, the add button is not rendered. |
+| [`remove`](!code#props.remove "boolean") | `true` | Whether removing rows is enabled. When `false`, remove buttons are not rendered. |
+| [`headers`](!code#props.headers "Record<string, string>") | — | Custom HTTP headers to include when loading cols or rows from an endpoint. |
+| [`method`](!code#props.method "string") | — | The HTTP method to use when loading cols or rows from an endpoint. Defaults to `'GET'`. |
+| [`cols`](!code#props.cols "MatrixCols") | — | The column definitions for the matrix grid. Accepts a plain array, a plain object, an array of objects (customizable via `colValue`, `colLabel`, and related props), an endpoint URL string (supporting expressions), or a (possibly async) function receiving the component context. |
+| [`rows`](!code#props.rows "MatrixRows \| number") | — | The row definitions or a fixed number of rows for the matrix grid. Accepts a plain array, a plain object, an array of objects (customizable via `rowValue`, `rowLabel`, and related props), an endpoint URL string (supporting expressions), or a (possibly async) function receiving the component context. |
+| [`colValue`](!code#props.colValue "string \| ((col: any) => any) \| null") | `'value'` | The key or function that resolves each column's value (the key used in the matrix data object) when `cols` is an array of objects. Defaults to `'value'`. Set to `null` to use the full column object as the value. |
+| [`colLabel`](!code#props.colLabel "string \| ((col: any) => string \| number \| undefined)") | `'label'` | The key or function that resolves each column's header label when `cols` is an array of objects. Defaults to `'label'`. |
+| [`colConditions`](!code#props.colConditions "string \| ((col: any) => ConditionsResult<TContext> \| undefined)") | `'conditions'` | The key or function that resolves each column's conditions when `cols` is an array of objects. Defaults to `'conditions'`. |
+| [`colSchema`](!code#props.colSchema "string \| ((col: any) => MatrixElement \| undefined)") | `'schema'` | The key or function that resolves each column's custom element schema when `cols` is an array of objects. Defaults to `'schema'`. |
+| [`colMinWidth`](!code#props.colMinWidth "string \| ((col: any) => string \| number \| undefined)") | `'minWidth'` | The key or function that resolves each column's minimum width when `cols` is an array of objects. Defaults to `'minWidth'`. |
+| [`colMaxWidth`](!code#props.colMaxWidth "string \| ((col: any) => string \| number \| undefined)") | `'maxWidth'` | The key or function that resolves each column's maximum width when `cols` is an array of objects. Defaults to `'maxWidth'`. |
+| [`rowValue`](!code#props.rowValue "string \| ((row: any) => string \| number)") | `'value'` | The key or function that resolves each row's value (the key used in the matrix data object) when `rows` is an array of objects. Defaults to `'value'`. |
+| [`rowLabel`](!code#props.rowLabel "string \| ((row: any) => string \| number \| undefined)") | `'label'` | The key or function that resolves each row's header label when `rows` is an array of objects. Defaults to `'label'`. |
+| [`rowConditions`](!code#props.rowConditions "string \| ((row: any) => ConditionsResult \| undefined)") | `'conditions'` | The key or function that resolves each row's conditions when `rows` is an array of objects. Defaults to `'conditions'`. |
+| [`rowRules`](!code#props.rowRules "string \| ((row: any) => RulesProp \| undefined)") | `'rules'` | The key or function that resolves each row's validation rules when `rows` is an array of objects. Defaults to `'rules'`. |
+| [`colsTrigger`](!code#props.colsTrigger "ConditionsTriggerProp") | — | The source that triggers re-resolution of function-based `cols`. Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, function-based cols are only re-resolved when the `cols` prop reference itself changes. |
+| [`colsDebounce`](!code#props.colsDebounce "number") | — | The debounce delay in milliseconds applied before re-resolving `cols` when an expression path or the `colsTrigger` source changes. Defaults to no debounce (immediate re-resolution). |
+| [`transformCols`](!code#props.transformCols "(data: any) => any[] \| Record<string, any>") | — | Transforms data received from a `cols` endpoint or function into the cols format before normalization. |
+| [`rowsTrigger`](!code#props.rowsTrigger "ConditionsTriggerProp") | — | The source that triggers re-resolution of function-based `rows`. Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, function-based rows are only re-resolved when the `rows` prop reference itself changes. |
+| [`rowsDebounce`](!code#props.rowsDebounce "number") | — | The debounce delay in milliseconds applied before re-resolving `rows` when an expression path or the `rowsTrigger` source changes. Defaults to no debounce (immediate re-resolution). |
+| [`transformRows`](!code#props.transformRows "(data: any) => any[] \| Record<string, any>") | — | Transforms data received from a `rows` endpoint or function into the rows format before normalization. |
+| [`endpoint`](!code#props.endpoint "string") | — | An endpoint URL (supporting expressions) that loads both the column and row definitions from a single request. Each side can still be overridden by defining `cols` or `rows` explicitly. |
+| [`colsKey`](!code#props.colsKey "string \| ((data: any) => any)") | `'cols'` | The key or function that resolves the column definitions from the `endpoint` response. Defaults to `'cols'`. |
+| [`rowsKey`](!code#props.rowsKey "string \| ((data: any) => any)") | `'rows'` | The key or function that resolves the row definitions from the `endpoint` response. Defaults to `'rows'`. |
+| [`transformEndpoint`](!code#props.transformEndpoint "(data: any) => any[] \| Record<string, any>") | — | Transforms data received from the `endpoint` before the column and row definitions are extracted. |
+| [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
+| [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |
+| [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | — | Whether the element is disabled. |
 
 ### Data {#props-data}
 
-| Prop                                                                                                               | Default | Description                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------ | ------- | ------------------------------------------------------------------------------------------------ |
-| [`modelValue`](!code#props.modelValue 'T')                                                                         | —       | The current value of the element (v-model).                                                      |
-| [`submit`](!code#props.submit 'boolean')                                                                           | `true`  | Whether the element value is included in form submission data.                                   |
-| [`detached`](!code#props.detached 'boolean')                                                                       | `false` | Whether the element is detached from the form's element registry and data model (if applicable). |
-| [`transformPayload`](!code#props.transformPayload '(value: any, context$: VfMatrixContext<VfMatrixProps>) => any') | —       | Transforms the element's value when submitting the form.                                         |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`modelValue`](!code#props.modelValue "T") | — | The current value of the element (v-model). |
+| [`submit`](!code#props.submit "boolean") | `true` | Whether the element value is included in form submission data. |
+| [`detached`](!code#props.detached "boolean") | `false` | Whether the element is detached from the form's element registry and data model (if applicable). |
+| [`transformPayload`](!code#props.transformPayload "(value: any, context$: VfMatrixContext<VfMatrixProps>) => any") | — | Transforms the element's value when submitting the form. |
 
 ### Validation {#props-validation}
 
-| Prop                                                                    | Default | Description                                                              |
-| ----------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------ |
-| [`rules`](!code#props.rules 'RulesProp<TContext>')                      | —       | Validation rules to apply to the element.                                |
-| [`validateOn`](!code#props.validateOn 'ElementValidateOnProp')          | —       | Controls when validation is triggered (e.g. on change, blur, or submit). |
-| [`debounce`](!code#props.debounce 'number')                             | —       | Delay in milliseconds before processing input.                           |
-| [`bail`](!code#props.bail 'boolean')                                    | `true`  | Whether to stop validation after the first failing rule.                 |
-| [`ruleMessages`](!code#props.ruleMessages 'RuleMessagesProp<TContext>') | —       | Custom error messages keyed by validation rule name.                     |
-| [`displayName`](!code#props.displayName 'TProp<string, TContext>')      | —       | The display name used in validation error messages.                      |
-| [`maxErrors`](!code#props.maxErrors 'number')                           | `1`     | Maximum number of validation errors to display at once.                  |
-| [`hideErrors`](!code#props.hideErrors 'boolean')                        | `false` | Whether to hide validation error messages.                               |
-| [`showRequired`](!code#props.showRequired 'ShowRequiredProp')           | —       | Where to show required field indicators (e.g. label, placeholder).       |
-| [`hoist`](!code#props.hoist 'boolean')                                  | `false` | Whether to push the element's errors to its nearest ancestor element.    |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`rules`](!code#props.rules "RulesProp<TContext>") | — | Validation rules to apply to the element. |
+| [`validateOn`](!code#props.validateOn "ElementValidateOnProp") | — | Controls when validation is triggered (e.g. on change, blur, or submit). |
+| [`debounce`](!code#props.debounce "number") | — | Delay in milliseconds before processing input. |
+| [`bail`](!code#props.bail "boolean") | `true` | Whether to stop validation after the first failing rule. |
+| [`ruleMessages`](!code#props.ruleMessages "RuleMessagesProp<TContext>") | — | Custom error messages keyed by validation rule name. |
+| [`displayName`](!code#props.displayName "TProp<string, TContext>") | — | The display name used in validation error messages. |
+| [`maxErrors`](!code#props.maxErrors "number") | `1` | Maximum number of validation errors to display at once. |
+| [`hideErrors`](!code#props.hideErrors "boolean") | `false` | Whether to hide validation error messages. |
+| [`showRequired`](!code#props.showRequired "ShowRequiredProp") | — | Where to show required field indicators (e.g. label, placeholder). |
+| [`hoist`](!code#props.hoist "boolean") | `false` | Whether to push the element's errors to its nearest ancestor element. |
 
 ### Conditions {#props-conditions}
 
-| Prop                                                                                   | Default | Description                                                                                                                                                                                                                                                                                                                            |
-| -------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`conditions`](!code#props.conditions 'ConditionalProp<TContext>')                     | —       | Conditions that control the element's visibility and availability.                                                                                                                                                                                                                                                                     |
-| [`conditionsTrigger`](!code#props.conditionsTrigger 'ConditionsTriggerProp<TContext>') | —       | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
-| [`conditionsDebounce`](!code#props.conditionsDebounce 'number')                        | —       | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`).                                                                                                                            |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`conditions`](!code#props.conditions "ConditionalProp<TContext>") | — | Conditions that control the element's visibility and availability. |
+| [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp<TContext>") | — | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
+| [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
 
 ### Layout {#props-layout}
 
-| Prop                                                       | Default | Description                                                                                                                                                                                                   |
-| ---------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`columns`](!code#props.columns 'ColumnsProp<TContext>')   | —       | Responsive grid column sizing for the element's layout.                                                                                                                                                       |
-| [`layout`](!code#props.layout 'ComponentProp \| boolean')   | `true`  | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout.                                                                     |
-| [`label`](!code#props.label 'TProp<string, TContext>')     | —       | The label displayed alongside the element.                                                                                                                                                                    |
-| [`hideLabel`](!code#props.hideLabel 'boolean')             | `false` | Whether to visually hide the element's label.                                                                                                                                                                 |
-| [`page`](!code#props.page 'PageProp<TContext>')            | —       | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property.                                                                                     |
-| [`heading`](!code#props.heading 'HeadingProp')             | —       | The heading level to render for the container's title.                                                                                                                                                        |
-| [`help`](!code#props.help 'TProp<string, TContext>')       | —       | A help text displayed below the label.                                                                                                                                                                        |
-| [`spaceTop`](!code#props.spaceTop 'number')                | —       | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, ....                                                                                   |
-| [`spaceBottom`](!code#props.spaceBottom 'number')          | —       | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, ....                                                                                   |
-| [`lineTop`](!code#props.lineTop 'boolean')                 | `false` | Renders a horizontal line (border) above the element.                                                                                                                                                         |
-| [`lineBottom`](!code#props.lineBottom 'boolean')           | `false` | Renders a horizontal line (border) below the element.                                                                                                                                                         |
-| [`expressions`](!code#props.expressions 'ExpressionsProp') | —       | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
+| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
+| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
+| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
+| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
+| [`heading`](!code#props.heading "HeadingProp") | — | The heading level to render for the container's title. |
+| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
+| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
+| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — |  |
 
 ### Customization {#props-customization}
 
-| Prop                                                      | Default | Description                                                                                                                         |
-| --------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| [`parts`](!code#props.parts 'P')                          | —       | Custom DOM attribute overrides for the component's structural parts.                                                                |
-| [`class`](!code#props.class 'ClassValue')                 | —       | CSS classes to apply to the component's root element.                                                                               |
-| [`classes`](!code#props.classes 'C')                      | —       | Custom CSS class overrides for the component's structural parts.                                                                    |
-| [`reclass`](!code#props.reclass 'C')                      | —       | CSS class overrides that replace (rather than merge with) default classes.                                                          |
-| [`tokens`](!code#props.tokens 'ThemeTokens')              | —       | Token overrides applied to the element's CSS custom properties.                                                                     |
-| [`slots`](!code#props.slots 'S')                          | —       | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
-| [`presets`](!code#props.presets 'PresetsProp')            | —       | Named configuration presets to apply to the component.                                                                              |
-| [`template`](!code#props.template 'ComponentProp \| null') | —       | A custom Vue component to use as the template instead of the default.                                                               |
-| [`component`](!code#props.component 'ComponentProp')      | —       | A custom Vue component to render in the component's default slot.                                                                   |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`parts`](!code#props.parts "P") | — | Custom DOM attribute overrides for the component's structural parts. |
+| [`class`](!code#props.class "ClassValue") | — | CSS classes to apply to the component's root element. |
+| [`classes`](!code#props.classes "C") | — | Custom CSS class overrides for the component's structural parts. |
+| [`reclass`](!code#props.reclass "C") | — | CSS class overrides that replace (rather than merge with) default classes. |
+| [`tokens`](!code#props.tokens "ThemeTokens") | — | Token overrides applied to the element's CSS custom properties. |
+| [`slots`](!code#props.slots "S") | — | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
+| [`presets`](!code#props.presets "PresetsProp") | — | Named configuration presets to apply to the component. |
+| [`template`](!code#props.template "ComponentProp \| null") | — | A custom Vue component to use as the template instead of the default. |
+| [`component`](!code#props.component "ComponentProp") | — | A custom Vue component to render in the component's default slot. |
 
 <!-- @endcollapsible -->
 <!-- @props-end -->
@@ -1685,167 +1685,165 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 <!-- @collapsible -->
 <!-- @context-start -->
-
 ### General {#section-general}
 
-| Name                                    | Description                                                        |
-| --------------------------------------- | ------------------------------------------------------------------ |
-| [`type`](!code#context.type 'string')   | The element's type identifier (e.g. "text", "checkbox", "select"). |
-| [`name`](!code#context.name 'string')   | The element's name as a string ref.                                |
-| [`props`](!code#context.props 'object') | The resolved component props with defaults applied.                |
+| Name | Description |
+| --- | --- |
+| [`type`](!code#context.type "string") | The element's type identifier (e.g. "text", "checkbox", "select"). |
+| [`name`](!code#context.name "string") | The element's name as a string ref. |
+| [`props`](!code#context.props "object") | The resolved component props with defaults applied. |
 
 ### Matrix {#section-matrix}
 
-| Name                                                                                                             | Description                                                                                                                                                                                                                                                                                                                                                                   |
-| ---------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`resolvedRows`](!code#context.resolvedRows 'ResolvedMatrixRow[]')                                               | The fully resolved matrix rows with component info, props, column mappings, and slot assignments.                                                                                                                                                                                                                                                                             |
-| [`resolvedCols`](!code#context.resolvedCols 'ResolvedMatrixCol[]')                                               | The fully resolved matrix columns with component info, labels, conditions, and width constraints.                                                                                                                                                                                                                                                                             |
-| [`headers`](!code#context.headers 'ResolvedMatrixCol[]')                                                         | The column headers array, including optional row header and remove button placeholders.                                                                                                                                                                                                                                                                                       |
-| [`showRowHeaders`](!code#context.showRowHeaders 'boolean')                                                       | Whether row headers should be displayed.                                                                                                                                                                                                                                                                                                                                      |
-| [`showColHeaders`](!code#context.showColHeaders 'boolean')                                                       | Whether column headers should be displayed.                                                                                                                                                                                                                                                                                                                                   |
-| [`add()`](!code#context.add '(count: number) => Promise<void>')                                                  | Adds one or more items to a dynamic list.                                                                                                                                                                                                                                                                                                                                     |
-| [`remove()`](!code#context.remove '(index: number \| undefined) => void')                                         | Removes an item from a dynamic list by index.                                                                                                                                                                                                                                                                                                                                 |
-| [`sort()`](!code#context.sort '(fromIndex: number, toIndex: number) => Promise<void>')                           | Sorts a dynamic list by moving an item from one data index to another. The stable ids move in lockstep with the model, so the item's component instance follows it: its validation state and message bag (stored on the instance) travel automatically. No snapshot/restore of per-child state is needed — the child re-points to its new slot via a non-destructive re-path. |
-| [`addLabel`](!code#context.addLabel 'UnwrapDynamicProp<LooseRequired<TProps>["addLabel"]> \| undefined')          | The resolved label text for the add row button.                                                                                                                                                                                                                                                                                                                               |
-| [`removeLabel`](!code#context.removeLabel 'UnwrapDynamicProp<LooseRequired<TProps>["removeLabel"]> \| undefined') | The resolved label text for the remove row button.                                                                                                                                                                                                                                                                                                                            |
-| [`description`](!code#context.description 'string \| (string & {}) \| undefined')                                  | The resolved description text for the element.                                                                                                                                                                                                                                                                                                                                |
-| [`descriptionId`](!code#context.descriptionId 'string')                                                          | The DOM id for the element's description text region.                                                                                                                                                                                                                                                                                                                         |
-| [`validation`](!code#context.validation 'ShallowReactive<Record<string, ValidationView>>')                       |                                                                                                                                                                                                                                                                                                                                                                               |
-| [`validator`](!code#context.validator 'Validator')                                                               |                                                                                                                                                                                                                                                                                                                                                                               |
-| [`shouldValidate`](!code#context.shouldValidate 'boolean')                                                       |                                                                                                                                                                                                                                                                                                                                                                               |
-| [`onUserInput()`](!code#context.onUserInput '() => void')                                                        |                                                                                                                                                                                                                                                                                                                                                                               |
-| [`isFlatContainer`](!code#context.isFlatContainer 'boolean')                                                     | Whether the element's data is flattened into the parent container rather than nested under its own `name` key.                                                                                                                                                                                                                                                                |
-| [`containerModel`](!code#context.containerModel 'unknown')                                                       | The model ref the element provides to its children via the container context. For flat containers this is the parent's model — children's data lives merged at the parent level, while the public `model` is a scoped projection. For every other element it is the element's own `model`.                                                                                    |
-| [`handleModelUpdate()`](!code#context.handleModelUpdate '(data: Event) => void')                                 | Handles a native input event and updates the model from the event target. Text and select inputs use `target.value`. Checkboxes and radios use the `checked` state with `trueValue` / `falseValue` when available.                                                                                                                                                            |
-| [`initValidation()`](!code#context.initValidation '() => void')                                                  |                                                                                                                                                                                                                                                                                                                                                                               |
-| [`destroyValidation()`](!code#context.destroyValidation '() => void')                                            |                                                                                                                                                                                                                                                                                                                                                                               |
-| [`dragIndex`](!code#context.dragIndex 'any')                                                                     | The index of the item currently being dragged in a sortable list. This is a data index (position in the canonical order), so it stays stable during a drag preview and only the display order changes.                                                                                                                                                                        |
-| [`dropIndex`](!code#context.dropIndex 'any')                                                                     | The data index where the dragged item will be dropped.                                                                                                                                                                                                                                                                                                                        |
-| [`rootModel`](!code#context.rootModel 'RootModel \| undefined')                                                   | The root model backing the form when this element operates as the form root (adopting a `useModel` instance from `modelValue` or creating an internal store), `undefined` for every other element.                                                                                                                                                                            |
-| [`sensitivePaths`](!code#context.sensitivePaths 'string[]')                                                      | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. A sensitive element marks its whole subtree; containers otherwise aggregate from children. Unavailable elements are included: their data may still linger in the model, and stripping an absent path is harmless.                         |
-| [`list`](!code#context.list 'any')                                                                               | Ref to the container's root DOM element, used for drag-and-drop bounds detection.                                                                                                                                                                                                                                                                                             |
-| [`canSort`](!code#context.canSort 'boolean')                                                                     | Whether the sort handle should be rendered. Returns `false` when the element is disabled or the optional sortable guard is falsy.                                                                                                                                                                                                                                             |
-| [`dropTarget`](!code#context.dropTarget 'any')                                                                   | The stable id rendered at the current drop position (in the live display order), or `undefined` when not hovering over a valid target. The list template compares this against each row's id to flag the drop target.                                                                                                                                                         |
-| [`canAdd`](!code#context.canAdd 'boolean')                                                                       | Whether the add row button should be displayed, based on dynamic mode, disabled state, and max limit.                                                                                                                                                                                                                                                                         |
-| [`canRemove`](!code#context.canRemove 'boolean')                                                                 | Whether the remove row button should be displayed, based on dynamic mode, disabled state, and min limit.                                                                                                                                                                                                                                                                      |
-| [`gridClass`](!code#context.gridClass 'string')                                                                  | A unique CSS class scoped to this matrix instance, used to target the injected grid style rule.                                                                                                                                                                                                                                                                               |
-| [`gridColumns`](!code#context.gridColumns 'string')                                                              | The computed `grid-template-columns` value based on visible columns, row headers, and remove button state.                                                                                                                                                                                                                                                                    |
-| [`addIcon`](!code#context.addIcon 'string \| undefined')                                                          | The resolved icon identifier for the "add" button.                                                                                                                                                                                                                                                                                                                            |
-| [`removeIcon`](!code#context.removeIcon 'string \| undefined')                                                    | The resolved icon identifier for the "remove" button.                                                                                                                                                                                                                                                                                                                         |
-| [`sortIcon`](!code#context.sortIcon 'string \| undefined')                                                        | The resolved icon identifier for the sort handle button.                                                                                                                                                                                                                                                                                                                      |
+| Name | Description |
+| --- | --- |
+| [`resolvedRows`](!code#context.resolvedRows "ResolvedMatrixRow[]") | The fully resolved matrix rows with component info, props, column mappings, and slot assignments. |
+| [`resolvedCols`](!code#context.resolvedCols "ResolvedMatrixCol[]") | The fully resolved matrix columns with component info, labels, conditions, and width constraints. |
+| [`headers`](!code#context.headers "ResolvedMatrixCol[]") | The column headers array, including optional row header and remove button placeholders. |
+| [`showRowHeaders`](!code#context.showRowHeaders "boolean") | Whether row headers should be displayed. |
+| [`showColHeaders`](!code#context.showColHeaders "boolean") | Whether column headers should be displayed. |
+| [`add()`](!code#context.add "(count: number) => Promise<void>") | Adds one or more items to a dynamic list. |
+| [`remove()`](!code#context.remove "(index: number \| undefined) => void") | Removes an item from a dynamic list by index. |
+| [`sort()`](!code#context.sort "(fromIndex: number, toIndex: number) => Promise<void>") | Sorts a dynamic list by moving an item from one data index to another. The stable ids move in lockstep with the model, so the item's component instance follows it: its validation state and message bag (stored on the instance) travel automatically. No snapshot/restore of per-child state is needed — the child re-points to its new slot via a non-destructive re-path. |
+| [`addLabel`](!code#context.addLabel "UnwrapDynamicProp<LooseRequired<TProps>[\"addLabel\"]> \| undefined") | The resolved label text for the add row button. |
+| [`removeLabel`](!code#context.removeLabel "UnwrapDynamicProp<LooseRequired<TProps>[\"removeLabel\"]> \| undefined") | The resolved label text for the remove row button. |
+| [`description`](!code#context.description "string \| (string & {}) \| undefined") | The resolved description text for the element. |
+| [`descriptionId`](!code#context.descriptionId "string") | The DOM id for the element's description text region. |
+| [`validation`](!code#context.validation "ShallowReactive<Record<string, ValidationView>>") |  |
+| [`validator`](!code#context.validator "Validator") |  |
+| [`shouldValidate`](!code#context.shouldValidate "boolean") |  |
+| [`onUserInput()`](!code#context.onUserInput "() => void") |  |
+| [`isFlatContainer`](!code#context.isFlatContainer "boolean") | Whether the element's data is flattened into the parent container rather than nested under its own `name` key. |
+| [`containerModel`](!code#context.containerModel "unknown") | The model ref the element provides to its children via the container context. For flat containers this is the parent's model — children's data lives merged at the parent level, while the public `model` is a scoped projection. For every other element it is the element's own `model`. |
+| [`handleModelUpdate()`](!code#context.handleModelUpdate "(data: Event) => void") | Handles a native input event and updates the model from the event target. Text and select inputs use `target.value`. Checkboxes and radios use the `checked` state with `trueValue` / `falseValue` when available. |
+| [`initValidation()`](!code#context.initValidation "() => void") |  |
+| [`destroyValidation()`](!code#context.destroyValidation "() => void") |  |
+| [`dragIndex`](!code#context.dragIndex "any") | The index of the item currently being dragged in a sortable list. This is a data index (position in the canonical order), so it stays stable during a drag preview and only the display order changes. |
+| [`dropIndex`](!code#context.dropIndex "any") | The data index where the dragged item will be dropped. |
+| [`rootModel`](!code#context.rootModel "RootModel \| undefined") | The root model backing the form when this element operates as the form root (adopting a `useModel` instance from `modelValue` or creating an internal store), `undefined` for every other element. |
+| [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. A sensitive element marks its whole subtree; containers otherwise aggregate from children. Unavailable elements are included: their data may still linger in the model, and stripping an absent path is harmless. |
+| [`list`](!code#context.list "any") | Ref to the container's root DOM element, used for drag-and-drop bounds detection. |
+| [`canSort`](!code#context.canSort "boolean") | Whether the sort handle should be rendered. Returns `false` when the element is disabled or the optional sortable guard is falsy. |
+| [`dropTarget`](!code#context.dropTarget "any") | The stable id rendered at the current drop position (in the live display order), or `undefined` when not hovering over a valid target. The list template compares this against each row's id to flag the drop target. |
+| [`canAdd`](!code#context.canAdd "boolean") | Whether the add row button should be displayed, based on dynamic mode, disabled state, and max limit. |
+| [`canRemove`](!code#context.canRemove "boolean") | Whether the remove row button should be displayed, based on dynamic mode, disabled state, and min limit. |
+| [`gridClass`](!code#context.gridClass "string") | A unique CSS class scoped to this matrix instance, used to target the injected grid style rule. |
+| [`gridColumns`](!code#context.gridColumns "string") | The computed `grid-template-columns` value based on visible columns, row headers, and remove button state. |
+| [`addIcon`](!code#context.addIcon "string \| undefined") | The resolved icon identifier for the "add" button. |
+| [`removeIcon`](!code#context.removeIcon "string \| undefined") | The resolved icon identifier for the "remove" button. |
+| [`sortIcon`](!code#context.sortIcon "string \| undefined") | The resolved icon identifier for the sort handle button. |
 
 ### Data {#section-data}
 
-| Name                                                                     | Description                                                                                                                                                                                                                       |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`model`](!code#context.model 'Record<string, any> \| any')               | The element's reactive model value within the form data tree.                                                                                                                                                                     |
-| [`value`](!code#context.value 'any')                                     | The current language-aware value of the element. For translatable elements, returns the value for the active language.                                                                                                            |
-| [`payload`](!code#context.payload 'object')                              | The element's submission payload. For isContainer.value containers, aggregates from children. For leaf elements, returns own value.                                                                                               |
-| [`nullValue`](!code#context.nullValue 'any')                             | The value the element holds when it is considered empty. Determined by `nullValue` / `falseValue` props, element type (container, multiple), and translatable state. For translatable elements a per-language object is returned. |
-| [`initialModel`](!code#context.initialModel 'Record<string, any> \| any') | A snapshot of the model at initialization time, used for dirty checking and reset.                                                                                                                                                |
-| [`dataPath`](!code#context.dataPath 'string')                            | The dot-notation path to this element's value within the form data object (e.g. `"address.city"`). Empty string for the root model. Flat containers inherit their parent's data path.                                             |
-| [`tracking`](!code#context.tracking 'boolean')                           | Whether the element's `default` expression is currently tracked and auto-updating the value.                                                                                                                                      |
-| [`update()`](!code#context.update '(data: any) => void')                 | Updates the element's model value. For isContainer.value containers, performs a deep merge. For leaf elements, sets the value directly and invalidates validation.                                                                |
-| [`load()`](!code#context.load '(data: any) => void')                     | Loads data into the element and fires the `load` event, cascading to all children so expression tracking can be stopped per-element.                                                                                              |
-| [`reset()`](!code#context.reset '() => void')                            | Resets the element to its initial model state and fires the `reset` event. For isContainer.value containers, delegates to children or resets the model directly for dynamic lists.                                                |
-| [`clear()`](!code#context.clear '() => void')                            | Clears the element to its null value and fires the `clear` event. For isContainer.value containers, delegates to children or clears the model for dynamic lists.                                                                  |
-| [`track()`](!code#context.track '() => void')                            | Resumes expression tracking after an untrack, immediately re-writing the resolved value.                                                                                                                                          |
-| [`untrack()`](!code#context.untrack '() => void')                        | Stops expression tracking, leaving the current value in place.                                                                                                                                                                    |
-| [`reinit()`](!code#context.reinit '() => void')                          | Reinitializes the element by rebuilding both its model registration and validation instances.                                                                                                                                     |
+| Name | Description |
+| --- | --- |
+| [`model`](!code#context.model "Record<string, any> \| any") | The element's reactive model value within the form data tree. |
+| [`value`](!code#context.value "any") | The current language-aware value of the element. For translatable elements, returns the value for the active language. |
+| [`payload`](!code#context.payload "object") | The element's submission payload. For isContainer.value containers, aggregates from children. For leaf elements, returns own value. |
+| [`nullValue`](!code#context.nullValue "any") | The value the element holds when it is considered empty. Determined by `nullValue` / `falseValue` props, element type (container, multiple), and translatable state. For translatable elements a per-language object is returned. |
+| [`initialModel`](!code#context.initialModel "Record<string, any> \| any") | A snapshot of the model at initialization time, used for dirty checking and reset. |
+| [`dataPath`](!code#context.dataPath "string") | The dot-notation path to this element's value within the form data object (e.g. `"address.city"`). Empty string for the root model. Flat containers inherit their parent's data path. |
+| [`tracking`](!code#context.tracking "boolean") | Whether the element's `default` expression is currently tracked and auto-updating the value. |
+| [`update()`](!code#context.update "(data: any) => void") | Updates the element's model value. For isContainer.value containers, performs a deep merge. For leaf elements, sets the value directly and invalidates validation. |
+| [`load()`](!code#context.load "(data: any) => void") | Loads data into the element and fires the `load` event, cascading to all children so expression tracking can be stopped per-element. |
+| [`reset()`](!code#context.reset "() => void") | Resets the element to its initial model state and fires the `reset` event. For isContainer.value containers, delegates to children or resets the model directly for dynamic lists. |
+| [`clear()`](!code#context.clear "() => void") | Clears the element to its null value and fires the `clear` event. For isContainer.value containers, delegates to children or clears the model for dynamic lists. |
+| [`track()`](!code#context.track "() => void") | Resumes expression tracking after an untrack, immediately re-writing the resolved value. |
+| [`untrack()`](!code#context.untrack "() => void") | Stops expression tracking, leaving the current value in place. |
+| [`reinit()`](!code#context.reinit "() => void") | Reinitializes the element by rebuilding both its model registration and validation instances. |
 
 ### State {#section-state}
 
-| Name                                                     | Description                                                                                                                                                                                                                                            |
-| -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| [`visible`](!code#context.visible 'boolean')             | Whether the element is currently visible, based on availability, container visibility, and pager state.                                                                                                                                                |
-| [`available`](!code#context.available 'boolean')         | Whether the element is available (not hidden by conditional logic).                                                                                                                                                                                    |
-| [`disabled`](!code#context.disabled 'boolean')           | Whether the element is currently disabled, considering form state, parent container state, local override, and the disabled prop. The prop is evaluated through the conditions pipeline, so sync and async conditional values are supported uniformly. |
-| [`dirty`](!code#context.dirty 'boolean')                 | Whether the current model value differs from the initial model value.                                                                                                                                                                                  |
-| [`empty`](!code#context.empty 'boolean')                 | Whether the element's current value is empty. For isContainer.value containers, checks whether all children are empty. For leaf elements, checks whether the value is blank or equals the falseValue.                                                  |
-| [`busy`](!code#context.busy 'boolean')                   | Whether the element is busy, meaning it is either debouncing or has pending async validation.                                                                                                                                                          |
-| [`hoisted`](!code#context.hoisted 'boolean \| undefined') | Whether this element pushes its errors to its nearest ancestor element instead of displaying and reporting them itself.                                                                                                                                |
-| [`enable()`](!code#context.enable '() => void')          | Programmatically enables the element.                                                                                                                                                                                                                  |
-| [`disable()`](!code#context.disable '() => void')        | Programmatically disables the element.                                                                                                                                                                                                                 |
+| Name | Description |
+| --- | --- |
+| [`visible`](!code#context.visible "boolean") | Whether the element is currently visible, based on availability, container visibility, and pager state. |
+| [`available`](!code#context.available "boolean") | Whether the element is available (not hidden by conditional logic). |
+| [`disabled`](!code#context.disabled "boolean") | Whether the element is currently disabled, considering form state, parent container state, local override, and the disabled prop. The prop is evaluated through the conditions pipeline, so sync and async conditional values are supported uniformly. |
+| [`dirty`](!code#context.dirty "boolean") | Whether the current model value differs from the initial model value. |
+| [`empty`](!code#context.empty "boolean") | Whether the element's current value is empty. For isContainer.value containers, checks whether all children are empty. For leaf elements, checks whether the value is blank or equals the falseValue. |
+| [`busy`](!code#context.busy "boolean") | Whether the element is busy, meaning it is either debouncing or has pending async validation. |
+| [`hoisted`](!code#context.hoisted "boolean \| undefined") | Whether this element pushes its errors to its nearest ancestor element instead of displaying and reporting them itself. |
+| [`enable()`](!code#context.enable "() => void") | Programmatically enables the element. |
+| [`disable()`](!code#context.disable "() => void") | Programmatically disables the element. |
 
 ### Validation {#section-validation}
 
-| Name                                                                                                                                 | Description                                                                                                                                                                                                                                                                                                                           |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`invalid`](!code#context.invalid 'boolean')                                                                                         | Whether any of the element's validations (across all languages) are currently invalid, including children.                                                                                                                                                                                                                            |
-| [`validated`](!code#context.validated 'boolean')                                                                                     | Whether all of the element's validations (across all languages) have been executed, including children.                                                                                                                                                                                                                               |
-| [`completed`](!code#context.completed 'boolean')                                                                                     | Whether the element is completed, meaning it either has no rules or has been validated without errors.                                                                                                                                                                                                                                |
-| [`success`](!code#context.success 'boolean')                                                                                         |                                                                                                                                                                                                                                                                                                                                       |
-| [`pending`](!code#context.pending 'boolean')                                                                                         | Whether any of the element's validations are currently pending an async check, including children.                                                                                                                                                                                                                                    |
-| [`debouncing`](!code#context.debouncing 'boolean')                                                                                   | Whether any of the element's validations are currently debouncing, including children.                                                                                                                                                                                                                                                |
-| [`errors`](!code#context.errors 'any[]')                                                                                             | All error messages for this element: its own plus any pushed up by hoisted children.                                                                                                                                                                                                                                                  |
-| [`hasError`](!code#context.hasError 'boolean')                                                                                       | Whether the element has any active error messages.                                                                                                                                                                                                                                                                                    |
-| [`displayErrors`](!code#context.displayErrors 'any[]')                                                                               | The error messages rendered for this element. Empty when the element pushes its errors to its parent; otherwise errors capped by `maxErrors`.                                                                                                                                                                                         |
-| [`ownErrors`](!code#context.ownErrors 'string[]')                                                                                    | The element's own error messages across all languages (validation rules plus custom message bag entries).                                                                                                                                                                                                                             |
-| [`formErrors`](!code#context.formErrors 'object')                                                                                    | Error messages propagated to the form, keyed by element path. Empty when the element pushes its errors to its parent.                                                                                                                                                                                                                 |
-| [`messages`](!code#context.messages 'string[]')                                                                                      | The list of custom messages from the message bag, including messages from hoisted children.                                                                                                                                                                                                                                           |
-| [`messageBag`](!code#context.messageBag 'MessageBagInstance')                                                                        | The element's message bag for managing custom errors, messages, and prepended/appended messages.                                                                                                                                                                                                                                      |
-| [`required`](!code#context.required 'boolean')                                                                                       |                                                                                                                                                                                                                                                                                                                                       |
-| [`genericName`](!code#context.genericName 'string')                                                                                  | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop.                                                                                                                                                                                                                            |
-| [`validate()`](!code#context.validate '(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>')                 | Runs validation on the element's own rules and all children, returning whether everything is valid. Elements already validated without errors against their current value are skipped unless `force: true` re-runs everything — for rules whose outcome can change without the value changing (async server checks, date boundaries). |
-| [`validateSelf()`](!code#context.validateSelf '() => Promise<boolean>')                                                              |                                                                                                                                                                                                                                                                                                                                       |
-| [`validateChildren()`](!code#context.validateChildren '(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>') | Validates stateful children, returning whether all are valid. By default only incomplete children run — never-validated, stale, or invalid ones; children validated without errors against their current value keep their result. `force: true` runs every child regardless of prior results.                                         |
-| [`invalidate()`](!code#context.invalidate '() => void')                                                                              | Marks all validation instances as invalidated, requiring revalidation. For isContainer.value containers, also delegates to children.                                                                                                                                                                                                  |
-| [`unvalidate()`](!code#context.unvalidate '() => void')                                                                              | Resets all validation state. For isContainer.value containers, also delegates to children.                                                                                                                                                                                                                                            |
-| [`filled()`](!code#context.filled '(value: any) => boolean')                                                                         | Checks whether a value is considered filled. For isContainer.value containers, delegates to children. For leaf elements, checks the scalar value.                                                                                                                                                                                     |
-| [`clean()`](!code#context.clean '() => void')                                                                                        | Marks the element as clean by updating the initial model snapshot. For isContainer.value containers, delegates to children.                                                                                                                                                                                                           |
-| [`clearErrors()`](!code#context.clearErrors '() => void')                                                                            | Clears all error messages from the message bag.                                                                                                                                                                                                                                                                                       |
-| [`clearMessages()`](!code#context.clearMessages '() => void')                                                                        | Clears all custom messages from the message bag.                                                                                                                                                                                                                                                                                      |
-| [`clearMessageBag()`](!code#context.clearMessageBag '() => void')                                                                    | Clears the entire message bag, removing both errors and messages.                                                                                                                                                                                                                                                                     |
+| Name | Description |
+| --- | --- |
+| [`invalid`](!code#context.invalid "boolean") | Whether any of the element's validations (across all languages) are currently invalid, including children. |
+| [`validated`](!code#context.validated "boolean") | Whether all of the element's validations (across all languages) have been executed, including children. |
+| [`completed`](!code#context.completed "boolean") | Whether the element is completed, meaning it either has no rules or has been validated without errors. |
+| [`success`](!code#context.success "boolean") |  |
+| [`pending`](!code#context.pending "boolean") | Whether any of the element's validations are currently pending an async check, including children. |
+| [`debouncing`](!code#context.debouncing "boolean") | Whether any of the element's validations are currently debouncing, including children. |
+| [`errors`](!code#context.errors "any[]") | All error messages for this element: its own plus any pushed up by hoisted children. |
+| [`hasError`](!code#context.hasError "boolean") | Whether the element has any active error messages. |
+| [`displayErrors`](!code#context.displayErrors "any[]") | The error messages rendered for this element. Empty when the element pushes its errors to its parent; otherwise errors capped by `maxErrors`. |
+| [`ownErrors`](!code#context.ownErrors "string[]") | The element's own error messages across all languages (validation rules plus custom message bag entries). |
+| [`formErrors`](!code#context.formErrors "object") | Error messages propagated to the form, keyed by element path. Empty when the element pushes its errors to its parent. |
+| [`messages`](!code#context.messages "string[]") | The list of custom messages from the message bag, including messages from hoisted children. |
+| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for managing custom errors, messages, and prepended/appended messages. |
+| [`required`](!code#context.required "boolean") |  |
+| [`genericName`](!code#context.genericName "string") | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop. |
+| [`validate()`](!code#context.validate "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Runs validation on the element's own rules and all children, returning whether everything is valid. Elements already validated without errors against their current value are skipped unless `force: true` re-runs everything — for rules whose outcome can change without the value changing (async server checks, date boundaries). |
+| [`validateSelf()`](!code#context.validateSelf "() => Promise<boolean>") |  |
+| [`validateChildren()`](!code#context.validateChildren "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Validates stateful children, returning whether all are valid. By default only incomplete children run — never-validated, stale, or invalid ones; children validated without errors against their current value keep their result. `force: true` runs every child regardless of prior results. |
+| [`invalidate()`](!code#context.invalidate "() => void") | Marks all validation instances as invalidated, requiring revalidation. For isContainer.value containers, also delegates to children. |
+| [`unvalidate()`](!code#context.unvalidate "() => void") | Resets all validation state. For isContainer.value containers, also delegates to children. |
+| [`filled()`](!code#context.filled "(value: any) => boolean") | Checks whether a value is considered filled. For isContainer.value containers, delegates to children. For leaf elements, checks the scalar value. |
+| [`clean()`](!code#context.clean "() => void") | Marks the element as clean by updating the initial model snapshot. For isContainer.value containers, delegates to children. |
+| [`clearErrors()`](!code#context.clearErrors "() => void") | Clears all error messages from the message bag. |
+| [`clearMessages()`](!code#context.clearMessages "() => void") | Clears all custom messages from the message bag. |
+| [`clearMessageBag()`](!code#context.clearMessageBag "() => void") | Clears the entire message bag, removing both errors and messages. |
 
 ### Layout {#section-layout}
 
-| Name                                                                                                                                  | Description                                                                                                                                   |
-| ------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`id`](!code#context.id 'string')                                                                                                     | The resolved element id, using the id prop or falling back to the auto-generated uid.                                                         |
-| [`label`](!code#context.label 'string \| undefined')                                                                                   | The resolved label text for the element.                                                                                                      |
-| [`help`](!code#context.help 'string')                                                                                                 | The resolved help text for the element.                                                                                                       |
-| [`page`](!code#context.page 'PageProp \| undefined')                                                                                   | Page metadata for stepped/tabbed forms.                                                                                                       |
-| [`classes`](!code#context.classes 'object')                                                                                           | The resolved CSS class map for the component.                                                                                                 |
-| [`parts`](!code#context.parts 'object')                                                                                               | The resolved DOM attribute overrides for internal elements.                                                                                   |
-| [`nonce`](!code#context.nonce 'string \| undefined')                                                                                   | Unique security nonce for injecting scoped styles.                                                                                            |
-| [`viewLoaded`](!code#context.viewLoaded 'boolean')                                                                                    | Whether the element's view has been loaded (used for lazy rendering optimization).                                                            |
-| [`$el`](!code#context.$el 'HTMLElement \| null')                                                                                       | Reference to the component's root DOM element.                                                                                                |
-| [`resolvedColumns`](!code#context.resolvedColumns 'object')                                                                           | Resolved column sizes per breakpoint, normalized into container/label/wrapper/group values.                                                   |
-| [`updateColumns()`](!code#context.updateColumns '(v: any) => any')                                                                    | Updates the column configuration programmatically.                                                                                            |
-| [`scrollTo()`](!code#context.scrollTo '(options: ScrollIntoViewOptions \| undefined, force: boolean \| undefined) => Promise<boolean>') | Scrolls the window to this element. If the element belongs to a step or tab, that page is selected first before scrolling.                    |
-| [`focus()`](!code#context.focus '(scroll: boolean \| undefined) => Promise<boolean>')                                                  | Focuses the first focusable HTML element (input, select, textarea, button, etc.) within the wrapper. Optionally scrolls to the element first. |
+| Name | Description |
+| --- | --- |
+| [`id`](!code#context.id "string") | The resolved element id, using the id prop or falling back to the auto-generated uid. |
+| [`label`](!code#context.label "string \| undefined") | The resolved label text for the element. |
+| [`help`](!code#context.help "string") | The resolved help text for the element. |
+| [`page`](!code#context.page "PageProp \| undefined") | Page metadata for stepped/tabbed forms. |
+| [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
+| [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
+| [`nonce`](!code#context.nonce "string \| undefined") | Unique security nonce for injecting scoped styles. |
+| [`viewLoaded`](!code#context.viewLoaded "boolean") | Whether the element's view has been loaded (used for lazy rendering optimization). |
+| [`$el`](!code#context.$el "HTMLElement \| null") | Reference to the component's root DOM element. |
+| [`resolvedColumns`](!code#context.resolvedColumns "object") | Resolved column sizes per breakpoint, normalized into container/label/wrapper/group values. |
+| [`updateColumns()`](!code#context.updateColumns "(v: any) => any") | Updates the column configuration programmatically. |
+| [`scrollTo()`](!code#context.scrollTo "(options: ScrollIntoViewOptions \| undefined, force: boolean \| undefined) => Promise<boolean>") | Scrolls the window to this element. If the element belongs to a step or tab, that page is selected first before scrolling. |
+| [`focus()`](!code#context.focus "(scroll: boolean \| undefined) => Promise<boolean>") | Focuses the first focusable HTML element (input, select, textarea, button, etc.) within the wrapper. Optionally scrolls to the element first. |
 
 ### Tree {#section-tree}
 
-| Name                                                                                          | Description                                                                                  |
-| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [`form$`](!code#context.form$ 'VfFormContext<EntryProps<Record<string, any>>> \| undefined')   | The parent form's context, providing access to form-level state and methods.                 |
-| [`path`](!code#context.path 'string')                                                         | The element's dot-notation path in the form tree (e.g. "user.name").                         |
-| [`componentName`](!code#context.componentName 'keyof ComponentRegistry<Record<string, any>>') | The resolved Vue component name for this element.                                            |
-| [`container`](!code#context.container 'ContainerContext \| undefined')                         | The container context providing path, model, and registration methods for child elements.    |
-| [`children`](!code#context.children 'VueformChildren')                                        | The child element registry providing registration, unregistration, and reactive child lists. |
+| Name | Description |
+| --- | --- |
+| [`form$`](!code#context.form$ "VfFormContext<EntryProps<Record<string, any>>> \| undefined") | The parent form's context, providing access to form-level state and methods. |
+| [`path`](!code#context.path "string") | The element's dot-notation path in the form tree (e.g. "user.name"). |
+| [`componentName`](!code#context.componentName "keyof ComponentRegistry<Record<string, any>>") | The resolved Vue component name for this element. |
+| [`container`](!code#context.container "ContainerContext \| undefined") | The container context providing path, model, and registration methods for child elements. |
+| [`children`](!code#context.children "VueformChildren") | The child element registry providing registration, unregistration, and reactive child lists. |
 
 ### Handlers {#section-handlers}
 
-| Name                                                                                          | Description                                                                                                                                                                                                                                                                                        |
-| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`handleAdd()`](!code#context.handleAdd '() => Promise<void>')                                | Event handler that adds a new row to the matrix.                                                                                                                                                                                                                                                   |
-| [`handleRemove()`](!code#context.handleRemove '(index: number) => void')                      | Event handler that removes a row at the given index from the matrix.                                                                                                                                                                                                                               |
-| [`handleDragStart()`](!code#context.handleDragStart '(e: DragEvent, index: number) => void')  | Initiates drag-and-drop reordering for the item at the given data index.                                                                                                                                                                                                                           |
-| [`handleDragEnter()`](!code#context.handleDragEnter '(_e: DragEvent, index: number) => void') | Updates the current drop target during drag-and-drop. `index` is the hovered row's live display position; the dragged item moves straight to it (its origin position included, so it can be dropped back home). `dragIndex` stays the canonical data index that feeds `move`/`sort` as the source. |
-| [`handleDrop()`](!code#context.handleDrop '(_e: DragEvent) => void')                          | Completes the drag-and-drop operation by sorting the dragged item to the drop position.                                                                                                                                                                                                            |
-| [`handleDragEnd()`](!code#context.handleDragEnd '() => void')                                 | Cleans up drag-and-drop state after the operation ends.                                                                                                                                                                                                                                            |
-| [`handleWrapperDragOver()`](!code#context.handleWrapperDragOver '(e: DragEvent) => void')     | Prevents default dragover behavior on the container to allow drops.                                                                                                                                                                                                                                |
+| Name | Description |
+| --- | --- |
+| [`handleAdd()`](!code#context.handleAdd "() => Promise<void>") | Event handler that adds a new row to the matrix. |
+| [`handleRemove()`](!code#context.handleRemove "(index: number) => void") | Event handler that removes a row at the given index from the matrix. |
+| [`handleDragStart()`](!code#context.handleDragStart "(e: DragEvent, index: number) => void") | Initiates drag-and-drop reordering for the item at the given data index. |
+| [`handleDragEnter()`](!code#context.handleDragEnter "(_e: DragEvent, index: number) => void") | Updates the current drop target during drag-and-drop. `index` is the hovered row's live display position; the dragged item moves straight to it (its origin position included, so it can be dropped back home). `dragIndex` stays the canonical data index that feeds `move`/`sort` as the source. |
+| [`handleDrop()`](!code#context.handleDrop "(_e: DragEvent) => void") | Completes the drag-and-drop operation by sorting the dragged item to the drop position. |
+| [`handleDragEnd()`](!code#context.handleDragEnd "() => void") | Cleans up drag-and-drop state after the operation ends. |
+| [`handleWrapperDragOver()`](!code#context.handleWrapperDragOver "(e: DragEvent) => void") | Prevents default dragover behavior on the container to allow drops. |
 
 ### Accessibility {#section-a11y}
 
-| Name                                        | Description                                         |
-| ------------------------------------------- | --------------------------------------------------- |
-| [`uid`](!code#context.uid 'string')         | A unique auto-generated identifier for the element. |
-| [`helpId`](!code#context.helpId 'string')   | The DOM id for the element's help text region.      |
-| [`errorId`](!code#context.errorId 'string') | The DOM id for the element's error message region.  |
-| [`labelId`](!code#context.labelId 'string') | The DOM id for the element's label region.          |
-
+| Name | Description |
+| --- | --- |
+| [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
+| [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
+| [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
+| [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -1857,22 +1855,20 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 Events emitted by the component. See [Events](/guide/event-handlers) for details.
 
 <!-- @events-start -->
-
-| Name                | Params                                                                                                                                                | Description                                                                        |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `change`            | [`newValue`](!code#events.change.newValue 'T'), [`oldValue`](!code#events.change.oldValue 'T'), [`context$`](!code#events.change.context$ 'TContext') | Emitted when the element value changes.                                            |
-| `update:modelValue` | [`value`](!code#events.update:modelValue.value 'T')                                                                                                   | Emitted to update the v-model binding.                                             |
-| `load`              | [`value`](!code#events.load.value 'T'), [`context$`](!code#events.load.context$ 'TContext')                                                           | Emitted when the element's value is loaded programmatically via the `load` method. |
-| `reset`             | [`context$`](!code#events.reset.context$ 'TContext')                                                                                                  | Emitted when the element is reset to its default value.                            |
-| `clear`             | [`context$`](!code#events.clear.context$ 'TContext')                                                                                                  | Emitted when the element's value is cleared.                                       |
-| `invalid`           | [`context$`](!code#events.invalid.context$ 'TContext')                                                                                                | Emitted when the element becomes invalid.                                          |
-| `valid`             | [`context$`](!code#events.valid.context$ 'TContext')                                                                                                  | Emitted when the element becomes valid after having been invalid.                  |
-| `beforeMount`       | [`context$`](!code#events.beforeMount.context$ 'TContext')                                                                                            | Emitted before the component is mounted.                                           |
-| `mounted`           | [`context$`](!code#events.mounted.context$ 'TContext')                                                                                                | Emitted after the component is mounted.                                            |
-| `beforeUnmount`     | [`context$`](!code#events.beforeUnmount.context$ 'TContext')                                                                                          | Emitted before the component is unmounted.                                         |
-| `unmounted`         | [`context$`](!code#events.unmounted.context$ 'TContext')                                                                                              | Emitted after the component is unmounted.                                          |
-| `updated`           | [`context$`](!code#events.updated.context$ 'TContext')                                                                                                | Emitted after the component is updated.                                            |
-
+| Name | Params | Description |
+| --- | --- | --- |
+| `change` | [`newValue`](!code#events.change.newValue "T"), [`oldValue`](!code#events.change.oldValue "T"), [`context$`](!code#events.change.context$ "TContext") | Emitted when the element value changes. |
+| `update:modelValue` | [`value`](!code#events.update:modelValue.value "T") | Emitted to update the v-model binding. |
+| `load` | [`value`](!code#events.load.value "T"), [`context$`](!code#events.load.context$ "TContext") | Emitted when the element's value is loaded programmatically via the `load` method. |
+| `reset` | [`context$`](!code#events.reset.context$ "TContext") | Emitted when the element is reset to its default value. |
+| `clear` | [`context$`](!code#events.clear.context$ "TContext") | Emitted when the element's value is cleared. |
+| `invalid` | [`context$`](!code#events.invalid.context$ "TContext") | Emitted when the element becomes invalid. |
+| `valid` | [`context$`](!code#events.valid.context$ "TContext") | Emitted when the element becomes valid after having been invalid. |
+| `beforeMount` | [`context$`](!code#events.beforeMount.context$ "TContext") | Emitted before the component is mounted. |
+| `mounted` | [`context$`](!code#events.mounted.context$ "TContext") | Emitted after the component is mounted. |
+| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ "TContext") | Emitted before the component is unmounted. |
+| `unmounted` | [`context$`](!code#events.unmounted.context$ "TContext") | Emitted after the component is unmounted. |
+| `updated` | [`context$`](!code#events.updated.context$ "TContext") | Emitted after the component is updated. |
 <!-- @events-end -->
 
 <!-- @endtab -->
@@ -1883,28 +1879,26 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 
 <!-- @slots-start -->
-
-| Name            | Scope                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Description                                                                                                                          |
-| --------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ |
-| `template`      | [`context`](!code#slot.template.context 'TContext')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop.                   |
-| `label`         | [`label`](!code#slot.label.label 'string')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Slot for customizing the element's label content.                                                                                    |
-| `required`      | —                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Slot for customizing the required indicator.                                                                                         |
-| `help`          | [`help`](!code#slot.help.help 'string')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Slot for customizing the help text.                                                                                                  |
-| `default`       | —                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Slot for the default matrix content.                                                                                                 |
-| `header`        | [`class`](!code#slot.header.class 'ClassValue') [`headers`](!code#slot.header.headers '(ResolvedMatrixCol \| {})[]')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                              | Slot that replaces the header row. Receives class and header definitions.                                                            |
-| `colHeader`     | [`class`](!code#slot.colHeader.class 'ClassValue') [`id`](!code#slot.colHeader.id 'string') [`label`](!code#slot.colHeader.label 'string')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Slot that replaces each column header cell.                                                                                          |
-| `row`           | [`class`](!code#slot.row.class 'ClassValue') [`index`](!code#slot.row.index 'number') [`rowHeader`](!code#slot.row.rowHeader 'boolean') [`beingDragged`](!code#slot.row.beingDragged 'boolean') [`isDropTarget`](!code#slot.row.isDropTarget 'boolean') [`handleDragEnter`](!code#slot.row.handleDragEnter '($event: DragEvent) => void') [`handleDragStart`](!code#slot.row.handleDragStart '($event: DragEvent) => void') [`handleDragEnd`](!code#slot.row.handleDragEnd '() => void') [`canRemove`](!code#slot.row.canRemove 'boolean') [`canSort`](!code#slot.row.canSort 'boolean') [`label`](!code#slot.row.label 'string') [`remove`](!code#slot.row.remove '() => void') [`cols`](!code#slot.row.cols '{ component: string \| Component; props: MatrixElementSchema }[]') | Slot that replaces each matrix row. Receives row state, drag handlers, label, remove handler, and columns.                           |
-| `rowHeader`     | [`class`](!code#slot.rowHeader.class 'ClassValue') [`label`](!code#slot.rowHeader.label 'string')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Slot that replaces each row header cell.                                                                                             |
-| `sortWrapper`   | [`class`](!code#slot.sortWrapper.class 'ClassValue') [`handleDragEnter`](!code#slot.sortWrapper.handleDragEnter '($event: DragEvent) => void') [`handleDragStart`](!code#slot.sortWrapper.handleDragStart '($event: DragEvent) => void') [`handleDragEnd`](!code#slot.sortWrapper.handleDragEnd '() => void')                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Slot that replaces the drag sort handle wrapper.                                                                                     |
-| `sort`          | [`class`](!code#slot.sort.class 'ClassValue') [`handleDragEnter`](!code#slot.sort.handleDragEnter '($event: DragEvent) => void') [`handleDragStart`](!code#slot.sort.handleDragStart '($event: DragEvent) => void') [`handleDragEnd`](!code#slot.sort.handleDragEnd '() => void')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                | Slot that replaces the drag handle. Receives class and drag event handlers.                                                          |
-| `cell`          | [`component`](!code#slot.cell.component 'string \| Component') [`props`](!code#slot.cell.props 'MatrixElementSchema') [`handleDragEnter`](!code#slot.cell.handleDragEnter '($event: DragEvent) => void')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | Slot that replaces each matrix cell. Receives the component, props for the cell element, and a drag enter handler for sortable rows. |
-| `removeWrapper` | [`class`](!code#slot.removeWrapper.class 'ClassValue') [`handleRemove`](!code#slot.removeWrapper.handleRemove '() => void')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      | Slot that replaces the row remove button wrapper.                                                                                    |
-| `remove`        | [`class`](!code#slot.remove.class 'ClassValue') [`handleRemove`](!code#slot.remove.handleRemove '() => void')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                    | Slot that replaces the row remove button.                                                                                            |
-| `add`           | [`class`](!code#slot.add.class 'ClassValue') [`label`](!code#slot.add.label 'TProp \| string') [`handleAdd`](!code#slot.add.handleAdd '() => void')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               | Slot that replaces the add row button. Receives class, label, and add handler.                                                       |
-| `description`   | [`description`](!code#slot.description.description 'string')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Slot for customizing the description text.                                                                                           |
-| `errors`        | [`errors`](!code#slot.errors.errors 'string[]')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                  | Slot for customizing the validation errors display.                                                                                  |
-| `messages`      | [`messages`](!code#slot.messages.messages 'string[]')                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            | Slot for customizing the info messages display.                                                                                      |
-
+| Name | Scope | Description |
+| --- | --- | --- |
+| `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
+| `required` | — | Slot for customizing the required indicator. |
+| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
+| `default` | — | Slot for the default matrix content. |
+| `header` | [`class`](!code#slot.header.class "ClassValue") [`headers`](!code#slot.header.headers "(ResolvedMatrixCol \| {})[]") | Slot that replaces the header row. Receives class and header definitions. |
+| `colHeader` | [`class`](!code#slot.colHeader.class "ClassValue") [`id`](!code#slot.colHeader.id "string") [`label`](!code#slot.colHeader.label "string") | Slot that replaces each column header cell. |
+| `row` | [`class`](!code#slot.row.class "ClassValue") [`index`](!code#slot.row.index "number") [`rowHeader`](!code#slot.row.rowHeader "boolean") [`beingDragged`](!code#slot.row.beingDragged "boolean") [`isDropTarget`](!code#slot.row.isDropTarget "boolean") [`handleDragEnter`](!code#slot.row.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.row.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.row.handleDragEnd "() => void") [`canRemove`](!code#slot.row.canRemove "boolean") [`canSort`](!code#slot.row.canSort "boolean") [`label`](!code#slot.row.label "string") [`remove`](!code#slot.row.remove "() => void") [`cols`](!code#slot.row.cols "{ component: string \| Component; props: MatrixElementSchema }[]") | Slot that replaces each matrix row. Receives row state, drag handlers, label, remove handler, and columns. |
+| `rowHeader` | [`class`](!code#slot.rowHeader.class "ClassValue") [`label`](!code#slot.rowHeader.label "string") | Slot that replaces each row header cell. |
+| `sortWrapper` | [`class`](!code#slot.sortWrapper.class "ClassValue") [`handleDragEnter`](!code#slot.sortWrapper.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.sortWrapper.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sortWrapper.handleDragEnd "() => void") | Slot that replaces the drag sort handle wrapper. |
+| `sort` | [`class`](!code#slot.sort.class "ClassValue") [`handleDragEnter`](!code#slot.sort.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives class and drag event handlers. |
+| `cell` | [`component`](!code#slot.cell.component "string \| Component") [`props`](!code#slot.cell.props "MatrixElementSchema") [`handleDragEnter`](!code#slot.cell.handleDragEnter "($event: DragEvent) => void") | Slot that replaces each matrix cell. Receives the component, props for the cell element, and a drag enter handler for sortable rows. |
+| `removeWrapper` | [`class`](!code#slot.removeWrapper.class "ClassValue") [`handleRemove`](!code#slot.removeWrapper.handleRemove "() => void") | Slot that replaces the row remove button wrapper. |
+| `remove` | [`class`](!code#slot.remove.class "ClassValue") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the row remove button. |
+| `add` | [`class`](!code#slot.add.class "ClassValue") [`label`](!code#slot.add.label "TProp \| string") [`handleAdd`](!code#slot.add.handleAdd "() => void") | Slot that replaces the add row button. Receives class, label, and add handler. |
+| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
+| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -1969,231 +1963,229 @@ messageBag.append('Progress is saved automatically', 'message')
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
-
 ### `panel`
 
 The wrapper around `root` with `display: contents` when the element is a step or a tab.
 
-|             |             |
-| ----------- | ----------- |
-| **Element** | `<div>`     |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-panel` |
 
 ### `root`
 
 The element's root wrapper.
 
-|             |                                                                                                                                                                                                                                                         |
-| ----------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Element** | `<div>` `<fieldset>`                                                                                                                                                                                                                                    |
+| | |
+| --- | --- |
+| **Element** | `<div>` `<fieldset>` |
 | **Classes** | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-matrix` `.vf-tabular?` `.vf-wrap-col-headers?` `.vf-wrap-row-headers?` |
 
 ### `labelGroup`
 
 The container holding the label and required indicator.
 
-|             |                                                                               |
-| ----------- | ----------------------------------------------------------------------------- |
-| **Element** | `<div>`                                                                       |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-label-group` `.vf-h1?` `.vf-h2?` `.vf-h3?` `.vf-h4?` `.vf-h5?` `.vf-h6?` |
 
 ### `label`
 
 The label element.
 
-|             |                                                              |
-| ----------- | ------------------------------------------------------------ |
+| | |
+| --- | --- |
 | **Element** | `<label>` `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
-| **Classes** | `.vf-label`                                                  |
+| **Classes** | `.vf-label` |
 
 ### `required`
 
 The required indicator.
 
-|             |                |
-| ----------- | -------------- |
-| **Element** | `<div>`        |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-required` |
 
 ### `elementGroup`
 
 The container wrapping the input and related UI.
 
-|             |                     |
-| ----------- | ------------------- |
-| **Element** | `<div>`             |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-element-group` |
 
 ### `elementWrapper`
 
 The wrapper directly around the input control.
 
-|             |                       |
-| ----------- | --------------------- |
-| **Element** | `<div>`               |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-element-wrapper` |
 
 ### `help`
 
 The help text area.
 
-|             |            |
-| ----------- | ---------- |
-| **Element** | `<div>`    |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-help` |
 
 ### `grid`
 
 The grid layout element.
 
-|             |                                     |
-| ----------- | ----------------------------------- |
-| **Element** | `<div>`                             |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-matrix-grid` `.vf-scrollable?` |
 
 ### `header`
 
 The header row element with `display: contents`.
 
-|             |                     |
-| ----------- | ------------------- |
-| **Element** | `<div>`             |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-matrix-header` |
 
 ### `colHeader`
 
 Each column header element.
 
-|             |                                       |
-| ----------- | ------------------------------------- |
-| **Element** | `<div>`                               |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-matrix-col-header` `.vf-sticky?` |
 
 ### `srOnlyHeader`
 
 The screen-reader-only header element.
 
-|             |         |
-| ----------- | ------- |
+| | |
+| --- | --- |
 | **Element** | `<div>` |
 
 ### `row`
 
 Each row element with `display: contents`.
 
-|             |                                                     |
-| ----------- | --------------------------------------------------- |
-| **Element** | `<div>`                                             |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-matrix-row` `.vf-dragging?` `.vf-drop-target?` |
 
 ### `rowHeader`
 
 Each row header element.
 
-|             |                                       |
-| ----------- | ------------------------------------- |
-| **Element** | `<div>`                               |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-matrix-row-header` `.vf-sticky?` |
 
 ### `cell`
 
 Each cell element.
 
-|             |                   |
-| ----------- | ----------------- |
-| **Element** | `<div>`           |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-matrix-cell` |
 
 ### `sortWrapper`
 
 The drag sort handle wrapper element.
 
-|             |                       |
-| ----------- | --------------------- |
-| **Element** | `<div>`               |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-matrix-row-sort` |
 
 ### `removeWrapper`
 
 The row remove button wrapper element.
 
-|             |                         |
-| ----------- | ----------------------- |
-| **Element** | `<div>`                 |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-matrix-row-remove` |
 
 ### `sort`
 
 The drag sort handle element.
 
-|             |                               |
-| ----------- | ----------------------------- |
+| | |
+| --- | --- |
 | **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-matrix-sort`             |
+| **Classes** | `.vf-matrix-sort` |
 
 ### `remove`
 
 The remove action element.
 
-|             |                               |
-| ----------- | ----------------------------- |
+| | |
+| --- | --- |
 | **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-matrix-remove`           |
+| **Classes** | `.vf-matrix-remove` |
 
 ### `add`
 
 The add action element.
 
-|             |                               |
-| ----------- | ----------------------------- |
+| | |
+| --- | --- |
 | **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-matrix-add`              |
+| **Classes** | `.vf-matrix-add` |
 
 ### `description`
 
 The description text area.
 
-|             |                   |
-| ----------- | ----------------- |
-| **Element** | `<div>`           |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-description` |
 
 ### `errors`
 
 The validation errors container.
 
-|             |              |
-| ----------- | ------------ |
-| **Element** | `<div>`      |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-errors` |
 
 ### `error`
 
 An individual validation error.
 
-|             |             |
-| ----------- | ----------- |
-| **Element** | `<div>`     |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-error` |
 
 ### `messages`
 
 The info messages container.
 
-|             |                |
-| ----------- | -------------- |
-| **Element** | `<div>`        |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-messages` |
 
 ### `message`
 
 An individual info message.
 
-|             |               |
-| ----------- | ------------- |
-| **Element** | `<div>`       |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-message` |
-
 <!-- @parts-end -->
 <!-- @endtab -->
 

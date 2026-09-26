@@ -1,157 +1,157 @@
 {
   "schemaVersion": 1,
   "package": "@vueform/ui",
-  "version": "2.0.0",
+  "version": "2.0.0-alpha.1",
   "items": [
     {
       "name": "VfAddon",
       "type": "component",
-      "description": "Input addon for prefix and suffix content"
+      "description": "VfAddon component"
     },
     {
       "name": "VfButton",
       "type": "component",
-      "description": "Button element",
+      "description": "VfButton component",
       "element": true
     },
     {
       "name": "VfCheckbox",
       "type": "component",
-      "description": "Single checkbox element",
+      "description": "VfCheckbox component",
       "element": true
     },
     {
       "name": "VfCheckboxes",
       "type": "component",
-      "description": "Checkbox group element",
+      "description": "VfCheckboxes component",
       "element": true
     },
     {
       "name": "VfCol",
       "type": "component",
-      "description": "Grid column layout component"
+      "description": "VfCol component"
     },
     {
       "name": "VfContent",
       "type": "component",
-      "description": "Static content element",
+      "description": "VfContent component",
       "element": true
     },
     {
       "name": "VfElements",
       "type": "component",
-      "description": "Renders a schema's elements"
+      "description": "VfElements component"
     },
     {
       "name": "VfField",
       "type": "component",
-      "description": "Base element for building custom fields",
+      "description": "VfField component",
       "element": true
     },
     {
       "name": "VfFile",
       "type": "component",
-      "description": "File upload element",
+      "description": "VfFile component",
       "element": true
     },
     {
       "name": "VfForm",
       "type": "component",
-      "description": "Form root component"
+      "description": "VfForm component"
     },
     {
       "name": "VfGrid",
       "type": "component",
-      "description": "Grid layout component",
+      "description": "VfGrid component",
       "element": true
     },
     {
       "name": "VfGroup",
       "type": "component",
-      "description": "Group element for structuring schema",
+      "description": "VfGroup component",
       "element": true
     },
     {
       "name": "VfHidden",
       "type": "component",
-      "description": "Hidden input element",
+      "description": "VfHidden component",
       "element": true
     },
     {
       "name": "VfIcon",
       "type": "component",
-      "description": "Icon component"
+      "description": "VfIcon component"
     },
     {
       "name": "VfLanguages",
       "type": "component",
-      "description": "Language switcher for multilingual forms"
+      "description": "VfLanguages component"
     },
     {
       "name": "VfLayout",
       "type": "component",
-      "description": "Element layout with label, description, and errors"
+      "description": "VfLayout component"
     },
     {
       "name": "VfList",
       "type": "component",
-      "description": "Repeatable list element",
+      "description": "VfList component",
       "element": true
     },
     {
       "name": "VfMatrix",
       "type": "component",
-      "description": "Matrix element of rows and columns",
+      "description": "VfMatrix component",
       "element": true
     },
     {
       "name": "VfNav",
       "type": "component",
-      "description": "Form navigation controls"
+      "description": "VfNav component"
     },
     {
       "name": "VfRadio",
       "type": "component",
-      "description": "Single radio element",
+      "description": "VfRadio component",
       "element": true
     },
     {
       "name": "VfRadios",
       "type": "component",
-      "description": "Radio group element",
+      "description": "VfRadios component",
       "element": true
     },
     {
       "name": "VfRow",
       "type": "component",
-      "description": "Grid row layout component"
+      "description": "VfRow component"
     },
     {
       "name": "VfSelect",
       "type": "component",
-      "description": "Select element",
+      "description": "VfSelect component",
       "element": true
     },
     {
       "name": "VfSteps",
       "type": "component",
-      "description": "Step-based form navigation"
+      "description": "VfSteps component"
     },
     {
       "name": "VfTabs",
       "type": "component",
-      "description": "Tabbed form navigation"
+      "description": "VfTabs component"
     },
     {
       "name": "VfText",
       "type": "component",
-      "description": "Text input element",
+      "description": "VfText component",
       "element": true
     },
     {
       "name": "VfTextarea",
       "type": "component",
-      "description": "Multiline text input element",
+      "description": "VfTextarea component",
       "element": true
     }
   ]

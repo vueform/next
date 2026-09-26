@@ -6,7 +6,7 @@ import {
   hasInstanceRawProp,
   isVaporInstance,
   type GenericInstance,
-} from '@vueform/core'
+} from '#core'
 
 const vdomInstance = (props: Record<string, any> | null) =>
   ({ vnode: { props } }) as unknown as GenericInstance

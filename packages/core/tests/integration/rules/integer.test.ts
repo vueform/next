@@ -1,5 +1,5 @@
-import { defineSchema } from '@vueform/core'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
 
 describe('integer', () => {
   it('should pass for positive integer string', async () => {

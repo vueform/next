@@ -3,20 +3,19 @@
   "name": "VfColorPicker",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Color picker element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfColorPicker component",
   "files": [
     {
       "path": "VfColorPicker.vue",
       "target": "{componentsDir}/VfColorPicker.vue",
       "kind": "component",
-      "hash": "sha256:f8a355066dba6436917b9a5981b20ea6b740e4bea59767c1d681e6a49a8cbd6e"
+      "hash": "sha256:24a607d8889876141910a633dcad8c2665fa8b0f3469741a12305844a72cdec5"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/colorpicker",
-    "@vueform/primevue/blueprints/color-picker",
     "@vueform/primevue/components/VfColorPicker",
     "@vueform/primevue/color-picker.css"
   ],
@@ -30,11 +29,11 @@
     "path": "VfColorPicker.vue",
     "blueprint": "color-picker",
     "hash": "sha256:a6b4b7c2eb87680a1cedb1c7877c917d134732d3e5a86be7539d36ac62872ed1",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfColorPicker",
     "import": "{componentsDir}/VfColorPicker.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

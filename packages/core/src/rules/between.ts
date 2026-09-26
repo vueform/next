@@ -1,4 +1,4 @@
-import { createRule } from '@core/helpers'
+import { createRule } from '#core/helpers'
 
 /**
  * Validates that the value's size is between a minimum and maximum (inclusive).

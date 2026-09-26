@@ -18,11 +18,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimeTextarea from 'primevue/textarea'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/textarea'
-import type {
-  VfTextareaEmits,
-  VfTextareaProps,
-  VfTextareaSlots,
+import {
+  type VfTextareaEmits,
+  type VfTextareaProps,
+  type VfTextareaSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfTextarea'
 import type { WritableComputedRef } from 'vue'
 

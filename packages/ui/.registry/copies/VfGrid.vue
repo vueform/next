@@ -4,13 +4,14 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/grid'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfGridEmits,
-  VfGridProps,
-  VfGridSlots,
+import {
+  type VfGridEmits,
+  type VfGridProps,
+  type VfGridSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfGrid'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/grid.css'
 import '@vueform/ui/tabular.css'
 

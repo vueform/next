@@ -1,4 +1,4 @@
-import type { TreeOptionsProp } from '@/types'
+import type { TreeOptionsProp } from '#primevue/types'
 import type {
   ConditionsTriggerProp,
   IsDefaultItems,

@@ -13,11 +13,11 @@
  * even a string that survives those gates cannot rebuild `<script>` elements or
  * inline `on*` handlers.
  */
-import { defineSchema } from '@vueform/core'
-import * as modules from '@vueform/core/modules'
-import dompurify from '@vueform/dompurify'
 import { h, nextTick, type FunctionalComponent } from 'vue'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
+import * as modules from '#core/modules'
+import dompurify from '#dompurify'
 
 const Resolved: FunctionalComponent = () =>
   h('span', { class: 'resolved' }, 'Resolved')

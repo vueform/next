@@ -1,1 +1,1 @@
-import '@/scss/nav.scss'
+import '#ui/scss/nav.scss'

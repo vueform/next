@@ -3,20 +3,19 @@
   "name": "VfKnob",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Knob dial element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfKnob component",
   "files": [
     {
       "path": "VfKnob.vue",
       "target": "{componentsDir}/VfKnob.vue",
       "kind": "component",
-      "hash": "sha256:f6e7f67d6227bab826465c5e24adf847cfac0edd4e05af35dd509bb7e202eb1b"
+      "hash": "sha256:95aa6edc8db3e123a52b49894e007465bbf623da37840f459b6f7ae10b081662"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/knob",
-    "@vueform/primevue/blueprints/knob",
     "@vueform/primevue/components/VfKnob",
     "vue",
     "@vueform/primevue/knob.css"
@@ -30,12 +29,12 @@
   "clone": {
     "path": "VfKnob.vue",
     "blueprint": "knob",
-    "hash": "sha256:462d6a9961d21fabf994322406d96dfaaaab5c8f04e76feaf6c3d09ab1867773",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "hash": "sha256:471697a65ee13f9e33aaa27ed437fc93b5245215c4ea7114a9b6caedf4d2222b",
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfKnob",
     "import": "{componentsDir}/VfKnob.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

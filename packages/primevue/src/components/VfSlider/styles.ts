@@ -1,1 +1,1 @@
-import '@/scss/slider.scss'
+import '#primevue/scss/slider.scss'

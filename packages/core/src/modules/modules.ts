@@ -1,6 +1,7 @@
 export { autosave } from './autosave'
 export { conditions } from './conditions'
 export { date } from './date'
+export { devtools } from './devtools'
 export { expression } from './expression'
 export { http } from './http'
 export { locale } from './locale'

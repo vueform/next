@@ -3,21 +3,20 @@
   "name": "VfAddon",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Input addon for prefix and suffix content",
+  "version": "2.0.0-alpha.1",
+  "description": "VfAddon component",
   "files": [
     {
       "path": "VfAddon.vue",
       "target": "{componentsDir}/VfAddon.vue",
       "kind": "component",
-      "hash": "sha256:9637a86397763dbf3179fe9974e45fbf743e817abf33b66f0ad8ccc4eee515ae"
+      "hash": "sha256:88cae3e2aca37668660b1b921a2a7a87321e88255658d3b825ceebbf5fdb0f0b"
     }
   ],
   "imports": [
     "vue",
-    "@vueform/ui/blueprints/addon",
-    "@vueform/ui",
     "@vueform/ui/components/VfAddon",
+    "@vueform/ui",
     "@vueform/ui/addon.css"
   ],
   "dependencies": {},
@@ -29,5 +28,5 @@
     "component": "VfAddon",
     "import": "{componentsDir}/VfAddon.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

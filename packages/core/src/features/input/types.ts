@@ -1,4 +1,4 @@
-import type { LooseContext } from '@core/types'
+import type { LooseContext } from '#core/types'
 
 /**
  * @write

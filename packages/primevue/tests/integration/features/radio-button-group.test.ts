@@ -1,6 +1,6 @@
-import { defineSchema } from '@vueform/primevue'
 import { defineComponent, nextTick, ref } from 'vue'
 import { createForm, mountApp } from '../../helpers'
+import { defineSchema } from '#primevue'
 
 // =============================================================================
 // PLAIN ARRAY OPTIONS

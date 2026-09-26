@@ -1,12 +1,3 @@
-import {
-  type TextApi,
-  type TextClasses,
-  type TextEmits,
-  type TextExpose,
-  type TextParts,
-  type TextProps,
-  type TextSlots,
-} from '@core/blueprints/text'
 import type {
   AddonsSlots,
   IconsClasses,
@@ -19,7 +10,7 @@ import type {
   AddonGroupParts,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '@core/features'
+} from '#core/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -27,7 +18,16 @@ import type {
   ClassValue,
   DomAttrsOf,
   LanguagesProp,
-} from '@core/types'
+} from '#core/types'
+import {
+  type TextApi,
+  type TextClasses,
+  type TextEmits,
+  type TextExpose,
+  type TextParts,
+  type TextProps,
+  type TextSlots,
+} from '#core/blueprints/text'
 
 /**
  * VfText props narrowed from a registry `TEntry` payload, applying the entry's
@@ -45,8 +45,7 @@ export type EntryProps<TEntry> = VfTextProps<
  * Reach for `VfTextProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfTextProps<
   TTranslate extends boolean = boolean,

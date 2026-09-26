@@ -25,6 +25,11 @@ interface VueformConfig {
   $date: DateModuleOptions
 
   /**
+   * Global devtools module options (reserved).
+   */
+  $devtools: DevtoolsModuleOptions
+
+  /**
    * Global expression module options (e.g. a custom expression provider).
    */
   $expression: ExpressionModuleOptions
@@ -71,6 +76,13 @@ interface VueformConfig {
    * disable router integration entirely.
    */
   router?: VueformRouter | false
+
+  /**
+   * Whether the registered `devtools` module is active. `false` turns Vue
+   * DevTools integration off entirely. Defaults to `true` — note the module
+   * only ever works in development; production builds stay inert regardless.
+   */
+  devtools: boolean
 
   /**
    * Registered validation rules keyed by rule name.

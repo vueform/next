@@ -1,4 +1,4 @@
-import type { VueformConfig } from '@core/helpers'
+import type { VueformConfig } from '#core/helpers'
 
 /**
  * Resolves an icon identifier into a CSS class string. `$`-prefixed names are

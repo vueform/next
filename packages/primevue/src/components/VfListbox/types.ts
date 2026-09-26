@@ -7,7 +7,7 @@ import type {
   ListboxProps,
   ListboxSlots,
   forwards,
-} from '@/blueprints/listbox'
+} from '#primevue/blueprints/listbox'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
@@ -16,8 +16,8 @@ import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '@/features'
-import type { ForwardedSlots, OverrideSlots } from '@/types'
+} from '#primevue/features'
+import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
 import type {
   ClassValue,
   EntryMultipleOf,
@@ -50,8 +50,7 @@ export type EntryProps<TEntry> = VfListboxProps<
  * Reach for `VfListboxProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfListboxProps<
   TOptions extends OptionsProp = OptionsProp,

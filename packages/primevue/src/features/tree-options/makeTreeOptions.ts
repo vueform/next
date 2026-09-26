@@ -26,7 +26,7 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
-import type { TreeNode, TreeOptionsProp } from '@/types'
+import type { TreeNode, TreeOptionsProp } from '#primevue/types'
 
 /**
  * Options for the makeTreeOptions factory.

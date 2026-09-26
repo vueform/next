@@ -1,6 +1,6 @@
-import { useComponentContext } from '@core/contexts'
-import { defineFeature, type FeatureEvents } from '@core/helpers'
-import type { LooseContext } from '@core/types'
+import type { LooseContext } from '#core/types'
+import { useComponentContext } from '#core/contexts'
+import { defineFeature, type FeatureEvents } from '#core/helpers'
 
 /**
  * Configuration for the key handlers factory wiring keyboard event handlers.

@@ -9,6 +9,7 @@ import {
   watch,
   type Ref,
 } from 'vue'
+import type { ComponentProp, ElementName, TProp } from '#core/types'
 import {
   useChildren,
   useConfig,
@@ -16,21 +17,20 @@ import {
   useDynamicProp,
   useRootDom,
   useConditions,
-} from '@core/composables'
+} from '#core/composables'
 import {
   createContainerContext,
   createElementContext,
   useContainerContext,
   useFormContext,
-} from '@core/contexts'
-import { defineFeature } from '@core/helpers'
+} from '#core/contexts'
+import { defineFeature } from '#core/helpers'
 import {
   type ConditionalProp,
   type ConditionsTriggerProp,
-} from '@core/modules/conditions'
-import { getModelModule } from '@core/modules/model'
-import type { ComponentProp, ElementName, TProp } from '@core/types'
-import { isClient, pickRefs } from '@core/utils'
+} from '#core/modules/conditions'
+import { getModelModule } from '#core/modules/model'
+import { isClient, pickRefs } from '#core/utils'
 
 /**
  * Configuration for the element factory providing core lifecycle, state, and

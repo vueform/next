@@ -1,7 +1,7 @@
-import { defineSchema } from '@vueform/core'
 import { describe, expect, it } from 'vitest'
 import { nextTick } from 'vue'
 import { createForm, flushPromises } from '../../helpers'
+import { defineSchema } from '#core'
 
 /**
  * Mounts a form and creates a headless model from the same schema on the form's

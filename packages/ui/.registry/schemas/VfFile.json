@@ -3,20 +3,19 @@
   "name": "VfFile",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "File upload element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfFile component",
   "files": [
     {
       "path": "VfFile.vue",
       "target": "{componentsDir}/VfFile.vue",
       "kind": "component",
-      "hash": "sha256:1f39f2bd2fb5e7cdf676727e4dda70337993379dac2597cac6806c8bc2062ae9"
+      "hash": "sha256:1aa71f61256f0196b4e076fbdbf88fb93df7f1e5b18413438be2a70f482edc31"
     }
   ],
   "imports": [
-    "@vueform/ui/blueprints/file",
-    "@vueform/ui",
     "@vueform/ui/components/VfFile",
+    "@vueform/ui",
     "@vueform/ui/file.css"
   ],
   "dependencies": {},
@@ -29,11 +28,11 @@
     "path": "VfFile.vue",
     "blueprint": "file",
     "hash": "sha256:fb3c6f4ee06e5d04f08dbaa83fc315097e52345d9a591160c60f6355f1355619",
-    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfFile",
     "import": "{componentsDir}/VfFile.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

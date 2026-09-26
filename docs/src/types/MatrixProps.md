@@ -173,7 +173,8 @@ interface MatrixProps<
    * The key or function that resolves each column's conditions when `cols` is
    * an array of objects. Defaults to `'conditions'`.
    */
-  colConditions?: string | ((col: any) => ConditionalProp<TContext> | undefined)
+  colConditions?:
+    string | ((col: any) => ConditionsResult<TContext> | undefined)
 
   /**
    * The key or function that resolves each column's custom element schema when
@@ -210,7 +211,7 @@ interface MatrixProps<
    * The key or function that resolves each row's conditions when `rows` is an
    * array of objects. Defaults to `'conditions'`.
    */
-  rowConditions?: string | ((row: any) => ConditionalProp | undefined)
+  rowConditions?: string | ((row: any) => ConditionsResult | undefined)
 
   /**
    * The key or function that resolves each row's validation rules when `rows`

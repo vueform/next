@@ -1,11 +1,11 @@
+import type { VNode } from 'vue'
 import {
   type AddonProp,
   type AddonItem,
   type PartOf,
   type ClassValue,
   type DomAttrsOf,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/types'
 
 /**
  * @write

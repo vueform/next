@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import PrimeDivider from 'primevue/divider'
 import PrimeStep from 'primevue/step'
-import { vdomPrime, type ResolvedPage } from '@vueform/primevue'
 import type {
   VfFormClasses,
   VfFormParts,
 } from '@vueform/primevue/components/VfForm'
+import { type ResolvedPage, vdomPrime } from '@vueform/primevue'
 
 const Divider = vdomPrime(PrimeDivider)
 const Step = vdomPrime(PrimeStep)

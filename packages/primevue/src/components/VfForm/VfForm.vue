@@ -21,11 +21,11 @@ import PrimeTabList from 'primevue/tablist'
 import PrimeTabPanels from 'primevue/tabpanels'
 import PrimeTabs from 'primevue/tabs'
 import { computed, onMounted, ref, watch } from 'vue'
-import { defaults, blueprint } from '@/blueprints/form'
-import { vdomPrime } from '@/helpers'
 import FormNav from './FormNav.vue'
 import FormStep from './FormStep.vue'
 import type { VfFormEmits, VfFormProps, VfFormSlots } from './types'
+import { defaults, blueprint } from '#primevue/blueprints/form'
+import { vdomPrime } from '#primevue/helpers'
 
 const StepItem = vdomPrime(PrimeStepItem)
 const StepList = vdomPrime(PrimeStepList)

@@ -1,5 +1,5 @@
-import { get, warn, isDev } from '@core/utils'
 import type { ExpressionAdapter, ExpressionEngine } from './types'
+import { get, warn, isDev } from '#core/utils'
 
 let warnedUnsupported = false
 

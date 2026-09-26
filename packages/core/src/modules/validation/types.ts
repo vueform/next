@@ -1,12 +1,12 @@
-import type { VueformInstance } from '@core/helpers'
-import type { ConditionalProp } from '@core/modules/conditions'
+import type { VueformInstance } from '#core/helpers'
+import type { ConditionalProp } from '#core/modules/conditions'
+import type { RULE_BRAND } from './symbols'
+import type { ComputedRef } from 'vue'
 import {
   type FormContext,
   type StatefulElement,
   type StandardSchemaV1,
-} from '@core/types'
-import type { RULE_BRAND } from './symbols'
-import type { ComputedRef } from 'vue'
+} from '#core/types'
 
 /**
  * Union of all known validation rule names — built-in rules plus any

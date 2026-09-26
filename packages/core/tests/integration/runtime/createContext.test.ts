@@ -1,5 +1,5 @@
-import { createContext } from '@vueform/core'
 import { createApp, defineComponent, h } from 'vue'
+import { createContext } from '#core'
 
 const mountApp = (root: any) => {
   const el = document.createElement('div')

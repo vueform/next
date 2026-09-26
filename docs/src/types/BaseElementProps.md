@@ -51,5 +51,10 @@ interface BaseElementProps<
    * model (if applicable).
    */
   detached?: boolean
+
+  /**
+   * @write
+   */
+  expressions?: ExpressionsProp
 }
 ```

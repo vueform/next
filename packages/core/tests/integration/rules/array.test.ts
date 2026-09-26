@@ -1,5 +1,5 @@
-import { defineSchema } from '@vueform/core'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
 
 describe('array', () => {
   it('should pass for an empty array', async () => {

@@ -8,14 +8,14 @@
 >
 import { defineEvents, useBlueprint, type LanguagesProp } from '@vueform/core'
 import PrimeInputMask from 'primevue/inputmask'
-import { blueprint, defaults } from '@/blueprints/input-mask'
-import { vdomPrime } from '@/helpers'
 import type {
   VfInputMaskEmits,
   VfInputMaskProps,
   VfInputMaskSlots,
 } from './types'
 import type { WritableComputedRef } from 'vue'
+import { blueprint, defaults } from '#primevue/blueprints/input-mask'
+import { vdomPrime } from '#primevue/helpers'
 
 const InputMask = vdomPrime(PrimeInputMask)
 

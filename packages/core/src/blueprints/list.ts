@@ -1,11 +1,12 @@
 import { computed, toRef } from 'vue'
+import type { DProp, FormSchema, LooseRequired, TProp } from '#core/types'
 import {
   useContainerProvider,
   useDynamicProp,
   useFeatures,
   useSecurity,
   useComponentFactory,
-} from '@core/composables'
+} from '#core/composables'
 import {
   makeElement,
   makeDisabled,
@@ -27,10 +28,9 @@ import {
   type ModelEmits,
   type ArrayModel,
   type ValidationEmits,
-} from '@core/features'
-import { defineDefaults, type DefineEvents } from '@core/helpers'
-import type { DProp, FormSchema, LooseRequired, TProp } from '@core/types'
-import { warn } from '@core/utils'
+} from '#core/features'
+import { defineDefaults, type DefineEvents } from '#core/helpers'
+import { warn } from '#core/utils'
 
 /**
  * Props for the list element blueprint.

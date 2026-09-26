@@ -31,6 +31,12 @@ import {
   type ModelApi,
   aliasProps,
 } from '@vueform/core'
+import type { ForwardedEmits } from '#primevue/types'
+import type {
+  InputOtpProps as AInputOtpProps,
+  InputOtpEmitsOptions as AInputOtpEmits,
+  InputOtpChangeEvent,
+} from 'primevue/inputotp'
 import {
   makeInfo,
   makeTooltip,
@@ -38,13 +44,7 @@ import {
   type ModelPropsWithDefaultValue,
   type InfoProps,
   type TooltipProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
-import type {
-  InputOtpProps as AInputOtpProps,
-  InputOtpEmitsOptions as AInputOtpEmits,
-  InputOtpChangeEvent,
-} from 'primevue/inputotp'
+} from '#primevue/features'
 
 /**
  * String model for OTP inputs.

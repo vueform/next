@@ -6,7 +6,7 @@ import {
   type makeLayout,
 } from '@vueform/core'
 import { computed } from 'vue'
-import { type makeFloatLabel, type makeIfta } from '@/features'
+import { type makeFloatLabel, type makeIfta } from '#primevue/features'
 
 /**
  * Configuration for the PrimeVue ARIA factory wiring describedby with float

@@ -3,20 +3,19 @@
   "name": "VfMultiSelect",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Multi-select element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfMultiSelect component",
   "files": [
     {
       "path": "VfMultiSelect.vue",
       "target": "{componentsDir}/VfMultiSelect.vue",
       "kind": "component",
-      "hash": "sha256:63054b73532c6bb2be9713400fb576684e2a9fff43bafbbe52292545f2e01798"
+      "hash": "sha256:c37d886df29107954d595fdb258bffd6157492d5ae45eb3c13b239f7bab280d0"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/multiselect",
-    "@vueform/primevue/blueprints/multi-select",
     "@vueform/primevue/components/VfMultiSelect"
   ],
   "dependencies": {},
@@ -26,11 +25,11 @@
     "path": "VfMultiSelect.vue",
     "blueprint": "multi-select",
     "hash": "sha256:b5a8a74d505ee68239fe897e6651d73bb23525f197e965ae806728052623ab05",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfMultiSelect",
     "import": "{componentsDir}/VfMultiSelect.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

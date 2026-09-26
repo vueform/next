@@ -1,7 +1,6 @@
-import type { VueformInstance } from '@core/helpers'
-import { getSecurityModule } from '@core/modules/security'
 import { HttpError } from './error'
 import { resolveRequestUrl } from './resolveUrl'
+import type { VueformInstance } from '#core/helpers'
 import type {
   HttpAdapter,
   HttpRequestConfig,
@@ -11,6 +10,7 @@ import type {
   RequestInterceptor,
   ResponseInterceptor,
 } from './types'
+import { getSecurityModule } from '#core/modules/security'
 
 const noAdapterConfigured: HttpAdapter = async () => {
   throw new Error(

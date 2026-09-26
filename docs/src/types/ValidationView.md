@@ -1,8 +1,5 @@
 ```ts
 /**
- * A validation rule attribute with a display value and optional field name.
- */
-/**
  * Per-language (or `'default'`) read-only view of an owner's validation state.
  * Shape-compatible with the former `ElementValidation` so `el$.validation` /
  * `el$.currentValidation` keep working.

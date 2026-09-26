@@ -1,1 +1,1 @@
-import '@/scss/addon.scss'
+import '#primevue/scss/addon.scss'

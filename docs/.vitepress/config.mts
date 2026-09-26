@@ -156,8 +156,8 @@ export default mergeConfig(
           // The active adapter's generated data — aliased so each build
           // bundles exactly one chunk per file instead of globbing every
           // adapter folder.
-          'virtual:vf-generated/components': path.resolve(__dirname, `../../.generated/${ADAPTER}/components.json`),
-          'virtual:vf-generated/classes': path.resolve(__dirname, `../../.generated/${ADAPTER}/classes.json`),
+          'virtual:vf-generated/components': path.resolve(__dirname, `../../.api/${ADAPTER}/components.json`),
+          'virtual:vf-generated/classes': path.resolve(__dirname, `../../.api/${ADAPTER}/classes.json`),
           'virtual:vf-generated/keywords': path.resolve(__dirname, `../.generated/${ADAPTER}/keywords.json`),
           'virtual:vf-generated/types': path.resolve(__dirname, `../.generated/${ADAPTER}/types.json`),
         },

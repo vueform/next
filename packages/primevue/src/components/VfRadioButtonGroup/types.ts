@@ -6,8 +6,8 @@ import type {
   RadioButtonGroupParts,
   RadioButtonGroupProps,
   RadioButtonGroupSlots,
-} from '@/blueprints/radio-button-group'
-import type { VfRadioButtonSlots } from '@/components/VfRadioButton/types'
+} from '#primevue/blueprints/radio-button-group'
+import type { VfRadioButtonSlots } from '#primevue/components/VfRadioButton/types'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
@@ -19,7 +19,7 @@ import type {
   OptionValueProp,
   OptionValueOf,
   RawOptionOf,
-} from '@/features/options'
+} from '#primevue/features/options'
 import type {
   WidenProps,
   ClassValue,
@@ -51,8 +51,7 @@ export type EntryProps<TEntry> = VfRadioButtonGroupProps<
  * narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfRadioButtonGroupProps<
   TOptions extends OptionsProp = OptionsProp,

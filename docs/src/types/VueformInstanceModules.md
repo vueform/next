@@ -10,6 +10,7 @@ interface VueformInstanceModules {
   autosave?: AutosaveModule
   http?: HttpModule
   date?: DateModule
+  devtools?: DevtoolsModule
   locale?: LocaleModule
   security?: SecurityModule
   theme?: ThemeModule

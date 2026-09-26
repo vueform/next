@@ -3,20 +3,19 @@
   "name": "VfGroup",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Group element for structuring schema",
+  "version": "2.0.0-alpha.1",
+  "description": "VfGroup component",
   "files": [
     {
       "path": "VfGroup.vue",
       "target": "{componentsDir}/VfGroup.vue",
       "kind": "component",
-      "hash": "sha256:c7b5b785bf70d151a861da6686dc36f5b3b8aca711bfa75c4a21af021759bbb9"
+      "hash": "sha256:b133cb5167e0e130a3d707796da3ec75e332a10b7d5db01276ab826bcebca74b"
     }
   ],
   "imports": [
-    "@vueform/ui/blueprints/group",
-    "@vueform/ui",
     "@vueform/ui/components/VfGroup",
+    "@vueform/ui",
     "@vueform/ui/group.css"
   ],
   "dependencies": {},
@@ -29,11 +28,11 @@
     "path": "VfGroup.vue",
     "blueprint": "group",
     "hash": "sha256:972107b83fe306aa170e55f4b506dc7745475568c3d4693471599dff40c4a937",
-    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfGroup",
     "import": "{componentsDir}/VfGroup.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

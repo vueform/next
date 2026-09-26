@@ -36,13 +36,7 @@ import {
   type ModelApi,
 } from '@vueform/core'
 import { computed } from 'vue'
-import {
-  makeAria,
-  makeInfo,
-  type ModelPropsWithDefaultValue,
-  type InfoProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
+import type { ForwardedEmits } from '#primevue/types'
 import type {
   FileUploadProps as AFileUploadProps,
   FileUploadEmitsOptions as AFileUploadEmits,
@@ -50,6 +44,12 @@ import type {
   FileUploadRemoveEvent,
   FileUploadRemoveUploadedFile,
 } from 'primevue/fileupload'
+import {
+  makeAria,
+  makeInfo,
+  type ModelPropsWithDefaultValue,
+  type InfoProps,
+} from '#primevue/features'
 
 /**
  * The model value type carried by the file-upload element's wide props.

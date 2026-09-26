@@ -1,5 +1,5 @@
-import { defineSchema } from '@vueform/core'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
 
 describe('mimetypes', () => {
   it('should fail on a non-file element type', async () => {

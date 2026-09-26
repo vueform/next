@@ -1,11 +1,5 @@
 <script setup lang="ts">
-import { defineSchema } from '@vueform/ui'
-
-const schema = defineSchema({
-  text: {
-    type: 'text',
-  },
-})
+import { schema } from './demo.schema'
 </script>
 
 <template>

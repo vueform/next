@@ -12,16 +12,17 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/primevue/blueprints/field'
 import {
+  type LanguagesProp,
   useBlueprint,
   defineEvents,
-  type LanguagesProp,
 } from '@vueform/primevue'
-import type {
-  VfFieldEmits,
-  VfFieldProps,
-  VfFieldSlots,
+import {
+  type VfFieldEmits,
+  type VfFieldProps,
+  type VfFieldSlots,
+  defaults,
+  blueprint,
 } from '@vueform/primevue/components/VfField'
 
 defineOptions({

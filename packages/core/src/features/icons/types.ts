@@ -1,10 +1,10 @@
+import type { VNode } from 'vue'
 import {
   type ClassValue,
   type DomAttrsOf,
   type PartOf,
   type DProp,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/types'
 
 /**
  * Props for elements that support before/after icon slots.

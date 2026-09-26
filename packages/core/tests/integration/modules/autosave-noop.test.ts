@@ -1,7 +1,7 @@
-import { defineSchema, type HttpAdapter } from '@vueform/core'
-import * as modules from '@vueform/core/modules'
 import { nextTick } from 'vue'
 import { createForm, flushPromises } from '../../helpers'
+import { defineSchema, type HttpAdapter } from '#core'
+import * as modules from '#core/modules'
 
 // This file must not install the autosave module anywhere — the module global
 // is process-wide per test file, so the inert surface is only observable in a

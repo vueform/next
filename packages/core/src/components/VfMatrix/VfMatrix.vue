@@ -1,14 +1,14 @@
 <script setup lang="ts">
+import type { VfMatrixEmits, VfMatrixProps, VfMatrixSlots } from './types'
 import {
   blueprint,
   defaults,
   normalizeSourceItems,
   resolveItemProp,
-} from '@core/blueprints/matrix'
-import { useBlueprint, useLocale } from '@core/composables'
-import { defineEvents } from '@core/helpers'
-import { isPlainObject } from '@core/utils'
-import type { VfMatrixEmits, VfMatrixProps, VfMatrixSlots } from './types'
+} from '#core/blueprints/matrix'
+import { useBlueprint, useLocale } from '#core/composables'
+import { defineEvents } from '#core/helpers'
+import { isPlainObject } from '#core/utils'
 
 defineOptions({
   name: 'VfMatrix',

@@ -10,17 +10,17 @@
   "
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
-import { blueprint, defaults } from '@/blueprints/radio-button-group'
 import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '@/features/options'
+} from '#primevue/features/options'
 import type {
   VfRadioButtonGroupEmits,
   VfRadioButtonGroupProps,
   VfRadioButtonGroupSlots,
 } from './types'
+import { blueprint, defaults } from '#primevue/blueprints/radio-button-group'
 
 defineOptions({
   name: 'VfRadioButtonGroup',

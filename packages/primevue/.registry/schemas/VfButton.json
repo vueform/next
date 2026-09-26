@@ -3,21 +3,20 @@
   "name": "VfButton",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Button element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfButton component",
   "files": [
     {
       "path": "VfButton.vue",
       "target": "{componentsDir}/VfButton.vue",
       "kind": "component",
-      "hash": "sha256:19a1eb1d6388d0ce756d9d70777a22855b17c8751062db345aa61cfd8d121874"
+      "hash": "sha256:d3fcebc949cdfd703e3b18952c53cc654c1bba02c0577f4f447fe04e1a1bfba8"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/button",
     "vue",
-    "@vueform/primevue/blueprints/button",
     "@vueform/primevue/components/VfButton",
     "@vueform/primevue/button.css"
   ],
@@ -31,11 +30,11 @@
     "path": "VfButton.vue",
     "blueprint": "button",
     "hash": "sha256:6cfbb2ca950dc8667196945af375cdac26efb5953bea890b1ce151d43b15f727",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfButton",
     "import": "{componentsDir}/VfButton.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

@@ -11,10 +11,10 @@
  * guarantee: every URL sink validates the FINAL value's scheme, and rejects
  * obfuscations (embedded tabs/newlines) the way browsers would forgive them.
  */
-import { defineSchema } from '@vueform/core'
-import * as modules from '@vueform/core/modules'
 import { nextTick } from 'vue'
 import { createForm, flushPromises } from '../../helpers'
+import { defineSchema } from '#core'
+import * as modules from '#core/modules'
 
 // Forms built without the security module observe the permissive surface.
 const { security: _security, ...modulesWithoutSecurity } = modules as any

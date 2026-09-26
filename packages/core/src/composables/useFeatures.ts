@@ -1,4 +1,4 @@
-import type { Prettify } from '@core/types'
+import type { Prettify } from '#core/types'
 import type { Ref } from 'vue'
 
 /**

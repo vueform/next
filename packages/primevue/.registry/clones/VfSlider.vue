@@ -14,6 +14,7 @@ import {
   type WidenProps,
 } from '@vueform/primevue'
 import PrimeSlider from 'primevue/slider'
+import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -25,7 +26,6 @@ import {
   type SliderProps,
   type SliderSlots,
 } from '@vueform/primevue/blueprints/slider'
-import type { WritableComputedRef } from 'vue'
 import '@vueform/primevue/slider.css'
 import type { SliderProps as PvSliderProps } from 'primevue'
 

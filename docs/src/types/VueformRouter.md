@@ -6,7 +6,7 @@
 interface VueformRouter {
   currentRoute: Ref<{
     path: string
-    query: Record<string, string | string[] | undefined>
+    query: Record<string, string | null | (string | null)[] | undefined>
     [key: string]: any
   }>
   push: (to: any) => any

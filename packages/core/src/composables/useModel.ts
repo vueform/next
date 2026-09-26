@@ -1,4 +1,3 @@
-import { getModelModule, type ModelInstance } from '@core/modules/model'
 import type {
   ArraySchema,
   DeepPartial,
@@ -8,8 +7,9 @@ import type {
   ObjectSchema,
   SchemaToModel,
   StandardSchemaV1,
-} from '@core/types'
+} from '#core/types'
 import type { Ref } from 'vue'
+import { getModelModule, type ModelInstance } from '#core/modules/model'
 
 /**
  * Creates a standalone form model from a schema: the full data shape is built

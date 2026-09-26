@@ -38,6 +38,7 @@ import {
 import PrimePassword, {
   type PasswordSlots as APasswordSlots,
 } from 'primevue/password'
+import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -50,7 +51,6 @@ import {
   type PasswordSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/password'
-import type { WritableComputedRef } from 'vue'
 import type { PasswordProps as PvPasswordProps } from 'primevue'
 
 /**

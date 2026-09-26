@@ -1,3 +1,6 @@
+import { describe, expect, it, vi } from 'vitest'
+import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
+import { createForm, flushPromises, mountApp } from '../../helpers'
 import {
   NotInstalledError,
   useModel,
@@ -6,10 +9,8 @@ import {
   type HttpRequestConfig,
   type ModelInstance,
   type UseFormReturn,
-} from '@vueform/core'
-import { describe, expect, it, vi } from 'vitest'
-import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
-import { createForm, flushPromises, mountApp } from '../../helpers'
+  defineSchema,
+} from '#core'
 
 /**
  * Runs a factory inside a mounted component's setup (so `useConfig()` resolves)
@@ -164,10 +165,10 @@ describe('VfForm adoption of useModel instances', () => {
 })
 
 describe('useForm', () => {
-  const schema = {
+  const schema = defineSchema({
     name: { type: 'text' },
     email: { type: 'text' },
-  }
+  })
 
   const mountUseForm = (model?: any) => {
     let tuple!: UseFormReturn<typeof schema>

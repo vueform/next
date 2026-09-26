@@ -1,4 +1,5 @@
-import type { HttpResponse } from '@core/modules/http'
+import type { HttpResponse } from '#core/modules/http'
+import type { Component, Ref } from 'vue'
 import {
   type AddonSchema,
   type ClassInput,
@@ -6,8 +7,7 @@ import {
   type LooseClasses,
   type OpenObject,
   type PresetDefinition,
-} from '@core/types'
-import type { Component, Ref } from 'vue'
+} from '#core/types'
 
 /**
  * Horizontal alignment options for layout and grid cells.

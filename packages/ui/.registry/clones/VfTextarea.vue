@@ -13,20 +13,9 @@
  */
 
 import {
-  defaults,
-  blueprint,
-  type TextareaApi,
-  type TextareaClasses,
-  type TextareaEmits,
-  type TextareaExpose,
-  type TextareaParts,
-  type TextareaProps,
-  type TextareaSlots,
-} from '@vueform/ui/blueprints/textarea'
-import {
+  type LanguagesProp,
   useBlueprint,
   defineEvents,
-  type LanguagesProp,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,
@@ -41,6 +30,17 @@ import {
   type WidenProps,
 } from '@vueform/ui'
 import type { WritableComputedRef } from 'vue'
+import {
+  defaults,
+  blueprint,
+  type TextareaApi,
+  type TextareaClasses,
+  type TextareaEmits,
+  type TextareaExpose,
+  type TextareaParts,
+  type TextareaProps,
+  type TextareaSlots,
+} from '@vueform/ui/blueprints/textarea'
 import '@vueform/ui/textarea.css'
 import '@vueform/ui/input.css'
 

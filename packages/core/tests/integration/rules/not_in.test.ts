@@ -1,5 +1,5 @@
-import { defineSchema } from '@vueform/core'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
 
 describe('not_in', () => {
   it('should pass when value is not in the list', async () => {

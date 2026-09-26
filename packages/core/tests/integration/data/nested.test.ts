@@ -1,6 +1,6 @@
-import { defineSchema } from '@vueform/core'
 import { computed, nextTick, ref } from 'vue'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
 
 describe('Nested', () => {
   it('should handle nested change in container', async () => {

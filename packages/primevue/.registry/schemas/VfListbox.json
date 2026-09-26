@@ -3,20 +3,19 @@
   "name": "VfListbox",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Listbox element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfListbox component",
   "files": [
     {
       "path": "VfListbox.vue",
       "target": "{componentsDir}/VfListbox.vue",
       "kind": "component",
-      "hash": "sha256:c22c4bd769288a85e33645bbc9cc8617ce4545ccf4592d41e33810c6e57242a1"
+      "hash": "sha256:b3d8d37e19513910a640fcdb1b813f2018de015c733d851846e318c19733d1ff"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/listbox",
-    "@vueform/primevue/blueprints/listbox",
     "@vueform/primevue/components/VfListbox"
   ],
   "dependencies": {},
@@ -26,11 +25,11 @@
     "path": "VfListbox.vue",
     "blueprint": "listbox",
     "hash": "sha256:8cdf37514ccf1917b4a0985ae8f0f974508111841dd8ff3a5b0ed7ac89b724f6",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfListbox",
     "import": "{componentsDir}/VfListbox.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

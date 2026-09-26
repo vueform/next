@@ -4,10 +4,10 @@ import {
   type Component,
   type FunctionalComponent,
 } from 'vue'
-import type { SecurityHtmlArea } from '@core/modules/security'
-import { containsHtml, kebabToPascal } from '@core/utils'
 import { useExpression } from './useExpression'
 import { useSecurity } from './useSecurity'
+import type { SecurityHtmlArea } from '#core/modules/security'
+import { containsHtml, kebabToPascal } from '#core/utils'
 
 /**
  * Options for creating a component from a schema string.

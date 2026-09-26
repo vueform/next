@@ -1,5 +1,5 @@
 import { computed, useId } from 'vue'
-import { defineConfig } from '@core/helpers'
+import { defineConfig } from '#core/helpers'
 
 /**
  * The default Vueform configuration including all built-in rules, modules,
@@ -13,6 +13,7 @@ const defaultConfig = defineConfig({
     debounce: 300,
   },
   $date: {},
+  $devtools: {},
   $expression: {},
   $http: {
     defaultMethod: 'GET',
@@ -29,6 +30,7 @@ const defaultConfig = defineConfig({
   $security: {},
   $theme: {},
   $validation: {},
+  devtools: true,
   lazy: true,
   matrixTypes: {
     single: ['radio', 'radios'],

@@ -3,20 +3,19 @@
   "name": "VfSelectButton",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Select button element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfSelectButton component",
   "files": [
     {
       "path": "VfSelectButton.vue",
       "target": "{componentsDir}/VfSelectButton.vue",
       "kind": "component",
-      "hash": "sha256:56e9dee253e98b2f5dbe169fcae08a6d700258bd8f11a2317318e01ef1b5249f"
+      "hash": "sha256:cc9eb46dfa11cc93c24a8e5d70177d1aec81586b8cae26178f8870d428ab2d99"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/selectbutton",
-    "@vueform/primevue/blueprints/select-button",
     "@vueform/primevue/components/VfSelectButton"
   ],
   "dependencies": {},
@@ -26,11 +25,11 @@
     "path": "VfSelectButton.vue",
     "blueprint": "select-button",
     "hash": "sha256:1bf67dcfbbe927003eb1cb5ca1e3e139fb9496edec8b3d165bab6c76a2bf28bc",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfSelectButton",
     "import": "{componentsDir}/VfSelectButton.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

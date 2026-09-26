@@ -3,20 +3,19 @@
   "name": "VfContent",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Static content element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfContent component",
   "files": [
     {
       "path": "VfContent.vue",
       "target": "{componentsDir}/VfContent.vue",
       "kind": "component",
-      "hash": "sha256:6cecdc6663ea990a376297c86115e636405d6459eb68b8923063bed335d4f7e0"
+      "hash": "sha256:33281f446f6036de37400fd06dc06852cd5d5e2b2d242afbae9965f43811d5c0"
     }
   ],
   "imports": [
-    "@vueform/primevue/blueprints/content",
-    "@vueform/primevue",
     "@vueform/primevue/components/VfContent",
+    "@vueform/primevue",
     "@vueform/primevue/content.css"
   ],
   "dependencies": {},
@@ -29,11 +28,11 @@
     "path": "VfContent.vue",
     "blueprint": "content",
     "hash": "sha256:45ffce723472a22870fee170fa2b3bad727e3314e9630a741b507433e16c7936",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfContent",
     "import": "{componentsDir}/VfContent.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

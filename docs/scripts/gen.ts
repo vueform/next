@@ -13,15 +13,15 @@ export const DOCS_DIR = path.resolve(
 // ---------------------------------------------------------------------------
 
 // Structural json extraction (blueprints, classes, components, composables,
-// contexts, helpers, locales, modules, tokens) lives in packages/scraper and
-// writes to .generated/ at the monorepo root — run `pnpm scrape` there. The
+// contexts, helpers, locales, modules, tokens) lives in scripts/api-extractor and
+// writes to .api/ at the monorepo root — run `pnpm extract` there. The
 // generators here only produce docs content from those jsons.
 export const ALL_GENERATORS = [
   'json-types',
   'guide-tokens',
   'guide-locales',
-  'guide-code-splitting',
-  'guide-benchmark',
+  // 'guide-code-splitting',
+  // 'guide-benchmark',
   'reference-composables',
   'reference-helpers',
   'json-keywords',
@@ -52,8 +52,8 @@ export const WAVES: Generator[][] = [
   [
     'json-types',
     'guide-locales',
-    'guide-code-splitting',
-    'guide-benchmark',
+    // 'guide-code-splitting',
+    // 'guide-benchmark',
     'guide-tokens',
     'reference-composables',
     'reference-helpers',
@@ -143,7 +143,7 @@ export function runParallelWave(generators: Generator[]): Promise<void> {
 
 // ---------------------------------------------------------------------------
 // Main: run every docs generator (waves in parallel). Assumes the structural
-// jsons in the monorepo root's .generated/ are fresh — run `pnpm scrape`
+// jsons in the monorepo root's .api/ are fresh — run `pnpm extract`
 // first if they aren't. The interactive front-end lives in cli.ts.
 // ---------------------------------------------------------------------------
 

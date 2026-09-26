@@ -1,10 +1,11 @@
 import { computed } from 'vue'
+import type { AlignProp, LooseRequired, TProp } from '#core/types'
 import {
   useDynamicProp,
   useFeatures,
   useMessageBag,
   useSecurity,
-} from '@core/composables'
+} from '#core/composables'
 import {
   makeElement,
   makeLayout,
@@ -16,10 +17,9 @@ import {
   type BaseElementExpose,
   type BaseElementSlots,
   type LayoutProps,
-} from '@core/features'
-import { defineDefaults, type DefineEvents } from '@core/helpers'
-import type { AlignProp, LooseRequired, TProp } from '@core/types'
-import { containsHtml } from '@core/utils'
+} from '#core/features'
+import { defineDefaults, type DefineEvents } from '#core/helpers'
+import { containsHtml } from '#core/utils'
 
 /**
  * Props for the content element blueprint.

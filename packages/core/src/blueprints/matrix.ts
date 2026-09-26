@@ -6,6 +6,14 @@ import {
   watch,
   type Ref,
 } from 'vue'
+import type { RulesProp } from '#core/modules/validation'
+import type {
+  TProp,
+  MakeOptional,
+  LooseRequired,
+  ElementName,
+  DProp,
+} from '#core/types'
 import {
   useConfig,
   useContainerProvider,
@@ -15,8 +23,8 @@ import {
   useConditionalList,
   useSecurity,
   useComponentFactory,
-} from '@core/composables'
-import { useComponentContext } from '@core/contexts'
+} from '#core/composables'
+import { useComponentContext } from '#core/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -39,27 +47,20 @@ import {
   type ObjectModel,
   type ValidationEmits,
   type ItemsProp,
-} from '@core/features'
-import { defineDefaults, type DefineEvents } from '@core/helpers'
+} from '#core/features'
+import { defineDefaults, type DefineEvents } from '#core/helpers'
 import {
   type ConditionalProp,
+  type ConditionsResult,
   type ConditionsTriggerProp,
-} from '@core/modules/conditions'
-import type { RulesProp } from '@core/modules/validation'
-import type {
-  TProp,
-  MakeOptional,
-  LooseRequired,
-  ElementName,
-  DProp,
-} from '@core/types'
+} from '#core/modules/conditions'
 import {
   alwaysTrue as alwaysAvailable,
   equals,
   isPlainObject,
   kebabToPascal,
   typedEntries,
-} from '@core/utils'
+} from '#core/utils'
 
 /**
  * A matrix column normalized from any accepted source format, with its value,
@@ -309,7 +310,8 @@ export interface MatrixProps<
    * The key or function that resolves each column's conditions when `cols` is
    * an array of objects. Defaults to `'conditions'`.
    */
-  colConditions?: string | ((col: any) => ConditionalProp<TContext> | undefined)
+  colConditions?:
+    string | ((col: any) => ConditionsResult<TContext> | undefined)
 
   /**
    * The key or function that resolves each column's custom element schema when
@@ -346,7 +348,7 @@ export interface MatrixProps<
    * The key or function that resolves each row's conditions when `rows` is an
    * array of objects. Defaults to `'conditions'`.
    */
-  rowConditions?: string | ((row: any) => ConditionalProp | undefined)
+  rowConditions?: string | ((row: any) => ConditionsResult | undefined)
 
   /**
    * The key or function that resolves each row's validation rules when `rows`
@@ -492,7 +494,7 @@ export type MatrixElementSchema = any
 export type MatrixCols =
   | string
   | readonly string[]
-  | Record<string, string | number>
+  | Record<string, any>
   | readonly Record<string, any>[]
   | ((context$: any) => any)
 
@@ -505,7 +507,7 @@ export type MatrixCols =
 export type MatrixRows =
   | string
   | readonly string[]
-  | Record<string, string | number>
+  | Record<string, any>
   | readonly Record<string, any>[]
   | ((context$: any) => any)
 

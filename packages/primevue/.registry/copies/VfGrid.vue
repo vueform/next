@@ -4,13 +4,14 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/primevue/blueprints/grid'
-import { useBlueprint, defineEvents } from '@vueform/primevue'
-import type {
-  VfGridEmits,
-  VfGridProps,
-  VfGridSlots,
+import {
+  type VfGridEmits,
+  type VfGridProps,
+  type VfGridSlots,
+  defaults,
+  blueprint,
 } from '@vueform/primevue/components/VfGrid'
+import { useBlueprint, defineEvents } from '@vueform/primevue'
 import '@vueform/primevue/grid.css'
 
 defineOptions({

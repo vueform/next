@@ -14,20 +14,9 @@
  */
 
 import {
-  defaults,
-  blueprint,
-  type FieldApi,
-  type FieldClasses,
-  type FieldEmits,
-  type FieldExpose,
-  type FieldParts,
-  type FieldProps,
-  type FieldSlots,
-} from '@vueform/primevue/blueprints/field'
-import {
+  type LanguagesProp,
   useBlueprint,
   defineEvents,
-  type LanguagesProp,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,
@@ -40,6 +29,17 @@ import {
   type TranslateSlots,
   type WidenProps,
 } from '@vueform/primevue'
+import {
+  defaults,
+  blueprint,
+  type FieldApi,
+  type FieldClasses,
+  type FieldEmits,
+  type FieldExpose,
+  type FieldParts,
+  type FieldProps,
+  type FieldSlots,
+} from '@vueform/primevue/blueprints/field'
 import type { VNode } from 'vue'
 
 /**

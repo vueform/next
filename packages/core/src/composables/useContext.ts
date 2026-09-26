@@ -1,5 +1,5 @@
-import { useComponentContext } from '@core/contexts'
-import type { ComponentNames, ContextOf } from '@core/types'
+import type { ComponentNames, ContextOf } from '#core/types'
+import { useComponentContext } from '#core/contexts'
 
 /**
  * Returns the public context of the nearest Vueform component — the very same

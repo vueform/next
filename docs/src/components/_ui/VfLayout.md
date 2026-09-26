@@ -12,7 +12,6 @@
 ## Props
 
 <!-- @props-intro-start -->
-
 Configure the component's behavior and appearance with these props.
 <!-- @props-intro-end -->
 
@@ -21,36 +20,36 @@ Configure the component's behavior and appearance with these props.
 
 ### Layout {#props-layout}
 
-| Prop                                       | Default | Description                                    |
-| ------------------------------------------ | ------- | ---------------------------------------------- |
-| [`label`](!code#props.label 'boolean')     | —       | Whether to render the element's label tag.     |
-| [`loading`](!code#props.loading 'boolean') | —       | Whether to render loading icon when available. |
-| [`addons`](!code#props.addons 'boolean')   | —       | Whether to render addons when available.       |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`label`](!code#props.label "boolean") | — | Whether to render the element's label tag. |
+| [`loading`](!code#props.loading "boolean") | — | Whether to render loading icon when available. |
+| [`addons`](!code#props.addons "boolean") | — | Whether to render addons when available. |
 
 ### I18n {#props-i18n}
 
-| Prop                                           | Default | Description                                          |
-| ---------------------------------------------- | ------- | ---------------------------------------------------- |
-| [`languages`](!code#props.languages 'boolean') | —       | Whether to render langauges selector when available. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`languages`](!code#props.languages "boolean") | — | Whether to render langauges selector when available. |
 
 ### Validation {#props-validation}
 
-| Prop                                             | Default | Description                                                 |
-| ------------------------------------------------ | ------- | ----------------------------------------------------------- |
-| [`hideErrors`](!code#props.hideErrors 'boolean') | `false` | Whether to hide validation error messages for this element. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`hideErrors`](!code#props.hideErrors "boolean") | `false` | Whether to hide validation error messages for this element. |
 
 ### Customization {#props-customization}
 
-| Prop                                                      | Default | Description                                                                                                                         |
-| --------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| [`parts`](!code#props.parts 'P')                          | —       | Custom DOM attribute overrides for the component's structural parts.                                                                |
-| [`class`](!code#props.class 'ClassValue')                 | —       | CSS classes to apply to the component's root element.                                                                               |
-| [`classes`](!code#props.classes 'C')                      | —       | Custom CSS class overrides for the component's structural parts.                                                                    |
-| [`reclass`](!code#props.reclass 'C')                      | —       | CSS class overrides that replace (rather than merge with) default classes.                                                          |
-| [`slots`](!code#props.slots 'S')                          | —       | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
-| [`presets`](!code#props.presets 'PresetsProp')            | —       | Named configuration presets to apply to the component.                                                                              |
-| [`template`](!code#props.template 'ComponentProp \| null') | —       | A custom Vue component to use as the template instead of the default.                                                               |
-| [`component`](!code#props.component 'ComponentProp')      | —       | A custom Vue component to render in the component's default slot.                                                                   |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`parts`](!code#props.parts "P") | — | Custom DOM attribute overrides for the component's structural parts. |
+| [`class`](!code#props.class "ClassValue") | — | CSS classes to apply to the component's root element. |
+| [`classes`](!code#props.classes "C") | — | Custom CSS class overrides for the component's structural parts. |
+| [`reclass`](!code#props.reclass "C") | — | CSS class overrides that replace (rather than merge with) default classes. |
+| [`slots`](!code#props.slots "S") | — | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
+| [`presets`](!code#props.presets "PresetsProp") | — | Named configuration presets to apply to the component. |
+| [`template`](!code#props.template "ComponentProp \| null") | — | A custom Vue component to use as the template instead of the default. |
+| [`component`](!code#props.component "ComponentProp") | — | A custom Vue component to render in the component's default slot. |
 
 <!-- @endcollapsible -->
 <!-- @props-end -->
@@ -66,41 +65,39 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 <!-- @collapsible -->
 <!-- @context-start -->
-
 ### General {#section-general}
 
-| Name                                    | Description                                         |
-| --------------------------------------- | --------------------------------------------------- |
-| [`props`](!code#context.props 'object') | The resolved component props with defaults applied. |
+| Name | Description |
+| --- | --- |
+| [`props`](!code#context.props "object") | The resolved component props with defaults applied. |
 
 ### Layout {#section-layout}
 
-| Name                                                                                                                    | Description                                                                                                                                                                                                                                                                                                         |
-| ----------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`classes`](!code#context.classes 'object')                                                                             | The resolved CSS class map for the component.                                                                                                                                                                                                                                                                       |
-| [`parts`](!code#context.parts 'any')                                                                                    | Blueprint-provided parts: VfLayout has no structural parts of its own, it forwards the parent element's resolved parts so the layout renders with that element's part overrides.                                                                                                                                    |
-| [`tokens`](!code#context.tokens 'CSSProperties')                                                                        | Reactive inline style object with resolved theme token CSS custom properties.                                                                                                                                                                                                                                       |
-| [`tokenClass`](!code#context.tokenClass 'string')                                                                       | A unique CSS class scoped to this button instance, used to target the injected token style rule.                                                                                                                                                                                                                    |
-| [`tokenCss`](!code#context.tokenCss 'string')                                                                           | The CSS text for scoped token custom properties on this button instance.                                                                                                                                                                                                                                            |
-| [`nonce`](!code#context.nonce 'string \| undefined')                                                                     | Unique security nonce for injecting scoped styles.                                                                                                                                                                                                                                                                  |
-| [`showErrors`](!code#context.showErrors 'boolean')                                                                      | Whether to display validation error messages for this element.                                                                                                                                                                                                                                                      |
-| [`el$`](!code#context.el$ 'any')                                                                                        | The parent element's component context.                                                                                                                                                                                                                                                                             |
-| [`outlets`](!code#context.outlets 'object')                                                                             | Outlets with `template` resolved from the element's `layout` prop when set, otherwise from the standard template/config resolution. A string `layout` is a registered component name and goes through `$security.allowComponents` like any other name string; a rejected one falls back to the standard resolution. |
-| [`isContainer`](!code#context.isContainer 'boolean')                                                                    | Whether the element is a container-type element (e.g. group, list).                                                                                                                                                                                                                                                 |
-| [`isFieldset`](!code#context.isFieldset 'boolean')                                                                      | Whether the element should render as a `<fieldset>` with a legend.                                                                                                                                                                                                                                                  |
-| [`hasPager`](!code#context.hasPager 'any')                                                                              | Whether the element's container has an active pager for pagination.                                                                                                                                                                                                                                                 |
-| [`showLabel`](!code#context.showLabel 'boolean')                                                                        | Whether the element's label is visible.                                                                                                                                                                                                                                                                             |
-| [`showSrLabel`](!code#context.showSrLabel 'boolean')                                                                    | Whether to render a screen-reader-only label for the element.                                                                                                                                                                                                                                                       |
-| [`showPhLabel`](!code#context.showPhLabel 'boolean')                                                                    | Whether to render a placeholder label for horizontal layout alignment.                                                                                                                                                                                                                                              |
-| [`showRequired`](!code#context.showRequired 'any')                                                                      | Whether to display the required indicator alongside the label.                                                                                                                                                                                                                                                      |
-| [`columnClasses`](!code#context.columnClasses 'object')                                                                 | The resolved responsive CSS classes for each column section (container, label, group, wrapper).                                                                                                                                                                                                                     |
-| [`useLabelTag`](!code#context.useLabelTag 'boolean')                                                                    | Whether to render a `<label>` tag for the element.                                                                                                                                                                                                                                                                  |
-| [`headingTag`](!code#context.headingTag '`h${any}` \| undefined')                                                        | The tag to use for the label when a heading level is set on a container element (e.g. `'h1'`–`'h6'`), or `undefined` when no heading is active.                                                                                                                                                                     |
-| [`showHelp`](!code#context.showHelp 'boolean')                                                                          | Whether the element's help text is visible.                                                                                                                                                                                                                                                                         |
-| [`showDescription`](!code#context.showDescription 'boolean')                                                            | Whether the element's description text is visible.                                                                                                                                                                                                                                                                  |
-| [`withDefaultProps()`](!code#context.withDefaultProps '(target: string, base: Record<string, any> \| undefined) => any') | Merges element-level default props into a target sub-component's props.                                                                                                                                                                                                                                             |
-| [`helperClasses()`](!code#context.helperClasses '(key: string) => string \| null')                                       | Returns the CSS helper class for a given key, if class helpers are enabled.                                                                                                                                                                                                                                         |
-
+| Name | Description |
+| --- | --- |
+| [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
+| [`parts`](!code#context.parts "any") | Blueprint-provided parts: VfLayout has no structural parts of its own, it forwards the parent element's resolved parts so the layout renders with that element's part overrides. |
+| [`tokens`](!code#context.tokens "CSSProperties") | Reactive inline style object with resolved theme token CSS custom properties. |
+| [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this button instance, used to target the injected token style rule. |
+| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this button instance. |
+| [`nonce`](!code#context.nonce "string \| undefined") | Unique security nonce for injecting scoped styles. |
+| [`showErrors`](!code#context.showErrors "boolean") | Whether to display validation error messages for this element. |
+| [`el$`](!code#context.el$ "any") | The parent element's component context. |
+| [`outlets`](!code#context.outlets "object") | Outlets with `template` resolved from the element's `layout` prop when set, otherwise from the standard template/config resolution. A string `layout` is a registered component name and goes through `$security.allowComponents` like any other name string; a rejected one falls back to the standard resolution. |
+| [`isContainer`](!code#context.isContainer "boolean") | Whether the element is a container-type element (e.g. group, list). |
+| [`isFieldset`](!code#context.isFieldset "boolean") | Whether the element should render as a `<fieldset>` with a legend. |
+| [`hasPager`](!code#context.hasPager "any") | Whether the element's container has an active pager for pagination. |
+| [`showLabel`](!code#context.showLabel "boolean") | Whether the element's label is visible. |
+| [`showSrLabel`](!code#context.showSrLabel "boolean") | Whether to render a screen-reader-only label for the element. |
+| [`showPhLabel`](!code#context.showPhLabel "boolean") | Whether to render a placeholder label for horizontal layout alignment. |
+| [`showRequired`](!code#context.showRequired "any") | Whether to display the required indicator alongside the label. |
+| [`columnClasses`](!code#context.columnClasses "object") | The resolved responsive CSS classes for each column section (container, label, group, wrapper). |
+| [`useLabelTag`](!code#context.useLabelTag "boolean") | Whether to render a `<label>` tag for the element. |
+| [`headingTag`](!code#context.headingTag "`h${any}` \| undefined") | The tag to use for the label when a heading level is set on a container element (e.g. `'h1'`–`'h6'`), or `undefined` when no heading is active. |
+| [`showHelp`](!code#context.showHelp "boolean") | Whether the element's help text is visible. |
+| [`showDescription`](!code#context.showDescription "boolean") | Whether the element's description text is visible. |
+| [`withDefaultProps()`](!code#context.withDefaultProps "(target: string, base: Record<string, any> \| undefined) => any") | Merges element-level default props into a target sub-component's props. |
+| [`helperClasses()`](!code#context.helperClasses "(key: string) => string \| null") | Returns the CSS helper class for a given key, if class helpers are enabled. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -113,15 +110,13 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 Events emitted by the component. See [Events](/guide/event-handlers) for details.
 
 <!-- @events-start -->
-
-| Name            | Params                                                       | Description                                |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------ |
-| `beforeMount`   | [`context$`](!code#events.beforeMount.context$ 'TContext')   | Emitted before the component is mounted.   |
-| `mounted`       | [`context$`](!code#events.mounted.context$ 'TContext')       | Emitted after the component is mounted.    |
-| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ 'TContext') | Emitted before the component is unmounted. |
-| `unmounted`     | [`context$`](!code#events.unmounted.context$ 'TContext')     | Emitted after the component is unmounted.  |
-| `updated`       | [`context$`](!code#events.updated.context$ 'TContext')       | Emitted after the component is updated.    |
-
+| Name | Params | Description |
+| --- | --- | --- |
+| `beforeMount` | [`context$`](!code#events.beforeMount.context$ "TContext") | Emitted before the component is mounted. |
+| `mounted` | [`context$`](!code#events.mounted.context$ "TContext") | Emitted after the component is mounted. |
+| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ "TContext") | Emitted before the component is unmounted. |
+| `unmounted` | [`context$`](!code#events.unmounted.context$ "TContext") | Emitted after the component is unmounted. |
+| `updated` | [`context$`](!code#events.updated.context$ "TContext") | Emitted after the component is updated. |
 <!-- @events-end -->
 <!-- @endtab -->
 
@@ -132,15 +127,152 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 
 <!-- @slots-start -->
-
-| Name       | Scope                                                                                                                                                                                                                                                                                                                          | Description                                                                                                        |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------ |
-| `template` | [`context`](!code#slot.template.context 'TContext')                                                                                                                                                                                                                                                                            | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `tabs`     | [`pager`](!code#slot.tabs.pager 'Pager')                                                                                                                                                                                                                                                                                       | Slot for customizing the tab navigation bar.                                                                       |
-| `tab`      | [`index`](!code#slot.tab.index 'number') [`label`](!code#slot.tab.label 'string') [`meta`](!code#slot.tab.meta 'Record<string, any>') [`selected`](!code#slot.tab.selected 'boolean') [`invalid`](!code#slot.tab.invalid 'boolean') [`loading`](!code#slot.tab.loading 'boolean') [`el$`](!code#slot.tab.el$ 'UnknownElement') | Slot for customizing an individual tab button.                                                                     |
-| `default`  | —                                                                                                                                                                                                                                                                                                                              | Slot for the element's default content.                                                                            |
-
+| Name | Scope | Description |
+| --- | --- | --- |
+| `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
+| `required` | — | Slot for customizing the required indicator. |
+| `tabs` | [`pager`](!code#slot.tabs.pager "Pager") | Slot for customizing the tab navigation bar. |
+| `tab` | [`index`](!code#slot.tab.index "number") [`label`](!code#slot.tab.label "string") [`meta`](!code#slot.tab.meta "Record<string, any>") [`selected`](!code#slot.tab.selected "boolean") [`invalid`](!code#slot.tab.invalid "boolean") [`loading`](!code#slot.tab.loading "boolean") [`el$`](!code#slot.tab.el$ "UnknownElement") | Slot for customizing an individual tab button. |
+| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
+| `default` | — | Slot for the element's default content. |
+| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
+| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
+<!-- @endtab -->
+<!-- @tab Parts -->
+
+## Parts
+
+DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) for details.
+
+<!-- #region viewer -->
+<VPParts component="VfLayout" :examples="{ default: 'Default' }">
+  <template #example-default>
+    Example
+  </template>
+</VPParts>
+<!-- #endregion viewer -->
+
+<!-- @parts-start -->
+### `panel`
+
+The wrapper around `root` with `display: contents` when the element is a step or a tab.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-panel` |
+
+### `root`
+
+The element's root wrapper.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` `<fieldset>` |
+| **Classes** | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
+
+### `labelGroup`
+
+The container holding the label and required indicator.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-label-group` `.vf-h1?` `.vf-h2?` `.vf-h3?` `.vf-h4?` `.vf-h5?` `.vf-h6?` |
+
+### `label`
+
+The label element.
+
+| | |
+| --- | --- |
+| **Element** | `<label>` `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
+| **Classes** | `.vf-label` |
+
+### `required`
+
+The required indicator.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-required` |
+
+### `elementGroup`
+
+The container wrapping the input and related UI.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-element-group` |
+
+### `elementWrapper`
+
+The wrapper directly around the input control.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-element-wrapper` |
+
+### `help`
+
+The help text area.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-help` |
+
+### `description`
+
+The description text area.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-description` |
+
+### `errors`
+
+The validation errors container.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-errors` |
+
+### `error`
+
+An individual validation error.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-error` |
+
+### `messages`
+
+The info messages container.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-messages` |
+
+### `message`
+
+An individual info message.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+| **Classes** | `.vf-message` |
+<!-- @parts-end -->
 <!-- @endtab -->
 <!-- @tab Tokens -->
 

@@ -14,6 +14,7 @@ import {
   type ForwardedSlots,
 } from '@vueform/primevue'
 import PrimeRating from 'primevue/rating'
+import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -26,7 +27,6 @@ import {
   type RatingSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/rating'
-import type { WritableComputedRef } from 'vue'
 import '@vueform/primevue/rating.css'
 import type {
   RatingSlots as ARatingSlots,

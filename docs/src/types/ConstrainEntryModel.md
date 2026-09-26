@@ -16,12 +16,12 @@ type ConstrainEntryModel<
       HasModelProp<N> extends true
         ? P extends { modelValue?: infer Model }
           ? El extends { modelValue?: ModelWithReadonly<Model> } & {
-              default?: ModelWithReadonly<Model>
+              default?: ModelWithReadonly<Model> | ExpressionString
             }
             ? El
             : Omit<El, 'modelValue' | 'default'> & {
                 modelValue?: ModelWithReadonly<Model>
-                default?: ModelWithReadonly<Model>
+                default?: ModelWithReadonly<Model> | ExpressionString
               }
           : El
         : El,

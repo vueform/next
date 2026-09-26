@@ -1,5 +1,5 @@
-import { defineModule } from '@core/helpers'
 import { createTheme, getCSS, injectThemeCss } from './createTheme'
+import { defineModule } from '#core/helpers'
 
 /**
  * The theme module. Register via `createVueform({ modules: { theme } })`.

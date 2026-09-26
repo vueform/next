@@ -4,13 +4,14 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/row'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfRowEmits,
-  VfRowProps,
-  VfRowSlots,
+import {
+  type VfRowEmits,
+  type VfRowProps,
+  type VfRowSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfRow'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/grid.css'
 
 defineOptions({ name: 'VfRow', inheritAttrs: false })

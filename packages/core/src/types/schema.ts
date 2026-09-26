@@ -1,3 +1,4 @@
+import type { Ref } from 'vue'
 import {
   type ContextOf,
   type ElementNames,
@@ -23,8 +24,7 @@ import {
   type ComponentProp,
   type EntryPropOf,
   type ExpressionString,
-} from '@core/types'
-import type { Ref } from 'vue'
+} from '#core/types'
 
 // ============ TYPE UNIONS =============
 

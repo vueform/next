@@ -1,4 +1,4 @@
-import type { OptionKeyProp, OptionsProp } from '@/features/options'
+import type { OptionKeyProp, OptionsProp } from '#primevue/features/options'
 import type {
   ConditionalProp,
   ConditionsTriggerProp,

@@ -24,13 +24,11 @@ import {
 } from '@vueform/primevue'
 import PrimeCascadeSelect from 'primevue/cascadeselect'
 import {
+  type VfCascadeSelectEmits,
+  type VfCascadeSelectProps,
+  type VfCascadeSelectSlots,
   blueprint,
   defaults,
-} from '@vueform/primevue/blueprints/cascade-select'
-import type {
-  VfCascadeSelectEmits,
-  VfCascadeSelectProps,
-  VfCascadeSelectSlots,
 } from '@vueform/primevue/components/VfCascadeSelect'
 
 const CascadeSelect = vdomPrime(PrimeCascadeSelect)

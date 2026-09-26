@@ -12,6 +12,8 @@
  * object), and — the gadget case — a polluted `Object.prototype` elsewhere on
  * the page cannot flip Vueform's own security policy.
  */
+import { nextTick } from 'vue'
+import { createForm, flushPromises } from '../../helpers'
 import {
   clone,
   createVueform,
@@ -25,10 +27,8 @@ import {
   security,
   set,
   unset,
-} from '@vueform/core'
-import dompurify from '@vueform/dompurify'
-import { nextTick } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
+} from '#core'
+import dompurify from '#dompurify'
 
 describe('Security: prototype pollution', () => {
   describe('path utilities', () => {
@@ -335,7 +335,7 @@ describe('Security: prototype pollution', () => {
      */
     test('it should ignore prototype-named keys in server error maps', async () => {
       const failing422 = async (config: any) => {
-        const err = new (await import('@vueform/core')).HttpError(
+        const err = new (await import('#core')).HttpError(
           'unprocessable',
           config,
           'http',

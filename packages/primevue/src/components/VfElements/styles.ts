@@ -1,1 +1,1 @@
-import '@/scss/form.scss'
+import '#primevue/scss/form.scss'

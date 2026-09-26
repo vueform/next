@@ -3,20 +3,19 @@
   "name": "VfGrid",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Grid layout component",
+  "version": "2.0.0-alpha.1",
+  "description": "VfGrid component",
   "files": [
     {
       "path": "VfGrid.vue",
       "target": "{componentsDir}/VfGrid.vue",
       "kind": "component",
-      "hash": "sha256:8e9d32ac0ad5ad35e3b4e16fa6f1d84c70f80a108eec9a316138ade835037aa0"
+      "hash": "sha256:f3d0de97aeb4b896d44a5184def5b549592267a0395b1bff5f23abf800c2c22e"
     }
   ],
   "imports": [
-    "@vueform/primevue/blueprints/grid",
-    "@vueform/primevue",
     "@vueform/primevue/components/VfGrid",
+    "@vueform/primevue",
     "@vueform/primevue/grid.css"
   ],
   "dependencies": {},
@@ -29,11 +28,11 @@
     "path": "VfGrid.vue",
     "blueprint": "grid",
     "hash": "sha256:d55723983916b937d953139c01079b156429e771447ffaa5a6207ee188998535",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfGrid",
     "import": "{componentsDir}/VfGrid.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

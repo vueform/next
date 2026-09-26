@@ -1,6 +1,6 @@
-import { defineSchema, defineSlot } from '@vueform/core'
 import { nextTick } from 'vue'
 import { createForm, makeApp, mountApp } from '../../helpers'
+import { defineSchema, defineSlot } from '#core'
 
 // =============================================================================
 // SLOTS (inline)

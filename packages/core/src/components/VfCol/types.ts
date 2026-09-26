@@ -1,3 +1,12 @@
+import type {
+  DefineElementContext,
+  AlignProp,
+  ClassValue,
+  DomAttrsOf,
+  ValignProp,
+  DefineRegistryEntry,
+} from '#core/types'
+import type { VNode } from 'vue'
 import {
   type ColApi,
   type ColClasses,
@@ -6,16 +15,7 @@ import {
   type ColParts,
   type ColProps,
   type ColSlots,
-} from '@core/blueprints/col'
-import type {
-  DefineElementContext,
-  AlignProp,
-  ClassValue,
-  DomAttrsOf,
-  ValignProp,
-  DefineRegistryEntry,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/blueprints/col'
 
 /**
  * Props for the VfCol component.
@@ -24,8 +24,7 @@ import type { VNode } from 'vue'
  * item-parameterized. The interface itself is the props type.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfColProps extends ColProps<
   VfColSlots,

@@ -3,20 +3,19 @@
   "name": "VfRating",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Rating element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfRating component",
   "files": [
     {
       "path": "VfRating.vue",
       "target": "{componentsDir}/VfRating.vue",
       "kind": "component",
-      "hash": "sha256:d342bcd9a05b5661ebee3ac36c5b2e0731a46c866d2b9834121d4f3f8db78c5d"
+      "hash": "sha256:9497876ff119bdae1cc64067d407cc8ba17f9ab9b404dfb7216db1096933a602"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/rating",
-    "@vueform/primevue/blueprints/rating",
     "@vueform/primevue/components/VfRating",
     "vue",
     "@vueform/primevue/rating.css"
@@ -30,12 +29,12 @@
   "clone": {
     "path": "VfRating.vue",
     "blueprint": "rating",
-    "hash": "sha256:e5ff4562cdfbebb158d8a1c2f0533d67963b76d8afff8112d7c4e69ae9a60823",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "hash": "sha256:7b4714a143dad6ea0db5992fb5e8383b6468e4d2688ab944f6c58305a50e22bf",
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfRating",
     "import": "{componentsDir}/VfRating.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

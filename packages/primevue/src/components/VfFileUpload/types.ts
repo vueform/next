@@ -7,8 +7,8 @@ import type {
   FileUploadProps,
   FileUploadSlots,
   forwards,
-} from '@/blueprints/file-upload'
-import type { ForwardedSlots } from '@/types'
+} from '#primevue/blueprints/file-upload'
+import type { ForwardedSlots } from '#primevue/types'
 import type {
   ClassValue,
   DomAttrsOf,
@@ -36,8 +36,7 @@ export type EntryProps<TEntry> = VfFileUploadProps<EntryMultipleOf<TEntry>>
  * `VfFileUploadProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfFileUploadProps<
   TMultiple extends boolean = boolean,

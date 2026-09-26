@@ -1,10 +1,28 @@
 {
   "private": true,
-  "packageManager": "pnpm@10.20.0",
   "scripts": {
-    "check": "tsc --incremental --noEmit",
+    "build": "tsx scripts/build.ts",
+    "check": "tsx scripts/check.ts",
     "clean": "find . -name \"node_modules\" -type d -prune -exec rm -rf '{}' +",
-    "re": "pnpm clean && pnpm install"
+    "docs:dev": "pnpm -r --filter docs run dev",
+    "extract": "tsx scripts/api-extractor/extract.ts",
+    "extract:issues": "tsx scripts/api-extractor/issues.ts",
+    "extract:validate": "tsx scripts/api-extractor/validate.ts",
+    "fix": "tsx scripts/fix.ts",
+    "format": "tsx scripts/format.ts",
+    "lint": "tsx scripts/lint.ts",
+    "pg": "tsx scripts/playground/dev.ts",
+    "pg:build": "tsx scripts/playground/build.ts",
+    "pg:down": "tsx scripts/playground/down.ts",
+    "pg:pre": "tsx scripts/playground/pre.ts",
+    "pg:re": "tsx scripts/playground/re.ts",
+    "pg:up": "tsx scripts/playground/up.ts",
+    "prepare": "husky",
+    "re": "pnpm clean && pnpm install",
+    "registry": "tsx scripts/registry.ts",
+    "test": "tsx scripts/test.ts",
+    "usage": "tsx scripts/usage.ts",
+    "verify": "tsx scripts/verify.ts"
   },
   "lint-staged": {
     "*.{js,ts,vue}": [
@@ -19,20 +37,14 @@
       "pnpm prettier --write"
     ]
   },
-  "engines": {
-    "node": ">=20.0.0"
-  },
-  "pnpm": {
-    "overrides": {
-      "vue": "catalog:"
-    }
-  },
   "devDependencies": {
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@types/node": "catalog:",
     "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
+    "@vue/tsconfig": "catalog:",
+    "@vueform/utils": "workspace:*",
     "ajv": "catalog:",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
@@ -44,6 +56,7 @@
     "lint-staged": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-jsdoc": "catalog:",
+    "prettier-plugin-packagejson": "catalog:",
     "stylelint": "catalog:",
     "stylelint-config-recess-order": "catalog:",
     "stylelint-config-standard-scss": "catalog:",
@@ -55,5 +68,14 @@
     "vue": "catalog:",
     "vue-eslint-parser": "catalog:",
     "vue-tsc": "catalog:"
+  },
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "pnpm": {
+    "overrides": {
+      "vue": "catalog:"
+    }
   }
 }

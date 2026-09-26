@@ -3,14 +3,14 @@
   "name": "VfLayout",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Element layout with label, description, and errors",
+  "version": "2.0.0-alpha.1",
+  "description": "VfLayout component",
   "files": [
     {
       "path": "VfLayout.vue",
       "target": "{componentsDir}/VfLayout.vue",
       "kind": "component",
-      "hash": "sha256:c93e49bc4f9c6ce05fc3ba62d4407fa73d12ecc695a0b2320a0ea2f1a2e21030"
+      "hash": "sha256:792fea946d51d1d33cbe5852e39f2b4e55b1d5c0c6c3cc0af3914957a572b4c3"
     }
   ],
   "imports": [
@@ -30,7 +30,6 @@
     "primevue/tabpanels",
     "primevue/tabs",
     "vue",
-    "@vueform/primevue/blueprints/layout",
     "@vueform/primevue/components/VfLayout",
     "@vueform/primevue/blockquote.css",
     "@vueform/primevue/element.css",
@@ -53,5 +52,5 @@
     "component": "VfLayout",
     "import": "{componentsDir}/VfLayout.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

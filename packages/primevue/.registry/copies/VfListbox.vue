@@ -24,11 +24,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimeListbox from 'primevue/listbox'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/listbox'
-import type {
-  VfListboxEmits,
-  VfListboxProps,
-  VfListboxSlots,
+import {
+  type VfListboxEmits,
+  type VfListboxProps,
+  type VfListboxSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfListbox'
 
 const Listbox = vdomPrime(PrimeListbox)

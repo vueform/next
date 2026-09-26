@@ -8,9 +8,10 @@ import type {
   NavSlots,
   NavExpose,
   NavClasses,
-} from '@core/blueprints/nav'
-import type { Pager } from '@core/composables'
-import type { ConditionalProp } from '@core/modules/conditions'
+} from '#core/blueprints/nav'
+import type { Pager } from '#core/composables'
+import type { ConditionalProp } from '#core/modules/conditions'
+import type { VNode } from 'vue'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,
@@ -18,15 +19,13 @@ import {
   type DomAttrsOf,
   type PartOf,
   type TProp,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/types'
 
 /**
  * Props for the VfNav component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfNavProps extends NavProps<
   VfNavSlots,

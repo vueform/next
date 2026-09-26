@@ -1,3 +1,15 @@
+import type {
+  TabbedSlots,
+  AddonGroupClasses,
+  IconsClasses,
+} from '#core/features'
+import type {
+  DefineElementContext,
+  ClassValue,
+  HeadingProp,
+  DefineRegistryEntry,
+} from '#core/types'
+import type { VNode } from 'vue'
 import {
   type LayoutApi,
   type LayoutProps,
@@ -6,26 +18,13 @@ import {
   type LayoutParts,
   type LayoutSlots,
   type LayoutClasses,
-} from '@core/blueprints/layout'
-import type {
-  TabbedSlots,
-  AddonGroupClasses,
-  IconsClasses,
-} from '@core/features'
-import type {
-  DefineElementContext,
-  ClassValue,
-  HeadingProp,
-  DefineRegistryEntry,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/blueprints/layout'
 
 /**
  * Props for the VfLayout component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfLayoutProps extends LayoutProps<
   VfLayoutSlots,

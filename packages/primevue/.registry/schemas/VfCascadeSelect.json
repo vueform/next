@@ -3,20 +3,19 @@
   "name": "VfCascadeSelect",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Cascading select element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfCascadeSelect component",
   "files": [
     {
       "path": "VfCascadeSelect.vue",
       "target": "{componentsDir}/VfCascadeSelect.vue",
       "kind": "component",
-      "hash": "sha256:ba686e119cc69698a6f9e4d8fed0c98a511004bc8dad388183f951defa09d390"
+      "hash": "sha256:6820546a53e06b87ab3ba41e1cc40d3e2a1ad103a926068571d3e04208ea2ad0"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/cascadeselect",
-    "@vueform/primevue/blueprints/cascade-select",
     "@vueform/primevue/components/VfCascadeSelect"
   ],
   "dependencies": {},
@@ -26,11 +25,11 @@
     "path": "VfCascadeSelect.vue",
     "blueprint": "cascade-select",
     "hash": "sha256:90abe1fcdeafca45c47c0e10a10c69b93f09a9effbe8f50e8a5c7da2b60d0194",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfCascadeSelect",
     "import": "{componentsDir}/VfCascadeSelect.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

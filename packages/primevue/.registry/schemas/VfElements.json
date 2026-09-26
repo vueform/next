@@ -3,20 +3,19 @@
   "name": "VfElements",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Renders a schema's elements",
+  "version": "2.0.0-alpha.1",
+  "description": "VfElements component",
   "files": [
     {
       "path": "VfElements.vue",
       "target": "{componentsDir}/VfElements.vue",
       "kind": "component",
-      "hash": "sha256:f168f05eb1261f56ea6a32590695ba84afe32995e29c66dd05ef8043da1174b2"
+      "hash": "sha256:2c6a199ebd7b1e7b710eb14627ec97372d7513af23ab6c92277c8beec7271fef"
     }
   ],
   "imports": [
-    "@vueform/primevue/blueprints/elements",
-    "@vueform/primevue",
     "@vueform/primevue/components/VfElements",
+    "@vueform/primevue",
     "@vueform/primevue/form.css"
   ],
   "dependencies": {},
@@ -28,5 +27,5 @@
     "component": "VfElements",
     "import": "{componentsDir}/VfElements.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

@@ -1,1 +1,1 @@
-import '@/scss/languages.scss'
+import '#ui/scss/languages.scss'

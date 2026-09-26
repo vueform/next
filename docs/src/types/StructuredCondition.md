@@ -1,8 +1,8 @@
 ```ts
 type StructuredCondition =
-  | [string, 'empty' | 'not_empty' | 'today']
+  | readonly [string, 'empty' | 'not_empty' | 'today']
   | {
-      [K in keyof ConditionRelativeOperands]: [
+      [K in keyof ConditionRelativeOperands]: readonly [
         string,
         K,
         ConditionRelativeOperands[K],

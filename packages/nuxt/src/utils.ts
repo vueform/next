@@ -2,6 +2,41 @@ import { existsSync, readdirSync, readFileSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
 
 /**
+ * Resolves rule names when the adapter re-exports from @vueform/core/rules.
+ */
+function resolveRulesFromReExport(pkgDir: string, _content: string): string[] {
+  const coreRulesBarrel = [
+    resolve(
+      pkgDir,
+      'node_modules/@vueform/core/dist/modules/validation/rules/index.d.ts'
+    ),
+    resolve(pkgDir, 'node_modules/@vueform/core/dist/defaultRules.d.ts'),
+    resolve(pkgDir, '../core/dist/modules/validation/rules/index.d.ts'),
+    resolve(pkgDir, '../core/src/modules/validation/rules/index.ts'),
+    resolve(pkgDir, '../core/src/rules/index.ts'),
+  ]
+
+  for (const barrelPath of coreRulesBarrel) {
+    if (!existsSync(barrelPath)) continue
+
+    const content = readFileSync(barrelPath, 'utf-8')
+    const rules: string[] = []
+
+    const exportMatches = content.matchAll(
+      /export\s*\{\s*(\w+)(?:\s+as\s+(\w+))?\s*\}/g
+    )
+    for (const match of exportMatches) {
+      const exportedName = match[2] ?? match[1]
+      rules.push(exportedName)
+    }
+
+    return rules.sort()
+  }
+
+  return []
+}
+
+/**
  * Detects the package manager used in the project based on lockfile presence.
  */
 export function detectPackageManager(
@@ -126,41 +161,6 @@ export function resolveAdapterRules(pkgDir: string): string[] {
       if (name === 'in_') continue
       rules.push(name)
     }
-    return rules.sort()
-  }
-
-  return []
-}
-
-/**
- * Resolves rule names when the adapter re-exports from @vueform/core/rules.
- */
-function resolveRulesFromReExport(pkgDir: string, _content: string): string[] {
-  const coreRulesBarrel = [
-    resolve(
-      pkgDir,
-      'node_modules/@vueform/core/dist/modules/validation/rules/index.d.ts'
-    ),
-    resolve(pkgDir, 'node_modules/@vueform/core/dist/defaultRules.d.ts'),
-    resolve(pkgDir, '../core/dist/modules/validation/rules/index.d.ts'),
-    resolve(pkgDir, '../core/src/modules/validation/rules/index.ts'),
-    resolve(pkgDir, '../core/src/rules/index.ts'),
-  ]
-
-  for (const barrelPath of coreRulesBarrel) {
-    if (!existsSync(barrelPath)) continue
-
-    const content = readFileSync(barrelPath, 'utf-8')
-    const rules: string[] = []
-
-    const exportMatches = content.matchAll(
-      /export\s*\{\s*(\w+)(?:\s+as\s+(\w+))?\s*\}/g
-    )
-    for (const match of exportMatches) {
-      const exportedName = match[2] ?? match[1]
-      rules.push(exportedName)
-    }
-
     return rules.sort()
   }
 

@@ -8,11 +8,11 @@ import {
   pathExpressionAdapter,
 } from '@vueform/core'
 import { en_US } from '@vueform/core/locales'
-import * as components from '@/components'
-import defaultConfig from '@/config'
-import * as modules from '@/modules'
-import * as rules from '@/rules'
-import { theme } from '@/themes'
+import * as components from '#primevue/components'
+import defaultConfig from '#primevue/config'
+import * as modules from '#primevue/modules'
+import * as rules from '#primevue/rules'
+import { theme } from '#primevue/themes'
 
 export const createVueform = createVueformFactory(
   defineConfig({

@@ -16,15 +16,16 @@ import {
   defineEvents,
   useBlueprint,
   type TreeSelectionModeProp,
-  vdomPrime,
   type TreeOptionsProp,
+  vdomPrime,
 } from '@vueform/primevue'
 import PrimeTreeSelect from 'primevue/treeselect'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/tree-select'
-import type {
-  VfTreeSelectEmits,
-  VfTreeSelectProps,
-  VfTreeSelectSlots,
+import {
+  type VfTreeSelectEmits,
+  type VfTreeSelectProps,
+  type VfTreeSelectSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfTreeSelect'
 
 const TreeSelect = vdomPrime(PrimeTreeSelect)

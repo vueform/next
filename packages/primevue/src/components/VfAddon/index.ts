@@ -1,3 +1,3 @@
 export { default } from './VfAddon.vue'
 export type * from './types'
-export { blueprint, defaults } from '@/blueprints/addon'
+export { blueprint, defaults } from '#primevue/blueprints/addon'

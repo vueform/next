@@ -3,13 +3,13 @@ import { createVueform, mergeUntilDepth, type UserConfig } from '@vueform/core'
 import { en_US } from '@vueform/core/locales'
 import * as modules from '@vueform/core/modules'
 import * as rules from '@vueform/core/rules'
-import exprEval from '@vueform/expr-eval'
 import PrimeVue from 'primevue/config'
 import tooltip from 'primevue/tooltip'
-import * as components from '@/components'
-import defaultConfig from '@/config'
-import { theme } from '@/themes'
 import type { DefineComponent } from 'vue'
+import exprEval from '#expr-eval'
+import * as components from '#primevue/components'
+import defaultConfig from '#primevue/config'
+import { theme } from '#primevue/themes'
 
 export { flushPromises, mount }
 

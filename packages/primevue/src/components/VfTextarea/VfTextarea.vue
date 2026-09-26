@@ -8,10 +8,10 @@
 >
 import { defineEvents, useBlueprint, type LanguagesProp } from '@vueform/core'
 import PrimeTextarea from 'primevue/textarea'
-import { blueprint, defaults } from '@/blueprints/textarea'
-import { vdomPrime } from '@/helpers'
 import type { VfTextareaEmits, VfTextareaProps, VfTextareaSlots } from './types'
 import type { WritableComputedRef } from 'vue'
+import { blueprint, defaults } from '#primevue/blueprints/textarea'
+import { vdomPrime } from '#primevue/helpers'
 
 // Non-colliding tag: Vapor treats `<Textarea>` as native `<textarea>`.
 const VdomPrimeTextarea = vdomPrime(PrimeTextarea)

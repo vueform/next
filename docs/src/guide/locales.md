@@ -12,11 +12,11 @@ Vueform ships the following locales, exported from `@vueform/ui`:
 
 <!-- #region available-locales -->
 
-| Code    | Name       |
-| ------- | ---------- |
+| Code | Name |
+| --- | --- |
 | `de_DE` | 🇩🇪 Deutsch |
 | `en_US` | 🇺🇸 English |
-| `hu_HU` | 🇭🇺 Magyar  |
+| `hu_HU` | 🇭🇺 Magyar |
 
 <!-- #endregion available-locales -->
 

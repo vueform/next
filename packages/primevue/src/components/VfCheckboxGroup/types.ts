@@ -6,8 +6,8 @@ import type {
   CheckboxGroupParts,
   CheckboxGroupProps,
   CheckboxGroupSlots,
-} from '@/blueprints/checkbox-group'
-import type { VfCheckboxSlots } from '@/components/VfCheckbox/types'
+} from '#primevue/blueprints/checkbox-group'
+import type { VfCheckboxSlots } from '#primevue/components/VfCheckbox/types'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
@@ -19,7 +19,7 @@ import type {
   OptionValueProp,
   OptionValueOf,
   RawOptionOf,
-} from '@/features/options'
+} from '#primevue/features/options'
 import type {
   WidenProps,
   ClassValue,
@@ -50,8 +50,7 @@ export type EntryProps<TEntry> = VfCheckboxGroupProps<
  * needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfCheckboxGroupProps<
   TOptions extends OptionsProp = OptionsProp,

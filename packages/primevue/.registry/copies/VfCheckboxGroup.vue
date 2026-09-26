@@ -22,13 +22,11 @@ import {
   type OptionValueProp,
 } from '@vueform/primevue'
 import {
+  type VfCheckboxGroupEmits,
+  type VfCheckboxGroupProps,
+  type VfCheckboxGroupSlots,
   blueprint,
   defaults,
-} from '@vueform/primevue/blueprints/checkbox-group'
-import type {
-  VfCheckboxGroupEmits,
-  VfCheckboxGroupProps,
-  VfCheckboxGroupSlots,
 } from '@vueform/primevue/components/VfCheckboxGroup'
 import '@vueform/primevue/choices.css'
 

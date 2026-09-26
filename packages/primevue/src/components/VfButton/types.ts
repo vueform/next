@@ -7,8 +7,8 @@ import type {
   ButtonProps,
   ButtonSlots,
   forwards,
-} from '@/blueprints/button'
-import type { ForwardedSlots } from '@/types'
+} from '#primevue/blueprints/button'
+import type { ForwardedSlots } from '#primevue/types'
 import type {
   ClassValue,
   DefineElementContext,
@@ -26,8 +26,7 @@ import type {
  * item-parameterized. The interface itself is the props type.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfButtonProps extends ButtonProps<
   'button',

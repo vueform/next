@@ -8,7 +8,7 @@
 type MatrixCols =
   | string
   | readonly string[]
-  | Record<string, string | number>
+  | Record<string, any>
   | readonly Record<string, any>[]
   | ((context$: any) => any)
 ```

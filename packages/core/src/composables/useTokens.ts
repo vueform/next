@@ -1,6 +1,6 @@
 import { computed, toRef, useId, type MaybeRefOrGetter } from 'vue'
-import { getThemeModule } from '@core/modules/theme'
 import { useConfig } from './useConfig'
+import { getThemeModule } from '#core/modules/theme'
 
 /**
  * Returns a reactive inline style object from a `tokens` prop. Token keys are

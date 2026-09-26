@@ -6,15 +6,15 @@ import type {
   TabbedSlots,
   TabsExpose,
   TabsClasses,
-} from '@core/blueprints/tabs'
-import type { ResolvedPage } from '@core/composables'
+} from '#core/blueprints/tabs'
+import type { ResolvedPage } from '#core/composables'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   UnknownElement,
   DefineRegistryEntry,
-} from '@core/types'
+} from '#core/types'
 import type { VNode } from 'vue'
 
 /**
@@ -24,8 +24,7 @@ import type { VNode } from 'vue'
  * item-parameterized. The interface itself is the props type.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfTabsProps extends TabsProps<
   VfTabsSlots,

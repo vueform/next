@@ -4,13 +4,14 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/languages'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfLanguagesEmits,
-  VfLanguagesProps,
-  VfLanguagesSlots,
+import {
+  type VfLanguagesEmits,
+  type VfLanguagesProps,
+  type VfLanguagesSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfLanguages'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/languages.css'
 
 defineOptions({

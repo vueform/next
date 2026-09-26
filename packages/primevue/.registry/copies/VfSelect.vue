@@ -24,11 +24,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimeSelect from 'primevue/select'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/select'
-import type {
-  VfSelectEmits,
-  VfSelectProps,
-  VfSelectSlots,
+import {
+  type VfSelectEmits,
+  type VfSelectProps,
+  type VfSelectSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfSelect'
 
 const PvSelect = vdomPrime(PrimeSelect)

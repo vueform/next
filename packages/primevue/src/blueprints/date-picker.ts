@@ -51,6 +51,11 @@ import {
   type WatchHandle,
   type WritableComputedRef,
 } from 'vue'
+import type { ForwardedEmits } from '#primevue/types'
+import type {
+  DatePickerProps as ADatePickerProps,
+  DatePickerEmitsOptions as ADatePickerEmits,
+} from 'primevue/datepicker'
 import {
   makeFloatLabel,
   makeIfta,
@@ -62,12 +67,7 @@ import {
   type IftaLabelProps,
   type InfoProps,
   type TooltipProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
-import type {
-  DatePickerProps as ADatePickerProps,
-  DatePickerEmitsOptions as ADatePickerEmits,
-} from 'primevue/datepicker'
+} from '#primevue/features'
 
 /**
  * The model value type carried by the date-picker element's wide props.

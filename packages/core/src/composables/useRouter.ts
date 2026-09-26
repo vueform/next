@@ -1,6 +1,6 @@
-import type { VueformInstance } from '@core/helpers'
-import { getRouterModule, type RouterHistory } from '@core/modules/router'
+import type { VueformInstance } from '#core/helpers'
 import type { MaybeRef } from 'vue'
+import { getRouterModule, type RouterHistory } from '#core/modules/router'
 
 /**
  * Creates a history handler over the router module (the module's `make()`):

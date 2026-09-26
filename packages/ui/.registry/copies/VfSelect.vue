@@ -15,18 +15,19 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/select'
 import {
-  useBlueprint,
   type ItemsProp,
   type GroupChildrenProp,
   type ItemValueProp,
+  useBlueprint,
   defineEvents,
 } from '@vueform/ui'
-import type {
-  VfSelectEmits,
-  VfSelectProps,
-  VfSelectSlots,
+import {
+  type VfSelectEmits,
+  type VfSelectProps,
+  type VfSelectSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfSelect'
 import '@vueform/ui/select.css'
 import '@vueform/ui/input.css'

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { NavPosProp } from '@/blueprints/nav'
+import type { NavPosProp } from '#primevue/blueprints/nav'
 import type { VfFormClasses, VfFormParts } from './types'
 import type { Pager, TProp } from '@vueform/core'
 

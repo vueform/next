@@ -3,14 +3,14 @@
   "name": "VfForm",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Form root component",
+  "version": "2.0.0-alpha.1",
+  "description": "VfForm component",
   "files": [
     {
       "path": "VfForm.vue",
       "target": "{componentsDir}/VfForm.vue",
       "kind": "component",
-      "hash": "sha256:8cd8fda83b1861c65de6c93cc120073d251fce98c4abe47708420e70b5b4bd28"
+      "hash": "sha256:3d0d5fa8b8e1b00efb2840856220b17b229ac7c2415728fbbcd7cfc9f8f388a5"
     },
     {
       "path": "FormNav.vue",
@@ -22,7 +22,7 @@
       "path": "FormStep.vue",
       "target": "{componentsDir}/FormStep.vue",
       "kind": "component",
-      "hash": "sha256:ad42abd2e801355a9d7ab19105968d40393b7a44e1f9355151ad418ce269ad9d"
+      "hash": "sha256:226eeccf4ccd834635c88f30a5975204f2ae4acc605e75f551d50fe3210a2d56"
     }
   ],
   "imports": [
@@ -37,7 +37,6 @@
     "primevue/tabpanels",
     "primevue/tabs",
     "vue",
-    "@vueform/primevue/blueprints/form",
     "@vueform/primevue/components/VfForm",
     "@vueform/primevue/form.css",
     "@vueform/primevue/utils.css",
@@ -55,5 +54,5 @@
     "component": "VfForm",
     "import": "{componentsDir}/VfForm.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

@@ -10,11 +10,12 @@
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
 import PrimeCheckbox from 'primevue/checkbox'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/checkbox'
-import type {
-  VfCheckboxEmits,
-  VfCheckboxProps,
-  VfCheckboxSlots,
+import {
+  type VfCheckboxEmits,
+  type VfCheckboxProps,
+  type VfCheckboxSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfCheckbox'
 import type { Ref } from 'vue'
 import '@vueform/primevue/choice.css'

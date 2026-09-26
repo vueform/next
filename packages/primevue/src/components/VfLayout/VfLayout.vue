@@ -22,15 +22,15 @@ import PrimeTabPanel from 'primevue/tabpanel'
 import PrimeTabPanels from 'primevue/tabpanels'
 import PrimeTabs from 'primevue/tabs'
 import { computed } from 'vue'
-import { blueprint, defaults } from '@/blueprints/layout'
-import { vTooltip } from '@/directives'
-import { vdomPrime } from '@/helpers'
 import type {
   VfLayoutEmits,
   VfLayoutParts,
   VfLayoutProps,
   VfLayoutSlots,
 } from './types'
+import { blueprint, defaults } from '#primevue/blueprints/layout'
+import { vTooltip } from '#primevue/directives'
+import { vdomPrime } from '#primevue/helpers'
 
 const FloatLabel = vdomPrime(PrimeFloatLabel)
 const IconField = vdomPrime(PrimeIconField)

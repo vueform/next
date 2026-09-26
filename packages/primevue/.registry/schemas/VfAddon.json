@@ -3,21 +3,20 @@
   "name": "VfAddon",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Input addon for prefix and suffix content",
+  "version": "2.0.0-alpha.1",
+  "description": "VfAddon component",
   "files": [
     {
       "path": "VfAddon.vue",
       "target": "{componentsDir}/VfAddon.vue",
       "kind": "component",
-      "hash": "sha256:e25155c556c401916230963b871b9ecc96081ff302835575df5d995b29c0bfd2"
+      "hash": "sha256:6abdf1e164488e2724ee3696b4433c98a318096c6aec23909270f40a853858d9"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/inputgroupaddon",
     "vue",
-    "@vueform/primevue/blueprints/addon",
     "@vueform/primevue/components/VfAddon",
     "@vueform/primevue/addon.css"
   ],
@@ -30,5 +29,5 @@
     "component": "VfAddon",
     "import": "{componentsDir}/VfAddon.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

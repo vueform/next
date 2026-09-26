@@ -44,6 +44,11 @@ import {
   aliasProps,
 } from '@vueform/core'
 import { computed } from 'vue'
+import type { ForwardedEmits } from '#primevue/types'
+import type {
+  InputNumberProps as AInputNumberProps,
+  InputNumberEmitsOptions as AInputNumberEmits,
+} from 'primevue/inputnumber'
 import {
   makeFloatLabel,
   makeIfta,
@@ -57,12 +62,7 @@ import {
   type InfoProps,
   type IntervalProps,
   type TooltipProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
-import type {
-  InputNumberProps as AInputNumberProps,
-  InputNumberEmitsOptions as AInputNumberEmits,
-} from 'primevue/inputnumber'
+} from '#primevue/features'
 
 /**
  * Props for the input-number element blueprint.

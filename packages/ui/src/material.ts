@@ -8,11 +8,11 @@ import {
   pathExpressionAdapter,
 } from '@vueform/core'
 import { en_US } from '@vueform/core/locales'
-import * as components from '@/components/index'
-import defaultConfig from '@/config'
-import * as modules from '@/modules'
-import * as rules from '@/rules'
-import { material as theme } from '@/themes'
+import * as components from '#ui/components/index'
+import defaultConfig from '#ui/config'
+import * as modules from '#ui/modules/modules'
+import * as rules from '#ui/rules'
+import { material as theme } from '#ui/themes'
 
 /**
  * Creates a pre-configured Vueform plugin with all components, rules, modules,

@@ -31,7 +31,7 @@ interface VfFormSlots<TSchema = FormSchema>
    *
    * @inherits VfLanguages.default
    */
-  language: (props: SlotProps['VfLanguages']['default']) => VNode[]
+  language: (props: SlotPropsOf<'VfLanguages', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the steps navigation bar. Receives the pager instance.
@@ -43,7 +43,7 @@ interface VfFormSlots<TSchema = FormSchema>
    *
    * @inherits VfSteps.default
    */
-  step: (props: SlotProps['VfSteps']['default']) => VNode[]
+  step: (props: SlotPropsOf<'VfSteps', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the tabs navigation bar. Receives the pager instance.
@@ -55,7 +55,7 @@ interface VfFormSlots<TSchema = FormSchema>
    *
    * @inherits VfTabs.default
    */
-  tab: (props: SlotProps['VfTabs']['default']) => VNode[]
+  tab: (props: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the form-level errors container.
@@ -105,41 +105,41 @@ interface VfFormSlots<TSchema = FormSchema>
    *
    * @inherits VfNav.back
    */
-  back: (props: SlotProps['VfNav']['back']) => VNode[]
+  back: (props: SlotPropsOf<'VfNav', 'back'>) => VNode[]
 
   /**
    * Slot that replaces the back button's text label.
    *
    * @inherits VfNav.backText
    */
-  backText: (props: SlotProps['VfNav']['backText']) => VNode[]
+  backText: (props: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
 
   /**
    * Slot that replaces the next button in the navigation bar.
    *
    * @inherits VfNav.next
    */
-  next: (props: SlotProps['VfNav']['next']) => VNode[]
+  next: (props: SlotPropsOf<'VfNav', 'next'>) => VNode[]
 
   /**
    * Slot that replaces the next button's text label.
    *
    * @inherits VfNav.nextText
    */
-  nextText: (props: SlotProps['VfNav']['nextText']) => VNode[]
+  nextText: (props: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
 
   /**
    * Slot that replaces the finish button in the navigation bar.
    *
    * @inherits VfNav.finish
    */
-  finish: (props: SlotProps['VfNav']['finish']) => VNode[]
+  finish: (props: SlotPropsOf<'VfNav', 'finish'>) => VNode[]
 
   /**
    * Slot that replaces the finish button's text label.
    *
    * @inherits VfNav.finishText
    */
-  finishText: (props: SlotProps['VfNav']['finishText']) => VNode[]
+  finishText: (props: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
 }
 ```

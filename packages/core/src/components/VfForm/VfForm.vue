@@ -3,11 +3,11 @@
   lang="ts"
   generic="TSchema extends FormSchema | Record<string, any> = FormSchema"
 >
-import { defaults, blueprint } from '@core/blueprints/form'
-import { useConfig, useBlueprint } from '@core/composables'
-import { defineEvents } from '@core/helpers'
-import type { FormSchema } from '@core/types'
+import type { FormSchema } from '#core/types'
 import type { VfFormEmits, VfFormProps, VfFormSlots } from './types'
+import { defaults, blueprint } from '#core/blueprints/form'
+import { useConfig, useBlueprint } from '#core/composables'
+import { defineEvents } from '#core/helpers'
 
 defineOptions({ name: 'VfForm', inheritAttrs: false })
 defineEmits<VfFormEmits<TSchema>>()

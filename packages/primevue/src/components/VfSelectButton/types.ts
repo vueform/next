@@ -7,15 +7,19 @@ import type {
   SelectButtonProps,
   SelectButtonSlots,
   forwards,
-} from '@/blueprints/select-button'
+} from '#primevue/blueprints/select-button'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
   EntryOptionValueReturnOf,
   OptionsProp,
   OptionValueProp,
-} from '@/features'
-import type { ForwardedSlots, OverrideSlots, WithPtShorthands } from '@/types'
+} from '#primevue/features'
+import type {
+  ForwardedSlots,
+  OverrideSlots,
+  WithPtShorthands,
+} from '#primevue/types'
 import type {
   ClassValue,
   EntryMultipleOf,
@@ -47,8 +51,7 @@ export type EntryProps<TEntry> = VfSelectButtonProps<
  * needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfSelectButtonProps<
   TOptions extends OptionsProp = OptionsProp,

@@ -1,10 +1,6 @@
 node_modules
 dist
-coverage
 pnpm-lock.yaml
-package-lock.json
-yarn.lock
-*.min.*
 
 # Markdown is not prettier-formatted: prettier unconditionally normalizes GFM
 # tables to padded style (no option exists to tune it), which fights the
@@ -12,7 +8,8 @@ yarn.lock
 *.md
 
 # Generated outputs own their formatting entirely.
+.playgrounds
 packages/*/.registry
 packages/metrics/results/
-packages/core/tests/perf/runtime/.results/
-packages/core/tests/perf/types/.results/
+packages/core/tests/perf/.results/
+packages/core/tests/perf-dts/.results/

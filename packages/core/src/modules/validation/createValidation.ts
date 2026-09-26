@@ -13,33 +13,6 @@ import {
   type EffectScope,
   type Ref,
 } from 'vue'
-import { type VueformInstance, type VueformConfig } from '@core/helpers'
-import {
-  getConditionsModule,
-  hasConditionsModule,
-  type ConditionalProp,
-} from '@core/modules/conditions'
-import { hasLocaleModule } from '@core/modules/locale'
-import {
-  type FormContext,
-  type StandardSchemaV1,
-  type StatefulElement,
-} from '@core/types'
-import {
-  alwaysFalse,
-  alwaysTrue,
-  emptyLanguages,
-  equals,
-  get as getByPath,
-  isThenable,
-  replaceWildcards,
-  isPlainObject,
-  isStandardSchema,
-  normalize,
-  toArray,
-  own,
-  warn,
-} from '@core/utils'
 import { RULE_BRAND } from './symbols'
 import type {
   ConditionalRule,
@@ -62,6 +35,33 @@ import type {
   RuleOptions,
   TOnlyRulesProp,
 } from './types'
+import { type VueformInstance, type VueformConfig } from '#core/helpers'
+import {
+  getConditionsModule,
+  hasConditionsModule,
+  type ConditionalProp,
+} from '#core/modules/conditions'
+import { hasLocaleModule } from '#core/modules/locale'
+import {
+  type FormContext,
+  type StandardSchemaV1,
+  type StatefulElement,
+} from '#core/types'
+import {
+  alwaysFalse,
+  alwaysTrue,
+  emptyLanguages,
+  equals,
+  get as getByPath,
+  isThenable,
+  replaceWildcards,
+  isPlainObject,
+  isStandardSchema,
+  normalize,
+  toArray,
+  own,
+  warn,
+} from '#core/utils'
 
 type CompileContext = {
   config: VueformConfig

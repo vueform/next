@@ -1,2 +1,2 @@
-import '@/scss/matrix.scss'
-import '@/scss/tabular.scss'
+import '#ui/scss/matrix.scss'
+import '#ui/scss/tabular.scss'

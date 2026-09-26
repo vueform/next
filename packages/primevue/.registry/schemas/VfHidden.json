@@ -3,20 +3,19 @@
   "name": "VfHidden",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Hidden input element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfHidden component",
   "files": [
     {
       "path": "VfHidden.vue",
       "target": "{componentsDir}/VfHidden.vue",
       "kind": "component",
-      "hash": "sha256:ccee838c5dfcc028cd9fbc1538e42acf8712357112a464260574f8610dd91abc"
+      "hash": "sha256:eb6e63ca0385332126c0c67c345c6bc5df6522f5c8df25d97d42c6cf41ebff27"
     }
   ],
   "imports": [
-    "@vueform/primevue/blueprints/hidden",
-    "@vueform/primevue",
-    "@vueform/primevue/components/VfHidden"
+    "@vueform/primevue/components/VfHidden",
+    "@vueform/primevue"
   ],
   "dependencies": {},
   "registryDependencies": [],
@@ -25,11 +24,11 @@
     "path": "VfHidden.vue",
     "blueprint": "hidden",
     "hash": "sha256:37acecc9870732144f09a194b13ff1fa32a0c353aa6ea786f03fa7c53edd1efe",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfHidden",
     "import": "{componentsDir}/VfHidden.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

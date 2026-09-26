@@ -5,6 +5,7 @@
  * @see https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
+import type { Ref, VNode } from 'vue'
 import {
   defaults,
   blueprint,
@@ -25,7 +26,6 @@ import {
   type DomAttrsOf,
   type WidenProps,
 } from '@vueform/ui'
-import type { Ref, VNode } from 'vue'
 import '@vueform/ui/choice.css'
 
 /**

@@ -19,11 +19,11 @@ interface SecurityModule {
   /**
    * Filters a schema-reachable prop bag (schema entries, `parts` bags, grid
    * cell `attrs`) down to entries safe to bind: the built-in denylist
-   * (`innerHTML`/`outerHTML`/`srcdoc`, string-valued `on*`, prototype keys)
-   * plus the keys listed in `$security.banProps`, dropped in every value form.
-   * Returns the same reference when nothing needs stripping. Filtering is a
-   * module feature: without the `security` module registered, bags pass through
-   * unchanged.
+   * (`innerHTML`/`outerHTML`, prototype keys) plus the entries matching
+   * `$security.banProps` (strings or RegExps), dropped in every value form with
+   * a dev warning. Returns the same reference when nothing needs stripping.
+   * Filtering is a module feature: without the `security` module registered,
+   * bags pass through unchanged.
    *
    * @param props The prop bag to filter.
    */

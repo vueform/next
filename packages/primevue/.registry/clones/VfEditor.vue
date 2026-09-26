@@ -26,6 +26,7 @@ import PrimeEditor, {
   type EditorSlots as AEditorSlots,
   type EditorProps as PvEditorProps,
 } from 'primevue/editor'
+import type { WritableComputedRef, VNode } from 'vue'
 import {
   blueprint,
   defaults,
@@ -38,7 +39,6 @@ import {
   type EditorSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/editor'
-import type { WritableComputedRef, VNode } from 'vue'
 import '@vueform/primevue/editor.css'
 import '@vueform/primevue/utils.css'
 

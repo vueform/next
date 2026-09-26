@@ -1,7 +1,7 @@
-import { defineSchema } from '@vueform/core'
-import expression from '@vueform/expr-eval'
 import { nextTick, reactive, ref } from 'vue'
 import { createForm, flushPromises } from '../../helpers'
+import { defineSchema } from '#core'
+import expression from '#expr-eval'
 
 const expressionConfig = { plugins: [expression()] }
 

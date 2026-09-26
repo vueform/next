@@ -1,2 +1,2 @@
-import '@/scss/nav.scss'
-import '@/scss/steps.scss'
+import '#primevue/scss/nav.scss'
+import '#primevue/scss/steps.scss'

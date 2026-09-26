@@ -1,1 +1,1 @@
-import '@/scss/rating.scss'
+import '#primevue/scss/rating.scss'

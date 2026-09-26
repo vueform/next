@@ -19,6 +19,11 @@ interface VueformModules {
   date?: VueformModule<DateModule>
 
   /**
+   * The devtools module for Vue DevTools form inspection (development-only).
+   */
+  devtools?: VueformModule<DevtoolsModule>
+
+  /**
    * The locale module for translation and localization.
    */
   locale?: VueformModule<LocaleModule>

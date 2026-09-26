@@ -47,6 +47,11 @@ import {
   type TranslatableModelApi,
   aliasProps,
 } from '@vueform/core'
+import type { ForwardedEmits } from '#primevue/types'
+import type {
+  InputTextProps as AInputTextProps,
+  InputTextEmitsOptions as AInputTextEmits,
+} from 'primevue/inputtext'
 import {
   makeFloatLabel,
   makeIfta,
@@ -58,12 +63,7 @@ import {
   type IftaLabelProps,
   type InfoProps,
   type TooltipProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
-import type {
-  InputTextProps as AInputTextProps,
-  InputTextEmitsOptions as AInputTextEmits,
-} from 'primevue/inputtext'
+} from '#primevue/features'
 
 /**
  * The model value type carried by the input-text element's wide props.

@@ -1,4 +1,5 @@
 import { isProxy, isRef, markRaw, shallowRef, unref } from 'vue'
+import type { UnknownComponent } from '#core/types'
 import {
   useConfig,
   useCurrentInstance,
@@ -6,10 +7,9 @@ import {
   getResolvedProps,
   useHttp,
   useLocale,
-} from '@core/composables'
-import { useFormContext } from '@core/contexts'
-import { createContext } from '@core/helpers'
-import type { UnknownComponent } from '@core/types'
+} from '#core/composables'
+import { useFormContext } from '#core/contexts'
+import { createContext } from '#core/helpers'
 
 /**
  * Symbol key under which a component's exposed context carries its class

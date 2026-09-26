@@ -8,10 +8,10 @@
 >
 import { defineEvents, useBlueprint, type LanguagesProp } from '@vueform/core'
 import PrimeEditor from 'primevue/editor'
-import { blueprint, defaults } from '@/blueprints/editor'
-import { vdomPrime } from '@/helpers'
 import type { VfEditorEmits, VfEditorProps, VfEditorSlots } from './types'
 import type { WritableComputedRef } from 'vue'
+import { blueprint, defaults } from '#primevue/blueprints/editor'
+import { vdomPrime } from '#primevue/helpers'
 
 const Editor = vdomPrime(PrimeEditor)
 

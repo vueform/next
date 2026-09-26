@@ -1,5 +1,5 @@
-import { defineModule } from '@core/helpers'
 import { createLocale } from './createLocale'
+import { defineModule } from '#core/helpers'
 
 /**
  * The locale module. Register via `createVueform({ modules: { locale } })`.

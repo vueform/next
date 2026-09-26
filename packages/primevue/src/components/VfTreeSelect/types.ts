@@ -7,7 +7,7 @@ import type {
   TreeSelectProps,
   TreeSelectSlots,
   forwards,
-} from '@/blueprints/tree-select'
+} from '#primevue/blueprints/tree-select'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -15,9 +15,13 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '@/features'
-import type { TreeSelectionModeProp } from '@/features/tree-options'
-import type { ForwardedSlots, OverrideSlots, TreeOptionsProp } from '@/types'
+} from '#primevue/features'
+import type { TreeSelectionModeProp } from '#primevue/features/tree-options'
+import type {
+  ForwardedSlots,
+  OverrideSlots,
+  TreeOptionsProp,
+} from '#primevue/types'
 import type {
   ClassValue,
   AddonsSlots,
@@ -77,8 +81,7 @@ export type EntryProps<TEntry> = VfTreeSelectProps<
  * narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfTreeSelectProps<
   TOptions extends TreeOptionsProp = TreeOptionsProp,

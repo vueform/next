@@ -1,6 +1,6 @@
 ```ts
 /**
- * Props for elements that track user input state changes.
+ * Props for elements participating in the expression module.
  */
 interface ExpressionProps {
   /**

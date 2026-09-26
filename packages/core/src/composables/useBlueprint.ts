@@ -14,13 +14,14 @@ import {
   type ComputedRef,
   type Ref,
 } from 'vue'
+import type { LocaleModule } from '#core/modules/locale'
 import {
   useConfig,
   useCurrentInstance,
   useCurrentName,
   useOutlets,
   usePlugins,
-} from '@core/composables'
+} from '#core/composables'
 import {
   BASE_CLASS_REGISTRAR,
   CLASS_REGISTRAR,
@@ -31,14 +32,13 @@ import {
   useComponentContext,
   useVueformContext,
   usePresetContext,
-} from '@core/contexts'
+} from '#core/contexts'
 import {
   type VueformGlobals,
   type DefineEvents,
   type VueformConfig,
-} from '@core/helpers'
-import type { LocaleModule } from '@core/modules/locale'
-import { getSecurityModule, type SecurityModule } from '@core/modules/security'
+} from '#core/helpers'
+import { getSecurityModule, type SecurityModule } from '#core/modules/security'
 import {
   type ClassesProp,
   type ClassValue,
@@ -50,7 +50,7 @@ import {
   type PresetsProp,
   type SpreadMerge,
   type UnwrapApiRefs,
-} from '@core/types'
+} from '#core/types'
 import {
   createPropRefs,
   getComponentDef,
@@ -69,7 +69,7 @@ import {
   type GenericInstance,
   warn,
   isDev,
-} from '@core/utils'
+} from '#core/utils'
 
 /**
  * The shape returned by `useParts`: the original part type (callable parts

@@ -39,6 +39,12 @@ import {
   makeItems,
 } from '@vueform/core'
 import { ref } from 'vue'
+import type { ForwardedEmits } from '#primevue/types'
+import type {
+  MultiSelectProps as AMultiSelectProps,
+  MultiSelectEmitsOptions as AMultiSelectEmits,
+  MultiSelectChangeEvent,
+} from 'primevue/multiselect'
 import {
   makeFloatLabel,
   makeIfta,
@@ -54,14 +60,8 @@ import {
   type OptionValueProp,
   type OptionsProp,
   type OptionsModelApi,
-} from '@/features'
-import { optionItemAliases } from '@/helpers'
-import type { ForwardedEmits } from '@/types'
-import type {
-  MultiSelectProps as AMultiSelectProps,
-  MultiSelectEmitsOptions as AMultiSelectEmits,
-  MultiSelectChangeEvent,
-} from 'primevue/multiselect'
+} from '#primevue/features'
+import { optionItemAliases } from '#primevue/helpers'
 
 /**
  * Plain props type for the multi-select element blueprint — the widest

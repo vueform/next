@@ -3,18 +3,17 @@
   "name": "VfForm",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Form root component",
+  "version": "2.0.0-alpha.1",
+  "description": "VfForm component",
   "files": [
     {
       "path": "VfForm.vue",
       "target": "{componentsDir}/VfForm.vue",
       "kind": "component",
-      "hash": "sha256:23f25095dd420d374cd913ca89ad4c49a81dad99c0c56a17aef064a2d9668216"
+      "hash": "sha256:4f65635e23c7006bb55f10cf93f6c9fa06e01bf3a0bc05ecc0ccd72eee2d2577"
     }
   ],
   "imports": [
-    "@vueform/ui/blueprints/form",
     "@vueform/ui",
     "@vueform/ui/components/VfForm",
     "@vueform/ui/form.css"
@@ -28,5 +27,5 @@
     "component": "VfForm",
     "import": "{componentsDir}/VfForm.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

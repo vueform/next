@@ -6,7 +6,7 @@ import type {
   SliderParts,
   SliderProps,
   SliderSlots,
-} from '@/blueprints/slider'
+} from '#primevue/blueprints/slider'
 import type {
   ClassValue,
   DefineElementContext,
@@ -39,8 +39,7 @@ export type EntryProps<TEntry> = VfSliderProps<EntryRangeOf<TEntry>>
  * `VfSliderProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfSliderProps<
   TRange extends boolean = boolean,

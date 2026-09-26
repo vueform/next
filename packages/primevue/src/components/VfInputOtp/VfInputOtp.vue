@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeInputOtp from 'primevue/inputotp'
-import { blueprint, defaults } from '@/blueprints/input-otp'
-import { vdomPrime } from '@/helpers'
 import type { VfInputOtpEmits, VfInputOtpProps, VfInputOtpSlots } from './types'
 import type { WritableComputedRef } from 'vue'
+import { blueprint, defaults } from '#primevue/blueprints/input-otp'
+import { vdomPrime } from '#primevue/helpers'
 
 const InputOtp = vdomPrime(PrimeInputOtp)
 

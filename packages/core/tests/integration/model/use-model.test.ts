@@ -1,7 +1,7 @@
-import { useModel, type ModelInstance } from '@vueform/core'
 import { describe, expect, it, vi } from 'vitest'
 import { computed, defineComponent, isReactive, ref } from 'vue'
 import { mountApp } from '../../helpers'
+import { useModel, type ModelInstance } from '#core'
 
 /**
  * Runs a factory inside a mounted component's setup (so `useConfig()` resolves)

@@ -1,0 +1,465 @@
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs'
+import { createRequire } from 'node:module'
+import { basename, dirname, join, relative, resolve, sep } from 'node:path'
+import { pathToFileURL } from 'node:url'
+import { injectShorthandPropsDts } from './shorthands'
+import type { BuildOptions, Plugin } from 'vite'
+
+interface SassCompiler {
+  compile(
+    path: string,
+    options?: { style?: string; importers?: unknown[] }
+  ): { css: string }
+}
+
+export interface LibBuildOptions {
+  /**
+   * The package's published name — used as the lib name.
+   */
+  name: string
+  /**
+   * Entry map: output name (relative, no extension) to absolute source file.
+   */
+  entries: Record<string, string>
+  /**
+   * `preserveModulesRoot` — the source directory the output tree mirrors.
+   */
+  preserveRoot: string
+  /**
+   * Output directory relative to the package root.
+   */
+  outDir: string
+  /**
+   * The full external list (nothing is added implicitly here).
+   */
+  external: (string | RegExp)[]
+  /**
+   * Keep bare external `.css` imports side-effectful (adapters' per-component
+   * styles modules); vite's default treeshake profile would strip them.
+   */
+  cssExternalSideEffects?: boolean
+  /**
+   * Keep entry chunks free of hoisted transitive side-effect imports (theme
+   * CSS) — those must stay attached to the component modules so consumers'
+   * per-binding tree shaking drops unused components' CSS.
+   */
+  noHoistTransitiveImports?: boolean
+}
+
+export const SHORTHANDS_VIRTUAL = '\0vueform-shorthands-marker'
+
+// Served in place of the real .css/.scss under the "node" exports condition
+// so plain Node (SSR with externalized deps, test runners) can evaluate
+// modules that import theme files. Bundlers resolve the actual stylesheet via
+// the "default" condition.
+const CSS_NODE_SHIM = 'export {}\n'
+
+export function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+}
+
+/**
+ * Resolves the `#shorthands` marker (a type-only import in component
+ * `unstyled.ts` files) to an empty, side-effect-free virtual module, so Rollup
+ * tree-shakes the import away entirely. The type side is covered by the ambient
+ * `declare module '#shorthands'` in the root tsconfig's include.
+ */
+export function shorthandsMarker(): Plugin {
+  return {
+    name: 'vf:shorthands-marker',
+    resolveId(id) {
+      if (id === '#shorthands') {
+        return { id: SHORTHANDS_VIRTUAL, moduleSideEffects: false }
+      }
+    },
+    load(id) {
+      if (id === SHORTHANDS_VIRTUAL) return 'export {}'
+    },
+  }
+}
+
+/**
+ * Drops two kinds of dead chunks that `preserveModules` keeps around:
+ *
+ * - Empty chunks: type-only source modules (interfaces, type aliases) compile to
+ *   empty `.mjs` files — their `.d.ts` is the real output. Nothing imports
+ *   them, since Rollup already tree-shakes imports of empty side-effect-free
+ *   modules.
+ * - Orphaned SFC facades (`VfButton2.vue.mjs`): plugin-vue splits an SFC into a
+ *   facade module and a script sub-module. Rollup traces re-exports to the
+ *   script sub-module (which claims the `.vue.mjs` chunk name), leaving the
+ *   facade as a pure default re-export chunk that nothing imports.
+ */
+export function pruneModules(): Plugin {
+  return {
+    name: 'vf:prune-modules',
+    generateBundle(_, bundle) {
+      for (const [file, output] of Object.entries(bundle)) {
+        if (output.type === 'chunk' && !output.code.trim()) {
+          delete bundle[file]
+        }
+      }
+
+      const imported = new Set<string>()
+      for (const output of Object.values(bundle)) {
+        if (output.type !== 'chunk') continue
+        for (const dep of [...output.imports, ...output.dynamicImports]) {
+          imported.add(dep)
+        }
+      }
+      for (const [file, output] of Object.entries(bundle)) {
+        if (output.type !== 'chunk' || output.isEntry || imported.has(file)) {
+          continue
+        }
+        if (
+          /^import (\w+) from "[^"]+";\s*export \{\s*\1 as default\s*\};$/.test(
+            output.code.trim()
+          )
+        ) {
+          delete bundle[file]
+        }
+      }
+    },
+  }
+}
+
+/**
+ * Externalizes relative imports of the package's own theme chunk sources
+ * (`src/scss/<chunk>.scss`) to the published `<name>/<chunk>.css` subpaths, so
+ * source can reference the real scss files while dist modules carry the bare
+ * self-referencing specifiers the exports map serves (real CSS for bundlers,
+ * Node shims otherwise). The chunks themselves are compiled separately
+ * (`themeScss`) — they never enter the bundle graph.
+ */
+export function scssExternals(name: string, scssAbs: string): Plugin {
+  return {
+    name: 'vf:scss-externals',
+    enforce: 'pre',
+    resolveId(source, importer) {
+      const [path] = source.split('?')
+      if (!path.endsWith('.scss')) return
+      // Vite's alias pass runs before pre plugins, so an aliased specifier
+      // may arrive already resolved to an absolute path.
+      const abs = path.startsWith('.')
+        ? importer
+          ? resolve(dirname(importer), path)
+          : path
+        : path
+      if (dirname(abs) !== scssAbs) return
+      return { id: `${name}/${basename(abs, '.scss')}.css`, external: true }
+    },
+  }
+}
+
+/**
+ * Copies the theme scss sources into dist verbatim and compiles each 1:1 to a
+ * css chunk, with a Node exports-condition shim beside every file. Mixin-only
+ * partials that compile to empty css keep their scss copy but get no css chunk
+ * — their rules ship inside the chunks that `@use` them. `theme.scss` is the
+ * aggregate recipe — handled by `themeCss`, never compiled or copied as a
+ * chunk. `importMap` resolves package-specifier `@use`/`@forward` in the
+ * sources (sass has no node resolution of its own).
+ */
+export function themeScss(
+  root: string,
+  srcScss: string,
+  outScss: string,
+  outCss: string,
+  importMap: Record<string, string> = {}
+): Plugin {
+  return {
+    name: 'vf:theme-scss',
+    closeBundle() {
+      if (!existsSync(srcScss)) return
+
+      const sass = loadSassCompiler(root)
+      const importers = [
+        {
+          findFileUrl(url: string) {
+            for (const [prefix, dir] of Object.entries(importMap)) {
+              if (url.startsWith(`${prefix}/`)) {
+                return pathToFileURL(
+                  resolve(root, dir, url.slice(prefix.length + 1))
+                )
+              }
+            }
+            return null
+          },
+        },
+      ]
+
+      mkdirSync(outScss, { recursive: true })
+      mkdirSync(outCss, { recursive: true })
+
+      for (const file of readdirSync(srcScss)) {
+        if (!file.endsWith('.scss') || file === 'theme.scss') continue
+        const name = basename(file, '.scss')
+
+        copyFileSync(resolve(srcScss, file), resolve(outScss, file))
+        writeFileSync(resolve(outScss, `${file}.mjs`), CSS_NODE_SHIM)
+
+        const result = sass.compile(resolve(srcScss, file), {
+          style: 'expanded',
+          importers,
+        })
+        // Mixin-only partials compile to nothing but their doc comments.
+        if (!result.css.replace(/\/\*[\s\S]*?\*\//g, '').trim()) continue
+        writeFileSync(resolve(outCss, `${name}.css`), result.css)
+        writeFileSync(resolve(outCss, `${name}.css.mjs`), CSS_NODE_SHIM)
+      }
+    },
+  }
+}
+
+/**
+ * Emits a single flattened stylesheet (for `<link>`/CDN consumers) from an
+ * aggregate recipe scss, by concatenating the compiled chunks its `@use
+ * '…<chunk>.scss'` lines list, in order. The recipe itself is copied beside the
+ * shipped scss sources. Runs after `themeScss` (same-build `closeBundle`
+ * ordering), so the chunks exist.
+ */
+export function themeCss(
+  root: string,
+  recipe: string,
+  chunksDir: string,
+  out: string,
+  recipeOut: string
+): Plugin {
+  return {
+    name: 'vf:theme-css',
+    closeBundle() {
+      if (!existsSync(recipe)) return
+
+      const scss = readFileSync(recipe, 'utf-8')
+      const refs = [
+        ...scss.matchAll(/@use\s+["'][^"']*?([\w-]+)\.s?css["']/g),
+      ].map((m) => m[1])
+      if (refs.length === 0) {
+        throw new Error(
+          `vf:theme-css: no @use '…<chunk>.scss' lines found in ${recipe}`
+        )
+      }
+      const flattened = refs
+        .map((name) => {
+          const cssPath = resolve(chunksDir, `${name}.css`)
+          if (!existsSync(cssPath)) {
+            throw new Error(
+              `vf:theme-css: recipe references missing chunk: ${name}.css`
+            )
+          }
+          return readFileSync(cssPath, 'utf-8').trim()
+        })
+        .join('\n\n')
+
+      mkdirSync(dirname(out), { recursive: true })
+      writeFileSync(out, `${flattened}\n`)
+      // Node exports-condition shim, same as the per-chunk ones.
+      writeFileSync(`${out}.mjs`, CSS_NODE_SHIM)
+      mkdirSync(dirname(recipeOut), { recursive: true })
+      copyFileSync(recipe, recipeOut)
+      writeFileSync(`${recipeOut}.mjs`, CSS_NODE_SHIM)
+    },
+  }
+}
+
+/**
+ * Loads sass from the consuming package's dependencies, not ours.
+ */
+export function loadSassCompiler(root: string): SassCompiler {
+  const consumerRequire = createRequire(join(root, 'package.json'))
+  try {
+    return consumerRequire('sass')
+  } catch {
+    try {
+      return consumerRequire('sass-embedded')
+    } catch {
+      throw new Error(
+        '@vueform/utils requires "sass" or "sass-embedded" to compile theme scss'
+      )
+    }
+  }
+}
+
+/**
+ * The shared library build shape: an ES-modules mirror of the entry tree via
+ * `preserveModules`, one `.mjs` per source module, no minification, expected
+ * `EMPTY_BUNDLE` warnings silenced (their chunks are pruned).
+ */
+export function createLibBuild(options: LibBuildOptions): BuildOptions {
+  return {
+    minify: false,
+    lib: {
+      formats: ['es'],
+      name: options.name,
+      fileName: (_, name) => `${name}.mjs`,
+      entry: options.entries,
+    },
+    outDir: options.outDir,
+    cssCodeSplit: true,
+    rollupOptions: {
+      external: options.external,
+      ...(options.cssExternalSideEffects
+        ? {
+            treeshake: {
+              moduleSideEffects: (id: string, isExternal: boolean) =>
+                isExternal ? id.endsWith('.css') : true,
+            },
+          }
+        : {}),
+      onwarn(warning, warn) {
+        // Expected for type-only modules; their empty chunks are pruned.
+        if (warning.code === 'EMPTY_BUNDLE') return
+        warn(warning)
+      },
+      output: {
+        preserveModules: true,
+        preserveModulesRoot: options.preserveRoot,
+        entryFileNames: '[name].mjs',
+        ...(options.noHoistTransitiveImports
+          ? { hoistTransitiveImports: false }
+          : {}),
+      },
+    },
+  }
+}
+
+/**
+ * Externalizes every import that resolves inside `srcAbs` but outside the
+ * `keep` directories to the corresponding main-dist module, as a relative path
+ * escaping the vapor output directory. Relative specifiers bypass the package's
+ * exports map, so internals stay private, and sharing the main-dist modules
+ * keeps stateful ones (tokens, registries, contexts) single-instance across
+ * both modes. Modules whose main-dist file does not exist (pruned type-only
+ * modules) stay internal and tree-shake away as usual.
+ *
+ * Externals are resolved to absolute dist paths and rewritten to per-chunk
+ * relative specifiers in `generateBundle` (rollup's
+ * `makeAbsoluteExternalsRelative` relativizes against the wrong base for nested
+ * outDirs — set it to `false`).
+ */
+export function vaporExternals(
+  root: string,
+  srcAbs: string,
+  outAbs: string,
+  keep: string[]
+): Plugin {
+  const distAbs = resolve(root, 'dist')
+
+  return {
+    name: 'vf:vapor-externals',
+    enforce: 'pre',
+    async resolveId(source, importer, options) {
+      if (!importer || source.startsWith('\0')) return
+      const resolved = await this.resolve(source, importer, {
+        ...options,
+        skipSelf: true,
+      })
+      if (!resolved || resolved.external) return
+      const [file] = resolved.id.split('?')
+      if (!file.startsWith(srcAbs + sep)) return
+      if (keep.some((dir) => file.startsWith(dir + sep))) return
+      const rel = relative(srcAbs, file).replace(/\.ts$/, '')
+      const distFile = resolve(distAbs, `${rel}.mjs`)
+      if (!existsSync(distFile)) return
+      return { id: distFile, external: true }
+    },
+
+    generateBundle(_, bundle) {
+      const externalRe = new RegExp(
+        `(["'])(${escapeRegExp(distAbs)}/[^"']+)\\1`,
+        'g'
+      )
+      for (const output of Object.values(bundle)) {
+        if (output.type !== 'chunk') continue
+        const chunkDir = resolve(outAbs, output.fileName, '..')
+        output.code = output.code.replace(externalRe, (_m, quote, abs) => {
+          let rel = relative(chunkDir, abs).split(sep).join('/')
+          if (!rel.startsWith('.')) rel = `./${rel}`
+          return `${quote}${rel}${quote}`
+        })
+      }
+    },
+  }
+}
+
+/**
+ * Entry map mirroring every `.ts` module under `dir` (minus declarations) at
+ * its own path.
+ */
+export function mirrorEntries(dir: string): Record<string, string> {
+  const entries: Record<string, string> = {}
+  ;(function walk(current: string) {
+    for (const entry of readdirSync(current, { withFileTypes: true })) {
+      const abs = join(current, entry.name)
+      if (entry.isDirectory()) {
+        walk(abs)
+      } else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.d.ts')) {
+        entries[relative(dir, abs).replace(/\.ts$/, '')] = abs
+      }
+    }
+  })(dir)
+  return entries
+}
+
+/**
+ * After the d.ts files are written, injects the `part:*` / `class:*` /
+ * `reclass:*` shorthand prop types for every component whose tier entry
+ * (`styled.d.ts` / `unstyled.d.ts`) carries the `#shorthands` marker import: a
+ * `shorthands.d.ts` declaration merge is written beside it and the marker
+ * import is rewritten to `./shorthands`. `helpersFrom` is the specifier the
+ * generated files import the prop helpers from — `'../../types'` in core,
+ * `'@vueform/core'` in adapters.
+ */
+export function shorthandProps(distAbs: string, helpersFrom: string): Plugin {
+  return {
+    name: 'vf:shorthand-props',
+    enforce: 'post',
+    closeBundle() {
+      const { written, skipped } = injectShorthandPropsDts(distAbs, {
+        helpersFrom,
+      })
+      if (written > 0) {
+        const skipNote =
+          skipped.length > 0
+            ? ` (skipped ${skipped.length}: ${skipped.slice(0, 3).join('; ')}${skipped.length > 3 ? '…' : ''})`
+            : ''
+        // eslint-disable-next-line no-console
+        console.info(
+          `[vf:shorthand-props] wrote ${written} shorthands.d.ts${skipNote}`
+        )
+      }
+    },
+  }
+}
+
+/**
+ * Writes `names.d.ts` beside the built components: a component-name union with
+ * ZERO imports — nuxt module options (and any other name-level tooling) can
+ * reference it without pulling the barrel's d.ts, whose per-component
+ * augmentations would otherwise register every element type program-wide.
+ */
+export function componentNames(componentsDistAbs: string): Plugin {
+  return {
+    name: 'vf:component-names',
+    enforce: 'post',
+    closeBundle() {
+      if (!existsSync(componentsDistAbs)) return
+      const names = readdirSync(componentsDistAbs, { withFileTypes: true })
+        .filter((e) => e.isDirectory() && e.name.startsWith('Vf'))
+        .map((e) => `'${e.name}'`)
+      if (!names.length) return
+      writeFileSync(
+        resolve(componentsDistAbs, 'names.d.ts'),
+        '// AUTO-GENERATED by @vueform/utils — do not edit.\n' +
+          `export type ComponentNames =\n  | ${names.join('\n  | ')}\n`
+      )
+    },
+  }
+}

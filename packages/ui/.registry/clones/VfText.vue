@@ -13,20 +13,9 @@
  */
 
 import {
-  defaults,
-  blueprint,
-  type TextApi,
-  type TextClasses,
-  type TextEmits,
-  type TextExpose,
-  type TextParts,
-  type TextProps,
-  type TextSlots,
-} from '@vueform/ui/blueprints/text'
-import {
+  type LanguagesProp,
   useBlueprint,
   defineEvents,
-  type LanguagesProp,
   type AddonGroupClasses,
   type AddonGroupParts,
   type AddonsParts,
@@ -41,6 +30,17 @@ import {
   type TranslateSlots,
   type WidenProps,
 } from '@vueform/ui'
+import {
+  defaults,
+  blueprint,
+  type TextApi,
+  type TextClasses,
+  type TextEmits,
+  type TextExpose,
+  type TextParts,
+  type TextProps,
+  type TextSlots,
+} from '@vueform/ui/blueprints/text'
 import '@vueform/ui/input.css'
 import '@vueform/ui/text.css'
 

@@ -6,8 +6,8 @@ import type {
   FormSlots,
   FormExpose,
   FormClasses,
-} from '@/blueprints/form'
-import type { NavPosProp } from '@/blueprints/nav'
+} from '#primevue/blueprints/form'
+import type { NavPosProp } from '#primevue/blueprints/nav'
 import type {
   Pager,
   PartOf,
@@ -45,8 +45,7 @@ export type EntryProps<TEntry> = VfFormProps<EntrySchemaOf<TEntry>>
  * no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfFormProps<TSchema = FormSchema> extends FormProps<
   VfFormSlots<TSchema>,

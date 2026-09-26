@@ -1,1 +1,1 @@
-import '@/scss/toggle-switch.scss'
+import '#primevue/scss/toggle-switch.scss'

@@ -22,6 +22,7 @@ import {
 import PrimeToggleSwitch, {
   type ToggleSwitchSlots as AToggleSwitchSlots,
 } from 'primevue/toggleswitch'
+import type { Ref, WritableComputedRef, VNode } from 'vue'
 import {
   blueprint,
   defaults,
@@ -34,7 +35,6 @@ import {
   type ToggleSwitchSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/toggle-switch'
-import type { Ref, WritableComputedRef, VNode } from 'vue'
 import '@vueform/primevue/toggle-switch.css'
 import type { ToggleSwitchProps as PvToggleSwitchProps } from 'primevue'
 

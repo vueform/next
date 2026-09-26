@@ -1,6 +1,6 @@
-import { defineSchema } from '@vueform/primevue'
 import { defineComponent, h, nextTick, resolveComponent } from 'vue'
 import { createForm, mountApp } from '../../helpers'
+import { defineSchema } from '#primevue'
 
 // =============================================================================
 // Basic rendering

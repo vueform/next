@@ -9,10 +9,10 @@
  * resolution included) — or, without a sanitizer, does not render as HTML at
  * all.
  */
-import { defineSchema } from '@vueform/core'
-import dompurify from '@vueform/dompurify'
 import { nextTick } from 'vue'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
+import dompurify from '#dompurify'
 
 describe('Security: sanitization pipeline', () => {
   describe('expression resolution cannot bypass the sanitizer', () => {

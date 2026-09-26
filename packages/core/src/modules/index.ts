@@ -1,6 +1,7 @@
 export * from './autosave'
 export * from './conditions'
 export * from './date'
+export * from './devtools'
 export * from './expression'
 export * from './http'
 export * from './locale'

@@ -6,11 +6,12 @@
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
 import PrimeKnob from 'primevue/knob'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/knob'
-import type {
-  VfKnobEmits,
-  VfKnobProps,
-  VfKnobSlots,
+import {
+  type VfKnobEmits,
+  type VfKnobProps,
+  type VfKnobSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfKnob'
 import type { WritableComputedRef } from 'vue'
 import '@vueform/primevue/knob.css'

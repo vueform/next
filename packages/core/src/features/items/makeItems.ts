@@ -7,21 +7,21 @@ import {
   type Ref,
   type ShallowRef,
 } from 'vue'
-import { useItemsSource, useConditionalList } from '@core/composables'
-import type { makeData, MakeDataModelApi } from '@core/features'
-import { defineFeature } from '@core/helpers'
-import {
-  type ConditionalProp,
-  type ConditionsTriggerProp,
-} from '@core/modules/conditions'
-import type { ReturnsOf } from '@core/types'
-import { equals, isPlainObject, normalize, typedEntries } from '@core/utils'
 import {
   type ItemsProp,
   type ItemValueOf,
   type ItemsGenericsBrand,
   type RawItemOf,
 } from './types'
+import type { makeData, MakeDataModelApi } from '#core/features'
+import type { ReturnsOf } from '#core/types'
+import { useItemsSource, useConditionalList } from '#core/composables'
+import { defineFeature } from '#core/helpers'
+import {
+  type ConditionsResult,
+  type ConditionsTriggerProp,
+} from '#core/modules/conditions'
+import { equals, isPlainObject, normalize, typedEntries } from '#core/utils'
 
 /**
  * Intermediate normalized item before conditions/disabled are resolved.
@@ -46,7 +46,8 @@ export type ItemLabel = string | ((item: any) => string)
  * Determines whether an item is disabled. A string key for direct property
  * lookup, or a function returning a `ConditionalProp` for reactive evaluation.
  */
-export type ItemDisabled = string | ((item: any) => ConditionalProp | undefined)
+export type ItemDisabled =
+  string | ((item: any) => ConditionsResult | undefined)
 
 /**
  * Determines whether an item is available (visible). A string key for direct
@@ -54,7 +55,7 @@ export type ItemDisabled = string | ((item: any) => ConditionalProp | undefined)
  * evaluation. Items whose conditions are not met are omitted from the list.
  */
 export type ItemConditions =
-  string | ((item: any) => ConditionalProp | undefined)
+  string | ((item: any) => ConditionsResult | undefined)
 
 /**
  * Determines whether a group is available. A string key for direct property
@@ -62,7 +63,7 @@ export type ItemConditions =
  * are not met are omitted entirely.
  */
 export type GroupConditions =
-  string | ((group: any) => ConditionalProp | undefined)
+  string | ((group: any) => ConditionsResult | undefined)
 
 /**
  * Resolves the label for a group. A string key or a mapping function.
@@ -634,7 +635,7 @@ export const makeItems = defineFeature<
 
       const disabledStates = useConditionalList(
         normalizedItems,
-        (item: NormalizedItem): ConditionalProp => {
+        (item: NormalizedItem): ConditionsResult => {
           const disabled = props.itemDisabled
           if (disabled === undefined) return false
           if (typeof disabled === 'string') return item.$raw[disabled] ?? false
@@ -647,7 +648,7 @@ export const makeItems = defineFeature<
         config?.conditions !== false
           ? useConditionalList(
               normalizedItems,
-              (item: NormalizedItem): ConditionalProp | undefined => {
+              (item: NormalizedItem): ConditionsResult | undefined => {
                 const conditions = props.itemConditions
                 if (conditions === undefined) return undefined
                 if (typeof conditions === 'string') return item.$raw[conditions]
@@ -665,7 +666,7 @@ export const makeItems = defineFeature<
                 $raw: any
                 label: string
                 items: NormalizedItem[]
-              }): ConditionalProp | undefined => {
+              }): ConditionsResult | undefined => {
                 const conditions = props.groupConditions
                 if (conditions === undefined) return undefined
                 if (typeof conditions === 'string')

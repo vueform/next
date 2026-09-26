@@ -37,18 +37,18 @@ import {
   aliasProps,
 } from '@vueform/core'
 import { computed, onMounted, toRef, watch, type WatchHandle } from 'vue'
-import {
-  makeAria,
-  makeInfo,
-  type ModelPropsWithDefaultValue,
-  type InfoProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
+import type { ForwardedEmits } from '#primevue/types'
 import type {
   ColorPickerProps as AColorPickerProps,
   ColorPickerEmitsOptions as AColorPickerEmits,
   ColorPickerChangeEvent,
 } from 'primevue/colorpicker'
+import {
+  makeAria,
+  makeInfo,
+  type ModelPropsWithDefaultValue,
+  type InfoProps,
+} from '#primevue/features'
 
 /**
  * Props for the color-picker element blueprint.

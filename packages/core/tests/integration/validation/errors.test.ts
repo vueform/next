@@ -1,5 +1,5 @@
-import { defineSchema } from '@vueform/core'
 import { createForm, flushPromises } from '../../helpers'
+import { defineSchema } from '#core'
 
 /**
  * Returns error message texts rendered in the DOM for a specific element,

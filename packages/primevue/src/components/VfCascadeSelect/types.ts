@@ -7,7 +7,7 @@ import type {
   CascadeSelectProps,
   CascadeSelectSlots,
   forwards,
-} from '@/blueprints/cascade-select'
+} from '#primevue/blueprints/cascade-select'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -17,15 +17,15 @@ import type {
   IftaSlots,
   OptionsProp,
   OptionValueProp,
-} from '@/features'
+} from '#primevue/features'
 import type {
   CascadeOptionGroupChildrenProp,
   EntryOptionsOf,
   EntryOptionValueKeyOf,
   EntryOptionValueReturnOf,
   EntryOptionGroupChildrenOf,
-} from '@/features/options'
-import type { ForwardedSlots, OverrideSlots } from '@/types'
+} from '#primevue/features/options'
+import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
 import type {
   ClassValue,
   AddonsSlots,
@@ -61,8 +61,7 @@ export type EntryProps<TEntry> = VfCascadeSelectProps<
  * needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfCascadeSelectProps<
   TOptions extends OptionsProp = OptionsProp,

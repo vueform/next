@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeKnob from 'primevue/knob'
-import { blueprint, defaults } from '@/blueprints/knob'
-import { vdomPrime } from '@/helpers'
 import type { VfKnobEmits, VfKnobProps, VfKnobSlots } from './types'
 import type { WritableComputedRef } from 'vue'
+import { blueprint, defaults } from '#primevue/blueprints/knob'
+import { vdomPrime } from '#primevue/helpers'
 
 const Knob = vdomPrime(PrimeKnob)
 

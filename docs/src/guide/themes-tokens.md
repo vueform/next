@@ -184,62 +184,62 @@ The full list of primitives is below, grouped by purpose.
 <VPSubtabs>
 <VPSubtab title="Color">
 
-| CSS Variable                              | Description                                        |
-| ----------------------------------------- | -------------------------------------------------- |
-| <a id="--vf-brand"></a>`--vf-brand`       | Brand primary color.                               |
-| <a id="--vf-red"></a>`--vf-red`           | Red accent color used for danger and error states. |
-| <a id="--vf-green"></a>`--vf-green`       | Green accent color used for success states.        |
-| <a id="--vf-sky"></a>`--vf-sky`           | Sky blue accent color used for info states.        |
-| <a id="--vf-orange"></a>`--vf-orange`     | Orange accent color used for warning states.       |
-| <a id="--vf-purple"></a>`--vf-purple`     | Purple accent color used for help states.          |
-| <a id="--vf-white"></a>`--vf-white`       | White.                                             |
-| <a id="--vf-black"></a>`--vf-black`       | Black.                                             |
-| <a id="--vf-gray-50"></a>`--vf-gray-50`   | Neutral gray, 5% dark.                             |
-| <a id="--vf-gray-100"></a>`--vf-gray-100` | Neutral gray, 10% dark.                            |
-| <a id="--vf-gray-200"></a>`--vf-gray-200` | Neutral gray, 20% dark.                            |
-| <a id="--vf-gray-300"></a>`--vf-gray-300` | Neutral gray, 30% dark.                            |
-| <a id="--vf-gray-400"></a>`--vf-gray-400` | Neutral gray, 40% dark.                            |
-| <a id="--vf-gray-500"></a>`--vf-gray-500` | Neutral gray, 50% dark.                            |
-| <a id="--vf-gray-600"></a>`--vf-gray-600` | Neutral gray, 60% dark.                            |
-| <a id="--vf-gray-700"></a>`--vf-gray-700` | Neutral gray, 70% dark.                            |
-| <a id="--vf-gray-800"></a>`--vf-gray-800` | Neutral gray, 80% dark.                            |
-| <a id="--vf-gray-900"></a>`--vf-gray-900` | Neutral gray, 90% dark.                            |
+| CSS Variable | Description |
+| --- | --- |
+| <a id="--vf-brand"></a>`--vf-brand` | Brand primary color. |
+| <a id="--vf-red"></a>`--vf-red` | Red accent color used for danger and error states. |
+| <a id="--vf-green"></a>`--vf-green` | Green accent color used for success states. |
+| <a id="--vf-sky"></a>`--vf-sky` | Sky blue accent color used for info states. |
+| <a id="--vf-orange"></a>`--vf-orange` | Orange accent color used for warning states. |
+| <a id="--vf-purple"></a>`--vf-purple` | Purple accent color used for help states. |
+| <a id="--vf-white"></a>`--vf-white` | White. |
+| <a id="--vf-black"></a>`--vf-black` | Black. |
+| <a id="--vf-gray-50"></a>`--vf-gray-50` | Neutral gray, 5% dark. |
+| <a id="--vf-gray-100"></a>`--vf-gray-100` | Neutral gray, 10% dark. |
+| <a id="--vf-gray-200"></a>`--vf-gray-200` | Neutral gray, 20% dark. |
+| <a id="--vf-gray-300"></a>`--vf-gray-300` | Neutral gray, 30% dark. |
+| <a id="--vf-gray-400"></a>`--vf-gray-400` | Neutral gray, 40% dark. |
+| <a id="--vf-gray-500"></a>`--vf-gray-500` | Neutral gray, 50% dark. |
+| <a id="--vf-gray-600"></a>`--vf-gray-600` | Neutral gray, 60% dark. |
+| <a id="--vf-gray-700"></a>`--vf-gray-700` | Neutral gray, 70% dark. |
+| <a id="--vf-gray-800"></a>`--vf-gray-800` | Neutral gray, 80% dark. |
+| <a id="--vf-gray-900"></a>`--vf-gray-900` | Neutral gray, 90% dark. |
 
 </VPSubtab>
 <VPSubtab title="Spacing">
 
-| CSS Variable                              | Description                                                              |
-| ----------------------------------------- | ------------------------------------------------------------------------ |
-| <a id="--vf-gutter"></a>`--vf-gutter`     | Default gutter used between elements, groups, list rows, and grid cells. |
-| <a id="--vf-space-1"></a>`--vf-space-1`   | Small spacing unit.                                                      |
-| <a id="--vf-space-2"></a>`--vf-space-2`   | Medium spacing unit.                                                     |
-| <a id="--vf-space-3"></a>`--vf-space-3`   | Large spacing unit.                                                      |
-| <a id="--vf-space-hr"></a>`--vf-space-hr` | Vertical spacing around horizontal rules.                                |
-| <a id="--vf-px"></a>`--vf-px`             | Default horizontal padding for inputs and buttons.                       |
-| <a id="--vf-py"></a>`--vf-py`             | Default vertical padding for inputs and buttons.                         |
+| CSS Variable | Description |
+| --- | --- |
+| <a id="--vf-gutter"></a>`--vf-gutter` | Default gutter used between elements, groups, list rows, and grid cells. |
+| <a id="--vf-space-1"></a>`--vf-space-1` | Small spacing unit. |
+| <a id="--vf-space-2"></a>`--vf-space-2` | Medium spacing unit. |
+| <a id="--vf-space-3"></a>`--vf-space-3` | Large spacing unit. |
+| <a id="--vf-space-hr"></a>`--vf-space-hr` | Vertical spacing around horizontal rules. |
+| <a id="--vf-px"></a>`--vf-px` | Default horizontal padding for inputs and buttons. |
+| <a id="--vf-py"></a>`--vf-py` | Default vertical padding for inputs and buttons. |
 
 </VPSubtab>
 <VPSubtab title="Border">
 
-| CSS Variable                                          | Description                               |
-| ----------------------------------------------------- | ----------------------------------------- |
-| <a id="--vf-border-width-t"></a>`--vf-border-width-t` | Top border width.                         |
-| <a id="--vf-border-width-r"></a>`--vf-border-width-r` | Right border width.                       |
-| <a id="--vf-border-width-b"></a>`--vf-border-width-b` | Bottom border width.                      |
-| <a id="--vf-border-width-l"></a>`--vf-border-width-l` | Left border width.                        |
-| <a id="--vf-radius"></a>`--vf-radius`                 | Default border radius.                    |
-| <a id="--vf-radius-sm"></a>`--vf-radius-sm`           | Smaller border radius for tight elements. |
-| <a id="--vf-radius-lg"></a>`--vf-radius-lg`           | Larger border radius for loose elements.  |
+| CSS Variable | Description |
+| --- | --- |
+| <a id="--vf-border-width-t"></a>`--vf-border-width-t` | Top border width. |
+| <a id="--vf-border-width-r"></a>`--vf-border-width-r` | Right border width. |
+| <a id="--vf-border-width-b"></a>`--vf-border-width-b` | Bottom border width. |
+| <a id="--vf-border-width-l"></a>`--vf-border-width-l` | Left border width. |
+| <a id="--vf-radius"></a>`--vf-radius` | Default border radius. |
+| <a id="--vf-radius-sm"></a>`--vf-radius-sm` | Smaller border radius for tight elements. |
+| <a id="--vf-radius-lg"></a>`--vf-radius-lg` | Larger border radius for loose elements. |
 
 </VPSubtab>
 <VPSubtab title="Icons">
 
-| CSS Variable                                      | Description                                             |
-| ------------------------------------------------- | ------------------------------------------------------- |
-| <a id="--vf-icon-add"></a>`--vf-icon-add`         | SVG used for "add" affordances (e.g. list add buttons). |
-| <a id="--vf-icon-remove"></a>`--vf-icon-remove`   | SVG used for "remove" affordances.                      |
-| <a id="--vf-icon-sort"></a>`--vf-icon-sort`       | SVG used for the list sort handle.                      |
-| <a id="--vf-icon-loading"></a>`--vf-icon-loading` | SVG used for the loading spinner.                       |
+| CSS Variable | Description |
+| --- | --- |
+| <a id="--vf-icon-add"></a>`--vf-icon-add` | SVG used for "add" affordances (e.g. list add buttons). |
+| <a id="--vf-icon-remove"></a>`--vf-icon-remove` | SVG used for "remove" affordances. |
+| <a id="--vf-icon-sort"></a>`--vf-icon-sort` | SVG used for the list sort handle. |
+| <a id="--vf-icon-loading"></a>`--vf-icon-loading` | SVG used for the loading spinner. |
 
 </VPSubtab>
 </VPSubtabs>
@@ -257,26 +257,26 @@ The full list of semantic tokens:
 <VPSubtabs>
 <VPSubtab title="Disabled Colors">
 
-| CSS Variable                                            | Description                                          |
-| ------------------------------------------------------- | ---------------------------------------------------- |
-| <a id="--vf-text-disabled"></a>`--vf-text-disabled`     | Text color of disabled controls.                     |
-| <a id="--vf-bg-disabled"></a>`--vf-bg-disabled`         | Background of disabled inputs, choices, and buttons. |
-| <a id="--vf-border-disabled"></a>`--vf-border-disabled` | Border color of disabled inputs and choices.         |
+| CSS Variable | Description |
+| --- | --- |
+| <a id="--vf-text-disabled"></a>`--vf-text-disabled` | Text color of disabled controls. |
+| <a id="--vf-bg-disabled"></a>`--vf-bg-disabled` | Background of disabled inputs, choices, and buttons. |
+| <a id="--vf-border-disabled"></a>`--vf-border-disabled` | Border color of disabled inputs and choices. |
 
 </VPSubtab>
 <VPSubtab title="Text Colors">
 
-| CSS Variable                                  | Description                                    |
-| --------------------------------------------- | ---------------------------------------------- |
-| <a id="--vf-text-soft"></a>`--vf-text-soft`   | Muted text color used by help and description. |
-| <a id="--vf-link-color"></a>`--vf-link-color` | Color used for links inside form text.         |
+| CSS Variable | Description |
+| --- | --- |
+| <a id="--vf-text-soft"></a>`--vf-text-soft` | Muted text color used by help and description. |
+| <a id="--vf-link-color"></a>`--vf-link-color` | Color used for links inside form text. |
 
 </VPSubtab>
 <VPSubtab title="Size">
 
-| CSS Variable                                    | Description                      |
-| ----------------------------------------------- | -------------------------------- |
-| <a id="--vf-icon-width"></a>`--vf-icon-width`   | Default width for inline icons.  |
+| CSS Variable | Description |
+| --- | --- |
+| <a id="--vf-icon-width"></a>`--vf-icon-width` | Default width for inline icons. |
 | <a id="--vf-icon-height"></a>`--vf-icon-height` | Default height for inline icons. |
 
 </VPSubtab>

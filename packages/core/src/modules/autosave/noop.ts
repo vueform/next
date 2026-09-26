@@ -1,10 +1,10 @@
 import { unref, watch } from 'vue'
-import { warn, isDev } from '@core/utils'
 import type {
   AutosaveInstance,
   AutosaveModule,
   MakeAutosaveOptions,
 } from './types'
+import { warn, isDev } from '#core/utils'
 
 // Never mutated — shared by every caller.
 const inertInstance: AutosaveInstance = {

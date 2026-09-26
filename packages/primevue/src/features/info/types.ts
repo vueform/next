@@ -1,4 +1,4 @@
-import type { InfoPositionProp } from '@/types'
+import type { InfoPositionProp } from '#primevue/types'
 import type { TProp } from '@vueform/core'
 
 /**

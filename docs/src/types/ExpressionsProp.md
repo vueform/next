@@ -1,6 +1,7 @@
 ```ts
 /**
- * An array of prop keys that should have expression resolution enabled.
+ * Controls expression resolution: `false` disables it, `true` enables it for
+ * all expressionable props, an array enables it for the listed keys only.
  */
-type ExpressionsProp = ExpressionableKeys[]
+type ExpressionsProp = boolean | ExpressionableKeys[]
 ```

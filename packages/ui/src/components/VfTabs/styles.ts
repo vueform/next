@@ -1,1 +1,1 @@
-import '@/scss/tabs.scss'
+import '#ui/scss/tabs.scss'

@@ -8,7 +8,7 @@
 const makeMultilingual: (
   config?: unknown
 ) => (options: makeMultilingualOptions) => {
-  translateAddon: ComputedRef<AddonSchema>
+  translateAddon: ComputedRef<any>
   language: Ref<string, string>
   languageId: ComputedRef<string | undefined>
   languages: Ref<ResolvedLanguagesProp, ResolvedLanguagesProp>

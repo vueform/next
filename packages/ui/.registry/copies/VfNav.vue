@@ -4,18 +4,19 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/nav'
+import {
+  type VfNavEmits,
+  type VfNavProps,
+  type VfNavSlots,
+  defaults,
+  blueprint,
+} from '@vueform/ui/components/VfNav'
 import {
   useBlueprint,
   useLocale,
   useFormContext,
   defineEvents,
 } from '@vueform/ui'
-import type {
-  VfNavEmits,
-  VfNavProps,
-  VfNavSlots,
-} from '@vueform/ui/components/VfNav'
 import '@vueform/ui/nav.css'
 
 defineOptions({ name: 'VfNav', inheritAttrs: false })

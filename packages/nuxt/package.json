@@ -1,0 +1,42 @@
+{
+  "name": "@vueform/nuxt",
+  "version": "2.0.0-alpha.1",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/module.d.mts",
+      "import": "./dist/module.mjs"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "nuxt-module-build build",
+    "check": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@nuxt/kit": "catalog:",
+    "consola": "catalog:",
+    "nypm": "catalog:"
+  },
+  "devDependencies": {
+    "@nuxt/module-builder": "catalog:",
+    "@nuxt/schema": "catalog:",
+    "@vueform/core": "workspace:*",
+    "@vueform/primevue": "workspace:*",
+    "@vueform/ui": "workspace:*"
+  },
+  "peerDependencies": {
+    "@vueform/primevue": "workspace:*",
+    "@vueform/ui": "workspace:*"
+  },
+  "peerDependenciesMeta": {
+    "@vueform/primevue": {
+      "optional": true
+    },
+    "@vueform/ui": {
+      "optional": true
+    }
+  }
+}

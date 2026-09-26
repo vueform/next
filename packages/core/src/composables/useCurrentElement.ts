@@ -1,5 +1,5 @@
 import { computed, onMounted, onUpdated, shallowRef } from 'vue'
-import { getGenericInstance, getInstanceRootNode } from '@core/utils'
+import { getGenericInstance, getInstanceRootNode } from '#core/utils'
 
 /**
  * Returns a reactive ref to the current component's root DOM node, refreshed on

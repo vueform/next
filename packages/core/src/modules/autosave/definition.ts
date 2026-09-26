@@ -1,5 +1,5 @@
-import { defineModule } from '@core/helpers'
 import { createAutosave } from './createAutosave'
+import { defineModule } from '#core/helpers'
 
 /**
  * The autosave module. Register via `createVueform({ modules: { autosave } })`.

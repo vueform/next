@@ -22,11 +22,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimeSelectButton from 'primevue/selectbutton'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/select-button'
-import type {
-  VfSelectButtonEmits,
-  VfSelectButtonProps,
-  VfSelectButtonSlots,
+import {
+  type VfSelectButtonEmits,
+  type VfSelectButtonProps,
+  type VfSelectButtonSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfSelectButton'
 
 const SelectButton = vdomPrime(PrimeSelectButton)

@@ -3,9 +3,9 @@ import type {
   RuleChecker,
   RuleOptions,
   RuleDefinition,
-} from '@core/modules/validation'
-import { RULE_BRAND } from '@core/modules/validation/symbols'
-import { isPlainObject } from '@core/utils'
+} from '#core/modules/validation'
+import { RULE_BRAND } from '#core/modules/validation/symbols'
+import { isPlainObject } from '#core/utils'
 
 /**
  * Normalizes call arguments into rule attributes: a single object argument

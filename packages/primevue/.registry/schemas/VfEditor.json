@@ -3,20 +3,19 @@
   "name": "VfEditor",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Rich text editor element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfEditor component",
   "files": [
     {
       "path": "VfEditor.vue",
       "target": "{componentsDir}/VfEditor.vue",
       "kind": "component",
-      "hash": "sha256:854e63e8a62bd57f715c0f15985dcb4de2d7f2531896a993a85f3d2ec1880ac0"
+      "hash": "sha256:0bde293555e17df2d6b0a567dbb0fbaa88925ee084dac0ff458b8bc152328b5a"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/editor",
-    "@vueform/primevue/blueprints/editor",
     "@vueform/primevue/components/VfEditor",
     "vue",
     "@vueform/primevue/editor.css",
@@ -32,12 +31,12 @@
   "clone": {
     "path": "VfEditor.vue",
     "blueprint": "editor",
-    "hash": "sha256:bf8e70a0713409e76b93329dc6b9ee001fad0f05a35505141ed838a3337aeba1",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "hash": "sha256:0bac06d93b5b20affffa309df57b802e469139cc11a6d5efcb6b602953b00507",
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfEditor",
     "import": "{componentsDir}/VfEditor.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

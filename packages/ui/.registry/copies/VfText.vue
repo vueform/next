@@ -11,12 +11,13 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/text'
-import { useBlueprint, defineEvents, type LanguagesProp } from '@vueform/ui'
-import type {
-  VfTextEmits,
-  VfTextProps,
-  VfTextSlots,
+import { type LanguagesProp, useBlueprint, defineEvents } from '@vueform/ui'
+import {
+  type VfTextEmits,
+  type VfTextProps,
+  type VfTextSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfText'
 import '@vueform/ui/input.css'
 import '@vueform/ui/text.css'

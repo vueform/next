@@ -8,7 +8,7 @@ import type {
   DatePickerSelectionModeProp,
   DatePickerSlots,
   forwards,
-} from '@/blueprints/date-picker'
+} from '#primevue/blueprints/date-picker'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -16,8 +16,8 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '@/features'
-import type { ForwardedSlots } from '@/types'
+} from '#primevue/features'
+import type { ForwardedSlots } from '#primevue/types'
 import type {
   ClassValue,
   AddonsSlots,
@@ -56,8 +56,7 @@ export type EntryProps<TEntry> = VfDatePickerProps<EntrySelectionModeOf<TEntry>>
  * `VfDatePickerProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfDatePickerProps<
   TSelectionMode extends DatePickerSelectionModeProp =

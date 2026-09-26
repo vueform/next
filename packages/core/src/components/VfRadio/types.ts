@@ -1,12 +1,3 @@
-import {
-  type RadioApi,
-  type RadioClasses,
-  type RadioEmits,
-  type RadioExpose,
-  type RadioParts,
-  type RadioProps,
-  type RadioSlots,
-} from '@core/blueprints/radio'
 import type {
   WidenProps,
   DefineElementContext,
@@ -15,8 +6,17 @@ import type {
   ClassValue,
   DomAttrsOf,
   EntryPropOr,
-} from '@core/types'
+} from '#core/types'
 import type { VNode } from 'vue'
+import {
+  type RadioApi,
+  type RadioClasses,
+  type RadioEmits,
+  type RadioExpose,
+  type RadioParts,
+  type RadioProps,
+  type RadioSlots,
+} from '#core/blueprints/radio'
 
 /**
  * VfRadio props narrowed from a registry `TEntry` payload, applying the entry's
@@ -32,8 +32,7 @@ export type EntryProps<TEntry> = VfRadioProps<
  * `VfRadioProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfRadioProps<TRadioValue = any> extends RadioProps<
   'radio',

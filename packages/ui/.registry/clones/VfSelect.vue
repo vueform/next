@@ -17,21 +17,10 @@
  */
 
 import {
-  defaults,
-  blueprint,
-  type SelectApi,
-  type SelectClasses,
-  type SelectEmits,
-  type SelectExpose,
-  type SelectParts,
-  type SelectProps,
-  type SelectSlots,
-} from '@vueform/ui/blueprints/select'
-import {
-  useBlueprint,
   type ItemsProp,
   type GroupChildrenProp,
   type ItemValueProp,
+  useBlueprint,
   defineEvents,
   type AddonGroupClasses,
   type AddonsParts,
@@ -47,6 +36,17 @@ import {
   type ResolvedItem,
   type WidenProps,
 } from '@vueform/ui'
+import {
+  defaults,
+  blueprint,
+  type SelectApi,
+  type SelectClasses,
+  type SelectEmits,
+  type SelectExpose,
+  type SelectParts,
+  type SelectProps,
+  type SelectSlots,
+} from '@vueform/ui/blueprints/select'
 import '@vueform/ui/select.css'
 import '@vueform/ui/input.css'
 import type { VNode } from 'vue'

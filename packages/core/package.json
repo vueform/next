@@ -1,49 +1,14 @@
 {
   "name": "@vueform/core",
-  "version": "2.0.0",
-  "description": "Vueform Core 2.0",
-  "author": "Adam Berecz",
-  "license": "MIT",
-  "private": false,
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "version": "2.0.0-alpha.1",
+  "sideEffects": [
+    "**/*.css",
+    "**/*.scss"
+  ],
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
-    },
-    "./blueprints/*": {
-      "types": "./dist/blueprints/*.d.ts",
-      "import": "./dist/blueprints/*.mjs"
-    },
-    "./components": {
-      "types": "./dist/components/index.d.ts",
-      "import": "./dist/components/index.mjs"
-    },
-    "./components/*/raw": {
-      "types": "./dist/components/*/index.d.ts",
-      "import": "./dist/components/*/index.mjs"
-    },
-    "./components/*": {
-      "types": "./dist/components/*/unstyled.d.ts",
-      "import": "./dist/components/*/unstyled.mjs"
-    },
-    "./rules": {
-      "types": "./dist/defaultRules.d.ts",
-      "import": "./dist/defaultRules.mjs"
-    },
-    "./modules": {
-      "types": "./dist/modules/modules.d.ts",
-      "import": "./dist/modules/modules.mjs"
-    },
-    "./locales": {
-      "types": "./dist/locales/index.d.ts",
-      "import": "./dist/locales/index.mjs"
-    },
-    "./tokens": {
-      "types": "./dist/tokens/index.d.ts",
-      "import": "./dist/tokens/index.mjs"
     },
     "./*.css": {
       "node": "./dist/css/*.css.mjs",
@@ -53,13 +18,24 @@
       "node": "./dist/scss/*.scss.mjs",
       "default": "./dist/scss/*.scss"
     },
-    "./vapor": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/vapor/index.mjs"
-    },
-    "./vapor/blueprints/*": {
+    "./blueprints/*": {
       "types": "./dist/blueprints/*.d.ts",
-      "import": "./dist/vapor/blueprints/*.mjs"
+      "import": "./dist/blueprints/*.mjs"
+    },
+    "./components": {
+      "types": "./dist/components/index.d.ts",
+      "vapor": "./dist/vapor/components/index.mjs",
+      "import": "./dist/components/index.mjs"
+    },
+    "./components/*/raw": {
+      "types": "./dist/components/*/index.d.ts",
+      "vapor": "./dist/vapor/components/*/index.mjs",
+      "import": "./dist/components/*/index.mjs"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/unstyled.d.ts",
+      "vapor": "./dist/vapor/components/*/unstyled.mjs",
+      "import": "./dist/components/*/unstyled.mjs"
     },
     "./vapor/components": {
       "types": "./dist/components/index.d.ts",
@@ -73,46 +49,46 @@
       "types": "./dist/components/*/unstyled.d.ts",
       "import": "./dist/vapor/components/*/unstyled.mjs"
     },
-    "./vapor/rules": {
-      "types": "./dist/defaultRules.d.ts",
-      "import": "./dist/vapor/defaultRules.mjs"
-    },
-    "./vapor/modules": {
-      "types": "./dist/modules/modules.d.ts",
-      "import": "./dist/vapor/modules/modules.mjs"
-    },
-    "./vapor/locales": {
+    "./locales": {
       "types": "./dist/locales/index.d.ts",
-      "import": "./dist/vapor/locales/index.mjs"
+      "import": "./dist/locales/index.mjs"
     },
-    "./vapor/tokens": {
+    "./modules": {
+      "types": "./dist/modules/modules.d.ts",
+      "import": "./dist/modules/modules.mjs"
+    },
+    "./rules": {
+      "types": "./dist/rules/index.d.ts",
+      "import": "./dist/rules/index.mjs"
+    },
+    "./tokens": {
       "types": "./dist/tokens/index.d.ts",
-      "import": "./dist/vapor/tokens/index.mjs"
-    },
-    "./nuxt": {
-      "types": "./nuxt/index.ts",
-      "import": "./nuxt/index.ts"
+      "import": "./dist/tokens/index.mjs"
     }
   },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "nuxt"
+    "dist"
   ],
-  "sideEffects": [
-    "**/*.css",
-    "**/*.scss"
-  ],
+  "scripts": {
+    "build": "vite build",
+    "check": "vue-tsc --incremental --noEmit",
+    "test": "vitest --maxWorkers=16"
+  },
   "devDependencies": {
-    "@nuxt/kit": "catalog:",
-    "@nuxt/schema": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
+    "@vue/devtools-api": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
-    "@vueform/vite": "workspace:^",
+    "@vueform/utils": "workspace:^",
     "fast-glob": "catalog:",
     "happy-dom": "catalog:",
     "sass-embedded": "catalog:",
+    "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
+    "vitest": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
     "vue-vapor": "catalog:",
     "zod": "catalog:"

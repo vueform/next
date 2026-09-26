@@ -6,7 +6,7 @@ import type {
   TextareaParts,
   TextareaProps,
   TextareaSlots,
-} from '@/blueprints/textarea'
+} from '#primevue/blueprints/textarea'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -14,7 +14,7 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '@/features'
+} from '#primevue/features'
 import type {
   ClassValue,
   AddonsSlots,
@@ -50,8 +50,7 @@ export type EntryProps<TEntry> = VfTextareaProps<
  * needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfTextareaProps<
   TTranslate extends boolean = boolean,

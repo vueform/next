@@ -6,7 +6,7 @@ import type {
   LayoutSlots,
   LayoutExpose,
   LayoutClasses,
-} from '@/blueprints/layout'
+} from '#primevue/blueprints/layout'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -17,7 +17,7 @@ import type {
   TabsClasses,
   TabsParts,
   TabsSlots,
-} from '@/features'
+} from '#primevue/features'
 import type {
   DOMAttrs,
   AddonsParts,
@@ -39,8 +39,7 @@ import type { VNode } from 'vue'
  * Props for the VfLayout component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfLayoutProps extends LayoutProps<
   VfLayoutSlots,

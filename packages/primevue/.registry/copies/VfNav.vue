@@ -4,18 +4,19 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/primevue/blueprints/nav'
+import {
+  type VfNavEmits,
+  type VfNavProps,
+  type VfNavSlots,
+  defaults,
+  blueprint,
+} from '@vueform/primevue/components/VfNav'
 import {
   useBlueprint,
   useLocale,
   useFormContext,
   defineEvents,
 } from '@vueform/primevue'
-import type {
-  VfNavEmits,
-  VfNavProps,
-  VfNavSlots,
-} from '@vueform/primevue/components/VfNav'
 import '@vueform/primevue/nav.css'
 import '@vueform/primevue/steps.css'
 

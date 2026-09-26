@@ -1,6 +1,6 @@
-import { createContext } from '@core/helpers'
 import type { GridContext } from './'
 import type { ComputedRef } from 'vue'
+import { createContext } from '#core/helpers'
 
 /**
  * Context for a grid row, extending the grid context with the row index and

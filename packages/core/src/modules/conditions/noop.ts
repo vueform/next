@@ -1,6 +1,6 @@
 import { shallowRef, type Ref } from 'vue'
-import { alwaysTrue } from '@core/utils'
 import type { ConditionsModule } from './types'
+import { alwaysTrue } from '#core/utils'
 
 // Never mutated — shared by every caller.
 const emptyList = shallowRef<Ref<boolean>[]>([])

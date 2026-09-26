@@ -1,14 +1,14 @@
 <script setup lang="ts" generic="const TRadioValue = true">
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeRadioButton from 'primevue/radiobutton'
-import { blueprint, defaults } from '@/blueprints/radio-button'
-import { vdomPrime } from '@/helpers'
 import type {
   VfRadioButtonEmits,
   VfRadioButtonProps,
   VfRadioButtonSlots,
 } from './types'
 import type { Ref } from 'vue'
+import { blueprint, defaults } from '#primevue/blueprints/radio-button'
+import { vdomPrime } from '#primevue/helpers'
 
 const RadioButton = vdomPrime(PrimeRadioButton)
 defineOptions({

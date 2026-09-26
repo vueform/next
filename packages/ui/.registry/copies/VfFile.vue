@@ -4,13 +4,14 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/file'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfFileEmits,
-  VfFileProps,
-  VfFileSlots,
+import {
+  type VfFileEmits,
+  type VfFileProps,
+  type VfFileSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfFile'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/file.css'
 
 defineOptions({

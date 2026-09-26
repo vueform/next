@@ -18,11 +18,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimePassword from 'primevue/password'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/password'
-import type {
-  VfPasswordEmits,
-  VfPasswordProps,
-  VfPasswordSlots,
+import {
+  type VfPasswordEmits,
+  type VfPasswordProps,
+  type VfPasswordSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfPassword'
 import type { WritableComputedRef } from 'vue'
 

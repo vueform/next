@@ -35,6 +35,7 @@ import {
   type WidenProps,
 } from '@vueform/primevue'
 import PrimeTextarea from 'primevue/textarea'
+import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -46,7 +47,6 @@ import {
   type TextareaProps,
   type TextareaSlots,
 } from '@vueform/primevue/blueprints/textarea'
-import type { WritableComputedRef } from 'vue'
 import type { TextareaProps as PvTextareaProps } from 'primevue'
 
 /**

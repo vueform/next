@@ -5,7 +5,7 @@ import type {
   ElementNames,
   ComponentOptions,
   VueformComponent,
-} from '@core/types'
+} from '#core/types'
 import type { VueformInstance } from './createVueform'
 import type {
   GlobalsHookContext,

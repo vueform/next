@@ -6,8 +6,8 @@ import type {
   ListParts,
   ListProps,
   ListSlots,
-} from '@core/blueprints/list'
-import type { ArrayModel } from '@core/features'
+} from '#core/blueprints/list'
+import type { ArrayModel } from '#core/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -21,7 +21,7 @@ import type {
   SchemaToModel,
   WidenProps,
   EntrySchemaOf,
-} from '@core/types'
+} from '#core/types'
 import type { Component, VNode } from 'vue'
 
 /**
@@ -50,8 +50,7 @@ export type EntryProps<TEntry> = Omit<VfListProps, 'modelValue'> & {
  * Props for the VfList component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfListProps extends ListProps<
   'list',

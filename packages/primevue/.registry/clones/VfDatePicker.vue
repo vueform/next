@@ -33,6 +33,7 @@ import {
 import PrimeDatePicker, {
   type DatePickerSlots as ADatePickerSlots,
 } from 'primevue/datepicker'
+import type { ComputedRef, WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -46,7 +47,6 @@ import {
   type DatePickerSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/date-picker'
-import type { ComputedRef, WritableComputedRef } from 'vue'
 import type { DatePickerProps as PvDatePickerProps } from 'primevue'
 
 /**

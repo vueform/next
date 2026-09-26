@@ -11,15 +11,9 @@
  * by CSS content, and every injected `<style>` tag carries the configured CSP
  * nonce.
  */
-import {
-  createVueform,
-  defineSchema,
-  model,
-  security,
-  theme,
-} from '@vueform/core'
 import { nextTick } from 'vue'
 import { createForm } from '../../helpers'
+import { createVueform, defineSchema, model, security, theme } from '#core'
 
 describe('Security: CSS injection containment', () => {
   describe('token declarations', () => {

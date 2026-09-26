@@ -16,6 +16,17 @@ export type ConditionalProp<TContext = any> =
   RawConditionsProp<TContext> | NegatedConditionsProp<TContext>
 
 /**
+ * Conditions produced by a function (`colConditions`, `itemConditions`, …).
+ * Function returns get no contextual typing through `defineSchema`'s generic
+ * inference, so structured array literals arrive widened (`string[][]`, not
+ * tuple arrays) — the widened shape is accepted and the runtime validates
+ * structure, as it already does. Declarative conditions props stay on the
+ * strict `ConditionalProp`.
+ */
+export type ConditionsResult<TContext = any> =
+  ConditionalProp<TContext> | readonly (readonly unknown[])[]
+
+/**
  * The accepted forms of the `conditions-trigger` prop, used as the single watch
  * source that drives re-evaluation of a component's async conditional props. An
  * array of element paths watches those elements' values, a `Ref` watches the
@@ -56,7 +67,7 @@ export interface ConditionsModule {
    * @param options Path, debounce, trigger, and date format options.
    */
   makeConditional: (
-    conditions: MaybeRef<ConditionalProp | undefined>,
+    conditions: MaybeRef<ConditionsResult | undefined>,
     model: MaybeRef<Record<string, any> | undefined>,
     context$: any,
     options?: MakeConditionalOptions
@@ -75,7 +86,7 @@ export interface ConditionsModule {
    */
   makeConditionalList: <T>(
     source: Ref<T[]>,
-    getConditions: (item: T) => ConditionalProp | undefined,
+    getConditions: (item: T) => ConditionsResult | undefined,
     model: MaybeRef<Record<string, any> | undefined>,
     context$: any,
     options?: MakeConditionalOptions

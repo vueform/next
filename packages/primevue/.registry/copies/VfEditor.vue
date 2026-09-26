@@ -18,11 +18,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimeEditor from 'primevue/editor'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/editor'
-import type {
-  VfEditorEmits,
-  VfEditorProps,
-  VfEditorSlots,
+import {
+  type VfEditorEmits,
+  type VfEditorProps,
+  type VfEditorSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfEditor'
 import type { WritableComputedRef } from 'vue'
 import '@vueform/primevue/editor.css'

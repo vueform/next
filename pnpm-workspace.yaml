@@ -1,12 +1,16 @@
 packages:
   - packages/*
   - .playgrounds/*
+  # Vapor playgrounds are standalone (own Vue 3.6 build, own lockfile),
+  # installed with `pnpm install --ignore-workspace` by the pg scripts.
+  - '!.playgrounds/*-vapor'
   - docs
 
 catalog:
   '@commitlint/cli': ^21.2.3
   '@commitlint/config-conventional': ^21.2.3
   '@nuxt/kit': ^3.17.5
+  '@nuxt/module-builder': ^1.0.2
   '@nuxt/schema': ^3.17.5
   '@playwright/test': ^1.51.1
   '@primeuix/themes': ^2.0.3
@@ -19,12 +23,13 @@ catalog:
   '@vitejs/plugin-vue': ^6.0.9
   '@vitest/browser': ^4.1.11
   '@vitest/browser-playwright': ^4.1.11
-  '@vue/devtools-api': ^7.7.0
+  '@vue/devtools-api': ^7.7.10
   '@vue/repl': ^4.7.2
   '@vue/shared': ^3.5.28
   '@vue/test-utils': ^2.4.6
-  '@vue/tsconfig': ^0.7.0
+  '@vue/tsconfig': 0.7.0
   ajv: ^8.20.0
+  consola: ^3.4.2
   eslint: ^9.39.2
   eslint-config-prettier: ^10.1.8
   eslint-plugin-import: ^2.32.0
@@ -38,8 +43,10 @@ catalog:
   husky: ^9.1.7
   isomorphic-dompurify: ^3.19.0
   lint-staged: ^16.2.7
+  nypm: ^0.6.10
   prettier: ^3.9.8
   prettier-plugin-jsdoc: ^1.8.0
+  prettier-plugin-packagejson: ^3.0.2
   primeicons: ^7.0.0
   primevue: ^4.5.5
   quill: ^2.0.3
@@ -53,9 +60,9 @@ catalog:
   terser: ^5.51.2
   tsx: ^4.23.15
   typescript: ~5.9.3
-  vite: 6.4.3
+  vite: ^7.0.0
   vite-plugin-dts: ^4.5.4
-  vitepress: 2.0.0-alpha.16
+  vitepress: ^2.0.0-alpha.16
   vitepress-plugin-group-icons: ^1.7.3
   vitest: 4.1.11
   vue: ^3.5.42

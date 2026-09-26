@@ -7,11 +7,12 @@
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
 import PrimeInputGroupAddon from 'primevue/inputgroupaddon'
 import { useAttrs } from 'vue'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/addon'
-import type {
-  VfAddonEmits,
-  VfAddonProps,
-  VfAddonSlots,
+import {
+  type VfAddonEmits,
+  type VfAddonProps,
+  type VfAddonSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfAddon'
 import '@vueform/primevue/addon.css'
 

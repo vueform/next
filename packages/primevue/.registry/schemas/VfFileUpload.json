@@ -3,20 +3,19 @@
   "name": "VfFileUpload",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "File upload element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfFileUpload component",
   "files": [
     {
       "path": "VfFileUpload.vue",
       "target": "{componentsDir}/VfFileUpload.vue",
       "kind": "component",
-      "hash": "sha256:53533fbf17acaded7aa5923a4f53bbae85702f95cf204dd69f7c4e5ce4b86401"
+      "hash": "sha256:0de748c8050d38337aa2828a0bd01d56e5b32d4882ef75217f04426e5e946904"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/fileupload",
-    "@vueform/primevue/blueprints/file-upload",
     "@vueform/primevue/components/VfFileUpload",
     "@vueform/primevue/file-upload.css"
   ],
@@ -30,11 +29,11 @@
     "path": "VfFileUpload.vue",
     "blueprint": "file-upload",
     "hash": "sha256:ff2b83a0afa6a7bcda5ff1d20c891c67ec531e1218a9423d981a0fe54e853fef",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfFileUpload",
     "import": "{componentsDir}/VfFileUpload.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

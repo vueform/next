@@ -1,12 +1,3 @@
-import {
-  type FieldApi,
-  type FieldClasses,
-  type FieldEmits,
-  type FieldExpose,
-  type FieldParts,
-  type FieldProps,
-  type FieldSlots,
-} from '@core/blueprints/field'
 import type {
   AddonsSlots,
   IconsClasses,
@@ -18,7 +9,7 @@ import type {
   AddonGroupClasses,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '@core/features'
+} from '#core/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -26,8 +17,17 @@ import type {
   DomAttrsOf,
   EntryPropOr,
   LanguagesProp,
-} from '@core/types'
+} from '#core/types'
 import type { VNode } from 'vue'
+import {
+  type FieldApi,
+  type FieldClasses,
+  type FieldEmits,
+  type FieldExpose,
+  type FieldParts,
+  type FieldProps,
+  type FieldSlots,
+} from '#core/blueprints/field'
 
 /**
  * `TNullValue` fallback for a registry `TEntry` payload without a `nullValue`
@@ -59,8 +59,7 @@ export type EntryProps<TEntry> = VfFieldProps<
  * for `VfFieldProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfFieldProps<
   TTranslate extends boolean = boolean,

@@ -3,20 +3,19 @@
   "name": "VfSteps",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Step-based form navigation",
+  "version": "2.0.0-alpha.1",
+  "description": "VfSteps component",
   "files": [
     {
       "path": "VfSteps.vue",
       "target": "{componentsDir}/VfSteps.vue",
       "kind": "component",
-      "hash": "sha256:c08b34b06d0ff27377b56682cdf1d4a212a48ed6632eb6d0943058f84e0be76d"
+      "hash": "sha256:7d7d4d857361c2ca443bfbfccfa36916fd458af5c567dca3c5cf662d8189fcf5"
     }
   ],
   "imports": [
-    "@vueform/ui/blueprints/steps",
-    "@vueform/ui",
     "@vueform/ui/components/VfSteps",
+    "@vueform/ui",
     "@vueform/ui/steps.css",
     "@vueform/ui/animation.css"
   ],
@@ -30,5 +29,5 @@
     "component": "VfSteps",
     "import": "{componentsDir}/VfSteps.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

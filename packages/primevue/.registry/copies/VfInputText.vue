@@ -18,11 +18,12 @@ import {
   vdomPrime,
 } from '@vueform/primevue'
 import PrimeInputText from 'primevue/inputtext'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/input-text'
-import type {
-  VfInputTextEmits,
-  VfInputTextProps,
-  VfInputTextSlots,
+import {
+  type VfInputTextEmits,
+  type VfInputTextProps,
+  type VfInputTextSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfInputText'
 import type { WritableComputedRef } from 'vue'
 

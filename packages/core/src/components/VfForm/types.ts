@@ -6,10 +6,11 @@ import type {
   FormSlots,
   FormExpose,
   FormClasses,
-} from '@core/blueprints/form'
-import type { NavPosProp } from '@core/blueprints/nav'
-import type { Pager } from '@core/composables'
-import type { TabbedSlots } from '@core/features'
+} from '#core/blueprints/form'
+import type { NavPosProp } from '#core/blueprints/nav'
+import type { Pager } from '#core/composables'
+import type { TabbedSlots } from '#core/features'
+import type { VNode } from 'vue'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,
@@ -23,8 +24,7 @@ import {
   type TProp,
   type ResolvedSchema,
   type EntrySchemaOf,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/types'
 
 /**
  * VfForm props narrowed from a registry `TEntry` payload, applying the entry's
@@ -40,8 +40,7 @@ export type EntryProps<TEntry> = VfFormProps<EntrySchemaOf<TEntry>>
  * no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfFormProps<TSchema = FormSchema> extends FormProps<
   VfFormSlots<TSchema>,

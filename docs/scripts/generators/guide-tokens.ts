@@ -2,12 +2,12 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { requireData, SCRAPE_HINT } from './ensureData'
-import type { TokenJsonEntry } from '../../../packages/scraper/lib/token-utils'
+import type { TokenJsonEntry } from '../../../scripts/api-extractor/lib/token-utils'
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
-const TOKENS_JSON = path.resolve(DOCS_ROOT, '../.generated/core/tokens.json')
+const TOKENS_JSON = path.resolve(DOCS_ROOT, '../.api/core/tokens.json')
 requireData('tokens', TOKENS_JSON, SCRAPE_HINT)
 const TOKENS_GUIDE = path.join(DOCS_ROOT, 'src/guide/themes-tokens.md')
 

@@ -7,8 +7,7 @@
  * no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 interface VfFormProps<TSchema = FormSchema> extends FormProps<
   VfFormSlots<TSchema>,

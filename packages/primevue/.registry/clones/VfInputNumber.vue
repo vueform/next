@@ -26,6 +26,7 @@ import {
   type IftaSlots,
 } from '@vueform/primevue'
 import PrimeInputNumber from 'primevue/inputnumber'
+import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -38,7 +39,6 @@ import {
   type InputNumberSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/input-number'
-import type { WritableComputedRef } from 'vue'
 import type {
   InputNumberSlots as AInputNumberSlots,
   InputNumberProps as PvInputNumberProps,

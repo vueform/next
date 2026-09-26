@@ -1,4 +1,4 @@
-import type { FormSchema } from '@core/types'
+import type { FormSchema } from '#core/types'
 
 /**
  * Normalizes a form schema (array or object notation) into `[name, props]`

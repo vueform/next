@@ -27,13 +27,14 @@ import PrimeTabList from 'primevue/tablist'
 import PrimeTabPanels from 'primevue/tabpanels'
 import PrimeTabs from 'primevue/tabs'
 import { computed, onMounted, ref, watch } from 'vue'
-import { defaults, blueprint } from '@vueform/primevue/blueprints/form'
 import FormNav from './FormNav.vue'
 import FormStep from './FormStep.vue'
-import type {
-  VfFormEmits,
-  VfFormProps,
-  VfFormSlots,
+import {
+  type VfFormEmits,
+  type VfFormProps,
+  type VfFormSlots,
+  defaults,
+  blueprint,
 } from '@vueform/primevue/components/VfForm'
 import '@vueform/primevue/form.css'
 import '@vueform/primevue/utils.css'

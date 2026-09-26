@@ -1,2 +1,2 @@
-import '@/scss/button.scss'
-import '@/scss/animation.scss'
+import '#ui/scss/button.scss'
+import '#ui/scss/animation.scss'

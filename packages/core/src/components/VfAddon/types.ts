@@ -1,3 +1,10 @@
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  DefineRegistryEntry,
+} from '#core/types'
+import type { VNode } from 'vue'
 import {
   type AddonApi,
   type AddonProps,
@@ -6,21 +13,13 @@ import {
   type AddonSlots,
   type AddonClasses,
   type AddonExpose,
-} from '@core/blueprints/addon'
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  DefineRegistryEntry,
-} from '@core/types'
-import type { VNode } from 'vue'
+} from '#core/blueprints/addon'
 
 /**
  * Props for the VfAddon component.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfAddonProps extends AddonProps<
   VfAddonSlots,

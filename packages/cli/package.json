@@ -1,0 +1,36 @@
+{
+  "name": "@vueform/cli",
+  "version": "2.0.0-alpha.1",
+  "private": false,
+  "description": "Vueform CLI",
+  "license": "MIT",
+  "author": "Adam Berecz",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./bin": "./bin/vueform.js"
+  },
+  "bin": {
+    "vueform": "./bin/vueform.js"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "schema.json"
+  ],
+  "scripts": {
+    "build": "rm -rf dist && tsc",
+    "check": "tsc --noEmit",
+    "test": "vitest"
+  },
+  "devDependencies": {
+    "typescript": "catalog:",
+    "vitest": "catalog:"
+  },
+  "engines": {
+    "node": ">=20.10.0"
+  }
+}

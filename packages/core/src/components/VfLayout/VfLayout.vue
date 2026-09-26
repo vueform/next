@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { defaults, blueprint } from '@core/blueprints/layout'
-import { useBlueprint, useLayoutClasses, useLocale } from '@core/composables'
-import { VfPassthrough, defineEvents } from '@core/helpers'
-import type { HeadingProp, UnknownElementParts } from '@core/types'
-import { mergeClass } from '@core/utils'
+import type { HeadingProp, UnknownElementParts } from '#core/types'
 import type { VfLayoutEmits, VfLayoutProps, VfLayoutSlots } from './types'
+import { defaults, blueprint } from '#core/blueprints/layout'
+import { useBlueprint, useLayoutClasses, useLocale } from '#core/composables'
+import { VfPassthrough, defineEvents } from '#core/helpers'
+import { mergeClass } from '#core/utils'
 
 defineOptions({
   name: 'VfLayout',

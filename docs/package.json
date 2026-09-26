@@ -1,9 +1,7 @@
 {
   "name": "@vueform/docs",
-  "devDependencies": {
-    "@types/hast": "catalog:",
-    "@vue/tsconfig": "catalog:",
-    "tsx": "catalog:"
+  "scripts": {
+    "dev": "tsx scripts/run.ts dev"
   },
   "dependencies": {
     "@primeuix/themes": "catalog:",
@@ -18,5 +16,10 @@
     "vitepress": "catalog:",
     "vitepress-plugin-group-icons": "catalog:",
     "vue": "catalog:"
+  },
+  "devDependencies": {
+    "@types/hast": "catalog:",
+    "@vue/tsconfig": "catalog:",
+    "tsx": "catalog:"
   }
 }

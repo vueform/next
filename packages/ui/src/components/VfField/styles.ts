@@ -1,1 +1,1 @@
-import '@/scss/input.scss'
+import '#ui/scss/input.scss'

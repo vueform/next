@@ -1,6 +1,6 @@
-import { defineSchema, defineSlot } from '@vueform/core'
 import { nextTick } from 'vue'
 import { createForm, makeApp, mountApp, vModelAndChange } from '../../helpers'
+import { defineSchema, defineSlot } from '#core'
 
 function createMockFile(name = 'test.pdf', type = 'application/pdf') {
   return new File(['content'], name, { type })

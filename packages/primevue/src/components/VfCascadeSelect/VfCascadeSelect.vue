@@ -11,18 +11,18 @@
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeCascadeSelect from 'primevue/cascadeselect'
-import { blueprint, defaults } from '@/blueprints/cascade-select'
 import type {
   CascadeOptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '@/features/options'
-import { vdomPrime } from '@/helpers'
+} from '#primevue/features/options'
 import type {
   VfCascadeSelectEmits,
   VfCascadeSelectProps,
   VfCascadeSelectSlots,
 } from './types'
+import { blueprint, defaults } from '#primevue/blueprints/cascade-select'
+import { vdomPrime } from '#primevue/helpers'
 
 const CascadeSelect = vdomPrime(PrimeCascadeSelect)
 

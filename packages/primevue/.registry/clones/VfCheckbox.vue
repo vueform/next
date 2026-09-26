@@ -23,6 +23,7 @@ import PrimeCheckbox, {
   type CheckboxSlots as ACheckboxSlots,
   type CheckboxProps as PvCheckboxProps,
 } from 'primevue/checkbox'
+import type { Ref, VNode } from 'vue'
 import {
   blueprint,
   defaults,
@@ -35,7 +36,6 @@ import {
   type CheckboxSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/checkbox'
-import type { Ref, VNode } from 'vue'
 import '@vueform/primevue/choice.css'
 
 /**

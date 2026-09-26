@@ -31,6 +31,11 @@ import {
   type ValidationEmits,
   aliasProps,
 } from '@vueform/core'
+import type { ForwardedEmits } from '#primevue/types'
+import type {
+  KnobProps as AKnobProps,
+  KnobEmitsOptions as AKnobEmits,
+} from 'primevue/knob'
 import {
   makeAria,
   makeInfo,
@@ -38,12 +43,7 @@ import {
   type ModelPropsWithDefaultValue,
   type InfoProps,
   type IntervalProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
-import type {
-  KnobProps as AKnobProps,
-  KnobEmitsOptions as AKnobEmits,
-} from 'primevue/knob'
+} from '#primevue/features'
 
 /**
  * Props for the knob element blueprint.

@@ -13,15 +13,15 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
+import { useExpression } from './useExpression'
+import { useMessageBag } from './useMessageBag'
 import {
-  useComponentContext,
-  useFormContext,
-  type ContainerContext,
-} from '@core/contexts'
-import type { FeatureEvents } from '@core/helpers'
-import { getExpressionModule } from '@core/modules/expression'
-import { getModelModule, type ModelNode } from '@core/modules/model'
-import { getValidationModule, type TRulesProp } from '@core/modules/validation'
+  useCurrentInstance,
+  useFallbackProp,
+  useDynamicPropFactory,
+  type VueformChildren,
+} from './'
+import type { FeatureEvents } from '#core/helpers'
 import type {
   ElementName,
   RuleMessagesProp,
@@ -29,7 +29,15 @@ import type {
   StatefulElement,
   ValidateOnProp,
   Booleanish,
-} from '@core/types'
+} from '#core/types'
+import {
+  useComponentContext,
+  useFormContext,
+  type ContainerContext,
+} from '#core/contexts'
+import { getExpressionModule } from '#core/modules/expression'
+import { getModelModule, type ModelNode } from '#core/modules/model'
+import { getValidationModule, type TRulesProp } from '#core/modules/validation'
 import {
   reactiveComputed,
   alwaysFalse,
@@ -43,15 +51,7 @@ import {
   move,
   normalize,
   warn,
-} from '@core/utils'
-import { useExpression } from './useExpression'
-import { useMessageBag } from './useMessageBag'
-import {
-  useCurrentInstance,
-  useFallbackProp,
-  useDynamicPropFactory,
-  type VueformChildren,
-} from './'
+} from '#core/utils'
 
 /**
  * Configuration options for the useData composable.

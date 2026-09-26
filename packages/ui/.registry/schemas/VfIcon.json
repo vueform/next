@@ -3,21 +3,20 @@
   "name": "VfIcon",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Icon component",
+  "version": "2.0.0-alpha.1",
+  "description": "VfIcon component",
   "files": [
     {
       "path": "VfIcon.vue",
       "target": "{componentsDir}/VfIcon.vue",
       "kind": "component",
-      "hash": "sha256:67f18580ca46ad0cebf3fdb90d091541e2b604fd6123bfa45d9e6f412d225d41"
+      "hash": "sha256:d021de4511a65a2e7be0bcf491a7988ed2628b4866b6fc80abb828e3549aaf38"
     }
   ],
   "imports": [
     "vue",
-    "@vueform/ui/blueprints/icon",
-    "@vueform/ui",
     "@vueform/ui/components/VfIcon",
+    "@vueform/ui",
     "@vueform/ui/icon.css",
     "@vueform/ui/animation.css"
   ],
@@ -31,5 +30,5 @@
     "component": "VfIcon",
     "import": "{componentsDir}/VfIcon.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

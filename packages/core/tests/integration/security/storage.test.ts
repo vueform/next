@@ -10,15 +10,15 @@
  * deliberate choice, `sensitive` fields never touch the disk, and corrupt or
  * unreadable drafts are discarded instead of trusted.
  */
+import { nextTick } from 'vue'
+import { createForm, flushPromises } from '../../helpers'
 import {
   defineSchema,
   type HttpAdapter,
   type HttpRequestConfig,
   type HttpResponse,
-} from '@vueform/core'
-import * as modules from '@vueform/core/modules'
-import { nextTick } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
+} from '#core'
+import * as modules from '#core/modules'
 
 function mockStorage(initial: Record<string, string> = {}) {
   const store: Record<string, string> = { ...initial }

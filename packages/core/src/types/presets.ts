@@ -1,5 +1,5 @@
-import { type ComponentNames, type MaybeArray } from '@core/types'
 import type { ComponentOptions } from 'vue'
+import { type ComponentNames, type MaybeArray } from '#core/types'
 
 /**
  * A preset definition after normalization, with `$apply` and `$cascade`

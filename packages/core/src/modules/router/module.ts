@@ -1,7 +1,7 @@
-import type { VueformInstance } from '@core/helpers'
-import { resolveModules } from '@core/helpers/resolveModules'
 import { noopRouter } from './noop'
+import type { VueformInstance } from '#core/helpers'
 import type { RouterModule } from './types'
+import { resolveModules } from '#core/helpers/resolveModules'
 
 /**
  * Returns the resolved instance's router module, or the inert `noopRouter`

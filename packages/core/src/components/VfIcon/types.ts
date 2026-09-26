@@ -1,3 +1,9 @@
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  DefineRegistryEntry,
+} from '#core/types'
 import {
   type IconApi,
   type IconProps,
@@ -6,13 +12,7 @@ import {
   type IconSlots,
   type IconExpose,
   type IconClasses,
-} from '@core/blueprints/icon'
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  DefineRegistryEntry,
-} from '@core/types'
+} from '#core/blueprints/icon'
 
 /**
  * Props for the VfIcon component.
@@ -21,8 +21,7 @@ import type {
  * item-parameterized. The interface itself is the props type.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfIconProps extends IconProps<
   VfIconSlots,

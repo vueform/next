@@ -10,10 +10,10 @@
  * the freeze; reactive members like the `locale` ref; component definitions Vue
  * mutates) must keep working.
  */
-import { defineSchema } from '@vueform/core'
-import dompurify from '@vueform/dompurify'
 import { nextTick } from 'vue'
 import { createForm } from '../../helpers'
+import { defineSchema } from '#core'
+import dompurify from '#dompurify'
 
 describe('Config freeze', () => {
   it('should keep applying plugin config() hook changes made before install', async () => {

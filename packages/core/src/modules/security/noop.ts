@@ -1,6 +1,6 @@
-import type { VueformConfig } from '@core/helpers'
-import { isDev, isProd } from '@core/utils'
+import type { VueformConfig } from '#core/helpers'
 import type { SecurityModule } from './types'
+import { isDev, isProd } from '#core/utils'
 
 // Shared frozen empty bag for the production fail-closed branch, so identity
 // stays stable across renders.

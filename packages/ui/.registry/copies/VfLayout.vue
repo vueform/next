@@ -5,21 +5,22 @@
  */
 
 import { computed } from 'vue'
-import { defaults, blueprint } from '@vueform/ui/blueprints/layout'
 import {
+  type HeadingProp,
+  type UnknownElementParts,
   useBlueprint,
   useLayoutClasses,
   useLocale,
   VfPassthrough,
   defineEvents,
-  type HeadingProp,
-  type UnknownElementParts,
   mergeClass,
 } from '@vueform/ui'
-import type {
-  VfLayoutEmits,
-  VfLayoutProps,
-  VfLayoutSlots,
+import {
+  type VfLayoutEmits,
+  type VfLayoutProps,
+  type VfLayoutSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfLayout'
 import '@vueform/ui/element.css'
 import '@vueform/ui/input.css'

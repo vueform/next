@@ -4,13 +4,14 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/primevue/blueprints/group'
-import { useBlueprint, defineEvents, schemaEntries } from '@vueform/primevue'
-import type {
-  VfGroupEmits,
-  VfGroupProps,
-  VfGroupSlots,
+import {
+  type VfGroupEmits,
+  type VfGroupProps,
+  type VfGroupSlots,
+  defaults,
+  blueprint,
 } from '@vueform/primevue/components/VfGroup'
+import { useBlueprint, defineEvents, schemaEntries } from '@vueform/primevue'
 import '@vueform/primevue/group.css'
 
 defineOptions({

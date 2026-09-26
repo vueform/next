@@ -3,18 +3,17 @@
   "name": "VfCheckboxes",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Checkbox group element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfCheckboxes component",
   "files": [
     {
       "path": "VfCheckboxes.vue",
       "target": "{componentsDir}/VfCheckboxes.vue",
       "kind": "component",
-      "hash": "sha256:4e02a5d9f5ba37725b4489f9289d5e2f3b8a19be9eaf18cea7aaeb431848e463"
+      "hash": "sha256:25ad38dad91725ab8be7bd973bad1bcc86bddc181d933b307becea8cb7eef1a8"
     }
   ],
   "imports": [
-    "@vueform/ui/blueprints/checkboxes",
     "@vueform/ui",
     "@vueform/ui/components/VfCheckboxes",
     "@vueform/ui/choices.css"
@@ -28,12 +27,12 @@
   "clone": {
     "path": "VfCheckboxes.vue",
     "blueprint": "checkboxes",
-    "hash": "sha256:6ba86527b12297740e40333ab5d364e3827af9c58254c2497c6bda55445cd2bd",
-    "docs": "How to customize the clone: https://ui.vueform.com/guide/components#building-on-blueprints"
+    "hash": "sha256:26ad898962422e34fe8f87ce83e4afd377d117b816b61dbd1c9301d20b583fb3",
+    "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfCheckboxes",
     "import": "{componentsDir}/VfCheckboxes.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

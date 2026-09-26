@@ -1,84 +1,43 @@
-import fs from 'node:fs'
-import path from 'node:path'
+import {
+  down,
+  existingCombos,
+  parseArgs,
+  repoRoot,
+  resolveCombos,
+  run,
+} from './lib'
 
-const repoRoot = process.cwd()
-const outputDir = path.join(repoRoot, '.playgrounds', 'templates')
+const tag = 'pg:down'
+const argv = process.argv.slice(2)
 
-const TEMPLATES = [
-  'ui',
-  'primevue',
-  'nuxt',
-  'nuxt-primevue',
-  'vapor',
-  'vapor-primevue',
-]
-const ALIASES: Record<string, string> = {
-  pv: 'primevue',
-  'nuxt-pv': 'nuxt-primevue',
-  'vapor-pv': 'vapor-primevue',
-}
-function resolveAlias(name: string) {
-  return ALIASES[name] ?? name
-}
+// No flags: tear down every existing playground across all modes.
+// With flags: only the selected adapter/mode combos.
+const combos = argv.length
+  ? resolveCombos(tag, parseArgs(argv, { tag }))
+  : existingCombos()
 
-function exists(p: string) {
-  try {
-    fs.accessSync(p)
-    return true
-  } catch {
-    return false
-  }
-}
-
-function parseArgs(argv: string[]) {
-  const selected = new Set<string>()
-
-  for (const a of argv) {
-    if (a.startsWith('--')) {
-      selected.add(resolveAlias(a.slice(2)))
-    }
-  }
-
-  if (selected.size === 0) return null
-
-  const available = new Set(TEMPLATES)
-  const unknown = [...selected].filter((t) => !available.has(t))
-
-  if (unknown.length) {
-    console.error(
-      `[pg:down] Unknown playground(s): ${unknown.join(', ')}\nAvailable: ${TEMPLATES.join(', ')}`
-    )
-    process.exit(1)
-  }
-
-  return selected
-}
-
-if (!exists(outputDir)) {
-  console.log('[pg:down] No .playgrounds/templates directory found.')
+if (!combos.length) {
+  console.log(`[${tag}] No playgrounds found in .playgrounds.`)
   process.exit(0)
 }
 
-const argv = process.argv.slice(2)
-const selected = parseArgs(argv)
-
-const toRemove = selected ? TEMPLATES.filter((n) => selected.has(n)) : TEMPLATES
-
 let removed = 0
+let workspaceRemoved = false
 
-for (const name of toRemove) {
-  const fullPath = path.join(outputDir, name)
-
-  if (!exists(fullPath)) {
-    console.log(`[pg:down] "${name}" does not exist, skipping.`)
-    continue
+for (const combo of combos) {
+  if (down(tag, combo)) {
+    removed++
+    if (!combo.standalone) workspaceRemoved = true
   }
-
-  fs.rmSync(fullPath, { recursive: true, force: true })
-  console.log(`[pg:down] Removed .playgrounds/templates/${name}`)
-  removed++
 }
 
 if (!removed) {
-  console.log('[pg:down] Nothing was removed.')
+  console.log(`[${tag}] Nothing was removed.`)
+}
+
+// Workspace playgrounds are importers in the root lockfile; re-sync it so
+// their entries don't linger after removal.
+if (workspaceRemoved) {
+  console.log(`[${tag}] Syncing root lockfile...`)
+  run('pnpm', ['install'], repoRoot)
 }

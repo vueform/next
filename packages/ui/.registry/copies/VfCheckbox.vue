@@ -8,14 +8,15 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/checkbox'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfCheckboxEmits,
-  VfCheckboxProps,
-  VfCheckboxSlots,
+import {
+  type VfCheckboxEmits,
+  type VfCheckboxProps,
+  type VfCheckboxSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfCheckbox'
 import type { Ref } from 'vue'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/choice.css'
 
 defineOptions({

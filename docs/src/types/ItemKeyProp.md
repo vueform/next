@@ -1,11 +1,13 @@
 ```ts
 /**
  * Allowed type for item key props (`itemLabel`, `itemDisabled`, etc.) given an
- * item shape. Resolves to `never` when key props are not applicable.
+ * item shape. String keys are only applicable to object items; function mappers
+ * stay allowed for plain scalar arrays and record maps, where they receive the
+ * synthetic `{ value, label }` item.
  */
 type ItemKeyProp<TItems, TGroupChildren, TReturn> =
   AllowsItemKeyProps<TItems> extends true
     ? | ItemKeyOf<RawItemOf<TItems, TGroupChildren>>
       | ((item: RawItemOf<TItems, TGroupChildren>) => TReturn)
-    : never
+    : (item: RawItemOf<TItems, TGroupChildren>) => TReturn
 ```

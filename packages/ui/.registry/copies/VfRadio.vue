@@ -4,14 +4,15 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/radio'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfRadioEmits,
-  VfRadioProps,
-  VfRadioSlots,
+import {
+  type VfRadioEmits,
+  type VfRadioProps,
+  type VfRadioSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfRadio'
 import type { Ref } from 'vue'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/choice.css'
 
 defineOptions({

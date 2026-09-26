@@ -10,7 +10,7 @@ const makeAddons: (
   config?: unknown
 ) => (options: MakeAddonsOptions) => {
   addonable: boolean
-  addonsBefore: ComputedRef<AddonItem[]>
-  addonsAfter: ComputedRef<AddonItem[]>
+  addonsBefore: ComputedRef<any[]>
+  addonsAfter: ComputedRef<any[]>
 }
 ```

@@ -28,11 +28,6 @@ import {
   aliasProps,
   makeItems,
 } from '@vueform/core'
-import {
-  makeInfo,
-  type ModelPropsWithDefaultValue,
-  type InfoProps,
-} from '@/features'
 import type {
   OptionGroupChildrenProp,
   OptionsProps,
@@ -40,8 +35,13 @@ import type {
   OptionValueProp,
   OptionsProp,
   OptionsModelApi,
-} from '@/features/options'
-import { optionItemAliases } from '@/helpers'
+} from '#primevue/features/options'
+import {
+  makeInfo,
+  type ModelPropsWithDefaultValue,
+  type InfoProps,
+} from '#primevue/features'
+import { optionItemAliases } from '#primevue/helpers'
 
 /**
  * Plain props type for the radio-button-group element blueprint — the widest

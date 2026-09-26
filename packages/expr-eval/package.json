@@ -1,24 +1,28 @@
 {
   "name": "@vueform/expr-eval",
-  "version": "2.0.0",
-  "description": "Expression evaluation plugin for Vueform",
-  "author": "Adam Berecz",
-  "license": "MIT",
-  "private": false,
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
+  "version": "2.0.0-alpha.1",
   "exports": {
     ".": {
       "import": "./dist/index.mjs",
       "types": "./dist/index.d.ts"
     }
   },
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
+  "scripts": {
+    "build": "vite build",
+    "check": "tsc --noEmit"
+  },
   "dependencies": {
     "expr-eval-fork": "catalog:"
+  },
+  "devDependencies": {
+    "@vueform/utils": "workspace:^",
+    "vite": "catalog:"
   },
   "peerDependencies": {
     "@vueform/core": "workspace:^",
@@ -26,8 +30,5 @@
   },
   "vueform": {
     "group": "plugins"
-  },
-  "devDependencies": {
-    "vite-plugin-dts": "catalog:"
   }
 }

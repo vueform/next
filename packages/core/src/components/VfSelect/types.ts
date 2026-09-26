@@ -1,12 +1,3 @@
-import {
-  type SelectApi,
-  type SelectClasses,
-  type SelectEmits,
-  type SelectExpose,
-  type SelectParts,
-  type SelectProps,
-  type SelectSlots,
-} from '@core/blueprints/select'
 import type {
   AddonsParts,
   AddonsSlots,
@@ -25,15 +16,24 @@ import type {
   EntryItemValueReturnOf,
   EntryGroupChildrenOf,
   EntryMultipleOf,
-} from '@core/features'
+} from '#core/features'
 import type {
   WidenProps,
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
   DomAttrsOf,
-} from '@core/types'
+} from '#core/types'
 import type { VNode } from 'vue'
+import {
+  type SelectApi,
+  type SelectClasses,
+  type SelectEmits,
+  type SelectExpose,
+  type SelectParts,
+  type SelectProps,
+  type SelectSlots,
+} from '#core/blueprints/select'
 
 /**
  * VfSelect props narrowed from a registry `TEntry` payload, applying the

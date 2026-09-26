@@ -1,5 +1,5 @@
-import type { HttpRequestConfig, HttpInstance } from '@core/modules/http'
 import { useHttp } from './useHttp'
+import type { HttpRequestConfig, HttpInstance } from '#core/modules/http'
 
 /**
  * A string URL, request config, or function that `useEndpoint` can resolve.

@@ -1,39 +1,46 @@
 import type {
   AutosaveModule,
   AutosaveModuleOptions,
-} from '@core/modules/autosave'
+} from '#core/modules/autosave'
 import type {
   ConditionsModule,
   ConditionsModuleOptions,
-} from '@core/modules/conditions'
-import type { DateModule, DateModuleOptions } from '@core/modules/date'
+} from '#core/modules/conditions'
+import type { DateModule, DateModuleOptions } from '#core/modules/date'
+import type {
+  DevtoolsModule,
+  DevtoolsModuleOptions,
+} from '#core/modules/devtools'
 import type {
   ExpressionModule,
   ExpressionModuleOptions,
-} from '@core/modules/expression'
-import type { HttpModule, HttpModuleOptions } from '@core/modules/http'
-import type { LocaleModule, LocaleModuleOptions } from '@core/modules/locale'
-import type { ModelModule, ModelModuleOptions } from '@core/modules/model'
+} from '#core/modules/expression'
+import type { HttpModule, HttpModuleOptions } from '#core/modules/http'
+import type { LocaleModule, LocaleModuleOptions } from '#core/modules/locale'
+import type { ModelModule, ModelModuleOptions } from '#core/modules/model'
 import type {
   RouterModule,
   RouterModuleOptions,
   VueformRouter,
-} from '@core/modules/router'
+} from '#core/modules/router'
 import type {
   SecurityModule,
   SecurityModuleOptions,
-} from '@core/modules/security'
+} from '#core/modules/security'
 import type {
   DarkModeConfig,
   ThemeModule,
   ThemeModuleOptions,
-} from '@core/modules/theme'
+} from '#core/modules/theme'
 import type {
   SizeTypes,
   RuleDefinition,
   ValidationModule,
   ValidationModuleOptions,
-} from '@core/modules/validation'
+} from '#core/modules/validation'
+import type { VueformModule } from './defineModule'
+import type { VueformPlugin } from './definePlugin'
+import type { ComputedRef, MaybeRef } from 'vue'
 import {
   type ComponentRegistry,
   type ComponentNames,
@@ -47,10 +54,7 @@ import {
   type UID,
   type VueformComponent,
   type ThemeTokens,
-} from '@core/types'
-import type { VueformModule } from './defineModule'
-import type { VueformPlugin } from './definePlugin'
-import type { ComputedRef, MaybeRef } from 'vue'
+} from '#core/types'
 
 /**
  * The registered Vueform module implementations.
@@ -70,6 +74,11 @@ export interface VueformModules {
    * The date module for date manipulation and comparison.
    */
   date?: VueformModule<DateModule>
+
+  /**
+   * The devtools module for Vue DevTools form inspection (development-only).
+   */
+  devtools?: VueformModule<DevtoolsModule>
 
   /**
    * The locale module for translation and localization.
@@ -124,6 +133,7 @@ export interface VueformInstanceModules {
   autosave?: AutosaveModule
   http?: HttpModule
   date?: DateModule
+  devtools?: DevtoolsModule
   locale?: LocaleModule
   security?: SecurityModule
   theme?: ThemeModule
@@ -235,6 +245,11 @@ export interface VueformConfig {
   $date: DateModuleOptions
 
   /**
+   * Global devtools module options (reserved).
+   */
+  $devtools: DevtoolsModuleOptions
+
+  /**
    * Global expression module options (e.g. a custom expression provider).
    */
   $expression: ExpressionModuleOptions
@@ -281,6 +296,13 @@ export interface VueformConfig {
    * disable router integration entirely.
    */
   router?: VueformRouter | false
+
+  /**
+   * Whether the registered `devtools` module is active. `false` turns Vue
+   * DevTools integration off entirely. Defaults to `true` — note the module
+   * only ever works in development; production builds stay inert regardless.
+   */
+  devtools: boolean
 
   /**
    * Registered validation rules keyed by rule name.

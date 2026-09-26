@@ -1,1 +1,1 @@
-import '@/scss/button.scss'
+import '#primevue/scss/button.scss'

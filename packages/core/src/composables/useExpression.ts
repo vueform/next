@@ -1,8 +1,8 @@
 import { computed } from 'vue'
-import { useElementContext, useFormContext } from '@core/contexts'
-import { getExpressionModule } from '@core/modules/expression'
-import type { ExpressionableKeys } from '@core/types'
 import { useConfig } from './useConfig'
+import type { ExpressionableKeys } from '#core/types'
+import { useElementContext, useFormContext } from '#core/contexts'
+import { getExpressionModule } from '#core/modules/expression'
 
 /**
  * Expression resolve result: `string` when the input is a string, otherwise

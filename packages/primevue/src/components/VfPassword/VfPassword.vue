@@ -8,10 +8,10 @@
 >
 import { defineEvents, useBlueprint, type LanguagesProp } from '@vueform/core'
 import PrimePassword from 'primevue/password'
-import { blueprint, defaults } from '@/blueprints/password'
-import { vdomPrime } from '@/helpers'
 import type { VfPasswordEmits, VfPasswordProps, VfPasswordSlots } from './types'
 import type { WritableComputedRef } from 'vue'
+import { blueprint, defaults } from '#primevue/blueprints/password'
+import { vdomPrime } from '#primevue/helpers'
 
 const Password = vdomPrime(PrimePassword)
 

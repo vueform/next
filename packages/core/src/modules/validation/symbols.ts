@@ -1,5 +1,5 @@
 // Symbols contract: this file must have **zero runtime imports** so any file
-// (in or outside the module) can deep-import `@core/modules/validation/symbols`
+// (in or outside the module) can deep-import `#core/modules/validation/symbols`
 // without pulling in the validation runtime or forming an import cycle.
 
 /**

@@ -113,16 +113,16 @@ Configure the component's behavior and appearance with these props.
 
 ### Customization {#props-customization}
 
-| Prop                                                      | Default | Description                                                                                                                         |
-| --------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| [`parts`](!code#props.parts 'P')                          | —       | Custom DOM attribute overrides for the component's structural parts.                                                                |
-| [`class`](!code#props.class 'ClassValue')                 | —       | CSS classes to apply to the component's root element.                                                                               |
-| [`classes`](!code#props.classes 'C')                      | —       | Custom CSS class overrides for the component's structural parts.                                                                    |
-| [`reclass`](!code#props.reclass 'C')                      | —       | CSS class overrides that replace (rather than merge with) default classes.                                                          |
-| [`slots`](!code#props.slots 'S')                          | —       | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
-| [`presets`](!code#props.presets 'PresetsProp')            | —       | Named configuration presets to apply to the component.                                                                              |
-| [`template`](!code#props.template 'ComponentProp \| null') | —       | A custom Vue component to use as the template instead of the default.                                                               |
-| [`component`](!code#props.component 'ComponentProp')      | —       | A custom Vue component to render in the component's default slot.                                                                   |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`parts`](!code#props.parts "P") | — | Custom DOM attribute overrides for the component's structural parts. |
+| [`class`](!code#props.class "ClassValue") | — | CSS classes to apply to the component's root element. |
+| [`classes`](!code#props.classes "C") | — | Custom CSS class overrides for the component's structural parts. |
+| [`reclass`](!code#props.reclass "C") | — | CSS class overrides that replace (rather than merge with) default classes. |
+| [`slots`](!code#props.slots "S") | — | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
+| [`presets`](!code#props.presets "PresetsProp") | — | Named configuration presets to apply to the component. |
+| [`template`](!code#props.template "ComponentProp \| null") | — | A custom Vue component to use as the template instead of the default. |
+| [`component`](!code#props.component "ComponentProp") | — | A custom Vue component to render in the component's default slot. |
 
 <!-- @endcollapsible -->
 <!-- @props-end -->
@@ -136,20 +136,18 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 <!-- @collapsible -->
 <!-- @context-start -->
-
 ### General {#section-general}
 
-| Name                                    | Description                                         |
-| --------------------------------------- | --------------------------------------------------- |
-| [`props`](!code#context.props 'object') | The resolved component props with defaults applied. |
+| Name | Description |
+| --- | --- |
+| [`props`](!code#context.props "object") | The resolved component props with defaults applied. |
 
 ### Layout {#section-layout}
 
-| Name                                        | Description                                                 |
-| ------------------------------------------- | ----------------------------------------------------------- |
-| [`classes`](!code#context.classes 'object') | The resolved CSS class map for the component.               |
-| [`parts`](!code#context.parts 'object')     | The resolved DOM attribute overrides for internal elements. |
-
+| Name | Description |
+| --- | --- |
+| [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
+| [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -161,15 +159,13 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 Events emitted by the component. See [Events](/guide/event-handlers) for details.
 
 <!-- @events-start -->
-
-| Name            | Params                                                       | Description                                |
-| --------------- | ------------------------------------------------------------ | ------------------------------------------ |
-| `beforeMount`   | [`context$`](!code#events.beforeMount.context$ 'TContext')   | Emitted before the component is mounted.   |
-| `mounted`       | [`context$`](!code#events.mounted.context$ 'TContext')       | Emitted after the component is mounted.    |
-| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ 'TContext') | Emitted before the component is unmounted. |
-| `unmounted`     | [`context$`](!code#events.unmounted.context$ 'TContext')     | Emitted after the component is unmounted.  |
-| `updated`       | [`context$`](!code#events.updated.context$ 'TContext')       | Emitted after the component is updated.    |
-
+| Name | Params | Description |
+| --- | --- | --- |
+| `beforeMount` | [`context$`](!code#events.beforeMount.context$ "TContext") | Emitted before the component is mounted. |
+| `mounted` | [`context$`](!code#events.mounted.context$ "TContext") | Emitted after the component is mounted. |
+| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ "TContext") | Emitted before the component is unmounted. |
+| `unmounted` | [`context$`](!code#events.unmounted.context$ "TContext") | Emitted after the component is unmounted. |
+| `updated` | [`context$`](!code#events.updated.context$ "TContext") | Emitted after the component is updated. |
 <!-- @events-end -->
 
 <!-- @endtab -->
@@ -180,12 +176,10 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 
 <!-- @slots-start -->
-
-| Name       | Scope                                               | Description                                                                                                        |
-| ---------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `template` | [`context`](!code#slot.template.context 'TContext') | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `default`  | —                                                   | Slot for the default content of the elements container.                                                            |
-
+| Name | Scope | Description |
+| --- | --- | --- |
+| `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `default` | — | Slot for the default content of the elements container. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -196,16 +190,14 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) for details.
 
 <!-- @parts-start -->
-
 ### `root`
 
 The root elements container.
 
-|             |                |
-| ----------- | -------------- |
-| **Element** | `<div>`        |
+| | |
+| --- | --- |
+| **Element** | `<div>` |
 | **Classes** | `.vf-elements` |
-
 <!-- @parts-end -->
 <!-- @endtab -->
 

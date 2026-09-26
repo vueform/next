@@ -4,13 +4,14 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/ui/blueprints/group'
-import { useBlueprint, defineEvents, schemaEntries } from '@vueform/ui'
-import type {
-  VfGroupEmits,
-  VfGroupProps,
-  VfGroupSlots,
+import {
+  type VfGroupEmits,
+  type VfGroupProps,
+  type VfGroupSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfGroup'
+import { useBlueprint, defineEvents, schemaEntries } from '@vueform/ui'
 import '@vueform/ui/group.css'
 
 defineOptions({

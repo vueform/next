@@ -4,6 +4,6 @@ type RawConditionsProp<TContext = any> =
   | boolean // static boolean
   | Ref<boolean> // reactive boolean
   | ((context$: TContext) => boolean | Promise<boolean>)
-  | StructuredCondition[] // AND types
-  | StructuredCondition[][]
+  | readonly StructuredCondition[] // AND types
+  | readonly (readonly StructuredCondition[])[]
 ```

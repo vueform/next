@@ -1,3 +1,6 @@
+import { describe, expect, it, vi } from 'vitest'
+import { defineComponent, h } from 'vue'
+import { mount } from '../../helpers'
 import {
   createVueform,
   getLocaleModule,
@@ -10,12 +13,9 @@ import {
   locale as localeModule,
   useLocale,
   useModel,
-} from '@vueform/core'
-import * as components from '@vueform/core/components'
-import { en_US } from '@vueform/core/locales'
-import { describe, expect, it, vi } from 'vitest'
-import { defineComponent, h } from 'vue'
-import { mount } from '../../helpers'
+} from '#core'
+import * as components from '#core/components'
+import { en_US } from '#core/locales'
 
 const makeInstance = (locales: Record<string, any>, locale: string) =>
   createVueform({

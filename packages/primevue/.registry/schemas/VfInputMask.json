@@ -3,20 +3,19 @@
   "name": "VfInputMask",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0",
-  "description": "Masked input element",
+  "version": "2.0.0-alpha.1",
+  "description": "VfInputMask component",
   "files": [
     {
       "path": "VfInputMask.vue",
       "target": "{componentsDir}/VfInputMask.vue",
       "kind": "component",
-      "hash": "sha256:6ed8ebcfc0b1bc45e89b425d7384284eac9fa98aaa7391c956c318ac44cbfb56"
+      "hash": "sha256:f62a503e496e0ed76b127823942270fdce0e6952a97fa4645458079ee3b43419"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/inputmask",
-    "@vueform/primevue/blueprints/input-mask",
     "@vueform/primevue/components/VfInputMask",
     "vue"
   ],
@@ -26,12 +25,12 @@
   "clone": {
     "path": "VfInputMask.vue",
     "blueprint": "input-mask",
-    "hash": "sha256:be47017b96ef3b8198b3b3fabd437c80ebc8e865c649ce709bc9e78156117534",
-    "docs": "How to customize the clone: https://primevue.vueform.com/guide/components#building-on-blueprints"
+    "hash": "sha256:d29d8cb724e3a39b03c531f093cc73997eecdd9d44505495664a32e3e8f3596e",
+    "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {
     "component": "VfInputMask",
     "import": "{componentsDir}/VfInputMask.vue"
   },
-  "docs": "How to customize the copy: https://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
 }

@@ -100,62 +100,68 @@ Configure the component's behavior and appearance with these props.
 
 ### General {#props-general}
 
-| Prop                                             | Default    | Description                                                                                     |
-| ------------------------------------------------ | ---------- | ----------------------------------------------------------------------------------------------- |
-| [`name`](!code#props.name 'ElementName')         | —          | **Required.** The element's unique identifier and path in the current level of form data model. |
-| [`type`](!code#props.type 'string')              | `'hidden'` | The element type identifier.                                                                    |
-| [`id`](!code#props.id 'TProp<string, TContext>') | —          | The HTML `id` attribute for the input element.                                                  |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`name`](!code#props.name "ElementName") | — | **Required.** The element's unique identifier and path in the current level of form data model. |
+| [`type`](!code#props.type "string") | `'hidden'` | The element type identifier. |
+| [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
 ### Input {#props-hidden}
 
-| Prop                                           | Default | Description                                                                                                                                                                                 |
-| ---------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`meta`](!code#props.meta 'boolean')           | `false` | When true the element stores metadata only and renders nothing to the DOM — not even a hidden input.                                                                                        |
-| [`sensitive`](!code#props.sensitive 'boolean') | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`meta`](!code#props.meta "boolean") | `false` | When true the element stores metadata only and renders nothing to the DOM — not even a hidden input. |
+| [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |
 
 ### Data {#props-data}
 
-| Prop                                                                                                | Default | Description                                                                                      |
-| --------------------------------------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------------------------------ |
-| [`modelValue`](!code#props.modelValue 'T')                                                          | —       | The current value of the element (v-model).                                                      |
-| [`default`](!code#props.default 'T')                                                                | —       | The default/initial value of the element.                                                        |
-| [`submit`](!code#props.submit 'boolean')                                                            | `true`  | Whether the element value is included in form submission data.                                   |
-| [`detached`](!code#props.detached 'boolean')                                                        | `false` | Whether the element is detached from the form's element registry and data model (if applicable). |
-| [`transformPayload`](!code#props.transformPayload '(value: any, context$: VfHiddenContext) => any') | —       | Transforms the element's value when submitting the form.                                         |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`modelValue`](!code#props.modelValue "T") | — | The current value of the element (v-model). |
+| [`default`](!code#props.default "T \| ExpressionString") | — | The default/initial value of the element. Being expressionable, a `{...}` expression string is accepted alongside the model type. |
+| [`submit`](!code#props.submit "boolean") | `true` | Whether the element value is included in form submission data. |
+| [`detached`](!code#props.detached "boolean") | `false` | Whether the element is detached from the form's element registry and data model (if applicable). |
+| [`transformPayload`](!code#props.transformPayload "(value: any, context$: VfHiddenContext) => any") | — | Transforms the element's value when submitting the form. |
 
 ### Validation {#props-validation}
 
-| Prop                                                                    | Default | Description                                                              |
-| ----------------------------------------------------------------------- | ------- | ------------------------------------------------------------------------ |
-| [`rules`](!code#props.rules 'RulesProp<TContext>')                      | —       | Validation rules to apply to the element.                                |
-| [`validateOn`](!code#props.validateOn 'ElementValidateOnProp')          | —       | Controls when validation is triggered (e.g. on change, blur, or submit). |
-| [`debounce`](!code#props.debounce 'number')                             | —       | Delay in milliseconds before processing input.                           |
-| [`bail`](!code#props.bail 'boolean')                                    | `true`  | Whether to stop validation after the first failing rule.                 |
-| [`ruleMessages`](!code#props.ruleMessages 'RuleMessagesProp<TContext>') | —       | Custom error messages keyed by validation rule name.                     |
-| [`displayName`](!code#props.displayName 'TProp<string, TContext>')      | —       | The display name used in validation error messages.                      |
-| [`maxErrors`](!code#props.maxErrors 'number')                           | `1`     | Maximum number of validation errors to display at once.                  |
-| [`hoist`](!code#props.hoist 'boolean')                                  | `false` | Whether to push the element's errors to its nearest ancestor element.    |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`rules`](!code#props.rules "RulesProp<TContext>") | — | Validation rules to apply to the element. |
+| [`validateOn`](!code#props.validateOn "ElementValidateOnProp") | — | Controls when validation is triggered (e.g. on change, blur, or submit). |
+| [`debounce`](!code#props.debounce "number") | — | Delay in milliseconds before processing input. |
+| [`bail`](!code#props.bail "boolean") | `true` | Whether to stop validation after the first failing rule. |
+| [`ruleMessages`](!code#props.ruleMessages "RuleMessagesProp<TContext>") | — | Custom error messages keyed by validation rule name. |
+| [`displayName`](!code#props.displayName "TProp<string, TContext>") | — | The display name used in validation error messages. |
+| [`maxErrors`](!code#props.maxErrors "number") | `1` | Maximum number of validation errors to display at once. |
+| [`hoist`](!code#props.hoist "boolean") | `false` | Whether to push the element's errors to its nearest ancestor element. |
 
 ### Conditions {#props-conditions}
 
-| Prop                                                                                   | Default | Description                                                                                                                                                                                                                                                                                                                            |
-| -------------------------------------------------------------------------------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`conditions`](!code#props.conditions 'ConditionalProp<TContext>')                     | —       | Conditions that control the element's visibility and availability.                                                                                                                                                                                                                                                                     |
-| [`conditionsTrigger`](!code#props.conditionsTrigger 'ConditionsTriggerProp<TContext>') | —       | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
-| [`conditionsDebounce`](!code#props.conditionsDebounce 'number')                        | —       | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`).                                                                                                                            |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`conditions`](!code#props.conditions "ConditionalProp<TContext>") | — | Conditions that control the element's visibility and availability. |
+| [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp<TContext>") | — | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
+| [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
+
+### Layout {#props-layout}
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — |  |
 
 ### Customization {#props-customization}
 
-| Prop                                                      | Default | Description                                                                                                                         |
-| --------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------- |
-| [`parts`](!code#props.parts 'P')                          | —       | Custom DOM attribute overrides for the component's structural parts.                                                                |
-| [`class`](!code#props.class 'ClassValue')                 | —       | CSS classes to apply to the component's root element.                                                                               |
-| [`classes`](!code#props.classes 'C')                      | —       | Custom CSS class overrides for the component's structural parts.                                                                    |
-| [`reclass`](!code#props.reclass 'C')                      | —       | CSS class overrides that replace (rather than merge with) default classes.                                                          |
-| [`slots`](!code#props.slots 'S')                          | —       | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
-| [`presets`](!code#props.presets 'PresetsProp')            | —       | Named configuration presets to apply to the component.                                                                              |
-| [`template`](!code#props.template 'ComponentProp \| null') | —       | A custom Vue component to use as the template instead of the default.                                                               |
-| [`component`](!code#props.component 'ComponentProp')      | —       | A custom Vue component to render in the component's default slot.                                                                   |
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`parts`](!code#props.parts "P") | — | Custom DOM attribute overrides for the component's structural parts. |
+| [`class`](!code#props.class "ClassValue") | — | CSS classes to apply to the component's root element. |
+| [`classes`](!code#props.classes "C") | — | Custom CSS class overrides for the component's structural parts. |
+| [`reclass`](!code#props.reclass "C") | — | CSS class overrides that replace (rather than merge with) default classes. |
+| [`slots`](!code#props.slots "S") | — | Custom Vue components to use for named slots. Every component resolves it through the standard outlets pipeline (see `useOutlets`). |
+| [`presets`](!code#props.presets "PresetsProp") | — | Named configuration presets to apply to the component. |
+| [`template`](!code#props.template "ComponentProp \| null") | — | A custom Vue component to use as the template instead of the default. |
+| [`component`](!code#props.component "ComponentProp") | — | A custom Vue component to render in the component's default slot. |
 
 <!-- @endcollapsible -->
 <!-- @props-end -->
@@ -169,118 +175,116 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 <!-- @collapsible -->
 <!-- @context-start -->
-
 ### General {#section-general}
 
-| Name                                    | Description                                                        |
-| --------------------------------------- | ------------------------------------------------------------------ |
-| [`type`](!code#context.type 'string')   | The element's type identifier (e.g. "text", "checkbox", "select"). |
-| [`name`](!code#context.name 'string')   | The element's name as a string ref.                                |
-| [`props`](!code#context.props 'object') | The resolved component props with defaults applied.                |
+| Name | Description |
+| --- | --- |
+| [`type`](!code#context.type "string") | The element's type identifier (e.g. "text", "checkbox", "select"). |
+| [`name`](!code#context.name "string") | The element's name as a string ref. |
+| [`props`](!code#context.props "object") | The resolved component props with defaults applied. |
 
 ### Hidden {#section-hidden}
 
-| Name                                                                                                                                                   | Description                                                                                                                                                                                                                                                                                                                                           |
-| ------------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`validation`](!code#context.validation 'ShallowReactive<Record<string, ValidationView>>')                                                             |                                                                                                                                                                                                                                                                                                                                                       |
-| [`validator`](!code#context.validator 'Validator')                                                                                                     |                                                                                                                                                                                                                                                                                                                                                       |
-| [`shouldValidate`](!code#context.shouldValidate 'boolean')                                                                                             |                                                                                                                                                                                                                                                                                                                                                       |
-| [`onUserInput()`](!code#context.onUserInput '() => void')                                                                                              |                                                                                                                                                                                                                                                                                                                                                       |
-| [`isFlatContainer`](!code#context.isFlatContainer 'boolean')                                                                                           | Whether the element's data is flattened into the parent container rather than nested under its own `name` key.                                                                                                                                                                                                                                        |
-| [`containerModel`](!code#context.containerModel 'unknown')                                                                                             | The model ref the element provides to its children via the container context. For flat containers this is the parent's model — children's data lives merged at the parent level, while the public `model` is a scoped projection. For every other element it is the element's own `model`.                                                            |
-| [`handleModelUpdate()`](!code#context.handleModelUpdate '(data: Event) => void')                                                                       | Handles a native input event and updates the model from the event target. Text and select inputs use `target.value`. Checkboxes and radios use the `checked` state with `trueValue` / `falseValue` when available.                                                                                                                                    |
-| [`initValidation()`](!code#context.initValidation '() => void')                                                                                        |                                                                                                                                                                                                                                                                                                                                                       |
-| [`destroyValidation()`](!code#context.destroyValidation '() => void')                                                                                  |                                                                                                                                                                                                                                                                                                                                                       |
-| [`rootModel`](!code#context.rootModel 'RootModel \| undefined')                                                                                         | The root model backing the form when this element operates as the form root (adopting a `useModel` instance from `modelValue` or creating an internal store), `undefined` for every other element.                                                                                                                                                    |
-| [`sensitivePaths`](!code#context.sensitivePaths 'string[]')                                                                                            | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. A sensitive element marks its whole subtree; containers otherwise aggregate from children. Unavailable elements are included: their data may still linger in the model, and stripping an absent path is harmless. |
-| [`inputValue`](!code#context.inputValue '(ModelOfProps<LooseRequired<TProps>> & string) \| (ModelOfProps<LooseRequired<TProps>> & number) \| undefined') | The value to bind to the native hidden input's `value` attribute. Resolves to `undefined` when the model is not a string or number so that complex values are not coerced to `[object Object]`.                                                                                                                                                       |
+| Name | Description |
+| --- | --- |
+| [`validation`](!code#context.validation "ShallowReactive<Record<string, ValidationView>>") |  |
+| [`validator`](!code#context.validator "Validator") |  |
+| [`shouldValidate`](!code#context.shouldValidate "boolean") |  |
+| [`onUserInput()`](!code#context.onUserInput "() => void") |  |
+| [`isFlatContainer`](!code#context.isFlatContainer "boolean") | Whether the element's data is flattened into the parent container rather than nested under its own `name` key. |
+| [`containerModel`](!code#context.containerModel "unknown") | The model ref the element provides to its children via the container context. For flat containers this is the parent's model — children's data lives merged at the parent level, while the public `model` is a scoped projection. For every other element it is the element's own `model`. |
+| [`handleModelUpdate()`](!code#context.handleModelUpdate "(data: Event) => void") | Handles a native input event and updates the model from the event target. Text and select inputs use `target.value`. Checkboxes and radios use the `checked` state with `trueValue` / `falseValue` when available. |
+| [`initValidation()`](!code#context.initValidation "() => void") |  |
+| [`destroyValidation()`](!code#context.destroyValidation "() => void") |  |
+| [`rootModel`](!code#context.rootModel "RootModel \| undefined") | The root model backing the form when this element operates as the form root (adopting a `useModel` instance from `modelValue` or creating an internal store), `undefined` for every other element. |
+| [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. A sensitive element marks its whole subtree; containers otherwise aggregate from children. Unavailable elements are included: their data may still linger in the model, and stripping an absent path is harmless. |
+| [`inputValue`](!code#context.inputValue "(ModelOfProps<LooseRequired<TProps>> & string) \| (ModelOfProps<LooseRequired<TProps>> & number) \| undefined") | The value to bind to the native hidden input's `value` attribute. Resolves to `undefined` when the model is not a string or number so that complex values are not coerced to `[object Object]`. |
 
 ### Data {#section-data}
 
-| Name                                                                     | Description                                                                                                                                                                                                                       |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`model`](!code#context.model 'Record<string, any> \| any')               | The element's reactive model value within the form data tree.                                                                                                                                                                     |
-| [`value`](!code#context.value 'any')                                     | The current language-aware value of the element. For translatable elements, returns the value for the active language.                                                                                                            |
-| [`payload`](!code#context.payload 'object')                              | The element's submission payload. For isContainer.value containers, aggregates from children. For leaf elements, returns own value.                                                                                               |
-| [`nullValue`](!code#context.nullValue 'any')                             | The value the element holds when it is considered empty. Determined by `nullValue` / `falseValue` props, element type (container, multiple), and translatable state. For translatable elements a per-language object is returned. |
-| [`initialModel`](!code#context.initialModel 'Record<string, any> \| any') | A snapshot of the model at initialization time, used for dirty checking and reset.                                                                                                                                                |
-| [`dataPath`](!code#context.dataPath 'string')                            | The dot-notation path to this element's value within the form data object (e.g. `"address.city"`). Empty string for the root model. Flat containers inherit their parent's data path.                                             |
-| [`tracking`](!code#context.tracking 'boolean')                           | Whether the element's `default` expression is currently tracked and auto-updating the value.                                                                                                                                      |
-| [`update()`](!code#context.update '(data: any) => void')                 | Updates the element's model value. For isContainer.value containers, performs a deep merge. For leaf elements, sets the value directly and invalidates validation.                                                                |
-| [`load()`](!code#context.load '(data: any) => void')                     | Loads data into the element and fires the `load` event, cascading to all children so expression tracking can be stopped per-element.                                                                                              |
-| [`reset()`](!code#context.reset '() => void')                            | Resets the element to its initial model state and fires the `reset` event. For isContainer.value containers, delegates to children or resets the model directly for dynamic lists.                                                |
-| [`clear()`](!code#context.clear '() => void')                            | Clears the element to its null value and fires the `clear` event. For isContainer.value containers, delegates to children or clears the model for dynamic lists.                                                                  |
-| [`track()`](!code#context.track '() => void')                            | Resumes expression tracking after an untrack, immediately re-writing the resolved value.                                                                                                                                          |
-| [`untrack()`](!code#context.untrack '() => void')                        | Stops expression tracking, leaving the current value in place.                                                                                                                                                                    |
-| [`reinit()`](!code#context.reinit '() => void')                          | Reinitializes the element by rebuilding both its model registration and validation instances.                                                                                                                                     |
+| Name | Description |
+| --- | --- |
+| [`model`](!code#context.model "Record<string, any> \| any") | The element's reactive model value within the form data tree. |
+| [`value`](!code#context.value "any") | The current language-aware value of the element. For translatable elements, returns the value for the active language. |
+| [`payload`](!code#context.payload "object") | The element's submission payload. For isContainer.value containers, aggregates from children. For leaf elements, returns own value. |
+| [`nullValue`](!code#context.nullValue "any") | The value the element holds when it is considered empty. Determined by `nullValue` / `falseValue` props, element type (container, multiple), and translatable state. For translatable elements a per-language object is returned. |
+| [`initialModel`](!code#context.initialModel "Record<string, any> \| any") | A snapshot of the model at initialization time, used for dirty checking and reset. |
+| [`dataPath`](!code#context.dataPath "string") | The dot-notation path to this element's value within the form data object (e.g. `"address.city"`). Empty string for the root model. Flat containers inherit their parent's data path. |
+| [`tracking`](!code#context.tracking "boolean") | Whether the element's `default` expression is currently tracked and auto-updating the value. |
+| [`update()`](!code#context.update "(data: any) => void") | Updates the element's model value. For isContainer.value containers, performs a deep merge. For leaf elements, sets the value directly and invalidates validation. |
+| [`load()`](!code#context.load "(data: any) => void") | Loads data into the element and fires the `load` event, cascading to all children so expression tracking can be stopped per-element. |
+| [`reset()`](!code#context.reset "() => void") | Resets the element to its initial model state and fires the `reset` event. For isContainer.value containers, delegates to children or resets the model directly for dynamic lists. |
+| [`clear()`](!code#context.clear "() => void") | Clears the element to its null value and fires the `clear` event. For isContainer.value containers, delegates to children or clears the model for dynamic lists. |
+| [`track()`](!code#context.track "() => void") | Resumes expression tracking after an untrack, immediately re-writing the resolved value. |
+| [`untrack()`](!code#context.untrack "() => void") | Stops expression tracking, leaving the current value in place. |
+| [`reinit()`](!code#context.reinit "() => void") | Reinitializes the element by rebuilding both its model registration and validation instances. |
 
 ### State {#section-state}
 
-| Name                                                     | Description                                                                                                                                                                                           |
-| -------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`visible`](!code#context.visible 'boolean')             | Whether the element is currently visible, based on availability, container visibility, and pager state.                                                                                               |
-| [`available`](!code#context.available 'boolean')         | Whether the element is available (not hidden by conditional logic).                                                                                                                                   |
-| [`dirty`](!code#context.dirty 'boolean')                 | Whether the current model value differs from the initial model value.                                                                                                                                 |
-| [`empty`](!code#context.empty 'boolean')                 | Whether the element's current value is empty. For isContainer.value containers, checks whether all children are empty. For leaf elements, checks whether the value is blank or equals the falseValue. |
-| [`busy`](!code#context.busy 'boolean')                   | Whether the element is busy, meaning it is either debouncing or has pending async validation.                                                                                                         |
-| [`hoisted`](!code#context.hoisted 'boolean \| undefined') | Whether this element pushes its errors to its nearest ancestor element instead of displaying and reporting them itself.                                                                               |
+| Name | Description |
+| --- | --- |
+| [`visible`](!code#context.visible "boolean") | Whether the element is currently visible, based on availability, container visibility, and pager state. |
+| [`available`](!code#context.available "boolean") | Whether the element is available (not hidden by conditional logic). |
+| [`dirty`](!code#context.dirty "boolean") | Whether the current model value differs from the initial model value. |
+| [`empty`](!code#context.empty "boolean") | Whether the element's current value is empty. For isContainer.value containers, checks whether all children are empty. For leaf elements, checks whether the value is blank or equals the falseValue. |
+| [`busy`](!code#context.busy "boolean") | Whether the element is busy, meaning it is either debouncing or has pending async validation. |
+| [`hoisted`](!code#context.hoisted "boolean \| undefined") | Whether this element pushes its errors to its nearest ancestor element instead of displaying and reporting them itself. |
 
 ### Validation {#section-validation}
 
-| Name                                                                                                                                 | Description                                                                                                                                                                                                                                                                                                                           |
-| ------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`invalid`](!code#context.invalid 'boolean')                                                                                         | Whether any of the element's validations (across all languages) are currently invalid, including children.                                                                                                                                                                                                                            |
-| [`validated`](!code#context.validated 'boolean')                                                                                     | Whether all of the element's validations (across all languages) have been executed, including children.                                                                                                                                                                                                                               |
-| [`completed`](!code#context.completed 'boolean')                                                                                     | Whether the element is completed, meaning it either has no rules or has been validated without errors.                                                                                                                                                                                                                                |
-| [`success`](!code#context.success 'boolean')                                                                                         |                                                                                                                                                                                                                                                                                                                                       |
-| [`pending`](!code#context.pending 'boolean')                                                                                         | Whether any of the element's validations are currently pending an async check, including children.                                                                                                                                                                                                                                    |
-| [`debouncing`](!code#context.debouncing 'boolean')                                                                                   | Whether any of the element's validations are currently debouncing, including children.                                                                                                                                                                                                                                                |
-| [`errors`](!code#context.errors 'any[]')                                                                                             | All error messages for this element: its own plus any pushed up by hoisted children.                                                                                                                                                                                                                                                  |
-| [`hasError`](!code#context.hasError 'boolean')                                                                                       | Whether the element has any active error messages.                                                                                                                                                                                                                                                                                    |
-| [`displayErrors`](!code#context.displayErrors 'any[]')                                                                               | The error messages rendered for this element. Empty when the element pushes its errors to its parent; otherwise errors capped by `maxErrors`.                                                                                                                                                                                         |
-| [`ownErrors`](!code#context.ownErrors 'string[]')                                                                                    | The element's own error messages across all languages (validation rules plus custom message bag entries).                                                                                                                                                                                                                             |
-| [`formErrors`](!code#context.formErrors 'object')                                                                                    | Error messages propagated to the form, keyed by element path. Empty when the element pushes its errors to its parent.                                                                                                                                                                                                                 |
-| [`messages`](!code#context.messages 'string[]')                                                                                      | The list of custom messages from the message bag, including messages from hoisted children.                                                                                                                                                                                                                                           |
-| [`messageBag`](!code#context.messageBag 'MessageBagInstance')                                                                        | The element's message bag for managing custom errors, messages, and prepended/appended messages.                                                                                                                                                                                                                                      |
-| [`required`](!code#context.required 'boolean')                                                                                       |                                                                                                                                                                                                                                                                                                                                       |
-| [`genericName`](!code#context.genericName 'string')                                                                                  | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop.                                                                                                                                                                                                                            |
-| [`validate()`](!code#context.validate '(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>')                 | Runs validation on the element's own rules and all children, returning whether everything is valid. Elements already validated without errors against their current value are skipped unless `force: true` re-runs everything — for rules whose outcome can change without the value changing (async server checks, date boundaries). |
-| [`validateSelf()`](!code#context.validateSelf '() => Promise<boolean>')                                                              |                                                                                                                                                                                                                                                                                                                                       |
-| [`validateChildren()`](!code#context.validateChildren '(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>') | Validates stateful children, returning whether all are valid. By default only incomplete children run — never-validated, stale, or invalid ones; children validated without errors against their current value keep their result. `force: true` runs every child regardless of prior results.                                         |
-| [`invalidate()`](!code#context.invalidate '() => void')                                                                              | Marks all validation instances as invalidated, requiring revalidation. For isContainer.value containers, also delegates to children.                                                                                                                                                                                                  |
-| [`unvalidate()`](!code#context.unvalidate '() => void')                                                                              | Resets all validation state. For isContainer.value containers, also delegates to children.                                                                                                                                                                                                                                            |
-| [`filled()`](!code#context.filled '(value: any) => boolean')                                                                         | Checks whether a value is considered filled. For isContainer.value containers, delegates to children. For leaf elements, checks the scalar value.                                                                                                                                                                                     |
-| [`clean()`](!code#context.clean '() => void')                                                                                        | Marks the element as clean by updating the initial model snapshot. For isContainer.value containers, delegates to children.                                                                                                                                                                                                           |
-| [`clearErrors()`](!code#context.clearErrors '() => void')                                                                            | Clears all error messages from the message bag.                                                                                                                                                                                                                                                                                       |
-| [`clearMessages()`](!code#context.clearMessages '() => void')                                                                        | Clears all custom messages from the message bag.                                                                                                                                                                                                                                                                                      |
-| [`clearMessageBag()`](!code#context.clearMessageBag '() => void')                                                                    | Clears the entire message bag, removing both errors and messages.                                                                                                                                                                                                                                                                     |
+| Name | Description |
+| --- | --- |
+| [`invalid`](!code#context.invalid "boolean") | Whether any of the element's validations (across all languages) are currently invalid, including children. |
+| [`validated`](!code#context.validated "boolean") | Whether all of the element's validations (across all languages) have been executed, including children. |
+| [`completed`](!code#context.completed "boolean") | Whether the element is completed, meaning it either has no rules or has been validated without errors. |
+| [`success`](!code#context.success "boolean") |  |
+| [`pending`](!code#context.pending "boolean") | Whether any of the element's validations are currently pending an async check, including children. |
+| [`debouncing`](!code#context.debouncing "boolean") | Whether any of the element's validations are currently debouncing, including children. |
+| [`errors`](!code#context.errors "any[]") | All error messages for this element: its own plus any pushed up by hoisted children. |
+| [`hasError`](!code#context.hasError "boolean") | Whether the element has any active error messages. |
+| [`displayErrors`](!code#context.displayErrors "any[]") | The error messages rendered for this element. Empty when the element pushes its errors to its parent; otherwise errors capped by `maxErrors`. |
+| [`ownErrors`](!code#context.ownErrors "string[]") | The element's own error messages across all languages (validation rules plus custom message bag entries). |
+| [`formErrors`](!code#context.formErrors "object") | Error messages propagated to the form, keyed by element path. Empty when the element pushes its errors to its parent. |
+| [`messages`](!code#context.messages "string[]") | The list of custom messages from the message bag, including messages from hoisted children. |
+| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for managing custom errors, messages, and prepended/appended messages. |
+| [`required`](!code#context.required "boolean") |  |
+| [`genericName`](!code#context.genericName "string") | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop. |
+| [`validate()`](!code#context.validate "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Runs validation on the element's own rules and all children, returning whether everything is valid. Elements already validated without errors against their current value are skipped unless `force: true` re-runs everything — for rules whose outcome can change without the value changing (async server checks, date boundaries). |
+| [`validateSelf()`](!code#context.validateSelf "() => Promise<boolean>") |  |
+| [`validateChildren()`](!code#context.validateChildren "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Validates stateful children, returning whether all are valid. By default only incomplete children run — never-validated, stale, or invalid ones; children validated without errors against their current value keep their result. `force: true` runs every child regardless of prior results. |
+| [`invalidate()`](!code#context.invalidate "() => void") | Marks all validation instances as invalidated, requiring revalidation. For isContainer.value containers, also delegates to children. |
+| [`unvalidate()`](!code#context.unvalidate "() => void") | Resets all validation state. For isContainer.value containers, also delegates to children. |
+| [`filled()`](!code#context.filled "(value: any) => boolean") | Checks whether a value is considered filled. For isContainer.value containers, delegates to children. For leaf elements, checks the scalar value. |
+| [`clean()`](!code#context.clean "() => void") | Marks the element as clean by updating the initial model snapshot. For isContainer.value containers, delegates to children. |
+| [`clearErrors()`](!code#context.clearErrors "() => void") | Clears all error messages from the message bag. |
+| [`clearMessages()`](!code#context.clearMessages "() => void") | Clears all custom messages from the message bag. |
+| [`clearMessageBag()`](!code#context.clearMessageBag "() => void") | Clears the entire message bag, removing both errors and messages. |
 
 ### Layout {#section-layout}
 
-| Name                                               | Description                                                                           |
-| -------------------------------------------------- | ------------------------------------------------------------------------------------- |
-| [`id`](!code#context.id 'string')                  | The resolved element id, using the id prop or falling back to the auto-generated uid. |
-| [`classes`](!code#context.classes 'object')        | The resolved CSS class map for the component.                                         |
-| [`parts`](!code#context.parts 'object')            | The resolved DOM attribute overrides for internal elements.                           |
-| [`viewLoaded`](!code#context.viewLoaded 'boolean') | Whether the element's view has been loaded (used for lazy rendering optimization).    |
-| [`$el`](!code#context.$el 'HTMLElement \| null')    | Reference to the component's root DOM element.                                        |
+| Name | Description |
+| --- | --- |
+| [`id`](!code#context.id "string") | The resolved element id, using the id prop or falling back to the auto-generated uid. |
+| [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
+| [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
+| [`viewLoaded`](!code#context.viewLoaded "boolean") | Whether the element's view has been loaded (used for lazy rendering optimization). |
+| [`$el`](!code#context.$el "HTMLElement \| null") | Reference to the component's root DOM element. |
 
 ### Tree {#section-tree}
 
-| Name                                                                                          | Description                                                                                  |
-| --------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
-| [`form$`](!code#context.form$ 'VfFormContext<EntryProps<Record<string, any>>> \| undefined')   | The parent form's context, providing access to form-level state and methods.                 |
-| [`path`](!code#context.path 'string')                                                         | The element's dot-notation path in the form tree (e.g. "user.name").                         |
-| [`componentName`](!code#context.componentName 'keyof ComponentRegistry<Record<string, any>>') | The resolved Vue component name for this element.                                            |
-| [`container`](!code#context.container 'ContainerContext \| undefined')                         | The container context providing path, model, and registration methods for child elements.    |
-| [`children`](!code#context.children 'VueformChildren')                                        | The child element registry providing registration, unregistration, and reactive child lists. |
+| Name | Description |
+| --- | --- |
+| [`form$`](!code#context.form$ "VfFormContext<EntryProps<Record<string, any>>> \| undefined") | The parent form's context, providing access to form-level state and methods. |
+| [`path`](!code#context.path "string") | The element's dot-notation path in the form tree (e.g. "user.name"). |
+| [`componentName`](!code#context.componentName "keyof ComponentRegistry<Record<string, any>>") | The resolved Vue component name for this element. |
+| [`container`](!code#context.container "ContainerContext \| undefined") | The container context providing path, model, and registration methods for child elements. |
+| [`children`](!code#context.children "VueformChildren") | The child element registry providing registration, unregistration, and reactive child lists. |
 
 ### Accessibility {#section-a11y}
 
-| Name                                | Description                                         |
-| ----------------------------------- | --------------------------------------------------- |
-| [`uid`](!code#context.uid 'string') | A unique auto-generated identifier for the element. |
-
+| Name | Description |
+| --- | --- |
+| [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -292,22 +296,20 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 Events emitted by the component. See [Events](/guide/event-handlers) for details.
 
 <!-- @events-start -->
-
-| Name                | Params                                                                                                                                                | Description                                                                        |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------- |
-| `change`            | [`newValue`](!code#events.change.newValue 'T'), [`oldValue`](!code#events.change.oldValue 'T'), [`context$`](!code#events.change.context$ 'TContext') | Emitted when the element value changes.                                            |
-| `update:modelValue` | [`value`](!code#events.update:modelValue.value 'T')                                                                                                   | Emitted to update the v-model binding.                                             |
-| `load`              | [`value`](!code#events.load.value 'T'), [`context$`](!code#events.load.context$ 'TContext')                                                           | Emitted when the element's value is loaded programmatically via the `load` method. |
-| `reset`             | [`context$`](!code#events.reset.context$ 'TContext')                                                                                                  | Emitted when the element is reset to its default value.                            |
-| `clear`             | [`context$`](!code#events.clear.context$ 'TContext')                                                                                                  | Emitted when the element's value is cleared.                                       |
-| `invalid`           | [`context$`](!code#events.invalid.context$ 'TContext')                                                                                                | Emitted when the element becomes invalid.                                          |
-| `valid`             | [`context$`](!code#events.valid.context$ 'TContext')                                                                                                  | Emitted when the element becomes valid after having been invalid.                  |
-| `beforeMount`       | [`context$`](!code#events.beforeMount.context$ 'TContext')                                                                                            | Emitted before the component is mounted.                                           |
-| `mounted`           | [`context$`](!code#events.mounted.context$ 'TContext')                                                                                                | Emitted after the component is mounted.                                            |
-| `beforeUnmount`     | [`context$`](!code#events.beforeUnmount.context$ 'TContext')                                                                                          | Emitted before the component is unmounted.                                         |
-| `unmounted`         | [`context$`](!code#events.unmounted.context$ 'TContext')                                                                                              | Emitted after the component is unmounted.                                          |
-| `updated`           | [`context$`](!code#events.updated.context$ 'TContext')                                                                                                | Emitted after the component is updated.                                            |
-
+| Name | Params | Description |
+| --- | --- | --- |
+| `change` | [`newValue`](!code#events.change.newValue "T"), [`oldValue`](!code#events.change.oldValue "T"), [`context$`](!code#events.change.context$ "TContext") | Emitted when the element value changes. |
+| `update:modelValue` | [`value`](!code#events.update:modelValue.value "T") | Emitted to update the v-model binding. |
+| `load` | [`value`](!code#events.load.value "T"), [`context$`](!code#events.load.context$ "TContext") | Emitted when the element's value is loaded programmatically via the `load` method. |
+| `reset` | [`context$`](!code#events.reset.context$ "TContext") | Emitted when the element is reset to its default value. |
+| `clear` | [`context$`](!code#events.clear.context$ "TContext") | Emitted when the element's value is cleared. |
+| `invalid` | [`context$`](!code#events.invalid.context$ "TContext") | Emitted when the element becomes invalid. |
+| `valid` | [`context$`](!code#events.valid.context$ "TContext") | Emitted when the element becomes valid after having been invalid. |
+| `beforeMount` | [`context$`](!code#events.beforeMount.context$ "TContext") | Emitted before the component is mounted. |
+| `mounted` | [`context$`](!code#events.mounted.context$ "TContext") | Emitted after the component is mounted. |
+| `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ "TContext") | Emitted before the component is unmounted. |
+| `unmounted` | [`context$`](!code#events.unmounted.context$ "TContext") | Emitted after the component is unmounted. |
+| `updated` | [`context$`](!code#events.updated.context$ "TContext") | Emitted after the component is updated. |
 <!-- @events-end -->
 
 <!-- @endtab -->
@@ -318,12 +320,136 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 
 <!-- @slots-start -->
-
-| Name       | Scope                                               | Description                                                                                                        |
-| ---------- | --------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------ |
-| `template` | [`context`](!code#slot.template.context 'TContext') | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-
+| Name | Scope | Description |
+| --- | --- | --- |
+| `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
+| `required` | — | Slot for customizing the required indicator. |
+| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
+| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
+| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
+<!-- @endtab -->
+<!-- @tab Parts -->
+
+## Parts
+
+DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) for details.
+
+<!-- #region viewer -->
+<VPParts component="VfHidden" :examples="{ default: 'Default' }">
+  <template #example-default>
+    Example
+  </template>
+</VPParts>
+<!-- #endregion viewer -->
+
+<!-- @parts-start -->
+### `panel`
+
+The wrapper around `root` with `display: contents` when the element is a step or a tab.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `root`
+
+The element's root wrapper.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` `<fieldset>` |
+
+### `labelGroup`
+
+The container holding the label and required indicator.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `label`
+
+The label element.
+
+| | |
+| --- | --- |
+| **Element** | `<label>` `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
+
+### `required`
+
+The required indicator.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `elementGroup`
+
+The container wrapping the input and related UI.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `elementWrapper`
+
+The wrapper directly around the input control.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `help`
+
+The help text area.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `description`
+
+The description text area.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `errors`
+
+The validation errors container.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `error`
+
+An individual validation error.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `messages`
+
+The info messages container.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+
+### `message`
+
+An individual info message.
+
+| | |
+| --- | --- |
+| **Element** | `<div>` |
+<!-- @parts-end -->
 <!-- @endtab -->
 <!-- @endtabs -->

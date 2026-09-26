@@ -4,9 +4,9 @@ import {
   definePlugin,
   type TProp,
 } from '@vueform/core'
-import { vTooltip } from '@/directives'
-import { makeInfo } from '@/features'
 import type { PropType } from 'vue'
+import { vTooltip } from '#primevue/directives'
+import { makeInfo } from '#primevue/features'
 
 /**
  * Registers the `v-tooltip` directive used by info icons unless the app already

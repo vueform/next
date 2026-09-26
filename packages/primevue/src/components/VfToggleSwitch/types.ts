@@ -7,8 +7,8 @@ import type {
   ToggleSwitchProps,
   ToggleSwitchSlots,
   forwards,
-} from '@/blueprints/toggle-switch'
-import type { ForwardedSlots } from '@/types'
+} from '#primevue/blueprints/toggle-switch'
+import type { ForwardedSlots } from '#primevue/types'
 import type {
   ClassValue,
   WidenProps,
@@ -35,8 +35,7 @@ export type EntryProps<TEntry> = VfToggleSwitchProps<
  * for `VfToggleSwitchProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfToggleSwitchProps<
   TTrueValue = true,

@@ -27,13 +27,13 @@ import {
   type DProp,
 } from '@vueform/core'
 import { computed } from 'vue'
+import type { ButtonProps as AButtonProps } from 'primevue/button'
 import {
   makeInfo,
   makeTooltip,
   type InfoProps,
   type TooltipProps,
-} from '@/features'
-import type { ButtonProps as AButtonProps } from 'primevue/button'
+} from '#primevue/features'
 
 /**
  * Props for the button element blueprint.

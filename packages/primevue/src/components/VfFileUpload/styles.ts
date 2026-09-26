@@ -1,1 +1,1 @@
-import '@/scss/file-upload.scss'
+import '#primevue/scss/file-upload.scss'

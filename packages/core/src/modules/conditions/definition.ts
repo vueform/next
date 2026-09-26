@@ -1,5 +1,5 @@
-import { defineModule } from '@core/helpers'
 import { createConditions } from './createConditions'
+import { defineModule } from '#core/helpers'
 
 /**
  * The conditions module. Register via `createVueform({ modules: { conditions }

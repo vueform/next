@@ -4,13 +4,14 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defaults, blueprint } from '@vueform/primevue/blueprints/content'
-import { useBlueprint, defineEvents } from '@vueform/primevue'
-import type {
-  VfContentEmits,
-  VfContentProps,
-  VfContentSlots,
+import {
+  type VfContentEmits,
+  type VfContentProps,
+  type VfContentSlots,
+  defaults,
+  blueprint,
 } from '@vueform/primevue/components/VfContent'
+import { useBlueprint, defineEvents } from '@vueform/primevue'
 import '@vueform/primevue/content.css'
 
 defineOptions({ name: 'VfContent', element: true, inheritAttrs: false })

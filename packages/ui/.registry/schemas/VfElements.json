@@ -3,20 +3,19 @@
   "name": "VfElements",
   "type": "component",
   "package": "@vueform/ui",
-  "version": "2.0.0",
-  "description": "Renders a schema's elements",
+  "version": "2.0.0-alpha.1",
+  "description": "VfElements component",
   "files": [
     {
       "path": "VfElements.vue",
       "target": "{componentsDir}/VfElements.vue",
       "kind": "component",
-      "hash": "sha256:908369a21e15a5a08b7232f5637cf4bdd3eebe19f18ff705af5e1cdf3f04744b"
+      "hash": "sha256:78c28c8428484767045de7f1b9495e269cc57c1b30ce841896c4b29a50f17935"
     }
   ],
   "imports": [
-    "@vueform/ui/blueprints/elements",
-    "@vueform/ui",
     "@vueform/ui/components/VfElements",
+    "@vueform/ui",
     "@vueform/ui/form.css"
   ],
   "dependencies": {},
@@ -28,5 +27,5 @@
     "component": "VfElements",
     "import": "{componentsDir}/VfElements.vue"
   },
-  "docs": "How to customize the copy: https://ui.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

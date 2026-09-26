@@ -7,7 +7,7 @@ import type {
   MultiSelectProps,
   MultiSelectSlots,
   forwards,
-} from '@/blueprints/multi-select'
+} from '#primevue/blueprints/multi-select'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -22,8 +22,8 @@ import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '@/features'
-import type { ForwardedSlots, OverrideSlots } from '@/types'
+} from '#primevue/features'
+import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
 import type {
   ClassValue,
   AddonsSlots,
@@ -58,8 +58,7 @@ export type EntryProps<TEntry> = VfMultiSelectProps<
  * 'id'>`). Reach for `VfMultiSelectProps` instead when no narrowing is needed.
  *
  * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/vite/build` (see the `#shorthands` marker import on
- * `unstyled.ts`).
+ * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
  */
 export interface VfMultiSelectProps<
   TOptions extends OptionsProp = OptionsProp,

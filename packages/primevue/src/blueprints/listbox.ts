@@ -31,6 +31,12 @@ import {
   aliasProps,
   makeItems,
 } from '@vueform/core'
+import type { ForwardedEmits } from '#primevue/types'
+import type {
+  ListboxProps as AListboxProps,
+  ListboxEmitsOptions as AListboxEmits,
+  ListboxChangeEvent,
+} from 'primevue/listbox'
 import {
   makeInfo,
   makeAria,
@@ -42,14 +48,8 @@ import {
   type OptionValueProp,
   type OptionsProp,
   type OptionsModelApi,
-} from '@/features'
-import { optionItemAliases } from '@/helpers'
-import type { ForwardedEmits } from '@/types'
-import type {
-  ListboxProps as AListboxProps,
-  ListboxEmitsOptions as AListboxEmits,
-  ListboxChangeEvent,
-} from 'primevue/listbox'
+} from '#primevue/features'
+import { optionItemAliases } from '#primevue/helpers'
 
 /**
  * Plain props type for the listbox element blueprint — the widest instantiation

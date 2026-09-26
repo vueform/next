@@ -1,1 +1,1 @@
-import '@/scss/knob.scss'
+import '#primevue/scss/knob.scss'

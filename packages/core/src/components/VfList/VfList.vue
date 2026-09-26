@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { defaults, blueprint } from '@core/blueprints/list'
-import { useBlueprint, useLocale } from '@core/composables'
-import { defineEvents } from '@core/helpers'
 import type { VfListEmits, VfListProps, VfListSlots } from './types'
+import { defaults, blueprint } from '#core/blueprints/list'
+import { useBlueprint, useLocale } from '#core/composables'
+import { defineEvents } from '#core/helpers'
 
 defineOptions({
   name: 'VfList',

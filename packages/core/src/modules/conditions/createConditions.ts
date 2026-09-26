@@ -12,10 +12,16 @@ import {
   type Ref,
   type WatchSource,
 } from 'vue'
-import { useDate } from '@core/composables'
-import type { VueformInstance } from '@core/helpers'
-import { getExpressionModule } from '@core/modules/expression'
-import type { FormContext } from '@core/types'
+import type { VueformInstance } from '#core/helpers'
+import type { FormContext } from '#core/types'
+import type {
+  ConditionalProp,
+  ConditionsModule,
+  ConditionsResult,
+  ConditionsTriggerProp,
+} from './types'
+import { useDate } from '#core/composables'
+import { getExpressionModule } from '#core/modules/expression'
 import {
   alwaysTrue as alwaysAvailable,
   debounce,
@@ -25,12 +31,7 @@ import {
   replaceWildcards,
   warn as vfWarn,
   isDev,
-} from '@core/utils'
-import type {
-  ConditionalProp,
-  ConditionsModule,
-  ConditionsTriggerProp,
-} from './types'
+} from '#core/utils'
 
 interface ConditionRelativeOperands {
   '>': string | number
@@ -61,10 +62,13 @@ interface ConditionRelativeOperands {
   '*': string | number
 }
 
+// Tuples and arrays are readonly so const-narrowed schema literals (what
+// `defineSchema`'s `const S` produces) are accepted; mutable spellings remain
+// assignable to them.
 type StructuredCondition =
-  | [string, 'empty' | 'not_empty' | 'today']
+  | readonly [string, 'empty' | 'not_empty' | 'today']
   | {
-      [K in keyof ConditionRelativeOperands]: [
+      [K in keyof ConditionRelativeOperands]: readonly [
         string,
         K,
         ConditionRelativeOperands[K],
@@ -85,8 +89,8 @@ export type RawConditionsProp<TContext = any> =
   | boolean // static boolean
   | Ref<boolean> // reactive boolean
   | ((context$: TContext) => boolean | Promise<boolean>)
-  | StructuredCondition[] // AND types
-  | StructuredCondition[][] // OR types
+  | readonly StructuredCondition[] // AND types
+  | readonly (readonly StructuredCondition[])[] // OR types
 
 export type NegatedConditionsProp<TContext = any> = {
   not: RawConditionsProp<TContext>
@@ -169,7 +173,10 @@ export function createConditions(vueform: VueformInstance): ConditionsModule {
 
     // Single structured condition: ['field', '==', 'value']
     if (typeof conditions[0] === 'string') {
-      return checkStructured(conditions as StructuredCondition, scope)
+      return checkStructured(
+        conditions as unknown as StructuredCondition,
+        scope
+      )
     }
 
     // Multiple structured conditions (AND + OR groups)
@@ -180,7 +187,10 @@ export function createConditions(vueform: VueformInstance): ConditionsModule {
 
       // Structured condition in AND group: ['field', '==', 'value']
       if (typeof condition[0] === 'string') {
-        return checkStructured(condition as StructuredCondition, scope)
+        return checkStructured(
+          condition as unknown as StructuredCondition,
+          scope
+        )
       }
 
       // OR group: at least one must be fulfilled
@@ -191,7 +201,10 @@ export function createConditions(vueform: VueformInstance): ConditionsModule {
           )
         }
 
-        return checkStructured(orCondition as StructuredCondition, scope)
+        return checkStructured(
+          orCondition as unknown as StructuredCondition,
+          scope
+        )
       })
     })
   }
@@ -816,24 +829,29 @@ export function createConditions(vueform: VueformInstance): ConditionsModule {
     return { evaluate, evaluateList }
   }
 
+  // Intake accepts the widened `ConditionsResult` (function-produced
+  // conditions arrive without tuple narrowing); the evaluator validates
+  // structure dynamically, so internally everything stays `ConditionalProp`.
   const makeConditional = (
-    conditions: MaybeRef<ConditionalProp | undefined>,
+    conditions: MaybeRef<ConditionsResult | undefined>,
     model: MaybeRef<Record<string, any> | undefined>,
     context$: any,
     options?: MakeConditionalOptions
   ): Ref<boolean> =>
-    createEvaluator(model, context$, options).evaluate(conditions)
+    createEvaluator(model, context$, options).evaluate(
+      conditions as MaybeRef<ConditionalProp | undefined>
+    )
 
   const makeConditionalList = <T>(
     source: Ref<T[]>,
-    getConditions: (item: T) => ConditionalProp | undefined,
+    getConditions: (item: T) => ConditionsResult | undefined,
     model: MaybeRef<Record<string, any> | undefined>,
     context$: any,
     options?: MakeConditionalOptions
   ): Ref<Ref<boolean>[]> =>
     createEvaluator(model, context$, options).evaluateList(
       source,
-      getConditions
+      getConditions as (item: T) => ConditionalProp | undefined
     )
 
   return {

@@ -1,1 +1,1 @@
-import '@/scss/matrix.scss'
+import '#primevue/scss/matrix.scss'

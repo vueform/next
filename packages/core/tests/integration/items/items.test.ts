@@ -1,12 +1,12 @@
+import { defineComponent, nextTick, ref } from 'vue'
+import { createForm, flushPromises, mountApp } from '../../helpers'
 import {
   defineSchema,
   type HttpAdapter,
   type HttpRequestConfig,
   type HttpResponse,
   type ConditionalProp,
-} from '@vueform/core'
-import { defineComponent, nextTick, ref } from 'vue'
-import { createForm, flushPromises, mountApp } from '../../helpers'
+} from '#core'
 
 function mockAdapter(response: Partial<HttpResponse> = {}): {
   adapter: HttpAdapter

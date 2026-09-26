@@ -6,11 +6,12 @@
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
 import PrimeSlider from 'primevue/slider'
-import { blueprint, defaults } from '@vueform/primevue/blueprints/slider'
-import type {
-  VfSliderEmits,
-  VfSliderProps,
-  VfSliderSlots,
+import {
+  type VfSliderEmits,
+  type VfSliderProps,
+  type VfSliderSlots,
+  blueprint,
+  defaults,
 } from '@vueform/primevue/components/VfSlider'
 import type { WritableComputedRef } from 'vue'
 import '@vueform/primevue/slider.css'

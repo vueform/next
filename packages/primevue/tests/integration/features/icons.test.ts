@@ -1,6 +1,6 @@
 import { defineSchema } from '@vueform/core'
-import defaultConfig from '@/config'
 import { createForm } from '../../helpers'
+import defaultConfig from '#primevue/config'
 
 describe('Semantic icons', () => {
   it('renders pi icons on list controls', async () => {

@@ -7,57 +7,53 @@
   "
 >
 import {
+  useBlueprint,
   defineEvents,
+  type LanguagesProp,
+  type AddonGroupClasses,
+  type AddonGroupParts,
+  type AddonsParts,
   type AddonsSlots,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
   type IconsClasses,
   type IconsParts,
   type IconsSlots,
-  type TranslateSlots,
-  type AddonsParts,
   type TranslateParts,
-  type AddonGroupClasses,
-  type AddonGroupParts,
-  type ClassValue,
-  type DomAttrsOf,
-  type PartProps,
-  type ClassProps,
-  type ReclassProps,
-  useBlueprint,
+  type TranslateSlots,
   type WidenProps,
-  type DefineElementContext,
-  type LanguagesProp,
-} from '@vueform/core'
+} from '#core'
 import {
-  blueprint,
   defaults,
-  type TextProps,
-  type TextSlots,
+  blueprint,
+  type TextApi,
   type TextClasses,
   type TextEmits,
   type TextExpose,
   type TextParts,
-  type TextApi,
-} from '@vueform/core/blueprints/text'
+  type TextProps,
+  type TextSlots,
+} from '#core/blueprints/text'
 
-export type VfTestProps = WidenProps<VfTestGenericProps, TextProps<string>>
-
-export interface VfTestGenericProps<
+/**
+ * Prop definitions.
+ *
+ * @example
+ *   custom?: any
+ */
+export interface VfTestProps<
   TTranslate extends boolean = boolean,
   TLanguages extends LanguagesProp = LanguagesProp,
->
-  extends
-    TextProps<
-      'test',
-      TTranslate,
-      TLanguages,
-      VfTestSlots<TTranslate, TLanguages>,
-      VfTestParts,
-      VfTestClasses,
-      VfTestContext
-    >,
-    /* @vue-ignore */ PartProps<VfTestParts, VfTestContext>,
-    /* @vue-ignore */ ClassProps<VfTestClasses, VfTestContext>,
-    /* @vue-ignore */ ReclassProps<VfTestClasses, VfTestContext> {
+> extends TextProps<
+  'test',
+  TTranslate,
+  TLanguages,
+  VfTestSlots<TTranslate, TLanguages>,
+  VfTestParts,
+  VfTestClasses,
+  VfTestContext<VfTestProps<TTranslate, TLanguages>>
+> {
   /**
    * Source prop that factory defaults derive from in tests.
    */
@@ -98,33 +94,25 @@ export interface VfTestGenericProps<
 export interface VfTestEmits<
   TTranslate extends boolean = boolean,
   TLanguages extends LanguagesProp = LanguagesProp,
-> extends TextEmits<
-  VfTestContext<VfTestGenericProps<TTranslate, TLanguages>>
-> {}
+> extends TextEmits<VfTestContext<VfTestProps<TTranslate, TLanguages>>> {}
 
 export interface VfTestSlots<
   TTranslate extends boolean = boolean,
   TLanguages extends LanguagesProp = LanguagesProp,
 >
   extends
-    TextSlots<VfTestContext<VfTestGenericProps<TTranslate, TLanguages>>>,
+    TextSlots<VfTestContext<VfTestProps<TTranslate, TLanguages>>>,
     AddonsSlots,
     IconsSlots,
     TranslateSlots {}
 
 export interface VfTestParts
   extends TextParts, AddonsParts, AddonGroupParts, IconsParts, TranslateParts {
-  /**
-   * The text input element.
-   *
-   * @tag input
-   */
   input: DomAttrsOf<'input'>
 }
 
 export interface VfTestClasses
   extends TextClasses, AddonGroupClasses, IconsClasses {
-  root: ClassValue
   input: (foo: string, bar: number) => ClassValue
   foo: ClassValue
   bar: ClassValue
@@ -138,7 +126,7 @@ export interface VfTestClasses
 export interface VfTestExpose extends TextExpose {}
 
 export interface VfTestContext<
-  TProps extends VfTestProps = VfTestGenericProps,
+  TProps extends WidenProps<VfTestProps, TextProps<string>> = VfTestProps,
 > extends DefineElementContext<
   TProps,
   VfTestEmits,
@@ -149,51 +137,32 @@ export interface VfTestContext<
   TextApi<TProps>
 > {}
 
-defineOptions({ name: 'VfTest', element: true, inheritAttrs: false })
+defineOptions({
+  name: 'VfTest',
+  element: true,
+  inheritAttrs: false,
+  expressionable: true,
+  nullValue: (props) => (props.translate ? {} : null),
+})
 defineEmits<VfTestEmits<TTranslate, TLanguages>>()
 
-// Factory defaults that depend on other props (or must not be shared) go through
-// Vue's withDefaults — same path as production blueprints.
-const props = withDefaults(
-  defineProps<VfTestGenericProps<TTranslate, TLanguages>>(),
-  {
-    ...defaults,
-    type: 'test',
-    testStatic: 'static-default',
-    testDerived: (props) => `${props.testSource}-derived`,
-    testFn: (value: string) => `fn-${value}`,
-    testObj: () => ({ a: 1, b: 2 }),
-    testArr: () => ['a', 'b'],
-    presets: (props) => props.testPresets ?? [],
-  }
-)
-const events = defineEvents<VfTestEmits>()
+const props = withDefaults(defineProps<VfTestProps<TTranslate, TLanguages>>(), {
+  ...defaults,
+  type: 'test',
+  testStatic: 'static-default',
+  testDerived: (props) => `${props.testSource}-derived`,
+  testFn: (value: string) => `fn-${value}`,
+  testObj: () => ({ a: 1, b: 2 }),
+  testArr: () => ['a', 'b'],
+  presets: (props) => props.testPresets ?? [],
+})
+const events = defineEvents<VfTestEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfTestSlots<TTranslate, TLanguages>>()
 
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-const {
-  value,
-  id,
-  readonly,
-  placeholder,
-  viewLoaded,
-  disabled,
-  aria,
-  input,
-  name,
-  handleKeydown,
-  handleKeyup,
-  handleKeypress,
-  handleInput,
-  handleFocus,
-  handleBlur,
-} = api
-
-const { inputType, autocomplete } = propRefs
-
-useClasses(({ disabled, focused, success, hasError }) => ({
+useClasses(({ success, focused, hasError }) => ({
   root: 'vf-text vf-offset-label',
   input: (foo: string, bar: number) => ({
     [`vf-${foo} vf-${bar}`]: true,
@@ -211,17 +180,34 @@ useClasses(({ disabled, focused, success, hasError }) => ({
   grault: 'grault',
 }))
 
+const {
+  value,
+  id,
+  loading,
+  readonly,
+  placeholder,
+  viewLoaded,
+  disabled,
+  aria,
+  input,
+  name,
+  handleKeydown,
+  handleKeyup,
+  handleKeypress,
+  handleFocus,
+  handleBlur,
+  handleInput,
+} = api
+
+const { inputType, autocomplete } = propRefs
+
 defineExpose(expose)
 </script>
 
 <template>
-  <slot v-if="viewLoaded" name="template" :context="context">
-    <component
-      v-if="outlets.template"
-      :is="outlets.template"
-      :context="context"
-    />
-    <VfLayout v-else-if="viewLoaded">
+  <slot v-if="viewLoaded" name="template" :context>
+    <component v-if="outlets.template" :is="outlets.template" :context />
+    <VfLayout v-else :loading>
       <input
         :type="inputType"
         :name
@@ -231,7 +217,7 @@ defineExpose(expose)
         :placeholder
         :autocomplete
         :disabled
-        :readonly
+        :readonly="readonly || undefined"
         v-bind="{
           ...aria,
           ...parts.input,
@@ -240,9 +226,9 @@ defineExpose(expose)
         @keydown="handleKeydown"
         @keyup="handleKeyup"
         @keypress="handleKeypress"
-        @input="handleInput"
         @blur="handleBlur"
         @focus="handleFocus"
+        @input="handleInput"
       />
       <div :class="classes.foo" />
       <div :class="classes.bar" />
@@ -254,29 +240,3 @@ defineExpose(expose)
     </VfLayout>
   </slot>
 </template>
-
-<script lang="ts">
-import type { DefineRegistryEntry } from '@vueform/core'
-
-declare module '@vueform/core' {
-  // The augmentation must repeat the interface's type parameter; the fixture
-  // entry doesn't narrow by it.
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  interface ControlRegistry<TEntry = Record<string, any>> {
-    VfTest: DefineRegistryEntry<
-      VfTestProps,
-      VfTestEmits,
-      VfTestSlots,
-      VfTestParts,
-      VfTestClasses,
-      VfTestContext<VfTestProps>
-    >
-  }
-}
-
-declare module 'vue' {
-  interface GlobalComponents {
-    VfTest: (typeof import('./VfTest.vue'))['default']
-  }
-}
-</script>

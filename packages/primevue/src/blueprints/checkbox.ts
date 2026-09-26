@@ -39,16 +39,16 @@ import {
   aliasProps,
 } from '@vueform/core'
 import { computed } from 'vue'
-import {
-  makeInfo,
-  type ModelPropsWithDefaultValue,
-  type InfoProps,
-} from '@/features'
-import type { ForwardedEmits } from '@/types'
+import type { ForwardedEmits } from '#primevue/types'
 import type {
   CheckboxProps as ACheckboxProps,
   CheckboxEmitsOptions as ACheckboxEmits,
 } from 'primevue/checkbox'
+import {
+  makeInfo,
+  type ModelPropsWithDefaultValue,
+  type InfoProps,
+} from '#primevue/features'
 
 /**
  * Checkbox model shape: the union of `trueValue` and `falseValue`.

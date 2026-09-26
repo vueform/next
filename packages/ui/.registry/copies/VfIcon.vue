@@ -5,13 +5,14 @@
  */
 
 import { useAttrs } from 'vue'
-import { defaults, blueprint } from '@vueform/ui/blueprints/icon'
-import { useBlueprint, defineEvents } from '@vueform/ui'
-import type {
-  VfIconEmits,
-  VfIconProps,
-  VfIconSlots,
+import {
+  type VfIconEmits,
+  type VfIconProps,
+  type VfIconSlots,
+  defaults,
+  blueprint,
 } from '@vueform/ui/components/VfIcon'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import '@vueform/ui/icon.css'
 import '@vueform/ui/animation.css'
 

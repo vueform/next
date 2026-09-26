@@ -7,8 +7,9 @@ interface ModelPropsWithDefault<T = any, TContext = any> extends ModelProps<
   TContext
 > {
   /**
-   * The default/initial value of the element.
+   * The default/initial value of the element. Being expressionable, a `{...}`
+   * expression string is accepted alongside the model type.
    */
-  default?: T
+  default?: T | ExpressionString
 }
 ```

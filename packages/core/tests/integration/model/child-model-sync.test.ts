@@ -1,6 +1,6 @@
-import { defineSchema } from '@vueform/core'
 import { nextTick } from 'vue'
 import { createForm, makeApp, mountApp, vModelAndChange } from '../../helpers'
+import { defineSchema } from '#core'
 
 /**
  * These tests cover the change-detection paths that depend on the child model's
