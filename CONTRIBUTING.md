@@ -61,10 +61,6 @@ When a commit has secondary effects in other packages worth noting, keep the sub
 - Keep it under 72 characters.
 - Say **what** and **why** — the diff already shows the how. Put the why (root cause, constraint, rejected alternative) in the body.
 
-### Auto-squash on identical messages
-
-A `post-commit` hook folds a commit into its predecessor when both carry the **exact same message** — committing twice with one message is the "amend" gesture. It never rewrites merge commits or anything already pushed to the upstream. To opt out for one commit: `SQUASH_GUARD=1 git commit …`. Corollary: don't reuse lazy messages like `wip` for unrelated changes — they will be squashed together.
-
 ### One commit, one logical change
 
 Don't mix a refactor with a fix in the same commit. Small, atomic commits with accurate messages are worth more than perfectly formatted big ones — they keep review and `git bisect` useful.
