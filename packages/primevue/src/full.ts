@@ -10,7 +10,7 @@ import {
 import { en_US } from '@vueform/core/locales'
 import * as components from '#primevue/components'
 import defaultConfig from '#primevue/config'
-import * as modules from '#primevue/modules'
+import * as modules from '#primevue/modules/modules'
 import * as rules from '#primevue/rules'
 import { theme } from '#primevue/themes'
 

@@ -5,6 +5,7 @@
     "check": "tsx scripts/check.ts",
     "clean": "find . -name \"node_modules\" -type d -prune -exec rm -rf '{}' +",
     "docs:dev": "pnpm -r --filter docs run dev",
+    "docs:gen": "pnpm -r --filter docs run gen",
     "extract": "tsx scripts/api-extractor/extract.ts",
     "extract:issues": "tsx scripts/api-extractor/issues.ts",
     "extract:validate": "tsx scripts/api-extractor/validate.ts",

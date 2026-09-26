@@ -1,7 +1,8 @@
 {
   "name": "@vueform/docs",
   "scripts": {
-    "dev": "tsx scripts/run.ts dev"
+    "dev": "tsx scripts/run.ts dev",
+    "gen": "tsx scripts/gen.ts"
   },
   "dependencies": {
     "@primeuix/themes": "catalog:",
