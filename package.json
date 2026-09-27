@@ -24,6 +24,7 @@
     "prepare": "husky",
     "re": "pnpm clean && pnpm install",
     "registry": "tsx scripts/registry.ts",
+    "size": "tsx scripts/size.ts",
     "test": "tsx scripts/test.ts",
     "usage": "tsx scripts/usage.ts",
     "verify": "tsx scripts/verify.ts"
