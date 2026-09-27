@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "name": "VfCol",
   "type": "component",
-  "package": "@vueform/primevue",
+  "package": "@vueform/ui",
   "version": "2.0.0-alpha.1",
   "description": "VfCol component",
   "files": [
@@ -10,13 +10,13 @@
       "path": "VfCol.vue",
       "target": "{componentsDir}/VfCol.vue",
       "kind": "component",
-      "hash": "sha256:d3a19b6bc3bbd521d5a8d157e4aadfbedca9f249b944b7efb7d718efb9f5bb3e"
+      "hash": "sha256:2f8d76591befef189e8b97f8b83330ea623da60a6f8b6f5bc96791806af79606"
     }
   ],
   "imports": [
-    "@vueform/primevue/components/VfCol",
-    "@vueform/primevue",
-    "@vueform/primevue/grid.css"
+    "@vueform/ui/components/VfCol",
+    "@vueform/ui",
+    "@vueform/ui/grid.css"
   ],
   "dependencies": {},
   "registryDependencies": [],
@@ -27,5 +27,5 @@
     "component": "VfCol",
     "import": "{componentsDir}/VfCol.vue"
   },
-  "docs": "How to customize the copy:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
+  "docs": "How to customize the copy:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
 }

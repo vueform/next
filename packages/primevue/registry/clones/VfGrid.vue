@@ -2,7 +2,7 @@
 /**
  * VfCloneName — a custom element created from Vueform's `grid` blueprint.
  *
- * @see https://ui.vueform.com/guide/components#building-on-blueprints
+ * @see https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
 import {
@@ -16,7 +16,7 @@ import {
   type GridParts,
   type GridProps,
   type GridSlots,
-} from '@vueform/ui/blueprints/grid'
+} from '@vueform/primevue/blueprints/grid'
 import {
   useBlueprint,
   defineEvents,
@@ -26,9 +26,8 @@ import {
   type DomAttrsOf,
   type ValignProp,
   type WidenProps,
-} from '@vueform/ui'
-import '@vueform/ui/grid.css'
-import '@vueform/ui/tabular.css'
+} from '@vueform/primevue'
+import '@vueform/primevue/grid.css'
 import type { VNode } from 'vue'
 
 /**
@@ -51,7 +50,7 @@ export interface VfCloneNameProps extends GridProps<
  * @example
  *   custom: [arg1: any, arg2: any, context$: VfCloneNameContext]
  *
- * @see https://ui.vueform.com/guide/event-handlers
+ * @see https://primevue.vueform.com/guide/event-handlers
  */
 export interface VfCloneNameEmits extends GridEmits<VfCloneNameContext> {}
 
@@ -61,7 +60,7 @@ export interface VfCloneNameEmits extends GridEmits<VfCloneNameContext> {}
  * @example
  *   custom: (props: { prop1: any; prop2: any }) => import('vue').VNode[]
  *
- * @see https://ui.vueform.com/guide/slots
+ * @see https://primevue.vueform.com/guide/slots
  */
 export interface VfCloneNameSlots extends GridSlots<VfCloneNameContext> {
   /**
@@ -80,10 +79,10 @@ export interface VfCloneNameSlots extends GridSlots<VfCloneNameContext> {
  * Part definitions.
  *
  * @example
- *   tag: import('@vueform/ui').DomAttrsOf<'div'>
- *   component: import('@vueform/ui').PartOf<'VfButton'>
+ *   tag: import('@vueform/primevue').DomAttrsOf<'div'>
+ *   component: import('@vueform/primevue').PartOf<'VfButton'>
  *
- * @see https://ui.vueform.com/guide/parts
+ * @see https://primevue.vueform.com/guide/parts
  */
 export interface VfCloneNameParts extends GridParts {
   /**
@@ -112,10 +111,10 @@ export interface VfCloneNameParts extends GridParts {
  * Class definitions.
  *
  * @example
- *   plain: import('@vueform/ui').ClassValue
- *   dynamic: (arg1: any, arg2: any) => import('@vueform/ui').ClassValue
+ *   plain: import('@vueform/primevue').ClassValue
+ *   dynamic: (arg1: any, arg2: any) => import('@vueform/primevue').ClassValue
  *
- * @see https://ui.vueform.com/guide/classes
+ * @see https://primevue.vueform.com/guide/classes
  */
 export interface VfCloneNameClasses extends GridClasses {
   /**
@@ -151,7 +150,7 @@ export interface VfCloneNameClasses extends GridClasses {
  *   vueRef: import('vue').Ref<string>
  *   method: (arg1: any, arg2: any) => string
  *
- * @see https://ui.vueform.com/guide/components#expose-interface
+ * @see https://primevue.vueform.com/guide/components#expose-interface
  */
 export interface VfCloneNameExpose extends GridExpose {}
 
@@ -224,7 +223,7 @@ const slots = defineSlots<VfCloneNameSlots>()
  *     method: (arg1: any, arg2: any) => '',
  *   }))
  *
- * @see https://ui.vueform.com/guide/components#extending-the-logic
+ * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
@@ -233,7 +232,7 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  * The element's own classes, per part — reactive via the callback's api refs.
  * The class keys come from VfCloneNameClasses above.
  *
- * @see https://ui.vueform.com/guide/classes
+ * @see https://primevue.vueform.com/guide/classes
  */
 useClasses(({ props, fitWidth, gridClass }) => ({
   root: {
@@ -264,8 +263,14 @@ useClasses(({ props, fitWidth, gridClass }) => ({
     rowHeader?: boolean
   }) => ({
     'vf-grid-cell': true,
-    [`vf-${align}`]: true,
-    [`vf-${valign}`]: true,
+    'vf-left': align === 'left',
+    'vf-center': align === 'center',
+    'vf-right': align === 'right',
+    'vf-justify': align === 'justify',
+    'vf-top': valign === 'top',
+    'vf-middle': valign === 'middle',
+    'vf-bottom': valign === 'bottom',
+    'vf-baseline': valign === 'baseline',
     'vf-grid-col-header': !!colHeader,
     'vf-grid-row-header': !!rowHeader,
   }),
@@ -286,7 +291,7 @@ import type {
   IsAny,
   ObjectModel,
   SchemaToModel,
-} from '@vueform/ui'
+} from '@vueform/primevue'
 import type { Ref } from 'vue'
 
 type EntryGridOf<TEntry> =

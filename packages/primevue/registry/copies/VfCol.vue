@@ -37,8 +37,14 @@ useClasses(() => ({
     rowHeader: boolean
   }) => ({
     'vf-grid-cell': true,
-    [`vf-${align}`]: !!align,
-    [`vf-${valign}`]: !!align,
+    'vf-left': align === 'left',
+    'vf-center': align === 'center',
+    'vf-right': align === 'right',
+    'vf-justify': align === 'justify',
+    'vf-top': valign === 'top',
+    'vf-middle': valign === 'middle',
+    'vf-bottom': valign === 'bottom',
+    'vf-baseline': valign === 'baseline',
     'vf-grid-col-header': colHeader,
     'vf-grid-row-header': rowHeader,
   }),
