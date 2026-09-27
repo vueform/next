@@ -9,7 +9,8 @@
     }
   },
   "bin": {
-    "vf-registry": "./dist/registry-cli.js"
+    "vf-registry": "./dist/registry-cli.js",
+    "vf-size": "./dist/size-cli.js"
   },
   "files": [
     "dist"
@@ -23,6 +24,7 @@
     "ajv": "catalog:",
     "fast-glob": "catalog:",
     "prettier": "catalog:",
+    "rollup-plugin-visualizer": "catalog:",
     "typescript": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vue": "catalog:"

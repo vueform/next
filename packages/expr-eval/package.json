@@ -15,12 +15,15 @@
   ],
   "scripts": {
     "build": "vite build",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "size": "vf-size",
+    "size:report": "vf-size --report"
   },
   "dependencies": {
     "expr-eval-fork": "catalog:"
   },
   "devDependencies": {
+    "@vueform/ui": "workspace:^",
     "@vueform/utils": "workspace:^",
     "vite": "catalog:"
   },
@@ -29,6 +32,11 @@
     "vue": "catalog:peer"
   },
   "vueform": {
-    "group": "plugins"
+    "group": "plugins",
+    "size": {
+      "dep": "expr-eval-fork",
+      "depImport": "import { Parser } from 'expr-eval-fork'",
+      "depRetain": "console.log(Parser.evaluate('1 + 2'))"
+    }
   }
 }

@@ -13,6 +13,7 @@ dist
 cache
 *.local
 *.tsbuildinfo
+size.json
 
 # Editor directories and files
 .vscode/*

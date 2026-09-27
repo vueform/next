@@ -110,7 +110,9 @@
   "scripts": {
     "build": "vite build",
     "check": "vue-tsc --incremental --noEmit",
-    "registry": "vf-registry"
+    "registry": "vf-registry",
+    "size": "vf-size",
+    "size:report": "vf-size --report"
   },
   "dependencies": {
     "@vueform/cli": "workspace:^",

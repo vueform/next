@@ -13,3 +13,10 @@ export { createVitestConfig } from './vitest'
 export type { VitestConfig, VitestOptions } from './vitest'
 export { generateRegistry } from './registry'
 export type { RegistryOptions } from './registry'
+export { runSize } from './size/run'
+export type { RunSizeOptions } from './size/run'
+export type {
+  MeasurementType,
+  Results as SizeResults,
+  SizeConfig,
+} from './size/types'

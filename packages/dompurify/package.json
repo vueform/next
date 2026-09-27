@@ -15,12 +15,15 @@
   ],
   "scripts": {
     "build": "vite build",
-    "check": "tsc --noEmit"
+    "check": "tsc --noEmit",
+    "size": "vf-size",
+    "size:report": "vf-size --report"
   },
   "dependencies": {
     "isomorphic-dompurify": "catalog:"
   },
   "devDependencies": {
+    "@vueform/ui": "workspace:^",
     "@vueform/utils": "workspace:^",
     "vite": "catalog:"
   },
@@ -29,6 +32,11 @@
     "vue": "catalog:peer"
   },
   "vueform": {
-    "group": "plugins"
+    "group": "plugins",
+    "size": {
+      "dep": "isomorphic-dompurify",
+      "depImport": "import DOMPurify from 'isomorphic-dompurify'",
+      "depRetain": "console.log(DOMPurify.sanitize('<b>vueform</b>'))"
+    }
   }
 }

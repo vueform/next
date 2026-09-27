@@ -75,6 +75,7 @@
   "scripts": {
     "build": "vite build",
     "check": "vue-tsc --incremental --noEmit",
+    "size": "vf-size",
     "test": "vitest --maxWorkers=16"
   },
   "devDependencies": {
