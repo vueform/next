@@ -175,9 +175,10 @@ export default [
       'docs/**',
       'packages/metrics/**',
       'packages/scraper/**',
-      // The CLI publishes as a plain NodeNext package — relative imports
-      // are its module system, there are no aliases to prefer.
+      // The CLI and utils publish as plain NodeNext packages — relative
+      // imports are their module system, there are no aliases to prefer.
       'packages/cli/**',
+      'packages/utils/**',
       '**/scripts/**',
     ],
     plugins: {
@@ -267,13 +268,16 @@ export default [
   },
 
   // ── Per-area relaxations ──────────────────────────────────────────────
-  // CLI scripts and the published CLI are console apps.
+  // CLI scripts and the published CLI are console apps, as are the modules
+  // behind utils' vf-size / vf-validate-build bins — their terminal output
+  // is the product.
   {
     files: [
       'docs/scripts/**/*.ts',
       '**/scripts/**/*.{ts,mjs}',
       'packages/scraper/**/*.ts',
       'packages/cli/**/*.ts',
+      'packages/utils/**/*.ts',
     ],
     rules: {
       'no-console': 'off',

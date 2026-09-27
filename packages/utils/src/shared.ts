@@ -446,7 +446,7 @@ export function shorthandProps(distAbs: string, helpersFrom: string): Plugin {
           skipped.length > 0
             ? ` (skipped ${skipped.length}: ${skipped.slice(0, 3).join('; ')}${skipped.length > 3 ? '…' : ''})`
             : ''
-        // eslint-disable-next-line no-console
+         
         console.info(
           `[vf:shorthand-props] wrote ${written} shorthands.d.ts${skipNote}`
         )

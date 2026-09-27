@@ -21,6 +21,15 @@ import type {
 } from './types'
 import type { Plugin } from 'vite'
 
+interface Manifest {
+  name: string
+  version?: string
+  vueform?: {
+    group?: string
+    size?: SizeConfig
+  }
+}
+
 export interface RunSizeOptions {
   /**
    * The measured package's directory (the invoking package's cwd).
@@ -45,15 +54,6 @@ export interface RunSizeOptions {
    * without building anything.
    */
   report?: boolean
-}
-
-interface Manifest {
-  name: string
-  version?: string
-  vueform?: {
-    group?: string
-    size?: SizeConfig
-  }
 }
 
 function readManifest(dir: string): Manifest {

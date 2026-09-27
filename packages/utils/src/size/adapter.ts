@@ -33,16 +33,22 @@ import 'primeicons/primeicons.css'`,
 }
 
 /**
- * Lists every component directory of an adapter package.
+ * Extra code injected into a generated entry, used by suites that build on top
+ * of the adapter scenarios (e.g. plugins).
  */
-export function adapterComponents(pkgDir: string): string[] {
-  const dir = resolve(pkgDir, 'src/components')
-  return readdirSync(dir)
-    .filter(
-      (name) =>
-        name.startsWith('Vf') && statSync(resolve(dir, name)).isDirectory()
-    )
-    .sort()
+export interface EntryExtras {
+  /**
+   * Additional import lines.
+   */
+  imports?: string[]
+  /**
+   * Additional createVueform() config lines (must end with a comma).
+   */
+  config?: string[]
+  /**
+   * Statements placed between the imports and createApp().
+   */
+  statements?: string[]
 }
 
 /**
@@ -62,25 +68,6 @@ function themeNames(pkgDir: string): string[] {
       )
     )
     .sort()
-}
-
-/**
- * Extra code injected into a generated entry, used by suites that build on top
- * of the adapter scenarios (e.g. plugins).
- */
-export interface EntryExtras {
-  /**
-   * Additional import lines.
-   */
-  imports?: string[]
-  /**
-   * Additional createVueform() config lines (must end with a comma).
-   */
-  config?: string[]
-  /**
-   * Statements placed between the imports and createApp().
-   */
-  statements?: string[]
 }
 
 /**
@@ -163,29 +150,6 @@ function allComponentsEntry(
 }
 
 /**
- * An adapter's `full` scenario entry with optional extra code, so other suites
- * (e.g. plugins) can build on the exact same base and stay in sync with it.
- */
-export function adapterFullEntry(
-  pkgDir: string,
-  pkg: string,
-  config: SizeConfig,
-  extras?: EntryExtras
-): string {
-  const all = adapterComponents(pkgDir)
-  return createVueformEntry({
-    pkg,
-    theme: config.defaultTheme ?? 'origin',
-    shell: pkg === '@vueform/primevue' ? PV_SHELL : undefined,
-    componentImports: all
-      .map((name) => `import ${name} from '${pkg}/components/${name}'`)
-      .join('\n'),
-    componentsValue: `{ ${all.join(', ')} }`,
-    extras,
-  })
-}
-
-/**
  * Minimal build with the theme module registered, optionally plus one theme
  * entry (tokens + structural CSS) — the base and subjects of the Themes table.
  */
@@ -234,6 +198,42 @@ app.directive('tooltip', Tooltip)
 app.use(PrimeVue, { theme: { preset: Aura } })
 ${registrations.join('\n')}${registrations.length ? '\n' : ''}app.mount('#app')
 `
+}
+
+/**
+ * Lists every component directory of an adapter package.
+ */
+export function adapterComponents(pkgDir: string): string[] {
+  const dir = resolve(pkgDir, 'src/components')
+  return readdirSync(dir)
+    .filter(
+      (name) =>
+        name.startsWith('Vf') && statSync(resolve(dir, name)).isDirectory()
+    )
+    .sort()
+}
+
+/**
+ * An adapter's `full` scenario entry with optional extra code, so other suites
+ * (e.g. plugins) can build on the exact same base and stay in sync with it.
+ */
+export function adapterFullEntry(
+  pkgDir: string,
+  pkg: string,
+  config: SizeConfig,
+  extras?: EntryExtras
+): string {
+  const all = adapterComponents(pkgDir)
+  return createVueformEntry({
+    pkg,
+    theme: config.defaultTheme ?? 'origin',
+    shell: pkg === '@vueform/primevue' ? PV_SHELL : undefined,
+    componentImports: all
+      .map((name) => `import ${name} from '${pkg}/components/${name}'`)
+      .join('\n'),
+    componentsValue: `{ ${all.join(', ')} }`,
+    extras,
+  })
 }
 
 export function adapterScenarios(

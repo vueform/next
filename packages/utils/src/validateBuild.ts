@@ -41,6 +41,19 @@ import path from 'node:path'
 
 import { findWorkspaceRoot } from './shared'
 
+interface Occurrence {
+  provider: string
+  /**
+   * Every other class in the whole selector.
+   */
+  mates: Set<string>
+  /**
+   * The subset of `mates` sharing a compound with the class — classes that
+   * must sit on the same element for the rule to apply.
+   */
+  compoundMates: Set<string>
+}
+
 /**
  * Adapter-specific validation data under `vueform.validateBuild` in the adapter's
  * manifest.
@@ -68,19 +81,6 @@ export interface ValidateBuildOptions {
    * used to seed/refresh the sidecars.
    */
   suggest?: boolean
-}
-
-interface Occurrence {
-  provider: string
-  /**
-   * Every other class in the whole selector.
-   */
-  mates: Set<string>
-  /**
-   * The subset of `mates` sharing a compound with the class — classes that
-   * must sit on the same element for the rule to apply.
-   */
-  compoundMates: Set<string>
 }
 
 function stripParens(selector: string): string {
