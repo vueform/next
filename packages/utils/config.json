@@ -1,0 +1,6 @@
+{
+  "classWhitelist": {
+    "global": ["vf-col-*", "vf-horizontal", "vf-vertical"],
+    "primevue": ["pi", "p-*"]
+  }
+}

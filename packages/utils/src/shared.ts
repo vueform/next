@@ -61,6 +61,22 @@ export const SHORTHANDS_VIRTUAL = '\0vueform-shorthands-marker'
 // the "default" condition.
 const CSS_NODE_SHIM = 'export {}\n'
 
+/**
+ * The pnpm workspace root above `from` — the anchor for cross-package paths
+ * (e.g. a tool run in an adapter reading the core package's artifacts).
+ */
+export function findWorkspaceRoot(from: string): string {
+  let dir = from
+  for (;;) {
+    if (existsSync(join(dir, 'pnpm-workspace.yaml'))) return dir
+    const parent = dirname(dir)
+    if (parent === dir) {
+      throw new Error(`No pnpm-workspace.yaml found above ${from}.`)
+    }
+    dir = parent
+  }
+}
+
 export function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }

@@ -7,6 +7,7 @@ import {
 } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 
+import { findWorkspaceRoot } from '../shared'
 import { adapterScenarios } from './adapter'
 import { coreScenarios } from './core'
 import { measureDir } from './measure'
@@ -70,18 +71,6 @@ function measurementType(manifest: Manifest): MeasurementType {
   throw new Error(
     `${manifest.name} has no size suite — only @vueform/core, adapters and plugins are measured.`
   )
-}
-
-function findWorkspaceRoot(from: string): string {
-  let dir = from
-  for (;;) {
-    if (existsSync(join(dir, 'pnpm-workspace.yaml'))) return dir
-    const parent = dirname(dir)
-    if (parent === dir) {
-      throw new Error(`No pnpm-workspace.yaml found above ${from}.`)
-    }
-    dir = parent
-  }
 }
 
 /**
