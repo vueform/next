@@ -6,13 +6,16 @@
  *
  * How it works:
  *
- * 1. Parses the compiled chunks of every package the adapter draws from into a
- *    multi-valued class → (provider) index, where a provider is `own:<chunk>`
- *    (the adapter's own scss) or `core:<chunk>` (a core chunk the adapter's
- *    aggregate recipe layers under its own). A class occurrence is gated by its
- *    compound selector: `.vf-btn.vf-text` only counts for components that also
- *    emit `vf-btn`. `@keyframes` names are tracked so chunks that animate with
- *    another chunk's keyframes require it.
+ * 1. Compiles every chunk the adapter draws from — its own `src/scss` files
+ *    plus any layered core chunks — with sass on the fly (no dist needed, so
+ *    it runs before the build and always reflects the current sources) and
+ *    parses them into a multi-valued class → (provider) index, where a
+ *    provider is `own:<chunk>` (the adapter's own scss) or `core:<chunk>` (a
+ *    core chunk the adapter's aggregate recipe layers under its own). A class
+ *    occurrence is gated by its compound selector: `.vf-btn.vf-text` only
+ *    counts for components that also emit `vf-btn`. `@keyframes` names are
+ *    tracked so chunks that animate with another chunk's keyframes require
+ *    it.
  * 2. Collects each component's emitted classes: string literals in its SFC
  *    sources (the adapter's own, falling back to core's for re-exported
  *    components). The adapter config's baseClasses (`*element`) attribute to
@@ -38,8 +41,9 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
+import { pathToFileURL } from 'node:url'
 
-import { findWorkspaceRoot } from './shared'
+import { findWorkspaceRoot, loadSassCompiler } from './shared'
 
 interface Occurrence {
   provider: string
@@ -152,8 +156,8 @@ export function validateBuild(options: ValidateBuildOptions): number {
   const root = findWorkspaceRoot(pkgDir)
   const componentsDir = path.join(pkgDir, 'src/components')
   const configFile = path.join(pkgDir, 'src/config.ts')
-  const ownCssDir = path.join(pkgDir, 'dist/css')
-  const coreCssDir = path.join(root, 'packages/core/dist/css')
+  const ownScssDir = path.join(pkgDir, 'src/scss')
+  const coreScssDir = path.join(root, 'packages/core/src/scss')
   const coreComponentsDir = path.join(root, 'packages/core/src/components')
 
   // -------------------------------------------------------------------------
@@ -230,26 +234,44 @@ export function validateBuild(options: ValidateBuildOptions): number {
     }
   }
 
-  if (!fs.existsSync(ownCssDir)) {
+  if (!fs.existsSync(ownScssDir)) {
     console.error(
-      `[validate:build] ${path.relative(root, ownCssDir)} not found — build first`
+      `[validate:build] ${path.relative(root, ownScssDir)} not found`
     )
     return 1
   }
 
+  // Chunks are compiled from the scss sources on the fly — the same compiler
+  // and package-specifier importer the build's themeScss plugin uses — so
+  // validation runs before any build exists and always reflects the current
+  // sources. `theme.scss` is the aggregate recipe, never a chunk.
+  const sass = loadSassCompiler(pkgDir)
+  const importers = [
+    {
+      findFileUrl(url: string) {
+        return url.startsWith('@vueform/core/')
+          ? pathToFileURL(
+              path.join(coreScssDir, url.slice('@vueform/core/'.length))
+            )
+          : null
+      },
+    },
+  ]
+  const compileChunk = (file: string): string =>
+    sass.compile(file, { style: 'expanded', importers }).css
+
   for (const file of fs
-    .readdirSync(ownCssDir)
-    .filter((f) => f.endsWith('.css'))) {
-    if (file === 'theme.css') continue
+    .readdirSync(ownScssDir)
+    .filter((f) => f.endsWith('.scss'))) {
+    if (file === 'theme.scss') continue
     parseChunk(
-      `own:${path.basename(file, '.css')}`,
-      fs.readFileSync(path.join(ownCssDir, file), 'utf8')
+      `own:${path.basename(file, '.scss')}`,
+      compileChunk(path.join(ownScssDir, file))
     )
   }
   for (const chunk of config.coreRecipeChunks ?? []) {
-    const file = path.join(coreCssDir, `${chunk}.css`)
-    if (fs.existsSync(file))
-      parseChunk(`core:${chunk}`, fs.readFileSync(file, 'utf8'))
+    const file = path.join(coreScssDir, `${chunk}.scss`)
+    if (fs.existsSync(file)) parseChunk(`core:${chunk}`, compileChunk(file))
   }
 
   // -------------------------------------------------------------------------

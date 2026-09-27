@@ -2,9 +2,10 @@
 /**
  * `vf-validate-build`: validates the invoking adapter package's per-component
  * styles.ts imports against the classes its components emit (see
- * `validateBuild.ts`). Runs from the adapter's own directory as the second
- * half of its `build` script (`vite build && vf-validate-build`), so a drifted
- * styles.ts fails the build.
+ * `validateBuild.ts`). Works purely from the sources (chunks are compiled
+ * from `src/scss` on the fly), so it runs from the adapter's own directory as
+ * the FIRST half of its `build` script (`vf-validate-build && vite build`) —
+ * a drifted styles.ts fails the build before anything is bundled.
  *
  *     vf-validate-build [--verbose] [--suggest]
  *

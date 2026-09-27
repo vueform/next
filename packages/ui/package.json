@@ -108,7 +108,7 @@
     "registry"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vf-validate-build && vite build",
     "check": "vue-tsc --incremental --noEmit",
     "registry": "vf-registry",
     "size": "vf-size",
