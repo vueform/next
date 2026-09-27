@@ -42,10 +42,15 @@
       "vapor": "./dist/vapor/components/*/index.mjs",
       "import": "./dist/components/*/index.mjs"
     },
-    "./components/*": {
+    "./components/*/unstyled": {
       "types": "./dist/components/*/unstyled.d.ts",
       "vapor": "./dist/vapor/components/*/unstyled.mjs",
       "import": "./dist/components/*/unstyled.mjs"
+    },
+    "./components/*": {
+      "types": "./dist/components/*/styled.d.ts",
+      "vapor": "./dist/vapor/components/*/styled.mjs",
+      "import": "./dist/components/*/styled.mjs"
     },
     "./locales": {
       "types": "./dist/locales/index.d.ts",
@@ -112,6 +117,7 @@
     "check": "vue-tsc --incremental --noEmit",
     "registry": "vf-registry",
     "size": "vf-size",
+    "size:report": "vf-size --report",
     "validate": "vf-validate-source"
   },
   "dependencies": {

@@ -20,10 +20,10 @@ export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const packagesDir = join(repoRoot, 'packages')
 
 /**
- * Local orchestrator artifacts (recorded durations, captured messages);
- * gitignored.
+ * Local orchestrator artifacts (recorded durations, captured messages) —
+ * kept inside node_modules so they stay out of sight and out of git.
  */
-export const outputDir = join(repoRoot, '.output')
+export const outputDir = join(repoRoot, 'node_modules/.vueform')
 mkdirSync(outputDir, { recursive: true })
 
 const isTTY = process.stdout.isTTY === true
@@ -474,7 +474,7 @@ async function runTask(
 
 export interface RunOptions {
   /**
-   * Namespace for duration records in `.output/times.json`, e.g. `build`.
+   * Namespace for duration records in `node_modules/.vueform/times.json`, e.g. `build`.
    */
   timesScope: string
   /**

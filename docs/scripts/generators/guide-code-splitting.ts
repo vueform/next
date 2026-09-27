@@ -5,11 +5,11 @@ import type {
   Results,
   ScenarioResult,
   Size,
-} from '../../../packages/metrics/size/lib/types'
+} from '../../../packages/utils/src/size/types'
 
 /**
  * Fills the measured bundle sizes of each adapter's code-splitting guide from
- * the metrics package's size suite results.
+ * the packages' size suite results (`pnpm size`, see utils' size runner).
  *
  * The page is authored by hand; this script only touches two kinds of marked
  * regions:
@@ -22,16 +22,16 @@ import type {
  *   measured all-included delta). A region may contain several tables; every
  *   other cell and the row order are left untouched.
  *
- * Sizes come from `packages/metrics/results/json/<adapter>.json`, and — for the
- * adapter-independent building blocks (modules, rules, locales) — from
- * `json/core.json`, the same way the suite's own report does. All values are
+ * Sizes come from each measured package's own
+ * `packages/<name>/node_modules/.vueform/size.json`, and — for the
+ * adapter-independent building blocks (modules, rules, locales) — from the
+ * core package's, the same way the suite's own report does. All values are
  * gzipped deltas.
  */
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
-const RESULTS_DIR = path.join(ROOT, 'packages', 'metrics', 'results', 'json')
 const DOCS_CONFIG_JSON = path.join(DOCS_ROOT, 'config.json')
 
 const METRIC: keyof Size = 'gzip'
@@ -59,7 +59,14 @@ interface KindSizes {
 // ---------------------------------------------------------------------------
 
 function readResults(name: string): Results | undefined {
-  const file = path.join(RESULTS_DIR, `${name}.json`)
+  const file = path.join(
+    ROOT,
+    'packages',
+    name,
+    'node_modules',
+    '.vueform',
+    'size.json'
+  )
   return fs.existsSync(file)
     ? (JSON.parse(fs.readFileSync(file, 'utf-8')) as Results)
     : undefined
@@ -141,7 +148,7 @@ function collectKinds(
     if (own) return results
     if (!shared) {
       throw new Error(
-        `No "${group}" scenarios for "${results.adapter}" and no results/json/core.json — run \`pnpm size --core\` in packages/metrics/ first`
+        `No "${group}" scenarios for "${results.pkg}" and no core size.json — run \`pnpm size --core\` at the repo root first`
       )
     }
     return shared
@@ -256,9 +263,11 @@ function collectStats(
   set('module-theme', moduleSize('theme'))
 
   const env = results.environment
-  const adapterPkg = `@vueform/${results.adapter}`
-  if (env?.packages[adapterPkg]) {
-    stats.set('measured-with', `\`${adapterPkg}@${env.packages[adapterPkg]}\``)
+  if (env?.packages[results.pkg]) {
+    stats.set(
+      'measured-with',
+      `\`${results.pkg}@${env.packages[results.pkg]}\``
+    )
   }
 
   return stats
@@ -438,7 +447,7 @@ function main(): void {
     const results = readResults(adapter)
     if (!results) {
       throw new Error(
-        `results/json/${adapter}.json does not exist — run \`pnpm size --${adapter}\` in packages/metrics/ first`
+        `packages/${adapter} has no size.json — run \`pnpm size --${adapter}\` at the repo root first`
       )
     }
 
@@ -481,7 +490,7 @@ function main(): void {
     fs.writeFileSync(page, content)
 
     console.log(
-      `[code-splitting] ${adapter}: ${rows} sizes from packages/metrics/results/json → ${path.relative(ROOT, page)}`
+      `[code-splitting] ${adapter}: ${rows} sizes from packages/${adapter}'s size.json → ${path.relative(ROOT, page)}`
     )
   }
 }

@@ -7,7 +7,7 @@
  *
  * Issue-gathering semantics: every selected target runs even when earlier ones
  * report problems, so one run collects everything. Warn/error counts land on
- * each done line; errors are written to `.output/lint-errors.md`; the exit code
+ * each done line; errors are written to `node_modules/.vueform/lint-errors.md`; the exit code
  * is non-zero only when errors remain.
  */
 import { analyzeLintOutput, lintSummary, lintTotals } from './issues'

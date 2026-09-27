@@ -34,7 +34,7 @@ const DOCS_DIR = path.resolve(
 const GENERATORS: { id: string; alias: string }[] = [
   { id: 'guide-tokens', alias: 'tokens' },
   { id: 'guide-locales', alias: 'locales' },
-  // { id: 'guide-code-splitting', alias: 'code-splitting' },
+  { id: 'guide-code-splitting', alias: 'code-splitting' },
   // { id: 'guide-benchmark', alias: 'benchmark' },
   { id: 'reference-composables', alias: 'composables' },
   { id: 'reference-helpers', alias: 'helpers' },

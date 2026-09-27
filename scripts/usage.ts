@@ -81,7 +81,7 @@ console.log(
     line(
       'test',
       '[packages]',
-      'run package test suites; warns land in .output/test-issues.md',
+      'run package test suites; warns land in node_modules/.vueform/test-issues.md',
       [resume]
     ),
     line(

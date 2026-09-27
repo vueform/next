@@ -153,10 +153,11 @@ function duplicateGuard(scenarioName: string): Plugin {
 /**
  * Measures the invoking package's bundle-size suite: generates a transient
  * fixture app under the package's node_modules cache (removed after the run),
- * builds every scenario with Vite, and writes the raw results to `size.json`
+ * builds every scenario with Vite, and writes the raw results to the
+ * package's `node_modules/.vueform/size.json`
  * plus — for adapters and plugins — the markdown report into the README's
  * size section. Adapter reports embed the core package's building-block
- * numbers from its committed `size.json`.
+ * numbers from its size.json.
  */
 export async function runSize(options: RunSizeOptions): Promise<void> {
   const pkgDir = resolve(options.packageDir)
@@ -167,11 +168,11 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
   const coreDir = resolve(root, 'packages/core')
   const uiDir = resolve(root, 'packages/ui')
 
-  // Committed results live directly in the package; the fixture is scratch —
-  // it only has to sit inside the package so its imports resolve against the
-  // package's node_modules, so it is generated into the node_modules cache
-  // and removed after the run.
-  const resultsFile = resolve(pkgDir, 'size.json')
+  // Results and the fixture both live inside the package's node_modules —
+  // results under .vueform to stay out of sight and out of git, the fixture
+  // under the cache because its imports must resolve against the package's
+  // node_modules; the fixture is removed after the run.
+  const resultsFile = resolve(pkgDir, 'node_modules/.vueform/size.json')
   const cacheDir = resolve(pkgDir, 'node_modules/.cache/vf-size')
   const fixtureDir = resolve(cacheDir, 'fixture')
 
@@ -180,7 +181,7 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
    * embedding the core package's committed building blocks for adapters.
    */
   function writeReadme(results: Results): string {
-    const sharedFile = resolve(coreDir, 'size.json')
+    const sharedFile = resolve(coreDir, 'node_modules/.vueform/size.json')
     const shared: Results | undefined =
       type === 'adapter' && existsSync(sharedFile)
         ? JSON.parse(readFileSync(sharedFile, 'utf8'))
@@ -188,7 +189,7 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
 
     if (type === 'adapter' && !shared) {
       console.warn(
-        'packages/core/size.json is missing — the report will lack the module/rule/locale tables. Run `pnpm size` in packages/core first.'
+        "core's size.json is missing — the report will lack the module/rule/locale tables. Run `pnpm size` in packages/core first."
       )
     }
 
@@ -246,9 +247,12 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
   }
 
   // The adapter report embeds the core building blocks from the core
-  // package's size.json (gitignored) — measure core first when it is missing.
-  if (type === 'adapter' && !existsSync(resolve(coreDir, 'size.json'))) {
-    console.log('packages/core/size.json is missing — measuring core first.\n')
+  // package's size.json — measure core first when it is missing.
+  if (
+    type === 'adapter' &&
+    !existsSync(resolve(coreDir, 'node_modules/.vueform/size.json'))
+  ) {
+    console.log("core's size.json is missing — measuring core first.\n")
     await runSize({ packageDir: coreDir })
     console.log('')
   }
@@ -424,7 +428,7 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
   const written = [resultsFile]
 
   // Core has no report of its own — its building blocks are embedded into
-  // every adapter report from its committed size.json.
+  // every adapter report from its size.json.
   if (type !== 'core') {
     written.push(writeReadme(results))
   }

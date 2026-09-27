@@ -47,12 +47,12 @@ Each subpath maps to one config option:
 | `@vueform/ui/themes`     | The built-in [Themes](/guide/themes-tokens) and theme helpers               | [`theme`](/guide/configuration#theme)           |
 | `@vueform/ui/locales`    | The shipped [Locales](/guide/locales)                                       | [`locales`](/guide/configuration#locales)       |
 
-The bare entry registers nothing on its own. Its floor is <!-- @size:entry-core -->`4.63 kB`<!-- /@size --> gzipped, and the smallest _working_ build — core plus the required `model` module — lands at <!-- @size:entry-model -->`12.56 kB`<!-- /@size -->. Everything between that floor and the [full build](#pre-configured-entries) is your choice, made section by section below.
+The bare entry registers nothing on its own. Its floor is <!-- @size:entry-core -->`4.59 kB`<!-- /@size --> gzipped, and the smallest _working_ build — core plus the required `model` module — lands at <!-- @size:entry-model -->`12.37 kB`<!-- /@size -->. Everything between that floor and the [full build](#pre-configured-entries) is your choice, made section by section below.
 
 Note that only what's **registered through the config** — components, modules, rules, locales — needs these explicit choices. Everything you import by name in code — `defineSchema`, `useForm`, composables, helpers — tree-shakes like any ES module.
 
 ::: info How sizes are measured
-Every size in this chapter is the **gzipped** amount the item adds to a production Vite build (default settings, esbuild minification), measured by the repository's [bundle-size suite](https://github.com/vueform/next/tree/main/bundle-size) with <!-- @size:measured-with -->`@vueform/ui@2.0.0`<!-- /@size -->. In tables with a **Total** row, each individual row shows what removing that item saves, while the Total is measured directly with everything registered — items share code, so the Total can exceed the sum of the rows. Values near zero (even slightly negative) are compression noise.
+Every size in this chapter is the **gzipped** amount the item adds to a production Vite build (default settings, esbuild minification), measured by the repository's [bundle-size suite](https://github.com/vueform/next/tree/main/bundle-size) with <!-- @size:measured-with -->`@vueform/ui@2.0.0-alpha.1`<!-- /@size -->. In tables with a **Total** row, each individual row shows what removing that item saves, while the Total is measured directly with everything registered — items share code, so the Total can exceed the sum of the rows. Values near zero (even slightly negative) are compression noise.
 :::
 
 ## Modules
@@ -74,18 +74,18 @@ createVueform({
 
 | Module                                              | Size          |
 | --------------------------------------------------- | ------------- |
-| [`model`](/guide/model)                             | 7.95&nbsp;kB  |
-| [`validation`](/guide/validation)                   | 7.01&nbsp;kB  |
-| [`conditions`](/guide/conditions)                   | 2.27&nbsp;kB  |
-| [`autosave`](/guide/autosave)                       | 1.70&nbsp;kB  |
-| [`theme`](/guide/themes-tokens)                     | 1.46&nbsp;kB  |
-| [`expression`](/guide/expressions)                  | 1.38&nbsp;kB  |
-| [`router`](/guide/multi-page-forms#browser-history) | 0.67&nbsp;kB  |
-| [`http`](/guide/http)                               | 0.44&nbsp;kB  |
-| [`locale`](/guide/locales)                          | 0.36&nbsp;kB  |
-| [`security`](/guide/security)                       | 0.19&nbsp;kB  |
-| [`date`](/guide/date)                               | 0.17&nbsp;kB  |
-| **Total**                                           | 23.37&nbsp;kB |
+| [`model`](/guide/model) | 7.78&nbsp;kB |
+| [`validation`](/guide/validation) | 6.72&nbsp;kB |
+| [`conditions`](/guide/conditions) | 2.19&nbsp;kB |
+| [`autosave`](/guide/autosave) | 1.86&nbsp;kB |
+| [`theme`](/guide/themes-tokens) | 2.00&nbsp;kB |
+| [`expression`](/guide/expressions) | 1.25&nbsp;kB |
+| [`router`](/guide/multi-page-forms#browser-history) | 0.61&nbsp;kB |
+| [`http`](/guide/http) | 1.08&nbsp;kB |
+| [`locale`](/guide/locales) | 0.32&nbsp;kB |
+| [`security`](/guide/security) | 1.18&nbsp;kB |
+| [`date`](/guide/date) | 0.17&nbsp;kB |
+| **Total** | 24.41&nbsp;kB |
 
 <!-- @bundle-sizes:modules end -->
 
@@ -136,7 +136,7 @@ A component that's rendered but not registered surfaces as Vue's "Failed to reso
 
 ### Component Sizes
 
-All components together add <!-- @size:components-total-js -->`54.52 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`6.52 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
+All components together add <!-- @size:components-total-js -->`51.85 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`6.49 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
 
 <!-- @bundle-sizes:components start -->
 
@@ -144,48 +144,48 @@ All components together add <!-- @size:components-total-js -->`54.52 kB`<!-- /@s
 
 | Component                          | JS           | CSS           |
 | ---------------------------------- | ------------ | ------------- |
-| [`VfButton`](/ui/VfButton)         | 1.05&nbsp;kB | 1.00&nbsp;kB  |
-| [`VfCheckbox`](/ui/VfCheckbox)     | 0.79&nbsp;kB | -0.01&nbsp;kB |
-| [`VfCheckboxes`](/ui/VfCheckboxes) | 0.94&nbsp;kB | 0.00&nbsp;kB  |
-| [`VfContent`](/ui/VfContent)       | 0.31&nbsp;kB | 0.04&nbsp;kB  |
-| [`VfField`](/ui/VfField)           | 0.33&nbsp;kB | 0.00&nbsp;kB  |
-| [`VfFile`](/ui/VfFile)             | 1.63&nbsp;kB | 0.04&nbsp;kB  |
-| [`VfHidden`](/ui/VfHidden)         | 0.27&nbsp;kB | 0.00&nbsp;kB  |
-| [`VfRadio`](/ui/VfRadio)           | 0.77&nbsp;kB | 0.00&nbsp;kB  |
-| [`VfRadios`](/ui/VfRadios)         | 0.82&nbsp;kB | 0.00&nbsp;kB  |
-| [`VfSelect`](/ui/VfSelect)         | 0.54&nbsp;kB | 0.12&nbsp;kB  |
-| [`VfText`](/ui/VfText)             | 0.53&nbsp;kB | 0.08&nbsp;kB  |
-| [`VfTextarea`](/ui/VfTextarea)     | 0.54&nbsp;kB | 0.04&nbsp;kB  |
+| [`VfButton`](/ui/VfButton) | 0.97&nbsp;kB | 1.00&nbsp;kB |
+| [`VfCheckbox`](/ui/VfCheckbox) | 0.70&nbsp;kB | -0.01&nbsp;kB |
+| [`VfCheckboxes`](/ui/VfCheckboxes) | 0.77&nbsp;kB | 0.00&nbsp;kB |
+| [`VfContent`](/ui/VfContent) | 0.28&nbsp;kB | 0.05&nbsp;kB |
+| [`VfField`](/ui/VfField) | 0.30&nbsp;kB | 0.00&nbsp;kB |
+| [`VfFile`](/ui/VfFile) | 1.57&nbsp;kB | 0.04&nbsp;kB |
+| [`VfHidden`](/ui/VfHidden) | 0.25&nbsp;kB | 0.00&nbsp;kB |
+| [`VfRadio`](/ui/VfRadio) | 0.65&nbsp;kB | 0.00&nbsp;kB |
+| [`VfRadios`](/ui/VfRadios) | 0.65&nbsp;kB | 0.00&nbsp;kB |
+| [`VfSelect`](/ui/VfSelect) | 0.48&nbsp;kB | 0.12&nbsp;kB |
+| [`VfText`](/ui/VfText) | 0.53&nbsp;kB | 0.08&nbsp;kB |
+| [`VfTextarea`](/ui/VfTextarea) | 0.49&nbsp;kB | 0.04&nbsp;kB |
 
 **Containers**
 
 | Component                  | JS           | CSS          |
 | -------------------------- | ------------ | ------------ |
-| [`VfForm`](/ui/VfForm)     | 5.96&nbsp;kB | 0.00&nbsp;kB |
-| [`VfGrid`](/ui/VfGrid)     | 2.57&nbsp;kB | 0.00&nbsp;kB |
-| [`VfGroup`](/ui/VfGroup)   | 0.46&nbsp;kB | 0.08&nbsp;kB |
-| [`VfList`](/ui/VfList)     | 1.69&nbsp;kB | 0.17&nbsp;kB |
-| [`VfMatrix`](/ui/VfMatrix) | 4.26&nbsp;kB | 0.18&nbsp;kB |
+| [`VfForm`](/ui/VfForm) | 5.70&nbsp;kB | 0.00&nbsp;kB |
+| [`VfGrid`](/ui/VfGrid) | 2.45&nbsp;kB | 0.00&nbsp;kB |
+| [`VfGroup`](/ui/VfGroup) | 0.42&nbsp;kB | 0.08&nbsp;kB |
+| [`VfList`](/ui/VfList) | 1.54&nbsp;kB | 0.17&nbsp;kB |
+| [`VfMatrix`](/ui/VfMatrix) | 4.08&nbsp;kB | 0.18&nbsp;kB |
 
 **Form components**
 
 | Component                        | JS           | CSS          |
 | -------------------------------- | ------------ | ------------ |
-| [`VfElements`](/ui/VfElements)   | 0.15&nbsp;kB | 0.00&nbsp;kB |
-| [`VfLanguages`](/ui/VfLanguages) | 0.41&nbsp;kB | 0.13&nbsp;kB |
-| [`VfNav`](/ui/VfNav)             | 1.06&nbsp;kB | 0.07&nbsp;kB |
-| [`VfSteps`](/ui/VfSteps)         | 0.17&nbsp;kB | 0.63&nbsp;kB |
-| [`VfTabs`](/ui/VfTabs)           | 0.14&nbsp;kB | 0.12&nbsp;kB |
+| [`VfElements`](/ui/VfElements) | 0.12&nbsp;kB | 0.01&nbsp;kB |
+| [`VfLanguages`](/ui/VfLanguages) | 0.33&nbsp;kB | 0.13&nbsp;kB |
+| [`VfNav`](/ui/VfNav) | 1.02&nbsp;kB | 0.07&nbsp;kB |
+| [`VfSteps`](/ui/VfSteps) | 0.14&nbsp;kB | 0.63&nbsp;kB |
+| [`VfTabs`](/ui/VfTabs) | 0.10&nbsp;kB | 0.12&nbsp;kB |
 
 **Layout & internals**
 
 | Component                  | JS           | CSS           |
 | -------------------------- | ------------ | ------------- |
-| [`VfAddon`](/ui/VfAddon)   | 0.34&nbsp;kB | 0.47&nbsp;kB  |
-| [`VfCol`](/ui/VfCol)       | 0.73&nbsp;kB | 0.01&nbsp;kB  |
-| [`VfIcon`](/ui/VfIcon)     | 0.14&nbsp;kB | -0.05&nbsp;kB |
-| [`VfLayout`](/ui/VfLayout) | 3.15&nbsp;kB | 0.54&nbsp;kB  |
-| [`VfRow`](/ui/VfRow)       | 0.28&nbsp;kB | 0.00&nbsp;kB  |
+| [`VfAddon`](/ui/VfAddon) | 0.25&nbsp;kB | 0.47&nbsp;kB |
+| [`VfCol`](/ui/VfCol) | 0.66&nbsp;kB | 0.01&nbsp;kB |
+| [`VfIcon`](/ui/VfIcon) | 0.10&nbsp;kB | -0.04&nbsp;kB |
+| [`VfLayout`](/ui/VfLayout) | 2.95&nbsp;kB | 0.54&nbsp;kB |
+| [`VfRow`](/ui/VfRow) | 0.22&nbsp;kB | 0.00&nbsp;kB |
 
 <!-- @bundle-sizes:components end -->
 
@@ -204,66 +204,66 @@ createVueform({
 })
 ```
 
-Rules are the cheapest part of the framework: the complete built-in set adds <!-- @size:rules-total -->`3.15 kB`<!-- /@size --> gzipped, a single rule between <!-- @size:rules-min -->`0.19 kB`<!-- /@size --> and <!-- @size:rules-max -->`0.62 kB`<!-- /@size -->. Unless you're chasing every kilobyte, `import * as rules` is a perfectly reasonable default — trimming pays off in the other sections first. Rules only run when the `validation` module is registered; without it, they're dead weight.
+Rules are the cheapest part of the framework: the complete built-in set adds <!-- @size:rules-total -->`3.14 kB`<!-- /@size --> gzipped, a single rule between <!-- @size:rules-min -->`0.18 kB`<!-- /@size --> and <!-- @size:rules-max -->`0.63 kB`<!-- /@size -->. Unless you're chasing every kilobyte, `import * as rules` is a perfectly reasonable default — trimming pays off in the other sections first. Rules only run when the `validation` module is registered; without it, they're dead weight.
 
 ::: details Per-rule sizes
 <!-- @bundle-sizes:rules start -->
 
 | Rule              | Size         |
 | ----------------- | ------------ |
-| `accepted`        | 0.21&nbsp;kB |
-| `after`           | 0.45&nbsp;kB |
-| `after_or_equal`  | 0.47&nbsp;kB |
-| `alpha`           | 0.21&nbsp;kB |
-| `alpha_dash`      | 0.22&nbsp;kB |
-| `alpha_num`       | 0.21&nbsp;kB |
-| `array`           | 0.19&nbsp;kB |
-| `before`          | 0.45&nbsp;kB |
-| `before_or_equal` | 0.47&nbsp;kB |
-| `between`         | 0.26&nbsp;kB |
-| `boolean`         | 0.21&nbsp;kB |
-| `captcha`         | 0.21&nbsp;kB |
-| `confirmed`       | 0.22&nbsp;kB |
-| `date`            | 0.25&nbsp;kB |
-| `date_equals`     | 0.22&nbsp;kB |
-| `date_format`     | 0.28&nbsp;kB |
-| `different`       | 0.29&nbsp;kB |
-| `digits`          | 0.23&nbsp;kB |
-| `digits_between`  | 0.25&nbsp;kB |
-| `dimensions`      | 0.62&nbsp;kB |
-| `distinct`        | 0.23&nbsp;kB |
-| `email`           | 0.29&nbsp;kB |
-| `file`            | 0.23&nbsp;kB |
-| `filled`          | 0.20&nbsp;kB |
-| `gt`              | 0.32&nbsp;kB |
-| `gte`             | 0.32&nbsp;kB |
-| `image`           | 0.29&nbsp;kB |
-| `in`              | 0.23&nbsp;kB |
-| `in_array`        | 0.27&nbsp;kB |
-| `integer`         | 0.21&nbsp;kB |
-| `ip`              | 0.47&nbsp;kB |
-| `ipv4`            | 0.27&nbsp;kB |
-| `ipv6`            | 0.40&nbsp;kB |
-| `json`            | 0.20&nbsp;kB |
-| `lt`              | 0.32&nbsp;kB |
-| `lte`             | 0.32&nbsp;kB |
-| `max`             | 0.25&nbsp;kB |
-| `mimes`           | 0.29&nbsp;kB |
-| `mimetypes`       | 0.29&nbsp;kB |
-| `min`             | 0.25&nbsp;kB |
-| `not_in`          | 0.22&nbsp;kB |
-| `not_regex`       | 0.29&nbsp;kB |
-| `nullable`        | 0.19&nbsp;kB |
-| `numeric`         | 0.24&nbsp;kB |
-| `regex`           | 0.26&nbsp;kB |
-| `required`        | 0.20&nbsp;kB |
-| `same`            | 0.28&nbsp;kB |
-| `size`            | 0.24&nbsp;kB |
-| `string`          | 0.19&nbsp;kB |
-| `timezone`        | 0.23&nbsp;kB |
-| `url`             | 0.45&nbsp;kB |
-| `uuid`            | 0.22&nbsp;kB |
-| **Total**         | 3.15&nbsp;kB |
+| `accepted` | 0.21&nbsp;kB |
+| `after` | 0.44&nbsp;kB |
+| `after_or_equal` | 0.45&nbsp;kB |
+| `alpha` | 0.21&nbsp;kB |
+| `alpha_dash` | 0.21&nbsp;kB |
+| `alpha_num` | 0.21&nbsp;kB |
+| `array` | 0.18&nbsp;kB |
+| `before` | 0.44&nbsp;kB |
+| `before_or_equal` | 0.45&nbsp;kB |
+| `between` | 0.25&nbsp;kB |
+| `boolean` | 0.20&nbsp;kB |
+| `captcha` | 0.21&nbsp;kB |
+| `confirmed` | 0.21&nbsp;kB |
+| `date` | 0.24&nbsp;kB |
+| `date_equals` | 0.21&nbsp;kB |
+| `date_format` | 0.27&nbsp;kB |
+| `different` | 0.26&nbsp;kB |
+| `digits` | 0.22&nbsp;kB |
+| `digits_between` | 0.24&nbsp;kB |
+| `dimensions` | 0.63&nbsp;kB |
+| `distinct` | 0.23&nbsp;kB |
+| `email` | 0.30&nbsp;kB |
+| `file` | 0.24&nbsp;kB |
+| `filled` | 0.19&nbsp;kB |
+| `gt` | 0.30&nbsp;kB |
+| `gte` | 0.31&nbsp;kB |
+| `image` | 0.30&nbsp;kB |
+| `in` | 0.19&nbsp;kB |
+| `in_array` | 0.26&nbsp;kB |
+| `integer` | 0.21&nbsp;kB |
+| `ip` | 0.47&nbsp;kB |
+| `ipv4` | 0.26&nbsp;kB |
+| `ipv6` | 0.41&nbsp;kB |
+| `json` | 0.21&nbsp;kB |
+| `lt` | 0.30&nbsp;kB |
+| `lte` | 0.31&nbsp;kB |
+| `max` | 0.23&nbsp;kB |
+| `mimes` | 0.26&nbsp;kB |
+| `mimetypes` | 0.26&nbsp;kB |
+| `min` | 0.23&nbsp;kB |
+| `not_in` | 0.18&nbsp;kB |
+| `not_regex` | 0.37&nbsp;kB |
+| `nullable` | 0.19&nbsp;kB |
+| `numeric` | 0.24&nbsp;kB |
+| `regex` | 0.34&nbsp;kB |
+| `required` | 0.19&nbsp;kB |
+| `same` | 0.26&nbsp;kB |
+| `size` | 0.23&nbsp;kB |
+| `string` | 0.18&nbsp;kB |
+| `timezone` | 0.22&nbsp;kB |
+| `url` | 0.46&nbsp;kB |
+| `uuid` | 0.21&nbsp;kB |
+| **Total** | 3.14&nbsp;kB |
 
 <!-- @bundle-sizes:rules end -->
 
@@ -273,7 +273,7 @@ Rules are the cheapest part of the framework: the complete built-in set adds <!-
 
 Styling is three separable pieces, each with its own cost:
 
-1. **The `theme` module** — converts tokens to CSS variables and injects them into the page (<!-- @size:module-theme -->`1.46 kB`<!-- /@size --> gzipped, in the [Modules](#modules) table).
+1. **The `theme` module** — converts tokens to CSS variables and injects them into the page (<!-- @size:module-theme -->`2.00 kB`<!-- /@size --> gzipped, in the [Modules](#modules) table).
 2. **The theme's tokens** — the JS token map passed to the `theme` option, selecting the look:
 
    ```ts
@@ -290,8 +290,8 @@ Styling is three separable pieces, each with its own cost:
 
 | Tokens                                              | Size         |
 | --------------------------------------------------- | ------------ |
-| [`origin`](/guide/themes-tokens#available-themes)   | 4.01&nbsp;kB |
-| [`material`](/guide/themes-tokens#available-themes) | 4.01&nbsp;kB |
+| [`origin`](/guide/themes-tokens#available-themes) | 4.02&nbsp;kB |
+| [`material`](/guide/themes-tokens#available-themes) | 4.02&nbsp;kB |
 
 <!-- @bundle-sizes:themes end -->
 
@@ -314,13 +314,13 @@ createVueform({
 
 | Code    | Language     | Size         |
 | ------- | ------------ | ------------ |
-| `de_DE` | German       | 1.69&nbsp;kB |
-| `en_US` | English (US) | 1.39&nbsp;kB |
-| `hu_HU` | Hungarian    | 1.85&nbsp;kB |
+| `de_DE` | German | 1.60&nbsp;kB |
+| `en_US` | English (US) | 1.30&nbsp;kB |
+| `hu_HU` | Hungarian | 1.74&nbsp;kB |
 
 <!-- @bundle-sizes:locales end -->
 
-Registered locales are resolved by the `locale` **module** (<!-- @size:module-locale -->`0.36 kB`<!-- /@size --> gzipped, in the [Modules](#modules) table) — without it, built-in strings show their raw tags. See [Locales](/guide/locales) for the full localization story.
+Registered locales are resolved by the `locale` **module** (<!-- @size:module-locale -->`0.32 kB`<!-- /@size --> gzipped, in the [Modules](#modules) table) — without it, built-in strings show their raw tags. See [Locales](/guide/locales) for the full localization story.
 
 ## Pre-Configured Entries
 
@@ -336,4 +336,4 @@ app.use(createVueform())
 app.mount('#app')
 ```
 
-Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`99.02 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`92.50 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.52 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.
+Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`95.58 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`89.09 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.49 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.
