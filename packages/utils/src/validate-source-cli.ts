@@ -1,24 +1,24 @@
 #!/usr/bin/env node
 /**
- * `vf-validate-build`: validates the invoking adapter package's per-component
+ * `vf-validate-source`: validates the invoking adapter package's per-component
  * styles.ts imports against the classes its components emit (see
- * `validateBuild.ts`). Works purely from the sources (chunks are compiled
+ * `validateSource.ts`). Works purely from the sources (chunks are compiled
  * from `src/scss` on the fly), so it runs from the adapter's own directory as
- * the FIRST half of its `build` script (`vf-validate-build && vite build`) —
+ * the FIRST half of its `build` script (`vf-validate-source && vite build`) —
  * a drifted styles.ts fails the build before anything is bundled.
  *
- *     vf-validate-build [--verbose] [--suggest]
+ *     vf-validate-source [--verbose] [--suggest]
  *
  * - `--verbose` print each component's declared and matched providers
  * - `--suggest` print inferred styles.ts content per component instead of
  *   validating — used to seed/refresh the sidecars
  */
-import { validateBuild } from './validateBuild'
+import { validateSource } from './validateSource'
 
 const args = process.argv.slice(2)
 
 try {
-  const problems = validateBuild({
+  const problems = validateSource({
     packageDir: process.cwd(),
     verbose: args.includes('--verbose'),
     suggest: args.includes('--suggest'),

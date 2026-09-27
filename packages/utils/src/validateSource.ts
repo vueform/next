@@ -59,10 +59,10 @@ interface Occurrence {
 }
 
 /**
- * Adapter-specific validation data under `vueform.validateBuild` in the adapter's
+ * Adapter-specific validation data under `vueform.validateSource` in the adapter's
  * manifest.
  */
-export interface ValidateBuildConfig {
+export interface ValidateSourceConfig {
   /**
    * Core chunks the adapter's aggregate recipe layers its own chunks onto
    * (`core:` provider space). Omitted when the adapter's own chunks ARE core's
@@ -71,7 +71,7 @@ export interface ValidateBuildConfig {
   coreRecipeChunks?: string[]
 }
 
-export interface ValidateBuildOptions {
+export interface ValidateSourceOptions {
   /**
    * The adapter package's directory (the invoking package's cwd).
    */
@@ -127,7 +127,7 @@ function extractClassTokens(source: string): Set<string> {
  * Returns the number of problems found (0 = OK); prints errors, warnings and
  * the summary itself.
  */
-export function validateBuild(options: ValidateBuildOptions): number {
+export function validateSource(options: ValidateSourceOptions): number {
   const pkgDir = path.resolve(options.packageDir)
   const { verbose = false, suggest = false } = options
 
@@ -135,7 +135,7 @@ export function validateBuild(options: ValidateBuildOptions): number {
     fs.readFileSync(path.join(pkgDir, 'package.json'), 'utf8')
   )
   const adapterName = path.basename(pkgDir)
-  const config: ValidateBuildConfig = manifest.vueform?.validateBuild ?? {}
+  const config: ValidateSourceConfig = manifest.vueform?.validateSource ?? {}
 
   // Whitelisted classes (utils' config.json) satisfy selector mates without
   // any component emitting them: exact names or `prefix-*` patterns, from the
@@ -236,7 +236,7 @@ export function validateBuild(options: ValidateBuildOptions): number {
 
   if (!fs.existsSync(ownScssDir)) {
     console.error(
-      `[validate:build] ${path.relative(root, ownScssDir)} not found`
+      `[validate:source] ${path.relative(root, ownScssDir)} not found`
     )
     return 1
   }
@@ -468,7 +468,7 @@ export function validateBuild(options: ValidateBuildOptions): number {
   if (suggest) return 0
 
   if (errors.length) {
-    for (const error of errors) console.error(`[validate:build] ${error}`)
+    for (const error of errors) console.error(`[validate:source] ${error}`)
     const count = `${errors.length} problem(s)`
     console.error(
       `\nFAILED — ${process.stderr.isTTY ? `\x1b[31m${count}\x1b[0m` : count}\n`

@@ -15,11 +15,11 @@ export { generateRegistry } from './registry'
 export type { RegistryOptions } from './registry'
 export { runSize } from './size/run'
 export type { RunSizeOptions } from './size/run'
-export { validateBuild } from './validateBuild'
+export { validateSource } from './validateSource'
 export type {
-  ValidateBuildConfig,
-  ValidateBuildOptions,
-} from './validateBuild'
+  ValidateSourceConfig,
+  ValidateSourceOptions,
+} from './validateSource'
 export type {
   MeasurementType,
   Results as SizeResults,

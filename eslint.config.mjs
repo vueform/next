@@ -269,7 +269,7 @@ export default [
 
   // ── Per-area relaxations ──────────────────────────────────────────────
   // CLI scripts and the published CLI are console apps, as are the modules
-  // behind utils' vf-size / vf-validate-build bins — their terminal output
+  // behind utils' vf-size / vf-validate-source bins — their terminal output
   // is the product.
   {
     files: [

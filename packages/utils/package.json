@@ -11,7 +11,7 @@
   "bin": {
     "vf-registry": "./dist/registry-cli.js",
     "vf-size": "./dist/size-cli.js",
-    "vf-validate-build": "./dist/validate-build-cli.js"
+    "vf-validate-source": "./dist/validate-source-cli.js"
   },
   "files": [
     "config.json",

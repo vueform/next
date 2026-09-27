@@ -97,12 +97,12 @@
     "registry"
   ],
   "scripts": {
-    "build": "vf-validate-build && vite build",
+    "build": "vf-validate-source && vite build",
     "check": "vue-tsc --incremental --noEmit",
     "registry": "vf-registry",
     "size": "vf-size",
     "test": "vitest --maxWorkers=16",
-    "validate": "vf-validate-build"
+    "validate": "vf-validate-source"
   },
   "dependencies": {
     "@vueform/cli": "workspace:^",
