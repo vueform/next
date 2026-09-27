@@ -27,6 +27,7 @@
     "size": "tsx scripts/size.ts",
     "test": "tsx scripts/test.ts",
     "usage": "tsx scripts/usage.ts",
+    "validate": "tsx scripts/validate.ts",
     "verify": "tsx scripts/verify.ts"
   },
   "lint-staged": {

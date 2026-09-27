@@ -449,14 +449,13 @@ export function validateBuild(options: ValidateBuildOptions): number {
     for (const error of errors) console.error(`[validate:build] ${error}`)
     const count = `${errors.length} problem(s)`
     console.error(
-      `\n[validate:build] ${adapterName} FAILED — ${
-        process.stderr.isTTY ? `\x1b[31m${count}\x1b[0m` : count
-      }\n`
+      `\nFAILED — ${process.stderr.isTTY ? `\x1b[31m${count}\x1b[0m` : count}\n`
     )
     return errors.length
   }
+  const summary = `OK — ${components.length} components checked`
   console.log(
-    `[validate:build] ${adapterName} OK — ${components.length} components checked`
+    process.stdout.isTTY ? `\x1b[32m${summary}\x1b[0m` : summary
   )
   return 0
 }
