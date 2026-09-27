@@ -395,13 +395,24 @@ interface TaskResult {
   notes: string[]
 }
 
+/**
+ * Cumulative rendering state for `singleBar` queues: the task's active line
+ * shows `baseMs` (time spent on earlier tasks) plus its own elapsed against
+ * the whole queue's `totalMs`, instead of its own elapsed/expected.
+ */
+interface Progress {
+  baseMs: number
+  totalMs: number
+}
+
 async function runTask(
   task: Task,
   label: string,
   expected: number,
   list: TaskList,
   index: number,
-  verb: string
+  verb: string,
+  progress?: Progress
 ): Promise<TaskResult> {
   const started = Date.now()
   let tick = 0
@@ -409,9 +420,12 @@ async function runTask(
 
   const timer = isTTY
     ? setInterval(() => {
+        const elapsed = Date.now() - started
         list.update(
           index,
-          activeLine(label, Date.now() - started, expected, tick++)
+          progress
+            ? activeLine(label, progress.baseMs + elapsed, progress.totalMs, tick++)
+            : activeLine(label, elapsed, expected, tick++)
         )
       }, 100)
     : undefined
@@ -447,8 +461,14 @@ async function runTask(
 
   const ok = !hardFail && issues.errors === 0
   const line = doneLine(label, elapsed, ok, notes)
-  if (isTTY) list.update(index, line)
-  else console.log(line)
+  // A singleBar queue keeps one shared line: intermediate done states stay
+  // off it (the next task's active line follows; the caller writes the final
+  // one) — only a failure lands, so the bar closes with ✗ and the culprit.
+  if (isTTY) {
+    if (!progress || !ok) list.update(index, line)
+  } else {
+    console.log(line)
+  }
   return { hardFail, issues, elapsed, output, ok, notes }
 }
 
@@ -493,6 +513,16 @@ export interface RunOptions {
     key: string
     use: boolean
   }
+  /**
+   * Render the whole queue as one cumulative progress line under `label`
+   * instead of a task-list block: the bar tracks total elapsed against the
+   * summed expected durations, the line names the running task (`label —
+   * types (3/7)`). Per-task durations are still recorded. Non-TTY output is
+   * unchanged (sequential per-task lines). Not combinable with `resume`.
+   */
+  singleBar?: {
+    label: string
+  }
 }
 
 interface SavedTaskResult {
@@ -523,8 +553,17 @@ export async function runQueue(queue: Task[], options: RunOptions) {
   const timesFor = (task: Task) =>
     (allTimes[task.timeScope ?? options.timesScope] ??= {})
 
+  const single = options.singleBar
   const labelWidth = Math.max(...queue.map((t) => (t.label ?? t.id).length))
-  const labels = queue.map((t) => (t.label ?? t.id).padEnd(labelWidth))
+  const labels = single
+    ? queue.map(
+        (t, i) => `${single.label} ${dim(`— ${t.label ?? t.id} (${i + 1}/${queue.length})`)}`
+      )
+    : queue.map((t) => (t.label ?? t.id).padEnd(labelWidth))
+  const totalExpected = queue.reduce(
+    (sum, t) => sum + (timesFor(t)[t.timeKey] ?? options.defaultMs(t)),
+    0
+  )
   const startedAll = Date.now()
 
   // A completed prefix from a previously failed run: replayed verbatim,
@@ -560,12 +599,14 @@ export async function runQueue(queue: Task[], options: RunOptions) {
 
   printBanner()
   const list = new TaskList(
-    labels.map((label, index) => {
-      const done = replayed[index]
-      return done
-        ? doneLine(label, done.elapsed, done.ok, done.notes)
-        : pendingLine(label)
-    })
+    single
+      ? [pendingLine(single.label)]
+      : labels.map((label, index) => {
+          const done = replayed[index]
+          return done
+            ? doneLine(label, done.elapsed, done.ok, done.notes)
+            : pendingLine(label)
+        })
   )
   list.print()
   if (!isTTY) {
@@ -582,6 +623,7 @@ export async function runQueue(queue: Task[], options: RunOptions) {
     if (epilogue) process.stdout.write(`\n${epilogue}\n`)
   }
 
+  let doneMs = 0
   for (const [index, task] of queue.entries()) {
     if (index < replayed.length) continue
     const times = timesFor(task)
@@ -593,7 +635,16 @@ export async function runQueue(queue: Task[], options: RunOptions) {
       output,
       ok,
       notes: taskNotes,
-    } = await runTask(task, labels[index], expected, list, index, options.verb)
+    } = await runTask(
+      task,
+      labels[index],
+      expected,
+      list,
+      single ? 0 : index,
+      options.verb,
+      single ? { baseMs: doneMs, totalMs: totalExpected } : undefined
+    )
+    doneMs += elapsed
     if (hardFail) {
       saveState()
       process.stdout.write(`\n${output}\n`)
@@ -618,6 +669,9 @@ export async function runQueue(queue: Task[], options: RunOptions) {
     completed.push({ label: labels[index], elapsed, ok, notes: taskNotes })
   }
 
+  if (single && isTTY) {
+    list.update(0, doneLine(single.label, Date.now() - startedAll, true))
+  }
   clearState()
   flushNotes()
 
