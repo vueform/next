@@ -1,6 +1,6 @@
 /**
- * Registry orchestrator (`pnpm registry`): regenerates the `.registry` folder
- * of every adapter that has a `registry` script (see `@vueform/utils`'s
+ * Registry orchestrator (`pnpm registry`): regenerates the `registry` folder of
+ * every adapter that has a `registry` script (see `@vueform/utils`'s
  * `vf-registry`). Selection flags work like the build orchestrator's — `pnpm
  * registry --pv` narrows to one adapter.
  */

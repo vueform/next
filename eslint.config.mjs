@@ -30,7 +30,7 @@ export default [
       '.temp',
       // Generated component registries (gen:registry) — committed for GitHub
       // reference, but generated code isn't linted.
-      'packages/*/.registry/**',
+      'packages/*/registry/**',
       // Playground templates and instances simulate user projects and carry
       // their own eslint configs; the playground's own scripts and vite
       // plugin are linted by this config.

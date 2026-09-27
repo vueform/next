@@ -469,10 +469,10 @@ That's the whole integration: [`components`](/guide/configuration#components) en
 
 ### Browsing the Sources
 
-Everything the CLI writes comes from the installed adapter's `.registry/` directory — committed to the repository, so you can browse it on GitHub before touching your project:
+Everything the CLI writes comes from the installed adapter's `registry/` directory — committed to the repository, so you can browse it on GitHub before touching your project:
 
-- [`.registry/copies`](https://github.com/vueform/next/tree/main/packages/ui/.registry/copies) — the copy-ready component sources
-- [`.registry/clones`](https://github.com/vueform/next/tree/main/packages/ui/.registry/clones) — the clone templates
+- [`registry/copies`](https://github.com/vueform/next/tree/main/packages/ui/registry/copies) — the copy-ready component sources
+- [`registry/clones`](https://github.com/vueform/next/tree/main/packages/ui/registry/clones) — the clone templates
 
 `npx vueform view` prints the same sources right in your terminal — and opens them as editor tabs when run from an editor's terminal.
 

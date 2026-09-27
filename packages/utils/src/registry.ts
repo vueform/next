@@ -1,5 +1,5 @@
 /**
- * Generates a package's component registry (<package>/.registry, committed —
+ * Generates a package's component registry (<package>/registry, committed —
  * referenceable on GitHub) — the manifests and copy-ready source files consumed
  * by the Vueform CLI's `copy` command.
  *
@@ -1070,7 +1070,7 @@ function runCheck(target: Target) {
 
   const checkDir = path.join(playground, 'src', '.registry-check')
   const tsconfigPath = path.join(playground, 'tsconfig.registry-check.json')
-  const filesDir = path.join(target.packageDir, '.registry/copies')
+  const filesDir = path.join(target.packageDir, 'registry/copies')
 
   fs.rmSync(checkDir, { recursive: true, force: true })
   fs.mkdirSync(checkDir, { recursive: true })
@@ -1081,7 +1081,7 @@ function runCheck(target: Target) {
 
   // Clone templates are checked as concrete instantiations (VfTextClone /
   // 'text-clone') — exactly what the CLI's substitution produces.
-  const clonesDir = path.join(target.packageDir, '.registry/clones')
+  const clonesDir = path.join(target.packageDir, 'registry/clones')
 
   for (const file of fs.readdirSync(clonesDir)) {
     const base = path.basename(file, '.vue')
@@ -1160,7 +1160,7 @@ export async function generateRegistry(options: RegistryOptions) {
   const version = JSON.parse(
     fs.readFileSync(path.join(target.packageDir, 'package.json'), 'utf8')
   ).version
-  const registryDir = path.join(target.packageDir, '.registry')
+  const registryDir = path.join(target.packageDir, 'registry')
 
   fs.rmSync(registryDir, { recursive: true, force: true })
   fs.mkdirSync(path.join(registryDir, 'schemas'), { recursive: true })

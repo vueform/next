@@ -112,7 +112,7 @@ console.log(
     line(
       'registry',
       '[adapter]',
-      'regenerate the adapter(s) committed .registry folder'
+      'regenerate the adapter(s) committed registry folder'
     ),
     [
       row(

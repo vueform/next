@@ -94,7 +94,7 @@
   "files": [
     "bin",
     "dist",
-    ".registry"
+    "registry"
   ],
   "scripts": {
     "build": "vite build",

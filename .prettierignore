@@ -9,7 +9,7 @@ pnpm-lock.yaml
 
 # Generated outputs own their formatting entirely.
 .playgrounds
-packages/*/.registry
+packages/*/registry
 packages/metrics/results/
 packages/core/tests/perf/.results/
 packages/core/tests/perf-dts/.results/
