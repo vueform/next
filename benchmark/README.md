@@ -1,10 +1,6 @@
 # Vueform Benchmark Suite
 
-Real-browser measurements of Vueform production builds. This suite produces
-every number and chart on the docs'
-[Performance](../docs/src/guide/performance.md) page: `pnpm bench` writes
-`results/json/benchmarks.json` and the SVG charts in `results/charts/`, and
-`pnpm docs:gen -- --benchmark` publishes both into the docs.
+Real-browser measurements of Vueform production builds. This suite produces every number and chart on the docs' [Performance](../docs/src/guide/performance.md) page: `pnpm bench` writes `results/json/benchmarks.json` and the SVG charts in `results/charts/`, and `pnpm docs:gen -- --benchmark` publishes both into the docs.
 
 ## Quick start
 
@@ -17,42 +13,22 @@ pnpm docs:gen -- --benchmark   # publish results to the docs
 
 The first run downloads a Chromium build for Playwright if none is cached.
 
-> **Note:** the committed `results/` are placeholders until a real run
-> replaces them — `environment.cpu` says so explicitly. Never publish docs
-> from placeholder data.
+> **Note:** the committed `results/` are placeholders until a real run replaces them — `environment.cpu` says so explicitly. Never publish docs from placeholder data.
 
 ## What gets measured, and how
 
-**The app** (`app/`) is a minimal standalone Vue app that mounts a Vueform
-form built from a parametric schema. It is *not* part of the workspace:
+**The app** (`app/`) is a minimal standalone Vue app that mounts a Vueform form built from a parametric schema. It is *not* part of the workspace:
 
-- It consumes **packed tarballs** of the local packages (`pnpm pack` output
-  of `@vueform/ui`, `@vueform/core`, `@vueform/cli` into `app/.tarballs/`),
-  so a run measures exactly what `npm publish` would ship — real `exports`
-  resolution, no symlinks, no source aliases.
-- It pins its own **Vue 3.6** (the workspace stays on 3.5). Both rendering
-  modes build from this one Vue copy: the vdom build uses the default
-  compile, the vapor build compiles SFCs with `features.vapor` and resolves
-  Vueform through the `vapor` exports condition. Mode is the only variable.
-- Both variants are **production builds** (`vite build`, minified), served
-  from a local static server on loopback. The page loads nothing from the
-  network.
+- It consumes **packed tarballs** of the local packages (`pnpm pack` output of `@vueform/ui`, `@vueform/core`, `@vueform/cli` into `app/.tarballs/`), so a run measures exactly what `npm publish` would ship — real `exports` resolution, no symlinks, no source aliases.
+- It pins its own **Vue 3.6** (the workspace stays on 3.5). Both rendering modes build from this one Vue copy: the vdom build uses the default compile, the vapor build compiles SFCs with `features.vapor` and resolves Vueform through the `vapor` exports condition. Mode is the only variable.
+- Both variants are **production builds** (`vite build`, minified), served from a local static server on loopback. The page loads nothing from the network.
 
 **The harness** (`scripts/`) drives headless Chromium via Playwright:
 
-- Every repetition of every sweep point runs in a **fresh browser context
-  and page** — no repetition inherits another's heap, JIT state, or DOM.
-- The page mounts nothing until the harness calls `window.__bench.run()`,
-  so the memory baseline sees an idle page. Heap deltas are taken around
-  the run with **forced GC** (CDP `HeapProfiler.collectGarbage`, twice,
-  settled) and `JSHeapUsedSize` — recorded for the rendering cases only.
-- Mount cases time schema → painted DOM (Vue flush + two animation frames).
-  Iterate cases (input, update) run a warmup, then time a batch of
-  operations and divide — one event costs less than the browser's ~0.1 ms
-  timer granularity, so per-event timing would only measure the clock.
-- A sweep point's `mean` is the mean over its repetitions (5 for mount
-  cases, 3 for iterate cases, each iterate rep already averaging dozens of
-  in-page iterations).
+- Every repetition of every sweep point runs in a **fresh browser context and page** — no repetition inherits another's heap, JIT state, or DOM.
+- The page mounts nothing until the harness calls `window.__bench.run()`, so the memory baseline sees an idle page. Heap deltas are taken around the run with **forced GC** (CDP `HeapProfiler.collectGarbage`, twice, settled) and `JSHeapUsedSize` — recorded for the rendering cases only.
+- Mount cases time schema → painted DOM (Vue flush + two animation frames). Iterate cases (input, update) run a warmup, then time a batch of operations and divide — one event costs less than the browser's ~0.1 ms timer granularity, so per-event timing would only measure the clock.
+- A sweep point's `mean` is the mean over its repetitions (5 for mount cases, 3 for iterate cases, each iterate rep already averaging dozens of in-page iterations).
 
 ## Cases
 
@@ -94,20 +70,11 @@ docs pipeline without a multi-minute sweep. Never run it over real results.
 
 ## Vapor note
 
-`app/vite.config.ts` carries a temporary shim (`bench:vapor-passthrough-shim`):
-the packaged vapor dist rebuilds `src/components` only, so
-`helpers/VfPassthrough.vue` ships vdom-compiled and vapor element trees fail
-to render without it. The shim substitutes a vapor-compiled copy of the same
-trivial component — exactly what a fixed dist would contain. Drop it (and
-`app/src/shims/`) once the vapor dist ships its own VfPassthrough.
+`app/vite.config.ts` carries a temporary shim (`bench:vapor-passthrough-shim`): the packaged vapor dist rebuilds `src/components` only, so `helpers/VfPassthrough.vue` ships vdom-compiled and vapor element trees fail to render without it. The shim substitutes a vapor-compiled copy of the same trivial component — exactly what a fixed dist would contain. Drop it (and `app/src/shims/`) once the vapor dist ships its own VfPassthrough.
 
 ## Internal regression benches
 
-Separate from this suite: `packages/core/tests/bench/*.bench.ts` are plain
-[Vitest bench](https://vitest.dev/guide/features.html#benchmarking) files
-over core's hot paths (mount, model writes, conditions, expressions,
-validation, pure utils) in happy-dom — seconds to run, local-only, for
-catching regressions while developing:
+Separate from this suite: `packages/core/tests/bench/*.bench.ts` are plain [Vitest bench](https://vitest.dev/guide/features.html#benchmarking) files over core's hot paths (mount, model writes, conditions, expressions, validation, pure utils) in happy-dom — seconds to run, local-only, for catching regressions while developing:
 
 ```sh
 pnpm -F @vueform/core bench                     # run the bench suite
@@ -119,11 +86,4 @@ git checkout my-branch
 pnpm -F @vueform/core bench --compare bench-main.json
 ```
 
-Wall-clock microbenchmarks are noisy across machines and CI runners — treat
-anything under ~10 % as noise unless it reproduces. When CI is set up,
-[CodSpeed](https://codspeed.io) can run these same files deterministically
-(instruction counting) per PR: add `@codspeed/vitest-plugin` to the catalog
-and core's devDependencies, register `codSpeedPlugin()` through
-`createVitestConfig`'s `vite` option (it no-ops outside the CodSpeed
-runner), and add a workflow running `pnpm -F @vueform/core bench` under
-`CodSpeedHQ/action` with a `CODSPEED_TOKEN` secret.
+Wall-clock microbenchmarks are noisy across machines and CI runners — treat anything under ~10 % as noise unless it reproduces. When CI is set up, [CodSpeed](https://codspeed.io) can run these same files deterministically (instruction counting) per PR: add `@codspeed/vitest-plugin` to the catalog and core's devDependencies, register `codSpeedPlugin()` through `createVitestConfig`'s `vite` option (it no-ops outside the CodSpeed runner), and add a workflow running `pnpm -F @vueform/core bench` under `CodSpeedHQ/action` with a `CODSPEED_TOKEN` secret.

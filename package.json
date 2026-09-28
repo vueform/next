@@ -4,7 +4,7 @@
     "bench": "pnpm --filter @vueform/benchmark run bench",
     "build": "tsx scripts/build.ts",
     "check": "tsx scripts/check.ts",
-    "clean": "find . -name \"node_modules\" -type d -prune -exec rm -rf '{}' +",
+    "clean": "tsx scripts/clean.ts",
     "docs:build": "pnpm -r --filter docs run build",
     "docs:dev": "pnpm -r --filter docs run dev",
     "docs:gen": "pnpm -r --filter docs run gen",
