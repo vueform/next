@@ -448,6 +448,26 @@ function patchTsconfig(combo: Combo) {
 
   writeTsconfig(tsconfigPath, tsconfig)
 
+  // `tsconfig.build.json` resets `paths` to `{}` so the build type-checks
+  // against installed packages, but a standalone playground's vite/vue pin
+  // must survive: without it the dist `.d.ts` files resolve the workspace
+  // root's vue while playground sources resolve the playground's own, and the
+  // dists' `declare module 'vue'` augmentations (global components, the
+  // `App.use` workaround) land on the wrong copy.
+  if (combo.standalone) {
+    const buildTsconfigPath = path.join(combo.dir, 'tsconfig.build.json')
+    if (exists(buildTsconfigPath)) {
+      const buildTsconfig = readJsonc(buildTsconfigPath)
+      const buildCo = (buildTsconfig.compilerOptions ??= {})
+      buildCo.paths = {
+        vite: ['./node_modules/vite'],
+        vue: ['./node_modules/vue'],
+        ...buildCo.paths,
+      }
+      writeTsconfig(buildTsconfigPath, buildTsconfig)
+    }
+  }
+
   patchRootTsconfig(combo, tsconfig.include)
   patchNodeTsconfig(combo)
 }
