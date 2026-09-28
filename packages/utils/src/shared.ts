@@ -4,6 +4,7 @@ import {
   mkdirSync,
   readdirSync,
   readFileSync,
+  statSync,
   writeFileSync,
 } from 'node:fs'
 import { createRequire } from 'node:module'
@@ -58,8 +59,105 @@ export const SHORTHANDS_VIRTUAL = '\0vueform-shorthands-marker'
 // Served in place of the real .css/.scss under the "node" exports condition
 // so plain Node (SSR with externalized deps, test runners) can evaluate
 // modules that import theme files. Bundlers resolve the actual stylesheet via
-// the "default" condition.
-const CSS_NODE_SHIM = 'export {}\n'
+// the "default" condition. The empty-string default matters: Nuxt's SSR
+// inlineStyles feature imports a stylesheet module's default export to inline
+// it, and a shim without one breaks the nitro server build.
+const CSS_NODE_SHIM = "export default ''\n"
+
+/**
+ * Externalizes every import that resolves inside `srcAbs` but outside the
+ * `keep` directories to the corresponding main-dist module, as a relative path
+ * escaping the vapor output directory. Relative specifiers bypass the package's
+ * exports map, so internals stay private, and sharing the main-dist modules
+ * keeps stateful ones (tokens, registries, contexts) single-instance across
+ * both modes. Modules whose main-dist file does not exist (pruned type-only
+ * modules) stay internal and tree-shake away as usual.
+ *
+ * Externals are resolved to absolute dist paths and rewritten to per-chunk
+ * relative specifiers in `generateBundle` (rollup's
+ * `makeAbsoluteExternalsRelative` relativizes against the wrong base for nested
+ * outDirs — set it to `false`).
+ */
+/**
+ * Resolves a source-internal import specifier (relative, or `#alias/...`
+ * rooted at src) to a file, mirroring the build's resolution closely enough
+ * for graph walking. External package specifiers return null.
+ */
+function resolveSourceSpec(
+  spec: string,
+  fromDir: string,
+  srcAbs: string
+): string | null {
+  let base: string
+  if (spec.startsWith('.')) {
+    base = resolve(fromDir, spec)
+  } else if (spec.startsWith('#')) {
+    const rest = spec.split('/').slice(1).join('/')
+    if (!rest) return null
+    base = resolve(srcAbs, rest)
+  } else {
+    return null
+  }
+
+  for (const candidate of [
+    base,
+    `${base}.ts`,
+    `${base}.vue`,
+    join(base, 'index.ts'),
+  ]) {
+    if (existsSync(candidate) && statSync(candidate).isFile()) return candidate
+  }
+  return null
+}
+
+/**
+ * The transitive closure of dual-mode source modules: files that reference
+ * the `__VUEFORM_VAPOR__` compile-time define, plus everything that imports
+ * them (directly or through barrels). The main dist compiles these with the
+ * define off, so the vapor build must compile its own copies — resolving any
+ * of them to the main dist would hand the vapor tree vdom-mode behavior
+ * (e.g. an object-format directive the vapor runtime cannot apply).
+ */
+function dualModeClosure(srcAbs: string): Set<string> {
+  const files: string[] = []
+  ;(function walk(dir: string) {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const abs = join(dir, entry.name)
+      if (entry.isDirectory()) walk(abs)
+      else if (/\.(ts|vue)$/.test(entry.name) && !entry.name.endsWith('.d.ts'))
+        files.push(abs)
+    }
+  })(srcAbs)
+
+  const importers = new Map<string, string[]>()
+  const seeds: string[] = []
+
+  for (const file of files) {
+    const source = readFileSync(file, 'utf8')
+    if (source.includes('__VUEFORM_VAPOR__')) seeds.push(file)
+
+    for (const match of source.matchAll(
+      /(?:from\s+|import\(\s*)['"]([^'"]+)['"]/g
+    )) {
+      const dep = resolveSourceSpec(match[1], dirname(file), srcAbs)
+      if (!dep) continue
+      let list = importers.get(dep)
+      if (!list) importers.set(dep, (list = []))
+      list.push(file)
+    }
+  }
+
+  const closure = new Set<string>()
+  const queue = [...seeds]
+  while (queue.length) {
+    const file = queue.pop()!
+    if (closure.has(file)) continue
+    closure.add(file)
+    queue.push(...(importers.get(file) ?? []))
+  }
+
+  return closure
+}
 
 /**
  * The pnpm workspace root above `from` — the anchor for cross-package paths
@@ -346,20 +444,6 @@ export function createLibBuild(options: LibBuildOptions): BuildOptions {
   }
 }
 
-/**
- * Externalizes every import that resolves inside `srcAbs` but outside the
- * `keep` directories to the corresponding main-dist module, as a relative path
- * escaping the vapor output directory. Relative specifiers bypass the package's
- * exports map, so internals stay private, and sharing the main-dist modules
- * keeps stateful ones (tokens, registries, contexts) single-instance across
- * both modes. Modules whose main-dist file does not exist (pruned type-only
- * modules) stay internal and tree-shake away as usual.
- *
- * Externals are resolved to absolute dist paths and rewritten to per-chunk
- * relative specifiers in `generateBundle` (rollup's
- * `makeAbsoluteExternalsRelative` relativizes against the wrong base for nested
- * outDirs — set it to `false`).
- */
 export function vaporExternals(
   root: string,
   srcAbs: string,
@@ -367,6 +451,7 @@ export function vaporExternals(
   keep: string[]
 ): Plugin {
   const distAbs = resolve(root, 'dist')
+  const dualMode = dualModeClosure(srcAbs)
 
   return {
     name: 'vf:vapor-externals',
@@ -381,6 +466,16 @@ export function vaporExternals(
       const [file] = resolved.id.split('?')
       if (!file.startsWith(srcAbs + sep)) return
       if (keep.some((dir) => file.startsWith(dir + sep))) return
+      // SFCs must never resolve to the main dist: that file is vdom-compiled,
+      // and a vdom component inside a vapor tree renders nothing. Keeping the
+      // .vue internal lets this build vapor-compile it (stateless by
+      // definition here — stateful modules are .ts and stay shared).
+      if (file.endsWith('.vue')) return
+      // Same for dual-mode modules keyed on the __VUEFORM_VAPOR__ define and
+      // everything importing them (e.g. a config barrel registering a
+      // directive with an object vdom form and a function vapor form): the
+      // main-dist copies were compiled with the define off.
+      if (dualMode.has(file)) return
       const rel = relative(srcAbs, file).replace(/\.ts$/, '')
       const distFile = resolve(distAbs, `${rel}.mjs`)
       if (!existsSync(distFile)) return

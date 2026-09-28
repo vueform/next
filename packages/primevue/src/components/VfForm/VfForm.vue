@@ -474,8 +474,14 @@ defineExpose(expose)
           <slot name="elements" :resolved-schema :pager>
             <!-- In vertical stepped mode elements render here once (so they
               register with the pager) and are teleported into the active
-              StepPanel -->
-            <Teleport :to="stepPanelTarget" :disabled="!stepPanelTarget">
+              StepPanel. The target must stay a string even while disabled:
+              the server renderer silently renders NOTHING for a teleport
+              with a falsy `to`, disabled or not, which drops every element
+              from the SSR payload (and mismatches on hydration). -->
+            <Teleport
+              :to="stepPanelTarget ?? 'body'"
+              :disabled="!stepPanelTarget"
+            >
               <component
                 :is="
                   tabbed

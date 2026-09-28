@@ -118,6 +118,7 @@
     "registry": "vf-registry",
     "size": "vf-size",
     "size:report": "vf-size --report",
+    "smoke": "tsx tests/smoke/run.ts",
     "validate": "vf-validate-source"
   },
   "dependencies": {
@@ -131,6 +132,7 @@
     "fast-glob": "catalog:",
     "sass-embedded": "catalog:",
     "terser": "catalog:",
+    "tsx": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
     "vue-vapor": "catalog:"

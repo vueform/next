@@ -1,0 +1,25 @@
+{
+  "name": "smoke-ui-vapor",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit",
+    "build": "vite build",
+    "serve": "vite preview --strictPort"
+  },
+  "dependencies": {
+    "@vueform/core": "file:managed-by-smoke-harness",
+    "@vueform/expr-eval": "file:managed-by-smoke-harness",
+    "@vueform/ui": "file:managed-by-smoke-harness",
+    "vue": "npm:vue@3.6.0-rc.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.0.0",
+    "vue-tsc": "^2.2.12"
+  }
+}
