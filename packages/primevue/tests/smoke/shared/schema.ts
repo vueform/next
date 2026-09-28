@@ -20,7 +20,10 @@ export const schema = defineSchema({
     label: 'Checkboxes',
     options: { x: 'X', y: 'Y' },
   },
-  group: { type: 'group', schema: { city: { type: 'input-text', label: 'City' } } },
+  group: {
+    type: 'group',
+    schema: { city: { type: 'input-text', label: 'City' } },
+  },
   list: {
     type: 'list',
     schema: { entry: { type: 'input-text', label: 'Entry' } },

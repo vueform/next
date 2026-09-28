@@ -1,7 +1,7 @@
 /**
  * Shared spec plumbing: the console policy and the cell metadata the harness
- * wrote at assemble time. Plain ESM on purpose — runs live under
- * node_modules, where Node refuses to type-strip TypeScript.
+ * wrote at assemble time. Plain ESM on purpose — runs live under node_modules,
+ * where Node refuses to type-strip TypeScript.
  */
 import fs from 'node:fs'
 import path from 'node:path'

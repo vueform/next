@@ -15,7 +15,11 @@ export const schema = defineSchema({
     items: { a: 'A', b: 'B' },
     default: 'a',
   },
-  checkboxes: { type: 'checkboxes', label: 'Checkboxes', items: { x: 'X', y: 'Y' } },
+  checkboxes: {
+    type: 'checkboxes',
+    label: 'Checkboxes',
+    items: { x: 'X', y: 'Y' },
+  },
   group: { type: 'group', schema: { city: { type: 'text', label: 'City' } } },
   list: { type: 'list', schema: { entry: { type: 'text', label: 'Entry' } } },
   submit: { type: 'button', action: 'submit', text: 'Submit' },

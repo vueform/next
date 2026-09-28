@@ -2,13 +2,13 @@ import { adapterFullEntry } from './adapter'
 import type { Scenario, SizeConfig } from './types'
 
 /**
- * The plugin suite measures what the plugin adds on top of a full
- * `@vueform/ui` build (every element, no plugins), with a matched dep-only
- * reference build so the report can split the delta into the plugin's own code
- * and its third-party dependency.
+ * The plugin suite measures what the plugin adds on top of a full `@vueform/ui`
+ * build (every element, no plugins), with a matched dep-only reference build so
+ * the report can split the delta into the plugin's own code and its third-party
+ * dependency.
  *
- * The plugin describes its dependency in its manifest's `vueform.size`:
- * `dep` (the package), `depImport` (an import line for it) and `depRetain` (a
+ * The plugin describes its dependency in its manifest's `vueform.size`: `dep`
+ * (the package), `depImport` (an import line for it) and `depRetain` (a
  * statement using it so the bundler retains it).
  */
 export function pluginScenarios(

@@ -1,4 +1,6 @@
-/** Shared parametric schema builders for the bench files. */
+/**
+ * Shared parametric schema builders for the bench files.
+ */
 
 type Schema = Record<string, Record<string, unknown>>
 
@@ -16,7 +18,9 @@ export function flatText(n: number): Schema {
   return schema
 }
 
-/** The same N text elements split evenly across `steps` pages. */
+/**
+ * The same N text elements split evenly across `steps` pages.
+ */
 export function steppedText(n: number, steps = 10): Schema {
   const schema = flatText(n)
 
@@ -27,7 +31,9 @@ export function steppedText(n: number, steps = 10): Schema {
   return schema
 }
 
-/** Fresh values for all N elements, distinct per call. */
+/**
+ * Fresh values for all N elements, distinct per call.
+ */
 let generation = 0
 
 export function allValues(n: number): Record<string, string> {

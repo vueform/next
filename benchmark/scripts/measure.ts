@@ -1,6 +1,6 @@
-import type { Browser } from 'playwright'
-import type { BenchCase, Mode } from './cases'
 import { mean } from './stats'
+import type { BenchCase, Mode } from './cases'
+import type { Browser } from 'playwright'
 
 // The evaluate/waitForFunction callbacks below run inside the page; this
 // config has no DOM lib, so the page global is declared here instead.
@@ -18,14 +18,13 @@ interface PageBenchResult {
 }
 
 /**
- * One sweep point: `reps` repetitions of the case at element count `n`, each
- * in a fresh browser context and page so no repetition inherits another's
- * heap, JIT state, or DOM.
+ * One sweep point: `reps` repetitions of the case at element count `n`, each in
+ * a fresh browser context and page so no repetition inherits another's heap,
+ * JIT state, or DOM.
  *
  * Memory is a forced-GC heap delta around the page's `run()`: GC twice and
- * settle, read `JSHeapUsedSize`, run, GC twice and settle, read again. The
- * page mounts nothing until `run()` is called, so the baseline sees the idle
- * page.
+ * settle, read `JSHeapUsedSize`, run, GC twice and settle, read again. The page
+ * mounts nothing until `run()` is called, so the baseline sees the idle page.
  */
 export async function measurePoint(
   browser: Browser,

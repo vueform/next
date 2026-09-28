@@ -10,9 +10,13 @@
 export interface BenchParams {
   case: string
   n: number
-  /** Untimed iterations before measurement (iterate cases only). */
+  /**
+   * Untimed iterations before measurement (iterate cases only).
+   */
   warmup: number
-  /** Timed iterations (iterate cases only). */
+  /**
+   * Timed iterations (iterate cases only).
+   */
   iterations: number
 }
 

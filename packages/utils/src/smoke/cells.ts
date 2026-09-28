@@ -1,12 +1,12 @@
 /**
  * The smoke-test cell model.
  *
- * A cell is one project setup an adapter is smoke-tested in, described by
- * three dimensions: env (vite | nuxt), rendering (spa | ssr) and mode
- * (vdom | vapor). CLI flags are FILTERS over the fixed cell set — each given
- * dimension flag narrows the selection to cells matching any of that
- * dimension's given values, and a selection that comes up empty is an
- * unsupported combination (e.g. `--nuxt --vapor`).
+ * A cell is one project setup an adapter is smoke-tested in, described by three
+ * dimensions: env (vite | nuxt), rendering (spa | ssr) and mode (vdom | vapor).
+ * CLI flags are FILTERS over the fixed cell set — each given dimension flag
+ * narrows the selection to cells matching any of that dimension's given values,
+ * and a selection that comes up empty is an unsupported combination (e.g.
+ * `--nuxt --vapor`).
  */
 
 export const ENVS = ['vite', 'nuxt'] as const
@@ -90,8 +90,8 @@ export interface CellFilters {
 }
 
 /**
- * Applies the dimension filters. An empty filter array means "no filter on
- * this dimension".
+ * Applies the dimension filters. An empty filter array means "no filter on this
+ * dimension".
  */
 export function filterCells(filters: CellFilters): CellDef[] {
   return CELLS.filter(

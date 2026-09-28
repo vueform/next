@@ -2,10 +2,10 @@
  * Runs one cell end to end. The tiers:
  *
  * - 0: install (+ leak check) and production build
- * - 1: types — the fixture's `typecheck` script over the shared type
- *      assertions, against the tarballs' dist .d.ts
+ * - 1: types — the fixture's `typecheck` script over the shared type assertions,
+ *   against the tarballs' dist .d.ts
  * - 2: boot — Playwright `boot.spec` (console/pageerror/warning policy,
- *      per-element render assertions, SSR/hydration checks)
+ *   per-element render assertions, SSR/hydration checks)
  * - 3: canonical interaction — Playwright `interaction.spec`
  *
  * Install always runs (everything needs it); the build runs for tier 0 or

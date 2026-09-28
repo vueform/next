@@ -3,7 +3,6 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "packageManager": "pnpm@10.20.0",
   "scripts": {
     "build:vapor": "BENCH_VAPOR=1 vite build",
     "build:vdom": "vite build",
@@ -20,11 +19,14 @@
     "typescript": "5.9.3",
     "vite": "7.3.6"
   },
+  "packageManager": "pnpm@10.20.0",
   "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild"
+    ],
     "overrides": {
       "@vueform/cli": "file:./.tarballs/vueform-cli.tgz",
       "@vueform/core": "file:./.tarballs/vueform-core.tgz"
-    },
-    "onlyBuiltDependencies": ["esbuild"]
+    }
   }
 }

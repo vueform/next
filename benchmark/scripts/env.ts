@@ -28,7 +28,9 @@ function packageVersion(pkgJsonPath: string): string {
   return JSON.parse(fs.readFileSync(pkgJsonPath, 'utf8')).version
 }
 
-/** The machine/version record shown in the docs' environment block. */
+/**
+ * The machine/version record shown in the docs' environment block.
+ */
 export function captureEnvironment(browserVersion: string): Environment {
   return {
     cpu: os.cpus()[0]?.model ?? 'unknown',
@@ -38,8 +40,6 @@ export function captureEnvironment(browserVersion: string): Environment {
     vue: packageVersion(
       path.join(APP_DIR, 'node_modules', 'vue', 'package.json')
     ),
-    vueform: packageVersion(
-      path.join(ROOT, 'packages', 'ui', 'package.json')
-    ),
+    vueform: packageVersion(path.join(ROOT, 'packages', 'ui', 'package.json')),
   }
 }

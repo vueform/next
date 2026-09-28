@@ -24,9 +24,9 @@ import type {
  *
  * Sizes come from each measured package's own
  * `packages/<name>/node_modules/.vueform/size.json`, and — for the
- * adapter-independent building blocks (modules, rules, locales) — from the
- * core package's, the same way the suite's own report does. All values are
- * gzipped deltas.
+ * adapter-independent building blocks (modules, rules, locales) — from the core
+ * package's, the same way the suite's own report does. All values are gzipped
+ * deltas.
  */
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))

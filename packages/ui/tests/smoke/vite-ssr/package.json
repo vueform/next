@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "vue-tsc --noEmit",
     "build": "vite build --outDir dist/client && vite build --ssr src/entry-server.ts --outDir dist/server",
-    "serve": "node server.mjs"
+    "serve": "node server.mjs",
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@vueform/core": "file:managed-by-smoke-harness",

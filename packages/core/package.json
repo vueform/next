@@ -79,6 +79,9 @@
     "size": "vf-size",
     "test": "vitest --maxWorkers=16"
   },
+  "dependencies": {
+    "@vue/devtools-api": "catalog:"
+  },
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:",
     "@vue/shared": "catalog:",
@@ -96,8 +99,5 @@
   },
   "peerDependencies": {
     "vue": "catalog:peer"
-  },
-  "dependencies": {
-    "@vue/devtools-api": "catalog:"
   }
 }

@@ -18,7 +18,9 @@ export const RESULTS_JSON = path.join(
 )
 export const CHARTS_DIR = path.join(BENCH_DIR, 'results', 'charts')
 
-/** The dist packages the app consumes, packed as tarballs. */
+/**
+ * The dist packages the app consumes, packed as tarballs.
+ */
 const PACKAGES = ['ui', 'core', 'cli']
 
 export function run(command: string, args: string[], cwd: string): void {
@@ -69,8 +71,8 @@ export function vaporVueVersion(): string {
 }
 
 /**
- * The app's committed package.json can't read the catalog, so drift between
- * its vue pin and the catalog's `vue-vapor` entry is checked here instead.
+ * The app's committed package.json can't read the catalog, so drift between its
+ * vue pin and the catalog's `vue-vapor` entry is checked here instead.
  */
 export function checkAppVueVersion(): void {
   const appPkg = JSON.parse(
@@ -87,7 +89,9 @@ export function checkAppVueVersion(): void {
   }
 }
 
-/** Packs ui/core/cli dist into app/.tarballs with stable filenames. */
+/**
+ * Packs ui/core/cli dist into app/.tarballs with stable filenames.
+ */
 export function pack(): void {
   fs.mkdirSync(TARBALLS_DIR, { recursive: true })
 
@@ -103,8 +107,8 @@ export function pack(): void {
 
 /**
  * Standalone install: the app is excluded from the workspace so its Vue 3.6
- * never reaches workspace resolution. pnpm re-resolves the repacked tarballs
- * by content hash, so this also picks up fresh builds.
+ * never reaches workspace resolution. pnpm re-resolves the repacked tarballs by
+ * content hash, so this also picks up fresh builds.
  */
 export function installApp(): void {
   console.log('[bench] install app (pnpm install --ignore-workspace)')

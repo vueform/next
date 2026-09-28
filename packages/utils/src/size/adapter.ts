@@ -5,11 +5,11 @@ import { pvDeps } from './pvDeps'
 import type { Scenario, SizeConfig } from './types'
 
 /**
- * The adapter suite measures the bare core entry (`createVueform` imported
- * from the adapter, nothing installed), each component and each theme.
+ * The adapter suite measures the bare core entry (`createVueform` imported from
+ * the adapter, nothing installed), each component and each theme.
  *
- * The PrimeVue adapter's scenarios additionally install PrimeVue itself the
- * way a real app does (config + Aura preset + primeicons + Tooltip), and every
+ * The PrimeVue adapter's scenarios additionally install PrimeVue itself the way
+ * a real app does (config + Aura preset + primeicons + Tooltip), and every
  * delta gets a matched PrimeVue-only reference build so reports can split it
  * into a raw-PrimeVue part and a Vueform part.
  */
@@ -82,8 +82,14 @@ function createVueformEntry(options: {
   componentsValue: string
   extras?: EntryExtras
 }): string {
-  const { pkg, theme, shell, componentImports, componentsValue, extras = {} } =
-    options
+  const {
+    pkg,
+    theme,
+    shell,
+    componentImports,
+    componentsValue,
+    extras = {},
+  } = options
 
   const imports = [
     ...(shell ? [shell.imports] : []),

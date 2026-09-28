@@ -1,30 +1,42 @@
 /**
  * The case registry: what the suite measures and how each case is sampled.
  *
- * `id` doubles as the case's key in `results/json/benchmarks.json` and the
- * base of its chart filenames (`<id>-time.svg`, `<id>-memory.svg`), which the
- * docs' performance guide references — renaming a case is a docs change too.
+ * `id` doubles as the case's key in `results/json/benchmarks.json` and the base
+ * of its chart filenames (`<id>-time.svg`, `<id>-memory.svg`), which the docs'
+ * performance guide references — renaming a case is a docs change too.
  */
 
 export type Mode = 'vdom' | 'vapor'
 
 export const MODES: Mode[] = ['vdom', 'vapor']
 
-/** Element counts each case sweeps by default. */
+/**
+ * Element counts each case sweeps by default.
+ */
 export const SWEEP = [100, 250, 500, 750, 1000]
 
 export interface BenchCase {
   id: string
-  /** Chart title base and the JSON `label`. */
+  /**
+   * Chart title base and the JSON `label`.
+   */
   label: string
   description: string
-  /** Record forced-GC heap deltas (rendering cases only). */
+  /**
+   * Record forced-GC heap deltas (rendering cases only).
+   */
   memory: boolean
-  /** Repetitions per sweep point, each in a fresh page. */
+  /**
+   * Repetitions per sweep point, each in a fresh page.
+   */
   reps: number
-  /** In-page untimed iterations before measurement (iterate cases). */
+  /**
+   * In-page untimed iterations before measurement (iterate cases).
+   */
   warmup?: number
-  /** In-page timed iterations (iterate cases). */
+  /**
+   * In-page timed iterations (iterate cases).
+   */
   iterations?: number
 }
 

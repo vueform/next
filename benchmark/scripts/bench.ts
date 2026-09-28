@@ -10,19 +10,19 @@
  * Flags (all optional, defaults run the full suite):
  *
  * - `--case=render-text[,update-all]` — only these cases
- * - `--mode=vdom|vapor`               — only this rendering mode
- * - `--n=100,250`                     — only these sweep points
- * - `--reps=5`                        — repetitions per point
+ * - `--mode=vdom|vapor` — only this rendering mode
+ * - `--n=100,250` — only these sweep points
+ * - `--reps=5` — repetitions per point
  * - `--warmup=10` / `--iterations=50` — in-page iteration counts
- * - `--no-pack` / `--no-build`        — reuse existing tarballs / app builds
- * - `--no-charts`                     — skip chart regeneration
+ * - `--no-pack` / `--no-build` — reuse existing tarballs / app builds
+ * - `--no-charts` — skip chart regeneration
  *
  * Partial runs merge into the existing results file, so a single case can be
  * refreshed without rerunning the suite.
  */
+import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
-import { execFileSync } from 'node:child_process'
 import { chromium } from 'playwright'
 import { CASES, MODES, SWEEP, type Mode } from './cases'
 import { generateCharts } from './charts'
@@ -162,7 +162,8 @@ async function main(): Promise<void> {
   try {
     const results = loadResults()
     const environment = captureEnvironment(browser.version())
-    const points = options.cases.length * options.modes.length * options.ns.length
+    const points =
+      options.cases.length * options.modes.length * options.ns.length
     let done = 0
 
     console.log(
@@ -214,10 +215,14 @@ async function main(): Promise<void> {
 
     fs.mkdirSync(path.dirname(RESULTS_JSON), { recursive: true })
     fs.writeFileSync(RESULTS_JSON, JSON.stringify(results, null, 2) + '\n')
-    console.log(`[bench] results → ${path.relative(process.cwd(), RESULTS_JSON)}`)
+    console.log(
+      `[bench] results → ${path.relative(process.cwd(), RESULTS_JSON)}`
+    )
 
     if (options.charts) {
-      const charts = generateCharts(results as Parameters<typeof generateCharts>[0])
+      const charts = generateCharts(
+        results as Parameters<typeof generateCharts>[0]
+      )
       console.log(`[bench] ${charts.length} charts regenerated`)
     }
   } finally {

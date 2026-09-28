@@ -3,8 +3,8 @@
  * fixtures install these, so they consume exactly what a user would get from
  * the registry (exports maps, dist files, rewritten .d.ts, bin entries).
  *
- * All non-private `packages/*` manifests are packed; the dependency closure
- * of any adapter is a subset, so nothing needs a hardcoded list. `pnpm pack`
+ * All non-private `packages/*` manifests are packed; the dependency closure of
+ * any adapter is a subset, so nothing needs a hardcoded list. `pnpm pack`
  * rewrites `workspace:*` ranges to concrete semver, which is why fixture
  * manifests additionally override every packed name to its tarball (see
  * assemble.ts) — otherwise transitive deps would resolve from the registry.
@@ -50,7 +50,8 @@ function discoverPackable(root: string): PackablePackage[] {
  */
 function assertBuilt(packages: PackablePackage[]) {
   const missing = packages.filter((p) => {
-    const files: string[] = readJson(path.join(p.dir, 'package.json')).files ?? []
+    const files: string[] =
+      readJson(path.join(p.dir, 'package.json')).files ?? []
     return files.includes('dist') && !exists(path.join(p.dir, 'dist'))
   })
 

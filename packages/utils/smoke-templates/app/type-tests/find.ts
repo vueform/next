@@ -1,7 +1,7 @@
 /**
- * form$.find / form$.get (type level): known schema paths return the
- * element's schema-narrowed context, nested paths resolve, and unknown paths
- * fall back to the untyped element.
+ * form$.find / form$.get (type level): known schema paths return the element's
+ * schema-narrowed context, nested paths resolve, and unknown paths fall back to
+ * the untyped element.
  */
 import { useForm } from '../adapter'
 import { schema } from '../schema'

@@ -1,9 +1,9 @@
 /**
  * Test-warn capture for the orchestrators (`test`, `verify`): parses vitest's
  * per-test captured console blocks, aggregates identical messages, writes the
- * full texts to `node_modules/.vueform/tests.md`, and renders the terminal report. Collection
- * and rendering are split so the markdown file's line numbers are final when
- * the terminal links to them.
+ * full texts to `node_modules/.vueform/tests.md`, and renders the terminal
+ * report. Collection and rendering are split so the markdown file's line
+ * numbers are final when the terminal links to them.
  */
 import { rmSync } from 'node:fs'
 import { join, relative } from 'node:path'
@@ -94,8 +94,8 @@ export function collectWarns(task: Task, output: string): undefined {
 }
 
 /**
- * Writes `node_modules/.vueform/test-issues.md` and returns each unique message's code-fence
- * content start line, for the terminal links.
+ * Writes `node_modules/.vueform/test-issues.md` and returns each unique
+ * message's code-fence content start line, for the terminal links.
  */
 function writeMessagesFile(): Map<string, number> {
   return writeIssuesFile(

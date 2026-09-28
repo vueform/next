@@ -1,7 +1,7 @@
 /**
  * Bundle-size orchestrator (`pnpm size`): runs every package's `size` script
- * (or the ones selected by flags) as a task list with per-package progress
- * bars — the same renderer as `pnpm build` / `pnpm check`. Packages run in
+ * (or the ones selected by flags) as a task list with per-package progress bars
+ * — the same renderer as `pnpm build` / `pnpm check`. Packages run in
  * dependency-tier order (core → adapters → plugins), so adapter reports embed
  * fresh core numbers.
  *

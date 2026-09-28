@@ -4,11 +4,10 @@
  * - `core` (`@vueform/core`): the building blocks — per-module, per-rule and
  *   per-locale costs. Adapter-independent (adapters re-export them unchanged),
  *   so they are measured once here and embedded into every adapter report.
- * - `adapter` (`vueform.group: "adapters"`): the bare core entry
- *   (`createVueform` imported from the adapter), per-component and per-theme
- *   costs.
- * - `plugin` (`vueform.group: "plugins"`): what the plugin adds on top of a
- *   full `@vueform/ui` build, split into Vueform code and its third-party
+ * - `adapter` (`vueform.group: "adapters"`): the bare core entry (`createVueform`
+ *   imported from the adapter), per-component and per-theme costs.
+ * - `plugin` (`vueform.group: "plugins"`): what the plugin adds on top of a full
+ *   `@vueform/ui` build, split into Vueform code and its third-party
  *   dependency.
  */
 export type MeasurementType = 'core' | 'adapter' | 'plugin'
@@ -140,8 +139,8 @@ export interface SizeConfig {
    */
   defaultTheme?: string
   /**
-   * Extra packages recorded in the measurement environment besides the
-   * defaults (the package itself, `@vueform/core`, `vue`, `vite`).
+   * Extra packages recorded in the measurement environment besides the defaults
+   * (the package itself, `@vueform/core`, `vue`, `vite`).
    */
   envDeps?: string[]
   /**

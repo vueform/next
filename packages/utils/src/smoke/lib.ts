@@ -1,6 +1,6 @@
 /**
- * Shared helpers for the smoke harness: repo/path discovery, process
- * spawning and small fs utilities. Everything ephemeral lives under
+ * Shared helpers for the smoke harness: repo/path discovery, process spawning
+ * and small fs utilities. Everything ephemeral lives under
  * `node_modules/.vueform/smoke` (swept by `pnpm clean` for free).
  */
 import { spawnSync } from 'node:child_process'

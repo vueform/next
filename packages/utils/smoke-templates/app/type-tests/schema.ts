@@ -1,10 +1,10 @@
 /**
- * defineSchema (type level): valid schemas are accepted const-narrowed,
- * unknown element types and wrong prop value types are rejected, and `items`
- * narrows the entry's own value props. Negative cases spread the canonical
- * schema's entries, so nothing here hardcodes adapter type strings.
- * (Excess/unknown props are currently accepted by design — several entry
- * props take passthrough values — so there is no excess-prop assertion.)
+ * defineSchema (type level): valid schemas are accepted const-narrowed, unknown
+ * element types and wrong prop value types are rejected, and `items` narrows
+ * the entry's own value props. Negative cases spread the canonical schema's
+ * entries, so nothing here hardcodes adapter type strings. (Excess/unknown
+ * props are currently accepted by design — several entry props take passthrough
+ * values — so there is no excess-prop assertion.)
  */
 import { defineSchema } from '../adapter'
 import { schema } from '../schema'

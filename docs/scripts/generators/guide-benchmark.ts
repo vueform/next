@@ -5,8 +5,7 @@ import { fileURLToPath } from 'node:url'
 /**
  * Publishes the benchmark suite's output to the docs: copies the generated SVG
  * charts into `src/public/charts` and fills the measured numbers of each
- * adapter's performance guide from
- * `benchmark/results/json/benchmarks.json`.
+ * adapter's performance guide from `benchmark/results/json/benchmarks.json`.
  *
  * The page is authored by hand; this script only replaces the values between
  * `<!-- @bench:<key> -->` and `<!-- /@bench -->` markers, written as inline
@@ -212,9 +211,8 @@ function valueOf(results: Results, key: string): string | undefined {
 // ---------------------------------------------------------------------------
 
 /**
- * Mirrors `benchmark/results/charts` into the docs' public directory,
- * removing charts that the suite no longer produces. Returns the published file
- * names.
+ * Mirrors `benchmark/results/charts` into the docs' public directory, removing
+ * charts that the suite no longer produces. Returns the published file names.
  */
 function publishCharts(): string[] {
   if (!fs.existsSync(CHARTS_SRC)) {

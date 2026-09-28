@@ -12,14 +12,14 @@ const vapor = !!process.env.BENCH_VAPOR
 const APP_DIR = path.dirname(fileURLToPath(import.meta.url))
 
 /**
- * TEMPORARY: works around a gap in the packaged vapor dist. The vapor
- * rebuild covers `src/components` only, so `helpers/VfPassthrough.vue` ships
- * vdom-compiled and the vapor components' `<component :is>` chains fail on
- * it ("setup() returned non-block value"), rendering no elements. This
- * redirects the vapor components' `helpers/index.mjs` import to a shim that
- * re-exports the real helpers with a vapor-compiled copy of the identical
- * component — exactly what a fixed dist would contain. Drop this plugin
- * (and src/shims/) once the vapor dist ships its own VfPassthrough.
+ * TEMPORARY: works around a gap in the packaged vapor dist. The vapor rebuild
+ * covers `src/components` only, so `helpers/VfPassthrough.vue` ships
+ * vdom-compiled and the vapor components' `<component :is>` chains fail on it
+ * ("setup() returned non-block value"), rendering no elements. This redirects
+ * the vapor components' `helpers/index.mjs` import to a shim that re-exports
+ * the real helpers with a vapor-compiled copy of the identical component —
+ * exactly what a fixed dist would contain. Drop this plugin (and src/shims/)
+ * once the vapor dist ships its own VfPassthrough.
  */
 function vaporPassthroughShim(): Plugin {
   const shim = path.join(APP_DIR, 'src/shims/core-helpers.ts')

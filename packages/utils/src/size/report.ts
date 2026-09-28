@@ -61,8 +61,8 @@ function metricTables(
 
 /**
  * Renders the markdown report of a package's results — the section injected
- * into the package's README, so it carries no title of its own. `shared` is
- * the core package's results — adapter-independent per-module / per-rule /
+ * into the package's README, so it carries no title of its own. `shared` is the
+ * core package's results — adapter-independent per-module / per-rule /
  * per-locale costs embedded into every adapter report instead of having a
  * standalone report of their own.
  */

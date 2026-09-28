@@ -44,9 +44,9 @@ function escapeRegExp(value: string): string {
  * exports-derived subpaths, plus full package names) so tests always run
  * against sources, never dist.
  *
- * A separate `bench` project picks up `tests/bench/**\/*.bench.ts` for
- * `vitest bench` — plain `vitest` never runs bench files and `vitest bench`
- * never runs tests, each mode matching exactly one project.
+ * A separate `bench` project picks up `tests/bench/**\/*.bench.ts` for `vitest
+ * bench` — plain `vitest` never runs bench files and `vitest bench` never runs
+ * tests, each mode matching exactly one project.
  */
 export async function createVitestConfig(
   options: VitestOptions = {}

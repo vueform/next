@@ -1,40 +1,39 @@
 /**
  * Validates the per-component theme-chunk imports of an adapter
- * (`src/components/<Name>/styles.ts`) against the `vf-*` classes each
- * component can emit. The styles.ts imports are the single source of truth
- * for per-component CSS — this validation exists so they can never drift.
+ * (`src/components/<Name>/styles.ts`) against the `vf-*` classes each component
+ * can emit. The styles.ts imports are the single source of truth for
+ * per-component CSS — this validation exists so they can never drift.
  *
  * How it works:
  *
- * 1. Compiles every chunk the adapter draws from — its own `src/scss` files
- *    plus any layered core chunks — with sass on the fly (no dist needed, so
- *    it runs before the build and always reflects the current sources) and
- *    parses them into a multi-valued class → (provider) index, where a
- *    provider is `own:<chunk>` (the adapter's own scss) or `core:<chunk>` (a
- *    core chunk the adapter's aggregate recipe layers under its own). A class
- *    occurrence is gated by its compound selector: `.vf-btn.vf-text` only
- *    counts for components that also emit `vf-btn`. `@keyframes` names are
- *    tracked so chunks that animate with another chunk's keyframes require
- *    it.
- * 2. Collects each component's emitted classes: string literals in its SFC
- *    sources (the adapter's own, falling back to core's for re-exported
- *    components). The adapter config's baseClasses (`*element`) attribute to
- *    VfLayout — its template renders the wrapper DOM that carries them.
+ * 1. Compiles every chunk the adapter draws from — its own `src/scss` files plus
+ *    any layered core chunks — with sass on the fly (no dist needed, so it runs
+ *    before the build and always reflects the current sources) and parses them
+ *    into a multi-valued class → (provider) index, where a provider is
+ *    `own:<chunk>` (the adapter's own scss) or `core:<chunk>` (a core chunk the
+ *    adapter's aggregate recipe layers under its own). A class occurrence is
+ *    gated by its compound selector: `.vf-btn.vf-text` only counts for
+ *    components that also emit `vf-btn`. `@keyframes` names are tracked so
+ *    chunks that animate with another chunk's keyframes require it.
+ * 2. Collects each component's emitted classes: string literals in its SFC sources
+ *    (the adapter's own, falling back to core's for re-exported components).
+ *    The adapter config's baseClasses (`*element`) attribute to VfLayout — its
+ *    template renders the wrapper DOM that carries them.
  * 3. Classes with no standalone selector in any chunk are semantic hooks for
  *    userland styling and are ignored.
- * 4. Because components resolve through global registration, every element
- *    renders inside VfLayout — chunks VfLayout imports count as a baseline
- *    that satisfies other components' requirements.
- * 5. Classes on the whitelist in utils' config.json (`classWhitelist`,
- *    exact names or `prefix-*` patterns, `global` plus per-adapter lists)
- *    satisfy selector mates without any component emitting them — classes
- *    that exist outside component sources, like vendor internals (`p-*`,
- *    `pi`) or classes core formatters produce (`vf-horizontal`).
+ * 4. Because components resolve through global registration, every element renders
+ *    inside VfLayout — chunks VfLayout imports count as a baseline that
+ *    satisfies other components' requirements.
+ * 5. Classes on the whitelist in utils' config.json (`classWhitelist`, exact names
+ *    or `prefix-*` patterns, `global` plus per-adapter lists) satisfy selector
+ *    mates without any component emitting them — classes that exist outside
+ *    component sources, like vendor internals (`p-*`, `pi`) or classes core
+ *    formatters produce (`vf-horizontal`).
  *
  * styles.ts declares own chunks as `#<adapter>/scss/<chunk>.scss` and core
  * chunks as `@vueform/core/<chunk>.css`. Where an own chunk shadows a layered
- * core chunk of the same name, BOTH are required — the own chunk styles on
- * top of core's base rules.
+ * core chunk of the same name, BOTH are required — the own chunk styles on top
+ * of core's base rules.
  *
  * Fails when a component emits a class whose providing chunk(s) are not
  * imported.
@@ -52,15 +51,15 @@ interface Occurrence {
    */
   mates: Set<string>
   /**
-   * The subset of `mates` sharing a compound with the class — classes that
-   * must sit on the same element for the rule to apply.
+   * The subset of `mates` sharing a compound with the class — classes that must
+   * sit on the same element for the rule to apply.
    */
   compoundMates: Set<string>
 }
 
 /**
- * Adapter-specific validation data under `vueform.validateSource` in the adapter's
- * manifest.
+ * Adapter-specific validation data under `vueform.validateSource` in the
+ * adapter's manifest.
  */
 export interface ValidateSourceConfig {
   /**
@@ -81,15 +80,15 @@ export interface ValidateSourceOptions {
    */
   verbose?: boolean
   /**
-   * Print inferred styles.ts content per component instead of validating —
-   * used to seed/refresh the sidecars.
+   * Print inferred styles.ts content per component instead of validating — used
+   * to seed/refresh the sidecars.
    */
   suggest?: boolean
 }
 
 function stripParens(selector: string): string {
   let out = selector
-  for (let prev = ''; prev !== out; ) {
+  for (let prev = ''; prev !== out;) {
     prev = out
     out = out.replace(/\([^()]*\)/g, '')
   }
@@ -123,9 +122,9 @@ function extractClassTokens(source: string): Set<string> {
 }
 
 /**
- * Validates the adapter's styles.ts imports (see the module docblock).
- * Returns the number of problems found (0 = OK); prints errors, warnings and
- * the summary itself.
+ * Validates the adapter's styles.ts imports (see the module docblock). Returns
+ * the number of problems found (0 = OK); prints errors, warnings and the
+ * summary itself.
  */
 export function validateSource(options: ValidateSourceOptions): number {
   const pkgDir = path.resolve(options.packageDir)
@@ -150,7 +149,9 @@ export function validateSource(options: ValidateSourceOptions): number {
   ]
   const whitelisted = (cls: string): boolean =>
     whitelist.some((pattern) =>
-      pattern.endsWith('*') ? cls.startsWith(pattern.slice(0, -1)) : cls === pattern
+      pattern.endsWith('*')
+        ? cls.startsWith(pattern.slice(0, -1))
+        : cls === pattern
     )
 
   const root = findWorkspaceRoot(pkgDir)
@@ -476,8 +477,6 @@ export function validateSource(options: ValidateSourceOptions): number {
     return errors.length
   }
   const summary = `OK — ${components.length} components checked`
-  console.log(
-    process.stdout.isTTY ? `\x1b[32m${summary}\x1b[0m` : summary
-  )
+  console.log(process.stdout.isTTY ? `\x1b[32m${summary}\x1b[0m` : summary)
   return 0
 }

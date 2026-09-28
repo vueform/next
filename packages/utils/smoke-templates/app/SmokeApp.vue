@@ -1,8 +1,8 @@
 <script setup lang="ts">
 /**
- * The shared smoke page, mounted by every fixture's thin shell. It renders
- * the canonical schema form AND the same form built from inline global
- * components, and exposes `window.__smoke` for the Playwright specs.
+ * The shared smoke page, mounted by every fixture's thin shell. It renders the
+ * canonical schema form AND the same form built from inline global components,
+ * and exposes `window.__smoke` for the Playwright specs.
  */
 import { onMounted, ref } from 'vue'
 import { schema } from './schema'

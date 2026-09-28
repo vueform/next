@@ -81,9 +81,9 @@ function adapterExternal(options: AdapterOptions): (string | RegExp)[] {
 }
 
 /**
- * Root-level vapor build entries derived from the package's exports map:
- * every `vapor` condition of the form `./dist/vapor/<name>.mjs` whose
- * `src/<name>.ts` exists.
+ * Root-level vapor build entries derived from the package's exports map: every
+ * `vapor` condition of the form `./dist/vapor/<name>.mjs` whose `src/<name>.ts`
+ * exists.
  */
 function exportedVaporEntries(root: string, srcAbs: string): string[] {
   const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))

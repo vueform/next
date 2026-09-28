@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "nuxt typecheck",
     "build": "nuxt build",
-    "serve": "HOST=127.0.0.1 PORT=$SMOKE_PORT node .output/server/index.mjs"
+    "serve": "HOST=127.0.0.1 PORT=$SMOKE_PORT node .output/server/index.mjs",
+    "typecheck": "nuxt typecheck"
   },
   "dependencies": {
     "@primeuix/themes": "^2.0.3",

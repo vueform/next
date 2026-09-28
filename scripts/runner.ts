@@ -20,8 +20,8 @@ export const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const packagesDir = join(repoRoot, 'packages')
 
 /**
- * Local orchestrator artifacts (recorded durations, captured messages) —
- * kept inside node_modules so they stay out of sight and out of git.
+ * Local orchestrator artifacts (recorded durations, captured messages) — kept
+ * inside node_modules so they stay out of sight and out of git.
  */
 export const outputDir = join(repoRoot, 'node_modules/.vueform')
 mkdirSync(outputDir, { recursive: true })
@@ -397,8 +397,8 @@ interface TaskResult {
 
 /**
  * Cumulative rendering state for `singleBar` queues: the task's active line
- * shows `baseMs` (time spent on earlier tasks) plus its own elapsed against
- * the whole queue's `totalMs`, instead of its own elapsed/expected.
+ * shows `baseMs` (time spent on earlier tasks) plus its own elapsed against the
+ * whole queue's `totalMs`, instead of its own elapsed/expected.
  */
 interface Progress {
   baseMs: number
@@ -424,7 +424,12 @@ async function runTask(
         list.update(
           index,
           progress
-            ? activeLine(label, progress.baseMs + elapsed, progress.totalMs, tick++)
+            ? activeLine(
+                label,
+                progress.baseMs + elapsed,
+                progress.totalMs,
+                tick++
+              )
             : activeLine(label, elapsed, expected, tick++)
         )
       }, 100)
@@ -474,7 +479,8 @@ async function runTask(
 
 export interface RunOptions {
   /**
-   * Namespace for duration records in `node_modules/.vueform/times.json`, e.g. `build`.
+   * Namespace for duration records in `node_modules/.vueform/times.json`, e.g.
+   * `build`.
    */
   timesScope: string
   /**
@@ -516,9 +522,9 @@ export interface RunOptions {
   /**
    * Render the whole queue as one cumulative progress line under `label`
    * instead of a task-list block: the bar tracks total elapsed against the
-   * summed expected durations, the line names the running task (`label —
-   * types (3/7)`). Per-task durations are still recorded. Non-TTY output is
-   * unchanged (sequential per-task lines). Not combinable with `resume`.
+   * summed expected durations, the line names the running task (`label — types
+   * (3/7)`). Per-task durations are still recorded. Non-TTY output is unchanged
+   * (sequential per-task lines). Not combinable with `resume`.
    */
   singleBar?: {
     label: string
@@ -557,7 +563,8 @@ export async function runQueue(queue: Task[], options: RunOptions) {
   const labelWidth = Math.max(...queue.map((t) => (t.label ?? t.id).length))
   const labels = single
     ? queue.map(
-        (t, i) => `${single.label} ${dim(`— ${t.label ?? t.id} (${i + 1}/${queue.length})`)}`
+        (t, i) =>
+          `${single.label} ${dim(`— ${t.label ?? t.id} (${i + 1}/${queue.length})`)}`
       )
     : queue.map((t) => (t.label ?? t.id).padEnd(labelWidth))
   const totalExpected = queue.reduce(

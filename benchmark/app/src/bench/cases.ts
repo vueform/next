@@ -3,18 +3,22 @@ import { form$ } from '../state'
 import { allValues, flatText, steppedText } from './schemas'
 
 /**
- * One benchmark case as it runs inside the page. `mount` cases time the
- * mount itself; `iterate` cases mount untimed, then time repetitions of
- * `iterate()` — one logical operation each, awaited through Vue's flush so
- * the cost includes the DOM update the operation causes.
+ * One benchmark case as it runs inside the page. `mount` cases time the mount
+ * itself; `iterate` cases mount untimed, then time repetitions of `iterate()` —
+ * one logical operation each, awaited through Vue's flush so the cost includes
+ * the DOM update the operation causes.
  */
 export interface CaseSpec {
   schema: (n: number) => Record<string, unknown>
   formProps?: Record<string, unknown>
-  /** Bind an active v-model to the form. */
+  /**
+   * Bind an active v-model to the form.
+   */
   vmodel?: boolean
   measure: 'mount' | 'iterate'
-  /** Grab DOM/handles once, after the untimed mount (iterate cases). */
+  /**
+   * Grab DOM/handles once, after the untimed mount (iterate cases).
+   */
   prepare?: (n: number) => void
   iterate?: (n: number, iteration: number) => Promise<void>
 }

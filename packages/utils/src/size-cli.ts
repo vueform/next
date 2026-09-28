@@ -8,8 +8,8 @@
  *     pnpm size [--only=a,b] [--stats] [--list]
  *     pnpm size:report
  *
- * - `--only=a,b` rerun only the matching scenarios (by name, component, item
- *   or plugin), merging into the previous results
+ * - `--only=a,b` rerun only the matching scenarios (by name, component, item or
+ *   plugin), merging into the previous results
  * - `--stats` also emit rollup-visualizer treemaps (kept under the package's
  *   `node_modules/.cache/vf-size/stats/`)
  * - `--list` print the suite's scenarios without building

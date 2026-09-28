@@ -1,8 +1,8 @@
 /**
  * Minimal production SSR server over the built output: static assets from
- * dist/client, everything else server-rendered through dist/server. Listens
- * on 127.0.0.1:SMOKE_PORT (the smoke serve contract). Dependency-free on
- * purpose — this is what a bare-bones user SSR setup looks like.
+ * dist/client, everything else server-rendered through dist/server. Listens on
+ * 127.0.0.1:SMOKE_PORT (the smoke serve contract). Dependency-free on purpose —
+ * this is what a bare-bones user SSR setup looks like.
  */
 import fs from 'node:fs'
 import http from 'node:http'

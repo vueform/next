@@ -132,18 +132,16 @@ createApp(App).mount('#app')
       description: 'the required model module alone, measured against core',
       entry: coreEntry(pkg, { modules: ['model'] }),
     },
-    ...moduleNames(pkgDir).map(
-      (name): Scenario => ({
-        name: `module+${name}`,
-        group: 'module',
-        item: name,
-        base: 'model',
-        // CSS is only counted where the theme module is registered.
-        themed: name === 'theme',
-        description: `model plus the ${name} module`,
-        entry: coreEntry(pkg, { modules: ['model', name] }),
-      })
-    ),
+    ...moduleNames(pkgDir).map((name): Scenario => ({
+      name: `module+${name}`,
+      group: 'module',
+      item: name,
+      base: 'model',
+      // CSS is only counted where the theme module is registered.
+      themed: name === 'theme',
+      description: `model plus the ${name} module`,
+      entry: coreEntry(pkg, { modules: ['model', name] }),
+    })),
   ]
 
   // Directly measured all-included builds for the Total rows: modules and

@@ -1,8 +1,8 @@
 /**
  * Root fan-out for the smoke suites (`pnpm smoke [flags...]`): runs each
- * adapter's own `smoke` script with the given flags, in sequence, and fails
- * if any adapter fails. Flags are the per-adapter smoke CLI's (see
- * `pnpm --filter @vueform/ui smoke --help`).
+ * adapter's own `smoke` script with the given flags, in sequence, and fails if
+ * any adapter fails. Flags are the per-adapter smoke CLI's (see `pnpm --filter
+ * @vueform/ui smoke --help`).
  */
 import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
@@ -30,11 +30,15 @@ for (const entry of fs.readdirSync(packagesDir, { withFileTypes: true })) {
   }
 
   console.log(`\n[smoke] ${pkg.name} ${args.join(' ')}\n`)
-  const res = spawnSync('pnpm', ['--filter', pkg.name, 'run', 'smoke', ...args], {
-    cwd: repoRoot,
-    stdio: 'inherit',
-    shell: process.platform === 'win32',
-  })
+  const res = spawnSync(
+    'pnpm',
+    ['--filter', pkg.name, 'run', 'smoke', ...args],
+    {
+      cwd: repoRoot,
+      stdio: 'inherit',
+      shell: process.platform === 'win32',
+    }
+  )
   if (res.status !== 0) failed.push(pkg.name)
 }
 

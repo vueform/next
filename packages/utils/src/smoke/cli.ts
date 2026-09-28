@@ -12,7 +12,13 @@ import {
   type CellFilters,
   type Pm,
 } from './cells'
-import { exists, findRepoRoot, readJson, smokeStateDir, SmokeError } from './lib'
+import {
+  exists,
+  findRepoRoot,
+  readJson,
+  smokeStateDir,
+  SmokeError,
+} from './lib'
 import { packWorkspace } from './pack'
 import { runCell, summarize, type CellResult } from './runner'
 
@@ -94,7 +100,9 @@ function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
     }
 
     if (!arg.startsWith('--')) {
-      throw new SmokeError(`Unexpected argument: ${arg}\n\n${helpText(adapter)}`)
+      throw new SmokeError(
+        `Unexpected argument: ${arg}\n\n${helpText(adapter)}`
+      )
     }
 
     const [flag, value] = arg.slice(2).split('=', 2)
@@ -116,7 +124,9 @@ function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
         .filter(Boolean)
         .map((t) => Number(t))
       if (!parsed.length || parsed.some((t) => ![0, 1, 2, 3].includes(t))) {
-        throw new SmokeError(`Invalid --tiers value: ${value} (use e.g. --tiers=0,1)`)
+        throw new SmokeError(
+          `Invalid --tiers value: ${value} (use e.g. --tiers=0,1)`
+        )
       }
       tiers = new Set(parsed)
     } else if (flag === 'skip-pack') {
@@ -231,7 +241,9 @@ async function main(options: SmokeCliOptions) {
   void pkg
 }
 
-export async function runSmokeCli(options: SmokeCliOptions = {}): Promise<void> {
+export async function runSmokeCli(
+  options: SmokeCliOptions = {}
+): Promise<void> {
   try {
     await main(options)
   } catch (error) {

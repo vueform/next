@@ -4,9 +4,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "typecheck": "vue-tsc --noEmit",
     "build": "vite build",
-    "serve": "vite preview --strictPort"
+    "serve": "vite preview --strictPort",
+    "typecheck": "vue-tsc --noEmit"
   },
   "dependencies": {
     "@vueform/core": "file:managed-by-smoke-harness",

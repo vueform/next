@@ -1,9 +1,9 @@
 /**
  * Docs generator orchestrator (`pnpm gen` in docs/, `pnpm docs:gen` at the
- * root): runs every docs generator (or the ones selected by flags) as a
- * single cumulative progress bar naming the running generator — the same
- * renderer as `pnpm build` / `pnpm extract`, in its `singleBar` mode. The
- * generators' own output stays captured (dumped only on failure).
+ * root): runs every docs generator (or the ones selected by flags) as a single
+ * cumulative progress bar naming the running generator — the same renderer as
+ * `pnpm build` / `pnpm extract`, in its `singleBar` mode. The generators' own
+ * output stays captured (dumped only on failure).
  *
  * Structural json extraction (blueprints, classes, components, composables,
  * contexts, helpers, locales, modules, tokens) lives in scripts/api-extractor

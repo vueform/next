@@ -13,15 +13,16 @@ const MIME: Record<string, string> = {
 }
 
 export interface StaticServer {
-  /** `http://127.0.0.1:<port>` */
+  /**
+   * `http://127.0.0.1:<port>`
+   */
   origin: string
   close: () => Promise<void>
 }
 
 /**
- * Serves a directory on an ephemeral localhost port. Just enough server for
- * the built app — the measured page must not involve the network beyond
- * loopback.
+ * Serves a directory on an ephemeral localhost port. Just enough server for the
+ * built app — the measured page must not involve the network beyond loopback.
  */
 export function serve(root: string): Promise<StaticServer> {
   const server = http.createServer((req, res) => {

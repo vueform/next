@@ -1,7 +1,7 @@
 /**
  * Vendored type-assertion helpers (no vitest/tsd — vitest's typecheck mode
- * can't cover .vue templates and fixtures should carry no extra tooling).
- * A failing assertion is a tier-1 `vue-tsc --noEmit` error.
+ * can't cover .vue templates and fixtures should carry no extra tooling). A
+ * failing assertion is a tier-1 `vue-tsc --noEmit` error.
  */
 
 export type Equal<A, B> =

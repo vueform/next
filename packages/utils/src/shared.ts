@@ -79,9 +79,9 @@ const CSS_NODE_SHIM = "export default ''\n"
  * outDirs — set it to `false`).
  */
 /**
- * Resolves a source-internal import specifier (relative, or `#alias/...`
- * rooted at src) to a file, mirroring the build's resolution closely enough
- * for graph walking. External package specifiers return null.
+ * Resolves a source-internal import specifier (relative, or `#alias/...` rooted
+ * at src) to a file, mirroring the build's resolution closely enough for graph
+ * walking. External package specifiers return null.
  */
 function resolveSourceSpec(
   spec: string,
@@ -111,12 +111,12 @@ function resolveSourceSpec(
 }
 
 /**
- * The transitive closure of dual-mode source modules: files that reference
- * the `__VUEFORM_VAPOR__` compile-time define, plus everything that imports
- * them (directly or through barrels). The main dist compiles these with the
- * define off, so the vapor build must compile its own copies — resolving any
- * of them to the main dist would hand the vapor tree vdom-mode behavior
- * (e.g. an object-format directive the vapor runtime cannot apply).
+ * The transitive closure of dual-mode source modules: files that reference the
+ * `__VUEFORM_VAPOR__` compile-time define, plus everything that imports them
+ * (directly or through barrels). The main dist compiles these with the define
+ * off, so the vapor build must compile its own copies — resolving any of them
+ * to the main dist would hand the vapor tree vdom-mode behavior (e.g. an
+ * object-format directive the vapor runtime cannot apply).
  */
 function dualModeClosure(srcAbs: string): Set<string> {
   const files: string[] = []
@@ -541,7 +541,7 @@ export function shorthandProps(distAbs: string, helpersFrom: string): Plugin {
           skipped.length > 0
             ? ` (skipped ${skipped.length}: ${skipped.slice(0, 3).join('; ')}${skipped.length > 3 ? '…' : ''})`
             : ''
-         
+
         console.info(
           `[vf:shorthand-props] wrote ${written} shorthands.d.ts${skipNote}`
         )

@@ -2,9 +2,8 @@ import { bench, describe } from 'vitest'
 import { clone, equals, get, merge, mergeClass, set } from '#core'
 
 /**
- * Pure-function microbenches on the hot utilities that run per element and
- * per update — no DOM, no component tree, the most stable A/B signal in the
- * suite.
+ * Pure-function microbenches on the hot utilities that run per element and per
+ * update — no DOM, no component tree, the most stable A/B signal in the suite.
  */
 
 function deepFixture(breadth: number, depth: number): Record<string, unknown> {

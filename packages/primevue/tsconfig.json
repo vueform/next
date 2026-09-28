@@ -1,11 +1,5 @@
 {
   "extends": "../../tsconfig.json",
-  "include": [
-    "../global.d.ts",
-    "src",
-    "tests"
-  ],
-  "exclude": [
-    "tests/smoke"
-  ]
+  "include": ["../global.d.ts", "src", "tests"],
+  "exclude": ["tests/smoke"]
 }

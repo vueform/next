@@ -13,12 +13,7 @@ import { coreScenarios } from './core'
 import { measureDir } from './measure'
 import { pluginScenarios } from './plugin'
 import { injectReport } from './report'
-import type {
-  MeasurementType,
-  Results,
-  Scenario,
-  SizeConfig,
-} from './types'
+import type { MeasurementType, Results, Scenario, SizeConfig } from './types'
 import type { Plugin } from 'vite'
 
 interface Manifest {
@@ -153,11 +148,10 @@ function duplicateGuard(scenarioName: string): Plugin {
 /**
  * Measures the invoking package's bundle-size suite: generates a transient
  * fixture app under the package's node_modules cache (removed after the run),
- * builds every scenario with Vite, and writes the raw results to the
- * package's `node_modules/.vueform/size.json`
- * plus — for adapters and plugins — the markdown report into the README's
- * size section. Adapter reports embed the core package's building-block
- * numbers from its size.json.
+ * builds every scenario with Vite, and writes the raw results to the package's
+ * `node_modules/.vueform/size.json` plus — for adapters and plugins — the
+ * markdown report into the README's size section. Adapter reports embed the
+ * core package's building-block numbers from its size.json.
  */
 export async function runSize(options: RunSizeOptions): Promise<void> {
   const pkgDir = resolve(options.packageDir)

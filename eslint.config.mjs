@@ -12,12 +12,12 @@ const noParentRelativeImports = {
   message: 'Do not use parent relative imports (../…). Use @/… instead.',
 }
 
-// The modules barrel is only allowed in defaultModules.ts (`~/modules`) and
+// The modules barrel is only allowed in modules.ts (`~/modules`) and
 // index.ts (`./modules`); everything else imports a specific module.
 const noModulesBarrelImports = ['~/modules', './modules'].flatMap((name) =>
   [name, `${name}/index`].map((n) => ({
     name: n,
-    message: `Do not import from '${name}'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in defaultModules.ts and index.ts.`,
+    message: `Do not import from '${name}'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in modules.ts and index.ts.`,
   }))
 )
 
@@ -173,6 +173,7 @@ export default [
       '**/tests/**',
       '**/benchmarks/**',
       'docs/**',
+      'benchmark/**',
       'packages/metrics/**',
       'packages/scraper/**',
       // The CLI and utils publish as plain NodeNext packages — relative
@@ -194,13 +195,12 @@ export default [
     },
   },
 
-  // Core additionally bans the modules barrel (except in defaultModules.ts
+  // Core additionally bans the modules barrel (except in modules.ts
   // and index.ts). Re-declares the parent-relative restriction because flat
   // config replaces — not merges — rule options.
   {
     files: ['packages/core/**/*.{js,cjs,ts,vue}'],
     ignores: [
-      'packages/core/src/defaultModules.ts',
       'packages/core/src/index.ts',
       'packages/core/tests/**',
       'packages/core/benchmarks/**',
@@ -257,6 +257,7 @@ export default [
       '**/src/tokens/**',
       '**/packages/utils/src/**',
       '**/nuxt/src/**',
+      '**/*.d.ts',
       'packages/metrics/**',
     ],
     plugins: {

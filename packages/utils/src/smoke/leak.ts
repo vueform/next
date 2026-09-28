@@ -1,13 +1,13 @@
 /**
- * Post-install leak check. Runs live inside the monorepo, and Node's
- * ancestor `node_modules` walk means an incompletely installed fixture could
- * silently resolve `vue` or an `@vueform/*` package from the workspace root
- * and pass anyway. Locating every direct dependency the way Node would
- * (nearest `node_modules/<name>` walking up from the run dir) and asserting
- * it lives in the run's own tree turns that into a loud tier-0 failure.
+ * Post-install leak check. Runs live inside the monorepo, and Node's ancestor
+ * `node_modules` walk means an incompletely installed fixture could silently
+ * resolve `vue` or an `@vueform/*` package from the workspace root and pass
+ * anyway. Locating every direct dependency the way Node would (nearest
+ * `node_modules/<name>` walking up from the run dir) and asserting it lives in
+ * the run's own tree turns that into a loud tier-0 failure.
  *
- * Directory lookup, not entry resolution: several packages are ESM-only
- * (no `require` condition), so a createRequire-based resolve would throw on
+ * Directory lookup, not entry resolution: several packages are ESM-only (no
+ * `require` condition), so a createRequire-based resolve would throw on
  * perfectly healthy installs.
  */
 import path from 'node:path'

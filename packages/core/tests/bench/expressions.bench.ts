@@ -4,8 +4,8 @@ import { createForm } from '../helpers'
 
 /**
  * Expression templates (`{a + b}` via the exprEval plugin): the parse-heavy
- * mount of a form full of computed defaults, and the re-evaluation cost when
- * a dependency every expression references changes.
+ * mount of a form full of computed defaults, and the re-evaluation cost when a
+ * dependency every expression references changes.
  */
 
 function expressionSchema(n: number) {

@@ -6,8 +6,8 @@ import { CHARTS_DIR } from './lib'
 /**
  * Hand-rolled SVG line charts, one `<case>-time.svg` per case plus
  * `<case>-memory.svg` for the cases that record heap deltas, each with a
- * `-dark` twin. Geometry and palette match the charts the docs already ship,
- * so `docs:gen --benchmark` can mirror the folder as-is.
+ * `-dark` twin. Geometry and palette match the charts the docs already ship, so
+ * `docs:gen --benchmark` can mirror the folder as-is.
  */
 
 interface Theme {
@@ -47,14 +47,18 @@ const Y_INTERVALS = 3
 
 interface CaseSamples {
   label?: string
-  results: Partial<Record<Mode, Record<string, { mean: number; heapAvg?: number }>>>
+  results: Partial<
+    Record<Mode, Record<string, { mean: number; heapAvg?: number }>>
+  >
 }
 
 type Results = Record<string, CaseSamples> & {
   environment?: { vueform?: string }
 }
 
-/** Smallest 1/2/5×10^k step whose `Y_INTERVALS` multiples cover `max`. */
+/**
+ * Smallest 1/2/5×10^k step whose `Y_INTERVALS` multiples cover `max`.
+ */
 function niceStep(max: number): number {
   if (max <= 0) return 1
 
@@ -175,8 +179,8 @@ function renderChart(
 }
 
 /**
- * Regenerates every chart from the full results file, pruning charts of
- * metrics the suite no longer records.
+ * Regenerates every chart from the full results file, pruning charts of metrics
+ * the suite no longer records.
  */
 export function generateCharts(results: Results): string[] {
   fs.mkdirSync(CHARTS_DIR, { recursive: true })

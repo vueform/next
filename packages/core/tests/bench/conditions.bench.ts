@@ -4,9 +4,9 @@ import { createForm } from '../helpers'
 import { flatText } from './fixtures'
 
 /**
- * Structured conditions: the setup cost of a form where every element
- * depends on one driver field, and the re-evaluation cost of toggling that
- * driver (every condition in the form re-runs).
+ * Structured conditions: the setup cost of a form where every element depends
+ * on one driver field, and the re-evaluation cost of toggling that driver
+ * (every condition in the form re-runs).
  */
 
 function conditionalSchema(n: number) {

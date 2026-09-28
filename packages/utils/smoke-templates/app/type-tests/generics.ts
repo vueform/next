@@ -1,7 +1,7 @@
 /**
  * Generics (type level): SchemaToModel derives the model shape from the
- * canonical schema, and the adapter's bare entry demands the model module
- * (only the batteries-included entry ships preconfigured).
+ * canonical schema, and the adapter's bare entry demands the model module (only
+ * the batteries-included entry ships preconfigured).
  */
 import { createVueform } from '../adapter'
 import { schema } from '../schema'

@@ -4,9 +4,9 @@ import { createForm } from '../helpers'
 import { allValues, flatText } from './fixtures'
 
 /**
- * The write paths on a mounted form: replacing every value at once
- * (`update`), loading data, and a single element's update — the operation
- * behind every keystroke.
+ * The write paths on a mounted form: replacing every value at once (`update`),
+ * loading data, and a single element's update — the operation behind every
+ * keystroke.
  */
 describe('model', () => {
   const { form$ } = createForm({ schema: flatText(200) })
