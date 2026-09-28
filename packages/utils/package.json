@@ -14,11 +14,12 @@
     }
   },
   "bin": {
-    "vf-registry": "./dist/registry-cli.js",
-    "vf-size": "./dist/size-cli.js",
-    "vf-validate-source": "./dist/validate-source-cli.js"
+    "vf-registry": "./bin/vf-registry.js",
+    "vf-size": "./bin/vf-size.js",
+    "vf-validate-source": "./bin/vf-validate-source.js"
   },
   "files": [
+    "bin",
     "config.json",
     "dist",
     "smoke-templates"
