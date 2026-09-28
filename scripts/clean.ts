@@ -1,8 +1,9 @@
 /**
  * Repo cleaner (`pnpm clean`): removes `node_modules` directories and
  * `*.tsbuildinfo` files from the repo root, its direct subfolders, and
- * `packages/*` subfolders. Deliberately shallow — it does not descend
- * further, so nested dependency trees are never scanned.
+ * `packages/*` subfolders, plus each package's `dist` and the VitePress
+ * `docs/.vitepress/{dist,cache}` outputs. Deliberately shallow — it does
+ * not descend further, so nested dependency trees are never scanned.
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -27,14 +28,24 @@ const targets = [
   ...listDirs(path.join(repoRoot, 'packages')),
 ]
 
+const extraDirs = [
+  ...listDirs(path.join(repoRoot, 'packages')).map((dir) =>
+    path.join(dir, 'dist')
+  ),
+  path.join(repoRoot, 'docs', '.vitepress', 'dist'),
+  path.join(repoRoot, 'docs', '.vitepress', 'cache'),
+]
+
 const removed: string[] = []
 
+const removeDir = (dir: string) => {
+  if (!fs.existsSync(dir)) return
+  fs.rmSync(dir, { recursive: true, force: true })
+  removed.push(path.relative(repoRoot, dir))
+}
+
 for (const dir of targets) {
-  const nodeModules = path.join(dir, 'node_modules')
-  if (fs.existsSync(nodeModules)) {
-    fs.rmSync(nodeModules, { recursive: true, force: true })
-    removed.push(path.relative(repoRoot, nodeModules))
-  }
+  removeDir(path.join(dir, 'node_modules'))
 
   for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
     if (!entry.isFile() || !entry.name.endsWith('.tsbuildinfo')) continue
@@ -43,6 +54,8 @@ for (const dir of targets) {
     removed.push(path.relative(repoRoot, file))
   }
 }
+
+for (const dir of extraDirs) removeDir(dir)
 
 if (removed.length) {
   for (const item of removed) console.log(`[clean] removed ${item}`)
