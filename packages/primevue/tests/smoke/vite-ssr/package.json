@@ -1,0 +1,30 @@
+{
+  "name": "smoke-primevue-vite-ssr",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "typecheck": "vue-tsc --noEmit",
+    "build": "vite build --outDir dist/client && vite build --ssr src/entry-server.ts --outDir dist/server",
+    "serve": "node server.mjs"
+  },
+  "dependencies": {
+    "@primeuix/themes": "^2.0.3",
+    "@primevue/core": "^4.5.5",
+    "@vueform/core": "file:managed-by-smoke-harness",
+    "@vueform/expr-eval": "file:managed-by-smoke-harness",
+    "@vueform/primevue": "file:managed-by-smoke-harness",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.5",
+    "quill": "^2.0.3",
+    "vue": "^3.5.42"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "@vitejs/plugin-vue": "^6.0.9",
+    "@vue/tsconfig": "^0.7.0",
+    "typescript": "~5.9.3",
+    "vite": "^7.0.0",
+    "vue-tsc": "^2.2.12"
+  }
+}

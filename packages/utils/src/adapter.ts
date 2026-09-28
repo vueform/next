@@ -1,4 +1,4 @@
-import { existsSync, readdirSync } from 'node:fs'
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { basename, join, resolve } from 'node:path'
 import Dts from 'vite-plugin-dts'
@@ -81,6 +81,27 @@ function adapterExternal(options: AdapterOptions): (string | RegExp)[] {
 }
 
 /**
+ * Root-level vapor build entries derived from the package's exports map:
+ * every `vapor` condition of the form `./dist/vapor/<name>.mjs` whose
+ * `src/<name>.ts` exists.
+ */
+function exportedVaporEntries(root: string, srcAbs: string): string[] {
+  const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
+  const names = new Set<string>()
+
+  for (const value of Object.values(pkg.exports ?? {})) {
+    const vapor = (value as Record<string, unknown> | null)?.vapor
+    if (typeof vapor !== 'string') continue
+    const match = vapor.match(/^\.\/dist\/vapor\/([\w-]+)\.mjs$/)
+    if (match && existsSync(resolve(srcAbs, `${match[1]}.ts`))) {
+      names.add(match[1])
+    }
+  }
+
+  return [...names]
+}
+
+/**
  * Runs the vapor-mode build after the main bundle is written: the
  * `src/components` tree plus the theme entries emitted into `dist/vapor`,
  * compiled by Vue 3.6's vapor compiler (provided via the
@@ -117,6 +138,14 @@ function vaporBuild(
       }
       for (const theme of themeNames(srcAbs)) {
         entries[theme] = resolve(srcAbs, `${theme}.ts`)
+      }
+      // Every root-level vapor file the exports map promises must actually be
+      // emitted. Themes double as entries in some adapters (ui's origin /
+      // material), but not all: primevue's batteries entry is `full` with a
+      // separate `theme`, and themeNames alone would skip it, publishing an
+      // exports condition that points at a missing file.
+      for (const name of exportedVaporEntries(root, srcAbs)) {
+        entries[name] = resolve(srcAbs, `${name}.ts`)
       }
 
       const buildOptions = createLibBuild({

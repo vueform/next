@@ -6,6 +6,11 @@
       "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
+    },
+    "./smoke": {
+      "types": "./dist/smoke/index.d.ts",
+      "require": "./dist/smoke/index.js",
+      "default": "./dist/smoke/index.js"
     }
   },
   "bin": {
@@ -15,7 +20,8 @@
   },
   "files": [
     "config.json",
-    "dist"
+    "dist",
+    "smoke-templates"
   ],
   "scripts": {
     "build": "rm -rf dist && tsc",

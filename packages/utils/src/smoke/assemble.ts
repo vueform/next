@@ -1,0 +1,305 @@
+/**
+ * Assembles a smoke run: a disposable copy of the committed fixture
+ * (`packages/<adapter>/tests/smoke/<fixture>`) in the ephemeral runs dir,
+ * with the shared fixture content injected and the manifest rewired to the
+ * packed tarballs. Fixture sources are never touched in place, so variant
+ * and package-manager runs can coexist.
+ *
+ * Every fixture obeys one script contract, which keeps the runner identical
+ * across environments:
+ *
+ * - `typecheck`: tier 1 (vue-tsc --noEmit / nuxi typecheck)
+ * - `build`:     tier 0 production build (vite build / nuxi build)
+ * - `serve`:     serves the built app on the port in `SMOKE_PORT`
+ *
+ * Shared content is copied from `@vueform/utils`' smoke-templates:
+ *
+ * - `app/*`   → `<run>/smoke/` — canonical schema, inline-components form,
+ *   window.__smoke exposure, type assertions. A `<name>.nuxt.<ext>` variant
+ *   replaces `<name>.<ext>` in nuxt cells (e.g. the registration type test,
+ *   which must NOT import the components manually there — the module's
+ *   generated type template has to do it).
+ * - `e2e/*`   → `<run>/e2e/` — the shared Playwright specs (tier 2 boot,
+ *   tier 3 interaction) plus helpers.
+ */
+import fs from 'node:fs'
+import path from 'node:path'
+import { copyFixture, readJson, SmokeError, writeJson, exists } from './lib'
+import { applyOverrides, runScriptArgs } from './pm'
+import type { CellDef, Pm } from './cells'
+import type { PackedTarballs } from './pack'
+
+export interface AssembleInput {
+  root: string
+  adapter: string
+  adapterDir: string
+  cell: CellDef
+  pm: Pm
+  tarballs: PackedTarballs
+  runsDir: string
+  port: number
+  headed: boolean
+  /**
+   * Nightly-lane override: pins the fixture's `vite` devDependency to this
+   * major (vite-based cells only).
+   */
+  viteMajor?: number
+}
+
+export interface SmokeRun {
+  dir: string
+  name: string
+  baseUrl: string
+}
+
+const templatesDir = path.resolve(__dirname, '..', '..', 'smoke-templates')
+
+/**
+ * Copies `smoke-templates/app` into `<run>/smoke`, honoring per-env variant
+ * files: `foo.nuxt.ts` overrides `foo.ts` in nuxt cells and is never copied
+ * verbatim.
+ */
+function copySharedApp(runDir: string, cell: CellDef) {
+  const srcDir = path.join(templatesDir, 'app')
+  const destDir = path.join(runDir, 'smoke')
+  const variantRe = /^(.+)\.(\w+)\.(ts|vue)$/
+
+  const copyDir = (from: string, to: string) => {
+    fs.mkdirSync(to, { recursive: true })
+
+    for (const entry of fs.readdirSync(from, { withFileTypes: true })) {
+      const srcPath = path.join(from, entry.name)
+      if (entry.isDirectory()) {
+        copyDir(srcPath, path.join(to, entry.name))
+        continue
+      }
+
+      const match = entry.name.match(variantRe)
+      const variant = match && isVariantTag(match[2]) ? match[2] : null
+
+      if (variant) {
+        if (variant === cell.env) {
+          fs.copyFileSync(
+            srcPath,
+            path.join(to, `${match![1]}.${match![3]}`)
+          )
+        }
+        continue
+      }
+
+      // A base file is skipped when an env variant of it will be copied.
+      const base = entry.name.replace(/\.(ts|vue)$/, '')
+      const ext = entry.name.slice(base.length + 1)
+      if (exists(path.join(from, `${base}.${cell.env}.${ext}`))) continue
+
+      fs.copyFileSync(srcPath, path.join(to, entry.name))
+    }
+  }
+
+  copyDir(srcDir, destDir)
+}
+
+function isVariantTag(tag: string): boolean {
+  return tag === 'vite' || tag === 'nuxt'
+}
+
+/**
+ * The adapter-owned canonical vocabulary (`tests/smoke/shared/`): the smoke
+ * schema and the inline-components form, written in the adapter's own element
+ * type strings and component names. The canonical KEYS are the shared
+ * contract; everything harness-side (specs, type tests) is derived from
+ * them, never from adapter-specific names.
+ */
+function copyAdapterShared(runDir: string, input: AssembleInput) {
+  const sharedDir = path.join(input.adapterDir, 'tests', 'smoke', 'shared')
+
+  for (const required of ['schema.ts', 'SmokeFormInline.vue']) {
+    if (!exists(path.join(sharedDir, required))) {
+      throw new SmokeError(
+        `Adapter "${input.adapter}" has no tests/smoke/shared/${required} — ` +
+          `every adapter provides its canonical schema and inline form there.`
+      )
+    }
+  }
+
+  fs.cpSync(sharedDir, path.join(runDir, 'smoke'), { recursive: true })
+}
+
+function copySharedSpecs(runDir: string) {
+  fs.cpSync(path.join(templatesDir, 'e2e'), path.join(runDir, 'e2e'), {
+    recursive: true,
+  })
+}
+
+/**
+ * Generates `smoke/adapter.ts`, the indirection that keeps the shared
+ * templates adapter-agnostic: everything re-exported from the adapter's bare
+ * entry (which itself re-exports core's helpers like defineSchema/useForm).
+ *
+ * In vite cells it also side-effect-imports `<adapter>/components`, which is
+ * what activates the registry/GlobalComponents type augmentations. Nuxt cells
+ * deliberately get NO such import — there the @vueform/nuxt module's generated
+ * type template must activate them, and the registration type test proves it.
+ */
+function writeAdapterModule(runDir: string, input: AssembleInput) {
+  const pkgName: string = readJson(
+    path.join(input.adapterDir, 'package.json')
+  ).name
+
+  const lines = [
+    `// Generated by the smoke harness — the adapter indirection for shared`,
+    `// fixture code. Do not edit.`,
+    `export * from '${pkgName}'`,
+    ...(input.cell.env === 'nuxt'
+      ? []
+      : [`import '${pkgName}/components'`]),
+    ``,
+  ]
+
+  fs.writeFileSync(path.join(runDir, 'smoke', 'adapter.ts'), lines.join('\n'))
+}
+
+/**
+ * Rewires the fixture manifest to the packed tarballs: direct `@vueform/*`
+ * deps become `file:` paths, and EVERY packed name is overridden so the
+ * tarballs' own semver ranges can't fall back to the registry.
+ *
+ * Caveat: pnpm's auto-installed PEER dependencies bypass overrides (they
+ * resolve from the registry), so any packed package that appears as a peer
+ * in the closure (e.g. plugins peer-depend on @vueform/core) must be a
+ * direct dependency of the committed fixture. The shared type tests import
+ * @vueform/core directly anyway, so fixtures declare it regardless.
+ */
+function patchManifest(runDir: string, input: AssembleInput) {
+  const pkgPath = path.join(runDir, 'package.json')
+  const pkg = readJson(pkgPath)
+
+  pkg.name = `smoke-${runName(input)}`
+  pkg.private = true
+
+  const fileRef = (tarball: string) =>
+    `file:${path.relative(runDir, tarball).split(path.sep).join('/')}`
+
+  for (const field of ['dependencies', 'devDependencies'] as const) {
+    for (const depName of Object.keys(pkg[field] ?? {})) {
+      const tarball = input.tarballs.byName.get(depName)
+      if (tarball) pkg[field][depName] = fileRef(tarball)
+      else if (depName.startsWith('@vueform/')) {
+        throw new SmokeError(
+          `Fixture dependency ${depName} has no packed tarball — is the package private or unbuilt?`
+        )
+      }
+    }
+  }
+
+  if (input.viteMajor) {
+    if (!pkg.devDependencies?.vite) {
+      throw new SmokeError(
+        `--vite-major only applies to vite-based cells (no vite devDependency in the "${input.cell.fixture}" fixture).`
+      )
+    }
+    pkg.devDependencies.vite = `^${input.viteMajor}`
+  }
+
+  const overrides: Record<string, string> = {}
+  for (const [depName, tarball] of input.tarballs.byName) {
+    overrides[depName] = fileRef(tarball)
+  }
+  applyOverrides(pkg, input.pm, overrides)
+
+  if (input.pm === 'pnpm') {
+    // Standalone installs run their own build scripts (same as the vapor
+    // playgrounds): esbuild's postinstall is just a binary sanity check.
+    pkg.pnpm = { ...pkg.pnpm, onlyBuiltDependencies: ['esbuild'] }
+  }
+
+  if (input.pm === 'yarn') {
+    // The yarn lane means the node-modules linker (classic behavior). Under
+    // corepack a bare project gets modern yarn, which would default to PnP
+    // and immutable CI installs — pin both. Classic ignores this file.
+    fs.writeFileSync(
+      path.join(runDir, '.yarnrc.yml'),
+      'nodeLinker: node-modules\nenableImmutableInstalls: false\n'
+    )
+  }
+
+  writeJson(pkgPath, pkg)
+}
+
+/**
+ * Playwright drives tiers 2–3 against the fixture's own `serve` script.
+ * Always headless — headed runs exist only behind the explicit --headed
+ * debug flag, and no script or CI path passes it.
+ */
+function writePlaywrightConfig(runDir: string, input: AssembleInput) {
+  const [cmd, ...args] = [input.pm, ...runScriptArgs(input.pm, 'serve')]
+  const config = [
+    `import { defineConfig } from '@playwright/test'`,
+    ``,
+    `export default defineConfig({`,
+    `  testDir: './e2e',`,
+    `  fullyParallel: false,`,
+    `  workers: 1,`,
+    `  retries: 0,`,
+    `  reporter: [['list']],`,
+    `  use: {`,
+    `    baseURL: 'http://127.0.0.1:${input.port}',`,
+    `    headless: ${input.headed ? 'false' : 'true'},`,
+    `  },`,
+    `  webServer: {`,
+    `    command: ${JSON.stringify([cmd, ...args].join(' '))},`,
+    `    url: 'http://127.0.0.1:${input.port}',`,
+    `    reuseExistingServer: false,`,
+    `    timeout: 120_000,`,
+    `    env: {`,
+    `      SMOKE_PORT: '${input.port}',`,
+    ...Object.entries(input.cell.fixtureEnv ?? {}).map(
+      ([k, v]) => `      ${JSON.stringify(k)}: ${JSON.stringify(v)},`
+    ),
+    `    },`,
+    `  },`,
+    `})`,
+    ``,
+  ].join('\n')
+
+  fs.writeFileSync(path.join(runDir, 'playwright.config.mjs'), config)
+}
+
+export function runName(
+  input: Pick<AssembleInput, 'adapter' | 'cell' | 'pm' | 'viteMajor'>
+) {
+  const pmSuffix = input.pm === 'pnpm' ? '' : `-${input.pm}`
+  const viteSuffix = input.viteMajor ? `-vite${input.viteMajor}` : ''
+  return `${input.adapter}-${input.cell.id}${pmSuffix}${viteSuffix}`
+}
+
+export function fixtureDir(adapterDir: string, cell: CellDef) {
+  return path.join(adapterDir, 'tests', 'smoke', cell.fixture)
+}
+
+export function assembleRun(input: AssembleInput): SmokeRun {
+  const name = runName(input)
+  const dir = path.join(input.runsDir, name)
+  const src = fixtureDir(input.adapterDir, input.cell)
+
+  fs.rmSync(dir, { recursive: true, force: true })
+  copyFixture(src, dir)
+
+  copySharedApp(dir, input.cell)
+  copyAdapterShared(dir, input)
+  copySharedSpecs(dir)
+  writeAdapterModule(dir, input)
+  patchManifest(dir, input)
+  writePlaywrightConfig(dir, input)
+  writeJson(path.join(dir, 'smoke', 'run.json'), {
+    adapter: input.adapter,
+    cell: input.cell.id,
+    pm: input.pm,
+    port: input.port,
+    env: input.cell.env,
+    rendering: input.cell.rendering,
+    mode: input.cell.mode,
+  })
+
+  return { dir, name, baseUrl: `http://127.0.0.1:${input.port}` }
+}

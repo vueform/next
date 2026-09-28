@@ -25,6 +25,7 @@
     "re": "pnpm clean && pnpm install",
     "registry": "tsx scripts/registry.ts",
     "size": "tsx scripts/size.ts",
+    "smoke": "tsx scripts/smoke.ts",
     "test": "tsx scripts/test.ts",
     "usage": "tsx scripts/usage.ts",
     "validate": "tsx scripts/validate.ts",

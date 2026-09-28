@@ -80,7 +80,6 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:",
-    "@vue/devtools-api": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
     "@vueform/utils": "workspace:^",
@@ -96,5 +95,8 @@
   },
   "peerDependencies": {
     "vue": "catalog:peer"
+  },
+  "dependencies": {
+    "@vue/devtools-api": "catalog:"
   }
 }
