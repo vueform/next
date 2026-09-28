@@ -1,0 +1,30 @@
+{
+  "name": "vueform-benchmark-app",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.20.0",
+  "scripts": {
+    "build:vapor": "BENCH_VAPOR=1 vite build",
+    "build:vdom": "vite build",
+    "dev": "vite"
+  },
+  "dependencies": {
+    "@vue/devtools-api": "7.7.10",
+    "@vueform/ui": "file:.tarballs/vueform-ui.tgz",
+    "vue": "3.6.0-rc.5"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "6.0.9",
+    "@vue/tsconfig": "0.7.0",
+    "typescript": "5.9.3",
+    "vite": "7.3.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "@vueform/cli": "file:./.tarballs/vueform-cli.tgz",
+      "@vueform/core": "file:./.tarballs/vueform-core.tgz"
+    },
+    "onlyBuiltDependencies": ["esbuild"]
+  }
+}

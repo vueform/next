@@ -6,7 +6,7 @@ import { fileURLToPath } from 'node:url'
  * Publishes the benchmark suite's output to the docs: copies the generated SVG
  * charts into `src/public/charts` and fills the measured numbers of each
  * adapter's performance guide from
- * `packages/metrics/results/json/benchmarks.json`.
+ * `benchmark/results/json/benchmarks.json`.
  *
  * The page is authored by hand; this script only replaces the values between
  * `<!-- @bench:<key> -->` and `<!-- /@bench -->` markers, written as inline
@@ -29,18 +29,18 @@ import { fileURLToPath } from 'node:url'
  * `<case>` is a case id from `benchmarks.json` (`render-text`, `render-steps`,
  * `input-text`, `input-text-vmodel`, `update-all`), `<mode>` is `vdom` or
  * `vapor`, and `<n>` is one of the case's sweep values. Charts referenced by
- * the page but missing from `packages/metrics/results/charts` are reported.
+ * the page but missing from `benchmark/results/charts` are reported.
  *
- * Run `pnpm bench` in `packages/metrics/` to refresh the measurements first —
- * this script never runs them.
+ * Run `pnpm bench` at the repo root to refresh the measurements first — this
+ * script never runs them.
  */
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
-const METRICS_RESULTS = path.join(ROOT, 'packages', 'metrics', 'results')
-const RESULTS_JSON = path.join(METRICS_RESULTS, 'json', 'benchmarks.json')
-const CHARTS_SRC = path.join(METRICS_RESULTS, 'charts')
+const BENCH_RESULTS = path.join(ROOT, 'benchmark', 'results')
+const RESULTS_JSON = path.join(BENCH_RESULTS, 'json', 'benchmarks.json')
+const CHARTS_SRC = path.join(BENCH_RESULTS, 'charts')
 const CHARTS_DEST = path.join(DOCS_ROOT, 'src', 'public', 'charts')
 const DOCS_CONFIG_JSON = path.join(DOCS_ROOT, 'config.json')
 
@@ -212,14 +212,14 @@ function valueOf(results: Results, key: string): string | undefined {
 // ---------------------------------------------------------------------------
 
 /**
- * Mirrors `packages/metrics/results/charts` into the docs' public directory,
+ * Mirrors `benchmark/results/charts` into the docs' public directory,
  * removing charts that the suite no longer produces. Returns the published file
  * names.
  */
 function publishCharts(): string[] {
   if (!fs.existsSync(CHARTS_SRC)) {
     throw new Error(
-      `${path.relative(ROOT, CHARTS_SRC)} does not exist — run \`pnpm bench\` in packages/metrics/ first`
+      `${path.relative(ROOT, CHARTS_SRC)} does not exist — run \`pnpm bench\` at the repo root first`
     )
   }
 
@@ -301,7 +301,7 @@ function pageFor(adapter: string): string {
 function main(): void {
   if (!fs.existsSync(RESULTS_JSON)) {
     throw new Error(
-      `${path.relative(ROOT, RESULTS_JSON)} does not exist — run \`pnpm bench\` in packages/metrics/ first`
+      `${path.relative(ROOT, RESULTS_JSON)} does not exist — run \`pnpm bench\` at the repo root first`
     )
   }
 
@@ -341,7 +341,7 @@ function main(): void {
 
     for (const chart of update.missingCharts) {
       console.warn(
-        `[benchmark] ${adapter}: ${chart} is referenced but not in packages/metrics/results/charts`
+        `[benchmark] ${adapter}: ${chart} is referenced but not in benchmark/results/charts`
       )
     }
 

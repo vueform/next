@@ -1,0 +1,14 @@
+{
+  "name": "@vueform/benchmark",
+  "version": "2.0.0-alpha.1",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "bench": "tsx scripts/bench.ts"
+  },
+  "devDependencies": {
+    "@types/node": "catalog:",
+    "playwright": "catalog:",
+    "tsx": "catalog:"
+  }
+}

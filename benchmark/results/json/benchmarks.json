@@ -1,0 +1,280 @@
+{
+  "render-text": {
+    "label": "Render N Text Elements",
+    "description": "Mounts a form whose schema holds N text elements, from schema to painted DOM.",
+    "results": {
+      "vdom": {
+        "100": {
+          "mean": 67.43944415511325,
+          "heapAvg": 12600000,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 144.82835526004715,
+          "heapAvg": 31500000,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 285.34152203818115,
+          "heapAvg": 63000000,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 404.37190361385854,
+          "heapAvg": 94500000,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 555.8916141949421,
+          "heapAvg": 126000000,
+          "timestamp": 1790576537
+        }
+      },
+      "vapor": {
+        "100": {
+          "mean": 67.14456718693712,
+          "heapAvg": 12400000,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 146.2327332470375,
+          "heapAvg": 31000000,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 286.83954837363194,
+          "heapAvg": 62000000,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 410.6186452674507,
+          "heapAvg": 93000000,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 556.3017661248138,
+          "heapAvg": 124000000,
+          "timestamp": 1790576537
+        }
+      }
+    }
+  },
+  "render-steps": {
+    "label": "Render N Text Elements Across 10 Steps",
+    "description": "Mounts the same N text elements split evenly across 10 steps of a stepped form.",
+    "results": {
+      "vdom": {
+        "100": {
+          "mean": 36.694991672635155,
+          "heapAvg": 8300000,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 73.15059299575263,
+          "heapAvg": 20750000,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 139.61353042582437,
+          "heapAvg": 41500000,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 195.56895702052066,
+          "heapAvg": 62250000,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 267.2359686588529,
+          "heapAvg": 83000000,
+          "timestamp": 1790576537
+        }
+      },
+      "vapor": {
+        "100": {
+          "mean": 35.77776207771102,
+          "heapAvg": 8100000,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 72.01040477543191,
+          "heapAvg": 20250000,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 136.56608586284423,
+          "heapAvg": 40500000,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 193.10174128793625,
+          "heapAvg": 60750000,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 259.9446434437766,
+          "heapAvg": 81000000,
+          "timestamp": 1790576537
+        }
+      }
+    }
+  },
+  "input-text": {
+    "label": "Input into One of N Text Elements",
+    "description": "Dispatches native input events into one element of a mounted N-element form.",
+    "results": {
+      "vdom": {
+        "100": {
+          "mean": 0.039670261267713676,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 0.03927548617221618,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 0.040763074576883024,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 0.03921182095649537,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 0.04079938452806915,
+          "timestamp": 1790576537
+        }
+      },
+      "vapor": {
+        "100": {
+          "mean": 0.03430744308821605,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 0.034407701940479415,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 0.03553764316133493,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 0.03452649269516102,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 0.03540102148066997,
+          "timestamp": 1790576537
+        }
+      }
+    }
+  },
+  "input-text-vmodel": {
+    "label": "Input into One of N Text Elements (v-model)",
+    "description": "The input case with an active v-model binding on the form, so every keystroke syncs the full model.",
+    "results": {
+      "vdom": {
+        "100": {
+          "mean": 0.06942295721849893,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 0.1571019446888647,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 0.31591382797084344,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 0.45093594099969675,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 0.6221906140530545,
+          "timestamp": 1790576537
+        }
+      },
+      "vapor": {
+        "100": {
+          "mean": 0.04901063298316578,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 0.10813849181293529,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 0.2132258589680096,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 0.30580607815714045,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 0.41469768020213393,
+          "timestamp": 1790576537
+        }
+      }
+    }
+  },
+  "update-all": {
+    "label": "Update Full Data of N Elements",
+    "description": "Replaces every element's value at once via form$.update() on a mounted N-element form.",
+    "results": {
+      "vdom": {
+        "100": {
+          "mean": 1.3785415790530502,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 3.41205786121128,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 7.082584207733425,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 10.219580836786605,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 14.177786123504028,
+          "timestamp": 1790576537
+        }
+      },
+      "vapor": {
+        "100": {
+          "mean": 0.643019504739135,
+          "timestamp": 1790576537
+        },
+        "250": {
+          "mean": 1.6122466052110351,
+          "timestamp": 1790576537
+        },
+        "500": {
+          "mean": 3.3303848448336733,
+          "timestamp": 1790576537
+        },
+        "750": {
+          "mean": 4.853438401719777,
+          "timestamp": 1790576537
+        },
+        "1000": {
+          "mean": 6.635162883234142,
+          "timestamp": 1790576537
+        }
+      }
+    }
+  },
+  "environment": {
+    "cpu": "Synthetic (placeholder)",
+    "ramBytes": 17179869184,
+    "os": "macOS 0.0",
+    "browser": "Chromium 0.0",
+    "vue": "3.6.0-rc.5",
+    "vueform": "2.0.0-alpha.1"
+  }
+}

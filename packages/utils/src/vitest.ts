@@ -43,6 +43,10 @@ function escapeRegExp(value: string): string {
  * aliases for every workspace package (short `#<dir>` aliases with
  * exports-derived subpaths, plus full package names) so tests always run
  * against sources, never dist.
+ *
+ * A separate `bench` project picks up `tests/bench/**\/*.bench.ts` for
+ * `vitest bench` — plain `vitest` never runs bench files and `vitest bench`
+ * never runs tests, each mode matching exactly one project.
  */
 export async function createVitestConfig(
   options: VitestOptions = {}
@@ -82,6 +86,15 @@ export async function createVitestConfig(
           test: {
             name: 'integration',
             include: ['./tests/integration/**/*.test.ts'],
+            benchmark: { include: [] },
+          },
+        },
+        {
+          extends: true,
+          test: {
+            name: 'bench',
+            include: [],
+            benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
           },
         },
       ],

@@ -73,6 +73,7 @@
     "dist"
   ],
   "scripts": {
+    "bench": "vitest bench --project bench",
     "build": "vite build",
     "check": "vue-tsc --incremental --noEmit",
     "size": "vf-size",
