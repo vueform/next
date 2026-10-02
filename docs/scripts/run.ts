@@ -120,7 +120,7 @@ function spawnAdapter(
     env: {
       ...process.env,
       VF_ADAPTER: key,
-      NODE_OPTIONS: '--max-old-space-size=4096',
+      NODE_OPTIONS: '--max-old-space-size=8192',
       ...(prefix ? { FORCE_COLOR: '1' } : {}),
     },
     stdio: prefix ? ['inherit', 'pipe', 'pipe'] : 'inherit',
