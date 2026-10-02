@@ -81,5 +81,6 @@ catalogMode: strict
 
 catalogs:
   peer:
+    primevue: ^4.5.5
     vite: '>=5'
     vue: ^3.5.13

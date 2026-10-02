@@ -39,6 +39,32 @@ function sharePrimeuixStyled(): Plugin {
   }
 }
 
+/**
+ * Dedupe the stateful prime packages in Rollup builds. The playground and the
+ * linked `@vueform/primevue` dist resolve `primevue/*` to different physical
+ * copies (playground vs workspace-root node_modules), so `vite build` bundles
+ * two `@primeuix/styled` Theme singletons: `setTheme()` fills one while
+ * component style loaders read the other, leaving `--p-*` variables empty.
+ * (`sharePrimeuixStyled` only covers dev prebundling.)
+ */
+function dedupePrime(): Plugin {
+  return {
+    name: 'vueform:dedupe-prime',
+    config() {
+      return {
+        resolve: {
+          dedupe: [
+            'primevue',
+            '@primevue/core',
+            '@primeuix/styled',
+            '@primeuix/themes',
+          ],
+        },
+      }
+    },
+  }
+}
+
 export function vitePlugins(mode: { vapor: boolean }): Plugin[] {
-  return mode.vapor ? [sharePrimeuixStyled()] : []
+  return [dedupePrime(), ...(mode.vapor ? [sharePrimeuixStyled()] : [])]
 }

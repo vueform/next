@@ -135,6 +135,7 @@
     "vue-vapor": "catalog:"
   },
   "peerDependencies": {
+    "primevue": "catalog:peer",
     "vue": "catalog:peer"
   },
   "vueform": {
