@@ -1,3 +1,4 @@
+import { existsSync } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { workspaceSourceAliases } from './sourceAliases'
 import type { Alias, UserConfig } from 'vite'
@@ -47,6 +48,12 @@ function escapeRegExp(value: string): string {
  * A separate `bench` project picks up `tests/bench/**\/*.bench.ts` for `vitest
  * bench` — plain `vitest` never runs bench files and `vitest bench` never runs
  * tests, each mode matching exactly one project.
+ *
+ * When the package has a `test-dts` directory, a `test-dts` project is added
+ * that typechecks `test-dts/**\/*.test-d.ts` with `vue-tsc` (run it alone with
+ * `vitest run --project test-dts`). The directory needs a `tsconfig.json`
+ * covering the test files, since the checker resolves imports through
+ * tsconfig paths, not vite aliases.
  */
 export async function createVitestConfig(
   options: VitestOptions = {}
@@ -97,6 +104,24 @@ export async function createVitestConfig(
             benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
           },
         },
+        ...(existsSync(join(root, 'test-dts'))
+          ? [
+              {
+                extends: true,
+                test: {
+                  name: 'test-dts',
+                  include: [],
+                  benchmark: { include: [] },
+                  typecheck: {
+                    enabled: true,
+                    checker: 'vue-tsc',
+                    include: ['./test-dts/**/*.test-d.ts'],
+                    tsconfig: './test-dts/tsconfig.json',
+                  },
+                },
+              },
+            ]
+          : []),
       ],
     },
   }
