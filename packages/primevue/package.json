@@ -108,7 +108,8 @@
     "size": "vf-size",
     "size:report": "vf-size --report",
     "smoke": "tsx tests/smoke/run.ts",
-    "test": "vitest --maxWorkers=16",
+    "test": "vitest --project integration --maxWorkers=16",
+    "test:dts": "vitest run --project test-dts",
     "test:visual": "playwright test --config tests/visual/playwright.config.ts",
     "validate": "vf-validate-source"
   },

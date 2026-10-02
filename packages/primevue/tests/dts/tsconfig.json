@@ -1,0 +1,8 @@
+{
+  "extends": "../../../../tsconfig.json",
+  "include": ["../../../global.d.ts", "../../src", "."],
+  // The SFC template type tests are excluded from the typecheck pass (which
+  // would report them as unnamed source errors) — `vue-sfc.test.ts` checks
+  // them through `tsconfig.vue.json` and reports each case as a named test.
+  "exclude": ["*.vue"]
+}
