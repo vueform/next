@@ -107,7 +107,7 @@
     "registry": "vf-registry",
     "size": "vf-size",
     "size:report": "vf-size --report",
-    "smoke": "tsx tests/smoke/run.ts",
+    "test:smoke": "tsx tests/smoke/run.ts",
     "test": "vitest --project integration --maxWorkers=16",
     "test:dts": "vitest run --project test-dts",
     "test:visual": "playwright test --config tests/visual/playwright.config.ts",

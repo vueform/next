@@ -1,5 +1,5 @@
 /**
- * Root fan-out for the smoke suites (`pnpm smoke [flags...]`): runs each
+ * Root fan-out for the smoke suites (`pnpm test:smoke [flags...]`): runs each
  * adapter's own `smoke` script with the given flags, in sequence, and fails if
  * any adapter fails. Flags are the per-adapter smoke CLI's (see `pnpm --filter
  * @vueform/ui smoke --help`).
@@ -32,7 +32,7 @@ for (const entry of fs.readdirSync(packagesDir, { withFileTypes: true })) {
   console.log(`\n[smoke] ${pkg.name} ${args.join(' ')}\n`)
   const res = spawnSync(
     'pnpm',
-    ['--filter', pkg.name, 'run', 'smoke', ...args],
+    ['--filter', pkg.name, 'run', 'test:smoke', ...args],
     {
       cwd: repoRoot,
       stdio: 'inherit',
