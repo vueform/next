@@ -136,7 +136,9 @@ export const checkTasks = (): Task[] => [
   },
 ]
 
-export const testDtsTasks = (): Task[] => discoverPackageTasks('test-dts')
+export const testBenchTasks = (): Task[] => discoverPackageTasks('test:bench')
+
+export const testDtsTasks = (): Task[] => discoverPackageTasks('test:dts')
 
 export const testTasks = (): Task[] =>
   // Vitest's default reporter omits the per-test captured console blocks in

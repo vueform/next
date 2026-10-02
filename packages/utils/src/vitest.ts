@@ -49,11 +49,13 @@ function escapeRegExp(value: string): string {
  * bench` — plain `vitest` never runs bench files and `vitest bench` never runs
  * tests, each mode matching exactly one project.
  *
- * When the package has a `test-dts` directory, a `test-dts` project is added
- * that typechecks `test-dts/**\/*.test-d.ts` with `vue-tsc` (run it alone with
- * `vitest run --project test-dts`). The directory needs a `tsconfig.json`
- * covering the test files, since the checker resolves imports through
- * tsconfig paths, not vite aliases.
+ * When the package has a `tests/dts` directory, a `test-dts` project is added
+ * that typechecks `tests/dts/**\/*.test-d.ts` with `vue-tsc` (run it alone with
+ * `vitest run --project test-dts`). The directory needs its own
+ * `tsconfig.json` covering the test files (the checker resolves imports
+ * through tsconfig paths, not vite aliases), because the package tsconfig
+ * excludes `tests/dts` — type tests are the `test-dts` gate's concern, not
+ * `check`'s.
  */
 export async function createVitestConfig(
   options: VitestOptions = {}
@@ -104,7 +106,7 @@ export async function createVitestConfig(
             benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
           },
         },
-        ...(existsSync(join(root, 'test-dts'))
+        ...(existsSync(join(root, 'tests/dts'))
           ? [
               {
                 extends: true,
@@ -115,8 +117,8 @@ export async function createVitestConfig(
                   typecheck: {
                     enabled: true,
                     checker: 'vue-tsc',
-                    include: ['./test-dts/**/*.test-d.ts'],
-                    tsconfig: './test-dts/tsconfig.json',
+                    include: ['./tests/dts/**/*.test-d.ts'],
+                    tsconfig: './tests/dts/tsconfig.json',
                   },
                 },
               },

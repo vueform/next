@@ -73,12 +73,12 @@
     "dist"
   ],
   "scripts": {
-    "bench": "vitest bench --project bench",
     "build": "vite build",
     "check": "vue-tsc --incremental --noEmit",
     "size": "vf-size",
-    "test": "vitest --maxWorkers=16",
-    "test-dts": "vitest run --project test-dts"
+    "test": "vitest --project integration --maxWorkers=16",
+    "test:bench": "vitest bench --project bench",
+    "test:dts": "vitest run --project test-dts"
   },
   "dependencies": {
     "@vue/devtools-api": "catalog:"

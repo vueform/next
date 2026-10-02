@@ -1,7 +1,7 @@
 /**
- * Monorepo type-test orchestrator (`pnpm test-dts`).
+ * Monorepo type-test orchestrator (`pnpm test:dts`).
  *
- * Without flags, runs every package's own `test-dts` script (alphabetical);
+ * Without flags, runs every package's own `test:dts` script (alphabetical);
  * packages without one are simply not in the queue. Selection flags work like
  * the test orchestrator's — `--core`, `--pv`, `--adapters`. Durations are
  * persisted in `node_modules/.vueform/times.json`.

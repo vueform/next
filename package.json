@@ -28,7 +28,8 @@
     "size": "tsx scripts/size.ts",
     "smoke": "tsx scripts/smoke.ts",
     "test": "tsx scripts/test.ts",
-    "test-dts": "tsx scripts/test-dts.ts",
+    "test:bench": "tsx scripts/test-bench.ts",
+    "test:dts": "tsx scripts/test-dts.ts",
     "usage": "tsx scripts/usage.ts",
     "validate": "tsx scripts/validate.ts"
   },
