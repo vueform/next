@@ -1,0 +1,3 @@
+# Gitignored files copied into every new Claude Code worktree
+# (processed by ~/.claude/hooks/worktree-create.sh; one path/glob per line)
+.claude/settings.local.json
