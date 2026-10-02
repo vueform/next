@@ -78,6 +78,7 @@
     "size": "vf-size",
     "test": "vitest --project integration --maxWorkers=16",
     "test:bench": "vitest bench --project bench",
+    "test:bench-dts": "vf-bench-dts",
     "test:dts": "vitest run --project test-dts"
   },
   "dependencies": {

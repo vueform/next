@@ -35,6 +35,9 @@ cache
 .api
 .playgrounds
 
+# Transient per-measurement program config (vf-bench-dts)
+tsconfig.measure.json
+
 # Playwright
 packages/*/tests/snapshot/.diagnostic/
 test-results/

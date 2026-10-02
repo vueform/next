@@ -14,6 +14,7 @@
     }
   },
   "bin": {
+    "vf-bench-dts": "./bin/vf-bench-dts.js",
     "vf-registry": "./bin/vf-registry.js",
     "vf-size": "./bin/vf-size.js",
     "vf-validate-source": "./bin/vf-validate-source.js"
