@@ -1,4 +1,4 @@
-import { execFileSync } from 'node:child_process'
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
@@ -23,13 +23,26 @@ export const CHARTS_DIR = path.join(BENCH_DIR, 'results', 'charts')
  */
 const PACKAGES = ['ui', 'core', 'cli']
 
+/**
+ * Runs a command with captured output — the progress line in bench.ts owns the
+ * terminal, so a child may not write to it. On failure the captured output
+ * travels in the thrown error, which bench.ts prints after closing the bar.
+ */
 export function run(command: string, args: string[], cwd: string): void {
-  execFileSync(command, args, { cwd, stdio: 'inherit' })
+  const result = spawnSync(command, args, { cwd, encoding: 'utf8' })
+  if (result.status !== 0) {
+    const output = `${result.stdout ?? ''}${result.stderr ?? ''}`.trim()
+    fail(
+      `\`${command} ${args.join(' ')}\` failed in ${path.relative(ROOT, cwd)}` +
+        (output ? `\n\n${output}` : '')
+    )
+  }
 }
 
 function fail(message: string): never {
-  console.error(`[bench] ${message}`)
-  process.exit(1)
+  // Thrown rather than printed + exited, so bench.ts can close its progress
+  // line before the message lands.
+  throw new Error(message)
 }
 
 /**
@@ -97,11 +110,7 @@ export function pack(): void {
 
   for (const name of PACKAGES) {
     const out = path.join(TARBALLS_DIR, `vueform-${name}.tgz`)
-    console.log(`[bench] pack @vueform/${name} → ${path.relative(ROOT, out)}`)
-    execFileSync('pnpm', ['pack', '--out', out], {
-      cwd: path.join(ROOT, 'packages', name),
-      stdio: 'pipe',
-    })
+    run('pnpm', ['pack', '--out', out], path.join(ROOT, 'packages', name))
   }
 }
 
@@ -111,7 +120,6 @@ export function pack(): void {
  * content hash, so this also picks up fresh builds.
  */
 export function installApp(): void {
-  console.log('[bench] install app (pnpm install --ignore-workspace)')
   run('pnpm', ['install', '--ignore-workspace'], APP_DIR)
 
   // A registry-resolved @vueform package means an override is missing and
@@ -126,6 +134,5 @@ export function installApp(): void {
 }
 
 export function buildApp(mode: 'vdom' | 'vapor'): void {
-  console.log(`[bench] build app (${mode})`)
   run('pnpm', ['run', `build:${mode}`], APP_DIR)
 }

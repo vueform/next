@@ -1,20 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="452" viewBox="0 0 720 452" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
 <rect width="720" height="452" fill="#ffffff"/>
 <text x="360" y="34" font-size="16" font-weight="600" fill="#1f2328" text-anchor="middle">Render N Text Elements Across 10 Steps — memory</text>
-<rect x="182.5" y="52" width="12" height="12" rx="2" fill="#6366f1"/><text x="199.5" y="62" font-size="12" fill="#57606a">Vueform 2.0.0 (vdom)</text>
-<rect x="364.5" y="52" width="12" height="12" rx="2" fill="#10b981"/><text x="381.5" y="62" font-size="12" fill="#57606a">Vueform 2.0.0 (vapor)</text>
+<rect x="143.4" y="52" width="12" height="12" rx="2" fill="#6366f1"/><text x="160.4" y="62" font-size="12" fill="#57606a">Vueform 2.0.0-alpha.1 (vdom)</text>
+<rect x="376.9" y="52" width="12" height="12" rx="2" fill="#10b981"/><text x="393.9" y="62" font-size="12" fill="#57606a">Vueform 2.0.0-alpha.1 (vapor)</text>
 <line x1="80" y1="388" x2="688" y2="388" stroke="#eaeef2" stroke-width="1"/>
 <text x="72" y="392" font-size="11" fill="#57606a" text-anchor="end">0</text>
-<line x1="80" y1="329.6" x2="688" y2="329.6" stroke="#eaeef2" stroke-width="1"/>
-<text x="72" y="333.6" font-size="11" fill="#57606a" text-anchor="end">20</text>
-<line x1="80" y1="271.2" x2="688" y2="271.2" stroke="#eaeef2" stroke-width="1"/>
-<text x="72" y="275.2" font-size="11" fill="#57606a" text-anchor="end">40</text>
-<line x1="80" y1="212.8" x2="688" y2="212.8" stroke="#eaeef2" stroke-width="1"/>
-<text x="72" y="216.8" font-size="11" fill="#57606a" text-anchor="end">60</text>
-<line x1="80" y1="154.39999999999998" x2="688" y2="154.39999999999998" stroke="#eaeef2" stroke-width="1"/>
-<text x="72" y="158.39999999999998" font-size="11" fill="#57606a" text-anchor="end">80</text>
+<line x1="80" y1="290.6666666666667" x2="688" y2="290.6666666666667" stroke="#eaeef2" stroke-width="1"/>
+<text x="72" y="294.6666666666667" font-size="11" fill="#57606a" text-anchor="end">50</text>
+<line x1="80" y1="193.33333333333334" x2="688" y2="193.33333333333334" stroke="#eaeef2" stroke-width="1"/>
+<text x="72" y="197.33333333333334" font-size="11" fill="#57606a" text-anchor="end">100</text>
 <line x1="80" y1="96" x2="688" y2="96" stroke="#eaeef2" stroke-width="1"/>
-<text x="72" y="100" font-size="11" fill="#57606a" text-anchor="end">100</text>
+<text x="72" y="100" font-size="11" fill="#57606a" text-anchor="end">150</text>
 <line x1="80" y1="96" x2="80" y2="388" stroke="#eaeef2" stroke-width="1"/>
 <text x="80" y="406" font-size="11" fill="#57606a" text-anchor="middle">0</text>
 <line x1="384" y1="96" x2="384" y2="388" stroke="#eaeef2" stroke-width="1"/>
@@ -25,16 +21,16 @@
 <line x1="80" y1="96" x2="80" y2="388" stroke="#8c959f" stroke-width="1"/>
 <text x="384" y="430" font-size="12" fill="#57606a" text-anchor="middle">N (number of elements)</text>
 <text x="28" y="242" font-size="12" fill="#57606a" text-anchor="middle" transform="rotate(-90 28 242)">Avg heap delta (MB)</text>
-<polyline points="140.8,359.5 232.0,324.3 384.0,267.3 536.0,217.5 688.0,155.3" fill="none" stroke="#6366f1" stroke-width="2"/>
-<circle cx="140.8" cy="359.5" r="3.5" fill="#6366f1"/>
-<circle cx="232.0" cy="324.3" r="3.5" fill="#6366f1"/>
-<circle cx="384.0" cy="267.3" r="3.5" fill="#6366f1"/>
-<circle cx="536.0" cy="217.5" r="3.5" fill="#6366f1"/>
-<circle cx="688.0" cy="155.3" r="3.5" fill="#6366f1"/>
-<polyline points="140.8,359.0 232.0,322.4 384.0,274.5 536.0,215.9 688.0,162.0" fill="none" stroke="#10b981" stroke-width="2"/>
-<circle cx="140.8" cy="359.0" r="3.5" fill="#10b981"/>
-<circle cx="232.0" cy="322.4" r="3.5" fill="#10b981"/>
-<circle cx="384.0" cy="274.5" r="3.5" fill="#10b981"/>
-<circle cx="536.0" cy="215.9" r="3.5" fill="#10b981"/>
-<circle cx="688.0" cy="162.0" r="3.5" fill="#10b981"/>
+<polyline points="140.8,360.5 232.0,325.3 384.0,269.2 536.0,206.2 688.0,168.8" fill="none" stroke="#6366f1" stroke-width="2"/>
+<circle cx="140.8" cy="360.5" r="3.5" fill="#6366f1"/>
+<circle cx="232.0" cy="325.3" r="3.5" fill="#6366f1"/>
+<circle cx="384.0" cy="269.2" r="3.5" fill="#6366f1"/>
+<circle cx="536.0" cy="206.2" r="3.5" fill="#6366f1"/>
+<circle cx="688.0" cy="168.8" r="3.5" fill="#6366f1"/>
+<polyline points="140.8,359.3 232.0,315.0 384.0,254.7 536.0,198.0 688.0,176.9" fill="none" stroke="#10b981" stroke-width="2"/>
+<circle cx="140.8" cy="359.3" r="3.5" fill="#10b981"/>
+<circle cx="232.0" cy="315.0" r="3.5" fill="#10b981"/>
+<circle cx="384.0" cy="254.7" r="3.5" fill="#10b981"/>
+<circle cx="536.0" cy="198.0" r="3.5" fill="#10b981"/>
+<circle cx="688.0" cy="176.9" r="3.5" fill="#10b981"/>
 </svg>

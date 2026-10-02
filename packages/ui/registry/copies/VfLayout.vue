@@ -5,13 +5,12 @@
  */
 
 import { computed } from 'vue'
-import {
+import VfPassthrough, {
   type HeadingProp,
   type UnknownElementParts,
   useBlueprint,
   useLayoutClasses,
   useLocale,
-  VfPassthrough,
   defineEvents,
   mergeClass,
 } from '@vueform/ui'
@@ -29,6 +28,11 @@ import '@vueform/ui/animation.css'
 import '@vueform/ui/utils.css'
 import '@vueform/ui/hr.css'
 import '@vueform/ui/blockquote.css'
+
+// Imported by file, not through the helpers barrel: the vapor build
+// externalizes barrel .ts modules to the main (vdom) dist, and a vdom
+// VfPassthrough inside a vapor tree renders nothing. The direct .vue import
+// stays internal and gets vapor-compiled.
 
 defineOptions({
   name: 'VfLayout',

@@ -362,7 +362,7 @@ The root column element.
 | | |
 | --- | --- |
 | **Element** | `<div>` |
-| **Classes** | `.vf-grid-cell` `.vf-grid-col-header?` `.vf-grid-row-header?` |
+| **Classes** | `.vf-grid-cell` `.vf-left?` `.vf-center?` `.vf-right?` `.vf-justify?` `.vf-top?` `.vf-middle?` `.vf-bottom?` `.vf-baseline?` `.vf-grid-col-header?` `.vf-grid-row-header?` |
 <!-- @parts-end -->
 <!-- @endtab -->
 

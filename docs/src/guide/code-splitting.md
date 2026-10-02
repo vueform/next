@@ -136,7 +136,7 @@ A component that's rendered but not registered surfaces as Vue's "Failed to reso
 
 ### Component Sizes
 
-All components together add <!-- @size:components-total-js -->`51.85 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`6.49 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
+All components together add <!-- @size:components-total-js -->`51.84 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`6.49 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
 
 <!-- @bundle-sizes:components start -->
 
@@ -154,7 +154,7 @@ All components together add <!-- @size:components-total-js -->`51.85 kB`<!-- /@s
 | [`VfRadio`](/ui/VfRadio) | 0.65&nbsp;kB | 0.00&nbsp;kB |
 | [`VfRadios`](/ui/VfRadios) | 0.65&nbsp;kB | 0.00&nbsp;kB |
 | [`VfSelect`](/ui/VfSelect) | 0.48&nbsp;kB | 0.12&nbsp;kB |
-| [`VfText`](/ui/VfText) | 0.53&nbsp;kB | 0.08&nbsp;kB |
+| [`VfText`](/ui/VfText) | 0.52&nbsp;kB | 0.08&nbsp;kB |
 | [`VfTextarea`](/ui/VfTextarea) | 0.49&nbsp;kB | 0.04&nbsp;kB |
 
 **Containers**
@@ -165,7 +165,7 @@ All components together add <!-- @size:components-total-js -->`51.85 kB`<!-- /@s
 | [`VfGrid`](/ui/VfGrid) | 2.45&nbsp;kB | 0.00&nbsp;kB |
 | [`VfGroup`](/ui/VfGroup) | 0.42&nbsp;kB | 0.08&nbsp;kB |
 | [`VfList`](/ui/VfList) | 1.54&nbsp;kB | 0.17&nbsp;kB |
-| [`VfMatrix`](/ui/VfMatrix) | 4.08&nbsp;kB | 0.18&nbsp;kB |
+| [`VfMatrix`](/ui/VfMatrix) | 4.07&nbsp;kB | 0.18&nbsp;kB |
 
 **Form components**
 
@@ -184,7 +184,7 @@ All components together add <!-- @size:components-total-js -->`51.85 kB`<!-- /@s
 | [`VfAddon`](/ui/VfAddon) | 0.25&nbsp;kB | 0.47&nbsp;kB |
 | [`VfCol`](/ui/VfCol) | 0.66&nbsp;kB | 0.01&nbsp;kB |
 | [`VfIcon`](/ui/VfIcon) | 0.10&nbsp;kB | -0.04&nbsp;kB |
-| [`VfLayout`](/ui/VfLayout) | 2.95&nbsp;kB | 0.54&nbsp;kB |
+| [`VfLayout`](/ui/VfLayout) | 2.94&nbsp;kB | 0.54&nbsp;kB |
 | [`VfRow`](/ui/VfRow) | 0.22&nbsp;kB | 0.00&nbsp;kB |
 
 <!-- @bundle-sizes:components end -->

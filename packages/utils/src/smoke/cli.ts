@@ -1,5 +1,5 @@
 /**
- * The per-adapter smoke CLI (`pnpm --filter @vueform/<adapter> smoke ...`).
+ * The per-adapter smoke CLI (`pnpm --filter @vueform/<adapter> test:smoke ...`).
  * Dimension flags act as FILTERS over the fixed cell set — see cells.ts.
  */
 import path from 'node:path'
@@ -52,7 +52,7 @@ function helpText(adapter: string): string {
 
   return `Smoke tests for @vueform/${adapter} — proves the packed tarballs work in real project setups.
 
-Usage: pnpm --filter @vueform/${adapter} smoke [filters] [options]
+Usage: pnpm --filter @vueform/${adapter} test:smoke [filters] [options]
 
 Cells (each is one project setup, run from packed tarballs):
 ${cellRows}

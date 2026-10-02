@@ -1,48 +1,65 @@
 /**
- * Root fan-out for the smoke suites (`pnpm test:smoke [flags...]`): runs each
- * adapter's own `smoke` script with the given flags, in sequence, and fails if
- * any adapter fails. Flags are the per-adapter smoke CLI's (see `pnpm --filter
- * @vueform/ui smoke --help`).
+ * Monorepo smoke orchestrator (`pnpm test:smoke`).
+ *
+ * Without flags, runs every adapter's own `test:smoke` script (alphabetical);
+ * packages without one are simply not in the queue. Selection flags work like
+ * the test orchestrator's — `--pv`, `--ui`, `--adapters`. The smoke CLI's own
+ * flags (cell filters like `--vite`/`--ssr`/`--vapor`, `--tiers=…`,
+ * `--skip-pack`, package-manager picks) are forwarded to each adapter — see
+ * `pnpm --filter @vueform/ui test:smoke --help`. Durations are persisted in
+ * `node_modules/.vueform/times.json`.
+ *
+ * A failing adapter dumps the smoke harness output and stops the queue;
+ * successful output is not replayed.
  */
 import { spawnSync } from 'node:child_process'
-import fs from 'node:fs'
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { join } from 'node:path'
+import { outputDir, runQueue, selectTasks } from './runner'
+import { testSmokeTasks } from './tasks'
 
-const repoRoot = path.resolve(
-  path.dirname(fileURLToPath(import.meta.url)),
-  '..'
-)
+const DEFAULT_MS = 300_000
 
 const args = process.argv.slice(2)
-const packagesDir = path.join(repoRoot, 'packages')
-const failed: string[] = []
+// --resume: continue a previously failed run from its failed task.
+const resume = args.includes('--resume')
+const forwarded = (arg: string) =>
+  [
+    '--vite',
+    '--nuxt',
+    '--ssr',
+    '--spa',
+    '--vapor',
+    '--vdom',
+    '--pnpm',
+    '--npm',
+    '--yarn',
+    '--bun',
+    '--skip-pack',
+  ].includes(arg) ||
+  arg.startsWith('--tiers') ||
+  arg.startsWith('--vite-major')
+const passthrough = args.filter(forwarded)
+const selectors = args.filter((arg) => arg !== '--resume' && !forwarded(arg))
 
-for (const entry of fs.readdirSync(packagesDir, { withFileTypes: true })) {
-  if (!entry.isDirectory()) continue
-  const pkgPath = path.join(packagesDir, entry.name, 'package.json')
-  if (!fs.existsSync(pkgPath)) continue
-
-  const pkg = JSON.parse(fs.readFileSync(pkgPath, 'utf8'))
-  const group = pkg.vueform?.group
-  if ((group !== 'adapter' && group !== 'adapters') || !pkg.scripts?.smoke) {
-    continue
-  }
-
-  console.log(`\n[smoke] ${pkg.name} ${args.join(' ')}\n`)
-  const res = spawnSync(
-    'pnpm',
-    ['--filter', pkg.name, 'run', 'test:smoke', ...args],
-    {
-      cwd: repoRoot,
-      stdio: 'inherit',
-      shell: process.platform === 'win32',
-    }
-  )
-  if (res.status !== 0) failed.push(pkg.name)
+// --help: print the per-adapter smoke CLI's help directly, without the queue
+// renderer (which captures output and only dumps it on failure).
+if (args.includes('--help')) {
+  const [task] = testSmokeTasks(['--help'])
+  spawnSync(task.cmd, task.args, { cwd: task.cwd, stdio: 'inherit' })
+  process.exit(0)
 }
 
-if (failed.length) {
-  console.error(`\n[smoke] Failed: ${failed.join(', ')}`)
+runQueue(selectTasks(testSmokeTasks(passthrough), selectors), {
+  resume: {
+    path: join(outputDir, 'test-smoke-state.json'),
+    key: JSON.stringify({ selectors, passthrough }),
+    use: resume,
+  },
+  timesScope: 'test-smoke',
+  defaultMs: () => DEFAULT_MS,
+  verb: 'smoke testing',
+  doneVerb: 'Smoke tested',
+}).catch((error) => {
+  console.error(error)
   process.exit(1)
-}
+})

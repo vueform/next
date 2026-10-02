@@ -21,16 +21,16 @@
 <line x1="80" y1="96" x2="80" y2="388" stroke="#484f58" stroke-width="1"/>
 <text x="384" y="430" font-size="12" fill="#8b949e" text-anchor="middle">N (number of elements)</text>
 <text x="28" y="242" font-size="12" fill="#8b949e" text-anchor="middle" transform="rotate(-90 28 242)">Mean time (ms)</text>
-<polyline points="140.8,352.3 232.0,316.8 384.0,252.1 536.0,197.6 688.0,127.9" fill="none" stroke="#6366f1" stroke-width="2"/>
-<circle cx="140.8" cy="352.3" r="3.5" fill="#6366f1"/>
-<circle cx="232.0" cy="316.8" r="3.5" fill="#6366f1"/>
-<circle cx="384.0" cy="252.1" r="3.5" fill="#6366f1"/>
-<circle cx="536.0" cy="197.6" r="3.5" fill="#6366f1"/>
-<circle cx="688.0" cy="127.9" r="3.5" fill="#6366f1"/>
-<polyline points="140.8,353.2 232.0,317.9 384.0,255.1 536.0,200.0 688.0,135.0" fill="none" stroke="#10b981" stroke-width="2"/>
-<circle cx="140.8" cy="353.2" r="3.5" fill="#10b981"/>
-<circle cx="232.0" cy="317.9" r="3.5" fill="#10b981"/>
-<circle cx="384.0" cy="255.1" r="3.5" fill="#10b981"/>
-<circle cx="536.0" cy="200.0" r="3.5" fill="#10b981"/>
-<circle cx="688.0" cy="135.0" r="3.5" fill="#10b981"/>
+<polyline points="140.8,335.1 232.0,299.7 384.0,244.7 536.0,173.7 688.0,101.5" fill="none" stroke="#6366f1" stroke-width="2"/>
+<circle cx="140.8" cy="335.1" r="3.5" fill="#6366f1"/>
+<circle cx="232.0" cy="299.7" r="3.5" fill="#6366f1"/>
+<circle cx="384.0" cy="244.7" r="3.5" fill="#6366f1"/>
+<circle cx="536.0" cy="173.7" r="3.5" fill="#6366f1"/>
+<circle cx="688.0" cy="101.5" r="3.5" fill="#6366f1"/>
+<polyline points="140.8,338.8 232.0,311.1 384.0,265.3 536.0,209.9 688.0,150.3" fill="none" stroke="#10b981" stroke-width="2"/>
+<circle cx="140.8" cy="338.8" r="3.5" fill="#10b981"/>
+<circle cx="232.0" cy="311.1" r="3.5" fill="#10b981"/>
+<circle cx="384.0" cy="265.3" r="3.5" fill="#10b981"/>
+<circle cx="536.0" cy="209.9" r="3.5" fill="#10b981"/>
+<circle cx="688.0" cy="150.3" r="3.5" fill="#10b981"/>
 </svg>

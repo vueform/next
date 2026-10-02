@@ -40,6 +40,108 @@ import {
 import { measurePoint, type Sample } from './measure'
 import { serve } from './serve'
 
+const isTTY = process.stdout.isTTY === true
+const paint = (code: string, text: string) =>
+  isTTY ? `\x1b[${code}m${text}\x1b[0m` : text
+// Vueform brand green (#17c495), as 24-bit truecolor (matches scripts/runner.ts).
+const green = (text: string) => paint('38;2;23;196;149', text)
+const red = (text: string) => paint('31', text)
+const dim = (text: string) => paint('2', text)
+
+const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+const BAR_WIDTH = 22
+
+/**
+ * Sticky one-line progress renderer (TTY only): the whole run lives on a single
+ * rewritten line — prep phases spin with the phase name, the sweep fills the
+ * bar with completed points and names the one being measured, and the run
+ * closes with a ✓/✗ line. Everything else stays off the terminal: child output
+ * is captured (see lib.ts `run`) and only a failure dumps it, after the bar has
+ * closed. Non-TTY logs plain sequential lines instead.
+ */
+class BenchProgress {
+  private phaseLabel = 'start'
+  private sweeping = false
+  private done = 0
+  private points = 0
+  private current = ''
+  private tick = 0
+  private started = Date.now()
+  private timer: NodeJS.Timeout | undefined
+  private finished = false
+
+  constructor() {
+    if (!isTTY) return
+    process.stdout.write(`${this.line()}\n`)
+    this.timer = setInterval(() => this.redraw(), 100)
+  }
+
+  private elapsed() {
+    return `${((Date.now() - this.started) / 1000).toFixed(1)}s`
+  }
+
+  private line() {
+    const ratio = this.sweeping && this.points ? this.done / this.points : 0
+    const filled = Math.round(ratio * BAR_WIDTH)
+    const bar = green('█'.repeat(filled)) + dim('░'.repeat(BAR_WIDTH - filled))
+    const spinner = green(SPINNER[this.tick % SPINNER.length])
+    const status = this.sweeping
+      ? `${this.done}/${this.points}${this.current ? dim(` · ${this.current}`) : ''}`
+      : dim(this.phaseLabel)
+    return `${spinner} bench ${bar} ${status} ${dim(this.elapsed())}`
+  }
+
+  private redraw() {
+    this.tick++
+    process.stdout.write(`\x1b[1A\x1b[2K\r${this.line()}\n`)
+  }
+
+  phase(label: string) {
+    this.phaseLabel = label
+    if (isTTY) this.redraw()
+    else console.log(`[bench] ${label}`)
+  }
+
+  /**
+   * Switches from phases to the sweep: the bar now fills with completed points.
+   */
+  sweep(points: number) {
+    this.sweeping = true
+    this.points = points
+  }
+
+  measuring(label: string) {
+    this.current = label
+    if (isTTY) this.redraw()
+  }
+
+  /**
+   * TTY: the bar's count advances; non-TTY logs the point's result line.
+   */
+  result(line: string) {
+    this.done++
+    this.current = ''
+    if (isTTY) this.redraw()
+    else console.log(line)
+  }
+
+  /**
+   * Replaces the bar with its ✓/✗ done line. Idempotent, so the error path can
+   * close an already-closed bar without harm.
+   */
+  finish(ok: boolean) {
+    if (this.finished) return
+    this.finished = true
+    if (this.timer) clearInterval(this.timer)
+    if (!isTTY) return
+    const mark = ok ? green('✓') : red('✗')
+    const counts = this.sweeping ? ` ${this.done}/${this.points}` : ''
+    process.stdout.write(
+      `\x1b[1A\x1b[2K\r${mark} bench${counts} ${dim(this.elapsed())}\n`
+    )
+  }
+}
+
 interface Options {
   cases: string[]
   modes: Mode[]
@@ -141,93 +243,119 @@ async function main(): Promise<void> {
   checkAppVueVersion()
   ensureChromium()
 
-  if (options.pack) {
-    pack()
-    installApp()
-  }
-
-  if (options.build) {
-    for (const mode of options.modes) buildApp(mode)
-  }
-
-  for (const mode of options.modes) {
-    if (!fs.existsSync(path.join(APP_DIR, 'dist', mode, 'index.html'))) {
-      throw new Error(`app dist/${mode} is missing — rerun without --no-build`)
-    }
-  }
-
-  const server = await serve(path.join(APP_DIR, 'dist'))
-  const browser = await chromium.launch({ headless: true })
+  const progress = new BenchProgress()
 
   try {
-    const results = loadResults()
-    const environment = captureEnvironment(browser.version())
-    const points =
-      options.cases.length * options.modes.length * options.ns.length
-    let done = 0
+    if (options.pack) {
+      progress.phase('pack dist tarballs')
+      pack()
+      progress.phase('install app (pnpm install --ignore-workspace)')
+      installApp()
+    }
 
-    console.log(
-      `[bench] ${points} sweep points — vue ${environment.vue}, ` +
-        `vueform ${environment.vueform}, ${environment.browser}`
-    )
-
-    for (const benchCase of CASES) {
-      if (!options.cases.includes(benchCase.id)) continue
-
-      const entry = (results[benchCase.id] ??= {
-        label: benchCase.label,
-        description: benchCase.description,
-        results: {},
-      }) as {
-        label: string
-        description: string
-        results: Partial<Record<Mode, Record<string, Sample>>>
-      }
-      entry.label = benchCase.label
-      entry.description = benchCase.description
-
+    if (options.build) {
       for (const mode of options.modes) {
-        for (const n of options.ns) {
-          const sample = await measurePoint(
-            browser,
-            server.origin,
-            mode,
-            benchCase,
-            n,
-            options
-          )
-
-          ;(entry.results[mode] ??= {})[n] = sample
-          done++
-
-          const memory = sample.heapAvg
-            ? `, heap +${(sample.heapAvg / 1024 ** 2).toFixed(1)} MB`
-            : ''
-          console.log(
-            `[bench] (${done}/${points}) ${benchCase.id} ${mode} n=${n}: ` +
-              `${sample.mean.toFixed(2)} ms${memory}`
-          )
-        }
+        progress.phase(`build app (${mode})`)
+        buildApp(mode)
       }
     }
 
-    results.environment = environment
+    for (const mode of options.modes) {
+      if (!fs.existsSync(path.join(APP_DIR, 'dist', mode, 'index.html'))) {
+        throw new Error(
+          `app dist/${mode} is missing — rerun without --no-build`
+        )
+      }
+    }
 
-    fs.mkdirSync(path.dirname(RESULTS_JSON), { recursive: true })
-    fs.writeFileSync(RESULTS_JSON, JSON.stringify(results, null, 2) + '\n')
-    console.log(
-      `[bench] results → ${path.relative(process.cwd(), RESULTS_JSON)}`
-    )
+    progress.phase('launch browser')
+    const server = await serve(path.join(APP_DIR, 'dist'))
+    const browser = await chromium.launch({ headless: true })
 
-    if (options.charts) {
-      const charts = generateCharts(
-        results as Parameters<typeof generateCharts>[0]
-      )
-      console.log(`[bench] ${charts.length} charts regenerated`)
+    try {
+      await runSweep(options, progress, server.origin, browser)
+    } finally {
+      await browser.close()
+      await server.close()
     }
   } finally {
-    await browser.close()
-    await server.close()
+    // On failure the bar is still up — close it with ✗ so the error (with any
+    // captured child output) prints below it; a no-op after a ✓ close.
+    progress.finish(false)
+  }
+}
+
+async function runSweep(
+  options: Options,
+  progress: BenchProgress,
+  origin: string,
+  browser: Awaited<ReturnType<typeof chromium.launch>>
+): Promise<void> {
+  const results = loadResults()
+  const environment = captureEnvironment(browser.version())
+  const points = options.cases.length * options.modes.length * options.ns.length
+  let done = 0
+
+  progress.sweep(points)
+
+  for (const benchCase of CASES) {
+    if (!options.cases.includes(benchCase.id)) continue
+
+    const entry = (results[benchCase.id] ??= {
+      label: benchCase.label,
+      description: benchCase.description,
+      results: {},
+    }) as {
+      label: string
+      description: string
+      results: Partial<Record<Mode, Record<string, Sample>>>
+    }
+    entry.label = benchCase.label
+    entry.description = benchCase.description
+
+    for (const mode of options.modes) {
+      for (const n of options.ns) {
+        progress.measuring(`${benchCase.id} ${mode} n=${n}`)
+        const sample = await measurePoint(
+          browser,
+          origin,
+          mode,
+          benchCase,
+          n,
+          options
+        )
+
+        ;(entry.results[mode] ??= {})[n] = sample
+        done++
+
+        const memory = sample.heapAvg
+          ? `, heap +${(sample.heapAvg / 1024 ** 2).toFixed(1)} MB`
+          : ''
+        progress.result(
+          `[bench] (${done}/${points}) ${benchCase.id} ${mode} n=${n}: ` +
+            `${sample.mean.toFixed(2)} ms${memory}`
+        )
+      }
+    }
+  }
+
+  results.environment = environment
+
+  fs.mkdirSync(path.dirname(RESULTS_JSON), { recursive: true })
+  fs.writeFileSync(RESULTS_JSON, JSON.stringify(results, null, 2) + '\n')
+
+  progress.finish(true)
+  console.log(
+    `[bench] ${points} sweep points — vue ${environment.vue}, ` +
+      `vueform ${environment.vueform}, ${environment.browser}`
+  )
+  console.log(`[bench] results → ${path.relative(process.cwd(), RESULTS_JSON)}`)
+
+  if (options.charts) {
+    const charts = generateCharts(
+      results as Parameters<typeof generateCharts>[0]
+    )
+    console.log(`[bench] ${charts.length} charts regenerated`)
   }
 }
 
