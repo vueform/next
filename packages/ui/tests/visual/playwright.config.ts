@@ -21,7 +21,14 @@ export default defineConfig({
   snapshotPathTemplate:
     '{testDir}/screenshots/{testFileName}/{arg}-{projectName}-{platform}{ext}',
   fullyParallel: true,
-  reporter: 'list',
+  outputDir: join(__dirname, 'test-results'),
+  reporter: [
+    ['list'],
+    [
+      'html',
+      { outputFolder: join(__dirname, 'playwright-report'), open: 'never' },
+    ],
+  ],
   use: {
     baseURL: 'http://localhost:4273',
   },
