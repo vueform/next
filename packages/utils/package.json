@@ -12,6 +12,7 @@
       "require": "./dist/smoke/index.js",
       "default": "./dist/smoke/index.js"
     },
+    "./type-test": "./type-test/index.ts",
     "./visual-test": "./visual-test/index.ts"
   },
   "bin": {
@@ -25,6 +26,7 @@
     "config.json",
     "dist",
     "smoke-templates",
+    "type-test",
     "visual-test"
   ],
   "scripts": {

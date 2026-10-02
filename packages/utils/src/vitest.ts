@@ -110,7 +110,10 @@ export async function createVitestConfig(
                 extends: true,
                 test: {
                   name: 'test-dts',
-                  include: [],
+                  // Runtime runners in the type-test dir (e.g. the SFC
+                  // template-type runner, which maps vue-tsc diagnostics to
+                  // named tests) run alongside the typecheck pass.
+                  include: ['./tests/dts/**/*.test.ts'],
                   benchmark: { include: [] },
                   typecheck: {
                     enabled: true,
