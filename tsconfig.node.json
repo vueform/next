@@ -13,11 +13,6 @@
     "emitDeclarationOnly": true,
     "outDir": "node_modules/.cache/tsconfig.node"
   },
-  "include": [
-    "*.config.ts",
-    "*.config.*.ts",
-    "scripts",
-    "packages/*/tests/bench-dts/generate.ts"
-  ],
+  "include": ["*.config.ts", "*.config.*.ts", "scripts", "packages/*/tests/bench-dts/generate.ts"],
   "exclude": ["scripts/playground/templates"]
 }

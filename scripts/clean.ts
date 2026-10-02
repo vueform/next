@@ -2,8 +2,8 @@
  * Repo cleaner (`pnpm clean`): removes `node_modules` directories and
  * `*.tsbuildinfo` files from the repo root, its direct subfolders, and
  * `packages/*` subfolders, plus each package's `dist` and the VitePress
- * `docs/.vitepress/{dist,cache}` outputs. Deliberately shallow — it does
- * not descend further, so nested dependency trees are never scanned.
+ * `docs/.vitepress/{dist,cache}` outputs. Deliberately shallow — it does not
+ * descend further, so nested dependency trees are never scanned.
  */
 import fs from 'node:fs'
 import path from 'node:path'

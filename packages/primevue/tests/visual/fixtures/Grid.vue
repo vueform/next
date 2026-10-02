@@ -1,5 +1,9 @@
 <script setup lang="ts">
-import { TabularGridTester, countries, defaultBindings } from '@vueform/utils/visual-test'
+import {
+  TabularGridTester,
+  countries,
+  defaultBindings,
+} from '@vueform/utils/visual-test'
 import { computed } from 'vue'
 
 const params = new URLSearchParams(window.location.search)

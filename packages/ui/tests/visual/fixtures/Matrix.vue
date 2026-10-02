@@ -1,5 +1,8 @@
 <script setup lang="ts">
-import { TabularMatrixTester, defaultBindings } from '@vueform/utils/visual-test'
+import {
+  TabularMatrixTester,
+  defaultBindings,
+} from '@vueform/utils/visual-test'
 import { computed } from 'vue'
 
 const params = new URLSearchParams(window.location.search)
