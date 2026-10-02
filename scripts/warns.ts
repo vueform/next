@@ -1,9 +1,9 @@
 /**
- * Test-warn capture for the orchestrators (`test`, `verify`): parses vitest's
- * per-test captured console blocks, aggregates identical messages, writes the
- * full texts to `node_modules/.vueform/tests.md`, and renders the terminal
- * report. Collection and rendering are split so the markdown file's line
- * numbers are final when the terminal links to them.
+ * Test-warn capture for the orchestrators (`test`): parses vitest's per-test
+ * captured console blocks, aggregates identical messages, writes the full texts
+ * to `node_modules/.vueform/tests.md`, and renders the terminal report.
+ * Collection and rendering are split so the markdown file's line numbers are
+ * final when the terminal links to them.
  */
 import { rmSync } from 'node:fs'
 import { join, relative } from 'node:path'

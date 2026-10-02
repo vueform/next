@@ -104,12 +104,6 @@ console.log(
       [['--root', 'everything outside packages']]
     ),
     line(
-      'verify',
-      '[packages]',
-      'lint → format check → typecheck → build → test, abort on dirty gates',
-      [['--fix', 'apply lint autofixes and write formatting'], resume]
-    ),
-    line(
       'registry',
       '[adapter]',
       'regenerate the adapter(s) committed registry folder'

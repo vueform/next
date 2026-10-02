@@ -1,6 +1,6 @@
 /**
  * Queue builders shared by the orchestrators (`build`, `check`, `test`, `lint`,
- * `format`, `fix`, `verify`).
+ * `format`, `fix`).
  *
  * Script-based queues (`build`/`check`/`test`) delegate to each package's own
  * script. Tool-based queues (`lint`/`format`) invoke eslint/stylelint/prettier
