@@ -39,6 +39,5 @@ cache
 tsconfig.measure.json
 
 # Playwright
-packages/*/tests/snapshot/.diagnostic/
 test-results/
 playwright-report/

@@ -46,13 +46,8 @@ export function dev(adapter: string): Plugin {
       const p = (rel: string) => resolve(root!, rel)
 
       const alias: Alias[] = [
-        {
-          // Build-time marker module (see shorthandsMarker); in dev, serve
-          // the inert stand-in from source (the compiled dist copy is CJS,
-          // which the browser can't consume untransformed).
-          find: '#shorthands',
-          replacement: p('packages/utils/src/mock.ts'),
-        },
+        // `#shorthands` (the build-time marker module, see shorthandsMarker)
+        // is covered by the workspace aliases' source stand-in.
         ...workspaceSourceAliases(p('packages'), { styles: true }),
       ]
 

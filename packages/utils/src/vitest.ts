@@ -51,11 +51,10 @@ function escapeRegExp(value: string): string {
  *
  * When the package has a `tests/dts` directory, a `test-dts` project is added
  * that typechecks `tests/dts/**\/*.test-d.ts` with `vue-tsc` (run it alone with
- * `vitest run --project test-dts`). The directory needs its own
- * `tsconfig.json` covering the test files (the checker resolves imports
- * through tsconfig paths, not vite aliases), because the package tsconfig
- * excludes `tests/dts` — type tests are the `test-dts` gate's concern, not
- * `check`'s.
+ * `vitest run --project test-dts`). The directory needs its own `tsconfig.json`
+ * covering the test files (the checker resolves imports through tsconfig paths,
+ * not vite aliases), because the package tsconfig excludes `tests/dts` — type
+ * tests are the `test-dts` gate's concern, not `check`'s.
  */
 export async function createVitestConfig(
   options: VitestOptions = {}
@@ -68,7 +67,6 @@ export async function createVitestConfig(
 
   const aliases: Alias[] = [
     { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' },
-    { find: '#shorthands', replacement: join(__dirname, 'mock.js') },
     ...(options.alias
       ? [
           {

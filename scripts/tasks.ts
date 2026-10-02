@@ -150,6 +150,16 @@ export const testBenchDtsTasks = (passthrough: string[] = []): Task[] =>
 
 export const testDtsTasks = (): Task[] => discoverPackageTasks('test:dts')
 
+/**
+ * `passthrough` flags (e.g. `--update-snapshots` / `--grep=…`) are forwarded to
+ * every package's `test:visual` script.
+ */
+export const testVisualTasks = (passthrough: string[] = []): Task[] =>
+  discoverPackageTasks('test:visual').map((task) => ({
+    ...task,
+    args: [...task.args, ...passthrough],
+  }))
+
 export const testTasks = (): Task[] =>
   // Vitest's default reporter omits the per-test captured console blocks in
   // non-TTY runs; the verbose reporter prints them, which is what the warn

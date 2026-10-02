@@ -119,6 +119,7 @@
     "size": "vf-size",
     "size:report": "vf-size --report",
     "smoke": "tsx tests/smoke/run.ts",
+    "test:visual": "playwright test --config tests/visual/playwright.config.ts",
     "validate": "vf-validate-source"
   },
   "dependencies": {

@@ -11,7 +11,8 @@
       "types": "./dist/smoke/index.d.ts",
       "require": "./dist/smoke/index.js",
       "default": "./dist/smoke/index.js"
-    }
+    },
+    "./visual-test": "./visual-test/index.ts"
   },
   "bin": {
     "vf-bench-dts": "./bin/vf-bench-dts.js",
@@ -23,7 +24,8 @@
     "bin",
     "config.json",
     "dist",
-    "smoke-templates"
+    "smoke-templates",
+    "visual-test"
   ],
   "scripts": {
     "build": "rm -rf dist && tsc",

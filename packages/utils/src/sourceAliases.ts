@@ -48,9 +48,14 @@ function readManifest(dir: string): PackageManifest | undefined {
  * them), style patterns unless `styles` is set, and — since packages are still
  * work in progress — any static entry whose mirrored source file doesn't exist
  * yet, which falls through to the package's `/*` catch-all.
+ *
+ * A plain-string target outside `dist` (e.g. utils' `./visual-test` →
+ * `./visual-test/index.ts`) is a raw-source asset export: it is aliased to that
+ * file as-is, since the `src` catch-all cannot reach it.
  */
 function exportsAliases(
   short: string,
+  packageDir: string,
   srcAbs: string,
   exportsMap: Record<string, unknown> | undefined,
   options: SourceAliasOptions
@@ -60,6 +65,20 @@ function exportsAliases(
   return Object.entries(exportsMap).flatMap(([key, value]) => {
     if (key === '.' || key.startsWith('./vapor/') || key === './vapor') {
       return []
+    }
+
+    // Raw-source asset exports (shipped uncompiled, like `./visual-test`):
+    // the target is the source itself, so alias straight to it.
+    if (typeof value === 'string' && !value.startsWith('./dist/')) {
+      if (key.includes('*') || !existsSync(join(packageDir, value))) return []
+      return [
+        {
+          find: new RegExp(
+            `^${escapeRegExp(short)}/${escapeRegExp(key.slice(2))}$`
+          ),
+          replacement: join(packageDir, value),
+        },
+      ]
     }
 
     // Style patterns: the built stylesheets compile from `src/scss/<name>.scss`.
@@ -133,7 +152,7 @@ export function packageSourceAliases(
       find: new RegExp(`^${escapeRegExp(prefix)}$`),
       replacement: join(srcAbs, 'index.ts'),
     },
-    ...exportsAliases(prefix, srcAbs, manifest.exports, options),
+    ...exportsAliases(prefix, dir, srcAbs, manifest.exports, options),
     {
       // `vapor` subpaths have no source directory of their own and must stay
       // resolvable by consumers (the playground dev plugin strips the segment
@@ -145,15 +164,25 @@ export function packageSourceAliases(
 }
 
 /**
- * Source aliases for every package in a `packages/` directory.
+ * Source aliases for every package in a `packages/` directory, plus the
+ * workspace-wide `#shorthands` mapping every source-serving context needs: the
+ * marker module is type-only, so its runtime import is kept inert via the
+ * source stand-in (the compiled dist copy is CJS, which the browser can't
+ * consume untransformed).
  */
 export function workspaceSourceAliases(
   packagesDir: string,
   options: SourceAliasOptions = {}
 ): Alias[] {
-  return readdirSync(packagesDir, { withFileTypes: true })
-    .filter((entry) => entry.isDirectory())
-    .flatMap((entry) =>
-      packageSourceAliases(join(packagesDir, entry.name), options)
-    )
+  return [
+    {
+      find: '#shorthands',
+      replacement: join(packagesDir, 'utils/src/mock.ts'),
+    },
+    ...readdirSync(packagesDir, { withFileTypes: true })
+      .filter((entry) => entry.isDirectory())
+      .flatMap((entry) =>
+        packageSourceAliases(join(packagesDir, entry.name), options)
+      ),
+  ]
 }

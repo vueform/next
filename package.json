@@ -31,6 +31,7 @@
     "test:bench": "tsx scripts/test-bench.ts",
     "test:bench-dts": "tsx scripts/test-bench-dts.ts",
     "test:dts": "tsx scripts/test-dts.ts",
+    "test:visual": "tsx scripts/test-visual.ts",
     "usage": "tsx scripts/usage.ts",
     "validate": "tsx scripts/validate.ts"
   },
