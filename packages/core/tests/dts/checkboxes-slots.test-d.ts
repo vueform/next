@@ -4,15 +4,9 @@
  */
 import { describe, expectTypeOf, test } from 'vitest'
 import type { ResolvedGroup, ResolvedItem } from '@vueform/core'
-import type {
-  VfCheckboxesProps,
-  VfCheckboxesSlots,
-} from '@vueform/core/components/VfCheckboxes'
+import type { VfCheckboxesProps, VfCheckboxesSlots } from '@vueform/core/components/VfCheckboxes'
 
-type ObjectItems = [
-  { id: 1; label: 'A'; foo: () => void },
-  { id: 2; label: 'B'; foo: () => void },
-]
+type ObjectItems = [{ id: 1; label: 'A'; foo: () => void }, { id: 2; label: 'B'; foo: () => void }]
 
 describe('VfCheckboxes named slots', () => {
   type CheckboxProps = Parameters<VfCheckboxesSlots['checkbox']>[0]
@@ -28,12 +22,8 @@ describe('VfCheckboxes named slots', () => {
 
   test('item / default / group slots receive generic ResolvedItem / ResolvedGroup', () => {
     expectTypeOf<ItemProps['item']>().toEqualTypeOf<ResolvedItem<any, any>>()
-    expectTypeOf<DefaultProps['items']>().toEqualTypeOf<
-      ResolvedItem<any, any>[]
-    >()
-    expectTypeOf<DefaultProps['groups']>().toEqualTypeOf<
-      ResolvedGroup<any, any>[]
-    >()
+    expectTypeOf<DefaultProps['items']>().toEqualTypeOf<ResolvedItem<any, any>[]>()
+    expectTypeOf<DefaultProps['groups']>().toEqualTypeOf<ResolvedGroup<any, any>[]>()
     expectTypeOf<DefaultProps['grouped']>().toEqualTypeOf<boolean>()
     expectTypeOf<GroupProps['group']>().toEqualTypeOf<ResolvedGroup<any, any>>()
   })
@@ -45,12 +35,8 @@ describe('VfCheckboxes named slots', () => {
     type ExactGroupProps = Parameters<ExactSlots['group']>[0]
 
     expectTypeOf<ExactItemProps['item']['value']>().toEqualTypeOf<1 | 2>()
-    expectTypeOf<ExactDefaultProps['items'][number]['value']>().toEqualTypeOf<
-      1 | 2
-    >()
-    expectTypeOf<
-      ExactGroupProps['group']['items'][number]['value']
-    >().toEqualTypeOf<1 | 2>()
+    expectTypeOf<ExactDefaultProps['items'][number]['value']>().toEqualTypeOf<1 | 2>()
+    expectTypeOf<ExactGroupProps['group']['items'][number]['value']>().toEqualTypeOf<1 | 2>()
   })
 })
 
@@ -77,12 +63,8 @@ describe('VfCheckboxes #template slot', () => {
     type ObjectSlotContext = Parameters<ExactSlots['template']>[0]['context']
 
     expectTypeOf<ObjectSlotContext['model']>().toEqualTypeOf<(1 | 2)[]>()
-    expectTypeOf<ObjectSlotContext['items'][number]['value']>().toEqualTypeOf<
-      1 | 2
-    >()
-    expectTypeOf<ObjectItems>().toExtend<
-      NonNullable<ObjectSlotContext['props']['items']>
-    >()
+    expectTypeOf<ObjectSlotContext['items'][number]['value']>().toEqualTypeOf<1 | 2>()
+    expectTypeOf<ObjectItems>().toExtend<NonNullable<ObjectSlotContext['props']['items']>>()
     expectTypeOf<ObjectSlotContext['props']>().not.toHaveProperty('multiple')
   })
 
@@ -91,8 +73,6 @@ describe('VfCheckboxes #template slot', () => {
     type ScalarSlotContext = Parameters<ScalarSlots['template']>[0]['context']
 
     expectTypeOf<ScalarSlotContext['model']>().toEqualTypeOf<(1 | 2 | 3)[]>()
-    expectTypeOf<ScalarSlotContext['items'][number]['value']>().toEqualTypeOf<
-      1 | 2 | 3
-    >()
+    expectTypeOf<ScalarSlotContext['items'][number]['value']>().toEqualTypeOf<1 | 2 | 3>()
   })
 })
