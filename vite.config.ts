@@ -120,13 +120,17 @@ export default defineConfig({
         dependsOn: ['build:utils', 'build:core'],
         extra: [utilsDist, 'packages/core/dist/**'],
       }),
+      // The plugins' d.ts generation type-checks against core's BUILT dist
+      // types (tsdown factories, migration stage 3) — core must finish
+      // first, or a concurrent half-emitted core dist degrades their typed
+      // exports to `any`.
       'build:dompurify': pkgBuild('@vueform/dompurify', 'dompurify', {
-        dependsOn: ['build:utils'],
-        extra: [utilsDist],
+        dependsOn: ['build:utils', 'build:core'],
+        extra: [utilsDist, 'packages/core/dist/**'],
       }),
       'build:expr-eval': pkgBuild('@vueform/expr-eval', 'expr-eval', {
-        dependsOn: ['build:utils'],
-        extra: [utilsDist],
+        dependsOn: ['build:utils', 'build:core'],
+        extra: [utilsDist, 'packages/core/dist/**'],
       }),
       'build:cli': pkgBuild('@vueform/cli', 'cli'),
       // nuxt's types import the adapters' `components/names` dist types.

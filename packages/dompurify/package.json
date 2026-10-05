@@ -17,7 +17,8 @@
     "build": "tsdown",
     "check": "tsc --noEmit",
     "size": "vf-size",
-    "size:report": "vf-size --report"
+    "size:report": "vf-size --report",
+    "test:dts-dist": "vitest run --project test-dts-dist"
   },
   "dependencies": {
     "isomorphic-dompurify": "catalog:"
@@ -25,8 +26,11 @@
   "devDependencies": {
     "@vueform/ui": "workspace:^",
     "@vueform/utils": "workspace:^",
+    "happy-dom": "catalog:",
     "tsdown": "catalog:",
-    "vite": "catalog:"
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vue-tsc": "catalog:"
   },
   "peerDependencies": {
     "@vueform/core": "workspace:^",

@@ -1,6 +1,6 @@
 {
   "package": "@vueform/core",
-  "fileCount": 1137,
+  "fileCount": 1081,
   "exportsMap": {
     "checked": 13,
     "patterns": 12,
@@ -8,12 +8,12 @@
   },
   "files": {
     "blueprints/addon.d.ts": {
-      "bytes": 1948,
-      "hash": "e716403eedfda247"
+      "bytes": 1958,
+      "hash": "5d75dd8f99f612bf"
     },
     "blueprints/addon.mjs": {
-      "bytes": 968,
-      "hash": "e0a7805b40dbb3ac",
+      "bytes": 971,
+      "hash": "7cf13eccc9d9c0bf",
       "exports": [
         "blueprint",
         "defaults"
@@ -28,12 +28,12 @@
       ]
     },
     "blueprints/button.d.ts": {
-      "bytes": 6066,
-      "hash": "faf2e89ac9eabbc7"
+      "bytes": 6103,
+      "hash": "b1bb28ac05780e2d"
     },
     "blueprints/button.mjs": {
-      "bytes": 1129,
-      "hash": "00cac93ab67e447c",
+      "bytes": 1132,
+      "hash": "8b4ed68b4006fb47",
       "exports": [
         "blueprint",
         "defaults"
@@ -48,12 +48,12 @@
       ]
     },
     "blueprints/checkbox.d.ts": {
-      "bytes": 11670,
-      "hash": "8656cc99eccb06d9"
+      "bytes": 11680,
+      "hash": "c58530b9f3233190"
     },
     "blueprints/checkbox.mjs": {
-      "bytes": 1670,
-      "hash": "d99fc393d57f5cb0",
+      "bytes": 1673,
+      "hash": "b9a6fc885a339f7b",
       "exports": [
         "blueprint",
         "defaults"
@@ -74,12 +74,12 @@
       ]
     },
     "blueprints/checkboxes.d.ts": {
-      "bytes": 24333,
-      "hash": "fc7d7f0586e74bd6"
+      "bytes": 24358,
+      "hash": "3a427f73d862f232"
     },
     "blueprints/checkboxes.mjs": {
-      "bytes": 1926,
-      "hash": "ba6d3586745b1e1c",
+      "bytes": 1929,
+      "hash": "4fd3f6ca3be75107",
       "exports": [
         "blueprint",
         "defaults"
@@ -99,12 +99,12 @@
       ]
     },
     "blueprints/col.d.ts": {
-      "bytes": 3020,
-      "hash": "92730e171d777b74"
+      "bytes": 3030,
+      "hash": "a7f42502b0f18f10"
     },
     "blueprints/col.mjs": {
-      "bytes": 3069,
-      "hash": "51b6f77eed1c9770",
+      "bytes": 3072,
+      "hash": "e22ecbee1320c9c3",
       "exports": [
         "blueprint",
         "defaults"
@@ -118,12 +118,12 @@
       ]
     },
     "blueprints/content.d.ts": {
-      "bytes": 5090,
-      "hash": "8aa822831adf614a"
+      "bytes": 5102,
+      "hash": "566a37be5db03b25"
     },
     "blueprints/content.mjs": {
-      "bytes": 2462,
-      "hash": "d3cef202cea95795",
+      "bytes": 2465,
+      "hash": "22e64d81e1f50dde",
       "exports": [
         "blueprint",
         "defaults"
@@ -141,12 +141,12 @@
       ]
     },
     "blueprints/elements.d.ts": {
-      "bytes": 1833,
-      "hash": "049ae7362332a425"
+      "bytes": 1843,
+      "hash": "5ef37202b15ce9c1"
     },
     "blueprints/elements.mjs": {
-      "bytes": 505,
-      "hash": "ab1a4eb6fcd32549",
+      "bytes": 508,
+      "hash": "3d46a37358cfdee1",
       "exports": [
         "blueprint",
         "defaults"
@@ -156,12 +156,12 @@
       ]
     },
     "blueprints/field.d.ts": {
-      "bytes": 16029,
-      "hash": "432901df257c381c"
+      "bytes": 16021,
+      "hash": "5e887b44e71d47d3"
     },
     "blueprints/field.mjs": {
-      "bytes": 2183,
-      "hash": "9379b1ec59d6052d",
+      "bytes": 2186,
+      "hash": "449fb20449b8d88e",
       "exports": [
         "blueprint",
         "defaults"
@@ -187,12 +187,12 @@
       ]
     },
     "blueprints/file.d.ts": {
-      "bytes": 14135,
-      "hash": "3379d5d8c4d25bca"
+      "bytes": 14169,
+      "hash": "bdf7c58990858b13"
     },
     "blueprints/file.mjs": {
-      "bytes": 6275,
-      "hash": "21f964d8983c7522",
+      "bytes": 6278,
+      "hash": "e3553144a8f5a9c2",
       "exports": [
         "blueprint",
         "defaults",
@@ -218,12 +218,12 @@
       ]
     },
     "blueprints/form.d.ts": {
-      "bytes": 31400,
-      "hash": "52bb2e615dba077e"
+      "bytes": 31437,
+      "hash": "779750a9816be8c2"
     },
     "blueprints/form.mjs": {
-      "bytes": 29303,
-      "hash": "1dbe2c29bd6bbc49",
+      "bytes": 29306,
+      "hash": "916218b0a78da837",
       "exports": [
         "blueprint",
         "defaults"
@@ -258,12 +258,12 @@
       ]
     },
     "blueprints/grid.d.ts": {
-      "bytes": 13403,
-      "hash": "ff7aa1ad05ce063a"
+      "bytes": 13417,
+      "hash": "cce584b9e55f7ef0"
     },
     "blueprints/grid.mjs": {
-      "bytes": 9185,
-      "hash": "513fa95bf9d9130e",
+      "bytes": 9188,
+      "hash": "1b2615356e83ca32",
       "exports": [
         "blueprint",
         "defaults"
@@ -286,12 +286,12 @@
       ]
     },
     "blueprints/group.d.ts": {
-      "bytes": 8950,
-      "hash": "91c21fa5ef9a4478"
+      "bytes": 8974,
+      "hash": "2901f3dbfba458ee"
     },
     "blueprints/group.mjs": {
-      "bytes": 2346,
-      "hash": "76cbe1403deabfad",
+      "bytes": 2349,
+      "hash": "fcb3bded0957c664",
       "exports": [
         "blueprint",
         "defaults"
@@ -311,12 +311,12 @@
       ]
     },
     "blueprints/hidden.d.ts": {
-      "bytes": 7442,
-      "hash": "821c80f6218c9377"
+      "bytes": 7407,
+      "hash": "ce2cbab6cbb30aee"
     },
     "blueprints/hidden.mjs": {
-      "bytes": 1394,
-      "hash": "97191bd15cf13e8e",
+      "bytes": 1397,
+      "hash": "ae767fae9e0b30c8",
       "exports": [
         "blueprint",
         "defaults"
@@ -331,12 +331,12 @@
       ]
     },
     "blueprints/icon.d.ts": {
-      "bytes": 1802,
-      "hash": "e55efdecb6cfe98e"
+      "bytes": 1812,
+      "hash": "419183cfc9ad56d2"
     },
     "blueprints/icon.mjs": {
-      "bytes": 483,
-      "hash": "5ff115821e71f3c1",
+      "bytes": 486,
+      "hash": "d4ffc0d6e663bf4c",
       "exports": [
         "blueprint",
         "defaults"
@@ -346,12 +346,12 @@
       ]
     },
     "blueprints/languages.d.ts": {
-      "bytes": 2476,
-      "hash": "911ab2b4f1619f40"
+      "bytes": 2486,
+      "hash": "ba28f891b8ba4a1f"
     },
     "blueprints/languages.mjs": {
-      "bytes": 707,
-      "hash": "8085cdb5df08a23e",
+      "bytes": 710,
+      "hash": "0c07b982bc0eb89b",
       "exports": [
         "blueprint",
         "defaults"
@@ -361,12 +361,12 @@
       ]
     },
     "blueprints/layout.d.ts": {
-      "bytes": 4346,
-      "hash": "fdb833489272354d"
+      "bytes": 4376,
+      "hash": "b0f908cac099e9b7"
     },
     "blueprints/layout.mjs": {
-      "bytes": 6801,
-      "hash": "409ae30a8cf316a9",
+      "bytes": 6804,
+      "hash": "dff7634ebd0b17cb",
       "exports": [
         "blueprint",
         "defaults"
@@ -386,12 +386,12 @@
       ]
     },
     "blueprints/list.d.ts": {
-      "bytes": 12785,
-      "hash": "a655fd5376e67179"
+      "bytes": 12775,
+      "hash": "e47adae12e9dc179"
     },
     "blueprints/list.mjs": {
-      "bytes": 5556,
-      "hash": "2cb98e2f4b1d59a1",
+      "bytes": 5559,
+      "hash": "62d4c1bc97b8efee",
       "exports": [
         "blueprint",
         "defaults"
@@ -413,12 +413,12 @@
       ]
     },
     "blueprints/matrix.d.ts": {
-      "bytes": 25875,
-      "hash": "ae65a0a2eec2978d"
+      "bytes": 25914,
+      "hash": "4fb6093e27c9281d"
     },
     "blueprints/matrix.mjs": {
-      "bytes": 18120,
-      "hash": "04b5ef1f5d787f2d",
+      "bytes": 18123,
+      "hash": "64555a0db387acff",
       "exports": [
         "blueprint",
         "defaults",
@@ -448,12 +448,12 @@
       ]
     },
     "blueprints/nav.d.ts": {
-      "bytes": 4606,
-      "hash": "a8b68968a9499ff4"
+      "bytes": 4621,
+      "hash": "9e28dd8db1b813d5"
     },
     "blueprints/nav.mjs": {
-      "bytes": 2630,
-      "hash": "dab796adf00a2237",
+      "bytes": 2633,
+      "hash": "57f08043d0a7e4f0",
       "exports": [
         "blueprint",
         "defaults"
@@ -467,12 +467,12 @@
       ]
     },
     "blueprints/radio.d.ts": {
-      "bytes": 11136,
-      "hash": "4f791892d07e188d"
+      "bytes": 11146,
+      "hash": "cbbd904550364b18"
     },
     "blueprints/radio.mjs": {
-      "bytes": 1615,
-      "hash": "d525fc489379602f",
+      "bytes": 1618,
+      "hash": "c2893768dd3593cc",
       "exports": [
         "blueprint",
         "defaults"
@@ -493,12 +493,12 @@
       ]
     },
     "blueprints/radios.d.ts": {
-      "bytes": 24110,
-      "hash": "65542c08cdddece8"
+      "bytes": 24135,
+      "hash": "b776dfc56982110f"
     },
     "blueprints/radios.mjs": {
-      "bytes": 1826,
-      "hash": "b66ec969ab4fa52f",
+      "bytes": 1829,
+      "hash": "762711c242e11772",
       "exports": [
         "blueprint",
         "defaults"
@@ -517,12 +517,12 @@
       ]
     },
     "blueprints/row.d.ts": {
-      "bytes": 2320,
-      "hash": "0a7af51b43cc460d"
+      "bytes": 2330,
+      "hash": "68d54beb83ce1982"
     },
     "blueprints/row.mjs": {
-      "bytes": 1314,
-      "hash": "c872f560d9689354",
+      "bytes": 1317,
+      "hash": "7af8ac3d1553cdb5",
       "exports": [
         "blueprint",
         "defaults"
@@ -536,12 +536,12 @@
       ]
     },
     "blueprints/select.d.ts": {
-      "bytes": 25636,
-      "hash": "103e73859f5d459d"
+      "bytes": 25691,
+      "hash": "461a64ba8c46d152"
     },
     "blueprints/select.mjs": {
-      "bytes": 2203,
-      "hash": "7f78284b108e3d06",
+      "bytes": 2206,
+      "hash": "899c41bd4e2a5bf5",
       "exports": [
         "blueprint",
         "defaults"
@@ -565,12 +565,12 @@
       ]
     },
     "blueprints/steps.d.ts": {
-      "bytes": 1898,
-      "hash": "2a1ff6f600d9213d"
+      "bytes": 1913,
+      "hash": "ba090f5fe287522b"
     },
     "blueprints/steps.mjs": {
-      "bytes": 496,
-      "hash": "322d035dd0134d2f",
+      "bytes": 499,
+      "hash": "0bb0269692f46fea",
       "exports": [
         "blueprint",
         "defaults"
@@ -580,12 +580,12 @@
       ]
     },
     "blueprints/tabs.d.ts": {
-      "bytes": 1870,
-      "hash": "ecf1f61d3c1f0cd8"
+      "bytes": 1885,
+      "hash": "5f300581bcb3357e"
     },
     "blueprints/tabs.mjs": {
-      "bytes": 493,
-      "hash": "1b618e51e08a81eb",
+      "bytes": 496,
+      "hash": "a56422196d7aaa4c",
       "exports": [
         "blueprint",
         "defaults"
@@ -595,12 +595,12 @@
       ]
     },
     "blueprints/text.d.ts": {
-      "bytes": 12601,
-      "hash": "9c52de386cd46111"
+      "bytes": 12608,
+      "hash": "6027bc716ad6446c"
     },
     "blueprints/text.mjs": {
-      "bytes": 2139,
-      "hash": "a66545f91d220348",
+      "bytes": 2142,
+      "hash": "5d66bc1e74612454",
       "exports": [
         "blueprint",
         "defaults"
@@ -626,12 +626,12 @@
       ]
     },
     "blueprints/textarea.d.ts": {
-      "bytes": 12746,
-      "hash": "27df06ae9b45f187"
+      "bytes": 12753,
+      "hash": "b81ab07c71e64a1a"
     },
     "blueprints/textarea.mjs": {
-      "bytes": 2235,
-      "hash": "eb54c020d96dd6c6",
+      "bytes": 2238,
+      "hash": "d161689ae19f40fc",
       "exports": [
         "blueprint",
         "defaults"
@@ -658,22 +658,8 @@
       ]
     },
     "components/VfAddon/VfAddon.mjs": {
-      "bytes": 289,
-      "hash": "99f25c12ee476f6c",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfAddon.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfAddon/VfAddon.vue.d.ts": {
-      "bytes": 3773,
-      "hash": "2aaecec49a39dedd"
-    },
-    "components/VfAddon/VfAddon.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 2473,
-      "hash": "79463ffa92c6e5b0",
+      "bytes": 2363,
+      "hash": "475456c75d2068d4",
       "exports": [
         "default"
       ],
@@ -684,13 +670,17 @@
         "vue"
       ]
     },
+    "components/VfAddon/VfAddon.vue.d.ts": {
+      "bytes": 3371,
+      "hash": "b60d2327aa724293"
+    },
     "components/VfAddon/index.d.ts": {
       "bytes": 133,
       "hash": "66a737364cdf0f76"
     },
     "components/VfAddon/index.mjs": {
-      "bytes": 171,
-      "hash": "ea114f08c523621d",
+      "bytes": 159,
+      "hash": "db6a06c8c7bdb1ce",
       "exports": [
         "blueprint",
         "default",
@@ -706,16 +696,16 @@
       "hash": "66a73b93fbe26b25"
     },
     "components/VfAddon/types.d.ts": {
-      "bytes": 2562,
-      "hash": "55eefa404048dd74"
+      "bytes": 2607,
+      "hash": "3c2754605f16f928"
     },
     "components/VfAddon/unstyled.d.ts": {
-      "bytes": 362,
-      "hash": "be00a4a125b423b7"
+      "bytes": 356,
+      "hash": "3e7296c12d878bfc"
     },
     "components/VfAddon/unstyled.mjs": {
-      "bytes": 171,
-      "hash": "ea114f08c523621d",
+      "bytes": 159,
+      "hash": "db6a06c8c7bdb1ce",
       "exports": [
         "blueprint",
         "default",
@@ -727,22 +717,8 @@
       ]
     },
     "components/VfButton/VfButton.mjs": {
-      "bytes": 296,
-      "hash": "b3030dbfdc157f05",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfButton.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfButton/VfButton.vue.d.ts": {
-      "bytes": 11079,
-      "hash": "420dce302ea76ea0"
-    },
-    "components/VfButton/VfButton.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 6963,
-      "hash": "c955f10fc34db845",
+      "bytes": 6869,
+      "hash": "12180c37c9adf1e6",
       "exports": [
         "default"
       ],
@@ -753,13 +729,17 @@
         "vue"
       ]
     },
+    "components/VfButton/VfButton.vue.d.ts": {
+      "bytes": 10060,
+      "hash": "f135a598e42e5a73"
+    },
     "components/VfButton/index.d.ts": {
       "bytes": 135,
       "hash": "9bb50a26c130f0a9"
     },
     "components/VfButton/index.mjs": {
-      "bytes": 175,
-      "hash": "8e465227e65714a3",
+      "bytes": 161,
+      "hash": "6abfa6904c36f52e",
       "exports": [
         "blueprint",
         "default",
@@ -775,16 +755,16 @@
       "hash": "a1504ea189ce8a19"
     },
     "components/VfButton/types.d.ts": {
-      "bytes": 3458,
-      "hash": "b29085d519e2b568"
+      "bytes": 3503,
+      "hash": "3018b7a05f84835c"
     },
     "components/VfButton/unstyled.d.ts": {
-      "bytes": 366,
-      "hash": "270c5e2ec763f198"
+      "bytes": 360,
+      "hash": "642d059c39c125db"
     },
     "components/VfButton/unstyled.mjs": {
-      "bytes": 175,
-      "hash": "8e465227e65714a3",
+      "bytes": 161,
+      "hash": "6abfa6904c36f52e",
       "exports": [
         "blueprint",
         "default",
@@ -796,22 +776,8 @@
       ]
     },
     "components/VfCheckbox/VfCheckbox.mjs": {
-      "bytes": 310,
-      "hash": "71d2128476862e3c",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfCheckbox.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfCheckbox/VfCheckbox.vue.d.ts": {
-      "bytes": 24262,
-      "hash": "5c2ff23b7a59e3ef"
-    },
-    "components/VfCheckbox/VfCheckbox.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 7660,
-      "hash": "713835959df53c36",
+      "bytes": 7548,
+      "hash": "2ad0c926235275c1",
       "exports": [
         "default"
       ],
@@ -822,13 +788,17 @@
         "vue"
       ]
     },
+    "components/VfCheckbox/VfCheckbox.vue.d.ts": {
+      "bytes": 22723,
+      "hash": "29d0a3d743612799"
+    },
     "components/VfCheckbox/index.d.ts": {
       "bytes": 139,
       "hash": "019038e915f1f4a5"
     },
     "components/VfCheckbox/index.mjs": {
-      "bytes": 183,
-      "hash": "1fe8e9c8f7aad67e",
+      "bytes": 165,
+      "hash": "c211e44b34f63288",
       "exports": [
         "blueprint",
         "default",
@@ -844,16 +814,16 @@
       "hash": "f171c3bad9bbace6"
     },
     "components/VfCheckbox/types.d.ts": {
-      "bytes": 4685,
-      "hash": "48104fde75071404"
+      "bytes": 4730,
+      "hash": "826dbc01fe9b7e10"
     },
     "components/VfCheckbox/unstyled.d.ts": {
-      "bytes": 378,
-      "hash": "cf19742fe08a04b5"
+      "bytes": 372,
+      "hash": "face0e2bfec0e27d"
     },
     "components/VfCheckbox/unstyled.mjs": {
-      "bytes": 183,
-      "hash": "1fe8e9c8f7aad67e",
+      "bytes": 165,
+      "hash": "c211e44b34f63288",
       "exports": [
         "blueprint",
         "default",
@@ -865,22 +835,8 @@
       ]
     },
     "components/VfCheckboxes/VfCheckboxes.mjs": {
-      "bytes": 324,
-      "hash": "3835aeef001adbb2",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfCheckboxes.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfCheckboxes/VfCheckboxes.vue.d.ts": {
-      "bytes": 33650,
-      "hash": "753b6c32590c9314"
-    },
-    "components/VfCheckboxes/VfCheckboxes.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 9703,
-      "hash": "de354868fd927483",
+      "bytes": 9581,
+      "hash": "250e0468ad9f4b61",
       "exports": [
         "default"
       ],
@@ -891,13 +847,17 @@
         "vue"
       ]
     },
+    "components/VfCheckboxes/VfCheckboxes.vue.d.ts": {
+      "bytes": 32025,
+      "hash": "bf1b3500ef0f67f4"
+    },
     "components/VfCheckboxes/index.d.ts": {
       "bytes": 143,
       "hash": "dda22e67739dee5e"
     },
     "components/VfCheckboxes/index.mjs": {
-      "bytes": 191,
-      "hash": "2d09bc3cbf2314e6",
+      "bytes": 169,
+      "hash": "0ee0d6edefe398b0",
       "exports": [
         "blueprint",
         "default",
@@ -913,16 +873,16 @@
       "hash": "a5201ca0c468fc95"
     },
     "components/VfCheckboxes/types.d.ts": {
-      "bytes": 7888,
-      "hash": "f09db025381618e7"
+      "bytes": 7943,
+      "hash": "4ff9106a1fd528c6"
     },
     "components/VfCheckboxes/unstyled.d.ts": {
-      "bytes": 390,
-      "hash": "34630d886ff251f2"
+      "bytes": 384,
+      "hash": "c10ba9b946bc82c1"
     },
     "components/VfCheckboxes/unstyled.mjs": {
-      "bytes": 191,
-      "hash": "2d09bc3cbf2314e6",
+      "bytes": 169,
+      "hash": "0ee0d6edefe398b0",
       "exports": [
         "blueprint",
         "default",
@@ -934,22 +894,8 @@
       ]
     },
     "components/VfCol/VfCol.mjs": {
-      "bytes": 275,
-      "hash": "c407800892b30976",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfCol.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfCol/VfCol.vue.d.ts": {
-      "bytes": 4423,
-      "hash": "dacd22018a9cf880"
-    },
-    "components/VfCol/VfCol.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3644,
-      "hash": "b0785e1f65b4d59c",
+      "bytes": 3550,
+      "hash": "87dda6ad59e66035",
       "exports": [
         "default"
       ],
@@ -960,13 +906,17 @@
         "vue"
       ]
     },
+    "components/VfCol/VfCol.vue.d.ts": {
+      "bytes": 4001,
+      "hash": "c4599b36f4b3bf5a"
+    },
     "components/VfCol/index.d.ts": {
       "bytes": 129,
       "hash": "7f1d29da4b2a5339"
     },
     "components/VfCol/index.mjs": {
-      "bytes": 163,
-      "hash": "534907b5ffd6042d",
+      "bytes": 155,
+      "hash": "1867d92e94af9daa",
       "exports": [
         "blueprint",
         "default",
@@ -982,16 +932,16 @@
       "hash": "57cc9e158eb82386"
     },
     "components/VfCol/types.d.ts": {
-      "bytes": 2920,
-      "hash": "71ec41da6068f008"
+      "bytes": 2965,
+      "hash": "dbaf34b79053e98c"
     },
     "components/VfCol/unstyled.d.ts": {
-      "bytes": 350,
-      "hash": "addf24c5f31d5a9f"
+      "bytes": 344,
+      "hash": "01d34e097c2dc7e5"
     },
     "components/VfCol/unstyled.mjs": {
-      "bytes": 163,
-      "hash": "534907b5ffd6042d",
+      "bytes": 155,
+      "hash": "1867d92e94af9daa",
       "exports": [
         "blueprint",
         "default",
@@ -1003,22 +953,8 @@
       ]
     },
     "components/VfContent/VfContent.mjs": {
-      "bytes": 303,
-      "hash": "d34fd4697cd14ca9",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfContent.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfContent/VfContent.vue.d.ts": {
-      "bytes": 7800,
-      "hash": "5c4a25c04211b252"
-    },
-    "components/VfContent/VfContent.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3613,
-      "hash": "f73de25c4fc262c6",
+      "bytes": 3497,
+      "hash": "22ae818c01f1c9a3",
       "exports": [
         "default"
       ],
@@ -1029,13 +965,17 @@
         "vue"
       ]
     },
+    "components/VfContent/VfContent.vue.d.ts": {
+      "bytes": 6956,
+      "hash": "6f6238f4d198f7fb"
+    },
     "components/VfContent/index.d.ts": {
       "bytes": 137,
       "hash": "c257c4b930ba3e98"
     },
     "components/VfContent/index.mjs": {
-      "bytes": 179,
-      "hash": "5349d31c3154eff8",
+      "bytes": 163,
+      "hash": "b04275083a081619",
       "exports": [
         "blueprint",
         "default",
@@ -1051,16 +991,16 @@
       "hash": "c2afc77a8212b9f9"
     },
     "components/VfContent/types.d.ts": {
-      "bytes": 2342,
-      "hash": "97a3295f7b9f3e9e"
+      "bytes": 2387,
+      "hash": "ce2f8083aacd88a0"
     },
     "components/VfContent/unstyled.d.ts": {
-      "bytes": 372,
-      "hash": "6beb8debc38751a3"
+      "bytes": 366,
+      "hash": "c2f591a139649119"
     },
     "components/VfContent/unstyled.mjs": {
-      "bytes": 179,
-      "hash": "5349d31c3154eff8",
+      "bytes": 163,
+      "hash": "b04275083a081619",
       "exports": [
         "blueprint",
         "default",
@@ -1072,22 +1012,8 @@
       ]
     },
     "components/VfElements/VfElements.mjs": {
-      "bytes": 310,
-      "hash": "e634e84baccc47a6",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfElements.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfElements/VfElements.vue.d.ts": {
-      "bytes": 3723,
-      "hash": "f57070a98828c260"
-    },
-    "components/VfElements/VfElements.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 1974,
-      "hash": "45be5e5a643bba3f",
+      "bytes": 1856,
+      "hash": "1609b6eaa574e5e6",
       "exports": [
         "default"
       ],
@@ -1098,13 +1024,17 @@
         "vue"
       ]
     },
+    "components/VfElements/VfElements.vue.d.ts": {
+      "bytes": 3340,
+      "hash": "af9069b292111edf"
+    },
     "components/VfElements/index.d.ts": {
       "bytes": 139,
       "hash": "958f4afdf199dce0"
     },
     "components/VfElements/index.mjs": {
-      "bytes": 183,
-      "hash": "cc2392f9479b5eb7",
+      "bytes": 165,
+      "hash": "1f76b0c484ad09cb",
       "exports": [
         "blueprint",
         "default",
@@ -1120,16 +1050,16 @@
       "hash": "f0d7a0094dc554f8"
     },
     "components/VfElements/types.d.ts": {
-      "bytes": 2521,
-      "hash": "9535f20359616809"
+      "bytes": 2566,
+      "hash": "55a3c3b31a4461d6"
     },
     "components/VfElements/unstyled.d.ts": {
-      "bytes": 380,
-      "hash": "69d168c44284d190"
+      "bytes": 374,
+      "hash": "fede8e2cbb135f39"
     },
     "components/VfElements/unstyled.mjs": {
-      "bytes": 183,
-      "hash": "cc2392f9479b5eb7",
+      "bytes": 165,
+      "hash": "1f76b0c484ad09cb",
       "exports": [
         "blueprint",
         "default",
@@ -1141,22 +1071,8 @@
       ]
     },
     "components/VfField/VfField.mjs": {
-      "bytes": 289,
-      "hash": "78b88dc8710c284f",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfField.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfField/VfField.vue.d.ts": {
-      "bytes": 35065,
-      "hash": "4f5014311a4acdfd"
-    },
-    "components/VfField/VfField.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 4376,
-      "hash": "8b7a1884da23f469",
+      "bytes": 4268,
+      "hash": "60f4bfdbbbf764c7",
       "exports": [
         "default"
       ],
@@ -1167,13 +1083,17 @@
         "vue"
       ]
     },
+    "components/VfField/VfField.vue.d.ts": {
+      "bytes": 34332,
+      "hash": "8dfc39b92e80264d"
+    },
     "components/VfField/index.d.ts": {
       "bytes": 133,
       "hash": "d7c35e22a6d7303b"
     },
     "components/VfField/index.mjs": {
-      "bytes": 171,
-      "hash": "dc8b690b4cbb4034",
+      "bytes": 159,
+      "hash": "b3ca1257973ce2d1",
       "exports": [
         "blueprint",
         "default",
@@ -1189,16 +1109,16 @@
       "hash": "94b4c5daf5f6d5a7"
     },
     "components/VfField/types.d.ts": {
-      "bytes": 4763,
-      "hash": "d008bc38e29db483"
+      "bytes": 4813,
+      "hash": "8133f507e404d72e"
     },
     "components/VfField/unstyled.d.ts": {
-      "bytes": 360,
-      "hash": "71bc6d17352fcbe0"
+      "bytes": 354,
+      "hash": "dbad36dd380b1833"
     },
     "components/VfField/unstyled.mjs": {
-      "bytes": 171,
-      "hash": "dc8b690b4cbb4034",
+      "bytes": 159,
+      "hash": "b3ca1257973ce2d1",
       "exports": [
         "blueprint",
         "default",
@@ -1210,22 +1130,8 @@
       ]
     },
     "components/VfFile/VfFile.mjs": {
-      "bytes": 282,
-      "hash": "2970487fa4b31958",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfFile.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfFile/VfFile.vue.d.ts": {
-      "bytes": 25760,
-      "hash": "6511516c3b98d4df"
-    },
-    "components/VfFile/VfFile.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 9056,
-      "hash": "d1e405948efe042e",
+      "bytes": 8962,
+      "hash": "157bd742d960e749",
       "exports": [
         "default"
       ],
@@ -1236,13 +1142,17 @@
         "vue"
       ]
     },
+    "components/VfFile/VfFile.vue.d.ts": {
+      "bytes": 23596,
+      "hash": "d29a7b8e67c651d5"
+    },
     "components/VfFile/index.d.ts": {
       "bytes": 131,
       "hash": "933fdefe7e92e7f7"
     },
     "components/VfFile/index.mjs": {
-      "bytes": 167,
-      "hash": "d3dc334a598cb41c",
+      "bytes": 157,
+      "hash": "6ffffaa0a0308c5c",
       "exports": [
         "blueprint",
         "default",
@@ -1258,16 +1168,16 @@
       "hash": "4b8a4e46222a0b67"
     },
     "components/VfFile/types.d.ts": {
-      "bytes": 6510,
-      "hash": "3dc57cb5f433cf2f"
+      "bytes": 6565,
+      "hash": "64b9fff8ecc804d1"
     },
     "components/VfFile/unstyled.d.ts": {
-      "bytes": 354,
-      "hash": "1cff9a1e8d927715"
+      "bytes": 348,
+      "hash": "06a006e943383cad"
     },
     "components/VfFile/unstyled.mjs": {
-      "bytes": 167,
-      "hash": "d3dc334a598cb41c",
+      "bytes": 157,
+      "hash": "6ffffaa0a0308c5c",
       "exports": [
         "blueprint",
         "default",
@@ -1279,22 +1189,8 @@
       ]
     },
     "components/VfForm/VfForm.mjs": {
-      "bytes": 282,
-      "hash": "263a9074826b6995",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfForm.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfForm/VfForm.vue.d.ts": {
-      "bytes": 25264,
-      "hash": "42106930e982cfc8"
-    },
-    "components/VfForm/VfForm.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 14718,
-      "hash": "d443e38864bf575d",
+      "bytes": 14674,
+      "hash": "5dedeb300c3afe99",
       "exports": [
         "default"
       ],
@@ -1306,13 +1202,17 @@
         "vue"
       ]
     },
+    "components/VfForm/VfForm.vue.d.ts": {
+      "bytes": 24713,
+      "hash": "b5ccf43ea1dc3bb5"
+    },
     "components/VfForm/index.d.ts": {
       "bytes": 131,
       "hash": "67c51f6fd9f6015f"
     },
     "components/VfForm/index.mjs": {
-      "bytes": 167,
-      "hash": "ecf4fa7de7e62d87",
+      "bytes": 157,
+      "hash": "b47447151bdb7978",
       "exports": [
         "blueprint",
         "default",
@@ -1328,16 +1228,16 @@
       "hash": "a2adf4d41e165d27"
     },
     "components/VfForm/types.d.ts": {
-      "bytes": 9607,
-      "hash": "cb55ca1545e78755"
+      "bytes": 9692,
+      "hash": "5f8d23793a7aed5a"
     },
     "components/VfForm/unstyled.d.ts": {
-      "bytes": 356,
-      "hash": "9aaec97c0e957296"
+      "bytes": 350,
+      "hash": "22d5e3889634f0f4"
     },
     "components/VfForm/unstyled.mjs": {
-      "bytes": 167,
-      "hash": "ecf4fa7de7e62d87",
+      "bytes": 157,
+      "hash": "b47447151bdb7978",
       "exports": [
         "blueprint",
         "default",
@@ -1349,22 +1249,8 @@
       ]
     },
     "components/VfGrid/VfGrid.mjs": {
-      "bytes": 282,
-      "hash": "457105b1207328e9",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfGrid.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfGrid/VfGrid.vue.d.ts": {
-      "bytes": 15602,
-      "hash": "7a9daaef9e154bd8"
-    },
-    "components/VfGrid/VfGrid.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 6952,
-      "hash": "66b7f0e874113655",
+      "bytes": 6844,
+      "hash": "fabd99bbf6e1d711",
       "exports": [
         "default"
       ],
@@ -1375,13 +1261,17 @@
         "vue"
       ]
     },
+    "components/VfGrid/VfGrid.vue.d.ts": {
+      "bytes": 14035,
+      "hash": "219ea26b9f94d55b"
+    },
     "components/VfGrid/index.d.ts": {
       "bytes": 131,
       "hash": "45108a71eb009146"
     },
     "components/VfGrid/index.mjs": {
-      "bytes": 167,
-      "hash": "e1dd1cdebc1db2d5",
+      "bytes": 157,
+      "hash": "7c04ed4088204c4a",
       "exports": [
         "blueprint",
         "default",
@@ -1397,16 +1287,16 @@
       "hash": "33949f76902dc73a"
     },
     "components/VfGrid/types.d.ts": {
-      "bytes": 5067,
-      "hash": "8bf2dc8582725aff"
+      "bytes": 5087,
+      "hash": "10a043cdbe7fce03"
     },
     "components/VfGrid/unstyled.d.ts": {
-      "bytes": 351,
-      "hash": "eec1fa8e57682f13"
+      "bytes": 345,
+      "hash": "a54166c11672a244"
     },
     "components/VfGrid/unstyled.mjs": {
-      "bytes": 167,
-      "hash": "e1dd1cdebc1db2d5",
+      "bytes": 157,
+      "hash": "7c04ed4088204c4a",
       "exports": [
         "blueprint",
         "default",
@@ -1418,22 +1308,8 @@
       ]
     },
     "components/VfGroup/VfGroup.mjs": {
-      "bytes": 289,
-      "hash": "3fee3404180848ee",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfGroup.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfGroup/VfGroup.vue.d.ts": {
-      "bytes": 15563,
-      "hash": "bf8c91d2d4cc6ca9"
-    },
-    "components/VfGroup/VfGroup.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 5188,
-      "hash": "b93ef49058183c8c",
+      "bytes": 5072,
+      "hash": "bfe5e08a73b28763",
       "exports": [
         "default"
       ],
@@ -1445,13 +1321,17 @@
         "vue"
       ]
     },
+    "components/VfGroup/VfGroup.vue.d.ts": {
+      "bytes": 14083,
+      "hash": "dc8020e0aacdb28f"
+    },
     "components/VfGroup/index.d.ts": {
       "bytes": 133,
       "hash": "8a9ab90833820d21"
     },
     "components/VfGroup/index.mjs": {
-      "bytes": 171,
-      "hash": "af5d15c0c44fc112",
+      "bytes": 159,
+      "hash": "ab4afb5ada08d223",
       "exports": [
         "blueprint",
         "default",
@@ -1467,16 +1347,16 @@
       "hash": "560937132d521c3c"
     },
     "components/VfGroup/types.d.ts": {
-      "bytes": 4178,
-      "hash": "76a05fa446449e30"
+      "bytes": 4228,
+      "hash": "a84d19038908db54"
     },
     "components/VfGroup/unstyled.d.ts": {
-      "bytes": 358,
-      "hash": "55118d5932e60192"
+      "bytes": 352,
+      "hash": "0ed5d2885745b813"
     },
     "components/VfGroup/unstyled.mjs": {
-      "bytes": 171,
-      "hash": "af5d15c0c44fc112",
+      "bytes": 159,
+      "hash": "ab4afb5ada08d223",
       "exports": [
         "blueprint",
         "default",
@@ -1488,22 +1368,8 @@
       ]
     },
     "components/VfHidden/VfHidden.mjs": {
-      "bytes": 296,
-      "hash": "a2a72a7ad1078bf9",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfHidden.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfHidden/VfHidden.vue.d.ts": {
-      "bytes": 10714,
-      "hash": "c452556cefde61a2"
-    },
-    "components/VfHidden/VfHidden.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 2863,
-      "hash": "f878f57ef09dfda1",
+      "bytes": 2755,
+      "hash": "322426e52891791f",
       "exports": [
         "default"
       ],
@@ -1514,13 +1380,17 @@
         "vue"
       ]
     },
+    "components/VfHidden/VfHidden.vue.d.ts": {
+      "bytes": 9959,
+      "hash": "2d0d41832420184d"
+    },
     "components/VfHidden/index.d.ts": {
       "bytes": 135,
       "hash": "5d77fd1b39b94859"
     },
     "components/VfHidden/index.mjs": {
-      "bytes": 175,
-      "hash": "8c1f162cbe409c00",
+      "bytes": 161,
+      "hash": "e4acf9600f29d59f",
       "exports": [
         "blueprint",
         "default",
@@ -1536,16 +1406,16 @@
       "hash": "d1bbb5fb85518620"
     },
     "components/VfHidden/types.d.ts": {
-      "bytes": 2298,
-      "hash": "f0cb9fd231923936"
+      "bytes": 2338,
+      "hash": "ee9f4d21f5261398"
     },
     "components/VfHidden/unstyled.d.ts": {
-      "bytes": 366,
-      "hash": "1b7b057d09da33cf"
+      "bytes": 360,
+      "hash": "0e2621c859cc6230"
     },
     "components/VfHidden/unstyled.mjs": {
-      "bytes": 175,
-      "hash": "8c1f162cbe409c00",
+      "bytes": 161,
+      "hash": "e4acf9600f29d59f",
       "exports": [
         "blueprint",
         "default",
@@ -1557,22 +1427,8 @@
       ]
     },
     "components/VfIcon/VfIcon.mjs": {
-      "bytes": 282,
-      "hash": "08bcd96e6d3d1b84",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfIcon.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfIcon/VfIcon.vue.d.ts": {
-      "bytes": 3609,
-      "hash": "54de2a084ca4951a"
-    },
-    "components/VfIcon/VfIcon.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 1934,
-      "hash": "7849d32b45be2911",
+      "bytes": 1824,
+      "hash": "54ea44c754db8a0c",
       "exports": [
         "default"
       ],
@@ -1583,13 +1439,17 @@
         "vue"
       ]
     },
+    "components/VfIcon/VfIcon.vue.d.ts": {
+      "bytes": 3230,
+      "hash": "3f5a324e79bc64a6"
+    },
     "components/VfIcon/index.d.ts": {
       "bytes": 131,
       "hash": "ef03885abeb6c1e5"
     },
     "components/VfIcon/index.mjs": {
-      "bytes": 167,
-      "hash": "b81c19073b83bbc0",
+      "bytes": 157,
+      "hash": "7e5be064c20a79f9",
       "exports": [
         "blueprint",
         "default",
@@ -1605,16 +1465,16 @@
       "hash": "5271b3bc8e0bd6da"
     },
     "components/VfIcon/types.d.ts": {
-      "bytes": 2303,
-      "hash": "87f5ca8550bd3b05"
+      "bytes": 2343,
+      "hash": "f5bc734d85703128"
     },
     "components/VfIcon/unstyled.d.ts": {
-      "bytes": 356,
-      "hash": "c4954e3cff61fb8a"
+      "bytes": 350,
+      "hash": "5faebc911b89994b"
     },
     "components/VfIcon/unstyled.mjs": {
-      "bytes": 167,
-      "hash": "b81c19073b83bbc0",
+      "bytes": 157,
+      "hash": "7e5be064c20a79f9",
       "exports": [
         "blueprint",
         "default",
@@ -1626,22 +1486,8 @@
       ]
     },
     "components/VfLanguages/VfLanguages.mjs": {
-      "bytes": 317,
-      "hash": "151887da58bc7566",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfLanguages.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfLanguages/VfLanguages.vue.d.ts": {
-      "bytes": 4084,
-      "hash": "b9a4b8930780cc77"
-    },
-    "components/VfLanguages/VfLanguages.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3880,
-      "hash": "55fec4e79e475f6e",
+      "bytes": 3758,
+      "hash": "2a42cbf74d2c41a0",
       "exports": [
         "default"
       ],
@@ -1652,13 +1498,17 @@
         "vue"
       ]
     },
+    "components/VfLanguages/VfLanguages.vue.d.ts": {
+      "bytes": 3678,
+      "hash": "78db6575c178d4b7"
+    },
     "components/VfLanguages/index.d.ts": {
       "bytes": 141,
       "hash": "33eb39addf8c1b48"
     },
     "components/VfLanguages/index.mjs": {
-      "bytes": 187,
-      "hash": "eeb716e289faa51b",
+      "bytes": 167,
+      "hash": "b5175227041e52ee",
       "exports": [
         "blueprint",
         "default",
@@ -1674,16 +1524,16 @@
       "hash": "c6b16734507a0ff5"
     },
     "components/VfLanguages/types.d.ts": {
-      "bytes": 3835,
-      "hash": "e942412008be6e5c"
+      "bytes": 3880,
+      "hash": "2bf9fd3c37680b52"
     },
     "components/VfLanguages/unstyled.d.ts": {
-      "bytes": 386,
-      "hash": "d9a303248cd44d4e"
+      "bytes": 380,
+      "hash": "e57b343795a26368"
     },
     "components/VfLanguages/unstyled.mjs": {
-      "bytes": 187,
-      "hash": "eeb716e289faa51b",
+      "bytes": 167,
+      "hash": "b5175227041e52ee",
       "exports": [
         "blueprint",
         "default",
@@ -1695,22 +1545,8 @@
       ]
     },
     "components/VfLayout/VfLayout.mjs": {
-      "bytes": 296,
-      "hash": "20ab1c3d01678923",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfLayout.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfLayout/VfLayout.vue.d.ts": {
-      "bytes": 5018,
-      "hash": "a8ee64c247d63c9a"
-    },
-    "components/VfLayout/VfLayout.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 21955,
-      "hash": "c936feffaa3378c6",
+      "bytes": 21875,
+      "hash": "534a7937e5fd2103",
       "exports": [
         "default"
       ],
@@ -1725,13 +1561,17 @@
         "vue"
       ]
     },
+    "components/VfLayout/VfLayout.vue.d.ts": {
+      "bytes": 4813,
+      "hash": "d5703e89a5f96bd0"
+    },
     "components/VfLayout/index.d.ts": {
       "bytes": 135,
       "hash": "9aa04103bbe39f75"
     },
     "components/VfLayout/index.mjs": {
-      "bytes": 175,
-      "hash": "fe58a08c0c4041bb",
+      "bytes": 161,
+      "hash": "30702da7622f811a",
       "exports": [
         "blueprint",
         "default",
@@ -1747,16 +1587,16 @@
       "hash": "dc65efc37fdebf11"
     },
     "components/VfLayout/types.d.ts": {
-      "bytes": 4271,
-      "hash": "6ab89098458999b3"
+      "bytes": 4321,
+      "hash": "7fecf3dc3d27db9a"
     },
     "components/VfLayout/unstyled.d.ts": {
-      "bytes": 368,
-      "hash": "00978ff47b22c0eb"
+      "bytes": 362,
+      "hash": "d9d23621db84bf62"
     },
     "components/VfLayout/unstyled.mjs": {
-      "bytes": 175,
-      "hash": "fe58a08c0c4041bb",
+      "bytes": 161,
+      "hash": "30702da7622f811a",
       "exports": [
         "blueprint",
         "default",
@@ -1768,22 +1608,8 @@
       ]
     },
     "components/VfList/VfList.mjs": {
-      "bytes": 282,
-      "hash": "c99611258b63dbd4",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfList.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfList/VfList.vue.d.ts": {
-      "bytes": 17743,
-      "hash": "4ab3364f3db482c7"
-    },
-    "components/VfList/VfList.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 12911,
-      "hash": "d0bd323c4fa29270",
+      "bytes": 12817,
+      "hash": "d0741afc1dc3eb65",
       "exports": [
         "default"
       ],
@@ -1795,13 +1621,17 @@
         "vue"
       ]
     },
+    "components/VfList/VfList.vue.d.ts": {
+      "bytes": 16158,
+      "hash": "d9cd7d4b94180c49"
+    },
     "components/VfList/index.d.ts": {
       "bytes": 131,
       "hash": "6a94bfd53d9f8916"
     },
     "components/VfList/index.mjs": {
-      "bytes": 167,
-      "hash": "0bd4fc22d501d365",
+      "bytes": 157,
+      "hash": "e198c6053a0cf677",
       "exports": [
         "blueprint",
         "default",
@@ -1817,16 +1647,16 @@
       "hash": "bb7f7d6b272c115d"
     },
     "components/VfList/types.d.ts": {
-      "bytes": 8190,
-      "hash": "002f9b33f8fac3b6"
+      "bytes": 8210,
+      "hash": "65086bd5ab58021d"
     },
     "components/VfList/unstyled.d.ts": {
-      "bytes": 351,
-      "hash": "73f8de0e9d107f11"
+      "bytes": 345,
+      "hash": "ef63c681e2839d0b"
     },
     "components/VfList/unstyled.mjs": {
-      "bytes": 167,
-      "hash": "0bd4fc22d501d365",
+      "bytes": 157,
+      "hash": "e198c6053a0cf677",
       "exports": [
         "blueprint",
         "default",
@@ -1838,22 +1668,8 @@
       ]
     },
     "components/VfMatrix/VfMatrix.mjs": {
-      "bytes": 296,
-      "hash": "f01ea5d610aa9864",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfMatrix.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfMatrix/VfMatrix.vue.d.ts": {
-      "bytes": 22018,
-      "hash": "550cc46eeb51fdea"
-    },
-    "components/VfMatrix/VfMatrix.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 21300,
-      "hash": "35ffc45d623a1364",
+      "bytes": 21220,
+      "hash": "5313163d88a61668",
       "exports": [
         "default"
       ],
@@ -1866,13 +1682,17 @@
         "vue"
       ]
     },
+    "components/VfMatrix/VfMatrix.vue.d.ts": {
+      "bytes": 20211,
+      "hash": "5922de11c64e9e76"
+    },
     "components/VfMatrix/index.d.ts": {
       "bytes": 135,
       "hash": "9ad2d98c9b21fc42"
     },
     "components/VfMatrix/index.mjs": {
-      "bytes": 175,
-      "hash": "5ee76b26fdebc6fd",
+      "bytes": 161,
+      "hash": "09a7d550a9fd678f",
       "exports": [
         "blueprint",
         "default",
@@ -1888,16 +1708,16 @@
       "hash": "8ea0d7b68fb553f8"
     },
     "components/VfMatrix/types.d.ts": {
-      "bytes": 15825,
-      "hash": "7e177d0e3a7c9d7c"
+      "bytes": 15845,
+      "hash": "150c58e188b7e79c"
     },
     "components/VfMatrix/unstyled.d.ts": {
-      "bytes": 365,
-      "hash": "eef4cb140c4abb9f"
+      "bytes": 359,
+      "hash": "6fe9fd647263dabd"
     },
     "components/VfMatrix/unstyled.mjs": {
-      "bytes": 175,
-      "hash": "5ee76b26fdebc6fd",
+      "bytes": 161,
+      "hash": "09a7d550a9fd678f",
       "exports": [
         "blueprint",
         "default",
@@ -1909,22 +1729,8 @@
       ]
     },
     "components/VfNav/VfNav.mjs": {
-      "bytes": 275,
-      "hash": "1599aed0f69351b5",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfNav.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfNav/VfNav.vue.d.ts": {
-      "bytes": 4748,
-      "hash": "12b7c5b8cf7f823d"
-    },
-    "components/VfNav/VfNav.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 9809,
-      "hash": "2bdce262af16bbb7",
+      "bytes": 9719,
+      "hash": "5209d5b697dda3bc",
       "exports": [
         "default"
       ],
@@ -1937,13 +1743,17 @@
         "vue"
       ]
     },
+    "components/VfNav/VfNav.vue.d.ts": {
+      "bytes": 4304,
+      "hash": "9603ebb60b81aaed"
+    },
     "components/VfNav/index.d.ts": {
       "bytes": 129,
       "hash": "522468f7809ce984"
     },
     "components/VfNav/index.mjs": {
-      "bytes": 163,
-      "hash": "244777cf111b5398",
+      "bytes": 155,
+      "hash": "c030a6bb1beeb72c",
       "exports": [
         "blueprint",
         "default",
@@ -1959,16 +1769,16 @@
       "hash": "bc74d2c394a3f418"
     },
     "components/VfNav/types.d.ts": {
-      "bytes": 7574,
-      "hash": "ac73282739539150"
+      "bytes": 7624,
+      "hash": "6365512666e0a63c"
     },
     "components/VfNav/unstyled.d.ts": {
-      "bytes": 350,
-      "hash": "8f800314cf474282"
+      "bytes": 344,
+      "hash": "5bac019eafe2d49c"
     },
     "components/VfNav/unstyled.mjs": {
-      "bytes": 163,
-      "hash": "244777cf111b5398",
+      "bytes": 155,
+      "hash": "c030a6bb1beeb72c",
       "exports": [
         "blueprint",
         "default",
@@ -1980,22 +1790,8 @@
       ]
     },
     "components/VfRadio/VfRadio.mjs": {
-      "bytes": 289,
-      "hash": "cae5c4b3f1e0cf24",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfRadio.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfRadio/VfRadio.vue.d.ts": {
-      "bytes": 22594,
-      "hash": "d6e5f1b4fd4917ed"
-    },
-    "components/VfRadio/VfRadio.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 7287,
-      "hash": "6a2372e2715cdf8e",
+      "bytes": 7181,
+      "hash": "37ffb5d9feff73fb",
       "exports": [
         "default"
       ],
@@ -2006,13 +1802,17 @@
         "vue"
       ]
     },
+    "components/VfRadio/VfRadio.vue.d.ts": {
+      "bytes": 21070,
+      "hash": "8a3b84f881fccbf6"
+    },
     "components/VfRadio/index.d.ts": {
       "bytes": 133,
       "hash": "728fb86aba79de8e"
     },
     "components/VfRadio/index.mjs": {
-      "bytes": 171,
-      "hash": "f20ad46ed5d3a4ae",
+      "bytes": 159,
+      "hash": "ea3677662c36c560",
       "exports": [
         "blueprint",
         "default",
@@ -2028,16 +1828,16 @@
       "hash": "9b332aa0d941e9e7"
     },
     "components/VfRadio/types.d.ts": {
-      "bytes": 4580,
-      "hash": "9ec06ca2d0e8306d"
+      "bytes": 4625,
+      "hash": "c2df458018cbc224"
     },
     "components/VfRadio/unstyled.d.ts": {
-      "bytes": 360,
-      "hash": "96d007d0810e181b"
+      "bytes": 354,
+      "hash": "c1a2891310109935"
     },
     "components/VfRadio/unstyled.mjs": {
-      "bytes": 171,
-      "hash": "f20ad46ed5d3a4ae",
+      "bytes": 159,
+      "hash": "ea3677662c36c560",
       "exports": [
         "blueprint",
         "default",
@@ -2049,22 +1849,8 @@
       ]
     },
     "components/VfRadios/VfRadios.mjs": {
-      "bytes": 296,
-      "hash": "1dd0b374f4cb3d11",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfRadios.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfRadios/VfRadios.vue.d.ts": {
-      "bytes": 33748,
-      "hash": "3d0b911b3debf2a1"
-    },
-    "components/VfRadios/VfRadios.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 9483,
-      "hash": "011a7877630a4fee",
+      "bytes": 9369,
+      "hash": "9741eba159a8c8f3",
       "exports": [
         "default"
       ],
@@ -2075,13 +1861,17 @@
         "vue"
       ]
     },
+    "components/VfRadios/VfRadios.vue.d.ts": {
+      "bytes": 31972,
+      "hash": "8ef378f16a8fe165"
+    },
     "components/VfRadios/index.d.ts": {
       "bytes": 135,
       "hash": "df99f1d474b4207c"
     },
     "components/VfRadios/index.mjs": {
-      "bytes": 175,
-      "hash": "17bf9ff032e2c95e",
+      "bytes": 161,
+      "hash": "01e7e23c89ba6026",
       "exports": [
         "blueprint",
         "default",
@@ -2097,16 +1887,16 @@
       "hash": "f8decbe9994f2227"
     },
     "components/VfRadios/types.d.ts": {
-      "bytes": 6596,
-      "hash": "25eec1868e2605d9"
+      "bytes": 6651,
+      "hash": "667cafd2fb5d19ec"
     },
     "components/VfRadios/unstyled.d.ts": {
-      "bytes": 366,
-      "hash": "69c07b8e5c8e157e"
+      "bytes": 360,
+      "hash": "1ca29d789b7d8b69"
     },
     "components/VfRadios/unstyled.mjs": {
-      "bytes": 175,
-      "hash": "17bf9ff032e2c95e",
+      "bytes": 161,
+      "hash": "01e7e23c89ba6026",
       "exports": [
         "blueprint",
         "default",
@@ -2118,22 +1908,8 @@
       ]
     },
     "components/VfRow/VfRow.mjs": {
-      "bytes": 275,
-      "hash": "88a072765173f7bd",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfRow.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfRow/VfRow.vue.d.ts": {
-      "bytes": 4014,
-      "hash": "5df28b232ad39105"
-    },
-    "components/VfRow/VfRow.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 2101,
-      "hash": "f0fe6924d4da9718",
+      "bytes": 1995,
+      "hash": "d23e5ff18315f8e6",
       "exports": [
         "default"
       ],
@@ -2144,13 +1920,17 @@
         "vue"
       ]
     },
+    "components/VfRow/VfRow.vue.d.ts": {
+      "bytes": 3548,
+      "hash": "048682bdb86ed271"
+    },
     "components/VfRow/index.d.ts": {
       "bytes": 129,
       "hash": "0d02ad429a638c18"
     },
     "components/VfRow/index.mjs": {
-      "bytes": 163,
-      "hash": "f49c5139f55669d5",
+      "bytes": 155,
+      "hash": "351f7e5738bdd9ae",
       "exports": [
         "blueprint",
         "default",
@@ -2166,16 +1946,16 @@
       "hash": "04371185993d4480"
     },
     "components/VfRow/types.d.ts": {
-      "bytes": 2371,
-      "hash": "28497a7457ae3d7e"
+      "bytes": 2416,
+      "hash": "c46299b226154d7a"
     },
     "components/VfRow/unstyled.d.ts": {
-      "bytes": 350,
-      "hash": "b5f0336cde6b60c7"
+      "bytes": 344,
+      "hash": "6355118bf001c768"
     },
     "components/VfRow/unstyled.mjs": {
-      "bytes": 163,
-      "hash": "f49c5139f55669d5",
+      "bytes": 155,
+      "hash": "351f7e5738bdd9ae",
       "exports": [
         "blueprint",
         "default",
@@ -2187,22 +1967,8 @@
       ]
     },
     "components/VfSelect/VfSelect.mjs": {
-      "bytes": 296,
-      "hash": "615e423c0d8f38ec",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfSelect.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfSelect/VfSelect.vue.d.ts": {
-      "bytes": 39410,
-      "hash": "d455ce9ba14301bc"
-    },
-    "components/VfSelect/VfSelect.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 7610,
-      "hash": "fa3a1549650c1fb1",
+      "bytes": 7510,
+      "hash": "3c37ed115ceb8161",
       "exports": [
         "default"
       ],
@@ -2213,13 +1979,17 @@
         "vue"
       ]
     },
+    "components/VfSelect/VfSelect.vue.d.ts": {
+      "bytes": 37271,
+      "hash": "e12f74ba5a144642"
+    },
     "components/VfSelect/index.d.ts": {
       "bytes": 135,
       "hash": "aba86216b591c3b4"
     },
     "components/VfSelect/index.mjs": {
-      "bytes": 175,
-      "hash": "ddcc01bca06bb278",
+      "bytes": 161,
+      "hash": "a51778002268ab47",
       "exports": [
         "blueprint",
         "default",
@@ -2235,16 +2005,16 @@
       "hash": "13dab8ac20c82564"
     },
     "components/VfSelect/types.d.ts": {
-      "bytes": 5076,
-      "hash": "817629c65615219d"
+      "bytes": 5126,
+      "hash": "8b77086ce2b7d392"
     },
     "components/VfSelect/unstyled.d.ts": {
-      "bytes": 366,
-      "hash": "159a42f84096063b"
+      "bytes": 360,
+      "hash": "c8bb2a8de0631325"
     },
     "components/VfSelect/unstyled.mjs": {
-      "bytes": 175,
-      "hash": "ddcc01bca06bb278",
+      "bytes": 161,
+      "hash": "a51778002268ab47",
       "exports": [
         "blueprint",
         "default",
@@ -2256,22 +2026,8 @@
       ]
     },
     "components/VfSteps/VfSteps.mjs": {
-      "bytes": 289,
-      "hash": "9c28ef809a3b7a93",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfSteps.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfSteps/VfSteps.vue.d.ts": {
-      "bytes": 3671,
-      "hash": "0cba315c8347d2d3"
-    },
-    "components/VfSteps/VfSteps.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3692,
-      "hash": "53cf37e53b2e260f",
+      "bytes": 3582,
+      "hash": "cadbb98b4e41e5a3",
       "exports": [
         "default"
       ],
@@ -2282,13 +2038,17 @@
         "vue"
       ]
     },
+    "components/VfSteps/VfSteps.vue.d.ts": {
+      "bytes": 3291,
+      "hash": "f105c20b519e408e"
+    },
     "components/VfSteps/index.d.ts": {
       "bytes": 133,
       "hash": "c55b7b66e92f1d92"
     },
     "components/VfSteps/index.mjs": {
-      "bytes": 171,
-      "hash": "9f18021b6b3ce40b",
+      "bytes": 159,
+      "hash": "1c935cd2825fde28",
       "exports": [
         "blueprint",
         "default",
@@ -2304,16 +2064,16 @@
       "hash": "9a960138d49e73f6"
     },
     "components/VfSteps/types.d.ts": {
-      "bytes": 4201,
-      "hash": "189277ede29fc254"
+      "bytes": 4251,
+      "hash": "2a8ebb9e2c44801b"
     },
     "components/VfSteps/unstyled.d.ts": {
-      "bytes": 362,
-      "hash": "f8dcd049f842146e"
+      "bytes": 356,
+      "hash": "ecf1471f906440a0"
     },
     "components/VfSteps/unstyled.mjs": {
-      "bytes": 171,
-      "hash": "9f18021b6b3ce40b",
+      "bytes": 159,
+      "hash": "1c935cd2825fde28",
       "exports": [
         "blueprint",
         "default",
@@ -2325,22 +2085,8 @@
       ]
     },
     "components/VfTabs/VfTabs.mjs": {
-      "bytes": 282,
-      "hash": "8a297dd4336f9205",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfTabs.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfTabs/VfTabs.vue.d.ts": {
-      "bytes": 3637,
-      "hash": "26ec41ab0d9b7ef9"
-    },
-    "components/VfTabs/VfTabs.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3487,
-      "hash": "70329197f5453a3b",
+      "bytes": 3379,
+      "hash": "44d5ab5ed3e612c6",
       "exports": [
         "default"
       ],
@@ -2351,13 +2097,17 @@
         "vue"
       ]
     },
+    "components/VfTabs/VfTabs.vue.d.ts": {
+      "bytes": 3258,
+      "hash": "7d7e9d6dda41de70"
+    },
     "components/VfTabs/index.d.ts": {
       "bytes": 131,
       "hash": "b6c46c72ee252327"
     },
     "components/VfTabs/index.mjs": {
-      "bytes": 167,
-      "hash": "1863e3e6b44e289d",
+      "bytes": 157,
+      "hash": "110b88b67ea3edd9",
       "exports": [
         "blueprint",
         "default",
@@ -2373,16 +2123,16 @@
       "hash": "ea119ba6d373ff83"
     },
     "components/VfTabs/types.d.ts": {
-      "bytes": 3875,
-      "hash": "0062a859e11bcf7c"
+      "bytes": 3895,
+      "hash": "a2d3a31b67cbb71f"
     },
     "components/VfTabs/unstyled.d.ts": {
-      "bytes": 356,
-      "hash": "a8b535f2200af2c0"
+      "bytes": 350,
+      "hash": "c7cd73a6f8f84dbc"
     },
     "components/VfTabs/unstyled.mjs": {
-      "bytes": 167,
-      "hash": "1863e3e6b44e289d",
+      "bytes": 157,
+      "hash": "110b88b67ea3edd9",
       "exports": [
         "blueprint",
         "default",
@@ -2394,22 +2144,8 @@
       ]
     },
     "components/VfText/VfText.mjs": {
-      "bytes": 282,
-      "hash": "9900bba802067725",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfText.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfText/VfText.vue.d.ts": {
-      "bytes": 28931,
-      "hash": "ebd2aaafcd9690f4"
-    },
-    "components/VfText/VfText.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 5983,
-      "hash": "07942b2680616c5d",
+      "bytes": 5875,
+      "hash": "d4b73325fbfe2e6f",
       "exports": [
         "default"
       ],
@@ -2420,13 +2156,17 @@
         "vue"
       ]
     },
+    "components/VfText/VfText.vue.d.ts": {
+      "bytes": 28167,
+      "hash": "ad1195f5db87fa84"
+    },
     "components/VfText/index.d.ts": {
       "bytes": 131,
       "hash": "73fe8338cac23007"
     },
     "components/VfText/index.mjs": {
-      "bytes": 167,
-      "hash": "48b5090b45a71353",
+      "bytes": 157,
+      "hash": "b6d59e185344e7a0",
       "exports": [
         "blueprint",
         "default",
@@ -2442,16 +2182,16 @@
       "hash": "9da5638f3d8df4c4"
     },
     "components/VfText/types.d.ts": {
-      "bytes": 3754,
-      "hash": "7ceb91a23e4fcfc6"
+      "bytes": 3799,
+      "hash": "2a8ceb7c63ad969b"
     },
     "components/VfText/unstyled.d.ts": {
-      "bytes": 354,
-      "hash": "15639884b416dbe5"
+      "bytes": 348,
+      "hash": "4dbb31c7fd1b0c2e"
     },
     "components/VfText/unstyled.mjs": {
-      "bytes": 167,
-      "hash": "48b5090b45a71353",
+      "bytes": 157,
+      "hash": "b6d59e185344e7a0",
       "exports": [
         "blueprint",
         "default",
@@ -2463,22 +2203,8 @@
       ]
     },
     "components/VfTextarea/VfTextarea.mjs": {
-      "bytes": 310,
-      "hash": "92526fd3c92656e4",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfTextarea.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "components/VfTextarea/VfTextarea.vue.d.ts": {
-      "bytes": 29442,
-      "hash": "4d9ac90b8034f957"
-    },
-    "components/VfTextarea/VfTextarea.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 6071,
-      "hash": "ac6aeeffacda4452",
+      "bytes": 5955,
+      "hash": "3ac3ac776e57831e",
       "exports": [
         "default"
       ],
@@ -2489,13 +2215,17 @@
         "vue"
       ]
     },
+    "components/VfTextarea/VfTextarea.vue.d.ts": {
+      "bytes": 28459,
+      "hash": "969fa3aaa907e44f"
+    },
     "components/VfTextarea/index.d.ts": {
       "bytes": 139,
       "hash": "b8483262399b9afc"
     },
     "components/VfTextarea/index.mjs": {
-      "bytes": 183,
-      "hash": "9aab58156cabd844",
+      "bytes": 165,
+      "hash": "a6e82b9c1ba763a2",
       "exports": [
         "blueprint",
         "default",
@@ -2511,16 +2241,16 @@
       "hash": "a9539e7fcc1cb043"
     },
     "components/VfTextarea/types.d.ts": {
-      "bytes": 4317,
-      "hash": "1a78daa7515eea49"
+      "bytes": 4362,
+      "hash": "74d1138016e88730"
     },
     "components/VfTextarea/unstyled.d.ts": {
-      "bytes": 378,
-      "hash": "aa1a81fdf49c0c41"
+      "bytes": 372,
+      "hash": "a764044cf6633988"
     },
     "components/VfTextarea/unstyled.mjs": {
-      "bytes": 183,
-      "hash": "9aab58156cabd844",
+      "bytes": 165,
+      "hash": "a6e82b9c1ba763a2",
       "exports": [
         "blueprint",
         "default",
@@ -2536,8 +2266,8 @@
       "hash": "5df8faebc2c3893e"
     },
     "components/index.mjs": {
-      "bytes": 2263,
-      "hash": "27acb3fc0b94f74c",
+      "bytes": 2051,
+      "hash": "f2c45b24375a44a8",
       "exports": [
         "VfAddon",
         "VfButton",
@@ -2603,7 +2333,7 @@
     },
     "composables/index.mjs": {
       "bytes": 2494,
-      "hash": "9a968344ee155c64",
+      "hash": "d74989fe32631aed",
       "exports": [
         "getResolvedProps",
         "shouldApplyPlugin",
@@ -2687,12 +2417,12 @@
       ]
     },
     "composables/useAutosave.d.ts": {
-      "bytes": 1123,
-      "hash": "59fe9566a6d951f0"
+      "bytes": 1133,
+      "hash": "dc8b39405843e280"
     },
     "composables/useAutosave.mjs": {
-      "bytes": 1178,
-      "hash": "578f49b89326dd52",
+      "bytes": 1179,
+      "hash": "30ca5125c3d56a69",
       "exports": [
         "useAutosave"
       ],
@@ -2703,12 +2433,12 @@
       ]
     },
     "composables/useBlueprint.d.ts": {
-      "bytes": 12900,
-      "hash": "54c3e4be556334db"
+      "bytes": 12965,
+      "hash": "e166ac3e2c3e1868"
     },
     "composables/useBlueprint.mjs": {
-      "bytes": 24793,
-      "hash": "5b329cbfe0dec897",
+      "bytes": 24798,
+      "hash": "eb96196363d9f914",
       "exports": [
         "getResolvedProps",
         "useBlueprint"
@@ -2735,12 +2465,12 @@
       ]
     },
     "composables/useChildren.d.ts": {
-      "bytes": 3918,
-      "hash": "8228bb636ca518cd"
+      "bytes": 3938,
+      "hash": "659986de495faafa"
     },
     "composables/useChildren.mjs": {
-      "bytes": 3217,
-      "hash": "3f9cf0c09dcba9f8",
+      "bytes": 3218,
+      "hash": "5bcb81e556dbbd14",
       "exports": [
         "useChildren"
       ],
@@ -2751,12 +2481,12 @@
       ]
     },
     "composables/useClasses.d.ts": {
-      "bytes": 2894,
-      "hash": "06b507f84e3cfe62"
+      "bytes": 2904,
+      "hash": "1bf31e288c9bed0a"
     },
     "composables/useClasses.mjs": {
-      "bytes": 1404,
-      "hash": "ab1e7a5a22a95372",
+      "bytes": 1405,
+      "hash": "14646687586ce4d2",
       "exports": [
         "useClasses"
       ],
@@ -2766,12 +2496,12 @@
       ]
     },
     "composables/useComponentFactory.d.ts": {
-      "bytes": 1067,
-      "hash": "ab8548a47b2c581a"
+      "bytes": 1082,
+      "hash": "e3480ddce622a92f"
     },
     "composables/useComponentFactory.mjs": {
-      "bytes": 4018,
-      "hash": "41d0219ab6d92631",
+      "bytes": 4019,
+      "hash": "2c4581618774ac6f",
       "exports": [
         "useComponentFactory"
       ],
@@ -2783,12 +2513,12 @@
       ]
     },
     "composables/useConditionalList.d.ts": {
-      "bytes": 906,
-      "hash": "ba7505c6bffbe8e9"
+      "bytes": 921,
+      "hash": "1806282c5f5e18a8"
     },
     "composables/useConditionalList.mjs": {
-      "bytes": 1376,
-      "hash": "c34f37659a6b0aa6",
+      "bytes": 1377,
+      "hash": "f10347fc28792190",
       "exports": [
         "useConditionalList"
       ],
@@ -2800,12 +2530,12 @@
       ]
     },
     "composables/useConditions.d.ts": {
-      "bytes": 1982,
-      "hash": "13deea620ac5ee9e"
+      "bytes": 2002,
+      "hash": "6cd79712869c9ff7"
     },
     "composables/useConditions.mjs": {
-      "bytes": 1221,
-      "hash": "bf2c93a91c4b5bc3",
+      "bytes": 1222,
+      "hash": "949229c183c43026",
       "exports": [
         "useConditions"
       ],
@@ -2817,12 +2547,12 @@
       ]
     },
     "composables/useConfig.d.ts": {
-      "bytes": 353,
-      "hash": "6f1d4e87e97f29cd"
+      "bytes": 334,
+      "hash": "2d7e07a0f5df977b"
     },
     "composables/useConfig.mjs": {
-      "bytes": 448,
-      "hash": "2c4809aa296e9520",
+      "bytes": 449,
+      "hash": "b5578a6dee76c7f4",
       "exports": [
         "useConfig"
       ],
@@ -2831,12 +2561,12 @@
       ]
     },
     "composables/useContainerProvider.d.ts": {
-      "bytes": 3512,
-      "hash": "f2ae32df4277e24a"
+      "bytes": 3533,
+      "hash": "53c5ff0047c5640f"
     },
     "composables/useContainerProvider.mjs": {
-      "bytes": 1087,
-      "hash": "596f8b3e7c9e249d",
+      "bytes": 1088,
+      "hash": "4218ae28e1623f50",
       "exports": [
         "useContainerProvider"
       ],
@@ -2845,12 +2575,12 @@
       ]
     },
     "composables/useContext.d.ts": {
-      "bytes": 991,
-      "hash": "ea41092ae119b1ff"
+      "bytes": 996,
+      "hash": "24841dec40705b3c"
     },
     "composables/useContext.mjs": {
-      "bytes": 1039,
-      "hash": "88ca8761e7d75d68",
+      "bytes": 1040,
+      "hash": "e9645e02f36ccfb7",
       "exports": [
         "useContext"
       ],
@@ -2860,11 +2590,11 @@
     },
     "composables/useCurrentElement.d.ts": {
       "bytes": 379,
-      "hash": "093e3bd308974aa9"
+      "hash": "55216023ead1d49b"
     },
     "composables/useCurrentElement.mjs": {
-      "bytes": 793,
-      "hash": "140923302bbb9c45",
+      "bytes": 794,
+      "hash": "e87cb44819d63b95",
       "exports": [
         "useCurrentElement"
       ],
@@ -2875,11 +2605,11 @@
     },
     "composables/useCurrentInstance.d.ts": {
       "bytes": 214,
-      "hash": "fabf2dcb6768dd19"
+      "hash": "6c864fdd26644584"
     },
     "composables/useCurrentInstance.mjs": {
-      "bytes": 450,
-      "hash": "2c2f545c84cb0df9",
+      "bytes": 451,
+      "hash": "7653bc3e0191f896",
       "exports": [
         "useCurrentInstance"
       ],
@@ -2888,12 +2618,12 @@
       ]
     },
     "composables/useCurrentName.d.ts": {
-      "bytes": 219,
-      "hash": "133e3a1acdac4a48"
+      "bytes": 224,
+      "hash": "a749e0f81d4c24be"
     },
     "composables/useCurrentName.mjs": {
-      "bytes": 481,
-      "hash": "925554af04bdd0ef",
+      "bytes": 482,
+      "hash": "856bc565c6fc2c72",
       "exports": [
         "useCurrentName"
       ],
@@ -2902,12 +2632,12 @@
       ]
     },
     "composables/useData.d.ts": {
-      "bytes": 9986,
-      "hash": "26914d0e5cfb06d8"
+      "bytes": 9912,
+      "hash": "10fca3dfbe93ee0f"
     },
     "composables/useData.mjs": {
-      "bytes": 35998,
-      "hash": "89f838371bf4eb44",
+      "bytes": 35999,
+      "hash": "e785784c28a3986c",
       "exports": [
         "useData"
       ],
@@ -2933,12 +2663,12 @@
       ]
     },
     "composables/useDate.d.ts": {
-      "bytes": 878,
-      "hash": "c24f8c39de7f25d1"
+      "bytes": 888,
+      "hash": "001afc796470874f"
     },
     "composables/useDate.mjs": {
-      "bytes": 893,
-      "hash": "3ab127061765b411",
+      "bytes": 894,
+      "hash": "935f3d65578dc5c7",
       "exports": [
         "useDate"
       ],
@@ -2947,12 +2677,12 @@
       ]
     },
     "composables/useDynamicProp.d.ts": {
-      "bytes": 8144,
-      "hash": "ab59148aafd856b7"
+      "bytes": 8164,
+      "hash": "05a4b9f5aa282b3f"
     },
     "composables/useDynamicProp.mjs": {
-      "bytes": 4751,
-      "hash": "2b432f846de3402d",
+      "bytes": 4752,
+      "hash": "0bf96aed832f48cf",
       "exports": [
         "useDynamicProp",
         "useDynamicPropFactory"
@@ -2970,12 +2700,12 @@
       ]
     },
     "composables/useEndpoint.d.ts": {
-      "bytes": 767,
-      "hash": "251eea8d775e1e89"
+      "bytes": 772,
+      "hash": "864a1c7fe95e4a42"
     },
     "composables/useEndpoint.mjs": {
-      "bytes": 906,
-      "hash": "b0a53c9e8ee36beb",
+      "bytes": 907,
+      "hash": "aaeda97fe2d4a661",
       "exports": [
         "useEndpoint"
       ],
@@ -2984,12 +2714,12 @@
       ]
     },
     "composables/useExpression.d.ts": {
-      "bytes": 970,
-      "hash": "116ba2ec2178159f"
+      "bytes": 975,
+      "hash": "a167fee76b9ca01b"
     },
     "composables/useExpression.mjs": {
-      "bytes": 2581,
-      "hash": "767c56a647470a7a",
+      "bytes": 2582,
+      "hash": "4ba48d8faa47a7b3",
       "exports": [
         "useExpression"
       ],
@@ -3002,12 +2732,12 @@
       ]
     },
     "composables/useFallbackProp.d.ts": {
-      "bytes": 314,
-      "hash": "95a317ff975e1a81"
+      "bytes": 319,
+      "hash": "9a9186014089c452"
     },
     "composables/useFallbackProp.mjs": {
-      "bytes": 609,
-      "hash": "d6e7cf401c7cd8d4",
+      "bytes": 610,
+      "hash": "e19d70ade364e930",
       "exports": [
         "useFallbackProp"
       ],
@@ -3018,24 +2748,24 @@
       ]
     },
     "composables/useFeatures.d.ts": {
-      "bytes": 4221,
-      "hash": "e9e9fd3c79aaa36d"
+      "bytes": 4231,
+      "hash": "2566f69c9eab86e7"
     },
     "composables/useFeatures.mjs": {
       "bytes": 353,
-      "hash": "0cb05e634bcdc171",
+      "hash": "2bb4219a7277770b",
       "exports": [
         "useFeatures"
       ],
       "imports": []
     },
     "composables/useForm.d.ts": {
-      "bytes": 3912,
-      "hash": "a4ebd89a072d8600"
+      "bytes": 3947,
+      "hash": "cb30127887926533"
     },
     "composables/useForm.mjs": {
-      "bytes": 3990,
-      "hash": "6bd05108ed2137a3",
+      "bytes": 3995,
+      "hash": "0fd07ba434f59abb",
       "exports": [
         "useForm"
       ],
@@ -3045,12 +2775,12 @@
       ]
     },
     "composables/useGlobals.d.ts": {
-      "bytes": 188,
-      "hash": "ecad01847c1295fe"
+      "bytes": 169,
+      "hash": "070ff99719cccc88"
     },
     "composables/useGlobals.mjs": {
-      "bytes": 287,
-      "hash": "94aabac4a177f0fc",
+      "bytes": 288,
+      "hash": "6efa04a67a5f3528",
       "exports": [
         "useGlobals"
       ],
@@ -3059,12 +2789,12 @@
       ]
     },
     "composables/useHttp.d.ts": {
-      "bytes": 1027,
-      "hash": "4d6b37641fb835ba"
+      "bytes": 1037,
+      "hash": "b12da42b8805f59f"
     },
     "composables/useHttp.mjs": {
-      "bytes": 1042,
-      "hash": "5a5d3ff6955bc5c1",
+      "bytes": 1043,
+      "hash": "5234fd44d1677b0f",
       "exports": [
         "useHttp"
       ],
@@ -3073,12 +2803,12 @@
       ]
     },
     "composables/useItemsSource.d.ts": {
-      "bytes": 2735,
-      "hash": "2896e56c61d0fe44"
+      "bytes": 2755,
+      "hash": "2f96028027c95ce2"
     },
     "composables/useItemsSource.mjs": {
-      "bytes": 4626,
-      "hash": "ae8ec385cf5d3617",
+      "bytes": 4627,
+      "hash": "1e0918ec99e7dfbc",
       "exports": [
         "useItemsSource"
       ],
@@ -3099,8 +2829,8 @@
       "hash": "a3a0e0e4b855686b"
     },
     "composables/useLayoutClasses.mjs": {
-      "bytes": 2116,
-      "hash": "32ac04a47555c2ed",
+      "bytes": 2119,
+      "hash": "3541de5875ce0c91",
       "exports": [
         "useLayoutClasses"
       ],
@@ -3114,12 +2844,12 @@
       ]
     },
     "composables/useLocale.d.ts": {
-      "bytes": 675,
-      "hash": "93328fe8ca120909"
+      "bytes": 685,
+      "hash": "6e5ad23725eb414c"
     },
     "composables/useLocale.mjs": {
-      "bytes": 696,
-      "hash": "ebd7a61936ffd31f",
+      "bytes": 697,
+      "hash": "a35f4504f23ec3f5",
       "exports": [
         "useLocale"
       ],
@@ -3128,12 +2858,12 @@
       ]
     },
     "composables/useMessageBag.d.ts": {
-      "bytes": 3911,
-      "hash": "054ab12bdc4ffcdc"
+      "bytes": 3916,
+      "hash": "620e253327af479f"
     },
     "composables/useMessageBag.mjs": {
-      "bytes": 3452,
-      "hash": "3859747af3841992",
+      "bytes": 3453,
+      "hash": "5e61552450911b74",
       "exports": [
         "useMessageBag"
       ],
@@ -3142,12 +2872,12 @@
       ]
     },
     "composables/useModel.d.ts": {
-      "bytes": 2323,
-      "hash": "ce89f87dcd0921d9"
+      "bytes": 2338,
+      "hash": "91023255d5686bf8"
     },
     "composables/useModel.mjs": {
-      "bytes": 253,
-      "hash": "064c7c15fb1915d7",
+      "bytes": 254,
+      "hash": "cc5f73bf53a418f4",
       "exports": [
         "useModel"
       ],
@@ -3156,12 +2886,12 @@
       ]
     },
     "composables/useOutlets.d.ts": {
-      "bytes": 2967,
-      "hash": "8660f1ca0ec8a47e"
+      "bytes": 2982,
+      "hash": "33b9029433aaf901"
     },
     "composables/useOutlets.mjs": {
-      "bytes": 7156,
-      "hash": "b8b20e5826b822f5",
+      "bytes": 7163,
+      "hash": "1137731d7522eb36",
       "exports": [
         "useOutlets"
       ],
@@ -3174,12 +2904,12 @@
       ]
     },
     "composables/usePager.d.ts": {
-      "bytes": 10323,
-      "hash": "1d4ce0ed85dd6383"
+      "bytes": 10353,
+      "hash": "27b51c2dd8a8ef6c"
     },
     "composables/usePager.mjs": {
-      "bytes": 9475,
-      "hash": "6ad0587e3088c5e8",
+      "bytes": 9476,
+      "hash": "b1a6bf4848268f04",
       "exports": [
         "usePager"
       ],
@@ -3198,12 +2928,12 @@
       ]
     },
     "composables/usePlugins.d.ts": {
-      "bytes": 895,
-      "hash": "5672d958c52aa646"
+      "bytes": 905,
+      "hash": "f462d67cb4c6e2b9"
     },
     "composables/usePlugins.mjs": {
-      "bytes": 1889,
-      "hash": "4a27b552580eb0e2",
+      "bytes": 1890,
+      "hash": "0bd906a1ee60c726",
       "exports": [
         "shouldApplyPlugin",
         "usePlugins"
@@ -3216,11 +2946,11 @@
     },
     "composables/useRootDom.d.ts": {
       "bytes": 206,
-      "hash": "60a32598a7ea1f06"
+      "hash": "51aa473d5003e2fb"
     },
     "composables/useRootDom.mjs": {
-      "bytes": 404,
-      "hash": "143665e5a59f0d9f",
+      "bytes": 405,
+      "hash": "937fb0f97611e5bd",
       "exports": [
         "useRootDom"
       ],
@@ -3231,12 +2961,12 @@
       ]
     },
     "composables/useRouter.d.ts": {
-      "bytes": 984,
-      "hash": "33d29be1667fe942"
+      "bytes": 999,
+      "hash": "01f0ee76e16d4b06"
     },
     "composables/useRouter.mjs": {
-      "bytes": 939,
-      "hash": "2115e9fad0c7df13",
+      "bytes": 940,
+      "hash": "6e787470e95ddf30",
       "exports": [
         "useRouter"
       ],
@@ -3245,12 +2975,12 @@
       ]
     },
     "composables/useSchema.d.ts": {
-      "bytes": 464,
-      "hash": "092fa66270a1a394"
+      "bytes": 474,
+      "hash": "cfb62be104af08fd"
     },
     "composables/useSchema.mjs": {
-      "bytes": 1395,
-      "hash": "f9c72da1b69d8ae5",
+      "bytes": 1396,
+      "hash": "686ec640a5b9b80e",
       "exports": [
         "useSchema"
       ],
@@ -3264,12 +2994,12 @@
       ]
     },
     "composables/useSecurity.d.ts": {
-      "bytes": 401,
-      "hash": "7ec5adc6717b2a2e"
+      "bytes": 406,
+      "hash": "3d826dafeb8ffe34"
     },
     "composables/useSecurity.mjs": {
-      "bytes": 487,
-      "hash": "fbf9b8aa0a771c60",
+      "bytes": 488,
+      "hash": "820b33a1187184f7",
       "exports": [
         "useSecurity"
       ],
@@ -3278,12 +3008,12 @@
       ]
     },
     "composables/useTokens.d.ts": {
-      "bytes": 1062,
-      "hash": "bc6d884b12195b62"
+      "bytes": 1067,
+      "hash": "aa2158d3e6296948"
     },
     "composables/useTokens.mjs": {
-      "bytes": 1643,
-      "hash": "52ff20316e1c09b6",
+      "bytes": 1644,
+      "hash": "9c37c551d3624f2a",
       "exports": [
         "useTokens"
       ],
@@ -3294,12 +3024,12 @@
       ]
     },
     "composables/useVueform.d.ts": {
-      "bytes": 376,
-      "hash": "67852c7e363666ab"
+      "bytes": 381,
+      "hash": "87095984c1838a76"
     },
     "composables/useVueform.mjs": {
-      "bytes": 460,
-      "hash": "6cb80b867df600c4",
+      "bytes": 461,
+      "hash": "6be9fa5a026db94d",
       "exports": [
         "useVueform"
       ],
@@ -3309,11 +3039,11 @@
     },
     "config.d.ts": {
       "bytes": 236,
-      "hash": "fbe4ec4e504dc7b0"
+      "hash": "8f807c7d52579e63"
     },
     "config.mjs": {
-      "bytes": 2123,
-      "hash": "1b48ceaa7e2ac77b",
+      "bytes": 2126,
+      "hash": "605d4aae3d6c8eb5",
       "exports": [
         "default",
         "defaultConfig"
@@ -3324,12 +3054,12 @@
       ]
     },
     "contexts/component.d.ts": {
-      "bytes": 3295,
-      "hash": "b05a3b722007bc71"
+      "bytes": 3300,
+      "hash": "3109b4b9dd0a2682"
     },
     "contexts/component.mjs": {
-      "bytes": 6284,
-      "hash": "491c2a9c7327d512",
+      "bytes": 6297,
+      "hash": "efc5501cda5522bb",
       "exports": [
         "BASE_CLASS_REGISTRAR",
         "CLASS_REGISTRAR",
@@ -3351,12 +3081,12 @@
       ]
     },
     "contexts/container.d.ts": {
-      "bytes": 7026,
-      "hash": "5cfdf2e1b3e74814"
+      "bytes": 7041,
+      "hash": "bda1331029d999d1"
     },
     "contexts/container.mjs": {
-      "bytes": 2024,
-      "hash": "d65022bc60e53f06",
+      "bytes": 2027,
+      "hash": "d146e91cb66e37cc",
       "exports": [
         "createContainerContext",
         "useContainerContext"
@@ -3367,12 +3097,12 @@
       ]
     },
     "contexts/element.d.ts": {
-      "bytes": 402,
-      "hash": "78c23c73168a2ed9"
+      "bytes": 407,
+      "hash": "e705d25f6d34a7ba"
     },
     "contexts/element.mjs": {
-      "bytes": 692,
-      "hash": "549fbc8c2739d855",
+      "bytes": 695,
+      "hash": "6372258a08be792f",
       "exports": [
         "createElementContext",
         "useElementContext"
@@ -3383,12 +3113,12 @@
       ]
     },
     "contexts/form.d.ts": {
-      "bytes": 400,
-      "hash": "0853b20ddedde27e"
+      "bytes": 405,
+      "hash": "be9234393a7bfbcd"
     },
     "contexts/form.mjs": {
-      "bytes": 681,
-      "hash": "e7488de1293d10a2",
+      "bytes": 684,
+      "hash": "f5a3525a9e663eb7",
       "exports": [
         "createFormContext",
         "useFormContext"
@@ -3399,12 +3129,12 @@
       ]
     },
     "contexts/grid.d.ts": {
-      "bytes": 1421,
-      "hash": "985f4f3cc4a07abd"
+      "bytes": 1436,
+      "hash": "b84b666acae9a442"
     },
     "contexts/grid.mjs": {
-      "bytes": 632,
-      "hash": "33d684f31793f981",
+      "bytes": 635,
+      "hash": "a05ddfa150040aee",
       "exports": [
         "createGridContext",
         "useGridContext"
@@ -3419,7 +3149,7 @@
     },
     "contexts/index.mjs": {
       "bytes": 1018,
-      "hash": "c9aea65cd5f6bfc7",
+      "hash": "d6f8a743d25c3ae7",
       "exports": [
         "BASE_CLASS_REGISTRAR",
         "CLASS_REGISTRAR",
@@ -3454,12 +3184,12 @@
       ]
     },
     "contexts/preset.d.ts": {
-      "bytes": 672,
-      "hash": "2abca966300f0441"
+      "bytes": 682,
+      "hash": "965ffbca5ec1536d"
     },
     "contexts/preset.mjs": {
-      "bytes": 660,
-      "hash": "e663cc4013eff00a",
+      "bytes": 663,
+      "hash": "9ad820f9fca9f974",
       "exports": [
         "createPresetContext",
         "usePresetContext"
@@ -3469,12 +3199,12 @@
       ]
     },
     "contexts/row.d.ts": {
-      "bytes": 830,
-      "hash": "573c813064616a93"
+      "bytes": 840,
+      "hash": "00172a5c150b375b"
     },
     "contexts/row.mjs": {
-      "bytes": 615,
-      "hash": "c252cde9826872d8",
+      "bytes": 618,
+      "hash": "20237f2e3fdff53b",
       "exports": [
         "createRowContext",
         "useRowContext"
@@ -3484,12 +3214,12 @@
       ]
     },
     "contexts/vueform.d.ts": {
-      "bytes": 734,
-      "hash": "27134cb589e18f53"
+      "bytes": 744,
+      "hash": "c5026a3bab97deb7"
     },
     "contexts/vueform.mjs": {
-      "bytes": 1100,
-      "hash": "a5fdbea3cd4b5606",
+      "bytes": 1103,
+      "hash": "415a30f1a9d1ef8f",
       "exports": [
         "createVueformContext",
         "useVueformContext"
@@ -3817,7 +3547,7 @@
     },
     "features/addons/index.mjs": {
       "bytes": 70,
-      "hash": "2f96e335c4283680",
+      "hash": "60c44101474d3929",
       "exports": [
         "makeAddons"
       ],
@@ -3826,12 +3556,12 @@
       ]
     },
     "features/addons/makeAddons.d.ts": {
-      "bytes": 795,
-      "hash": "eae86a1053eb029c"
+      "bytes": 805,
+      "hash": "1b69aa152dafa9c0"
     },
     "features/addons/makeAddons.mjs": {
-      "bytes": 1191,
-      "hash": "08c90fe15bcfa547",
+      "bytes": 1194,
+      "hash": "0d6a3d336cf393dc",
       "exports": [
         "makeAddons"
       ],
@@ -3842,8 +3572,8 @@
       ]
     },
     "features/addons/types.d.ts": {
-      "bytes": 2241,
-      "hash": "a7a76ab24189ac27"
+      "bytes": 2271,
+      "hash": "f0d9a54dce8e334d"
     },
     "features/alignment/index.d.ts": {
       "bytes": 30,
@@ -3859,7 +3589,7 @@
     },
     "features/aria/index.mjs": {
       "bytes": 64,
-      "hash": "dfa3f8762b788f2e",
+      "hash": "b3d3993126edf702",
       "exports": [
         "makeAria"
       ],
@@ -3868,12 +3598,12 @@
       ]
     },
     "features/aria/makeAria.d.ts": {
-      "bytes": 1205,
-      "hash": "2514cfee0d75f7ff"
+      "bytes": 1220,
+      "hash": "67a793b0b47b608f"
     },
     "features/aria/makeAria.mjs": {
-      "bytes": 991,
-      "hash": "cc10670493b50220",
+      "bytes": 994,
+      "hash": "3e363e892b2ce5e3",
       "exports": [
         "makeAria"
       ],
@@ -3883,8 +3613,8 @@
       ]
     },
     "features/aria/types.d.ts": {
-      "bytes": 168,
-      "hash": "f6adbe535be4a9eb"
+      "bytes": 173,
+      "hash": "7cf6381f614f13d0"
     },
     "features/autogrow/index.d.ts": {
       "bytes": 32,
@@ -3892,7 +3622,7 @@
     },
     "features/autogrow/index.mjs": {
       "bytes": 76,
-      "hash": "31701da2c6689d4b",
+      "hash": "644b26df263dd558",
       "exports": [
         "makeAutogrow"
       ],
@@ -3901,12 +3631,12 @@
       ]
     },
     "features/autogrow/makeAutogrow.d.ts": {
-      "bytes": 811,
-      "hash": "82d9307892f797a0"
+      "bytes": 826,
+      "hash": "a482ded097749554"
     },
     "features/autogrow/makeAutogrow.mjs": {
-      "bytes": 1642,
-      "hash": "38556c855203649a",
+      "bytes": 1645,
+      "hash": "f2467da83b3b45b5",
       "exports": [
         "makeAutogrow"
       ],
@@ -3921,7 +3651,7 @@
     },
     "features/button/index.mjs": {
       "bytes": 70,
-      "hash": "bfe8cadee72bad98",
+      "hash": "3ac990ac81966017",
       "exports": [
         "makeButton"
       ],
@@ -3930,12 +3660,12 @@
       ]
     },
     "features/button/makeButton.d.ts": {
-      "bytes": 2283,
-      "hash": "175fc405eb39c3be"
+      "bytes": 2313,
+      "hash": "a84458fd057deec1"
     },
     "features/button/makeButton.mjs": {
-      "bytes": 3684,
-      "hash": "2023d25ae542f731",
+      "bytes": 3687,
+      "hash": "3b36db5ff4ba7048",
       "exports": [
         "makeButton"
       ],
@@ -3953,8 +3683,8 @@
       ]
     },
     "features/button/types.d.ts": {
-      "bytes": 1763,
-      "hash": "54f3c056d03eb17c"
+      "bytes": 1768,
+      "hash": "680685268542db45"
     },
     "features/checkbox/index.d.ts": {
       "bytes": 110,
@@ -3962,7 +3692,7 @@
     },
     "features/checkbox/index.mjs": {
       "bytes": 248,
-      "hash": "efb4c92d017f44b1",
+      "hash": "dd0e4fc39de26af2",
       "exports": [
         "makeCheckboxAria",
         "makeCheckboxName",
@@ -3975,12 +3705,12 @@
       ]
     },
     "features/checkbox/makeCheckboxAria.d.ts": {
-      "bytes": 1217,
-      "hash": "4b20b4c119801264"
+      "bytes": 1237,
+      "hash": "c2a7ee9516d05dbb"
     },
     "features/checkbox/makeCheckboxAria.mjs": {
-      "bytes": 960,
-      "hash": "48097d3e04ae57fb",
+      "bytes": 963,
+      "hash": "0f347921434e5f36",
       "exports": [
         "makeCheckboxAria"
       ],
@@ -3990,12 +3720,12 @@
       ]
     },
     "features/checkbox/makeCheckboxName.d.ts": {
-      "bytes": 773,
-      "hash": "5c57d774e143491b"
+      "bytes": 783,
+      "hash": "162f104f93fcc5dd"
     },
     "features/checkbox/makeCheckboxName.mjs": {
-      "bytes": 724,
-      "hash": "4c5cddaea503d2d6",
+      "bytes": 727,
+      "hash": "cbedbea02d8b8bac",
       "exports": [
         "makeCheckboxName"
       ],
@@ -4006,12 +3736,12 @@
       ]
     },
     "features/checkbox/makeCheckboxesAria.d.ts": {
-      "bytes": 903,
-      "hash": "c17c1df6ff5c1764"
+      "bytes": 918,
+      "hash": "4b3a33c7257c78e4"
     },
     "features/checkbox/makeCheckboxesAria.mjs": {
-      "bytes": 658,
-      "hash": "5dd7a8afad1c20e0",
+      "bytes": 661,
+      "hash": "cc341706a3325072",
       "exports": [
         "makeCheckboxesAria"
       ],
@@ -4025,8 +3755,8 @@
       "hash": "c93450dc0c7556b4"
     },
     "features/container/types.d.ts": {
-      "bytes": 258,
-      "hash": "4dd372fb62c4c8ad"
+      "bytes": 263,
+      "hash": "71f2dd36bb465d08"
     },
     "features/disabled/index.d.ts": {
       "bytes": 62,
@@ -4034,7 +3764,7 @@
     },
     "features/disabled/index.mjs": {
       "bytes": 76,
-      "hash": "801023323c31d455",
+      "hash": "2275fa61e7471ef9",
       "exports": [
         "makeDisabled"
       ],
@@ -4043,12 +3773,12 @@
       ]
     },
     "features/disabled/makeDisabled.d.ts": {
-      "bytes": 885,
-      "hash": "3a8d23864c92b1da"
+      "bytes": 905,
+      "hash": "9d88e2ee1dda5198"
     },
     "features/disabled/makeDisabled.mjs": {
-      "bytes": 1800,
-      "hash": "a3e9e0b0ba13afcc",
+      "bytes": 1803,
+      "hash": "a61a65ea28c68937",
       "exports": [
         "makeDisabled"
       ],
@@ -4061,12 +3791,12 @@
       ]
     },
     "features/disabled/types.d.ts": {
-      "bytes": 227,
-      "hash": "48cbd29bb4e52ad3"
+      "bytes": 232,
+      "hash": "4367f4d524942829"
     },
     "features/element/element.d.ts": {
-      "bytes": 2468,
-      "hash": "d57668098cbe6ab3"
+      "bytes": 2478,
+      "hash": "2034426e6f933932"
     },
     "features/element/index.d.ts": {
       "bytes": 63,
@@ -4074,7 +3804,7 @@
     },
     "features/element/index.mjs": {
       "bytes": 73,
-      "hash": "dcb84b941d21eef1",
+      "hash": "77edce43fe5a944d",
       "exports": [
         "makeElement"
       ],
@@ -4083,12 +3813,12 @@
       ]
     },
     "features/element/makeElement.d.ts": {
-      "bytes": 2110,
-      "hash": "f67a8b9d9f637657"
+      "bytes": 2108,
+      "hash": "5af9559a553b2c34"
     },
     "features/element/makeElement.mjs": {
-      "bytes": 5331,
-      "hash": "d9347d53eced2602",
+      "bytes": 5334,
+      "hash": "019a8f649e023e23",
       "exports": [
         "makeElement"
       ],
@@ -4114,8 +3844,8 @@
       "hash": "c93450dc0c7556b4"
     },
     "features/expression/types.d.ts": {
-      "bytes": 261,
-      "hash": "523a240982907c14"
+      "bytes": 266,
+      "hash": "908f4734258360c4"
     },
     "features/forwards/index.d.ts": {
       "bytes": 32,
@@ -4123,7 +3853,7 @@
     },
     "features/forwards/index.mjs": {
       "bytes": 76,
-      "hash": "555265ab2ce28803",
+      "hash": "4155fd0c541620ad",
       "exports": [
         "makeForwards"
       ],
@@ -4132,12 +3862,12 @@
       ]
     },
     "features/forwards/makeForwards.d.ts": {
-      "bytes": 587,
-      "hash": "594355ea1b9b1624"
+      "bytes": 592,
+      "hash": "81c9887b333338ea"
     },
     "features/forwards/makeForwards.mjs": {
-      "bytes": 615,
-      "hash": "8ac531de3ca7743b",
+      "bytes": 618,
+      "hash": "97ced32dcd9ae20f",
       "exports": [
         "makeForwards"
       ],
@@ -4151,7 +3881,7 @@
     },
     "features/icons/index.mjs": {
       "bytes": 67,
-      "hash": "a3131d4d00e992da",
+      "hash": "7366895a885e2e68",
       "exports": [
         "makeIcons"
       ],
@@ -4160,12 +3890,12 @@
       ]
     },
     "features/icons/makeIcons.d.ts": {
-      "bytes": 865,
-      "hash": "098c6b6a25ab6298"
+      "bytes": 870,
+      "hash": "6a354ed09b005b27"
     },
     "features/icons/makeIcons.mjs": {
-      "bytes": 592,
-      "hash": "10b365be18299034",
+      "bytes": 595,
+      "hash": "8b2b1a1b8555877a",
       "exports": [
         "makeIcons"
       ],
@@ -4175,8 +3905,8 @@
       ]
     },
     "features/icons/types.d.ts": {
-      "bytes": 1829,
-      "hash": "41673e460ad4ab3b"
+      "bytes": 1854,
+      "hash": "04c1da557d3597d5"
     },
     "features/index.d.ts": {
       "bytes": 820,
@@ -4184,7 +3914,7 @@
     },
     "features/index.mjs": {
       "bytes": 2190,
-      "hash": "44eb87d11aaaf149",
+      "hash": "df5d9b243fdab485",
       "exports": [
         "makeAddons",
         "makeAria",
@@ -4256,7 +3986,7 @@
     },
     "features/input/index.mjs": {
       "bytes": 67,
-      "hash": "e2ceea06edc670cf",
+      "hash": "69c6f636ea6766a2",
       "exports": [
         "makeInput"
       ],
@@ -4265,12 +3995,12 @@
       ]
     },
     "features/input/makeInput.d.ts": {
-      "bytes": 2430,
-      "hash": "dfad68e722fef554"
+      "bytes": 2450,
+      "hash": "f520cacf18481f15"
     },
     "features/input/makeInput.mjs": {
-      "bytes": 9119,
-      "hash": "15698c715d14fa37",
+      "bytes": 9140,
+      "hash": "b9cc5f872961854c",
       "exports": [
         "makeInput"
       ],
@@ -4281,8 +4011,8 @@
       ]
     },
     "features/input/types.d.ts": {
-      "bytes": 469,
-      "hash": "6d5620e807100198"
+      "bytes": 474,
+      "hash": "f69b946e37d168ec"
     },
     "features/interactions/index.d.ts": {
       "bytes": 65,
@@ -4290,7 +4020,7 @@
     },
     "features/interactions/index.mjs": {
       "bytes": 85,
-      "hash": "55995776bd03af35",
+      "hash": "66305d2da3a91cca",
       "exports": [
         "makeInteraction"
       ],
@@ -4299,12 +4029,12 @@
       ]
     },
     "features/interactions/makeInteraction.d.ts": {
-      "bytes": 782,
-      "hash": "dbb4d042dfd5f92a"
+      "bytes": 787,
+      "hash": "d42955ff3fd81e02"
     },
     "features/interactions/makeInteraction.mjs": {
-      "bytes": 1679,
-      "hash": "ae30a03319a6bf6c",
+      "bytes": 1682,
+      "hash": "83e1c8d17575a1f9",
       "exports": [
         "makeInteraction"
       ],
@@ -4316,8 +4046,8 @@
       ]
     },
     "features/interactions/types.d.ts": {
-      "bytes": 441,
-      "hash": "39d28df809591c86"
+      "bytes": 446,
+      "hash": "e4ead99cf41e7101"
     },
     "features/items/index.d.ts": {
       "bytes": 59,
@@ -4325,7 +4055,7 @@
     },
     "features/items/index.mjs": {
       "bytes": 67,
-      "hash": "3cb0f7820850bee9",
+      "hash": "7b00e9a9e9efb147",
       "exports": [
         "makeItems"
       ],
@@ -4334,12 +4064,12 @@
       ]
     },
     "features/items/makeItems.d.ts": {
-      "bytes": 7526,
-      "hash": "2b8205601c08b194"
+      "bytes": 7586,
+      "hash": "fc558f68b1961b6a"
     },
     "features/items/makeItems.mjs": {
-      "bytes": 11259,
-      "hash": "627134d63533501a",
+      "bytes": 11266,
+      "hash": "91f4f240d2590df6",
       "exports": [
         "makeItems"
       ],
@@ -4353,8 +4083,8 @@
       ]
     },
     "features/items/types.d.ts": {
-      "bytes": 20500,
-      "hash": "74161697ffd7df96"
+      "bytes": 20515,
+      "hash": "e6d2619fc01a4b3a"
     },
     "features/key-events/index.d.ts": {
       "bytes": 65,
@@ -4362,7 +4092,7 @@
     },
     "features/key-events/index.mjs": {
       "bytes": 85,
-      "hash": "a267c850d8043473",
+      "hash": "8ae0836c95c369ac",
       "exports": [
         "makeKeyHandlers"
       ],
@@ -4371,12 +4101,12 @@
       ]
     },
     "features/key-events/makeKeyHandlers.d.ts": {
-      "bytes": 819,
-      "hash": "ae4f31a057a0817d"
+      "bytes": 829,
+      "hash": "f293d8f73d6977ab"
     },
     "features/key-events/makeKeyHandlers.mjs": {
-      "bytes": 1029,
-      "hash": "9621c5f1828df69d",
+      "bytes": 1032,
+      "hash": "680d89bf74849b81",
       "exports": [
         "makeKeyHandlers"
       ],
@@ -4386,8 +4116,8 @@
       ]
     },
     "features/key-events/types.d.ts": {
-      "bytes": 847,
-      "hash": "dc9d80ed345f1e51"
+      "bytes": 852,
+      "hash": "5d8cfe67cf7fb7e1"
     },
     "features/layout/index.d.ts": {
       "bytes": 60,
@@ -4395,7 +4125,7 @@
     },
     "features/layout/index.mjs": {
       "bytes": 70,
-      "hash": "6c6be3d5517b6fdd",
+      "hash": "688b358606b11fc0",
       "exports": [
         "makeLayout"
       ],
@@ -4404,12 +4134,12 @@
       ]
     },
     "features/layout/makeLayout.d.ts": {
-      "bytes": 2250,
-      "hash": "cf76cba76fc02c92"
+      "bytes": 2260,
+      "hash": "825ad6109028417a"
     },
     "features/layout/makeLayout.mjs": {
-      "bytes": 7115,
-      "hash": "30981a999ffc1e26",
+      "bytes": 7118,
+      "hash": "8fde97c6dfe47806",
       "exports": [
         "makeLayout"
       ],
@@ -4426,8 +4156,8 @@
       ]
     },
     "features/layout/types.d.ts": {
-      "bytes": 2037,
-      "hash": "f65efd4f7aec5ccc"
+      "bytes": 2042,
+      "hash": "7868daaa16cc8c7f"
     },
     "features/loading/index.d.ts": {
       "bytes": 61,
@@ -4435,7 +4165,7 @@
     },
     "features/loading/index.mjs": {
       "bytes": 73,
-      "hash": "295117e8cfae84ce",
+      "hash": "3b5fe042f118aec2",
       "exports": [
         "makeLoading"
       ],
@@ -4444,12 +4174,12 @@
       ]
     },
     "features/loading/makeLoading.d.ts": {
-      "bytes": 1052,
-      "hash": "269f5214e3f18403"
+      "bytes": 1077,
+      "hash": "338c4cebf3c0885b"
     },
     "features/loading/makeLoading.mjs": {
-      "bytes": 1035,
-      "hash": "b012b1316e68f896",
+      "bytes": 1038,
+      "hash": "a046fd0b8e5b4911",
       "exports": [
         "makeLoading"
       ],
@@ -4460,8 +4190,8 @@
       ]
     },
     "features/loading/types.d.ts": {
-      "bytes": 233,
-      "hash": "6c58d3033bfeab98"
+      "bytes": 238,
+      "hash": "6b791b923bb6372c"
     },
     "features/model/index.d.ts": {
       "bytes": 58,
@@ -4469,7 +4199,7 @@
     },
     "features/model/index.mjs": {
       "bytes": 108,
-      "hash": "c70f4eef4d4ff785",
+      "hash": "f7894fb36f313df5",
       "exports": [
         "makeData",
         "makeRData",
@@ -4480,12 +4210,12 @@
       ]
     },
     "features/model/makeData.d.ts": {
-      "bytes": 13204,
-      "hash": "5afdd6a1c697c596"
+      "bytes": 13249,
+      "hash": "74db47c860892e49"
     },
     "features/model/makeData.mjs": {
-      "bytes": 1322,
-      "hash": "131c6e7c303870c4",
+      "bytes": 1325,
+      "hash": "549f639558a3a2df",
       "exports": [
         "makeData",
         "makeRData",
@@ -4498,8 +4228,8 @@
       ]
     },
     "features/model/types.d.ts": {
-      "bytes": 4793,
-      "hash": "bfb2e3c1b10860a1"
+      "bytes": 4798,
+      "hash": "abe174ee49d0e2e0"
     },
     "features/multiple/index.d.ts": {
       "bytes": 30,
@@ -4515,7 +4245,7 @@
     },
     "features/placeholder/index.mjs": {
       "bytes": 85,
-      "hash": "e24286a6939d2a01",
+      "hash": "6f85bebdced8380d",
       "exports": [
         "makePlaceholder"
       ],
@@ -4524,12 +4254,12 @@
       ]
     },
     "features/placeholder/makePlaceholder.d.ts": {
-      "bytes": 553,
-      "hash": "ec059a79f6403a86"
+      "bytes": 558,
+      "hash": "615a5e4e299bbc77"
     },
     "features/placeholder/makePlaceholder.mjs": {
-      "bytes": 889,
-      "hash": "be0d9456be0ccf07",
+      "bytes": 892,
+      "hash": "fad039c4b21698cf",
       "exports": [
         "makePlaceholder"
       ],
@@ -4542,8 +4272,8 @@
       ]
     },
     "features/placeholder/types.d.ts": {
-      "bytes": 233,
-      "hash": "6635bab356d53225"
+      "bytes": 238,
+      "hash": "f26a72de59c49304"
     },
     "features/provider/index.d.ts": {
       "bytes": 70,
@@ -4551,7 +4281,7 @@
     },
     "features/provider/index.mjs": {
       "bytes": 159,
-      "hash": "ac18900982f1c30a",
+      "hash": "b6cde72f5f633a48",
       "exports": [
         "makeHolderProvider",
         "makeProvider"
@@ -4562,12 +4292,12 @@
       ]
     },
     "features/provider/makeHolderProvider.d.ts": {
-      "bytes": 2003,
-      "hash": "f7193d29a786639c"
+      "bytes": 2028,
+      "hash": "05648e8827bfb051"
     },
     "features/provider/makeHolderProvider.mjs": {
-      "bytes": 3395,
-      "hash": "29ea400b79886652",
+      "bytes": 3398,
+      "hash": "0aa6bd3f4e501064",
       "exports": [
         "makeHolderProvider"
       ],
@@ -4579,12 +4309,12 @@
       ]
     },
     "features/provider/makeProvider.d.ts": {
-      "bytes": 605,
-      "hash": "88f6a51dbee56501"
+      "bytes": 615,
+      "hash": "a662991af2211d2f"
     },
     "features/provider/makeProvider.mjs": {
-      "bytes": 613,
-      "hash": "064693492cc4a730",
+      "bytes": 616,
+      "hash": "3bb4ee7c51ff463d",
       "exports": [
         "makeProvider"
       ],
@@ -4599,7 +4329,7 @@
     },
     "features/radio/index.mjs": {
       "bytes": 218,
-      "hash": "8abf3de893bad0f7",
+      "hash": "69c9b10de72fe2a0",
       "exports": [
         "makeRadioAria",
         "makeRadioName",
@@ -4612,12 +4342,12 @@
       ]
     },
     "features/radio/makeRadioAria.d.ts": {
-      "bytes": 1202,
-      "hash": "22c41ab89291a7c4"
+      "bytes": 1222,
+      "hash": "77e15368baeb0f8c"
     },
     "features/radio/makeRadioAria.mjs": {
-      "bytes": 928,
-      "hash": "71c7842c7ca19300",
+      "bytes": 931,
+      "hash": "b663504809e8892e",
       "exports": [
         "makeRadioAria"
       ],
@@ -4627,12 +4357,12 @@
       ]
     },
     "features/radio/makeRadioName.d.ts": {
-      "bytes": 1021,
-      "hash": "f6e7e51fb2b9d8a6"
+      "bytes": 1036,
+      "hash": "b2de1e219aebb80a"
     },
     "features/radio/makeRadioName.mjs": {
-      "bytes": 1322,
-      "hash": "b292842da1ebd5e5",
+      "bytes": 1325,
+      "hash": "84cfb6372e18f63c",
       "exports": [
         "makeRadioName"
       ],
@@ -4644,12 +4374,12 @@
       ]
     },
     "features/radio/makeRadiosAria.d.ts": {
-      "bytes": 881,
-      "hash": "aa99521678d6a4ce"
+      "bytes": 896,
+      "hash": "2f85482278d2a5d3"
     },
     "features/radio/makeRadiosAria.mjs": {
-      "bytes": 637,
-      "hash": "87cb3226a116bd86",
+      "bytes": 640,
+      "hash": "1f1d108221671895",
       "exports": [
         "makeRadiosAria"
       ],
@@ -4664,7 +4394,7 @@
     },
     "features/readonly/index.mjs": {
       "bytes": 76,
-      "hash": "2b2787db64b6492f",
+      "hash": "e61369bf752b249a",
       "exports": [
         "makeReadonly"
       ],
@@ -4673,12 +4403,12 @@
       ]
     },
     "features/readonly/makeReadonly.d.ts": {
-      "bytes": 815,
-      "hash": "ea6f572322031e00"
+      "bytes": 835,
+      "hash": "5791b531e07a1274"
     },
     "features/readonly/makeReadonly.mjs": {
-      "bytes": 949,
-      "hash": "f483949d5657d6fc",
+      "bytes": 952,
+      "hash": "3ec88fc461f182b5",
       "exports": [
         "makeReadonly"
       ],
@@ -4690,8 +4420,8 @@
       ]
     },
     "features/readonly/types.d.ts": {
-      "bytes": 226,
-      "hash": "fcfc5b21da4e9dc4"
+      "bytes": 231,
+      "hash": "99e4af67557805f8"
     },
     "features/sortable/index.d.ts": {
       "bytes": 32,
@@ -4699,7 +4429,7 @@
     },
     "features/sortable/index.mjs": {
       "bytes": 76,
-      "hash": "b791afd09f068c42",
+      "hash": "16641038d4567b27",
       "exports": [
         "makeSortable"
       ],
@@ -4708,12 +4438,12 @@
       ]
     },
     "features/sortable/makeSortable.d.ts": {
-      "bytes": 1204,
-      "hash": "750cf3fb8cf5d220"
+      "bytes": 1219,
+      "hash": "e22ba128ad28c267"
     },
     "features/sortable/makeSortable.mjs": {
-      "bytes": 3279,
-      "hash": "44b1b002254fc35c",
+      "bytes": 3282,
+      "hash": "29fed92c6941c944",
       "exports": [
         "makeSortable"
       ],
@@ -4735,8 +4465,8 @@
       "hash": "c93450dc0c7556b4"
     },
     "features/tabs/types.d.ts": {
-      "bytes": 1848,
-      "hash": "48d519ea546f05b1"
+      "bytes": 1868,
+      "hash": "963d6d8273b9e405"
     },
     "features/text/index.d.ts": {
       "bytes": 28,
@@ -4744,7 +4474,7 @@
     },
     "features/text/index.mjs": {
       "bytes": 64,
-      "hash": "c708d00fba13db36",
+      "hash": "ac38554e0d763fe1",
       "exports": [
         "makeText"
       ],
@@ -4753,12 +4483,12 @@
       ]
     },
     "features/text/makeText.d.ts": {
-      "bytes": 531,
-      "hash": "310122255491b001"
+      "bytes": 536,
+      "hash": "967395d0c9115491"
     },
     "features/text/makeText.mjs": {
-      "bytes": 430,
-      "hash": "8808e991a7118ff2",
+      "bytes": 433,
+      "hash": "bd8d695c36a5cf8f",
       "exports": [
         "makeText"
       ],
@@ -4773,7 +4503,7 @@
     },
     "features/translate/index.mjs": {
       "bytes": 144,
-      "hash": "0dc1d96bac8bc075",
+      "hash": "f415c8aac0243f0f",
       "exports": [
         "makeMultilingual",
         "makeTAria"
@@ -4784,12 +4514,12 @@
       ]
     },
     "features/translate/makeMultilingual.d.ts": {
-      "bytes": 1128,
-      "hash": "a49eba76fe751c6c"
+      "bytes": 1143,
+      "hash": "00ee014529094bfc"
     },
     "features/translate/makeMultilingual.mjs": {
-      "bytes": 2300,
-      "hash": "781beecae0db05f0",
+      "bytes": 2303,
+      "hash": "e54475a40509cf10",
       "exports": [
         "makeMultilingual"
       ],
@@ -4803,12 +4533,12 @@
       ]
     },
     "features/translate/makeTAria.d.ts": {
-      "bytes": 1328,
-      "hash": "de35c83e97f068c7"
+      "bytes": 1348,
+      "hash": "2e4d007d72fc5dcb"
     },
     "features/translate/makeTAria.mjs": {
-      "bytes": 1069,
-      "hash": "cc382f1b2b9d12dc",
+      "bytes": 1072,
+      "hash": "f7a644bdf2ad87ae",
       "exports": [
         "makeTAria"
       ],
@@ -4818,34 +4548,20 @@
       ]
     },
     "features/translate/types.d.ts": {
-      "bytes": 3735,
-      "hash": "8290bfc9dd4ad51c"
+      "bytes": 3755,
+      "hash": "d17518b854e685d4"
     },
     "features/validation/index.d.ts": {
       "bytes": 30,
       "hash": "c93450dc0c7556b4"
     },
     "features/validation/types.d.ts": {
-      "bytes": 2043,
-      "hash": "0ebbba4108c263b9"
+      "bytes": 2053,
+      "hash": "d7bf223f883bd06a"
     },
     "helpers/VfPassthrough.mjs": {
-      "bytes": 314,
-      "hash": "976150263b8b3695",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfPassthrough.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "helpers/VfPassthrough.vue.d.ts": {
-      "bytes": 725,
-      "hash": "43b9d478d9e64d3d"
-    },
-    "helpers/VfPassthrough.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 493,
-      "hash": "e130492117fa35f6",
+      "bytes": 365,
+      "hash": "9eed406aef1a9592",
       "exports": [
         "default"
       ],
@@ -4853,13 +4569,17 @@
         "vue"
       ]
     },
+    "helpers/VfPassthrough.vue.d.ts": {
+      "bytes": 583,
+      "hash": "11f78e61cdd267d3"
+    },
     "helpers/createContext.d.ts": {
-      "bytes": 865,
-      "hash": "0aeee8c025c46d82"
+      "bytes": 875,
+      "hash": "fdabfa921902af39"
     },
     "helpers/createContext.mjs": {
-      "bytes": 2351,
-      "hash": "cd9f76a0048a2796",
+      "bytes": 2354,
+      "hash": "f1a30a76e6456b97",
       "exports": [
         "createContext",
         "provideContext"
@@ -4870,12 +4590,12 @@
       ]
     },
     "helpers/createRule.d.ts": {
-      "bytes": 1061,
-      "hash": "396745f3ef19cf82"
+      "bytes": 1066,
+      "hash": "8993ca75d5880ddb"
     },
     "helpers/createRule.mjs": {
-      "bytes": 2781,
-      "hash": "e9ddf8f69ad847d8",
+      "bytes": 2782,
+      "hash": "66adf4c0e1c90565",
       "exports": [
         "createRule"
       ],
@@ -4885,12 +4605,12 @@
       ]
     },
     "helpers/createVueform.d.ts": {
-      "bytes": 6121,
-      "hash": "cad5e5a890381b24"
+      "bytes": 6162,
+      "hash": "258b1d55efddbee0"
     },
     "helpers/createVueform.mjs": {
-      "bytes": 15979,
-      "hash": "866f07361a6d0a80",
+      "bytes": 15982,
+      "hash": "4f11672e74adb93e",
       "exports": [
         "createVueform",
         "createVueformFactory"
@@ -4911,12 +4631,12 @@
       ]
     },
     "helpers/defineComputedSchema.d.ts": {
-      "bytes": 1463,
-      "hash": "669d9260dba9d608"
+      "bytes": 1473,
+      "hash": "a28782a1d762d8ea"
     },
     "helpers/defineComputedSchema.mjs": {
-      "bytes": 377,
-      "hash": "2f0df34274fb6d79",
+      "bytes": 378,
+      "hash": "e03ca7f5878acf0e",
       "exports": [
         "defineComputedSchema"
       ],
@@ -4926,12 +4646,12 @@
       ]
     },
     "helpers/defineConfig.d.ts": {
-      "bytes": 17164,
-      "hash": "bff50fbedad391c7"
+      "bytes": 17299,
+      "hash": "c58374a32ff5d3b9"
     },
     "helpers/defineConfig.mjs": {
       "bytes": 584,
-      "hash": "d42a5b16dca1a5e3",
+      "hash": "0a6f833d963a4719",
       "exports": [
         "defineConfig"
       ],
@@ -4943,7 +4663,7 @@
     },
     "helpers/defineDefaults.mjs": {
       "bytes": 1208,
-      "hash": "5edf9d55694cc8ed",
+      "hash": "8bbbc9f1712982f0",
       "exports": [
         "defineDefaults",
         "withType"
@@ -4951,12 +4671,12 @@
       "imports": []
     },
     "helpers/defineEvents.d.ts": {
-      "bytes": 3814,
-      "hash": "65fddfcd2d6764be"
+      "bytes": 3819,
+      "hash": "f79c5b70b686774e"
     },
     "helpers/defineEvents.mjs": {
-      "bytes": 5333,
-      "hash": "aebc65c3008c8e82",
+      "bytes": 5334,
+      "hash": "95b561231deb4cbf",
       "exports": [
         "defineEvents"
       ],
@@ -4975,55 +4695,55 @@
     },
     "helpers/defineFeature.mjs": {
       "bytes": 131,
-      "hash": "4fdb865bb652bfd5",
+      "hash": "db7f4e18b20551d8",
       "exports": [
         "defineFeature"
       ],
       "imports": []
     },
     "helpers/defineModule.d.ts": {
-      "bytes": 2903,
-      "hash": "227a425f20279f33"
+      "bytes": 2913,
+      "hash": "9e3c61fe231bd866"
     },
     "helpers/defineModule.mjs": {
       "bytes": 292,
-      "hash": "a8b2223659a78add",
+      "hash": "16b930747ee7e1ab",
       "exports": [
         "defineModule"
       ],
       "imports": []
     },
     "helpers/definePlugin.d.ts": {
-      "bytes": 4449,
-      "hash": "0db4206d93f74809"
+      "bytes": 4474,
+      "hash": "635ab2a26e52b78f"
     },
     "helpers/definePlugin.mjs": {
       "bytes": 306,
-      "hash": "cdbfa3cc087298b1",
+      "hash": "a34d80aeb8499fdf",
       "exports": [
         "definePlugin"
       ],
       "imports": []
     },
     "helpers/definePreset.d.ts": {
-      "bytes": 1267,
-      "hash": "3e7cb049d4b07226"
+      "bytes": 1272,
+      "hash": "6b4dd2e5c0265538"
     },
     "helpers/definePreset.mjs": {
       "bytes": 126,
-      "hash": "c7f8d8ccb3e70696",
+      "hash": "5af199deb57e5c67",
       "exports": [
         "definePreset"
       ],
       "imports": []
     },
     "helpers/defineSchema.d.ts": {
-      "bytes": 2402,
-      "hash": "967667f841400c1b"
+      "bytes": 2407,
+      "hash": "a0b567f349b3f8ae"
     },
     "helpers/defineSchema.mjs": {
-      "bytes": 1460,
-      "hash": "47e53237ac5f836f",
+      "bytes": 1463,
+      "hash": "ec1adc76e5448e32",
       "exports": [
         "attachValidationSchema",
         "defineSchema",
@@ -5034,12 +4754,12 @@
       ]
     },
     "helpers/defineSlot.d.ts": {
-      "bytes": 1724,
-      "hash": "532fa9f8fcb4c174"
+      "bytes": 1739,
+      "hash": "a6c9fa9512cdda86"
     },
     "helpers/defineSlot.mjs": {
-      "bytes": 523,
-      "hash": "fcd6efe16d1b719a",
+      "bytes": 524,
+      "hash": "c9cc862c6c00c28e",
       "exports": [
         "defineSlot"
       ],
@@ -5053,19 +4773,19 @@
     },
     "helpers/defineTheme.mjs": {
       "bytes": 731,
-      "hash": "7b373010f0329b55",
+      "hash": "db8c7f762f524bd6",
       "exports": [
         "defineTheme"
       ],
       "imports": []
     },
     "helpers/extendTheme.d.ts": {
-      "bytes": 631,
-      "hash": "07dd116855fe939d"
+      "bytes": 636,
+      "hash": "07b28bc9914b7e95"
     },
     "helpers/extendTheme.mjs": {
       "bytes": 793,
-      "hash": "37adedecf3a9d50a",
+      "hash": "08990f86dda48501",
       "exports": [
         "extendTheme"
       ],
@@ -5076,8 +4796,8 @@
       "hash": "cb766fae64be23ed"
     },
     "helpers/index.mjs": {
-      "bytes": 1371,
-      "hash": "f1171f2d3b9631c1",
+      "bytes": 1347,
+      "hash": "da5a9469ebab8a5b",
       "exports": [
         "VfPassthrough",
         "attachValidationSchema",
@@ -5123,12 +4843,12 @@
       ]
     },
     "helpers/resolveAddon.d.ts": {
-      "bytes": 1282,
-      "hash": "5622680ff10cae23"
+      "bytes": 1292,
+      "hash": "3a4652de04fca812"
     },
     "helpers/resolveAddon.mjs": {
-      "bytes": 1066,
-      "hash": "0a47aaac22364ba8",
+      "bytes": 1067,
+      "hash": "315901efb6839905",
       "exports": [
         "resolveAddon"
       ],
@@ -5137,12 +4857,12 @@
       ]
     },
     "helpers/resolveModules.d.ts": {
-      "bytes": 543,
-      "hash": "7f1d59ee7abe97b1"
+      "bytes": 553,
+      "hash": "f695483766c8cc31"
     },
     "helpers/resolveModules.mjs": {
-      "bytes": 549,
-      "hash": "3168d1e679cb0dd0",
+      "bytes": 550,
+      "hash": "3752b473b4821650",
       "exports": [
         "resolveModules"
       ],
@@ -5151,12 +4871,12 @@
       ]
     },
     "helpers/resolveVueform.d.ts": {
-      "bytes": 574,
-      "hash": "91ae2d5c6fd6c68e"
+      "bytes": 579,
+      "hash": "6e7534054a6f2b55"
     },
     "helpers/resolveVueform.mjs": {
-      "bytes": 648,
-      "hash": "685b1e66903f47e4",
+      "bytes": 649,
+      "hash": "e37f4d40044395c0",
       "exports": [
         "resolveVueform"
       ],
@@ -5169,8 +4889,8 @@
       "hash": "3c651e6bb073edd4"
     },
     "index.mjs": {
-      "bytes": 13880,
-      "hash": "459c36b553f64e00",
+      "bytes": 13856,
+      "hash": "c2f169c83e2bb3f8",
       "exports": [
         "BASE_CLASS_REGISTRAR",
         "CLASS_REGISTRAR",
@@ -5566,8 +5286,8 @@
       "hash": "e6a09cac1ae82ee8"
     },
     "locales/de_DE.mjs": {
-      "bytes": 7203,
-      "hash": "f16971a9dbb2e653",
+      "bytes": 7205,
+      "hash": "d6ca1f40f74d5069",
       "exports": [
         "de_DE"
       ],
@@ -5578,8 +5298,8 @@
       "hash": "7fb693fe024e672e"
     },
     "locales/en_US.mjs": {
-      "bytes": 7042,
-      "hash": "bd3beffdb52a80ae",
+      "bytes": 7044,
+      "hash": "19a7c94f950cb90e",
       "exports": [
         "en_US"
       ],
@@ -5590,8 +5310,8 @@
       "hash": "19d619e4d51ff409"
     },
     "locales/hu_HU.mjs": {
-      "bytes": 8007,
-      "hash": "a7e5dd7ab69a716d",
+      "bytes": 8009,
+      "hash": "68d113982dfde9bf",
       "exports": [
         "hu_HU"
       ],
@@ -5603,7 +5323,7 @@
     },
     "locales/index.mjs": {
       "bytes": 143,
-      "hash": "9551f6fd59e5adbf",
+      "hash": "a18d896e3c36e513",
       "exports": [
         "de_DE",
         "en_US",
@@ -5616,12 +5336,12 @@
       ]
     },
     "modules/autosave/createAutosave.d.ts": {
-      "bytes": 859,
-      "hash": "7a3e69d0e0c0d859"
+      "bytes": 869,
+      "hash": "60c07cd846c21854"
     },
     "modules/autosave/createAutosave.mjs": {
-      "bytes": 14500,
-      "hash": "6af2e75d13a49339",
+      "bytes": 14507,
+      "hash": "1cc5e8b0f2a7d35d",
       "exports": [
         "createAutosave"
       ],
@@ -5638,12 +5358,12 @@
       ]
     },
     "modules/autosave/definition.d.ts": {
-      "bytes": 221,
-      "hash": "d4cd6e507f7adc54"
+      "bytes": 199,
+      "hash": "b9a0bfdd2728829f"
     },
     "modules/autosave/definition.mjs": {
-      "bytes": 367,
-      "hash": "30434d4b2da8b2c2",
+      "bytes": 370,
+      "hash": "b34c9d4ceaf4484b",
       "exports": [
         "autosave"
       ],
@@ -5658,7 +5378,7 @@
     },
     "modules/autosave/index.mjs": {
       "bytes": 173,
-      "hash": "5ddf9269d0b4ad05",
+      "hash": "46e846a4b44c482f",
       "exports": [
         "autosave",
         "getAutosaveModule",
@@ -5670,12 +5390,12 @@
       ]
     },
     "modules/autosave/module.d.ts": {
-      "bytes": 749,
-      "hash": "42324306eb919a1c"
+      "bytes": 759,
+      "hash": "faef81fa7da3b32a"
     },
     "modules/autosave/module.mjs": {
-      "bytes": 888,
-      "hash": "0b5a52164dd130b3",
+      "bytes": 889,
+      "hash": "e6190b5e5630174b",
       "exports": [
         "getAutosaveModule",
         "hasAutosaveModule"
@@ -5686,12 +5406,12 @@
       ]
     },
     "modules/autosave/noop.d.ts": {
-      "bytes": 362,
-      "hash": "cee36524d6db0d94"
+      "bytes": 367,
+      "hash": "a35af16f29edb1c5"
     },
     "modules/autosave/noop.mjs": {
-      "bytes": 961,
-      "hash": "7faf8948d0c07609",
+      "bytes": 966,
+      "hash": "88d1a36e9dbf66d5",
       "exports": [
         "noopAutosave"
       ],
@@ -5702,16 +5422,16 @@
       ]
     },
     "modules/autosave/types.d.ts": {
-      "bytes": 9795,
-      "hash": "1b598a78fa2db7b6"
+      "bytes": 9810,
+      "hash": "9409d23ee68c438a"
     },
     "modules/conditions/createConditions.d.ts": {
-      "bytes": 2005,
-      "hash": "408fc3a554a31ef8"
+      "bytes": 2030,
+      "hash": "72da934b4a13281b"
     },
     "modules/conditions/createConditions.mjs": {
-      "bytes": 14283,
-      "hash": "0ce189cab5aee79a",
+      "bytes": 14284,
+      "hash": "094480498b0a1aa1",
       "exports": [
         "createConditions"
       ],
@@ -5728,12 +5448,12 @@
       ]
     },
     "modules/conditions/definition.d.ts": {
-      "bytes": 232,
-      "hash": "4c2df00aa5501373"
+      "bytes": 210,
+      "hash": "16f84d3f79a1f6ee"
     },
     "modules/conditions/definition.mjs": {
-      "bytes": 385,
-      "hash": "ae053fe49864f68e",
+      "bytes": 388,
+      "hash": "b4163a9110eee723",
       "exports": [
         "conditions"
       ],
@@ -5748,7 +5468,7 @@
     },
     "modules/conditions/index.mjs": {
       "bytes": 185,
-      "hash": "6df15133ea6c37ba",
+      "hash": "27ced0d7be5e078e",
       "exports": [
         "conditions",
         "getConditionsModule",
@@ -5760,12 +5480,12 @@
       ]
     },
     "modules/conditions/module.d.ts": {
-      "bytes": 746,
-      "hash": "a3b10151897531c9"
+      "bytes": 756,
+      "hash": "1e3805a982da176f"
     },
     "modules/conditions/module.mjs": {
-      "bytes": 895,
-      "hash": "314378391017287b",
+      "bytes": 896,
+      "hash": "d1c15b9d94e41cc5",
       "exports": [
         "getConditionsModule",
         "hasConditionsModule"
@@ -5776,12 +5496,12 @@
       ]
     },
     "modules/conditions/noop.d.ts": {
-      "bytes": 318,
-      "hash": "1d99a16b8b779a2e"
+      "bytes": 323,
+      "hash": "c13bfa4a9943999c"
     },
     "modules/conditions/noop.mjs": {
-      "bytes": 512,
-      "hash": "b6f0afe37519a834",
+      "bytes": 517,
+      "hash": "2ab6a38fad154d46",
       "exports": [
         "noopConditions"
       ],
@@ -5791,8 +5511,8 @@
       ]
     },
     "modules/conditions/types.d.ts": {
-      "bytes": 3534,
-      "hash": "2b2c029b9bb413a7"
+      "bytes": 3549,
+      "hash": "0bde29e43c582296"
     },
     "modules/conditions/types.mjs": {
       "bytes": 14,
@@ -5803,24 +5523,24 @@
       ]
     },
     "modules/date/createDate.d.ts": {
-      "bytes": 387,
-      "hash": "f404bbcde5e85e45"
+      "bytes": 397,
+      "hash": "907adf91732d00af"
     },
     "modules/date/createDate.mjs": {
-      "bytes": 749,
-      "hash": "4317f5c46c63d74f",
+      "bytes": 751,
+      "hash": "591c8ab0f897ee67",
       "exports": [
         "createDate"
       ],
       "imports": []
     },
     "modules/date/definition.d.ts": {
-      "bytes": 205,
-      "hash": "a7ecc8f905f4cdaf"
+      "bytes": 183,
+      "hash": "1402e2ff9fad75e3"
     },
     "modules/date/definition.mjs": {
-      "bytes": 335,
-      "hash": "38e222bcd890b5a7",
+      "bytes": 338,
+      "hash": "44159f3dedccc13f",
       "exports": [
         "date"
       ],
@@ -5835,7 +5555,7 @@
     },
     "modules/date/index.mjs": {
       "bytes": 229,
-      "hash": "606bc905c07d3715",
+      "hash": "876cd6e30d8bac90",
       "exports": [
         "date",
         "getDateModule",
@@ -5849,12 +5569,12 @@
       ]
     },
     "modules/date/module.d.ts": {
-      "bytes": 583,
-      "hash": "2f813c5442c793f4"
+      "bytes": 593,
+      "hash": "931c11f2a8ce91b5"
     },
     "modules/date/module.mjs": {
-      "bytes": 797,
-      "hash": "35f03a5e512e91ed",
+      "bytes": 798,
+      "hash": "ccb8bba435146161",
       "exports": [
         "getDateModule",
         "hasDateModule"
@@ -5864,12 +5584,12 @@
       ]
     },
     "modules/date/nativeDateAdapter.d.ts": {
-      "bytes": 541,
-      "hash": "b9455a73bdeeb70b"
+      "bytes": 546,
+      "hash": "389342e928deb2d7"
     },
     "modules/date/nativeDateAdapter.mjs": {
-      "bytes": 7444,
-      "hash": "883f67cdd2a4990f",
+      "bytes": 7449,
+      "hash": "89056564ebe87bef",
       "exports": [
         "nativeDateAdapter"
       ],
@@ -5882,12 +5602,12 @@
       "hash": "13a86054e303174b"
     },
     "modules/devtools/createDevtools.d.ts": {
-      "bytes": 974,
-      "hash": "d27be99c05c1783b"
+      "bytes": 984,
+      "hash": "7fcd99ff268969f2"
     },
     "modules/devtools/createDevtools.mjs": {
-      "bytes": 2387,
-      "hash": "f32c4e49512a778b",
+      "bytes": 2390,
+      "hash": "56dbb315be709d06",
       "exports": [
         "createDevtools"
       ],
@@ -5900,12 +5620,12 @@
       ]
     },
     "modules/devtools/definition.d.ts": {
-      "bytes": 371,
-      "hash": "43415f50d7992f28"
+      "bytes": 349,
+      "hash": "d8a50e27089a34f7"
     },
     "modules/devtools/definition.mjs": {
-      "bytes": 603,
-      "hash": "ee6e3c1f2b1d4ee8",
+      "bytes": 606,
+      "hash": "ea4d9c080cc6ac4b",
       "exports": [
         "devtools"
       ],
@@ -5920,7 +5640,7 @@
     },
     "modules/devtools/index.mjs": {
       "bytes": 173,
-      "hash": "2c57b4aa65a0fe9e",
+      "hash": "90cee34dc20f2f13",
       "exports": [
         "devtools",
         "getDevtoolsModule",
@@ -5932,12 +5652,12 @@
       ]
     },
     "modules/devtools/inspector.d.ts": {
-      "bytes": 336,
-      "hash": "5dbc7162ef56812a"
+      "bytes": 341,
+      "hash": "88c75bebeedca42c"
     },
     "modules/devtools/inspector.mjs": {
-      "bytes": 5498,
-      "hash": "47e46d3fdd7a8239",
+      "bytes": 5507,
+      "hash": "a77af0569c202902",
       "exports": [
         "refreshInspector",
         "setupInspector"
@@ -5949,12 +5669,12 @@
       ]
     },
     "modules/devtools/module.d.ts": {
-      "bytes": 837,
-      "hash": "9eb3e4d405ea7859"
+      "bytes": 847,
+      "hash": "818bb30803e3f61e"
     },
     "modules/devtools/module.mjs": {
-      "bytes": 975,
-      "hash": "db134cc3e93cf28d",
+      "bytes": 976,
+      "hash": "7d3a630588a57589",
       "exports": [
         "getDevtoolsModule",
         "hasDevtoolsModule"
@@ -5965,24 +5685,24 @@
       ]
     },
     "modules/devtools/noop.d.ts": {
-      "bytes": 402,
-      "hash": "3b4777c928de943c"
+      "bytes": 407,
+      "hash": "03ed505a54d76a40"
     },
     "modules/devtools/noop.mjs": {
-      "bytes": 528,
-      "hash": "a94d5c0e1e2614da",
+      "bytes": 530,
+      "hash": "cf470fee9a45bfee",
       "exports": [
         "noopDevtools"
       ],
       "imports": []
     },
     "modules/devtools/registry.d.ts": {
-      "bytes": 965,
-      "hash": "ead02a39ce51b9ef"
+      "bytes": 970,
+      "hash": "315ebf5cb6e02965"
     },
     "modules/devtools/registry.mjs": {
-      "bytes": 909,
-      "hash": "d6bfa5b1130caeca",
+      "bytes": 911,
+      "hash": "f80d15354d4bd7dc",
       "exports": [
         "getForms",
         "onRegistryChange",
@@ -5992,16 +5712,16 @@
       "imports": []
     },
     "modules/devtools/types.d.ts": {
-      "bytes": 1272,
-      "hash": "6aae697c213d152b"
+      "bytes": 1277,
+      "hash": "b4fc903dba7b778b"
     },
     "modules/expression/createExpression.d.ts": {
-      "bytes": 888,
-      "hash": "65cf533974ee97e1"
+      "bytes": 898,
+      "hash": "daecfd8fb3bc2025"
     },
     "modules/expression/createExpression.mjs": {
-      "bytes": 8667,
-      "hash": "e19d872fa99eca77",
+      "bytes": 8672,
+      "hash": "5368b30eaf1fd08a",
       "exports": [
         "createExpression"
       ],
@@ -6017,12 +5737,12 @@
       ]
     },
     "modules/expression/definition.d.ts": {
-      "bytes": 232,
-      "hash": "df89c8688698bd85"
+      "bytes": 210,
+      "hash": "500fe3462f03f15a"
     },
     "modules/expression/definition.mjs": {
-      "bytes": 385,
-      "hash": "b36802b7717fc701",
+      "bytes": 388,
+      "hash": "fc4d49c5449b5118",
       "exports": [
         "expression"
       ],
@@ -6037,7 +5757,7 @@
     },
     "modules/expression/index.mjs": {
       "bytes": 277,
-      "hash": "3c4e4f5a74b3be78",
+      "hash": "1e25cba09a94e00c",
       "exports": [
         "expression",
         "getExpressionModule",
@@ -6051,12 +5771,12 @@
       ]
     },
     "modules/expression/module.d.ts": {
-      "bytes": 892,
-      "hash": "9488c69e7a3fe227"
+      "bytes": 902,
+      "hash": "87c9a151a0150ccc"
     },
     "modules/expression/module.mjs": {
-      "bytes": 1039,
-      "hash": "ac78d04dd9ef286f",
+      "bytes": 1040,
+      "hash": "89969d537c33057d",
       "exports": [
         "getExpressionModule",
         "hasExpressionModule"
@@ -6067,12 +5787,12 @@
       ]
     },
     "modules/expression/noop.d.ts": {
-      "bytes": 482,
-      "hash": "972ed239a9cade1b"
+      "bytes": 487,
+      "hash": "a93d60bee06c4d5a"
     },
     "modules/expression/noop.mjs": {
-      "bytes": 1249,
-      "hash": "f6d4c78bb2f19f38",
+      "bytes": 1254,
+      "hash": "5da4f0c8317b53ca",
       "exports": [
         "noopExpression"
       ],
@@ -6082,12 +5802,12 @@
       ]
     },
     "modules/expression/pathExpressionAdapter.d.ts": {
-      "bytes": 516,
-      "hash": "e4ad98485d185ab9"
+      "bytes": 521,
+      "hash": "eac054542340d8ad"
     },
     "modules/expression/pathExpressionAdapter.mjs": {
-      "bytes": 2497,
-      "hash": "813e1f41742e27ef",
+      "bytes": 2502,
+      "hash": "768b88ece8686b61",
       "exports": [
         "pathExpressionAdapter"
       ],
@@ -6098,16 +5818,16 @@
       ]
     },
     "modules/expression/types.d.ts": {
-      "bytes": 11687,
-      "hash": "37556bb4887082fd"
+      "bytes": 11717,
+      "hash": "752877897f13f0b0"
     },
     "modules/http/createHttp.d.ts": {
-      "bytes": 353,
-      "hash": "792f7e8398a5f732"
+      "bytes": 363,
+      "hash": "7a3399e1463e4862"
     },
     "modules/http/createHttp.mjs": {
-      "bytes": 3552,
-      "hash": "eb4a5fb0f8c476a0",
+      "bytes": 3555,
+      "hash": "2a440dc67296c44e",
       "exports": [
         "createHttp"
       ],
@@ -6118,12 +5838,12 @@
       ]
     },
     "modules/http/definition.d.ts": {
-      "bytes": 205,
-      "hash": "f6b73233137d4293"
+      "bytes": 183,
+      "hash": "651552cbbea822c1"
     },
     "modules/http/definition.mjs": {
-      "bytes": 335,
-      "hash": "8c2cde9700cd443a",
+      "bytes": 338,
+      "hash": "6c0ce0c51ebf77fa",
       "exports": [
         "http"
       ],
@@ -6133,24 +5853,24 @@
       ]
     },
     "modules/http/error.d.ts": {
-      "bytes": 1093,
-      "hash": "0ee1bb0cf9eaf4e6"
+      "bytes": 1098,
+      "hash": "c6e09161e8af60ca"
     },
     "modules/http/error.mjs": {
-      "bytes": 1861,
-      "hash": "6c664952debae261",
+      "bytes": 1863,
+      "hash": "50808824f7e073c7",
       "exports": [
         "HttpError"
       ],
       "imports": []
     },
     "modules/http/fetchHttpAdapter.d.ts": {
-      "bytes": 368,
-      "hash": "7d716ee921770171"
+      "bytes": 374,
+      "hash": "f214e8a985d1813b"
     },
     "modules/http/fetchHttpAdapter.mjs": {
-      "bytes": 5770,
-      "hash": "33bcf7ba2ff6ea3f",
+      "bytes": 5775,
+      "hash": "676e3422adf678c0",
       "exports": [
         "fetchHttpAdapter"
       ],
@@ -6168,7 +5888,7 @@
     },
     "modules/http/index.mjs": {
       "bytes": 278,
-      "hash": "d569f9cefa98428d",
+      "hash": "834c61cb6e9e5bff",
       "exports": [
         "HttpError",
         "fetchHttpAdapter",
@@ -6184,12 +5904,12 @@
       ]
     },
     "modules/http/module.d.ts": {
-      "bytes": 723,
-      "hash": "bb0f9fd7cd4260ec"
+      "bytes": 733,
+      "hash": "c1da67a379d97202"
     },
     "modules/http/module.mjs": {
-      "bytes": 842,
-      "hash": "48df6154df737dbc",
+      "bytes": 843,
+      "hash": "b8fbc9e0e3490bc4",
       "exports": [
         "getHttpModule",
         "hasHttpModule"
@@ -6200,12 +5920,12 @@
       ]
     },
     "modules/http/noop.d.ts": {
-      "bytes": 397,
-      "hash": "2f309ae620d423ef"
+      "bytes": 402,
+      "hash": "5c29ba1986364f28"
     },
     "modules/http/noop.mjs": {
-      "bytes": 1053,
-      "hash": "1937766f88c5ab7e",
+      "bytes": 1059,
+      "hash": "a29811493038e505",
       "exports": [
         "noopHttp"
       ],
@@ -6217,7 +5937,7 @@
     },
     "modules/http/resolveUrl.mjs": {
       "bytes": 951,
-      "hash": "6a78136d8be15b36",
+      "hash": "a0513301300a8a29",
       "exports": [
         "resolveRequestUrl"
       ],
@@ -6233,7 +5953,7 @@
     },
     "modules/index.mjs": {
       "bytes": 2437,
-      "hash": "aa7c2a0b0e16278d",
+      "hash": "974b1a2be499030f",
       "exports": [
         "HttpError",
         "RULE_BRAND",
@@ -6309,12 +6029,12 @@
       ]
     },
     "modules/locale/createLocale.d.ts": {
-      "bytes": 503,
-      "hash": "01a8a91a2fbc750d"
+      "bytes": 518,
+      "hash": "0d90a56c77f70c57"
     },
     "modules/locale/createLocale.mjs": {
-      "bytes": 2265,
-      "hash": "138f1898e9ea14eb",
+      "bytes": 2266,
+      "hash": "48b1f97b7acd1ba5",
       "exports": [
         "createLocale"
       ],
@@ -6324,12 +6044,12 @@
       ]
     },
     "modules/locale/definition.d.ts": {
-      "bytes": 213,
-      "hash": "1fd4fb7321b32ef7"
+      "bytes": 191,
+      "hash": "7b2011d49bd1383d"
     },
     "modules/locale/definition.mjs": {
-      "bytes": 351,
-      "hash": "205f1e0c28261d02",
+      "bytes": 354,
+      "hash": "f0445ceea6040468",
       "exports": [
         "locale"
       ],
@@ -6344,7 +6064,7 @@
     },
     "modules/locale/index.mjs": {
       "bytes": 161,
-      "hash": "f2e4c13d24011ab3",
+      "hash": "bb4437f730690880",
       "exports": [
         "getLocaleModule",
         "hasLocaleModule",
@@ -6356,12 +6076,12 @@
       ]
     },
     "modules/locale/module.d.ts": {
-      "bytes": 765,
-      "hash": "4f5a3a59f81c2f91"
+      "bytes": 775,
+      "hash": "b0d5653f7d4f377c"
     },
     "modules/locale/module.mjs": {
-      "bytes": 894,
-      "hash": "476246a40ef5c907",
+      "bytes": 895,
+      "hash": "78802d25b209efe3",
       "exports": [
         "getLocaleModule",
         "hasLocaleModule"
@@ -6372,12 +6092,12 @@
       ]
     },
     "modules/locale/noop.d.ts": {
-      "bytes": 355,
-      "hash": "fdb46db80602e82a"
+      "bytes": 360,
+      "hash": "0f4af4bc91173fbc"
     },
     "modules/locale/noop.mjs": {
-      "bytes": 1593,
-      "hash": "c2e623a81c145dc9",
+      "bytes": 1596,
+      "hash": "981ecc05089bbc73",
       "exports": [
         "noopLocale"
       ],
@@ -6388,8 +6108,8 @@
       ]
     },
     "modules/locale/types.d.ts": {
-      "bytes": 3293,
-      "hash": "91fe4f2e78b7f837"
+      "bytes": 3313,
+      "hash": "5bf22146376e04ec"
     },
     "modules/locale/types.mjs": {
       "bytes": 14,
@@ -6400,12 +6120,12 @@
       ]
     },
     "modules/model/createModel.d.ts": {
-      "bytes": 8137,
-      "hash": "99286490720d6a34"
+      "bytes": 8162,
+      "hash": "c3d5b0701b44b477"
     },
     "modules/model/createModel.mjs": {
-      "bytes": 30293,
-      "hash": "eb31f6a6bd8c006a",
+      "bytes": 30294,
+      "hash": "1072009410d71130",
       "exports": [
         "createModel",
         "makeChildModel",
@@ -6430,12 +6150,12 @@
       ]
     },
     "modules/model/definition.d.ts": {
-      "bytes": 209,
-      "hash": "efbeaad293174072"
+      "bytes": 187,
+      "hash": "903bd69892c33246"
     },
     "modules/model/definition.mjs": {
-      "bytes": 343,
-      "hash": "cc89645054b8e0d4",
+      "bytes": 346,
+      "hash": "fa7a6841ca463815",
       "exports": [
         "model"
       ],
@@ -6450,7 +6170,7 @@
     },
     "modules/model/index.mjs": {
       "bytes": 123,
-      "hash": "0620e2cd8ef3bdcc",
+      "hash": "4b8a0dbc486a757f",
       "exports": [
         "getModelModule",
         "model"
@@ -6461,12 +6181,12 @@
       ]
     },
     "modules/model/modelStore.d.ts": {
-      "bytes": 3541,
-      "hash": "b21c1f099d22746e"
+      "bytes": 3546,
+      "hash": "e1e5e49953befa57"
     },
     "modules/model/modelStore.mjs": {
-      "bytes": 8139,
-      "hash": "209af68e1a04348e",
+      "bytes": 8142,
+      "hash": "a4079de575250ca0",
       "exports": [
         "getModelStore",
         "hasModelStore",
@@ -6483,12 +6203,12 @@
       ]
     },
     "modules/model/module.d.ts": {
-      "bytes": 423,
-      "hash": "02e67895ba37349f"
+      "bytes": 433,
+      "hash": "a196c01ae92533ba"
     },
     "modules/model/module.mjs": {
-      "bytes": 621,
-      "hash": "deead6eb13dc95eb",
+      "bytes": 622,
+      "hash": "a3cd0454909f08ba",
       "exports": [
         "getModelModule"
       ],
@@ -6497,8 +6217,8 @@
       ]
     },
     "modules/model/types.d.ts": {
-      "bytes": 17373,
-      "hash": "9a7d017038845596"
+      "bytes": 17408,
+      "hash": "84503c5dfe288101"
     },
     "modules/modules.d.ts": {
       "bytes": 444,
@@ -6506,7 +6226,7 @@
     },
     "modules/modules.mjs": {
       "bytes": 743,
-      "hash": "b9aedb2171d525ff",
+      "hash": "064fbfd6ae8521a2",
       "exports": [
         "autosave",
         "conditions",
@@ -6537,12 +6257,12 @@
       ]
     },
     "modules/router/createRouter.d.ts": {
-      "bytes": 389,
-      "hash": "a95539356232f960"
+      "bytes": 399,
+      "hash": "8259fc653cc71f8c"
     },
     "modules/router/createRouter.mjs": {
-      "bytes": 3607,
-      "hash": "9c90dbba6d9f4d6d",
+      "bytes": 3608,
+      "hash": "ae64309b4538a408",
       "exports": [
         "createRouter"
       ],
@@ -6555,12 +6275,12 @@
       ]
     },
     "modules/router/definition.d.ts": {
-      "bytes": 213,
-      "hash": "18c38f780a041de7"
+      "bytes": 191,
+      "hash": "75f6d98564dc1fb0"
     },
     "modules/router/definition.mjs": {
-      "bytes": 351,
-      "hash": "b8ca567cc93a52de",
+      "bytes": 354,
+      "hash": "fce836a9102251d2",
       "exports": [
         "router"
       ],
@@ -6575,7 +6295,7 @@
     },
     "modules/router/index.mjs": {
       "bytes": 161,
-      "hash": "beac645838bc089d",
+      "hash": "a2ea0ee2e1fb6102",
       "exports": [
         "getRouterModule",
         "hasRouterModule",
@@ -6587,12 +6307,12 @@
       ]
     },
     "modules/router/module.d.ts": {
-      "bytes": 785,
-      "hash": "565c27a919479f72"
+      "bytes": 795,
+      "hash": "da559725f540ef3c"
     },
     "modules/router/module.mjs": {
-      "bytes": 913,
-      "hash": "4f0d24d4698d9c64",
+      "bytes": 914,
+      "hash": "90334779f18ea756",
       "exports": [
         "getRouterModule",
         "hasRouterModule"
@@ -6603,12 +6323,12 @@
       ]
     },
     "modules/router/noop.d.ts": {
-      "bytes": 371,
-      "hash": "f6960e688d534866"
+      "bytes": 376,
+      "hash": "76d43d2ee3f992ef"
     },
     "modules/router/noop.mjs": {
-      "bytes": 975,
-      "hash": "b4e14d702f76de21",
+      "bytes": 978,
+      "hash": "a4414cf310c0158d",
       "exports": [
         "noopRouter"
       ],
@@ -6619,16 +6339,16 @@
       ]
     },
     "modules/router/types.d.ts": {
-      "bytes": 2085,
-      "hash": "681eb415d46a37c9"
+      "bytes": 2090,
+      "hash": "01458f154d68bc5a"
     },
     "modules/security/createSecurity.d.ts": {
-      "bytes": 552,
-      "hash": "0008debf2efee79b"
+      "bytes": 562,
+      "hash": "33623409fd666396"
     },
     "modules/security/createSecurity.mjs": {
-      "bytes": 10353,
-      "hash": "723256a0fae1938e",
+      "bytes": 10360,
+      "hash": "64e22abf594a864f",
       "exports": [
         "createSecurity"
       ],
@@ -6641,12 +6361,12 @@
       ]
     },
     "modules/security/definition.d.ts": {
-      "bytes": 221,
-      "hash": "114e7b7f71d9b826"
+      "bytes": 199,
+      "hash": "f35c552e03ad4dff"
     },
     "modules/security/definition.mjs": {
-      "bytes": 367,
-      "hash": "d699174ea567f873",
+      "bytes": 370,
+      "hash": "3071c363533cea07",
       "exports": [
         "security"
       ],
@@ -6661,7 +6381,7 @@
     },
     "modules/security/index.mjs": {
       "bytes": 173,
-      "hash": "fb9b4a74a7f025b1",
+      "hash": "1730814fe6a685f5",
       "exports": [
         "getSecurityModule",
         "hasSecurityModule",
@@ -6673,12 +6393,12 @@
       ]
     },
     "modules/security/module.d.ts": {
-      "bytes": 735,
-      "hash": "2ae46d99ac5f8a9b"
+      "bytes": 745,
+      "hash": "0fe924c4cd43ba48"
     },
     "modules/security/module.mjs": {
-      "bytes": 935,
-      "hash": "5e9bcf77a074de9d",
+      "bytes": 936,
+      "hash": "6af16d969bf25d2c",
       "exports": [
         "getSecurityModule",
         "hasSecurityModule"
@@ -6689,12 +6409,12 @@
       ]
     },
     "modules/security/noop.d.ts": {
-      "bytes": 1917,
-      "hash": "e83bf4a79dd588ce"
+      "bytes": 1927,
+      "hash": "5adc31d96ecbed5d"
     },
     "modules/security/noop.mjs": {
-      "bytes": 3153,
-      "hash": "f22e4ecb6eaa2f1b",
+      "bytes": 3156,
+      "hash": "a1dfc85510365d35",
       "exports": [
         "noopSecurity"
       ],
@@ -6707,12 +6427,12 @@
       "hash": "1154d82141a5623a"
     },
     "modules/theme/createTheme.d.ts": {
-      "bytes": 1046,
-      "hash": "a6a8ed3f50176c07"
+      "bytes": 1061,
+      "hash": "5ab4c349af3cddcb"
     },
     "modules/theme/createTheme.mjs": {
-      "bytes": 10996,
-      "hash": "1c0e31fce11458a5",
+      "bytes": 10999,
+      "hash": "55894acaa95403e4",
       "exports": [
         "createTheme",
         "getCSS",
@@ -6727,12 +6447,12 @@
       ]
     },
     "modules/theme/definition.d.ts": {
-      "bytes": 209,
-      "hash": "6a95fd47303b5385"
+      "bytes": 187,
+      "hash": "16bba223dd171880"
     },
     "modules/theme/definition.mjs": {
-      "bytes": 481,
-      "hash": "0e571618d96c1e78",
+      "bytes": 484,
+      "hash": "dcd104d669c4da5b",
       "exports": [
         "theme"
       ],
@@ -6747,7 +6467,7 @@
     },
     "modules/theme/index.mjs": {
       "bytes": 155,
-      "hash": "20ad8880546d4b94",
+      "hash": "bc56d4c67eb34213",
       "exports": [
         "getThemeModule",
         "hasThemeModule",
@@ -6759,12 +6479,12 @@
       ]
     },
     "modules/theme/module.d.ts": {
-      "bytes": 702,
-      "hash": "56a19fdfa1dcfe88"
+      "bytes": 712,
+      "hash": "7c650fd18c8e3ab0"
     },
     "modules/theme/module.mjs": {
-      "bytes": 826,
-      "hash": "ac9b23b589e4c957",
+      "bytes": 827,
+      "hash": "bd7a763e9d41559b",
       "exports": [
         "getThemeModule",
         "hasThemeModule"
@@ -6775,12 +6495,12 @@
       ]
     },
     "modules/theme/noop.d.ts": {
-      "bytes": 345,
-      "hash": "b350bcd0e6355439"
+      "bytes": 350,
+      "hash": "574a36c7e1fa150f"
     },
     "modules/theme/noop.mjs": {
-      "bytes": 957,
-      "hash": "dd0b31e5fe2191a4",
+      "bytes": 962,
+      "hash": "2bc3fb613e01d648",
       "exports": [
         "noopTheme"
       ],
@@ -6791,16 +6511,16 @@
       ]
     },
     "modules/theme/types.d.ts": {
-      "bytes": 1551,
-      "hash": "b96beb9a3a3a9cb6"
+      "bytes": 1556,
+      "hash": "bcc03c61da49a5d8"
     },
     "modules/validation/createValidation.d.ts": {
-      "bytes": 8401,
-      "hash": "4fc79037e9692715"
+      "bytes": 8436,
+      "hash": "49d9d01b23d4598e"
     },
     "modules/validation/createValidation.mjs": {
-      "bytes": 43797,
-      "hash": "f05c548a3d523438",
+      "bytes": 43800,
+      "hash": "bcc4652d888c1457",
       "exports": [
         "createValidation"
       ],
@@ -6820,12 +6540,12 @@
       ]
     },
     "modules/validation/definition.d.ts": {
-      "bytes": 4815,
-      "hash": "9fe0139b6c5a2457"
+      "bytes": 4397,
+      "hash": "4c834dbb218ed637"
     },
     "modules/validation/definition.mjs": {
-      "bytes": 385,
-      "hash": "8e23ea8f71febaa3",
+      "bytes": 388,
+      "hash": "72fe2c7589952252",
       "exports": [
         "validation"
       ],
@@ -6840,7 +6560,7 @@
     },
     "modules/validation/index.mjs": {
       "bytes": 241,
-      "hash": "ea2126e3a2e26109",
+      "hash": "8e2cdc1563b889c8",
       "exports": [
         "RULE_BRAND",
         "getValidationModule",
@@ -6854,12 +6574,12 @@
       ]
     },
     "modules/validation/module.d.ts": {
-      "bytes": 729,
-      "hash": "0cd5835aaffa22d5"
+      "bytes": 739,
+      "hash": "9f449e8a83e1f452"
     },
     "modules/validation/module.mjs": {
-      "bytes": 878,
-      "hash": "1635fd9b75f80c6a",
+      "bytes": 879,
+      "hash": "e5b48379c656e49b",
       "exports": [
         "getValidationModule",
         "hasValidationModule"
@@ -6870,12 +6590,12 @@
       ]
     },
     "modules/validation/noop.d.ts": {
-      "bytes": 385,
-      "hash": "ce18819f97814ec1"
+      "bytes": 390,
+      "hash": "ac3367344fe7df5b"
     },
     "modules/validation/noop.mjs": {
-      "bytes": 4543,
-      "hash": "a053ba287208fd67",
+      "bytes": 4566,
+      "hash": "03fd977c008d759a",
       "exports": [
         "noopValidation"
       ],
@@ -6890,24 +6610,24 @@
       "hash": "e61e8281a2f9a4d4"
     },
     "modules/validation/symbols.mjs": {
-      "bytes": 405,
-      "hash": "465763c224af7c68",
+      "bytes": 407,
+      "hash": "8fbff5d8943cfa16",
       "exports": [
         "RULE_BRAND"
       ],
       "imports": []
     },
     "modules/validation/types.d.ts": {
-      "bytes": 17985,
-      "hash": "72544128ecf5e99e"
+      "bytes": 18020,
+      "hash": "03959468c98e6b39"
     },
     "rules/accepted.d.ts": {
-      "bytes": 192,
-      "hash": "efdeecdf51526878"
+      "bytes": 173,
+      "hash": "b41b2d0fefd51d5d"
     },
     "rules/accepted.mjs": {
-      "bytes": 327,
-      "hash": "70109ea8f3f7f6c4",
+      "bytes": 330,
+      "hash": "ffab6929c3a605c2",
       "exports": [
         "accepted"
       ],
@@ -6916,12 +6636,12 @@
       ]
     },
     "rules/after.d.ts": {
-      "bytes": 165,
-      "hash": "33cf1373105dbbf1"
+      "bytes": 146,
+      "hash": "d85bc191cad04836"
     },
     "rules/after.mjs": {
-      "bytes": 377,
-      "hash": "018067da4af3b403",
+      "bytes": 380,
+      "hash": "63d5a2888d629fd3",
       "exports": [
         "after"
       ],
@@ -6931,12 +6651,12 @@
       ]
     },
     "rules/after_or_equal.d.ts": {
-      "bytes": 186,
-      "hash": "5e8b108ffc1056c8"
+      "bytes": 167,
+      "hash": "5fadc21185851653"
     },
     "rules/after_or_equal.mjs": {
-      "bytes": 431,
-      "hash": "50786a6dca39ad0f",
+      "bytes": 434,
+      "hash": "60d8fa4b0420414e",
       "exports": [
         "after_or_equal"
       ],
@@ -6946,12 +6666,12 @@
       ]
     },
     "rules/alpha.d.ts": {
-      "bytes": 164,
-      "hash": "f5c252fb1de0abac"
+      "bytes": 145,
+      "hash": "05fbe2cc8c20b706"
     },
     "rules/alpha.mjs": {
-      "bytes": 256,
-      "hash": "38083ec398d392d9",
+      "bytes": 259,
+      "hash": "ad196fd497f83825",
       "exports": [
         "alpha"
       ],
@@ -6960,12 +6680,12 @@
       ]
     },
     "rules/alpha_dash.d.ts": {
-      "bytes": 199,
-      "hash": "078290d58b69cc3c"
+      "bytes": 180,
+      "hash": "ca93e82a69b467bf"
     },
     "rules/alpha_dash.mjs": {
-      "bytes": 312,
-      "hash": "c257ceedcdc91e86",
+      "bytes": 315,
+      "hash": "c058c12717e67c31",
       "exports": [
         "alpha_dash"
       ],
@@ -6974,12 +6694,12 @@
       ]
     },
     "rules/alpha_num.d.ts": {
-      "bytes": 170,
-      "hash": "6e4810d472856c79"
+      "bytes": 151,
+      "hash": "e383f019b0fe4e96"
     },
     "rules/alpha_num.mjs": {
-      "bytes": 278,
-      "hash": "d005f0d6202c0e71",
+      "bytes": 281,
+      "hash": "ed3191585d34c9ca",
       "exports": [
         "alpha_num"
       ],
@@ -6988,12 +6708,12 @@
       ]
     },
     "rules/array.d.ts": {
-      "bytes": 140,
-      "hash": "11169d8128b548fa"
+      "bytes": 121,
+      "hash": "0de0cc7a5eb5b4e4"
     },
     "rules/array.mjs": {
-      "bytes": 229,
-      "hash": "45801b592db3cf15",
+      "bytes": 232,
+      "hash": "8f455b4fa7d958bc",
       "exports": [
         "array"
       ],
@@ -7002,12 +6722,12 @@
       ]
     },
     "rules/before.d.ts": {
-      "bytes": 167,
-      "hash": "630847d234b31e6c"
+      "bytes": 148,
+      "hash": "fe0753a8f293a8bb"
     },
     "rules/before.mjs": {
-      "bytes": 383,
-      "hash": "66ea9b98450a00a3",
+      "bytes": 386,
+      "hash": "471f85eea0e4970f",
       "exports": [
         "before"
       ],
@@ -7017,12 +6737,12 @@
       ]
     },
     "rules/before_or_equal.d.ts": {
-      "bytes": 188,
-      "hash": "86c2af5ed5c8773a"
+      "bytes": 169,
+      "hash": "a223593f99a82033"
     },
     "rules/before_or_equal.mjs": {
-      "bytes": 437,
-      "hash": "541144a6fb11d897",
+      "bytes": 440,
+      "hash": "a4746847d55c527d",
       "exports": [
         "before_or_equal"
       ],
@@ -7032,12 +6752,12 @@
       ]
     },
     "rules/between.d.ts": {
-      "bytes": 203,
-      "hash": "8c3d50bef2c73f2c"
+      "bytes": 184,
+      "hash": "c8bcdd36a9d8a22d"
     },
     "rules/between.mjs": {
-      "bytes": 421,
-      "hash": "78ab00eea5932ec6",
+      "bytes": 424,
+      "hash": "6518e0c2cb7fa718",
       "exports": [
         "between"
       ],
@@ -7046,12 +6766,12 @@
       ]
     },
     "rules/boolean.d.ts": {
-      "bytes": 187,
-      "hash": "04b8e21eb371f1e1"
+      "bytes": 168,
+      "hash": "f1a5e269968547d9"
     },
     "rules/boolean.mjs": {
-      "bytes": 314,
-      "hash": "a9cb48e5031d2ca2",
+      "bytes": 317,
+      "hash": "39860684420b25d0",
       "exports": [
         "boolean"
       ],
@@ -7060,12 +6780,12 @@
       ]
     },
     "rules/captcha.d.ts": {
-      "bytes": 158,
-      "hash": "fc294062a1a31ee9"
+      "bytes": 139,
+      "hash": "cd1bda0ab987dec0"
     },
     "rules/captcha.mjs": {
-      "bytes": 287,
-      "hash": "5cb0b76a4c31eb10",
+      "bytes": 290,
+      "hash": "e0d1de79aa38968a",
       "exports": [
         "captcha"
       ],
@@ -7074,12 +6794,12 @@
       ]
     },
     "rules/checkDates.d.ts": {
-      "bytes": 434,
-      "hash": "c7c4063302d08372"
+      "bytes": 449,
+      "hash": "23e7aaf5a0685530"
     },
     "rules/checkDates.mjs": {
-      "bytes": 1042,
-      "hash": "ea309395f9a559bf",
+      "bytes": 1043,
+      "hash": "bbfb5190440b7a13",
       "exports": [
         "checkDates"
       ],
@@ -7088,12 +6808,12 @@
       ]
     },
     "rules/confirmed.d.ts": {
-      "bytes": 175,
-      "hash": "103d2d3720a54c12"
+      "bytes": 156,
+      "hash": "cb3f37d7c4e1af0c"
     },
     "rules/confirmed.mjs": {
-      "bytes": 320,
-      "hash": "973bdf24f5804f81",
+      "bytes": 323,
+      "hash": "5d871b0a3216fb7d",
       "exports": [
         "confirmed"
       ],
@@ -7102,12 +6822,12 @@
       ]
     },
     "rules/date.d.ts": {
-      "bytes": 90,
-      "hash": "eb70a0ed24448c59"
+      "bytes": 71,
+      "hash": "b0373521926a4cd6"
     },
     "rules/date.mjs": {
-      "bytes": 262,
-      "hash": "d1cf98dd6776c3f3",
+      "bytes": 265,
+      "hash": "2d200ebe4978a3d3",
       "exports": [
         "date"
       ],
@@ -7117,12 +6837,12 @@
       ]
     },
     "rules/date_equals.d.ts": {
-      "bytes": 179,
-      "hash": "a1339e4f596432dc"
+      "bytes": 160,
+      "hash": "201534daed776474"
     },
     "rules/date_equals.mjs": {
-      "bytes": 306,
-      "hash": "31373166dfbc7bbf",
+      "bytes": 309,
+      "hash": "13b4394c48c5b213",
       "exports": [
         "date_equals"
       ],
@@ -7131,12 +6851,12 @@
       ]
     },
     "rules/date_format.d.ts": {
-      "bytes": 182,
-      "hash": "53a5df099710606c"
+      "bytes": 163,
+      "hash": "5c851d42feeb6662"
     },
     "rules/date_format.mjs": {
-      "bytes": 430,
-      "hash": "a34f8c8d84d7d268",
+      "bytes": 433,
+      "hash": "19b84b346bfa2c3e",
       "exports": [
         "date_format"
       ],
@@ -7146,12 +6866,12 @@
       ]
     },
     "rules/different.d.ts": {
-      "bytes": 188,
-      "hash": "968a8641dba04a93"
+      "bytes": 169,
+      "hash": "32aa860b3a14ba4b"
     },
     "rules/different.mjs": {
-      "bytes": 480,
-      "hash": "732a4d95b44a53e2",
+      "bytes": 483,
+      "hash": "dc86dcefa01279af",
       "exports": [
         "different"
       ],
@@ -7160,12 +6880,12 @@
       ]
     },
     "rules/digits.d.ts": {
-      "bytes": 191,
-      "hash": "41ac128b06e941ff"
+      "bytes": 172,
+      "hash": "2307d0d14683c1a2"
     },
     "rules/digits.mjs": {
-      "bytes": 351,
-      "hash": "2f84cd2a3aa93b32",
+      "bytes": 354,
+      "hash": "41a8a591e9e14306",
       "exports": [
         "digits"
       ],
@@ -7174,12 +6894,12 @@
       ]
     },
     "rules/digits_between.d.ts": {
-      "bytes": 221,
-      "hash": "72dcaa557553e8e9"
+      "bytes": 202,
+      "hash": "08fbcdd226c7982f"
     },
     "rules/digits_between.mjs": {
-      "bytes": 446,
-      "hash": "c68da66f3297be01",
+      "bytes": 449,
+      "hash": "dabd833786d74b61",
       "exports": [
         "digits_between"
       ],
@@ -7188,12 +6908,12 @@
       ]
     },
     "rules/dimensions.d.ts": {
-      "bytes": 305,
-      "hash": "99f65e0c2f6be121"
+      "bytes": 286,
+      "hash": "959178a8a1996357"
     },
     "rules/dimensions.mjs": {
-      "bytes": 2287,
-      "hash": "73aff91cbddf1af3",
+      "bytes": 2290,
+      "hash": "1a75076418e3c8ca",
       "exports": [
         "dimensions"
       ],
@@ -7203,12 +6923,12 @@
       ]
     },
     "rules/distinct.d.ts": {
-      "bytes": 154,
-      "hash": "153735923eab42fe"
+      "bytes": 135,
+      "hash": "46b942a798e8e0d0"
     },
     "rules/distinct.mjs": {
-      "bytes": 465,
-      "hash": "60aaaa44c955261c",
+      "bytes": 468,
+      "hash": "e51cdc5654c0188e",
       "exports": [
         "distinct"
       ],
@@ -7218,12 +6938,12 @@
       ]
     },
     "rules/email.d.ts": {
-      "bytes": 153,
-      "hash": "0c08004b77767cfc"
+      "bytes": 134,
+      "hash": "711f271b39c97dcd"
     },
     "rules/email.mjs": {
-      "bytes": 490,
-      "hash": "5b9393edbde213c9",
+      "bytes": 493,
+      "hash": "fa1fd575cdf8dee5",
       "exports": [
         "email"
       ],
@@ -7232,12 +6952,12 @@
       ]
     },
     "rules/file.d.ts": {
-      "bytes": 137,
-      "hash": "0a7295b687a71e86"
+      "bytes": 118,
+      "hash": "e49d2f1711d234a9"
     },
     "rules/file.mjs": {
-      "bytes": 303,
-      "hash": "261abf97c6aadf5e",
+      "bytes": 306,
+      "hash": "a746b7da641c55b0",
       "exports": [
         "file"
       ],
@@ -7247,12 +6967,12 @@
       ]
     },
     "rules/filled.d.ts": {
-      "bytes": 155,
-      "hash": "50969b78759aa055"
+      "bytes": 136,
+      "hash": "e70673cc13c7243c"
     },
     "rules/filled.mjs": {
-      "bytes": 253,
-      "hash": "27cccbf5471a7a6e",
+      "bytes": 256,
+      "hash": "ce9185d4f5ab6b64",
       "exports": [
         "filled"
       ],
@@ -7261,12 +6981,12 @@
       ]
     },
     "rules/gt.d.ts": {
-      "bytes": 185,
-      "hash": "11eec726fe2a67fd"
+      "bytes": 166,
+      "hash": "c211b289e6b1e916"
     },
     "rules/gt.mjs": {
-      "bytes": 720,
-      "hash": "a0862a2d9b18cf77",
+      "bytes": 723,
+      "hash": "984fcb80ec657b90",
       "exports": [
         "gt"
       ],
@@ -7275,12 +6995,12 @@
       ]
     },
     "rules/gte.d.ts": {
-      "bytes": 201,
-      "hash": "054a7b438f0b52dd"
+      "bytes": 182,
+      "hash": "50d45bafea2b1a74"
     },
     "rules/gte.mjs": {
-      "bytes": 739,
-      "hash": "f9c1c40bc7e2a9fb",
+      "bytes": 742,
+      "hash": "24dc447b98ac430d",
       "exports": [
         "gte"
       ],
@@ -7289,12 +7009,12 @@
       ]
     },
     "rules/image.d.ts": {
-      "bytes": 177,
-      "hash": "b47b2fcfd14da2f1"
+      "bytes": 158,
+      "hash": "13a470918337cf85"
     },
     "rules/image.mjs": {
-      "bytes": 463,
-      "hash": "98894a8987063b95",
+      "bytes": 466,
+      "hash": "38a981b831eb5a6d",
       "exports": [
         "image"
       ],
@@ -7304,12 +7024,12 @@
       ]
     },
     "rules/in.d.ts": {
-      "bytes": 156,
-      "hash": "22d606da83de5539"
+      "bytes": 137,
+      "hash": "d24831e4b148e785"
     },
     "rules/in.mjs": {
-      "bytes": 300,
-      "hash": "356627d819b03266",
+      "bytes": 303,
+      "hash": "8e761193db62c374",
       "exports": [
         "in_"
       ],
@@ -7318,12 +7038,12 @@
       ]
     },
     "rules/in_array.d.ts": {
-      "bytes": 185,
-      "hash": "80344856229479a3"
+      "bytes": 166,
+      "hash": "e349949cac8236eb"
     },
     "rules/in_array.mjs": {
-      "bytes": 459,
-      "hash": "eb874a1ad989d621",
+      "bytes": 462,
+      "hash": "90bfe811039712bc",
       "exports": [
         "in_array"
       ],
@@ -7337,7 +7057,7 @@
     },
     "rules/index.mjs": {
       "bytes": 2526,
-      "hash": "9d81c63a08c5e541",
+      "hash": "dc2bef401ccc6efa",
       "exports": [
         "accepted",
         "after",
@@ -7448,12 +7168,12 @@
       ]
     },
     "rules/integer.d.ts": {
-      "bytes": 144,
-      "hash": "32fc13348b6ea5dc"
+      "bytes": 125,
+      "hash": "ee05869629cc46e1"
     },
     "rules/integer.mjs": {
-      "bytes": 376,
-      "hash": "3ee7202194fefe45",
+      "bytes": 379,
+      "hash": "cb6ec997a7b7d078",
       "exports": [
         "integer"
       ],
@@ -7463,12 +7183,12 @@
       ]
     },
     "rules/ip.d.ts": {
-      "bytes": 157,
-      "hash": "1f9fe4ef45f0f534"
+      "bytes": 138,
+      "hash": "7cb14d290f7fab2e"
     },
     "rules/ip.mjs": {
-      "bytes": 343,
-      "hash": "f675e763a2a4d147",
+      "bytes": 346,
+      "hash": "8a412383ffc4ce10",
       "exports": [
         "ip"
       ],
@@ -7479,12 +7199,12 @@
       ]
     },
     "rules/ipv4.d.ts": {
-      "bytes": 191,
-      "hash": "4d462f83a90da3ec"
+      "bytes": 172,
+      "hash": "76232f1023311c0f"
     },
     "rules/ipv4.mjs": {
-      "bytes": 390,
-      "hash": "4d505abac9f6f6cb",
+      "bytes": 395,
+      "hash": "13403e3cf4582b22",
       "exports": [
         "ipv4",
         "ipv4regex"
@@ -7494,12 +7214,12 @@
       ]
     },
     "rules/ipv6.d.ts": {
-      "bytes": 191,
-      "hash": "63219d558f040a00"
+      "bytes": 172,
+      "hash": "2d44629e433bc3bd"
     },
     "rules/ipv6.mjs": {
-      "bytes": 1459,
-      "hash": "fa44f8b560e7aae4",
+      "bytes": 1464,
+      "hash": "1469671c5d946b53",
       "exports": [
         "ipv6",
         "ipv6regex"
@@ -7509,12 +7229,12 @@
       ]
     },
     "rules/json.d.ts": {
-      "bytes": 150,
-      "hash": "1aeda3f4658a445e"
+      "bytes": 131,
+      "hash": "6fa35c5fbbebb419"
     },
     "rules/json.mjs": {
-      "bytes": 275,
-      "hash": "4ca3043837391ae0",
+      "bytes": 278,
+      "hash": "0eeaf15abd8359fc",
       "exports": [
         "json"
       ],
@@ -7524,12 +7244,12 @@
       ]
     },
     "rules/lt.d.ts": {
-      "bytes": 182,
-      "hash": "45a9c68d41af05f8"
+      "bytes": 163,
+      "hash": "da40c814bd663d12"
     },
     "rules/lt.mjs": {
-      "bytes": 717,
-      "hash": "5abb6b1eafc4bc92",
+      "bytes": 720,
+      "hash": "86e1b27374959ffb",
       "exports": [
         "lt"
       ],
@@ -7538,12 +7258,12 @@
       ]
     },
     "rules/lte.d.ts": {
-      "bytes": 198,
-      "hash": "0b724fa70ee4cf0b"
+      "bytes": 179,
+      "hash": "135d05fe69b1c8ad"
     },
     "rules/lte.mjs": {
-      "bytes": 736,
-      "hash": "270282dd34db1195",
+      "bytes": 739,
+      "hash": "203d22863cff1283",
       "exports": [
         "lte"
       ],
@@ -7552,12 +7272,12 @@
       ]
     },
     "rules/max.d.ts": {
-      "bytes": 173,
-      "hash": "a226a827ed8baa7f"
+      "bytes": 154,
+      "hash": "da6f40d1021fcad6"
     },
     "rules/max.mjs": {
-      "bytes": 352,
-      "hash": "839c557e3870f983",
+      "bytes": 355,
+      "hash": "fdb19a06d92fb5a0",
       "exports": [
         "max"
       ],
@@ -7566,12 +7286,12 @@
       ]
     },
     "rules/mimes.d.ts": {
-      "bytes": 154,
-      "hash": "6cd909aa7bbd898a"
+      "bytes": 135,
+      "hash": "417f1eda49c8c9f6"
     },
     "rules/mimes.mjs": {
-      "bytes": 438,
-      "hash": "36789a5ce1c511e9",
+      "bytes": 441,
+      "hash": "1c43f5a77b6f4972",
       "exports": [
         "mimes"
       ],
@@ -7581,12 +7301,12 @@
       ]
     },
     "rules/mimetypes.d.ts": {
-      "bytes": 158,
-      "hash": "fc75d18d07380cdc"
+      "bytes": 139,
+      "hash": "808990eff4870cbb"
     },
     "rules/mimetypes.mjs": {
-      "bytes": 436,
-      "hash": "c6ade87b5093aaaa",
+      "bytes": 439,
+      "hash": "62a2078f7a9e1b20",
       "exports": [
         "mimetypes"
       ],
@@ -7596,12 +7316,12 @@
       ]
     },
     "rules/min.d.ts": {
-      "bytes": 169,
-      "hash": "3df9ef4e401fb1d4"
+      "bytes": 150,
+      "hash": "d768274b63e9001a"
     },
     "rules/min.mjs": {
-      "bytes": 348,
-      "hash": "dc324698737d424b",
+      "bytes": 351,
+      "hash": "3dfee7f741b964a4",
       "exports": [
         "min"
       ],
@@ -7610,12 +7330,12 @@
       ]
     },
     "rules/not_in.d.ts": {
-      "bytes": 163,
-      "hash": "42df7a281d6c5758"
+      "bytes": 144,
+      "hash": "83f4c297ddf02439"
     },
     "rules/not_in.mjs": {
-      "bytes": 286,
-      "hash": "f1bab51b1a869177",
+      "bytes": 289,
+      "hash": "ed631bf1d1b51288",
       "exports": [
         "not_in"
       ],
@@ -7624,12 +7344,12 @@
       ]
     },
     "rules/not_regex.d.ts": {
-      "bytes": 192,
-      "hash": "7ae65932a08ef90b"
+      "bytes": 173,
+      "hash": "9db97984efcb6f04"
     },
     "rules/not_regex.mjs": {
-      "bytes": 470,
-      "hash": "8e39e51bc57fdaf5",
+      "bytes": 473,
+      "hash": "73ed8ce4d868eb78",
       "exports": [
         "not_regex"
       ],
@@ -7639,12 +7359,12 @@
       ]
     },
     "rules/nullable.d.ts": {
-      "bytes": 194,
-      "hash": "faef8737a49455df"
+      "bytes": 175,
+      "hash": "6cf917e8e14fd90b"
     },
     "rules/nullable.mjs": {
-      "bytes": 270,
-      "hash": "3d966304895db269",
+      "bytes": 273,
+      "hash": "47765c1761603874",
       "exports": [
         "nullable"
       ],
@@ -7653,12 +7373,12 @@
       ]
     },
     "rules/numeric.d.ts": {
-      "bytes": 141,
-      "hash": "e1ddfc65897b9efd"
+      "bytes": 122,
+      "hash": "c40b95de4b221353"
     },
     "rules/numeric.mjs": {
-      "bytes": 340,
-      "hash": "4c00ae5c9610bf15",
+      "bytes": 343,
+      "hash": "1f9ba4816d6307de",
       "exports": [
         "numeric"
       ],
@@ -7667,12 +7387,12 @@
       ]
     },
     "rules/regex.d.ts": {
-      "bytes": 578,
-      "hash": "7112dbfe6ae9fde1"
+      "bytes": 559,
+      "hash": "f2a4628368bf90ad"
     },
     "rules/regex.mjs": {
-      "bytes": 1257,
-      "hash": "96b3ce8a73d0f758",
+      "bytes": 1260,
+      "hash": "fa8a9042954fae95",
       "exports": [
         "compileRulePattern",
         "regex"
@@ -7685,12 +7405,12 @@
       ]
     },
     "rules/required.d.ts": {
-      "bytes": 153,
-      "hash": "b48d9e655db95682"
+      "bytes": 134,
+      "hash": "0b6fadb33aaa0daf"
     },
     "rules/required.mjs": {
-      "bytes": 257,
-      "hash": "0844dc32a8c9e895",
+      "bytes": 260,
+      "hash": "0b19509422d6325b",
       "exports": [
         "required"
       ],
@@ -7699,12 +7419,12 @@
       ]
     },
     "rules/same.d.ts": {
-      "bytes": 180,
-      "hash": "55649950ab0b9dec"
+      "bytes": 161,
+      "hash": "6d65a517610921f5"
     },
     "rules/same.mjs": {
-      "bytes": 457,
-      "hash": "9e00012cd1eace14",
+      "bytes": 460,
+      "hash": "76fb7eab5566446f",
       "exports": [
         "same"
       ],
@@ -7713,12 +7433,12 @@
       ]
     },
     "rules/size.d.ts": {
-      "bytes": 178,
-      "hash": "4a5b21e8c1a49ecb"
+      "bytes": 159,
+      "hash": "372e241c8f86d779"
     },
     "rules/size.mjs": {
-      "bytes": 362,
-      "hash": "4bcfcdd5c06da94b",
+      "bytes": 365,
+      "hash": "eb563216269bada6",
       "exports": [
         "size"
       ],
@@ -7727,12 +7447,12 @@
       ]
     },
     "rules/string.d.ts": {
-      "bytes": 141,
-      "hash": "779b0ea22cc06807"
+      "bytes": 122,
+      "hash": "bac8e6e64e09d329"
     },
     "rules/string.mjs": {
-      "bytes": 238,
-      "hash": "240e90cde6998218",
+      "bytes": 241,
+      "hash": "578ce44784f6ecdb",
       "exports": [
         "string"
       ],
@@ -7741,12 +7461,12 @@
       ]
     },
     "rules/timezone.d.ts": {
-      "bytes": 167,
-      "hash": "c45a41dd3902651d"
+      "bytes": 148,
+      "hash": "43fcd42c933ffaf3"
     },
     "rules/timezone.mjs": {
-      "bytes": 352,
-      "hash": "2cc3715e3ff6d51c",
+      "bytes": 355,
+      "hash": "c15d51bdf78aeeea",
       "exports": [
         "timezone"
       ],
@@ -7755,12 +7475,12 @@
       ]
     },
     "rules/url.d.ts": {
-      "bytes": 141,
-      "hash": "87ad7aa7f9ff8a78"
+      "bytes": 122,
+      "hash": "10183b916d964351"
     },
     "rules/url.mjs": {
-      "bytes": 795,
-      "hash": "7ede0802f06352e5",
+      "bytes": 798,
+      "hash": "fd0b1e8335605280",
       "exports": [
         "url"
       ],
@@ -7769,12 +7489,12 @@
       ]
     },
     "rules/uuid.d.ts": {
-      "bytes": 143,
-      "hash": "62bcd11df3bb0b64"
+      "bytes": 124,
+      "hash": "d5aac7bfdb9c9698"
     },
     "rules/uuid.mjs": {
-      "bytes": 281,
-      "hash": "7b41a923bc5511b0",
+      "bytes": 284,
+      "hash": "51278bb87e146780",
       "exports": [
         "uuid"
       ],
@@ -8111,8 +7831,8 @@
       "hash": "d5860ded9eee0b2d"
     },
     "tokens/index.mjs": {
-      "bytes": 42471,
-      "hash": "61e425676e435662",
+      "bytes": 42523,
+      "hash": "36cd42d53c7e679b",
       "exports": [
         "addon",
         "blockquote",
@@ -8144,44 +7864,44 @@
       "imports": []
     },
     "types/base.d.ts": {
-      "bytes": 4834,
-      "hash": "134978eb190a1e09"
+      "bytes": 4864,
+      "hash": "d6f57e4585aa154f"
     },
     "types/classes.d.ts": {
-      "bytes": 1870,
-      "hash": "d5ac2a55bd516933"
+      "bytes": 1880,
+      "hash": "f1492a256604ef15"
     },
     "types/columns.d.ts": {
       "bytes": 1264,
       "hash": "209c29f0a69e6d38"
     },
     "types/component.d.ts": {
-      "bytes": 17621,
-      "hash": "715a6b23499bf26e"
+      "bytes": 17636,
+      "hash": "e50735bfbceb5b32"
     },
     "types/index.d.ts": {
       "bytes": 331,
       "hash": "5d6632ffa0034d8d"
     },
     "types/presets.d.ts": {
-      "bytes": 1348,
-      "hash": "3a14ed19882f79cc"
+      "bytes": 1364,
+      "hash": "0135c27983c2ff4b"
     },
     "types/props.d.ts": {
-      "bytes": 10220,
-      "hash": "7ad6125d1e0c896a"
+      "bytes": 10261,
+      "hash": "a7ce65deb1c8e3e9"
     },
     "types/schema.d.ts": {
-      "bytes": 21897,
-      "hash": "d44902aa999077fa"
+      "bytes": 22023,
+      "hash": "e73793a67a06c39f"
     },
     "types/shared.d.ts": {
-      "bytes": 1055,
-      "hash": "f7f170258e31b9f5"
+      "bytes": 1065,
+      "hash": "4fa51f2154311921"
     },
     "types/slots.d.ts": {
-      "bytes": 1742,
-      "hash": "63fd7a44c6c0e59f"
+      "bytes": 1753,
+      "hash": "35770699ae1f4b5b"
     },
     "types/standardSchema.d.ts": {
       "bytes": 3045,
@@ -8192,8 +7912,8 @@
       "hash": "2dd566308dfb48af"
     },
     "types/utils.d.ts": {
-      "bytes": 13373,
-      "hash": "67de014a83a90b55"
+      "bytes": 13383,
+      "hash": "91fa70af0f513f5b"
     },
     "utils/array.d.ts": {
       "bytes": 2146,
@@ -8201,7 +7921,7 @@
     },
     "utils/array.mjs": {
       "bytes": 1768,
-      "hash": "9e8b3db7dcb12fdc",
+      "hash": "d5b459d87e04f795",
       "exports": [
         "joinMaybeArrays",
         "move",
@@ -8211,12 +7931,12 @@
       "imports": []
     },
     "utils/async.d.ts": {
-      "bytes": 1411,
-      "hash": "26409e4e6dfffbe2"
+      "bytes": 1416,
+      "hash": "1a7f30d9dfd89e8d"
     },
     "utils/async.mjs": {
-      "bytes": 1958,
-      "hash": "2e93459406fb2a20",
+      "bytes": 1959,
+      "hash": "16b6f44395279f45",
       "exports": [
         "asyncForEach",
         "debounce",
@@ -8232,8 +7952,8 @@
       "hash": "de2e8a95cfd118c5"
     },
     "utils/classes.mjs": {
-      "bytes": 2092,
-      "hash": "705e97de9f53cc8b",
+      "bytes": 2093,
+      "hash": "6344643dd9f4505e",
       "exports": [
         "mergeClass",
         "mergeClasses",
@@ -8251,7 +7971,7 @@
     },
     "utils/color.mjs": {
       "bytes": 3103,
-      "hash": "8eff06f065279af7",
+      "hash": "acb113c8d49f2fd0",
       "exports": [
         "convertColor",
         "hexToRgb",
@@ -8262,12 +7982,12 @@
       "imports": []
     },
     "utils/dom.d.ts": {
-      "bytes": 1961,
-      "hash": "8d1205115e024ec0"
+      "bytes": 1971,
+      "hash": "f832f85c59f3028f"
     },
     "utils/dom.mjs": {
-      "bytes": 2610,
-      "hash": "ee6da5ca602c570f",
+      "bytes": 2611,
+      "hash": "2247395c2de0d327",
       "exports": [
         "findFirstInvalidElement",
         "isInViewport",
@@ -8285,8 +8005,8 @@
       "hash": "2fe438425917ba30"
     },
     "utils/env.mjs": {
-      "bytes": 906,
-      "hash": "e17b43df609bcfbe",
+      "bytes": 910,
+      "hash": "46192805d1c81633",
       "exports": [
         "isClient",
         "isDev",
@@ -8301,7 +8021,7 @@
     },
     "utils/errors.mjs": {
       "bytes": 643,
-      "hash": "a3c5d2088ebd955e",
+      "hash": "5275cf02dc976b3c",
       "exports": [
         "NotInstalledError"
       ],
@@ -8312,8 +8032,8 @@
       "hash": "a63d650c039e45ff"
     },
     "utils/formData.mjs": {
-      "bytes": 2496,
-      "hash": "ee5b777cee6c090c",
+      "bytes": 2497,
+      "hash": "e2302fd63bf3730c",
       "exports": [
         "isEmptyValue",
         "isFileValue",
@@ -8324,12 +8044,12 @@
       ]
     },
     "utils/guards.d.ts": {
-      "bytes": 1460,
-      "hash": "43c8a2af7b43a20b"
+      "bytes": 1465,
+      "hash": "a96834ec2ca9b496"
     },
     "utils/guards.mjs": {
-      "bytes": 1957,
-      "hash": "e27654529c30ce1f",
+      "bytes": 1958,
+      "hash": "933c00d17cf06a26",
       "exports": [
         "isFile",
         "isFilled",
@@ -8342,12 +8062,12 @@
       ]
     },
     "utils/icon.d.ts": {
-      "bytes": 597,
-      "hash": "b1a861de41d18c50"
+      "bytes": 602,
+      "hash": "10ad6fb271ec1d07"
     },
     "utils/icon.mjs": {
       "bytes": 668,
-      "hash": "ea8d740c2a1247cb",
+      "hash": "612121a4dacd802e",
       "exports": [
         "resolveIcon"
       ],
@@ -8359,7 +8079,7 @@
     },
     "utils/index.mjs": {
       "bytes": 3103,
-      "hash": "676e202553ee5c71",
+      "hash": "800da6ad13920de2",
       "exports": [
         "NotInstalledError",
         "aliasProps",
@@ -8476,12 +8196,12 @@
       ]
     },
     "utils/instance.d.ts": {
-      "bytes": 6162,
-      "hash": "5a8f0f9d58314f70"
+      "bytes": 6177,
+      "hash": "5fa70bc17e924a63"
     },
     "utils/instance.mjs": {
-      "bytes": 7729,
-      "hash": "7ac06b940f0b097a",
+      "bytes": 7734,
+      "hash": "d960343630ecb729",
       "exports": [
         "getComponentDef",
         "getGenericInstance",
@@ -8503,8 +8223,8 @@
       "hash": "e06aa9fe9649e734"
     },
     "utils/normalize.mjs": {
-      "bytes": 881,
-      "hash": "c3b0cb6e537d57c8",
+      "bytes": 882,
+      "hash": "798095aaffb27aea",
       "exports": [
         "normalize"
       ],
@@ -8514,12 +8234,12 @@
       ]
     },
     "utils/normalizePreset.d.ts": {
-      "bytes": 365,
-      "hash": "05914c393ec16193"
+      "bytes": 370,
+      "hash": "b1c24d020a79bc76"
     },
     "utils/normalizePreset.mjs": {
       "bytes": 906,
-      "hash": "1ccc137d741f9c25",
+      "hash": "4ffea5f825acca4a",
       "exports": [
         "normalizePreset"
       ],
@@ -8530,8 +8250,8 @@
       "hash": "4ea5709d3c04f870"
     },
     "utils/object.mjs": {
-      "bytes": 8492,
-      "hash": "cc0fc939be4c8c10",
+      "bytes": 8493,
+      "hash": "3905acfef5c68873",
       "exports": [
         "clone",
         "coalesce",
@@ -8559,8 +8279,8 @@
       "hash": "7c19a5fdd7e035a6"
     },
     "utils/path.mjs": {
-      "bytes": 5956,
-      "hash": "04638c2fd5fc2dc1",
+      "bytes": 5957,
+      "hash": "9b1187c3d466c7d2",
       "exports": [
         "get",
         "replaceWildcards",
@@ -8575,24 +8295,24 @@
       ]
     },
     "utils/schema.d.ts": {
-      "bytes": 356,
-      "hash": "afcf0c1ed62d5794"
+      "bytes": 361,
+      "hash": "abcc670bb014ea21"
     },
     "utils/schema.mjs": {
       "bytes": 512,
-      "hash": "ba056c4e80b6c0b1",
+      "hash": "40ab4ef05354a807",
       "exports": [
         "schemaEntries"
       ],
       "imports": []
     },
     "utils/string.d.ts": {
-      "bytes": 2158,
-      "hash": "ef87de91020a7d2d"
+      "bytes": 2163,
+      "hash": "af6e25686ae1cf2e"
     },
     "utils/string.mjs": {
-      "bytes": 2925,
-      "hash": "5e747d90180d97ed",
+      "bytes": 2926,
+      "hash": "31610f0eec835d3b",
       "exports": [
         "camelToKebab",
         "containsHtml",
@@ -8610,12 +8330,12 @@
       ]
     },
     "utils/vue.d.ts": {
-      "bytes": 4479,
-      "hash": "b3c252e6e791c8ca"
+      "bytes": 4504,
+      "hash": "39e4feab8337af28"
     },
     "utils/vue.mjs": {
-      "bytes": 6294,
-      "hash": "b55c4eec76361bf6",
+      "bytes": 6305,
+      "hash": "80171e6d9f1156ed",
       "exports": [
         "aliasProps",
         "alwaysFalse",
@@ -8637,12 +8357,12 @@
       ]
     },
     "utils/walkCells.d.ts": {
-      "bytes": 704,
-      "hash": "d2223e08b3240141"
+      "bytes": 709,
+      "hash": "4f170d403995253a"
     },
     "utils/walkCells.mjs": {
       "bytes": 1333,
-      "hash": "0f9109de63841f9d",
+      "hash": "fe354ab437fc9573",
       "exports": [
         "walkCells"
       ],
@@ -8654,25 +8374,15 @@
     },
     "utils/warn.mjs": {
       "bytes": 582,
-      "hash": "43d10fe415b2b0c4",
+      "hash": "8322c83733213715",
       "exports": [
         "warn"
       ],
       "imports": []
     },
     "vapor/components/VfAddon/VfAddon.mjs": {
-      "bytes": 289,
-      "hash": "99f25c12ee476f6c",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfAddon.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfAddon/VfAddon.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 2645,
-      "hash": "87a2029526066006",
+      "bytes": 2533,
+      "hash": "bbf5129bc8589a0d",
       "exports": [
         "default"
       ],
@@ -8684,8 +8394,8 @@
       ]
     },
     "vapor/components/VfAddon/index.mjs": {
-      "bytes": 174,
-      "hash": "239691a06df797f7",
+      "bytes": 162,
+      "hash": "353c16e8b7c0dcea",
       "exports": [
         "blueprint",
         "default",
@@ -8705,8 +8415,8 @@
       ]
     },
     "vapor/components/VfAddon/unstyled.mjs": {
-      "bytes": 156,
-      "hash": "3f16483b6254e0d8",
+      "bytes": 144,
+      "hash": "c80f866238414bd9",
       "exports": [
         "blueprint",
         "default",
@@ -8718,18 +8428,8 @@
       ]
     },
     "vapor/components/VfButton/VfButton.mjs": {
-      "bytes": 296,
-      "hash": "b3030dbfdc157f05",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfButton.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfButton/VfButton.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 7222,
-      "hash": "d2acc595ca57498e",
+      "bytes": 7110,
+      "hash": "88a6f6c4112f6a6e",
       "exports": [
         "default"
       ],
@@ -8741,8 +8441,8 @@
       ]
     },
     "vapor/components/VfButton/index.mjs": {
-      "bytes": 178,
-      "hash": "e794d0b7fb0f95ff",
+      "bytes": 164,
+      "hash": "39aabc2cfa9deb26",
       "exports": [
         "blueprint",
         "default",
@@ -8762,8 +8462,8 @@
       ]
     },
     "vapor/components/VfButton/unstyled.mjs": {
-      "bytes": 159,
-      "hash": "cecee468c95cfbf7",
+      "bytes": 145,
+      "hash": "9702d8bee559eff0",
       "exports": [
         "blueprint",
         "default",
@@ -8775,18 +8475,8 @@
       ]
     },
     "vapor/components/VfCheckbox/VfCheckbox.mjs": {
-      "bytes": 310,
-      "hash": "71d2128476862e3c",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfCheckbox.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfCheckbox/VfCheckbox.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 8159,
-      "hash": "0d3f563306b09fbe",
+      "bytes": 8043,
+      "hash": "52cf1e2e7aa53047",
       "exports": [
         "default"
       ],
@@ -8798,8 +8488,8 @@
       ]
     },
     "vapor/components/VfCheckbox/index.mjs": {
-      "bytes": 186,
-      "hash": "5aefa959853feacc",
+      "bytes": 168,
+      "hash": "5ef7c43511c5924c",
       "exports": [
         "blueprint",
         "default",
@@ -8819,8 +8509,8 @@
       ]
     },
     "vapor/components/VfCheckbox/unstyled.mjs": {
-      "bytes": 165,
-      "hash": "9489915e5b7b8adb",
+      "bytes": 147,
+      "hash": "90272eb22c64a4e5",
       "exports": [
         "blueprint",
         "default",
@@ -8832,18 +8522,8 @@
       ]
     },
     "vapor/components/VfCheckboxes/VfCheckboxes.mjs": {
-      "bytes": 324,
-      "hash": "3835aeef001adbb2",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfCheckboxes.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfCheckboxes/VfCheckboxes.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 10453,
-      "hash": "b64532fcf978591f",
+      "bytes": 10331,
+      "hash": "c81497b092179cab",
       "exports": [
         "default"
       ],
@@ -8855,8 +8535,8 @@
       ]
     },
     "vapor/components/VfCheckboxes/index.mjs": {
-      "bytes": 194,
-      "hash": "8de9987a6de6c0b2",
+      "bytes": 172,
+      "hash": "e1a8b3fb60148cf3",
       "exports": [
         "blueprint",
         "default",
@@ -8876,8 +8556,8 @@
       ]
     },
     "vapor/components/VfCheckboxes/unstyled.mjs": {
-      "bytes": 171,
-      "hash": "da6490de1c798f73",
+      "bytes": 149,
+      "hash": "3f52375d75a97fc0",
       "exports": [
         "blueprint",
         "default",
@@ -8889,18 +8569,8 @@
       ]
     },
     "vapor/components/VfCol/VfCol.mjs": {
-      "bytes": 275,
-      "hash": "c407800892b30976",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfCol.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfCol/VfCol.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3487,
-      "hash": "245dccf4de4d1c21",
+      "bytes": 3379,
+      "hash": "a3725a4916100e95",
       "exports": [
         "default"
       ],
@@ -8912,8 +8582,8 @@
       ]
     },
     "vapor/components/VfCol/index.mjs": {
-      "bytes": 166,
-      "hash": "6b338877708ec198",
+      "bytes": 158,
+      "hash": "e00d0a2cdd42ddd9",
       "exports": [
         "blueprint",
         "default",
@@ -8933,8 +8603,8 @@
       ]
     },
     "vapor/components/VfCol/unstyled.mjs": {
-      "bytes": 150,
-      "hash": "79b023827f2b463c",
+      "bytes": 142,
+      "hash": "40bf939129964559",
       "exports": [
         "blueprint",
         "default",
@@ -8946,18 +8616,8 @@
       ]
     },
     "vapor/components/VfContent/VfContent.mjs": {
-      "bytes": 303,
-      "hash": "d34fd4697cd14ca9",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfContent.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfContent/VfContent.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3632,
-      "hash": "3fe7e143fd418532",
+      "bytes": 3512,
+      "hash": "40128a8e345108e0",
       "exports": [
         "default"
       ],
@@ -8969,8 +8629,8 @@
       ]
     },
     "vapor/components/VfContent/index.mjs": {
-      "bytes": 182,
-      "hash": "7554c5b8a02d8f36",
+      "bytes": 166,
+      "hash": "6d33c6f7e8942327",
       "exports": [
         "blueprint",
         "default",
@@ -8990,8 +8650,8 @@
       ]
     },
     "vapor/components/VfContent/unstyled.mjs": {
-      "bytes": 162,
-      "hash": "a7acc0c6fa3b9eec",
+      "bytes": 146,
+      "hash": "6972b78f1e420904",
       "exports": [
         "blueprint",
         "default",
@@ -9003,18 +8663,8 @@
       ]
     },
     "vapor/components/VfElements/VfElements.mjs": {
-      "bytes": 310,
-      "hash": "e634e84baccc47a6",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfElements.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfElements/VfElements.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 2010,
-      "hash": "63c479f884993cb3",
+      "bytes": 1890,
+      "hash": "171414f5a7a5f7d4",
       "exports": [
         "default"
       ],
@@ -9026,8 +8676,8 @@
       ]
     },
     "vapor/components/VfElements/index.mjs": {
-      "bytes": 186,
-      "hash": "1315331955bf49c7",
+      "bytes": 168,
+      "hash": "e433ebc0dc0ae93b",
       "exports": [
         "blueprint",
         "default",
@@ -9047,8 +8697,8 @@
       ]
     },
     "vapor/components/VfElements/unstyled.mjs": {
-      "bytes": 165,
-      "hash": "f376c60f7d4b0a83",
+      "bytes": 147,
+      "hash": "0614231ababe9723",
       "exports": [
         "blueprint",
         "default",
@@ -9060,18 +8710,8 @@
       ]
     },
     "vapor/components/VfField/VfField.mjs": {
-      "bytes": 289,
-      "hash": "78b88dc8710c284f",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfField.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfField/VfField.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 4365,
-      "hash": "05f2f075aa6892cf",
+      "bytes": 4249,
+      "hash": "653562ba29d19a10",
       "exports": [
         "default"
       ],
@@ -9083,8 +8723,8 @@
       ]
     },
     "vapor/components/VfField/index.mjs": {
-      "bytes": 174,
-      "hash": "8a0ac1fe6d75d2c3",
+      "bytes": 162,
+      "hash": "5663a827bbc0f135",
       "exports": [
         "blueprint",
         "default",
@@ -9104,8 +8744,8 @@
       ]
     },
     "vapor/components/VfField/unstyled.mjs": {
-      "bytes": 156,
-      "hash": "4c1e8037fc5f362a",
+      "bytes": 144,
+      "hash": "1ff45be13ead2798",
       "exports": [
         "blueprint",
         "default",
@@ -9117,18 +8757,8 @@
       ]
     },
     "vapor/components/VfFile/VfFile.mjs": {
-      "bytes": 282,
-      "hash": "2970487fa4b31958",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfFile.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfFile/VfFile.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 10267,
-      "hash": "47f833b8a6740486",
+      "bytes": 10161,
+      "hash": "fd23b85f8f406aab",
       "exports": [
         "default"
       ],
@@ -9140,8 +8770,8 @@
       ]
     },
     "vapor/components/VfFile/index.mjs": {
-      "bytes": 170,
-      "hash": "77eb83b0a55c4335",
+      "bytes": 160,
+      "hash": "effdd87a9ad2f235",
       "exports": [
         "blueprint",
         "default",
@@ -9161,8 +8791,8 @@
       ]
     },
     "vapor/components/VfFile/unstyled.mjs": {
-      "bytes": 153,
-      "hash": "8885ead37cd0e4a7",
+      "bytes": 143,
+      "hash": "5b9dbe95e58d77e9",
       "exports": [
         "blueprint",
         "default",
@@ -9174,18 +8804,8 @@
       ]
     },
     "vapor/components/VfForm/VfForm.mjs": {
-      "bytes": 282,
-      "hash": "263a9074826b6995",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfForm.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfForm/VfForm.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 15957,
-      "hash": "e6700f6bf8eb83ed",
+      "bytes": 15853,
+      "hash": "bcaa77a41ef6d069",
       "exports": [
         "default"
       ],
@@ -9197,8 +8817,8 @@
       ]
     },
     "vapor/components/VfForm/index.mjs": {
-      "bytes": 170,
-      "hash": "2d254e94d8b6d4f9",
+      "bytes": 160,
+      "hash": "0257f9343f707db8",
       "exports": [
         "blueprint",
         "default",
@@ -9210,8 +8830,8 @@
       ]
     },
     "vapor/components/VfForm/unstyled.mjs": {
-      "bytes": 153,
-      "hash": "baf77b63b7551bee",
+      "bytes": 143,
+      "hash": "f887e4ade7853d39",
       "exports": [
         "blueprint",
         "default",
@@ -9223,18 +8843,8 @@
       ]
     },
     "vapor/components/VfGrid/VfGrid.mjs": {
-      "bytes": 282,
-      "hash": "457105b1207328e9",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfGrid.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfGrid/VfGrid.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 7282,
-      "hash": "3015f6c7f9bf3c32",
+      "bytes": 7174,
+      "hash": "ee063c0f07e59a11",
       "exports": [
         "default"
       ],
@@ -9246,8 +8856,8 @@
       ]
     },
     "vapor/components/VfGrid/index.mjs": {
-      "bytes": 170,
-      "hash": "b6e64dcec66ddd57",
+      "bytes": 160,
+      "hash": "9114f291b4c59b9d",
       "exports": [
         "blueprint",
         "default",
@@ -9259,8 +8869,8 @@
       ]
     },
     "vapor/components/VfGrid/unstyled.mjs": {
-      "bytes": 153,
-      "hash": "264f58cd500a8b82",
+      "bytes": 143,
+      "hash": "fbd3acd1b2ce28cf",
       "exports": [
         "blueprint",
         "default",
@@ -9272,18 +8882,8 @@
       ]
     },
     "vapor/components/VfGroup/VfGroup.mjs": {
-      "bytes": 289,
-      "hash": "3fee3404180848ee",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfGroup.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfGroup/VfGroup.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 5331,
-      "hash": "104320e8471ea9b6",
+      "bytes": 5217,
+      "hash": "e5d6e9ef678dd8f8",
       "exports": [
         "default"
       ],
@@ -9296,8 +8896,8 @@
       ]
     },
     "vapor/components/VfGroup/index.mjs": {
-      "bytes": 174,
-      "hash": "e211b41d35a0a1ef",
+      "bytes": 162,
+      "hash": "77a83ee216478e6c",
       "exports": [
         "blueprint",
         "default",
@@ -9317,8 +8917,8 @@
       ]
     },
     "vapor/components/VfGroup/unstyled.mjs": {
-      "bytes": 156,
-      "hash": "d56473798333ea80",
+      "bytes": 144,
+      "hash": "6505b05efe083c34",
       "exports": [
         "blueprint",
         "default",
@@ -9330,18 +8930,8 @@
       ]
     },
     "vapor/components/VfHidden/VfHidden.mjs": {
-      "bytes": 296,
-      "hash": "a2a72a7ad1078bf9",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfHidden.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfHidden/VfHidden.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 2828,
-      "hash": "c62d4c90fa1f3b5f",
+      "bytes": 2712,
+      "hash": "4dd8dc3af25e5b9e",
       "exports": [
         "default"
       ],
@@ -9353,8 +8943,8 @@
       ]
     },
     "vapor/components/VfHidden/index.mjs": {
-      "bytes": 178,
-      "hash": "356df03dd6ff0a35",
+      "bytes": 164,
+      "hash": "97e35965f576380f",
       "exports": [
         "blueprint",
         "default",
@@ -9374,8 +8964,8 @@
       ]
     },
     "vapor/components/VfHidden/unstyled.mjs": {
-      "bytes": 159,
-      "hash": "b0f448f4e4314530",
+      "bytes": 145,
+      "hash": "85159b99e86f20fb",
       "exports": [
         "blueprint",
         "default",
@@ -9387,18 +8977,8 @@
       ]
     },
     "vapor/components/VfIcon/VfIcon.mjs": {
-      "bytes": 282,
-      "hash": "08bcd96e6d3d1b84",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfIcon.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfIcon/VfIcon.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 1919,
-      "hash": "5feb7c0d2edea1a1",
+      "bytes": 1807,
+      "hash": "b8a21f88e1521b61",
       "exports": [
         "default"
       ],
@@ -9410,8 +8990,8 @@
       ]
     },
     "vapor/components/VfIcon/index.mjs": {
-      "bytes": 170,
-      "hash": "a194b6530d999d66",
+      "bytes": 160,
+      "hash": "498379f1fb5ce44f",
       "exports": [
         "blueprint",
         "default",
@@ -9431,8 +9011,8 @@
       ]
     },
     "vapor/components/VfIcon/unstyled.mjs": {
-      "bytes": 153,
-      "hash": "7d549d9feb873535",
+      "bytes": 143,
+      "hash": "6a02160a50922eb4",
       "exports": [
         "blueprint",
         "default",
@@ -9444,18 +9024,8 @@
       ]
     },
     "vapor/components/VfLanguages/VfLanguages.mjs": {
-      "bytes": 317,
-      "hash": "151887da58bc7566",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfLanguages.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfLanguages/VfLanguages.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 4337,
-      "hash": "a1e32d1afdf84cc8",
+      "bytes": 4219,
+      "hash": "700849e3eebbd7d2",
       "exports": [
         "default"
       ],
@@ -9467,8 +9037,8 @@
       ]
     },
     "vapor/components/VfLanguages/index.mjs": {
-      "bytes": 190,
-      "hash": "bd81b0a76f5a9f38",
+      "bytes": 170,
+      "hash": "c35ef5de9002982f",
       "exports": [
         "blueprint",
         "default",
@@ -9488,8 +9058,8 @@
       ]
     },
     "vapor/components/VfLanguages/unstyled.mjs": {
-      "bytes": 168,
-      "hash": "fd97de334c8abeba",
+      "bytes": 148,
+      "hash": "f4ec8a09dafafcaf",
       "exports": [
         "blueprint",
         "default",
@@ -9501,18 +9071,8 @@
       ]
     },
     "vapor/components/VfLayout/VfLayout.mjs": {
-      "bytes": 296,
-      "hash": "20ab1c3d01678923",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfLayout.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfLayout/VfLayout.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 23234,
-      "hash": "408472c7ab787451",
+      "bytes": 23064,
+      "hash": "daa8668b2dae44f6",
       "exports": [
         "default"
       ],
@@ -9526,8 +9086,8 @@
       ]
     },
     "vapor/components/VfLayout/index.mjs": {
-      "bytes": 178,
-      "hash": "caa5ad653fda0d71",
+      "bytes": 164,
+      "hash": "3d11ed51322d2946",
       "exports": [
         "blueprint",
         "default",
@@ -9547,8 +9107,8 @@
       ]
     },
     "vapor/components/VfLayout/unstyled.mjs": {
-      "bytes": 159,
-      "hash": "c9e793810545f7c1",
+      "bytes": 145,
+      "hash": "635edb98992f6f16",
       "exports": [
         "blueprint",
         "default",
@@ -9560,18 +9120,8 @@
       ]
     },
     "vapor/components/VfList/VfList.mjs": {
-      "bytes": 282,
-      "hash": "c99611258b63dbd4",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfList.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfList/VfList.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 14206,
-      "hash": "2d0bda169ed8598e",
+      "bytes": 14098,
+      "hash": "bb197e8cf4994321",
       "exports": [
         "default"
       ],
@@ -9583,8 +9133,8 @@
       ]
     },
     "vapor/components/VfList/index.mjs": {
-      "bytes": 170,
-      "hash": "c47a8866abb15cca",
+      "bytes": 160,
+      "hash": "5ada8d134ad97145",
       "exports": [
         "blueprint",
         "default",
@@ -9596,8 +9146,8 @@
       ]
     },
     "vapor/components/VfList/unstyled.mjs": {
-      "bytes": 153,
-      "hash": "4c1e5c340eda390d",
+      "bytes": 143,
+      "hash": "f63307c871ff2695",
       "exports": [
         "blueprint",
         "default",
@@ -9609,18 +9159,8 @@
       ]
     },
     "vapor/components/VfMatrix/VfMatrix.mjs": {
-      "bytes": 296,
-      "hash": "f01ea5d610aa9864",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfMatrix.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfMatrix/VfMatrix.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 23263,
-      "hash": "5171c34c5d339bf8",
+      "bytes": 23155,
+      "hash": "9bfc8ff6cc84360d",
       "exports": [
         "default"
       ],
@@ -9633,8 +9173,8 @@
       ]
     },
     "vapor/components/VfMatrix/index.mjs": {
-      "bytes": 178,
-      "hash": "edbadabcdb736f9e",
+      "bytes": 164,
+      "hash": "2a494326341b8601",
       "exports": [
         "blueprint",
         "default",
@@ -9646,8 +9186,8 @@
       ]
     },
     "vapor/components/VfMatrix/unstyled.mjs": {
-      "bytes": 159,
-      "hash": "017f55d416f2e4c2",
+      "bytes": 145,
+      "hash": "b8f9a754ab1698d9",
       "exports": [
         "blueprint",
         "default",
@@ -9659,18 +9199,8 @@
       ]
     },
     "vapor/components/VfNav/VfNav.mjs": {
-      "bytes": 275,
-      "hash": "1599aed0f69351b5",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfNav.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfNav/VfNav.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 10403,
-      "hash": "11560099cf59e6cd",
+      "bytes": 10297,
+      "hash": "0cab46013aa1e15e",
       "exports": [
         "default"
       ],
@@ -9683,8 +9213,8 @@
       ]
     },
     "vapor/components/VfNav/index.mjs": {
-      "bytes": 166,
-      "hash": "0de91e734ff7f6fd",
+      "bytes": 158,
+      "hash": "23087ab30a4509c2",
       "exports": [
         "blueprint",
         "default",
@@ -9696,8 +9226,8 @@
       ]
     },
     "vapor/components/VfNav/unstyled.mjs": {
-      "bytes": 150,
-      "hash": "92b0225b5a99eacd",
+      "bytes": 142,
+      "hash": "d5635c4ca20f52ce",
       "exports": [
         "blueprint",
         "default",
@@ -9709,18 +9239,8 @@
       ]
     },
     "vapor/components/VfRadio/VfRadio.mjs": {
-      "bytes": 289,
-      "hash": "cae5c4b3f1e0cf24",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfRadio.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfRadio/VfRadio.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 7780,
-      "hash": "a7aefd96011c72e0",
+      "bytes": 7670,
+      "hash": "9f3036876b0fb697",
       "exports": [
         "default"
       ],
@@ -9732,8 +9252,8 @@
       ]
     },
     "vapor/components/VfRadio/index.mjs": {
-      "bytes": 174,
-      "hash": "b023f3941efb28bc",
+      "bytes": 162,
+      "hash": "12b934a78056f1db",
       "exports": [
         "blueprint",
         "default",
@@ -9753,8 +9273,8 @@
       ]
     },
     "vapor/components/VfRadio/unstyled.mjs": {
-      "bytes": 156,
-      "hash": "1b65160c65a0aa9a",
+      "bytes": 144,
+      "hash": "6d744c109d455b91",
       "exports": [
         "blueprint",
         "default",
@@ -9766,18 +9286,8 @@
       ]
     },
     "vapor/components/VfRadios/VfRadios.mjs": {
-      "bytes": 296,
-      "hash": "1dd0b374f4cb3d11",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfRadios.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfRadios/VfRadios.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 10203,
-      "hash": "3f5ce03edd59fcee",
+      "bytes": 10089,
+      "hash": "2e8c0f47d219d048",
       "exports": [
         "default"
       ],
@@ -9789,8 +9299,8 @@
       ]
     },
     "vapor/components/VfRadios/index.mjs": {
-      "bytes": 178,
-      "hash": "5339400ad90e22e5",
+      "bytes": 164,
+      "hash": "c85c1e4a8eaaaab9",
       "exports": [
         "blueprint",
         "default",
@@ -9810,8 +9320,8 @@
       ]
     },
     "vapor/components/VfRadios/unstyled.mjs": {
-      "bytes": 159,
-      "hash": "a31e3ee0b198798e",
+      "bytes": 145,
+      "hash": "47b9351ca0bd3349",
       "exports": [
         "blueprint",
         "default",
@@ -9823,18 +9333,8 @@
       ]
     },
     "vapor/components/VfRow/VfRow.mjs": {
-      "bytes": 275,
-      "hash": "88a072765173f7bd",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfRow.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfRow/VfRow.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 2101,
-      "hash": "9984b0495cd37df2",
+      "bytes": 1991,
+      "hash": "cefee45748293f53",
       "exports": [
         "default"
       ],
@@ -9846,8 +9346,8 @@
       ]
     },
     "vapor/components/VfRow/index.mjs": {
-      "bytes": 166,
-      "hash": "58990c49c5515843",
+      "bytes": 158,
+      "hash": "6b7716ff615a21ac",
       "exports": [
         "blueprint",
         "default",
@@ -9867,8 +9367,8 @@
       ]
     },
     "vapor/components/VfRow/unstyled.mjs": {
-      "bytes": 150,
-      "hash": "0ccfe78d264b9b18",
+      "bytes": 142,
+      "hash": "5666760b8bad9926",
       "exports": [
         "blueprint",
         "default",
@@ -9880,18 +9380,8 @@
       ]
     },
     "vapor/components/VfSelect/VfSelect.mjs": {
-      "bytes": 296,
-      "hash": "615e423c0d8f38ec",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfSelect.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfSelect/VfSelect.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 7983,
-      "hash": "641899eb571e4f17",
+      "bytes": 7875,
+      "hash": "353a44370bcbdc35",
       "exports": [
         "default"
       ],
@@ -9903,8 +9393,8 @@
       ]
     },
     "vapor/components/VfSelect/index.mjs": {
-      "bytes": 178,
-      "hash": "eee943086c1c9a3f",
+      "bytes": 164,
+      "hash": "92e375a92b5ecc2d",
       "exports": [
         "blueprint",
         "default",
@@ -9924,8 +9414,8 @@
       ]
     },
     "vapor/components/VfSelect/unstyled.mjs": {
-      "bytes": 159,
-      "hash": "e44986bc26a27b16",
+      "bytes": 145,
+      "hash": "cf46bb1e03c8fa46",
       "exports": [
         "blueprint",
         "default",
@@ -9937,18 +9427,8 @@
       ]
     },
     "vapor/components/VfSteps/VfSteps.mjs": {
-      "bytes": 289,
-      "hash": "9c28ef809a3b7a93",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfSteps.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfSteps/VfSteps.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3953,
-      "hash": "29111166ce13bf4c",
+      "bytes": 3843,
+      "hash": "b055da7352fc91df",
       "exports": [
         "default"
       ],
@@ -9960,8 +9440,8 @@
       ]
     },
     "vapor/components/VfSteps/index.mjs": {
-      "bytes": 174,
-      "hash": "e888e75ec2afe773",
+      "bytes": 162,
+      "hash": "31f69eef40577814",
       "exports": [
         "blueprint",
         "default",
@@ -9981,8 +9461,8 @@
       ]
     },
     "vapor/components/VfSteps/unstyled.mjs": {
-      "bytes": 156,
-      "hash": "900ef76df70c7976",
+      "bytes": 144,
+      "hash": "a87400cda34867d5",
       "exports": [
         "blueprint",
         "default",
@@ -9994,18 +9474,8 @@
       ]
     },
     "vapor/components/VfTabs/VfTabs.mjs": {
-      "bytes": 282,
-      "hash": "8a297dd4336f9205",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfTabs.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfTabs/VfTabs.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 3813,
-      "hash": "18bfb3b259a87613",
+      "bytes": 3705,
+      "hash": "e380ce6425ba6538",
       "exports": [
         "default"
       ],
@@ -10017,8 +9487,8 @@
       ]
     },
     "vapor/components/VfTabs/index.mjs": {
-      "bytes": 170,
-      "hash": "99d199593540346b",
+      "bytes": 160,
+      "hash": "a433f0b57a895ca1",
       "exports": [
         "blueprint",
         "default",
@@ -10030,8 +9500,8 @@
       ]
     },
     "vapor/components/VfTabs/unstyled.mjs": {
-      "bytes": 153,
-      "hash": "327944c65eae3f13",
+      "bytes": 143,
+      "hash": "6b755d00d4f832f4",
       "exports": [
         "blueprint",
         "default",
@@ -10043,18 +9513,8 @@
       ]
     },
     "vapor/components/VfText/VfText.mjs": {
-      "bytes": 282,
-      "hash": "9900bba802067725",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfText.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfText/VfText.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 5637,
-      "hash": "2f3f1a0f51cc97df",
+      "bytes": 5525,
+      "hash": "41358876acee5281",
       "exports": [
         "default"
       ],
@@ -10066,8 +9526,8 @@
       ]
     },
     "vapor/components/VfText/index.mjs": {
-      "bytes": 170,
-      "hash": "57ca0a52e91f0ea8",
+      "bytes": 160,
+      "hash": "0a281f22fa52fce7",
       "exports": [
         "blueprint",
         "default",
@@ -10087,8 +9547,8 @@
       ]
     },
     "vapor/components/VfText/unstyled.mjs": {
-      "bytes": 153,
-      "hash": "695c19c45dae94b4",
+      "bytes": 143,
+      "hash": "d8ba3a610f12b782",
       "exports": [
         "blueprint",
         "default",
@@ -10100,18 +9560,8 @@
       ]
     },
     "vapor/components/VfTextarea/VfTextarea.mjs": {
-      "bytes": 310,
-      "hash": "92526fd3c92656e4",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfTextarea.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/VfTextarea/VfTextarea.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 5739,
-      "hash": "90bd85446ac7294d",
+      "bytes": 5619,
+      "hash": "6394e83f9b8a740b",
       "exports": [
         "default"
       ],
@@ -10123,8 +9573,8 @@
       ]
     },
     "vapor/components/VfTextarea/index.mjs": {
-      "bytes": 186,
-      "hash": "7f920f89b10ade94",
+      "bytes": 168,
+      "hash": "0cd414ec0e7a817d",
       "exports": [
         "blueprint",
         "default",
@@ -10144,8 +9594,8 @@
       ]
     },
     "vapor/components/VfTextarea/unstyled.mjs": {
-      "bytes": 165,
-      "hash": "fb254191d2cdf5b9",
+      "bytes": 147,
+      "hash": "ef6beab4b100a713",
       "exports": [
         "blueprint",
         "default",
@@ -10157,18 +9607,8 @@
       ]
     },
     "vapor/components/helpers/VfPassthrough.mjs": {
-      "bytes": 314,
-      "hash": "976150263b8b3695",
-      "exports": [
-        "default"
-      ],
-      "imports": [
-        "./VfPassthrough.vue_vue_type_script_setup_true_lang.mjs"
-      ]
-    },
-    "vapor/components/helpers/VfPassthrough.vue_vue_type_script_setup_true_lang.mjs": {
-      "bytes": 446,
-      "hash": "eb692ca181059e81",
+      "bytes": 318,
+      "hash": "dee9d8e9b613f7a4",
       "exports": [
         "default"
       ],
@@ -10177,8 +9617,8 @@
       ]
     },
     "vapor/components/index.mjs": {
-      "bytes": 2263,
-      "hash": "27acb3fc0b94f74c",
+      "bytes": 2051,
+      "hash": "f2c45b24375a44a8",
       "exports": [
         "VfAddon",
         "VfButton",

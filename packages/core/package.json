@@ -73,7 +73,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "rm -rf dist && vue-tsc -p tsconfig.dts.json && tsdown && tsdown -c tsdown.vapor.config.ts",
     "check": "vue-tsc --incremental --noEmit",
     "size": "vf-size",
     "test": "vitest --project integration --maxWorkers=16",
@@ -93,10 +93,12 @@
     "fast-glob": "catalog:",
     "happy-dom": "catalog:",
     "sass-embedded": "catalog:",
+    "tsdown": "catalog:",
     "vite": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vitest": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
+    "vue-tsc": "catalog:",
     "vue-vapor": "catalog:",
     "zod": "catalog:"
   },

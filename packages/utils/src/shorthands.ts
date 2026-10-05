@@ -9,6 +9,14 @@ export interface ShorthandPropsOptions {
    * Examples: `'../../types'` (core) or `'@vueform/core'` (adapters).
    */
   helpersFrom: string
+  /**
+   * The `src/components` directory, as a marker-detection fallback: dts
+   * generators that drop side-effect imports (rolldown-plugin-dts under tsdown)
+   * emit tier d.ts WITHOUT the `#shorthands` marker. When the dist d.ts carries
+   * no marker but the component's SOURCE tier entry does, the `./shorthands`
+   * import is inserted instead of rewritten.
+   */
+  srcComponentsDir?: string
 }
 
 const MARKER = '#shorthands'
@@ -305,11 +313,26 @@ export function injectShorthandPropsDts(
 
     // The marker may sit on either tier entry (or both) — a tier that
     // re-exports the marked one picks the augmentation up transitively.
-    const markedDts = tierDts.filter((path) =>
+    let markedDts = tierDts.filter((path) =>
       readFileSync(path, 'utf-8').includes(MARKER)
     )
-    const augment = markedDts.length ? readFileSync(markedDts[0], 'utf-8') : ''
-    if (!augment.includes(MARKER)) {
+    // Dist d.ts without markers (dts generator dropped the side-effect
+    // import): fall back to the SOURCE tier entries.
+    let markerFromSource = false
+    if (markedDts.length === 0 && options.srcComponentsDir) {
+      markedDts = tierDts.filter((path) => {
+        const srcTier = join(
+          options.srcComponentsDir as string,
+          component,
+          relative(componentDir, path).replace(/\.d\.ts$/, '.ts')
+        )
+        return (
+          existsSync(srcTier) && readFileSync(srcTier, 'utf-8').includes(MARKER)
+        )
+      })
+      markerFromSource = markedDts.length > 0
+    }
+    if (markedDts.length === 0) {
       skipped.push(component + ': no ' + MARKER + ' marker')
       continue
     }
@@ -319,7 +342,7 @@ export function injectShorthandPropsDts(
     // augmentation transitively. Strip any marker so the shipped d.ts
     // carries no unresolvable import.
     if (!existsSync(typesDtsPath)) {
-      stripMarkerFromDts(markedDts)
+      if (!markerFromSource) stripMarkerFromDts(markedDts)
       skipped.push(component + ': no types.d.ts (marker stripped)')
       continue
     }
@@ -327,7 +350,7 @@ export function injectShorthandPropsDts(
     const typesDts = readFileSync(typesDtsPath, 'utf-8')
     const parsed = parsePropsGenerics(component, typesDts)
     if ('error' in parsed) {
-      stripMarkerFromDts(markedDts)
+      if (!markerFromSource) stripMarkerFromDts(markedDts)
       skipped.push(component + ': ' + parsed.error + ' (marker stripped)')
       continue
     }
@@ -343,10 +366,13 @@ export function injectShorthandPropsDts(
     writeFileSync(join(componentDir, 'shorthands.d.ts'), content)
 
     for (const path of markedDts) {
-      const rewritten = readFileSync(path, 'utf-8').replace(
-        /import\s+['"]#shorthands['"]\s*;?/g,
-        "import './shorthands';"
-      )
+      const current = readFileSync(path, 'utf-8')
+      const rewritten = markerFromSource
+        ? `import './shorthands';\n${current}`
+        : current.replace(
+            /import\s+['"]#shorthands['"]\s*;?/g,
+            "import './shorthands';"
+          )
       writeFileSync(path, rewritten)
     }
     written++

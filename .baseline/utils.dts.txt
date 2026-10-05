@@ -214,14 +214,14 @@ import { CoreOptions, createCoreConfig } from "./core.js";
 import { dev } from "./dev.js";
 import { SourcePathsOptions, workspaceSourcePaths } from "./sourcePaths.js";
 import { PluginOptions, createPluginConfig } from "./plugin.js";
-import { PluginTsdownOptions, createPluginTsdownConfig } from "./tsdown.js";
+import { CoreTsdownOptions, PluginTsdownOptions, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginTsdownConfig } from "./tsdown.js";
 import { SourceAliasOptions, packageSourceAliases, workspaceSourceAliases } from "./sourceAliases.js";
 import { VitestConfig, VitestOptions, createVitestConfig } from "./vitest.js";
 import { RegistryOptions, generateRegistry } from "./registry.js";
 import { RunSizeOptions, runSize } from "./size/run.js";
 import { ValidateSourceConfig, ValidateSourceOptions, validateSource } from "./validateSource.js";
 import { MeasurementType, Results, SizeConfig } from "./size/types.js";
-export { type AdapterOptions, type BenchDtsMetrics, type BenchDtsOptions, type CoreOptions, type MeasurementType, type PluginOptions, type PluginTsdownOptions, type RegistryOptions, type RunSizeOptions, type SizeConfig, type Results as SizeResults, type SourceAliasOptions, type SourcePathsOptions, type ValidateSourceConfig, type ValidateSourceOptions, type VitestConfig, type VitestOptions, createAdapterConfig, createCoreConfig, createPluginConfig, createPluginTsdownConfig, createVitestConfig, dev, generateRegistry, packageSourceAliases, runBenchDts, runSize, validateSource, workspaceSourceAliases, workspaceSourcePaths };
+export { type AdapterOptions, type BenchDtsMetrics, type BenchDtsOptions, type CoreOptions, type CoreTsdownOptions, type MeasurementType, type PluginOptions, type PluginTsdownOptions, type RegistryOptions, type RunSizeOptions, type SizeConfig, type Results as SizeResults, type SourceAliasOptions, type SourcePathsOptions, type ValidateSourceConfig, type ValidateSourceOptions, type VitestConfig, type VitestOptions, createAdapterConfig, createCoreConfig, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginConfig, createPluginTsdownConfig, createVitestConfig, dev, generateRegistry, packageSourceAliases, runBenchDts, runSize, validateSource, workspaceSourceAliases, workspaceSourcePaths };
 //// mock.d.ts
 export {}
 //// plugin.d.ts
@@ -442,7 +442,7 @@ export declare function mirrorEntries(dir: string): Record<string, string>;
  * generated files import the prop helpers from — `'../../types'` in core,
  * `'@vueform/core'` in adapters.
  */
-export declare function shorthandProps(distAbs: string, helpersFrom: string): Plugin;
+export declare function shorthandProps(distAbs: string, helpersFrom: string, srcComponentsDir?: string): Plugin;
 /**
  * Writes `names.d.ts` beside the built components: a component-name union with
  * ZERO imports — nuxt module options (and any other name-level tooling) can
@@ -461,6 +461,14 @@ export interface ShorthandPropsOptions {
    * Examples: `'../../types'` (core) or `'@vueform/core'` (adapters).
    */
   helpersFrom: string;
+  /**
+   * The `src/components` directory, as a marker-detection fallback: dts
+   * generators that drop side-effect imports (rolldown-plugin-dts under tsdown)
+   * emit tier d.ts WITHOUT the `#shorthands` marker. When the dist d.ts carries
+   * no marker but the component's SOURCE tier entry does, the `./shorthands`
+   * import is inserted instead of rewritten.
+   */
+  srcComponentsDir?: string;
 }
 /**
  * Strip the runtime `#shorthands` marker import from emitted JS chunks.
@@ -1007,7 +1015,8 @@ export interface SourcePathsOptions {
 export declare function workspaceSourcePaths(packagesDir: string, relativeTo: string, options?: SourcePathsOptions): Record<string, string[]>;
 //#endregion
 //// tsdown.d.ts
-import { UserConfig } from "tsdown";
+import { Plugin } from "vite";
+import { UserConfig as UserConfig$1 } from "tsdown";
 //#region src/tsdown.d.ts
 /**
  * Options for the plugin tsdown factory.
@@ -1025,6 +1034,31 @@ export interface PluginTsdownOptions {
   external?: (string | RegExp)[];
 }
 /**
+ * One rewrite applied to every emitted `.d.ts` by {@link dtsRewrites}.
+ */
+export interface DtsRewrite {
+  pattern: RegExp;
+  replacement: string;
+}
+/**
+ * Options for the core tsdown factories.
+ */
+export interface CoreTsdownOptions {
+  /**
+   * The package's published name (e.g. `'@vueform/core'`).
+   */
+  name: string;
+  /**
+   * Alias pointing at the source directory (e.g. `'#core'`). No alias is
+   * registered when omitted.
+   */
+  alias?: string;
+  /**
+   * Additional external module ids. `'vue'` and `name` are always external.
+   */
+  external?: string[];
+}
+/**
  * tsdown config factory for plugin packages (expr-eval, dompurify, …) — usable
  * directly as the default export of a `tsdown.config.ts`:
  *
@@ -1040,7 +1074,48 @@ export interface PluginTsdownOptions {
  * to its BUILT dist types — the same types consumers get (requires core to be
  * built first).
  */
-export declare function createPluginTsdownConfig(options: PluginTsdownOptions): UserConfig;
+export declare function createPluginTsdownConfig(options: PluginTsdownOptions): UserConfig$1;
+/**
+ * Filesystem pass over the written `.d.ts` files (closeBundle): resolves source
+ * aliases (`#core/x` → a file-relative dist specifier — raw vue-tsc emission
+ * keeps path-mapped specifiers verbatim, which consumers cannot resolve),
+ * applies the given rewrites, and then HARD-FAILS on any surviving relative
+ * `.ts` module augmentation or alias specifier — either would silently break
+ * for consumers.
+ *
+ * This replaces vite-plugin-dts' `beforeWriteFile`: the d.ts now come from a
+ * plain `vue-tsc` emission step, so the rewrite happens on disk right after the
+ * bundle (and before `shorthandProps`, which reads the rewritten files).
+ */
+export declare function dtsRewrites(outAbs: string, rewrites: DtsRewrite[], aliases?: Record<string, string>): Plugin;
+/**
+ * The self-augmentation rewrite shared by the core and adapter builds: any
+ * relative `.ts` specifier ending in the source index becomes the published
+ * package name (see the vite factories for the full history of emitted
+ * shapes).
+ */
+export declare function selfAugmentationRewrite(name: string): DtsRewrite;
+/**
+ * tsdown config factory for the core package's MAIN build — the counterpart of
+ * `createCoreConfig` (the vite factory): every source module mirrors into
+ * `dist` at its own path (`.mjs` beside its `.d.ts`), scss compiles through the
+ * theme pipeline, SFCs are vdom-compiled, and the d.ts self-augmentation
+ * rewrites run as a post-write pass. The vapor component tree is a separate
+ * config (`createCoreVaporTsdownConfig`) that the build script runs AFTER this
+ * one — it resolves against this build's finished dist.
+ */
+export declare function createCoreTsdownConfig(options: CoreTsdownOptions): Promise<UserConfig$1>;
+/**
+ * tsdown config factory for the core package's VAPOR component build — the
+ * counterpart of the vite factory's nested `vf:vapor-build`: the
+ * `src/components` tree emitted into `dist/vapor/components`, every SFC
+ * compiled by Vue 3.6's vapor compiler (the `vue-compiler-sfc-vapor` npm alias,
+ * a devDependency of the consuming package), and everything outside the
+ * components tree imported from the MAIN dist via relative paths. Requires the
+ * main build's dist to exist — the build script runs it as a second `tsdown -c
+ * tsdown.vapor.config.ts` step.
+ */
+export declare function createCoreVaporTsdownConfig(options: CoreTsdownOptions): Promise<UserConfig$1>;
 //#endregion
 //// validate-source-cli.d.ts
 export {}

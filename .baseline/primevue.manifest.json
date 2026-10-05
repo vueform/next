@@ -32,8 +32,8 @@
       ]
     },
     "blueprints/auto-complete.d.ts": {
-      "bytes": 15118,
-      "hash": "2dddaf564a2a9a55"
+      "bytes": 15098,
+      "hash": "d694793d59ea36be"
     },
     "blueprints/auto-complete.mjs": {
       "bytes": 2821,
@@ -53,8 +53,8 @@
       ]
     },
     "blueprints/button.d.ts": {
-      "bytes": 7658,
-      "hash": "d121d30cd4c9ff0a"
+      "bytes": 7654,
+      "hash": "fc6a3908ea91c7ba"
     },
     "blueprints/button.mjs": {
       "bytes": 1735,
@@ -72,8 +72,8 @@
       ]
     },
     "blueprints/cascade-select.d.ts": {
-      "bytes": 91943,
-      "hash": "a58d9a98890a130d"
+      "bytes": 91796,
+      "hash": "581fbcad2b80610a"
     },
     "blueprints/cascade-select.mjs": {
       "bytes": 2740,
@@ -93,8 +93,8 @@
       ]
     },
     "blueprints/checkbox-group.d.ts": {
-      "bytes": 88396,
-      "hash": "53d55a0a18695c04"
+      "bytes": 88376,
+      "hash": "4d0f2c8cc24320d6"
     },
     "blueprints/checkbox-group.mjs": {
       "bytes": 1653,
@@ -111,8 +111,8 @@
       ]
     },
     "blueprints/checkbox.d.ts": {
-      "bytes": 13833,
-      "hash": "fe7ffcfa9c3ee63c"
+      "bytes": 14014,
+      "hash": "40b4d7433f5d6fcd"
     },
     "blueprints/checkbox.mjs": {
       "bytes": 1721,
@@ -143,8 +143,8 @@
       ]
     },
     "blueprints/color-picker.d.ts": {
-      "bytes": 12883,
-      "hash": "b5f9d2c08dc7f3bc"
+      "bytes": 12741,
+      "hash": "67587fdc88c32ef6"
     },
     "blueprints/color-picker.mjs": {
       "bytes": 2360,
@@ -176,8 +176,8 @@
       ]
     },
     "blueprints/date-picker.d.ts": {
-      "bytes": 15483,
-      "hash": "891d7f04fb63546e"
+      "bytes": 15463,
+      "hash": "e9841ac05a897881"
     },
     "blueprints/date-picker.mjs": {
       "bytes": 5589,
@@ -198,8 +198,8 @@
       ]
     },
     "blueprints/editor.d.ts": {
-      "bytes": 14894,
-      "hash": "8386327a2ce341e4"
+      "bytes": 14896,
+      "hash": "7ea8cc4678234d84"
     },
     "blueprints/editor.mjs": {
       "bytes": 3572,
@@ -245,8 +245,8 @@
       ]
     },
     "blueprints/file-upload.d.ts": {
-      "bytes": 14883,
-      "hash": "ec777d068bf8f7db"
+      "bytes": 14677,
+      "hash": "3d9b59cc6a38d4ed"
     },
     "blueprints/file-upload.mjs": {
       "bytes": 4282,
@@ -323,8 +323,8 @@
       ]
     },
     "blueprints/input-mask.d.ts": {
-      "bytes": 15370,
-      "hash": "f9c72832b479af70"
+      "bytes": 15342,
+      "hash": "33fd9b72e0edc5c7"
     },
     "blueprints/input-mask.mjs": {
       "bytes": 2099,
@@ -344,8 +344,8 @@
       ]
     },
     "blueprints/input-number.d.ts": {
-      "bytes": 15440,
-      "hash": "391374ed2093be53"
+      "bytes": 15420,
+      "hash": "1139c342320ab793"
     },
     "blueprints/input-number.mjs": {
       "bytes": 2939,
@@ -367,8 +367,8 @@
       ]
     },
     "blueprints/input-otp.d.ts": {
-      "bytes": 12152,
-      "hash": "6f6b970e4c8f5458"
+      "bytes": 12132,
+      "hash": "91c56fb7ea2347bd"
     },
     "blueprints/input-otp.mjs": {
       "bytes": 1756,
@@ -386,8 +386,8 @@
       ]
     },
     "blueprints/input-text.d.ts": {
-      "bytes": 15429,
-      "hash": "d8773df9ca82d26c"
+      "bytes": 15401,
+      "hash": "f0829245cd32b502"
     },
     "blueprints/input-text.mjs": {
       "bytes": 1890,
@@ -407,8 +407,8 @@
       ]
     },
     "blueprints/knob.d.ts": {
-      "bytes": 11727,
-      "hash": "5e5a8fb43b2379b1"
+      "bytes": 11707,
+      "hash": "5caac36f818d7b8d"
     },
     "blueprints/knob.mjs": {
       "bytes": 1431,
@@ -457,8 +457,8 @@
       ]
     },
     "blueprints/listbox.d.ts": {
-      "bytes": 89718,
-      "hash": "107dca6ee88b5a15"
+      "bytes": 89698,
+      "hash": "0da887b8bf141da1"
     },
     "blueprints/listbox.mjs": {
       "bytes": 1979,
@@ -490,8 +490,8 @@
       ]
     },
     "blueprints/multi-select.d.ts": {
-      "bytes": 90904,
-      "hash": "7aa6e19147633492"
+      "bytes": 91143,
+      "hash": "cd961e0ccbf32618"
     },
     "blueprints/multi-select.mjs": {
       "bytes": 2923,
@@ -526,8 +526,8 @@
       ]
     },
     "blueprints/password.d.ts": {
-      "bytes": 15217,
-      "hash": "563e928edb87b3a2"
+      "bytes": 15189,
+      "hash": "51af15117eda7e49"
     },
     "blueprints/password.mjs": {
       "bytes": 1985,
@@ -547,8 +547,8 @@
       ]
     },
     "blueprints/radio-button-group.d.ts": {
-      "bytes": 88431,
-      "hash": "336e96c9b8ac7ecf"
+      "bytes": 88411,
+      "hash": "1fc140cf626eba75"
     },
     "blueprints/radio-button-group.mjs": {
       "bytes": 1587,
@@ -564,8 +564,8 @@
       ]
     },
     "blueprints/radio-button.d.ts": {
-      "bytes": 13494,
-      "hash": "091698d2dc8a4b93"
+      "bytes": 13474,
+      "hash": "396396d1a8100646"
     },
     "blueprints/radio-button.mjs": {
       "bytes": 1675,
@@ -582,8 +582,8 @@
       ]
     },
     "blueprints/rating.d.ts": {
-      "bytes": 11621,
-      "hash": "3ca08db1af507859"
+      "bytes": 11601,
+      "hash": "affbdd4cdf271741"
     },
     "blueprints/rating.mjs": {
       "bytes": 1383,
@@ -614,8 +614,8 @@
       ]
     },
     "blueprints/select-button.d.ts": {
-      "bytes": 73205,
-      "hash": "3edfc7428353244c"
+      "bytes": 73185,
+      "hash": "32d28b854244e910"
     },
     "blueprints/select-button.mjs": {
       "bytes": 1844,
@@ -633,8 +633,8 @@
       ]
     },
     "blueprints/select.d.ts": {
-      "bytes": 90666,
-      "hash": "d780b0b66bce974d"
+      "bytes": 90646,
+      "hash": "f8de47403a0bdfe1"
     },
     "blueprints/select.mjs": {
       "bytes": 2757,
@@ -654,8 +654,8 @@
       ]
     },
     "blueprints/slider.d.ts": {
-      "bytes": 12985,
-      "hash": "f9b678c12ddb4b97"
+      "bytes": 12965,
+      "hash": "ad10baafa87bc645"
     },
     "blueprints/slider.mjs": {
       "bytes": 1507,
@@ -674,8 +674,8 @@
       ]
     },
     "blueprints/textarea.d.ts": {
-      "bytes": 15066,
-      "hash": "5efedfaaf5a7d600"
+      "bytes": 15038,
+      "hash": "30e34d78f54c7e05"
     },
     "blueprints/textarea.mjs": {
       "bytes": 1861,
@@ -695,8 +695,8 @@
       ]
     },
     "blueprints/toggle-button.d.ts": {
-      "bytes": 13243,
-      "hash": "f954db5b601871f2"
+      "bytes": 13223,
+      "hash": "5172a0c5d9860b75"
     },
     "blueprints/toggle-button.mjs": {
       "bytes": 2098,
@@ -714,8 +714,8 @@
       ]
     },
     "blueprints/toggle-switch.d.ts": {
-      "bytes": 13874,
-      "hash": "b92b8320c78f190c"
+      "bytes": 13854,
+      "hash": "38de9cf4568863d7"
     },
     "blueprints/toggle-switch.mjs": {
       "bytes": 2011,
@@ -733,8 +733,8 @@
       ]
     },
     "blueprints/tree-select.d.ts": {
-      "bytes": 14630,
-      "hash": "a7df016d994ffb01"
+      "bytes": 14610,
+      "hash": "3334d98a4f5ddaf7"
     },
     "blueprints/tree-select.mjs": {
       "bytes": 2688,
@@ -865,8 +865,8 @@
       ]
     },
     "components/VfAutoComplete/VfAutoComplete.vue.d.ts": {
-      "bytes": 39002,
-      "hash": "11a4cd3ba3888989"
+      "bytes": 38982,
+      "hash": "5ac85e0924ab4631"
     },
     "components/VfAutoComplete/VfAutoComplete.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6248,
@@ -952,8 +952,8 @@
       ]
     },
     "components/VfButton/VfButton.vue.d.ts": {
-      "bytes": 23435,
-      "hash": "fd050d456937f056"
+      "bytes": 23431,
+      "hash": "3d03e1dc7fb2ce4f"
     },
     "components/VfButton/VfButton.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 5907,
@@ -1052,8 +1052,8 @@
       ]
     },
     "components/VfCascadeSelect/VfCascadeSelect.vue.d.ts": {
-      "bytes": 44766,
-      "hash": "878eaa228355268e"
+      "bytes": 44746,
+      "hash": "f6899f7327259915"
     },
     "components/VfCascadeSelect/VfCascadeSelect.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6429,
@@ -1139,8 +1139,8 @@
       ]
     },
     "components/VfCheckbox/VfCheckbox.vue.d.ts": {
-      "bytes": 25969,
-      "hash": "db170dfb8e7d13f8"
+      "bytes": 25949,
+      "hash": "1c7c18ba155efc0c"
     },
     "components/VfCheckbox/VfCheckbox.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 8049,
@@ -1239,8 +1239,8 @@
       ]
     },
     "components/VfCheckboxGroup/VfCheckboxGroup.vue.d.ts": {
-      "bytes": 32926,
-      "hash": "e50806572deb43d9"
+      "bytes": 32906,
+      "hash": "0d4b1f7823530cb6"
     },
     "components/VfCheckboxGroup/VfCheckboxGroup.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 9533,
@@ -1398,8 +1398,8 @@
       ]
     },
     "components/VfColorPicker/VfColorPicker.vue.d.ts": {
-      "bytes": 17317,
-      "hash": "8e87d51187df7e52"
+      "bytes": 17297,
+      "hash": "d82ffffbe743953a"
     },
     "components/VfColorPicker/VfColorPicker.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 4631,
@@ -1559,8 +1559,8 @@
       ]
     },
     "components/VfDatePicker/VfDatePicker.vue.d.ts": {
-      "bytes": 35837,
-      "hash": "0923d4ff509177ac"
+      "bytes": 35817,
+      "hash": "41460998bcd0b815"
     },
     "components/VfDatePicker/VfDatePicker.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6771,
@@ -1646,8 +1646,8 @@
       ]
     },
     "components/VfEditor/VfEditor.vue.d.ts": {
-      "bytes": 28889,
-      "hash": "f37f6412a072c84a"
+      "bytes": 28891,
+      "hash": "887ed94e8a2a031d"
     },
     "components/VfEditor/VfEditor.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 11123,
@@ -1856,8 +1856,8 @@
       ]
     },
     "components/VfFileUpload/VfFileUpload.vue.d.ts": {
-      "bytes": 30543,
-      "hash": "4cd5ad887c0b104b"
+      "bytes": 30523,
+      "hash": "f29ce7dd0eb390e6"
     },
     "components/VfFileUpload/VfFileUpload.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6842,
@@ -2288,8 +2288,8 @@
       ]
     },
     "components/VfInputMask/VfInputMask.vue.d.ts": {
-      "bytes": 33192,
-      "hash": "74cc75dfdad51bcd"
+      "bytes": 32971,
+      "hash": "0b052f603e00cc39"
     },
     "components/VfInputMask/VfInputMask.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6465,
@@ -2375,8 +2375,8 @@
       ]
     },
     "components/VfInputNumber/VfInputNumber.vue.d.ts": {
-      "bytes": 19960,
-      "hash": "fde15ad90b5c08b9"
+      "bytes": 19940,
+      "hash": "8fc0ff3117d97071"
     },
     "components/VfInputNumber/VfInputNumber.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6900,
@@ -2462,8 +2462,8 @@
       ]
     },
     "components/VfInputOtp/VfInputOtp.vue.d.ts": {
-      "bytes": 16069,
-      "hash": "a44a0936ab09afbe"
+      "bytes": 16049,
+      "hash": "f6afe27a8c123b10"
     },
     "components/VfInputOtp/VfInputOtp.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 5555,
@@ -2549,8 +2549,8 @@
       ]
     },
     "components/VfInputText/VfInputText.vue.d.ts": {
-      "bytes": 58876,
-      "hash": "e054818a99e3b619"
+      "bytes": 58848,
+      "hash": "b0a90a3f33689ef6"
     },
     "components/VfInputText/VfInputText.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6659,
@@ -2636,8 +2636,8 @@
       ]
     },
     "components/VfKnob/VfKnob.vue.d.ts": {
-      "bytes": 16184,
-      "hash": "9a7803c2878709bd"
+      "bytes": 16164,
+      "hash": "7e689d186d355513"
     },
     "components/VfKnob/VfKnob.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 5017,
@@ -2916,8 +2916,8 @@
       ]
     },
     "components/VfListbox/VfListbox.vue.d.ts": {
-      "bytes": 39681,
-      "hash": "e9b1cf7c34a42f86"
+      "bytes": 39661,
+      "hash": "ed569c51b971c9e2"
     },
     "components/VfListbox/VfListbox.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 5829,
@@ -3064,8 +3064,8 @@
       ]
     },
     "components/VfMultiSelect/VfMultiSelect.vue.d.ts": {
-      "bytes": 45375,
-      "hash": "a3346e751987f32c"
+      "bytes": 45355,
+      "hash": "b9f4bde44d0bf3fe"
     },
     "components/VfMultiSelect/VfMultiSelect.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6398,
@@ -3213,8 +3213,8 @@
       ]
     },
     "components/VfPassword/VfPassword.vue.d.ts": {
-      "bytes": 60892,
-      "hash": "da7e50cb601663db"
+      "bytes": 60864,
+      "hash": "8c79c558143f018c"
     },
     "components/VfPassword/VfPassword.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6459,
@@ -3300,8 +3300,8 @@
       ]
     },
     "components/VfRadioButton/VfRadioButton.vue.d.ts": {
-      "bytes": 24764,
-      "hash": "2715920d46ecaa0b"
+      "bytes": 24744,
+      "hash": "b98d809cd6c9dead"
     },
     "components/VfRadioButton/VfRadioButton.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 7944,
@@ -3400,8 +3400,8 @@
       ]
     },
     "components/VfRadioButtonGroup/VfRadioButtonGroup.vue.d.ts": {
-      "bytes": 34280,
-      "hash": "a9c5f90b7522c950"
+      "bytes": 34260,
+      "hash": "2234ada552929e00"
     },
     "components/VfRadioButtonGroup/VfRadioButtonGroup.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 9496,
@@ -3498,8 +3498,8 @@
       ]
     },
     "components/VfRating/VfRating.vue.d.ts": {
-      "bytes": 15720,
-      "hash": "1e580c823d78093d"
+      "bytes": 15700,
+      "hash": "01b2da2eb406c7de"
     },
     "components/VfRating/VfRating.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 5233,
@@ -3659,8 +3659,8 @@
       ]
     },
     "components/VfSelect/VfSelect.vue.d.ts": {
-      "bytes": 45008,
-      "hash": "70e505883cbcbbce"
+      "bytes": 44988,
+      "hash": "803fbafdce719ec0"
     },
     "components/VfSelect/VfSelect.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6395,
@@ -3746,8 +3746,8 @@
       ]
     },
     "components/VfSelectButton/VfSelectButton.vue.d.ts": {
-      "bytes": 34161,
-      "hash": "09b9f5797dc989e5"
+      "bytes": 34141,
+      "hash": "d6721de1768ab922"
     },
     "components/VfSelectButton/VfSelectButton.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 5663,
@@ -3833,8 +3833,8 @@
       ]
     },
     "components/VfSlider/VfSlider.vue.d.ts": {
-      "bytes": 25469,
-      "hash": "59c9320637fa1d13"
+      "bytes": 25449,
+      "hash": "dda3326727fd516e"
     },
     "components/VfSlider/VfSlider.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 4961,
@@ -3933,8 +3933,8 @@
       ]
     },
     "components/VfTextarea/VfTextarea.vue.d.ts": {
-      "bytes": 56986,
-      "hash": "2c6017e01fddbe25"
+      "bytes": 56958,
+      "hash": "97c599624671d96d"
     },
     "components/VfTextarea/VfTextarea.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6465,
@@ -4020,8 +4020,8 @@
       ]
     },
     "components/VfToggleButton/VfToggleButton.vue.d.ts": {
-      "bytes": 16096,
-      "hash": "aa3754373d88c1b4"
+      "bytes": 16076,
+      "hash": "602decbb631411b0"
     },
     "components/VfToggleButton/VfToggleButton.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 5264,
@@ -4107,8 +4107,8 @@
       ]
     },
     "components/VfToggleSwitch/VfToggleSwitch.vue.d.ts": {
-      "bytes": 25867,
-      "hash": "72569254d4ad7bd0"
+      "bytes": 26032,
+      "hash": "eb944912b90e753a"
     },
     "components/VfToggleSwitch/VfToggleSwitch.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 6343,
@@ -4207,8 +4207,8 @@
       ]
     },
     "components/VfTreeSelect/VfTreeSelect.vue.d.ts": {
-      "bytes": 36146,
-      "hash": "14e77410f2fb6a7b"
+      "bytes": 36126,
+      "hash": "7a3bbdd61c7e1e00"
     },
     "components/VfTreeSelect/VfTreeSelect.vue_vue_type_script_setup_true_lang.mjs": {
       "bytes": 5707,
@@ -8509,8 +8509,8 @@
       "hash": "5e997712ea625ef3"
     },
     "vueform.global.js": {
-      "bytes": 1697541,
-      "hash": "bfdd2b86bff6d20c",
+      "bytes": 1697653,
+      "hash": "c3848485b1761156",
       "exports": [],
       "imports": []
     }

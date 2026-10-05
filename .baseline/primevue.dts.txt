@@ -108,7 +108,7 @@ export declare function blueprint<TProps extends LooseAutoCompleteProps>(props: 
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -140,8 +140,8 @@ export declare function blueprint<TProps extends LooseAutoCompleteProps>(props: 
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -176,7 +176,7 @@ export declare function blueprint<TProps extends LooseAutoCompleteProps>(props: 
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -194,7 +194,7 @@ export declare function blueprint<TProps extends LooseAutoCompleteProps>(props: 
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -369,7 +369,7 @@ export declare function blueprint<TProps extends ButtonProps<string>>(props: Loo
     id: import('vue').ComputedRef<string>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -536,7 +536,7 @@ export declare function blueprint<TProps extends LooseCascadeSelectProps>(props:
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -656,8 +656,8 @@ export declare function blueprint<TProps extends LooseCascadeSelectProps>(props:
         readonly transformItems: LooseRequired<TProps>["transformOptions" & keyof TProps];
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -686,11 +686,7 @@ export declare function blueprint<TProps extends LooseCascadeSelectProps>(props:
     reinit: () => void;
     destroy: () => void;
     register: () => void;
-    unregister: (unregisterDataPath? /**
-     * Hides the cascade-select overlay.
-     *
-     * @param isFocus Whether to focus the component after hiding.
-     */: string) => void;
+    unregister: (unregisterDataPath?: string) => void;
     initModel: (() => void) | (() => void);
     reinitModel: (unregisterDataPath?: string) => void;
     destroyModel: (() => void) | (() => void);
@@ -1129,7 +1125,7 @@ export declare function blueprint<TProps extends LooseCascadeSelectProps>(props:
         groupChildren: undefined;
         itemValueReturn: unknown;
     } : never : never)["groupChildren"]>>[]>;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -1147,7 +1143,7 @@ export declare function blueprint<TProps extends LooseCascadeSelectProps>(props:
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -1801,7 +1797,7 @@ export declare function blueprint<TProps extends LooseCheckboxGroupProps>(props:
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -1921,8 +1917,8 @@ export declare function blueprint<TProps extends LooseCheckboxGroupProps>(props:
         readonly transformItems: LooseRequired<TProps>["transformOptions" & keyof TProps];
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -2390,7 +2386,7 @@ export declare function blueprint<TProps extends LooseCheckboxGroupProps>(props:
         groupChildren: undefined;
         itemValueReturn: unknown;
     } : never : never)["groupChildren"]>>[]>;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -2408,7 +2404,7 @@ export declare function blueprint<TProps extends LooseCheckboxGroupProps>(props:
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     info: import('vue').ComputedRef<string | (string & {}) | undefined>;
     infoPosition: Readonly<import('vue').Ref<import('..').TooltipPosProp, import('..').TooltipPosProp>>;
@@ -3074,7 +3070,7 @@ export declare function blueprint<TProps extends CheckboxProps<string>>(props: L
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -3106,8 +3102,8 @@ export declare function blueprint<TProps extends CheckboxProps<string>>(props: L
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -3142,7 +3138,7 @@ export declare function blueprint<TProps extends CheckboxProps<string>>(props: L
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -3160,10 +3156,16 @@ export declare function blueprint<TProps extends CheckboxProps<string>>(props: L
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
-        "aria-labelledby"?: string;
+        "aria-labelledby"
+        /**
+         * Checkbox model shape: the union of `trueValue` and `falseValue`.
+         */
+        ? /**
+         * Checkbox model shape: the union of `trueValue` and `falseValue`.
+         */: string;
         "aria-describedby": string;
         "aria-required": boolean;
         "aria-invalid": boolean;
@@ -3341,7 +3343,7 @@ export declare function blueprint<TProps extends ColorPickerProps<string>>(props
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -3373,8 +3375,8 @@ export declare function blueprint<TProps extends ColorPickerProps<string>>(props
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -3409,7 +3411,7 @@ export declare function blueprint<TProps extends ColorPickerProps<string>>(props
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -3427,7 +3429,7 @@ export declare function blueprint<TProps extends ColorPickerProps<string>>(props
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -3444,10 +3446,7 @@ export declare function blueprint<TProps extends ColorPickerProps<string>>(props
     canonicalDomValue: import('vue').ComputedRef<boolean>;
     inputBindings: import('vue').ComputedRef<{
         ref: (el: any) => void;
-        onBlur? /**
-         * Format to use in value binding, supported formats are `'hex'`, `'rgb'` and
-         * `'hsb'`.
-         */: ((e: Event) => void) | undefined;
+        onBlur?: ((e: Event) => void) | undefined;
         onFocus?: ((e: Event) => void) | undefined;
         onInput: (payload: any, e?: Event) => void;
     }>;
@@ -3641,7 +3640,7 @@ export declare function blueprint<TProps extends DatePickerProps<string>>(props:
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -3673,8 +3672,8 @@ export declare function blueprint<TProps extends DatePickerProps<string>>(props:
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -3709,7 +3708,7 @@ export declare function blueprint<TProps extends DatePickerProps<string>>(props:
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: ComputedRef<string[]>;
@@ -3727,7 +3726,7 @@ export declare function blueprint<TProps extends DatePickerProps<string>>(props:
     ownErrors: ComputedRef<string[]>;
     formErrors: ComputedRef<Record<string, string[]>>;
     messages: ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, ComputedRef<string | undefined>>;
     aria: ComputedRef<{
         'aria-labelledby'?: string;
@@ -3886,7 +3885,7 @@ export declare const forwards: {
  * @param events Typed emitters.
  */
 export declare function blueprint<TProps extends EditorProps<string>>(props: LooseRequired<TProps>, events: DefineEvents<EditorEmits>): {
-    nonce: Readonly<import('vue').Ref<any, any>>;
+    nonce: Readonly<import('vue').Ref<string | undefined, string | undefined>>;
     ready: import('vue').Ref<boolean, boolean>;
     editorClass: import('vue').ComputedRef<string>;
     editorCss: import('vue').ComputedRef<string>;
@@ -3928,7 +3927,7 @@ export declare function blueprint<TProps extends EditorProps<string>>(props: Loo
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -3938,7 +3937,7 @@ export declare function blueprint<TProps extends EditorProps<string>>(props: Loo
     visited: import('vue').Ref<boolean, boolean>;
     handleBlur: (e: Event) => void;
     handleFocus: (e: Event) => void;
-    currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+    currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
     invalidLanguages: import('vue').ComputedRef<Set<string>>;
     validateCurrent: () => Promise<boolean>;
     filled: (value: any) => boolean;
@@ -3967,8 +3966,8 @@ export declare function blueprint<TProps extends EditorProps<string>>(props: Loo
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -4003,7 +4002,7 @@ export declare function blueprint<TProps extends EditorProps<string>>(props: Loo
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -4021,7 +4020,7 @@ export declare function blueprint<TProps extends EditorProps<string>>(props: Loo
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     language: import('vue').Ref<string, string>;
     languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -4229,7 +4228,7 @@ export declare function blueprint<TProps extends FileUploadProps<string>>(props:
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -4261,8 +4260,8 @@ export declare function blueprint<TProps extends FileUploadProps<string>>(props:
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -4271,12 +4270,7 @@ export declare function blueprint<TProps extends FileUploadProps<string>>(props:
     handleModelUpdate: (data: Event) => void;
     reset: () => void;
     clear: () => void;
-    validate: (options? /**
-     * Handles the PrimeVue FileUpload select event, updating the model with the
-     * selected files.
-     *
-     * @param event The select event from PrimeVue FileUpload.
-     */: {
+    validate: (options?: {
         force?: boolean;
     }) => Promise<boolean>;
     validateSelf: () => Promise<boolean>;
@@ -4302,7 +4296,7 @@ export declare function blueprint<TProps extends FileUploadProps<string>>(props:
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -4320,7 +4314,7 @@ export declare function blueprint<TProps extends FileUploadProps<string>>(props:
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -4534,7 +4528,7 @@ export declare function blueprint<TProps extends InputMaskProps<string>>(props: 
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -4544,7 +4538,7 @@ export declare function blueprint<TProps extends InputMaskProps<string>>(props: 
     visited: import('vue').Ref<boolean, boolean>;
     handleBlur: (e: Event) => void;
     handleFocus: (e: Event) => void;
-    currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+    currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
     invalidLanguages: import('vue').ComputedRef<Set<string>>;
     validateCurrent: () => Promise<boolean>;
     filled: (value: any) => boolean;
@@ -4573,8 +4567,8 @@ export declare function blueprint<TProps extends InputMaskProps<string>>(props: 
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -4609,7 +4603,7 @@ export declare function blueprint<TProps extends InputMaskProps<string>>(props: 
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -4627,7 +4621,7 @@ export declare function blueprint<TProps extends InputMaskProps<string>>(props: 
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     language: import('vue').Ref<string, string>;
     languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -4828,7 +4822,7 @@ export declare function blueprint<TProps extends InputNumberProps<string>>(props
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -4862,8 +4856,8 @@ export declare function blueprint<TProps extends InputNumberProps<string>>(props
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -4898,7 +4892,7 @@ export declare function blueprint<TProps extends InputNumberProps<string>>(props
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -4916,7 +4910,7 @@ export declare function blueprint<TProps extends InputNumberProps<string>>(props
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -5084,7 +5078,7 @@ export declare function blueprint<TProps extends InputOtpProps<string>>(props: L
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -5115,8 +5109,8 @@ export declare function blueprint<TProps extends InputOtpProps<string>>(props: L
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -5151,7 +5145,7 @@ export declare function blueprint<TProps extends InputOtpProps<string>>(props: L
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -5169,7 +5163,7 @@ export declare function blueprint<TProps extends InputOtpProps<string>>(props: L
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -5339,7 +5333,7 @@ export declare function blueprint<TProps extends InputTextProps<string>>(props: 
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -5349,7 +5343,7 @@ export declare function blueprint<TProps extends InputTextProps<string>>(props: 
     visited: import('vue').Ref<boolean, boolean>;
     handleBlur: (e: Event) => void;
     handleFocus: (e: Event) => void;
-    currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+    currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
     invalidLanguages: import('vue').ComputedRef<Set<string>>;
     validateCurrent: () => Promise<boolean>;
     filled: (value: any) => boolean;
@@ -5378,8 +5372,8 @@ export declare function blueprint<TProps extends InputTextProps<string>>(props: 
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -5414,7 +5408,7 @@ export declare function blueprint<TProps extends InputTextProps<string>>(props: 
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -5432,7 +5426,7 @@ export declare function blueprint<TProps extends InputTextProps<string>>(props: 
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     language: import('vue').Ref<string, string>;
     languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -5609,7 +5603,7 @@ export declare function blueprint<TProps extends KnobProps<string>>(props: Loose
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -5643,8 +5637,8 @@ export declare function blueprint<TProps extends KnobProps<string>>(props: Loose
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -5679,7 +5673,7 @@ export declare function blueprint<TProps extends KnobProps<string>>(props: Loose
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -5697,7 +5691,7 @@ export declare function blueprint<TProps extends KnobProps<string>>(props: Loose
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -5936,7 +5930,7 @@ export declare function blueprint<TProps extends LooseListboxProps>(props: Loose
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -6056,8 +6050,8 @@ export declare function blueprint<TProps extends LooseListboxProps>(props: Loose
         readonly transformItems: LooseRequired<TProps>["transformOptions" & keyof TProps];
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -6525,7 +6519,7 @@ export declare function blueprint<TProps extends LooseListboxProps>(props: Loose
         groupChildren: undefined;
         itemValueReturn: unknown;
     } : never : never)["groupChildren"]>>[]>;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -6543,7 +6537,7 @@ export declare function blueprint<TProps extends LooseListboxProps>(props: Loose
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -7202,7 +7196,7 @@ export declare function blueprint<TProps extends LooseMultiSelectProps>(props: L
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -7322,8 +7316,8 @@ export declare function blueprint<TProps extends LooseMultiSelectProps>(props: L
         readonly transformItems: LooseRequired<TProps>["transformOptions" & keyof TProps];
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -7332,7 +7326,17 @@ export declare function blueprint<TProps extends LooseMultiSelectProps>(props: L
     handleModelUpdate: (data: Event) => void;
     reset: () => void;
     clear: () => void;
-    validate: (options?: {
+    validate: (options
+    /**
+     * Hides the multi-select overlay.
+     *
+     * @param isFocus Whether to focus the component after hiding.
+     */
+    ? /**
+     * Hides the multi-select overlay.
+     *
+     * @param isFocus Whether to focus the component after hiding.
+     */: {
         force?: boolean;
     }) => Promise<boolean>;
     validateSelf: () => Promise<boolean>;
@@ -7791,7 +7795,7 @@ export declare function blueprint<TProps extends LooseMultiSelectProps>(props: L
         groupChildren: undefined;
         itemValueReturn: unknown;
     } : never : never)["groupChildren"]>>[]>;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -7809,7 +7813,7 @@ export declare function blueprint<TProps extends LooseMultiSelectProps>(props: L
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -8463,7 +8467,7 @@ export declare function blueprint<TProps extends PasswordProps<string>>(props: L
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -8473,7 +8477,7 @@ export declare function blueprint<TProps extends PasswordProps<string>>(props: L
     visited: import('vue').Ref<boolean, boolean>;
     handleBlur: (e: Event) => void;
     handleFocus: (e: Event) => void;
-    currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+    currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
     invalidLanguages: import('vue').ComputedRef<Set<string>>;
     validateCurrent: () => Promise<boolean>;
     filled: (value: any) => boolean;
@@ -8502,8 +8506,8 @@ export declare function blueprint<TProps extends PasswordProps<string>>(props: L
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -8538,7 +8542,7 @@ export declare function blueprint<TProps extends PasswordProps<string>>(props: L
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -8556,7 +8560,7 @@ export declare function blueprint<TProps extends PasswordProps<string>>(props: L
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     language: import('vue').Ref<string, string>;
     languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -8736,7 +8740,7 @@ export declare function blueprint<TProps extends LooseRadioButtonGroupProps>(pro
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -8856,8 +8860,8 @@ export declare function blueprint<TProps extends LooseRadioButtonGroupProps>(pro
         readonly transformItems: LooseRequired<TProps>["transformOptions" & keyof TProps];
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -9325,7 +9329,7 @@ export declare function blueprint<TProps extends LooseRadioButtonGroupProps>(pro
         groupChildren: undefined;
         itemValueReturn: unknown;
     } : never : never)["groupChildren"]>>[]>;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -9343,7 +9347,7 @@ export declare function blueprint<TProps extends LooseRadioButtonGroupProps>(pro
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     info: import('vue').ComputedRef<string | (string & {}) | undefined>;
     infoPosition: Readonly<import('vue').Ref<import('..').TooltipPosProp, import('..').TooltipPosProp>>;
@@ -9998,7 +10002,7 @@ export declare function blueprint<TProps extends RadioButtonProps<string>>(props
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -10030,8 +10034,8 @@ export declare function blueprint<TProps extends RadioButtonProps<string>>(props
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -10066,7 +10070,7 @@ export declare function blueprint<TProps extends RadioButtonProps<string>>(props
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -10084,7 +10088,7 @@ export declare function blueprint<TProps extends RadioButtonProps<string>>(props
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         "aria-labelledby"?: string;
@@ -10236,7 +10240,7 @@ export declare function blueprint<TProps extends RatingProps<string>>(props: Loo
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -10268,8 +10272,8 @@ export declare function blueprint<TProps extends RatingProps<string>>(props: Loo
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -10304,7 +10308,7 @@ export declare function blueprint<TProps extends RatingProps<string>>(props: Loo
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -10322,7 +10326,7 @@ export declare function blueprint<TProps extends RatingProps<string>>(props: Loo
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -10485,7 +10489,7 @@ export declare function blueprint<TProps extends LooseSelectButtonProps>(props: 
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -10581,8 +10585,8 @@ export declare function blueprint<TProps extends LooseSelectButtonProps>(props: 
         readonly transformItems: LooseRequired<TProps>["transformOptions" & keyof TProps];
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -10978,7 +10982,7 @@ export declare function blueprint<TProps extends LooseSelectButtonProps>(props: 
         groupChildren: undefined;
         itemValueReturn: unknown;
     } : never : never)["groupChildren"]>>[]>;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -10996,7 +11000,7 @@ export declare function blueprint<TProps extends LooseSelectButtonProps>(props: 
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -11568,7 +11572,7 @@ export declare function blueprint<TProps extends LooseSelectProps>(props: LooseR
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -11688,8 +11692,8 @@ export declare function blueprint<TProps extends LooseSelectProps>(props: LooseR
         readonly transformItems: LooseRequired<TProps>["transformOptions" & keyof TProps];
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -12157,7 +12161,7 @@ export declare function blueprint<TProps extends LooseSelectProps>(props: LooseR
         groupChildren: undefined;
         itemValueReturn: unknown;
     } : never : never)["groupChildren"]>>[]>;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -12175,7 +12179,7 @@ export declare function blueprint<TProps extends LooseSelectProps>(props: LooseR
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -12849,7 +12853,7 @@ export declare function blueprint<TProps extends SliderProps<string>>(props: Loo
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -12883,8 +12887,8 @@ export declare function blueprint<TProps extends SliderProps<string>>(props: Loo
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -12919,7 +12923,7 @@ export declare function blueprint<TProps extends SliderProps<string>>(props: Loo
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -12937,7 +12941,7 @@ export declare function blueprint<TProps extends SliderProps<string>>(props: Loo
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -13091,7 +13095,7 @@ export declare function blueprint<TProps extends TextareaProps<string>>(props: L
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -13101,7 +13105,7 @@ export declare function blueprint<TProps extends TextareaProps<string>>(props: L
     visited: import('vue').Ref<boolean, boolean>;
     handleBlur: (e: Event) => void;
     handleFocus: (e: Event) => void;
-    currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+    currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
     invalidLanguages: import('vue').ComputedRef<Set<string>>;
     validateCurrent: () => Promise<boolean>;
     filled: (value: any) => boolean;
@@ -13130,8 +13134,8 @@ export declare function blueprint<TProps extends TextareaProps<string>>(props: L
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -13166,7 +13170,7 @@ export declare function blueprint<TProps extends TextareaProps<string>>(props: L
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -13184,7 +13188,7 @@ export declare function blueprint<TProps extends TextareaProps<string>>(props: L
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     language: import('vue').Ref<string, string>;
     languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -13378,7 +13382,7 @@ export declare function blueprint<TProps extends ToggleButtonProps<string>>(prop
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -13410,8 +13414,8 @@ export declare function blueprint<TProps extends ToggleButtonProps<string>>(prop
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -13446,7 +13450,7 @@ export declare function blueprint<TProps extends ToggleButtonProps<string>>(prop
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -13464,7 +13468,7 @@ export declare function blueprint<TProps extends ToggleButtonProps<string>>(prop
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -13654,7 +13658,7 @@ export declare function blueprint<TProps extends ToggleSwitchProps<string>>(prop
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -13686,8 +13690,8 @@ export declare function blueprint<TProps extends ToggleSwitchProps<string>>(prop
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -13722,7 +13726,7 @@ export declare function blueprint<TProps extends ToggleSwitchProps<string>>(prop
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -13740,7 +13744,7 @@ export declare function blueprint<TProps extends ToggleSwitchProps<string>>(prop
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -13920,7 +13924,7 @@ export declare function blueprint<TProps extends LooseTreeSelectProps>(props: Lo
     touched: import('vue').Ref<boolean, boolean>;
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -13952,8 +13956,8 @@ export declare function blueprint<TProps extends LooseTreeSelectProps>(props: Lo
     load: (data: import('@vueform/core').ModelOfProps<{
         readonly default: LooseRequired<TProps>["defaultValue" & keyof TProps];
     } & LooseRequired<TProps>>) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -13989,7 +13993,7 @@ export declare function blueprint<TProps extends LooseTreeSelectProps>(props: Lo
     initValidation: () => void;
     destroyValidation: () => void;
     items: import('vue').ComputedRef<import('../types').TreeNode[]>;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -14007,7 +14011,7 @@ export declare function blueprint<TProps extends LooseTreeSelectProps>(props: Lo
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -14313,7 +14317,7 @@ declare const _default: <TSuggestions extends SuggestionsProp = SuggestionsProp,
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -14329,8 +14333,8 @@ declare const _default: <TSuggestions extends SuggestionsProp = SuggestionsProp,
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').ItemsModel<TSuggestions, undefined, undefined, TMultiple, TModel, unknown>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TSuggestions>] extends [string] ? TModel : never, undefined>, Exclude<NoInfer<import('@vueform/core').ItemsModel<TSuggestions, undefined, undefined, TMultiple, TModel, unknown>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TSuggestions>] extends [string] ? TModel : never, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TSuggestions, undefined, undefined, TMultiple, TModel, unknown>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TSuggestions>] extends [string] ? TModel : never, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TSuggestions, undefined, undefined, TMultiple, TModel, unknown>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TSuggestions>] extends [string] ? TModel : never, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -14365,7 +14369,7 @@ declare const _default: <TSuggestions extends SuggestionsProp = SuggestionsProp,
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -14383,7 +14387,7 @@ declare const _default: <TSuggestions extends SuggestionsProp = SuggestionsProp,
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -14948,7 +14952,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfButtonProps, {
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     type: import('vue').Ref<"button", "button">;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -15460,7 +15464,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -15476,8 +15480,8 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, false, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>, Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, false, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, false, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, false, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -15513,7 +15517,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         initValidation: () => void;
         destroyValidation: () => void;
         items: import('vue').Ref<import('@vueform/core').ResolvedItem<import('@vueform/core').ItemValueOf<TOptions, TOptionValueKey, TGroupChildren, TOptionValueReturn>, import('@vueform/core').RawItemOf<TOptions, TGroupChildren>>[], import('@vueform/core').ResolvedItem<import('@vueform/core').ItemValueOf<TOptions, TOptionValueKey, TGroupChildren, TOptionValueReturn>, import('@vueform/core').RawItemOf<TOptions, TGroupChildren>>[]>;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -15531,7 +15535,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -16067,7 +16071,7 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -16083,8 +16087,8 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
         value: import('vue').WritableComputedRef<Exclude<NoInfer<TTrueValue | TFalseValue>, undefined>, Exclude<NoInfer<TTrueValue | TFalseValue>, undefined>>;
         update: (data: Exclude<NoInfer<TTrueValue | TFalseValue>, undefined>) => void;
         load: (data: Exclude<NoInfer<TTrueValue | TFalseValue>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<Ref<boolean, boolean>>;
@@ -16119,7 +16123,7 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -16137,7 +16141,7 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             "aria-labelledby"?: string;
@@ -16565,7 +16569,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -16581,8 +16585,8 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, true, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>, Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, true, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, true, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, true, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -16618,7 +16622,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         initValidation: () => void;
         destroyValidation: () => void;
         items: import('vue').Ref<import('@vueform/core').ResolvedItem<any, any>[], import('@vueform/core').ResolvedItem<any, any>[]>;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -16636,7 +16640,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         info: import('vue').ComputedRef<string | (string & {}) | undefined>;
         infoPosition: Readonly<import('vue').Ref<import('../..').TooltipPosProp, import('../..').TooltipPosProp>>;
@@ -17088,7 +17092,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfColorPickerProps,
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     type: import('vue').Ref<"color-picker", "color-picker">;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -17104,8 +17108,8 @@ declare const __VLS_component: import('vue').DefineComponent<VfColorPickerProps,
     value: import('vue').WritableComputedRef<import('@vueform/core').TextModel, import('@vueform/core').TextModel>;
     update: (data: import('@vueform/core').TextModel) => void;
     load: (data: import('@vueform/core').TextModel) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -17140,7 +17144,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfColorPickerProps,
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -17158,7 +17162,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfColorPickerProps,
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -17546,7 +17550,7 @@ declare const _default: <TSelectionMode extends DatePickerSelectionModeProp = un
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -17562,8 +17566,8 @@ declare const _default: <TSelectionMode extends DatePickerSelectionModeProp = un
         value: WritableComputedRef<Exclude<NoInfer<import('../../blueprints/date-picker').DatePickerModelOf<TSelectionMode>>, undefined>, Exclude<NoInfer<import('../../blueprints/date-picker').DatePickerModelOf<TSelectionMode>>, undefined>>;
         update: (data: Exclude<NoInfer<import('../../blueprints/date-picker').DatePickerModelOf<TSelectionMode>>, undefined>) => void;
         load: (data: Exclude<NoInfer<import('../../blueprints/date-picker').DatePickerModelOf<TSelectionMode>>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -17598,7 +17602,7 @@ declare const _default: <TSelectionMode extends DatePickerSelectionModeProp = un
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: ComputedRef<string[]>;
@@ -17616,7 +17620,7 @@ declare const _default: <TSelectionMode extends DatePickerSelectionModeProp = un
         ownErrors: ComputedRef<string[]>;
         formErrors: ComputedRef<Record<string, string[]>>;
         messages: ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, ComputedRef<string | undefined>>;
         aria: ComputedRef<{
             'aria-labelledby'?: string;
@@ -18089,7 +18093,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         readonly onEditorLoad?: ((event: import('primevue/editor').EditorLoadEvent, context$: import('./types').VfEditorContext<VfEditorProps<TTranslate, TLanguages>>) => any) | undefined;
     } & import('vue').VNodeProps & import('vue').AllowedComponentProps & import('vue').ComponentCustomProps, never>, "onFocus" | "onBlur" | "onChange" | "onInput" | "onReset" | "onInvalid" | "onLoad" | "onClear" | "onValid" | "onUpdate:modelValue" | "onBeforeMount" | "onMounted" | "onBeforeUnmount" | "onUnmounted" | "onUpdated" | "onValueChange" | "onTextChange" | "onSelectionChange" | "onEditorLoad"> & VfEditorProps<TTranslate, TLanguages> & Partial<{}>> & import('vue').PublicProps;
     expose(exposed: import('vue').ShallowUnwrapRef<Omit<{
-        nonce: Readonly<import('vue').Ref<any, any>>;
+        nonce: Readonly<import('vue').Ref<string | undefined, string | undefined>>;
         ready: import('vue').Ref<boolean, boolean>;
         editorClass: import('vue').ComputedRef<string>;
         editorCss: import('vue').ComputedRef<string>;
@@ -18120,7 +18124,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -18130,7 +18134,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         visited: import('vue').Ref<boolean, boolean>;
         handleBlur: (e: Event) => void;
         handleFocus: (e: Event) => void;
-        currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+        currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
         invalidLanguages: import('vue').ComputedRef<Set<string>>;
         validateCurrent: () => Promise<boolean>;
         filled: (value: any) => boolean;
@@ -18139,8 +18143,8 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         value: WritableComputedRef<any, any>;
         update: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -18175,7 +18179,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -18193,7 +18197,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         language: import('vue').Ref<string, string>;
         languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -18631,7 +18635,7 @@ declare const _default: <const TMultiple extends boolean = false>(__VLS_props: N
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -18647,8 +18651,8 @@ declare const _default: <const TMultiple extends boolean = false>(__VLS_props: N
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').FileModelOf<TMultiple>>, undefined>, Exclude<NoInfer<import('@vueform/core').FileModelOf<TMultiple>>, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').FileModelOf<TMultiple>>, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').FileModelOf<TMultiple>>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -18683,7 +18687,7 @@ declare const _default: <const TMultiple extends boolean = false>(__VLS_props: N
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -18701,7 +18705,7 @@ declare const _default: <const TMultiple extends boolean = false>(__VLS_props: N
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -19973,7 +19977,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -19983,7 +19987,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         visited: import('vue').Ref<boolean, boolean>;
         handleBlur: (e: Event) => void;
         handleFocus: (e: Event) => void;
-        currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+        currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
         invalidLanguages: import('vue').ComputedRef<Set<string>>;
         validateCurrent: () => Promise<boolean>;
         filled: (value: any) => boolean;
@@ -19992,8 +19996,8 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         value: WritableComputedRef<any, any>;
         update: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -20003,8 +20007,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         reset: () => void;
         clear: () => void;
         validate: (options?: {
-            force
-            /** @type { [typeof __VLS_components.InputMask, typeof __VLS_components.InputMask, ] } */ ? /** @type { [typeof __VLS_components.InputMask, typeof __VLS_components.InputMask, ] } */: boolean;
+            force?: boolean;
         }) => Promise<boolean>;
         validateSelf: () => Promise<boolean>;
         validateChildren: (options?: {
@@ -20029,7 +20032,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -20047,7 +20050,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         language: import('vue').Ref<string, string>;
         languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -20446,7 +20449,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfInputNumberProps,
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     type: import('vue').Ref<"input-number", "input-number">;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -20464,8 +20467,8 @@ declare const __VLS_component: import('vue').DefineComponent<VfInputNumberProps,
     value: WritableComputedRef<import('@vueform/core').TextishModel, import('@vueform/core').TextishModel>;
     update: (data: import('@vueform/core').TextishModel) => void;
     load: (data: import('@vueform/core').TextishModel) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -20500,7 +20503,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfInputNumberProps,
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -20518,7 +20521,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfInputNumberProps,
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -20892,7 +20895,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfInputOtpProps, {
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     type: import('vue').Ref<"input-otp", "input-otp">;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -20908,8 +20911,8 @@ declare const __VLS_component: import('vue').DefineComponent<VfInputOtpProps, {
     value: WritableComputedRef<string | null, string | null>;
     update: (data: string | null) => void;
     load: (data: string | null) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -20944,7 +20947,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfInputOtpProps, {
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -20962,7 +20965,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfInputOtpProps, {
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -21302,7 +21305,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -21312,7 +21315,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         visited: import('vue').Ref<boolean, boolean>;
         handleBlur: (e: Event) => void;
         handleFocus: (e: Event) => void;
-        currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+        currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
         invalidLanguages: import('vue').ComputedRef<Set<string>>;
         validateCurrent: () => Promise<boolean>;
         filled: (value: any) => boolean;
@@ -21321,8 +21324,8 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         value: WritableComputedRef<any, any>;
         update: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -21357,7 +21360,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -21375,7 +21378,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         language: import('vue').Ref<string, string>;
         languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -22188,7 +22191,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfKnobProps, {
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     type: import('vue').Ref<"knob", "knob">;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -22206,8 +22209,8 @@ declare const __VLS_component: import('vue').DefineComponent<VfKnobProps, {
     value: WritableComputedRef<import('@vueform/core').TextishModel, import('@vueform/core').TextishModel>;
     update: (data: import('@vueform/core').TextishModel) => void;
     load: (data: import('@vueform/core').TextishModel) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -22242,7 +22245,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfKnobProps, {
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -22260,7 +22263,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfKnobProps, {
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -22851,7 +22854,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -22867,8 +22870,8 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>, Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -22904,7 +22907,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         initValidation: () => void;
         destroyValidation: () => void;
         items: import('vue').Ref<import('@vueform/core').ResolvedItem<any, any>[], import('@vueform/core').ResolvedItem<any, any>[]>;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -22922,7 +22925,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -23467,7 +23470,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -23483,8 +23486,8 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, true, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>, Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, true, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, true, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, true, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -23520,7 +23523,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         initValidation: () => void;
         destroyValidation: () => void;
         items: import('vue').Ref<import('@vueform/core').ResolvedItem<any, any>[], import('@vueform/core').ResolvedItem<any, any>[]>;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -23538,7 +23541,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -24195,7 +24198,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -24205,7 +24208,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         visited: import('vue').Ref<boolean, boolean>;
         handleBlur: (e: Event) => void;
         handleFocus: (e: Event) => void;
-        currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+        currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
         invalidLanguages: import('vue').ComputedRef<Set<string>>;
         validateCurrent: () => Promise<boolean>;
         filled: (value: any) => boolean;
@@ -24214,8 +24217,8 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         value: WritableComputedRef<any, any>;
         update: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -24250,7 +24253,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -24268,7 +24271,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         language: import('vue').Ref<string, string>;
         languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -25143,7 +25146,7 @@ declare const _default: <const TRadioValue = true>(__VLS_props: NonNullable<Awai
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -25159,8 +25162,8 @@ declare const _default: <const TRadioValue = true>(__VLS_props: NonNullable<Awai
         value: import('vue').WritableComputedRef<Exclude<NoInfer<TRadioValue | null>, undefined>, Exclude<NoInfer<TRadioValue | null>, undefined>>;
         update: (data: Exclude<NoInfer<TRadioValue | null>, undefined>) => void;
         load: (data: Exclude<NoInfer<TRadioValue | null>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<Ref<boolean, boolean>>;
@@ -25195,7 +25198,7 @@ declare const _default: <const TRadioValue = true>(__VLS_props: NonNullable<Awai
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -25213,7 +25216,7 @@ declare const _default: <const TRadioValue = true>(__VLS_props: NonNullable<Awai
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             "aria-labelledby"?: string;
@@ -25637,7 +25640,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -25653,8 +25656,8 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, false, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>, Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, false, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, false, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, false, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -25690,7 +25693,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         initValidation: () => void;
         destroyValidation: () => void;
         items: import('vue').Ref<import('@vueform/core').ResolvedItem<any, any>[], import('@vueform/core').ResolvedItem<any, any>[]>;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -25708,7 +25711,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         info: import('vue').ComputedRef<string | (string & {}) | undefined>;
         infoPosition: Readonly<import('vue').Ref<import('../..').TooltipPosProp, import('../..').TooltipPosProp>>;
@@ -26129,7 +26132,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfRatingProps, {
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     type: import('vue').Ref<"rating", "rating">;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -26145,8 +26148,8 @@ declare const __VLS_component: import('vue').DefineComponent<VfRatingProps, {
     value: WritableComputedRef<import('@vueform/core').TextishModel, import('@vueform/core').TextishModel>;
     update: (data: import('@vueform/core').TextishModel) => void;
     load: (data: import('@vueform/core').TextishModel) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -26181,7 +26184,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfRatingProps, {
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -26199,7 +26202,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfRatingProps, {
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -26550,7 +26553,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -26566,8 +26569,8 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>, Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, TGroupChildren, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -26603,7 +26606,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         initValidation: () => void;
         destroyValidation: () => void;
         items: import('vue').Ref<import('@vueform/core').ResolvedItem<any, any>[], import('@vueform/core').ResolvedItem<any, any>[]>;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -26621,7 +26624,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -27214,7 +27217,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -27230,8 +27233,8 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         value: import('vue').WritableComputedRef<Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, undefined, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>, Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, undefined, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>>;
         update: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, undefined, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').ItemsModel<TOptions, TOptionValueKey, undefined, TMultiple, TModel, TOptionValueReturn>>, undefined> | Exclude<[import('@vueform/core').UnwrappedItems<TOptions>] extends [string] ? TModel : never, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -27267,7 +27270,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         initValidation: () => void;
         destroyValidation: () => void;
         items: import('vue').Ref<import('@vueform/core').ResolvedItem<any, any>[], import('@vueform/core').ResolvedItem<any, any>[]>;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -27285,7 +27288,7 @@ declare const _default: <TOptions extends OptionsProp = OptionsProp, TOptionValu
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -27695,7 +27698,7 @@ declare const _default: <const TRange extends boolean = false>(__VLS_props: NonN
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -27713,8 +27716,8 @@ declare const _default: <const TRange extends boolean = false>(__VLS_props: NonN
         value: WritableComputedRef<Exclude<NoInfer<[boolean] extends [TRange] ? import('@vueform/core').TextishMaybeArrayModel : [TRange] extends [true] ? import('@vueform/core').TextishArrayModel : import('@vueform/core').TextishModel>, undefined>, Exclude<NoInfer<[boolean] extends [TRange] ? import('@vueform/core').TextishMaybeArrayModel : [TRange] extends [true] ? import('@vueform/core').TextishArrayModel : import('@vueform/core').TextishModel>, undefined>>;
         update: (data: Exclude<NoInfer<[boolean] extends [TRange] ? import('@vueform/core').TextishMaybeArrayModel : [TRange] extends [true] ? import('@vueform/core').TextishArrayModel : import('@vueform/core').TextishModel>, undefined>) => void;
         load: (data: Exclude<NoInfer<[boolean] extends [TRange] ? import('@vueform/core').TextishMaybeArrayModel : [TRange] extends [true] ? import('@vueform/core').TextishArrayModel : import('@vueform/core').TextishModel>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -27749,7 +27752,7 @@ declare const _default: <const TRange extends boolean = false>(__VLS_props: NonN
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -27767,7 +27770,7 @@ declare const _default: <const TRange extends boolean = false>(__VLS_props: NonN
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -28138,7 +28141,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -28148,7 +28151,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         visited: import('vue').Ref<boolean, boolean>;
         handleBlur: (e: Event) => void;
         handleFocus: (e: Event) => void;
-        currentValidation: Readonly<import('vue').Ref<import('@vueform/primevue').ValidationView, import('@vueform/primevue').ValidationView>>;
+        currentValidation: Readonly<import('vue').Ref<import('@vueform/core').ValidationView, import('@vueform/core').ValidationView>>;
         invalidLanguages: import('vue').ComputedRef<Set<string>>;
         validateCurrent: () => Promise<boolean>;
         filled: (value: any) => boolean;
@@ -28157,8 +28160,8 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         value: WritableComputedRef<any, any>;
         update: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
         load: (data: Exclude<NoInfer<import('@vueform/core').TranslateModel<TTranslate, TLanguages, string | number | null>>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -28193,7 +28196,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -28211,7 +28214,7 @@ declare const _default: <TTranslate extends boolean = false, TLanguages extends 
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         language: import('vue').Ref<string, string>;
         languages: import('vue').Ref<import('@vueform/core').ResolvedLanguagesProp, import('@vueform/core').ResolvedLanguagesProp>;
@@ -28989,7 +28992,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfToggleButtonProps
     $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
     type: import('vue').Ref<"toggle-button", "toggle-button">;
     name: Readonly<import('vue').Ref<string, string>>;
-    componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+    componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
     form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
     uid: import('vue').Ref<string, string>;
     visible: import('vue').ComputedRef<boolean>;
@@ -29005,8 +29008,8 @@ declare const __VLS_component: import('vue').DefineComponent<VfToggleButtonProps
     value: import('vue').WritableComputedRef<any, any>;
     update: (data: any) => void;
     load: (data: any) => void;
-    validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-    validator: import('@vueform/primevue').Validator;
+    validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+    validator: import('@vueform/core').Validator;
     shouldValidate: import('vue').ComputedRef<boolean>;
     onUserInput: () => void;
     isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -29041,7 +29044,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfToggleButtonProps
     destroyModel: (() => void) | (() => void);
     initValidation: () => void;
     destroyValidation: () => void;
-    rootModel: import('@vueform/primevue').RootModel | undefined;
+    rootModel: import('@vueform/core').RootModel | undefined;
     payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
     dataPath: Readonly<import('vue').Ref<string, string>>;
     ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -29059,7 +29062,7 @@ declare const __VLS_component: import('vue').DefineComponent<VfToggleButtonProps
     ownErrors: import('vue').ComputedRef<string[]>;
     formErrors: import('vue').ComputedRef<Record<string, string[]>>;
     messages: import('vue').ComputedRef<string[]>;
-    messageBag: import('@vueform/primevue').MessageBagInstance;
+    messageBag: import('@vueform/core').MessageBagInstance;
     ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
     aria: import('vue').ComputedRef<{
         'aria-labelledby'?: string;
@@ -29395,7 +29398,7 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -29411,8 +29414,8 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
         value: WritableComputedRef<Exclude<NoInfer<TTrueValue | TFalseValue>, undefined>, Exclude<NoInfer<TTrueValue | TFalseValue>, undefined>>;
         update: (data: Exclude<NoInfer<TTrueValue | TFalseValue>, undefined>) => void;
         load: (data: Exclude<NoInfer<TTrueValue | TFalseValue>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<Ref<boolean, boolean>>;
@@ -29425,7 +29428,8 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
             force?: boolean;
         }) => Promise<boolean>;
         validateSelf: () => Promise<boolean>;
-        validateChildren: (options?: {
+        validateChildren: (options
+        /** @type { [typeof __VLS_components.VfLayout, typeof __VLS_components.VfLayout, ] } */ ? /** @type { [typeof __VLS_components.VfLayout, typeof __VLS_components.VfLayout, ] } */: {
             force?: boolean;
         }) => Promise<boolean>;
         unvalidate: () => void;
@@ -29447,7 +29451,7 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
         destroyModel: (() => void) | (() => void);
         initValidation: () => void;
         destroyValidation: () => void;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -29465,7 +29469,7 @@ declare const _default: <const TTrueValue = true, const TFalseValue = false>(__V
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;
@@ -29865,7 +29869,7 @@ declare const _default: <TOptions extends TreeOptionsProp = TreeOptionsProp, TSe
         touched: import('vue').Ref<boolean, boolean>;
         $el: Readonly<import('vue').Ref<HTMLElement | null, HTMLElement | null>>;
         name: Readonly<import('vue').Ref<string, string>>;
-        componentName: keyof import('@vueform/primevue').ComponentRegistry<Record<string, any>>;
+        componentName: keyof import('@vueform/core').ComponentRegistry<Record<string, any>>;
         form$: import('@vueform/core/components/VfForm/raw').VfFormContext<import('@vueform/core/components/VfForm/raw').EntryProps<Record<string, any>>> | undefined;
         uid: import('vue').Ref<string, string>;
         visible: import('vue').ComputedRef<boolean>;
@@ -29881,8 +29885,8 @@ declare const _default: <TOptions extends TreeOptionsProp = TreeOptionsProp, TSe
         value: import('vue').WritableComputedRef<Exclude<import('../../features/tree-options').TreeSelectModelProp<TOptions, TSelectionMode, TModel>, undefined>, Exclude<import('../../features/tree-options').TreeSelectModelProp<TOptions, TSelectionMode, TModel>, undefined>>;
         update: (data: Exclude<import('../../features/tree-options').TreeSelectModelProp<TOptions, TSelectionMode, TModel>, undefined>) => void;
         load: (data: Exclude<import('../../features/tree-options').TreeSelectModelProp<TOptions, TSelectionMode, TModel>, undefined>) => void;
-        validation: import('vue').ShallowReactive<Record<string, import('@vueform/primevue').ValidationView>>;
-        validator: import('@vueform/primevue').Validator;
+        validation: import('vue').ShallowReactive<Record<string, import('@vueform/core').ValidationView>>;
+        validator: import('@vueform/core').Validator;
         shouldValidate: import('vue').ComputedRef<boolean>;
         onUserInput: () => void;
         isContainer: Readonly<import('vue').Ref<boolean, boolean>>;
@@ -29918,7 +29922,7 @@ declare const _default: <TOptions extends TreeOptionsProp = TreeOptionsProp, TSe
         initValidation: () => void;
         destroyValidation: () => void;
         items: import('vue').ComputedRef<import('../../types').TreeNode[]>;
-        rootModel: import('@vueform/primevue').RootModel | undefined;
+        rootModel: import('@vueform/core').RootModel | undefined;
         payload: import('vue').ComputedRef<Record<import('@vueform/core').ElementName, any>>;
         dataPath: Readonly<import('vue').Ref<string, string>>;
         ownDataPaths: import('vue').ComputedRef<string[]>;
@@ -29936,7 +29940,7 @@ declare const _default: <TOptions extends TreeOptionsProp = TreeOptionsProp, TSe
         ownErrors: import('vue').ComputedRef<string[]>;
         formErrors: import('vue').ComputedRef<Record<string, string[]>>;
         messages: import('vue').ComputedRef<string[]>;
-        messageBag: import('@vueform/primevue').MessageBagInstance;
+        messageBag: import('@vueform/core').MessageBagInstance;
         ruleMessages: Record<string, import('vue').ComputedRef<string | undefined>>;
         aria: import('vue').ComputedRef<{
             'aria-labelledby'?: string;

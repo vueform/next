@@ -2419,8 +2419,8 @@
       "hash": "6b60b5ca5201e1ba"
     },
     "material.global.js": {
-      "bytes": 432694,
-      "hash": "46f7df3b0f0b072f",
+      "bytes": 432898,
+      "hash": "4ee96cab0b5324c0",
       "exports": [],
       "imports": []
     },
@@ -2464,8 +2464,8 @@
       "hash": "7f2fb9ff532d3cc5"
     },
     "origin.global.js": {
-      "bytes": 432694,
-      "hash": "bca69e781bc6e9b7",
+      "bytes": 432898,
+      "hash": "c8dc726400026fe8",
       "exports": [],
       "imports": []
     },

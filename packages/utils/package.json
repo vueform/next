@@ -40,6 +40,7 @@
     "prettier": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
     "typescript": "catalog:",
+    "unplugin-vue": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vue": "catalog:"
   },

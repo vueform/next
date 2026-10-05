@@ -650,13 +650,18 @@ export function mirrorEntries(dir: string): Record<string, string> {
  * generated files import the prop helpers from — `'../../types'` in core,
  * `'@vueform/core'` in adapters.
  */
-export function shorthandProps(distAbs: string, helpersFrom: string): Plugin {
+export function shorthandProps(
+  distAbs: string,
+  helpersFrom: string,
+  srcComponentsDir?: string
+): Plugin {
   return {
     name: 'vf:shorthand-props',
     enforce: 'post',
     closeBundle() {
       const { written, skipped } = injectShorthandPropsDts(distAbs, {
         helpersFrom,
+        srcComponentsDir,
       })
       if (written > 0) {
         const skipNote =
