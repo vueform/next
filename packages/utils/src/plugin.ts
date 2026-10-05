@@ -7,6 +7,13 @@ import type { UserConfig } from 'vite'
  */
 export interface PluginOptions {
   /**
+   * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
+   * from the package's `vite.config.ts`: tools that load workspace configs from
+   * elsewhere (e.g. `vp run` building its task graph) do not set
+   * `process.cwd()` to the package dir, which remains the fallback.
+   */
+  dir?: string
+  /**
    * The package's published name (e.g. `'@vueform/expr-eval'`) — used as the
    * lib name and added to externals.
    */
@@ -33,7 +40,7 @@ export interface PluginOptions {
  * on (vue, core, its own runtime dependencies) stays external.
  */
 export function createPluginConfig(options: PluginOptions): UserConfig {
-  const root = process.cwd()
+  const root = options.dir ?? process.cwd()
   const srcAbs = resolve(root, 'src')
 
   return {

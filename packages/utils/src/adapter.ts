@@ -28,6 +28,13 @@ export interface AdapterOptions {
    */
   name: string
   /**
+   * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
+   * from the package's `vite.config.ts`: tools that load workspace configs from
+   * elsewhere (e.g. `vp run` building its task graph) do not set
+   * `process.cwd()` to the package dir, which remains the fallback.
+   */
+  dir?: string
+  /**
    * Alias pointing at the source directory (e.g. `'@'`). No alias is registered
    * when omitted.
    */
@@ -312,7 +319,7 @@ export async function createAdapterConfig(
   const { default: Vue } = await import('@vitejs/plugin-vue')
   const { mergeConfig } = await import('vite')
 
-  const root = process.cwd()
+  const root = options.dir ?? process.cwd()
   const srcAbs = resolve(root, 'src')
   const scssAbs = resolve(srcAbs, 'scss')
 

@@ -43,8 +43,8 @@
       "hash": "11ce0906b324ab26"
     },
     "issues.json": {
-      "bytes": 276740,
-      "hash": "50e26838c25bac5e"
+      "bytes": 272525,
+      "hash": "8bd496159da46e1e"
     },
     "primevue/blueprints.json": {
       "bytes": 946110,
@@ -67,8 +67,8 @@
       "hash": "400386f39bc8a1d8"
     },
     "primevue/features.json": {
-      "bytes": 111296,
-      "hash": "b143e37126b19125"
+      "bytes": 114318,
+      "hash": "59f9297f53bc8e9d"
     },
     "primevue/helpers.json": {
       "bytes": 27794,

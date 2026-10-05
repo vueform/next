@@ -11,6 +11,13 @@ export interface AdapterOptions {
      */
     name: string;
     /**
+     * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
+     * from the package's `vite.config.ts`: tools that load workspace configs from
+     * elsewhere (e.g. `vp run` building its task graph) do not set
+     * `process.cwd()` to the package dir, which remains the fallback.
+     */
+    dir?: string;
+    /**
      * Alias pointing at the source directory (e.g. `'@'`). No alias is registered
      * when omitted.
      */
@@ -140,6 +147,13 @@ import type { UserConfig } from 'vite';
  */
 export interface CoreOptions {
     /**
+     * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
+     * from the package's `vite.config.ts`: tools that load workspace configs from
+     * elsewhere (e.g. `vp run` building its task graph) do not set
+     * `process.cwd()` to the package dir, which remains the fallback.
+     */
+    dir?: string;
+    /**
      * The package's published name (e.g. `'@vueform/core'`) — used as the lib
      * name, added to externals, and self-augmentations in emitted `.d.ts` are
      * rewritten to it.
@@ -232,6 +246,13 @@ import type { UserConfig } from 'vite';
  * Options for the `plugin` config factory.
  */
 export interface PluginOptions {
+    /**
+     * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
+     * from the package's `vite.config.ts`: tools that load workspace configs from
+     * elsewhere (e.g. `vp run` building its task graph) do not set
+     * `process.cwd()` to the package dir, which remains the fallback.
+     */
+    dir?: string;
     /**
      * The package's published name (e.g. `'@vueform/expr-eval'`) — used as the
      * lib name and added to externals.

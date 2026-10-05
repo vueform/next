@@ -8,16 +8,16 @@
   },
   "files": {
     ".tsbuildinfo": {
-      "bytes": 104158,
-      "hash": "5de72b6e5d55838e"
+      "bytes": 104876,
+      "hash": "cd6172d600ad1b56"
     },
     "adapter.d.ts": {
-      "bytes": 2469,
-      "hash": "0ffc7fc958d728e4"
+      "bytes": 2807,
+      "hash": "8743bf25be9f3772"
     },
     "adapter.js": {
-      "bytes": 15694,
-      "hash": "739d879476c86997",
+      "bytes": 15709,
+      "hash": "df24da9c3033e886",
       "exports": [],
       "imports": []
     },
@@ -42,12 +42,12 @@
       "imports": []
     },
     "core.d.ts": {
-      "bytes": 2009,
-      "hash": "63539cb57bbc6931"
+      "bytes": 2347,
+      "hash": "984b8206b3ce696c"
     },
     "core.js": {
-      "bytes": 7897,
-      "hash": "ac3bcd4a319754f4",
+      "bytes": 7912,
+      "hash": "7e8c4bc1d70d2130",
       "exports": [],
       "imports": []
     },
@@ -82,12 +82,12 @@
       "imports": []
     },
     "plugin.d.ts": {
-      "bytes": 1037,
-      "hash": "fdafbac7089ba96f"
+      "bytes": 1375,
+      "hash": "6ac36050bb6fd740"
     },
     "plugin.js": {
-      "bytes": 2451,
-      "hash": "00cd9cde075b0865",
+      "bytes": 2466,
+      "hash": "c69da74afcfa46d7",
       "exports": [],
       "imports": []
     },
