@@ -228,7 +228,7 @@ function buildNuxtConfigTs(combo: Combo): string {
     `const adapter = adapterConfig as Parameters<typeof defineNuxtConfig>[0]`,
     ``,
     `export default defineNuxtConfig({`,
-    `  compatibilityDate: '2025-05-27',`,
+    `  compatibilityDate: '2026-01-01',`,
     `  devtools: { enabled: true },`,
     `  telemetry: false,`,
     `  ...adapter,`,

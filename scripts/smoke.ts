@@ -26,6 +26,7 @@ const forwarded = (arg: string) =>
   [
     '--vite',
     '--nuxt',
+    '--nuxt3',
     '--ssr',
     '--spa',
     '--vapor',

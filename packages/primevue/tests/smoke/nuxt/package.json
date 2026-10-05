@@ -16,7 +16,7 @@
     "@vueform/expr-eval": "file:managed-by-smoke-harness",
     "@vueform/nuxt": "file:managed-by-smoke-harness",
     "@vueform/primevue": "file:managed-by-smoke-harness",
-    "nuxt": "^3.17.5",
+    "nuxt": "^4.5.2",
     "primeicons": "^7.0.0",
     "primevue": "^4.5.5",
     "quill": "^2.0.3"
@@ -24,6 +24,6 @@
   "devDependencies": {
     "@playwright/test": "^1.51.1",
     "typescript": "~5.9.3",
-    "vue-tsc": "^2.2.12"
+    "vue-tsc": "^3.1.0"
   }
 }

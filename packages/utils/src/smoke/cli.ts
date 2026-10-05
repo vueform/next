@@ -23,7 +23,7 @@ import {
 import { packWorkspace } from './pack'
 import { runCell, summarize, type CellResult } from './runner'
 
-const ENV_FLAGS = { vite: 'envs', nuxt: 'envs' } as const
+const ENV_FLAGS = { vite: 'envs', nuxt: 'envs', nuxt3: 'envs' } as const
 const RENDERING_FLAGS = { ssr: 'renderings', spa: 'renderings' } as const
 const MODE_FLAGS = { vapor: 'modes', vdom: 'modes' } as const
 
@@ -60,12 +60,12 @@ ${cellRows}
 
 Filters (each flag narrows one dimension; no flags = all cells; a combination
 that matches no cell is unsupported and exits with an error):
-  --vite | --nuxt      env
+  --vite | --nuxt | --nuxt3   env (--nuxt is Nuxt 4, --nuxt3 is Nuxt 3)
   --ssr  | --spa       rendering
   --vapor | --vdom     SFC mode
 
   Examples: --vite --ssr → vite-ssr | --nuxt --spa → nuxt-spa | --vapor → vapor
-            --ssr → vite-ssr + nuxt | --nuxt --vapor → error (unsupported)
+            --ssr → vite-ssr + nuxt + nuxt3 | --nuxt --vapor → error (unsupported)
 
 Package manager (installer for the fixture; not a filter):
   --pnpm (default) | --npm | --yarn | --bun

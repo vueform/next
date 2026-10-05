@@ -13,11 +13,11 @@
     "@vueform/expr-eval": "file:managed-by-smoke-harness",
     "@vueform/nuxt": "file:managed-by-smoke-harness",
     "@vueform/ui": "file:managed-by-smoke-harness",
-    "nuxt": "^3.17.5"
+    "nuxt": "^4.5.2"
   },
   "devDependencies": {
     "@playwright/test": "^1.51.1",
     "typescript": "~5.9.3",
-    "vue-tsc": "^2.2.12"
+    "vue-tsc": "^3.1.0"
   }
 }

@@ -13,9 +13,9 @@ packages:
 catalog:
   '@commitlint/cli': ^21.2.3
   '@commitlint/config-conventional': ^21.2.3
-  '@nuxt/kit': ^3.17.5
+  '@nuxt/kit': ^4.5.2
   '@nuxt/module-builder': ^1.0.2
-  '@nuxt/schema': ^3.17.5
+  '@nuxt/schema': ^4.5.2
   '@playwright/test': ^1.51.1
   '@primeuix/themes': ^2.0.3
   '@primevue/core': ^4.5.5

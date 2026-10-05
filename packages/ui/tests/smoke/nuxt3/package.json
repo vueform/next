@@ -1,0 +1,23 @@
+{
+  "name": "smoke-ui-nuxt3",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "serve": "HOST=127.0.0.1 PORT=$SMOKE_PORT node .output/server/index.mjs",
+    "typecheck": "nuxt typecheck"
+  },
+  "dependencies": {
+    "@vueform/core": "file:managed-by-smoke-harness",
+    "@vueform/expr-eval": "file:managed-by-smoke-harness",
+    "@vueform/nuxt": "file:managed-by-smoke-harness",
+    "@vueform/ui": "file:managed-by-smoke-harness",
+    "nuxt": "^3.17.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1",
+    "typescript": "~5.9.3",
+    "vue-tsc": "^2.2.12"
+  }
+}
