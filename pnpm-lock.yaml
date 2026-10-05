@@ -289,52 +289,6 @@ importers:
         specifier: 'catalog:'
         version: 2.2.12(typescript@5.9.3)
 
-  .playgrounds/primevue:
-    dependencies:
-      '@primeuix/themes':
-        specifier: ^2.0.3
-        version: 2.0.3
-      '@primevue/core':
-        specifier: ^4.5.5
-        version: 4.5.5(vue@3.5.43(typescript@5.9.3))
-      '@vueform/dompurify':
-        specifier: workspace:*
-        version: link:../../packages/dompurify
-      '@vueform/expr-eval':
-        specifier: workspace:*
-        version: link:../../packages/expr-eval
-      '@vueform/primevue':
-        specifier: workspace:*
-        version: link:../../packages/primevue
-      primeicons:
-        specifier: ^7.0.0
-        version: 7.0.0
-      primevue:
-        specifier: ^4.5.5
-        version: 4.5.5(vue@3.5.43(typescript@5.9.3))
-      vue:
-        specifier: ^3.5.42
-        version: 3.5.43(typescript@5.9.3)
-    devDependencies:
-      '@vitejs/plugin-vue':
-        specifier: ^6.0.8
-        version: 6.0.9(vite@7.3.6(@types/node@24.13.6)(jiti@2.7.0)(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue@3.5.43(typescript@5.9.3))
-      '@vue/tsconfig':
-        specifier: ^0.7.0
-        version: 0.7.0(typescript@5.9.3)(vue@3.5.43(typescript@5.9.3))
-      '@vueform/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
-      typescript:
-        specifier: ~5.9.3
-        version: 5.9.3
-      vite:
-        specifier: ^7.0.0
-        version: 7.3.6(@types/node@24.13.6)(jiti@2.7.0)(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
-      vue-tsc:
-        specifier: ^2.2.12
-        version: 2.2.12(typescript@5.9.3)
-
   benchmark:
     devDependencies:
       '@types/node':

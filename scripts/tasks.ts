@@ -151,6 +151,13 @@ export const testBenchDtsTasks = (passthrough: string[] = []): Task[] =>
 export const testDtsTasks = (): Task[] => discoverPackageTasks('test:dts')
 
 /**
+ * Dist type tests (`test:dts-dist` scripts) — resolve through the exports maps
+ * to built dist types, so they need a prior `pnpm build`.
+ */
+export const testDtsDistTasks = (): Task[] =>
+  discoverPackageTasks('test:dts-dist')
+
+/**
  * `passthrough` flags (cell filters like `--vite`/`--ssr`, `--tiers=…`,
  * `--skip-pack`) are forwarded to every adapter's `test:smoke` script.
  */

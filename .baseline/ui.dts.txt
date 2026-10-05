@@ -1,0 +1,2729 @@
+//// blueprints/addon.d.ts
+export * from '@vueform/core/blueprints/addon';
+
+//// blueprints/button.d.ts
+export * from '@vueform/core/blueprints/button';
+
+//// blueprints/checkbox.d.ts
+export * from '@vueform/core/blueprints/checkbox';
+
+//// blueprints/checkboxes.d.ts
+export * from '@vueform/core/blueprints/checkboxes';
+
+//// blueprints/col.d.ts
+export * from '@vueform/core/blueprints/col';
+
+//// blueprints/content.d.ts
+export * from '@vueform/core/blueprints/content';
+
+//// blueprints/elements.d.ts
+export * from '@vueform/core/blueprints/elements';
+
+//// blueprints/field.d.ts
+export * from '@vueform/core/blueprints/field';
+
+//// blueprints/file.d.ts
+export * from '@vueform/core/blueprints/file';
+
+//// blueprints/form.d.ts
+export * from '@vueform/core/blueprints/form';
+
+//// blueprints/grid.d.ts
+export * from '@vueform/core/blueprints/grid';
+
+//// blueprints/group.d.ts
+export * from '@vueform/core/blueprints/group';
+
+//// blueprints/hidden.d.ts
+export * from '@vueform/core/blueprints/hidden';
+
+//// blueprints/icon.d.ts
+export * from '@vueform/core/blueprints/icon';
+
+//// blueprints/languages.d.ts
+export * from '@vueform/core/blueprints/languages';
+
+//// blueprints/layout.d.ts
+export * from '@vueform/core/blueprints/layout';
+
+//// blueprints/list.d.ts
+export * from '@vueform/core/blueprints/list';
+
+//// blueprints/matrix.d.ts
+export * from '@vueform/core/blueprints/matrix';
+
+//// blueprints/nav.d.ts
+export * from '@vueform/core/blueprints/nav';
+
+//// blueprints/radio.d.ts
+export * from '@vueform/core/blueprints/radio';
+
+//// blueprints/radios.d.ts
+export * from '@vueform/core/blueprints/radios';
+
+//// blueprints/row.d.ts
+export * from '@vueform/core/blueprints/row';
+
+//// blueprints/select.d.ts
+export * from '@vueform/core/blueprints/select';
+
+//// blueprints/steps.d.ts
+export * from '@vueform/core/blueprints/steps';
+
+//// blueprints/tabs.d.ts
+export * from '@vueform/core/blueprints/tabs';
+
+//// blueprints/text.d.ts
+export * from '@vueform/core/blueprints/text';
+
+//// blueprints/textarea.d.ts
+export * from '@vueform/core/blueprints/textarea';
+
+//// components/VfAddon/index.d.ts
+export * from '@vueform/core/components/VfAddon/raw';
+export { default } from '@vueform/core/components/VfAddon/raw';
+
+//// components/VfAddon/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfAddon';
+export { default } from '@vueform/core/components/VfAddon';
+
+//// components/VfAddon/styles.d.ts
+import '@vueform/ui/addon.css';
+
+//// components/VfAddon/unstyled.d.ts
+export * from '@vueform/core/components/VfAddon';
+export { default } from '@vueform/core/components/VfAddon';
+
+//// components/VfButton/index.d.ts
+export * from '@vueform/core/components/VfButton/raw';
+export { default } from '@vueform/core/components/VfButton/raw';
+
+//// components/VfButton/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfButton';
+export { default } from '@vueform/core/components/VfButton';
+
+//// components/VfButton/styles.d.ts
+import '@vueform/ui/button.css';
+import '@vueform/ui/animation.css';
+
+//// components/VfButton/unstyled.d.ts
+export * from '@vueform/core/components/VfButton';
+export { default } from '@vueform/core/components/VfButton';
+
+//// components/VfCheckbox/index.d.ts
+export * from '@vueform/core/components/VfCheckbox/raw';
+export { default } from '@vueform/core/components/VfCheckbox/raw';
+
+//// components/VfCheckbox/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfCheckbox';
+export { default } from '@vueform/core/components/VfCheckbox';
+
+//// components/VfCheckbox/styles.d.ts
+import '@vueform/ui/choice.css';
+
+//// components/VfCheckbox/unstyled.d.ts
+export * from '@vueform/core/components/VfCheckbox';
+export { default } from '@vueform/core/components/VfCheckbox';
+
+//// components/VfCheckboxes/index.d.ts
+export * from '@vueform/core/components/VfCheckboxes/raw';
+export { default } from '@vueform/core/components/VfCheckboxes/raw';
+
+//// components/VfCheckboxes/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfCheckboxes';
+export { default } from '@vueform/core/components/VfCheckboxes';
+
+//// components/VfCheckboxes/styles.d.ts
+import '@vueform/ui/choices.css';
+
+//// components/VfCheckboxes/unstyled.d.ts
+export * from '@vueform/core/components/VfCheckboxes';
+export { default } from '@vueform/core/components/VfCheckboxes';
+
+//// components/VfCol/index.d.ts
+export * from '@vueform/core/components/VfCol/raw';
+export { default } from '@vueform/core/components/VfCol/raw';
+
+//// components/VfCol/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfCol';
+export { default } from '@vueform/core/components/VfCol';
+
+//// components/VfCol/styles.d.ts
+import '@vueform/ui/grid.css';
+
+//// components/VfCol/unstyled.d.ts
+export * from '@vueform/core/components/VfCol';
+export { default } from '@vueform/core/components/VfCol';
+
+//// components/VfContent/index.d.ts
+export * from '@vueform/core/components/VfContent/raw';
+export { default } from '@vueform/core/components/VfContent/raw';
+
+//// components/VfContent/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfContent';
+export { default } from '@vueform/core/components/VfContent';
+
+//// components/VfContent/styles.d.ts
+import '@vueform/ui/content.css';
+
+//// components/VfContent/unstyled.d.ts
+export * from '@vueform/core/components/VfContent';
+export { default } from '@vueform/core/components/VfContent';
+
+//// components/VfElements/index.d.ts
+export * from '@vueform/core/components/VfElements/raw';
+export { default } from '@vueform/core/components/VfElements/raw';
+
+//// components/VfElements/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfElements';
+export { default } from '@vueform/core/components/VfElements';
+
+//// components/VfElements/styles.d.ts
+import '@vueform/ui/form.css';
+
+//// components/VfElements/unstyled.d.ts
+export * from '@vueform/core/components/VfElements';
+export { default } from '@vueform/core/components/VfElements';
+
+//// components/VfField/index.d.ts
+export * from '@vueform/core/components/VfField/raw';
+export { default } from '@vueform/core/components/VfField/raw';
+
+//// components/VfField/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfField';
+export { default } from '@vueform/core/components/VfField';
+
+//// components/VfField/styles.d.ts
+import '@vueform/ui/input.css';
+
+//// components/VfField/unstyled.d.ts
+export * from '@vueform/core/components/VfField';
+export { default } from '@vueform/core/components/VfField';
+
+//// components/VfFile/index.d.ts
+export * from '@vueform/core/components/VfFile/raw';
+export { default } from '@vueform/core/components/VfFile/raw';
+
+//// components/VfFile/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfFile';
+export { default } from '@vueform/core/components/VfFile';
+
+//// components/VfFile/styles.d.ts
+import '@vueform/ui/file.css';
+
+//// components/VfFile/unstyled.d.ts
+export * from '@vueform/core/components/VfFile';
+export { default } from '@vueform/core/components/VfFile';
+
+//// components/VfForm/index.d.ts
+export * from '@vueform/core/components/VfForm/raw';
+export { default } from '@vueform/core/components/VfForm/raw';
+
+//// components/VfForm/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfForm';
+export { default } from '@vueform/core/components/VfForm';
+
+//// components/VfForm/styles.d.ts
+import '@vueform/ui/form.css';
+
+//// components/VfForm/unstyled.d.ts
+export * from '@vueform/core/components/VfForm';
+export { default } from '@vueform/core/components/VfForm';
+
+//// components/VfGrid/index.d.ts
+export * from '@vueform/core/components/VfGrid/raw';
+export { default } from '@vueform/core/components/VfGrid/raw';
+
+//// components/VfGrid/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfGrid';
+export { default } from '@vueform/core/components/VfGrid';
+
+//// components/VfGrid/styles.d.ts
+import '@vueform/ui/grid.css';
+import '@vueform/ui/tabular.css';
+
+//// components/VfGrid/unstyled.d.ts
+export * from '@vueform/core/components/VfGrid';
+export { default } from '@vueform/core/components/VfGrid';
+
+//// components/VfGroup/index.d.ts
+import { TabbedParts, TabbedSlots } from '@vueform/core';
+export * from '@vueform/core/components/VfGroup/raw';
+export { default } from '@vueform/core/components/VfGroup/raw';
+declare module '@vueform/core/components/VfGroup/raw' {
+    interface VfGroupSlots extends TabbedSlots {
+    }
+    interface VfGroupParts extends TabbedParts {
+    }
+}
+
+//// components/VfGroup/styled.d.ts
+import { TabbedParts, TabbedSlots } from '@vueform/core';
+import './styles';
+export * from '@vueform/core/components/VfGroup';
+export { default } from '@vueform/core/components/VfGroup';
+declare module '@vueform/core/components/VfGroup' {
+    interface VfGroupSlots extends TabbedSlots {
+    }
+    interface VfGroupParts extends TabbedParts {
+    }
+}
+
+//// components/VfGroup/styles.d.ts
+import '@vueform/ui/group.css';
+
+//// components/VfGroup/unstyled.d.ts
+import { TabbedParts, TabbedSlots } from '@vueform/core';
+export * from '@vueform/core/components/VfGroup';
+export { default } from '@vueform/core/components/VfGroup';
+declare module '@vueform/core/components/VfGroup' {
+    interface VfGroupSlots extends TabbedSlots {
+    }
+    interface VfGroupParts extends TabbedParts {
+    }
+}
+
+//// components/VfHidden/index.d.ts
+export * from '@vueform/core/components/VfHidden/raw';
+export { default } from '@vueform/core/components/VfHidden/raw';
+
+//// components/VfHidden/styled.d.ts
+export * from '@vueform/core/components/VfHidden';
+export { default } from '@vueform/core/components/VfHidden';
+
+//// components/VfHidden/unstyled.d.ts
+export * from '@vueform/core/components/VfHidden';
+export { default } from '@vueform/core/components/VfHidden';
+
+//// components/VfIcon/index.d.ts
+export * from '@vueform/core/components/VfIcon/raw';
+export { default } from '@vueform/core/components/VfIcon/raw';
+
+//// components/VfIcon/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfIcon';
+export { default } from '@vueform/core/components/VfIcon';
+
+//// components/VfIcon/styles.d.ts
+import '@vueform/ui/icon.css';
+import '@vueform/ui/animation.css';
+
+//// components/VfIcon/unstyled.d.ts
+export * from '@vueform/core/components/VfIcon';
+export { default } from '@vueform/core/components/VfIcon';
+
+//// components/VfLanguages/index.d.ts
+export * from '@vueform/core/components/VfLanguages/raw';
+export { default } from '@vueform/core/components/VfLanguages/raw';
+
+//// components/VfLanguages/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfLanguages';
+export { default } from '@vueform/core/components/VfLanguages';
+
+//// components/VfLanguages/styles.d.ts
+import '@vueform/ui/languages.css';
+
+//// components/VfLanguages/unstyled.d.ts
+export * from '@vueform/core/components/VfLanguages';
+export { default } from '@vueform/core/components/VfLanguages';
+
+//// components/VfLayout/index.d.ts
+export * from '@vueform/core/components/VfLayout/raw';
+export { default } from '@vueform/core/components/VfLayout/raw';
+
+//// components/VfLayout/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfLayout';
+export { default } from '@vueform/core/components/VfLayout';
+
+//// components/VfLayout/styles.d.ts
+import '@vueform/ui/element.css';
+import '@vueform/ui/input.css';
+import '@vueform/ui/icon.css';
+import '@vueform/ui/animation.css';
+import '@vueform/ui/utils.css';
+import '@vueform/ui/hr.css';
+import '@vueform/ui/blockquote.css';
+
+//// components/VfLayout/unstyled.d.ts
+export * from '@vueform/core/components/VfLayout';
+export { default } from '@vueform/core/components/VfLayout';
+
+//// components/VfList/index.d.ts
+export * from '@vueform/core/components/VfList/raw';
+export { default } from '@vueform/core/components/VfList/raw';
+
+//// components/VfList/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfList';
+export { default } from '@vueform/core/components/VfList';
+
+//// components/VfList/styles.d.ts
+import '@vueform/ui/list.css';
+
+//// components/VfList/unstyled.d.ts
+export * from '@vueform/core/components/VfList';
+export { default } from '@vueform/core/components/VfList';
+
+//// components/VfMatrix/index.d.ts
+export * from '@vueform/core/components/VfMatrix/raw';
+export { default } from '@vueform/core/components/VfMatrix/raw';
+
+//// components/VfMatrix/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfMatrix';
+export { default } from '@vueform/core/components/VfMatrix';
+
+//// components/VfMatrix/styles.d.ts
+import '@vueform/ui/matrix.css';
+import '@vueform/ui/tabular.css';
+
+//// components/VfMatrix/unstyled.d.ts
+export * from '@vueform/core/components/VfMatrix';
+export { default } from '@vueform/core/components/VfMatrix';
+
+//// components/VfNav/index.d.ts
+export * from '@vueform/core/components/VfNav/raw';
+export { default } from '@vueform/core/components/VfNav/raw';
+
+//// components/VfNav/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfNav';
+export { default } from '@vueform/core/components/VfNav';
+
+//// components/VfNav/styles.d.ts
+import '@vueform/ui/nav.css';
+
+//// components/VfNav/unstyled.d.ts
+export * from '@vueform/core/components/VfNav';
+export { default } from '@vueform/core/components/VfNav';
+
+//// components/VfRadio/index.d.ts
+export * from '@vueform/core/components/VfRadio/raw';
+export { default } from '@vueform/core/components/VfRadio/raw';
+
+//// components/VfRadio/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfRadio';
+export { default } from '@vueform/core/components/VfRadio';
+
+//// components/VfRadio/styles.d.ts
+import '@vueform/ui/choice.css';
+
+//// components/VfRadio/unstyled.d.ts
+export * from '@vueform/core/components/VfRadio';
+export { default } from '@vueform/core/components/VfRadio';
+
+//// components/VfRadios/index.d.ts
+export * from '@vueform/core/components/VfRadios/raw';
+export { default } from '@vueform/core/components/VfRadios/raw';
+
+//// components/VfRadios/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfRadios';
+export { default } from '@vueform/core/components/VfRadios';
+
+//// components/VfRadios/styles.d.ts
+import '@vueform/ui/choices.css';
+
+//// components/VfRadios/unstyled.d.ts
+export * from '@vueform/core/components/VfRadios';
+export { default } from '@vueform/core/components/VfRadios';
+
+//// components/VfRow/index.d.ts
+export * from '@vueform/core/components/VfRow/raw';
+export { default } from '@vueform/core/components/VfRow/raw';
+
+//// components/VfRow/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfRow';
+export { default } from '@vueform/core/components/VfRow';
+
+//// components/VfRow/styles.d.ts
+import '@vueform/ui/grid.css';
+
+//// components/VfRow/unstyled.d.ts
+export * from '@vueform/core/components/VfRow';
+export { default } from '@vueform/core/components/VfRow';
+
+//// components/VfSelect/index.d.ts
+export * from '@vueform/core/components/VfSelect/raw';
+export { default } from '@vueform/core/components/VfSelect/raw';
+
+//// components/VfSelect/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfSelect';
+export { default } from '@vueform/core/components/VfSelect';
+
+//// components/VfSelect/styles.d.ts
+import '@vueform/ui/select.css';
+import '@vueform/ui/input.css';
+
+//// components/VfSelect/unstyled.d.ts
+export * from '@vueform/core/components/VfSelect';
+export { default } from '@vueform/core/components/VfSelect';
+
+//// components/VfSteps/index.d.ts
+export * from '@vueform/core/components/VfSteps/raw';
+export { default } from '@vueform/core/components/VfSteps/raw';
+
+//// components/VfSteps/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfSteps';
+export { default } from '@vueform/core/components/VfSteps';
+
+//// components/VfSteps/styles.d.ts
+import '@vueform/ui/steps.css';
+import '@vueform/ui/animation.css';
+
+//// components/VfSteps/unstyled.d.ts
+export * from '@vueform/core/components/VfSteps';
+export { default } from '@vueform/core/components/VfSteps';
+
+//// components/VfTabs/index.d.ts
+export * from '@vueform/core/components/VfTabs/raw';
+export { default } from '@vueform/core/components/VfTabs/raw';
+
+//// components/VfTabs/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfTabs';
+export { default } from '@vueform/core/components/VfTabs';
+
+//// components/VfTabs/styles.d.ts
+import '@vueform/ui/tabs.css';
+
+//// components/VfTabs/unstyled.d.ts
+export * from '@vueform/core/components/VfTabs';
+export { default } from '@vueform/core/components/VfTabs';
+
+//// components/VfText/index.d.ts
+export * from '@vueform/core/components/VfText/raw';
+export { default } from '@vueform/core/components/VfText/raw';
+
+//// components/VfText/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfText';
+export { default } from '@vueform/core/components/VfText';
+
+//// components/VfText/styles.d.ts
+import '@vueform/ui/input.css';
+import '@vueform/ui/text.css';
+
+//// components/VfText/unstyled.d.ts
+export * from '@vueform/core/components/VfText';
+export { default } from '@vueform/core/components/VfText';
+
+//// components/VfTextarea/index.d.ts
+export * from '@vueform/core/components/VfTextarea/raw';
+export { default } from '@vueform/core/components/VfTextarea/raw';
+
+//// components/VfTextarea/styled.d.ts
+import './styles';
+export * from '@vueform/core/components/VfTextarea';
+export { default } from '@vueform/core/components/VfTextarea';
+
+//// components/VfTextarea/styles.d.ts
+import '@vueform/ui/textarea.css';
+import '@vueform/ui/input.css';
+
+//// components/VfTextarea/unstyled.d.ts
+export * from '@vueform/core/components/VfTextarea';
+export { default } from '@vueform/core/components/VfTextarea';
+
+//// components/index.d.ts
+export { default as VfAddon } from './VfAddon/styled';
+export { default as VfButton } from './VfButton/styled';
+export { default as VfCheckbox } from './VfCheckbox/styled';
+export { default as VfCheckboxes } from './VfCheckboxes/styled';
+export { default as VfCol } from './VfCol/styled';
+export { default as VfGroup } from './VfGroup/styled';
+export { default as VfLayout } from './VfLayout/styled';
+export { default as VfElements } from './VfElements/styled';
+export { default as VfField } from './VfField/styled';
+export { default as VfFile } from './VfFile/styled';
+export { default as VfGrid } from './VfGrid/styled';
+export { default as VfHidden } from './VfHidden/styled';
+export { default as VfIcon } from './VfIcon/styled';
+export { default as VfLanguages } from './VfLanguages/styled';
+export { default as VfList } from './VfList/styled';
+export { default as VfMatrix } from './VfMatrix/styled';
+export { default as VfNav } from './VfNav/styled';
+export { default as VfRadio } from './VfRadio/styled';
+export { default as VfRadios } from './VfRadios/styled';
+export { default as VfRow } from './VfRow/styled';
+export { default as VfSelect } from './VfSelect/styled';
+export { default as VfContent } from './VfContent/styled';
+export { default as VfSteps } from './VfSteps/styled';
+export { default as VfTabs } from './VfTabs/styled';
+export { default as VfText } from './VfText/styled';
+export { default as VfTextarea } from './VfTextarea/styled';
+export { default as VfForm } from './VfForm/styled';
+
+//// components/names.d.ts
+// AUTO-GENERATED by @vueform/utils — do not edit.
+export type ComponentNames =
+  | 'VfAddon'
+  | 'VfButton'
+  | 'VfCheckbox'
+  | 'VfCheckboxes'
+  | 'VfCol'
+  | 'VfContent'
+  | 'VfElements'
+  | 'VfField'
+  | 'VfFile'
+  | 'VfForm'
+  | 'VfGrid'
+  | 'VfGroup'
+  | 'VfHidden'
+  | 'VfIcon'
+  | 'VfLanguages'
+  | 'VfLayout'
+  | 'VfList'
+  | 'VfMatrix'
+  | 'VfNav'
+  | 'VfRadio'
+  | 'VfRadios'
+  | 'VfRow'
+  | 'VfSelect'
+  | 'VfSteps'
+  | 'VfTabs'
+  | 'VfText'
+  | 'VfTextarea'
+
+//// config.d.ts
+import { defaultConfig } from '@vueform/core';
+export default defaultConfig;
+export { defaultConfig };
+
+//// features/base.d.ts
+import { HeadingProp, ClassValue, DomAttrsOf } from '@vueform/core';
+import { VNode } from 'vue';
+declare module '@vueform/core' {
+    interface BaseElementSlots {
+        /**
+         * Slot for customizing the element's label content.
+         *
+         * @param props.label The resolved label text.
+         */
+        label: (props: {
+            label?: string;
+        }) => VNode[];
+        /**
+         * Slot for customizing the required indicator.
+         */
+        required: () => VNode[];
+        /**
+         * Slot for customizing the help text.
+         *
+         * @param props.help The resolved help text.
+         */
+        help: (props: {
+            help?: string;
+        }) => VNode[];
+        /**
+         * Slot for customizing the description text.
+         *
+         * @param props.description The resolved description text.
+         */
+        description: (props: {
+            description?: string;
+        }) => VNode[];
+        /**
+         * Slot for customizing the validation errors display.
+         *
+         * @param props.errors The list of validation error messages.
+         */
+        errors: (props: {
+            errors: string[];
+        }) => VNode[];
+        /**
+         * Slot for customizing the info messages display.
+         *
+         * @param props.messages The list of info messages.
+         */
+        messages: (props: {
+            messages: string[];
+        }) => VNode[];
+    }
+    interface BaseElementParts {
+        /**
+         * The wrapper around `root` with `display: contents` when the element is a
+         * step or a tab.
+         *
+         * @tag div
+         */
+        panel?: DomAttrsOf<'div'>;
+        /**
+         * The element's root wrapper.
+         *
+         * @tag div | fieldset
+         */
+        root?: DomAttrsOf<'div' | 'fieldset'>;
+        /**
+         * The container holding the label and required indicator.
+         *
+         * @tag div
+         */
+        labelGroup?: DomAttrsOf<'div'>;
+        /**
+         * The label element.
+         *
+         * @tag label | span | h1 | h2 | h3 | h4 | h5 | h6
+         */
+        label?: DomAttrsOf<'label' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>;
+        /**
+         * The required indicator.
+         *
+         * @tag div
+         */
+        required?: DomAttrsOf<'div'>;
+        /**
+         * The container wrapping the input and related UI.
+         *
+         * @tag div
+         */
+        elementGroup?: DomAttrsOf<'div'>;
+        /**
+         * The wrapper directly around the input control.
+         *
+         * @tag div
+         */
+        elementWrapper?: DomAttrsOf<'div'>;
+        /**
+         * The help text area.
+         *
+         * @tag div
+         */
+        help?: DomAttrsOf<'div'>;
+        /**
+         * The description text area.
+         *
+         * @tag div
+         */
+        description?: DomAttrsOf<'div'>;
+        /**
+         * The validation errors container.
+         *
+         * @tag div
+         */
+        errors?: DomAttrsOf<'div'>;
+        /**
+         * An individual validation error.
+         *
+         * @tag div
+         */
+        error?: DomAttrsOf<'div'>;
+        /**
+         * The info messages container.
+         *
+         * @tag div
+         */
+        messages?: DomAttrsOf<'div'>;
+        /**
+         * An individual info message.
+         *
+         * @tag div
+         */
+        message?: DomAttrsOf<'div'>;
+    }
+    interface BaseElementClasses {
+        /**
+         * The element's root wrapper.
+         */
+        root: (props: {
+            spaceTop?: number;
+            spaceBottom?: number;
+            lineTop?: boolean;
+            lineBottom?: boolean;
+        }) => ClassValue;
+        /**
+         * The main content panel.
+         */
+        panel: ClassValue;
+        /**
+         * The container holding the label and required indicator.
+         */
+        labelGroup: (heading?: HeadingProp) => ClassValue;
+        /**
+         * The label element.
+         */
+        label: ClassValue;
+        /**
+         * The required indicator.
+         */
+        required: ClassValue;
+        /**
+         * The container wrapping the input and related UI.
+         */
+        elementGroup: ClassValue;
+        /**
+         * The wrapper directly around the input control.
+         */
+        elementWrapper: ClassValue;
+        /**
+         * The help text area.
+         */
+        help: ClassValue;
+        /**
+         * The description text area.
+         */
+        description: ClassValue;
+        /**
+         * The validation errors container.
+         */
+        errors: ClassValue;
+        /**
+         * An individual validation error.
+         */
+        error: ClassValue;
+        /**
+         * The info messages container.
+         */
+        messages: ClassValue;
+        /**
+         * An individual info message.
+         */
+        message: ClassValue;
+    }
+}
+
+//// features/index.d.ts
+export * from './base';
+
+//// index.d.ts
+import { default as defaultConfig } from './config';
+export * from '@vueform/core';
+export type * from './features';
+export { defaultConfig };
+/**
+ * Creates a Vueform Vue plugin instance from user-provided configuration merged
+ * with the UI defaults. This bare entry bundles no modules or locales, so the
+ * `model` module must be registered (everything else is optional).
+ */
+export declare const createVueform: (config: Partial<Omit<import('@vueform/core').VueformConfig, "modules" | "build">> & {
+    modules?: Partial<import('@vueform/core').VueformModules> | undefined;
+    build?: Partial<{
+        styleId: string;
+        scopedDarkMode: boolean;
+        darkClass: string;
+        lightClass: string;
+    }> | undefined;
+} & {
+    modules: {
+        model: import('@vueform/core').VueformModule<import('@vueform/core').ModelModule>;
+    };
+}) => import('@vueform/core').VueformInstance;
+
+//// locales/index.d.ts
+export * from '@vueform/core/locales';
+
+//// material.d.ts
+import './components';
+import './themes';
+/**
+ * Creates a pre-configured Vueform plugin with all components, rules, modules,
+ * the Material theme, and the `en_US` locale registered by default. Every
+ * config option is optional; `tokens` are merged on top of the Material base
+ * theme.
+ */
+export declare const createVueform: (config?: import('@vueform/core').UserConfig | undefined) => import('@vueform/core').VueformInstance;
+
+//// modules/modules.d.ts
+export * from '@vueform/core/modules';
+
+//// origin.d.ts
+import './components';
+import './themes';
+/**
+ * Creates a pre-configured Vueform plugin with all components, rules, modules,
+ * the Origin theme, and the `en_US` locale registered by default. Every config
+ * option is optional; app `tokens` merge on top of the Origin theme, and a
+ * `theme` replaces it wholesale.
+ */
+export declare const createVueform: (config?: import('@vueform/core').UserConfig | undefined) => import('@vueform/core').VueformInstance;
+
+//// rules/index.d.ts
+export * from '@vueform/core/rules';
+
+//// themes/index.d.ts
+import { origin } from './tokens';
+import { CompleteTheme, InferThemeTokens } from '@vueform/core';
+declare module '@vueform/core' {
+    interface ThemeTokens extends InferThemeTokens<typeof origin> {
+    }
+}
+/**
+ * Type-safe helper for authoring a complete ui theme from scratch. Every token
+ * of the built-in themes must be defined — a missing or mistyped key surfaces
+ * as a type error — and an explicit `dark` block is required (pass `{}` to opt
+ * out of a dark variant). Extra custom tokens are accepted alongside the
+ * built-in set. To derive a theme from an existing one instead, use
+ * `extendTheme`; to author a theme with your own token structure (for a custom
+ * visual layer), use the structure-agnostic `defineTheme` from the root entry.
+ *
+ * @param theme The complete theme definition.
+ */
+export declare function defineTheme<T extends CompleteTheme<typeof origin>>(theme: T): T;
+export { extendTheme } from '@vueform/core';
+export * from './tokens';
+
+//// themes/material.d.ts
+export declare const materialComponentTokens: {
+    inputBg: string;
+    controlMinWidth: string;
+    controlMinHeight: string;
+    controlIconWidth: string;
+    controlIconHeight: string;
+    controlIconRemove: string;
+    controlIconSort: string;
+    controlShadow: string;
+    controlBg: string;
+    controlBgHover: string;
+    controlColor: string;
+    controlColorHover: string;
+    controlBorderColor: string;
+    controlBorderColorHover: string;
+    controlBorderWidth: string;
+    controlBorderStyle: string;
+    controlRadius: string;
+    tabularBg: string;
+    tabularColor: string;
+    tabularBorderColor: string;
+    tabularBorderWidth: string;
+    tabularBorderStyle: string;
+    tabularRadius: string;
+    tabularHeaderFontSize: string;
+    tabularHeaderFontWeight: string;
+    tabularHeaderPadding: string;
+    tabularColHeaderBg: string;
+    tabularColHeaderColor: string;
+    tabularColHeaderBorderColor: string;
+    tabularRowHeaderBg: string;
+    tabularRowHeaderColor: string;
+    tabularRowHeaderBorderColor: string;
+    tabularCellMinHeight: string;
+    tabularBoxedCellPadding: string;
+    tabularTextCellPadding: string;
+    addonBeforePadding: string;
+    addonBeforeMargin: string;
+    addonAfterPadding: string;
+    addonAfterMargin: string;
+    addonBg: string;
+    addonBgDanger: string;
+    addonColor: string;
+    addonColorDanger: string;
+    addonBorderColor: string;
+    addonBorderColorDanger: string;
+    addonBorderStyle: string;
+    addonBorderWidth: string;
+    addonRadius: string;
+    navGutter: string;
+    navMargin: string;
+    navJustify: string;
+    stepsFontSize: string;
+    stepsMargin: string;
+    stepsBgEnabled: string;
+    stepsBgDisabled: string;
+    stepsBgDanger: string;
+    stepsColorEnabled: string;
+    stepsColorDisabled: string;
+    stepsColorDanger: string;
+    stepsColorSelected: string;
+    stepsIconColor: string;
+    stepsIconSelected: string;
+    stepsIconCompleted: string;
+    stepsIconDanger: string;
+    selectIconWidth: string;
+    selectIconHeight: string;
+    selectPlaceholderColor: string;
+    selectIconCaret: string;
+    tabsFontSize: string;
+    tabsGutterX: string;
+    tabsGutterY: string;
+    tabsMargin: string;
+    tabPadding: string;
+    tabBg: string;
+    tabBgSelected: string;
+    tabBgDanger: string;
+    tabBgSelectedDanger: string;
+    tabColor: string;
+    tabColorSelected: string;
+    tabColorDanger: string;
+    tabColorSelectedDanger: string;
+    tabBorderColor: string;
+    tabBorderColorSelected: string;
+    tabBorderColorDanger: string;
+    tabBorderColorSelectedDanger: string;
+    tabBorderWidth: string;
+    tabRadius: string;
+    matrixGutterX: string;
+    matrixGutterY: string;
+    matrixHeaderFontSize: string;
+    matrixHeaderFontWeight: string;
+    matrixColHeaderColor: string;
+    matrixRowHeaderColor: string;
+    matrixAddMargin: string;
+    matrixDraggingOpacity: string;
+    listGutterX: string;
+    listGutterY: string;
+    listItemGutterX: string;
+    listItemGutterY: string;
+    listItemAlign: string;
+    listPlaceholderBg: string;
+    listPlaceholderBorderWidth: string;
+    listPlaceholderBorderColor: string;
+    listPlaceholderBorderStyle: string;
+    listPlaceholderRadius: string;
+    listPlaceholderFontStyle: string;
+    listPlaceholderColor: string;
+    listPlaceholderAlign: string;
+    listPlaceholderPadding: string;
+    listAddMargin: string;
+    listDraggingOpacity: string;
+    iconFontSize: string;
+    iconGroupWidth: string;
+    iconGroupColor: string;
+    iconGroupColorDanger: string;
+    groupGutterX: string;
+    groupGutterY: string;
+    groupGridTemplateColumns: string;
+    groupGutterStackedX: string;
+    groupGutterStackedY: string;
+    groupWrappedPadding: string;
+    groupWrappedBorderWidth: string;
+    groupWrappedBorderColor: string;
+    groupWrappedBorderStyle: string;
+    groupWrappedRadius: string;
+    groupWrappedBg: string;
+    gridGutterX: string;
+    gridGutterY: string;
+    gridHeaderFontSize: string;
+    gridHeaderFontWeight: string;
+    gridColHeaderColor: string;
+    gridRowHeaderColor: string;
+    fileGutterX: string;
+    fileGutterY: string;
+    fileMargin: string;
+    fileItemGutterX: string;
+    fileItemGutterY: string;
+    contentAlignedMargin: string;
+    choicesGutterX: string;
+    choicesGutterY: string;
+    choicesDirection: string;
+    choiceWidth: string;
+    choiceHeight: string;
+    choiceGutter: string;
+    choiceAlignedMargin: string;
+    choiceRingWidth: string;
+    choiceRingStyle: string;
+    choiceRingOffset: string;
+    choiceRingColor: string;
+    choiceRingShadow: string;
+    choiceRingColorDanger: string;
+    choiceRingShadowDanger: string;
+    choiceBg: string;
+    choiceBgDanger: string;
+    choiceBgDisabled: string;
+    choiceBgChecked: string;
+    choiceBgCheckedDanger: string;
+    choiceBgCheckedDisabled: string;
+    choiceColor: string;
+    choiceIconColor: string;
+    choiceIconColorDisabled: string;
+    choiceIconColorDanger: string;
+    choiceBorderColor: string;
+    choiceBorderColorDanger: string;
+    choiceBorderColorDisabled: string;
+    choiceBorderColorChecked: string;
+    choiceBorderColorCheckedDanger: string;
+    choiceBorderColorCheckedDisabled: string;
+    choiceBorderWidthT: string;
+    choiceBorderWidthR: string;
+    choiceBorderWidthB: string;
+    choiceBorderWidthL: string;
+    choiceRadius: string;
+    choiceShadow: string;
+    choiceIconChecked: string;
+    choiceIconSelected: string;
+    btnFontSize: string;
+    btnFontSizeSm: string;
+    btnWidth: string;
+    btnGutterX: string;
+    btnGutterY: string;
+    btnGutterXSm: string;
+    btnGutterYSm: string;
+    btnPaddingY: string;
+    btnPaddingX: string;
+    btnPaddingYSm: string;
+    btnPaddingXSm: string;
+    btnRingWidth: string;
+    btnRingStyle: string;
+    btnRingOffset: string;
+    btnDisabledOpacity: string;
+    btnOutlineBgPercent: string;
+    btnOutlineTransparentPercent: string;
+    btnBgPrimary: string;
+    btnColorPrimary: string;
+    btnBorderColorPrimary: string;
+    btnOutlinePrimary: string;
+    btnBgPrimaryHover: string;
+    btnColorPrimaryHover: string;
+    btnBorderColorPrimaryHover: string;
+    btnOutlinePrimaryHover: string;
+    btnRingColorPrimary: string;
+    btnRingShadowPrimary: string;
+    btnBgSecondary: string;
+    btnColorSecondary: string;
+    btnBorderColorSecondary: string;
+    btnOutlineSecondary: string;
+    btnBgSecondaryHover: string;
+    btnColorSecondaryHover: string;
+    btnBorderColorSecondaryHover: string;
+    btnOutlineSecondaryHover: string;
+    btnRingColorSecondary: string;
+    btnRingShadowSecondary: string;
+    btnBgSuccess: string;
+    btnColorSuccess: string;
+    btnBorderColorSuccess: string;
+    btnOutlineSuccess: string;
+    btnBgSuccessHover: string;
+    btnColorSuccessHover: string;
+    btnBorderColorSuccessHover: string;
+    btnOutlineSuccessHover: string;
+    btnRingColorSuccess: string;
+    btnRingShadowSuccess: string;
+    btnBgInfo: string;
+    btnColorInfo: string;
+    btnBorderColorInfo: string;
+    btnOutlineInfo: string;
+    btnBgInfoHover: string;
+    btnColorInfoHover: string;
+    btnBorderColorInfoHover: string;
+    btnOutlineInfoHover: string;
+    btnRingColorInfo: string;
+    btnRingShadowInfo: string;
+    btnBgWarn: string;
+    btnColorWarn: string;
+    btnBorderColorWarn: string;
+    btnOutlineWarn: string;
+    btnBgWarnHover: string;
+    btnColorWarnHover: string;
+    btnBorderColorWarnHover: string;
+    btnOutlineWarnHover: string;
+    btnRingColorWarn: string;
+    btnRingShadowWarn: string;
+    btnBgHelp: string;
+    btnColorHelp: string;
+    btnBorderColorHelp: string;
+    btnOutlineHelp: string;
+    btnBgHelpHover: string;
+    btnColorHelpHover: string;
+    btnBorderColorHelpHover: string;
+    btnOutlineHelpHover: string;
+    btnRingColorHelp: string;
+    btnRingShadowHelp: string;
+    btnBgDanger: string;
+    btnColorDanger: string;
+    btnBorderColorDanger: string;
+    btnOutlineDanger: string;
+    btnBgDangerHover: string;
+    btnColorDangerHover: string;
+    btnBorderColorDangerHover: string;
+    btnOutlineDangerHover: string;
+    btnRingColorDanger: string;
+    btnRingShadowDanger: string;
+    btnBgContrast: string;
+    btnColorContrast: string;
+    btnBorderColorContrast: string;
+    btnOutlineContrast: string;
+    btnBgContrastHover: string;
+    btnColorContrastHover: string;
+    btnBorderColorContrastHover: string;
+    btnOutlineContrastHover: string;
+    btnRingColorContrast: string;
+    btnRingShadowContrast: string;
+    btnBorderWidth: string;
+    btnBorderStyle: string;
+    btnRadius: string;
+    btnRadiusSm: string;
+    btnShadow: string;
+    languagesFontSize: string;
+    languagesGutter: string;
+    languagesMargin: string;
+    languagePadding: string;
+    languageBg: string;
+    languageBgSelected: string;
+    languageBgDanger: string;
+    languageBgSelectedDanger: string;
+    languageColor: string;
+    languageColorSelected: string;
+    languageColorDanger: string;
+    languageColorSelectedDanger: string;
+    languageBorderColor: string;
+    languageBorderColorSelected: string;
+    languageBorderColorDanger: string;
+    languageBorderColorSelectedDanger: string;
+    languageBorderWidth: string;
+    languageRadius: string;
+    inputPt: string;
+    inputPr: string;
+    inputPb: string;
+    inputPl: string;
+    inputRingWidth: string;
+    inputRingStyle: string;
+    inputRingOffset: string;
+    inputRingColor: string;
+    inputRingShadow: string;
+    inputRingColorDanger: string;
+    inputRingShadowDanger: string;
+    inputBgAutofill: string;
+    inputBgDanger: string;
+    inputBgDisabled: string;
+    inputColor: string;
+    inputColorAutofill: string;
+    inputColorDanger: string;
+    inputColorDisabled: string;
+    inputBorderColor: string;
+    inputBorderColorDanger: string;
+    inputBorderColorDisabled: string;
+    inputBorderStyle: string;
+    inputBorderWidthT: string;
+    inputBorderWidthR: string;
+    inputBorderWidthB: string;
+    inputBorderWidthL: string;
+    inputRadius: string;
+    inputShadow: string;
+    hrPadding: string;
+    blockquotePadding: string;
+    labelFontSize: string;
+    labelFontWeight: string;
+    labelGroupVPadding: string;
+    labelGroupHPadding: string;
+    requiredContent: string;
+    requiredW: string;
+    requiredH: string;
+    requiredBg: string;
+    requiredColor: string;
+    requiredIcon: string;
+    helpFontSize: string;
+    helpPadding: string;
+    helpBg: string;
+    helpColor: string;
+    helpBorderColor: string;
+    helpBorderStyle: string;
+    helpBorderWidth: string;
+    helpRadius: string;
+    descriptionFontSize: string;
+    descriptionPadding: string;
+    descriptionBg: string;
+    descriptionColor: string;
+    descriptionBorderColor: string;
+    descriptionBorderStyle: string;
+    descriptionBorderWidth: string;
+    descriptionRadius: string;
+    errorsFontSize: string;
+    errorsPadding: string;
+    errorsBg: string;
+    errorsColor: string;
+    errorsBorderColor: string;
+    errorsBorderStyle: string;
+    errorsBorderWidth: string;
+    errorsRadius: string;
+    messagesFontSize: string;
+    messagesPadding: string;
+    messagesBg: string;
+    messagesColor: string;
+    messagesBorderColor: string;
+    messagesBorderStyle: string;
+    messagesBorderWidth: string;
+    messagesRadius: string;
+    elementLineColor: string;
+    formErrorsMargin: string;
+    formErrorsPadding: string;
+    formErrorsBg: string;
+    formErrorsColor: string;
+    formErrorsBorderColor: string;
+    formErrorsBorderStyle: string;
+    formErrorsBorderWidth: string;
+    formErrorsRadius: string;
+    formMessagesMargin: string;
+    formMessagesPadding: string;
+    formMessagesBg: string;
+    formMessagesColor: string;
+    formMessagesBorderColor: string;
+    formMessagesBorderStyle: string;
+    formMessagesBorderWidth: string;
+    formMessagesRadius: string;
+    elementsGutterX: string;
+    elementsGutterY: string;
+    elementsGutterStackedX: string;
+    elementsGutterStackedY: string;
+    elementGroupGutterX: string;
+    elementGroupGutterY: string;
+    elementWrapperPadding: string;
+};
+export declare const material: {
+    dark: {
+        gray50: string;
+        gray100: string;
+        gray200: string;
+        gray300: string;
+        gray400: string;
+        gray500: string;
+        gray600: string;
+        gray700: string;
+        gray800: string;
+        gray900: string;
+        textSoft: string;
+        btnBgSecondary: string;
+        btnColorSecondary: string;
+        btnBorderColorSecondary: string;
+        btnOutlineSecondary: string;
+        btnBgSecondaryHover: string;
+        btnColorSecondaryHover: string;
+        btnBorderColorSecondaryHover: string;
+        btnOutlineSecondaryHover: string;
+        btnRingColorSecondary: string;
+        btnRingShadowSecondary: string;
+        btnBgContrast: string;
+        btnColorContrast: string;
+        btnBorderColorContrast: string;
+        btnOutlineContrast: string;
+        btnBgContrastHover: string;
+        btnColorContrastHover: string;
+        btnBorderColorContrastHover: string;
+        btnOutlineContrastHover: string;
+        btnRingColorContrast: string;
+        btnRingShadowContrast: string;
+        bgDisabled: string;
+        textDisabled: string;
+        borderDisabled: string;
+        elementLineColor: string;
+        inputBg: string;
+        inputBgAutofill: string;
+        inputBgDanger: string;
+        inputBgDisabled: string;
+        inputColor: string;
+        inputColorAutofill: string;
+        inputColorDanger: string;
+        inputColorDisabled: string;
+        inputBorderColor: string;
+        inputBorderColorDanger: string;
+        inputBorderColorDisabled: string;
+        selectIconCaret: string;
+        choiceBg: string;
+        choiceBgDanger: string;
+        choiceBgCheckedDisabled: string;
+        choiceBorderColor: string;
+        choiceBorderColorDanger: string;
+        choiceBorderColorCheckedDisabled: string;
+        btnBg: string;
+        btnBgHover: string;
+        btnBgLight: string;
+        btnBgDisabled: string;
+        btnColor: string;
+        btnColorHover: string;
+        btnColorDisabled: string;
+        btnColorOutline: string;
+        btnBorderColor: string;
+        btnBorderColorHover: string;
+        btnBorderColorDisabled: string;
+        btnBorderColorOutline: string;
+        btnBorderColorOutlineDisabled: string;
+        addonBg: string;
+        addonBgDanger: string;
+        addonBorderColor: string;
+        addonBorderColorDanger: string;
+        groupWrappedBorderColor: string;
+        listWrappedBorderColor: string;
+        stepsBgDisabled: string;
+        controlBg: string;
+        controlBgHover: string;
+        controlColor: string;
+        controlColorHover: string;
+        controlBorderColor: string;
+        controlBorderColorHover: string;
+        tabularBg: string;
+        tabularColor: string;
+        tabularBorderColor: string;
+        tabularColHeaderBg: string;
+        tabularColHeaderBorderColor: string;
+        tabularRowHeaderBg: string;
+        tabularRowHeaderBorderColor: string;
+        elementLineBorderColor: string;
+    };
+    inputBg: string;
+    controlMinWidth: string;
+    controlMinHeight: string;
+    controlIconWidth: string;
+    controlIconHeight: string;
+    controlIconRemove: string;
+    controlIconSort: string;
+    controlShadow: string;
+    controlBg: string;
+    controlBgHover: string;
+    controlColor: string;
+    controlColorHover: string;
+    controlBorderColor: string;
+    controlBorderColorHover: string;
+    controlBorderWidth: string;
+    controlBorderStyle: string;
+    controlRadius: string;
+    tabularBg: string;
+    tabularColor: string;
+    tabularBorderColor: string;
+    tabularBorderWidth: string;
+    tabularBorderStyle: string;
+    tabularRadius: string;
+    tabularHeaderFontSize: string;
+    tabularHeaderFontWeight: string;
+    tabularHeaderPadding: string;
+    tabularColHeaderBg: string;
+    tabularColHeaderColor: string;
+    tabularColHeaderBorderColor: string;
+    tabularRowHeaderBg: string;
+    tabularRowHeaderColor: string;
+    tabularRowHeaderBorderColor: string;
+    tabularCellMinHeight: string;
+    tabularBoxedCellPadding: string;
+    tabularTextCellPadding: string;
+    addonBeforePadding: string;
+    addonBeforeMargin: string;
+    addonAfterPadding: string;
+    addonAfterMargin: string;
+    addonBg: string;
+    addonBgDanger: string;
+    addonColor: string;
+    addonColorDanger: string;
+    addonBorderColor: string;
+    addonBorderColorDanger: string;
+    addonBorderStyle: string;
+    addonBorderWidth: string;
+    addonRadius: string;
+    navGutter: string;
+    navMargin: string;
+    navJustify: string;
+    stepsFontSize: string;
+    stepsMargin: string;
+    stepsBgEnabled: string;
+    stepsBgDisabled: string;
+    stepsBgDanger: string;
+    stepsColorEnabled: string;
+    stepsColorDisabled: string;
+    stepsColorDanger: string;
+    stepsColorSelected: string;
+    stepsIconColor: string;
+    stepsIconSelected: string;
+    stepsIconCompleted: string;
+    stepsIconDanger: string;
+    selectIconWidth: string;
+    selectIconHeight: string;
+    selectPlaceholderColor: string;
+    selectIconCaret: string;
+    tabsFontSize: string;
+    tabsGutterX: string;
+    tabsGutterY: string;
+    tabsMargin: string;
+    tabPadding: string;
+    tabBg: string;
+    tabBgSelected: string;
+    tabBgDanger: string;
+    tabBgSelectedDanger: string;
+    tabColor: string;
+    tabColorSelected: string;
+    tabColorDanger: string;
+    tabColorSelectedDanger: string;
+    tabBorderColor: string;
+    tabBorderColorSelected: string;
+    tabBorderColorDanger: string;
+    tabBorderColorSelectedDanger: string;
+    tabBorderWidth: string;
+    tabRadius: string;
+    matrixGutterX: string;
+    matrixGutterY: string;
+    matrixHeaderFontSize: string;
+    matrixHeaderFontWeight: string;
+    matrixColHeaderColor: string;
+    matrixRowHeaderColor: string;
+    matrixAddMargin: string;
+    matrixDraggingOpacity: string;
+    listGutterX: string;
+    listGutterY: string;
+    listItemGutterX: string;
+    listItemGutterY: string;
+    listItemAlign: string;
+    listPlaceholderBg: string;
+    listPlaceholderBorderWidth: string;
+    listPlaceholderBorderColor: string;
+    listPlaceholderBorderStyle: string;
+    listPlaceholderRadius: string;
+    listPlaceholderFontStyle: string;
+    listPlaceholderColor: string;
+    listPlaceholderAlign: string;
+    listPlaceholderPadding: string;
+    listAddMargin: string;
+    listDraggingOpacity: string;
+    iconFontSize: string;
+    iconGroupWidth: string;
+    iconGroupColor: string;
+    iconGroupColorDanger: string;
+    groupGutterX: string;
+    groupGutterY: string;
+    groupGridTemplateColumns: string;
+    groupGutterStackedX: string;
+    groupGutterStackedY: string;
+    groupWrappedPadding: string;
+    groupWrappedBorderWidth: string;
+    groupWrappedBorderColor: string;
+    groupWrappedBorderStyle: string;
+    groupWrappedRadius: string;
+    groupWrappedBg: string;
+    gridGutterX: string;
+    gridGutterY: string;
+    gridHeaderFontSize: string;
+    gridHeaderFontWeight: string;
+    gridColHeaderColor: string;
+    gridRowHeaderColor: string;
+    fileGutterX: string;
+    fileGutterY: string;
+    fileMargin: string;
+    fileItemGutterX: string;
+    fileItemGutterY: string;
+    contentAlignedMargin: string;
+    choicesGutterX: string;
+    choicesGutterY: string;
+    choicesDirection: string;
+    choiceWidth: string;
+    choiceHeight: string;
+    choiceGutter: string;
+    choiceAlignedMargin: string;
+    choiceRingWidth: string;
+    choiceRingStyle: string;
+    choiceRingOffset: string;
+    choiceRingColor: string;
+    choiceRingShadow: string;
+    choiceRingColorDanger: string;
+    choiceRingShadowDanger: string;
+    choiceBg: string;
+    choiceBgDanger: string;
+    choiceBgDisabled: string;
+    choiceBgChecked: string;
+    choiceBgCheckedDanger: string;
+    choiceBgCheckedDisabled: string;
+    choiceColor: string;
+    choiceIconColor: string;
+    choiceIconColorDisabled: string;
+    choiceIconColorDanger: string;
+    choiceBorderColor: string;
+    choiceBorderColorDanger: string;
+    choiceBorderColorDisabled: string;
+    choiceBorderColorChecked: string;
+    choiceBorderColorCheckedDanger: string;
+    choiceBorderColorCheckedDisabled: string;
+    choiceBorderWidthT: string;
+    choiceBorderWidthR: string;
+    choiceBorderWidthB: string;
+    choiceBorderWidthL: string;
+    choiceRadius: string;
+    choiceShadow: string;
+    choiceIconChecked: string;
+    choiceIconSelected: string;
+    btnFontSize: string;
+    btnFontSizeSm: string;
+    btnWidth: string;
+    btnGutterX: string;
+    btnGutterY: string;
+    btnGutterXSm: string;
+    btnGutterYSm: string;
+    btnPaddingY: string;
+    btnPaddingX: string;
+    btnPaddingYSm: string;
+    btnPaddingXSm: string;
+    btnRingWidth: string;
+    btnRingStyle: string;
+    btnRingOffset: string;
+    btnDisabledOpacity: string;
+    btnOutlineBgPercent: string;
+    btnOutlineTransparentPercent: string;
+    btnBgPrimary: string;
+    btnColorPrimary: string;
+    btnBorderColorPrimary: string;
+    btnOutlinePrimary: string;
+    btnBgPrimaryHover: string;
+    btnColorPrimaryHover: string;
+    btnBorderColorPrimaryHover: string;
+    btnOutlinePrimaryHover: string;
+    btnRingColorPrimary: string;
+    btnRingShadowPrimary: string;
+    btnBgSecondary: string;
+    btnColorSecondary: string;
+    btnBorderColorSecondary: string;
+    btnOutlineSecondary: string;
+    btnBgSecondaryHover: string;
+    btnColorSecondaryHover: string;
+    btnBorderColorSecondaryHover: string;
+    btnOutlineSecondaryHover: string;
+    btnRingColorSecondary: string;
+    btnRingShadowSecondary: string;
+    btnBgSuccess: string;
+    btnColorSuccess: string;
+    btnBorderColorSuccess: string;
+    btnOutlineSuccess: string;
+    btnBgSuccessHover: string;
+    btnColorSuccessHover: string;
+    btnBorderColorSuccessHover: string;
+    btnOutlineSuccessHover: string;
+    btnRingColorSuccess: string;
+    btnRingShadowSuccess: string;
+    btnBgInfo: string;
+    btnColorInfo: string;
+    btnBorderColorInfo: string;
+    btnOutlineInfo: string;
+    btnBgInfoHover: string;
+    btnColorInfoHover: string;
+    btnBorderColorInfoHover: string;
+    btnOutlineInfoHover: string;
+    btnRingColorInfo: string;
+    btnRingShadowInfo: string;
+    btnBgWarn: string;
+    btnColorWarn: string;
+    btnBorderColorWarn: string;
+    btnOutlineWarn: string;
+    btnBgWarnHover: string;
+    btnColorWarnHover: string;
+    btnBorderColorWarnHover: string;
+    btnOutlineWarnHover: string;
+    btnRingColorWarn: string;
+    btnRingShadowWarn: string;
+    btnBgHelp: string;
+    btnColorHelp: string;
+    btnBorderColorHelp: string;
+    btnOutlineHelp: string;
+    btnBgHelpHover: string;
+    btnColorHelpHover: string;
+    btnBorderColorHelpHover: string;
+    btnOutlineHelpHover: string;
+    btnRingColorHelp: string;
+    btnRingShadowHelp: string;
+    btnBgDanger: string;
+    btnColorDanger: string;
+    btnBorderColorDanger: string;
+    btnOutlineDanger: string;
+    btnBgDangerHover: string;
+    btnColorDangerHover: string;
+    btnBorderColorDangerHover: string;
+    btnOutlineDangerHover: string;
+    btnRingColorDanger: string;
+    btnRingShadowDanger: string;
+    btnBgContrast: string;
+    btnColorContrast: string;
+    btnBorderColorContrast: string;
+    btnOutlineContrast: string;
+    btnBgContrastHover: string;
+    btnColorContrastHover: string;
+    btnBorderColorContrastHover: string;
+    btnOutlineContrastHover: string;
+    btnRingColorContrast: string;
+    btnRingShadowContrast: string;
+    btnBorderWidth: string;
+    btnBorderStyle: string;
+    btnRadius: string;
+    btnRadiusSm: string;
+    btnShadow: string;
+    languagesFontSize: string;
+    languagesGutter: string;
+    languagesMargin: string;
+    languagePadding: string;
+    languageBg: string;
+    languageBgSelected: string;
+    languageBgDanger: string;
+    languageBgSelectedDanger: string;
+    languageColor: string;
+    languageColorSelected: string;
+    languageColorDanger: string;
+    languageColorSelectedDanger: string;
+    languageBorderColor: string;
+    languageBorderColorSelected: string;
+    languageBorderColorDanger: string;
+    languageBorderColorSelectedDanger: string;
+    languageBorderWidth: string;
+    languageRadius: string;
+    inputPt: string;
+    inputPr: string;
+    inputPb: string;
+    inputPl: string;
+    inputRingWidth: string;
+    inputRingStyle: string;
+    inputRingOffset: string;
+    inputRingColor: string;
+    inputRingShadow: string;
+    inputRingColorDanger: string;
+    inputRingShadowDanger: string;
+    inputBgAutofill: string;
+    inputBgDanger: string;
+    inputBgDisabled: string;
+    inputColor: string;
+    inputColorAutofill: string;
+    inputColorDanger: string;
+    inputColorDisabled: string;
+    inputBorderColor: string;
+    inputBorderColorDanger: string;
+    inputBorderColorDisabled: string;
+    inputBorderStyle: string;
+    inputBorderWidthT: string;
+    inputBorderWidthR: string;
+    inputBorderWidthB: string;
+    inputBorderWidthL: string;
+    inputRadius: string;
+    inputShadow: string;
+    hrPadding: string;
+    blockquotePadding: string;
+    labelFontSize: string;
+    labelFontWeight: string;
+    labelGroupVPadding: string;
+    labelGroupHPadding: string;
+    requiredContent: string;
+    requiredW: string;
+    requiredH: string;
+    requiredBg: string;
+    requiredColor: string;
+    requiredIcon: string;
+    helpFontSize: string;
+    helpPadding: string;
+    helpBg: string;
+    helpColor: string;
+    helpBorderColor: string;
+    helpBorderStyle: string;
+    helpBorderWidth: string;
+    helpRadius: string;
+    descriptionFontSize: string;
+    descriptionPadding: string;
+    descriptionBg: string;
+    descriptionColor: string;
+    descriptionBorderColor: string;
+    descriptionBorderStyle: string;
+    descriptionBorderWidth: string;
+    descriptionRadius: string;
+    errorsFontSize: string;
+    errorsPadding: string;
+    errorsBg: string;
+    errorsColor: string;
+    errorsBorderColor: string;
+    errorsBorderStyle: string;
+    errorsBorderWidth: string;
+    errorsRadius: string;
+    messagesFontSize: string;
+    messagesPadding: string;
+    messagesBg: string;
+    messagesColor: string;
+    messagesBorderColor: string;
+    messagesBorderStyle: string;
+    messagesBorderWidth: string;
+    messagesRadius: string;
+    elementLineColor: string;
+    formErrorsMargin: string;
+    formErrorsPadding: string;
+    formErrorsBg: string;
+    formErrorsColor: string;
+    formErrorsBorderColor: string;
+    formErrorsBorderStyle: string;
+    formErrorsBorderWidth: string;
+    formErrorsRadius: string;
+    formMessagesMargin: string;
+    formMessagesPadding: string;
+    formMessagesBg: string;
+    formMessagesColor: string;
+    formMessagesBorderColor: string;
+    formMessagesBorderStyle: string;
+    formMessagesBorderWidth: string;
+    formMessagesRadius: string;
+    elementsGutterX: string;
+    elementsGutterY: string;
+    elementsGutterStackedX: string;
+    elementsGutterStackedY: string;
+    elementGroupGutterX: string;
+    elementGroupGutterY: string;
+    elementWrapperPadding: string;
+    textDisabled: string;
+    bgDisabled: string;
+    borderDisabled: string;
+    textSoft: string;
+    linkColor: string;
+    iconWidth: string;
+    iconHeight: string;
+    brand: string;
+    red: string;
+    green: string;
+    sky: string;
+    orange: string;
+    purple: string;
+    white: string;
+    black: string;
+    gray50: string;
+    gray100: string;
+    gray200: string;
+    gray300: string;
+    gray400: string;
+    gray500: string;
+    gray600: string;
+    gray700: string;
+    gray800: string;
+    gray900: string;
+    gutter: string;
+    space1: string;
+    space2: string;
+    space3: string;
+    spaceHr: string;
+    px: string;
+    py: string;
+    borderWidthT: string;
+    borderWidthR: string;
+    borderWidthB: string;
+    borderWidthL: string;
+    radius: string;
+    radiusSm: string;
+    radiusLg: string;
+    iconAdd: string;
+    iconRemove: string;
+    iconSort: string;
+    iconLoading: string;
+};
+
+//// themes/origin.d.ts
+export declare const originComponentTokens: {
+    controlMinWidth: string;
+    controlMinHeight: string;
+    controlIconWidth: string;
+    controlIconHeight: string;
+    controlIconRemove: string;
+    controlIconSort: string;
+    controlShadow: string;
+    controlBg: string;
+    controlBgHover: string;
+    controlColor: string;
+    controlColorHover: string;
+    controlBorderColor: string;
+    controlBorderColorHover: string;
+    controlBorderWidth: string;
+    controlBorderStyle: string;
+    controlRadius: string;
+    tabularBg: string;
+    tabularColor: string;
+    tabularBorderColor: string;
+    tabularBorderWidth: string;
+    tabularBorderStyle: string;
+    tabularRadius: string;
+    tabularHeaderFontSize: string;
+    tabularHeaderFontWeight: string;
+    tabularHeaderPadding: string;
+    tabularColHeaderBg: string;
+    tabularColHeaderColor: string;
+    tabularColHeaderBorderColor: string;
+    tabularRowHeaderBg: string;
+    tabularRowHeaderColor: string;
+    tabularRowHeaderBorderColor: string;
+    tabularCellMinHeight: string;
+    tabularBoxedCellPadding: string;
+    tabularTextCellPadding: string;
+    iconFontSize: string;
+    iconGroupWidth: string;
+    iconGroupColor: string;
+    iconGroupColorDanger: string;
+    addonBeforePadding: string;
+    addonBeforeMargin: string;
+    addonAfterPadding: string;
+    addonAfterMargin: string;
+    addonBg: string;
+    addonBgDanger: string;
+    addonColor: string;
+    addonColorDanger: string;
+    addonBorderColor: string;
+    addonBorderColorDanger: string;
+    addonBorderStyle: string;
+    addonBorderWidth: string;
+    addonRadius: string;
+    navGutter: string;
+    navMargin: string;
+    navJustify: string;
+    stepsFontSize: string;
+    stepsMargin: string;
+    stepsBgEnabled: string;
+    stepsBgDisabled: string;
+    stepsBgDanger: string;
+    stepsColorEnabled: string;
+    stepsColorDisabled: string;
+    stepsColorDanger: string;
+    stepsColorSelected: string;
+    stepsIconColor: string;
+    stepsIconSelected: string;
+    stepsIconCompleted: string;
+    stepsIconDanger: string;
+    selectIconWidth: string;
+    selectIconHeight: string;
+    selectPlaceholderColor: string;
+    selectIconCaret: string;
+    tabsFontSize: string;
+    tabsGutterX: string;
+    tabsGutterY: string;
+    tabsMargin: string;
+    tabPadding: string;
+    tabBg: string;
+    tabBgSelected: string;
+    tabBgDanger: string;
+    tabBgSelectedDanger: string;
+    tabColor: string;
+    tabColorSelected: string;
+    tabColorDanger: string;
+    tabColorSelectedDanger: string;
+    tabBorderColor: string;
+    tabBorderColorSelected: string;
+    tabBorderColorDanger: string;
+    tabBorderColorSelectedDanger: string;
+    tabBorderWidth: string;
+    tabRadius: string;
+    matrixGutterX: string;
+    matrixGutterY: string;
+    matrixHeaderFontSize: string;
+    matrixHeaderFontWeight: string;
+    matrixColHeaderColor: string;
+    matrixRowHeaderColor: string;
+    matrixAddMargin: string;
+    matrixDraggingOpacity: string;
+    listGutterX: string;
+    listGutterY: string;
+    listItemGutterX: string;
+    listItemGutterY: string;
+    listItemAlign: string;
+    listPlaceholderBg: string;
+    listPlaceholderBorderWidth: string;
+    listPlaceholderBorderColor: string;
+    listPlaceholderBorderStyle: string;
+    listPlaceholderRadius: string;
+    listPlaceholderFontStyle: string;
+    listPlaceholderColor: string;
+    listPlaceholderAlign: string;
+    listPlaceholderPadding: string;
+    listAddMargin: string;
+    listDraggingOpacity: string;
+    groupGutterX: string;
+    groupGutterY: string;
+    groupGridTemplateColumns: string;
+    groupGutterStackedX: string;
+    groupGutterStackedY: string;
+    groupWrappedPadding: string;
+    groupWrappedBorderWidth: string;
+    groupWrappedBorderColor: string;
+    groupWrappedBorderStyle: string;
+    groupWrappedRadius: string;
+    groupWrappedBg: string;
+    gridGutterX: string;
+    gridGutterY: string;
+    gridHeaderFontSize: string;
+    gridHeaderFontWeight: string;
+    gridColHeaderColor: string;
+    gridRowHeaderColor: string;
+    fileGutterX: string;
+    fileGutterY: string;
+    fileMargin: string;
+    fileItemGutterX: string;
+    fileItemGutterY: string;
+    contentAlignedMargin: string;
+    choicesGutterX: string;
+    choicesGutterY: string;
+    choicesDirection: string;
+    choiceWidth: string;
+    choiceHeight: string;
+    choiceGutter: string;
+    choiceAlignedMargin: string;
+    choiceRingWidth: string;
+    choiceRingStyle: string;
+    choiceRingOffset: string;
+    choiceRingColor: string;
+    choiceRingShadow: string;
+    choiceRingColorDanger: string;
+    choiceRingShadowDanger: string;
+    choiceBg: string;
+    choiceBgDanger: string;
+    choiceBgDisabled: string;
+    choiceBgChecked: string;
+    choiceBgCheckedDanger: string;
+    choiceBgCheckedDisabled: string;
+    choiceColor: string;
+    choiceIconColor: string;
+    choiceIconColorDisabled: string;
+    choiceIconColorDanger: string;
+    choiceBorderColor: string;
+    choiceBorderColorDanger: string;
+    choiceBorderColorDisabled: string;
+    choiceBorderColorChecked: string;
+    choiceBorderColorCheckedDanger: string;
+    choiceBorderColorCheckedDisabled: string;
+    choiceBorderWidthT: string;
+    choiceBorderWidthR: string;
+    choiceBorderWidthB: string;
+    choiceBorderWidthL: string;
+    choiceRadius: string;
+    choiceShadow: string;
+    choiceIconChecked: string;
+    choiceIconSelected: string;
+    btnFontSize: string;
+    btnFontSizeSm: string;
+    btnWidth: string;
+    btnGutterX: string;
+    btnGutterY: string;
+    btnGutterXSm: string;
+    btnGutterYSm: string;
+    btnPaddingY: string;
+    btnPaddingX: string;
+    btnPaddingYSm: string;
+    btnPaddingXSm: string;
+    btnRingWidth: string;
+    btnRingStyle: string;
+    btnRingOffset: string;
+    btnDisabledOpacity: string;
+    btnOutlineBgPercent: string;
+    btnOutlineTransparentPercent: string;
+    btnBgPrimary: string;
+    btnColorPrimary: string;
+    btnBorderColorPrimary: string;
+    btnOutlinePrimary: string;
+    btnBgPrimaryHover: string;
+    btnColorPrimaryHover: string;
+    btnBorderColorPrimaryHover: string;
+    btnOutlinePrimaryHover: string;
+    btnRingColorPrimary: string;
+    btnRingShadowPrimary: string;
+    btnBgSecondary: string;
+    btnColorSecondary: string;
+    btnBorderColorSecondary: string;
+    btnOutlineSecondary: string;
+    btnBgSecondaryHover: string;
+    btnColorSecondaryHover: string;
+    btnBorderColorSecondaryHover: string;
+    btnOutlineSecondaryHover: string;
+    btnRingColorSecondary: string;
+    btnRingShadowSecondary: string;
+    btnBgSuccess: string;
+    btnColorSuccess: string;
+    btnBorderColorSuccess: string;
+    btnOutlineSuccess: string;
+    btnBgSuccessHover: string;
+    btnColorSuccessHover: string;
+    btnBorderColorSuccessHover: string;
+    btnOutlineSuccessHover: string;
+    btnRingColorSuccess: string;
+    btnRingShadowSuccess: string;
+    btnBgInfo: string;
+    btnColorInfo: string;
+    btnBorderColorInfo: string;
+    btnOutlineInfo: string;
+    btnBgInfoHover: string;
+    btnColorInfoHover: string;
+    btnBorderColorInfoHover: string;
+    btnOutlineInfoHover: string;
+    btnRingColorInfo: string;
+    btnRingShadowInfo: string;
+    btnBgWarn: string;
+    btnColorWarn: string;
+    btnBorderColorWarn: string;
+    btnOutlineWarn: string;
+    btnBgWarnHover: string;
+    btnColorWarnHover: string;
+    btnBorderColorWarnHover: string;
+    btnOutlineWarnHover: string;
+    btnRingColorWarn: string;
+    btnRingShadowWarn: string;
+    btnBgHelp: string;
+    btnColorHelp: string;
+    btnBorderColorHelp: string;
+    btnOutlineHelp: string;
+    btnBgHelpHover: string;
+    btnColorHelpHover: string;
+    btnBorderColorHelpHover: string;
+    btnOutlineHelpHover: string;
+    btnRingColorHelp: string;
+    btnRingShadowHelp: string;
+    btnBgDanger: string;
+    btnColorDanger: string;
+    btnBorderColorDanger: string;
+    btnOutlineDanger: string;
+    btnBgDangerHover: string;
+    btnColorDangerHover: string;
+    btnBorderColorDangerHover: string;
+    btnOutlineDangerHover: string;
+    btnRingColorDanger: string;
+    btnRingShadowDanger: string;
+    btnBgContrast: string;
+    btnColorContrast: string;
+    btnBorderColorContrast: string;
+    btnOutlineContrast: string;
+    btnBgContrastHover: string;
+    btnColorContrastHover: string;
+    btnBorderColorContrastHover: string;
+    btnOutlineContrastHover: string;
+    btnRingColorContrast: string;
+    btnRingShadowContrast: string;
+    btnBorderWidth: string;
+    btnBorderStyle: string;
+    btnRadius: string;
+    btnRadiusSm: string;
+    btnShadow: string;
+    languagesFontSize: string;
+    languagesGutter: string;
+    languagesMargin: string;
+    languagePadding: string;
+    languageBg: string;
+    languageBgSelected: string;
+    languageBgDanger: string;
+    languageBgSelectedDanger: string;
+    languageColor: string;
+    languageColorSelected: string;
+    languageColorDanger: string;
+    languageColorSelectedDanger: string;
+    languageBorderColor: string;
+    languageBorderColorSelected: string;
+    languageBorderColorDanger: string;
+    languageBorderColorSelectedDanger: string;
+    languageBorderWidth: string;
+    languageRadius: string;
+    inputPt: string;
+    inputPr: string;
+    inputPb: string;
+    inputPl: string;
+    inputRingWidth: string;
+    inputRingStyle: string;
+    inputRingOffset: string;
+    inputRingColor: string;
+    inputRingShadow: string;
+    inputRingColorDanger: string;
+    inputRingShadowDanger: string;
+    inputBg: string;
+    inputBgAutofill: string;
+    inputBgDanger: string;
+    inputBgDisabled: string;
+    inputColor: string;
+    inputColorAutofill: string;
+    inputColorDanger: string;
+    inputColorDisabled: string;
+    inputBorderColor: string;
+    inputBorderColorDanger: string;
+    inputBorderColorDisabled: string;
+    inputBorderStyle: string;
+    inputBorderWidthT: string;
+    inputBorderWidthR: string;
+    inputBorderWidthB: string;
+    inputBorderWidthL: string;
+    inputRadius: string;
+    inputShadow: string;
+    hrPadding: string;
+    blockquotePadding: string;
+    labelFontSize: string;
+    labelFontWeight: string;
+    labelGroupVPadding: string;
+    labelGroupHPadding: string;
+    requiredContent: string;
+    requiredW: string;
+    requiredH: string;
+    requiredBg: string;
+    requiredColor: string;
+    requiredIcon: string;
+    helpFontSize: string;
+    helpPadding: string;
+    helpBg: string;
+    helpColor: string;
+    helpBorderColor: string;
+    helpBorderStyle: string;
+    helpBorderWidth: string;
+    helpRadius: string;
+    descriptionFontSize: string;
+    descriptionPadding: string;
+    descriptionBg: string;
+    descriptionColor: string;
+    descriptionBorderColor: string;
+    descriptionBorderStyle: string;
+    descriptionBorderWidth: string;
+    descriptionRadius: string;
+    errorsFontSize: string;
+    errorsPadding: string;
+    errorsBg: string;
+    errorsColor: string;
+    errorsBorderColor: string;
+    errorsBorderStyle: string;
+    errorsBorderWidth: string;
+    errorsRadius: string;
+    messagesFontSize: string;
+    messagesPadding: string;
+    messagesBg: string;
+    messagesColor: string;
+    messagesBorderColor: string;
+    messagesBorderStyle: string;
+    messagesBorderWidth: string;
+    messagesRadius: string;
+    elementLineColor: string;
+    formErrorsMargin: string;
+    formErrorsPadding: string;
+    formErrorsBg: string;
+    formErrorsColor: string;
+    formErrorsBorderColor: string;
+    formErrorsBorderStyle: string;
+    formErrorsBorderWidth: string;
+    formErrorsRadius: string;
+    formMessagesMargin: string;
+    formMessagesPadding: string;
+    formMessagesBg: string;
+    formMessagesColor: string;
+    formMessagesBorderColor: string;
+    formMessagesBorderStyle: string;
+    formMessagesBorderWidth: string;
+    formMessagesRadius: string;
+    elementsGutterX: string;
+    elementsGutterY: string;
+    elementsGutterStackedX: string;
+    elementsGutterStackedY: string;
+    elementGroupGutterX: string;
+    elementGroupGutterY: string;
+    elementWrapperPadding: string;
+};
+export declare const origin: {
+    dark: {
+        gray50: string;
+        gray100: string;
+        gray200: string;
+        gray300: string;
+        gray400: string;
+        gray500: string;
+        gray600: string;
+        gray700: string;
+        gray800: string;
+        gray900: string;
+        textSoft: string;
+        btnBgSecondary: string;
+        btnColorSecondary: string;
+        btnBorderColorSecondary: string;
+        btnOutlineSecondary: string;
+        btnBgSecondaryHover: string;
+        btnColorSecondaryHover: string;
+        btnBorderColorSecondaryHover: string;
+        btnOutlineSecondaryHover: string;
+        btnRingColorSecondary: string;
+        btnRingShadowSecondary: string;
+        btnBgContrast: string;
+        btnColorContrast: string;
+        btnBorderColorContrast: string;
+        btnOutlineContrast: string;
+        btnBgContrastHover: string;
+        btnColorContrastHover: string;
+        btnBorderColorContrastHover: string;
+        btnOutlineContrastHover: string;
+        btnRingColorContrast: string;
+        btnRingShadowContrast: string;
+        bgDisabled: string;
+        textDisabled: string;
+        borderDisabled: string;
+        elementLineColor: string;
+        inputBg: string;
+        inputBgAutofill: string;
+        inputBgDanger: string;
+        inputBgDisabled: string;
+        inputColor: string;
+        inputColorAutofill: string;
+        inputColorDanger: string;
+        inputColorDisabled: string;
+        inputBorderColor: string;
+        inputBorderColorDanger: string;
+        inputBorderColorDisabled: string;
+        selectIconCaret: string;
+        choiceBg: string;
+        choiceBgDanger: string;
+        choiceBgCheckedDisabled: string;
+        choiceBorderColor: string;
+        choiceBorderColorDanger: string;
+        choiceBorderColorCheckedDisabled: string;
+        btnBg: string;
+        btnBgHover: string;
+        btnBgLight: string;
+        btnBgDisabled: string;
+        btnColor: string;
+        btnColorHover: string;
+        btnColorDisabled: string;
+        btnColorOutline: string;
+        btnBorderColor: string;
+        btnBorderColorHover: string;
+        btnBorderColorDisabled: string;
+        btnBorderColorOutline: string;
+        btnBorderColorOutlineDisabled: string;
+        addonBg: string;
+        addonBgDanger: string;
+        addonBorderColor: string;
+        addonBorderColorDanger: string;
+        groupWrappedBorderColor: string;
+        listWrappedBorderColor: string;
+        stepsBgDisabled: string;
+        controlBg: string;
+        controlBgHover: string;
+        controlColor: string;
+        controlColorHover: string;
+        controlBorderColor: string;
+        controlBorderColorHover: string;
+        tabularBg: string;
+        tabularColor: string;
+        tabularBorderColor: string;
+        tabularColHeaderBg: string;
+        tabularColHeaderBorderColor: string;
+        tabularRowHeaderBg: string;
+        tabularRowHeaderBorderColor: string;
+        elementLineBorderColor: string;
+    };
+    controlMinWidth: string;
+    controlMinHeight: string;
+    controlIconWidth: string;
+    controlIconHeight: string;
+    controlIconRemove: string;
+    controlIconSort: string;
+    controlShadow: string;
+    controlBg: string;
+    controlBgHover: string;
+    controlColor: string;
+    controlColorHover: string;
+    controlBorderColor: string;
+    controlBorderColorHover: string;
+    controlBorderWidth: string;
+    controlBorderStyle: string;
+    controlRadius: string;
+    tabularBg: string;
+    tabularColor: string;
+    tabularBorderColor: string;
+    tabularBorderWidth: string;
+    tabularBorderStyle: string;
+    tabularRadius: string;
+    tabularHeaderFontSize: string;
+    tabularHeaderFontWeight: string;
+    tabularHeaderPadding: string;
+    tabularColHeaderBg: string;
+    tabularColHeaderColor: string;
+    tabularColHeaderBorderColor: string;
+    tabularRowHeaderBg: string;
+    tabularRowHeaderColor: string;
+    tabularRowHeaderBorderColor: string;
+    tabularCellMinHeight: string;
+    tabularBoxedCellPadding: string;
+    tabularTextCellPadding: string;
+    iconFontSize: string;
+    iconGroupWidth: string;
+    iconGroupColor: string;
+    iconGroupColorDanger: string;
+    addonBeforePadding: string;
+    addonBeforeMargin: string;
+    addonAfterPadding: string;
+    addonAfterMargin: string;
+    addonBg: string;
+    addonBgDanger: string;
+    addonColor: string;
+    addonColorDanger: string;
+    addonBorderColor: string;
+    addonBorderColorDanger: string;
+    addonBorderStyle: string;
+    addonBorderWidth: string;
+    addonRadius: string;
+    navGutter: string;
+    navMargin: string;
+    navJustify: string;
+    stepsFontSize: string;
+    stepsMargin: string;
+    stepsBgEnabled: string;
+    stepsBgDisabled: string;
+    stepsBgDanger: string;
+    stepsColorEnabled: string;
+    stepsColorDisabled: string;
+    stepsColorDanger: string;
+    stepsColorSelected: string;
+    stepsIconColor: string;
+    stepsIconSelected: string;
+    stepsIconCompleted: string;
+    stepsIconDanger: string;
+    selectIconWidth: string;
+    selectIconHeight: string;
+    selectPlaceholderColor: string;
+    selectIconCaret: string;
+    tabsFontSize: string;
+    tabsGutterX: string;
+    tabsGutterY: string;
+    tabsMargin: string;
+    tabPadding: string;
+    tabBg: string;
+    tabBgSelected: string;
+    tabBgDanger: string;
+    tabBgSelectedDanger: string;
+    tabColor: string;
+    tabColorSelected: string;
+    tabColorDanger: string;
+    tabColorSelectedDanger: string;
+    tabBorderColor: string;
+    tabBorderColorSelected: string;
+    tabBorderColorDanger: string;
+    tabBorderColorSelectedDanger: string;
+    tabBorderWidth: string;
+    tabRadius: string;
+    matrixGutterX: string;
+    matrixGutterY: string;
+    matrixHeaderFontSize: string;
+    matrixHeaderFontWeight: string;
+    matrixColHeaderColor: string;
+    matrixRowHeaderColor: string;
+    matrixAddMargin: string;
+    matrixDraggingOpacity: string;
+    listGutterX: string;
+    listGutterY: string;
+    listItemGutterX: string;
+    listItemGutterY: string;
+    listItemAlign: string;
+    listPlaceholderBg: string;
+    listPlaceholderBorderWidth: string;
+    listPlaceholderBorderColor: string;
+    listPlaceholderBorderStyle: string;
+    listPlaceholderRadius: string;
+    listPlaceholderFontStyle: string;
+    listPlaceholderColor: string;
+    listPlaceholderAlign: string;
+    listPlaceholderPadding: string;
+    listAddMargin: string;
+    listDraggingOpacity: string;
+    groupGutterX: string;
+    groupGutterY: string;
+    groupGridTemplateColumns: string;
+    groupGutterStackedX: string;
+    groupGutterStackedY: string;
+    groupWrappedPadding: string;
+    groupWrappedBorderWidth: string;
+    groupWrappedBorderColor: string;
+    groupWrappedBorderStyle: string;
+    groupWrappedRadius: string;
+    groupWrappedBg: string;
+    gridGutterX: string;
+    gridGutterY: string;
+    gridHeaderFontSize: string;
+    gridHeaderFontWeight: string;
+    gridColHeaderColor: string;
+    gridRowHeaderColor: string;
+    fileGutterX: string;
+    fileGutterY: string;
+    fileMargin: string;
+    fileItemGutterX: string;
+    fileItemGutterY: string;
+    contentAlignedMargin: string;
+    choicesGutterX: string;
+    choicesGutterY: string;
+    choicesDirection: string;
+    choiceWidth: string;
+    choiceHeight: string;
+    choiceGutter: string;
+    choiceAlignedMargin: string;
+    choiceRingWidth: string;
+    choiceRingStyle: string;
+    choiceRingOffset: string;
+    choiceRingColor: string;
+    choiceRingShadow: string;
+    choiceRingColorDanger: string;
+    choiceRingShadowDanger: string;
+    choiceBg: string;
+    choiceBgDanger: string;
+    choiceBgDisabled: string;
+    choiceBgChecked: string;
+    choiceBgCheckedDanger: string;
+    choiceBgCheckedDisabled: string;
+    choiceColor: string;
+    choiceIconColor: string;
+    choiceIconColorDisabled: string;
+    choiceIconColorDanger: string;
+    choiceBorderColor: string;
+    choiceBorderColorDanger: string;
+    choiceBorderColorDisabled: string;
+    choiceBorderColorChecked: string;
+    choiceBorderColorCheckedDanger: string;
+    choiceBorderColorCheckedDisabled: string;
+    choiceBorderWidthT: string;
+    choiceBorderWidthR: string;
+    choiceBorderWidthB: string;
+    choiceBorderWidthL: string;
+    choiceRadius: string;
+    choiceShadow: string;
+    choiceIconChecked: string;
+    choiceIconSelected: string;
+    btnFontSize: string;
+    btnFontSizeSm: string;
+    btnWidth: string;
+    btnGutterX: string;
+    btnGutterY: string;
+    btnGutterXSm: string;
+    btnGutterYSm: string;
+    btnPaddingY: string;
+    btnPaddingX: string;
+    btnPaddingYSm: string;
+    btnPaddingXSm: string;
+    btnRingWidth: string;
+    btnRingStyle: string;
+    btnRingOffset: string;
+    btnDisabledOpacity: string;
+    btnOutlineBgPercent: string;
+    btnOutlineTransparentPercent: string;
+    btnBgPrimary: string;
+    btnColorPrimary: string;
+    btnBorderColorPrimary: string;
+    btnOutlinePrimary: string;
+    btnBgPrimaryHover: string;
+    btnColorPrimaryHover: string;
+    btnBorderColorPrimaryHover: string;
+    btnOutlinePrimaryHover: string;
+    btnRingColorPrimary: string;
+    btnRingShadowPrimary: string;
+    btnBgSecondary: string;
+    btnColorSecondary: string;
+    btnBorderColorSecondary: string;
+    btnOutlineSecondary: string;
+    btnBgSecondaryHover: string;
+    btnColorSecondaryHover: string;
+    btnBorderColorSecondaryHover: string;
+    btnOutlineSecondaryHover: string;
+    btnRingColorSecondary: string;
+    btnRingShadowSecondary: string;
+    btnBgSuccess: string;
+    btnColorSuccess: string;
+    btnBorderColorSuccess: string;
+    btnOutlineSuccess: string;
+    btnBgSuccessHover: string;
+    btnColorSuccessHover: string;
+    btnBorderColorSuccessHover: string;
+    btnOutlineSuccessHover: string;
+    btnRingColorSuccess: string;
+    btnRingShadowSuccess: string;
+    btnBgInfo: string;
+    btnColorInfo: string;
+    btnBorderColorInfo: string;
+    btnOutlineInfo: string;
+    btnBgInfoHover: string;
+    btnColorInfoHover: string;
+    btnBorderColorInfoHover: string;
+    btnOutlineInfoHover: string;
+    btnRingColorInfo: string;
+    btnRingShadowInfo: string;
+    btnBgWarn: string;
+    btnColorWarn: string;
+    btnBorderColorWarn: string;
+    btnOutlineWarn: string;
+    btnBgWarnHover: string;
+    btnColorWarnHover: string;
+    btnBorderColorWarnHover: string;
+    btnOutlineWarnHover: string;
+    btnRingColorWarn: string;
+    btnRingShadowWarn: string;
+    btnBgHelp: string;
+    btnColorHelp: string;
+    btnBorderColorHelp: string;
+    btnOutlineHelp: string;
+    btnBgHelpHover: string;
+    btnColorHelpHover: string;
+    btnBorderColorHelpHover: string;
+    btnOutlineHelpHover: string;
+    btnRingColorHelp: string;
+    btnRingShadowHelp: string;
+    btnBgDanger: string;
+    btnColorDanger: string;
+    btnBorderColorDanger: string;
+    btnOutlineDanger: string;
+    btnBgDangerHover: string;
+    btnColorDangerHover: string;
+    btnBorderColorDangerHover: string;
+    btnOutlineDangerHover: string;
+    btnRingColorDanger: string;
+    btnRingShadowDanger: string;
+    btnBgContrast: string;
+    btnColorContrast: string;
+    btnBorderColorContrast: string;
+    btnOutlineContrast: string;
+    btnBgContrastHover: string;
+    btnColorContrastHover: string;
+    btnBorderColorContrastHover: string;
+    btnOutlineContrastHover: string;
+    btnRingColorContrast: string;
+    btnRingShadowContrast: string;
+    btnBorderWidth: string;
+    btnBorderStyle: string;
+    btnRadius: string;
+    btnRadiusSm: string;
+    btnShadow: string;
+    languagesFontSize: string;
+    languagesGutter: string;
+    languagesMargin: string;
+    languagePadding: string;
+    languageBg: string;
+    languageBgSelected: string;
+    languageBgDanger: string;
+    languageBgSelectedDanger: string;
+    languageColor: string;
+    languageColorSelected: string;
+    languageColorDanger: string;
+    languageColorSelectedDanger: string;
+    languageBorderColor: string;
+    languageBorderColorSelected: string;
+    languageBorderColorDanger: string;
+    languageBorderColorSelectedDanger: string;
+    languageBorderWidth: string;
+    languageRadius: string;
+    inputPt: string;
+    inputPr: string;
+    inputPb: string;
+    inputPl: string;
+    inputRingWidth: string;
+    inputRingStyle: string;
+    inputRingOffset: string;
+    inputRingColor: string;
+    inputRingShadow: string;
+    inputRingColorDanger: string;
+    inputRingShadowDanger: string;
+    inputBg: string;
+    inputBgAutofill: string;
+    inputBgDanger: string;
+    inputBgDisabled: string;
+    inputColor: string;
+    inputColorAutofill: string;
+    inputColorDanger: string;
+    inputColorDisabled: string;
+    inputBorderColor: string;
+    inputBorderColorDanger: string;
+    inputBorderColorDisabled: string;
+    inputBorderStyle: string;
+    inputBorderWidthT: string;
+    inputBorderWidthR: string;
+    inputBorderWidthB: string;
+    inputBorderWidthL: string;
+    inputRadius: string;
+    inputShadow: string;
+    hrPadding: string;
+    blockquotePadding: string;
+    labelFontSize: string;
+    labelFontWeight: string;
+    labelGroupVPadding: string;
+    labelGroupHPadding: string;
+    requiredContent: string;
+    requiredW: string;
+    requiredH: string;
+    requiredBg: string;
+    requiredColor: string;
+    requiredIcon: string;
+    helpFontSize: string;
+    helpPadding: string;
+    helpBg: string;
+    helpColor: string;
+    helpBorderColor: string;
+    helpBorderStyle: string;
+    helpBorderWidth: string;
+    helpRadius: string;
+    descriptionFontSize: string;
+    descriptionPadding: string;
+    descriptionBg: string;
+    descriptionColor: string;
+    descriptionBorderColor: string;
+    descriptionBorderStyle: string;
+    descriptionBorderWidth: string;
+    descriptionRadius: string;
+    errorsFontSize: string;
+    errorsPadding: string;
+    errorsBg: string;
+    errorsColor: string;
+    errorsBorderColor: string;
+    errorsBorderStyle: string;
+    errorsBorderWidth: string;
+    errorsRadius: string;
+    messagesFontSize: string;
+    messagesPadding: string;
+    messagesBg: string;
+    messagesColor: string;
+    messagesBorderColor: string;
+    messagesBorderStyle: string;
+    messagesBorderWidth: string;
+    messagesRadius: string;
+    elementLineColor: string;
+    formErrorsMargin: string;
+    formErrorsPadding: string;
+    formErrorsBg: string;
+    formErrorsColor: string;
+    formErrorsBorderColor: string;
+    formErrorsBorderStyle: string;
+    formErrorsBorderWidth: string;
+    formErrorsRadius: string;
+    formMessagesMargin: string;
+    formMessagesPadding: string;
+    formMessagesBg: string;
+    formMessagesColor: string;
+    formMessagesBorderColor: string;
+    formMessagesBorderStyle: string;
+    formMessagesBorderWidth: string;
+    formMessagesRadius: string;
+    elementsGutterX: string;
+    elementsGutterY: string;
+    elementsGutterStackedX: string;
+    elementsGutterStackedY: string;
+    elementGroupGutterX: string;
+    elementGroupGutterY: string;
+    elementWrapperPadding: string;
+    textDisabled: string;
+    bgDisabled: string;
+    borderDisabled: string;
+    textSoft: string;
+    linkColor: string;
+    iconWidth: string;
+    iconHeight: string;
+    brand: string;
+    red: string;
+    green: string;
+    sky: string;
+    orange: string;
+    purple: string;
+    white: string;
+    black: string;
+    gray50: string;
+    gray100: string;
+    gray200: string;
+    gray300: string;
+    gray400: string;
+    gray500: string;
+    gray600: string;
+    gray700: string;
+    gray800: string;
+    gray900: string;
+    gutter: string;
+    space1: string;
+    space2: string;
+    space3: string;
+    spaceHr: string;
+    px: string;
+    py: string;
+    borderWidthT: string;
+    borderWidthR: string;
+    borderWidthB: string;
+    borderWidthL: string;
+    radius: string;
+    radiusSm: string;
+    radiusLg: string;
+    iconAdd: string;
+    iconRemove: string;
+    iconSort: string;
+    iconLoading: string;
+};
+
+//// themes/tokens.d.ts
+export * from './origin';
+export * from './material';
+

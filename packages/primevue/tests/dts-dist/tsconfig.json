@@ -1,0 +1,11 @@
+{
+  "extends": "../../../../tsconfig.json",
+  "compilerOptions": {
+    // No source paths: `@vueform/*` imports resolve through node_modules and
+    // the exports maps to the BUILT dist types — the published consumer's
+    // view, including `@vueform/primevue` d.ts type-checking against
+    // `@vueform/core`'s built dist types. Requires a prior `pnpm build`.
+    "paths": {}
+  },
+  "include": ["."]
+}

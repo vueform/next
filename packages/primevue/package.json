@@ -32,8 +32,7 @@
       "import": "./dist/components/index.mjs"
     },
     "./components/names": {
-      "types": "./dist/components/names.d.ts",
-      "import": "./dist/components/names.mjs"
+      "types": "./dist/components/names.d.ts"
     },
     "./components/*/raw": {
       "types": "./dist/components/*/index.d.ts",
@@ -109,6 +108,7 @@
     "size:report": "vf-size --report",
     "test": "vitest --project integration --maxWorkers=16",
     "test:dts": "vitest run --project test-dts",
+    "test:dts-dist": "vitest run --project test-dts-dist",
     "test:smoke": "tsx tests/smoke/run.ts",
     "test:visual": "playwright test --config tests/visual/playwright.config.ts",
     "validate": "vf-validate-source"

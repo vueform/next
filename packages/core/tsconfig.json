@@ -1,5 +1,5 @@
 {
   "extends": "../../tsconfig.json",
   "include": ["../global.d.ts", "src", "tests"],
-  "exclude": ["tests/bench-dts", "tests/dts"]
+  "exclude": ["tests/bench-dts", "tests/dts", "tests/dts-dist"]
 }

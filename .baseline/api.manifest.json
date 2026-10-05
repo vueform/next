@@ -1,0 +1,130 @@
+{
+  "package": ".api",
+  "fileCount": 31,
+  "files": {
+    "core/blueprints.json": {
+      "bytes": 341250,
+      "hash": "681a3829483c4503"
+    },
+    "core/classes.json": {
+      "bytes": 34468,
+      "hash": "edc7358396b7af3a"
+    },
+    "core/components.json": {
+      "bytes": 506421,
+      "hash": "237c6b39dcedc66a"
+    },
+    "core/composables.json": {
+      "bytes": 129970,
+      "hash": "afa2b3564c27905b"
+    },
+    "core/contexts.json": {
+      "bytes": 4819,
+      "hash": "400386f39bc8a1d8"
+    },
+    "core/features.json": {
+      "bytes": 99232,
+      "hash": "8f2568c1a6109648"
+    },
+    "core/helpers.json": {
+      "bytes": 26283,
+      "hash": "ce999473bb5dd716"
+    },
+    "core/locales.json": {
+      "bytes": 398,
+      "hash": "85b92075207e096d"
+    },
+    "core/modules.json": {
+      "bytes": 33481,
+      "hash": "4d5d39d0989d3d7e"
+    },
+    "core/tokens.json": {
+      "bytes": 122532,
+      "hash": "11ce0906b324ab26"
+    },
+    "issues.json": {
+      "bytes": 276740,
+      "hash": "50e26838c25bac5e"
+    },
+    "primevue/blueprints.json": {
+      "bytes": 946110,
+      "hash": "7a7fc38ded50449c"
+    },
+    "primevue/classes.json": {
+      "bytes": 34732,
+      "hash": "a5112e6ae442e4f2"
+    },
+    "primevue/components.json": {
+      "bytes": 1468570,
+      "hash": "a744d353b372336a"
+    },
+    "primevue/composables.json": {
+      "bytes": 129970,
+      "hash": "afa2b3564c27905b"
+    },
+    "primevue/contexts.json": {
+      "bytes": 4819,
+      "hash": "400386f39bc8a1d8"
+    },
+    "primevue/features.json": {
+      "bytes": 111296,
+      "hash": "b143e37126b19125"
+    },
+    "primevue/helpers.json": {
+      "bytes": 27794,
+      "hash": "5026670cfb253a53"
+    },
+    "primevue/locales.json": {
+      "bytes": 398,
+      "hash": "85b92075207e096d"
+    },
+    "primevue/modules.json": {
+      "bytes": 33481,
+      "hash": "4d5d39d0989d3d7e"
+    },
+    "primevue/tokens.json": {
+      "bytes": 126602,
+      "hash": "7942532615d5181e"
+    },
+    "ui/blueprints.json": {
+      "bytes": 341250,
+      "hash": "681a3829483c4503"
+    },
+    "ui/classes.json": {
+      "bytes": 34468,
+      "hash": "edc7358396b7af3a"
+    },
+    "ui/components.json": {
+      "bytes": 506421,
+      "hash": "237c6b39dcedc66a"
+    },
+    "ui/composables.json": {
+      "bytes": 129970,
+      "hash": "afa2b3564c27905b"
+    },
+    "ui/contexts.json": {
+      "bytes": 4819,
+      "hash": "400386f39bc8a1d8"
+    },
+    "ui/features.json": {
+      "bytes": 99232,
+      "hash": "8f2568c1a6109648"
+    },
+    "ui/helpers.json": {
+      "bytes": 26283,
+      "hash": "ce999473bb5dd716"
+    },
+    "ui/locales.json": {
+      "bytes": 398,
+      "hash": "85b92075207e096d"
+    },
+    "ui/modules.json": {
+      "bytes": 33481,
+      "hash": "4d5d39d0989d3d7e"
+    },
+    "ui/tokens.json": {
+      "bytes": 122532,
+      "hash": "11ce0906b324ab26"
+    }
+  }
+}

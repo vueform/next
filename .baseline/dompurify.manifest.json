@@ -1,0 +1,27 @@
+{
+  "package": "@vueform/dompurify",
+  "fileCount": 2,
+  "exportsMap": {
+    "checked": 2,
+    "patterns": 0,
+    "missing": []
+  },
+  "files": {
+    "index.d.ts": {
+      "bytes": 971,
+      "hash": "57a4335bb2afb9c5"
+    },
+    "index.mjs": {
+      "bytes": 689,
+      "hash": "122e674d234d296e",
+      "exports": [
+        "default",
+        "domPurifySanitizer"
+      ],
+      "imports": [
+        "@vueform/core",
+        "isomorphic-dompurify"
+      ]
+    }
+  }
+}

@@ -13,3 +13,6 @@ packages/*/registry
 packages/metrics/results/
 packages/core/tests/perf/.results/
 packages/core/tests/perf-dts/.results/
+
+# Toolchain-migration baseline snapshots are generated outputs.
+.baseline

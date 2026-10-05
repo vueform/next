@@ -1,0 +1,67 @@
+{
+  "package": "@vueform/expr-eval",
+  "fileCount": 5,
+  "exportsMap": {
+    "checked": 2,
+    "patterns": 0,
+    "missing": []
+  },
+  "files": {
+    "adapter.d.ts": {
+      "bytes": 574,
+      "hash": "c3ade266c2a9d6c7"
+    },
+    "functions.d.ts": {
+      "bytes": 3354,
+      "hash": "b72ff2dbf9e2c40f"
+    },
+    "helpers.d.ts": {
+      "bytes": 157,
+      "hash": "488d858ffde85598"
+    },
+    "index.d.ts": {
+      "bytes": 182,
+      "hash": "66717edcdc3aeff9"
+    },
+    "index.mjs": {
+      "bytes": 15346,
+      "hash": "09fe423be9606340",
+      "exports": [
+        "$expression",
+        "AGE",
+        "AVG",
+        "CONCAT",
+        "COUNT",
+        "DATE_ADD",
+        "DECODE_URI",
+        "DECODE_URI_COMPONENT",
+        "EMPTY",
+        "ENCODE_URI",
+        "ENCODE_URI_COMPONENT",
+        "FORMAT_DATE",
+        "LC",
+        "MAX",
+        "MIN",
+        "NOT",
+        "NOT_EMPTY",
+        "NOW",
+        "PROP",
+        "ROUND",
+        "SELF",
+        "SUM",
+        "TODAY",
+        "UC",
+        "UCF",
+        "default",
+        "defineFunction",
+        "exprEvalAdapter",
+        "exprFlatten",
+        "exprSum"
+      ],
+      "imports": [
+        "@vueform/core",
+        "expr-eval-fork"
+      ]
+    }
+  }
+}

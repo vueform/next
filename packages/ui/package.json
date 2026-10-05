@@ -34,8 +34,7 @@
       "import": "./dist/components/index.mjs"
     },
     "./components/names": {
-      "types": "./dist/components/names.d.ts",
-      "import": "./dist/components/names.mjs"
+      "types": "./dist/components/names.d.ts"
     },
     "./components/*/raw": {
       "types": "./dist/components/*/index.d.ts",

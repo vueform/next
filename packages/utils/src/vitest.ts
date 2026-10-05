@@ -55,6 +55,11 @@ function escapeRegExp(value: string): string {
  * covering the test files (the checker resolves imports through tsconfig paths,
  * not vite aliases), because the package tsconfig excludes `tests/dts` — type
  * tests are the `test-dts` gate's concern, not `check`'s.
+ *
+ * A `tests/dts-dist` directory likewise adds a `test-dts-dist` project, whose
+ * tsconfig empties the root `paths` so package imports resolve through the
+ * `exports` maps to built dist types — the published consumer's view. It needs
+ * a prior build and is the fast d.ts gate for toolchain changes.
  */
 export async function createVitestConfig(
   options: VitestOptions = {}
@@ -104,6 +109,29 @@ export async function createVitestConfig(
             benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
           },
         },
+        ...(existsSync(join(root, 'tests/dts-dist'))
+          ? [
+              {
+                extends: true,
+                test: {
+                  name: 'test-dts-dist',
+                  // Dist type tests: the project's tsconfig empties the root
+                  // `paths`, so package imports resolve through the exports
+                  // maps to built dist types — a consumer's view. Requires a
+                  // prior build (run alone: `vitest run --project
+                  // test-dts-dist`).
+                  include: ['./tests/dts-dist/**/*.test.ts'],
+                  benchmark: { include: [] },
+                  typecheck: {
+                    enabled: true,
+                    checker: 'vue-tsc',
+                    include: ['./tests/dts-dist/**/*.test-d.ts'],
+                    tsconfig: './tests/dts-dist/tsconfig.json',
+                  },
+                },
+              },
+            ]
+          : []),
         ...(existsSync(join(root, 'tests/dts'))
           ? [
               {

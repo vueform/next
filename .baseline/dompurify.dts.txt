@@ -1,0 +1,24 @@
+//// index.d.ts
+import { SecuritySanitizer } from '@vueform/core';
+import { default as DOMPurify, Config as DOMPurifyConfig, DOMPurify as DOMPurifyType } from 'isomorphic-dompurify';
+declare module '@vueform/core' {
+    interface SecurityModuleOptions {
+        /**
+         * Passed directly to `DOMPurify.sanitize()` as the config object.
+         */
+        sanitizeOptions?: DOMPurifyConfig;
+        /**
+         * Receives the DOMPurify instance before first use — add hooks, set global
+         * config, etc.
+         */
+        sanitizeInit?: (DOMPurify: DOMPurifyType) => DOMPurifyType;
+    }
+}
+/**
+ * Builds the DOMPurify-backed sanitizer for the security module's sanitize
+ * capability (`$security.sanitizer`).
+ */
+export declare function domPurifySanitizer(sanitizeInit: (dp: typeof DOMPurify) => typeof DOMPurify, sanitizeOptions: Record<string, any>): SecuritySanitizer;
+declare const _default: import('@vueform/core').VueformPluginFactory<[]>;
+export default _default;
+

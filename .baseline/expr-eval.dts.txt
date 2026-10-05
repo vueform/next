@@ -1,0 +1,65 @@
+//// adapter.d.ts
+import { ExpressionAdapter } from '@vueform/core';
+/**
+ * expr-eval expression adapter: builds the low-level `ExpressionEngine`
+ * (single-expression evaluation and path extraction) — the `{…}` chain format,
+ * warnings, and normalization are owned by core's `createExpression`.
+ * Registered automatically by the `@vueform/expr-eval` plugin, or manually via
+ * `config.$expression.adapter = exprEvalAdapter`.
+ */
+export declare const exprEvalAdapter: ExpressionAdapter;
+/**
+ * @deprecated Use `exprEvalAdapter`.
+ */
+export declare const $expression: ExpressionAdapter;
+
+//// functions.d.ts
+import { FormContext, VueformInstance } from '@vueform/core';
+/**
+ * The context expression functions read from: the owning Vueform instance (set
+ * once by the adapter, used to resolve module doorways like date and locale
+ * against the right Vueform instance) plus per-evaluation state bound before
+ * each `evaluate()` call.
+ */
+export type ExpressionFunctionContext = {
+    vueform?: VueformInstance;
+    form$?: FormContext;
+    el$?: any;
+};
+export declare function defineFunction(func: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean): (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const NOT: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const EMPTY: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const NOT_EMPTY: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const SUM: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const AVG: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const MIN: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const MAX: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const ROUND: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const COUNT: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const AGE: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const TODAY: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const NOW: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const DATE_ADD: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const FORMAT_DATE: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const ENCODE_URI: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const DECODE_URI: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const ENCODE_URI_COMPONENT: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const DECODE_URI_COMPONENT: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const CONCAT: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const LC: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const UC: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const UCF: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const PROP: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+export declare const SELF: (ctx: ExpressionFunctionContext) => (...args: any[]) => string | number | boolean;
+
+//// helpers.d.ts
+export declare function exprFlatten(args: any[], defaultValue?: string | number): (string | number)[];
+export declare function exprSum(args: any[]): number;
+
+//// index.d.ts
+export * from './functions';
+export * from './helpers';
+export * from './adapter';
+declare const _default: import('@vueform/core').VueformPluginFactory<[]>;
+export default _default;
+

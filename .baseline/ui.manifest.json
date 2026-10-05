@@ -1,0 +1,4209 @@
+{
+  "package": "@vueform/ui",
+  "fileCount": 519,
+  "exportsMap": {
+    "checked": 20,
+    "patterns": 15,
+    "missing": []
+  },
+  "files": {
+    "blueprints/addon.d.ts": {
+      "bytes": 48,
+      "hash": "9b4b9c186d1e8d1f"
+    },
+    "blueprints/addon.mjs": {
+      "bytes": 48,
+      "hash": "a1eaa0cf5a0ff357",
+      "exports": [
+        "* from @vueform/core/blueprints/addon"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/addon"
+      ]
+    },
+    "blueprints/button.d.ts": {
+      "bytes": 49,
+      "hash": "b42ca59a756d2041"
+    },
+    "blueprints/button.mjs": {
+      "bytes": 49,
+      "hash": "aa347382bb67cf07",
+      "exports": [
+        "* from @vueform/core/blueprints/button"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/button"
+      ]
+    },
+    "blueprints/checkbox.d.ts": {
+      "bytes": 51,
+      "hash": "8c0ccdc31b1d6ccd"
+    },
+    "blueprints/checkbox.mjs": {
+      "bytes": 51,
+      "hash": "d6e9778b49644c0f",
+      "exports": [
+        "* from @vueform/core/blueprints/checkbox"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/checkbox"
+      ]
+    },
+    "blueprints/checkboxes.d.ts": {
+      "bytes": 53,
+      "hash": "1702d1a00df4dad5"
+    },
+    "blueprints/checkboxes.mjs": {
+      "bytes": 53,
+      "hash": "0cfc77f3e361312d",
+      "exports": [
+        "* from @vueform/core/blueprints/checkboxes"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/checkboxes"
+      ]
+    },
+    "blueprints/col.d.ts": {
+      "bytes": 46,
+      "hash": "52385d71f54bfbfa"
+    },
+    "blueprints/col.mjs": {
+      "bytes": 46,
+      "hash": "d901575e6fe4b910",
+      "exports": [
+        "* from @vueform/core/blueprints/col"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/col"
+      ]
+    },
+    "blueprints/content.d.ts": {
+      "bytes": 50,
+      "hash": "de1799fca246ea9b"
+    },
+    "blueprints/content.mjs": {
+      "bytes": 50,
+      "hash": "1408f67fd4bc26ca",
+      "exports": [
+        "* from @vueform/core/blueprints/content"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/content"
+      ]
+    },
+    "blueprints/elements.d.ts": {
+      "bytes": 51,
+      "hash": "ca5dd6d22498c3f5"
+    },
+    "blueprints/elements.mjs": {
+      "bytes": 51,
+      "hash": "1d1a83947a4fb080",
+      "exports": [
+        "* from @vueform/core/blueprints/elements"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/elements"
+      ]
+    },
+    "blueprints/field.d.ts": {
+      "bytes": 48,
+      "hash": "75910253a9e6cfdb"
+    },
+    "blueprints/field.mjs": {
+      "bytes": 48,
+      "hash": "a37dd320686667b8",
+      "exports": [
+        "* from @vueform/core/blueprints/field"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/field"
+      ]
+    },
+    "blueprints/file.d.ts": {
+      "bytes": 47,
+      "hash": "02fb27c58c19e1cf"
+    },
+    "blueprints/file.mjs": {
+      "bytes": 47,
+      "hash": "bc3e6a9973948ac9",
+      "exports": [
+        "* from @vueform/core/blueprints/file"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/file"
+      ]
+    },
+    "blueprints/form.d.ts": {
+      "bytes": 47,
+      "hash": "d8100d0259426145"
+    },
+    "blueprints/form.mjs": {
+      "bytes": 47,
+      "hash": "a9d0638f5076f1b6",
+      "exports": [
+        "* from @vueform/core/blueprints/form"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/form"
+      ]
+    },
+    "blueprints/grid.d.ts": {
+      "bytes": 47,
+      "hash": "0f4d98047e0da6f2"
+    },
+    "blueprints/grid.mjs": {
+      "bytes": 47,
+      "hash": "dd24031ff8da5ae3",
+      "exports": [
+        "* from @vueform/core/blueprints/grid"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/grid"
+      ]
+    },
+    "blueprints/group.d.ts": {
+      "bytes": 48,
+      "hash": "e4bcc6f64f347106"
+    },
+    "blueprints/group.mjs": {
+      "bytes": 48,
+      "hash": "11cbfecd44da6e70",
+      "exports": [
+        "* from @vueform/core/blueprints/group"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/group"
+      ]
+    },
+    "blueprints/hidden.d.ts": {
+      "bytes": 49,
+      "hash": "630398843f2b8f0b"
+    },
+    "blueprints/hidden.mjs": {
+      "bytes": 49,
+      "hash": "6c34cd29c0f815b5",
+      "exports": [
+        "* from @vueform/core/blueprints/hidden"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/hidden"
+      ]
+    },
+    "blueprints/icon.d.ts": {
+      "bytes": 47,
+      "hash": "d91b3120ce7b26ac"
+    },
+    "blueprints/icon.mjs": {
+      "bytes": 47,
+      "hash": "5a56de08bb98ffcf",
+      "exports": [
+        "* from @vueform/core/blueprints/icon"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/icon"
+      ]
+    },
+    "blueprints/languages.d.ts": {
+      "bytes": 52,
+      "hash": "4ece0985c99c3cce"
+    },
+    "blueprints/languages.mjs": {
+      "bytes": 52,
+      "hash": "3c900497ac33af66",
+      "exports": [
+        "* from @vueform/core/blueprints/languages"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/languages"
+      ]
+    },
+    "blueprints/layout.d.ts": {
+      "bytes": 49,
+      "hash": "da89f41730147362"
+    },
+    "blueprints/layout.mjs": {
+      "bytes": 49,
+      "hash": "bdad972b9da633bd",
+      "exports": [
+        "* from @vueform/core/blueprints/layout"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/layout"
+      ]
+    },
+    "blueprints/list.d.ts": {
+      "bytes": 47,
+      "hash": "4921f4ebe638f8ed"
+    },
+    "blueprints/list.mjs": {
+      "bytes": 47,
+      "hash": "c3e63683991db60f",
+      "exports": [
+        "* from @vueform/core/blueprints/list"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/list"
+      ]
+    },
+    "blueprints/matrix.d.ts": {
+      "bytes": 49,
+      "hash": "f3d83b77da9ac7ba"
+    },
+    "blueprints/matrix.mjs": {
+      "bytes": 49,
+      "hash": "54679a99ef1fce83",
+      "exports": [
+        "* from @vueform/core/blueprints/matrix"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/matrix"
+      ]
+    },
+    "blueprints/nav.d.ts": {
+      "bytes": 46,
+      "hash": "acfb531779cc7f58"
+    },
+    "blueprints/nav.mjs": {
+      "bytes": 46,
+      "hash": "aae84147d9e78eb5",
+      "exports": [
+        "* from @vueform/core/blueprints/nav"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/nav"
+      ]
+    },
+    "blueprints/radio.d.ts": {
+      "bytes": 48,
+      "hash": "3dfe95d6581d2f4c"
+    },
+    "blueprints/radio.mjs": {
+      "bytes": 48,
+      "hash": "111ce5cda236fc95",
+      "exports": [
+        "* from @vueform/core/blueprints/radio"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/radio"
+      ]
+    },
+    "blueprints/radios.d.ts": {
+      "bytes": 49,
+      "hash": "a6e7c487345e2011"
+    },
+    "blueprints/radios.mjs": {
+      "bytes": 49,
+      "hash": "6be964a1c09fa0a9",
+      "exports": [
+        "* from @vueform/core/blueprints/radios"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/radios"
+      ]
+    },
+    "blueprints/row.d.ts": {
+      "bytes": 46,
+      "hash": "d558047b74765031"
+    },
+    "blueprints/row.mjs": {
+      "bytes": 46,
+      "hash": "bb8f9ee16e4c737f",
+      "exports": [
+        "* from @vueform/core/blueprints/row"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/row"
+      ]
+    },
+    "blueprints/select.d.ts": {
+      "bytes": 49,
+      "hash": "be238916db545edc"
+    },
+    "blueprints/select.mjs": {
+      "bytes": 49,
+      "hash": "e0394917b4e40d05",
+      "exports": [
+        "* from @vueform/core/blueprints/select"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/select"
+      ]
+    },
+    "blueprints/steps.d.ts": {
+      "bytes": 48,
+      "hash": "007f8e6f1a127b09"
+    },
+    "blueprints/steps.mjs": {
+      "bytes": 48,
+      "hash": "8f4d0bda3ca85a89",
+      "exports": [
+        "* from @vueform/core/blueprints/steps"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/steps"
+      ]
+    },
+    "blueprints/tabs.d.ts": {
+      "bytes": 47,
+      "hash": "bcb4adbcc1181301"
+    },
+    "blueprints/tabs.mjs": {
+      "bytes": 47,
+      "hash": "3a290eb73e9cf781",
+      "exports": [
+        "* from @vueform/core/blueprints/tabs"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/tabs"
+      ]
+    },
+    "blueprints/text.d.ts": {
+      "bytes": 47,
+      "hash": "16d1a686b0840f52"
+    },
+    "blueprints/text.mjs": {
+      "bytes": 47,
+      "hash": "e7721ddf362a2adb",
+      "exports": [
+        "* from @vueform/core/blueprints/text"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/text"
+      ]
+    },
+    "blueprints/textarea.d.ts": {
+      "bytes": 51,
+      "hash": "49ed7f573ae9b52c"
+    },
+    "blueprints/textarea.mjs": {
+      "bytes": 51,
+      "hash": "d2f27012dcceb76d",
+      "exports": [
+        "* from @vueform/core/blueprints/textarea"
+      ],
+      "imports": [
+        "@vueform/core/blueprints/textarea"
+      ]
+    },
+    "components/VfAddon/index.d.ts": {
+      "bytes": 118,
+      "hash": "2c9536eef6f26927"
+    },
+    "components/VfAddon/index.mjs": {
+      "bytes": 164,
+      "hash": "35e32b1103c28bf1",
+      "exports": [
+        "* from @vueform/core/components/VfAddon/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfAddon/raw"
+      ]
+    },
+    "components/VfAddon/styled.d.ts": {
+      "bytes": 129,
+      "hash": "5b9367bf4d1c431c"
+    },
+    "components/VfAddon/styled.mjs": {
+      "bytes": 188,
+      "hash": "d6dddf3706747dc8",
+      "exports": [
+        "* from @vueform/core/components/VfAddon",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfAddon",
+        "@vueform/ui/addon.css"
+      ]
+    },
+    "components/VfAddon/styles.d.ts": {
+      "bytes": 32,
+      "hash": "dd0e2964419932f6"
+    },
+    "components/VfAddon/styles.mjs": {
+      "bytes": 32,
+      "hash": "db9c093e2b852bb2",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/addon.css"
+      ]
+    },
+    "components/VfAddon/unstyled.d.ts": {
+      "bytes": 110,
+      "hash": "0df5c872722d489c"
+    },
+    "components/VfAddon/unstyled.mjs": {
+      "bytes": 156,
+      "hash": "c1e119ccb7e45d43",
+      "exports": [
+        "* from @vueform/core/components/VfAddon",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfAddon"
+      ]
+    },
+    "components/VfButton/index.d.ts": {
+      "bytes": 120,
+      "hash": "c1e5c5558da330b9"
+    },
+    "components/VfButton/index.mjs": {
+      "bytes": 166,
+      "hash": "0255d61ac43cfcc6",
+      "exports": [
+        "* from @vueform/core/components/VfButton/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfButton/raw"
+      ]
+    },
+    "components/VfButton/styled.d.ts": {
+      "bytes": 131,
+      "hash": "30948b1821ba9f8a"
+    },
+    "components/VfButton/styled.mjs": {
+      "bytes": 227,
+      "hash": "467d6fa269cd511f",
+      "exports": [
+        "* from @vueform/core/components/VfButton",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfButton",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/button.css"
+      ]
+    },
+    "components/VfButton/styles.d.ts": {
+      "bytes": 69,
+      "hash": "831b5586a23ffc86"
+    },
+    "components/VfButton/styles.mjs": {
+      "bytes": 69,
+      "hash": "527c8ff71dff9d80",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/animation.css",
+        "@vueform/ui/button.css"
+      ]
+    },
+    "components/VfButton/unstyled.d.ts": {
+      "bytes": 112,
+      "hash": "d5fcfc6fd03fbd8b"
+    },
+    "components/VfButton/unstyled.mjs": {
+      "bytes": 158,
+      "hash": "e7f8182c9c52b450",
+      "exports": [
+        "* from @vueform/core/components/VfButton",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfButton"
+      ]
+    },
+    "components/VfCheckbox/index.d.ts": {
+      "bytes": 124,
+      "hash": "c6a1b180b9f8fa1d"
+    },
+    "components/VfCheckbox/index.mjs": {
+      "bytes": 170,
+      "hash": "2815cec72ff1f1d3",
+      "exports": [
+        "* from @vueform/core/components/VfCheckbox/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCheckbox/raw"
+      ]
+    },
+    "components/VfCheckbox/styled.d.ts": {
+      "bytes": 135,
+      "hash": "9bc2afee0194ce56"
+    },
+    "components/VfCheckbox/styled.mjs": {
+      "bytes": 195,
+      "hash": "c15863147c29d66f",
+      "exports": [
+        "* from @vueform/core/components/VfCheckbox",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCheckbox",
+        "@vueform/ui/choice.css"
+      ]
+    },
+    "components/VfCheckbox/styles.d.ts": {
+      "bytes": 33,
+      "hash": "182880020a24a02a"
+    },
+    "components/VfCheckbox/styles.mjs": {
+      "bytes": 33,
+      "hash": "9a78e3f0fa3be089",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/choice.css"
+      ]
+    },
+    "components/VfCheckbox/unstyled.d.ts": {
+      "bytes": 116,
+      "hash": "4471185dcb2580ac"
+    },
+    "components/VfCheckbox/unstyled.mjs": {
+      "bytes": 162,
+      "hash": "5a4f999de3a4621c",
+      "exports": [
+        "* from @vueform/core/components/VfCheckbox",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCheckbox"
+      ]
+    },
+    "components/VfCheckboxes/index.d.ts": {
+      "bytes": 128,
+      "hash": "cc4f503c9ffb5e44"
+    },
+    "components/VfCheckboxes/index.mjs": {
+      "bytes": 174,
+      "hash": "eea206b8a5407c27",
+      "exports": [
+        "* from @vueform/core/components/VfCheckboxes/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCheckboxes/raw"
+      ]
+    },
+    "components/VfCheckboxes/styled.d.ts": {
+      "bytes": 139,
+      "hash": "967fa800fa4c6b84"
+    },
+    "components/VfCheckboxes/styled.mjs": {
+      "bytes": 200,
+      "hash": "b8a86e1e774c4a2d",
+      "exports": [
+        "* from @vueform/core/components/VfCheckboxes",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCheckboxes",
+        "@vueform/ui/choices.css"
+      ]
+    },
+    "components/VfCheckboxes/styles.d.ts": {
+      "bytes": 34,
+      "hash": "d866a8b4773ca927"
+    },
+    "components/VfCheckboxes/styles.mjs": {
+      "bytes": 34,
+      "hash": "dab9a939adbc28fa",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/choices.css"
+      ]
+    },
+    "components/VfCheckboxes/unstyled.d.ts": {
+      "bytes": 120,
+      "hash": "5bd4b1825dca8392"
+    },
+    "components/VfCheckboxes/unstyled.mjs": {
+      "bytes": 166,
+      "hash": "77924934995aa3e2",
+      "exports": [
+        "* from @vueform/core/components/VfCheckboxes",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCheckboxes"
+      ]
+    },
+    "components/VfCol/index.d.ts": {
+      "bytes": 114,
+      "hash": "2f7eda1a847f08a0"
+    },
+    "components/VfCol/index.mjs": {
+      "bytes": 160,
+      "hash": "5042464577ce419d",
+      "exports": [
+        "* from @vueform/core/components/VfCol/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCol/raw"
+      ]
+    },
+    "components/VfCol/styled.d.ts": {
+      "bytes": 125,
+      "hash": "8af9f44a33388ea1"
+    },
+    "components/VfCol/styled.mjs": {
+      "bytes": 183,
+      "hash": "15e9e11d77012707",
+      "exports": [
+        "* from @vueform/core/components/VfCol",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCol",
+        "@vueform/ui/grid.css"
+      ]
+    },
+    "components/VfCol/styles.d.ts": {
+      "bytes": 31,
+      "hash": "9232766f931fd69f"
+    },
+    "components/VfCol/styles.mjs": {
+      "bytes": 31,
+      "hash": "67324481d7d29d98",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/grid.css"
+      ]
+    },
+    "components/VfCol/unstyled.d.ts": {
+      "bytes": 106,
+      "hash": "6b0457fbc9d4de79"
+    },
+    "components/VfCol/unstyled.mjs": {
+      "bytes": 152,
+      "hash": "2a19bead0e3eecd6",
+      "exports": [
+        "* from @vueform/core/components/VfCol",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfCol"
+      ]
+    },
+    "components/VfContent/index.d.ts": {
+      "bytes": 122,
+      "hash": "726456433a6f14cb"
+    },
+    "components/VfContent/index.mjs": {
+      "bytes": 168,
+      "hash": "e2509630bc74c59f",
+      "exports": [
+        "* from @vueform/core/components/VfContent/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfContent/raw"
+      ]
+    },
+    "components/VfContent/styled.d.ts": {
+      "bytes": 133,
+      "hash": "6e5c415588b65487"
+    },
+    "components/VfContent/styled.mjs": {
+      "bytes": 194,
+      "hash": "168dcf462211776f",
+      "exports": [
+        "* from @vueform/core/components/VfContent",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfContent",
+        "@vueform/ui/content.css"
+      ]
+    },
+    "components/VfContent/styles.d.ts": {
+      "bytes": 34,
+      "hash": "f0fd8c80c3a11078"
+    },
+    "components/VfContent/styles.mjs": {
+      "bytes": 34,
+      "hash": "3b2371509e711f7f",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/content.css"
+      ]
+    },
+    "components/VfContent/unstyled.d.ts": {
+      "bytes": 114,
+      "hash": "a710dc6178cf2387"
+    },
+    "components/VfContent/unstyled.mjs": {
+      "bytes": 160,
+      "hash": "8a3191a2ce7dab84",
+      "exports": [
+        "* from @vueform/core/components/VfContent",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfContent"
+      ]
+    },
+    "components/VfElements/index.d.ts": {
+      "bytes": 124,
+      "hash": "6560b8fa900df350"
+    },
+    "components/VfElements/index.mjs": {
+      "bytes": 170,
+      "hash": "1dd1c041570f52bd",
+      "exports": [
+        "* from @vueform/core/components/VfElements/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfElements/raw"
+      ]
+    },
+    "components/VfElements/styled.d.ts": {
+      "bytes": 135,
+      "hash": "ed03088398bafbe8"
+    },
+    "components/VfElements/styled.mjs": {
+      "bytes": 193,
+      "hash": "7d5b74a28cc63760",
+      "exports": [
+        "* from @vueform/core/components/VfElements",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfElements",
+        "@vueform/ui/form.css"
+      ]
+    },
+    "components/VfElements/styles.d.ts": {
+      "bytes": 31,
+      "hash": "74028a453dc7a562"
+    },
+    "components/VfElements/styles.mjs": {
+      "bytes": 31,
+      "hash": "42f7f73bdab8ce0d",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/form.css"
+      ]
+    },
+    "components/VfElements/unstyled.d.ts": {
+      "bytes": 116,
+      "hash": "f23e88faa9b3c7d0"
+    },
+    "components/VfElements/unstyled.mjs": {
+      "bytes": 162,
+      "hash": "8b5d3a91f2c91f9e",
+      "exports": [
+        "* from @vueform/core/components/VfElements",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfElements"
+      ]
+    },
+    "components/VfField/index.d.ts": {
+      "bytes": 118,
+      "hash": "2862496a3f33e333"
+    },
+    "components/VfField/index.mjs": {
+      "bytes": 164,
+      "hash": "234da5304a1d8f67",
+      "exports": [
+        "* from @vueform/core/components/VfField/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfField/raw"
+      ]
+    },
+    "components/VfField/styled.d.ts": {
+      "bytes": 129,
+      "hash": "8372877199b04a8e"
+    },
+    "components/VfField/styled.mjs": {
+      "bytes": 188,
+      "hash": "2635c7535e16b2ea",
+      "exports": [
+        "* from @vueform/core/components/VfField",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfField",
+        "@vueform/ui/input.css"
+      ]
+    },
+    "components/VfField/styles.d.ts": {
+      "bytes": 32,
+      "hash": "31468ddf018d7ff1"
+    },
+    "components/VfField/styles.mjs": {
+      "bytes": 32,
+      "hash": "3ebd53d970faf13e",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/input.css"
+      ]
+    },
+    "components/VfField/unstyled.d.ts": {
+      "bytes": 110,
+      "hash": "aa378bb99bdb9728"
+    },
+    "components/VfField/unstyled.mjs": {
+      "bytes": 156,
+      "hash": "abb2b6dab0b381f7",
+      "exports": [
+        "* from @vueform/core/components/VfField",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfField"
+      ]
+    },
+    "components/VfFile/index.d.ts": {
+      "bytes": 116,
+      "hash": "274db8dbb6cf5057"
+    },
+    "components/VfFile/index.mjs": {
+      "bytes": 162,
+      "hash": "83bd66a2f14cd492",
+      "exports": [
+        "* from @vueform/core/components/VfFile/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfFile/raw"
+      ]
+    },
+    "components/VfFile/styled.d.ts": {
+      "bytes": 127,
+      "hash": "696381a65aa682d3"
+    },
+    "components/VfFile/styled.mjs": {
+      "bytes": 185,
+      "hash": "5409b436c0476102",
+      "exports": [
+        "* from @vueform/core/components/VfFile",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfFile",
+        "@vueform/ui/file.css"
+      ]
+    },
+    "components/VfFile/styles.d.ts": {
+      "bytes": 31,
+      "hash": "86d186d4a5839e67"
+    },
+    "components/VfFile/styles.mjs": {
+      "bytes": 31,
+      "hash": "e651b797c2ec9f2e",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/file.css"
+      ]
+    },
+    "components/VfFile/unstyled.d.ts": {
+      "bytes": 108,
+      "hash": "75cccdac3d16419d"
+    },
+    "components/VfFile/unstyled.mjs": {
+      "bytes": 154,
+      "hash": "54b4cdb0682acbab",
+      "exports": [
+        "* from @vueform/core/components/VfFile",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfFile"
+      ]
+    },
+    "components/VfForm/index.d.ts": {
+      "bytes": 116,
+      "hash": "a5045116224ba853"
+    },
+    "components/VfForm/index.mjs": {
+      "bytes": 162,
+      "hash": "d4f72d9708efe6cb",
+      "exports": [
+        "* from @vueform/core/components/VfForm/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfForm/raw"
+      ]
+    },
+    "components/VfForm/styled.d.ts": {
+      "bytes": 127,
+      "hash": "ffd4cf5b92528299"
+    },
+    "components/VfForm/styled.mjs": {
+      "bytes": 185,
+      "hash": "b9311f246f0714b1",
+      "exports": [
+        "* from @vueform/core/components/VfForm",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfForm",
+        "@vueform/ui/form.css"
+      ]
+    },
+    "components/VfForm/styles.d.ts": {
+      "bytes": 31,
+      "hash": "74028a453dc7a562"
+    },
+    "components/VfForm/styles.mjs": {
+      "bytes": 31,
+      "hash": "42f7f73bdab8ce0d",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/form.css"
+      ]
+    },
+    "components/VfForm/unstyled.d.ts": {
+      "bytes": 108,
+      "hash": "0329767c035a3442"
+    },
+    "components/VfForm/unstyled.mjs": {
+      "bytes": 154,
+      "hash": "25196ed5b225dbe3",
+      "exports": [
+        "* from @vueform/core/components/VfForm",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfForm"
+      ]
+    },
+    "components/VfGrid/index.d.ts": {
+      "bytes": 116,
+      "hash": "2bb2c4fdc3f9a371"
+    },
+    "components/VfGrid/index.mjs": {
+      "bytes": 162,
+      "hash": "7b9231d7386562c7",
+      "exports": [
+        "* from @vueform/core/components/VfGrid/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfGrid/raw"
+      ]
+    },
+    "components/VfGrid/styled.d.ts": {
+      "bytes": 127,
+      "hash": "2a762af16d3d5496"
+    },
+    "components/VfGrid/styled.mjs": {
+      "bytes": 219,
+      "hash": "f75fde375f75213b",
+      "exports": [
+        "* from @vueform/core/components/VfGrid",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfGrid",
+        "@vueform/ui/grid.css",
+        "@vueform/ui/tabular.css"
+      ]
+    },
+    "components/VfGrid/styles.d.ts": {
+      "bytes": 65,
+      "hash": "852675ca9ba3a779"
+    },
+    "components/VfGrid/styles.mjs": {
+      "bytes": 65,
+      "hash": "9efbbc16aa37aea6",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/grid.css",
+        "@vueform/ui/tabular.css"
+      ]
+    },
+    "components/VfGrid/unstyled.d.ts": {
+      "bytes": 108,
+      "hash": "32275dd662e42a28"
+    },
+    "components/VfGrid/unstyled.mjs": {
+      "bytes": 154,
+      "hash": "6efd957940181366",
+      "exports": [
+        "* from @vueform/core/components/VfGrid",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfGrid"
+      ]
+    },
+    "components/VfGroup/index.d.ts": {
+      "bytes": 344,
+      "hash": "d8a511bfe514738f"
+    },
+    "components/VfGroup/index.mjs": {
+      "bytes": 164,
+      "hash": "a7d12d377a3112b4",
+      "exports": [
+        "* from @vueform/core/components/VfGroup/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfGroup/raw"
+      ]
+    },
+    "components/VfGroup/styled.d.ts": {
+      "bytes": 351,
+      "hash": "f81a3e47b8ca0fb5"
+    },
+    "components/VfGroup/styled.mjs": {
+      "bytes": 188,
+      "hash": "a8a456cf450e660a",
+      "exports": [
+        "* from @vueform/core/components/VfGroup",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfGroup",
+        "@vueform/ui/group.css"
+      ]
+    },
+    "components/VfGroup/styles.d.ts": {
+      "bytes": 32,
+      "hash": "66e16c5ccb572f3e"
+    },
+    "components/VfGroup/styles.mjs": {
+      "bytes": 32,
+      "hash": "d8a61493528f9323",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/group.css"
+      ]
+    },
+    "components/VfGroup/unstyled.d.ts": {
+      "bytes": 332,
+      "hash": "eead6d5b1b3139e0"
+    },
+    "components/VfGroup/unstyled.mjs": {
+      "bytes": 156,
+      "hash": "97e58e5a51754db3",
+      "exports": [
+        "* from @vueform/core/components/VfGroup",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfGroup"
+      ]
+    },
+    "components/VfHidden/index.d.ts": {
+      "bytes": 120,
+      "hash": "1b6591033bdfab94"
+    },
+    "components/VfHidden/index.mjs": {
+      "bytes": 166,
+      "hash": "8023419e0d74558d",
+      "exports": [
+        "* from @vueform/core/components/VfHidden/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfHidden/raw"
+      ]
+    },
+    "components/VfHidden/styled.d.ts": {
+      "bytes": 112,
+      "hash": "958fc6b047bfb384"
+    },
+    "components/VfHidden/styled.mjs": {
+      "bytes": 158,
+      "hash": "70824320f93bca00",
+      "exports": [
+        "* from @vueform/core/components/VfHidden",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfHidden"
+      ]
+    },
+    "components/VfHidden/unstyled.d.ts": {
+      "bytes": 112,
+      "hash": "958fc6b047bfb384"
+    },
+    "components/VfHidden/unstyled.mjs": {
+      "bytes": 158,
+      "hash": "70824320f93bca00",
+      "exports": [
+        "* from @vueform/core/components/VfHidden",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfHidden"
+      ]
+    },
+    "components/VfIcon/index.d.ts": {
+      "bytes": 116,
+      "hash": "58d5c12a7f22bf9a"
+    },
+    "components/VfIcon/index.mjs": {
+      "bytes": 162,
+      "hash": "ac76552eb7753221",
+      "exports": [
+        "* from @vueform/core/components/VfIcon/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfIcon/raw"
+      ]
+    },
+    "components/VfIcon/styled.d.ts": {
+      "bytes": 127,
+      "hash": "44cfd3ea672e3f5c"
+    },
+    "components/VfIcon/styled.mjs": {
+      "bytes": 221,
+      "hash": "72e5256078ff470e",
+      "exports": [
+        "* from @vueform/core/components/VfIcon",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfIcon",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/icon.css"
+      ]
+    },
+    "components/VfIcon/styles.d.ts": {
+      "bytes": 67,
+      "hash": "4add3ad80e5e6edf"
+    },
+    "components/VfIcon/styles.mjs": {
+      "bytes": 67,
+      "hash": "7c4461ed0d5defb8",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/animation.css",
+        "@vueform/ui/icon.css"
+      ]
+    },
+    "components/VfIcon/unstyled.d.ts": {
+      "bytes": 108,
+      "hash": "e4dd186abcc9be45"
+    },
+    "components/VfIcon/unstyled.mjs": {
+      "bytes": 154,
+      "hash": "88433d8f2ebff86f",
+      "exports": [
+        "* from @vueform/core/components/VfIcon",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfIcon"
+      ]
+    },
+    "components/VfLanguages/index.d.ts": {
+      "bytes": 126,
+      "hash": "54059a0b878378f2"
+    },
+    "components/VfLanguages/index.mjs": {
+      "bytes": 172,
+      "hash": "422145f6dca212be",
+      "exports": [
+        "* from @vueform/core/components/VfLanguages/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfLanguages/raw"
+      ]
+    },
+    "components/VfLanguages/styled.d.ts": {
+      "bytes": 137,
+      "hash": "5cbb166eccc628cb"
+    },
+    "components/VfLanguages/styled.mjs": {
+      "bytes": 200,
+      "hash": "7b73c0990a604654",
+      "exports": [
+        "* from @vueform/core/components/VfLanguages",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfLanguages",
+        "@vueform/ui/languages.css"
+      ]
+    },
+    "components/VfLanguages/styles.d.ts": {
+      "bytes": 36,
+      "hash": "d74cad8edd11331c"
+    },
+    "components/VfLanguages/styles.mjs": {
+      "bytes": 36,
+      "hash": "a871cc4bd93eb9e2",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/languages.css"
+      ]
+    },
+    "components/VfLanguages/unstyled.d.ts": {
+      "bytes": 118,
+      "hash": "f0960d09f6e61393"
+    },
+    "components/VfLanguages/unstyled.mjs": {
+      "bytes": 164,
+      "hash": "6b2de1c8ee1128c0",
+      "exports": [
+        "* from @vueform/core/components/VfLanguages",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfLanguages"
+      ]
+    },
+    "components/VfLayout/index.d.ts": {
+      "bytes": 120,
+      "hash": "69080e8178f1e512"
+    },
+    "components/VfLayout/index.mjs": {
+      "bytes": 166,
+      "hash": "01fc79e89042c41d",
+      "exports": [
+        "* from @vueform/core/components/VfLayout/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfLayout/raw"
+      ]
+    },
+    "components/VfLayout/styled.d.ts": {
+      "bytes": 131,
+      "hash": "529c5efe5ff215db"
+    },
+    "components/VfLayout/styled.mjs": {
+      "bytes": 389,
+      "hash": "50a4dad22b3a056e",
+      "exports": [
+        "* from @vueform/core/components/VfLayout",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfLayout",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/blockquote.css",
+        "@vueform/ui/element.css",
+        "@vueform/ui/hr.css",
+        "@vueform/ui/icon.css",
+        "@vueform/ui/input.css",
+        "@vueform/ui/utils.css"
+      ]
+    },
+    "components/VfLayout/styles.d.ts": {
+      "bytes": 231,
+      "hash": "029ef9657c0964db"
+    },
+    "components/VfLayout/styles.mjs": {
+      "bytes": 231,
+      "hash": "efd9c478331d7cdb",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/animation.css",
+        "@vueform/ui/blockquote.css",
+        "@vueform/ui/element.css",
+        "@vueform/ui/hr.css",
+        "@vueform/ui/icon.css",
+        "@vueform/ui/input.css",
+        "@vueform/ui/utils.css"
+      ]
+    },
+    "components/VfLayout/unstyled.d.ts": {
+      "bytes": 112,
+      "hash": "b7df0267fab249f9"
+    },
+    "components/VfLayout/unstyled.mjs": {
+      "bytes": 158,
+      "hash": "05112afc0eec1579",
+      "exports": [
+        "* from @vueform/core/components/VfLayout",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfLayout"
+      ]
+    },
+    "components/VfList/index.d.ts": {
+      "bytes": 116,
+      "hash": "a702c2436d37791b"
+    },
+    "components/VfList/index.mjs": {
+      "bytes": 162,
+      "hash": "c3426314a15bd5f9",
+      "exports": [
+        "* from @vueform/core/components/VfList/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfList/raw"
+      ]
+    },
+    "components/VfList/styled.d.ts": {
+      "bytes": 127,
+      "hash": "00d313e778304208"
+    },
+    "components/VfList/styled.mjs": {
+      "bytes": 185,
+      "hash": "b0ae1aea83f32c84",
+      "exports": [
+        "* from @vueform/core/components/VfList",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfList",
+        "@vueform/ui/list.css"
+      ]
+    },
+    "components/VfList/styles.d.ts": {
+      "bytes": 31,
+      "hash": "0dbdd21fafd902ef"
+    },
+    "components/VfList/styles.mjs": {
+      "bytes": 31,
+      "hash": "96bbc4aa1c30ee1b",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/list.css"
+      ]
+    },
+    "components/VfList/unstyled.d.ts": {
+      "bytes": 108,
+      "hash": "c4295900f5c8b514"
+    },
+    "components/VfList/unstyled.mjs": {
+      "bytes": 154,
+      "hash": "db841bcee87f356f",
+      "exports": [
+        "* from @vueform/core/components/VfList",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfList"
+      ]
+    },
+    "components/VfMatrix/index.d.ts": {
+      "bytes": 120,
+      "hash": "6f43e027a6b884e8"
+    },
+    "components/VfMatrix/index.mjs": {
+      "bytes": 166,
+      "hash": "8678213dc194048a",
+      "exports": [
+        "* from @vueform/core/components/VfMatrix/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfMatrix/raw"
+      ]
+    },
+    "components/VfMatrix/styled.d.ts": {
+      "bytes": 131,
+      "hash": "4d457b89247cdfd4"
+    },
+    "components/VfMatrix/styled.mjs": {
+      "bytes": 225,
+      "hash": "8fa359103821feab",
+      "exports": [
+        "* from @vueform/core/components/VfMatrix",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfMatrix",
+        "@vueform/ui/matrix.css",
+        "@vueform/ui/tabular.css"
+      ]
+    },
+    "components/VfMatrix/styles.d.ts": {
+      "bytes": 67,
+      "hash": "77fb56eb2093ef3f"
+    },
+    "components/VfMatrix/styles.mjs": {
+      "bytes": 67,
+      "hash": "fae528e4c6d668dd",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/matrix.css",
+        "@vueform/ui/tabular.css"
+      ]
+    },
+    "components/VfMatrix/unstyled.d.ts": {
+      "bytes": 112,
+      "hash": "d4f95f29a6673b81"
+    },
+    "components/VfMatrix/unstyled.mjs": {
+      "bytes": 158,
+      "hash": "eba68ecc6270b8a9",
+      "exports": [
+        "* from @vueform/core/components/VfMatrix",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfMatrix"
+      ]
+    },
+    "components/VfNav/index.d.ts": {
+      "bytes": 114,
+      "hash": "05167e41b853e5fc"
+    },
+    "components/VfNav/index.mjs": {
+      "bytes": 160,
+      "hash": "87dd9eceb17c8901",
+      "exports": [
+        "* from @vueform/core/components/VfNav/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfNav/raw"
+      ]
+    },
+    "components/VfNav/styled.d.ts": {
+      "bytes": 125,
+      "hash": "4d82ff8fb592719f"
+    },
+    "components/VfNav/styled.mjs": {
+      "bytes": 182,
+      "hash": "49b7ee365663b0b6",
+      "exports": [
+        "* from @vueform/core/components/VfNav",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfNav",
+        "@vueform/ui/nav.css"
+      ]
+    },
+    "components/VfNav/styles.d.ts": {
+      "bytes": 30,
+      "hash": "43dcb8b571bdb148"
+    },
+    "components/VfNav/styles.mjs": {
+      "bytes": 30,
+      "hash": "6a54918566cd2706",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/nav.css"
+      ]
+    },
+    "components/VfNav/unstyled.d.ts": {
+      "bytes": 106,
+      "hash": "c50a2180c28d9e63"
+    },
+    "components/VfNav/unstyled.mjs": {
+      "bytes": 152,
+      "hash": "20ad385b0a834ff1",
+      "exports": [
+        "* from @vueform/core/components/VfNav",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfNav"
+      ]
+    },
+    "components/VfRadio/index.d.ts": {
+      "bytes": 118,
+      "hash": "323f05122cb551bd"
+    },
+    "components/VfRadio/index.mjs": {
+      "bytes": 164,
+      "hash": "38b761405e325deb",
+      "exports": [
+        "* from @vueform/core/components/VfRadio/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRadio/raw"
+      ]
+    },
+    "components/VfRadio/styled.d.ts": {
+      "bytes": 129,
+      "hash": "ddf99afa89bc0d2b"
+    },
+    "components/VfRadio/styled.mjs": {
+      "bytes": 189,
+      "hash": "2c2e18700a15a56a",
+      "exports": [
+        "* from @vueform/core/components/VfRadio",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRadio",
+        "@vueform/ui/choice.css"
+      ]
+    },
+    "components/VfRadio/styles.d.ts": {
+      "bytes": 33,
+      "hash": "182880020a24a02a"
+    },
+    "components/VfRadio/styles.mjs": {
+      "bytes": 33,
+      "hash": "9a78e3f0fa3be089",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/choice.css"
+      ]
+    },
+    "components/VfRadio/unstyled.d.ts": {
+      "bytes": 110,
+      "hash": "37adec80209c29a5"
+    },
+    "components/VfRadio/unstyled.mjs": {
+      "bytes": 156,
+      "hash": "d2455e3dd116a679",
+      "exports": [
+        "* from @vueform/core/components/VfRadio",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRadio"
+      ]
+    },
+    "components/VfRadios/index.d.ts": {
+      "bytes": 120,
+      "hash": "d5b2ca8e2bc777de"
+    },
+    "components/VfRadios/index.mjs": {
+      "bytes": 166,
+      "hash": "63ed4c990afdf766",
+      "exports": [
+        "* from @vueform/core/components/VfRadios/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRadios/raw"
+      ]
+    },
+    "components/VfRadios/styled.d.ts": {
+      "bytes": 131,
+      "hash": "cb8b1a5de2637db7"
+    },
+    "components/VfRadios/styled.mjs": {
+      "bytes": 192,
+      "hash": "facffc176896102a",
+      "exports": [
+        "* from @vueform/core/components/VfRadios",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRadios",
+        "@vueform/ui/choices.css"
+      ]
+    },
+    "components/VfRadios/styles.d.ts": {
+      "bytes": 34,
+      "hash": "d866a8b4773ca927"
+    },
+    "components/VfRadios/styles.mjs": {
+      "bytes": 34,
+      "hash": "dab9a939adbc28fa",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/choices.css"
+      ]
+    },
+    "components/VfRadios/unstyled.d.ts": {
+      "bytes": 112,
+      "hash": "0bd3696887409565"
+    },
+    "components/VfRadios/unstyled.mjs": {
+      "bytes": 158,
+      "hash": "1aa648afb755155c",
+      "exports": [
+        "* from @vueform/core/components/VfRadios",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRadios"
+      ]
+    },
+    "components/VfRow/index.d.ts": {
+      "bytes": 114,
+      "hash": "460f75508b7aae9d"
+    },
+    "components/VfRow/index.mjs": {
+      "bytes": 160,
+      "hash": "253f548fc6f6b9ef",
+      "exports": [
+        "* from @vueform/core/components/VfRow/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRow/raw"
+      ]
+    },
+    "components/VfRow/styled.d.ts": {
+      "bytes": 125,
+      "hash": "7fc5b16daac001ab"
+    },
+    "components/VfRow/styled.mjs": {
+      "bytes": 183,
+      "hash": "6d3fdf814d882c04",
+      "exports": [
+        "* from @vueform/core/components/VfRow",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRow",
+        "@vueform/ui/grid.css"
+      ]
+    },
+    "components/VfRow/styles.d.ts": {
+      "bytes": 31,
+      "hash": "9232766f931fd69f"
+    },
+    "components/VfRow/styles.mjs": {
+      "bytes": 31,
+      "hash": "67324481d7d29d98",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/grid.css"
+      ]
+    },
+    "components/VfRow/unstyled.d.ts": {
+      "bytes": 106,
+      "hash": "e33ec7a3d585d52a"
+    },
+    "components/VfRow/unstyled.mjs": {
+      "bytes": 152,
+      "hash": "62808ffd65c5130b",
+      "exports": [
+        "* from @vueform/core/components/VfRow",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfRow"
+      ]
+    },
+    "components/VfSelect/index.d.ts": {
+      "bytes": 120,
+      "hash": "fc106ca7d967d0ad"
+    },
+    "components/VfSelect/index.mjs": {
+      "bytes": 166,
+      "hash": "1212ee278d54a559",
+      "exports": [
+        "* from @vueform/core/components/VfSelect/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfSelect/raw"
+      ]
+    },
+    "components/VfSelect/styled.d.ts": {
+      "bytes": 131,
+      "hash": "b09c9761ddc376aa"
+    },
+    "components/VfSelect/styled.mjs": {
+      "bytes": 223,
+      "hash": "bf24b03977ac8e39",
+      "exports": [
+        "* from @vueform/core/components/VfSelect",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfSelect",
+        "@vueform/ui/input.css",
+        "@vueform/ui/select.css"
+      ]
+    },
+    "components/VfSelect/styles.d.ts": {
+      "bytes": 65,
+      "hash": "11e8834f9b4353b2"
+    },
+    "components/VfSelect/styles.mjs": {
+      "bytes": 65,
+      "hash": "c92625045f99971f",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/input.css",
+        "@vueform/ui/select.css"
+      ]
+    },
+    "components/VfSelect/unstyled.d.ts": {
+      "bytes": 112,
+      "hash": "e896188dba5bae51"
+    },
+    "components/VfSelect/unstyled.mjs": {
+      "bytes": 158,
+      "hash": "ab622bf98888fec8",
+      "exports": [
+        "* from @vueform/core/components/VfSelect",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfSelect"
+      ]
+    },
+    "components/VfSteps/index.d.ts": {
+      "bytes": 118,
+      "hash": "3150b280b1f98ebc"
+    },
+    "components/VfSteps/index.mjs": {
+      "bytes": 164,
+      "hash": "d406d3fe0565239d",
+      "exports": [
+        "* from @vueform/core/components/VfSteps/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfSteps/raw"
+      ]
+    },
+    "components/VfSteps/styled.d.ts": {
+      "bytes": 129,
+      "hash": "7a7d9da307688571"
+    },
+    "components/VfSteps/styled.mjs": {
+      "bytes": 224,
+      "hash": "7f1c91062bb2c790",
+      "exports": [
+        "* from @vueform/core/components/VfSteps",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfSteps",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/steps.css"
+      ]
+    },
+    "components/VfSteps/styles.d.ts": {
+      "bytes": 68,
+      "hash": "ef9aede21c9cfd6e"
+    },
+    "components/VfSteps/styles.mjs": {
+      "bytes": 68,
+      "hash": "56a28f8e3439528f",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/animation.css",
+        "@vueform/ui/steps.css"
+      ]
+    },
+    "components/VfSteps/unstyled.d.ts": {
+      "bytes": 110,
+      "hash": "791285a7a03170f1"
+    },
+    "components/VfSteps/unstyled.mjs": {
+      "bytes": 156,
+      "hash": "050daa23d07beee9",
+      "exports": [
+        "* from @vueform/core/components/VfSteps",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfSteps"
+      ]
+    },
+    "components/VfTabs/index.d.ts": {
+      "bytes": 116,
+      "hash": "4a8f97d632098610"
+    },
+    "components/VfTabs/index.mjs": {
+      "bytes": 162,
+      "hash": "20d9a39e28234875",
+      "exports": [
+        "* from @vueform/core/components/VfTabs/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfTabs/raw"
+      ]
+    },
+    "components/VfTabs/styled.d.ts": {
+      "bytes": 127,
+      "hash": "3e8e522eb72e3653"
+    },
+    "components/VfTabs/styled.mjs": {
+      "bytes": 185,
+      "hash": "0c362d2894233111",
+      "exports": [
+        "* from @vueform/core/components/VfTabs",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfTabs",
+        "@vueform/ui/tabs.css"
+      ]
+    },
+    "components/VfTabs/styles.d.ts": {
+      "bytes": 31,
+      "hash": "9649edb15f6e828a"
+    },
+    "components/VfTabs/styles.mjs": {
+      "bytes": 31,
+      "hash": "30d0359845983cd3",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/tabs.css"
+      ]
+    },
+    "components/VfTabs/unstyled.d.ts": {
+      "bytes": 108,
+      "hash": "9fa337fb98b03529"
+    },
+    "components/VfTabs/unstyled.mjs": {
+      "bytes": 154,
+      "hash": "f64587b3a7e93d93",
+      "exports": [
+        "* from @vueform/core/components/VfTabs",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfTabs"
+      ]
+    },
+    "components/VfText/index.d.ts": {
+      "bytes": 116,
+      "hash": "efa09cdf607585d1"
+    },
+    "components/VfText/index.mjs": {
+      "bytes": 162,
+      "hash": "f6c412d2425b254f",
+      "exports": [
+        "* from @vueform/core/components/VfText/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfText/raw"
+      ]
+    },
+    "components/VfText/styled.d.ts": {
+      "bytes": 127,
+      "hash": "5158491eb5b630f5"
+    },
+    "components/VfText/styled.mjs": {
+      "bytes": 217,
+      "hash": "7b7c5e5275f261d3",
+      "exports": [
+        "* from @vueform/core/components/VfText",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfText",
+        "@vueform/ui/input.css",
+        "@vueform/ui/text.css"
+      ]
+    },
+    "components/VfText/styles.d.ts": {
+      "bytes": 63,
+      "hash": "8fbefaf8b06d9d24"
+    },
+    "components/VfText/styles.mjs": {
+      "bytes": 63,
+      "hash": "d2f20674b6a263f4",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/input.css",
+        "@vueform/ui/text.css"
+      ]
+    },
+    "components/VfText/unstyled.d.ts": {
+      "bytes": 108,
+      "hash": "d0727a9a34524af7"
+    },
+    "components/VfText/unstyled.mjs": {
+      "bytes": 154,
+      "hash": "04c01008cec925f5",
+      "exports": [
+        "* from @vueform/core/components/VfText",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfText"
+      ]
+    },
+    "components/VfTextarea/index.d.ts": {
+      "bytes": 124,
+      "hash": "5a6b0ad0c6d7cca6"
+    },
+    "components/VfTextarea/index.mjs": {
+      "bytes": 170,
+      "hash": "7b4266300092273f",
+      "exports": [
+        "* from @vueform/core/components/VfTextarea/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfTextarea/raw"
+      ]
+    },
+    "components/VfTextarea/styled.d.ts": {
+      "bytes": 135,
+      "hash": "1ff7f99eb89286c3"
+    },
+    "components/VfTextarea/styled.mjs": {
+      "bytes": 229,
+      "hash": "80d85326259224b3",
+      "exports": [
+        "* from @vueform/core/components/VfTextarea",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfTextarea",
+        "@vueform/ui/input.css",
+        "@vueform/ui/textarea.css"
+      ]
+    },
+    "components/VfTextarea/styles.d.ts": {
+      "bytes": 67,
+      "hash": "93c56eb97cd98e96"
+    },
+    "components/VfTextarea/styles.mjs": {
+      "bytes": 67,
+      "hash": "a0d619d856aea126",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/input.css",
+        "@vueform/ui/textarea.css"
+      ]
+    },
+    "components/VfTextarea/unstyled.d.ts": {
+      "bytes": 116,
+      "hash": "e3cdaacad0c7d5a1"
+    },
+    "components/VfTextarea/unstyled.mjs": {
+      "bytes": 162,
+      "hash": "de8c257004b342fe",
+      "exports": [
+        "* from @vueform/core/components/VfTextarea",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/components/VfTextarea"
+      ]
+    },
+    "components/index.d.ts": {
+      "bytes": 1511,
+      "hash": "c7a929b3e5c8a113"
+    },
+    "components/index.mjs": {
+      "bytes": 3488,
+      "hash": "b5052fce3edd7088",
+      "exports": [
+        "VfAddon",
+        "VfButton",
+        "VfCheckbox",
+        "VfCheckboxes",
+        "VfCol",
+        "VfContent",
+        "VfElements",
+        "VfField",
+        "VfFile",
+        "VfForm",
+        "VfGrid",
+        "VfGroup",
+        "VfHidden",
+        "VfIcon",
+        "VfLanguages",
+        "VfLayout",
+        "VfList",
+        "VfMatrix",
+        "VfNav",
+        "VfRadio",
+        "VfRadios",
+        "VfRow",
+        "VfSelect",
+        "VfSteps",
+        "VfTabs",
+        "VfText",
+        "VfTextarea"
+      ],
+      "imports": [
+        "@vueform/core/components/VfAddon",
+        "@vueform/core/components/VfButton",
+        "@vueform/core/components/VfCheckbox",
+        "@vueform/core/components/VfCheckboxes",
+        "@vueform/core/components/VfCol",
+        "@vueform/core/components/VfContent",
+        "@vueform/core/components/VfElements",
+        "@vueform/core/components/VfField",
+        "@vueform/core/components/VfFile",
+        "@vueform/core/components/VfForm",
+        "@vueform/core/components/VfGrid",
+        "@vueform/core/components/VfGroup",
+        "@vueform/core/components/VfHidden",
+        "@vueform/core/components/VfIcon",
+        "@vueform/core/components/VfLanguages",
+        "@vueform/core/components/VfLayout",
+        "@vueform/core/components/VfList",
+        "@vueform/core/components/VfMatrix",
+        "@vueform/core/components/VfNav",
+        "@vueform/core/components/VfRadio",
+        "@vueform/core/components/VfRadios",
+        "@vueform/core/components/VfRow",
+        "@vueform/core/components/VfSelect",
+        "@vueform/core/components/VfSteps",
+        "@vueform/core/components/VfTabs",
+        "@vueform/core/components/VfText",
+        "@vueform/core/components/VfTextarea",
+        "@vueform/ui/addon.css",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/blockquote.css",
+        "@vueform/ui/button.css",
+        "@vueform/ui/choice.css",
+        "@vueform/ui/choices.css",
+        "@vueform/ui/content.css",
+        "@vueform/ui/element.css",
+        "@vueform/ui/file.css",
+        "@vueform/ui/form.css",
+        "@vueform/ui/grid.css",
+        "@vueform/ui/group.css",
+        "@vueform/ui/hr.css",
+        "@vueform/ui/icon.css",
+        "@vueform/ui/input.css",
+        "@vueform/ui/languages.css",
+        "@vueform/ui/list.css",
+        "@vueform/ui/matrix.css",
+        "@vueform/ui/nav.css",
+        "@vueform/ui/select.css",
+        "@vueform/ui/steps.css",
+        "@vueform/ui/tabs.css",
+        "@vueform/ui/tabular.css",
+        "@vueform/ui/text.css",
+        "@vueform/ui/textarea.css",
+        "@vueform/ui/utils.css"
+      ]
+    },
+    "components/names.d.ts": {
+      "bytes": 473,
+      "hash": "a9248153aa1427ac"
+    },
+    "config.d.ts": {
+      "bytes": 103,
+      "hash": "8ad4d4e82ae7537b"
+    },
+    "config.mjs": {
+      "bytes": 220,
+      "hash": "590a44ce52c1dbfc",
+      "exports": [
+        "default",
+        "defaultConfig"
+      ],
+      "imports": [
+        "@vueform/core"
+      ]
+    },
+    "css/addon.css": {
+      "bytes": 4457,
+      "hash": "be3d42c6b835cd85"
+    },
+    "css/addon.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/animation.css": {
+      "bytes": 247,
+      "hash": "782f3288df888aa9"
+    },
+    "css/animation.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/blockquote.css": {
+      "bytes": 140,
+      "hash": "b910edffc500cce3"
+    },
+    "css/blockquote.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/button.css": {
+      "bytes": 10167,
+      "hash": "a16f2353f9dfb99f"
+    },
+    "css/button.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/choice.css": {
+      "bytes": 3584,
+      "hash": "3272d95557cc2758"
+    },
+    "css/choice.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/choices.css": {
+      "bytes": 585,
+      "hash": "c7073eb2e0365bb5"
+    },
+    "css/choices.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/content.css": {
+      "bytes": 278,
+      "hash": "76aa7b43f1d10dcc"
+    },
+    "css/content.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/element.css": {
+      "bytes": 4521,
+      "hash": "fae703edb3da3eca"
+    },
+    "css/element.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/file.css": {
+      "bytes": 433,
+      "hash": "c72cb401031dda2f"
+    },
+    "css/file.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/form.css": {
+      "bytes": 1647,
+      "hash": "b77e7b26eece5b0c"
+    },
+    "css/form.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/grid.css": {
+      "bytes": 2326,
+      "hash": "b762fd7e94bc75eb"
+    },
+    "css/grid.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/group.css": {
+      "bytes": 1469,
+      "hash": "1a09cfbd5380da69"
+    },
+    "css/group.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/hr.css": {
+      "bytes": 101,
+      "hash": "d7eebb3505e7c874"
+    },
+    "css/hr.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/icon.css": {
+      "bytes": 3107,
+      "hash": "6f13e7f9435aaaff"
+    },
+    "css/icon.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/input.css": {
+      "bytes": 1589,
+      "hash": "e55b268df137d71c"
+    },
+    "css/input.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/languages.css": {
+      "bytes": 1505,
+      "hash": "4c5ac6f0356e4053"
+    },
+    "css/languages.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/list.css": {
+      "bytes": 1986,
+      "hash": "e98a080194541881"
+    },
+    "css/list.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/matrix.css": {
+      "bytes": 2155,
+      "hash": "3b5eae6c4ec9a626"
+    },
+    "css/matrix.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/nav.css": {
+      "bytes": 511,
+      "hash": "be4c96678295ccbd"
+    },
+    "css/nav.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/select.css": {
+      "bytes": 1015,
+      "hash": "222aa1dc7853ae1c"
+    },
+    "css/select.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/steps.css": {
+      "bytes": 5338,
+      "hash": "7e0ba59a3df5727a"
+    },
+    "css/steps.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/tabs.css": {
+      "bytes": 1451,
+      "hash": "f193576cb10576ad"
+    },
+    "css/tabs.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/tabular.css": {
+      "bytes": 16487,
+      "hash": "d5bec7ccf976ef37"
+    },
+    "css/tabular.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/text.css": {
+      "bytes": 663,
+      "hash": "9e2a2224eefd9d85"
+    },
+    "css/text.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/textarea.css": {
+      "bytes": 745,
+      "hash": "5658dbc76104175e"
+    },
+    "css/textarea.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/theme.css": {
+      "bytes": 66956,
+      "hash": "92f75bf48ff31281"
+    },
+    "css/theme.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "css/utils.css": {
+      "bytes": 398,
+      "hash": "b0baffe6b41660e4"
+    },
+    "css/utils.css.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "features/base.d.ts": {
+      "bytes": 4920,
+      "hash": "4126e57df30ef531"
+    },
+    "features/index.d.ts": {
+      "bytes": 24,
+      "hash": "6ad8f31659dd42a4"
+    },
+    "index.d.ts": {
+      "bytes": 898,
+      "hash": "f7fdbdf438c9f85d"
+    },
+    "index.mjs": {
+      "bytes": 287,
+      "hash": "44279250374b5f73",
+      "exports": [
+        "* from @vueform/core",
+        "createVueform",
+        "defaultConfig"
+      ],
+      "imports": [
+        "@vueform/core"
+      ]
+    },
+    "locales/index.d.ts": {
+      "bytes": 39,
+      "hash": "900bb019fd4029c0"
+    },
+    "locales/index.mjs": {
+      "bytes": 39,
+      "hash": "380fdae7b6b96db8",
+      "exports": [
+        "* from @vueform/core/locales"
+      ],
+      "imports": [
+        "@vueform/core/locales"
+      ]
+    },
+    "material.css": {
+      "bytes": 49792,
+      "hash": "9f4ae4527a2eb301"
+    },
+    "material.d.ts": {
+      "bytes": 431,
+      "hash": "6b60b5ca5201e1ba"
+    },
+    "material.global.js": {
+      "bytes": 418089,
+      "hash": "e36ef6d77b824c73",
+      "exports": [],
+      "imports": []
+    },
+    "material.mjs": {
+      "bytes": 848,
+      "hash": "8f7fc91ea4b03634",
+      "exports": [
+        "createVueform"
+      ],
+      "imports": [
+        "./components/index.mjs",
+        "./modules/modules.mjs",
+        "./rules/index.mjs",
+        "./themes/material.mjs",
+        "./themes/origin.mjs",
+        "@vueform/core",
+        "@vueform/core/locales"
+      ]
+    },
+    "modules/modules.d.ts": {
+      "bytes": 39,
+      "hash": "2af0a3b388d66670"
+    },
+    "modules/modules.mjs": {
+      "bytes": 89,
+      "hash": "611d532a62bf8b78",
+      "exports": [
+        "* from @vueform/core/modules"
+      ],
+      "imports": [
+        "@vueform/core/modules"
+      ]
+    },
+    "origin.css": {
+      "bytes": 49792,
+      "hash": "9f4ae4527a2eb301"
+    },
+    "origin.d.ts": {
+      "bytes": 458,
+      "hash": "7f2fb9ff532d3cc5"
+    },
+    "origin.global.js": {
+      "bytes": 418089,
+      "hash": "83b4da35b40e606c",
+      "exports": [],
+      "imports": []
+    },
+    "origin.mjs": {
+      "bytes": 844,
+      "hash": "24d816ca23e971fa",
+      "exports": [
+        "createVueform"
+      ],
+      "imports": [
+        "./components/index.mjs",
+        "./modules/modules.mjs",
+        "./rules/index.mjs",
+        "./themes/material.mjs",
+        "./themes/origin.mjs",
+        "@vueform/core",
+        "@vueform/core/locales"
+      ]
+    },
+    "rules/index.d.ts": {
+      "bytes": 37,
+      "hash": "69f9565d634ea8fe"
+    },
+    "rules/index.mjs": {
+      "bytes": 83,
+      "hash": "ede46fb9a9013b39",
+      "exports": [
+        "* from @vueform/core/rules"
+      ],
+      "imports": [
+        "@vueform/core/rules"
+      ]
+    },
+    "scss/addon.scss": {
+      "bytes": 37,
+      "hash": "a14fb4b96e0dfca1"
+    },
+    "scss/addon.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/animation.scss": {
+      "bytes": 41,
+      "hash": "c41016e80e6bf9e0"
+    },
+    "scss/animation.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/blockquote.scss": {
+      "bytes": 42,
+      "hash": "5b1dcc367d6a418c"
+    },
+    "scss/blockquote.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/button.scss": {
+      "bytes": 38,
+      "hash": "0d80da37020c2a26"
+    },
+    "scss/button.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/choice.scss": {
+      "bytes": 38,
+      "hash": "90b328cf7aa54ae0"
+    },
+    "scss/choice.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/choices.scss": {
+      "bytes": 39,
+      "hash": "6b23070308cab57f"
+    },
+    "scss/choices.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/content.scss": {
+      "bytes": 39,
+      "hash": "4649399ea3df08cf"
+    },
+    "scss/content.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/element.scss": {
+      "bytes": 39,
+      "hash": "1fcdcc196e466ab1"
+    },
+    "scss/element.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/file.scss": {
+      "bytes": 36,
+      "hash": "ba6b8653c9ec89af"
+    },
+    "scss/file.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/form.scss": {
+      "bytes": 36,
+      "hash": "49397146b33376f3"
+    },
+    "scss/form.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/grid.scss": {
+      "bytes": 36,
+      "hash": "e1e299b18967f8b7"
+    },
+    "scss/grid.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/group.scss": {
+      "bytes": 37,
+      "hash": "adba8c78e0f9c565"
+    },
+    "scss/group.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/hr.scss": {
+      "bytes": 34,
+      "hash": "eaf596463d0d1adc"
+    },
+    "scss/hr.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/icon.scss": {
+      "bytes": 36,
+      "hash": "3e98609cf05087fc"
+    },
+    "scss/icon.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/input.scss": {
+      "bytes": 37,
+      "hash": "b2dac8caea77b518"
+    },
+    "scss/input.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/languages.scss": {
+      "bytes": 41,
+      "hash": "0cc5eb7abd0a964a"
+    },
+    "scss/languages.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/list.scss": {
+      "bytes": 36,
+      "hash": "3c465b90ff034c84"
+    },
+    "scss/list.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/matrix.scss": {
+      "bytes": 38,
+      "hash": "46b21c75fbdc6a14"
+    },
+    "scss/matrix.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/nav.scss": {
+      "bytes": 35,
+      "hash": "cda1596a1447cf59"
+    },
+    "scss/nav.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/select.scss": {
+      "bytes": 38,
+      "hash": "eda451f9c17d91b5"
+    },
+    "scss/select.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/steps.scss": {
+      "bytes": 37,
+      "hash": "2e12654e3e0ef09a"
+    },
+    "scss/steps.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/tabs.scss": {
+      "bytes": 36,
+      "hash": "af07ae9e990d9ca9"
+    },
+    "scss/tabs.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/tabular-cell.scss": {
+      "bytes": 44,
+      "hash": "05e488c0e4f7afc8"
+    },
+    "scss/tabular-cell.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/tabular.scss": {
+      "bytes": 39,
+      "hash": "8bf4478e3e2e5751"
+    },
+    "scss/tabular.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/text.scss": {
+      "bytes": 36,
+      "hash": "52510edd04d74e56"
+    },
+    "scss/text.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/textarea.scss": {
+      "bytes": 40,
+      "hash": "a7135605aa5c040f"
+    },
+    "scss/textarea.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/theme.scss": {
+      "bytes": 811,
+      "hash": "d0d6b4efed9cefd8"
+    },
+    "scss/theme.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "scss/utils.scss": {
+      "bytes": 37,
+      "hash": "3eb1ba419263b307"
+    },
+    "scss/utils.scss.mjs": {
+      "bytes": 18,
+      "hash": "7580f318d3f9634a",
+      "exports": [
+        "default"
+      ],
+      "imports": []
+    },
+    "themes/index.d.ts": {
+      "bytes": 974,
+      "hash": "d4f96c952008f18e"
+    },
+    "themes/index.mjs": {
+      "bytes": 338,
+      "hash": "c8820c562ec090cc",
+      "exports": [
+        "defineTheme",
+        "extendTheme",
+        "material",
+        "materialComponentTokens",
+        "origin",
+        "originComponentTokens"
+      ],
+      "imports": [
+        "./material.mjs",
+        "./origin.mjs",
+        "@vueform/core"
+      ]
+    },
+    "themes/material.d.ts": {
+      "bytes": 27936,
+      "hash": "a19919be7f03df82"
+    },
+    "themes/material.mjs": {
+      "bytes": 725,
+      "hash": "a5e66a4f9436b981",
+      "exports": [
+        "material",
+        "materialComponentTokens"
+      ],
+      "imports": [
+        "@vueform/core/tokens"
+      ]
+    },
+    "themes/origin.d.ts": {
+      "bytes": 27932,
+      "hash": "ce4bf41bffb4370a"
+    },
+    "themes/origin.mjs": {
+      "bytes": 697,
+      "hash": "ad2a88b719a4c65e",
+      "exports": [
+        "origin",
+        "originComponentTokens"
+      ],
+      "imports": [
+        "@vueform/core/tokens"
+      ]
+    },
+    "themes/tokens.d.ts": {
+      "bytes": 54,
+      "hash": "7593f9c3c885b645"
+    },
+    "themes/tokens.mjs": {
+      "bytes": 215,
+      "hash": "d4b178c2e76f6d85",
+      "exports": [
+        "material",
+        "materialComponentTokens",
+        "origin",
+        "originComponentTokens"
+      ],
+      "imports": [
+        "./material.mjs",
+        "./origin.mjs"
+      ]
+    },
+    "vapor/components/VfAddon/index.mjs": {
+      "bytes": 176,
+      "hash": "e1ae9a42ab47470d",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfAddon/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfAddon/raw"
+      ]
+    },
+    "vapor/components/VfAddon/styled.mjs": {
+      "bytes": 200,
+      "hash": "2b86d8a72fd5e301",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfAddon",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfAddon",
+        "@vueform/ui/addon.css"
+      ]
+    },
+    "vapor/components/VfAddon/styles.mjs": {
+      "bytes": 32,
+      "hash": "db9c093e2b852bb2",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/addon.css"
+      ]
+    },
+    "vapor/components/VfAddon/unstyled.mjs": {
+      "bytes": 168,
+      "hash": "0c156240dea38f40",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfAddon",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfAddon"
+      ]
+    },
+    "vapor/components/VfButton/index.mjs": {
+      "bytes": 178,
+      "hash": "18e7a6d4770cbe7e",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfButton/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfButton/raw"
+      ]
+    },
+    "vapor/components/VfButton/styled.mjs": {
+      "bytes": 239,
+      "hash": "cb3445f02977f8c7",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfButton",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfButton",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/button.css"
+      ]
+    },
+    "vapor/components/VfButton/styles.mjs": {
+      "bytes": 69,
+      "hash": "527c8ff71dff9d80",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/animation.css",
+        "@vueform/ui/button.css"
+      ]
+    },
+    "vapor/components/VfButton/unstyled.mjs": {
+      "bytes": 170,
+      "hash": "fb14893fcf87990d",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfButton",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfButton"
+      ]
+    },
+    "vapor/components/VfCheckbox/index.mjs": {
+      "bytes": 182,
+      "hash": "26be651cae79552b",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCheckbox/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCheckbox/raw"
+      ]
+    },
+    "vapor/components/VfCheckbox/styled.mjs": {
+      "bytes": 207,
+      "hash": "da84559142d1ec17",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCheckbox",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCheckbox",
+        "@vueform/ui/choice.css"
+      ]
+    },
+    "vapor/components/VfCheckbox/styles.mjs": {
+      "bytes": 33,
+      "hash": "9a78e3f0fa3be089",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/choice.css"
+      ]
+    },
+    "vapor/components/VfCheckbox/unstyled.mjs": {
+      "bytes": 174,
+      "hash": "eee0c483e90a275c",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCheckbox",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCheckbox"
+      ]
+    },
+    "vapor/components/VfCheckboxes/index.mjs": {
+      "bytes": 186,
+      "hash": "fda81f16a9bbc1ac",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCheckboxes/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCheckboxes/raw"
+      ]
+    },
+    "vapor/components/VfCheckboxes/styled.mjs": {
+      "bytes": 212,
+      "hash": "fa665f26e5beab8a",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCheckboxes",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCheckboxes",
+        "@vueform/ui/choices.css"
+      ]
+    },
+    "vapor/components/VfCheckboxes/styles.mjs": {
+      "bytes": 34,
+      "hash": "dab9a939adbc28fa",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/choices.css"
+      ]
+    },
+    "vapor/components/VfCheckboxes/unstyled.mjs": {
+      "bytes": 178,
+      "hash": "352d540dc377f7b6",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCheckboxes",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCheckboxes"
+      ]
+    },
+    "vapor/components/VfCol/index.mjs": {
+      "bytes": 172,
+      "hash": "9d23f6a4c4bede14",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCol/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCol/raw"
+      ]
+    },
+    "vapor/components/VfCol/styled.mjs": {
+      "bytes": 195,
+      "hash": "2ef7053ef9664c62",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCol",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCol",
+        "@vueform/ui/grid.css"
+      ]
+    },
+    "vapor/components/VfCol/styles.mjs": {
+      "bytes": 31,
+      "hash": "67324481d7d29d98",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/grid.css"
+      ]
+    },
+    "vapor/components/VfCol/unstyled.mjs": {
+      "bytes": 164,
+      "hash": "5795ddb717c22a3a",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfCol",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfCol"
+      ]
+    },
+    "vapor/components/VfContent/index.mjs": {
+      "bytes": 180,
+      "hash": "26992e7bf5a86efd",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfContent/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfContent/raw"
+      ]
+    },
+    "vapor/components/VfContent/styled.mjs": {
+      "bytes": 206,
+      "hash": "84ae360b0992e16c",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfContent",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfContent",
+        "@vueform/ui/content.css"
+      ]
+    },
+    "vapor/components/VfContent/styles.mjs": {
+      "bytes": 34,
+      "hash": "3b2371509e711f7f",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/content.css"
+      ]
+    },
+    "vapor/components/VfContent/unstyled.mjs": {
+      "bytes": 172,
+      "hash": "5ead1cc9b75b6caf",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfContent",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfContent"
+      ]
+    },
+    "vapor/components/VfElements/index.mjs": {
+      "bytes": 182,
+      "hash": "9f7b08f14c999f6f",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfElements/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfElements/raw"
+      ]
+    },
+    "vapor/components/VfElements/styled.mjs": {
+      "bytes": 205,
+      "hash": "8f494fcd4d06b25f",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfElements",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfElements",
+        "@vueform/ui/form.css"
+      ]
+    },
+    "vapor/components/VfElements/styles.mjs": {
+      "bytes": 31,
+      "hash": "42f7f73bdab8ce0d",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/form.css"
+      ]
+    },
+    "vapor/components/VfElements/unstyled.mjs": {
+      "bytes": 174,
+      "hash": "c9883bf80b4b2fcb",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfElements",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfElements"
+      ]
+    },
+    "vapor/components/VfField/index.mjs": {
+      "bytes": 176,
+      "hash": "37f6924a241894de",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfField/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfField/raw"
+      ]
+    },
+    "vapor/components/VfField/styled.mjs": {
+      "bytes": 200,
+      "hash": "3560ca21853782da",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfField",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfField",
+        "@vueform/ui/input.css"
+      ]
+    },
+    "vapor/components/VfField/styles.mjs": {
+      "bytes": 32,
+      "hash": "3ebd53d970faf13e",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/input.css"
+      ]
+    },
+    "vapor/components/VfField/unstyled.mjs": {
+      "bytes": 168,
+      "hash": "cf6a6c7e6d92cb23",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfField",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfField"
+      ]
+    },
+    "vapor/components/VfFile/index.mjs": {
+      "bytes": 174,
+      "hash": "f4060b5b3f0fec1d",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfFile/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfFile/raw"
+      ]
+    },
+    "vapor/components/VfFile/styled.mjs": {
+      "bytes": 197,
+      "hash": "bdf3bcfb4291416b",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfFile",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfFile",
+        "@vueform/ui/file.css"
+      ]
+    },
+    "vapor/components/VfFile/styles.mjs": {
+      "bytes": 31,
+      "hash": "e651b797c2ec9f2e",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/file.css"
+      ]
+    },
+    "vapor/components/VfFile/unstyled.mjs": {
+      "bytes": 166,
+      "hash": "f85d7183606bf303",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfFile",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfFile"
+      ]
+    },
+    "vapor/components/VfForm/index.mjs": {
+      "bytes": 174,
+      "hash": "9d1bed52a7faf5ca",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfForm/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfForm/raw"
+      ]
+    },
+    "vapor/components/VfForm/styled.mjs": {
+      "bytes": 197,
+      "hash": "e2b84d1f018b3b2f",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfForm",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfForm",
+        "@vueform/ui/form.css"
+      ]
+    },
+    "vapor/components/VfForm/styles.mjs": {
+      "bytes": 31,
+      "hash": "42f7f73bdab8ce0d",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/form.css"
+      ]
+    },
+    "vapor/components/VfForm/unstyled.mjs": {
+      "bytes": 166,
+      "hash": "3e362d81663be183",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfForm",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfForm"
+      ]
+    },
+    "vapor/components/VfGrid/index.mjs": {
+      "bytes": 174,
+      "hash": "767a21354e9f55c1",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfGrid/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfGrid/raw"
+      ]
+    },
+    "vapor/components/VfGrid/styled.mjs": {
+      "bytes": 231,
+      "hash": "d490d869e3b65177",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfGrid",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfGrid",
+        "@vueform/ui/grid.css",
+        "@vueform/ui/tabular.css"
+      ]
+    },
+    "vapor/components/VfGrid/styles.mjs": {
+      "bytes": 65,
+      "hash": "9efbbc16aa37aea6",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/grid.css",
+        "@vueform/ui/tabular.css"
+      ]
+    },
+    "vapor/components/VfGrid/unstyled.mjs": {
+      "bytes": 166,
+      "hash": "db4558fc7c5d22c2",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfGrid",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfGrid"
+      ]
+    },
+    "vapor/components/VfGroup/index.mjs": {
+      "bytes": 176,
+      "hash": "6c9e023eb2a5dd79",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfGroup/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfGroup/raw"
+      ]
+    },
+    "vapor/components/VfGroup/styled.mjs": {
+      "bytes": 200,
+      "hash": "8bf4357e8056d0bd",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfGroup",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfGroup",
+        "@vueform/ui/group.css"
+      ]
+    },
+    "vapor/components/VfGroup/styles.mjs": {
+      "bytes": 32,
+      "hash": "d8a61493528f9323",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/group.css"
+      ]
+    },
+    "vapor/components/VfGroup/unstyled.mjs": {
+      "bytes": 168,
+      "hash": "2323117ade12161d",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfGroup",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfGroup"
+      ]
+    },
+    "vapor/components/VfHidden/index.mjs": {
+      "bytes": 178,
+      "hash": "4bf3495389a5748e",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfHidden/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfHidden/raw"
+      ]
+    },
+    "vapor/components/VfHidden/styled.mjs": {
+      "bytes": 170,
+      "hash": "dc820c537c8a2289",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfHidden",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfHidden"
+      ]
+    },
+    "vapor/components/VfHidden/unstyled.mjs": {
+      "bytes": 170,
+      "hash": "dc820c537c8a2289",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfHidden",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfHidden"
+      ]
+    },
+    "vapor/components/VfIcon/index.mjs": {
+      "bytes": 174,
+      "hash": "86e06e726cebd7ca",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfIcon/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfIcon/raw"
+      ]
+    },
+    "vapor/components/VfIcon/styled.mjs": {
+      "bytes": 233,
+      "hash": "42a8f87c19be6b8d",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfIcon",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfIcon",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/icon.css"
+      ]
+    },
+    "vapor/components/VfIcon/styles.mjs": {
+      "bytes": 67,
+      "hash": "7c4461ed0d5defb8",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/animation.css",
+        "@vueform/ui/icon.css"
+      ]
+    },
+    "vapor/components/VfIcon/unstyled.mjs": {
+      "bytes": 166,
+      "hash": "665d5fb5c9d1743e",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfIcon",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfIcon"
+      ]
+    },
+    "vapor/components/VfLanguages/index.mjs": {
+      "bytes": 184,
+      "hash": "a0dd550358da4e07",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfLanguages/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfLanguages/raw"
+      ]
+    },
+    "vapor/components/VfLanguages/styled.mjs": {
+      "bytes": 212,
+      "hash": "9cbb513a2dd41642",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfLanguages",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfLanguages",
+        "@vueform/ui/languages.css"
+      ]
+    },
+    "vapor/components/VfLanguages/styles.mjs": {
+      "bytes": 36,
+      "hash": "a871cc4bd93eb9e2",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/languages.css"
+      ]
+    },
+    "vapor/components/VfLanguages/unstyled.mjs": {
+      "bytes": 176,
+      "hash": "59b60ac89a2ebf84",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfLanguages",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfLanguages"
+      ]
+    },
+    "vapor/components/VfLayout/index.mjs": {
+      "bytes": 178,
+      "hash": "a95c304055261f62",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfLayout/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfLayout/raw"
+      ]
+    },
+    "vapor/components/VfLayout/styled.mjs": {
+      "bytes": 401,
+      "hash": "333bc0ecfcfd1d05",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfLayout",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfLayout",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/blockquote.css",
+        "@vueform/ui/element.css",
+        "@vueform/ui/hr.css",
+        "@vueform/ui/icon.css",
+        "@vueform/ui/input.css",
+        "@vueform/ui/utils.css"
+      ]
+    },
+    "vapor/components/VfLayout/styles.mjs": {
+      "bytes": 231,
+      "hash": "efd9c478331d7cdb",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/animation.css",
+        "@vueform/ui/blockquote.css",
+        "@vueform/ui/element.css",
+        "@vueform/ui/hr.css",
+        "@vueform/ui/icon.css",
+        "@vueform/ui/input.css",
+        "@vueform/ui/utils.css"
+      ]
+    },
+    "vapor/components/VfLayout/unstyled.mjs": {
+      "bytes": 170,
+      "hash": "9280cf625134dba1",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfLayout",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfLayout"
+      ]
+    },
+    "vapor/components/VfList/index.mjs": {
+      "bytes": 174,
+      "hash": "fbc6428b9a796ce1",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfList/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfList/raw"
+      ]
+    },
+    "vapor/components/VfList/styled.mjs": {
+      "bytes": 197,
+      "hash": "48518fb4800c9477",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfList",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfList",
+        "@vueform/ui/list.css"
+      ]
+    },
+    "vapor/components/VfList/styles.mjs": {
+      "bytes": 31,
+      "hash": "96bbc4aa1c30ee1b",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/list.css"
+      ]
+    },
+    "vapor/components/VfList/unstyled.mjs": {
+      "bytes": 166,
+      "hash": "a19e818d2214d2c3",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfList",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfList"
+      ]
+    },
+    "vapor/components/VfMatrix/index.mjs": {
+      "bytes": 178,
+      "hash": "dd411e4aaa0ef955",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfMatrix/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfMatrix/raw"
+      ]
+    },
+    "vapor/components/VfMatrix/styled.mjs": {
+      "bytes": 237,
+      "hash": "6a180e05693edf72",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfMatrix",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfMatrix",
+        "@vueform/ui/matrix.css",
+        "@vueform/ui/tabular.css"
+      ]
+    },
+    "vapor/components/VfMatrix/styles.mjs": {
+      "bytes": 67,
+      "hash": "fae528e4c6d668dd",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/matrix.css",
+        "@vueform/ui/tabular.css"
+      ]
+    },
+    "vapor/components/VfMatrix/unstyled.mjs": {
+      "bytes": 170,
+      "hash": "23c10dd6d0c29343",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfMatrix",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfMatrix"
+      ]
+    },
+    "vapor/components/VfNav/index.mjs": {
+      "bytes": 172,
+      "hash": "512af97892b77371",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfNav/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfNav/raw"
+      ]
+    },
+    "vapor/components/VfNav/styled.mjs": {
+      "bytes": 194,
+      "hash": "c9fc1ca3e4c2a0a0",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfNav",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfNav",
+        "@vueform/ui/nav.css"
+      ]
+    },
+    "vapor/components/VfNav/styles.mjs": {
+      "bytes": 30,
+      "hash": "6a54918566cd2706",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/nav.css"
+      ]
+    },
+    "vapor/components/VfNav/unstyled.mjs": {
+      "bytes": 164,
+      "hash": "aadf21aba234816a",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfNav",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfNav"
+      ]
+    },
+    "vapor/components/VfRadio/index.mjs": {
+      "bytes": 176,
+      "hash": "ab68039ae509224a",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRadio/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRadio/raw"
+      ]
+    },
+    "vapor/components/VfRadio/styled.mjs": {
+      "bytes": 201,
+      "hash": "6deb7b927850de62",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRadio",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRadio",
+        "@vueform/ui/choice.css"
+      ]
+    },
+    "vapor/components/VfRadio/styles.mjs": {
+      "bytes": 33,
+      "hash": "9a78e3f0fa3be089",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/choice.css"
+      ]
+    },
+    "vapor/components/VfRadio/unstyled.mjs": {
+      "bytes": 168,
+      "hash": "035c77a4829f780b",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRadio",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRadio"
+      ]
+    },
+    "vapor/components/VfRadios/index.mjs": {
+      "bytes": 178,
+      "hash": "779e462b8d489daf",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRadios/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRadios/raw"
+      ]
+    },
+    "vapor/components/VfRadios/styled.mjs": {
+      "bytes": 204,
+      "hash": "8680744ce38ac7f0",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRadios",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRadios",
+        "@vueform/ui/choices.css"
+      ]
+    },
+    "vapor/components/VfRadios/styles.mjs": {
+      "bytes": 34,
+      "hash": "dab9a939adbc28fa",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/choices.css"
+      ]
+    },
+    "vapor/components/VfRadios/unstyled.mjs": {
+      "bytes": 170,
+      "hash": "f52eee167e5e3533",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRadios",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRadios"
+      ]
+    },
+    "vapor/components/VfRow/index.mjs": {
+      "bytes": 172,
+      "hash": "176a6f2455f8d975",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRow/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRow/raw"
+      ]
+    },
+    "vapor/components/VfRow/styled.mjs": {
+      "bytes": 195,
+      "hash": "859f8bb55d0020a9",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRow",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRow",
+        "@vueform/ui/grid.css"
+      ]
+    },
+    "vapor/components/VfRow/styles.mjs": {
+      "bytes": 31,
+      "hash": "67324481d7d29d98",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/grid.css"
+      ]
+    },
+    "vapor/components/VfRow/unstyled.mjs": {
+      "bytes": 164,
+      "hash": "5824495c37ea0684",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfRow",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfRow"
+      ]
+    },
+    "vapor/components/VfSelect/index.mjs": {
+      "bytes": 178,
+      "hash": "38cad2d017a0c10d",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfSelect/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfSelect/raw"
+      ]
+    },
+    "vapor/components/VfSelect/styled.mjs": {
+      "bytes": 235,
+      "hash": "16967ba0c9310a27",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfSelect",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfSelect",
+        "@vueform/ui/input.css",
+        "@vueform/ui/select.css"
+      ]
+    },
+    "vapor/components/VfSelect/styles.mjs": {
+      "bytes": 65,
+      "hash": "c92625045f99971f",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/input.css",
+        "@vueform/ui/select.css"
+      ]
+    },
+    "vapor/components/VfSelect/unstyled.mjs": {
+      "bytes": 170,
+      "hash": "883dc5f8a8969681",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfSelect",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfSelect"
+      ]
+    },
+    "vapor/components/VfSteps/index.mjs": {
+      "bytes": 176,
+      "hash": "720326a7fae4e2a4",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfSteps/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfSteps/raw"
+      ]
+    },
+    "vapor/components/VfSteps/styled.mjs": {
+      "bytes": 236,
+      "hash": "821ca630a105e42b",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfSteps",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfSteps",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/steps.css"
+      ]
+    },
+    "vapor/components/VfSteps/styles.mjs": {
+      "bytes": 68,
+      "hash": "56a28f8e3439528f",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/animation.css",
+        "@vueform/ui/steps.css"
+      ]
+    },
+    "vapor/components/VfSteps/unstyled.mjs": {
+      "bytes": 168,
+      "hash": "ba551f7febe68d8f",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfSteps",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfSteps"
+      ]
+    },
+    "vapor/components/VfTabs/index.mjs": {
+      "bytes": 174,
+      "hash": "79937e1ea06bafa2",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfTabs/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfTabs/raw"
+      ]
+    },
+    "vapor/components/VfTabs/styled.mjs": {
+      "bytes": 197,
+      "hash": "7c237f0d2591d563",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfTabs",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfTabs",
+        "@vueform/ui/tabs.css"
+      ]
+    },
+    "vapor/components/VfTabs/styles.mjs": {
+      "bytes": 31,
+      "hash": "30d0359845983cd3",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/tabs.css"
+      ]
+    },
+    "vapor/components/VfTabs/unstyled.mjs": {
+      "bytes": 166,
+      "hash": "fa7722781de8d304",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfTabs",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfTabs"
+      ]
+    },
+    "vapor/components/VfText/index.mjs": {
+      "bytes": 174,
+      "hash": "ced04946a9288bea",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfText/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfText/raw"
+      ]
+    },
+    "vapor/components/VfText/styled.mjs": {
+      "bytes": 229,
+      "hash": "ee0d0f1fed662877",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfText",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfText",
+        "@vueform/ui/input.css",
+        "@vueform/ui/text.css"
+      ]
+    },
+    "vapor/components/VfText/styles.mjs": {
+      "bytes": 63,
+      "hash": "d2f20674b6a263f4",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/input.css",
+        "@vueform/ui/text.css"
+      ]
+    },
+    "vapor/components/VfText/unstyled.mjs": {
+      "bytes": 166,
+      "hash": "8d8cd9d1405cc2b8",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfText",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfText"
+      ]
+    },
+    "vapor/components/VfTextarea/index.mjs": {
+      "bytes": 182,
+      "hash": "c10f8ebd129fc644",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfTextarea/raw",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfTextarea/raw"
+      ]
+    },
+    "vapor/components/VfTextarea/styled.mjs": {
+      "bytes": 241,
+      "hash": "ada76074785ebc0b",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfTextarea",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfTextarea",
+        "@vueform/ui/input.css",
+        "@vueform/ui/textarea.css"
+      ]
+    },
+    "vapor/components/VfTextarea/styles.mjs": {
+      "bytes": 67,
+      "hash": "a0d619d856aea126",
+      "exports": [],
+      "imports": [
+        "@vueform/ui/input.css",
+        "@vueform/ui/textarea.css"
+      ]
+    },
+    "vapor/components/VfTextarea/unstyled.mjs": {
+      "bytes": 174,
+      "hash": "8809f1f2b2a19863",
+      "exports": [
+        "* from @vueform/core/vapor/components/VfTextarea",
+        "default"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfTextarea"
+      ]
+    },
+    "vapor/components/index.mjs": {
+      "bytes": 3650,
+      "hash": "91805b143a8a1195",
+      "exports": [
+        "VfAddon",
+        "VfButton",
+        "VfCheckbox",
+        "VfCheckboxes",
+        "VfCol",
+        "VfContent",
+        "VfElements",
+        "VfField",
+        "VfFile",
+        "VfForm",
+        "VfGrid",
+        "VfGroup",
+        "VfHidden",
+        "VfIcon",
+        "VfLanguages",
+        "VfLayout",
+        "VfList",
+        "VfMatrix",
+        "VfNav",
+        "VfRadio",
+        "VfRadios",
+        "VfRow",
+        "VfSelect",
+        "VfSteps",
+        "VfTabs",
+        "VfText",
+        "VfTextarea"
+      ],
+      "imports": [
+        "@vueform/core/vapor/components/VfAddon",
+        "@vueform/core/vapor/components/VfButton",
+        "@vueform/core/vapor/components/VfCheckbox",
+        "@vueform/core/vapor/components/VfCheckboxes",
+        "@vueform/core/vapor/components/VfCol",
+        "@vueform/core/vapor/components/VfContent",
+        "@vueform/core/vapor/components/VfElements",
+        "@vueform/core/vapor/components/VfField",
+        "@vueform/core/vapor/components/VfFile",
+        "@vueform/core/vapor/components/VfForm",
+        "@vueform/core/vapor/components/VfGrid",
+        "@vueform/core/vapor/components/VfGroup",
+        "@vueform/core/vapor/components/VfHidden",
+        "@vueform/core/vapor/components/VfIcon",
+        "@vueform/core/vapor/components/VfLanguages",
+        "@vueform/core/vapor/components/VfLayout",
+        "@vueform/core/vapor/components/VfList",
+        "@vueform/core/vapor/components/VfMatrix",
+        "@vueform/core/vapor/components/VfNav",
+        "@vueform/core/vapor/components/VfRadio",
+        "@vueform/core/vapor/components/VfRadios",
+        "@vueform/core/vapor/components/VfRow",
+        "@vueform/core/vapor/components/VfSelect",
+        "@vueform/core/vapor/components/VfSteps",
+        "@vueform/core/vapor/components/VfTabs",
+        "@vueform/core/vapor/components/VfText",
+        "@vueform/core/vapor/components/VfTextarea",
+        "@vueform/ui/addon.css",
+        "@vueform/ui/animation.css",
+        "@vueform/ui/blockquote.css",
+        "@vueform/ui/button.css",
+        "@vueform/ui/choice.css",
+        "@vueform/ui/choices.css",
+        "@vueform/ui/content.css",
+        "@vueform/ui/element.css",
+        "@vueform/ui/file.css",
+        "@vueform/ui/form.css",
+        "@vueform/ui/grid.css",
+        "@vueform/ui/group.css",
+        "@vueform/ui/hr.css",
+        "@vueform/ui/icon.css",
+        "@vueform/ui/input.css",
+        "@vueform/ui/languages.css",
+        "@vueform/ui/list.css",
+        "@vueform/ui/matrix.css",
+        "@vueform/ui/nav.css",
+        "@vueform/ui/select.css",
+        "@vueform/ui/steps.css",
+        "@vueform/ui/tabs.css",
+        "@vueform/ui/tabular.css",
+        "@vueform/ui/text.css",
+        "@vueform/ui/textarea.css",
+        "@vueform/ui/utils.css"
+      ]
+    },
+    "vapor/material.mjs": {
+      "bytes": 802,
+      "hash": "5fc1e7a37e21eb71",
+      "exports": [
+        "createVueform"
+      ],
+      "imports": [
+        "../config.mjs",
+        "../modules/modules.mjs",
+        "../rules/index.mjs",
+        "../themes/index.mjs",
+        "./components/index.mjs",
+        "@vueform/core",
+        "@vueform/core/locales"
+      ]
+    },
+    "vapor/origin.mjs": {
+      "bytes": 798,
+      "hash": "2ea1470590968e4d",
+      "exports": [
+        "createVueform"
+      ],
+      "imports": [
+        "../config.mjs",
+        "../modules/modules.mjs",
+        "../rules/index.mjs",
+        "../themes/index.mjs",
+        "./components/index.mjs",
+        "@vueform/core",
+        "@vueform/core/locales"
+      ]
+    }
+  }
+}

@@ -1,0 +1,97 @@
+{
+  "fix": {
+    "@vueform/cli": 8864,
+    "@vueform/core": 6080,
+    "@vueform/dompurify": 1388,
+    "@vueform/expr-eval": 1426,
+    "@vueform/nuxt": 1442,
+    "@vueform/primevue": 4984,
+    "@vueform/ui": 2217,
+    "@vueform/utils": 1909,
+    "root": 3476
+  },
+  "check": {
+    "@vueform/cli": 371,
+    "@vueform/core": 1338,
+    "@vueform/dompurify": 514,
+    "@vueform/expr-eval": 547,
+    "@vueform/nuxt": 651,
+    "@vueform/primevue": 8451,
+    "@vueform/ui": 4413,
+    "@vueform/utils": 623,
+    "root": 268,
+    "node": 746
+  },
+  "build": {
+    "@vueform/utils": 1308,
+    "@vueform/core": 9101,
+    "@vueform/primevue": 14550,
+    "@vueform/ui": 5304,
+    "@vueform/dompurify": 1079,
+    "@vueform/expr-eval": 1087,
+    "@vueform/cli": 521,
+    "@vueform/nuxt": 4571
+  },
+  "validate": {
+    "@vueform/primevue": 328,
+    "@vueform/ui": 316
+  },
+  "test": {
+    "@vueform/cli": 2819,
+    "@vueform/core": 21566,
+    "@vueform/primevue": 8144
+  },
+  "test-dts": {
+    "@vueform/core": 13045,
+    "@vueform/primevue": 17080
+  },
+  "test-bench": {
+    "@vueform/core": 27164
+  },
+  "test-bench-dts": {
+    "@vueform/core": 9150
+  },
+  "test-visual": {
+    "@vueform/primevue": 141273,
+    "@vueform/ui": 38190
+  },
+  "test-smoke": {
+    "@vueform/primevue": 112358,
+    "@vueform/ui": 86082
+  },
+  "registry": {
+    "@vueform/primevue": 2499,
+    "@vueform/ui": 1383
+  },
+  "size": {
+    "@vueform/core": 19965,
+    "@vueform/primevue": 157655,
+    "@vueform/ui": 24099,
+    "@vueform/dompurify": 3170,
+    "@vueform/expr-eval": 3101
+  },
+  "extract": {
+    "blueprints": 4422,
+    "classes": 296,
+    "components": 3604,
+    "composables": 1153,
+    "contexts": 962,
+    "features": 2033,
+    "helpers": 1759,
+    "locales": 243,
+    "modules": 1681,
+    "tokens": 257,
+    "assemble": 450
+  },
+  "docs:gen": {
+    "guide-tokens": 256,
+    "guide-locales": 266,
+    "guide-code-splitting": 255,
+    "guide-benchmark": 261,
+    "reference-composables": 263,
+    "reference-helpers": 254,
+    "reference-components": 663,
+    "json-types": 3601,
+    "json-keywords": 269
+  }
+}
