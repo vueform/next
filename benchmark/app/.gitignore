@@ -1,7 +1,3 @@
-# Installed by the bench runner (`pnpm bench`), never committed: the app
-# consumes freshly packed tarballs of the local dist, whose gzip hashes are
-# not deterministic — the lockfile would churn on every run.
-.tarballs
 node_modules
 dist
 pnpm-lock.yaml

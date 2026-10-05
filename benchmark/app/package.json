@@ -9,8 +9,7 @@
     "dev": "vite"
   },
   "dependencies": {
-    "@vue/devtools-api": "7.7.10",
-    "@vueform/ui": "file:.tarballs/vueform-ui.tgz",
+    "@vueform/ui": "file:node_modules/.tarballs/vueform-ui.tgz",
     "vue": "3.6.0-rc.5"
   },
   "devDependencies": {
@@ -25,8 +24,8 @@
       "esbuild"
     ],
     "overrides": {
-      "@vueform/cli": "file:./.tarballs/vueform-cli.tgz",
-      "@vueform/core": "file:./.tarballs/vueform-core.tgz"
+      "@vueform/cli": "file:./node_modules/.tarballs/vueform-cli.tgz",
+      "@vueform/core": "file:./node_modules/.tarballs/vueform-core.tgz"
     }
   }
 }

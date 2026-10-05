@@ -24,6 +24,7 @@
   "devDependencies": {
     "@types/hast": "catalog:",
     "@vue/tsconfig": "catalog:",
+    "@vueform/utils": "workspace:*",
     "tsx": "catalog:"
   }
 }

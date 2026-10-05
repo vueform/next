@@ -2,10 +2,10 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import type {
-  Results,
   ScenarioResult,
   Size,
-} from '../../../packages/utils/src/size/types'
+  SizeResults as Results,
+} from '@vueform/utils'
 
 /**
  * Fills the measured bundle sizes of each adapter's code-splitting guide from

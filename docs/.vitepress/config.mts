@@ -29,6 +29,7 @@ import {
 import { groupIconMdPlugin, groupIconVitePlugin, localIconLoader } from 'vitepress-plugin-group-icons'
 import shikiLightTheme from './theme/style/shiki-light.json'
 import shikiDarkTheme from './theme/style/shiki-dark.json'
+import type { ThemeRegistrationAny } from 'shiki'
 import * as adapterConfigs from './adapters/configs'
 import docsConfig from '../config.json'
 import { resolveAdapterLayer } from './build/adapterLayer'
@@ -83,8 +84,10 @@ export default mergeConfig(
     },
     markdown: {
       theme: {
-        light: shikiLightTheme,
-        dark: shikiDarkTheme,
+        // JSON imports widen `"type": "light"` to `string`; the registration
+        // type wants the literal.
+        light: shikiLightTheme as ThemeRegistrationAny,
+        dark: shikiDarkTheme as ThemeRegistrationAny,
       },
       anchor: {
         slugify: slugifyHeading,

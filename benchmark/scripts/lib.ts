@@ -9,7 +9,7 @@ export const BENCH_DIR = path.resolve(
 )
 export const ROOT = path.resolve(BENCH_DIR, '..')
 export const APP_DIR = path.join(BENCH_DIR, 'app')
-export const TARBALLS_DIR = path.join(APP_DIR, '.tarballs')
+export const TARBALLS_DIR = path.join(APP_DIR, 'node_modules', '.tarballs')
 export const RESULTS_JSON = path.join(
   BENCH_DIR,
   'results',
@@ -103,7 +103,11 @@ export function checkAppVueVersion(): void {
 }
 
 /**
- * Packs ui/core/cli dist into app/.tarballs with stable filenames.
+ * Packs ui/core/cli dist into app/node_modules/.tarballs with stable
+ * filenames. Living inside node_modules keeps the app directory clean; the
+ * accepted tradeoff is that pnpm installs may prune the folder, so the
+ * tarballs only reliably exist right after a pack — `--no-pack` assumes the
+ * previous run's install left them in place.
  */
 export function pack(): void {
   fs.mkdirSync(TARBALLS_DIR, { recursive: true })
@@ -128,7 +132,8 @@ export function installApp(): void {
   if (/@vueform\/[a-z-]+@(?!file:)/.test(lock)) {
     fail(
       'an @vueform package resolved from the registry instead of ' +
-        'app/.tarballs — add it to the pnpm.overrides in app/package.json'
+        'app/node_modules/.tarballs — add it to the pnpm.overrides in ' +
+        'app/package.json'
     )
   }
 }

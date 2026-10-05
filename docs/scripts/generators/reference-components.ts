@@ -5,10 +5,10 @@ import { fileURLToPath } from 'node:url'
 // ========= TOKENS =========
 
 import {
-  discoverTokenGroups,
   camelToKebab,
+  discoverTokenGroups,
   type TokenJsonEntry,
-} from '../../../scripts/api-extractor/lib/token-utils'
+} from '@vueform/utils'
 import { requireData, SCRAPE_HINT } from './ensureData'
 
 // =============== PATHS ================

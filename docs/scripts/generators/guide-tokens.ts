@@ -2,7 +2,7 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { requireData, SCRAPE_HINT } from './ensureData'
-import type { TokenJsonEntry } from '../../../scripts/api-extractor/lib/token-utils'
+import type { TokenJsonEntry } from '@vueform/utils'
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')

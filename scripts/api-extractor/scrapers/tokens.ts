@@ -1,13 +1,13 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+import {
+  discoverTokenGroups,
+  tokenToCssVar,
+  type TokenJsonEntry,
+} from '@vueform/utils'
 import { nonCoreAdapters } from '../lib/adapters'
 import { generatedDir, monorepoRoot } from '../lib/paths'
 import { parseScope } from '../lib/scope'
-import {
-  tokenToCssVar,
-  discoverTokenGroups,
-  type TokenJsonEntry,
-} from '../lib/token-utils'
 
 const { scope } = parseScope(process.argv.slice(2))
 const ROOT = monorepoRoot

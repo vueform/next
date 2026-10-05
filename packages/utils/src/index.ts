@@ -1,6 +1,9 @@
+export * from './runner'
 export type { AdapterOptions } from './adapter'
 export { dev } from './dev'
 export { workspaceSourcePaths } from './sourcePaths'
+export { camelToKebab, discoverTokenGroups, tokenToCssVar } from './tokenUtils'
+export type { TokenJsonEntry } from './tokenUtils'
 export type { SourcePathsOptions } from './sourcePaths'
 export {
   createAdapterTsdownConfig,
@@ -32,5 +35,7 @@ export type {
 export type {
   MeasurementType,
   Results as SizeResults,
+  ScenarioResult,
+  Size,
   SizeConfig,
 } from './size/types'

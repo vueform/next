@@ -20,7 +20,7 @@
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { runQueue, selectTasks, type Task } from '../../scripts/runner'
+import { runQueue, selectTasks, type Task } from '@vueform/utils'
 
 const DOCS_DIR = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
