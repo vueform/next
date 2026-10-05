@@ -211,6 +211,111 @@ export function shorthandsMarker(): Plugin {
  *   script sub-module (which claims the `.vue.mjs` chunk name), leaving the
  *   facade as a pure default re-export chunk that nothing imports.
  */
+/**
+ * Marks matching SOURCE modules as side-effectful during the build.
+ *
+ * Vite's resolver applies the package's own `sideEffects` globs to workspace
+ * source files; those globs describe the published dist layout, so a source
+ * module like `src/components/VfText/styles.ts` (whose only job is its css
+ * side-effect imports) is wrongly treated as side-effect-free and Rolldown
+ * drops the `styled → styles` import edge. Marking at transform time keeps the
+ * published package.json free of src paths.
+ */
+export function sourceSideEffects(tests: RegExp[]): Plugin {
+  return {
+    name: 'vf:source-side-effects',
+    transform(code, id) {
+      if (!tests.some((test) => test.test(id))) return
+      return { code, map: null, moduleSideEffects: true }
+    },
+  }
+}
+
+/**
+ * Restores consumer-side namespace reification under Rolldown (vite 8).
+ *
+ * `import * as ns from './barrel'` across preserved modules makes Rolldown
+ * materialize the namespace as an `__exportAll({...})` object INSIDE the barrel
+ * chunk and export it (`components_exports`). That extra export eagerly
+ * references every binding of the barrel, so consumers bundling any import of
+ * the barrel lose all tree-shaking (measured: the minimal ui bundle grew ~5x).
+ * Rollup instead reified the namespace in the consuming chunk, keeping the
+ * barrel clean.
+ *
+ * This pass rewrites the emitted chunks back to the Rollup shape:
+ *
+ * - consuming chunks: `import { x_exports } from "spec"` becomes `import * as
+ *   x_exports from "spec"` (named siblings are kept),
+ * - defining chunks: the `var x_exports = __exportAll({...});` block, the
+ *   `x_exports` entry in the final export statement, and the then-unused
+ *   `__exportAll` import are removed.
+ */
+export function namespaceExports(): Plugin {
+  const EXPORTS_NAME = /^\w+_exports$/
+  return {
+    name: 'vf:namespace-exports',
+    generateBundle(_, bundle) {
+      for (const output of Object.values(bundle)) {
+        if (output.type !== 'chunk') continue
+        let code = output.code
+
+        // Consumer side: named `x_exports` imports become namespace imports.
+        code = code.replace(
+          /^import \{([^}]+)\} from ("[^"]+");$/gm,
+          (statement, names: string, spec: string) => {
+            const parts = names.split(',').map((part) => part.trim())
+            const ns = parts.filter((part) => EXPORTS_NAME.test(part))
+            if (ns.length === 0) return statement
+            const rest = parts.filter((part) => !EXPORTS_NAME.test(part))
+            return [
+              ...ns.map((name) => `import * as ${name} from ${spec};`),
+              ...(rest.length
+                ? [`import { ${rest.join(', ')} } from ${spec};`]
+                : []),
+            ].join('\n')
+          }
+        )
+
+        // Definer side: drop the materialized namespace object and its
+        // export — but only for names the chunk actually EXPORTS. An IIFE or
+        // inlined bundle reifies the same `x_exports` pattern for internal
+        // use; those must stay.
+        const exported = new Set<string>()
+        for (const match of code.matchAll(/^export \{([^}]+)\};/gm)) {
+          for (const part of match[1].split(',')) {
+            const name = part.trim()
+            if (EXPORTS_NAME.test(name)) exported.add(name)
+          }
+        }
+        if (exported.size > 0) {
+          code = code.replace(
+            /^var (\w+_exports) = __exportAll\(\{[^{}]*\}\);\n?/gm,
+            (statement, name: string) => (exported.has(name) ? '' : statement)
+          )
+          code = code.replace(
+            /^export \{([^}]+)\};/gm,
+            (statement, names: string) => {
+              const kept = names
+                .split(',')
+                .map((part) => part.trim())
+                .filter((part) => !EXPORTS_NAME.test(part))
+              return kept.length ? `export { ${kept.join(', ')} };` : ''
+            }
+          )
+          if (!/\b__exportAll\(/.test(code)) {
+            code = code.replace(
+              /^import \{ __exportAll \} from "[^"]+";\n?/gm,
+              ''
+            )
+          }
+        }
+
+        output.code = code
+      }
+    },
+  }
+}
+
 export function pruneModules(): Plugin {
   return {
     name: 'vf:prune-modules',
@@ -267,7 +372,15 @@ export function scssExternals(name: string, scssAbs: string): Plugin {
           : path
         : path
       if (dirname(abs) !== scssAbs) return
-      return { id: `${name}/${basename(abs, '.scss')}.css`, external: true }
+      // `moduleSideEffects` on the resolution itself: the global
+      // `treeshake.moduleSideEffects` function is not honored for external
+      // modules by Rolldown (vite 8), which silently dropped these css
+      // side-effect imports from the emitted modules.
+      return {
+        id: `${name}/${basename(abs, '.scss')}.css`,
+        external: true,
+        moduleSideEffects: true,
+      }
     },
   }
 }
@@ -422,8 +535,17 @@ export function createLibBuild(options: LibBuildOptions): BuildOptions {
       ...(options.cssExternalSideEffects
         ? {
             treeshake: {
-              moduleSideEffects: (id: string, isExternal: boolean) =>
-                isExternal ? id.endsWith('.css') : true,
+              // Rule array, not a function: under vite 8 (Rolldown) the
+              // function form is not applied — rules are evaluated natively
+              // (first match wins) and survive the Rust boundary. Semantics
+              // match the previous function: external css imports are
+              // side-effectful (they must stay in the emitted modules),
+              // other externals are not, local modules always are.
+              moduleSideEffects: [
+                { test: /\.css$/, sideEffects: true, external: true },
+                { sideEffects: false, external: true },
+                { sideEffects: true, external: false },
+              ],
             },
           }
         : {}),

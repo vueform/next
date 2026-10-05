@@ -12,8 +12,8 @@
       "hash": "57a4335bb2afb9c5"
     },
     "index.mjs": {
-      "bytes": 689,
-      "hash": "122e674d234d296e",
+      "bytes": 808,
+      "hash": "47a40362686987b1",
       "exports": [
         "default",
         "domPurifySanitizer"

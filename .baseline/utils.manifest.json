@@ -8,16 +8,16 @@
   },
   "files": {
     ".tsbuildinfo": {
-      "bytes": 104876,
-      "hash": "cd6172d600ad1b56"
+      "bytes": 108516,
+      "hash": "667aedc16fe38a95"
     },
     "adapter.d.ts": {
       "bytes": 2807,
       "hash": "8743bf25be9f3772"
     },
     "adapter.js": {
-      "bytes": 15709,
-      "hash": "df24da9c3033e886",
+      "bytes": 15809,
+      "hash": "82959dc5bea0955f",
       "exports": [],
       "imports": []
     },
@@ -46,8 +46,8 @@
       "hash": "984b8206b3ce696c"
     },
     "core.js": {
-      "bytes": 7912,
-      "hash": "7e8c4bc1d70d2130",
+      "bytes": 8012,
+      "hash": "529fb0898ec3d561",
       "exports": [],
       "imports": []
     },
@@ -112,12 +112,12 @@
       "imports": []
     },
     "shared.d.ts": {
-      "bytes": 6080,
-      "hash": "104daef446763c58"
+      "bytes": 7093,
+      "hash": "0b304d417d51c398"
     },
     "shared.js": {
-      "bytes": 21067,
-      "hash": "c4e50f7184d78c0e",
+      "bytes": 25850,
+      "hash": "fe2a37eed8eecd6c",
       "exports": [],
       "imports": []
     },

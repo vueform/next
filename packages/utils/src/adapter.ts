@@ -7,6 +7,8 @@ import {
   createLibBuild,
   escapeRegExp,
   mirrorEntries,
+  namespaceExports,
+  sourceSideEffects,
   pruneModules,
   scssExternals,
   shorthandProps,
@@ -192,6 +194,8 @@ function vaporBuild(
         plugins: [
           shorthandsMarker(),
           pruneModules(),
+          namespaceExports(),
+          sourceSideEffects([/src\/components\/[^/]+\/styles\.ts$/]),
           scssExternals(options.name, resolve(srcAbs, 'scss')),
           vaporExternals(root, srcAbs, resolve(root, outDir), [componentsAbs]),
           Vue({
@@ -285,7 +289,8 @@ function cdnBuild(
               treeshake: false,
               output: {
                 globals: { vue: 'Vue' },
-                inlineDynamicImports: true,
+                // No `inlineDynamicImports`: Rolldown's iife output disables
+                // code splitting already and warns that the option is ignored.
                 assetFileNames: `${label}.[ext]`,
               },
             },
@@ -335,6 +340,8 @@ export async function createAdapterConfig(
     plugins: [
       shorthandsMarker(),
       pruneModules(),
+      namespaceExports(),
+      sourceSideEffects([/src\/components\/[^/]+\/styles\.ts$/]),
       scssExternals(options.name, scssAbs),
       // Ship the scss forwarders (`<name>/*.scss`) and compile them into the
       // `<name>/*.css` chunks …

@@ -373,6 +373,26 @@ export declare function shorthandsMarker(): Plugin;
  *   script sub-module (which claims the `.vue.mjs` chunk name), leaving the
  *   facade as a pure default re-export chunk that nothing imports.
  */
+/**
+ * Restores consumer-side namespace reification under Rolldown (vite 8).
+ *
+ * `import * as ns from './barrel'` across preserved modules makes Rolldown
+ * materialize the namespace as an `__exportAll({...})` object INSIDE the barrel
+ * chunk and export it (`components_exports`). That extra export eagerly
+ * references every binding of the barrel, so consumers bundling any import of
+ * the barrel lose all tree-shaking (measured: the minimal ui bundle grew ~5x).
+ * Rollup instead reified the namespace in the consuming chunk, keeping the
+ * barrel clean.
+ *
+ * This pass rewrites the emitted chunks back to the Rollup shape:
+ *
+ * - consuming chunks: `import { x_exports } from "spec"` becomes `import * as
+ *   x_exports from "spec"` (named siblings are kept),
+ * - defining chunks: the `var x_exports = __exportAll({...});` block, the
+ *   `x_exports` entry in the final export statement, and the then-unused
+ *   `__exportAll` import are removed.
+ */
+export declare function namespaceExports(): Plugin;
 export declare function pruneModules(): Plugin;
 /**
  * Externalizes relative imports of the package's own theme chunk sources

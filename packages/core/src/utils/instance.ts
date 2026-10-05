@@ -85,10 +85,12 @@ export type GenericInstance = ComponentInternalInstance | VaporInstanceLike
 
 // Vue 3.6 runtime-exports the shared `currentInstance` binding (which holds
 // vapor instances during vapor setup, where `getCurrentInstance()` returns
-// null), but Vue 3.5 does not. Accessing it via a namespace record keeps
-// builds and runtime on 3.5 working (resolves to `undefined`) without a
-// static named import that bundlers would flag as missing.
-const vueRuntime = vue as Record<string, any>
+// null), but Vue 3.5 does not. STATIC namespace property access (`vue.x`,
+// like `rawVaporSlotKey` below) keeps 3.5 working (resolves to `undefined`)
+// AND stays tree-shakeable: aliasing the namespace into a record and using
+// computed access (`vueRuntime['x']`) makes Rolldown-based consumer builds
+// (vite 8) bail out and retain the entire vue runtime (~50 kB gzip measured
+// on the bare `createVueform` import).
 
 /**
  * Returns whether the given instance is a Vapor component instance.
@@ -112,7 +114,7 @@ export function isVaporInstance(
  * subtree root rather than the current component.
  */
 export function getGenericInstance(): GenericInstance | null {
-  const vapor = vueRuntime['currentInstance']
+  const vapor = (vue as Record<string, any>).currentInstance
   if (isVaporInstance(vapor)) return vapor
 
   return getCurrentInstance()

@@ -24,8 +24,8 @@
       "hash": "66717edcdc3aeff9"
     },
     "index.mjs": {
-      "bytes": 15346,
-      "hash": "09fe423be9606340",
+      "bytes": 15837,
+      "hash": "5285f6ea4229a682",
       "exports": [
         "$expression",
         "AGE",

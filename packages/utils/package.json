@@ -43,6 +43,9 @@
     "vite-plugin-dts": "catalog:",
     "vue": "catalog:"
   },
+  "devDependencies": {
+    "vite": "catalog:"
+  },
   "peerDependencies": {
     "vite": "catalog:peer"
   }

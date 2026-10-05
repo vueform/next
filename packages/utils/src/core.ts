@@ -5,6 +5,7 @@ import {
   createLibBuild,
   escapeRegExp,
   mirrorEntries,
+  namespaceExports,
   pruneModules,
   shorthandProps,
   shorthandsMarker,
@@ -116,6 +117,7 @@ function vaporBuild(
         plugins: [
           shorthandsMarker(),
           pruneModules(),
+          namespaceExports(),
           vaporExternals(root, srcAbs, resolve(root, outDir), [componentsAbs]),
           Vue({
             compiler: VaporCompiler,
@@ -172,6 +174,7 @@ export async function createCoreConfig(
     plugins: [
       shorthandsMarker(),
       pruneModules(),
+      namespaceExports(),
       themeScss(
         root,
         resolve(srcAbs, 'scss'),

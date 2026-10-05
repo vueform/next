@@ -6,14 +6,14 @@ Official `expr-eval` plugin for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-02T15:19:32.275Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
+Generated at 2026-10-05T09:35:47.438Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
 
 Measured with:
 
 - Node v26.8.2
 - `pnpm@10.20.0`
 - `vue@3.5.43`
-- `vite@7.3.6`
+- `vite@8.3.2`
 - `@vueform/core@2.0.0-alpha.1`
 - `@vueform/ui@2.0.0-alpha.1`
 
@@ -28,7 +28,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.83&nbsp;kB | 7.77&nbsp;kB | 10.60&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
+| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.86&nbsp;kB | 7.66&nbsp;kB | 10.52&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
 
 </details>
 
@@ -37,7 +37,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.37&nbsp;kB | 6.57&nbsp;kB | 8.94&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
+| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.23&nbsp;kB | 6.59&nbsp;kB | 8.83&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
 
 </details>
 
@@ -46,7 +46,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 7.31&nbsp;kB | 26.41&nbsp;kB | 33.72&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
+| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 7.79&nbsp;kB | 26.19&nbsp;kB | 33.98&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
 
 </details>
 
