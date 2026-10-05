@@ -30,7 +30,7 @@
     "visual-test"
   ],
   "scripts": {
-    "build": "rm -rf dist && tsc",
+    "build": "tsdown",
     "check": "tsc --noEmit"
   },
   "dependencies": {
@@ -44,6 +44,7 @@
     "vue": "catalog:"
   },
   "devDependencies": {
+    "tsdown": "catalog:",
     "vite": "catalog:"
   },
   "peerDependencies": {

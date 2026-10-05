@@ -1,363 +1,375 @@
 {
   "package": "@vueform/utils",
-  "fileCount": 71,
+  "fileCount": 73,
   "exportsMap": {
     "checked": 6,
     "patterns": 0,
     "missing": []
   },
   "files": {
-    ".tsbuildinfo": {
-      "bytes": 108516,
-      "hash": "667aedc16fe38a95"
+    "_virtual/_rolldown/runtime.js": {
+      "bytes": 1073,
+      "hash": "7aa0b64405024b9a",
+      "exports": [],
+      "imports": []
     },
     "adapter.d.ts": {
-      "bytes": 2807,
-      "hash": "8743bf25be9f3772"
+      "bytes": 2751,
+      "hash": "72ba62d952a7c0be"
     },
     "adapter.js": {
-      "bytes": 15809,
-      "hash": "82959dc5bea0955f",
+      "bytes": 9608,
+      "hash": "1e61a061086ed30c",
       "exports": [],
       "imports": []
     },
     "bench-dts-cli.d.ts": {
-      "bytes": 31,
-      "hash": "559e30b989d19ead"
+      "bytes": 9,
+      "hash": "f4c5cf9bb78e85f1"
     },
     "bench-dts-cli.js": {
-      "bytes": 1430,
-      "hash": "f316a656dc55096e",
+      "bytes": 1322,
+      "hash": "13a5a76b3f7ba46d",
       "exports": [],
       "imports": []
     },
     "benchDts.d.ts": {
-      "bytes": 1959,
-      "hash": "8478ea81b685a7a3"
+      "bytes": 1891,
+      "hash": "36a14ef0dbba251b"
     },
     "benchDts.js": {
-      "bytes": 13113,
-      "hash": "373d48f6da678b74",
+      "bytes": 11466,
+      "hash": "13fa97ead0a88aa7",
       "exports": [],
       "imports": []
     },
     "core.d.ts": {
-      "bytes": 2347,
-      "hash": "984b8206b3ce696c"
+      "bytes": 2304,
+      "hash": "2615538dd82f2476"
     },
     "core.js": {
-      "bytes": 8012,
-      "hash": "529fb0898ec3d561",
+      "bytes": 4954,
+      "hash": "7403af6737c5cfd7",
       "exports": [],
       "imports": []
     },
     "dev.d.ts": {
-      "bytes": 90,
-      "hash": "ba0dafb049f5a1b9"
+      "bytes": 120,
+      "hash": "2a6039cf009d7802"
     },
     "dev.js": {
-      "bytes": 3499,
-      "hash": "3ebf230a961d27c9",
+      "bytes": 2534,
+      "hash": "085b589f26a8ea00",
       "exports": [],
       "imports": []
     },
     "index.d.ts": {
-      "bytes": 1188,
-      "hash": "5668de8602963c53"
+      "bytes": 1562,
+      "hash": "69f8e8ac282c50bf"
     },
     "index.js": {
-      "bytes": 2404,
-      "hash": "9b0d03fdb8d03956",
+      "bytes": 1490,
+      "hash": "530e1c7763e27898",
       "exports": [],
       "imports": []
     },
     "mock.d.ts": {
-      "bytes": 339,
-      "hash": "132986cfbb9aefcc"
+      "bytes": 9,
+      "hash": "f4c5cf9bb78e85f1"
     },
     "mock.js": {
-      "bytes": 77,
-      "hash": "bf41466e80b90456",
+      "bytes": 0,
+      "hash": "e3b0c44298fc1c14",
       "exports": [],
       "imports": []
     },
     "plugin.d.ts": {
-      "bytes": 1375,
-      "hash": "6ac36050bb6fd740"
+      "bytes": 1374,
+      "hash": "b36e43bec5ebbda2"
     },
     "plugin.js": {
-      "bytes": 2466,
-      "hash": "c69da74afcfa46d7",
+      "bytes": 1565,
+      "hash": "2f4264a6e08494c1",
       "exports": [],
       "imports": []
     },
     "registry-cli.d.ts": {
-      "bytes": 31,
-      "hash": "559e30b989d19ead"
+      "bytes": 9,
+      "hash": "f4c5cf9bb78e85f1"
     },
     "registry-cli.js": {
-      "bytes": 688,
-      "hash": "64dbe579a30d83a7",
+      "bytes": 643,
+      "hash": "c67d2021748b006b",
       "exports": [],
       "imports": []
     },
     "registry.d.ts": {
-      "bytes": 508,
-      "hash": "1dedaa0effa24bdf"
+      "bytes": 524,
+      "hash": "ea337149d58b7fee"
     },
     "registry.js": {
-      "bytes": 44146,
-      "hash": "a88482216dcaefda",
+      "bytes": 33395,
+      "hash": "cdd58cc996853faa",
       "exports": [],
       "imports": []
     },
     "shared.d.ts": {
-      "bytes": 7093,
-      "hash": "0b304d417d51c398"
+      "bytes": 7617,
+      "hash": "3da262a567fa7c96"
     },
     "shared.js": {
-      "bytes": 25850,
-      "hash": "fe2a37eed8eecd6c",
+      "bytes": 19738,
+      "hash": "f001aa495f0b6568",
       "exports": [],
       "imports": []
     },
     "shorthands.d.ts": {
-      "bytes": 729,
-      "hash": "d9bcea1d8bf6641b"
+      "bytes": 753,
+      "hash": "b777fab1d90447da"
     },
     "shorthands.js": {
-      "bytes": 11267,
-      "hash": "d5906b523bdebb45",
+      "bytes": 8907,
+      "hash": "e2a025ef6f45af3d",
       "exports": [],
       "imports": []
     },
     "size-cli.d.ts": {
-      "bytes": 31,
-      "hash": "559e30b989d19ead"
+      "bytes": 9,
+      "hash": "f4c5cf9bb78e85f1"
     },
     "size-cli.js": {
-      "bytes": 1505,
-      "hash": "38c1438c772aa8c7",
+      "bytes": 1421,
+      "hash": "e813400d1636cc6e",
       "exports": [],
       "imports": []
     },
     "size/adapter.d.ts": {
-      "bytes": 1030,
-      "hash": "917403d40d7c1cdf"
+      "bytes": 1048,
+      "hash": "8f25e40f9c0b9e24"
     },
     "size/adapter.js": {
-      "bytes": 10748,
-      "hash": "585dffb2d32ae6db",
+      "bytes": 9134,
+      "hash": "ff14edad29c4e634",
       "exports": [],
       "imports": []
     },
     "size/core.d.ts": {
-      "bytes": 121,
-      "hash": "115d2f6476fcb133"
+      "bytes": 160,
+      "hash": "a84214c63cf1b192"
     },
     "size/core.js": {
-      "bytes": 6498,
-      "hash": "fc936e552336a48b",
+      "bytes": 5328,
+      "hash": "34e59c7fe306d4f8",
       "exports": [],
       "imports": []
     },
     "size/measure.d.ts": {
-      "bytes": 244,
-      "hash": "27cf222cc953c28e"
+      "bytes": 278,
+      "hash": "ab863eafb4c4c73f"
     },
     "size/measure.js": {
-      "bytes": 1704,
-      "hash": "6704f46b0014b0e8",
+      "bytes": 1495,
+      "hash": "87c2b16bb0312a5f",
       "exports": [],
       "imports": []
     },
     "size/plugin.d.ts": {
-      "bytes": 677,
-      "hash": "81731f9be8dc3c41"
+      "bytes": 712,
+      "hash": "d29e7f5efad7d141"
     },
     "size/plugin.js": {
-      "bytes": 2116,
-      "hash": "4bbf7ec290a76070",
+      "bytes": 1811,
+      "hash": "3f98d74fba4a8140",
       "exports": [],
       "imports": []
     },
     "size/pvDeps.d.ts": {
-      "bytes": 469,
-      "hash": "cd68d47fe0ee4440"
+      "bytes": 512,
+      "hash": "31f0b5280db2766e"
     },
     "size/pvDeps.js": {
-      "bytes": 1375,
-      "hash": "9ff77bef14a807c8",
+      "bytes": 1293,
+      "hash": "62b7d4ebddf49b65",
       "exports": [],
       "imports": []
     },
     "size/report.d.ts": {
-      "bytes": 734,
-      "hash": "617f38bc00fa4081"
+      "bytes": 775,
+      "hash": "667567200eb9319d"
     },
     "size/report.js": {
-      "bytes": 16106,
-      "hash": "7463fa62aef6f841",
+      "bytes": 12098,
+      "hash": "36dd9e79a601c7f1",
       "exports": [],
       "imports": []
     },
     "size/run.d.ts": {
-      "bytes": 1231,
-      "hash": "12d564a500f00564"
+      "bytes": 1225,
+      "hash": "fa43560cd0951528"
     },
     "size/run.js": {
-      "bytes": 14498,
-      "hash": "03cce46ba6bd1ed6",
+      "bytes": 11164,
+      "hash": "429bb21c6ae78231",
       "exports": [],
       "imports": []
     },
     "size/types.d.ts": {
-      "bytes": 4447,
-      "hash": "890aecf9d6817f36"
+      "bytes": 4288,
+      "hash": "db2d61733fcb9484"
     },
     "size/types.js": {
-      "bytes": 77,
-      "hash": "bf41466e80b90456",
+      "bytes": 0,
+      "hash": "e3b0c44298fc1c14",
       "exports": [],
       "imports": []
     },
     "smoke/assemble.d.ts": {
-      "bytes": 809,
-      "hash": "ecab622d0d19f945"
+      "bytes": 817,
+      "hash": "b32efe97e15f47a7"
     },
     "smoke/assemble.js": {
-      "bytes": 11020,
-      "hash": "ed7808b9e9441651",
+      "bytes": 9737,
+      "hash": "cc57f47238335eee",
       "exports": [],
       "imports": []
     },
     "smoke/cells.d.ts": {
-      "bytes": 1667,
-      "hash": "6364cbcb38a0a74b"
+      "bytes": 1670,
+      "hash": "6383da42044a41d6"
     },
     "smoke/cells.js": {
-      "bytes": 2212,
-      "hash": "6e45606aadcc9b69",
+      "bytes": 2002,
+      "hash": "f86e637ed0166a7e",
       "exports": [],
       "imports": []
     },
     "smoke/cli.d.ts": {
-      "bytes": 227,
-      "hash": "dd376eadf4077ef4"
+      "bytes": 260,
+      "hash": "f067c4336c267385"
     },
     "smoke/cli.js": {
-      "bytes": 7790,
-      "hash": "de763df8b4ccc2a8",
+      "bytes": 6798,
+      "hash": "e9cd867ed9b8dcee",
       "exports": [],
       "imports": []
     },
     "smoke/index.d.ts": {
-      "bytes": 628,
-      "hash": "0cdcdb7d5e4412a5"
+      "bytes": 581,
+      "hash": "4fd0028215b655c5"
     },
     "smoke/index.js": {
-      "bytes": 1458,
-      "hash": "d58a1b9c3700dc7d",
+      "bytes": 680,
+      "hash": "07e60578410bee47",
       "exports": [],
       "imports": []
     },
     "smoke/leak.d.ts": {
-      "bytes": 57,
-      "hash": "099ab7d76935c386"
+      "bytes": 99,
+      "hash": "aa886a24c33cfc35"
     },
     "smoke/leak.js": {
-      "bytes": 2563,
-      "hash": "ba8a0bc26213a0e0",
+      "bytes": 2395,
+      "hash": "936e5401fc3590c2",
       "exports": [],
       "imports": []
     },
     "smoke/lib.d.ts": {
-      "bytes": 1348,
-      "hash": "a7a221f91a86fa15"
+      "bytes": 1376,
+      "hash": "a72fa0c5a4252f96"
     },
     "smoke/lib.js": {
-      "bytes": 4130,
-      "hash": "7a1d1ccb8f802fca",
+      "bytes": 3752,
+      "hash": "f8ac869d2f6d2ee0",
       "exports": [],
       "imports": []
     },
     "smoke/pack.d.ts": {
-      "bytes": 273,
-      "hash": "d23e75502fb10112"
+      "bytes": 303,
+      "hash": "0a80548253dcc167"
     },
     "smoke/pack.js": {
-      "bytes": 4402,
-      "hash": "746b8aafd692003a",
+      "bytes": 4185,
+      "hash": "0266c4d4a810fc96",
       "exports": [],
       "imports": []
     },
     "smoke/pm.d.ts": {
-      "bytes": 1085,
-      "hash": "9de8a8dece0619d5"
+      "bytes": 741,
+      "hash": "fb27d2cc28115578"
     },
     "smoke/pm.js": {
-      "bytes": 1989,
-      "hash": "a8490b4cb614c43c",
+      "bytes": 1613,
+      "hash": "ce15cb81b05ad80d",
       "exports": [],
       "imports": []
     },
     "smoke/runner.d.ts": {
-      "bytes": 830,
-      "hash": "5e74e55dc6fe48b4"
+      "bytes": 837,
+      "hash": "3bfdb50b819909bc"
     },
     "smoke/runner.js": {
-      "bytes": 4012,
-      "hash": "9074a72952463b90",
+      "bytes": 3775,
+      "hash": "ede8a6dccf2aa4f8",
       "exports": [],
       "imports": []
     },
     "sourceAliases.d.ts": {
-      "bytes": 1174,
-      "hash": "bb37eced8d0438b0"
+      "bytes": 1202,
+      "hash": "1716c2359a2de97d"
     },
     "sourceAliases.js": {
-      "bytes": 6859,
-      "hash": "1768374dd24878a3",
+      "bytes": 5112,
+      "hash": "b7b2df44fa3d8311",
       "exports": [],
       "imports": []
     },
     "sourcePaths.d.ts": {
-      "bytes": 811,
-      "hash": "a8b59726b84b570f"
+      "bytes": 834,
+      "hash": "4eead407e6dc0378"
     },
     "sourcePaths.js": {
-      "bytes": 6282,
-      "hash": "d4145ded5d312c3a",
+      "bytes": 5184,
+      "hash": "9a8fd24641cab943",
+      "exports": [],
+      "imports": []
+    },
+    "tsdown.d.ts": {
+      "bytes": 1183,
+      "hash": "515a88f7f0be029d"
+    },
+    "tsdown.js": {
+      "bytes": 1717,
+      "hash": "104c8f69c9d7e8c6",
       "exports": [],
       "imports": []
     },
     "validate-source-cli.d.ts": {
-      "bytes": 31,
-      "hash": "559e30b989d19ead"
+      "bytes": 9,
+      "hash": "f4c5cf9bb78e85f1"
     },
     "validate-source-cli.js": {
-      "bytes": 1237,
-      "hash": "37c18b8ccd57ac6f",
+      "bytes": 1174,
+      "hash": "fba1749a208e0348",
       "exports": [],
       "imports": []
     },
     "validateSource.d.ts": {
-      "bytes": 1098,
-      "hash": "ec40edaeef2a3edb"
+      "bytes": 1106,
+      "hash": "3f03aaa0cf3e8f93"
     },
     "validateSource.js": {
-      "bytes": 18540,
-      "hash": "8d36d40f6b1c9a08",
+      "bytes": 12497,
+      "hash": "3b3076291b946bd5",
       "exports": [],
       "imports": []
     },
     "vitest.d.ts": {
-      "bytes": 2363,
-      "hash": "ef1f51411b0dbb71"
+      "bytes": 2374,
+      "hash": "9065d06f531c9f84"
     },
     "vitest.js": {
-      "bytes": 5905,
-      "hash": "9f27e9aa2a17af0f",
+      "bytes": 3844,
+      "hash": "f977c32d9351abf9",
       "exports": [],
       "imports": []
     }

@@ -1,16 +1,12 @@
 {
   "package": "@vueform/cli",
-  "fileCount": 46,
+  "fileCount": 45,
   "exportsMap": {
     "checked": 3,
     "patterns": 0,
     "missing": []
   },
   "files": {
-    ".tsbuildinfo": {
-      "bytes": 43842,
-      "hash": "475c0a0292951b2c"
-    },
     "args.d.ts": {
       "bytes": 473,
       "hash": "aac5d21fb248584d"

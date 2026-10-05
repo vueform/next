@@ -265,6 +265,8 @@ export default defineConfig({
       // - Concurrency is capped at 2 — the machine is also the user's
       //   interactive workstation, and the wrapped suites spawn their own
       //   workers (vitest --maxWorkers, Playwright, sass) on top of vp's.
+      // One `&&`-joined shell command: a failing segment fails the whole
+      // pipeline with ordinary shell semantics.
       pipeline: {
         command: [
           'vp run p:fix',
@@ -279,7 +281,7 @@ export default defineConfig({
           'vp run p:registry',
           'vp run p:extract',
           'vp run p:docs:gen',
-        ],
+        ].join(' && '),
         cache: false as const,
       },
       // The complete verification incl. the Playwright suites — end of the
@@ -289,7 +291,7 @@ export default defineConfig({
           'vp run pipeline',
           'vp run p:test:smoke',
           'vp run p:test:visual',
-        ],
+        ].join(' && '),
         cache: false as const,
       },
     },

@@ -235,6 +235,9 @@ function buildManifest(target: Target): Manifest {
   const dtsChunks: string[] = []
   for (const path of listFiles(target.dir).sort()) {
     const relPath = relative(target.dir, path)
+    // Incremental-typecheck artifact (utils' `check` writes it into dist):
+    // not a build output, ignored so it can't dirty the diff gate.
+    if (relPath.endsWith('.tsbuildinfo')) continue
     const content = readFileSync(path, 'utf8')
     const entry: FileEntry = {
       bytes: Buffer.byteLength(content),

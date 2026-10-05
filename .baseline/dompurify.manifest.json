@@ -8,12 +8,12 @@
   },
   "files": {
     "index.d.ts": {
-      "bytes": 971,
-      "hash": "57a4335bb2afb9c5"
+      "bytes": 917,
+      "hash": "8906e9142b1b9338"
     },
     "index.mjs": {
-      "bytes": 808,
-      "hash": "47a40362686987b1",
+      "bytes": 813,
+      "hash": "95acf3540f556e26",
       "exports": [
         "default",
         "domPurifySanitizer"

@@ -14,7 +14,7 @@
     "dist"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "tsdown",
     "check": "tsc --noEmit",
     "size": "vf-size",
     "size:report": "vf-size --report"
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@vueform/ui": "workspace:^",
     "@vueform/utils": "workspace:^",
+    "tsdown": "catalog:",
     "vite": "catalog:"
   },
   "peerDependencies": {

@@ -1,54 +1,55 @@
 //// adapter.d.ts
-import type { UserConfig } from 'vite';
+import { UserConfig } from "vite";
+//#region src/adapter.d.ts
 /**
  * Options for the `adapter` config factory.
  */
 export interface AdapterOptions {
-    /**
-     * The package's published name (e.g. `'@vueform/ui'`) — used as the lib name,
-     * added to externals, and source-relative self references in emitted `.d.ts`
-     * are rewritten to it.
-     */
-    name: string;
-    /**
-     * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
-     * from the package's `vite.config.ts`: tools that load workspace configs from
-     * elsewhere (e.g. `vp run` building its task graph) do not set
-     * `process.cwd()` to the package dir, which remains the fallback.
-     */
-    dir?: string;
-    /**
-     * Alias pointing at the source directory (e.g. `'@'`). No alias is registered
-     * when omitted.
-     */
-    alias?: string;
-    /**
-     * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
-     * subpaths) are always external.
-     */
-    external?: (string | RegExp)[];
-    /**
-     * Also emit minified IIFE bundles for `<script>`/CDN use, one per theme
-     * (every `src/themes/<name>.ts` with a matching `src/<name>.ts` entry):
-     * `dist/<name>.global.js` with its stylesheet beside it as `dist/<name>.css`,
-     * everything bundled except `vue` (global `Vue`).
-     */
-    cdn?: boolean;
-    /**
-     * Also emit the vapor-mode build after the main bundle: the `src/components`
-     * tree into `dist/vapor/components` plus a `dist/vapor/<theme>.mjs` entry per
-     * theme, with every SFC compiled by Vue 3.6's vapor compiler. Shared logic is
-     * not duplicated — vapor modules import it from the main dist via relative
-     * paths, and `@vueform/core` component subpaths are rewritten to their
-     * `/vapor` equivalents so the two mode trees never mix. Types are not
-     * re-emitted; vapor exports reuse the `.d.ts` files from the main dist.
-     */
-    vapor?: boolean;
-    /**
-     * Additional Vite config merged (via `mergeConfig`) on top of the generated
-     * one — an escape hatch for anything not covered by the options.
-     */
-    vite?: UserConfig;
+  /**
+   * The package's published name (e.g. `'@vueform/ui'`) — used as the lib name,
+   * added to externals, and source-relative self references in emitted `.d.ts`
+   * are rewritten to it.
+   */
+  name: string;
+  /**
+   * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
+   * from the package's `vite.config.ts`: tools that load workspace configs from
+   * elsewhere (e.g. `vp run` building its task graph) do not set
+   * `process.cwd()` to the package dir, which remains the fallback.
+   */
+  dir?: string;
+  /**
+   * Alias pointing at the source directory (e.g. `'@'`). No alias is registered
+   * when omitted.
+   */
+  alias?: string;
+  /**
+   * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
+   * subpaths) are always external.
+   */
+  external?: (string | RegExp)[];
+  /**
+   * Also emit minified IIFE bundles for `<script>`/CDN use, one per theme
+   * (every `src/themes/<name>.ts` with a matching `src/<name>.ts` entry):
+   * `dist/<name>.global.js` with its stylesheet beside it as `dist/<name>.css`,
+   * everything bundled except `vue` (global `Vue`).
+   */
+  cdn?: boolean;
+  /**
+   * Also emit the vapor-mode build after the main bundle: the `src/components`
+   * tree into `dist/vapor/components` plus a `dist/vapor/<theme>.mjs` entry per
+   * theme, with every SFC compiled by Vue 3.6's vapor compiler. Shared logic is
+   * not duplicated — vapor modules import it from the main dist via relative
+   * paths, and `@vueform/core` component subpaths are rewritten to their
+   * `/vapor` equivalents so the two mode trees never mix. Types are not
+   * re-emitted; vapor exports reuse the `.d.ts` files from the main dist.
+   */
+  vapor?: boolean;
+  /**
+   * Additional Vite config merged (via `mergeConfig`) on top of the generated
+   * one — an escape hatch for anything not covered by the options.
+   */
+  vite?: UserConfig;
 }
 /**
  * Vite config factory for adapter packages (ui, primevue, …) — usable directly
@@ -66,123 +67,123 @@ export interface AdapterOptions {
  * adapter builds on — vue, core, its own runtime dependencies — external.
  */
 export declare function createAdapterConfig(options: AdapterOptions): Promise<UserConfig>;
-
+//#endregion
 //// bench-dts-cli.d.ts
-#!/usr/bin/env node
-export {};
-
+export {}
 //// benchDts.d.ts
+//#region src/benchDts.d.ts
 /**
  * Full `vue-tsc --extendedDiagnostics` snapshot (numeric fields only). Times
  * are seconds; memory is kilobytes (tsc's `…K` unit).
  */
 export type BenchDtsMetrics = {
-    files: number;
-    linesOfLibrary: number;
-    linesOfDefinitions: number;
-    linesOfTypeScript: number;
-    linesOfJavaScript: number;
-    linesOfJson: number;
-    linesOfOther: number;
-    identifiers: number;
-    symbols: number;
-    types: number;
-    instantiations: number;
-    memoryUsedKb: number;
-    assignabilityCacheSize: number;
-    identityCacheSize: number;
-    subtypeCacheSize: number;
-    strictSubtypeCacheSize: number;
-    ioReadTimeSec: number;
-    parseTimeSec: number;
-    resolveModuleTimeSec: number;
-    resolveTypeReferenceTimeSec: number;
-    resolveLibraryTimeSec: number;
-    programTimeSec: number;
-    bindTimeSec: number;
-    checkTimeSec: number;
-    printTimeSec: number;
-    emitTimeSec: number;
-    totalTimeSec: number;
+  files: number;
+  linesOfLibrary: number;
+  linesOfDefinitions: number;
+  linesOfTypeScript: number;
+  linesOfJavaScript: number;
+  linesOfJson: number;
+  linesOfOther: number;
+  identifiers: number;
+  symbols: number;
+  types: number;
+  instantiations: number;
+  memoryUsedKb: number;
+  assignabilityCacheSize: number;
+  identityCacheSize: number;
+  subtypeCacheSize: number;
+  strictSubtypeCacheSize: number;
+  ioReadTimeSec: number;
+  parseTimeSec: number;
+  resolveModuleTimeSec: number;
+  resolveTypeReferenceTimeSec: number;
+  resolveLibraryTimeSec: number;
+  programTimeSec: number;
+  bindTimeSec: number;
+  checkTimeSec: number;
+  printTimeSec: number;
+  emitTimeSec: number;
+  totalTimeSec: number;
 };
 export interface BenchDtsOptions {
-    /**
-     * The invoking package's root (where its `package.json` lives), typically
-     * `process.cwd()`.
-     */
-    packageDir: string;
-    /**
-     * The bench directory relative to `packageDir`.
-     */
-    dir?: string;
-    /**
-     * Measurement names (fixture basenames) to run; every fixture when empty.
-     */
-    measurements?: string[];
-    /**
-     * Diff this run against the saved baseline.
-     */
-    compare?: boolean;
-    /**
-     * Overwrite the baseline with this run.
-     */
-    save?: boolean;
-    /**
-     * Measurement repetitions; the run with the median total time is reported.
-     * Counters are deterministic across runs — repetition only steadies the
-     * secondary time/memory numbers.
-     */
-    runs?: number;
+  /**
+   * The invoking package's root (where its `package.json` lives), typically
+   * `process.cwd()`.
+   */
+  packageDir: string;
+  /**
+   * The bench directory relative to `packageDir`.
+   */
+  dir?: string;
+  /**
+   * Measurement names (fixture basenames) to run; every fixture when empty.
+   */
+  measurements?: string[];
+  /**
+   * Diff this run against the saved baseline.
+   */
+  compare?: boolean;
+  /**
+   * Overwrite the baseline with this run.
+   */
+  save?: boolean;
+  /**
+   * Measurement repetitions; the run with the median total time is reported.
+   * Counters are deterministic across runs — repetition only steadies the
+   * secondary time/memory numbers.
+   */
+  runs?: number;
 }
 /**
  * Runs the configured measurements. Resolves `false` when any measurement fails
  * to typecheck or parse (callers exit non-zero on it).
  */
 export declare function runBenchDts(options: BenchDtsOptions): Promise<boolean>;
-
+//#endregion
 //// core.d.ts
-import type { UserConfig } from 'vite';
+import { UserConfig } from "vite";
+//#region src/core.d.ts
 /**
  * Options for the `core` config factory.
  */
 export interface CoreOptions {
-    /**
-     * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
-     * from the package's `vite.config.ts`: tools that load workspace configs from
-     * elsewhere (e.g. `vp run` building its task graph) do not set
-     * `process.cwd()` to the package dir, which remains the fallback.
-     */
-    dir?: string;
-    /**
-     * The package's published name (e.g. `'@vueform/core'`) — used as the lib
-     * name, added to externals, and self-augmentations in emitted `.d.ts` are
-     * rewritten to it.
-     */
-    name: string;
-    /**
-     * Alias pointing at the source directory (e.g. `'#core'`). No alias is
-     * registered when omitted.
-     */
-    alias?: string;
-    /**
-     * Additional external module ids. `'vue'` and `name` are always external.
-     */
-    external?: string[];
-    /**
-     * Also emit the vapor-mode component build into `dist/vapor/components` after
-     * the main bundle: the `src/components` tree, with every SFC compiled by Vue
-     * 3.6's vapor compiler. Shared logic (blueprints, tokens, contexts, …) is not
-     * duplicated — the vapor modules import it from the main dist via relative
-     * paths, so stateful modules exist only once regardless of which mode a
-     * consumer resolves. Types are not re-emitted either; vapor exports reuse the
-     * `.d.ts` files from the main dist.
-     */
-    vapor?: boolean;
-    /**
-     * Additional Vite config merged (via `mergeConfig`) on top of the generated
-     * one — an escape hatch for anything not covered by the path options.
-     */
-    vite?: UserConfig;
+  /**
+   * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
+   * from the package's `vite.config.ts`: tools that load workspace configs from
+   * elsewhere (e.g. `vp run` building its task graph) do not set
+   * `process.cwd()` to the package dir, which remains the fallback.
+   */
+  dir?: string;
+  /**
+   * The package's published name (e.g. `'@vueform/core'`) — used as the lib
+   * name, added to externals, and self-augmentations in emitted `.d.ts` are
+   * rewritten to it.
+   */
+  name: string;
+  /**
+   * Alias pointing at the source directory (e.g. `'#core'`). No alias is
+   * registered when omitted.
+   */
+  alias?: string;
+  /**
+   * Additional external module ids. `'vue'` and `name` are always external.
+   */
+  external?: string[];
+  /**
+   * Also emit the vapor-mode component build into `dist/vapor/components` after
+   * the main bundle: the `src/components` tree, with every SFC compiled by Vue
+   * 3.6's vapor compiler. Shared logic (blueprints, tokens, contexts, …) is not
+   * duplicated — the vapor modules import it from the main dist via relative
+   * paths, so stateful modules exist only once regardless of which mode a
+   * consumer resolves. Types are not re-emitted either; vapor exports reuse the
+   * `.d.ts` files from the main dist.
+   */
+  vapor?: boolean;
+  /**
+   * Additional Vite config merged (via `mergeConfig`) on top of the generated
+   * one — an escape hatch for anything not covered by the path options.
+   */
+  vite?: UserConfig;
 }
 /**
  * Vite config factory for the core package — usable directly as the default
@@ -200,69 +201,53 @@ export interface CoreOptions {
  * the package's `exports` map, not by the build.
  */
 export declare function createCoreConfig(options: CoreOptions): Promise<UserConfig>;
-
+//#endregion
 //// dev.d.ts
-import type { Plugin } from 'vite';
+import { Plugin } from "vite";
+//#region src/dev.d.ts
 export declare function dev(adapter: string): Plugin;
-
+//#endregion
 //// index.d.ts
-export { createAdapterConfig } from './adapter';
-export type { AdapterOptions } from './adapter';
-export { createCoreConfig } from './core';
-export { dev } from './dev';
-export { workspaceSourcePaths } from './sourcePaths';
-export type { SourcePathsOptions } from './sourcePaths';
-export type { CoreOptions } from './core';
-export { createPluginConfig } from './plugin';
-export type { PluginOptions } from './plugin';
-export { packageSourceAliases, workspaceSourceAliases } from './sourceAliases';
-export type { SourceAliasOptions } from './sourceAliases';
-export { runBenchDts } from './benchDts';
-export type { BenchDtsMetrics, BenchDtsOptions } from './benchDts';
-export { createVitestConfig } from './vitest';
-export type { VitestConfig, VitestOptions } from './vitest';
-export { generateRegistry } from './registry';
-export type { RegistryOptions } from './registry';
-export { runSize } from './size/run';
-export type { RunSizeOptions } from './size/run';
-export { validateSource } from './validateSource';
-export type { ValidateSourceConfig, ValidateSourceOptions, } from './validateSource';
-export type { MeasurementType, Results as SizeResults, SizeConfig, } from './size/types';
-
+import { AdapterOptions, createAdapterConfig } from "./adapter.js";
+import { BenchDtsMetrics, BenchDtsOptions, runBenchDts } from "./benchDts.js";
+import { CoreOptions, createCoreConfig } from "./core.js";
+import { dev } from "./dev.js";
+import { SourcePathsOptions, workspaceSourcePaths } from "./sourcePaths.js";
+import { PluginOptions, createPluginConfig } from "./plugin.js";
+import { PluginTsdownOptions, createPluginTsdownConfig } from "./tsdown.js";
+import { SourceAliasOptions, packageSourceAliases, workspaceSourceAliases } from "./sourceAliases.js";
+import { VitestConfig, VitestOptions, createVitestConfig } from "./vitest.js";
+import { RegistryOptions, generateRegistry } from "./registry.js";
+import { RunSizeOptions, runSize } from "./size/run.js";
+import { ValidateSourceConfig, ValidateSourceOptions, validateSource } from "./validateSource.js";
+import { MeasurementType, Results, SizeConfig } from "./size/types.js";
+export { type AdapterOptions, type BenchDtsMetrics, type BenchDtsOptions, type CoreOptions, type MeasurementType, type PluginOptions, type PluginTsdownOptions, type RegistryOptions, type RunSizeOptions, type SizeConfig, type Results as SizeResults, type SourceAliasOptions, type SourcePathsOptions, type ValidateSourceConfig, type ValidateSourceOptions, type VitestConfig, type VitestOptions, createAdapterConfig, createCoreConfig, createPluginConfig, createPluginTsdownConfig, createVitestConfig, dev, generateRegistry, packageSourceAliases, runBenchDts, runSize, validateSource, workspaceSourceAliases, workspaceSourcePaths };
 //// mock.d.ts
-/**
- * Test-time stand-in for the `#shorthands` marker module.
- *
- * Component `unstyled.ts` files import the marker so readers know shorthand
- * prop types are injected at build time (see `@vueform/utils`). Builds resolve
- * it to an empty virtual module; test pipelines alias it to this file so the
- * import stays inert.
- */
-export {};
-
+export {}
 //// plugin.d.ts
-import type { UserConfig } from 'vite';
+import { UserConfig } from "vite";
+//#region src/plugin.d.ts
 /**
  * Options for the `plugin` config factory.
  */
 export interface PluginOptions {
-    /**
-     * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
-     * from the package's `vite.config.ts`: tools that load workspace configs from
-     * elsewhere (e.g. `vp run` building its task graph) do not set
-     * `process.cwd()` to the package dir, which remains the fallback.
-     */
-    dir?: string;
-    /**
-     * The package's published name (e.g. `'@vueform/expr-eval'`) — used as the
-     * lib name and added to externals.
-     */
-    name: string;
-    /**
-     * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
-     * subpaths) are always external.
-     */
-    external?: (string | RegExp)[];
+  /**
+   * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
+   * from the package's `vite.config.ts`: tools that load workspace configs from
+   * elsewhere (e.g. `vp run` building its task graph) do not set
+   * `process.cwd()` to the package dir, which remains the fallback.
+   */
+  dir?: string;
+  /**
+   * The package's published name (e.g. `'@vueform/expr-eval'`) — used as the
+   * lib name and added to externals.
+   */
+  name: string;
+  /**
+   * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
+   * subpaths) are always external.
+   */
+  external?: (string | RegExp)[];
 }
 /**
  * Vite config factory for plugin packages (expr-eval, dompurify, …) — usable
@@ -279,73 +264,73 @@ export interface PluginOptions {
  * on (vue, core, its own runtime dependencies) stays external.
  */
 export declare function createPluginConfig(options: PluginOptions): UserConfig;
-
+//#endregion
 //// registry-cli.d.ts
-#!/usr/bin/env node
-export {};
-
+export {}
 //// registry.d.ts
+//#region src/registry.d.ts
 /**
  * Options for `generateRegistry`.
  */
 export interface RegistryOptions {
-    /**
-     * The adapter package's directory (usually `process.cwd()`).
-     */
-    packageDir: string;
-    /**
-     * Component names to (re)generate; every discovered component when empty.
-     */
-    components?: string[];
-    /**
-     * Typecheck the emitted files against the adapter's playground afterwards.
-     */
-    check?: boolean;
+  /**
+   * The adapter package's directory (usually `process.cwd()`).
+   */
+  packageDir: string;
+  /**
+   * Component names to (re)generate; every discovered component when empty.
+   */
+  components?: string[];
+  /**
+   * Typecheck the emitted files against the adapter's playground afterwards.
+   */
+  check?: boolean;
 }
 export declare function generateRegistry(options: RegistryOptions): Promise<void>;
-
+//#endregion
 //// shared.d.ts
-import type { BuildOptions, Plugin } from 'vite';
+import { BuildOptions, Plugin } from "vite";
+//#region src/shared.d.ts
 interface SassCompiler {
-    compile(path: string, options?: {
-        style?: string;
-        importers?: unknown[];
-    }): {
-        css: string;
-    };
+  compile(path: string, options?: {
+    style?: string;
+    importers?: unknown[];
+  }): {
+    css: string;
+  };
 }
 export interface LibBuildOptions {
-    /**
-     * The package's published name — used as the lib name.
-     */
-    name: string;
-    /**
-     * Entry map: output name (relative, no extension) to absolute source file.
-     */
-    entries: Record<string, string>;
-    /**
-     * `preserveModulesRoot` — the source directory the output tree mirrors.
-     */
-    preserveRoot: string;
-    /**
-     * Output directory relative to the package root.
-     */
-    outDir: string;
-    /**
-     * The full external list (nothing is added implicitly here).
-     */
-    external: (string | RegExp)[];
-    /**
-     * Keep bare external `.css` imports side-effectful (adapters' per-component
-     * styles modules); vite's default treeshake profile would strip them.
-     */
-    cssExternalSideEffects?: boolean;
-    /**
-     * Keep entry chunks free of hoisted transitive side-effect imports (theme
-     * CSS) — those must stay attached to the component modules so consumers'
-     * per-binding tree shaking drops unused components' CSS.
-     */
-    noHoistTransitiveImports?: boolean;
+  /**
+   * The package's published name — used as the lib name.
+   */
+  name: string;
+  /**
+   * Entry map: output name (relative, no extension) to absolute source file.
+   */
+  entries: Record<string, string>;
+  /**
+   * `preserveModulesRoot` — the source directory the output tree mirrors.
+   */
+  preserveRoot: string;
+  /**
+   * Output directory relative to the package root.
+   */
+  outDir: string;
+  /**
+   * The full external list (nothing is added implicitly here).
+   */
+  external: (string | RegExp)[];
+  /**
+   * Keep bare external `.css` imports side-effectful (adapters' per-component
+   * styles modules); vite's default treeshake profile would strip them.
+   */
+  cssExternalSideEffects?: boolean;
+  /**
+   * Keep entry chunks free of hoisted transitive side-effect imports (theme
+   * CSS) — those must stay attached to the component modules so consumers'
+   * per-binding tree shaking drops unused components' CSS.
+   */
+  noHoistTransitiveImports?: boolean;
 }
 export declare const SHORTHANDS_VIRTUAL = "\0vueform-shorthands-marker";
 /**
@@ -373,6 +358,17 @@ export declare function shorthandsMarker(): Plugin;
  *   script sub-module (which claims the `.vue.mjs` chunk name), leaving the
  *   facade as a pure default re-export chunk that nothing imports.
  */
+/**
+ * Marks matching SOURCE modules as side-effectful during the build.
+ *
+ * Vite's resolver applies the package's own `sideEffects` globs to workspace
+ * source files; those globs describe the published dist layout, so a source
+ * module like `src/components/VfText/styles.ts` (whose only job is its css
+ * side-effect imports) is wrongly treated as side-effect-free and Rolldown
+ * drops the `styled → styles` import edge. Marking at transform time keeps the
+ * published package.json free of src paths.
+ */
+export declare function sourceSideEffects(tests: RegExp[]): Plugin;
 /**
  * Restores consumer-side namespace reification under Rolldown (vite 8).
  *
@@ -454,54 +450,53 @@ export declare function shorthandProps(distAbs: string, helpersFrom: string): Pl
  * augmentations would otherwise register every element type program-wide.
  */
 export declare function componentNames(componentsDistAbs: string): Plugin;
-export {};
-
+//#endregion
 //// shorthands.d.ts
+//#region src/shorthands.d.ts
 export interface ShorthandPropsOptions {
-    /**
-     * Module specifier used when importing `PartProps` / `ClassProps` /
-     * `ReclassProps` in the emitted `shorthands.d.ts`.
-     *
-     * Examples: `'../../types'` (core) or `'@vueform/core'` (adapters).
-     */
-    helpersFrom: string;
+  /**
+   * Module specifier used when importing `PartProps` / `ClassProps` /
+   * `ReclassProps` in the emitted `shorthands.d.ts`.
+   *
+   * Examples: `'../../types'` (core) or `'@vueform/core'` (adapters).
+   */
+  helpersFrom: string;
 }
 /**
  * Strip the runtime `#shorthands` marker import from emitted JS chunks.
  */
 export declare function stripShorthandMarkerFromCode(code: string): string;
 export declare function injectShorthandPropsDts(distDir: string, options: ShorthandPropsOptions): {
-    written: number;
-    skipped: string[];
+  written: number;
+  skipped: string[];
 };
 /**
  * @internal — exposed for tests / diagnostics
  */
 export declare function _relativeForLog(from: string, to: string): string;
-
+//#endregion
 //// size-cli.d.ts
-#!/usr/bin/env node
-export {};
-
+export {}
 //// size/adapter.d.ts
-import type { Scenario, SizeConfig } from './types';
+import { Scenario, SizeConfig } from "./types.js";
+//#region src/size/adapter.d.ts
 /**
  * Extra code injected into a generated entry, used by suites that build on top
  * of the adapter scenarios (e.g. plugins).
  */
 export interface EntryExtras {
-    /**
-     * Additional import lines.
-     */
-    imports?: string[];
-    /**
-     * Additional createVueform() config lines (must end with a comma).
-     */
-    config?: string[];
-    /**
-     * Statements placed between the imports and createApp().
-     */
-    statements?: string[];
+  /**
+   * Additional import lines.
+   */
+  imports?: string[];
+  /**
+   * Additional createVueform() config lines (must end with a comma).
+   */
+  config?: string[];
+  /**
+   * Statements placed between the imports and createApp().
+   */
+  statements?: string[];
 }
 /**
  * Lists every component directory of an adapter package.
@@ -513,25 +508,28 @@ export declare function adapterComponents(pkgDir: string): string[];
  */
 export declare function adapterFullEntry(pkgDir: string, pkg: string, config: SizeConfig, extras?: EntryExtras): string;
 export declare function adapterScenarios(pkgDir: string, pkg: string, config: SizeConfig): Scenario[];
-
+//#endregion
 //// size/core.d.ts
-import type { Scenario } from './types';
+import { Scenario } from "./types.js";
+//#region src/size/core.d.ts
 export declare function coreScenarios(pkgDir: string, pkg: string): Scenario[];
-
+//#endregion
 //// size/measure.d.ts
-import type { FileSize, Size } from './types';
+import { FileSize, Size } from "./types.js";
+//#region src/size/measure.d.ts
 /**
  * Measures all JS and CSS assets of a build output directory.
  */
 export declare function measureDir(outDir: string): {
-    files: FileSize[];
-    js: Size;
-    css: Size;
-    total: Size;
+  files: FileSize[];
+  js: Size;
+  css: Size;
+  total: Size;
 };
-
+//#endregion
 //// size/plugin.d.ts
-import type { Scenario, SizeConfig } from './types';
+import { Scenario, SizeConfig } from "./types.js";
+//#region src/size/plugin.d.ts
 /**
  * The plugin suite measures what the plugin adds on top of a full `@vueform/ui`
  * build (every element, no plugins), with a matched dep-only reference build so
@@ -543,12 +541,13 @@ import type { Scenario, SizeConfig } from './types';
  * statement using it so the bundler retains it).
  */
 export declare function pluginScenarios(pkg: string, config: SizeConfig, ui: {
-    dir: string;
-    pkg: string;
-    config: SizeConfig;
+  dir: string;
+  pkg: string;
+  config: SizeConfig;
 }): Scenario[];
-
+//#endregion
 //// size/pvDeps.d.ts
+//#region src/size/pvDeps.d.ts
 /**
  * Discovers the runtime `primevue/*` modules a Vf component pulls into the
  * bundle by scanning the .vue sources of its component directory. Type-only
@@ -559,9 +558,10 @@ export declare function componentPvDeps(pkgDir: string, component: string): stri
  * Union of the PrimeVue modules used by a set of Vf components.
  */
 export declare function pvDeps(pkgDir: string, components: string[]): string[];
-
+//#endregion
 //// size/report.d.ts
-import type { Results } from './types';
+import { Results } from "./types.js";
+//#region src/size/report.d.ts
 /**
  * Renders the markdown report of a package's results — the section injected
  * into the package's README, so it carries no title of its own. `shared` is the
@@ -575,32 +575,33 @@ export declare function renderReport(results: Results, shared?: Results): string
  * `<!--@size-start-->` and `<!--@size-end-->` — with the rendered report.
  */
 export declare function injectReport(readmeFile: string, results: Results, shared?: Results): void;
-
+//#endregion
 //// size/run.d.ts
+//#region src/size/run.d.ts
 export interface RunSizeOptions {
-    /**
-     * The measured package's directory (the invoking package's cwd).
-     */
-    packageDir: string;
-    /**
-     * Rerun only the matching scenarios (by name, component, item or plugin),
-     * merging into the previous results.
-     */
-    only?: string[];
-    /**
-     * Also emit rollup-visualizer treemaps (kept under the package's
-     * `node_modules/.cache/vf-size/stats/`).
-     */
-    stats?: boolean;
-    /**
-     * Print the suite's scenarios without building.
-     */
-    list?: boolean;
-    /**
-     * Only regenerate the README's size section from the existing `size.json`,
-     * without building anything.
-     */
-    report?: boolean;
+  /**
+   * The measured package's directory (the invoking package's cwd).
+   */
+  packageDir: string;
+  /**
+   * Rerun only the matching scenarios (by name, component, item or plugin),
+   * merging into the previous results.
+   */
+  only?: string[];
+  /**
+   * Also emit rollup-visualizer treemaps (kept under the package's
+   * `node_modules/.cache/vf-size/stats/`).
+   */
+  stats?: boolean;
+  /**
+   * Print the suite's scenarios without building.
+   */
+  list?: boolean;
+  /**
+   * Only regenerate the README's size section from the existing `size.json`,
+   * without building anything.
+   */
+  report?: boolean;
 }
 /**
  * Measures the invoking package's bundle-size suite: generates a transient
@@ -611,8 +612,9 @@ export interface RunSizeOptions {
  * core package's building-block numbers from its size.json.
  */
 export declare function runSize(options: RunSizeOptions): Promise<void>;
-
+//#endregion
 //// size/types.d.ts
+//#region src/size/types.d.ts
 /**
  * What a package's size suite measures, derived from its manifest:
  *
@@ -626,82 +628,82 @@ export declare function runSize(options: RunSizeOptions): Promise<void>;
  *   dependency.
  */
 export type MeasurementType = 'core' | 'adapter' | 'plugin';
-export type ScenarioGroup = 'fixed'
+export type ScenarioGroup = 'fixed' |
 /**
  * Reference build used only as the base of delta calculations (e.g. the
  * per-component reference setups), not shown in the report's intro table.
  */
- | 'ref' | 'component-remove' | 'theme' | 'module' | 'rule' | 'locale' | 'plugin' | 'pv';
+'ref' | 'component-remove' | 'theme' | 'module' | 'rule' | 'locale' | 'plugin' | 'pv';
 export interface Scenario {
-    name: string;
-    group: ScenarioGroup;
-    /**
-     * Component the scenario measures (component-remove group).
-     */
-    component?: string;
-    /**
-     * Building block the scenario measures (module / rule / locale groups).
-     */
-    item?: string;
-    /**
-     * Name of the scenario this scenario's delta is measured against. Defaults to
-     * `core` for building-block scenarios; the `model` module overrides it
-     * because the core base already contains model.
-     */
-    base?: string;
-    /**
-     * Plugin the scenario measures (plugin group).
-     */
-    plugin?: string;
-    /**
-     * The plugin's heavy third-party dependency (plugin group), used in report
-     * prose and headers.
-     */
-    dep?: string;
-    /**
-     * Name of the matched reference scenario containing only third-party code
-     * (raw primevue/* modules, a plugin's dependency), used to split a scenario's
-     * delta into a third-party part and a Vueform part.
-     */
-    pv?: string;
-    /**
-     * Human description used in reports.
-     */
-    description: string;
-    /**
-     * Whether the scenario registers the theme module. Reported sizes count CSS
-     * assets only when it does — without the theme module the CSS is not
-     * functional, so it is not part of the scenario's meaningful cost.
-     */
-    themed?: boolean;
-    /**
-     * Source code of the generated fixture src/main.ts.
-     */
-    entry: string;
+  name: string;
+  group: ScenarioGroup;
+  /**
+   * Component the scenario measures (component-remove group).
+   */
+  component?: string;
+  /**
+   * Building block the scenario measures (module / rule / locale groups).
+   */
+  item?: string;
+  /**
+   * Name of the scenario this scenario's delta is measured against. Defaults to
+   * `core` for building-block scenarios; the `model` module overrides it
+   * because the core base already contains model.
+   */
+  base?: string;
+  /**
+   * Plugin the scenario measures (plugin group).
+   */
+  plugin?: string;
+  /**
+   * The plugin's heavy third-party dependency (plugin group), used in report
+   * prose and headers.
+   */
+  dep?: string;
+  /**
+   * Name of the matched reference scenario containing only third-party code
+   * (raw primevue/* modules, a plugin's dependency), used to split a scenario's
+   * delta into a third-party part and a Vueform part.
+   */
+  pv?: string;
+  /**
+   * Human description used in reports.
+   */
+  description: string;
+  /**
+   * Whether the scenario registers the theme module. Reported sizes count CSS
+   * assets only when it does — without the theme module the CSS is not
+   * functional, so it is not part of the scenario's meaningful cost.
+   */
+  themed?: boolean;
+  /**
+   * Source code of the generated fixture src/main.ts.
+   */
+  entry: string;
 }
 export interface Size {
-    raw: number;
-    gzip: number;
-    brotli: number;
+  raw: number;
+  gzip: number;
+  brotli: number;
 }
 export interface FileSize extends Size {
-    file: string;
-    type: 'js' | 'css';
+  file: string;
+  type: 'js' | 'css';
 }
 export interface ScenarioResult {
-    group: ScenarioGroup;
-    component?: string;
-    item?: string;
-    base?: string;
-    plugin?: string;
-    dep?: string;
-    pv?: string;
-    description: string;
-    themed?: boolean;
-    files: FileSize[];
-    js: Size;
-    css: Size;
-    total: Size;
+  group: ScenarioGroup;
+  component?: string;
+  item?: string;
+  base?: string;
+  plugin?: string;
+  dep?: string;
+  pv?: string;
+  description: string;
+  themed?: boolean;
+  files: FileSize[];
+  js: Size;
+  css: Size;
+  total: Size;
 }
 /**
  * The environment a suite was measured in: the versions of every package that
@@ -710,82 +712,84 @@ export interface ScenarioResult {
  * performance numbers.
  */
 export interface Environment {
-    node: string;
-    /**
-     * Package manager that installed the tree (e.g. "pnpm@10.0.0").
-     */
-    packageManager?: string;
-    packages: Record<string, string>;
+  node: string;
+  /**
+   * Package manager that installed the tree (e.g. "pnpm@10.0.0").
+   */
+  packageManager?: string;
+  packages: Record<string, string>;
 }
 export interface Results {
-    /**
-     * The measured package's published name (e.g. `@vueform/ui`).
-     */
-    pkg: string;
-    type: MeasurementType;
-    generatedAt: string;
-    environment?: Environment;
-    scenarios: Record<string, ScenarioResult>;
+  /**
+   * The measured package's published name (e.g. `@vueform/ui`).
+   */
+  pkg: string;
+  type: MeasurementType;
+  generatedAt: string;
+  environment?: Environment;
+  scenarios: Record<string, ScenarioResult>;
 }
 /**
  * Per-package size-suite configuration under `vueform.size` in the measured
  * package's manifest.
  */
 export interface SizeConfig {
-    /**
-     * Named export of `<pkg>/themes` registered by the full-featured entries
-     * (adapters). Defaults to `origin`.
-     */
-    defaultTheme?: string;
-    /**
-     * Extra packages recorded in the measurement environment besides the defaults
-     * (the package itself, `@vueform/core`, `vue`, `vite`).
-     */
-    envDeps?: string[];
-    /**
-     * The plugin's heavy third-party dependency (plugins).
-     */
-    dep?: string;
-    /**
-     * Import line for the raw dependency (the plugin's dep-only reference
-     * scenario).
-     */
-    depImport?: string;
-    /**
-     * Statement that uses the dependency so the bundler retains it.
-     */
-    depRetain?: string;
+  /**
+   * Named export of `<pkg>/themes` registered by the full-featured entries
+   * (adapters). Defaults to `origin`.
+   */
+  defaultTheme?: string;
+  /**
+   * Extra packages recorded in the measurement environment besides the defaults
+   * (the package itself, `@vueform/core`, `vue`, `vite`).
+   */
+  envDeps?: string[];
+  /**
+   * The plugin's heavy third-party dependency (plugins).
+   */
+  dep?: string;
+  /**
+   * Import line for the raw dependency (the plugin's dep-only reference
+   * scenario).
+   */
+  depImport?: string;
+  /**
+   * Statement that uses the dependency so the bundler retains it.
+   */
+  depRetain?: string;
 }
-
+//#endregion
 //// smoke/assemble.d.ts
-import type { CellDef, Pm } from './cells';
-import type { PackedTarballs } from './pack';
+import { CellDef, Pm } from "./cells.js";
+import { PackedTarballs } from "./pack.js";
+//#region src/smoke/assemble.d.ts
 export interface AssembleInput {
-    root: string;
-    adapter: string;
-    adapterDir: string;
-    cell: CellDef;
-    pm: Pm;
-    tarballs: PackedTarballs;
-    runsDir: string;
-    port: number;
-    headed: boolean;
-    /**
-     * Nightly-lane override: pins the fixture's `vite` devDependency to this
-     * major (vite-based cells only).
-     */
-    viteMajor?: number;
+  root: string;
+  adapter: string;
+  adapterDir: string;
+  cell: CellDef;
+  pm: Pm;
+  tarballs: PackedTarballs;
+  runsDir: string;
+  port: number;
+  headed: boolean;
+  /**
+   * Nightly-lane override: pins the fixture's `vite` devDependency to this
+   * major (vite-based cells only).
+   */
+  viteMajor?: number;
 }
 export interface SmokeRun {
-    dir: string;
-    name: string;
-    baseUrl: string;
+  dir: string;
+  name: string;
+  baseUrl: string;
 }
 export declare function runName(input: Pick<AssembleInput, 'adapter' | 'cell' | 'pm' | 'viteMajor'>): string;
 export declare function fixtureDir(adapterDir: string, cell: CellDef): string;
 export declare function assembleRun(input: AssembleInput): SmokeRun;
-
+//#endregion
 //// smoke/cells.d.ts
+//#region src/smoke/cells.d.ts
 /**
  * The smoke-test cell model.
  *
@@ -805,75 +809,71 @@ export type Rendering = (typeof RENDERINGS)[number];
 export type SfcMode = (typeof MODES)[number];
 export type Pm = (typeof PMS)[number];
 export interface CellDef {
-    /**
-     * Cell id, also the run directory suffix.
-     */
-    id: string;
-    env: Env;
-    rendering: Rendering;
-    mode: SfcMode;
-    /**
-     * Fixture directory under `packages/<adapter>/tests/smoke/`. Variants
-     * (nuxt-spa) share the fixture of their base cell.
-     */
-    fixture: string;
-    /**
-     * Extra env vars the fixture's scripts receive (variant flips).
-     */
-    fixtureEnv?: Record<string, string>;
-    note: string;
+  /**
+   * Cell id, also the run directory suffix.
+   */
+  id: string;
+  env: Env;
+  rendering: Rendering;
+  mode: SfcMode;
+  /**
+   * Fixture directory under `packages/<adapter>/tests/smoke/`. Variants
+   * (nuxt-spa) share the fixture of their base cell.
+   */
+  fixture: string;
+  /**
+   * Extra env vars the fixture's scripts receive (variant flips).
+   */
+  fixtureEnv?: Record<string, string>;
+  note: string;
 }
 export declare const CELLS: CellDef[];
 export interface CellFilters {
-    envs: Env[];
-    renderings: Rendering[];
-    modes: SfcMode[];
+  envs: Env[];
+  renderings: Rendering[];
+  modes: SfcMode[];
 }
 /**
  * Applies the dimension filters. An empty filter array means "no filter on this
  * dimension".
  */
 export declare function filterCells(filters: CellFilters): CellDef[];
-
+//#endregion
 //// smoke/cli.d.ts
+//#region src/smoke/cli.d.ts
 export interface SmokeCliOptions {
-    /**
-     * The adapter package dir. Defaults to cwd (`pnpm run` sets it).
-     */
-    adapterDir?: string;
+  /**
+   * The adapter package dir. Defaults to cwd (`pnpm run` sets it).
+   */
+  adapterDir?: string;
 }
 export declare function runSmokeCli(options?: SmokeCliOptions): Promise<void>;
-
+//#endregion
 //// smoke/index.d.ts
-/**
- * The smoke harness (`@vueform/utils/smoke`): proves the packed tarballs of the
- * adapters work in real project setups. Each adapter exposes it as a two-line
- * `tests/smoke/run.ts`; see cli.ts for the flag model and cells.ts for the cell
- * matrix.
- */
-export { runSmokeCli, type SmokeCliOptions } from './cli';
-export { CELLS, filterCells, type CellDef, type CellFilters, type Env, type Pm, type Rendering, type SfcMode, } from './cells';
-export { packWorkspace, type PackedTarballs } from './pack';
-export { runCell, summarize, type CellResult, type CellRunInput, } from './runner';
-export { SmokeError } from './lib';
-
+import { CELLS, CellDef, CellFilters, Env, Pm, Rendering, SfcMode, filterCells } from "./cells.js";
+import { PackedTarballs, packWorkspace } from "./pack.js";
+import { SmokeCliOptions, runSmokeCli } from "./cli.js";
+import { SmokeError } from "./lib.js";
+import { CellResult, CellRunInput, runCell, summarize } from "./runner.js";
+export { CELLS, type CellDef, type CellFilters, type CellResult, type CellRunInput, type Env, type PackedTarballs, type Pm, type Rendering, type SfcMode, type SmokeCliOptions, SmokeError, filterCells, packWorkspace, runCell, runSmokeCli, summarize };
 //// smoke/leak.d.ts
+//#region src/smoke/leak.d.ts
 export declare function leakCheck(runDir: string): void;
-
+//#endregion
 //// smoke/lib.d.ts
+//#region src/smoke/lib.d.ts
 export interface RunOptions {
-    cwd: string;
-    env?: Record<string, string>;
-    /**
-     * Failure message prefix; the command and exit code are appended.
-     */
-    fail: string;
+  cwd: string;
+  env?: Record<string, string>;
+  /**
+   * Failure message prefix; the command and exit code are appended.
+   */
+  fail: string;
 }
 /**
  * A tier failure with a message already printed to the user.
  */
-export declare class SmokeError extends Error {
-}
+export declare class SmokeError extends Error {}
 export declare function exists(p: string): boolean;
 export declare function readJson(file: string): any;
 export declare function writeJson(file: string, value: unknown): void;
@@ -899,28 +899,23 @@ export declare function pickPort(): Promise<number>;
  * (fixture sources are committed clean, but be defensive about local runs).
  */
 export declare function copyFixture(src: string, dest: string): void;
-
+//#endregion
 //// smoke/pack.d.ts
+//#region src/smoke/pack.d.ts
 export interface PackedTarballs {
-    dir: string;
-    /**
-     * Package name → absolute tarball path.
-     */
-    byName: Map<string, string>;
+  dir: string;
+  /**
+   * Package name → absolute tarball path.
+   */
+  byName: Map<string, string>;
 }
 export declare function packWorkspace(root: string, tarballsDir: string, opts: {
-    skipPack: boolean;
+  skipPack: boolean;
 }): PackedTarballs;
-
+//#endregion
 //// smoke/pm.d.ts
-/**
- * Package-manager abstraction for smoke runs. pnpm is the default and gates CI;
- * npm, yarn (node-modules linker) and bun run a scheduled "basic install proof"
- * on representative cells. The differences the harness cares about: install
- * argv (fixtures live inside the pnpm workspace, so pnpm needs
- * --ignore-workspace) and where tarball overrides go in package.json.
- */
-import type { Pm } from './cells';
+import { Pm } from "./cells.js";
+//#region src/smoke/pm.d.ts
 export declare function installArgs(pm: Pm): string[];
 export declare function runScriptArgs(pm: Pm, script: string): string[];
 export declare function execArgs(pm: Pm, bin: string, args: string[]): string[];
@@ -932,45 +927,46 @@ export declare function execArgs(pm: Pm, bin: string, args: string[]): string[];
  * local pack output.
  */
 export declare function applyOverrides(pkg: Record<string, any>, pm: Pm, overrides: Record<string, string>): void;
-
+//#endregion
 //// smoke/runner.d.ts
-import { type SmokeRun } from './assemble';
-import { SmokeError } from './lib';
-import type { CellDef, Pm } from './cells';
-import type { PackedTarballs } from './pack';
+import { CellDef, Pm } from "./cells.js";
+import { PackedTarballs } from "./pack.js";
+import { SmokeRun } from "./assemble.js";
+import { SmokeError } from "./lib.js";
+//#region src/smoke/runner.d.ts
 export interface CellRunInput {
-    root: string;
-    adapter: string;
-    adapterDir: string;
-    cell: CellDef;
-    pm: Pm;
-    tarballs: PackedTarballs;
-    runsDir: string;
-    tiers: Set<number>;
-    headed: boolean;
-    viteMajor?: number;
+  root: string;
+  adapter: string;
+  adapterDir: string;
+  cell: CellDef;
+  pm: Pm;
+  tarballs: PackedTarballs;
+  runsDir: string;
+  tiers: Set<number>;
+  headed: boolean;
+  viteMajor?: number;
 }
 export interface CellResult {
-    adapter: string;
-    cell: CellDef;
-    status: 'pass' | 'fail' | 'skip';
-    detail?: string;
+  adapter: string;
+  cell: CellDef;
+  status: 'pass' | 'fail' | 'skip';
+  detail?: string;
 }
 export declare function runCell(input: CellRunInput): Promise<void>;
 export declare function summarize(results: CellResult[]): boolean;
 export declare function fixturePath(adapterDir: string, cell: CellDef): string;
-export type { PackedTarballs, SmokeRun };
-export { SmokeError };
-
+//#endregion
+export { type PackedTarballs, SmokeError, type SmokeRun };
 //// sourceAliases.d.ts
-import type { Alias } from 'vite';
+import { Alias } from "vite";
+//#region src/sourceAliases.d.ts
 export interface SourceAliasOptions {
-    /**
-     * Also derive style aliases from the `./*.css` / `./*.scss` export patterns
-     * (`<prefix>/x.css` → `src/scss/x.scss`) — for dev servers that compile
-     * stylesheets from source. Tests have no use for them.
-     */
-    styles?: boolean;
+  /**
+   * Also derive style aliases from the `./*.css` / `./*.scss` export patterns
+   * (`<prefix>/x.css` → `src/scss/x.scss`) — for dev servers that compile
+   * stylesheets from source. Tests have no use for them.
+   */
+  styles?: boolean;
 }
 /**
  * Source aliases for one workspace package (core, an adapter, or a plugin),
@@ -987,19 +983,20 @@ export declare function packageSourceAliases(dir: string, options?: SourceAliasO
  * consume untransformed).
  */
 export declare function workspaceSourceAliases(packagesDir: string, options?: SourceAliasOptions): Alias[];
-
+//#endregion
 //// sourcePaths.d.ts
+//#region src/sourcePaths.d.ts
 export interface SourcePathsOptions {
-    /**
-     * The playground's adapter (package dir name). Other adapters' packages are
-     * left out of the mappings.
-     */
-    adapter?: string;
-    /**
-     * Also emit the `/vapor` twin for every entry — only vapor playgrounds import
-     * the `/vapor` subpaths.
-     */
-    vapor?: boolean;
+  /**
+   * The playground's adapter (package dir name). Other adapters' packages are
+   * left out of the mappings.
+   */
+  adapter?: string;
+  /**
+   * Also emit the `/vapor` twin for every entry — only vapor playgrounds import
+   * the `/vapor` subpaths.
+   */
+  vapor?: boolean;
 }
 /**
  * `paths` for every package in a `packages/` directory, with targets relative
@@ -1008,38 +1005,73 @@ export interface SourcePathsOptions {
  * the plugins), followed by the `@vueform/*` blocks in the same package order.
  */
 export declare function workspaceSourcePaths(packagesDir: string, relativeTo: string, options?: SourcePathsOptions): Record<string, string[]>;
-
+//#endregion
+//// tsdown.d.ts
+import { UserConfig } from "tsdown";
+//#region src/tsdown.d.ts
+/**
+ * Options for the plugin tsdown factory.
+ */
+export interface PluginTsdownOptions {
+  /**
+   * The package's published name (e.g. `'@vueform/expr-eval'`) — added to
+   * externals.
+   */
+  name: string;
+  /**
+   * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
+   * subpaths) are always external.
+   */
+  external?: (string | RegExp)[];
+}
+/**
+ * tsdown config factory for plugin packages (expr-eval, dompurify, …) — usable
+ * directly as the default export of a `tsdown.config.ts`:
+ *
+ * ```ts
+ * import { createPluginTsdownConfig } from '@vueform/utils'
+ *
+ * export default createPluginTsdownConfig({ name: '@vueform/expr-eval' })
+ * ```
+ *
+ * Mirrors `createPluginConfig` (the vite factory): single-entry ES library,
+ * `dist/index.mjs` + `index.d.ts`, everything external. The d.ts is checked
+ * with the root tsconfig minus its source `paths`, so `@vueform/core` resolves
+ * to its BUILT dist types — the same types consumers get (requires core to be
+ * built first).
+ */
+export declare function createPluginTsdownConfig(options: PluginTsdownOptions): UserConfig;
+//#endregion
 //// validate-source-cli.d.ts
-#!/usr/bin/env node
-export {};
-
+export {}
 //// validateSource.d.ts
+//#region src/validateSource.d.ts
 /**
  * Adapter-specific validation data under `vueform.validateSource` in the
  * adapter's manifest.
  */
 export interface ValidateSourceConfig {
-    /**
-     * Core chunks the adapter's aggregate recipe layers its own chunks onto
-     * (`core:` provider space). Omitted when the adapter's own chunks ARE core's
-     * (forwarders) — core is not a separate provider space then.
-     */
-    coreRecipeChunks?: string[];
+  /**
+   * Core chunks the adapter's aggregate recipe layers its own chunks onto
+   * (`core:` provider space). Omitted when the adapter's own chunks ARE core's
+   * (forwarders) — core is not a separate provider space then.
+   */
+  coreRecipeChunks?: string[];
 }
 export interface ValidateSourceOptions {
-    /**
-     * The adapter package's directory (the invoking package's cwd).
-     */
-    packageDir: string;
-    /**
-     * Print each component's declared and matched providers.
-     */
-    verbose?: boolean;
-    /**
-     * Print inferred styles.ts content per component instead of validating — used
-     * to seed/refresh the sidecars.
-     */
-    suggest?: boolean;
+  /**
+   * The adapter package's directory (the invoking package's cwd).
+   */
+  packageDir: string;
+  /**
+   * Print each component's declared and matched providers.
+   */
+  verbose?: boolean;
+  /**
+   * Print inferred styles.ts content per component instead of validating — used
+   * to seed/refresh the sidecars.
+   */
+  suggest?: boolean;
 }
 /**
  * Validates the adapter's styles.ts imports (see the module docblock). Returns
@@ -1047,30 +1079,31 @@ export interface ValidateSourceOptions {
  * summary itself.
  */
 export declare function validateSource(options: ValidateSourceOptions): number;
-
+//#endregion
 //// vitest.d.ts
-import type { UserConfig } from 'vite';
+import { UserConfig } from "vite";
+//#region src/vitest.d.ts
 /**
  * Options for the `vitest` config factory.
  */
 export interface VitestOptions {
-    /**
-     * The package's own source alias (e.g. `'@'`), pointing at its `src`
-     * directory. No alias is registered when omitted.
-     */
-    alias?: string;
-    /**
-     * Additional Vitest config merged (via `mergeConfig`) on top of the generated
-     * one — an escape hatch for anything not covered by the defaults.
-     */
-    vite?: VitestConfig;
+  /**
+   * The package's own source alias (e.g. `'@'`), pointing at its `src`
+   * directory. No alias is registered when omitted.
+   */
+  alias?: string;
+  /**
+   * Additional Vitest config merged (via `mergeConfig`) on top of the generated
+   * one — an escape hatch for anything not covered by the defaults.
+   */
+  vite?: VitestConfig;
 }
 /**
  * Vitest's config shape: vite's `UserConfig` plus the `test` block, typed
  * loosely so this package needs no vitest dependency.
  */
 export type VitestConfig = UserConfig & {
-    test?: Record<string, any>;
+  test?: Record<string, any>;
 };
 /**
  * Vitest config factory for the workspace packages — usable directly as the
@@ -1105,4 +1138,4 @@ export type VitestConfig = UserConfig & {
  * a prior build and is the fast d.ts gate for toolchain changes.
  */
 export declare function createVitestConfig(options?: VitestOptions): Promise<VitestConfig>;
-
+//#endregion
