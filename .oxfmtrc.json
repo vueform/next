@@ -20,7 +20,6 @@
     "packages/metrics/results/",
     "packages/core/tests/perf/.results/",
     "packages/core/tests/perf-dts/.results/",
-    ".baseline",
     "**/*.vue",
     "**/*.scss",
     "tsconfig.*",

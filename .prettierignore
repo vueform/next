@@ -14,8 +14,6 @@ packages/metrics/results/
 packages/core/tests/perf/.results/
 packages/core/tests/perf-dts/.results/
 
-# Toolchain-migration baseline snapshots are generated outputs.
-.baseline
 
 # ── Oxfmt owns TS/JS/JSON formatting (config: .oxfmtrc.json) ─────────────
 # Prettier keeps .vue (oxfmt's `semi: false` corrupts v-on handlers), .scss,

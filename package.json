@@ -16,8 +16,6 @@
     "fix": "tsx scripts/fix.ts",
     "format": "tsx scripts/format.ts",
     "lint": "tsx scripts/lint.ts",
-    "manifest": "tsx scripts/manifest.ts",
-    "manifest:diff": "tsx scripts/manifest.ts --diff",
     "pg": "tsx scripts/playground/dev.ts",
     "pg:build": "tsx scripts/playground/build.ts",
     "pg:down": "tsx scripts/playground/down.ts",
