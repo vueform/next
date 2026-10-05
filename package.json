@@ -75,7 +75,7 @@
     "*.{js,mjs,cjs,ts,mts,cts}": [
       "pnpm oxlint --fix",
       "pnpm eslint --fix",
-      "pnpm oxfmt --ignore-path=.gitignore"
+      "pnpm oxfmt"
     ],
     "*.vue": [
       "pnpm eslint --fix",
@@ -86,7 +86,7 @@
       "pnpm prettier --write"
     ],
     "*.json": [
-      "pnpm oxfmt --ignore-path=.gitignore"
+      "pnpm oxfmt"
     ],
     "*.{yml,yaml}": [
       "pnpm prettier --write"

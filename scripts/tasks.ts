@@ -104,17 +104,46 @@ function stylelintStep(target: ToolTarget, fix: boolean): Step {
  */
 function oxfmtStep(target: ToolTarget, write: boolean): Step {
   const mode = write ? [] : ['--check']
-  // Only .gitignore: by default oxfmt also honors .prettierignore, which
-  // carries the inverse partition (prettier skipping the oxfmt domain).
-  return exec('oxfmt', '--ignore-path=.gitignore', ...mode, target.path ?? '.')
+  // Defaults (.gitignore + .prettierignore) are safe: the prettier-side
+  // domain partition lives in .prettierignore-partition, which oxfmt never
+  // reads — keeping its CLI and editor LSP able to see TS/JS files.
+  return exec('oxfmt', ...mode, target.path ?? '.')
 }
+
+/**
+ * Prettier's domain as an explicit allow-list: oxfmt owns TS/JS/JSON
+ * (config: .oxfmtrc.json), prettier keeps .vue (oxfmt's `semi: false`
+ * corrupts v-on handlers), styles, markup, yaml — plus the
+ * printWidth-override files from .prettierrc. An ignore-file partition is
+ * not an option: oxfmt (CLI and editor LSP) reads .prettierignore by
+ * default, and a `*.ts` entry there would blind it.
+ */
+const PRETTIER_GLOB = '**/*.{vue,scss,css,html,yml,yaml}'
+
+const PRETTIER_TS_EXCEPTIONS = [
+  'docs/.vitepress/config.mts',
+  'docs/.vitepress/adapters/ui/config.ts',
+  'docs/.vitepress/adapters/primevue/config.ts',
+  'packages/core/vitest.config.ts',
+  'packages/core/tests/dts/**/*.ts',
+]
 
 function prettierStep(target: ToolTarget, write: boolean): Step {
   const mode = write ? '--write' : '--check'
-  // The oxfmt partition can leave a target with no prettier-domain files.
-  return target.path
-    ? exec('prettier', target.path, mode, '--no-error-on-unmatched-pattern')
-    : exec('prettier', '.', '!packages', '!.playgrounds', mode)
+  const base = target.path ?? '.'
+  const patterns = [
+    `${base}/${PRETTIER_GLOB}`,
+    `${base}/**/tsconfig*.json`,
+    ...PRETTIER_TS_EXCEPTIONS.filter((path) =>
+      target.path
+        ? path.startsWith(`${target.path}/`)
+        : !path.startsWith('packages/')
+    ),
+    // The root target covers everything outside the packages (the
+    // per-package targets own those).
+    ...(target.path ? [] : ['!packages/**', '!.playgrounds/**']),
+  ]
+  return exec('prettier', ...patterns, mode, '--no-error-on-unmatched-pattern')
 }
 
 export const lintTasks = (fix: boolean): Task[] =>

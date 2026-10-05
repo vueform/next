@@ -14,21 +14,7 @@ packages/metrics/results/
 packages/core/tests/perf/.results/
 packages/core/tests/perf-dts/.results/
 
-
-# ── Oxfmt owns TS/JS/JSON formatting (config: .oxfmtrc.json) ─────────────
-# Prettier keeps .vue (oxfmt's `semi: false` corrupts v-on handlers), .scss,
-# yaml, and the printWidth-override files below.
-*.ts
-*.mts
-*.cts
-*.js
-*.mjs
-*.cjs
-*.json
-!tsconfig.*
-!**/tsconfig.*
-!docs/.vitepress/config.mts
-!docs/.vitepress/adapters/ui/config.ts
-!docs/.vitepress/adapters/primevue/config.ts
-!packages/core/vitest.config.ts
-!packages/core/tests/dts/**
+# NOTE: do not add TS/JS excludes here to partition formatter domains —
+# oxfmt (CLI and its editor LSP) reads this file by default and would go
+# blind. The prettier/oxfmt split is an explicit allow-list in the format
+# tasks (scripts/tasks.ts, prettierStep).

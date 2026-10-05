@@ -14,7 +14,6 @@ import InputIcon from 'primevue/inputicon'
 import Tooltip from 'primevue/tooltip'
 import type { AdapterEntry } from '../types'
 
-
 const entry: AdapterEntry = {
   components,
   rules,
