@@ -212,6 +212,30 @@ export function shorthandsMarker(): Plugin {
  *   facade as a pure default re-export chunk that nothing imports.
  */
 /**
+ * JS-level source alias for the tsdown factories: resolves `<find>` and
+ * `<find>/x` into the package's `src`. Used INSTEAD of rolldown's native
+ * `resolve.alias`, which resolves before JS `resolveId` hooks run and would
+ * bypass plugins that must see the raw alias specifier (`scssExternals`).
+ */
+export function srcAlias(find: string, srcAbs: string): Plugin {
+  return {
+    name: 'vf:src-alias',
+    async resolveId(source, importer, options) {
+      if (source !== find && !source.startsWith(`${find}/`)) return
+      const mapped =
+        source === find
+          ? join(srcAbs, 'index')
+          : join(srcAbs, source.slice(find.length + 1))
+      const resolved = await this.resolve(mapped, importer, {
+        ...options,
+        skipSelf: true,
+      })
+      return resolved ?? mapped
+    },
+  }
+}
+
+/**
  * Marks matching SOURCE modules as side-effectful during the build.
  *
  * Vite's resolver applies the package's own `sideEffects` globs to workspace
@@ -320,9 +344,28 @@ export function pruneModules(): Plugin {
   return {
     name: 'vf:prune-modules',
     generateBundle(_, bundle) {
-      for (const [file, output] of Object.entries(bundle)) {
-        if (output.type === 'chunk' && !output.code.trim()) {
-          delete bundle[file]
+      // Deleting an empty chunk can leave bare side-effect imports of it
+      // dangling in other chunks (rolldown keeps glue imports that rollup
+      // dropped); strip those and re-check, until stable.
+      for (;;) {
+        const deleted = new Set<string>()
+        for (const [file, output] of Object.entries(bundle)) {
+          if (output.type === 'chunk' && !output.code.trim()) {
+            delete bundle[file]
+            deleted.add(file)
+          }
+        }
+        if (deleted.size === 0) break
+        for (const [file, output] of Object.entries(bundle)) {
+          if (output.type !== 'chunk') continue
+          output.code = output.code.replace(
+            /^import\s+"([^"]+)";\n?/gm,
+            (statement, spec: string) => {
+              if (!spec.startsWith('.')) return statement
+              const target = join(file, '..', spec).split(sep).join('/')
+              return deleted.has(target) ? '' : statement
+            }
+          )
         }
       }
 
@@ -357,13 +400,29 @@ export function pruneModules(): Plugin {
  * Node shims otherwise). The chunks themselves are compiled separately
  * (`themeScss`) — they never enter the bundle graph.
  */
-export function scssExternals(name: string, scssAbs: string): Plugin {
+export function scssExternals(
+  name: string,
+  scssAbs: string,
+  aliasPrefix?: string
+): Plugin {
   return {
     name: 'vf:scss-externals',
     enforce: 'pre',
     resolveId(source, importer) {
       const [path] = source.split('?')
       if (!path.endsWith('.scss')) return
+      // Raw alias form (`#ui/scss/x.scss`): under tsdown/rolldown there is
+      // no earlier alias plugin feeding this hook absolute ids — rolldown's
+      // native `resolve.alias` would bypass JS resolveId hooks entirely, so
+      // the tsdown factories alias via plugins and this hook claims the
+      // alias-form scss imports directly.
+      if (aliasPrefix && path.startsWith(`${aliasPrefix}/scss/`)) {
+        return {
+          id: `${name}/${basename(path, '.scss')}.css`,
+          external: true,
+          moduleSideEffects: true,
+        }
+      }
       // Vite's alias pass runs before pre plugins, so an aliased specifier
       // may arrive already resolved to an absolute path.
       const abs = path.startsWith('.')

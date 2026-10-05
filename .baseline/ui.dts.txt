@@ -258,7 +258,7 @@ export * from '@vueform/core/components/VfGrid';
 export { default } from '@vueform/core/components/VfGrid';
 
 //// components/VfGroup/index.d.ts
-import { TabbedParts, TabbedSlots } from '@vueform/core';
+import type { TabbedParts, TabbedSlots } from '@vueform/core';
 export * from '@vueform/core/components/VfGroup/raw';
 export { default } from '@vueform/core/components/VfGroup/raw';
 declare module '@vueform/core/components/VfGroup/raw' {
@@ -269,8 +269,8 @@ declare module '@vueform/core/components/VfGroup/raw' {
 }
 
 //// components/VfGroup/styled.d.ts
-import { TabbedParts, TabbedSlots } from '@vueform/core';
 import './styles';
+import type { TabbedParts, TabbedSlots } from '@vueform/core';
 export * from '@vueform/core/components/VfGroup';
 export { default } from '@vueform/core/components/VfGroup';
 declare module '@vueform/core/components/VfGroup' {
@@ -284,7 +284,7 @@ declare module '@vueform/core/components/VfGroup' {
 import '@vueform/ui/group.css';
 
 //// components/VfGroup/unstyled.d.ts
-import { TabbedParts, TabbedSlots } from '@vueform/core';
+import type { TabbedParts, TabbedSlots } from '@vueform/core';
 export * from '@vueform/core/components/VfGroup';
 export { default } from '@vueform/core/components/VfGroup';
 declare module '@vueform/core/components/VfGroup' {
@@ -608,8 +608,8 @@ export default defaultConfig;
 export { defaultConfig };
 
 //// features/base.d.ts
-import { HeadingProp, ClassValue, DomAttrsOf } from '@vueform/core';
-import { VNode } from 'vue';
+import type { HeadingProp, ClassValue, DomAttrsOf } from '@vueform/core';
+import type { VNode } from 'vue';
 declare module '@vueform/core' {
     interface BaseElementSlots {
         /**
@@ -803,7 +803,7 @@ declare module '@vueform/core' {
 export * from './base';
 
 //// index.d.ts
-import { default as defaultConfig } from './config';
+import defaultConfig from './config';
 export * from '@vueform/core';
 export type * from './features';
 export { defaultConfig };
@@ -812,8 +812,8 @@ export { defaultConfig };
  * with the UI defaults. This bare entry bundles no modules or locales, so the
  * `model` module must be registered (everything else is optional).
  */
-export declare const createVueform: (config: Partial<Omit<import('@vueform/core').VueformConfig, "modules" | "build">> & {
-    modules?: Partial<import('@vueform/core').VueformModules> | undefined;
+export declare const createVueform: (config: Partial<Omit<import("@vueform/core").VueformConfig, "modules" | "build">> & {
+    modules?: Partial<import("@vueform/core").VueformModules> | undefined;
     build?: Partial<{
         styleId: string;
         scopedDarkMode: boolean;
@@ -822,9 +822,9 @@ export declare const createVueform: (config: Partial<Omit<import('@vueform/core'
     }> | undefined;
 } & {
     modules: {
-        model: import('@vueform/core').VueformModule<import('@vueform/core').ModelModule>;
+        model: import("@vueform/core").VueformModule<import("@vueform/core").ModelModule>;
     };
-}) => import('@vueform/core').VueformInstance;
+}) => import("@vueform/core").VueformInstance;
 
 //// locales/index.d.ts
 export * from '@vueform/core/locales';
@@ -838,7 +838,7 @@ import './themes';
  * config option is optional; `tokens` are merged on top of the Material base
  * theme.
  */
-export declare const createVueform: (config?: import('@vueform/core').UserConfig | undefined) => import('@vueform/core').VueformInstance;
+export declare const createVueform: (config?: import("@vueform/core").UserConfig | undefined) => import("@vueform/core").VueformInstance;
 
 //// modules/modules.d.ts
 export * from '@vueform/core/modules';
@@ -852,14 +852,14 @@ import './themes';
  * option is optional; app `tokens` merge on top of the Origin theme, and a
  * `theme` replaces it wholesale.
  */
-export declare const createVueform: (config?: import('@vueform/core').UserConfig | undefined) => import('@vueform/core').VueformInstance;
+export declare const createVueform: (config?: import("@vueform/core").UserConfig | undefined) => import("@vueform/core").VueformInstance;
 
 //// rules/index.d.ts
 export * from '@vueform/core/rules';
 
 //// themes/index.d.ts
-import { origin } from './tokens';
-import { CompleteTheme, InferThemeTokens } from '@vueform/core';
+import type { origin } from './tokens';
+import type { CompleteTheme, InferThemeTokens } from '@vueform/core';
 declare module '@vueform/core' {
     interface ThemeTokens extends InferThemeTokens<typeof origin> {
     }

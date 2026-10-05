@@ -1,5 +1,5 @@
 //// adapter.d.ts
-import { UserConfig } from "vite";
+import { Plugin, UserConfig } from "vite";
 //#region src/adapter.d.ts
 /**
  * Options for the `adapter` config factory.
@@ -51,6 +51,24 @@ export interface AdapterOptions {
    */
   vite?: UserConfig;
 }
+/**
+ * Theme names: every raw token map in `src/themes` that has a matching
+ * top-level entry (`src/<name>.ts`) — e.g. `origin`, `material`.
+ */
+export declare function themeNames(srcAbs: string): string[];
+/**
+ * Root-level vapor build entries derived from the package's exports map: every
+ * `vapor` condition of the form `./dist/vapor/<name>.mjs` whose `src/<name>.ts`
+ * exists.
+ */
+export declare function exportedVaporEntries(root: string, srcAbs: string): string[];
+/**
+ * Runs the CDN builds after the main bundle is written: one minified IIFE
+ * bundle per theme (`dist/<theme>.global.js` + `dist/<theme>.css`), with
+ * everything bundled — components, theme, styles — except `vue`, consumed as
+ * the global `Vue`.
+ */
+export declare function cdnBuild(options: AdapterOptions, root: string, srcAbs: string): Plugin;
 /**
  * Vite config factory for adapter packages (ui, primevue, …) — usable directly
  * as the default export of a `vite.config.ts`:
@@ -214,14 +232,14 @@ import { CoreOptions, createCoreConfig } from "./core.js";
 import { dev } from "./dev.js";
 import { SourcePathsOptions, workspaceSourcePaths } from "./sourcePaths.js";
 import { PluginOptions, createPluginConfig } from "./plugin.js";
-import { CoreTsdownOptions, PluginTsdownOptions, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginTsdownConfig } from "./tsdown.js";
+import { AdapterTsdownOptions, CoreTsdownOptions, PluginTsdownOptions, createAdapterTsdownConfig, createAdapterVaporTsdownConfig, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginTsdownConfig } from "./tsdown.js";
 import { SourceAliasOptions, packageSourceAliases, workspaceSourceAliases } from "./sourceAliases.js";
 import { VitestConfig, VitestOptions, createVitestConfig } from "./vitest.js";
 import { RegistryOptions, generateRegistry } from "./registry.js";
 import { RunSizeOptions, runSize } from "./size/run.js";
 import { ValidateSourceConfig, ValidateSourceOptions, validateSource } from "./validateSource.js";
 import { MeasurementType, Results, SizeConfig } from "./size/types.js";
-export { type AdapterOptions, type BenchDtsMetrics, type BenchDtsOptions, type CoreOptions, type CoreTsdownOptions, type MeasurementType, type PluginOptions, type PluginTsdownOptions, type RegistryOptions, type RunSizeOptions, type SizeConfig, type Results as SizeResults, type SourceAliasOptions, type SourcePathsOptions, type ValidateSourceConfig, type ValidateSourceOptions, type VitestConfig, type VitestOptions, createAdapterConfig, createCoreConfig, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginConfig, createPluginTsdownConfig, createVitestConfig, dev, generateRegistry, packageSourceAliases, runBenchDts, runSize, validateSource, workspaceSourceAliases, workspaceSourcePaths };
+export { type AdapterOptions, type AdapterTsdownOptions, type BenchDtsMetrics, type BenchDtsOptions, type CoreOptions, type CoreTsdownOptions, type MeasurementType, type PluginOptions, type PluginTsdownOptions, type RegistryOptions, type RunSizeOptions, type SizeConfig, type Results as SizeResults, type SourceAliasOptions, type SourcePathsOptions, type ValidateSourceConfig, type ValidateSourceOptions, type VitestConfig, type VitestOptions, createAdapterConfig, createAdapterTsdownConfig, createAdapterVaporTsdownConfig, createCoreConfig, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginConfig, createPluginTsdownConfig, createVitestConfig, dev, generateRegistry, packageSourceAliases, runBenchDts, runSize, validateSource, workspaceSourceAliases, workspaceSourcePaths };
 //// mock.d.ts
 export {}
 //// plugin.d.ts
@@ -359,6 +377,13 @@ export declare function shorthandsMarker(): Plugin;
  *   facade as a pure default re-export chunk that nothing imports.
  */
 /**
+ * JS-level source alias for the tsdown factories: resolves `<find>` and
+ * `<find>/x` into the package's `src`. Used INSTEAD of rolldown's native
+ * `resolve.alias`, which resolves before JS `resolveId` hooks run and would
+ * bypass plugins that must see the raw alias specifier (`scssExternals`).
+ */
+export declare function srcAlias(find: string, srcAbs: string): Plugin;
+/**
  * Marks matching SOURCE modules as side-effectful during the build.
  *
  * Vite's resolver applies the package's own `sideEffects` globs to workspace
@@ -398,7 +423,7 @@ export declare function pruneModules(): Plugin;
  * Node shims otherwise). The chunks themselves are compiled separately
  * (`themeScss`) — they never enter the bundle graph.
  */
-export declare function scssExternals(name: string, scssAbs: string): Plugin;
+export declare function scssExternals(name: string, scssAbs: string, aliasPrefix?: string): Plugin;
 /**
  * Copies the theme scss sources into dist verbatim and compiles each 1:1 to a
  * css chunk, with a Node exports-condition shim beside every file. Mixin-only
@@ -1096,6 +1121,31 @@ export declare function dtsRewrites(outAbs: string, rewrites: DtsRewrite[], alia
  */
 export declare function selfAugmentationRewrite(name: string): DtsRewrite;
 /**
+ * Options for the adapter tsdown factories.
+ */
+export interface AdapterTsdownOptions {
+  /**
+   * The package's published name (e.g. `'@vueform/ui'`).
+   */
+  name: string;
+  /**
+   * Alias pointing at the source directory (e.g. `'#ui'`).
+   */
+  alias?: string;
+  /**
+   * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
+   * subpaths) are always external.
+   */
+  external?: (string | RegExp)[];
+  /**
+   * Also emit the minified per-theme CDN bundles after the main build. Runs the
+   * existing programmatic VITE build (`cdnBuild`): the CDN artifact bundles
+   * scss through vite's sass css pipeline into `<theme>.css`, which tsdown has
+   * no equivalent for — an accepted leaf exception to the tsdown migration.
+   */
+  cdn?: boolean;
+}
+/**
  * tsdown config factory for the core package's MAIN build — the counterpart of
  * `createCoreConfig` (the vite factory): every source module mirrors into
  * `dist` at its own path (`.mjs` beside its `.d.ts`), scss compiles through the
@@ -1116,6 +1166,25 @@ export declare function createCoreTsdownConfig(options: CoreTsdownOptions): Prom
  * tsdown.vapor.config.ts` step.
  */
 export declare function createCoreVaporTsdownConfig(options: CoreTsdownOptions): Promise<UserConfig$1>;
+/**
+ * tsdown config factory for an adapter's MAIN build — the counterpart of
+ * `createAdapterConfig` (the vite factory): `src` mirrored 1:1 into `dist`,
+ * component scss imports externalized to `<name>/<chunk>.css`, the theme
+ * scss/css pipeline, vdom-compiled SFCs, d.ts rewrites as a post-write pass,
+ * and optionally the CDN builds. The vapor tree is a separate config
+ * (`createAdapterVaporTsdownConfig`) run AFTER this one by the build script;
+ * d.ts come from a `vue-tsc -p tsconfig.dts.json` step run BEFORE (see the core
+ * factory for why).
+ */
+export declare function createAdapterTsdownConfig(options: AdapterTsdownOptions): Promise<UserConfig$1>;
+/**
+ * tsdown config factory for an adapter's VAPOR build — the counterpart of the
+ * vite factory's nested `vf:vapor-build`: the `src/components` tree plus the
+ * theme/exports-promised entries emitted into `dist/vapor`, compiled by the 3.6
+ * vapor compiler, everything else resolved to the main dist, and external
+ * `@vueform/core` component subpaths pointed at core's vapor tree.
+ */
+export declare function createAdapterVaporTsdownConfig(options: AdapterTsdownOptions): Promise<UserConfig$1>;
 //#endregion
 //// validate-source-cli.d.ts
 export {}

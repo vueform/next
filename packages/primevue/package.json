@@ -101,7 +101,7 @@
     "registry"
   ],
   "scripts": {
-    "build": "vf-validate-source && vite build",
+    "build": "vf-validate-source && rm -rf dist && vue-tsc -p tsconfig.dts.json && tsdown && tsdown -c tsdown.vapor.config.ts",
     "check": "vue-tsc --incremental --noEmit",
     "registry": "vf-registry",
     "size": "vf-size",
@@ -131,9 +131,11 @@
     "quill": "catalog:",
     "sass-embedded": "catalog:",
     "terser": "catalog:",
+    "tsdown": "catalog:",
     "tsx": "catalog:",
     "vite-plugin-dts": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
+    "vue-tsc": "catalog:",
     "vue-vapor": "catalog:"
   },
   "peerDependencies": {

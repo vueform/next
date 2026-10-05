@@ -14,12 +14,12 @@
       "imports": []
     },
     "adapter.d.ts": {
-      "bytes": 2751,
-      "hash": "72ba62d952a7c0be"
+      "bytes": 3592,
+      "hash": "cc8e309ca71b1fc0"
     },
     "adapter.js": {
-      "bytes": 9608,
-      "hash": "1e61a061086ed30c",
+      "bytes": 9723,
+      "hash": "0d270869e2294b0d",
       "exports": [],
       "imports": []
     },
@@ -64,12 +64,12 @@
       "imports": []
     },
     "index.d.ts": {
-      "bytes": 1711,
-      "hash": "8f12701ebbf4e699"
+      "bytes": 1878,
+      "hash": "d9009bfdcfc2d028"
     },
     "index.js": {
-      "bytes": 1644,
-      "hash": "3b33e56c25704624",
+      "bytes": 1810,
+      "hash": "b405e621cf1e2cda",
       "exports": [],
       "imports": []
     },
@@ -114,12 +114,12 @@
       "imports": []
     },
     "shared.d.ts": {
-      "bytes": 7644,
-      "hash": "f21b558fcd6e13dd"
+      "bytes": 8045,
+      "hash": "f79bb2dcf5c9a712"
     },
     "shared.js": {
-      "bytes": 19785,
-      "hash": "afd8176000a3b4d2",
+      "bytes": 21288,
+      "hash": "bb16a3f8d071020a",
       "exports": [],
       "imports": []
     },
@@ -334,12 +334,12 @@
       "imports": []
     },
     "tsdown.d.ts": {
-      "bytes": 4218,
-      "hash": "ca1262434f54cd57"
+      "bytes": 6164,
+      "hash": "bc4f625962ae07ef"
     },
     "tsdown.js": {
-      "bytes": 8421,
-      "hash": "32c7da0ebe1cecbf",
+      "bytes": 14472,
+      "hash": "d35609e6d46f9694",
       "exports": [],
       "imports": []
     },

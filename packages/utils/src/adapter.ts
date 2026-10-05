@@ -70,44 +70,8 @@ export interface AdapterOptions {
   vite?: UserConfig
 }
 
-/**
- * Theme names: every raw token map in `src/themes` that has a matching
- * top-level entry (`src/<name>.ts`) — e.g. `origin`, `material`.
- */
-function themeNames(srcAbs: string): string[] {
-  const themesAbs = resolve(srcAbs, 'themes')
-  if (!existsSync(themesAbs)) return []
-  return readdirSync(themesAbs)
-    .filter((file) => file.endsWith('.ts') && !file.endsWith('.d.ts'))
-    .map((file) => basename(file, '.ts'))
-    .filter(
-      (name) => name !== 'index' && existsSync(resolve(srcAbs, `${name}.ts`))
-    )
-}
-
 function adapterExternal(options: AdapterOptions): (string | RegExp)[] {
   return ['vue', options.name, /^@vueform\/core/, ...(options.external ?? [])]
-}
-
-/**
- * Root-level vapor build entries derived from the package's exports map: every
- * `vapor` condition of the form `./dist/vapor/<name>.mjs` whose `src/<name>.ts`
- * exists.
- */
-function exportedVaporEntries(root: string, srcAbs: string): string[] {
-  const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
-  const names = new Set<string>()
-
-  for (const value of Object.values(pkg.exports ?? {})) {
-    const vapor = (value as Record<string, unknown> | null)?.vapor
-    if (typeof vapor !== 'string') continue
-    const match = vapor.match(/^\.\/dist\/vapor\/([\w-]+)\.mjs$/)
-    if (match && existsSync(resolve(srcAbs, `${match[1]}.ts`))) {
-      names.add(match[1])
-    }
-  }
-
-  return [...names]
 }
 
 /**
@@ -218,12 +182,48 @@ function vaporBuild(
 }
 
 /**
+ * Theme names: every raw token map in `src/themes` that has a matching
+ * top-level entry (`src/<name>.ts`) — e.g. `origin`, `material`.
+ */
+export function themeNames(srcAbs: string): string[] {
+  const themesAbs = resolve(srcAbs, 'themes')
+  if (!existsSync(themesAbs)) return []
+  return readdirSync(themesAbs)
+    .filter((file) => file.endsWith('.ts') && !file.endsWith('.d.ts'))
+    .map((file) => basename(file, '.ts'))
+    .filter(
+      (name) => name !== 'index' && existsSync(resolve(srcAbs, `${name}.ts`))
+    )
+}
+
+/**
+ * Root-level vapor build entries derived from the package's exports map: every
+ * `vapor` condition of the form `./dist/vapor/<name>.mjs` whose `src/<name>.ts`
+ * exists.
+ */
+export function exportedVaporEntries(root: string, srcAbs: string): string[] {
+  const pkg = JSON.parse(readFileSync(join(root, 'package.json'), 'utf8'))
+  const names = new Set<string>()
+
+  for (const value of Object.values(pkg.exports ?? {})) {
+    const vapor = (value as Record<string, unknown> | null)?.vapor
+    if (typeof vapor !== 'string') continue
+    const match = vapor.match(/^\.\/dist\/vapor\/([\w-]+)\.mjs$/)
+    if (match && existsSync(resolve(srcAbs, `${match[1]}.ts`))) {
+      names.add(match[1])
+    }
+  }
+
+  return [...names]
+}
+
+/**
  * Runs the CDN builds after the main bundle is written: one minified IIFE
  * bundle per theme (`dist/<theme>.global.js` + `dist/<theme>.css`), with
  * everything bundled — components, theme, styles — except `vue`, consumed as
  * the global `Vue`.
  */
-function cdnBuild(
+export function cdnBuild(
   options: AdapterOptions,
   root: string,
   srcAbs: string

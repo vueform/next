@@ -9,13 +9,19 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { join, relative, resolve, sep } from 'node:path'
+import { cdnBuild, exportedVaporEntries, themeNames } from './adapter'
 import {
+  componentNames,
   escapeRegExp,
   mirrorEntries,
   namespaceExports,
   pruneModules,
+  scssExternals,
   shorthandProps,
   shorthandsMarker,
+  sourceSideEffects,
+  srcAlias,
+  themeCss,
   themeScss,
   vaporExternals,
 } from './shared'
@@ -151,6 +157,12 @@ export function dtsRewrites(
           if (!entry.name.endsWith('.d.ts')) continue
           const content = readFileSync(abs, 'utf8')
           let rewritten = content
+          // Named rewrites first: patterns like the adapters' alias-form
+          // scss-to-css rewrite must see the ORIGINAL `#alias/...` specifier
+          // before the generic alias pass relativizes it.
+          for (const { pattern, replacement } of rewrites) {
+            rewritten = rewritten.replace(pattern, replacement)
+          }
           if (aliasRe) {
             rewritten = rewritten.replace(
               aliasRe,
@@ -161,9 +173,6 @@ export function dtsRewrites(
                 return `${quote}${rel}${quote}`
               }
             )
-          }
-          for (const { pattern, replacement } of rewrites) {
-            rewritten = rewritten.replace(pattern, replacement)
           }
           const stray =
             rewritten.match(/declare module ['"][^'"]*\.ts['"]/) ??
@@ -206,6 +215,32 @@ const coreExternal = (options: CoreTsdownOptions) => [
 const MJS_DTS = () => ({ js: '.mjs' as const, dts: '.d.ts' as const })
 
 /**
+ * Options for the adapter tsdown factories.
+ */
+export interface AdapterTsdownOptions {
+  /**
+   * The package's published name (e.g. `'@vueform/ui'`).
+   */
+  name: string
+  /**
+   * Alias pointing at the source directory (e.g. `'#ui'`).
+   */
+  alias?: string
+  /**
+   * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
+   * subpaths) are always external.
+   */
+  external?: (string | RegExp)[]
+  /**
+   * Also emit the minified per-theme CDN bundles after the main build. Runs the
+   * existing programmatic VITE build (`cdnBuild`): the CDN artifact bundles
+   * scss through vite's sass css pipeline into `<theme>.css`, which tsdown has
+   * no equivalent for — an accepted leaf exception to the tsdown migration.
+   */
+  cdn?: boolean
+}
+
+/**
  * tsdown config factory for the core package's MAIN build — the counterpart of
  * `createCoreConfig` (the vite factory): every source module mirrors into
  * `dist` at its own path (`.mjs` beside its `.d.ts`), scss compiles through the
@@ -235,11 +270,6 @@ export async function createCoreTsdownConfig(
     minify: false,
     target: false,
     deps: { neverBundle: coreExternal(options) },
-    inputOptions: {
-      resolve: {
-        alias: options.alias ? { [options.alias]: srcAbs } : {},
-      },
-    },
     // d.ts comes from a separate `vue-tsc -p tsconfig.dts.json` step run
     // BEFORE this build (see the package's build script): per-module tsc
     // emission preserves `export *` barrels verbatim, where the dts
@@ -252,6 +282,7 @@ export async function createCoreTsdownConfig(
       shorthandsMarker(),
       pruneModules(),
       namespaceExports(),
+      ...(options.alias ? [srcAlias(options.alias, srcAbs)] : []),
       themeScss(
         root,
         resolve(srcAbs, 'scss'),
@@ -309,17 +340,220 @@ export async function createCoreVaporTsdownConfig(
     minify: false,
     target: false,
     deps: { neverBundle: coreExternal(options) },
-    inputOptions: {
-      resolve: {
-        alias: options.alias ? { [options.alias]: srcAbs } : {},
-      },
-    },
     // Types are not re-emitted; vapor exports reuse the main dist's d.ts.
     dts: false,
+    inputOptions: {
+      // The vapor-externals plugin rewrites the absolute main-dist ids
+      // itself (relative to each chunk) — rolldown must not pre-relativize
+      // them against the package root.
+      makeAbsoluteExternalsRelative: false,
+    },
     plugins: [
       shorthandsMarker(),
       pruneModules(),
       namespaceExports(),
+      ...(options.alias ? [srcAlias(options.alias, srcAbs)] : []),
+      vaporExternals(root, srcAbs, resolve(root, outDir), [componentsAbs]),
+      Vue({
+        isProduction: true,
+        compiler: VaporCompiler,
+        features: { vapor: true },
+        template: { compilerOptions: { comments: false } },
+      }),
+    ],
+  }
+}
+
+const adapterTsdownExternal = (options: AdapterTsdownOptions) => [
+  'vue',
+  options.name,
+  /^@vueform\/core/,
+  ...(options.external ?? []),
+]
+
+/**
+ * External css imports (the scss-externals rewrites) are side-effectful and
+ * must survive; other externals are droppable when unused; local modules always
+ * keep their side effects. Mirrors the vite factories' rules.
+ */
+const CSS_SIDE_EFFECT_RULES = [
+  { test: /\.css$/, sideEffects: true, external: true },
+  { sideEffects: false, external: true },
+  { sideEffects: true, external: false },
+]
+
+const STYLES_SIDECARS = [/src\/components\/[^/]+\/styles\.ts$/]
+
+/**
+ * tsdown config factory for an adapter's MAIN build — the counterpart of
+ * `createAdapterConfig` (the vite factory): `src` mirrored 1:1 into `dist`,
+ * component scss imports externalized to `<name>/<chunk>.css`, the theme
+ * scss/css pipeline, vdom-compiled SFCs, d.ts rewrites as a post-write pass,
+ * and optionally the CDN builds. The vapor tree is a separate config
+ * (`createAdapterVaporTsdownConfig`) run AFTER this one by the build script;
+ * d.ts come from a `vue-tsc -p tsconfig.dts.json` step run BEFORE (see the core
+ * factory for why).
+ */
+export async function createAdapterTsdownConfig(
+  options: AdapterTsdownOptions
+): Promise<UserConfig> {
+  const { default: Vue } = await import('unplugin-vue/rolldown')
+
+  const root = process.cwd()
+  const srcAbs = resolve(root, 'src')
+  const scssAbs = resolve(srcAbs, 'scss')
+  const outAbs = resolve(root, 'dist')
+
+  const rewrites: DtsRewrite[] = [
+    // The styles sidecars' side-effect imports keep their source spelling;
+    // rewrite to the published subpaths BEFORE the generic alias pass.
+    ...(options.alias
+      ? [
+          {
+            pattern: new RegExp(
+              `(["'])${escapeRegExp(options.alias)}/scss/([\\w-]+)\\.scss(["'])`,
+              'g'
+            ),
+            replacement: `$1${options.name}/$2.css$3`,
+          },
+        ]
+      : []),
+    // TS declaration emit names inferred types via the nearest in-program
+    // re-exporter — this package's own src/index.ts — as a source-relative
+    // `.ts` specifier. src is not shipped, so rewrite to the public entry.
+    {
+      pattern: /['"][^'"]*?src\/index\.ts['"]/g,
+      replacement: `'${options.name}'`,
+    },
+  ]
+
+  return {
+    entry: mirrorEntries(srcAbs),
+    unbundle: true,
+    format: ['es'],
+    outDir: 'dist',
+    outExtensions: MJS_DTS,
+    platform: 'neutral',
+    minify: false,
+    target: false,
+    clean: false,
+    dts: false,
+    define: {
+      // Selects the vdom function form of shared dual-mode directives.
+      __VUEFORM_VAPOR__: 'false',
+    },
+    deps: { neverBundle: adapterTsdownExternal(options) },
+    treeshake: { moduleSideEffects: CSS_SIDE_EFFECT_RULES },
+    plugins: [
+      shorthandsMarker(),
+      pruneModules(),
+      namespaceExports(),
+      sourceSideEffects(STYLES_SIDECARS),
+      scssExternals(options.name, scssAbs, options.alias),
+      ...(options.alias ? [srcAlias(options.alias, srcAbs)] : []),
+      themeScss(
+        root,
+        scssAbs,
+        resolve(outAbs, 'scss'),
+        resolve(outAbs, 'css'),
+        { '@vueform/core': '../core/src/scss' }
+      ),
+      themeCss(
+        root,
+        resolve(scssAbs, 'theme.scss'),
+        resolve(outAbs, 'css'),
+        resolve(outAbs, 'css/theme.css'),
+        resolve(outAbs, 'scss/theme.scss')
+      ),
+      Vue({
+        isProduction: true,
+        template: { compilerOptions: { comments: false } },
+      }),
+      dtsRewrites(
+        outAbs,
+        rewrites,
+        options.alias ? { [options.alias]: outAbs } : {}
+      ),
+      shorthandProps(outAbs, '@vueform/core', resolve(srcAbs, 'components')),
+      componentNames(resolve(outAbs, 'components')),
+      ...(options.cdn
+        ? [cdnBuild({ name: options.name, alias: options.alias }, root, srcAbs)]
+        : []),
+    ],
+  }
+}
+
+/**
+ * tsdown config factory for an adapter's VAPOR build — the counterpart of the
+ * vite factory's nested `vf:vapor-build`: the `src/components` tree plus the
+ * theme/exports-promised entries emitted into `dist/vapor`, compiled by the 3.6
+ * vapor compiler, everything else resolved to the main dist, and external
+ * `@vueform/core` component subpaths pointed at core's vapor tree.
+ */
+export async function createAdapterVaporTsdownConfig(
+  options: AdapterTsdownOptions
+): Promise<UserConfig> {
+  const { default: Vue } = await import('unplugin-vue/rolldown')
+
+  const root = process.cwd()
+  const srcAbs = resolve(root, 'src')
+  const componentsAbs = resolve(srcAbs, 'components')
+  const outDir = 'dist/vapor'
+
+  const consumerRequire = createRequire(join(root, 'package.json'))
+  const VaporCompiler = consumerRequire('vue-compiler-sfc-vapor')
+  VaporCompiler.registerTS(() => consumerRequire('typescript'))
+
+  const entries: Record<string, string> = {}
+  for (const [name, file] of Object.entries(mirrorEntries(componentsAbs))) {
+    entries[`components/${name}`] = file
+  }
+  for (const theme of themeNames(srcAbs)) {
+    entries[theme] = resolve(srcAbs, `${theme}.ts`)
+  }
+  for (const name of exportedVaporEntries(root, srcAbs)) {
+    entries[name] = resolve(srcAbs, `${name}.ts`)
+  }
+
+  return {
+    entry: entries,
+    unbundle: true,
+    format: ['es'],
+    outDir,
+    outExtensions: MJS_DTS,
+    platform: 'neutral',
+    minify: false,
+    target: false,
+    dts: false,
+    define: {
+      // Selects the vapor function form of shared dual-mode directives.
+      __VUEFORM_VAPOR__: 'true',
+    },
+    inputOptions: {
+      // The vapor-externals plugin rewrites the absolute main-dist ids
+      // itself (relative to each chunk) — rolldown must not pre-relativize
+      // them against the package root.
+      makeAbsoluteExternalsRelative: false,
+    },
+    deps: { neverBundle: adapterTsdownExternal(options) },
+    treeshake: { moduleSideEffects: CSS_SIDE_EFFECT_RULES },
+    outputOptions: {
+      // Point external core component imports at core's vapor tree.
+      paths: (id: string) =>
+        id.startsWith('@vueform/core/components/')
+          ? id.replace(
+              '@vueform/core/components/',
+              '@vueform/core/vapor/components/'
+            )
+          : id,
+    },
+    plugins: [
+      shorthandsMarker(),
+      pruneModules(),
+      namespaceExports(),
+      sourceSideEffects(STYLES_SIDECARS),
+      scssExternals(options.name, resolve(srcAbs, 'scss'), options.alias),
+      ...(options.alias ? [srcAlias(options.alias, srcAbs)] : []),
       vaporExternals(root, srcAbs, resolve(root, outDir), [componentsAbs]),
       Vue({
         isProduction: true,

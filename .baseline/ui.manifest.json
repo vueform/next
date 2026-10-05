@@ -8,8 +8,8 @@
   },
   "files": {
     "_virtual/_rolldown/runtime.mjs": {
-      "bytes": 1103,
-      "hash": "7c610ecb59969300",
+      "bytes": 1147,
+      "hash": "ef600449cfc1be53",
       "exports": [
         "__exportAll",
         "__reExport"
@@ -21,8 +21,8 @@
       "hash": "9b4b9c186d1e8d1f"
     },
     "blueprints/addon.mjs": {
-      "bytes": 48,
-      "hash": "a1eaa0cf5a0ff357",
+      "bytes": 47,
+      "hash": "fa7119ec73ac262a",
       "exports": [
         "* from @vueform/core/blueprints/addon"
       ],
@@ -35,8 +35,8 @@
       "hash": "b42ca59a756d2041"
     },
     "blueprints/button.mjs": {
-      "bytes": 49,
-      "hash": "aa347382bb67cf07",
+      "bytes": 48,
+      "hash": "11987f6db430ce84",
       "exports": [
         "* from @vueform/core/blueprints/button"
       ],
@@ -49,8 +49,8 @@
       "hash": "8c0ccdc31b1d6ccd"
     },
     "blueprints/checkbox.mjs": {
-      "bytes": 51,
-      "hash": "d6e9778b49644c0f",
+      "bytes": 50,
+      "hash": "ac15167ed8dbb202",
       "exports": [
         "* from @vueform/core/blueprints/checkbox"
       ],
@@ -63,8 +63,8 @@
       "hash": "1702d1a00df4dad5"
     },
     "blueprints/checkboxes.mjs": {
-      "bytes": 53,
-      "hash": "0cfc77f3e361312d",
+      "bytes": 52,
+      "hash": "8c30db6645560a82",
       "exports": [
         "* from @vueform/core/blueprints/checkboxes"
       ],
@@ -77,8 +77,8 @@
       "hash": "52385d71f54bfbfa"
     },
     "blueprints/col.mjs": {
-      "bytes": 46,
-      "hash": "d901575e6fe4b910",
+      "bytes": 45,
+      "hash": "697c1bfde98653b0",
       "exports": [
         "* from @vueform/core/blueprints/col"
       ],
@@ -91,8 +91,8 @@
       "hash": "de1799fca246ea9b"
     },
     "blueprints/content.mjs": {
-      "bytes": 50,
-      "hash": "1408f67fd4bc26ca",
+      "bytes": 49,
+      "hash": "559fa8a8f80835be",
       "exports": [
         "* from @vueform/core/blueprints/content"
       ],
@@ -105,8 +105,8 @@
       "hash": "ca5dd6d22498c3f5"
     },
     "blueprints/elements.mjs": {
-      "bytes": 51,
-      "hash": "1d1a83947a4fb080",
+      "bytes": 50,
+      "hash": "d9c783989afb0eb0",
       "exports": [
         "* from @vueform/core/blueprints/elements"
       ],
@@ -119,8 +119,8 @@
       "hash": "75910253a9e6cfdb"
     },
     "blueprints/field.mjs": {
-      "bytes": 48,
-      "hash": "a37dd320686667b8",
+      "bytes": 47,
+      "hash": "ed21ade1d27577e6",
       "exports": [
         "* from @vueform/core/blueprints/field"
       ],
@@ -133,8 +133,8 @@
       "hash": "02fb27c58c19e1cf"
     },
     "blueprints/file.mjs": {
-      "bytes": 47,
-      "hash": "bc3e6a9973948ac9",
+      "bytes": 46,
+      "hash": "b21ed28ce76a1413",
       "exports": [
         "* from @vueform/core/blueprints/file"
       ],
@@ -147,8 +147,8 @@
       "hash": "d8100d0259426145"
     },
     "blueprints/form.mjs": {
-      "bytes": 47,
-      "hash": "a9d0638f5076f1b6",
+      "bytes": 46,
+      "hash": "d88ffacede68fcb7",
       "exports": [
         "* from @vueform/core/blueprints/form"
       ],
@@ -161,8 +161,8 @@
       "hash": "0f4d98047e0da6f2"
     },
     "blueprints/grid.mjs": {
-      "bytes": 47,
-      "hash": "dd24031ff8da5ae3",
+      "bytes": 46,
+      "hash": "000547aaf42c2a75",
       "exports": [
         "* from @vueform/core/blueprints/grid"
       ],
@@ -175,8 +175,8 @@
       "hash": "e4bcc6f64f347106"
     },
     "blueprints/group.mjs": {
-      "bytes": 48,
-      "hash": "11cbfecd44da6e70",
+      "bytes": 47,
+      "hash": "1aab0444d58a925b",
       "exports": [
         "* from @vueform/core/blueprints/group"
       ],
@@ -189,8 +189,8 @@
       "hash": "630398843f2b8f0b"
     },
     "blueprints/hidden.mjs": {
-      "bytes": 49,
-      "hash": "6c34cd29c0f815b5",
+      "bytes": 48,
+      "hash": "c08d30b1ad1d4505",
       "exports": [
         "* from @vueform/core/blueprints/hidden"
       ],
@@ -203,8 +203,8 @@
       "hash": "d91b3120ce7b26ac"
     },
     "blueprints/icon.mjs": {
-      "bytes": 47,
-      "hash": "5a56de08bb98ffcf",
+      "bytes": 46,
+      "hash": "cba72a143c479fa1",
       "exports": [
         "* from @vueform/core/blueprints/icon"
       ],
@@ -217,8 +217,8 @@
       "hash": "4ece0985c99c3cce"
     },
     "blueprints/languages.mjs": {
-      "bytes": 52,
-      "hash": "3c900497ac33af66",
+      "bytes": 51,
+      "hash": "14df75d1ad52cf9a",
       "exports": [
         "* from @vueform/core/blueprints/languages"
       ],
@@ -231,8 +231,8 @@
       "hash": "da89f41730147362"
     },
     "blueprints/layout.mjs": {
-      "bytes": 49,
-      "hash": "bdad972b9da633bd",
+      "bytes": 48,
+      "hash": "2b0defc9119e76cb",
       "exports": [
         "* from @vueform/core/blueprints/layout"
       ],
@@ -245,8 +245,8 @@
       "hash": "4921f4ebe638f8ed"
     },
     "blueprints/list.mjs": {
-      "bytes": 47,
-      "hash": "c3e63683991db60f",
+      "bytes": 46,
+      "hash": "a445f781e3efede4",
       "exports": [
         "* from @vueform/core/blueprints/list"
       ],
@@ -259,8 +259,8 @@
       "hash": "f3d83b77da9ac7ba"
     },
     "blueprints/matrix.mjs": {
-      "bytes": 49,
-      "hash": "54679a99ef1fce83",
+      "bytes": 48,
+      "hash": "16cb7745d6b63a8b",
       "exports": [
         "* from @vueform/core/blueprints/matrix"
       ],
@@ -273,8 +273,8 @@
       "hash": "acfb531779cc7f58"
     },
     "blueprints/nav.mjs": {
-      "bytes": 46,
-      "hash": "aae84147d9e78eb5",
+      "bytes": 45,
+      "hash": "1fb6b482c4848f68",
       "exports": [
         "* from @vueform/core/blueprints/nav"
       ],
@@ -287,8 +287,8 @@
       "hash": "3dfe95d6581d2f4c"
     },
     "blueprints/radio.mjs": {
-      "bytes": 48,
-      "hash": "111ce5cda236fc95",
+      "bytes": 47,
+      "hash": "27f3d7510ab0d2fd",
       "exports": [
         "* from @vueform/core/blueprints/radio"
       ],
@@ -301,8 +301,8 @@
       "hash": "a6e7c487345e2011"
     },
     "blueprints/radios.mjs": {
-      "bytes": 49,
-      "hash": "6be964a1c09fa0a9",
+      "bytes": 48,
+      "hash": "fa1d595ff28444be",
       "exports": [
         "* from @vueform/core/blueprints/radios"
       ],
@@ -315,8 +315,8 @@
       "hash": "d558047b74765031"
     },
     "blueprints/row.mjs": {
-      "bytes": 46,
-      "hash": "bb8f9ee16e4c737f",
+      "bytes": 45,
+      "hash": "fc4cd7107ac85633",
       "exports": [
         "* from @vueform/core/blueprints/row"
       ],
@@ -329,8 +329,8 @@
       "hash": "be238916db545edc"
     },
     "blueprints/select.mjs": {
-      "bytes": 49,
-      "hash": "e0394917b4e40d05",
+      "bytes": 48,
+      "hash": "5f9c894ca8caa1e2",
       "exports": [
         "* from @vueform/core/blueprints/select"
       ],
@@ -343,8 +343,8 @@
       "hash": "007f8e6f1a127b09"
     },
     "blueprints/steps.mjs": {
-      "bytes": 48,
-      "hash": "8f4d0bda3ca85a89",
+      "bytes": 47,
+      "hash": "998c0d5d37b00c8e",
       "exports": [
         "* from @vueform/core/blueprints/steps"
       ],
@@ -357,8 +357,8 @@
       "hash": "bcb4adbcc1181301"
     },
     "blueprints/tabs.mjs": {
-      "bytes": 47,
-      "hash": "3a290eb73e9cf781",
+      "bytes": 46,
+      "hash": "fccf7a293520a418",
       "exports": [
         "* from @vueform/core/blueprints/tabs"
       ],
@@ -371,8 +371,8 @@
       "hash": "16d1a686b0840f52"
     },
     "blueprints/text.mjs": {
-      "bytes": 47,
-      "hash": "e7721ddf362a2adb",
+      "bytes": 46,
+      "hash": "5a44be4ff62bf616",
       "exports": [
         "* from @vueform/core/blueprints/text"
       ],
@@ -385,8 +385,8 @@
       "hash": "49ed7f573ae9b52c"
     },
     "blueprints/textarea.mjs": {
-      "bytes": 51,
-      "hash": "d2f27012dcceb76d",
+      "bytes": 50,
+      "hash": "fd463201bd535766",
       "exports": [
         "* from @vueform/core/blueprints/textarea"
       ],
@@ -400,7 +400,7 @@
     },
     "components/VfAddon/index.mjs": {
       "bytes": 153,
-      "hash": "29c2dd47b8b0bd3c",
+      "hash": "0986ec4d93d7edc0",
       "exports": [
         "* from @vueform/core/components/VfAddon/raw",
         "default"
@@ -415,7 +415,7 @@
     },
     "components/VfAddon/styled.mjs": {
       "bytes": 176,
-      "hash": "9af350b0bc620798",
+      "hash": "b3cf586d7b23efde",
       "exports": [
         "* from @vueform/core/components/VfAddon",
         "default"
@@ -443,7 +443,7 @@
     },
     "components/VfAddon/unstyled.mjs": {
       "bytes": 153,
-      "hash": "1a142b0049686737",
+      "hash": "3a5297a3c799610c",
       "exports": [
         "* from @vueform/core/components/VfAddon",
         "default"
@@ -458,7 +458,7 @@
     },
     "components/VfButton/index.mjs": {
       "bytes": 155,
-      "hash": "fc89387cd90e6ed4",
+      "hash": "3a47acde483c4da1",
       "exports": [
         "* from @vueform/core/components/VfButton/raw",
         "default"
@@ -473,7 +473,7 @@
     },
     "components/VfButton/styled.mjs": {
       "bytes": 180,
-      "hash": "4022afc48dafb61f",
+      "hash": "54ad89eee9516515",
       "exports": [
         "* from @vueform/core/components/VfButton",
         "default"
@@ -502,7 +502,7 @@
     },
     "components/VfButton/unstyled.mjs": {
       "bytes": 157,
-      "hash": "b9a9fff302c67bd4",
+      "hash": "78738f1b4e5de25d",
       "exports": [
         "* from @vueform/core/components/VfButton",
         "default"
@@ -517,7 +517,7 @@
     },
     "components/VfCheckbox/index.mjs": {
       "bytes": 159,
-      "hash": "6b62f34301eb3d33",
+      "hash": "914d54358f49c7c7",
       "exports": [
         "* from @vueform/core/components/VfCheckbox/raw",
         "default"
@@ -532,7 +532,7 @@
     },
     "components/VfCheckbox/styled.mjs": {
       "bytes": 188,
-      "hash": "acfa8b1f8ce444ab",
+      "hash": "1624d35028566976",
       "exports": [
         "* from @vueform/core/components/VfCheckbox",
         "default"
@@ -560,7 +560,7 @@
     },
     "components/VfCheckbox/unstyled.mjs": {
       "bytes": 165,
-      "hash": "0e4ab8eac33ceff2",
+      "hash": "07bc57356cff7765",
       "exports": [
         "* from @vueform/core/components/VfCheckbox",
         "default"
@@ -575,7 +575,7 @@
     },
     "components/VfCheckboxes/index.mjs": {
       "bytes": 163,
-      "hash": "352482735b41d07d",
+      "hash": "3668c23ad348a745",
       "exports": [
         "* from @vueform/core/components/VfCheckboxes/raw",
         "default"
@@ -590,7 +590,7 @@
     },
     "components/VfCheckboxes/styled.mjs": {
       "bytes": 196,
-      "hash": "269c1508c5123e8a",
+      "hash": "030fac86bd086db3",
       "exports": [
         "* from @vueform/core/components/VfCheckboxes",
         "default"
@@ -618,7 +618,7 @@
     },
     "components/VfCheckboxes/unstyled.mjs": {
       "bytes": 173,
-      "hash": "0bcd1ec551d565be",
+      "hash": "f2a40ed3880e436f",
       "exports": [
         "* from @vueform/core/components/VfCheckboxes",
         "default"
@@ -633,7 +633,7 @@
     },
     "components/VfCol/index.mjs": {
       "bytes": 149,
-      "hash": "b73e93e8c5a35e21",
+      "hash": "cd1ba720653f18c8",
       "exports": [
         "* from @vueform/core/components/VfCol/raw",
         "default"
@@ -648,7 +648,7 @@
     },
     "components/VfCol/styled.mjs": {
       "bytes": 168,
-      "hash": "3f563abb65a3e7b4",
+      "hash": "30698029f8fb4f8c",
       "exports": [
         "* from @vueform/core/components/VfCol",
         "default"
@@ -676,7 +676,7 @@
     },
     "components/VfCol/unstyled.mjs": {
       "bytes": 145,
-      "hash": "3a3b16c90716161f",
+      "hash": "8d93ae755cbfc142",
       "exports": [
         "* from @vueform/core/components/VfCol",
         "default"
@@ -691,7 +691,7 @@
     },
     "components/VfContent/index.mjs": {
       "bytes": 157,
-      "hash": "e97265ac7bb2f0f2",
+      "hash": "1532679ee101ef25",
       "exports": [
         "* from @vueform/core/components/VfContent/raw",
         "default"
@@ -706,7 +706,7 @@
     },
     "components/VfContent/styled.mjs": {
       "bytes": 184,
-      "hash": "639adb8acaf49dee",
+      "hash": "0f1b39c610a0a400",
       "exports": [
         "* from @vueform/core/components/VfContent",
         "default"
@@ -734,7 +734,7 @@
     },
     "components/VfContent/unstyled.mjs": {
       "bytes": 161,
-      "hash": "a1be95296252caf6",
+      "hash": "83d3b6983b0cfb69",
       "exports": [
         "* from @vueform/core/components/VfContent",
         "default"
@@ -749,7 +749,7 @@
     },
     "components/VfElements/index.mjs": {
       "bytes": 159,
-      "hash": "aa65e5a24ec8792a",
+      "hash": "b5875158ea019ed7",
       "exports": [
         "* from @vueform/core/components/VfElements/raw",
         "default"
@@ -764,7 +764,7 @@
     },
     "components/VfElements/styled.mjs": {
       "bytes": 188,
-      "hash": "17b79c5914761e37",
+      "hash": "6ae0350007fa8897",
       "exports": [
         "* from @vueform/core/components/VfElements",
         "default"
@@ -792,7 +792,7 @@
     },
     "components/VfElements/unstyled.mjs": {
       "bytes": 165,
-      "hash": "4c5e1ffda593153a",
+      "hash": "6d808d8a6b9ba8bf",
       "exports": [
         "* from @vueform/core/components/VfElements",
         "default"
@@ -807,7 +807,7 @@
     },
     "components/VfField/index.mjs": {
       "bytes": 153,
-      "hash": "6f6f9c5568c289e5",
+      "hash": "6bb630d14c6f9aa8",
       "exports": [
         "* from @vueform/core/components/VfField/raw",
         "default"
@@ -822,7 +822,7 @@
     },
     "components/VfField/styled.mjs": {
       "bytes": 176,
-      "hash": "e8c5e5a88e87f167",
+      "hash": "c4c0e6587a71c466",
       "exports": [
         "* from @vueform/core/components/VfField",
         "default"
@@ -850,7 +850,7 @@
     },
     "components/VfField/unstyled.mjs": {
       "bytes": 153,
-      "hash": "9f360102644d2572",
+      "hash": "3520a15c56d43506",
       "exports": [
         "* from @vueform/core/components/VfField",
         "default"
@@ -865,7 +865,7 @@
     },
     "components/VfFile/index.mjs": {
       "bytes": 151,
-      "hash": "930f1cfd4f2e431f",
+      "hash": "d136cdbb44477aeb",
       "exports": [
         "* from @vueform/core/components/VfFile/raw",
         "default"
@@ -880,7 +880,7 @@
     },
     "components/VfFile/styled.mjs": {
       "bytes": 172,
-      "hash": "55618f7bc43a0876",
+      "hash": "a6318e266ace23eb",
       "exports": [
         "* from @vueform/core/components/VfFile",
         "default"
@@ -908,7 +908,7 @@
     },
     "components/VfFile/unstyled.mjs": {
       "bytes": 149,
-      "hash": "27853279a4bedf2b",
+      "hash": "109642f6a66719e1",
       "exports": [
         "* from @vueform/core/components/VfFile",
         "default"
@@ -923,7 +923,7 @@
     },
     "components/VfForm/index.mjs": {
       "bytes": 151,
-      "hash": "05a2b84850ae3d5d",
+      "hash": "a24ef7082082e56e",
       "exports": [
         "* from @vueform/core/components/VfForm/raw",
         "default"
@@ -938,7 +938,7 @@
     },
     "components/VfForm/styled.mjs": {
       "bytes": 172,
-      "hash": "8583b2fd32004d61",
+      "hash": "1ed75ca336bcdc07",
       "exports": [
         "* from @vueform/core/components/VfForm",
         "default"
@@ -966,7 +966,7 @@
     },
     "components/VfForm/unstyled.mjs": {
       "bytes": 149,
-      "hash": "bbc9a10aec1f21cd",
+      "hash": "c42bb9bf9ad9909a",
       "exports": [
         "* from @vueform/core/components/VfForm",
         "default"
@@ -981,7 +981,7 @@
     },
     "components/VfGrid/index.mjs": {
       "bytes": 151,
-      "hash": "86b2d58f72dedc96",
+      "hash": "34194de92528ba9f",
       "exports": [
         "* from @vueform/core/components/VfGrid/raw",
         "default"
@@ -996,7 +996,7 @@
     },
     "components/VfGrid/styled.mjs": {
       "bytes": 172,
-      "hash": "d8c139d792983bdc",
+      "hash": "d1619b799e902a21",
       "exports": [
         "* from @vueform/core/components/VfGrid",
         "default"
@@ -1025,7 +1025,7 @@
     },
     "components/VfGrid/unstyled.mjs": {
       "bytes": 149,
-      "hash": "bf6082731d0def50",
+      "hash": "ab6bcd1c7d335c32",
       "exports": [
         "* from @vueform/core/components/VfGrid",
         "default"
@@ -1035,12 +1035,12 @@
       ]
     },
     "components/VfGroup/index.d.ts": {
-      "bytes": 344,
-      "hash": "d8a511bfe514738f"
+      "bytes": 349,
+      "hash": "7c83c8e37bd17e8b"
     },
     "components/VfGroup/index.mjs": {
       "bytes": 153,
-      "hash": "22a5d81d2c4eb57f",
+      "hash": "c7fede211a7b54cd",
       "exports": [
         "* from @vueform/core/components/VfGroup/raw",
         "default"
@@ -1050,12 +1050,12 @@
       ]
     },
     "components/VfGroup/styled.d.ts": {
-      "bytes": 351,
-      "hash": "f81a3e47b8ca0fb5"
+      "bytes": 356,
+      "hash": "3fd97864173d269a"
     },
     "components/VfGroup/styled.mjs": {
       "bytes": 176,
-      "hash": "d6a22cf7bfcc2f44",
+      "hash": "d8aeb0b022e09a03",
       "exports": [
         "* from @vueform/core/components/VfGroup",
         "default"
@@ -1078,12 +1078,12 @@
       ]
     },
     "components/VfGroup/unstyled.d.ts": {
-      "bytes": 332,
-      "hash": "eead6d5b1b3139e0"
+      "bytes": 337,
+      "hash": "73d9d254639703fa"
     },
     "components/VfGroup/unstyled.mjs": {
       "bytes": 153,
-      "hash": "fca157e0ade922a8",
+      "hash": "47abba89e7548914",
       "exports": [
         "* from @vueform/core/components/VfGroup",
         "default"
@@ -1098,7 +1098,7 @@
     },
     "components/VfHidden/index.mjs": {
       "bytes": 155,
-      "hash": "f6f95a1a0a333a2f",
+      "hash": "48bb0f0d9be67efa",
       "exports": [
         "* from @vueform/core/components/VfHidden/raw",
         "default"
@@ -1113,7 +1113,7 @@
     },
     "components/VfHidden/styled.mjs": {
       "bytes": 157,
-      "hash": "9e6b5f2f5560dfbe",
+      "hash": "b9dc30f4d8bb6dfd",
       "exports": [
         "* from @vueform/core/components/VfHidden",
         "default"
@@ -1128,7 +1128,7 @@
     },
     "components/VfHidden/unstyled.mjs": {
       "bytes": 157,
-      "hash": "9e6b5f2f5560dfbe",
+      "hash": "b9dc30f4d8bb6dfd",
       "exports": [
         "* from @vueform/core/components/VfHidden",
         "default"
@@ -1143,7 +1143,7 @@
     },
     "components/VfIcon/index.mjs": {
       "bytes": 151,
-      "hash": "f1d27b69455596d8",
+      "hash": "e21d007908839fb6",
       "exports": [
         "* from @vueform/core/components/VfIcon/raw",
         "default"
@@ -1158,7 +1158,7 @@
     },
     "components/VfIcon/styled.mjs": {
       "bytes": 172,
-      "hash": "f04f01dbbe25872f",
+      "hash": "d656cbc4181c0411",
       "exports": [
         "* from @vueform/core/components/VfIcon",
         "default"
@@ -1187,7 +1187,7 @@
     },
     "components/VfIcon/unstyled.mjs": {
       "bytes": 149,
-      "hash": "ced78528f2249c6b",
+      "hash": "2ac4098a417c072c",
       "exports": [
         "* from @vueform/core/components/VfIcon",
         "default"
@@ -1202,7 +1202,7 @@
     },
     "components/VfLanguages/index.mjs": {
       "bytes": 161,
-      "hash": "426e65bd22f2c7a7",
+      "hash": "d695867edc4adc1b",
       "exports": [
         "* from @vueform/core/components/VfLanguages/raw",
         "default"
@@ -1217,7 +1217,7 @@
     },
     "components/VfLanguages/styled.mjs": {
       "bytes": 192,
-      "hash": "b078583a728d1c0e",
+      "hash": "cf9250b26850178e",
       "exports": [
         "* from @vueform/core/components/VfLanguages",
         "default"
@@ -1245,7 +1245,7 @@
     },
     "components/VfLanguages/unstyled.mjs": {
       "bytes": 169,
-      "hash": "e3bb876f4065fd19",
+      "hash": "7a27e6c1ff743790",
       "exports": [
         "* from @vueform/core/components/VfLanguages",
         "default"
@@ -1260,7 +1260,7 @@
     },
     "components/VfLayout/index.mjs": {
       "bytes": 155,
-      "hash": "dd70c312581538e5",
+      "hash": "8edc0981709d79de",
       "exports": [
         "* from @vueform/core/components/VfLayout/raw",
         "default"
@@ -1275,7 +1275,7 @@
     },
     "components/VfLayout/styled.mjs": {
       "bytes": 180,
-      "hash": "9aa152bdc0566882",
+      "hash": "f34bf05a45d85405",
       "exports": [
         "* from @vueform/core/components/VfLayout",
         "default"
@@ -1309,7 +1309,7 @@
     },
     "components/VfLayout/unstyled.mjs": {
       "bytes": 157,
-      "hash": "c2c591e7666020d5",
+      "hash": "b54bcd4199524c38",
       "exports": [
         "* from @vueform/core/components/VfLayout",
         "default"
@@ -1324,7 +1324,7 @@
     },
     "components/VfList/index.mjs": {
       "bytes": 151,
-      "hash": "f19b3dd4fc798e9a",
+      "hash": "bdce4344497b5e36",
       "exports": [
         "* from @vueform/core/components/VfList/raw",
         "default"
@@ -1339,7 +1339,7 @@
     },
     "components/VfList/styled.mjs": {
       "bytes": 172,
-      "hash": "7474526db399741b",
+      "hash": "c8e3a269e234fa0a",
       "exports": [
         "* from @vueform/core/components/VfList",
         "default"
@@ -1367,7 +1367,7 @@
     },
     "components/VfList/unstyled.mjs": {
       "bytes": 149,
-      "hash": "056bb5f91c03cc34",
+      "hash": "71ed34014a8b61c5",
       "exports": [
         "* from @vueform/core/components/VfList",
         "default"
@@ -1382,7 +1382,7 @@
     },
     "components/VfMatrix/index.mjs": {
       "bytes": 155,
-      "hash": "3b7c6357c1a74a86",
+      "hash": "eaaa683e1d626dc4",
       "exports": [
         "* from @vueform/core/components/VfMatrix/raw",
         "default"
@@ -1397,7 +1397,7 @@
     },
     "components/VfMatrix/styled.mjs": {
       "bytes": 180,
-      "hash": "2b748784cb6f9d06",
+      "hash": "4087070659c5afcf",
       "exports": [
         "* from @vueform/core/components/VfMatrix",
         "default"
@@ -1426,7 +1426,7 @@
     },
     "components/VfMatrix/unstyled.mjs": {
       "bytes": 157,
-      "hash": "1b3d262ec2b51f20",
+      "hash": "cc5f49ed60abf2cd",
       "exports": [
         "* from @vueform/core/components/VfMatrix",
         "default"
@@ -1441,7 +1441,7 @@
     },
     "components/VfNav/index.mjs": {
       "bytes": 149,
-      "hash": "ec23a129378d4e40",
+      "hash": "462de45ad256adf3",
       "exports": [
         "* from @vueform/core/components/VfNav/raw",
         "default"
@@ -1456,7 +1456,7 @@
     },
     "components/VfNav/styled.mjs": {
       "bytes": 168,
-      "hash": "e940cad982b4fe78",
+      "hash": "8dd3eda72fb31b06",
       "exports": [
         "* from @vueform/core/components/VfNav",
         "default"
@@ -1484,7 +1484,7 @@
     },
     "components/VfNav/unstyled.mjs": {
       "bytes": 145,
-      "hash": "9322a53937370dea",
+      "hash": "0770b08c0f043bf3",
       "exports": [
         "* from @vueform/core/components/VfNav",
         "default"
@@ -1499,7 +1499,7 @@
     },
     "components/VfRadio/index.mjs": {
       "bytes": 153,
-      "hash": "70c57edd14f546ee",
+      "hash": "c250818ad1e445ea",
       "exports": [
         "* from @vueform/core/components/VfRadio/raw",
         "default"
@@ -1514,7 +1514,7 @@
     },
     "components/VfRadio/styled.mjs": {
       "bytes": 176,
-      "hash": "95293467f63871ba",
+      "hash": "1258e0485dfa9924",
       "exports": [
         "* from @vueform/core/components/VfRadio",
         "default"
@@ -1542,7 +1542,7 @@
     },
     "components/VfRadio/unstyled.mjs": {
       "bytes": 153,
-      "hash": "0b876049f4933a64",
+      "hash": "1465c3aeab1c8a3d",
       "exports": [
         "* from @vueform/core/components/VfRadio",
         "default"
@@ -1557,7 +1557,7 @@
     },
     "components/VfRadios/index.mjs": {
       "bytes": 155,
-      "hash": "d09a8a324543c281",
+      "hash": "36f34e88fd7dd174",
       "exports": [
         "* from @vueform/core/components/VfRadios/raw",
         "default"
@@ -1572,7 +1572,7 @@
     },
     "components/VfRadios/styled.mjs": {
       "bytes": 180,
-      "hash": "e1f1f7173a30024f",
+      "hash": "50aa3639005b8104",
       "exports": [
         "* from @vueform/core/components/VfRadios",
         "default"
@@ -1600,7 +1600,7 @@
     },
     "components/VfRadios/unstyled.mjs": {
       "bytes": 157,
-      "hash": "c295a65429347c62",
+      "hash": "b7452a91901c8f2b",
       "exports": [
         "* from @vueform/core/components/VfRadios",
         "default"
@@ -1615,7 +1615,7 @@
     },
     "components/VfRow/index.mjs": {
       "bytes": 149,
-      "hash": "45f3378a3352ec97",
+      "hash": "09c78c93f232754f",
       "exports": [
         "* from @vueform/core/components/VfRow/raw",
         "default"
@@ -1630,7 +1630,7 @@
     },
     "components/VfRow/styled.mjs": {
       "bytes": 168,
-      "hash": "69a1a2ca9ecca285",
+      "hash": "86769307ff646984",
       "exports": [
         "* from @vueform/core/components/VfRow",
         "default"
@@ -1658,7 +1658,7 @@
     },
     "components/VfRow/unstyled.mjs": {
       "bytes": 145,
-      "hash": "3d909dd5d303c91c",
+      "hash": "e750baee1ee717ef",
       "exports": [
         "* from @vueform/core/components/VfRow",
         "default"
@@ -1673,7 +1673,7 @@
     },
     "components/VfSelect/index.mjs": {
       "bytes": 155,
-      "hash": "1dce4a39473d938b",
+      "hash": "e3b1101442622123",
       "exports": [
         "* from @vueform/core/components/VfSelect/raw",
         "default"
@@ -1688,7 +1688,7 @@
     },
     "components/VfSelect/styled.mjs": {
       "bytes": 180,
-      "hash": "c630e9aa30482553",
+      "hash": "0da7c1d3585a919c",
       "exports": [
         "* from @vueform/core/components/VfSelect",
         "default"
@@ -1717,7 +1717,7 @@
     },
     "components/VfSelect/unstyled.mjs": {
       "bytes": 157,
-      "hash": "33ae654c3dd4408c",
+      "hash": "77c186598927e4f7",
       "exports": [
         "* from @vueform/core/components/VfSelect",
         "default"
@@ -1732,7 +1732,7 @@
     },
     "components/VfSteps/index.mjs": {
       "bytes": 153,
-      "hash": "a845c2a89373cc23",
+      "hash": "60beb307dcd3b4ab",
       "exports": [
         "* from @vueform/core/components/VfSteps/raw",
         "default"
@@ -1747,7 +1747,7 @@
     },
     "components/VfSteps/styled.mjs": {
       "bytes": 176,
-      "hash": "48c2a3b521daad29",
+      "hash": "da6fb66376e3aa3c",
       "exports": [
         "* from @vueform/core/components/VfSteps",
         "default"
@@ -1776,7 +1776,7 @@
     },
     "components/VfSteps/unstyled.mjs": {
       "bytes": 153,
-      "hash": "4c69622c7870780f",
+      "hash": "0641bae4b34a67c7",
       "exports": [
         "* from @vueform/core/components/VfSteps",
         "default"
@@ -1791,7 +1791,7 @@
     },
     "components/VfTabs/index.mjs": {
       "bytes": 151,
-      "hash": "98ee66656f0aea8f",
+      "hash": "5bc644c202fbe406",
       "exports": [
         "* from @vueform/core/components/VfTabs/raw",
         "default"
@@ -1806,7 +1806,7 @@
     },
     "components/VfTabs/styled.mjs": {
       "bytes": 172,
-      "hash": "f15b460c6c6ad76e",
+      "hash": "33445df5c960dd8c",
       "exports": [
         "* from @vueform/core/components/VfTabs",
         "default"
@@ -1834,7 +1834,7 @@
     },
     "components/VfTabs/unstyled.mjs": {
       "bytes": 149,
-      "hash": "3fd4b82a2eed505e",
+      "hash": "99fe3129ddfe8bc3",
       "exports": [
         "* from @vueform/core/components/VfTabs",
         "default"
@@ -1849,7 +1849,7 @@
     },
     "components/VfText/index.mjs": {
       "bytes": 151,
-      "hash": "815bc35210b9002d",
+      "hash": "509ba61e815b9422",
       "exports": [
         "* from @vueform/core/components/VfText/raw",
         "default"
@@ -1864,7 +1864,7 @@
     },
     "components/VfText/styled.mjs": {
       "bytes": 172,
-      "hash": "1f63f40fe4af8c28",
+      "hash": "4a0e434084543b08",
       "exports": [
         "* from @vueform/core/components/VfText",
         "default"
@@ -1893,7 +1893,7 @@
     },
     "components/VfText/unstyled.mjs": {
       "bytes": 149,
-      "hash": "6f9ce5401883450f",
+      "hash": "aad81b43fb37beca",
       "exports": [
         "* from @vueform/core/components/VfText",
         "default"
@@ -1908,7 +1908,7 @@
     },
     "components/VfTextarea/index.mjs": {
       "bytes": 159,
-      "hash": "31da8fab35789936",
+      "hash": "9e506d4c86b77acf",
       "exports": [
         "* from @vueform/core/components/VfTextarea/raw",
         "default"
@@ -1923,7 +1923,7 @@
     },
     "components/VfTextarea/styled.mjs": {
       "bytes": 188,
-      "hash": "4dc28d438ea42b11",
+      "hash": "9435dbcf235bcad6",
       "exports": [
         "* from @vueform/core/components/VfTextarea",
         "default"
@@ -1952,7 +1952,7 @@
     },
     "components/VfTextarea/unstyled.mjs": {
       "bytes": 165,
-      "hash": "4580acad6956b3e4",
+      "hash": "361ad2550d22614f",
       "exports": [
         "* from @vueform/core/components/VfTextarea",
         "default"
@@ -1966,8 +1966,8 @@
       "hash": "c7a929b3e5c8a113"
     },
     "components/index.mjs": {
-      "bytes": 3310,
-      "hash": "7ae731f2614d52d1",
+      "bytes": 3311,
+      "hash": "ed8a39941486cf08",
       "exports": [
         "VfAddon",
         "VfButton",
@@ -2037,8 +2037,8 @@
       "hash": "8ad4d4e82ae7537b"
     },
     "config.mjs": {
-      "bytes": 173,
-      "hash": "1a0adf1458a1d1bd",
+      "bytes": 174,
+      "hash": "3809d8bd37b994f8",
       "exports": [
         "default",
         "defaultConfig"
@@ -2372,20 +2372,20 @@
       "imports": []
     },
     "features/base.d.ts": {
-      "bytes": 4920,
-      "hash": "4126e57df30ef531"
+      "bytes": 4930,
+      "hash": "57239003dacf1c58"
     },
     "features/index.d.ts": {
       "bytes": 24,
       "hash": "6ad8f31659dd42a4"
     },
     "index.d.ts": {
-      "bytes": 898,
-      "hash": "f7fdbdf438c9f85d"
+      "bytes": 883,
+      "hash": "d5db3d3b354f913e"
     },
     "index.mjs": {
-      "bytes": 513,
-      "hash": "9f01b5af56428df2",
+      "bytes": 516,
+      "hash": "fd8e1e25cfbf56a1",
       "exports": [
         "* from @vueform/core",
         "createVueform",
@@ -2401,8 +2401,8 @@
       "hash": "900bb019fd4029c0"
     },
     "locales/index.mjs": {
-      "bytes": 39,
-      "hash": "380fdae7b6b96db8",
+      "bytes": 38,
+      "hash": "be4a6435e15be84b",
       "exports": [
         "* from @vueform/core/locales"
       ],
@@ -2416,7 +2416,7 @@
     },
     "material.d.ts": {
       "bytes": 431,
-      "hash": "6b60b5ca5201e1ba"
+      "hash": "0d25932b58ffe95d"
     },
     "material.global.js": {
       "bytes": 432898,
@@ -2425,8 +2425,8 @@
       "imports": []
     },
     "material.mjs": {
-      "bytes": 1100,
-      "hash": "4038ad32ea8e3fcd",
+      "bytes": 1132,
+      "hash": "7132f537bcfb2744",
       "exports": [
         "createVueform"
       ],
@@ -2435,6 +2435,7 @@
         "./config.mjs",
         "./modules/modules.mjs",
         "./rules/index.mjs",
+        "./themes/index.mjs",
         "./themes/material.mjs",
         "@vueform/core",
         "@vueform/core/locales"
@@ -2445,8 +2446,8 @@
       "hash": "2af0a3b388d66670"
     },
     "modules/modules.mjs": {
-      "bytes": 348,
-      "hash": "77846c4f27a45cbc",
+      "bytes": 349,
+      "hash": "ac3929f751715b82",
       "exports": [
         "* from @vueform/core/modules"
       ],
@@ -2461,7 +2462,7 @@
     },
     "origin.d.ts": {
       "bytes": 458,
-      "hash": "7f2fb9ff532d3cc5"
+      "hash": "b78629007957e29d"
     },
     "origin.global.js": {
       "bytes": 432898,
@@ -2470,8 +2471,8 @@
       "imports": []
     },
     "origin.mjs": {
-      "bytes": 1119,
-      "hash": "6b053821680b8a6b",
+      "bytes": 1151,
+      "hash": "cf67adda6f22bd93",
       "exports": [
         "createVueform"
       ],
@@ -2480,6 +2481,7 @@
         "./config.mjs",
         "./modules/modules.mjs",
         "./rules/index.mjs",
+        "./themes/index.mjs",
         "./themes/origin.mjs",
         "@vueform/core",
         "@vueform/core/locales"
@@ -2490,8 +2492,8 @@
       "hash": "69f9565d634ea8fe"
     },
     "rules/index.mjs": {
-      "bytes": 332,
-      "hash": "ae638b25fbbd8dff",
+      "bytes": 333,
+      "hash": "6495f1793a644a58",
       "exports": [
         "* from @vueform/core/rules"
       ],
@@ -2837,12 +2839,12 @@
       "imports": []
     },
     "themes/index.d.ts": {
-      "bytes": 974,
-      "hash": "d4f96c952008f18e"
+      "bytes": 984,
+      "hash": "b42dffdb520c0da2"
     },
     "themes/index.mjs": {
-      "bytes": 962,
-      "hash": "a59d54a4d6ef20d5",
+      "bytes": 986,
+      "hash": "6aed569862ee876d",
       "exports": [
         "defineTheme",
         "extendTheme",
@@ -2854,6 +2856,7 @@
       "imports": [
         "./material.mjs",
         "./origin.mjs",
+        "./tokens.mjs",
         "@vueform/core"
       ]
     },
@@ -2862,8 +2865,8 @@
       "hash": "a19919be7f03df82"
     },
     "themes/material.mjs": {
-      "bytes": 735,
-      "hash": "017cf26972e46d24",
+      "bytes": 740,
+      "hash": "70decb8fe8cc7efa",
       "exports": [
         "material",
         "materialComponentTokens"
@@ -2877,8 +2880,8 @@
       "hash": "ce4bf41bffb4370a"
     },
     "themes/origin.mjs": {
-      "bytes": 706,
-      "hash": "73ece0dba58e1c55",
+      "bytes": 711,
+      "hash": "83cc23c4800657f8",
       "exports": [
         "origin",
         "originComponentTokens"
@@ -2893,7 +2896,7 @@
     },
     "themes/tokens.mjs": {
       "bytes": 207,
-      "hash": "7ea891c2fc5506f7",
+      "hash": "838e148cbc94c09b",
       "exports": [
         "material",
         "materialComponentTokens",
@@ -2906,8 +2909,8 @@
       ]
     },
     "vapor/_virtual/_rolldown/runtime.mjs": {
-      "bytes": 355,
-      "hash": "a88624d6e13adee1",
+      "bytes": 372,
+      "hash": "7e6526a114855257",
       "exports": [
         "__exportAll"
       ],
@@ -2915,7 +2918,7 @@
     },
     "vapor/components/VfAddon/index.mjs": {
       "bytes": 165,
-      "hash": "2b3092202bd87060",
+      "hash": "bc3c2d55df870eed",
       "exports": [
         "* from @vueform/core/vapor/components/VfAddon/raw",
         "default"
@@ -2926,7 +2929,7 @@
     },
     "vapor/components/VfAddon/styled.mjs": {
       "bytes": 188,
-      "hash": "0f7c5c1a101d4eb9",
+      "hash": "f4bb15cb5ef26abc",
       "exports": [
         "* from @vueform/core/vapor/components/VfAddon",
         "default"
@@ -2946,7 +2949,7 @@
     },
     "vapor/components/VfAddon/unstyled.mjs": {
       "bytes": 165,
-      "hash": "5b5c3c16cbeb40b5",
+      "hash": "91aa9ad1e4aa964e",
       "exports": [
         "* from @vueform/core/vapor/components/VfAddon",
         "default"
@@ -2957,7 +2960,7 @@
     },
     "vapor/components/VfButton/index.mjs": {
       "bytes": 167,
-      "hash": "f9ca912d68339c5f",
+      "hash": "4d8547cca2f49653",
       "exports": [
         "* from @vueform/core/vapor/components/VfButton/raw",
         "default"
@@ -2968,7 +2971,7 @@
     },
     "vapor/components/VfButton/styled.mjs": {
       "bytes": 192,
-      "hash": "d7142713c66d9245",
+      "hash": "bdd8b5762721ae1b",
       "exports": [
         "* from @vueform/core/vapor/components/VfButton",
         "default"
@@ -2989,7 +2992,7 @@
     },
     "vapor/components/VfButton/unstyled.mjs": {
       "bytes": 169,
-      "hash": "6ad97148d7d2c7de",
+      "hash": "b33d8e5d47657440",
       "exports": [
         "* from @vueform/core/vapor/components/VfButton",
         "default"
@@ -3000,7 +3003,7 @@
     },
     "vapor/components/VfCheckbox/index.mjs": {
       "bytes": 171,
-      "hash": "57e20141cbf2decd",
+      "hash": "ceeea1845df61246",
       "exports": [
         "* from @vueform/core/vapor/components/VfCheckbox/raw",
         "default"
@@ -3011,7 +3014,7 @@
     },
     "vapor/components/VfCheckbox/styled.mjs": {
       "bytes": 200,
-      "hash": "44f0f43301262f7e",
+      "hash": "a1cb66d79dbb472e",
       "exports": [
         "* from @vueform/core/vapor/components/VfCheckbox",
         "default"
@@ -3031,7 +3034,7 @@
     },
     "vapor/components/VfCheckbox/unstyled.mjs": {
       "bytes": 177,
-      "hash": "f964fee332d2b5ce",
+      "hash": "af45844f26390bf7",
       "exports": [
         "* from @vueform/core/vapor/components/VfCheckbox",
         "default"
@@ -3042,7 +3045,7 @@
     },
     "vapor/components/VfCheckboxes/index.mjs": {
       "bytes": 175,
-      "hash": "0cfa9e54aa40aed9",
+      "hash": "afbbc78b29c39e0f",
       "exports": [
         "* from @vueform/core/vapor/components/VfCheckboxes/raw",
         "default"
@@ -3053,7 +3056,7 @@
     },
     "vapor/components/VfCheckboxes/styled.mjs": {
       "bytes": 208,
-      "hash": "dbbd3e028f0f912d",
+      "hash": "ee25ce1f863066a4",
       "exports": [
         "* from @vueform/core/vapor/components/VfCheckboxes",
         "default"
@@ -3073,7 +3076,7 @@
     },
     "vapor/components/VfCheckboxes/unstyled.mjs": {
       "bytes": 185,
-      "hash": "918c3274bbc9e5b8",
+      "hash": "9a9d95d87a86bea9",
       "exports": [
         "* from @vueform/core/vapor/components/VfCheckboxes",
         "default"
@@ -3084,7 +3087,7 @@
     },
     "vapor/components/VfCol/index.mjs": {
       "bytes": 161,
-      "hash": "5d4ca4c24ca620dd",
+      "hash": "2c4aed246ab96d29",
       "exports": [
         "* from @vueform/core/vapor/components/VfCol/raw",
         "default"
@@ -3095,7 +3098,7 @@
     },
     "vapor/components/VfCol/styled.mjs": {
       "bytes": 180,
-      "hash": "a8a63073d9d33151",
+      "hash": "b5ab7f6ec0a3e32e",
       "exports": [
         "* from @vueform/core/vapor/components/VfCol",
         "default"
@@ -3115,7 +3118,7 @@
     },
     "vapor/components/VfCol/unstyled.mjs": {
       "bytes": 157,
-      "hash": "c1b8911d734a6e6f",
+      "hash": "779a4f95e37fc1cb",
       "exports": [
         "* from @vueform/core/vapor/components/VfCol",
         "default"
@@ -3126,7 +3129,7 @@
     },
     "vapor/components/VfContent/index.mjs": {
       "bytes": 169,
-      "hash": "7a3ad27537cd6d86",
+      "hash": "9e95a6858bcb7710",
       "exports": [
         "* from @vueform/core/vapor/components/VfContent/raw",
         "default"
@@ -3137,7 +3140,7 @@
     },
     "vapor/components/VfContent/styled.mjs": {
       "bytes": 196,
-      "hash": "5a9e880cd7b6cea0",
+      "hash": "4253b012c9c601a6",
       "exports": [
         "* from @vueform/core/vapor/components/VfContent",
         "default"
@@ -3157,7 +3160,7 @@
     },
     "vapor/components/VfContent/unstyled.mjs": {
       "bytes": 173,
-      "hash": "fb063b21c7a3ffb8",
+      "hash": "ed45ea49f06b49d7",
       "exports": [
         "* from @vueform/core/vapor/components/VfContent",
         "default"
@@ -3168,7 +3171,7 @@
     },
     "vapor/components/VfElements/index.mjs": {
       "bytes": 171,
-      "hash": "29c4a74eebe23497",
+      "hash": "4b2289628d919d8a",
       "exports": [
         "* from @vueform/core/vapor/components/VfElements/raw",
         "default"
@@ -3179,7 +3182,7 @@
     },
     "vapor/components/VfElements/styled.mjs": {
       "bytes": 200,
-      "hash": "36dcf2ac2c367066",
+      "hash": "d2b90f90a8130fe3",
       "exports": [
         "* from @vueform/core/vapor/components/VfElements",
         "default"
@@ -3199,7 +3202,7 @@
     },
     "vapor/components/VfElements/unstyled.mjs": {
       "bytes": 177,
-      "hash": "47ab0ce25086c9ed",
+      "hash": "7933efbfd3b0044b",
       "exports": [
         "* from @vueform/core/vapor/components/VfElements",
         "default"
@@ -3210,7 +3213,7 @@
     },
     "vapor/components/VfField/index.mjs": {
       "bytes": 165,
-      "hash": "5cadd105bb2abd84",
+      "hash": "f47003a98141fb97",
       "exports": [
         "* from @vueform/core/vapor/components/VfField/raw",
         "default"
@@ -3221,7 +3224,7 @@
     },
     "vapor/components/VfField/styled.mjs": {
       "bytes": 188,
-      "hash": "01b073aa4025c3b5",
+      "hash": "d040f712dcdda04d",
       "exports": [
         "* from @vueform/core/vapor/components/VfField",
         "default"
@@ -3241,7 +3244,7 @@
     },
     "vapor/components/VfField/unstyled.mjs": {
       "bytes": 165,
-      "hash": "b317cd63ac619d7c",
+      "hash": "4e68a58e30631ddf",
       "exports": [
         "* from @vueform/core/vapor/components/VfField",
         "default"
@@ -3252,7 +3255,7 @@
     },
     "vapor/components/VfFile/index.mjs": {
       "bytes": 163,
-      "hash": "781213964a77bc04",
+      "hash": "43dbb0ad18a11768",
       "exports": [
         "* from @vueform/core/vapor/components/VfFile/raw",
         "default"
@@ -3263,7 +3266,7 @@
     },
     "vapor/components/VfFile/styled.mjs": {
       "bytes": 184,
-      "hash": "69823c34b5457c2c",
+      "hash": "f41dcb380b8729bd",
       "exports": [
         "* from @vueform/core/vapor/components/VfFile",
         "default"
@@ -3283,7 +3286,7 @@
     },
     "vapor/components/VfFile/unstyled.mjs": {
       "bytes": 161,
-      "hash": "3ad4f25c72c8dd5b",
+      "hash": "614199c0aaee952b",
       "exports": [
         "* from @vueform/core/vapor/components/VfFile",
         "default"
@@ -3294,7 +3297,7 @@
     },
     "vapor/components/VfForm/index.mjs": {
       "bytes": 163,
-      "hash": "903f93db0bf2969f",
+      "hash": "3c9cb7afa31c22f3",
       "exports": [
         "* from @vueform/core/vapor/components/VfForm/raw",
         "default"
@@ -3305,7 +3308,7 @@
     },
     "vapor/components/VfForm/styled.mjs": {
       "bytes": 184,
-      "hash": "0bffdffd7c62ec42",
+      "hash": "693b96485297f814",
       "exports": [
         "* from @vueform/core/vapor/components/VfForm",
         "default"
@@ -3325,7 +3328,7 @@
     },
     "vapor/components/VfForm/unstyled.mjs": {
       "bytes": 161,
-      "hash": "36a909a670d68ebe",
+      "hash": "1d07b534a5f140c7",
       "exports": [
         "* from @vueform/core/vapor/components/VfForm",
         "default"
@@ -3336,7 +3339,7 @@
     },
     "vapor/components/VfGrid/index.mjs": {
       "bytes": 163,
-      "hash": "879304a46548712c",
+      "hash": "4b392e32674ed138",
       "exports": [
         "* from @vueform/core/vapor/components/VfGrid/raw",
         "default"
@@ -3347,7 +3350,7 @@
     },
     "vapor/components/VfGrid/styled.mjs": {
       "bytes": 184,
-      "hash": "c2d826fdabf568fa",
+      "hash": "e0cd0229713bfa39",
       "exports": [
         "* from @vueform/core/vapor/components/VfGrid",
         "default"
@@ -3368,7 +3371,7 @@
     },
     "vapor/components/VfGrid/unstyled.mjs": {
       "bytes": 161,
-      "hash": "c4cb88097e1551e5",
+      "hash": "dfb97a2261b64def",
       "exports": [
         "* from @vueform/core/vapor/components/VfGrid",
         "default"
@@ -3379,7 +3382,7 @@
     },
     "vapor/components/VfGroup/index.mjs": {
       "bytes": 165,
-      "hash": "2a627bdc9d897dfb",
+      "hash": "e230cd761946cbd0",
       "exports": [
         "* from @vueform/core/vapor/components/VfGroup/raw",
         "default"
@@ -3390,7 +3393,7 @@
     },
     "vapor/components/VfGroup/styled.mjs": {
       "bytes": 188,
-      "hash": "87e295fe6fcce7b8",
+      "hash": "bc74aed38b530e50",
       "exports": [
         "* from @vueform/core/vapor/components/VfGroup",
         "default"
@@ -3410,7 +3413,7 @@
     },
     "vapor/components/VfGroup/unstyled.mjs": {
       "bytes": 165,
-      "hash": "88be43a0ff390428",
+      "hash": "9f76a5f32e3203c2",
       "exports": [
         "* from @vueform/core/vapor/components/VfGroup",
         "default"
@@ -3421,7 +3424,7 @@
     },
     "vapor/components/VfHidden/index.mjs": {
       "bytes": 167,
-      "hash": "b79778ee6161a291",
+      "hash": "eb451d6197ccad50",
       "exports": [
         "* from @vueform/core/vapor/components/VfHidden/raw",
         "default"
@@ -3432,7 +3435,7 @@
     },
     "vapor/components/VfHidden/styled.mjs": {
       "bytes": 169,
-      "hash": "7683adf60bb47424",
+      "hash": "64bedd1c4e19d051",
       "exports": [
         "* from @vueform/core/vapor/components/VfHidden",
         "default"
@@ -3443,7 +3446,7 @@
     },
     "vapor/components/VfHidden/unstyled.mjs": {
       "bytes": 169,
-      "hash": "7683adf60bb47424",
+      "hash": "64bedd1c4e19d051",
       "exports": [
         "* from @vueform/core/vapor/components/VfHidden",
         "default"
@@ -3454,7 +3457,7 @@
     },
     "vapor/components/VfIcon/index.mjs": {
       "bytes": 163,
-      "hash": "9c68e122d33ec71e",
+      "hash": "e5329549a3638b1f",
       "exports": [
         "* from @vueform/core/vapor/components/VfIcon/raw",
         "default"
@@ -3465,7 +3468,7 @@
     },
     "vapor/components/VfIcon/styled.mjs": {
       "bytes": 184,
-      "hash": "8dc73db889ad642d",
+      "hash": "b6444c449e4a1f10",
       "exports": [
         "* from @vueform/core/vapor/components/VfIcon",
         "default"
@@ -3486,7 +3489,7 @@
     },
     "vapor/components/VfIcon/unstyled.mjs": {
       "bytes": 161,
-      "hash": "c94a72c1243389d3",
+      "hash": "fce630b96e8a0660",
       "exports": [
         "* from @vueform/core/vapor/components/VfIcon",
         "default"
@@ -3497,7 +3500,7 @@
     },
     "vapor/components/VfLanguages/index.mjs": {
       "bytes": 173,
-      "hash": "44d92526adf5fcd9",
+      "hash": "f3e887ba4151deea",
       "exports": [
         "* from @vueform/core/vapor/components/VfLanguages/raw",
         "default"
@@ -3508,7 +3511,7 @@
     },
     "vapor/components/VfLanguages/styled.mjs": {
       "bytes": 204,
-      "hash": "c22c1afaf5d6d831",
+      "hash": "0f383a5e4a34c13a",
       "exports": [
         "* from @vueform/core/vapor/components/VfLanguages",
         "default"
@@ -3528,7 +3531,7 @@
     },
     "vapor/components/VfLanguages/unstyled.mjs": {
       "bytes": 181,
-      "hash": "69ab80c8592b3f04",
+      "hash": "e37ed18d8262184e",
       "exports": [
         "* from @vueform/core/vapor/components/VfLanguages",
         "default"
@@ -3539,7 +3542,7 @@
     },
     "vapor/components/VfLayout/index.mjs": {
       "bytes": 167,
-      "hash": "39749b9b0c412f18",
+      "hash": "1273486676f961d2",
       "exports": [
         "* from @vueform/core/vapor/components/VfLayout/raw",
         "default"
@@ -3550,7 +3553,7 @@
     },
     "vapor/components/VfLayout/styled.mjs": {
       "bytes": 192,
-      "hash": "6a87806a3b428172",
+      "hash": "77641d42cb4f4841",
       "exports": [
         "* from @vueform/core/vapor/components/VfLayout",
         "default"
@@ -3576,7 +3579,7 @@
     },
     "vapor/components/VfLayout/unstyled.mjs": {
       "bytes": 169,
-      "hash": "62dc879a5b53b39e",
+      "hash": "09d03766ee49a346",
       "exports": [
         "* from @vueform/core/vapor/components/VfLayout",
         "default"
@@ -3587,7 +3590,7 @@
     },
     "vapor/components/VfList/index.mjs": {
       "bytes": 163,
-      "hash": "4c324908a54af0b8",
+      "hash": "61797f6a72dbbc81",
       "exports": [
         "* from @vueform/core/vapor/components/VfList/raw",
         "default"
@@ -3598,7 +3601,7 @@
     },
     "vapor/components/VfList/styled.mjs": {
       "bytes": 184,
-      "hash": "59f9ed8ce123d421",
+      "hash": "5613659302dd3a5e",
       "exports": [
         "* from @vueform/core/vapor/components/VfList",
         "default"
@@ -3618,7 +3621,7 @@
     },
     "vapor/components/VfList/unstyled.mjs": {
       "bytes": 161,
-      "hash": "bf11cf7d24e869fd",
+      "hash": "38713c0893201724",
       "exports": [
         "* from @vueform/core/vapor/components/VfList",
         "default"
@@ -3629,7 +3632,7 @@
     },
     "vapor/components/VfMatrix/index.mjs": {
       "bytes": 167,
-      "hash": "5da1f41fea17a763",
+      "hash": "03486f7462aec13a",
       "exports": [
         "* from @vueform/core/vapor/components/VfMatrix/raw",
         "default"
@@ -3640,7 +3643,7 @@
     },
     "vapor/components/VfMatrix/styled.mjs": {
       "bytes": 192,
-      "hash": "bd6a55f0fbbc7d03",
+      "hash": "fb975e76f0cb9fff",
       "exports": [
         "* from @vueform/core/vapor/components/VfMatrix",
         "default"
@@ -3661,7 +3664,7 @@
     },
     "vapor/components/VfMatrix/unstyled.mjs": {
       "bytes": 169,
-      "hash": "e216b0580c3e1c63",
+      "hash": "b70179261f65d005",
       "exports": [
         "* from @vueform/core/vapor/components/VfMatrix",
         "default"
@@ -3672,7 +3675,7 @@
     },
     "vapor/components/VfNav/index.mjs": {
       "bytes": 161,
-      "hash": "bdd438cbf48c18fd",
+      "hash": "937838337fef000d",
       "exports": [
         "* from @vueform/core/vapor/components/VfNav/raw",
         "default"
@@ -3683,7 +3686,7 @@
     },
     "vapor/components/VfNav/styled.mjs": {
       "bytes": 180,
-      "hash": "0036939f603dc7cc",
+      "hash": "e809ee538666e667",
       "exports": [
         "* from @vueform/core/vapor/components/VfNav",
         "default"
@@ -3703,7 +3706,7 @@
     },
     "vapor/components/VfNav/unstyled.mjs": {
       "bytes": 157,
-      "hash": "e63ee162a47a8141",
+      "hash": "af886a6639f7e152",
       "exports": [
         "* from @vueform/core/vapor/components/VfNav",
         "default"
@@ -3714,7 +3717,7 @@
     },
     "vapor/components/VfRadio/index.mjs": {
       "bytes": 165,
-      "hash": "c7958660ce81cc14",
+      "hash": "c1f3bbda0f57d9ec",
       "exports": [
         "* from @vueform/core/vapor/components/VfRadio/raw",
         "default"
@@ -3725,7 +3728,7 @@
     },
     "vapor/components/VfRadio/styled.mjs": {
       "bytes": 188,
-      "hash": "d2d2815e1161bd17",
+      "hash": "fb7e740953a27550",
       "exports": [
         "* from @vueform/core/vapor/components/VfRadio",
         "default"
@@ -3745,7 +3748,7 @@
     },
     "vapor/components/VfRadio/unstyled.mjs": {
       "bytes": 165,
-      "hash": "86d4c05a717e5406",
+      "hash": "36377e0cc9142449",
       "exports": [
         "* from @vueform/core/vapor/components/VfRadio",
         "default"
@@ -3756,7 +3759,7 @@
     },
     "vapor/components/VfRadios/index.mjs": {
       "bytes": 167,
-      "hash": "d4dfc6eec972fe28",
+      "hash": "9bd57cd052c4f190",
       "exports": [
         "* from @vueform/core/vapor/components/VfRadios/raw",
         "default"
@@ -3767,7 +3770,7 @@
     },
     "vapor/components/VfRadios/styled.mjs": {
       "bytes": 192,
-      "hash": "61de7774beb7a3c2",
+      "hash": "a486cc16634c8aa1",
       "exports": [
         "* from @vueform/core/vapor/components/VfRadios",
         "default"
@@ -3787,7 +3790,7 @@
     },
     "vapor/components/VfRadios/unstyled.mjs": {
       "bytes": 169,
-      "hash": "cc86f34ddd15929c",
+      "hash": "b60b64c9dde4dfa9",
       "exports": [
         "* from @vueform/core/vapor/components/VfRadios",
         "default"
@@ -3798,7 +3801,7 @@
     },
     "vapor/components/VfRow/index.mjs": {
       "bytes": 161,
-      "hash": "1e967acbc216f486",
+      "hash": "2d0d179d425c2665",
       "exports": [
         "* from @vueform/core/vapor/components/VfRow/raw",
         "default"
@@ -3809,7 +3812,7 @@
     },
     "vapor/components/VfRow/styled.mjs": {
       "bytes": 180,
-      "hash": "2be1ac1e28cc0b15",
+      "hash": "7f3284e9654f5f53",
       "exports": [
         "* from @vueform/core/vapor/components/VfRow",
         "default"
@@ -3829,7 +3832,7 @@
     },
     "vapor/components/VfRow/unstyled.mjs": {
       "bytes": 157,
-      "hash": "6093a011d41b1606",
+      "hash": "15aa8b069cf29793",
       "exports": [
         "* from @vueform/core/vapor/components/VfRow",
         "default"
@@ -3840,7 +3843,7 @@
     },
     "vapor/components/VfSelect/index.mjs": {
       "bytes": 167,
-      "hash": "9a27e6e29302a15a",
+      "hash": "cb576927528c4268",
       "exports": [
         "* from @vueform/core/vapor/components/VfSelect/raw",
         "default"
@@ -3851,7 +3854,7 @@
     },
     "vapor/components/VfSelect/styled.mjs": {
       "bytes": 192,
-      "hash": "390c49d4e53e1a0c",
+      "hash": "45579df188684480",
       "exports": [
         "* from @vueform/core/vapor/components/VfSelect",
         "default"
@@ -3872,7 +3875,7 @@
     },
     "vapor/components/VfSelect/unstyled.mjs": {
       "bytes": 169,
-      "hash": "8d282ffcbe9cea8a",
+      "hash": "07dbc2011ec6cbf6",
       "exports": [
         "* from @vueform/core/vapor/components/VfSelect",
         "default"
@@ -3883,7 +3886,7 @@
     },
     "vapor/components/VfSteps/index.mjs": {
       "bytes": 165,
-      "hash": "f1ce9bbc8d30fb76",
+      "hash": "beff7072785b4d10",
       "exports": [
         "* from @vueform/core/vapor/components/VfSteps/raw",
         "default"
@@ -3894,7 +3897,7 @@
     },
     "vapor/components/VfSteps/styled.mjs": {
       "bytes": 188,
-      "hash": "ba16e0df29a556a1",
+      "hash": "e073b778ebc3a95a",
       "exports": [
         "* from @vueform/core/vapor/components/VfSteps",
         "default"
@@ -3915,7 +3918,7 @@
     },
     "vapor/components/VfSteps/unstyled.mjs": {
       "bytes": 165,
-      "hash": "57a30dae989207f1",
+      "hash": "0a2a6f53fa0a767a",
       "exports": [
         "* from @vueform/core/vapor/components/VfSteps",
         "default"
@@ -3926,7 +3929,7 @@
     },
     "vapor/components/VfTabs/index.mjs": {
       "bytes": 163,
-      "hash": "b8aceb88756ac930",
+      "hash": "a3818fecc3d719ee",
       "exports": [
         "* from @vueform/core/vapor/components/VfTabs/raw",
         "default"
@@ -3937,7 +3940,7 @@
     },
     "vapor/components/VfTabs/styled.mjs": {
       "bytes": 184,
-      "hash": "2fde371e80b5a9c7",
+      "hash": "1d6b6f3d4fb8bf13",
       "exports": [
         "* from @vueform/core/vapor/components/VfTabs",
         "default"
@@ -3957,7 +3960,7 @@
     },
     "vapor/components/VfTabs/unstyled.mjs": {
       "bytes": 161,
-      "hash": "bf4ffdd3a31d4f8c",
+      "hash": "b9dce1222d62262c",
       "exports": [
         "* from @vueform/core/vapor/components/VfTabs",
         "default"
@@ -3968,7 +3971,7 @@
     },
     "vapor/components/VfText/index.mjs": {
       "bytes": 163,
-      "hash": "e23fe4cd205dc715",
+      "hash": "9d57924f4653dd7d",
       "exports": [
         "* from @vueform/core/vapor/components/VfText/raw",
         "default"
@@ -3979,7 +3982,7 @@
     },
     "vapor/components/VfText/styled.mjs": {
       "bytes": 184,
-      "hash": "ff17f31ad72f31c8",
+      "hash": "26207ad8ec6c435d",
       "exports": [
         "* from @vueform/core/vapor/components/VfText",
         "default"
@@ -4000,7 +4003,7 @@
     },
     "vapor/components/VfText/unstyled.mjs": {
       "bytes": 161,
-      "hash": "89215bdd6d4dfe2e",
+      "hash": "a69cad5fed1dd164",
       "exports": [
         "* from @vueform/core/vapor/components/VfText",
         "default"
@@ -4011,7 +4014,7 @@
     },
     "vapor/components/VfTextarea/index.mjs": {
       "bytes": 171,
-      "hash": "3a343be71f4e2b98",
+      "hash": "9eb5b344239d964f",
       "exports": [
         "* from @vueform/core/vapor/components/VfTextarea/raw",
         "default"
@@ -4022,7 +4025,7 @@
     },
     "vapor/components/VfTextarea/styled.mjs": {
       "bytes": 200,
-      "hash": "8b83aa4982b64736",
+      "hash": "086ac11ec2ae33d2",
       "exports": [
         "* from @vueform/core/vapor/components/VfTextarea",
         "default"
@@ -4043,7 +4046,7 @@
     },
     "vapor/components/VfTextarea/unstyled.mjs": {
       "bytes": 177,
-      "hash": "4c6aa1c5b983a0a2",
+      "hash": "9310b041596369a4",
       "exports": [
         "* from @vueform/core/vapor/components/VfTextarea",
         "default"
@@ -4053,8 +4056,8 @@
       ]
     },
     "vapor/components/index.mjs": {
-      "bytes": 3310,
-      "hash": "7ae731f2614d52d1",
+      "bytes": 3311,
+      "hash": "ed8a39941486cf08",
       "exports": [
         "VfAddon",
         "VfButton",
@@ -4116,8 +4119,8 @@
       ]
     },
     "vapor/material.mjs": {
-      "bytes": 1051,
-      "hash": "be982d2a92ec39fd",
+      "bytes": 1054,
+      "hash": "142f2a0cbfa3cb23",
       "exports": [
         "createVueform"
       ],
@@ -4132,8 +4135,8 @@
       ]
     },
     "vapor/origin.mjs": {
-      "bytes": 1072,
-      "hash": "ff6fb239d686dfb5",
+      "bytes": 1075,
+      "hash": "a3c0ce5c20357571",
       "exports": [
         "createVueform"
       ],

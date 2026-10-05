@@ -8,11 +8,17 @@ export type { CoreOptions } from './core'
 export { createPluginConfig } from './plugin'
 export type { PluginOptions } from './plugin'
 export {
+  createAdapterTsdownConfig,
+  createAdapterVaporTsdownConfig,
   createCoreTsdownConfig,
   createCoreVaporTsdownConfig,
   createPluginTsdownConfig,
 } from './tsdown'
-export type { CoreTsdownOptions, PluginTsdownOptions } from './tsdown'
+export type {
+  AdapterTsdownOptions,
+  CoreTsdownOptions,
+  PluginTsdownOptions,
+} from './tsdown'
 export { packageSourceAliases, workspaceSourceAliases } from './sourceAliases'
 export type { SourceAliasOptions } from './sourceAliases'
 export { runBenchDts } from './benchDts'
