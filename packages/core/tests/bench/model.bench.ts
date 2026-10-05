@@ -1,4 +1,4 @@
-import { bench, describe } from 'vitest'
+import { describe, test } from 'vitest'
 import { nextTick } from 'vue'
 import { createForm } from '../helpers'
 import { allValues, flatText } from './fixtures'
@@ -11,20 +11,26 @@ import { allValues, flatText } from './fixtures'
 describe('model', () => {
   const { form$ } = createForm({ schema: flatText(200) })
 
-  bench('update all 200 values at once', async () => {
-    form$.update(allValues(200))
-    await nextTick()
+  test('update all 200 values at once', async ({ bench }) => {
+    await bench('update all 200 values at once', async () => {
+      form$.update(allValues(200))
+      await nextTick()
+    }).run()
   })
 
-  bench('load data into 200 elements', async () => {
-    await form$.load(allValues(200))
-    await nextTick()
+  test('load data into 200 elements', async ({ bench }) => {
+    await bench('load data into 200 elements', async () => {
+      await form$.load(allValues(200))
+      await nextTick()
+    }).run()
   })
 
   const { el_0 } = createForm({ schema: flatText(200) })
 
-  bench('update a single element of 200', async () => {
-    el_0.update(`typed ${Date.now()}`)
-    await nextTick()
+  test('update a single element of 200', async ({ bench }) => {
+    await bench('update a single element of 200', async () => {
+      el_0.update(`typed ${Date.now()}`)
+      await nextTick()
+    }).run()
   })
 })

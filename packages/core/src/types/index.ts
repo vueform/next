@@ -10,5 +10,3 @@ export * from './slots'
 export * from './standardSchema'
 export * from './theme'
 export * from './utils'
-
-export {}

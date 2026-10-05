@@ -1765,7 +1765,7 @@ type FormApiBase = Omit<ReturnType<typeof setup>, keyof FormSchemaApi>;
  * unwrapped), falling back to the wide `FormSchema`.
  */
 type FormPropsSchema<TProps> = TProps extends {
-    schema?: MaybeRef<infer S | undefined>;
+    schema?: MaybeRef<(infer S) | undefined>;
 } ? [S] extends [never] ? FormSchema : S : FormSchema;
 /**
  * Props for the form component blueprint, optionally parameterized by a
@@ -30418,7 +30418,6 @@ export * from './slots';
 export * from './standardSchema';
 export * from './theme';
 export * from './utils';
-export {};
 
 //// types/presets.d.ts
 import type { ComponentOptions } from 'vue';

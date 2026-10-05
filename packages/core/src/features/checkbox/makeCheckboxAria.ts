@@ -52,8 +52,8 @@ export const makeCheckboxAria = defineFeature(
           'aria-describedby':
             [
               text?.value && !!props.label ? labelId.value : null,
-              !!props.help ? helpId.value : null,
-              !!props.description ? descriptionId.value : null,
+              props.help ? helpId.value : null,
+              props.description ? descriptionId.value : null,
               hasError.value ? errorId.value : null,
             ]
               .filter((d) => !!d)

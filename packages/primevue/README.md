@@ -6,7 +6,7 @@ PrimeVue adapter for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-05T10:30:16.960Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform, no PrimeVue).
+Generated at 2026-10-05T12:39:22.162Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform, no PrimeVue).
 
 All numbers show only what Vueform adds **on top of PrimeVue** — matched builds importing the same raw `primevue/*` modules without Vueform are subtracted.
 
@@ -69,8 +69,8 @@ What each module adds to the bundle when registered.
 | `devtools` | 16.29&nbsp;kB |
 | `model` | 6.90&nbsp;kB |
 | `validation` | 5.42&nbsp;kB |
-| `theme` | 1.80&nbsp;kB |
-| `conditions` | 1.70&nbsp;kB |
+| `theme` | 1.76&nbsp;kB |
+| `conditions` | 1.78&nbsp;kB |
 | `autosave` | 1.79&nbsp;kB |
 | `security` | 1.48&nbsp;kB |
 | `expression` | 1.15&nbsp;kB |
@@ -78,7 +78,7 @@ What each module adds to the bundle when registered.
 | `router` | 0.47&nbsp;kB |
 | `locale` | 0.18&nbsp;kB |
 | `date` | 0.09&nbsp;kB |
-| **Total** | 37.30&nbsp;kB |
+| **Total** | 37.28&nbsp;kB |
 
 </details>
 
@@ -91,7 +91,7 @@ What each module adds to the bundle when registered.
 | `model` | 23.77&nbsp;kB |
 | `validation` | 19.13&nbsp;kB |
 | `theme` | 5.84&nbsp;kB |
-| `conditions` | 6.69&nbsp;kB |
+| `conditions` | 6.68&nbsp;kB |
 | `autosave` | 5.53&nbsp;kB |
 | `security` | 4.31&nbsp;kB |
 | `expression` | 3.58&nbsp;kB |
@@ -99,7 +99,7 @@ What each module adds to the bundle when registered.
 | `router` | 1.58&nbsp;kB |
 | `locale` | 0.90&nbsp;kB |
 | `date` | 0.37&nbsp;kB |
-| **Total** | 130.48&nbsp;kB |
+| **Total** | 130.47&nbsp;kB |
 
 </details>
 
@@ -114,32 +114,32 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| `VfForm` | 7.61&nbsp;kB | 0.00&nbsp;kB |
-| `VfMatrix` | 4.80&nbsp;kB | 1.08&nbsp;kB |
-| `VfLayout` | 3.51&nbsp;kB | 0.71&nbsp;kB |
-| `VfList` | 2.13&nbsp;kB | 0.17&nbsp;kB |
+| `VfForm` | 7.63&nbsp;kB | 0.00&nbsp;kB |
+| `VfMatrix` | 4.79&nbsp;kB | 1.08&nbsp;kB |
+| `VfLayout` | 3.50&nbsp;kB | 0.71&nbsp;kB |
 | `VfEditor` | 1.92&nbsp;kB | 0.37&nbsp;kB |
-| `VfGrid` | 2.26&nbsp;kB | 0.00&nbsp;kB |
-| `VfFileUpload` | 2.07&nbsp;kB | 0.05&nbsp;kB |
-| `VfListbox` | 2.07&nbsp;kB | 0.00&nbsp;kB |
-| `VfTreeSelect` | 1.83&nbsp;kB | 0.00&nbsp;kB |
-| `VfInputNumber` | 1.56&nbsp;kB | 0.00&nbsp;kB |
-| `VfColorPicker` | 1.53&nbsp;kB | 0.02&nbsp;kB |
+| `VfList` | 2.12&nbsp;kB | 0.17&nbsp;kB |
+| `VfGrid` | 2.25&nbsp;kB | 0.00&nbsp;kB |
+| `VfFileUpload` | 2.08&nbsp;kB | 0.05&nbsp;kB |
+| `VfListbox` | 2.08&nbsp;kB | 0.00&nbsp;kB |
+| `VfTreeSelect` | 1.84&nbsp;kB | 0.00&nbsp;kB |
+| `VfInputNumber` | 1.57&nbsp;kB | 0.00&nbsp;kB |
+| `VfColorPicker` | 1.54&nbsp;kB | 0.02&nbsp;kB |
 | `VfNav` | 1.33&nbsp;kB | 0.12&nbsp;kB |
 | `VfDatePicker` | 1.41&nbsp;kB | 0.00&nbsp;kB |
-| `VfCascadeSelect` | 1.19&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadioButton` | 1.16&nbsp;kB | 0.00&nbsp;kB |
-| `VfButton` | 1.09&nbsp;kB | 0.02&nbsp;kB |
+| `VfCascadeSelect` | 1.20&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadioButton` | 1.14&nbsp;kB | 0.00&nbsp;kB |
+| `VfButton` | 1.11&nbsp;kB | 0.02&nbsp;kB |
+| `VfAddon` | 0.51&nbsp;kB | 0.56&nbsp;kB |
 | `VfPassword` | 1.07&nbsp;kB | 0.00&nbsp;kB |
-| `VfAddon` | 0.50&nbsp;kB | 0.56&nbsp;kB |
 | `VfCheckbox` | 0.83&nbsp;kB | 0.00&nbsp;kB |
-| `VfAutoComplete` | 0.81&nbsp;kB | 0.00&nbsp;kB |
-| `VfCol` | 0.80&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadioButtonGroup` | 0.73&nbsp;kB | 0.00&nbsp;kB |
-| `VfMultiSelect` | 0.69&nbsp;kB | 0.00&nbsp;kB |
+| `VfAutoComplete` | 0.82&nbsp;kB | 0.00&nbsp;kB |
+| `VfCol` | 0.81&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadioButtonGroup` | 0.72&nbsp;kB | 0.00&nbsp;kB |
+| `VfMultiSelect` | 0.70&nbsp;kB | 0.00&nbsp;kB |
 | `VfCheckboxGroup` | 0.68&nbsp;kB | -0.01&nbsp;kB |
 | `VfRating` | 0.57&nbsp;kB | 0.01&nbsp;kB |
-| `VfInputMask` | 0.57&nbsp;kB | 0.00&nbsp;kB |
+| `VfInputMask` | 0.56&nbsp;kB | 0.00&nbsp;kB |
 | `VfGroup` | 0.44&nbsp;kB | 0.07&nbsp;kB |
 | `VfSelect` | 0.44&nbsp;kB | 0.00&nbsp;kB |
 | `VfSlider` | 0.39&nbsp;kB | 0.04&nbsp;kB |
@@ -149,13 +149,13 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 | `VfField` | 0.37&nbsp;kB | 0.00&nbsp;kB |
 | `VfToggleButton` | 0.25&nbsp;kB | 0.00&nbsp;kB |
 | `VfRow` | 0.23&nbsp;kB | 0.00&nbsp;kB |
-| `VfHidden` | 0.21&nbsp;kB | 0.00&nbsp;kB |
+| `VfHidden` | 0.22&nbsp;kB | 0.00&nbsp;kB |
 | `VfElements` | 0.13&nbsp;kB | 0.00&nbsp;kB |
 | `VfTextarea` | 0.11&nbsp;kB | 0.00&nbsp;kB |
 | `VfSelectButton` | -0.02&nbsp;kB | 0.00&nbsp;kB |
 | `VfInputOtp` | -0.06&nbsp;kB | 0.00&nbsp;kB |
 | `VfKnob` | -0.17&nbsp;kB | 0.04&nbsp;kB |
-| **Total** | 73.92&nbsp;kB | 5.52&nbsp;kB |
+| **Total** | 74.02&nbsp;kB | 5.52&nbsp;kB |
 
 </details>
 
@@ -164,48 +164,48 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| `VfForm` | 5.59&nbsp;kB | 0.00&nbsp;kB |
-| `VfMatrix` | 3.28&nbsp;kB | 0.90&nbsp;kB |
-| `VfLayout` | 3.39&nbsp;kB | 0.59&nbsp;kB |
-| `VfList` | 1.21&nbsp;kB | 0.12&nbsp;kB |
-| `VfEditor` | 1.21&nbsp;kB | 0.33&nbsp;kB |
-| `VfGrid` | 1.66&nbsp;kB | 0.00&nbsp;kB |
-| `VfFileUpload` | 0.87&nbsp;kB | 0.04&nbsp;kB |
-| `VfListbox` | 0.03&nbsp;kB | 0.00&nbsp;kB |
-| `VfTreeSelect` | 0.48&nbsp;kB | 0.00&nbsp;kB |
-| `VfInputNumber` | 0.38&nbsp;kB | 0.00&nbsp;kB |
-| `VfColorPicker` | 0.18&nbsp;kB | 0.01&nbsp;kB |
-| `VfNav` | 0.95&nbsp;kB | 0.11&nbsp;kB |
-| `VfDatePicker` | 0.57&nbsp;kB | 0.00&nbsp;kB |
+| `VfForm` | 5.55&nbsp;kB | 0.00&nbsp;kB |
+| `VfMatrix` | 3.12&nbsp;kB | 0.90&nbsp;kB |
+| `VfLayout` | 3.30&nbsp;kB | 0.59&nbsp;kB |
+| `VfEditor` | 1.09&nbsp;kB | 0.33&nbsp;kB |
+| `VfList` | 1.11&nbsp;kB | 0.12&nbsp;kB |
+| `VfGrid` | 1.63&nbsp;kB | 0.00&nbsp;kB |
+| `VfFileUpload` | 0.79&nbsp;kB | 0.04&nbsp;kB |
+| `VfListbox` | -0.07&nbsp;kB | 0.00&nbsp;kB |
+| `VfTreeSelect` | 0.45&nbsp;kB | 0.00&nbsp;kB |
+| `VfInputNumber` | 0.43&nbsp;kB | 0.00&nbsp;kB |
+| `VfColorPicker` | 0.30&nbsp;kB | 0.01&nbsp;kB |
+| `VfNav` | 0.78&nbsp;kB | 0.11&nbsp;kB |
+| `VfDatePicker` | 0.44&nbsp;kB | 0.00&nbsp;kB |
 | `VfCascadeSelect` | -0.21&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadioButton` | 0.45&nbsp;kB | 0.00&nbsp;kB |
-| `VfButton` | 0.65&nbsp;kB | 0.03&nbsp;kB |
-| `VfPassword` | -0.07&nbsp;kB | 0.00&nbsp;kB |
-| `VfAddon` | 0.28&nbsp;kB | 0.47&nbsp;kB |
-| `VfCheckbox` | 0.24&nbsp;kB | -0.03&nbsp;kB |
-| `VfAutoComplete` | 0.51&nbsp;kB | 0.00&nbsp;kB |
-| `VfCol` | 0.50&nbsp;kB | -0.02&nbsp;kB |
-| `VfRadioButtonGroup` | 0.25&nbsp;kB | 0.00&nbsp;kB |
-| `VfMultiSelect` | 0.40&nbsp;kB | 0.00&nbsp;kB |
-| `VfCheckboxGroup` | 0.05&nbsp;kB | 0.00&nbsp;kB |
-| `VfRating` | 0.02&nbsp;kB | -0.01&nbsp;kB |
-| `VfInputMask` | 0.18&nbsp;kB | 0.00&nbsp;kB |
-| `VfGroup` | 0.39&nbsp;kB | 0.05&nbsp;kB |
-| `VfSelect` | 0.12&nbsp;kB | 0.00&nbsp;kB |
-| `VfSlider` | 0.33&nbsp;kB | 0.00&nbsp;kB |
-| `VfToggleSwitch` | 0.26&nbsp;kB | 0.03&nbsp;kB |
-| `VfInputText` | 0.32&nbsp;kB | 0.00&nbsp;kB |
-| `VfContent` | 0.17&nbsp;kB | 0.03&nbsp;kB |
-| `VfField` | 0.36&nbsp;kB | 0.00&nbsp;kB |
-| `VfToggleButton` | 0.43&nbsp;kB | 0.00&nbsp;kB |
-| `VfRow` | 0.30&nbsp;kB | 0.00&nbsp;kB |
-| `VfHidden` | 0.19&nbsp;kB | 0.00&nbsp;kB |
-| `VfElements` | 0.14&nbsp;kB | 0.02&nbsp;kB |
-| `VfTextarea` | 0.28&nbsp;kB | 0.00&nbsp;kB |
-| `VfSelectButton` | 0.22&nbsp;kB | 0.00&nbsp;kB |
-| `VfInputOtp` | -0.04&nbsp;kB | 0.00&nbsp;kB |
-| `VfKnob` | 0.15&nbsp;kB | 0.04&nbsp;kB |
-| **Total** | 45.15&nbsp;kB | 4.83&nbsp;kB |
+| `VfRadioButton` | 0.02&nbsp;kB | 0.00&nbsp;kB |
+| `VfButton` | 0.76&nbsp;kB | 0.03&nbsp;kB |
+| `VfAddon` | 0.20&nbsp;kB | 0.47&nbsp;kB |
+| `VfPassword` | 0.00&nbsp;kB | 0.00&nbsp;kB |
+| `VfCheckbox` | 0.10&nbsp;kB | -0.03&nbsp;kB |
+| `VfAutoComplete` | 0.58&nbsp;kB | 0.00&nbsp;kB |
+| `VfCol` | 0.23&nbsp;kB | -0.02&nbsp;kB |
+| `VfRadioButtonGroup` | 0.14&nbsp;kB | 0.00&nbsp;kB |
+| `VfMultiSelect` | 0.45&nbsp;kB | 0.00&nbsp;kB |
+| `VfCheckboxGroup` | 0.22&nbsp;kB | 0.00&nbsp;kB |
+| `VfRating` | -0.02&nbsp;kB | -0.01&nbsp;kB |
+| `VfInputMask` | 0.17&nbsp;kB | 0.00&nbsp;kB |
+| `VfGroup` | 0.13&nbsp;kB | 0.05&nbsp;kB |
+| `VfSelect` | 0.19&nbsp;kB | 0.00&nbsp;kB |
+| `VfSlider` | 0.16&nbsp;kB | 0.00&nbsp;kB |
+| `VfToggleSwitch` | 0.23&nbsp;kB | 0.03&nbsp;kB |
+| `VfInputText` | 0.33&nbsp;kB | 0.00&nbsp;kB |
+| `VfContent` | 0.24&nbsp;kB | 0.03&nbsp;kB |
+| `VfField` | 0.14&nbsp;kB | 0.00&nbsp;kB |
+| `VfToggleButton` | 0.09&nbsp;kB | 0.00&nbsp;kB |
+| `VfRow` | 0.18&nbsp;kB | 0.00&nbsp;kB |
+| `VfHidden` | 0.23&nbsp;kB | 0.00&nbsp;kB |
+| `VfElements` | 0.04&nbsp;kB | 0.02&nbsp;kB |
+| `VfTextarea` | 0.10&nbsp;kB | 0.00&nbsp;kB |
+| `VfSelectButton` | 0.17&nbsp;kB | 0.00&nbsp;kB |
+| `VfInputOtp` | 0.06&nbsp;kB | 0.00&nbsp;kB |
+| `VfKnob` | 0.00&nbsp;kB | 0.04&nbsp;kB |
+| **Total** | 45.16&nbsp;kB | 4.83&nbsp;kB |
 
 </details>
 
@@ -214,48 +214,48 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| `VfForm` | 23.26&nbsp;kB | 0.00&nbsp;kB |
-| `VfMatrix` | 17.38&nbsp;kB | 17.29&nbsp;kB |
-| `VfLayout` | 15.27&nbsp;kB | 4.08&nbsp;kB |
-| `VfList` | 7.94&nbsp;kB | 1.38&nbsp;kB |
-| `VfEditor` | 7.74&nbsp;kB | 1.95&nbsp;kB |
+| `VfForm` | 23.31&nbsp;kB | 0.00&nbsp;kB |
+| `VfMatrix` | 17.41&nbsp;kB | 17.29&nbsp;kB |
+| `VfLayout` | 15.38&nbsp;kB | 4.08&nbsp;kB |
+| `VfEditor` | 7.76&nbsp;kB | 1.95&nbsp;kB |
+| `VfList` | 7.95&nbsp;kB | 1.38&nbsp;kB |
 | `VfGrid` | 7.75&nbsp;kB | 0.00&nbsp;kB |
-| `VfFileUpload` | 4.74&nbsp;kB | 0.23&nbsp;kB |
+| `VfFileUpload` | 4.75&nbsp;kB | 0.23&nbsp;kB |
 | `VfListbox` | 3.54&nbsp;kB | 0.00&nbsp;kB |
 | `VfTreeSelect` | 5.82&nbsp;kB | 0.00&nbsp;kB |
 | `VfInputNumber` | 4.12&nbsp;kB | 0.00&nbsp;kB |
 | `VfColorPicker` | 4.15&nbsp;kB | 0.09&nbsp;kB |
-| `VfNav` | 5.20&nbsp;kB | 0.49&nbsp;kB |
+| `VfNav` | 5.22&nbsp;kB | 0.49&nbsp;kB |
 | `VfDatePicker` | 5.34&nbsp;kB | 0.00&nbsp;kB |
 | `VfCascadeSelect` | 4.06&nbsp;kB | 0.00&nbsp;kB |
 | `VfRadioButton` | 5.00&nbsp;kB | 0.00&nbsp;kB |
-| `VfButton` | 4.12&nbsp;kB | 0.16&nbsp;kB |
-| `VfPassword` | 3.66&nbsp;kB | 0.00&nbsp;kB |
+| `VfButton` | 4.13&nbsp;kB | 0.16&nbsp;kB |
 | `VfAddon` | 1.42&nbsp;kB | 4.91&nbsp;kB |
+| `VfPassword` | 3.67&nbsp;kB | 0.00&nbsp;kB |
 | `VfCheckbox` | 4.97&nbsp;kB | 0.00&nbsp;kB |
-| `VfAutoComplete` | 4.96&nbsp;kB | 0.00&nbsp;kB |
-| `VfCol` | 2.56&nbsp;kB | 0.00&nbsp;kB |
+| `VfAutoComplete` | 4.97&nbsp;kB | 0.00&nbsp;kB |
+| `VfCol` | 2.58&nbsp;kB | 0.00&nbsp;kB |
 | `VfRadioButtonGroup` | 5.09&nbsp;kB | 0.00&nbsp;kB |
 | `VfMultiSelect` | 4.19&nbsp;kB | 0.00&nbsp;kB |
-| `VfCheckboxGroup` | 5.17&nbsp;kB | 0.00&nbsp;kB |
+| `VfCheckboxGroup` | 5.18&nbsp;kB | 0.00&nbsp;kB |
 | `VfRating` | 2.80&nbsp;kB | 0.07&nbsp;kB |
-| `VfInputMask` | 3.66&nbsp;kB | 0.00&nbsp;kB |
+| `VfInputMask` | 3.67&nbsp;kB | 0.00&nbsp;kB |
 | `VfGroup` | 3.25&nbsp;kB | 0.97&nbsp;kB |
 | `VfSelect` | 4.11&nbsp;kB | 0.00&nbsp;kB |
-| `VfSlider` | 2.73&nbsp;kB | 0.19&nbsp;kB |
+| `VfSlider` | 2.74&nbsp;kB | 0.19&nbsp;kB |
 | `VfToggleSwitch` | 3.55&nbsp;kB | 0.16&nbsp;kB |
-| `VfInputText` | 3.70&nbsp;kB | 0.00&nbsp;kB |
+| `VfInputText` | 3.71&nbsp;kB | 0.00&nbsp;kB |
 | `VfContent` | 2.09&nbsp;kB | 0.23&nbsp;kB |
-| `VfField` | 3.05&nbsp;kB | 0.00&nbsp;kB |
+| `VfField` | 3.06&nbsp;kB | 0.00&nbsp;kB |
 | `VfToggleButton` | 3.19&nbsp;kB | 0.00&nbsp;kB |
 | `VfRow` | 1.14&nbsp;kB | 0.00&nbsp;kB |
-| `VfHidden` | 1.58&nbsp;kB | 0.00&nbsp;kB |
-| `VfElements` | 0.73&nbsp;kB | 0.02&nbsp;kB |
+| `VfHidden` | 1.59&nbsp;kB | 0.00&nbsp;kB |
+| `VfElements` | 0.74&nbsp;kB | 0.02&nbsp;kB |
 | `VfTextarea` | 3.56&nbsp;kB | 0.00&nbsp;kB |
-| `VfSelectButton` | 3.26&nbsp;kB | 0.00&nbsp;kB |
+| `VfSelectButton` | 3.27&nbsp;kB | 0.00&nbsp;kB |
 | `VfInputOtp` | 3.01&nbsp;kB | 0.00&nbsp;kB |
-| `VfKnob` | 2.77&nbsp;kB | 0.22&nbsp;kB |
-| **Total** | 259.95&nbsp;kB | 48.14&nbsp;kB |
+| `VfKnob` | 2.78&nbsp;kB | 0.22&nbsp;kB |
+| **Total** | 260.33&nbsp;kB | 48.14&nbsp;kB |
 
 </details>
 
@@ -339,7 +339,7 @@ What each rule adds to the bundle when registered.
 | `regex` | 0.34&nbsp;kB |
 | `after` | 0.35&nbsp;kB |
 | `ipv6` | 0.30&nbsp;kB |
-| `email` | 0.26&nbsp;kB |
+| `email` | 0.19&nbsp;kB |
 | `gte` | 0.24&nbsp;kB |
 | `lte` | 0.26&nbsp;kB |
 | `gt` | 0.29&nbsp;kB |
@@ -381,7 +381,7 @@ What each rule adds to the bundle when registered.
 | `array` | 0.18&nbsp;kB |
 | `nullable` | 0.16&nbsp;kB |
 | `string` | 0.14&nbsp;kB |
-| **Total** | 2.88&nbsp;kB |
+| **Total** | 2.85&nbsp;kB |
 
 </details>
 
@@ -501,7 +501,7 @@ What a theme's token definitions add to the bundle.
 
 | Theme | JS |
 | --- | --- |
-| Default theme | 1.61&nbsp;kB |
+| Default theme | 1.64&nbsp;kB |
 
 </details>
 

@@ -286,7 +286,8 @@ function resolveGenericParamType(
   if (ts.isTypeReferenceNode(param.type) && !param.type.typeArguments) {
     const sym = checker.getSymbolAtLocation(param.type.typeName)
     const tpDecl = sym?.declarations?.find(ts.isTypeParameterDeclaration) as
-      ts.TypeParameterDeclaration | undefined
+      | ts.TypeParameterDeclaration
+      | undefined
 
     if (tpDecl && funcDecl.typeParameters?.includes(tpDecl)) {
       if (tpDecl.constraint) {
@@ -310,7 +311,8 @@ function resolveGenericParamType(
     if (inner && ts.isTypeReferenceNode(inner) && !inner.typeArguments) {
       const sym = checker.getSymbolAtLocation(inner.typeName)
       const tpDecl = sym?.declarations?.find(ts.isTypeParameterDeclaration) as
-        ts.TypeParameterDeclaration | undefined
+        | ts.TypeParameterDeclaration
+        | undefined
       if (tpDecl && funcDecl.typeParameters?.includes(tpDecl)) {
         return `Readonly<${inner.getText(param.getSourceFile())}>`
       }

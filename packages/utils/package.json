@@ -1,20 +1,6 @@
 {
   "name": "@vueform/utils",
   "version": "2.0.0-alpha.1",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
-      "default": "./dist/index.js"
-    },
-    "./smoke": {
-      "types": "./dist/smoke/index.d.ts",
-      "require": "./dist/smoke/index.js",
-      "default": "./dist/smoke/index.js"
-    },
-    "./type-test": "./type-test/index.ts",
-    "./visual-test": "./visual-test/index.ts"
-  },
   "bin": {
     "vf-bench-dts": "./bin/vf-bench-dts.js",
     "vf-registry": "./bin/vf-registry.js",
@@ -29,6 +15,20 @@
     "type-test",
     "visual-test"
   ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./smoke": {
+      "types": "./dist/smoke/index.d.ts",
+      "require": "./dist/smoke/index.js",
+      "default": "./dist/smoke/index.js"
+    },
+    "./type-test": "./type-test/index.ts",
+    "./visual-test": "./visual-test/index.ts"
+  },
   "scripts": {
     "build": "tsdown",
     "check": "tsc --noEmit"
@@ -41,7 +41,6 @@
     "rollup-plugin-visualizer": "catalog:",
     "typescript": "catalog:",
     "unplugin-vue": "catalog:",
-    "vite-plugin-dts": "catalog:",
     "vue": "catalog:"
   },
   "devDependencies": {

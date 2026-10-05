@@ -3,14 +3,21 @@
  * factory wrapper.
  */
 type NativeType =
-  null | undefined | number | string | boolean | symbol | Function
+  | null
+  | undefined
+  | number
+  | string
+  | boolean
+  | symbol
+  | Function
 
 /**
  * Either a factory that receives props and returns the default, or a literal
  * value when it is a native type.
  */
 type InferDefault<P, T> =
-  ((props: P) => T & {}) | (T extends NativeType ? T : never)
+  | ((props: P) => T & {})
+  | (T extends NativeType ? T : never)
 
 /**
  * Maps each prop to an optional default expressed as a factory or a matching

@@ -311,7 +311,8 @@ export interface MatrixProps<
    * an array of objects. Defaults to `'conditions'`.
    */
   colConditions?:
-    string | ((col: any) => ConditionsResult<TContext> | undefined)
+    | string
+    | ((col: any) => ConditionsResult<TContext> | undefined)
 
   /**
    * The key or function that resolves each column's custom element schema when

@@ -72,8 +72,8 @@ export const makeAria = defineFeature(
             !!label.value
               ? labelId.value
               : null,
-            !!help.value ? helpId.value : null,
-            !!description.value ? descriptionId.value : null,
+            help.value ? helpId.value : null,
+            description.value ? descriptionId.value : null,
             hasError.value ? errorId.value : null,
           ]
             .filter((d) => !!d)

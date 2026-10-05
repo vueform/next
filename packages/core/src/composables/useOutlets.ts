@@ -197,11 +197,13 @@ export function useOutlets(options: UseOutletsOptions): UseOutletsReturn {
         // resolve; plain text always renders, and HTML rendering is
         // the string-content component's decision (`$security.allowHtml`, with
         // sanitization applied at the sink).
-        if (!(
-          COMPONENT_NAME_RE.test(slot) &&
-          isRegisteredComponent(slot) &&
-          allowsComponent(slot)
-        )) {
+        if (
+          !(
+            COMPONENT_NAME_RE.test(slot) &&
+            isRegisteredComponent(slot) &&
+            allowsComponent(slot)
+          )
+        ) {
           slot = makeFromString(slot, {
             htmlArea: 'slots',
             exprKey: 'slots',

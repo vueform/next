@@ -135,10 +135,10 @@ export const makeElement = defineFeature(() => {
         id,
         model: store.model,
         register: (_instance, _path, dataPath, initialModel) => {
-          !dataPath || store.register(dataPath, initialModel)
+          if (dataPath) store.register(dataPath, initialModel)
         },
         unregister: (_instance, dataPath) => {
-          !dataPath || store.unregister(dataPath)
+          if (dataPath) store.unregister(dataPath)
         },
         update: store.set,
         subscribe: store.subscribe,

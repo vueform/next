@@ -9,5 +9,5 @@ export const numeric = createRule(
     !isNaN(parseFloat(value)) &&
     isFinite(value) &&
     !/\s/.test(String(value)) &&
-    !Boolean(String(value).match(/^0x[0-9a-f]+$/i))
+    !String(value).match(/^0x[0-9a-f]+$/i)
 )

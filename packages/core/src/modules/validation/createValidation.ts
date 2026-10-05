@@ -695,7 +695,8 @@ function makeRuleContext(options: {
       getType: getElementType,
       getOther$: (path) =>
         form$?.find(replaceWildcards(path, unit.owner.path() || '')) as
-          StatefulElement | undefined,
+          | StatefulElement
+          | undefined,
     }
     return { ...base, params }
   }

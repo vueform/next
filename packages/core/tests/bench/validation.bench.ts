@@ -1,4 +1,4 @@
-import { bench, describe } from 'vitest'
+import { describe, test } from 'vitest'
 import { createForm } from '../helpers'
 import { allValues, flatText } from './fixtures'
 
@@ -18,8 +18,10 @@ function validatedSchema(n: number) {
 }
 
 describe('validation', () => {
-  bench('mount 100 elements with rule strings', () => {
-    createForm({ schema: validatedSchema(100) })
+  test('mount 100 elements with rule strings', async ({ bench }) => {
+    await bench('mount 100 elements with rule strings', () => {
+      createForm({ schema: validatedSchema(100) })
+    }).run()
   })
 
   const { form$ } = createForm({ schema: validatedSchema(100) })
@@ -27,8 +29,10 @@ describe('validation', () => {
   // Validation is staleness-aware — an unchanged element won't re-run its
   // rules — so each iteration writes fresh values first, measuring the full
   // update-then-revalidate pass.
-  bench('update and validate 100 elements', async () => {
-    form$.update(allValues(100))
-    await form$.validate()
+  test('update and validate 100 elements', async ({ bench }) => {
+    await bench('update and validate 100 elements', async () => {
+      form$.update(allValues(100))
+      await form$.validate()
+    }).run()
   })
 })

@@ -61,6 +61,16 @@ const toolTask = (target: ToolTarget, steps: Step[]): Task => ({
   also: steps.slice(1),
 })
 
+/**
+ * Oxlint first (the fast correctness bulk, config in .oxlintrc.json); the
+ * slimmed eslint pass keeps what oxlint cannot run (vue template rules,
+ * perfectionist, the import plugin family).
+ */
+function oxlintStep(target: ToolTarget, fix: boolean): Step {
+  const fixArgs = fix ? ['--fix'] : []
+  return exec('oxlint', target.path ?? '.', ...fixArgs)
+}
+
 function eslintStep(target: ToolTarget, fix: boolean): Step {
   const fixArgs = fix ? ['--fix'] : []
   return target.path
@@ -87,20 +97,39 @@ function stylelintStep(target: ToolTarget, fix: boolean): Step {
   )
 }
 
+/**
+ * Oxfmt owns TS/JS/JSON formatting (config: .oxfmtrc.json); prettier keeps
+ * the rest (.vue, .scss, yaml, the printWidth-override files) via the
+ * .prettierignore partition.
+ */
+function oxfmtStep(target: ToolTarget, write: boolean): Step {
+  const mode = write ? [] : ['--check']
+  // Only .gitignore: by default oxfmt also honors .prettierignore, which
+  // carries the inverse partition (prettier skipping the oxfmt domain).
+  return exec('oxfmt', '--ignore-path=.gitignore', ...mode, target.path ?? '.')
+}
+
 function prettierStep(target: ToolTarget, write: boolean): Step {
   const mode = write ? '--write' : '--check'
+  // The oxfmt partition can leave a target with no prettier-domain files.
   return target.path
-    ? exec('prettier', target.path, mode)
+    ? exec('prettier', target.path, mode, '--no-error-on-unmatched-pattern')
     : exec('prettier', '.', '!packages', '!.playgrounds', mode)
 }
 
 export const lintTasks = (fix: boolean): Task[] =>
   toolTargets().map((target) =>
-    toolTask(target, [eslintStep(target, fix), stylelintStep(target, fix)])
+    toolTask(target, [
+      oxlintStep(target, fix),
+      eslintStep(target, fix),
+      stylelintStep(target, fix),
+    ])
   )
 
 export const formatTasks = (write: boolean): Task[] =>
-  toolTargets().map((target) => toolTask(target, [prettierStep(target, write)]))
+  toolTargets().map((target) =>
+    toolTask(target, [oxfmtStep(target, write), prettierStep(target, write)])
+  )
 
 /**
  * `fix` = lint autofixes plus formatting, per target.
@@ -108,8 +137,10 @@ export const formatTasks = (write: boolean): Task[] =>
 export const fixTasks = (): Task[] =>
   toolTargets().map((target) =>
     toolTask(target, [
+      oxlintStep(target, true),
       eslintStep(target, true),
       stylelintStep(target, true),
+      oxfmtStep(target, true),
       prettierStep(target, true),
     ])
   )

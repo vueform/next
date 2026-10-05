@@ -3,8 +3,8 @@
   "fileCount": 31,
   "files": {
     "core/blueprints.json": {
-      "bytes": 341250,
-      "hash": "681a3829483c4503"
+      "bytes": 341252,
+      "hash": "557142901884fcd5"
     },
     "core/classes.json": {
       "bytes": 34468,
@@ -44,19 +44,19 @@
     },
     "issues.json": {
       "bytes": 272525,
-      "hash": "8bd496159da46e1e"
+      "hash": "74fe8091177a46a8"
     },
     "primevue/blueprints.json": {
-      "bytes": 946110,
-      "hash": "7a7fc38ded50449c"
+      "bytes": 946126,
+      "hash": "9686bacc127aabe2"
     },
     "primevue/classes.json": {
       "bytes": 34732,
       "hash": "a5112e6ae442e4f2"
     },
     "primevue/components.json": {
-      "bytes": 1468570,
-      "hash": "a744d353b372336a"
+      "bytes": 1468584,
+      "hash": "f3787d55ea4ca9bc"
     },
     "primevue/composables.json": {
       "bytes": 129970,
@@ -87,8 +87,8 @@
       "hash": "7942532615d5181e"
     },
     "ui/blueprints.json": {
-      "bytes": 341250,
-      "hash": "681a3829483c4503"
+      "bytes": 341252,
+      "hash": "557142901884fcd5"
     },
     "ui/classes.json": {
       "bytes": 34468,

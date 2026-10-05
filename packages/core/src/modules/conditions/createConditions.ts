@@ -531,8 +531,6 @@ export function createConditions(vueform: VueformInstance): ConditionsModule {
         // }
         return false
     }
-
-    return false
   }
 
   const checkExpr = (condition: string, scope: EvaluationScope) => {

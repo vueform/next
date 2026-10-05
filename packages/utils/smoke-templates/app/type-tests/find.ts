@@ -28,5 +28,3 @@ type _UnknownIsAny = Expect<Equal<typeof _unknown, any>>
 // get() returns the element's value for a known path.
 const _textValue = form$.get('text')
 type _TextValueIsReal = Expect<Not<Equal<typeof _textValue, never>>>
-
-export {}

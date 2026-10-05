@@ -1,4 +1,4 @@
-import { bench, describe } from 'vitest'
+import { describe, test } from 'vitest'
 import { clone, equals, get, merge, mergeClass, set } from '#core'
 
 /**
@@ -21,38 +21,48 @@ const overlay = deepFixture(5, 4)
 const copy = clone(base)
 
 describe('object utils', () => {
-  bench('merge two deep objects', () => {
-    merge(clone(base), overlay)
+  test('merge two deep objects', async ({ bench }) => {
+    await bench('merge two deep objects', () => {
+      merge(clone(base), overlay)
+    }).run()
   })
 
-  bench('clone a deep object', () => {
-    clone(base)
+  test('clone a deep object', async ({ bench }) => {
+    await bench('clone a deep object', () => {
+      clone(base)
+    }).run()
   })
 
-  bench('equals on equal deep objects', () => {
-    equals(base, copy)
+  test('equals on equal deep objects', async ({ bench }) => {
+    await bench('equals on equal deep objects', () => {
+      equals(base, copy)
+    }).run()
   })
 })
 
 describe('path utils', () => {
   const data = deepFixture(5, 4)
 
-  bench('get 100 deep paths', () => {
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 5; j++) {
-        for (let k = 0; k < 4; k++) {
-          get(data, `key_${i}.key_${j}.key_${k}.value`)
+  test('get 100 deep paths', async ({ bench }) => {
+    await bench('get 100 deep paths', () => {
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+          for (let k = 0; k < 4; k++) {
+            get(data, `key_${i}.key_${j}.key_${k}.value`)
+          }
         }
       }
-    }
+    }).run()
   })
 
-  bench('set 25 deep paths', () => {
-    for (let i = 0; i < 5; i++) {
-      for (let j = 0; j < 5; j++) {
-        set(data, `key_${i}.key_${j}.key_0.value`, 'written')
+  test('set 25 deep paths', async ({ bench }) => {
+    await bench('set 25 deep paths', () => {
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 5; j++) {
+          set(data, `key_${i}.key_${j}.key_0.value`, 'written')
+        }
       }
-    }
+    }).run()
   })
 })
 
@@ -60,7 +70,9 @@ describe('class utils', () => {
   const a = { 'vf-input': true, 'vf-focused': false, 'vf-lg': true }
   const b = ['vf-custom', { 'vf-focused': true }]
 
-  bench('mergeClass object + array', () => {
-    mergeClass(a, b)
+  test('mergeClass object + array', async ({ bench }) => {
+    await bench('mergeClass object + array', () => {
+      mergeClass(a, b)
+    }).run()
   })
 })

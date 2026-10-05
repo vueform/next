@@ -1,4 +1,4 @@
-import { bench, describe } from 'vitest'
+import { describe, test } from 'vitest'
 import { nextTick } from 'vue'
 import { createForm } from '../helpers'
 import { flatText } from './fixtures'
@@ -22,11 +22,13 @@ function conditionalSchema(n: number) {
 }
 
 describe('conditions', () => {
-  bench('mount 100 elements with conditions', () => {
-    createForm(
-      { schema: conditionalSchema(100) },
-      { $conditions: { debounce: 0 } }
-    )
+  test('mount 100 elements with conditions', async ({ bench }) => {
+    await bench('mount 100 elements with conditions', () => {
+      createForm(
+        { schema: conditionalSchema(100) },
+        { $conditions: { debounce: 0 } }
+      )
+    }).run()
   })
 
   const { el_0 } = createForm(
@@ -35,9 +37,11 @@ describe('conditions', () => {
   )
   let toggle = false
 
-  bench('toggle the driver of 100 conditions', async () => {
-    toggle = !toggle
-    el_0.update(toggle ? 'yes' : 'no')
-    await nextTick()
+  test('toggle the driver of 100 conditions', async ({ bench }) => {
+    await bench('toggle the driver of 100 conditions', async () => {
+      toggle = !toggle
+      el_0.update(toggle ? 'yes' : 'no')
+      await nextTick()
+    }).run()
   })
 })

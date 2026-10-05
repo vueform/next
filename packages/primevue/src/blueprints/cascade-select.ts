@@ -168,8 +168,9 @@ export interface CascadeSelectProps<
    * defaulted schema surface where `TGroupChildren` is still `undefined`.
    */
   optionGroupChildren?: AllowsOptionKeyProps<TOptions> extends true
-    ? | (TGroupChildren & AllowedCascadeOptionGroupChildren<TOptions>)
-      | AllowedCascadeOptionGroupChildren<TOptions>
+    ?
+        | (TGroupChildren & AllowedCascadeOptionGroupChildren<TOptions>)
+        | AllowedCascadeOptionGroupChildren<TOptions>
     : never
 }
 

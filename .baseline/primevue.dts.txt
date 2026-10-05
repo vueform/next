@@ -32775,7 +32775,6 @@ export declare const theme: {
 export * from './primevue';
 export * from './shared';
 export * from './utils';
-export {};
 
 //// types/primevue.d.ts
 import type { HintedString } from '@primevue/core';

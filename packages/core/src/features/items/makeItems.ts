@@ -47,7 +47,8 @@ export type ItemLabel = string | ((item: any) => string)
  * lookup, or a function returning a `ConditionalProp` for reactive evaluation.
  */
 export type ItemDisabled =
-  string | ((item: any) => ConditionsResult | undefined)
+  | string
+  | ((item: any) => ConditionsResult | undefined)
 
 /**
  * Determines whether an item is available (visible). A string key for direct
@@ -55,7 +56,8 @@ export type ItemDisabled =
  * evaluation. Items whose conditions are not met are omitted from the list.
  */
 export type ItemConditions =
-  string | ((item: any) => ConditionsResult | undefined)
+  | string
+  | ((item: any) => ConditionsResult | undefined)
 
 /**
  * Determines whether a group is available. A string key for direct property
@@ -63,7 +65,8 @@ export type ItemConditions =
  * are not met are omitted entirely.
  */
 export type GroupConditions =
-  string | ((group: any) => ConditionsResult | undefined)
+  | string
+  | ((group: any) => ConditionsResult | undefined)
 
 /**
  * Resolves the label for a group. A string key or a mapping function.
@@ -75,7 +78,9 @@ export type GroupLabel = string | ((group: any) => string)
  * returning children in any ItemsProp format.
  */
 export type GroupChildren =
-  string[] | string | ((group: any) => any[] | Record<string, any>)
+  | string[]
+  | string
+  | ((group: any) => any[] | Record<string, any>)
 
 /**
  * A normalized item with resolved value, label, and disabled state. Items

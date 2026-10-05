@@ -573,7 +573,8 @@ export function useData(options: UseDataOptions) {
     for (const lang of Object.keys(languages.value)) {
       const value =
         ((isPlainObject(rawDefault) ? rawDefault[lang] : rawDefault) as
-          string | undefined) ?? nullValue.value[lang]
+          | string
+          | undefined) ?? nullValue.value[lang]
       defaults[lang] = expression.resolveIfAllowed('default', value)
     }
     return defaults

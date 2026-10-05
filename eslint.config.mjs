@@ -1,6 +1,7 @@
 import tseslint from '@typescript-eslint/eslint-plugin'
 import tsParser from '@typescript-eslint/parser'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import oxlint from 'eslint-plugin-oxlint'
 import pluginImport from 'eslint-plugin-import'
 import perfectionist from 'eslint-plugin-perfectionist'
 import unusedImports from 'eslint-plugin-unused-imports'
@@ -307,6 +308,13 @@ export default [
       'import/no-duplicates': 'off',
     },
   },
+
+  // ── Oxlint hybrid: disable the rules oxlint enforces (.oxlintrc.json) ──
+  // Oxlint runs first in `pnpm lint` / `pnpm fix` and owns the correctness
+  // bulk; eslint keeps everything oxlint cannot run (vue template rules,
+  // perfectionist, the import plugin family — incl. the dual-script SFC
+  // carve-out above).
+  ...oxlint.buildFromOxlintConfigFile('.oxlintrc.json'),
 
   // ── Prettier last: disable formatting rules ───────────────────────────
   eslintConfigPrettier,

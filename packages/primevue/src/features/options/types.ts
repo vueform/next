@@ -236,8 +236,9 @@ export type AllowedOptionGroupChildren<TOptions> = [
   OptionGroupOf<TOptions>,
 ] extends [never]
   ? string | ((group: any) => any[])
-  : | Extract<keyof OptionGroupOf<TOptions>, string>
-    | ((group: OptionGroupOf<TOptions>) => any[])
+  :
+      | Extract<keyof OptionGroupOf<TOptions>, string>
+      | ((group: OptionGroupOf<TOptions>) => any[])
 
 /**
  * Bound for the `TGroupChildren` generic of options-based elements: a group
@@ -250,14 +251,17 @@ export type AllowedOptionGroupChildren<TOptions> = [
  * `AllowedOptionGroupChildren`), not by this bound.
  */
 export type OptionGroupChildrenProp =
-  string | ((group: any) => any[]) | undefined
+  | string
+  | ((group: any) => any[])
+  | undefined
 
 /**
  * CascadeSelect also accepts a nested path array (e.g. `['states', 'cities']`)
  * for `optionGroupChildren`.
  */
 export type AllowedCascadeOptionGroupChildren<TOptions> =
-  AllowedOptionGroupChildren<TOptions> | string[]
+  | AllowedOptionGroupChildren<TOptions>
+  | string[]
 
 /**
  * Bound for the `TGroupChildren` generic of cascade-select elements: a group
@@ -271,7 +275,10 @@ export type AllowedCascadeOptionGroupChildren<TOptions> =
  * `AllowedCascadeOptionGroupChildren`), not by this bound.
  */
 export type CascadeOptionGroupChildrenProp =
-  string | string[] | ((group: any) => any[]) | undefined
+  | string
+  | string[]
+  | ((group: any) => any[])
+  | undefined
 
 /**
  * Props for PrimeVue options-based elements (`options` / `option*` naming).
@@ -327,9 +334,12 @@ export interface OptionsProps<
    *   full model inference)
    */
   optionValue?: AllowsOptionKeyProps<TOptions> extends true
-    ? | (TOptionValueKey & AllowedOptionValueKey<TOptions, TGroupChildren>)
-      | AllowedOptionValueKey<TOptions, TGroupChildren>
-      | ((option: RawOptionOf<TOptions, TGroupChildren>) => TOptionValueReturn)
+    ?
+        | (TOptionValueKey & AllowedOptionValueKey<TOptions, TGroupChildren>)
+        | AllowedOptionValueKey<TOptions, TGroupChildren>
+        | ((
+            option: RawOptionOf<TOptions, TGroupChildren>
+          ) => TOptionValueReturn)
     : never
 
   /**
@@ -377,8 +387,9 @@ export interface OptionsProps<
    * `TGroupChildren` is still `undefined`.
    */
   optionGroupChildren?: AllowsOptionKeyProps<TOptions> extends true
-    ? | (TGroupChildren & AllowedOptionGroupChildren<TOptions>)
-      | AllowedOptionGroupChildren<TOptions>
+    ?
+        | (TGroupChildren & AllowedOptionGroupChildren<TOptions>)
+        | AllowedOptionGroupChildren<TOptions>
     : never
 
   /**

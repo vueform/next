@@ -360,8 +360,8 @@
       "hash": "5b1f309aaaf5d565"
     },
     "blueprints/input-number.mjs": {
-      "bytes": 2976,
-      "hash": "97945acce0025f8f",
+      "bytes": 2974,
+      "hash": "4361e1bb9441fa2c",
       "exports": [
         "blueprint",
         "defaults",
@@ -4590,8 +4590,8 @@
       "hash": "e7a9793758152e37"
     },
     "features/aria/makeAria.mjs": {
-      "bytes": 1144,
-      "hash": "ad6f36adde6a53c4",
+      "bytes": 1140,
+      "hash": "4af77b006887970c",
       "exports": [
         "makeAria"
       ],
@@ -5471,8 +5471,8 @@
       ]
     },
     "types/index.d.ts": {
-      "bytes": 90,
-      "hash": "83253ea0f18f4d83"
+      "bytes": 79,
+      "hash": "086195bc99e9373d"
     },
     "types/primevue.d.ts": {
       "bytes": 82,
@@ -8089,8 +8089,8 @@
       "hash": "5e997712ea625ef3"
     },
     "vueform.global.js": {
-      "bytes": 1697933,
-      "hash": "d6ff9944bedeb159",
+      "bytes": 1697912,
+      "hash": "c9aa29dc7ae1754b",
       "exports": [],
       "imports": []
     }

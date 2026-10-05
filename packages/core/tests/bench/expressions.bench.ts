@@ -1,4 +1,4 @@
-import { bench, describe } from 'vitest'
+import { describe, test } from 'vitest'
 import { nextTick } from 'vue'
 import { createForm } from '../helpers'
 
@@ -25,15 +25,19 @@ function expressionSchema(n: number) {
 }
 
 describe('expressions', () => {
-  bench('mount 50 expression elements', () => {
-    createForm({ schema: expressionSchema(50) })
+  test('mount 50 expression elements', async ({ bench }) => {
+    await bench('mount 50 expression elements', () => {
+      createForm({ schema: expressionSchema(50) })
+    }).run()
   })
 
   const { base } = createForm({ schema: expressionSchema(50) })
   let value = 1
 
-  bench('update the dependency of 50 expressions', async () => {
-    base.update(++value)
-    await nextTick()
+  test('update the dependency of 50 expressions', async ({ bench }) => {
+    await bench('update the dependency of 50 expressions', async () => {
+      base.update(++value)
+      await nextTick()
+    }).run()
   })
 })

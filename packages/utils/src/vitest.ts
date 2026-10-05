@@ -98,17 +98,15 @@ export async function createVitestConfig(
           test: {
             name: 'integration',
             include: ['./tests/integration/**/*.test.ts'],
-            benchmark: { include: [] },
-          },
-        },
-        {
-          extends: true,
-          test: {
-            name: 'bench',
-            include: [],
+            // Vitest 5: `vitest bench` selects files by `benchmark.include`
+            // within the same project (`vitest bench --project integration`),
+            // while normal runs use `include` — one project, mode-based
+            // selection. A dedicated empty-`include` bench project is pruned
+            // by v5 before `--project` filtering and cannot be selected.
             benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
           },
         },
+
         ...(existsSync(join(root, 'tests/dts-dist'))
           ? [
               {

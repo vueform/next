@@ -280,11 +280,12 @@ function generateCssGrid(
       `\n\n@media (${mobileFirst ? 'min' : 'max'}-width: ${breakpoint}) {\n` +
       `  ${makeCol(undefined, size)}\n` +
       `${[...Array(12)].map((_, i) => `  ${makeCol(i + 1, size)}`).join('\n')}\n\n` +
-      `  .vf-align-label .${formatter(undefined, size)}\:vf-vertical,\n` +
-      `  :not(.vf-align-label) .${formatter(undefined, size)}\:vf-vertical {\n` +
+
+      `  .vf-align-label .${formatter(undefined, size)}\\:vf-vertical,\n` +
+      `  :not(.vf-align-label) .${formatter(undefined, size)}\\:vf-vertical {\n` +
       `    padding-top: 0;\n` +
       `  }\n\n` +
-      `  .vf-align-label .${formatter(undefined, size)}\:vf-horizontal {\n` +
+      `  .vf-align-label .${formatter(undefined, size)}\\:vf-horizontal {\n` +
       `    padding-top: var(--vf-label-offset);\n` +
       `  }\n` +
       `}`

@@ -37,5 +37,3 @@ defineSchema({
 // Adapter-specific narrowing assertions (e.g. items keys narrowing the
 // select's default in the ui adapter) live in the adapter's own
 // tests/smoke/shared/type-tests/ fragments.
-
-export {}

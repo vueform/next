@@ -268,7 +268,7 @@ export function blueprint<TProps extends InputNumberProps<string>>(
    */
   const mode = computed(() =>
     props.mode === 'currency'
-      ? !!currency.value
+      ? currency.value
         ? props.mode
         : 'decimal'
       : props.mode

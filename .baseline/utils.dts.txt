@@ -69,22 +69,6 @@ export declare function exportedVaporEntries(root: string, srcAbs: string): stri
  * the global `Vue`.
  */
 export declare function cdnBuild(options: AdapterOptions, root: string, srcAbs: string): Plugin;
-/**
- * Vite config factory for adapter packages (ui, primevue, …) — usable directly
- * as the default export of a `vite.config.ts`:
- *
- * ```ts
- * import { createAdapterConfig } from '@vueform/utils'
- *
- * export default createAdapterConfig({ name: '@vueform/ui' })
- * ```
- *
- * The build mirrors `src` 1:1 into `dist` (what is public API is decided solely
- * by the package's `exports` map), ships the theme scss forwarders compiled
- * into css chunks plus the flattened `theme.css`, and keeps everything an
- * adapter builds on — vue, core, its own runtime dependencies — external.
- */
-export declare function createAdapterConfig(options: AdapterOptions): Promise<UserConfig>;
 //#endregion
 //// bench-dts-cli.d.ts
 export {}
@@ -158,80 +142,16 @@ export interface BenchDtsOptions {
  */
 export declare function runBenchDts(options: BenchDtsOptions): Promise<boolean>;
 //#endregion
-//// core.d.ts
-import { UserConfig } from "vite";
-//#region src/core.d.ts
-/**
- * Options for the `core` config factory.
- */
-export interface CoreOptions {
-  /**
-   * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
-   * from the package's `vite.config.ts`: tools that load workspace configs from
-   * elsewhere (e.g. `vp run` building its task graph) do not set
-   * `process.cwd()` to the package dir, which remains the fallback.
-   */
-  dir?: string;
-  /**
-   * The package's published name (e.g. `'@vueform/core'`) — used as the lib
-   * name, added to externals, and self-augmentations in emitted `.d.ts` are
-   * rewritten to it.
-   */
-  name: string;
-  /**
-   * Alias pointing at the source directory (e.g. `'#core'`). No alias is
-   * registered when omitted.
-   */
-  alias?: string;
-  /**
-   * Additional external module ids. `'vue'` and `name` are always external.
-   */
-  external?: string[];
-  /**
-   * Also emit the vapor-mode component build into `dist/vapor/components` after
-   * the main bundle: the `src/components` tree, with every SFC compiled by Vue
-   * 3.6's vapor compiler. Shared logic (blueprints, tokens, contexts, …) is not
-   * duplicated — the vapor modules import it from the main dist via relative
-   * paths, so stateful modules exist only once regardless of which mode a
-   * consumer resolves. Types are not re-emitted either; vapor exports reuse the
-   * `.d.ts` files from the main dist.
-   */
-  vapor?: boolean;
-  /**
-   * Additional Vite config merged (via `mergeConfig`) on top of the generated
-   * one — an escape hatch for anything not covered by the path options.
-   */
-  vite?: UserConfig;
-}
-/**
- * Vite config factory for the core package — usable directly as the default
- * export of its `vite.config.ts`:
- *
- * ```ts
- * import { createCoreConfig } from '@vueform/utils'
- *
- * export default createCoreConfig({ name: '@vueform/core' })
- * ```
- *
- * The build mirrors `src` 1:1 into `dist`: every source module becomes an entry
- * (so nothing is tree-shaken away and no anonymous chunks exist), with `.mjs`
- * beside its `.d.ts` at the same path. What is public API is decided solely by
- * the package's `exports` map, not by the build.
- */
-export declare function createCoreConfig(options: CoreOptions): Promise<UserConfig>;
-//#endregion
 //// dev.d.ts
 import { Plugin } from "vite";
 //#region src/dev.d.ts
 export declare function dev(adapter: string): Plugin;
 //#endregion
 //// index.d.ts
-import { AdapterOptions, createAdapterConfig } from "./adapter.js";
+import { AdapterOptions } from "./adapter.js";
 import { BenchDtsMetrics, BenchDtsOptions, runBenchDts } from "./benchDts.js";
-import { CoreOptions, createCoreConfig } from "./core.js";
 import { dev } from "./dev.js";
 import { SourcePathsOptions, workspaceSourcePaths } from "./sourcePaths.js";
-import { PluginOptions, createPluginConfig } from "./plugin.js";
 import { AdapterTsdownOptions, CoreTsdownOptions, PluginTsdownOptions, createAdapterTsdownConfig, createAdapterVaporTsdownConfig, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginTsdownConfig } from "./tsdown.js";
 import { SourceAliasOptions, packageSourceAliases, workspaceSourceAliases } from "./sourceAliases.js";
 import { VitestConfig, VitestOptions, createVitestConfig } from "./vitest.js";
@@ -239,50 +159,9 @@ import { RegistryOptions, generateRegistry } from "./registry.js";
 import { RunSizeOptions, runSize } from "./size/run.js";
 import { ValidateSourceConfig, ValidateSourceOptions, validateSource } from "./validateSource.js";
 import { MeasurementType, Results, SizeConfig } from "./size/types.js";
-export { type AdapterOptions, type AdapterTsdownOptions, type BenchDtsMetrics, type BenchDtsOptions, type CoreOptions, type CoreTsdownOptions, type MeasurementType, type PluginOptions, type PluginTsdownOptions, type RegistryOptions, type RunSizeOptions, type SizeConfig, type Results as SizeResults, type SourceAliasOptions, type SourcePathsOptions, type ValidateSourceConfig, type ValidateSourceOptions, type VitestConfig, type VitestOptions, createAdapterConfig, createAdapterTsdownConfig, createAdapterVaporTsdownConfig, createCoreConfig, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginConfig, createPluginTsdownConfig, createVitestConfig, dev, generateRegistry, packageSourceAliases, runBenchDts, runSize, validateSource, workspaceSourceAliases, workspaceSourcePaths };
+export { type AdapterOptions, type AdapterTsdownOptions, type BenchDtsMetrics, type BenchDtsOptions, type CoreTsdownOptions, type MeasurementType, type PluginTsdownOptions, type RegistryOptions, type RunSizeOptions, type SizeConfig, type Results as SizeResults, type SourceAliasOptions, type SourcePathsOptions, type ValidateSourceConfig, type ValidateSourceOptions, type VitestConfig, type VitestOptions, createAdapterTsdownConfig, createAdapterVaporTsdownConfig, createCoreTsdownConfig, createCoreVaporTsdownConfig, createPluginTsdownConfig, createVitestConfig, dev, generateRegistry, packageSourceAliases, runBenchDts, runSize, validateSource, workspaceSourceAliases, workspaceSourcePaths };
 //// mock.d.ts
 export {}
-//// plugin.d.ts
-import { UserConfig } from "vite";
-//#region src/plugin.d.ts
-/**
- * Options for the `plugin` config factory.
- */
-export interface PluginOptions {
-  /**
-   * The package directory. Pass `fileURLToPath(new URL('.', import.meta.url))`
-   * from the package's `vite.config.ts`: tools that load workspace configs from
-   * elsewhere (e.g. `vp run` building its task graph) do not set
-   * `process.cwd()` to the package dir, which remains the fallback.
-   */
-  dir?: string;
-  /**
-   * The package's published name (e.g. `'@vueform/expr-eval'`) — used as the
-   * lib name and added to externals.
-   */
-  name: string;
-  /**
-   * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
-   * subpaths) are always external.
-   */
-  external?: (string | RegExp)[];
-}
-/**
- * Vite config factory for plugin packages (expr-eval, dompurify, …) — usable
- * directly as the default export of a `vite.config.ts`:
- *
- * ```ts
- * import { createPluginConfig } from '@vueform/utils'
- *
- * export default createPluginConfig({ name: '@vueform/expr-eval' })
- * ```
- *
- * Plugins are single-entry libraries: `src/index.ts` bundles to
- * `dist/index.mjs` with its `.d.ts` beside it, and everything a plugin builds
- * on (vue, core, its own runtime dependencies) stays external.
- */
-export declare function createPluginConfig(options: PluginOptions): UserConfig;
-//#endregion
 //// registry-cli.d.ts
 export {}
 //// registry.d.ts

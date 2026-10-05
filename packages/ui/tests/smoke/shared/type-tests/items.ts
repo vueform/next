@@ -13,5 +13,3 @@ defineSchema({
     default: 'z',
   },
 })
-
-export {}

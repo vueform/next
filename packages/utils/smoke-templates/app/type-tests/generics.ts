@@ -20,5 +20,3 @@ type _HasList = Expect<Extends<'list', keyof Model>>
 // without modules.model must not typecheck.
 // @ts-expect-error the bare entry requires modules.model
 createVueform({})
-
-export {}

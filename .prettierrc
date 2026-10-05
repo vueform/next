@@ -4,7 +4,7 @@
   "tabWidth": 2,
   "trailingComma": "es5",
   "printWidth": 80,
-  "plugins": ["prettier-plugin-jsdoc", "prettier-plugin-packagejson"],
+  "plugins": ["prettier-plugin-jsdoc"],
   "jsdocPrintWidth": 80,
   "jsdocDescriptionWithDot": false,
   "jsdocCapitalizeDescription": false,

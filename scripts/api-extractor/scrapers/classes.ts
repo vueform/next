@@ -101,7 +101,7 @@ function extractModifierName(selectorLine: string): string | null {
   if (nestedMatch) return nestedMatch[1]
 
   // Suffix .vf-xxx before { or :pseudo (e.g. .vf-btn[...].vf-sm {)
-  const suffixMatch = trimmed.match(/\.(vf-[\w-]+)\s*[\{:]/)
+  const suffixMatch = trimmed.match(/\.(vf-[\w-]+)\s*[{:]/)
   if (suffixMatch) {
     // Find the *last* .vf-xxx match to handle compound selectors
     const allMatches = [...trimmed.matchAll(/\.(vf-[\w-]+)/g)]

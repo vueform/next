@@ -52,8 +52,8 @@ export const makeRadioAria = defineFeature(
           'aria-describedby':
             [
               text?.value ? labelId.value : null,
-              !!props.help ? helpId.value : null,
-              !!props.description ? descriptionId.value : null,
+              props.help ? helpId.value : null,
+              props.description ? descriptionId.value : null,
               hasError.value ? errorId.value : null,
             ]
               .filter((d) => !!d)

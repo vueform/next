@@ -1,6 +1,9 @@
 {
   "name": "@vueform/nuxt",
   "version": "2.0.0-alpha.1",
+  "files": [
+    "dist"
+  ],
   "type": "module",
   "exports": {
     ".": {
@@ -8,9 +11,6 @@
       "import": "./dist/module.mjs"
     }
   },
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "nuxt-module-build build",
     "check": "tsc --noEmit"

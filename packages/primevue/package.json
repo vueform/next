@@ -1,6 +1,14 @@
 {
   "name": "@vueform/primevue",
   "version": "2.0.0-alpha.1",
+  "bin": {
+    "vueform": "./bin/vueform.mjs"
+  },
+  "files": [
+    "bin",
+    "dist",
+    "registry"
+  ],
   "sideEffects": [
     "**/*.css",
     "**/*.scss",
@@ -9,6 +17,11 @@
     "./dist/vapor/full.mjs",
     "./dist/full.mjs"
   ],
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "unpkg": "./dist/vueform.global.js",
+  "jsdelivr": "./dist/vueform.global.js",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -87,19 +100,6 @@
       "import": "./dist/full.mjs"
     }
   },
-  "main": "./dist/index.mjs",
-  "jsdelivr": "./dist/vueform.global.js",
-  "unpkg": "./dist/vueform.global.js",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "bin": {
-    "vueform": "./bin/vueform.mjs"
-  },
-  "files": [
-    "bin",
-    "dist",
-    "registry"
-  ],
   "scripts": {
     "build": "vf-validate-source && rm -rf dist && vue-tsc -p tsconfig.dts.json && tsdown && tsdown -c tsdown.vapor.config.ts",
     "check": "vue-tsc --incremental --noEmit",
@@ -133,7 +133,6 @@
     "terser": "catalog:",
     "tsdown": "catalog:",
     "tsx": "catalog:",
-    "vite-plugin-dts": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
     "vue-tsc": "catalog:",
     "vue-vapor": "catalog:"

@@ -13,7 +13,8 @@ import type {
  * interfaces specialize it (same pattern as event `context$`).
  */
 export type ConditionalProp<TContext = any> =
-  RawConditionsProp<TContext> | NegatedConditionsProp<TContext>
+  | RawConditionsProp<TContext>
+  | NegatedConditionsProp<TContext>
 
 /**
  * Conditions produced by a function (`colConditions`, `itemConditions`, …).
@@ -24,7 +25,8 @@ export type ConditionalProp<TContext = any> =
  * strict `ConditionalProp`.
  */
 export type ConditionsResult<TContext = any> =
-  ConditionalProp<TContext> | readonly (readonly unknown[])[]
+  | ConditionalProp<TContext>
+  | readonly (readonly unknown[])[]
 
 /**
  * The accepted forms of the `conditions-trigger` prop, used as the single watch
@@ -34,7 +36,9 @@ export type ConditionsResult<TContext = any> =
  * defaults to any change in the model.
  */
 export type ConditionsTriggerProp<TContext = any> =
-  string[] | Ref<any> | ((context$: TContext) => any)
+  | string[]
+  | Ref<any>
+  | ((context$: TContext) => any)
 
 /**
  * Global options for the conditions module (the `$conditions` config object).

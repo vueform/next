@@ -1,0 +1,31 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "error"
+  },
+  "plugins": ["typescript"],
+  "ignorePatterns": [
+    "**/dist/**",
+    ".playgrounds/**",
+    "benchmark/**",
+    "docs/.vitepress/cache/**",
+    "packages/*/registry/**",
+    "**/*.vue",
+    "docs/src/playground/**",
+    "**/*.global.js"
+  ],
+  "rules": {
+    "no-control-regex": "off",
+    "no-irregular-whitespace": "off",
+    "no-unused-vars": "off"
+  },
+  "overrides": [
+    {
+      "files": ["**/*.test-d.ts", "packages/core/tests/bench-dts/**"],
+      "rules": {
+        "no-unused-expressions": "off",
+        "typescript/no-useless-empty-export": "off"
+      }
+    }
+  ]
+}

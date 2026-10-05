@@ -29,7 +29,10 @@ export type TextishArrayModel = (string | number)[]
  * @write
  */
 export type TextishMaybeArrayModel =
-  string | number | null | (string | number)[]
+  | string
+  | number
+  | null
+  | (string | number)[]
 
 /**
  * @write
@@ -85,7 +88,10 @@ export type ArrayModel = any[]
  * initialized by the element at runtime.
  */
 export type TranslatableModel =
-  Record<string, string | number | null | undefined> | string | number | null
+  | Record<string, string | number | null | undefined>
+  | string
+  | number
+  | null
 
 /**
  * Props for elements with a model value (`v-model`) and optional

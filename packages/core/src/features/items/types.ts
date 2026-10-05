@@ -18,7 +18,8 @@ export declare const itemsGenericsBrandKey: unique symbol
  * (so invalid `groupChildren` values do not poison item inference).
  */
 type ChildrenOfGroup<TGroup, TGroupChildren> = TGroupChildren extends
-  undefined | never
+  | undefined
+  | never
   ? never
   : TGroupChildren extends keyof TGroup
     ? TGroup[TGroupChildren]
@@ -359,8 +360,9 @@ export type AllowedItemValueKey<TItems, TGroupChildren = undefined> = ItemKeyOf<
  */
 export type ItemKeyProp<TItems, TGroupChildren, TReturn> =
   AllowsItemKeyProps<TItems> extends true
-    ? | ItemKeyOf<RawItemOf<TItems, TGroupChildren>>
-      | ((item: RawItemOf<TItems, TGroupChildren>) => TReturn)
+    ?
+        | ItemKeyOf<RawItemOf<TItems, TGroupChildren>>
+        | ((item: RawItemOf<TItems, TGroupChildren>) => TReturn)
     : (item: RawItemOf<TItems, TGroupChildren>) => TReturn
 
 /**
@@ -371,8 +373,9 @@ export type GroupKeyProp<TItems, TReturn> =
   AllowsItemKeyProps<TItems> extends true
     ? [GroupOf<TItems>] extends [never]
       ? string | ((group: any) => TReturn)
-      : | Extract<keyof GroupOf<TItems>, string>
-        | ((group: GroupOf<TItems>) => TReturn)
+      :
+          | Extract<keyof GroupOf<TItems>, string>
+          | ((group: GroupOf<TItems>) => TReturn)
     : never
 
 /**
@@ -382,8 +385,9 @@ export type GroupKeyProp<TItems, TReturn> =
  */
 export type AllowedGroupChildren<TItems> = [GroupOf<TItems>] extends [never]
   ? string | ((group: any) => any[] | Record<string, any>)
-  : | Extract<keyof GroupOf<TItems>, string>
-    | ((group: GroupOf<TItems>) => any[] | Record<string, any>)
+  :
+      | Extract<keyof GroupOf<TItems>, string>
+      | ((group: GroupOf<TItems>) => any[] | Record<string, any>)
 
 // ========== ENTRY GENERICS ============
 
@@ -419,7 +423,9 @@ export type ItemValueProp = string | undefined
  * this bound.
  */
 export type GroupChildrenProp =
-  string | ((group: any) => any[] | Record<string, any>) | undefined
+  | string
+  | ((group: any) => any[] | Record<string, any>)
+  | undefined
 
 /**
  * Resolves the `TItems` generic from a registry `TEntry` payload's `items`
@@ -501,12 +507,13 @@ export interface ItemsProps<
   TGroupChildren extends GroupChildrenProp = undefined,
   TItemValueReturn = unknown,
   TContext = any,
-> extends /* @vue-ignore */ ItemsGenericsBrand<
-  TItems,
-  TItemValueKey,
-  TGroupChildren,
-  TItemValueReturn
-> {
+>
+  extends /* @vue-ignore */ ItemsGenericsBrand<
+    TItems,
+    TItemValueKey,
+    TGroupChildren,
+    TItemValueReturn
+  > {
   /**
    * The option items for the element.
    */
@@ -539,9 +546,10 @@ export interface ItemsProps<
    *   full model inference)
    */
   itemValue?: AllowsItemKeyProps<TItems> extends true
-    ? | (TItemValueKey & AllowedItemValueKey<TItems, TGroupChildren>)
-      | AllowedItemValueKey<TItems, TGroupChildren>
-      | ((item: RawItemOf<TItems, TGroupChildren>) => TItemValueReturn)
+    ?
+        | (TItemValueKey & AllowedItemValueKey<TItems, TGroupChildren>)
+        | AllowedItemValueKey<TItems, TGroupChildren>
+        | ((item: RawItemOf<TItems, TGroupChildren>) => TItemValueReturn)
     : never
 
   /**
@@ -587,8 +595,9 @@ export interface ItemsProps<
    * `TGroupChildren` is still `undefined`.
    */
   groupChildren?: AllowsItemKeyProps<TItems> extends true
-    ? | (TGroupChildren & AllowedGroupChildren<TItems>)
-      | AllowedGroupChildren<TItems>
+    ?
+        | (TGroupChildren & AllowedGroupChildren<TItems>)
+        | AllowedGroupChildren<TItems>
     : never
 
   /**

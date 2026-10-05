@@ -398,7 +398,8 @@ export type EmitsToProps<T> = {
  * @param context$ The component context passed when used as a function.
  */
 export type MaybeContextual<T, TContext = any> =
-  T | ((context$: TContext) => T | void)
+  | T
+  | ((context$: TContext) => T | void)
 
 /**
  * Replaces the `type` property of `T` with `any`, allowing any element type

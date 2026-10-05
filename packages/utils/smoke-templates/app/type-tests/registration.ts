@@ -34,5 +34,3 @@ type _TextInRegistry = Expect<Extends<TextName, ElementNames>>
 type _GlobalHasForm = Expect<Extends<'VfForm', keyof GlobalComponents>>
 type _GlobalHasText = Expect<Extends<TextName, keyof GlobalComponents>>
 type _GlobalFormIsReal = Expect<Not<Equal<GlobalComponents['VfForm'], never>>>
-
-export {}

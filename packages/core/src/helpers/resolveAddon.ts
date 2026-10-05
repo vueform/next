@@ -8,7 +8,9 @@ import { kebabToPascal } from '#core/utils'
  * (`{ component, props }`) for schema addons.
  */
 export type ResolvedAddon =
-  string | { component: string; props: Record<string, any> } | undefined
+  | string
+  | { component: string; props: Record<string, any> }
+  | undefined
 
 /**
  * Modules `resolveAddon` needs from the caller's setup context — gather them

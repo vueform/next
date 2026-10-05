@@ -6,7 +6,12 @@ import type { MaybeContextual } from './utils'
  * object syntax. Matches Vue's built-in `:class` binding type.
  */
 export type ClassValue =
-  false | null | undefined | string | Record<string, any> | ClassValue[]
+  | false
+  | null
+  | undefined
+  | string
+  | Record<string, any>
+  | ClassValue[]
 
 /**
  * Loosens a single class definition value so that functional class keys also
@@ -16,9 +21,10 @@ export type ClassValue =
 export type ClassInput<V, TContext = any> = V extends (
   ...args: infer A
 ) => ClassValue
-  ? | ClassValue
-    | ((...args: A) => ClassValue)
-    | ((...args: [...A, context$: TContext]) => ClassValue)
+  ?
+      | ClassValue
+      | ((...args: A) => ClassValue)
+      | ((...args: [...A, context$: TContext]) => ClassValue)
   : ClassValue | ((context$: TContext) => ClassValue)
 
 /**
@@ -40,9 +46,10 @@ export type ChildClassesProp<T extends ComponentNames> =
         {
           [K in keyof Classes]?: Classes[K] extends infer C
             ? C extends (...args: infer A extends any[]) => any
-              ? | ClassValue
-                | ((...args: A) => ClassValue)
-                | ((...args: [...A, context$: any]) => ClassValue)
+              ?
+                  | ClassValue
+                  | ((...args: A) => ClassValue)
+                  | ((...args: [...A, context$: any]) => ClassValue)
               : ClassValue | ((context$: any) => ClassValue)
             : never
         } & Record<string, ClassValue | ((...args: any[]) => ClassValue)>

@@ -25,7 +25,8 @@ export function wordHighlight(): ShikiTransformer {
     name: 'word-highlight',
     code(codeEl) {
       const raw = (this.options.meta as Record<string, unknown>)?.__raw as
-        string | undefined
+        | string
+        | undefined
       if (!raw) return
 
       const words = parseWordPatterns(raw)

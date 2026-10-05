@@ -1,6 +1,6 @@
 {
   "package": "@vueform/utils",
-  "fileCount": 73,
+  "fileCount": 69,
   "exportsMap": {
     "checked": 6,
     "patterns": 0,
@@ -14,12 +14,12 @@
       "imports": []
     },
     "adapter.d.ts": {
-      "bytes": 3592,
-      "hash": "cc8e309ca71b1fc0"
+      "bytes": 2905,
+      "hash": "dcc6292059940f9d"
     },
     "adapter.js": {
-      "bytes": 9723,
-      "hash": "0d270869e2294b0d",
+      "bytes": 3194,
+      "hash": "22fc8fdb212b4b40",
       "exports": [],
       "imports": []
     },
@@ -43,16 +43,6 @@
       "exports": [],
       "imports": []
     },
-    "core.d.ts": {
-      "bytes": 2304,
-      "hash": "2615538dd82f2476"
-    },
-    "core.js": {
-      "bytes": 4954,
-      "hash": "7403af6737c5cfd7",
-      "exports": [],
-      "imports": []
-    },
     "dev.d.ts": {
       "bytes": 120,
       "hash": "2a6039cf009d7802"
@@ -64,12 +54,12 @@
       "imports": []
     },
     "index.d.ts": {
-      "bytes": 1878,
-      "hash": "d9009bfdcfc2d028"
+      "bytes": 1636,
+      "hash": "ebc8e4d3c311b8ca"
     },
     "index.js": {
-      "bytes": 1810,
-      "hash": "b405e621cf1e2cda",
+      "bytes": 1482,
+      "hash": "0a8967dfccd8e8ad",
       "exports": [],
       "imports": []
     },
@@ -80,16 +70,6 @@
     "mock.js": {
       "bytes": 0,
       "hash": "e3b0c44298fc1c14",
-      "exports": [],
-      "imports": []
-    },
-    "plugin.d.ts": {
-      "bytes": 1374,
-      "hash": "b36e43bec5ebbda2"
-    },
-    "plugin.js": {
-      "bytes": 1565,
-      "hash": "2f4264a6e08494c1",
       "exports": [],
       "imports": []
     },
@@ -119,7 +99,7 @@
     },
     "shared.js": {
       "bytes": 21288,
-      "hash": "bb16a3f8d071020a",
+      "hash": "d0739913c09d45ef",
       "exports": [],
       "imports": []
     },
@@ -339,7 +319,7 @@
     },
     "tsdown.js": {
       "bytes": 14472,
-      "hash": "d35609e6d46f9694",
+      "hash": "ca6f714e2471f905",
       "exports": [],
       "imports": []
     },
@@ -368,8 +348,8 @@
       "hash": "9065d06f531c9f84"
     },
     "vitest.js": {
-      "bytes": 3844,
-      "hash": "f977c32d9351abf9",
+      "bytes": 3718,
+      "hash": "12eb9d5f0e872a97",
       "exports": [],
       "imports": []
     }

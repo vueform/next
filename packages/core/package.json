@@ -1,10 +1,16 @@
 {
   "name": "@vueform/core",
   "version": "2.0.0-alpha.1",
+  "files": [
+    "dist"
+  ],
   "sideEffects": [
     "**/*.css",
     "**/*.scss"
   ],
+  "main": "./dist/index.mjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
@@ -66,18 +72,12 @@
       "import": "./dist/tokens/index.mjs"
     }
   },
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
-  "types": "./dist/index.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "rm -rf dist && vue-tsc -p tsconfig.dts.json && tsdown && tsdown -c tsdown.vapor.config.ts",
     "check": "vue-tsc --incremental --noEmit",
     "size": "vf-size",
     "test": "vitest --project integration --maxWorkers=16",
-    "test:bench": "vitest bench --project bench",
+    "test:bench": "NODE_OPTIONS=--max-old-space-size=8192 vitest bench",
     "test:bench-dts": "vf-bench-dts",
     "test:dts": "vitest run --project test-dts",
     "test:dts-dist": "vitest run --project test-dts-dist"
@@ -95,7 +95,6 @@
     "sass-embedded": "catalog:",
     "tsdown": "catalog:",
     "vite": "catalog:",
-    "vite-plugin-dts": "catalog:",
     "vitest": "catalog:",
     "vue-compiler-sfc-vapor": "catalog:",
     "vue-tsc": "catalog:",

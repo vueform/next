@@ -2,8 +2,8 @@
   "name": "pg-template",
   "version": "0.0.0",
   "private": true,
-  "sideEffects": false,
   "type": "module",
+  "sideEffects": false,
   "scripts": {
     "build": "vue-tsc -p tsconfig.build.json && vite build",
     "dev": "vite",

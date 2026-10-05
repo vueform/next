@@ -38,19 +38,6 @@
     "usage": "tsx scripts/usage.ts",
     "validate": "tsx scripts/validate.ts"
   },
-  "lint-staged": {
-    "*.{js,ts,vue}": [
-      "pnpm eslint --fix",
-      "pnpm prettier --write"
-    ],
-    "*.scss": [
-      "pnpm stylelint --fix",
-      "pnpm prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "pnpm prettier --write"
-    ]
-  },
   "devDependencies": {
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
@@ -63,14 +50,16 @@
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
     "eslint-plugin-import": "catalog:",
+    "eslint-plugin-oxlint": "catalog:",
     "eslint-plugin-perfectionist": "catalog:",
     "eslint-plugin-unused-imports": "catalog:",
     "eslint-plugin-vue": "catalog:",
     "husky": "catalog:",
     "lint-staged": "catalog:",
+    "oxfmt": "catalog:",
+    "oxlint": "catalog:",
     "prettier": "catalog:",
     "prettier-plugin-jsdoc": "catalog:",
-    "prettier-plugin-packagejson": "catalog:",
     "stylelint": "catalog:",
     "stylelint-config-recess-order": "catalog:",
     "stylelint-config-standard-scss": "catalog:",
@@ -84,10 +73,31 @@
     "vue-eslint-parser": "catalog:",
     "vue-tsc": "catalog:"
   },
-  "packageManager": "pnpm@10.20.0",
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,mts,cts}": [
+      "pnpm oxlint --fix",
+      "pnpm eslint --fix",
+      "pnpm oxfmt --ignore-path=.gitignore"
+    ],
+    "*.vue": [
+      "pnpm eslint --fix",
+      "pnpm prettier --write"
+    ],
+    "*.scss": [
+      "pnpm stylelint --fix",
+      "pnpm prettier --write"
+    ],
+    "*.json": [
+      "pnpm oxfmt --ignore-path=.gitignore"
+    ],
+    "*.{yml,yaml}": [
+      "pnpm prettier --write"
+    ]
+  },
   "engines": {
     "node": ">=20.0.0"
   },
+  "packageManager": "pnpm@10.20.0",
   "pnpm": {
     "overrides": {
       "vue": "catalog:"
