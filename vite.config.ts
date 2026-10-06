@@ -155,7 +155,19 @@ export default defineConfig({
     tasks: {
       ':lint': {
         command: 'vp lint',
-        dependsOn: [':stylelint'],
+        dependsOn: [':stylelint', ':eslint'],
+      },
+      ':eslint': {
+        command: 'eslint "**/*.vue"',
+        cache: {
+          input: [
+            '**/*.vue',
+            '!**/dist/**',
+            'eslint.config.mjs',
+            'pnpm-lock.yaml',
+          ],
+          output: [],
+        },
       },
       ':stylelint': {
         command: 'stylelint "**/*.{scss,css}"',

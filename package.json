@@ -8,9 +8,13 @@
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@types/node": "catalog:",
+    "@typescript-eslint/parser": "catalog:",
     "@vue/tsconfig": "catalog:",
     "@vueform/utils": "workspace:*",
     "ajv": "catalog:",
+    "eslint": "catalog:",
+    "eslint-config-prettier": "catalog:",
+    "eslint-plugin-vue": "catalog:",
     "husky": "catalog:",
     "lint-staged": "catalog:",
     "stylelint": "catalog:",
@@ -23,6 +27,7 @@
     "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
+    "vue-eslint-parser": "catalog:",
     "vue-tsc": "catalog:"
   },
   "lint-staged": {
@@ -32,6 +37,7 @@
     ],
     "*.vue": [
       "pnpm vp lint --fix --fix-suggestions",
+      "pnpm eslint --fix",
       "pnpm vp fmt"
     ],
     "*.scss": [
