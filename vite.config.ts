@@ -54,13 +54,6 @@ const aliasedSrcPackages = [
   }),
 ]
 
-/**
- * Formatting (`vp fmt`, the oxc editor extension, `vp check`). This is the
- * only format config — there is no `.oxfmtrc.json`. The registry/docs
- * generators read this same block at runtime (vite's `loadConfigFromFile` in
- * packages/utils/src/registry.ts) to format emitted sources, so generated
- * output follows it by construction.
- */
 const fmtConfig: OxfmtConfig = {
   semi: false,
   singleQuote: true,
@@ -73,13 +66,7 @@ const fmtConfig: OxfmtConfig = {
   jsdocCommentLineStrategy: 'multiline',
   sortPackageJson: {},
   sortImports: {},
-  ignorePatterns: [
-    '*.md',
-    'packages/metrics/results/',
-    'packages/core/tests/perf/.results/',
-    'packages/core/tests/perf-dts/.results/',
-    'docs/src/playground/**',
-  ],
+  ignorePatterns: ['*.md', 'docs/src/playground/*.js'],
 }
 
 /**
