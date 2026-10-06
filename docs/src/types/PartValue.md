@@ -11,8 +11,9 @@
  * - For non-callable parts, a function that receives only the component context.
  */
 type PartValue<V, TContext = any> = V extends (...args: infer A) => infer R
-  ? | OpenObject<R>
-    | ((...args: A) => OpenObject<R>)
-    | ((...args: [...A, TContext]) => OpenObject<R>)
+  ?
+      | OpenObject<R>
+      | ((...args: A) => OpenObject<R>)
+      | ((...args: [...A, TContext]) => OpenObject<R>)
   : OpenObject<V> | ((context$: TContext) => OpenObject<V>)
 ```

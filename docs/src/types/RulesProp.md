@@ -12,6 +12,9 @@ type RulesProp<TContext = any> =
   | RuleDefinition
   | ConditionalRule<TContext>
   | (
-      RuleString | ConditionalRule<TContext> | RuleDefinition | StandardSchemaV1
+      | RuleString
+      | ConditionalRule<TContext>
+      | RuleDefinition
+      | StandardSchemaV1
     )[]
 ```

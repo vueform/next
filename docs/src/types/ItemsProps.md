@@ -16,12 +16,13 @@ interface ItemsProps<
   TGroupChildren extends GroupChildrenProp = undefined,
   TItemValueReturn = unknown,
   TContext = any,
-> extends /* @vue-ignore */ ItemsGenericsBrand<
-  TItems,
-  TItemValueKey,
-  TGroupChildren,
-  TItemValueReturn
-> {
+>
+  extends /* @vue-ignore */ ItemsGenericsBrand<
+    TItems,
+    TItemValueKey,
+    TGroupChildren,
+    TItemValueReturn
+  > {
   /**
    * The option items for the element.
    */
@@ -54,9 +55,10 @@ interface ItemsProps<
    *   full model inference)
    */
   itemValue?: AllowsItemKeyProps<TItems> extends true
-    ? | (TItemValueKey & AllowedItemValueKey<TItems, TGroupChildren>)
-      | AllowedItemValueKey<TItems, TGroupChildren>
-      | ((item: RawItemOf<TItems, TGroupChildren>) => TItemValueReturn)
+    ?
+        | (TItemValueKey & AllowedItemValueKey<TItems, TGroupChildren>)
+        | AllowedItemValueKey<TItems, TGroupChildren>
+        | ((item: RawItemOf<TItems, TGroupChildren>) => TItemValueReturn)
     : never
 
   /**
@@ -102,8 +104,9 @@ interface ItemsProps<
    * `TGroupChildren` is still `undefined`.
    */
   groupChildren?: AllowsItemKeyProps<TItems> extends true
-    ? | (TGroupChildren & AllowedGroupChildren<TItems>)
-      | AllowedGroupChildren<TItems>
+    ?
+        | (TGroupChildren & AllowedGroupChildren<TItems>)
+        | AllowedGroupChildren<TItems>
     : never
 
   /**

@@ -6,5 +6,7 @@
  * @param options Factory options containing dependencies from earlier
  *   factories.
  */
-const makeProvider: (config?: unknown) => (options: MakeProviderOptions) => {}
+const makeProvider: (
+  config?: unknown
+) => (options: MakeProviderOptions) => {}
 ```

@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfFile.vue",
     "blueprint": "file",
-    "hash": "sha256:fb3c6f4ee06e5d04f08dbaa83fc315097e52345d9a591160c60f6355f1355619",
+    "hash": "sha256:ca47f5de3ef953cf7715400712ced2ae684a239b136d436a50f0b279e8afc8b8",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

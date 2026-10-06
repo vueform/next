@@ -9,5 +9,6 @@
  * @param context$ The component context when used as a function.
  */
 type TProp<T = string, TContext = any> =
-  DProp<T, TContext> | Record<string, T | (string & {})>
+  | DProp<T, TContext>
+  | Record<string, T | (string & {})>
 ```

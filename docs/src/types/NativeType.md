@@ -4,5 +4,11 @@
  * factory wrapper.
  */
 type NativeType =
-  null | undefined | number | string | boolean | symbol | Function
+  | null
+  | undefined
+  | number
+  | string
+  | boolean
+  | symbol
+  | Function
 ```

@@ -16,8 +16,12 @@
       "@vueform/core": ["./packages/core/src/index.ts"],
       "@vueform/core/blueprints/*": ["./packages/core/src/blueprints/*.ts"],
       "@vueform/core/components": ["./packages/core/src/components/index.ts"],
-      "@vueform/core/components/*/raw": ["./packages/core/src/components/*/index.ts"],
-      "@vueform/core/components/*": ["./packages/core/src/components/*/unstyled.ts"],
+      "@vueform/core/components/*/raw": [
+        "./packages/core/src/components/*/index.ts"
+      ],
+      "@vueform/core/components/*": [
+        "./packages/core/src/components/*/unstyled.ts"
+      ],
       "@vueform/core/locales": ["./packages/core/src/locales/index.ts"],
       "@vueform/core/modules": ["./packages/core/src/modules/modules.ts"],
       "@vueform/core/rules": ["./packages/core/src/rules/index.ts"],
@@ -27,8 +31,12 @@
       "@vueform/ui/blueprints/*": ["./packages/ui/src/blueprints/*.ts"],
       "@vueform/ui/components": ["./packages/ui/src/components/index.ts"],
       "@vueform/ui/components/names": ["./packages/ui/src/components/names.ts"],
-      "@vueform/ui/components/*/raw": ["./packages/ui/src/components/*/index.ts"],
-      "@vueform/ui/components/*/unstyled": ["./packages/ui/src/components/*/unstyled.ts"],
+      "@vueform/ui/components/*/raw": [
+        "./packages/ui/src/components/*/index.ts"
+      ],
+      "@vueform/ui/components/*/unstyled": [
+        "./packages/ui/src/components/*/unstyled.ts"
+      ],
       "@vueform/ui/components/*": ["./packages/ui/src/components/*/styled.ts"],
       "@vueform/ui/locales": ["./packages/ui/src/locales/index.ts"],
       "@vueform/ui/modules": ["./packages/ui/src/modules/modules.ts"],
@@ -38,14 +46,28 @@
       "@vueform/ui/material": ["./packages/ui/src/material.ts"],
       "@vueform/ui/*": ["./packages/ui/src/*"],
       "@vueform/primevue": ["./packages/primevue/src/index.ts"],
-      "@vueform/primevue/blueprints/*": ["./packages/primevue/src/blueprints/*.ts"],
-      "@vueform/primevue/components": ["./packages/primevue/src/components/index.ts"],
-      "@vueform/primevue/components/names": ["./packages/primevue/src/components/names.ts"],
-      "@vueform/primevue/components/*/raw": ["./packages/primevue/src/components/*/index.ts"],
-      "@vueform/primevue/components/*/unstyled": ["./packages/primevue/src/components/*/unstyled.ts"],
-      "@vueform/primevue/components/*": ["./packages/primevue/src/components/*/styled.ts"],
+      "@vueform/primevue/blueprints/*": [
+        "./packages/primevue/src/blueprints/*.ts"
+      ],
+      "@vueform/primevue/components": [
+        "./packages/primevue/src/components/index.ts"
+      ],
+      "@vueform/primevue/components/names": [
+        "./packages/primevue/src/components/names.ts"
+      ],
+      "@vueform/primevue/components/*/raw": [
+        "./packages/primevue/src/components/*/index.ts"
+      ],
+      "@vueform/primevue/components/*/unstyled": [
+        "./packages/primevue/src/components/*/unstyled.ts"
+      ],
+      "@vueform/primevue/components/*": [
+        "./packages/primevue/src/components/*/styled.ts"
+      ],
       "@vueform/primevue/locales": ["./packages/primevue/src/locales/index.ts"],
-      "@vueform/primevue/modules": ["./packages/primevue/src/modules/modules.ts"],
+      "@vueform/primevue/modules": [
+        "./packages/primevue/src/modules/modules.ts"
+      ],
       "@vueform/primevue/rules": ["./packages/primevue/src/rules/index.ts"],
       "@vueform/primevue/themes": ["./packages/primevue/src/themes/index.ts"],
       "@vueform/primevue/full": ["./packages/primevue/src/full.ts"],

@@ -26,7 +26,7 @@
   "clone": {
     "path": "VfDatePicker.vue",
     "blueprint": "date-picker",
-    "hash": "sha256:d6d116b5cf0b982c38c77eed7b18bdfc05d15f47894c4c82ae535532b4b39d1e",
+    "hash": "sha256:f8d7020a2226c750c434dbad23e0165b24639a5474b259de906f710030f2e7a8",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

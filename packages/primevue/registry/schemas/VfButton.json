@@ -29,7 +29,7 @@
   "clone": {
     "path": "VfButton.vue",
     "blueprint": "button",
-    "hash": "sha256:6cfbb2ca950dc8667196945af375cdac26efb5953bea890b1ce151d43b15f727",
+    "hash": "sha256:aced6a7353124f15330bf6115662be1a06c60361621cf98f7be31b13ae8f7387",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -11,5 +11,8 @@
  * `AllowedCascadeOptionGroupChildren`), not by this bound.
  */
 type CascadeOptionGroupChildrenProp =
-  string | string[] | ((group: any) => any[]) | undefined
+  | string
+  | string[]
+  | ((group: any) => any[])
+  | undefined
 ```

@@ -29,7 +29,7 @@
   "clone": {
     "path": "VfRating.vue",
     "blueprint": "rating",
-    "hash": "sha256:7b4714a143dad6ea0db5992fb5e8383b6468e4d2688ab944f6c58305a50e22bf",
+    "hash": "sha256:49ae4c885853550b632986c47aaa5a34f2100db507c087fb24fb298e18d7e412",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

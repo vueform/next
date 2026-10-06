@@ -10,7 +10,16 @@
  *
  * Run by `pnpm test:dts`.
  */
-import { defineComputedSchema, defineSchema, type ContextOf, type ElementByPath, type GetSchemaEntryByPath, type ModelByPath, type Paths, type SchemaToModel } from '@vueform/core'
+import {
+  defineComputedSchema,
+  defineSchema,
+  type ContextOf,
+  type ElementByPath,
+  type GetSchemaEntryByPath,
+  type ModelByPath,
+  type Paths,
+  type SchemaToModel,
+} from '@vueform/core'
 import { describe, expectTypeOf, test } from 'vitest'
 import type { ComputedRef } from 'vue'
 import '@vueform/core/components'
@@ -32,13 +41,22 @@ describe('ContextOf — wide + narrowed by TEntry', () => {
   // Entry-driven items are widened to primitives (schema items are
   // const-narrowed by defineSchema, so literals must not lock the model)
   test('entry-driven items are widened to primitives', () => {
-    type NarrowSelect = ContextOf<'VfSelect', { items: ObjectItems; itemValue: 'id' }>
+    type NarrowSelect = ContextOf<
+      'VfSelect',
+      { items: ObjectItems; itemValue: 'id' }
+    >
     expectTypeOf<NarrowSelect['model']>().toEqualTypeOf<number | null>()
 
-    type NarrowMulti = ContextOf<'VfSelect', { items: ObjectItems; itemValue: 'id'; multiple: true }>
+    type NarrowMulti = ContextOf<
+      'VfSelect',
+      { items: ObjectItems; itemValue: 'id'; multiple: true }
+    >
     expectTypeOf<NarrowMulti['model']>().toEqualTypeOf<number[]>()
 
-    type NarrowText = ContextOf<'VfText', { translate: true; languages: { en: 'English'; de: 'German' } }>
+    type NarrowText = ContextOf<
+      'VfText',
+      { translate: true; languages: { en: 'English'; de: 'German' } }
+    >
     expectTypeOf<NonNullable<NarrowText['props']['modelValue']>>().toExtend<{
       en?: any
       de?: any
@@ -63,8 +81,13 @@ describe('ContextOf — wide + narrowed by TEntry', () => {
     type WideList = ContextOf<'VfList'>
     expectTypeOf<WideList['model']>().toEqualTypeOf<any[]>()
 
-    type NarrowFlatList = ContextOf<'VfList', { flat: true; schema: { domain: { type: 'text' } } }>
-    expectTypeOf<NarrowFlatList['model']>().toEqualTypeOf<(string | number | null)[]>()
+    type NarrowFlatList = ContextOf<
+      'VfList',
+      { flat: true; schema: { domain: { type: 'text' } } }
+    >
+    expectTypeOf<NarrowFlatList['model']>().toEqualTypeOf<
+      (string | number | null)[]
+    >()
   })
 
   // Wide grid stays permissive; a grid-schema-narrowed entry types the cells.
@@ -72,7 +95,10 @@ describe('ContextOf — wide + narrowed by TEntry', () => {
     type WideGrid = ContextOf<'VfGrid'>
     expectTypeOf<WideGrid['model']>().toEqualTypeOf<Record<string, any>>()
 
-    type NarrowGrid = ContextOf<'VfGrid', { grid: [[{ type: 'text'; name: 'cell' }]] }>
+    type NarrowGrid = ContextOf<
+      'VfGrid',
+      { grid: [[{ type: 'text'; name: 'cell' }]] }
+    >
     expectTypeOf<NarrowGrid['model']>().toEqualTypeOf<{
       cell: string | number | null
     }>()
@@ -83,7 +109,10 @@ describe('ContextOf — wide + narrowed by TEntry', () => {
     type WideMatrix = ContextOf<'VfMatrix'>
     expectTypeOf<WideMatrix['model']>().toEqualTypeOf<Record<string, any>>()
 
-    type NarrowMatrix = ContextOf<'VfMatrix', { mode: 'single'; rows: 2; cols: ['a', 'b'] }>
+    type NarrowMatrix = ContextOf<
+      'VfMatrix',
+      { mode: 'single'; rows: 2; cols: ['a', 'b'] }
+    >
     expectTypeOf<NarrowMatrix['model']>().toEqualTypeOf<(string | null)[]>()
   })
 })
@@ -587,7 +616,9 @@ describe('SchemaToModel / ModelByPath', () => {
     expectTypeOf<M['nested_group']>().toEqualTypeOf<{
       inner: string | number | null
     }>()
-    expectTypeOf<M['list']>().toEqualTypeOf<{ item_text: string | number | null; item_select: string | null }[]>()
+    expectTypeOf<M['list']>().toEqualTypeOf<
+      { item_text: string | number | null; item_select: string | null }[]
+    >()
     expectTypeOf<M['flat_list']>().toEqualTypeOf<(string | number | null)[]>()
     // Non-nested grid children merge into the parent model.
     expectTypeOf<M['cell_text']>().toEqualTypeOf<string | number | null>()
@@ -614,13 +645,19 @@ describe('SchemaToModel / ModelByPath', () => {
 
   test('ModelByPath resolves nested paths and falls back to any', () => {
     expectTypeOf<ModelByPath<S, 'select'>>().toEqualTypeOf<number | null>()
-    expectTypeOf<ModelByPath<S, 'list.0.item_text'>>().toEqualTypeOf<string | number | null>()
+    expectTypeOf<ModelByPath<S, 'list.0.item_text'>>().toEqualTypeOf<
+      string | number | null
+    >()
     expectTypeOf<ModelByPath<S, 'list.0'>>().toEqualTypeOf<{
       item_text: string | number | null
       item_select: string | null
     }>()
-    expectTypeOf<ModelByPath<S, 'flat_list.0'>>().toEqualTypeOf<string | number | null>()
-    expectTypeOf<ModelByPath<S, 'grid.cell_select'>>().toEqualTypeOf<string | null>()
+    expectTypeOf<ModelByPath<S, 'flat_list.0'>>().toEqualTypeOf<
+      string | number | null
+    >()
+    expectTypeOf<ModelByPath<S, 'grid.cell_select'>>().toEqualTypeOf<
+      string | null
+    >()
     expectTypeOf<ModelByPath<S, 'bogus'>>().toBeAny()
   })
 })
@@ -629,7 +666,9 @@ describe('ElementByPath — narrowed contexts + fallbacks', () => {
   test('leaf elements expose narrowed model and update', () => {
     type FoundSelect = ElementByPath<S, 'select'>
     expectTypeOf<FoundSelect['model']>().toEqualTypeOf<number | null>()
-    expectTypeOf<Parameters<FoundSelect['update']>[0]>().toEqualTypeOf<number | null>()
+    expectTypeOf<Parameters<FoundSelect['update']>[0]>().toEqualTypeOf<
+      number | null
+    >()
 
     type FoundText = ElementByPath<S, 'text'>
     expectTypeOf<FoundText['model']>().toEqualTypeOf<string | number | null>()
@@ -650,19 +689,27 @@ describe('ElementByPath — narrowed contexts + fallbacks', () => {
     expectTypeOf<FoundNestedGroup['model']>().toEqualTypeOf<{
       inner: string | number | null
     }>()
-    expectTypeOf<FoundNestedGroup['model']['inner']>().toEqualTypeOf<string | number | null>()
+    expectTypeOf<FoundNestedGroup['model']['inner']>().toEqualTypeOf<
+      string | number | null
+    >()
   })
 
   test('list contexts expose a rows-array model shaped by their schema + flat prop', () => {
     type FoundList = ElementByPath<S, 'list'>
-    expectTypeOf<FoundList['model']>().toEqualTypeOf<{ item_text: string | number | null; item_select: string | null }[]>()
+    expectTypeOf<FoundList['model']>().toEqualTypeOf<
+      { item_text: string | number | null; item_select: string | null }[]
+    >()
 
     type FoundFlatList = ElementByPath<S, 'flat_list'>
-    expectTypeOf<FoundFlatList['model']>().toEqualTypeOf<(string | number | null)[]>()
+    expectTypeOf<FoundFlatList['model']>().toEqualTypeOf<
+      (string | number | null)[]
+    >()
 
     // Non-flat list rows resolve to the synthetic group prototype.
     type FoundListRow = ElementByPath<S, 'list.1'>
-    expectTypeOf<FoundListRow['props']['type']>().toEqualTypeOf<'group' | undefined>()
+    expectTypeOf<FoundListRow['props']['type']>().toEqualTypeOf<
+      'group' | undefined
+    >()
   })
 
   test('grid contexts expose the scoped projection of their named cell elements', () => {
@@ -678,7 +725,9 @@ describe('ElementByPath — narrowed contexts + fallbacks', () => {
     }>()
 
     type FoundGridChild = ElementByPath<S, 'grid.cell_text'>
-    expectTypeOf<FoundGridChild['model']>().toEqualTypeOf<string | number | null>()
+    expectTypeOf<FoundGridChild['model']>().toEqualTypeOf<
+      string | number | null
+    >()
   })
 
   test('matrix context exposes a rows/cols/mode-shaped model', () => {

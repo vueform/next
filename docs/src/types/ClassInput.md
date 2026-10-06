@@ -5,8 +5,9 @@
  * function whose last parameter is the component context.
  */
 type ClassInput<V, TContext = any> = V extends (...args: infer A) => ClassValue
-  ? | ClassValue
-    | ((...args: A) => ClassValue)
-    | ((...args: [...A, context$: TContext]) => ClassValue)
+  ?
+      | ClassValue
+      | ((...args: A) => ClassValue)
+      | ((...args: [...A, context$: TContext]) => ClassValue)
   : ClassValue | ((context$: TContext) => ClassValue)
 ```

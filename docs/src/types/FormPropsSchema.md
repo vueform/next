@@ -4,7 +4,7 @@
  * unwrapped), falling back to the wide `FormSchema`.
  */
 type FormPropsSchema<TProps> = TProps extends {
-  schema?: MaybeRef<infer S | undefined>
+  schema?: MaybeRef<(infer S) | undefined>
 }
   ? [S] extends [never]
     ? FormSchema

@@ -52,8 +52,10 @@ catalog:
   playwright: ^1.51.1
   oxfmt: ^0.70.0
   oxlint: ^1.85.0
-  prettier: ^3.9.8
-  prettier-plugin-jsdoc: ^1.8.0
+  # prettier: ^3.9.8
+  # prettier + prettier-plugin-jsdoc removed entirely: oxfmt is the repo
+  # formatter AND the generators' embedded printer (oxfmt's format() API).
+  # prettier-plugin-jsdoc: ^1.8.0
   # prettier-plugin-packagejson removed: oxfmt sortPackageJson owns package.json
   # prettier-plugin-packagejson: ^3.0.2
   primeicons: ^7.0.0

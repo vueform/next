@@ -4,5 +4,10 @@
  * `rows` option).
  */
 type UseDataRepeatableKeys =
-  'items' | 'dragIndex' | 'dropIndex' | 'add' | 'remove' | 'sort'
+  | 'items'
+  | 'dragIndex'
+  | 'dropIndex'
+  | 'add'
+  | 'remove'
+  | 'sort'
 ```

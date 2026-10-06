@@ -21,7 +21,11 @@ const checkboxesBad = ref(1)
  * @param trueValue Always `true` for holder children.
  * @param falseValue Always `false` for holder children.
  */
-const assertCheckboxSlot = (model: boolean, trueValue: true, falseValue: false) => [model, trueValue, falseValue]
+const assertCheckboxSlot = (
+  model: boolean,
+  trueValue: true,
+  falseValue: false
+) => [model, trueValue, falseValue]
 
 /**
  * Rejects a checkbox-slot model that is not boolean.

@@ -6,5 +6,8 @@
  * initialized by the element at runtime.
  */
 type TranslatableModel =
-  Record<string, string | number | null | undefined> | string | number | null
+  | Record<string, string | number | null | undefined>
+  | string
+  | number
+  | null
 ```

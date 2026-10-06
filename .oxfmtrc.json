@@ -20,15 +20,6 @@
     "packages/metrics/results/",
     "packages/core/tests/perf/.results/",
     "packages/core/tests/perf-dts/.results/",
-    "**/*.vue",
-    "**/*.scss",
-    "tsconfig.*",
-    "**/tsconfig.*",
-    "docs/.vitepress/config.mts",
-    "docs/.vitepress/adapters/ui/config.ts",
-    "docs/.vitepress/adapters/primevue/config.ts",
-    "packages/core/vitest.config.ts",
-    "packages/core/tests/dts/**",
     "docs/src/playground/**"
   ]
 }

@@ -29,7 +29,10 @@ export default {
             { text: 'VfMultiSelect', link: '/components/VfMultiSelect' },
             { text: 'VfPassword', link: '/components/VfPassword' },
             { text: 'VfRadioButton', link: '/components/VfRadioButton' },
-            { text: 'VfRadioButtonGroup', link: '/components/VfRadioButtonGroup' },
+            {
+              text: 'VfRadioButtonGroup',
+              link: '/components/VfRadioButtonGroup',
+            },
             { text: 'VfRating', link: '/components/VfRating' },
             { text: 'VfSelect', link: '/components/VfSelect' },
             { text: 'VfSelectButton', link: '/components/VfSelectButton' },
@@ -78,7 +81,8 @@ export default {
       },
     },
     editLink: {
-      pattern: 'https://github.com/vueform/next/blob/main/packages/primevue/docs/:path',
+      pattern:
+        'https://github.com/vueform/next/blob/main/packages/primevue/docs/:path',
       text: 'Edit this page on GitHub',
     },
   },

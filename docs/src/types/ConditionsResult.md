@@ -8,5 +8,6 @@
  * strict `ConditionalProp`.
  */
 type ConditionsResult<TContext = any> =
-  ConditionalProp<TContext> | readonly (readonly unknown[])[]
+  | ConditionalProp<TContext>
+  | readonly (readonly unknown[])[]
 ```

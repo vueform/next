@@ -13,7 +13,13 @@ interface SubmitFail {
    * blocked by `$security.allowOrigins`, or an SSR-time request).
    */
   reason:
-    'network' | 'timeout' | 'http' | 'abort' | 'blocked' | 'ssr' | 'unknown'
+    | 'network'
+    | 'timeout'
+    | 'http'
+    | 'abort'
+    | 'blocked'
+    | 'ssr'
+    | 'unknown'
 
   /**
    * The HTTP status code, or null if no response was received.

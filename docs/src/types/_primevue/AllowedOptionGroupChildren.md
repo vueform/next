@@ -10,6 +10,7 @@ type AllowedOptionGroupChildren<TOptions> = [OptionGroupOf<TOptions>] extends [
   never,
 ]
   ? string | ((group: any) => any[])
-  : | Extract<keyof OptionGroupOf<TOptions>, string>
-    | ((group: OptionGroupOf<TOptions>) => any[])
+  :
+      | Extract<keyof OptionGroupOf<TOptions>, string>
+      | ((group: OptionGroupOf<TOptions>) => any[])
 ```

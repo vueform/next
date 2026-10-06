@@ -29,7 +29,7 @@
   "clone": {
     "path": "VfKnob.vue",
     "blueprint": "knob",
-    "hash": "sha256:471697a65ee13f9e33aaa27ed437fc93b5245215c4ea7114a9b6caedf4d2222b",
+    "hash": "sha256:5815c8cbeeae5c22b87c27d5a03a3be35239ee6f40728d620f006044d77436d1",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

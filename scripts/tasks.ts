@@ -110,42 +110,6 @@ function oxfmtStep(target: ToolTarget, write: boolean): Step {
   return exec('oxfmt', ...mode, target.path ?? '.')
 }
 
-/**
- * Prettier's domain as an explicit allow-list: oxfmt owns TS/JS/JSON
- * (config: .oxfmtrc.json), prettier keeps .vue (oxfmt's `semi: false`
- * corrupts v-on handlers), styles, markup, yaml — plus the
- * printWidth-override files from .prettierrc. An ignore-file partition is
- * not an option: oxfmt (CLI and editor LSP) reads .prettierignore by
- * default, and a `*.ts` entry there would blind it.
- */
-const PRETTIER_GLOB = '**/*.{vue,scss,css,html,yml,yaml}'
-
-const PRETTIER_TS_EXCEPTIONS = [
-  'docs/.vitepress/config.mts',
-  'docs/.vitepress/adapters/ui/config.ts',
-  'docs/.vitepress/adapters/primevue/config.ts',
-  'packages/core/vitest.config.ts',
-  'packages/core/tests/dts/**/*.ts',
-]
-
-function prettierStep(target: ToolTarget, write: boolean): Step {
-  const mode = write ? '--write' : '--check'
-  const base = target.path ?? '.'
-  const patterns = [
-    `${base}/${PRETTIER_GLOB}`,
-    `${base}/**/tsconfig*.json`,
-    ...PRETTIER_TS_EXCEPTIONS.filter((path) =>
-      target.path
-        ? path.startsWith(`${target.path}/`)
-        : !path.startsWith('packages/')
-    ),
-    // The root target covers everything outside the packages (the
-    // per-package targets own those).
-    ...(target.path ? [] : ['!packages/**', '!.playgrounds/**']),
-  ]
-  return exec('prettier', ...patterns, mode, '--no-error-on-unmatched-pattern')
-}
-
 export const lintTasks = (fix: boolean): Task[] =>
   toolTargets().map((target) =>
     toolTask(target, [
@@ -156,9 +120,7 @@ export const lintTasks = (fix: boolean): Task[] =>
   )
 
 export const formatTasks = (write: boolean): Task[] =>
-  toolTargets().map((target) =>
-    toolTask(target, [oxfmtStep(target, write), prettierStep(target, write)])
-  )
+  toolTargets().map((target) => toolTask(target, [oxfmtStep(target, write)]))
 
 /**
  * `fix` = lint autofixes plus formatting, per target.
@@ -170,7 +132,6 @@ export const fixTasks = (): Task[] =>
       eslintStep(target, true),
       stylelintStep(target, true),
       oxfmtStep(target, true),
-      prettierStep(target, true),
     ])
   )
 

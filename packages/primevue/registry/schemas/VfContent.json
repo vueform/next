@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfContent.vue",
     "blueprint": "content",
-    "hash": "sha256:45ffce723472a22870fee170fa2b3bad727e3314e9630a741b507433e16c7936",
+    "hash": "sha256:2212c423a755b53a56aaa2f8b05b3d032d8b9228eb923629cf4018ed489a012e",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

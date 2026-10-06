@@ -4,5 +4,6 @@
  * for `optionGroupChildren`.
  */
 type AllowedCascadeOptionGroupChildren<TOptions> =
-  AllowedOptionGroupChildren<TOptions> | string[]
+  | AllowedOptionGroupChildren<TOptions>
+  | string[]
 ```

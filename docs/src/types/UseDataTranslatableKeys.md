@@ -4,5 +4,7 @@
  * `translate` option).
  */
 type UseDataTranslatableKeys =
-  'currentValidation' | 'invalidLanguages' | 'validateCurrent'
+  | 'currentValidation'
+  | 'invalidLanguages'
+  | 'validateCurrent'
 ```

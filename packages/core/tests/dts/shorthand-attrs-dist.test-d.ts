@@ -29,9 +29,13 @@ describe('shorthand attrs on dist props', () => {
 
   test('shorthand values accept a callable form', () => {
     type TextPartInput = NonNullable<VfTextProps['part:input']>
-    expectTypeOf<Extract<TextPartInput, (...args: any) => any>>().not.toBeNever()
+    expectTypeOf<
+      Extract<TextPartInput, (...args: any) => any>
+    >().not.toBeNever()
 
     type SelectClassInput = NonNullable<VfSelectProps['class:input']>
-    expectTypeOf<Extract<SelectClassInput, (...args: any) => any>>().not.toBeNever()
+    expectTypeOf<
+      Extract<SelectClassInput, (...args: any) => any>
+    >().not.toBeNever()
   })
 })

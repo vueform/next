@@ -18,9 +18,9 @@ import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
 import Ajv from 'ajv'
-import prettier from 'prettier'
 import ts from 'typescript'
 import { parse as parseSfc } from 'vue/compiler-sfc'
+import { findWorkspaceRoot } from './shared'
 
 const SCHEMA_VERSION = 1
 
@@ -488,6 +488,8 @@ const CLONE_SUFFIXES = [
   'Expose',
   'Context',
 ]
+
+type EmbeddedFormatOptions = Record<string, unknown>
 
 /**
  * Options for `generateRegistry`.
@@ -1016,17 +1018,46 @@ function emitCloneTemplate(
 }
 
 /**
- * Formats an emitted SFC with the repo's Prettier config so a user's
- * format-on-save is a no-op in matching projects and hashes stay stable.
- * (Projects with diverging Prettier configs will still reformat — resolving
- * that needs normalized comparison on the CLI side.)
+ * Formats generator-emitted source (vf-registry clones, the docs json-types
+ * snippets) with oxfmt — the repo's one formatter — so generated output is
+ * consistent with the codebase by construction. The parser is inferred from
+ * `fileName`'s extension. Style options come from the repo's `.oxfmtrc.json`
+ * (the single source of truth); a formatting error returns the input
+ * unchanged, matching the previous behavior for unparsable snippets.
  */
+export async function formatEmittedSource(
+  fileName: string,
+  content: string
+): Promise<string> {
+  // Dynamic import: oxfmt ships ESM only, while this package compiles to CJS.
+  const { format } = await import('oxfmt')
+  const result = await format(fileName, content, embeddedFormatOptions())
+  return result.errors.length > 0 ? content : result.code
+}
+
+let cachedFormatOptions: EmbeddedFormatOptions | undefined
+
+/**
+ * The repo's `.oxfmtrc.json` style options (minus file-selection keys, which
+ * are meaningless for in-memory formatting).
+ */
+function embeddedFormatOptions(): EmbeddedFormatOptions {
+  if (!cachedFormatOptions) {
+    const rc = JSON.parse(
+      fs.readFileSync(
+        path.join(findWorkspaceRoot(process.cwd()), '.oxfmtrc.json'),
+        'utf8'
+      )
+    ) as EmbeddedFormatOptions
+    delete rc.$schema
+    delete rc.ignorePatterns
+    cachedFormatOptions = rc
+  }
+  return cachedFormatOptions
+}
+
 async function formatEmitted(content: string): Promise<string> {
-  // resolveConfig resolves the config that applies to a FILE — hand it a
-  // hypothetical file at the repo root so .prettierrc is found.
-  const config =
-    (await prettier.resolveConfig(path.join(repoRoot, 'x.vue'))) ?? {}
-  return prettier.format(content, { ...config, parser: 'vue' })
+  return formatEmittedSource('clone.vue', content)
 }
 
 function sha256(content: string): string {

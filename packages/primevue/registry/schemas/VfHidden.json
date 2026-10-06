@@ -23,7 +23,7 @@
   "clone": {
     "path": "VfHidden.vue",
     "blueprint": "hidden",
-    "hash": "sha256:37acecc9870732144f09a194b13ff1fa32a0c353aa6ea786f03fa7c53edd1efe",
+    "hash": "sha256:69357f79b17e96060f0f473ba2b4fbb021de22fea3f9c219d80aee2c93ffa538",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

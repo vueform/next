@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfGroup.vue",
     "blueprint": "group",
-    "hash": "sha256:6bd928e080dfccb575de8b598b10bca0900aadeece0761194df2af7bfb275049",
+    "hash": "sha256:d0ff4103a4b8aaf0a6d404d9081c3d1f274862c055c1b8750471abd29560a94a",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

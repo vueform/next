@@ -10,9 +10,10 @@ type ChildClassesProp<T extends ComponentNames> =
         {
           [K in keyof Classes]?: Classes[K] extends infer C
             ? C extends (...args: infer A extends any[]) => any
-              ? | ClassValue
-                | ((...args: A) => ClassValue)
-                | ((...args: [...A, context$: any]) => ClassValue)
+              ?
+                  | ClassValue
+                  | ((...args: A) => ClassValue)
+                  | ((...args: [...A, context$: any]) => ClassValue)
               : ClassValue | ((context$: any) => ClassValue)
             : never
         } & Record<string, ClassValue | ((...args: any[]) => ClassValue)>

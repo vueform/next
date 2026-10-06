@@ -6,6 +6,7 @@
  */
 type AllowedGroupChildren<TItems> = [GroupOf<TItems>] extends [never]
   ? string | ((group: any) => any[] | Record<string, any>)
-  : | Extract<keyof GroupOf<TItems>, string>
-    | ((group: GroupOf<TItems>) => any[] | Record<string, any>)
+  :
+      | Extract<keyof GroupOf<TItems>, string>
+      | ((group: GroupOf<TItems>) => any[] | Record<string, any>)
 ```

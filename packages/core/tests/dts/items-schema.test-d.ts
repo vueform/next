@@ -3,7 +3,12 @@
  * SchemaToModel / ModelByPath derivation from items.
  * Run by `pnpm test:dts`.
  */
-import { defineSchema, type ElementByPath, type ModelByPath, type SchemaToModel } from '@vueform/core'
+import {
+  defineSchema,
+  type ElementByPath,
+  type ModelByPath,
+  type SchemaToModel,
+} from '@vueform/core'
 import { describe, expectTypeOf, test } from 'vitest'
 
 describe('defineSchema items → modelValue inference', () => {
@@ -437,7 +442,9 @@ describe('SchemaToModel', () => {
     // `whole` resolves to a `NoInfer<...>`-wrapped union; the wrapper is
     // identity-equal to the plain type but defeats expect-type's branded
     // equality, so the expected side carries the same wrapper.
-    expectTypeOf<Model['whole']>().toEqualTypeOf<NoInfer<{ id: number; label: string } | null>>()
+    expectTypeOf<Model['whole']>().toEqualTypeOf<
+      NoInfer<{ id: number; label: string } | null>
+    >()
     expectTypeOf<Model['multi']>().toEqualTypeOf<number[]>()
     // Record-map keys are structural (not const-narrowing artifacts), so they stay literal
     expectTypeOf<Model['map']>().toEqualTypeOf<'us' | 'de' | null>()
@@ -453,12 +460,24 @@ describe('SchemaToModel', () => {
 
 describe('ModelByPath', () => {
   test('derives the model for a path from the schema entry', () => {
-    expectTypeOf<ModelByPath<typeof _modelSchema, 'nums'>>().toEqualTypeOf<number | null>()
-    expectTypeOf<ModelByPath<typeof _modelSchema, 'objs'>>().toEqualTypeOf<number | null>()
-    expectTypeOf<ModelByPath<typeof _modelSchema, 'multi'>>().toEqualTypeOf<number[]>()
-    expectTypeOf<ModelByPath<typeof _modelSchema, 'name'>>().toEqualTypeOf<string | number | null>()
-    expectTypeOf<ModelByPath<typeof _modelSchema, 'radios'>>().toEqualTypeOf<number | null>()
-    expectTypeOf<ModelByPath<typeof _modelSchema, 'checkboxes'>>().toEqualTypeOf<number[]>()
+    expectTypeOf<ModelByPath<typeof _modelSchema, 'nums'>>().toEqualTypeOf<
+      number | null
+    >()
+    expectTypeOf<ModelByPath<typeof _modelSchema, 'objs'>>().toEqualTypeOf<
+      number | null
+    >()
+    expectTypeOf<ModelByPath<typeof _modelSchema, 'multi'>>().toEqualTypeOf<
+      number[]
+    >()
+    expectTypeOf<ModelByPath<typeof _modelSchema, 'name'>>().toEqualTypeOf<
+      string | number | null
+    >()
+    expectTypeOf<ModelByPath<typeof _modelSchema, 'radios'>>().toEqualTypeOf<
+      number | null
+    >()
+    expectTypeOf<
+      ModelByPath<typeof _modelSchema, 'checkboxes'>
+    >().toEqualTypeOf<number[]>()
   })
 })
 
@@ -472,7 +491,9 @@ describe('ElementByPath (form$.find)', () => {
   test('narrows value/model/update from the entry', () => {
     expectTypeOf<FindNums['value']>().toEqualTypeOf<number | null>()
     expectTypeOf<FindNums['model']>().toEqualTypeOf<number | null>()
-    expectTypeOf<Parameters<FindNums['update']>[0]>().toEqualTypeOf<number | null>()
+    expectTypeOf<Parameters<FindNums['update']>[0]>().toEqualTypeOf<
+      number | null
+    >()
     expectTypeOf<FindObjs['value']>().toEqualTypeOf<number | null>()
     expectTypeOf<FindMulti['value']>().toEqualTypeOf<number[]>()
     expectTypeOf<FindRadios['value']>().toEqualTypeOf<number | null>()
@@ -483,7 +504,9 @@ describe('ElementByPath (form$.find)', () => {
     expectTypeOf<FindNums['items'][number]['value']>().toEqualTypeOf<number>()
     expectTypeOf<FindObjs['items'][number]['value']>().toEqualTypeOf<number>()
     expectTypeOf<FindRadios['items'][number]['value']>().toEqualTypeOf<number>()
-    expectTypeOf<FindCheckboxes['items'][number]['value']>().toEqualTypeOf<number>()
+    expectTypeOf<
+      FindCheckboxes['items'][number]['value']
+    >().toEqualTypeOf<number>()
   })
 
   test('non-model elements (button) must not gain value/model/load/update from the overlay', () => {

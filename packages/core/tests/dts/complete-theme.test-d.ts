@@ -4,7 +4,11 @@
  * map must be defined, `dark` must be present (`{}` opts out), and custom
  * keys beyond the base set are accepted. Run by `pnpm test:dts`.
  */
-import { extendTheme, defineTheme as defineLooseTheme, type CompleteTheme } from '@vueform/core'
+import {
+  extendTheme,
+  defineTheme as defineLooseTheme,
+  type CompleteTheme,
+} from '@vueform/core'
 import { describe, expectTypeOf, test } from 'vitest'
 
 const base = {

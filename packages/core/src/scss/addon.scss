@@ -57,10 +57,13 @@
 .vf-addon:has(~ .vf-input),
 .vf-addon:has(~ .vf-icon-group) {
   margin: var(--vf-addon-before-margin);
-  border-top: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-top: var(--vf-addon-border-width) var(--vf-addon-border-style)
+    var(--vf-addon-border-color);
   border-right: 0px var(--vf-addon-border-style) var(--vf-addon-border-color);
-  border-bottom: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
-  border-left: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-bottom: var(--vf-addon-border-width) var(--vf-addon-border-style)
+    var(--vf-addon-border-color);
+  border-left: var(--vf-addon-border-width) var(--vf-addon-border-style)
+    var(--vf-addon-border-color);
 
   &:not(:has(.vf-input), :has(.vf-btn), :has(.vf-icon-group)) {
     padding: var(--vf-addon-before-padding);
@@ -76,17 +79,24 @@
   .vf-addon-group,
   .vf-icon-group,
   .vf-btn {
-    border-top-left-radius: calc(var(--vf-addon-radius) - var(--vf-addon-border-width));
-    border-bottom-left-radius: calc(var(--vf-addon-radius) - var(--vf-addon-border-width));
+    border-top-left-radius: calc(
+      var(--vf-addon-radius) - var(--vf-addon-border-width)
+    );
+    border-bottom-left-radius: calc(
+      var(--vf-addon-radius) - var(--vf-addon-border-width)
+    );
   }
 }
 
 .vf-input ~ .vf-addon,
 .vf-icon-group ~ .vf-addon {
   margin: var(--vf-addon-before-margin);
-  border-top: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
-  border-right: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
-  border-bottom: var(--vf-addon-border-width) var(--vf-addon-border-style) var(--vf-addon-border-color);
+  border-top: var(--vf-addon-border-width) var(--vf-addon-border-style)
+    var(--vf-addon-border-color);
+  border-right: var(--vf-addon-border-width) var(--vf-addon-border-style)
+    var(--vf-addon-border-color);
+  border-bottom: var(--vf-addon-border-width) var(--vf-addon-border-style)
+    var(--vf-addon-border-color);
   border-left: 0px var(--vf-addon-border-style) var(--vf-addon-border-color);
 
   &:not(:has(.vf-input), :has(.vf-btn), :has(.vf-icon-group)) {
@@ -103,8 +113,12 @@
   .vf-addon-group,
   .vf-icon-group,
   .vf-btn {
-    border-top-right-radius: calc(var(--vf-addon-radius) - var(--vf-addon-border-width));
-    border-bottom-right-radius: calc(var(--vf-addon-radius) - var(--vf-addon-border-width));
+    border-top-right-radius: calc(
+      var(--vf-addon-radius) - var(--vf-addon-border-width)
+    );
+    border-bottom-right-radius: calc(
+      var(--vf-addon-radius) - var(--vf-addon-border-width)
+    );
   }
 }
 

@@ -7,7 +7,8 @@
  */
 type ItemKeyProp<TItems, TGroupChildren, TReturn> =
   AllowsItemKeyProps<TItems> extends true
-    ? | ItemKeyOf<RawItemOf<TItems, TGroupChildren>>
-      | ((item: RawItemOf<TItems, TGroupChildren>) => TReturn)
+    ?
+        | ItemKeyOf<RawItemOf<TItems, TGroupChildren>>
+        | ((item: RawItemOf<TItems, TGroupChildren>) => TReturn)
     : (item: RawItemOf<TItems, TGroupChildren>) => TReturn
 ```

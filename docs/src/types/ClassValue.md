@@ -4,5 +4,10 @@
  * object syntax. Matches Vue's built-in `:class` binding type.
  */
 type ClassValue =
-  false | null | undefined | string | Record<string, any> | ClassValue[]
+  | false
+  | null
+  | undefined
+  | string
+  | Record<string, any>
+  | ClassValue[]
 ```

@@ -4,6 +4,11 @@
  * events.
  */
 type ValidateOnProp = (
-  'change' | 'blur' | 'next' | 'back' | 'submit' | (string & {})
+  | 'change'
+  | 'blur'
+  | 'next'
+  | 'back'
+  | 'submit'
+  | (string & {})
 )[]
 ```

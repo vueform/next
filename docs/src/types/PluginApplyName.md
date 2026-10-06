@@ -4,5 +4,9 @@
  * wildcards, and pattern matchers.
  */
 type PluginApplyName =
-  ComponentNames | '*element' | '*' | RegExp | (string & {})
+  | ComponentNames
+  | '*element'
+  | '*'
+  | RegExp
+  | (string & {})
 ```

@@ -4,5 +4,7 @@
  * returning children in any ItemsProp format.
  */
 type GroupChildren =
-  string[] | string | ((group: any) => any[] | Record<string, any>)
+  | string[]
+  | string
+  | ((group: any) => any[] | Record<string, any>)
 ```

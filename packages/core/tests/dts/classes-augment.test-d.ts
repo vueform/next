@@ -21,7 +21,9 @@ type TextContext = ContextOf<'VfText'>
 describe('VfTextClasses augmentation', () => {
   test('the augmented key is typed on the context — not the `any` fallback', () => {
     expectTypeOf<TextContext['classes']['augmentedIcon']>().not.toBeAny()
-    expectTypeOf<TextContext['classes']['augmentedIcon']>().toEqualTypeOf<ClassValue>()
+    expectTypeOf<
+      TextContext['classes']['augmentedIcon']
+    >().toEqualTypeOf<ClassValue>()
   })
 
   test('declared keys are unaffected', () => {
@@ -29,8 +31,12 @@ describe('VfTextClasses augmentation', () => {
   })
 
   test('the `classes` / `reclass` props know the key', () => {
-    expectTypeOf<NonNullable<VfTextProps['classes']>>().toHaveProperty('augmentedIcon')
-    expectTypeOf<NonNullable<VfTextProps['reclass']>>().toHaveProperty('augmentedIcon')
+    expectTypeOf<NonNullable<VfTextProps['classes']>>().toHaveProperty(
+      'augmentedIcon'
+    )
+    expectTypeOf<NonNullable<VfTextProps['reclass']>>().toHaveProperty(
+      'augmentedIcon'
+    )
   })
 
   test('schema entries accept it (contextual form included)', () => {

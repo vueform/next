@@ -5,7 +5,8 @@
  * (so invalid `groupChildren` values do not poison item inference).
  */
 type ChildrenOfGroup<TGroup, TGroupChildren> = TGroupChildren extends
-  undefined | never
+  | undefined
+  | never
   ? never
   : TGroupChildren extends keyof TGroup
     ? TGroup[TGroupChildren]

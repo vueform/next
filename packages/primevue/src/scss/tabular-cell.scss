@@ -212,13 +212,21 @@
       border-radius: 0;
 
       &:first-child {
-        border-start-start-radius: calc(var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width));
-        border-end-start-radius: calc(var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width));
+        border-start-start-radius: calc(
+          var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width)
+        );
+        border-end-start-radius: calc(
+          var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width)
+        );
       }
 
       &:last-child {
-        border-start-end-radius: calc(var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width));
-        border-end-end-radius: calc(var(--vf-tabular-radius-br) - var(--vf-tabular-border-width));
+        border-start-end-radius: calc(
+          var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width)
+        );
+        border-end-end-radius: calc(
+          var(--vf-tabular-radius-br) - var(--vf-tabular-border-width)
+        );
       }
     }
   }

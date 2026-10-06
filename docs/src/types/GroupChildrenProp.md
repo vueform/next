@@ -9,5 +9,7 @@
  * this bound.
  */
 type GroupChildrenProp =
-  string | ((group: any) => any[] | Record<string, any>) | undefined
+  | string
+  | ((group: any) => any[] | Record<string, any>)
+  | undefined
 ```

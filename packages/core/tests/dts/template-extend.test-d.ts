@@ -4,9 +4,18 @@
  * parts) must flow into the context a template receives (`ContextOf`), the
  * component's props, and `fire`. Run by `pnpm test:dts`.
  */
-import { defineSchema, type ContextOf, type DomAttrsOf, type LanguagesProp, type UnwrapTopLevelRef } from '@vueform/core'
+import {
+  defineSchema,
+  type ContextOf,
+  type DomAttrsOf,
+  type LanguagesProp,
+  type UnwrapTopLevelRef,
+} from '@vueform/core'
 import { describe, expectTypeOf, test } from 'vitest'
-import type { VfTextContext, VfTextProps } from '@vueform/core/components/VfText'
+import type {
+  VfTextContext,
+  VfTextProps,
+} from '@vueform/core/components/VfText'
 import type { ComputedRef } from 'vue'
 import '@vueform/core/components'
 
@@ -15,13 +24,22 @@ declare module '@vueform/core/components/VfText' {
   // The type params must mirror the original declaration (interface merging
   // requires identical type parameter lists), even though this member ignores
   // them.
-  // eslint-disable-next-line unused-imports/no-unused-vars
-  interface VfTextProps<TTranslate extends boolean = boolean, TLanguages extends LanguagesProp = LanguagesProp> {
+
+  interface VfTextProps<
+    TTranslate extends boolean = boolean,
+    TLanguages extends LanguagesProp = LanguagesProp,
+  > {
     extPrefix?: string
   }
 
-  interface VfTextEmits<TTranslate extends boolean = boolean, TLanguages extends LanguagesProp = LanguagesProp> {
-    extPrefixClick: [e: MouseEvent, context$: VfTextContext<VfTextProps<TTranslate, TLanguages>>]
+  interface VfTextEmits<
+    TTranslate extends boolean = boolean,
+    TLanguages extends LanguagesProp = LanguagesProp,
+  > {
+    extPrefixClick: [
+      e: MouseEvent,
+      context$: VfTextContext<VfTextProps<TTranslate, TLanguages>>,
+    ]
   }
 
   interface VfTextExpose {
@@ -42,7 +60,9 @@ declare const ctx: TextContext
 
 describe('template augmentation (VfText)', () => {
   test("props: readable from `context.props`, accepted by the component's props", () => {
-    expectTypeOf<TextContext['props']['extPrefix']>().toEqualTypeOf<string | undefined>()
+    expectTypeOf<TextContext['props']['extPrefix']>().toEqualTypeOf<
+      string | undefined
+    >()
     expectTypeOf<VfTextProps>().toHaveProperty('extPrefix')
   })
 
@@ -50,8 +70,12 @@ describe('template augmentation (VfText)', () => {
     // A required `ComputedRef` member (the documented form) unwraps to its
     // value there; this one is optional (see the augmentation), and
     // `T | undefined` is not unwrapped — hence the shape below.
-    expectTypeOf<TextContext['extReversed']>().toEqualTypeOf<ComputedRef<string> | undefined>()
-    expectTypeOf<UnwrapTopLevelRef<ComputedRef<string>>>().toEqualTypeOf<string>()
+    expectTypeOf<TextContext['extReversed']>().toEqualTypeOf<
+      ComputedRef<string> | undefined
+    >()
+    expectTypeOf<
+      UnwrapTopLevelRef<ComputedRef<string>>
+    >().toEqualTypeOf<string>()
   })
 
   test("parts: typed on the context's parts bag and on the `parts` prop", () => {

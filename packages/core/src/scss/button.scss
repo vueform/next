@@ -135,7 +135,11 @@ button.vf-btn {
     border-color: var(--vf-btn-outline-color);
 
     &:hover {
-      background-color: color-mix(in srgb, var(--vf-btn-bg) var(--vf-btn-outline-bg-percent), transparent var(--vf-btn-outline-transparent-percent));
+      background-color: color-mix(
+        in srgb,
+        var(--vf-btn-bg) var(--vf-btn-outline-bg-percent),
+        transparent var(--vf-btn-outline-transparent-percent)
+      );
     }
   }
 
@@ -146,7 +150,11 @@ button.vf-btn {
     border-color: transparent;
 
     &:hover {
-      background-color: color-mix(in srgb, var(--vf-btn-bg) var(--vf-btn-outline-bg-percent), transparent var(--vf-btn-outline-transparent-percent));
+      background-color: color-mix(
+        in srgb,
+        var(--vf-btn-bg) var(--vf-btn-outline-bg-percent),
+        transparent var(--vf-btn-outline-transparent-percent)
+      );
     }
   }
 

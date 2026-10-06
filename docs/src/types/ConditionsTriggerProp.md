@@ -7,5 +7,7 @@
  * defaults to any change in the model.
  */
 type ConditionsTriggerProp<TContext = any> =
-  string[] | Ref<any> | ((context$: TContext) => any)
+  | string[]
+  | Ref<any>
+  | ((context$: TContext) => any)
 ```

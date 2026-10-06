@@ -9,5 +9,12 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "smoke/**/*.ts", "smoke/**/*.d.ts", "smoke/**/*.vue", "vueform.config.ts"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "smoke/**/*.ts",
+    "smoke/**/*.d.ts",
+    "smoke/**/*.vue",
+    "vueform.config.ts"
+  ]
 }

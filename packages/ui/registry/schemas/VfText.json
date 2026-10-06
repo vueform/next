@@ -29,7 +29,7 @@
   "clone": {
     "path": "VfText.vue",
     "blueprint": "text",
-    "hash": "sha256:07c7a57e07eded157b45dbfd68ccfe82ca467277f93246458b2cf26df310c9fe",
+    "hash": "sha256:181fcbebee5d4ca682ba2c609d857e48dcbe7aa94ea3bbe2bb1cf15c66940e8a",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

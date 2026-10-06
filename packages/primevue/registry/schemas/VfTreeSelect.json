@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfTreeSelect.vue",
     "blueprint": "tree-select",
-    "hash": "sha256:91350ad8fb382ebca1089d9805437d45cda707fe4460c95a450814d98c345831",
+    "hash": "sha256:ecffa096e9ba1d315f5c7d160cab5635385cacee1df0ff6652ae3fc746e54d2d",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

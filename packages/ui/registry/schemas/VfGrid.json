@@ -29,7 +29,7 @@
   "clone": {
     "path": "VfGrid.vue",
     "blueprint": "grid",
-    "hash": "sha256:6da8fe0b2c5821139a370058bb224c6c967883e8eca9cfbea7f6834edc3b0f31",
+    "hash": "sha256:04b442bb79412e36e33d7975fd4507cdcd0942c9c9558df1ee154cec2ee152a7",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -26,18 +26,41 @@ const defaultId = ref<1 | 2 | null>(2)
   <!-- ============================================================ -->
 
   <!-- ✅: model matches itemValue -->
-  <VfSelect name="modelOk" :items="items" item-value="id" v-model="modelId" :default="defaultId" />
+  <VfSelect
+    name="modelOk"
+    :items="items"
+    item-value="id"
+    v-model="modelId"
+    :default="defaultId"
+  />
 
   <!-- ❌: model does not match itemValue -->
   <!-- @vue-expect-error -->
-  <VfSelect name="modelBad" :items="items" item-value="id" v-model="modelWrong" />
+  <VfSelect
+    name="modelBad"
+    :items="items"
+    item-value="id"
+    v-model="modelWrong"
+  />
 
   <!-- ✅: multiple → array model -->
-  <VfSelect name="multiOk" :items="items" item-value="id" multiple v-model="modelMulti" />
+  <VfSelect
+    name="multiOk"
+    :items="items"
+    item-value="id"
+    multiple
+    v-model="modelMulti"
+  />
 
   <!-- ❌: single model when multiple -->
   <!-- @vue-expect-error -->
-  <VfSelect name="multiBad" :items="items" item-value="id" multiple v-model="modelMultiWrong" />
+  <VfSelect
+    name="multiBad"
+    :items="items"
+    item-value="id"
+    multiple
+    v-model="modelMultiWrong"
+  />
 
   <!-- ============================================================ -->
   <!-- Contextual props (label)                                       -->
@@ -62,7 +85,12 @@ const defaultId = ref<1 | 2 | null>(2)
 
   <!-- ❌: invalid context member -->
   <!-- @vue-expect-error -->
-  <VfSelect name="labelBad" :items="items" item-value="id" :label="(el$) => el$.definitelyNotARealMember" />
+  <VfSelect
+    name="labelBad"
+    :items="items"
+    item-value="id"
+    :label="(el$) => el$.definitelyNotARealMember"
+  />
 
   <!-- ============================================================ -->
   <!-- Event handlers                                                 -->
@@ -88,7 +116,12 @@ const defaultId = ref<1 | 2 | null>(2)
 
   <!-- ❌: invalid context member -->
   <!-- @vue-expect-error -->
-  <VfSelect name="evtBadMember" :items="items" item-value="id" @change="(_n, _o, el$) => el$.definitelyNotARealMember" />
+  <VfSelect
+    name="evtBadMember"
+    :items="items"
+    item-value="id"
+    @change="(_n, _o, el$) => el$.definitelyNotARealMember"
+  />
 
   <!-- ============================================================ -->
   <!-- Template slot                                                  -->
@@ -145,17 +178,39 @@ const defaultId = ref<1 | 2 | null>(2)
   <!-- ============================================================ -->
 
   <!-- ✅: object forms receive context shape -->
-  <VfSelect name="classesPartsOk" :items="items" item-value="id" :classes="{ input: (el$) => (el$.path ? 'ok' : '') }" :reclass="{ input: (el$) => (el$.path ? 'ok' : '') }" :parts="{ input: (el$) => ({ 'data-path': el$.path }) }" />
+  <VfSelect
+    name="classesPartsOk"
+    :items="items"
+    item-value="id"
+    :classes="{ input: (el$) => (el$.path ? 'ok' : '') }"
+    :reclass="{ input: (el$) => (el$.path ? 'ok' : '') }"
+    :parts="{ input: (el$) => ({ 'data-path': el$.path }) }"
+  />
 
   <!-- ❌: invalid context member on classes -->
   <!-- @vue-expect-error -->
-  <VfSelect name="classesBad" :items="items" item-value="id" :classes="{ input: (el$) => el$.definitelyNotARealMember }" />
+  <VfSelect
+    name="classesBad"
+    :items="items"
+    item-value="id"
+    :classes="{ input: (el$) => el$.definitelyNotARealMember }"
+  />
 
   <!-- ❌: invalid context member on parts -->
   <!-- @vue-expect-error -->
-  <VfSelect name="partsBad" :items="items" item-value="id" :parts="{ input: (el$) => ({ x: el$.definitelyNotARealMember }) }" />
+  <VfSelect
+    name="partsBad"
+    :items="items"
+    item-value="id"
+    :parts="{ input: (el$) => ({ x: el$.definitelyNotARealMember }) }"
+  />
 
   <!-- ❌: invalid context member on reclass -->
   <!-- @vue-expect-error -->
-  <VfSelect name="reclassBad" :items="items" item-value="id" :reclass="{ input: (el$) => el$.definitelyNotARealMember }" />
+  <VfSelect
+    name="reclassBad"
+    :items="items"
+    item-value="id"
+    :reclass="{ input: (el$) => el$.definitelyNotARealMember }"
+  />
 </template>

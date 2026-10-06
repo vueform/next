@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfAutoComplete.vue",
     "blueprint": "auto-complete",
-    "hash": "sha256:37c5e34a4bed79faffe19b898d6c05bb515d3af7bb284ec80f424a9ee0bbb298",
+    "hash": "sha256:cef2c3228776eccce63985168baa2f508b68a1aea99b4f4a27b21a5f35059426",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

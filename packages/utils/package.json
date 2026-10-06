@@ -37,7 +37,7 @@
     "@vitejs/plugin-vue": "catalog:",
     "ajv": "catalog:",
     "fast-glob": "catalog:",
-    "prettier": "catalog:",
+    "oxfmt": "catalog:",
     "rollup-plugin-visualizer": "catalog:",
     "typescript": "catalog:",
     "unplugin-vue": "catalog:",

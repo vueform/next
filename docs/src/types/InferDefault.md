@@ -4,5 +4,6 @@
  * value when it is a native type.
  */
 type InferDefault<P, T> =
-  ((props: P) => T & {}) | (T extends NativeType ? T : never)
+  | ((props: P) => T & {})
+  | (T extends NativeType ? T : never)
 ```

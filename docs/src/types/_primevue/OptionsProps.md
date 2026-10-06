@@ -53,9 +53,12 @@ interface OptionsProps<
    *   full model inference)
    */
   optionValue?: AllowsOptionKeyProps<TOptions> extends true
-    ? | (TOptionValueKey & AllowedOptionValueKey<TOptions, TGroupChildren>)
-      | AllowedOptionValueKey<TOptions, TGroupChildren>
-      | ((option: RawOptionOf<TOptions, TGroupChildren>) => TOptionValueReturn)
+    ?
+        | (TOptionValueKey & AllowedOptionValueKey<TOptions, TGroupChildren>)
+        | AllowedOptionValueKey<TOptions, TGroupChildren>
+        | ((
+            option: RawOptionOf<TOptions, TGroupChildren>
+          ) => TOptionValueReturn)
     : never
 
   /**
@@ -103,8 +106,9 @@ interface OptionsProps<
    * `TGroupChildren` is still `undefined`.
    */
   optionGroupChildren?: AllowsOptionKeyProps<TOptions> extends true
-    ? | (TGroupChildren & AllowedOptionGroupChildren<TOptions>)
-      | AllowedOptionGroupChildren<TOptions>
+    ?
+        | (TGroupChildren & AllowedOptionGroupChildren<TOptions>)
+        | AllowedOptionGroupChildren<TOptions>
     : never
 
   /**

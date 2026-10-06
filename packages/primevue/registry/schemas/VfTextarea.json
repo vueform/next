@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfTextarea.vue",
     "blueprint": "textarea",
-    "hash": "sha256:c3c058211270598f3115a1762dee56a9f08f8d5abf348db16e9659e335a2c432",
+    "hash": "sha256:ef7894a2bdbb6b3064de39d4b668214e6884027233d1e55bdc0837b4960cdaf7",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

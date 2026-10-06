@@ -56,8 +56,6 @@
     "lint-staged": "catalog:",
     "oxfmt": "catalog:",
     "oxlint": "catalog:",
-    "prettier": "catalog:",
-    "prettier-plugin-jsdoc": "catalog:",
     "stylelint": "catalog:",
     "stylelint-config-recess-order": "catalog:",
     "stylelint-config-standard-scss": "catalog:",
@@ -79,17 +77,14 @@
     ],
     "*.vue": [
       "pnpm eslint --fix",
-      "pnpm prettier --write"
+      "pnpm oxfmt"
     ],
     "*.scss": [
       "pnpm stylelint --fix",
-      "pnpm prettier --write"
-    ],
-    "*.json": [
       "pnpm oxfmt"
     ],
-    "*.{yml,yaml}": [
-      "pnpm prettier --write"
+    "*.{json,yml,yaml}": [
+      "pnpm oxfmt"
     ]
   },
   "engines": {

@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfInputNumber.vue",
     "blueprint": "input-number",
-    "hash": "sha256:f03e2d6fb9615df9ddd044015f70b81f2c6f79b862d15bedbec98a2ebd367d36",
+    "hash": "sha256:256b85fa330211e38df864db43a3cfad25b89f2d048083dd483c81d9daa04266",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

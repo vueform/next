@@ -4,7 +4,10 @@
  */
 import { describe, expectTypeOf, test } from 'vitest'
 import type { ResolvedGroup, ResolvedItem } from '@vueform/core'
-import type { VfRadiosProps, VfRadiosSlots } from '@vueform/core/components/VfRadios'
+import type {
+  VfRadiosProps,
+  VfRadiosSlots,
+} from '@vueform/core/components/VfRadios'
 
 type ObjectItems = readonly [{ id: 1; label: 'A' }, { id: 2; label: 'B' }]
 
@@ -34,7 +37,9 @@ describe('VfRadios props', () => {
   test('modelValue is the item id union or null (always single)', () => {
     type ExactProps = VfRadiosProps<ObjectItems, 'id'>
 
-    expectTypeOf<NonNullable<ExactProps['modelValue']>>().toExtend<1 | 2 | null>()
+    expectTypeOf<NonNullable<ExactProps['modelValue']>>().toExtend<
+      1 | 2 | null
+    >()
   })
 })
 
@@ -54,9 +59,15 @@ describe('VfRadios #template slot', () => {
     type ScalarSlotContext = Parameters<ScalarSlots['template']>[0]['context']
 
     expectTypeOf<ScalarSlotContext['model']>().toEqualTypeOf<1 | 2 | 3 | null>()
-    expectTypeOf<ScalarSlotContext['items'][number]['value']>().toEqualTypeOf<1 | 2 | 3>()
-    expectTypeOf<Parameters<ScalarSlots['default']>[0]['items'][number]['value']>().toEqualTypeOf<1 | 2 | 3>()
-    expectTypeOf<Parameters<ScalarSlots['item']>[0]['item']['value']>().toEqualTypeOf<1 | 2 | 3>()
+    expectTypeOf<ScalarSlotContext['items'][number]['value']>().toEqualTypeOf<
+      1 | 2 | 3
+    >()
+    expectTypeOf<
+      Parameters<ScalarSlots['default']>[0]['items'][number]['value']
+    >().toEqualTypeOf<1 | 2 | 3>()
+    expectTypeOf<
+      Parameters<ScalarSlots['item']>[0]['item']['value']
+    >().toEqualTypeOf<1 | 2 | 3>()
   })
 
   test('context is generic-aware for object items', () => {
@@ -64,7 +75,11 @@ describe('VfRadios #template slot', () => {
     type ObjectSlotContext = Parameters<ObjectSlots['template']>[0]['context']
 
     expectTypeOf<ObjectSlotContext['model']>().toEqualTypeOf<1 | 2 | null>()
-    expectTypeOf<ObjectSlotContext['items'][number]['value']>().toEqualTypeOf<1 | 2>()
-    expectTypeOf<ObjectItems>().toExtend<NonNullable<ObjectSlotContext['props']['items']>>()
+    expectTypeOf<ObjectSlotContext['items'][number]['value']>().toEqualTypeOf<
+      1 | 2
+    >()
+    expectTypeOf<ObjectItems>().toExtend<
+      NonNullable<ObjectSlotContext['props']['items']>
+    >()
   })
 })

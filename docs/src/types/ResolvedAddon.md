@@ -5,5 +5,7 @@
  * (`{ component, props }`) for schema addons.
  */
 type ResolvedAddon =
-  string | { component: string; props: Record<string, any> } | undefined
+  | string
+  | { component: string; props: Record<string, any> }
+  | undefined
 ```

@@ -7,5 +7,6 @@
  * interfaces specialize it (same pattern as event `context$`).
  */
 type ConditionalProp<TContext = any> =
-  RawConditionsProp<TContext> | NegatedConditionsProp<TContext>
+  | RawConditionsProp<TContext>
+  | NegatedConditionsProp<TContext>
 ```
