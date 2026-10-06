@@ -154,7 +154,21 @@ export default defineConfig({
   run: {
     tasks: {
       ':lint': {
-        command: 'vp lint && vp exec stylelint "**/*.{scss,css}"',
+        command: 'vp lint',
+        dependsOn: [':stylelint'],
+      },
+      ':stylelint': {
+        command: 'stylelint "**/*.{scss,css}"',
+        cache: {
+          input: [
+            '**/*.scss',
+            '**/*.css',
+            '!**/dist/**',
+            'stylelint.config.mjs',
+            'pnpm-lock.yaml',
+          ],
+          output: [],
+        },
       },
     },
   },
