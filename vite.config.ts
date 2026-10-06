@@ -29,9 +29,30 @@
  *   and are never run by agents — user-run only.
  * - Docs tasks stay uncached until their read/write sets are modeled.
  */
+import { existsSync, readFileSync, readdirSync } from 'node:fs'
+import { join } from 'node:path'
+import { fileURLToPath } from 'node:url'
+
 import { defineConfig } from 'vite-plus'
 import type { OxfmtConfig } from 'vite-plus/fmt'
 import type { OxlintConfig } from 'vite-plus/lint'
+
+const repoDir = fileURLToPath(new URL('.', import.meta.url))
+
+/**
+ * Package dirs whose sources use the `#<dir>/*` alias: core plus every package
+ * whose package.json declares a `vueform.group` of adapters or plugins.
+ * Resolved when the config loads, so new packages join automatically.
+ */
+const aliasedSrcPackages = [
+  'core',
+  ...readdirSync(join(repoDir, 'packages')).filter((dir) => {
+    const manifest = join(repoDir, 'packages', dir, 'package.json')
+    if (!existsSync(manifest)) return false
+    const group = JSON.parse(readFileSync(manifest, 'utf8')).vueform?.group
+    return group === 'adapters' || group === 'plugins'
+  }),
+]
 
 /**
  * Formatting (`vp fmt`, the oxc editor extension, `vp check`). This is the
@@ -100,24 +121,25 @@ const lintConfig: OxlintConfig = {
     ],
   },
   overrides: [
-    {
-      files: ['packages/core/src/**'], // core + packages with 'adapter|plugin' vueform.group in package.json:
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            patterns: [
-              {
-                group: ['../**'],
-                message:
-                  'Do not use parent relative imports (../*). Use #{package-name}/* instead.', // {package-name} to be replaced with actual package name
-              },
-            ],
-          },
-        ],
-        'no-console': ['error', { allow: ['warn', 'error'] }],
-      },
-    },
+    ...aliasedSrcPackages.map(
+      (dir): NonNullable<OxlintConfig['overrides']>[number] => ({
+        files: [`packages/${dir}/src/**`],
+        rules: {
+          'no-restricted-imports': [
+            'error',
+            {
+              patterns: [
+                {
+                  group: ['../**'],
+                  message: `Do not use parent relative imports (../*). Use #${dir}/* instead.`,
+                },
+              ],
+            },
+          ],
+          'no-console': ['error', { allow: ['warn', 'error'] }],
+        },
+      })
+    ),
     {
       files: ['packages/core/src/**'],
       excludeFiles: ['packages/core/src/index.ts'],
