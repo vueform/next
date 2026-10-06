@@ -104,6 +104,5 @@ const defaultConfig = defineConfig({
     type ? `rule_${name}_${type}_error` : `rule_${name}_error`,
 })
 
-// eslint-disable-next-line
 export default defaultConfig
 export { defaultConfig }

@@ -77,18 +77,18 @@ const lintConfig: OxlintConfig = {
   plugins: ['typescript', 'import'],
   ignorePatterns: [
     '**/dist/**',
-    '.playgrounds/**',
-    'benchmark/**',
-    'docs/.vitepress/cache/**',
+    'docs/.vitepress/.generated',
+    'docs/.vitepress/cache',
+    'docs/.vitepress/dist',
     'packages/*/registry/**',
     'docs/src/playground/**',
-    '**/*.global.js',
   ],
   rules: {
     'no-control-regex': 'off',
     'no-irregular-whitespace': 'off',
-
-    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'import/no-duplicates': ['error', { preferInline: true }],
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
     'no-unused-vars': [
       'error',
       {
@@ -98,24 +98,10 @@ const lintConfig: OxlintConfig = {
         argsIgnorePattern: '^_',
       },
     ],
-
-    'import/no-duplicates': ['error', { preferInline: true }],
-    'import/first': 'error',
-    'import/newline-after-import': 'error',
   },
   overrides: [
     {
-      files: ['**/*.test-d.ts', 'packages/core/tests/bench-dts/**'],
-      rules: {
-        'no-unused-expressions': 'off',
-        'typescript/no-useless-empty-export': 'off',
-      },
-    },
-
-    // ——— Import restrictions ———
-    // Package sources: no parent-relative imports (../…) — use @/… instead.
-    {
-      files: ['packages/*/src/**'],
+      files: ['packages/core/src/**'], // core + packages with 'adapter|plugin' vueform.group in package.json:
       rules: {
         'no-restricted-imports': [
           'error',
@@ -124,142 +110,46 @@ const lintConfig: OxlintConfig = {
               {
                 group: ['../**'],
                 message:
-                  'Do not use parent relative imports (../…). Use @/… instead.',
+                  'Do not use parent relative imports (../*). Use #{package-name}/* instead.', // {package-name} to be replaced with actual package name
               },
             ],
           },
         ],
+        'no-console': ['error', { allow: ['warn', 'error'] }],
       },
     },
-    // Core additionally bans the modules barrel: it is only allowed in
-    // modules.ts (`~/modules`) and index.ts (`./modules`); everything else
-    // imports a specific module (e.g. '~/modules/validation').
     {
-      files: ['packages/core/**'],
+      files: ['packages/core/src/**'],
+      excludeFiles: ['packages/core/src/index.ts'],
       rules: {
         'no-restricted-imports': [
           'error',
           {
             paths: [
-              '~/modules',
-              '~/modules/index',
+              '#core/modules',
+              '#core/modules/index',
               './modules',
               './modules/index',
             ].map((name) => ({
               name,
-              message: `Do not import from '${name}'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in modules.ts and index.ts.`,
+              message: `Do not import from '${name}'. Import from a specific module (e.g. '#core/modules/validation') instead. The barrel is only allowed in modules.ts and index.ts.`,
             })),
             patterns: [
               {
                 group: ['../**'],
                 message:
-                  'Do not use parent relative imports (../…). Use @/… instead.',
+                  'Do not use parent relative imports (../…). Use #core/… instead.',
               },
             ],
           },
         ],
       },
     },
-    // index.ts is the one consumer the barrel exists for.
     {
-      files: ['packages/core/src/index.ts'],
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            patterns: [
-              {
-                group: ['../**'],
-                message:
-                  'Do not use parent relative imports (../…). Use @/… instead.',
-              },
-            ],
-          },
-        ],
-      },
-    },
-    // Core tests: ban the ~/ alias entirely, but allow any relative imports.
-    {
-      files: ['packages/core/tests/**', 'packages/core/benchmarks/**'],
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            patterns: [
-              {
-                regex: '^~/',
-                message:
-                  "Do not use '~/…' imports in core tests. Use '@vueform/core' or a relative path instead.",
-              },
-            ],
-          },
-        ],
-      },
-    },
-    // The CLI and utils publish as plain NodeNext packages — relative imports
-    // are their module system; metrics and scraper are internal tooling.
-    {
-      files: [
-        'packages/cli/**',
-        'packages/utils/**',
-        'packages/metrics/**',
-        'packages/scraper/**',
-      ],
-      rules: {
-        'no-restricted-imports': 'off',
-      },
-    },
-
-    // ——— Named exports only (src) ———
-    {
-      files: ['**/src/**'],
-      rules: {
-        'import/no-default-export': 'error',
-      },
-    },
-    // Exempt: areas whose files are consumed as default exports by convention
-    // (plugins, services, SFC-heavy component dirs, theme/tokens, vite/nuxt).
-    {
-      files: [
-        '**/src/plugins/**',
-        '**/src/services/**',
-        '**/src/components/**',
-        '**/src/theme/**',
-        '**/src/tokens/**',
-        'packages/utils/src/**',
-        'packages/nuxt/src/**',
-        'packages/metrics/**',
-        '**/*.d.ts',
-      ],
-      rules: {
-        'import/no-default-export': 'off',
-      },
-    },
-
-    // ——— Per-area relaxations ———
-    // CLI scripts and the published CLI are console apps, as are the modules
-    // behind utils' vf-size / vf-validate-source bins — their terminal output
-    // is the product. Smoke fixtures simulate user projects (incl. their dev
-    // servers), so their logging is legitimate too.
-    {
-      files: [
-        '**/scripts/**',
-        'packages/scraper/**',
-        'packages/cli/**',
-        'packages/utils/**',
-        'packages/*/tests/smoke/**',
-      ],
-      rules: {
-        'no-console': 'off',
-      },
-    },
-    // Type definition files may have unused generic parameters by design, and
-    // the type-test fixtures assert via deliberately "unused" type-level
-    // constructs — the rule's premise doesn't hold in either.
-    {
-      files: ['**/*.d.ts', 'packages/core/tests/types/**'],
+      files: ['**/*.d.ts', 'packages/*/tests/**'],
       rules: {
         'no-unused-vars': 'off',
+        'no-unused-expressions': 'off',
       },
     },
   ],

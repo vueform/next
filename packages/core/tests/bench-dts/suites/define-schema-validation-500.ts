@@ -1522,5 +1522,3 @@ const schema = defineSchema(
 )
 
 void schema
-
-export {}

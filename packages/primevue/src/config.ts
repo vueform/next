@@ -57,6 +57,5 @@ const defaultConfig = defineConfig({
   plugins: [tooltipPlugin(), infoIconsPlugin()],
 })
 
-// eslint-disable-next-line
 export default defaultConfig
 export { defaultConfig }
