@@ -32,9 +32,10 @@ catalog:
   '@vue/tsconfig': 0.7.0
   ajv: ^8.20.0
   consola: ^3.4.2
-  # eslint + its plugin stack removed entirely: oxlint owns linting
-  # (.oxlintrc.json — correctness, import plugin, restricted imports,
-  # unused vars) and oxfmt's sortImports owns import ordering. Dropped with
+  # eslint + its plugin stack removed entirely: oxlint owns linting (the
+  # `lint` block in the root vite.config.ts — correctness, import plugin,
+  # restricted imports, unused vars) and oxfmt's sortImports owns import
+  # ordering. Dropped with
   # it: perfectionist/sort-modules (no oxlint equivalent, unenforced
   # convention now) and eslint-plugin-vue template rules (were never active:
   # flat/recommended is an array, `.rules` on it was always undefined).
@@ -47,7 +48,6 @@ catalog:
   nypm: ^0.6.10
   playwright: ^1.51.1
   oxfmt: ^0.70.0
-  oxlint: ^1.85.0
   # prettier: ^3.9.8
   # prettier + prettier-plugin-jsdoc removed entirely: oxfmt is the repo
   # formatter AND the generators' embedded printer (oxfmt's format() API).

@@ -1019,13 +1019,47 @@ function emitCloneTemplate(
   return { content: emitted, blueprint }
 }
 
+let cachedFormatOptions: Promise<EmbeddedFormatOptions> | undefined
+
+/**
+ * The repo's oxfmt style options: the `fmt` block of the root vite.config.ts
+ * (the single source of truth — there is no `.oxfmtrc.json`), evaluated with
+ * vite's own config loader so this compiled module can read the TS config at
+ * runtime. `ignorePatterns` is dropped (meaningless for in-memory formatting).
+ */
+function embeddedFormatOptions(): Promise<EmbeddedFormatOptions> {
+  cachedFormatOptions ??= (async () => {
+    // The config bundles to CJS (no root `"type": "module"`); vite warns that
+    // its future native loader won't support that. We always use the bundle
+    // loader, so the warning is noise in every vf-registry run.
+    process.env.VITE_CONFIG_NATIVE_IGNORE_WARNING ??= 'true'
+    // Dynamic import: vite ships ESM only, while this package compiles to CJS.
+    const { loadConfigFromFile } = await import('vite')
+    const root = findWorkspaceRoot(process.cwd())
+    const loaded = await loadConfigFromFile(
+      { command: 'build', mode: 'production' },
+      path.join(root, 'vite.config.ts'),
+      root
+    )
+    const fmt = (loaded?.config as { fmt?: EmbeddedFormatOptions })?.fmt
+    if (!fmt) {
+      throw new Error(
+        `No \`fmt\` block in ${path.join(root, 'vite.config.ts')} — it is the repo's only format config and generated output must match it.`
+      )
+    }
+    const options = { ...fmt }
+    delete options.ignorePatterns
+    return options
+  })()
+  return cachedFormatOptions
+}
+
 /**
  * Formats generator-emitted source (vf-registry clones, the docs json-types
  * snippets) with oxfmt — the repo's one formatter — so generated output is
  * consistent with the codebase by construction. The parser is inferred from
- * `fileName`'s extension. Style options come from the repo's `.oxfmtrc.json`
- * (the single source of truth); a formatting error returns the input
- * unchanged, matching the previous behavior for unparsable snippets.
+ * `fileName`'s extension. A formatting error returns the input unchanged,
+ * matching the previous behavior for unparsable snippets.
  */
 export async function formatEmittedSource(
   fileName: string,
@@ -1033,29 +1067,8 @@ export async function formatEmittedSource(
 ): Promise<string> {
   // Dynamic import: oxfmt ships ESM only, while this package compiles to CJS.
   const { format } = await import('oxfmt')
-  const result = await format(fileName, content, embeddedFormatOptions())
+  const result = await format(fileName, content, await embeddedFormatOptions())
   return result.errors.length > 0 ? content : result.code
-}
-
-let cachedFormatOptions: EmbeddedFormatOptions | undefined
-
-/**
- * The repo's `.oxfmtrc.json` style options (minus file-selection keys, which
- * are meaningless for in-memory formatting).
- */
-function embeddedFormatOptions(): EmbeddedFormatOptions {
-  if (!cachedFormatOptions) {
-    const rc = JSON.parse(
-      fs.readFileSync(
-        path.join(findWorkspaceRoot(process.cwd()), '.oxfmtrc.json'),
-        'utf8'
-      )
-    ) as EmbeddedFormatOptions
-    delete rc.$schema
-    delete rc.ignorePatterns
-    cachedFormatOptions = rc
-  }
-  return cachedFormatOptions
 }
 
 async function formatEmitted(content: string): Promise<string> {

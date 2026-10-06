@@ -63,13 +63,15 @@ const toolTask = (target: ToolTarget, steps: Step[]): Task => ({
 })
 
 /**
- * Oxlint is the only linter (config in .oxlintrc.json): correctness bulk,
- * import plugin, restricted-imports and unused-vars. `--fix-suggestions` is
- * required for the unused-import removal fixer (suggestion-level in oxlint).
+ * Oxlint (via `vp lint` — the config is the `lint` block of the root
+ * vite.config.ts, which plain `oxlint` does not read) is the only linter:
+ * correctness bulk, import plugin, restricted-imports and unused-vars.
+ * `--fix-suggestions` is required for the unused-import removal fixer
+ * (suggestion-level in oxlint).
  */
 function oxlintStep(target: ToolTarget, fix: boolean): Step {
   const fixArgs = fix ? ['--fix', '--fix-suggestions'] : []
-  return exec('oxlint', target.path ?? '.', ...fixArgs)
+  return exec('vp', 'lint', target.path ?? '.', ...fixArgs)
 }
 
 function stylelintStep(target: ToolTarget, fix: boolean): Step {
@@ -84,12 +86,14 @@ function stylelintStep(target: ToolTarget, fix: boolean): Step {
 }
 
 /**
- * Oxfmt owns all formatting (config: .oxfmtrc.json): TS/JS/JSON/SCSS/YAML
- * natively, .vue via its bundled prettier, import ordering via sortImports.
+ * Oxfmt (via `vp fmt` — the config is the `fmt` block of the root
+ * vite.config.ts, which plain `oxfmt` does not read) owns all formatting:
+ * TS/JS/JSON/SCSS/YAML natively, .vue via its bundled prettier, import
+ * ordering via sortImports.
  */
 function oxfmtStep(target: ToolTarget, write: boolean): Step {
   const mode = write ? [] : ['--check']
-  return exec('oxfmt', ...mode, target.path ?? '.')
+  return exec('vp', 'fmt', ...mode, target.path ?? '.')
 }
 
 export const lintTasks = (fix: boolean): Task[] =>

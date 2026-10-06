@@ -45,8 +45,6 @@
     "ajv": "catalog:",
     "husky": "catalog:",
     "lint-staged": "catalog:",
-    "oxfmt": "catalog:",
-    "oxlint": "catalog:",
     "stylelint": "catalog:",
     "stylelint-config-recess-order": "catalog:",
     "stylelint-config-standard-scss": "catalog:",
@@ -61,19 +59,19 @@
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,mts,cts}": [
-      "pnpm oxlint --fix --fix-suggestions",
-      "pnpm oxfmt"
+      "pnpm vp lint --fix --fix-suggestions",
+      "pnpm vp fmt"
     ],
     "*.vue": [
-      "pnpm oxlint --fix --fix-suggestions",
-      "pnpm oxfmt"
+      "pnpm vp lint --fix --fix-suggestions",
+      "pnpm vp fmt"
     ],
     "*.scss": [
       "pnpm stylelint --fix",
-      "pnpm oxfmt"
+      "pnpm vp fmt"
     ],
     "*.{json,yml,yaml}": [
-      "pnpm oxfmt"
+      "pnpm vp fmt"
     ]
   },
   "engines": {

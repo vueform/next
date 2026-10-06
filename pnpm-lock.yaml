@@ -84,9 +84,6 @@ catalogs:
     oxfmt:
       specifier: ^0.70.0
       version: 0.70.0
-    oxlint:
-      specifier: ^1.85.0
-      version: 1.85.0
     playwright:
       specifier: ^1.51.1
       version: 1.63.0
@@ -194,12 +191,6 @@ importers:
       lint-staged:
         specifier: 'catalog:'
         version: 16.4.0
-      oxfmt:
-        specifier: 'catalog:'
-        version: 0.70.0(vite-plus@1.0.0(@types/node@24.13.6)(@vitest/ui@5.0.1(vitest@5.0.1))(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(jsdom@30.1.1)(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)(tsx@4.23.15)(typescript@5.9.3)(yaml@2.9.1))
-      oxlint:
-        specifier: 'catalog:'
-        version: 1.85.0(oxlint-tsgolint@7.0.2003)(vite-plus@1.0.0(@types/node@24.13.6)(@vitest/ui@5.0.1(vitest@5.0.1))(esbuild@0.28.2)(happy-dom@20.14.5)(jiti@2.7.0)(jsdom@30.1.1)(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)(tsx@4.23.15)(typescript@5.9.3)(yaml@2.9.1))
       stylelint:
         specifier: 'catalog:'
         version: 17.15.0(typescript@5.9.3)

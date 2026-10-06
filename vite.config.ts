@@ -30,6 +30,240 @@
  * - Docs tasks stay uncached until their read/write sets are modeled.
  */
 import { defineConfig } from 'vite-plus'
+import type { OxfmtConfig } from 'vite-plus/fmt'
+import type { OxlintConfig } from 'vite-plus/lint'
+
+/**
+ * Formatting (`vp fmt`, the oxc editor extension, `vp check`). This is the
+ * only format config — there is no `.oxfmtrc.json`. The registry/docs
+ * generators read this same block at runtime (vite's `loadConfigFromFile` in
+ * packages/utils/src/registry.ts) to format emitted sources, so generated
+ * output follows it by construction.
+ */
+const fmtConfig: OxfmtConfig = {
+  semi: false,
+  singleQuote: true,
+  tabWidth: 2,
+  trailingComma: 'es5',
+  printWidth: 80,
+  jsdocPrintWidth: 80,
+  jsdocDescriptionWithDot: false,
+  jsdocCapitalizeDescription: false,
+  jsdocCommentLineStrategy: 'multiline',
+  sortPackageJson: {},
+  sortImports: {},
+  ignorePatterns: [
+    'node_modules',
+    'dist',
+    'pnpm-lock.yaml',
+    '*.md',
+    '.playgrounds',
+    'packages/*/registry',
+    'packages/metrics/results/',
+    'packages/core/tests/perf/.results/',
+    'packages/core/tests/perf-dts/.results/',
+    'docs/src/playground/**',
+  ],
+}
+
+/**
+ * Linting (`vp lint`, the oxc editor extension, `vp check`). This is the only
+ * lint config — there is no `.oxlintrc.json`.
+ */
+const lintConfig: OxlintConfig = {
+  categories: {
+    correctness: 'error',
+  },
+  plugins: ['typescript', 'import'],
+  ignorePatterns: [
+    '**/dist/**',
+    '.playgrounds/**',
+    'benchmark/**',
+    'docs/.vitepress/cache/**',
+    'packages/*/registry/**',
+    'docs/src/playground/**',
+    '**/*.global.js',
+  ],
+  rules: {
+    'no-control-regex': 'off',
+    'no-irregular-whitespace': 'off',
+
+    'no-console': ['error', { allow: ['warn', 'error'] }],
+    'no-unused-vars': [
+      'error',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
+      },
+    ],
+
+    'import/no-duplicates': ['error', { preferInline: true }],
+    'import/first': 'error',
+    'import/newline-after-import': 'error',
+  },
+  overrides: [
+    {
+      files: ['**/*.test-d.ts', 'packages/core/tests/bench-dts/**'],
+      rules: {
+        'no-unused-expressions': 'off',
+        'typescript/no-useless-empty-export': 'off',
+      },
+    },
+
+    // ——— Import restrictions ———
+    // Package sources: no parent-relative imports (../…) — use @/… instead.
+    {
+      files: ['packages/*/src/**'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                group: ['../**'],
+                message:
+                  'Do not use parent relative imports (../…). Use @/… instead.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    // Core additionally bans the modules barrel: it is only allowed in
+    // modules.ts (`~/modules`) and index.ts (`./modules`); everything else
+    // imports a specific module (e.g. '~/modules/validation').
+    {
+      files: ['packages/core/**'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            paths: [
+              '~/modules',
+              '~/modules/index',
+              './modules',
+              './modules/index',
+            ].map((name) => ({
+              name,
+              message: `Do not import from '${name}'. Import from a specific module (e.g. '~/modules/validation') instead. The barrel is only allowed in modules.ts and index.ts.`,
+            })),
+            patterns: [
+              {
+                group: ['../**'],
+                message:
+                  'Do not use parent relative imports (../…). Use @/… instead.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    // index.ts is the one consumer the barrel exists for.
+    {
+      files: ['packages/core/src/index.ts'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                group: ['../**'],
+                message:
+                  'Do not use parent relative imports (../…). Use @/… instead.',
+              },
+            ],
+          },
+        ],
+      },
+    },
+    // Core tests: ban the ~/ alias entirely, but allow any relative imports.
+    {
+      files: ['packages/core/tests/**', 'packages/core/benchmarks/**'],
+      rules: {
+        'no-restricted-imports': [
+          'error',
+          {
+            patterns: [
+              {
+                regex: '^~/',
+                message:
+                  "Do not use '~/…' imports in core tests. Use '@vueform/core' or a relative path instead.",
+              },
+            ],
+          },
+        ],
+      },
+    },
+    // The CLI and utils publish as plain NodeNext packages — relative imports
+    // are their module system; metrics and scraper are internal tooling.
+    {
+      files: [
+        'packages/cli/**',
+        'packages/utils/**',
+        'packages/metrics/**',
+        'packages/scraper/**',
+      ],
+      rules: {
+        'no-restricted-imports': 'off',
+      },
+    },
+
+    // ——— Named exports only (src) ———
+    {
+      files: ['**/src/**'],
+      rules: {
+        'import/no-default-export': 'error',
+      },
+    },
+    // Exempt: areas whose files are consumed as default exports by convention
+    // (plugins, services, SFC-heavy component dirs, theme/tokens, vite/nuxt).
+    {
+      files: [
+        '**/src/plugins/**',
+        '**/src/services/**',
+        '**/src/components/**',
+        '**/src/theme/**',
+        '**/src/tokens/**',
+        'packages/utils/src/**',
+        'packages/nuxt/src/**',
+        'packages/metrics/**',
+        '**/*.d.ts',
+      ],
+      rules: {
+        'import/no-default-export': 'off',
+      },
+    },
+
+    // ——— Per-area relaxations ———
+    // CLI scripts and the published CLI are console apps, as are the modules
+    // behind utils' vf-size / vf-validate-source bins — their terminal output
+    // is the product. Smoke fixtures simulate user projects (incl. their dev
+    // servers), so their logging is legitimate too.
+    {
+      files: [
+        '**/scripts/**',
+        'packages/scraper/**',
+        'packages/cli/**',
+        'packages/utils/**',
+        'packages/*/tests/smoke/**',
+      ],
+      rules: {
+        'no-console': 'off',
+      },
+    },
+    // Type definition files may have unused generic parameters by design, and
+    // the type-test fixtures assert via deliberately "unused" type-level
+    // constructs — the rule's premise doesn't hold in either.
+    {
+      files: ['**/*.d.ts', 'packages/core/tests/types/**'],
+      rules: {
+        'no-unused-vars': 'off',
+      },
+    },
+  ],
+}
 
 /**
  * Inputs shared by every cached task.
@@ -104,6 +338,8 @@ const allSrc = 'packages/*/src/**'
 const allDist = 'packages/*/dist/**'
 
 export default defineConfig({
+  fmt: fmtConfig,
+  lint: lintConfig,
   run: {
     tasks: {
       // ——— per-package builds (the dependency-critical chain) ———
