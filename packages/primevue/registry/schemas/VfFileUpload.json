@@ -21,9 +21,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "file-upload"
-  ],
+  "styles": ["file-upload"],
   "element": true,
   "clone": {
     "path": "VfFileUpload.vue",

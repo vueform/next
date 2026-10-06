@@ -22,10 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "icon",
-    "animation"
-  ],
+  "styles": ["icon", "animation"],
   "register": {
     "component": "VfIcon",
     "import": "{componentsDir}/VfIcon.vue"

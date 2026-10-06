@@ -53,12 +53,7 @@ const fmtConfig: OxfmtConfig = {
   sortPackageJson: {},
   sortImports: {},
   ignorePatterns: [
-    'node_modules',
-    'dist',
-    'pnpm-lock.yaml',
     '*.md',
-    '.playgrounds',
-    'packages/*/registry',
     'packages/metrics/results/',
     'packages/core/tests/perf/.results/',
     'packages/core/tests/perf-dts/.results/',
@@ -71,6 +66,11 @@ const fmtConfig: OxfmtConfig = {
  * lint config — there is no `.oxlintrc.json`.
  */
 const lintConfig: OxlintConfig = {
+  // No `options.typeAware` / `options.typeCheck`: vp check's type-check path
+  // is tsgolint (TypeScript-Go), which cannot resolve .vue SFC imports, the
+  // scss/css side-effect imports, or the curated per-package "check"
+  // tsconfigs — trialed 2026-10-06: 343 false errors. Type checking stays on
+  // vue-tsc via `pnpm check` / `vp run p:check`.
   categories: {
     correctness: 'error',
   },

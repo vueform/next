@@ -13,10 +13,7 @@
       "hash": "sha256:9198dd418e2251c2bb6cc3da0f5c70c8e03c4c07224f02f7f444dbd0e05d7e5b"
     }
   ],
-  "imports": [
-    "@vueform/ui/components/VfHidden",
-    "@vueform/ui"
-  ],
+  "imports": ["@vueform/ui/components/VfHidden", "@vueform/ui"],
   "dependencies": {},
   "registryDependencies": [],
   "element": true,

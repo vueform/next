@@ -22,10 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "button",
-    "animation"
-  ],
+  "styles": ["button", "animation"],
   "element": true,
   "clone": {
     "path": "VfButton.vue",

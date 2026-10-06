@@ -21,9 +21,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "addon"
-  ],
+  "styles": ["addon"],
   "register": {
     "component": "VfAddon",
     "import": "{componentsDir}/VfAddon.vue"

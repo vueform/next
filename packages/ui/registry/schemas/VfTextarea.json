@@ -22,10 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "textarea",
-    "input"
-  ],
+  "styles": ["textarea", "input"],
   "element": true,
   "clone": {
     "path": "VfTextarea.vue",

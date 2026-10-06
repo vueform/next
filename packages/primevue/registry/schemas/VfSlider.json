@@ -22,9 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "slider"
-  ],
+  "styles": ["slider"],
   "element": true,
   "clone": {
     "path": "VfSlider.vue",

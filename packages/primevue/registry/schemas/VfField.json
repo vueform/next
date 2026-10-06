@@ -13,10 +13,7 @@
       "hash": "sha256:dfed4063f09c4803b3e332cc5e44f834643b5d784b926cf6b89ead0f5219b957"
     }
   ],
-  "imports": [
-    "@vueform/primevue/components/VfField",
-    "@vueform/primevue"
-  ],
+  "imports": ["@vueform/primevue/components/VfField", "@vueform/primevue"],
   "dependencies": {},
   "registryDependencies": [],
   "element": true,

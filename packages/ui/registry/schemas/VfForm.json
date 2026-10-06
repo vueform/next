@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "form"
-  ],
+  "styles": ["form"],
   "register": {
     "component": "VfForm",
     "import": "{componentsDir}/VfForm.vue"

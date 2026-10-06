@@ -40,14 +40,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "blockquote",
-    "element",
-    "hr",
-    "icon",
-    "info",
-    "tooltip"
-  ],
+  "styles": ["blockquote", "element", "hr", "icon", "info", "tooltip"],
   "register": {
     "component": "VfLayout",
     "import": "{componentsDir}/VfLayout.vue"

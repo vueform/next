@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "choices"
-  ],
+  "styles": ["choices"],
   "element": true,
   "clone": {
     "path": "VfRadioButtonGroup.vue",

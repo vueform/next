@@ -1287,7 +1287,10 @@ export async function generateRegistry(options: RegistryOptions) {
 
     fs.writeFileSync(
       path.join(registryDir, 'schemas', `${name}.json`),
-      JSON.stringify(item, null, 2) + '\n'
+      await formatEmittedSource(
+        `${name}.json`,
+        JSON.stringify(item, null, 2) + '\n'
+      )
     )
     indexItems.push({
       name,
@@ -1316,7 +1319,10 @@ export async function generateRegistry(options: RegistryOptions) {
 
   fs.writeFileSync(
     path.join(registryDir, 'index.json'),
-    JSON.stringify(index, null, 2) + '\n'
+    await formatEmittedSource(
+      'index.json',
+      JSON.stringify(index, null, 2) + '\n'
+    )
   )
   process.stdout.write(
     `[registry] wrote ${path.relative(repoRoot, registryDir)} (${indexItems.length} items)` +

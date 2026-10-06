@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "content"
-  ],
+  "styles": ["content"],
   "element": true,
   "clone": {
     "path": "VfContent.vue",

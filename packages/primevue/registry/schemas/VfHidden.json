@@ -13,10 +13,7 @@
       "hash": "sha256:7234f56dc6159a539cd08b90dbf1739fb99c547c83aca4665947db7a7dd1bb50"
     }
   ],
-  "imports": [
-    "@vueform/primevue/components/VfHidden",
-    "@vueform/primevue"
-  ],
+  "imports": ["@vueform/primevue/components/VfHidden", "@vueform/primevue"],
   "dependencies": {},
   "registryDependencies": [],
   "element": true,

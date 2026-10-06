@@ -22,9 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "rating"
-  ],
+  "styles": ["rating"],
   "element": true,
   "clone": {
     "path": "VfRating.vue",
