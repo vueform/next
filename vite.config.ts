@@ -34,7 +34,6 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vite-plus'
-import type { OxfmtConfig } from 'vite-plus/fmt'
 import type { OxlintConfig } from 'vite-plus/lint'
 
 const repoDir = fileURLToPath(new URL('.', import.meta.url))
@@ -54,377 +53,108 @@ const aliasedSrcPackages = [
   }),
 ]
 
-const fmtConfig: OxfmtConfig = {
-  semi: false,
-  singleQuote: true,
-  tabWidth: 2,
-  trailingComma: 'es5',
-  printWidth: 80,
-  jsdocPrintWidth: 80,
-  jsdocDescriptionWithDot: false,
-  jsdocCapitalizeDescription: false,
-  jsdocCommentLineStrategy: 'multiline',
-  sortPackageJson: {},
-  sortImports: {},
-  ignorePatterns: ['*.md', 'docs/src/playground/*.js'],
-}
-
-/**
- * Linting (`vp lint`, the oxc editor extension, `vp check`). This is the only
- * lint config — there is no `.oxlintrc.json`.
- */
-const lintConfig: OxlintConfig = {
-  categories: {
-    correctness: 'error',
+export default defineConfig({
+  fmt: {
+    semi: false,
+    singleQuote: true,
+    tabWidth: 2,
+    trailingComma: 'es5',
+    printWidth: 80,
+    jsdocPrintWidth: 80,
+    jsdocDescriptionWithDot: false,
+    jsdocCapitalizeDescription: false,
+    jsdocCommentLineStrategy: 'multiline',
+    sortPackageJson: {},
+    sortImports: {},
+    ignorePatterns: ['*.md', 'docs/src/playground/*.js'],
   },
-  plugins: ['typescript', 'import'],
-  ignorePatterns: [
-    'docs/.vitepress/.generated',
-    'docs/.vitepress/cache',
-    'docs/.vitepress/dist',
-    'docs/src/playground/*.js',
-  ],
-  rules: {
-    'no-control-regex': 'off',
-    'no-irregular-whitespace': 'off',
-    'import/no-duplicates': ['error', { preferInline: true }],
-    'import/first': 'error',
-    'import/newline-after-import': 'error',
-    'no-unused-vars': [
-      'error',
-      {
-        vars: 'all',
-        varsIgnorePattern: '^_',
-        args: 'after-used',
-        argsIgnorePattern: '^_',
-      },
+  lint: {
+    categories: {
+      correctness: 'error',
+    },
+    plugins: ['typescript', 'import'],
+    ignorePatterns: [
+      'docs/.vitepress/.generated',
+      'docs/.vitepress/cache',
+      'docs/.vitepress/dist',
+      'docs/src/playground/*.js',
     ],
-  },
-  overrides: [
-    ...aliasedSrcPackages.map(
-      (dir): NonNullable<OxlintConfig['overrides']>[number] => ({
-        files: [`packages/${dir}/src/**`],
+    rules: {
+      'no-control-regex': 'off',
+      'no-irregular-whitespace': 'off',
+      'import/no-duplicates': ['error', { preferInline: true }],
+      'import/first': 'error',
+      'import/newline-after-import': 'error',
+      'no-unused-vars': [
+        'error',
+        {
+          vars: 'all',
+          varsIgnorePattern: '^_',
+          args: 'after-used',
+          argsIgnorePattern: '^_',
+        },
+      ],
+    },
+    overrides: [
+      ...aliasedSrcPackages.map(
+        (dir): NonNullable<OxlintConfig['overrides']>[number] => ({
+          files: [`packages/${dir}/src/**`],
+          rules: {
+            'no-restricted-imports': [
+              'error',
+              {
+                patterns: [
+                  {
+                    group: ['../**'],
+                    message: `Do not use parent relative imports (../*). Use #${dir}/* instead.`,
+                  },
+                ],
+              },
+            ],
+            'no-console': ['error', { allow: ['warn', 'error'] }],
+          },
+        })
+      ),
+      {
+        files: ['packages/core/src/**'],
+        excludeFiles: ['packages/core/src/index.ts'],
         rules: {
           'no-restricted-imports': [
             'error',
             {
+              paths: [
+                '#core/modules',
+                '#core/modules/index',
+                './modules',
+                './modules/index',
+              ].map((name) => ({
+                name,
+                message: `Do not import from '${name}'. Import from a specific module (e.g. '#core/modules/validation') instead. The barrel is only allowed in modules.ts and index.ts.`,
+              })),
               patterns: [
                 {
                   group: ['../**'],
-                  message: `Do not use parent relative imports (../*). Use #${dir}/* instead.`,
+                  message:
+                    'Do not use parent relative imports (../…). Use #core/… instead.',
                 },
               ],
             },
           ],
-          'no-console': ['error', { allow: ['warn', 'error'] }],
         },
-      })
-    ),
-    {
-      files: ['packages/core/src/**'],
-      excludeFiles: ['packages/core/src/index.ts'],
-      rules: {
-        'no-restricted-imports': [
-          'error',
-          {
-            paths: [
-              '#core/modules',
-              '#core/modules/index',
-              './modules',
-              './modules/index',
-            ].map((name) => ({
-              name,
-              message: `Do not import from '${name}'. Import from a specific module (e.g. '#core/modules/validation') instead. The barrel is only allowed in modules.ts and index.ts.`,
-            })),
-            patterns: [
-              {
-                group: ['../**'],
-                message:
-                  'Do not use parent relative imports (../…). Use #core/… instead.',
-              },
-            ],
-          },
-        ],
       },
-    },
-    {
-      files: ['**/*.d.ts', 'packages/*/tests/**'],
-      rules: {
-        'no-unused-vars': 'off',
-        'no-unused-expressions': 'off',
+      {
+        files: ['**/*.d.ts', 'packages/*/tests/**'],
+        rules: {
+          'no-unused-vars': 'off',
+          'no-unused-expressions': 'off',
+        },
       },
-    },
-  ],
-}
-
-/**
- * Inputs shared by every cached task.
- */
-const base = ['pnpm-lock.yaml', 'pnpm-workspace.yaml']
-
-/**
- * The vite/vitest config factories live in utils' compiled dist — every
- * factory-driven task depends on it.
- */
-const utilsDist = 'packages/utils/dist/**'
-
-/**
- * A package build task: the package's own `build` script, cached on its sources
- * (and any `extra` upstream dists), restoring `dist` on a hit.
- */
-const pkgBuild = (
-  name: string,
-  dir: string,
-  opts: { dependsOn?: string[]; extra?: string[] } = {}
-) => ({
-  command: `pnpm --filter ${name} run build`,
-  dependsOn: opts.dependsOn ?? [],
-  cache: {
-    env: ['NODE_ENV'],
-    input: [
-      ...base,
-      `packages/${dir}/src/**`,
-      `packages/${dir}/package.json`,
-      `packages/${dir}/tsconfig*.json`,
-      `packages/${dir}/*.config.ts`,
-      'packages/global.d.ts',
-      ...(opts.extra ?? []),
     ],
-    output: [`packages/${dir}/dist/**`],
   },
-})
-
-/**
- * A stage task wrapping an existing `tsx scripts/*` orchestrator. Cached stages
- * declare their inputs and restore no outputs (a hit just skips the stage);
- * `cache: false` stages always run.
- */
-const stage = (
-  script: string,
-  opts: { dependsOn?: string[]; cache?: false | string[]; output?: string[] }
-) => ({
-  command: `tsx scripts/${script}.ts`,
-  dependsOn: opts.dependsOn ?? [],
-  cache:
-    opts.cache === false
-      ? (false as const)
-      : {
-          env: ['NODE_ENV'],
-          input: [...base, ...(opts.cache ?? [])],
-          output: opts.output ?? [],
-        },
-})
-
-const allBuilds = [
-  'build:utils',
-  'build:core',
-  'build:ui',
-  'build:primevue',
-  'build:dompurify',
-  'build:expr-eval',
-  'build:cli',
-  'build:nuxt',
-]
-
-const allSrc = 'packages/*/src/**'
-const allDist = 'packages/*/dist/**'
-
-export default defineConfig({
-  fmt: fmtConfig,
-  lint: lintConfig,
   run: {
     tasks: {
-      // ——— per-package builds (the dependency-critical chain) ———
-      'build:utils': pkgBuild('@vueform/utils', 'utils'),
-      'build:core': pkgBuild('@vueform/core', 'core', {
-        dependsOn: ['build:utils'],
-        extra: [utilsDist],
-      }),
-      'build:ui': pkgBuild('@vueform/ui', 'ui', {
-        dependsOn: ['build:utils', 'build:core'],
-        extra: [utilsDist, 'packages/core/dist/**'],
-      }),
-      'build:primevue': pkgBuild('@vueform/primevue', 'primevue', {
-        dependsOn: ['build:utils', 'build:core'],
-        extra: [utilsDist, 'packages/core/dist/**'],
-      }),
-      // The plugins' d.ts generation type-checks against core's BUILT dist
-      // types (tsdown factories, migration stage 3) — core must finish
-      // first, or a concurrent half-emitted core dist degrades their typed
-      // exports to `any`.
-      'build:dompurify': pkgBuild('@vueform/dompurify', 'dompurify', {
-        dependsOn: ['build:utils', 'build:core'],
-        extra: [utilsDist, 'packages/core/dist/**'],
-      }),
-      'build:expr-eval': pkgBuild('@vueform/expr-eval', 'expr-eval', {
-        dependsOn: ['build:utils', 'build:core'],
-        extra: [utilsDist, 'packages/core/dist/**'],
-      }),
-      'build:cli': pkgBuild('@vueform/cli', 'cli'),
-      // nuxt's types import the adapters' `components/names` dist types.
-      'build:nuxt': pkgBuild('@vueform/nuxt', 'nuxt', {
-        dependsOn: ['build:ui', 'build:primevue'],
-        extra: ['packages/ui/dist/**', 'packages/primevue/dist/**'],
-      }),
-      'p:build': {
-        command: "echo 'build: all package dists up to date'",
-        dependsOn: allBuilds,
-        cache: false as const,
-      },
-
-      // ——— verification stages (wrapping the tsx orchestrators) ———
-      // Mutating: never cached, never a dependency of anything.
-      'p:fix': stage('fix', { cache: false }),
-      'p:check': stage('check', {
-        cache: [
-          allSrc,
-          'packages/*/tests/**',
-          'packages/*/tsconfig*.json',
-          'packages/global.d.ts',
-          'tsconfig*.json',
-          'scripts/**',
-          '*.config.*',
-        ],
-      }),
-      'p:validate': stage('validate', {
-        dependsOn: ['build:utils'],
-        cache: [utilsDist, allSrc],
-      }),
-      'p:test': stage('test', {
-        dependsOn: ['build:utils'],
-        cache: [
-          utilsDist,
-          allSrc,
-          'packages/*/tests/**',
-          'packages/*/vitest.config.ts',
-        ],
-      }),
-      // Source type tests, except one dist-gating test file that needs core's
-      // build (shorthand-attrs-dist.test-d.ts).
-      'p:test:dts': stage('test-dts', {
-        dependsOn: ['build:utils', 'build:core'],
-        cache: [
-          utilsDist,
-          'packages/core/dist/**',
-          allSrc,
-          'packages/*/tests/dts/**',
-          'packages/*/tsconfig*.json',
-          'tsconfig.json',
-        ],
-      }),
-      // Dist type tests: the consumer's view of built d.ts (migration gate).
-      'p:test:dts-dist': stage('test-dts-dist', {
-        dependsOn: ['build:utils', 'build:core', 'build:primevue'],
-        cache: [
-          utilsDist,
-          'packages/core/dist/**',
-          'packages/primevue/dist/**',
-          'packages/*/tests/dts-dist/**',
-        ],
-      }),
-      // Benchmarks measure — a cache replay would defeat their purpose.
-      'p:test:bench': stage('test-bench', {
-        dependsOn: ['build:utils'],
-        cache: false,
-      }),
-      'p:test:bench-dts': stage('test-bench-dts', {
-        dependsOn: ['build:utils'],
-        cache: false,
-      }),
-      // Playwright suites: user-run only, never cached, need full dists.
-      'p:test:smoke': stage('smoke', {
-        dependsOn: ['p:build'],
-        cache: false,
-      }),
-      'p:test:visual': stage('test-visual', {
-        dependsOn: ['build:utils'],
-        cache: false,
-      }),
-      'p:registry': stage('registry', {
-        dependsOn: ['build:utils'],
-        cache: [utilsDist, allSrc],
-        output: ['packages/*/registry/**'],
-      }),
-      'p:size': stage('size', {
-        dependsOn: ['p:build'],
-        cache: [utilsDist, allDist],
-      }),
-      'p:bench': {
-        command: 'pnpm --filter @vueform/benchmark run bench',
-        dependsOn: ['p:build'],
-        cache: false as const,
-      },
-      'p:extract': {
-        command: 'tsx scripts/api-extractor/extract.ts',
-        dependsOn: ['p:build'],
-        cache: {
-          env: ['NODE_ENV'],
-          // package.json files are real extract inputs: exports-map changes
-          // alter the emitted .api JSON (seen with the names-export fix).
-          input: [
-            ...base,
-            allDist,
-            'packages/*/package.json',
-            'scripts/api-extractor/**',
-          ],
-          output: ['.api/**'],
-        },
-      },
-      'p:docs:gen': {
-        command: 'pnpm -r --filter docs run gen',
-        dependsOn: ['p:extract'],
-        cache: false as const,
-      },
-      'p:docs:build': {
-        command: 'pnpm -r --filter docs run build',
-        dependsOn: ['p:docs:gen'],
-        cache: false as const,
-      },
-
-      // ——— the one-command full pipeline, in fixed stage order ———
-      // Each nested `vp run` segment hits the task graph, so every stage
-      // keeps its own cache entry while the array enforces stage order.
-      // Stage-end verification pipeline (user decisions, 2026-10-05):
-      // - `p:test:smoke` and `p:test:visual` are NOT part of per-stage runs —
-      //   they run only in `pipeline:full`, at the end of the whole
-      //   migration (or on explicit request).
-      // - `p:docs:build`, `p:size` and `p:bench` are excluded entirely
-      //   (explicit request only): size rewrites the package READMEs, and
-      //   bench regenerates the PUBLIC benchmark charts/JSON in benchmark/ —
-      //   neither belongs in routine verification. `p:test:bench` and
-      //   `p:test:bench-dts` (private perf gates) DO run. `p:docs:gen` runs
-      //   (it exercises the .api consumers).
-      // - Concurrency is capped at 2 — the machine is also the user's
-      //   interactive workstation, and the wrapped suites spawn their own
-      //   workers (vitest --maxWorkers, Playwright, sass) on top of vp's.
-      // One `&&`-joined shell command: a failing segment fails the whole
-      // pipeline with ordinary shell semantics.
-      pipeline: {
-        command: [
-          'vp run p:fix',
-          'vp run --concurrency-limit 2 p:build',
-          'vp run p:check',
-          'vp run p:validate',
-          'vp run p:test',
-          'vp run p:test:dts',
-          'vp run p:test:dts-dist',
-          'vp run p:test:bench',
-          'vp run p:test:bench-dts',
-          'vp run p:registry',
-          'vp run p:extract',
-          'vp run p:docs:gen',
-        ].join(' && '),
-        cache: false as const,
-      },
-      // The complete verification incl. the Playwright suites — end of the
-      // whole migration (or explicit request) only.
-      'pipeline:full': {
-        command: [
-          'vp run pipeline',
-          'vp run p:test:smoke',
-          'vp run p:test:visual',
-        ].join(' && '),
-        cache: false as const,
+      ':lint': {
+        command: 'vp lint && vp exec stylelint "**/*.{scss,css}"',
       },
     },
   },
