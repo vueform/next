@@ -4,7 +4,8 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import VfPassthrough, {
+import {
+  VfPassthrough,
   useBlueprint,
   useLayoutClasses,
   useLocale,

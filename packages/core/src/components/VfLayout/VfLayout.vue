@@ -1,14 +1,10 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 
+import { VfPassthrough } from '#core'
 import { defaults, blueprint } from '#core/blueprints/layout'
 import { useBlueprint, useLayoutClasses, useLocale } from '#core/composables'
 import { defineEvents } from '#core/helpers'
-// Imported by file, not through the helpers barrel: the vapor build
-// externalizes barrel .ts modules to the main (vdom) dist, and a vdom
-// VfPassthrough inside a vapor tree renders nothing. The direct .vue import
-// stays internal and gets vapor-compiled.
-import VfPassthrough from '#core/helpers/VfPassthrough.vue'
 import type { HeadingProp, UnknownElementParts } from '#core/types'
 import { mergeClass } from '#core/utils'
 

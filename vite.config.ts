@@ -87,22 +87,15 @@ const fmtConfig: OxfmtConfig = {
  * lint config — there is no `.oxlintrc.json`.
  */
 const lintConfig: OxlintConfig = {
-  // No `options.typeAware` / `options.typeCheck`: vp check's type-check path
-  // is tsgolint (TypeScript-Go), which cannot resolve .vue SFC imports, the
-  // scss/css side-effect imports, or the curated per-package "check"
-  // tsconfigs — trialed 2026-10-06: 343 false errors. Type checking stays on
-  // vue-tsc via `pnpm check` / `vp run p:check`.
   categories: {
     correctness: 'error',
   },
   plugins: ['typescript', 'import'],
   ignorePatterns: [
-    '**/dist/**',
     'docs/.vitepress/.generated',
     'docs/.vitepress/cache',
     'docs/.vitepress/dist',
-    'packages/*/registry/**',
-    'docs/src/playground/**',
+    'docs/src/playground/*.js',
   ],
   rules: {
     'no-control-regex': 'off',
