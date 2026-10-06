@@ -1,5 +1,6 @@
-import type { FormContext } from './component'
 import type { IntrinsicElementAttributes } from 'vue'
+
+import type { FormContext } from './component'
 
 // ============== GENERAL ===============
 

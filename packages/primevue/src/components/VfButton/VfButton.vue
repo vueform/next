@@ -2,9 +2,11 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeButton from 'primevue/button'
 import { useAttrs } from 'vue'
-import type { VfButtonEmits, VfButtonProps, VfButtonSlots } from './types'
+
 import { blueprint, defaults } from '#primevue/blueprints/button'
 import { vdomPrime } from '#primevue/helpers'
+
+import type { VfButtonEmits, VfButtonProps, VfButtonSlots } from './types'
 
 defineOptions({ name: 'VfButton', element: true, inheritAttrs: false })
 defineEmits<VfButtonEmits>()

@@ -1,7 +1,9 @@
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import { defineComponent, h, markRaw, nextTick } from 'vue'
-import { createForm, mountApp } from '../../helpers'
+
 import { defineSchema, defineSlot } from '#primevue'
+
+import { createForm, mountApp } from '../../helpers'
 
 // =============================================================================
 // Plain input

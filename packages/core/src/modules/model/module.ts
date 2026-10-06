@@ -1,6 +1,7 @@
 import type { VueformInstance } from '#core/helpers'
-import type { ModelModule } from './types'
 import { resolveModules } from '#core/helpers/resolveModules'
+
+import type { ModelModule } from './types'
 
 /**
  * Returns the resolved instance's model module. Throws when the module is not

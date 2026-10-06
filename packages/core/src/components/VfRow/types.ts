@@ -1,10 +1,5 @@
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type RowApi,
   type RowClasses,
@@ -14,6 +9,12 @@ import {
   type RowProps,
   type RowSlots,
 } from '#core/blueprints/row'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  DefineRegistryEntry,
+} from '#core/types'
 
 /**
  * Props for the VfRow component.

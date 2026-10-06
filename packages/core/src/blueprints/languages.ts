@@ -1,3 +1,4 @@
+import { defineDefaults, type DefineEvents } from '#core/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -8,7 +9,6 @@ import type {
   ResolvedLanguagesProp,
   LooseRequired,
 } from '#core/types'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
 
 /**
  * Props for the languages component blueprint that renders a language selector

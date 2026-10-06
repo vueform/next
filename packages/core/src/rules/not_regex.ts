@@ -1,5 +1,6 @@
-import { compileRulePattern } from './regex'
 import { createRule } from '#core/helpers'
+
+import { compileRulePattern } from './regex'
 
 /**
  * Validates that the value does not match a given regular expression.

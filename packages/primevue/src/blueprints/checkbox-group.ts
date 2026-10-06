@@ -29,6 +29,12 @@ import {
   makeItems,
 } from '@vueform/core'
 import { ref } from 'vue'
+
+import {
+  makeInfo,
+  type ModelPropsWithDefaultValue,
+  type InfoProps,
+} from '#primevue/features'
 import type {
   OptionGroupChildrenProp,
   OptionsProps,
@@ -37,11 +43,6 @@ import type {
   OptionsProp,
   OptionsModelApi,
 } from '#primevue/features/options'
-import {
-  makeInfo,
-  type ModelPropsWithDefaultValue,
-  type InfoProps,
-} from '#primevue/features'
 import { optionItemAliases } from '#primevue/helpers'
 
 /**

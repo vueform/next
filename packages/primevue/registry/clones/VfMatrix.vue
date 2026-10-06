@@ -6,6 +6,18 @@
  */
 
 import {
+  useBlueprint,
+  useLocale,
+  defineEvents,
+  isPlainObject,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
+  type PartOf,
+  type TProp,
+  type WidenProps,
+} from '@vueform/primevue'
+import {
   blueprint,
   defaults,
   normalizeSourceItems,
@@ -20,18 +32,7 @@ import {
   type MatrixSlots,
   type ResolvedMatrixCol,
 } from '@vueform/primevue/blueprints/matrix'
-import {
-  useBlueprint,
-  useLocale,
-  defineEvents,
-  isPlainObject,
-  type ClassValue,
-  type DefineElementContext,
-  type DomAttrsOf,
-  type PartOf,
-  type TProp,
-  type WidenProps,
-} from '@vueform/primevue'
+
 import '@vueform/primevue/matrix.css'
 import type { Component, VNode } from 'vue'
 

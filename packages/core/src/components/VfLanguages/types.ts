@@ -1,11 +1,5 @@
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  ResolvedLanguagesProp,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type LanguagesApi,
   type LanguagesProps,
@@ -15,6 +9,13 @@ import {
   type LanguagesExpose,
   type LanguagesClasses,
 } from '#core/blueprints/languages'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  ResolvedLanguagesProp,
+  DefineRegistryEntry,
+} from '#core/types'
 
 /**
  * Props for the VfLanguages component.

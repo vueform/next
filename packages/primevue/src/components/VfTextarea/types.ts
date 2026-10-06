@@ -1,21 +1,4 @@
 import type {
-  TextareaApi,
-  TextareaClasses,
-  TextareaEmits,
-  TextareaExpose,
-  TextareaParts,
-  TextareaProps,
-  TextareaSlots,
-} from '#primevue/blueprints/textarea'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -32,6 +15,24 @@ import type {
   LanguagesProp,
 } from '@vueform/core'
 import type { TextareaProps as PvTextareaProps } from 'primevue'
+
+import type {
+  TextareaApi,
+  TextareaClasses,
+  TextareaEmits,
+  TextareaExpose,
+  TextareaParts,
+  TextareaProps,
+  TextareaSlots,
+} from '#primevue/blueprints/textarea'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#primevue/features'
 
 /**
  * VfTextarea props narrowed from a registry `TEntry` payload, applying the

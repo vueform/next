@@ -13,8 +13,6 @@ import {
   type DefineElementContext,
   type ForwardedSlots,
 } from '@vueform/primevue'
-import PrimeButton from 'primevue/button'
-import { useAttrs } from 'vue'
 import {
   blueprint,
   defaults,
@@ -27,11 +25,14 @@ import {
   type ButtonSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/button'
-import '@vueform/primevue/button.css'
 import type {
   ButtonSlots as AButtonSlots,
   ButtonProps as PvButtonProps,
 } from 'primevue'
+import PrimeButton from 'primevue/button'
+
+import '@vueform/primevue/button.css'
+import { useAttrs } from 'vue'
 
 /**
  * Prop definitions.

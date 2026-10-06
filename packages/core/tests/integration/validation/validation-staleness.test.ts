@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { createForm, flushPromises, mountApp } from '../../helpers'
+
 import {
   useModel,
   defineSchema,
@@ -9,6 +9,8 @@ import {
   type HttpResponse,
   type StandardSchemaV1,
 } from '#core'
+
+import { createForm, flushPromises, mountApp } from '../../helpers'
 
 /**
  * Runs a factory inside a mounted component's setup (so `useConfig()` resolves)

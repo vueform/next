@@ -1,21 +1,4 @@
 import type {
-  InputTextApi,
-  InputTextClasses,
-  InputTextEmits,
-  InputTextExpose,
-  InputTextParts,
-  InputTextProps,
-  InputTextSlots,
-} from '#primevue/blueprints/input-text'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -32,6 +15,24 @@ import type {
   LanguagesProp,
 } from '@vueform/core'
 import type { InputTextProps as PvInputTextProps } from 'primevue'
+
+import type {
+  InputTextApi,
+  InputTextClasses,
+  InputTextEmits,
+  InputTextExpose,
+  InputTextParts,
+  InputTextProps,
+  InputTextSlots,
+} from '#primevue/blueprints/input-text'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#primevue/features'
 
 /**
  * VfInputText props narrowed from a registry `TEntry` payload, applying the

@@ -9,6 +9,7 @@ import {
   nextTick,
   useTemplateRef,
 } from 'vue'
+
 import { useActiveTab } from '../composables/useActiveTab'
 
 const { activeTabSlug, tabs: outlineTabs } = useActiveTab()

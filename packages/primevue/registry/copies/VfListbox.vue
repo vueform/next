@@ -23,14 +23,14 @@ import {
   type OptionValueProp,
   vdomPrime,
 } from '@vueform/primevue'
-import PrimeListbox from 'primevue/listbox'
 import {
+  blueprint,
+  defaults,
   type VfListboxEmits,
   type VfListboxProps,
   type VfListboxSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfListbox'
+import PrimeListbox from 'primevue/listbox'
 
 const Listbox = vdomPrime(PrimeListbox)
 

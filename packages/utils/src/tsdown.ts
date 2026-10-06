@@ -9,6 +9,10 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { createRequire } from 'node:module'
 import { join, relative, resolve, sep } from 'node:path'
+
+import type { UserConfig } from 'tsdown'
+import type { Plugin } from 'vite'
+
 import { cdnBuild, exportedVaporEntries, themeNames } from './adapter'
 import {
   componentNames,
@@ -25,8 +29,6 @@ import {
   themeScss,
   vaporExternals,
 } from './shared'
-import type { UserConfig } from 'tsdown'
-import type { Plugin } from 'vite'
 
 /**
  * Options for the plugin tsdown factory.

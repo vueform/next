@@ -1,4 +1,11 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { KnobProps as PvKnobProps } from 'primevue'
+
+import type {
   KnobApi,
   KnobClasses,
   KnobEmits,
@@ -7,12 +14,6 @@ import type {
   KnobProps,
   KnobSlots,
 } from '#primevue/blueprints/knob'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { KnobProps as PvKnobProps } from 'primevue'
 
 /**
  * Props for the VfKnob component.

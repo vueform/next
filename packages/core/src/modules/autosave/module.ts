@@ -1,7 +1,8 @@
-import { noopAutosave } from './noop'
 import type { VueformInstance } from '#core/helpers'
-import type { AutosaveModule } from './types'
 import { resolveModules } from '#core/helpers/resolveModules'
+
+import { noopAutosave } from './noop'
+import type { AutosaveModule } from './types'
 
 /**
  * Returns the resolved instance's autosave module, or the inert `noopAutosave`

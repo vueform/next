@@ -1,7 +1,6 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
-
 // ========= TOKENS =========
 
 import {
@@ -9,6 +8,7 @@ import {
   discoverTokenGroups,
   type TokenJsonEntry,
 } from '@vueform/utils'
+
 import { requireData, SCRAPE_HINT } from './ensureData'
 
 // =============== PATHS ================

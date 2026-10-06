@@ -1,7 +1,8 @@
-import { noopDevtools } from './noop'
 import type { VueformInstance } from '#core/helpers'
-import type { DevtoolsModule } from './types'
 import { resolveModules } from '#core/helpers/resolveModules'
+
+import { noopDevtools } from './noop'
+import type { DevtoolsModule } from './types'
 
 /**
  * Returns the resolved instance's devtools module, or the inert `noopDevtools`

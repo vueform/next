@@ -1,6 +1,8 @@
 import { nextTick } from 'vue'
-import { createForm, makeApp, mountApp } from '../../helpers'
+
 import { defineSchema, defineSlot } from '#core'
+
+import { createForm, makeApp, mountApp } from '../../helpers'
 
 // =============================================================================
 // SLOTS (inline)

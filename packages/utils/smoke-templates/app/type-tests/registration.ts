@@ -12,10 +12,11 @@
  * augmentations on its own, which this file then witnesses.
  */
 import '../adapter'
-import { schema } from '../schema'
-import type { Equal, Expect, Extends, Not } from './helpers'
 import type { ElementNameOfType, ElementNames } from '@vueform/core'
 import type { GlobalComponents } from 'vue'
+
+import { schema } from '../schema'
+import type { Equal, Expect, Extends, Not } from './helpers'
 
 // The canonical control's type string resolves to a registered element name
 // (ElementNameOfType gives `never` when the registry augmentation is gone).

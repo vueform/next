@@ -39,9 +39,6 @@ import {
   type OverrideSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeCascadeSelect, {
-  type CascadeSelectSlots as ACascadeSelectSlots,
-} from 'primevue/cascadeselect'
 import {
   blueprint,
   defaults,
@@ -55,6 +52,9 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/cascade-select'
 import type { CascadeSelectProps as PvCascadeSelectProps } from 'primevue'
+import PrimeCascadeSelect, {
+  type CascadeSelectSlots as ACascadeSelectSlots,
+} from 'primevue/cascadeselect'
 import type { VNode } from 'vue'
 
 /**

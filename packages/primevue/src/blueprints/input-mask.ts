@@ -48,11 +48,11 @@ import {
   useDynamicProp,
   aliasProps,
 } from '@vueform/core'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   InputMaskProps as AInputMaskProps,
   InputMaskEmitsOptions as AInputMaskEmits,
 } from 'primevue/inputmask'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -65,6 +65,7 @@ import {
   type InfoProps,
   type TooltipProps,
 } from '#primevue/features'
+import type { ForwardedEmits } from '#primevue/types'
 
 /**
  * The model value type carried by the input-mask element's wide props.

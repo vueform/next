@@ -1,9 +1,10 @@
 import { computed } from 'vue'
-import type { ContainerTypes } from '#core/contexts'
-import type { ElementName, ReturnsOf } from '#core/types'
+
 import { useContainerProvider } from '#core/composables'
+import type { ContainerTypes } from '#core/contexts'
 import { type makeElement, type makeItems, type makeData } from '#core/features'
 import { defineFeature } from '#core/helpers'
+import type { ElementName, ReturnsOf } from '#core/types'
 import { equals } from '#core/utils'
 
 /**

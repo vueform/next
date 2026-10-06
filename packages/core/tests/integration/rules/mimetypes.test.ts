@@ -1,5 +1,6 @@
-import { createForm } from '../../helpers'
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('mimetypes', () => {
   it('should fail on a non-file element type', async () => {

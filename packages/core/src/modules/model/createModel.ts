@@ -12,20 +12,7 @@ import {
   type Ref,
   type WatchStopHandle,
 } from 'vue'
-import {
-  getModelStore,
-  hasModelStore,
-  makeModelStore,
-  setModelStore,
-} from './modelStore'
-import type {
-  ModelInstance,
-  ModelModule,
-  ModelNode,
-  ModelStore,
-  RootModel,
-  SchemaIndex,
-} from './types'
+
 import {
   type VueformInstance,
   getAttachedValidationSchema,
@@ -65,6 +52,21 @@ import {
   warn,
   isDev,
 } from '#core/utils'
+
+import {
+  getModelStore,
+  hasModelStore,
+  makeModelStore,
+  setModelStore,
+} from './modelStore'
+import type {
+  ModelInstance,
+  ModelModule,
+  ModelNode,
+  ModelStore,
+  RootModel,
+  SchemaIndex,
+} from './types'
 
 type ReconciledNodePrev = Pick<
   ModelNode,

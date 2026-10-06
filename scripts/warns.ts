@@ -7,6 +7,7 @@
  */
 import { rmSync } from 'node:fs'
 import { join, relative } from 'node:path'
+
 import { writeIssuesFile } from './issues'
 import { badge, dim, outputDir, repoRoot, yellow, type Task } from './runner'
 

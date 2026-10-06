@@ -1,5 +1,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
+
 import { CASES, MODES, type Mode } from './cases'
 import { CHARTS_DIR } from './lib'
 

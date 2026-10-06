@@ -1,4 +1,19 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  AddonsParts,
+  IconsParts,
+  AddonGroupParts,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type {
+  InputNumberProps as PvInputNumberProps,
+  InputNumberSlots as AInputNumberSlots,
+} from 'primevue'
+
+import type {
   InputNumberApi,
   InputNumberClasses,
   InputNumberEmits,
@@ -17,20 +32,6 @@ import type {
   IftaSlots,
 } from '#primevue/features'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  AddonsParts,
-  IconsParts,
-  AddonGroupParts,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type {
-  InputNumberProps as PvInputNumberProps,
-  InputNumberSlots as AInputNumberSlots,
-} from 'primevue'
 
 /**
  * Props for the VfInputNumber component.

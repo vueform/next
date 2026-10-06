@@ -1,10 +1,5 @@
-import type {
-  DefineElementContext,
-  DomAttrsOf,
-  ClassValue,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type ButtonApi,
   type ButtonClasses,
@@ -14,6 +9,12 @@ import {
   type ButtonProps,
   type ButtonSlots,
 } from '#core/blueprints/button'
+import type {
+  DefineElementContext,
+  DomAttrsOf,
+  ClassValue,
+  DefineRegistryEntry,
+} from '#core/types'
 
 /**
  * Props for the VfButton component.

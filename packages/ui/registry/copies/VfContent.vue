@@ -4,14 +4,15 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfContentEmits,
   type VfContentProps,
   type VfContentSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfContent'
-import { useBlueprint, defineEvents } from '@vueform/ui'
+
 import '@vueform/ui/content.css'
 
 defineOptions({ name: 'VfContent', element: true, inheritAttrs: false })

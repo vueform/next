@@ -1,4 +1,13 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+  EntryPropOf,
+  WidenProps,
+} from '@vueform/core'
+import type { SliderProps as PvSliderProps } from 'primevue'
+
+import type {
   SliderApi,
   SliderClasses,
   SliderEmits,
@@ -7,14 +16,6 @@ import type {
   SliderProps,
   SliderSlots,
 } from '#primevue/blueprints/slider'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-  EntryPropOf,
-  WidenProps,
-} from '@vueform/core'
-import type { SliderProps as PvSliderProps } from 'primevue'
 
 /**
  * Resolves a `TRange` generic from a registry `TEntry` payload's `range` prop,

@@ -15,6 +15,7 @@
 // `"type": "module"`), so `import.meta` is unavailable — the CJS `__dirname`
 // global is what anchors paths to this file's directory.
 import { join } from 'node:path'
+
 import { defineConfig, devices } from '@playwright/test'
 
 export default defineConfig({

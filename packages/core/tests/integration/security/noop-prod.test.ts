@@ -17,6 +17,7 @@
  * both environments; only this misconfiguration state differs.
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
+
 import { getSecurityModule, type VueformConfig } from '#core'
 
 /**

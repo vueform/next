@@ -24,10 +24,11 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
-import { copyFixture, readJson, SmokeError, writeJson, exists } from './lib'
-import { applyOverrides, runScriptArgs } from './pm'
+
 import type { CellDef, Pm } from './cells'
+import { copyFixture, readJson, SmokeError, writeJson, exists } from './lib'
 import type { PackedTarballs } from './pack'
+import { applyOverrides, runScriptArgs } from './pm'
 
 export interface AssembleInput {
   root: string

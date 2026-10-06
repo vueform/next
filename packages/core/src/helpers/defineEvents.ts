@@ -1,6 +1,7 @@
 import { ref } from 'vue'
-import type { UnionToIntersection } from '#core/types'
+
 import { useConfig, useCurrentInstance } from '#core/composables'
+import type { UnionToIntersection } from '#core/types'
 import {
   isThenable,
   toKebabCase,

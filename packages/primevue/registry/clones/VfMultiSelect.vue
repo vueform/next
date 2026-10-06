@@ -39,9 +39,6 @@ import {
   type OverrideSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeMultiSelect, {
-  type MultiSelectSlots as AMultiSelectSlots,
-} from 'primevue/multiselect'
 import {
   blueprint,
   defaults,
@@ -55,6 +52,9 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/multi-select'
 import type { MultiSelectProps as PvMultiSelectProps } from 'primevue'
+import PrimeMultiSelect, {
+  type MultiSelectSlots as AMultiSelectSlots,
+} from 'primevue/multiselect'
 import type { VNode } from 'vue'
 
 /**

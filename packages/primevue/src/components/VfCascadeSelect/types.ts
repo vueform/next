@@ -1,4 +1,19 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  AddonsParts,
+  IconsParts,
+  AddonGroupParts,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { CascadeSelectProps as PvCascadeSelectProps } from 'primevue'
+import type { CascadeSelectSlots as ACascadeSelectSlots } from 'primevue/cascadeselect'
+import type { VNode } from 'vue'
+
+import type {
   CascadeSelectApi,
   CascadeSelectClasses,
   CascadeSelectEmits,
@@ -26,20 +41,6 @@ import type {
   EntryOptionGroupChildrenOf,
 } from '#primevue/features/options'
 import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  AddonsParts,
-  IconsParts,
-  AddonGroupParts,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { CascadeSelectProps as PvCascadeSelectProps } from 'primevue'
-import type { CascadeSelectSlots as ACascadeSelectSlots } from 'primevue/cascadeselect'
-import type { VNode } from 'vue'
 
 /**
  * VfCascadeSelect props narrowed from a registry `TEntry` payload, applying the

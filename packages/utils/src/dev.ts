@@ -12,8 +12,10 @@
  */
 import { existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { workspaceSourceAliases } from './sourceAliases'
+
 import type { Alias, Plugin } from 'vite'
+
+import { workspaceSourceAliases } from './sourceAliases'
 
 function findMonorepoRoot(startDir: string): string | null {
   let dir = startDir

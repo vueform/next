@@ -5,6 +5,7 @@ import {
   type TProp,
 } from '@vueform/core'
 import type { PropType } from 'vue'
+
 import { vTooltip } from '#primevue/directives'
 import { makeInfo } from '#primevue/features'
 

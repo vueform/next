@@ -1,4 +1,5 @@
 import { createApp, defineComponent, h } from 'vue'
+
 import { createContext } from '#core'
 
 const mountApp = (root: any) => {

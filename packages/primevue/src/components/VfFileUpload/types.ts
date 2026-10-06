@@ -1,15 +1,4 @@
 import type {
-  FileUploadApi,
-  FileUploadClasses,
-  FileUploadEmits,
-  FileUploadExpose,
-  FileUploadParts,
-  FileUploadProps,
-  FileUploadSlots,
-  forwards,
-} from '#primevue/blueprints/file-upload'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   DomAttrsOf,
   PartOf,
@@ -23,6 +12,18 @@ import type {
   FileUploadSlots as AFileUploadSlots,
 } from 'primevue/fileupload'
 import type { VNode } from 'vue'
+
+import type {
+  FileUploadApi,
+  FileUploadClasses,
+  FileUploadEmits,
+  FileUploadExpose,
+  FileUploadParts,
+  FileUploadProps,
+  FileUploadSlots,
+  forwards,
+} from '#primevue/blueprints/file-upload'
+import type { ForwardedSlots } from '#primevue/types'
 
 /**
  * VfFileUpload props narrowed from a registry `TEntry` payload, applying the

@@ -1,4 +1,14 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type {
+  InputOtpProps as PvInputOtpProps,
+  InputOtpSlots as AInputOtpSlots,
+} from 'primevue'
+
+import type {
   InputOtpApi,
   InputOtpClasses,
   InputOtpEmits,
@@ -17,15 +27,6 @@ import type {
   IftaSlots,
 } from '#primevue/features'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type {
-  InputOtpProps as PvInputOtpProps,
-  InputOtpSlots as AInputOtpSlots,
-} from 'primevue'
 
 /**
  * Props for the VfInputOtp component.

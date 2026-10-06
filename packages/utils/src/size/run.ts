@@ -7,6 +7,8 @@ import {
 } from 'node:fs'
 import { dirname, join, resolve } from 'node:path'
 
+import type { Plugin } from 'vite'
+
 import { findWorkspaceRoot } from '../shared'
 import { adapterScenarios } from './adapter'
 import { coreScenarios } from './core'
@@ -14,7 +16,6 @@ import { measureDir } from './measure'
 import { pluginScenarios } from './plugin'
 import { injectReport } from './report'
 import type { MeasurementType, Results, Scenario, SizeConfig } from './types'
-import type { Plugin } from 'vite'
 
 interface Manifest {
   name: string

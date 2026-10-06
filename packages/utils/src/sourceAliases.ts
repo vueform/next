@@ -12,6 +12,7 @@
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { basename, join } from 'node:path'
+
 import type { Alias } from 'vite'
 
 interface PackageManifest {

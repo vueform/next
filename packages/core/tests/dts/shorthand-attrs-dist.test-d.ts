@@ -7,6 +7,7 @@
  * types via the `#shorthands` marker on each `unstyled.ts`.
  */
 import { describe, expectTypeOf, test } from 'vitest'
+
 import '../../dist/components/VfSelect/unstyled'
 import '../../dist/components/VfText/unstyled'
 import type { VfSelectProps } from '../../dist/components/VfSelect/types'

@@ -1,9 +1,3 @@
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  DefineRegistryEntry,
-} from '#core/types'
 import {
   type IconApi,
   type IconProps,
@@ -13,6 +7,12 @@ import {
   type IconExpose,
   type IconClasses,
 } from '#core/blueprints/icon'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  DefineRegistryEntry,
+} from '#core/types'
 
 /**
  * Props for the VfIcon component.

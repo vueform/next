@@ -1,3 +1,14 @@
+import type { VNode } from 'vue'
+
+import {
+  type LayoutApi,
+  type LayoutProps,
+  type LayoutEmits,
+  type LayoutExpose,
+  type LayoutParts,
+  type LayoutSlots,
+  type LayoutClasses,
+} from '#core/blueprints/layout'
 import type {
   TabbedSlots,
   AddonGroupClasses,
@@ -9,16 +20,6 @@ import type {
   HeadingProp,
   DefineRegistryEntry,
 } from '#core/types'
-import type { VNode } from 'vue'
-import {
-  type LayoutApi,
-  type LayoutProps,
-  type LayoutEmits,
-  type LayoutExpose,
-  type LayoutParts,
-  type LayoutSlots,
-  type LayoutClasses,
-} from '#core/blueprints/layout'
 
 /**
  * Props for the VfLayout component.

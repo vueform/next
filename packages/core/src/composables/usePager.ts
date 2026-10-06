@@ -9,15 +9,15 @@ import {
   type ComputedRef,
   type MaybeRef,
 } from 'vue'
+
+import { useComponentContext } from '#core/contexts'
 import {
-  useConfig,
-  useRootDom,
-  useDynamicPropFactory,
-  useFallbackProp,
-  type VueformChildren,
-  useRouter,
-} from './'
+  defineEvents,
+  type EventListener,
+  type TypeEmitsToOptions,
+} from '#core/helpers'
 import type { ConditionalProp } from '#core/modules/conditions'
+import { getValidationModule } from '#core/modules/validation'
 import type {
   ComponentProp,
   ElementName,
@@ -27,14 +27,16 @@ import type {
   PageProp,
   ValidateOnProp,
 } from '#core/types'
-import { useComponentContext } from '#core/contexts'
-import {
-  defineEvents,
-  type EventListener,
-  type TypeEmitsToOptions,
-} from '#core/helpers'
-import { getValidationModule } from '#core/modules/validation'
 import { resolveIcon, typedEntries } from '#core/utils'
+
+import {
+  useConfig,
+  useRootDom,
+  useDynamicPropFactory,
+  useFallbackProp,
+  type VueformChildren,
+  useRouter,
+} from './'
 
 /**
  * Event map for pager navigation actions.

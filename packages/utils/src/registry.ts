@@ -17,9 +17,11 @@ import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
+
 import Ajv from 'ajv'
 import ts from 'typescript'
 import { parse as parseSfc } from 'vue/compiler-sfc'
+
 import { findWorkspaceRoot } from './shared'
 
 const SCHEMA_VERSION = 1

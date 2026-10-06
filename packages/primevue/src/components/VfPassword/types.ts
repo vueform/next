@@ -1,4 +1,23 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  TranslateSlots,
+  AddonsParts,
+  IconsParts,
+  TranslateParts,
+  AddonGroupParts,
+  EntryTranslateOf,
+  EntryLanguagesOf,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+  LanguagesProp,
+} from '@vueform/core'
+import type { PasswordProps as PvPasswordProps } from 'primevue'
+import type { PasswordSlots as APasswordSlots } from 'primevue/password'
+
+import type {
   PasswordApi,
   PasswordClasses,
   PasswordEmits,
@@ -17,24 +36,6 @@ import type {
   IftaSlots,
 } from '#primevue/features'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  TranslateSlots,
-  AddonsParts,
-  IconsParts,
-  TranslateParts,
-  AddonGroupParts,
-  EntryTranslateOf,
-  EntryLanguagesOf,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-  LanguagesProp,
-} from '@vueform/core'
-import type { PasswordProps as PvPasswordProps } from 'primevue'
-import type { PasswordSlots as APasswordSlots } from 'primevue/password'
 
 /**
  * VfPassword props narrowed from a registry `TEntry` payload, applying the

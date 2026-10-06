@@ -1,3 +1,12 @@
+import {
+  type TextareaApi,
+  type TextareaClasses,
+  type TextareaEmits,
+  type TextareaExpose,
+  type TextareaParts,
+  type TextareaProps,
+  type TextareaSlots,
+} from '#core/blueprints/textarea'
 import type {
   AddonsParts,
   AddonsSlots,
@@ -18,15 +27,6 @@ import type {
   DomAttrsOf,
   LanguagesProp,
 } from '#core/types'
-import {
-  type TextareaApi,
-  type TextareaClasses,
-  type TextareaEmits,
-  type TextareaExpose,
-  type TextareaParts,
-  type TextareaProps,
-  type TextareaSlots,
-} from '#core/blueprints/textarea'
 
 /**
  * VfTextarea props narrowed from a registry `TEntry` payload, applying the

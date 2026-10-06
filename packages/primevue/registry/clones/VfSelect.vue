@@ -40,7 +40,6 @@ import {
   type OverrideSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeSelect, { type SelectSlots as ASelectSlots } from 'primevue/select'
 import {
   blueprint,
   defaults,
@@ -54,8 +53,9 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/select'
 import type { SelectProps as PvSelectProps } from 'primevue'
-import type { VNode } from 'vue'
+import PrimeSelect, { type SelectSlots as ASelectSlots } from 'primevue/select'
 import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
+import type { VNode } from 'vue'
 
 /**
  * Prop definitions.

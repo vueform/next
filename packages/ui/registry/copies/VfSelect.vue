@@ -16,19 +16,20 @@
  */
 
 import {
+  useBlueprint,
   type ItemsProp,
   type GroupChildrenProp,
   type ItemValueProp,
-  useBlueprint,
   defineEvents,
 } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfSelectEmits,
   type VfSelectProps,
   type VfSelectSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfSelect'
+
 import '@vueform/ui/select.css'
 import '@vueform/ui/input.css'
 

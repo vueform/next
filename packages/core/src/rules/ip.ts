@@ -1,6 +1,7 @@
+import { createRule } from '#core/helpers'
+
 import { ipv4regex } from './ipv4'
 import { ipv6regex } from './ipv6'
-import { createRule } from '#core/helpers'
 
 /**
  * Validates that the value is a valid IPv4 or IPv6 address.

@@ -1,6 +1,8 @@
 import { nextTick, ref } from 'vue'
-import { createForm } from '../../helpers'
+
 import { defineSchema, pathExpressionAdapter } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('Expressions', () => {
   describe('Expression value', () => {

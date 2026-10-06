@@ -1,9 +1,10 @@
+import type { MaybeRef, Ref } from 'vue'
+
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
 } from '#core/modules/conditions'
 import type { EntryPropOf } from '#core/types'
-import type { MaybeRef, Ref } from 'vue'
 
 /**
  * Type-only key carrying `ItemsProps` generics for consumers like

@@ -4,14 +4,15 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfElementsEmits,
   type VfElementsProps,
   type VfElementsSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfElements'
-import { useBlueprint, defineEvents } from '@vueform/ui'
+
 import '@vueform/ui/form.css'
 
 defineOptions({

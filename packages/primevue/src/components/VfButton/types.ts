@@ -1,4 +1,14 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type {
+  ButtonProps as PvButtonProps,
+  ButtonSlots as AButtonSlots,
+} from 'primevue'
+
+import type {
   ButtonApi,
   ButtonClasses,
   ButtonEmits,
@@ -9,15 +19,6 @@ import type {
   forwards,
 } from '#primevue/blueprints/button'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type {
-  ButtonProps as PvButtonProps,
-  ButtonSlots as AButtonSlots,
-} from 'primevue'
 
 /**
  * Props for the VfButton component.

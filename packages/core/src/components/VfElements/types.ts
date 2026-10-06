@@ -1,10 +1,5 @@
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type ElementsApi,
   type ElementsProps,
@@ -14,6 +9,12 @@ import {
   type ElementsExpose,
   type ElementsClasses,
 } from '#core/blueprints/elements'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  DefineRegistryEntry,
+} from '#core/types'
 
 /**
  * Props for the VfElements component.

@@ -1,3 +1,5 @@
+import type { VNode } from 'vue'
+
 import type {
   TabsApi,
   TabsProps,
@@ -15,7 +17,6 @@ import type {
   UnknownElement,
   DefineRegistryEntry,
 } from '#core/types'
-import type { VNode } from 'vue'
 
 /**
  * Props for the VfTabs component.

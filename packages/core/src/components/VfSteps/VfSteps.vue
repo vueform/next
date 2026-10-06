@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { VfStepsEmits, VfStepsProps, VfStepsSlots } from './types'
 import { defaults, blueprint } from '#core/blueprints/steps'
 import { useBlueprint } from '#core/composables'
 import { defineEvents } from '#core/helpers'
+
+import type { VfStepsEmits, VfStepsProps, VfStepsSlots } from './types'
 
 defineOptions({ name: 'VfSteps', inheritAttrs: false })
 defineEmits<VfStepsEmits>()

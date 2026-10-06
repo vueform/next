@@ -14,12 +14,13 @@
  * headless unless --headed was explicitly given.
  */
 import path from 'node:path'
+
 import { assembleRun, type AssembleInput, type SmokeRun } from './assemble'
+import type { CellDef, Pm } from './cells'
 import { leakCheck } from './leak'
 import { pickPort, run, SmokeError } from './lib'
-import { execArgs, installArgs, runScriptArgs } from './pm'
-import type { CellDef, Pm } from './cells'
 import type { PackedTarballs } from './pack'
+import { execArgs, installArgs, runScriptArgs } from './pm'
 
 export interface CellRunInput {
   root: string

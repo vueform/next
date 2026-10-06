@@ -1,3 +1,5 @@
+import type { Ref } from 'vue'
+
 import type { ConditionalProp } from '#core/modules/conditions'
 import type {
   ExpressionNodeState,
@@ -16,6 +18,7 @@ import type {
   StandardSchemaV1,
   StatefulElement,
 } from '#core/types'
+
 import type {
   makeChildModel,
   makeMountedNode,
@@ -26,7 +29,6 @@ import type {
   makeModelStore,
   ModelStoreEvents,
 } from './modelStore'
-import type { Ref } from 'vue'
 
 /**
  * The model module instance: a stateless factory capturing the app config.

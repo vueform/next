@@ -1,5 +1,6 @@
 import { describe, it } from 'vitest'
 import { nextTick } from 'vue'
+
 import { upperFirst } from '#core'
 
 // Shared per-case state — shapes vary per template, hence `any`.

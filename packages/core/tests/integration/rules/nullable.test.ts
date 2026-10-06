@@ -1,5 +1,6 @@
-import { createForm } from '../../helpers'
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('nullable', () => {
   it('should always pass (returns true)', async () => {

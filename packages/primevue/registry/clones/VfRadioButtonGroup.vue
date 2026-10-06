@@ -42,9 +42,10 @@ import {
   type RadioButtonGroupProps,
   type RadioButtonGroupSlots,
 } from '@vueform/primevue/blueprints/radio-button-group'
+
 import '@vueform/primevue/choices.css'
-import type { VNode } from 'vue'
 import type { VfRadioButtonSlots } from '@vueform/primevue/components/VfRadioButton'
+import type { VNode } from 'vue'
 
 /**
  * Prop definitions.

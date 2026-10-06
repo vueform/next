@@ -1,3 +1,5 @@
+import type { Ref, VNode } from 'vue'
+
 import type {
   GridApi,
   GridClasses,
@@ -22,7 +24,6 @@ import type {
   SchemaToModel,
   WidenProps,
 } from '#core/types'
-import type { Ref, VNode } from 'vue'
 
 /**
  * Resolves the `grid` schema from a registry `TEntry` payload (unwrapping a

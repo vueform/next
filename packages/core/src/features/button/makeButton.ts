@@ -1,5 +1,5 @@
 import { computed, toRef, unref } from 'vue'
-import type { LooseContext, ReturnsOf, ThemeTokens, TProp } from '#core/types'
+
 import {
   useConfig,
   useDynamicProp,
@@ -14,6 +14,7 @@ import {
   type ConditionalProp,
   type ConditionsTriggerProp,
 } from '#core/modules/conditions'
+import type { LooseContext, ReturnsOf, ThemeTokens, TProp } from '#core/types'
 import { resolveRouter } from '#core/utils'
 
 /**

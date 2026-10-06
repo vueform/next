@@ -1,6 +1,8 @@
 import { defineComponent, h, nextTick, resolveComponent } from 'vue'
-import { createForm, mountApp } from '../../helpers'
+
 import { defineSchema } from '#primevue'
+
+import { createForm, mountApp } from '../../helpers'
 
 // =============================================================================
 // Basic rendering

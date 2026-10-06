@@ -5,8 +5,10 @@ import {
   type ComponentInternalInstance,
   type Slot,
 } from 'vue'
-import { camelToKebab } from './string'
+
 import type { ComponentOptions } from '#core/types'
+
+import { camelToKebab } from './string'
 
 /**
  * A dynamic props source in a Vapor instance's `rawProps.$` array: either a

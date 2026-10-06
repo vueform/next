@@ -16,10 +16,6 @@ import {
   type PartOf,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeFileUpload, {
-  type FileUploadSlots as AFileUploadSlots,
-  type FileUploadProps as PvFileUploadProps,
-} from 'primevue/fileupload'
 import {
   blueprint,
   defaults,
@@ -32,6 +28,11 @@ import {
   type FileUploadSlots,
   type forwards,
 } from '@vueform/primevue/blueprints/file-upload'
+import PrimeFileUpload, {
+  type FileUploadSlots as AFileUploadSlots,
+  type FileUploadProps as PvFileUploadProps,
+} from 'primevue/fileupload'
+
 import '@vueform/primevue/file-upload.css'
 import type { VNode } from 'vue'
 

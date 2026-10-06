@@ -1,5 +1,8 @@
+import type { VNode } from 'vue'
+
 import type { BlueprintContext } from '#core/composables'
 import type { DefineEvents } from '#core/helpers'
+
 import type { ClassValue } from './classes'
 import type {
   ClassesProp,
@@ -10,7 +13,6 @@ import type {
   SlotsProp,
 } from './props'
 import type { LooseContext } from './shared'
-import type { VNode } from 'vue'
 
 /**
  * Base public context for plain form components (e.g. addon, nav). Wraps

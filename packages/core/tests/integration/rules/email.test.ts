@@ -1,5 +1,6 @@
-import { createForm } from '../../helpers'
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('email', () => {
   it('should pass for valid email', async () => {

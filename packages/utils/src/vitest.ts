@@ -1,7 +1,9 @@
 import { existsSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { workspaceSourceAliases } from './sourceAliases'
+
 import type { Alias, UserConfig } from 'vite'
+
+import { workspaceSourceAliases } from './sourceAliases'
 
 /**
  * Options for the `vitest` config factory.

@@ -11,8 +11,10 @@ import {
   toRef,
   toRefs,
 } from 'vue'
-import { createForm } from '../../helpers'
+
 import { defineSchema, useContext } from '#core'
+
+import { createForm } from '../../helpers'
 
 // A custom template reaches its host two ways: the `context` prop and
 // `useContext()`. Both hand out the same public context object — the component

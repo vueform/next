@@ -28,9 +28,6 @@ import {
   type WidenProps,
   type WithPtShorthands,
 } from '@vueform/primevue'
-import PrimeSelectButton, {
-  type SelectButtonSlots as ASelectButtonSlots,
-} from 'primevue/selectbutton'
 import {
   blueprint,
   defaults,
@@ -44,6 +41,9 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/select-button'
 import type { SelectButtonProps as PvSelectButtonProps } from 'primevue'
+import PrimeSelectButton, {
+  type SelectButtonSlots as ASelectButtonSlots,
+} from 'primevue/selectbutton'
 import type { VNode } from 'vue'
 
 /**

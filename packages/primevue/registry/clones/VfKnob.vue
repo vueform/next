@@ -12,8 +12,6 @@ import {
   type ClassValue,
   type DefineElementContext,
 } from '@vueform/primevue'
-import PrimeKnob from 'primevue/knob'
-import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -25,8 +23,11 @@ import {
   type KnobProps,
   type KnobSlots,
 } from '@vueform/primevue/blueprints/knob'
-import '@vueform/primevue/knob.css'
 import type { KnobProps as PvKnobProps } from 'primevue'
+import PrimeKnob from 'primevue/knob'
+
+import '@vueform/primevue/knob.css'
+import type { WritableComputedRef } from 'vue'
 
 /**
  * Prop definitions.

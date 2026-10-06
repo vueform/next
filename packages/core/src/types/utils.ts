@@ -1,5 +1,6 @@
-import type { LooseContext } from './shared'
 import type { Ref } from 'vue'
+
+import type { LooseContext } from './shared'
 
 /**
  * Unwraps the inner composable from a `defineFeature` curried signature.

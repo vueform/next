@@ -1,5 +1,6 @@
 import { createVueform } from '@vueform/ui/origin'
 import { createApp, createVaporApp, nextTick, type VaporComponent } from 'vue'
+
 import App from './App.vue'
 import { params, spec } from './bench/current'
 import { raf, type BenchResult } from './bench/protocol'

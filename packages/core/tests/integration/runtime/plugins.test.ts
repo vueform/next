@@ -1,6 +1,8 @@
 import { nextTick } from 'vue'
-import { createForm } from '../../helpers'
+
 import { definePlugin, defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('Plugins', () => {
   describe('apply', () => {

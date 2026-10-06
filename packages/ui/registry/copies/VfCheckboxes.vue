@@ -15,19 +15,20 @@
  */
 
 import {
+  useBlueprint,
   type ItemsProp,
   type ItemValueProp,
   type GroupChildrenProp,
-  useBlueprint,
   defineEvents,
 } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfCheckboxesEmits,
   type VfCheckboxesProps,
   type VfCheckboxesSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfCheckboxes'
+
 import '@vueform/ui/choices.css'
 
 defineOptions({

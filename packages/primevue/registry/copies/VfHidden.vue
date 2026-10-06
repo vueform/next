@@ -4,14 +4,14 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, defineEvents } from '@vueform/primevue'
 import {
+  defaults,
+  blueprint,
   type VfHiddenEmits,
   type VfHiddenProps,
   type VfHiddenSlots,
-  defaults,
-  blueprint,
 } from '@vueform/primevue/components/VfHidden'
-import { useBlueprint, defineEvents } from '@vueform/primevue'
 
 defineOptions({ name: 'VfHidden', element: true, inheritAttrs: false })
 defineEmits<VfHiddenEmits>()

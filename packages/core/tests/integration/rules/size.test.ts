@@ -1,5 +1,6 @@
-import { createForm } from '../../helpers'
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('size', () => {
   it('should pass when string length equals size', async () => {

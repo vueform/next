@@ -1,6 +1,7 @@
-import { keywordMap, type KeywordEntry, type PopoverBlock } from './keywordMap'
 import type { Element, ElementContent } from 'hast'
 import type { ShikiTransformer } from 'shiki'
+
+import { keywordMap, type KeywordEntry, type PopoverBlock } from './keywordMap'
 
 const UNLINK_RE = /\/\/\s*\[!code\s+unlink:([^\]]+)\]/
 const LINK_RE = /\/\/\s*\[!code\s+link:([^\]]+)\]/

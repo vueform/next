@@ -1,13 +1,14 @@
 import { computed, ref, toRef, unref } from 'vue'
-import type { makeElement } from '#core/features'
-import type { ReturnsOf } from '#core/types'
+
 import { useConditions } from '#core/composables'
 import { useContainerContext, useFormContext } from '#core/contexts'
+import type { makeElement } from '#core/features'
 import { defineFeature } from '#core/helpers'
 import {
   type ConditionalProp,
   type ConditionsTriggerProp,
 } from '#core/modules/conditions'
+import type { ReturnsOf } from '#core/types'
 
 /**
  * Configuration for the disable factory controlling whether the element is

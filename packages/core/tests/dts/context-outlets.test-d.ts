@@ -1,3 +1,4 @@
+import type { ContextOf, ContextOutlets } from '@vueform/core'
 /*
  * Type-level tests for `context.outlets` typing on the public context:
  * outlet values keep their slot payload types (not `any`), and the SFC's
@@ -5,7 +6,6 @@
  * Run by `pnpm test:dts`.
  */
 import { describe, expectTypeOf, test } from 'vitest'
-import type { ContextOf, ContextOutlets } from '@vueform/core'
 import '@vueform/core/components'
 import type { VNode } from 'vue'
 

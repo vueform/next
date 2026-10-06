@@ -1,7 +1,8 @@
-import { noopTheme } from './noop'
 import type { VueformInstance } from '#core/helpers'
-import type { ThemeModule } from './types'
 import { resolveModules } from '#core/helpers/resolveModules'
+
+import { noopTheme } from './noop'
+import type { ThemeModule } from './types'
 
 /**
  * Returns the resolved instance's theme module, or the inert `noopTheme`

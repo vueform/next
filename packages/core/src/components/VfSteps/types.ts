@@ -1,12 +1,5 @@
-import type { ResolvedPage } from '#core/composables'
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  UnknownElement,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type StepsApi,
   type StepsClasses,
@@ -16,6 +9,14 @@ import {
   type StepsProps,
   type StepsSlots,
 } from '#core/blueprints/steps'
+import type { ResolvedPage } from '#core/composables'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  UnknownElement,
+  DefineRegistryEntry,
+} from '#core/types'
 
 /**
  * Props for the VfSteps component.

@@ -5,14 +5,15 @@
  */
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
-import PrimeColorPicker from 'primevue/colorpicker'
 import {
+  blueprint,
+  defaults,
   type VfColorPickerEmits,
   type VfColorPickerProps,
   type VfColorPickerSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfColorPicker'
+import PrimeColorPicker from 'primevue/colorpicker'
+
 import '@vueform/primevue/color-picker.css'
 
 const PvColorPicker = vdomPrime(PrimeColorPicker)

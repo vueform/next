@@ -14,9 +14,9 @@
  */
 
 import {
-  type LanguagesProp,
   useBlueprint,
   defineEvents,
+  type LanguagesProp,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,

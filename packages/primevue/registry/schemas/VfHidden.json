@@ -10,7 +10,7 @@
       "path": "VfHidden.vue",
       "target": "{componentsDir}/VfHidden.vue",
       "kind": "component",
-      "hash": "sha256:eb6e63ca0385332126c0c67c345c6bc5df6522f5c8df25d97d42c6cf41ebff27"
+      "hash": "sha256:7234f56dc6159a539cd08b90dbf1739fb99c547c83aca4665947db7a7dd1bb50"
     }
   ],
   "imports": [
@@ -23,7 +23,7 @@
   "clone": {
     "path": "VfHidden.vue",
     "blueprint": "hidden",
-    "hash": "sha256:69357f79b17e96060f0f473ba2b4fbb021de22fea3f9c219d80aee2c93ffa538",
+    "hash": "sha256:a064c9dfb0b47927d69e79e29aacba8f184c65aaacc70b6bf2f0c21cd3fee752",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

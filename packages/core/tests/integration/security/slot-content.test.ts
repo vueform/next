@@ -14,10 +14,12 @@
  * inline `on*` handlers.
  */
 import { h, nextTick, type FunctionalComponent } from 'vue'
-import { createForm } from '../../helpers'
+
 import { defineSchema } from '#core'
 import * as modules from '#core/modules'
 import dompurify from '#dompurify'
+
+import { createForm } from '../../helpers'
 
 const Resolved: FunctionalComponent = () =>
   h('span', { class: 'resolved' }, 'Resolved')

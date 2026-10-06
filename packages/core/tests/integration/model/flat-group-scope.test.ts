@@ -1,5 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { nextTick } from 'vue'
+
 import { el, makeApp, mountApp, vModelAndChange } from '../../helpers'
 
 const template = `

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { VfRowEmits, VfRowProps, VfRowSlots } from './types'
 import { defaults, blueprint } from '#core/blueprints/row'
 import { useBlueprint } from '#core/composables'
 import { defineEvents } from '#core/helpers'
+
+import type { VfRowEmits, VfRowProps, VfRowSlots } from './types'
 
 defineOptions({ name: 'VfRow', inheritAttrs: false })
 defineEmits<VfRowEmits>()

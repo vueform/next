@@ -5,22 +5,23 @@
  */
 
 import {
-  type VfMatrixEmits,
-  type VfMatrixProps,
-  type VfMatrixSlots,
-  blueprint,
-  defaults,
-} from '@vueform/primevue/components/VfMatrix'
-import {
-  normalizeSourceItems,
-  resolveItemProp,
-} from '@vueform/primevue/blueprints/matrix'
-import {
   useBlueprint,
   useLocale,
   defineEvents,
   isPlainObject,
 } from '@vueform/primevue'
+import {
+  normalizeSourceItems,
+  resolveItemProp,
+} from '@vueform/primevue/blueprints/matrix'
+import {
+  blueprint,
+  defaults,
+  type VfMatrixEmits,
+  type VfMatrixProps,
+  type VfMatrixSlots,
+} from '@vueform/primevue/components/VfMatrix'
+
 import '@vueform/primevue/matrix.css'
 
 defineOptions({

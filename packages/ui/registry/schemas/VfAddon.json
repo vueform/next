@@ -10,7 +10,7 @@
       "path": "VfAddon.vue",
       "target": "{componentsDir}/VfAddon.vue",
       "kind": "component",
-      "hash": "sha256:88cae3e2aca37668660b1b921a2a7a87321e88255658d3b825ceebbf5fdb0f0b"
+      "hash": "sha256:07d0768fe3a0806768d0a3ddb0d0d1ac3a43afc618d96e3779337844fce9c35b"
     }
   ],
   "imports": [

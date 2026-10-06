@@ -38,17 +38,18 @@ import {
   equals,
   aliasProps,
 } from '@vueform/core'
-import { computed } from 'vue'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   RadioButtonProps as ARadioButtonProps,
   RadioButtonEmitsOptions as ARadioButtonEmits,
 } from 'primevue/radiobutton'
+import { computed } from 'vue'
+
 import {
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
 } from '#primevue/features'
+import type { ForwardedEmits } from '#primevue/types'
 
 /**
  * Radio-button model shape: the `value` prop type, or `null` when unselected.

@@ -1,5 +1,6 @@
-import type { Prettify } from '#core/types'
 import type { Ref } from 'vue'
+
+import type { Prettify } from '#core/types'
 
 /**
  * Resolves the narrowed element `type` literal from the props, falling back to

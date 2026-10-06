@@ -1,4 +1,3 @@
-import type { LooseRequired } from '#core/types'
 import { useFeatures } from '#core/composables'
 import {
   makeElement,
@@ -33,6 +32,7 @@ import {
   type ItemsModelApi,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type { LooseRequired } from '#core/types'
 
 /**
  * Plain props type for the radios element blueprint — the widest instantiation

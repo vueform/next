@@ -1,3 +1,5 @@
+import type { VNode } from 'vue'
+
 import type {
   NavApi,
   NavBackAriaBindings,
@@ -11,7 +13,6 @@ import type {
 } from '#core/blueprints/nav'
 import type { Pager } from '#core/composables'
 import type { ConditionalProp } from '#core/modules/conditions'
-import type { VNode } from 'vue'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,

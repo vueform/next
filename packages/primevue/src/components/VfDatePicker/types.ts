@@ -1,4 +1,19 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  AddonsParts,
+  IconsParts,
+  AddonGroupParts,
+  EntryPropOf,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { DatePickerProps as PvDatePickerProps } from 'primevue'
+import type { DatePickerSlots as ADatePickerSlots } from 'primevue/datepicker'
+
+import type {
   DatePickerApi,
   DatePickerClasses,
   DatePickerEmits,
@@ -18,20 +33,6 @@ import type {
   IftaSlots,
 } from '#primevue/features'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  AddonsParts,
-  IconsParts,
-  AddonGroupParts,
-  EntryPropOf,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { DatePickerProps as PvDatePickerProps } from 'primevue'
-import type { DatePickerSlots as ADatePickerSlots } from 'primevue/datepicker'
 
 /**
  * Resolves the `TSelectionMode` generic from a registry `TEntry` payload's

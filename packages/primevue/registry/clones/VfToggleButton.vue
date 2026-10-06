@@ -13,9 +13,6 @@ import {
   type DefineElementContext,
   type ForwardedSlots,
 } from '@vueform/primevue'
-import PrimeToggleButton, {
-  type ToggleButtonSlots as AToggleButtonSlots,
-} from 'primevue/togglebutton'
 import {
   blueprint,
   defaults,
@@ -29,6 +26,9 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/toggle-button'
 import type { ToggleButtonProps as PvToggleButtonProps } from 'primevue'
+import PrimeToggleButton, {
+  type ToggleButtonSlots as AToggleButtonSlots,
+} from 'primevue/togglebutton'
 
 /**
  * Prop definitions.

@@ -13,9 +13,9 @@
  */
 
 import {
-  type LanguagesProp,
   useBlueprint,
   defineEvents,
+  type LanguagesProp,
   type AddonGroupClasses,
   type AddonGroupParts,
   type AddonsParts,
@@ -41,6 +41,7 @@ import {
   type TextProps,
   type TextSlots,
 } from '@vueform/ui/blueprints/text'
+
 import '@vueform/ui/input.css'
 import '@vueform/ui/text.css'
 

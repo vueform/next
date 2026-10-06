@@ -1,3 +1,4 @@
+import type { SecurityModuleOptions } from '@vueform/core'
 /*
  * Dist type tests for `@vueform/dompurify` as a consumer sees it: imports
  * resolve through the exports map to the built dist types. Requires a prior
@@ -8,7 +9,6 @@
  */
 import dompurify, { domPurifySanitizer } from '@vueform/dompurify'
 import { describe, expectTypeOf, test } from 'vitest'
-import type { SecurityModuleOptions } from '@vueform/core'
 
 describe('dompurify dist types', () => {
   test('augments SecurityModuleOptions on @vueform/core', () => {

@@ -1,5 +1,6 @@
-import { createForm } from '../../helpers'
 import { defineSchema, createRule } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('in_array', () => {
   it('should fail when referenced element value is not an array', async () => {

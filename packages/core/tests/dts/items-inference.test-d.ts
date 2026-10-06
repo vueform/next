@@ -1,3 +1,13 @@
+import type {
+  ExpressionString,
+  GroupChildrenProp,
+  ItemsModel,
+  ItemValueOf,
+  ItemsProp,
+  RawItemOf,
+} from '@vueform/core'
+import type { SelectProps } from '@vueform/core/blueprints/select'
+import type { VfSelectProps } from '@vueform/core/components/VfSelect'
 /*
  * Type-level tests for items → modelValue inference. Run by `pnpm test:dts`.
  *
@@ -170,16 +180,6 @@
  * string case (§4) lets `v-model` define the model type.
  */
 import { describe, expectTypeOf, test } from 'vitest'
-import type {
-  ExpressionString,
-  GroupChildrenProp,
-  ItemsModel,
-  ItemValueOf,
-  ItemsProp,
-  RawItemOf,
-} from '@vueform/core'
-import type { SelectProps } from '@vueform/core/blueprints/select'
-import type { VfSelectProps } from '@vueform/core/components/VfSelect'
 
 /*
  * `NoInfer` is transparent for `extends` but not for strict type equality, so

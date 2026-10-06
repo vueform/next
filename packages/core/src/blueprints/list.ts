@@ -1,5 +1,5 @@
 import { computed, toRef } from 'vue'
-import type { DProp, FormSchema, LooseRequired, TProp } from '#core/types'
+
 import {
   useContainerProvider,
   useDynamicProp,
@@ -30,6 +30,7 @@ import {
   type ValidationEmits,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type { DProp, FormSchema, LooseRequired, TProp } from '#core/types'
 import { warn } from '#core/utils'
 
 /**

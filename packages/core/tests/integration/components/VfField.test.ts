@@ -1,6 +1,8 @@
 import { nextTick } from 'vue'
-import { createForm, makeApp, mountApp, vModelAndChange } from '../../helpers'
+
 import { defineSchema, defineSlot } from '#core'
+
+import { createForm, makeApp, mountApp, vModelAndChange } from '../../helpers'
 
 // =============================================================================
 // PROPS

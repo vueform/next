@@ -1,5 +1,6 @@
-import { createForm2, createForm, getClass } from '../../helpers'
 import { defineSchema } from '#core'
+
+import { createForm2, createForm, getClass } from '../../helpers'
 
 function getContainerColClass(form: any, nth = 0) {
   return getClass(form, { name: 'VfText' }, nth).replace(

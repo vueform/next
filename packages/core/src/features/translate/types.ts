@@ -1,4 +1,5 @@
 import type { VNode } from 'vue'
+
 import { type LanguagesProp, type PartOf, type EntryPropOf } from '#core/types'
 
 // ========== ENTRY GENERICS ============

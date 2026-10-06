@@ -16,10 +16,10 @@
  */
 
 import {
+  useBlueprint,
   type ItemsProp,
   type ItemValueProp,
   type GroupChildrenProp,
-  useBlueprint,
   defineEvents,
   type ClassValue,
   type DefineElementContext,
@@ -42,9 +42,10 @@ import {
   type CheckboxesProps,
   type CheckboxesSlots,
 } from '@vueform/ui/blueprints/checkboxes'
+
 import '@vueform/ui/choices.css'
-import type { VNode } from 'vue'
 import type { VfCheckboxSlots } from '@vueform/ui/components/VfCheckbox'
+import type { VNode } from 'vue'
 
 /**
  * Prop definitions.

@@ -40,18 +40,9 @@
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@types/node": "catalog:",
-    "@typescript-eslint/eslint-plugin": "catalog:",
-    "@typescript-eslint/parser": "catalog:",
     "@vue/tsconfig": "catalog:",
     "@vueform/utils": "workspace:*",
     "ajv": "catalog:",
-    "eslint": "catalog:",
-    "eslint-config-prettier": "catalog:",
-    "eslint-plugin-import": "catalog:",
-    "eslint-plugin-oxlint": "catalog:",
-    "eslint-plugin-perfectionist": "catalog:",
-    "eslint-plugin-unused-imports": "catalog:",
-    "eslint-plugin-vue": "catalog:",
     "husky": "catalog:",
     "lint-staged": "catalog:",
     "oxfmt": "catalog:",
@@ -66,17 +57,15 @@
     "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
-    "vue-eslint-parser": "catalog:",
     "vue-tsc": "catalog:"
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,mts,cts}": [
-      "pnpm oxlint --fix",
-      "pnpm eslint --fix",
+      "pnpm oxlint --fix --fix-suggestions",
       "pnpm oxfmt"
     ],
     "*.vue": [
-      "pnpm eslint --fix",
+      "pnpm oxlint --fix --fix-suggestions",
       "pnpm oxfmt"
     ],
     "*.scss": [

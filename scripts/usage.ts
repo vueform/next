@@ -87,22 +87,19 @@ console.log(
     line(
       'lint',
       '[packages]',
-      'eslint + stylelint per target, gathering all issues',
+      'oxlint + stylelint per target, gathering all issues',
       [
         ['--root', 'everything outside packages'],
         ['--fix', 'apply autofixes'],
       ]
     ),
-    line('format', '[packages]', 'prettier per target', [
+    line('format', '[packages]', 'oxfmt per target', [
       ['--root', 'everything outside packages'],
       ['--check', 'check instead of write'],
     ]),
-    line(
-      'fix',
-      '[packages]',
-      'eslint --fix + stylelint --fix + prettier --write',
-      [['--root', 'everything outside packages']]
-    ),
+    line('fix', '[packages]', 'oxlint --fix + stylelint --fix + oxfmt', [
+      ['--root', 'everything outside packages'],
+    ]),
     line(
       'registry',
       '[adapter]',

@@ -1,4 +1,14 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type {
+  RatingProps as PvRatingProps,
+  RatingSlots as ARatingSlots,
+} from 'primevue'
+
+import type {
   RatingApi,
   RatingClasses,
   RatingEmits,
@@ -9,15 +19,6 @@ import type {
   forwards,
 } from '#primevue/blueprints/rating'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type {
-  RatingProps as PvRatingProps,
-  RatingSlots as ARatingSlots,
-} from 'primevue'
 
 /**
  * Props for the VfRating component.

@@ -17,8 +17,8 @@ import {
   defineEvents,
   useBlueprint,
   type TreeSelectionModeProp,
-  type TreeOptionsProp,
   vdomPrime,
+  type TreeOptionsProp,
   type AddonGroupParts,
   type AddonsParts,
   type AddonsSlots,
@@ -36,9 +36,6 @@ import {
   type OverrideSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeTreeSelect, {
-  type TreeSelectSlots as ATreeSelectSlots,
-} from 'primevue/treeselect'
 import {
   blueprint,
   defaults,
@@ -52,6 +49,9 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/tree-select'
 import type { TreeSelectProps as PvTreeSelectProps } from 'primevue'
+import PrimeTreeSelect, {
+  type TreeSelectSlots as ATreeSelectSlots,
+} from 'primevue/treeselect'
 import type { VNode } from 'vue'
 
 /**

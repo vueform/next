@@ -4,14 +4,15 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfTabsEmits,
   type VfTabsProps,
   type VfTabsSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfTabs'
-import { useBlueprint, defineEvents } from '@vueform/ui'
+
 import '@vueform/ui/tabs.css'
 
 defineOptions({ name: 'VfTabs' })

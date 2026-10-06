@@ -6,6 +6,16 @@
  */
 
 import {
+  useBlueprint,
+  defineEvents,
+  type AlignProp,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
+  type ValignProp,
+  type WidenProps,
+} from '@vueform/ui'
+import {
   defaults,
   blueprint,
   type GridApi,
@@ -17,16 +27,7 @@ import {
   type GridProps,
   type GridSlots,
 } from '@vueform/ui/blueprints/grid'
-import {
-  useBlueprint,
-  defineEvents,
-  type AlignProp,
-  type ClassValue,
-  type DefineElementContext,
-  type DomAttrsOf,
-  type ValignProp,
-  type WidenProps,
-} from '@vueform/ui'
+
 import '@vueform/ui/grid.css'
 import '@vueform/ui/tabular.css'
 import type { VNode } from 'vue'

@@ -1,3 +1,14 @@
+import type { VNode } from 'vue'
+
+import {
+  type GroupApi,
+  type GroupClasses,
+  type GroupEmits,
+  type GroupExpose,
+  type GroupParts,
+  type GroupProps,
+  type GroupSlots,
+} from '#core/blueprints/group'
 import type { ObjectModel } from '#core/features'
 import type {
   ClassValue,
@@ -11,16 +22,6 @@ import type {
   ResolvedSchema,
   EntrySchemaOf,
 } from '#core/types'
-import type { VNode } from 'vue'
-import {
-  type GroupApi,
-  type GroupClasses,
-  type GroupEmits,
-  type GroupExpose,
-  type GroupParts,
-  type GroupProps,
-  type GroupSlots,
-} from '#core/blueprints/group'
 
 /**
  * Groups carry a model shaped by their child schema regardless of `nested`:

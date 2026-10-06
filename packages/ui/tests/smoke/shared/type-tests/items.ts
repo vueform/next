@@ -4,6 +4,7 @@
  * not typecheck.
  */
 import { defineSchema } from '@vueform/ui'
+
 import { schema } from '../schema'
 
 defineSchema({

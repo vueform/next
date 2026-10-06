@@ -1,7 +1,7 @@
+import { useDate } from '#core/composables'
 import type { VueformInstance } from '#core/helpers'
 import type { DateInstance } from '#core/modules/date'
 import type { StatefulElement } from '#core/types'
-import { useDate } from '#core/composables'
 
 export function checkDates(
   value: any,

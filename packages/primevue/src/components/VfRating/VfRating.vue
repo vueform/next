@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeRating from 'primevue/rating'
-import type { VfRatingEmits, VfRatingProps, VfRatingSlots } from './types'
 import type { WritableComputedRef } from 'vue'
+
 import { blueprint, defaults } from '#primevue/blueprints/rating'
 import { vdomPrime } from '#primevue/helpers'
+
+import type { VfRatingEmits, VfRatingProps, VfRatingSlots } from './types'
 
 const Rating = vdomPrime(PrimeRating)
 

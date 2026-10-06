@@ -9,14 +9,16 @@
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeAutoComplete from 'primevue/autocomplete'
+
+import { blueprint, defaults } from '#primevue/blueprints/auto-complete'
 import type { SuggestionsProp } from '#primevue/features'
+import { vdomPrime } from '#primevue/helpers'
+
 import type {
   VfAutoCompleteEmits,
   VfAutoCompleteProps,
   VfAutoCompleteSlots,
 } from './types'
-import { blueprint, defaults } from '#primevue/blueprints/auto-complete'
-import { vdomPrime } from '#primevue/helpers'
 
 const AutoComplete = vdomPrime(PrimeAutoComplete)
 

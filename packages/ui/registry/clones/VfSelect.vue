@@ -17,10 +17,10 @@
  */
 
 import {
+  useBlueprint,
   type ItemsProp,
   type GroupChildrenProp,
   type ItemValueProp,
-  useBlueprint,
   defineEvents,
   type AddonGroupClasses,
   type AddonsParts,
@@ -47,6 +47,7 @@ import {
   type SelectProps,
   type SelectSlots,
 } from '@vueform/ui/blueprints/select'
+
 import '@vueform/ui/select.css'
 import '@vueform/ui/input.css'
 import type { VNode } from 'vue'

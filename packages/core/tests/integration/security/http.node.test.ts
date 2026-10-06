@@ -14,6 +14,7 @@
 // evaluates module definitions before `~/helpers` finishes initializing.
 import '#core'
 import { describe, expect, it } from 'vitest'
+
 import { security } from '#core/modules'
 
 /**

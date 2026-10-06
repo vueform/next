@@ -1,3 +1,14 @@
+import type { VNode } from 'vue'
+
+import {
+  type RadiosApi,
+  type RadiosClasses,
+  type RadiosEmits,
+  type RadiosExpose,
+  type RadiosParts,
+  type RadiosProps,
+  type RadiosSlots,
+} from '#core/blueprints/radios'
 import type { VfRadioSlots } from '#core/components/VfRadio/types'
 import type {
   ResolvedGroup,
@@ -20,16 +31,6 @@ import type {
   DomAttrsOf,
   PartOf,
 } from '#core/types'
-import type { VNode } from 'vue'
-import {
-  type RadiosApi,
-  type RadiosClasses,
-  type RadiosEmits,
-  type RadiosExpose,
-  type RadiosParts,
-  type RadiosProps,
-  type RadiosSlots,
-} from '#core/blueprints/radios'
 
 /**
  * VfRadios props narrowed from a registry `TEntry` payload, applying the

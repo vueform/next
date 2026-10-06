@@ -1,10 +1,12 @@
 import { onUnmounted, unref, watch, type App } from 'vue'
+
+import type { VueformInstance } from '#core/helpers'
+import { isDev } from '#core/utils'
+
 import { refreshInspector, setupInspector } from './inspector'
 import { noopDevtools } from './noop'
 import { registerForm, unregisterForm } from './registry'
-import type { VueformInstance } from '#core/helpers'
 import type { DevtoolsModule } from './types'
-import { isDev } from '#core/utils'
 
 /**
  * Form context properties watched (deeply) so the inspector panels refresh when

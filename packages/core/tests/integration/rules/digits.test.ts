@@ -1,5 +1,6 @@
-import { createForm } from '../../helpers'
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('digits', () => {
   it('should pass for digits with exact length', async () => {

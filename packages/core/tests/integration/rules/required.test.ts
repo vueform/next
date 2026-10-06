@@ -1,6 +1,8 @@
 import { flushPromises } from '@vue/test-utils'
-import { createForm } from '../../helpers'
+
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('required', () => {
   describe('text', () => {

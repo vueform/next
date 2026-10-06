@@ -1,5 +1,6 @@
 import { createVueform } from '@vueform/ui/origin'
 import { createVaporApp, type VaporComponent } from 'vue'
+
 import config from '../vueform.config'
 import App from './App.vue'
 

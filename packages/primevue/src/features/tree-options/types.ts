@@ -1,10 +1,11 @@
-import type { TreeOptionsProp } from '#primevue/types'
 import type {
   ConditionsTriggerProp,
   IsDefaultItems,
   UnwrappedItems,
 } from '@vueform/core'
 import type { MaybeRef } from 'vue'
+
+import type { TreeOptionsProp } from '#primevue/types'
 
 /**
  * Recursively collects `key` literals from a tree node array.

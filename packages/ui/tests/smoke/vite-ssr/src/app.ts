@@ -1,5 +1,6 @@
 import { createVueform } from '@vueform/ui/origin'
 import { createSSRApp } from 'vue'
+
 import config from '../vueform.config'
 import App from './App.vue'
 

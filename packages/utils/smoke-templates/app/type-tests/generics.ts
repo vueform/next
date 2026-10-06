@@ -1,3 +1,5 @@
+import type { SchemaToModel } from '@vueform/core'
+
 /**
  * Generics (type level): SchemaToModel derives the model shape from the
  * canonical schema, and the adapter's bare entry demands the model module (only
@@ -6,7 +8,6 @@
 import { createVueform } from '../adapter'
 import { schema } from '../schema'
 import type { Expect, Extends } from './helpers'
-import type { SchemaToModel } from '@vueform/core'
 
 type Model = SchemaToModel<typeof schema>
 

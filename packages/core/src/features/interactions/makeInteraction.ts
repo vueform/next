@@ -1,4 +1,5 @@
 import { ref } from 'vue'
+
 import { useRootDom } from '#core/composables'
 import { useComponentContext } from '#core/contexts'
 import { defineFeature, type FeatureEvents } from '#core/helpers'

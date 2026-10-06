@@ -1,7 +1,8 @@
 import { nextTick, onMounted, onBeforeUnmount, watch } from 'vue'
-import type { ReturnsOf } from '#core/types'
+
 import { type makeInput, type makeTData } from '#core/features'
 import { defineFeature } from '#core/helpers'
+import type { ReturnsOf } from '#core/types'
 
 /**
  * Configuration for the autogrow factory that auto-resizes a textarea to fit

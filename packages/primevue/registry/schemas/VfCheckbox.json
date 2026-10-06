@@ -10,14 +10,14 @@
       "path": "VfCheckbox.vue",
       "target": "{componentsDir}/VfCheckbox.vue",
       "kind": "component",
-      "hash": "sha256:ca49a31bc741d7e109e8974b237e32c892269ca4973ee536657fbdbce79b4da0"
+      "hash": "sha256:2df173ca7d19777dc6cfb622ba4de4860fad0a759691c49baccc34db929628b0"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/checkbox",
-    "@vueform/primevue/components/VfCheckbox",
     "vue",
+    "@vueform/primevue/components/VfCheckbox",
     "@vueform/primevue/choice.css"
   ],
   "dependencies": {},
@@ -29,7 +29,7 @@
   "clone": {
     "path": "VfCheckbox.vue",
     "blueprint": "checkbox",
-    "hash": "sha256:f474d9f622954484ce66db2cf807679decfa47c51a3b04e4454cf45732ee6d16",
+    "hash": "sha256:332daa1b972dd7b4bb9759989e041ee235b7078acb8c86c438a9d14f7e10b14e",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

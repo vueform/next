@@ -1,3 +1,12 @@
+import {
+  type TextApi,
+  type TextClasses,
+  type TextEmits,
+  type TextExpose,
+  type TextParts,
+  type TextProps,
+  type TextSlots,
+} from '#core/blueprints/text'
 import type {
   AddonsSlots,
   IconsClasses,
@@ -19,15 +28,6 @@ import type {
   DomAttrsOf,
   LanguagesProp,
 } from '#core/types'
-import {
-  type TextApi,
-  type TextClasses,
-  type TextEmits,
-  type TextExpose,
-  type TextParts,
-  type TextProps,
-  type TextSlots,
-} from '#core/blueprints/text'
 
 /**
  * VfText props narrowed from a registry `TEntry` payload, applying the entry's

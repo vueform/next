@@ -34,18 +34,19 @@ import {
   aliasProps,
   type DProp,
 } from '@vueform/core'
-import { ref } from 'vue'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   ToggleButtonProps as AToggleButtonProps,
   ToggleButtonEmitsOptions as AToggleButtonEmits,
 } from 'primevue/togglebutton'
+import { ref } from 'vue'
+
 import {
   makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
 } from '#primevue/features'
+import type { ForwardedEmits } from '#primevue/types'
 
 /**
  * Props for the toggle-button element blueprint.

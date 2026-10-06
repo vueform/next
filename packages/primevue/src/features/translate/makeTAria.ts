@@ -8,6 +8,7 @@ import {
   type makeMultilingual,
 } from '@vueform/core'
 import { computed } from 'vue'
+
 import { type makeFloatLabel, type makeIfta } from '#primevue/features'
 
 /**

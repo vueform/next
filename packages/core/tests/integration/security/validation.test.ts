@@ -1,3 +1,5 @@
+import { defineSchema } from '#core'
+
 /**
  * # Validation integrity
  *
@@ -9,7 +11,6 @@
  * (regex denial of service).
  */
 import { createForm } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('Security: validation integrity', () => {
   describe('`regex` / `not_regex` rules', () => {

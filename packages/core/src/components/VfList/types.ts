@@ -1,3 +1,5 @@
+import type { Component, VNode } from 'vue'
+
 import type {
   ListApi,
   ListClasses,
@@ -22,7 +24,6 @@ import type {
   WidenProps,
   EntrySchemaOf,
 } from '#core/types'
-import type { Component, VNode } from 'vue'
 
 /**
  * Lists carry a rows-array model shaped by their child schema and `flat` prop:

@@ -1,15 +1,7 @@
 import { computed, ref, watch, type WatchHandle } from 'vue'
-import { noopExpression } from './noop'
+
 import type { VueformInstance } from '#core/helpers'
 import type { ModelNode, SchemaIndex } from '#core/modules/model'
-import type {
-  ExpressionInitOptions,
-  ExpressionModule,
-  ExpressionNodeState,
-  ExpressionTracker,
-  ExpressionTracking,
-  ExpressionTrackingOptions,
-} from './types'
 import {
   get as getByPath,
   getComponentDef,
@@ -18,6 +10,16 @@ import {
   warn as vfWarn,
   isDev,
 } from '#core/utils'
+
+import { noopExpression } from './noop'
+import type {
+  ExpressionInitOptions,
+  ExpressionModule,
+  ExpressionNodeState,
+  ExpressionTracker,
+  ExpressionTracking,
+  ExpressionTrackingOptions,
+} from './types'
 
 // Matches `{expression}` templates and `\{escaped}` sequences. The `s`
 // (dotAll) flag lets `{…}` templates span multiple lines, so longer

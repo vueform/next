@@ -1,7 +1,7 @@
 /**
  * Monorepo lint orchestrator (`pnpm lint`, `pnpm lint --fix`).
  *
- * One task per workspace package (eslint + stylelint over its directory) plus
+ * One task per workspace package (oxlint + stylelint over its directory) plus
  * `root` for everything outside `packages/`. Selection flags work like the
  * build orchestrator's — `--core`, `--pv`, `--adapters`, `--root`.
  *

@@ -6,6 +6,16 @@
  */
 
 import {
+  useBlueprint,
+  defineEvents,
+  schemaEntries,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
+  type ResolvedSchema,
+  type WidenProps,
+} from '@vueform/primevue'
+import {
   defaults,
   blueprint,
   type GroupApi,
@@ -16,16 +26,7 @@ import {
   type GroupProps,
   type GroupSlots,
 } from '@vueform/primevue/blueprints/group'
-import {
-  useBlueprint,
-  defineEvents,
-  schemaEntries,
-  type ClassValue,
-  type DefineElementContext,
-  type DomAttrsOf,
-  type ResolvedSchema,
-  type WidenProps,
-} from '@vueform/primevue'
+
 import '@vueform/primevue/group.css'
 import type { VNode } from 'vue'
 

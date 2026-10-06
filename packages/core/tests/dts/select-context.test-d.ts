@@ -16,8 +16,6 @@ import {
   type ExpressionString,
   type SchemaEntryOf,
 } from '@vueform/core'
-import { describe, expectTypeOf, test } from 'vitest'
-import '@vueform/core/components'
 import type {
   VfSelectContext,
   VfSelectEmits,
@@ -25,6 +23,8 @@ import type {
   VfSelectProps,
   VfSelectSlots,
 } from '@vueform/core/components/VfSelect'
+import '@vueform/core/components'
+import { describe, expectTypeOf, test } from 'vitest'
 
 type VfSelectDefinition = ComponentRegistry['VfSelect']
 type VfSelectSchemaEntry = SchemaEntryOf<'VfSelect'>

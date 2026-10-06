@@ -29,10 +29,6 @@ import {
   type IftaSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeDatePicker, {
-  type DatePickerSlots as ADatePickerSlots,
-} from 'primevue/datepicker'
-import type { ComputedRef, WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -47,6 +43,10 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/date-picker'
 import type { DatePickerProps as PvDatePickerProps } from 'primevue'
+import PrimeDatePicker, {
+  type DatePickerSlots as ADatePickerSlots,
+} from 'primevue/datepicker'
+import type { ComputedRef, WritableComputedRef } from 'vue'
 
 /**
  * Prop definitions.

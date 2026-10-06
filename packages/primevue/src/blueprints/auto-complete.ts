@@ -39,13 +39,13 @@ import {
   aliasProps,
   makeLoading,
 } from '@vueform/core'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   AutoCompleteProps as AAutoCompleteProps,
   AutoCompleteEmitsOptions as AAutoCompleteEmits,
   AutoCompleteChangeEvent,
   AutoCompleteCompleteEvent,
 } from 'primevue/autocomplete'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -60,6 +60,7 @@ import {
   type SuggestionsProp,
   type OptionsModelProp,
 } from '#primevue/features'
+import type { ForwardedEmits } from '#primevue/types'
 
 /**
  * Plain props type for the auto-complete element blueprint — the widest

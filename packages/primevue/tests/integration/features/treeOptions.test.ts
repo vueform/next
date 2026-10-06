@@ -1,6 +1,8 @@
 import { nextTick, ref } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
+
 import { defineSchema } from '#primevue'
+
+import { createForm, flushPromises } from '../../helpers'
 
 // =============================================================================
 // RENDERING TREE ITEMS

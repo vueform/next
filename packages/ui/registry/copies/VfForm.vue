@@ -9,18 +9,19 @@
  */
 
 import {
-  type FormSchema,
   useConfig,
   useBlueprint,
   defineEvents,
+  type FormSchema,
 } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfFormEmits,
   type VfFormProps,
   type VfFormSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfForm'
+
 import '@vueform/ui/form.css'
 
 defineOptions({ name: 'VfForm', inheritAttrs: false })

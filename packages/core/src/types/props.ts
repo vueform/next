@@ -1,5 +1,6 @@
-import type { HttpResponse } from '#core/modules/http'
 import type { Component, Ref } from 'vue'
+
+import type { HttpResponse } from '#core/modules/http'
 import {
   type AddonSchema,
   type ClassInput,

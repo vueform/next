@@ -1,5 +1,6 @@
-import { createDevtools } from './createDevtools'
 import { defineModule } from '#core/helpers'
+
+import { createDevtools } from './createDevtools'
 
 /**
  * The devtools module. Register via `createVueform({ modules: { devtools } })`.

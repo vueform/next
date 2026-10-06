@@ -1,5 +1,4 @@
 import { type TProp, type ClassValue, type DOMAttrs } from '@vueform/core'
-
 import type { IftaLabelProps as AIftaLabelProps } from 'primevue'
 import type { VNode } from 'vue'
 

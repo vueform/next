@@ -7,21 +7,23 @@ import {
   type Ref,
   type ShallowRef,
 } from 'vue'
+
+import { useItemsSource, useConditionalList } from '#core/composables'
+import type { makeData, MakeDataModelApi } from '#core/features'
+import { defineFeature } from '#core/helpers'
+import {
+  type ConditionsResult,
+  type ConditionsTriggerProp,
+} from '#core/modules/conditions'
+import type { ReturnsOf } from '#core/types'
+import { equals, isPlainObject, normalize, typedEntries } from '#core/utils'
+
 import {
   type ItemsProp,
   type ItemValueOf,
   type ItemsGenericsBrand,
   type RawItemOf,
 } from './types'
-import type { makeData, MakeDataModelApi } from '#core/features'
-import type { ReturnsOf } from '#core/types'
-import { useItemsSource, useConditionalList } from '#core/composables'
-import { defineFeature } from '#core/helpers'
-import {
-  type ConditionsResult,
-  type ConditionsTriggerProp,
-} from '#core/modules/conditions'
-import { equals, isPlainObject, normalize, typedEntries } from '#core/utils'
 
 /**
  * Intermediate normalized item before conditions/disabled are resolved.

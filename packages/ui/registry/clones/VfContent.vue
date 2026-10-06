@@ -6,6 +6,11 @@
  */
 
 import {
+  useBlueprint,
+  defineEvents,
+  type DefineElementContext,
+} from '@vueform/ui'
+import {
   defaults,
   blueprint,
   type ContentApi,
@@ -16,11 +21,7 @@ import {
   type ContentProps,
   type ContentSlots,
 } from '@vueform/ui/blueprints/content'
-import {
-  useBlueprint,
-  defineEvents,
-  type DefineElementContext,
-} from '@vueform/ui'
+
 import '@vueform/ui/content.css'
 import type { VNode } from 'vue'
 

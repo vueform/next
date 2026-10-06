@@ -1,3 +1,4 @@
+import { defineDefaults, type DefineEvents } from '#core/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -7,7 +8,6 @@ import type {
   BaseComponentClasses,
   LooseRequired,
 } from '#core/types'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
 
 /**
  * Props for the icon component blueprint.

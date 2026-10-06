@@ -1,4 +1,21 @@
 import type {
+  DOMAttrs,
+  AddonsParts,
+  AddonsSlots,
+  IconsParts,
+  IconsSlots,
+  IconsClasses,
+  AddonGroupClasses,
+  TranslateParts,
+  TranslateSlots,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { InputGroupProps } from 'primevue/inputgroup'
+import type { InputGroupAddonProps } from 'primevue/inputgroupaddon'
+import type { VNode } from 'vue'
+
+import type {
   LayoutApi,
   LayoutEmits,
   LayoutProps,
@@ -18,22 +35,6 @@ import type {
   TabsParts,
   TabsSlots,
 } from '#primevue/features'
-import type {
-  DOMAttrs,
-  AddonsParts,
-  AddonsSlots,
-  IconsParts,
-  IconsSlots,
-  IconsClasses,
-  AddonGroupClasses,
-  TranslateParts,
-  TranslateSlots,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { InputGroupProps } from 'primevue/inputgroup'
-import type { InputGroupAddonProps } from 'primevue/inputgroupaddon'
-import type { VNode } from 'vue'
 
 /**
  * Props for the VfLayout component.

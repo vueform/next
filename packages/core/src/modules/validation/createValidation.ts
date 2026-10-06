@@ -13,28 +13,7 @@ import {
   type EffectScope,
   type Ref,
 } from 'vue'
-import { RULE_BRAND } from './symbols'
-import type {
-  ConditionalRule,
-  Issue,
-  RuleAttribute,
-  RuleDefinition,
-  RulesProp,
-  SizeTypes,
-  TRulesProp,
-  Validator,
-  ValidationOwner,
-  CheckContext,
-  MessageContext,
-  MessageParams,
-  OwnerView,
-  RuleContext,
-  ValidationView,
-  ValidatorParams,
-  RuleChecker,
-  RuleOptions,
-  TOnlyRulesProp,
-} from './types'
+
 import { type VueformInstance, type VueformConfig } from '#core/helpers'
 import {
   getConditionsModule,
@@ -62,6 +41,29 @@ import {
   own,
   warn,
 } from '#core/utils'
+
+import { RULE_BRAND } from './symbols'
+import type {
+  ConditionalRule,
+  Issue,
+  RuleAttribute,
+  RuleDefinition,
+  RulesProp,
+  SizeTypes,
+  TRulesProp,
+  Validator,
+  ValidationOwner,
+  CheckContext,
+  MessageContext,
+  MessageParams,
+  OwnerView,
+  RuleContext,
+  ValidationView,
+  ValidatorParams,
+  RuleChecker,
+  RuleOptions,
+  TOnlyRulesProp,
+} from './types'
 
 type CompileContext = {
   config: VueformConfig

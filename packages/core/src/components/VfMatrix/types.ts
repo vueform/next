@@ -1,3 +1,5 @@
+import type { Component, VNode } from 'vue'
+
 import type {
   MatrixApi,
   MatrixClasses,
@@ -25,7 +27,6 @@ import type {
   UnwrapEntryRef,
   WidenScalar,
 } from '#core/types'
-import type { Component, VNode } from 'vue'
 
 /**
  * The resolved selection mode from a registry `TEntry` payload — anything but

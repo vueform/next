@@ -1,4 +1,5 @@
 import type { VNode } from 'vue'
+
 import {
   type AddonProp,
   type AddonItem,

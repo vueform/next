@@ -6,6 +6,11 @@
  */
 
 import {
+  useBlueprint,
+  defineEvents,
+  type DefineElementContext,
+} from '@vueform/primevue'
+import {
   defaults,
   blueprint,
   type HiddenApi,
@@ -16,11 +21,6 @@ import {
   type HiddenProps,
   type HiddenSlots,
 } from '@vueform/primevue/blueprints/hidden'
-import {
-  useBlueprint,
-  defineEvents,
-  type DefineElementContext,
-} from '@vueform/primevue'
 
 /**
  * Prop definitions.

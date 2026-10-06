@@ -1,4 +1,3 @@
-import type { LanguagesProp, LooseRequired } from '#core/types'
 import { useFeatures } from '#core/composables'
 import {
   makeAddons,
@@ -45,6 +44,7 @@ import {
   type TranslatableModelApi,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type { LanguagesProp, LooseRequired } from '#core/types'
 
 /**
  * Props for the textarea element blueprint, parameterized by the model-driving

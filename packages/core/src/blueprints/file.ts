@@ -1,6 +1,5 @@
 import { computed, toRef } from 'vue'
-import type { SecurityModule } from '#core/modules/security'
-import type { DProp, FileProp, LooseRequired, TProp } from '#core/types'
+
 import {
   useDynamicProp,
   useFeatures,
@@ -38,6 +37,8 @@ import {
   type ModelApi,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type { SecurityModule } from '#core/modules/security'
+import type { DProp, FileProp, LooseRequired, TProp } from '#core/types'
 
 /**
  * The model value type carried by the file element's wide props.

@@ -1,7 +1,8 @@
 import { computed } from 'vue'
-import type { AriaProp, ReturnsOf, TProp } from '#core/types'
+
 import { type makeLayout, type makeData, type makeText } from '#core/features'
 import { defineFeature } from '#core/helpers'
+import type { AriaProp, ReturnsOf, TProp } from '#core/types'
 
 /**
  * Configuration for the checkbox ARIA factory resolving describedby, invalid,

@@ -1,6 +1,8 @@
 import { nextTick, ref } from 'vue'
-import { createForm } from '../../helpers'
+
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('Presets', () => {
   test('it should use direct component prop first', () => {

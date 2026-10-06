@@ -13,12 +13,13 @@ import {
   type ItemDisabled,
   type ConditionsTriggerProp,
 } from '@vueform/core'
-import { computed, type MaybeRef, ref, toRef, unref } from 'vue'
-import type { SuggestionsProp } from './types'
 import type {
   AutoCompleteChangeEvent,
   AutoCompleteCompleteEvent,
 } from 'primevue'
+import { computed, type MaybeRef, ref, toRef, unref } from 'vue'
+
+import type { SuggestionsProp } from './types'
 
 /**
  * Configuration for the suggestions factory that normalizes AutoComplete

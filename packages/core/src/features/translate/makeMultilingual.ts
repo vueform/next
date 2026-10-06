@@ -6,16 +6,17 @@ import {
   type Ref,
   type WatchStopHandle,
 } from 'vue'
+
+import { useConfig, useLocale } from '#core/composables'
+import { useFormContext } from '#core/contexts'
 import type { makeElement } from '#core/features'
+import { defineFeature } from '#core/helpers'
 import type {
   AddonSchema,
   LanguagesProp,
   ResolvedLanguagesProp,
   ReturnsOf,
 } from '#core/types'
-import { useConfig, useLocale } from '#core/composables'
-import { useFormContext } from '#core/contexts'
-import { defineFeature } from '#core/helpers'
 import { warn } from '#core/utils'
 
 /**

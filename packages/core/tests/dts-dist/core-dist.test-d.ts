@@ -1,3 +1,5 @@
+import type { ControlRegistry } from '@vueform/core'
+import type { VfTextProps } from '@vueform/core/components/VfText'
 /*
  * Dist type tests for `@vueform/core` as a consumer sees it: imports resolve
  * through the exports map to built dist types (tsconfig `paths` is empty), so
@@ -11,8 +13,6 @@
  * - the exports-map `types` targets themselves.
  */
 import { describe, expectTypeOf, test } from 'vitest'
-import type { ControlRegistry } from '@vueform/core'
-import type { VfTextProps } from '@vueform/core/components/VfText'
 import type { GlobalComponents } from 'vue'
 
 describe('dist module augmentations', () => {

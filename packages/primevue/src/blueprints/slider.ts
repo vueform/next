@@ -33,12 +33,12 @@ import {
   type ModelApi,
   aliasProps,
 } from '@vueform/core'
-import { computed } from 'vue'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   SliderProps as ASliderProps,
   SliderEmitsOptions as ASliderEmits,
 } from 'primevue/slider'
+import { computed } from 'vue'
+
 import {
   makeAria,
   makeInfo,
@@ -47,6 +47,7 @@ import {
   type InfoProps,
   type IntervalProps,
 } from '#primevue/features'
+import type { ForwardedEmits } from '#primevue/types'
 
 /**
  * Slider model shaped by `range`:

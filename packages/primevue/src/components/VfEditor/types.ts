@@ -1,7 +1,18 @@
+import type {
+  ClassValue,
+  EntryTranslateOf,
+  EntryLanguagesOf,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+  LanguagesProp,
+} from '@vueform/core'
 import {
   type EditorProps as PvEditorProps,
   type EditorSlots as AEditorSlots,
 } from 'primevue/editor'
+import type { VNode } from 'vue'
+
 import type {
   EditorApi,
   EditorClasses,
@@ -13,16 +24,6 @@ import type {
   forwards,
 } from '#primevue/blueprints/editor'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  EntryTranslateOf,
-  EntryLanguagesOf,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-  LanguagesProp,
-} from '@vueform/core'
-import type { VNode } from 'vue'
 
 /**
  * VfEditor props narrowed from a registry `TEntry` payload, applying the

@@ -17,14 +17,14 @@ import {
   type LanguagesProp,
   vdomPrime,
 } from '@vueform/primevue'
-import PrimePassword from 'primevue/password'
 import {
+  blueprint,
+  defaults,
   type VfPasswordEmits,
   type VfPasswordProps,
   type VfPasswordSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfPassword'
+import PrimePassword from 'primevue/password'
 import type { WritableComputedRef } from 'vue'
 
 const Password = vdomPrime(PrimePassword)

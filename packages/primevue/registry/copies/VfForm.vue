@@ -17,6 +17,13 @@ import {
   type ResolvedPage,
   vdomPrime,
 } from '@vueform/primevue'
+import {
+  defaults,
+  blueprint,
+  type VfFormEmits,
+  type VfFormProps,
+  type VfFormSlots,
+} from '@vueform/primevue/components/VfForm'
 import PrimeStepItem from 'primevue/stepitem'
 import PrimeStepList from 'primevue/steplist'
 import PrimeStepPanel from 'primevue/steppanel'
@@ -27,15 +34,10 @@ import PrimeTabList from 'primevue/tablist'
 import PrimeTabPanels from 'primevue/tabpanels'
 import PrimeTabs from 'primevue/tabs'
 import { computed, onMounted, ref, watch } from 'vue'
+
 import FormNav from './FormNav.vue'
 import FormStep from './FormStep.vue'
-import {
-  type VfFormEmits,
-  type VfFormProps,
-  type VfFormSlots,
-  defaults,
-  blueprint,
-} from '@vueform/primevue/components/VfForm'
+
 import '@vueform/primevue/form.css'
 import '@vueform/primevue/utils.css'
 

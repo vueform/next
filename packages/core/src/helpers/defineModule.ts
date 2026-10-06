@@ -1,5 +1,6 @@
-import type { VueformInstance } from './createVueform'
 import type { App } from 'vue'
+
+import type { VueformInstance } from './createVueform'
 
 /**
  * The context passed to a module's `create` hook when `createVueform()` creates

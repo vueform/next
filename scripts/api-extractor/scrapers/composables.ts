@@ -1,6 +1,8 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+
 import * as ts from 'typescript'
+
 import { corePackage, nonCoreAdapters } from '../lib/adapters.js'
 import { importedCalleeName } from '../lib/extract.js'
 import { generatedDir, monorepoRoot } from '../lib/paths.js'

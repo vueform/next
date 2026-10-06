@@ -1,5 +1,6 @@
-import type { Pager, VueformChildren } from '#core/composables'
 import type { MaybeRef, Ref } from 'vue'
+
+import type { Pager, VueformChildren } from '#core/composables'
 import {
   createContainerContext,
   type ContainerContext,

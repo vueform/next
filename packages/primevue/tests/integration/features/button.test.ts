@@ -1,6 +1,8 @@
 import { defineComponent, h } from 'vue'
-import { createForm, mountApp } from '../../helpers'
+
 import { defineSchema, defineSlot } from '#primevue'
+
+import { createForm, mountApp } from '../../helpers'
 
 // =============================================================================
 // BASIC RENDERING

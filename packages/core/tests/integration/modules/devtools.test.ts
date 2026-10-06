@@ -1,8 +1,10 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import { nextTick } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
+
 import { defineSchema } from '#core'
 import { createDevtools } from '#core/modules/devtools/createDevtools'
+
+import { createForm, flushPromises } from '../../helpers'
 
 vi.mock('@vue/devtools-api', () => ({
   setupDevtoolsPlugin: vi.fn(),

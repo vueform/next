@@ -1,5 +1,14 @@
 import { computed, nextTick, ref, toRef, unref, useSlots, watch } from 'vue'
+
+import {
+  useCurrentElement,
+  useDynamicProp,
+  useGlobals,
+  useExpression,
+} from '#core/composables'
+import { useComponentContext } from '#core/contexts'
 import type { makeElement } from '#core/features'
+import { defineFeature } from '#core/helpers'
 import type {
   BreakpointsColumns,
   ColumnKeys,
@@ -13,14 +22,6 @@ import type {
   ReturnsOf,
   TProp,
 } from '#core/types'
-import {
-  useCurrentElement,
-  useDynamicProp,
-  useGlobals,
-  useExpression,
-} from '#core/composables'
-import { useComponentContext } from '#core/contexts'
-import { defineFeature } from '#core/helpers'
 import { clone, isTopInViewport, rootDomOf } from '#core/utils'
 
 /**

@@ -6,6 +6,16 @@
  */
 
 import {
+  useBlueprint,
+  defineEvents,
+  schemaEntries,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
+  type ResolvedSchema,
+  type WidenProps,
+} from '@vueform/ui'
+import {
   defaults,
   blueprint,
   type GroupApi,
@@ -16,16 +26,7 @@ import {
   type GroupProps,
   type GroupSlots,
 } from '@vueform/ui/blueprints/group'
-import {
-  useBlueprint,
-  defineEvents,
-  schemaEntries,
-  type ClassValue,
-  type DefineElementContext,
-  type DomAttrsOf,
-  type ResolvedSchema,
-  type WidenProps,
-} from '@vueform/ui'
+
 import '@vueform/ui/group.css'
 import type { VNode } from 'vue'
 

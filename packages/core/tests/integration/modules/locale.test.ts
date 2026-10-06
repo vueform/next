@@ -1,7 +1,9 @@
 import { nextTick } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
+
 import { defineSchema } from '#core'
 import * as modules from '#core/modules'
+
+import { createForm, flushPromises } from '../../helpers'
 
 // Locale's doorway is inject-based (per app), so unlike globals-based modules
 // this is testable per form — but a fresh file keeps it symmetric with the

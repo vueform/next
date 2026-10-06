@@ -1,4 +1,20 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  AddonsParts,
+  IconsParts,
+  AddonGroupParts,
+  EntryMultipleOf,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { AutoCompleteProps as PvAutoCompleteProps } from 'primevue'
+import type { AutoCompleteSlots as AAutoCompleteSlots } from 'primevue/autocomplete'
+import type { VNode } from 'vue'
+
+import type {
   AutoCompleteApi,
   AutoCompleteClasses,
   AutoCompleteEmits,
@@ -19,21 +35,6 @@ import type {
   SuggestionsProp,
 } from '#primevue/features'
 import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  AddonsParts,
-  IconsParts,
-  AddonGroupParts,
-  EntryMultipleOf,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { AutoCompleteProps as PvAutoCompleteProps } from 'primevue'
-import type { AutoCompleteSlots as AAutoCompleteSlots } from 'primevue/autocomplete'
-import type { VNode } from 'vue'
 
 /**
  * VfAutoComplete props narrowed from a registry `TEntry` payload, applying the

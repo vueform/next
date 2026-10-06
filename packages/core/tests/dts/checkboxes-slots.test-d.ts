@@ -1,13 +1,13 @@
-/**
- * Type-level tests for VfCheckboxes slots (generic-aware `#template` / named
- * slots, matching VfSelect). Run by `pnpm test-dts`.
- */
-import { describe, expectTypeOf, test } from 'vitest'
 import type { ResolvedGroup, ResolvedItem } from '@vueform/core'
 import type {
   VfCheckboxesProps,
   VfCheckboxesSlots,
 } from '@vueform/core/components/VfCheckboxes'
+/**
+ * Type-level tests for VfCheckboxes slots (generic-aware `#template` / named
+ * slots, matching VfSelect). Run by `pnpm test-dts`.
+ */
+import { describe, expectTypeOf, test } from 'vitest'
 
 type ObjectItems = [
   { id: 1; label: 'A'; foo: () => void },

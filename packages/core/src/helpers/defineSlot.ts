@@ -5,6 +5,7 @@ import {
   type ComponentPublicInstance,
   type VNodeChild,
 } from 'vue'
+
 import type { SlotProps } from '#core/types'
 
 /**

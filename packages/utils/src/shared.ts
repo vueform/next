@@ -10,8 +10,10 @@ import {
 import { createRequire } from 'node:module'
 import { basename, dirname, join, relative, resolve, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { injectShorthandPropsDts } from './shorthands'
+
 import type { BuildOptions, Plugin } from 'vite'
+
+import { injectShorthandPropsDts } from './shorthands'
 
 interface SassCompiler {
   compile(

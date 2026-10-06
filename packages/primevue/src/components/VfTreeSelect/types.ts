@@ -1,4 +1,21 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  AddonsParts,
+  IconsParts,
+  AddonGroupParts,
+  EntryPropOf,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+  UnwrapEntryRef,
+} from '@vueform/core'
+import type { TreeSelectProps as PvTreeSelectProps } from 'primevue'
+import type { TreeSelectSlots as ATreeSelectSlots } from 'primevue/treeselect'
+import type { VNode } from 'vue'
+
+import type {
   TreeSelectApi,
   TreeSelectClasses,
   TreeSelectEmits,
@@ -22,22 +39,6 @@ import type {
   OverrideSlots,
   TreeOptionsProp,
 } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  AddonsParts,
-  IconsParts,
-  AddonGroupParts,
-  EntryPropOf,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-  UnwrapEntryRef,
-} from '@vueform/core'
-import type { TreeSelectProps as PvTreeSelectProps } from 'primevue'
-import type { TreeSelectSlots as ATreeSelectSlots } from 'primevue/treeselect'
-import type { VNode } from 'vue'
 
 /**
  * Resolves the `TOptions` generic from a registry `TEntry` payload's `options`

@@ -1,3 +1,14 @@
+import type { VNode } from 'vue'
+
+import {
+  type FieldApi,
+  type FieldClasses,
+  type FieldEmits,
+  type FieldExpose,
+  type FieldParts,
+  type FieldProps,
+  type FieldSlots,
+} from '#core/blueprints/field'
 import type {
   AddonsSlots,
   IconsClasses,
@@ -18,16 +29,6 @@ import type {
   EntryPropOr,
   LanguagesProp,
 } from '#core/types'
-import type { VNode } from 'vue'
-import {
-  type FieldApi,
-  type FieldClasses,
-  type FieldEmits,
-  type FieldExpose,
-  type FieldParts,
-  type FieldProps,
-  type FieldSlots,
-} from '#core/blueprints/field'
 
 /**
  * `TNullValue` fallback for a registry `TEntry` payload without a `nullValue`

@@ -10,14 +10,14 @@
       "path": "VfToggleSwitch.vue",
       "target": "{componentsDir}/VfToggleSwitch.vue",
       "kind": "component",
-      "hash": "sha256:cf77c53013e2259e0d4121fd9b52c7f9378ff7ac3666a8e3966edf7cf03dad26"
+      "hash": "sha256:800a8cf2fc92af23507a23c2bb640e4a91673e0ad44a6ea0aa01193c33554bef"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/toggleswitch",
-    "@vueform/primevue/components/VfToggleSwitch",
     "vue",
+    "@vueform/primevue/components/VfToggleSwitch",
     "@vueform/primevue/toggle-switch.css"
   ],
   "dependencies": {},
@@ -29,7 +29,7 @@
   "clone": {
     "path": "VfToggleSwitch.vue",
     "blueprint": "toggle-switch",
-    "hash": "sha256:60e68a2de08e3fd54c7afacc7adab99743f88c283f1f54c25071b958f1223dac",
+    "hash": "sha256:72b7fa515d216ab8c2e4c759ecf84753f6eee5c64b3d2ece0648f89bd6f4b4f2",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -1,6 +1,8 @@
 import { defineComponent, h, markRaw, nextTick } from 'vue'
-import { createForm } from '../../helpers'
+
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 // `handleInput` accepts a native `input` / `change` event as well as a plain
 // value, so custom templates can bind `@input="handleInput"` directly. Event

@@ -1,6 +1,7 @@
-import { mean } from './stats'
-import type { BenchCase, Mode } from './cases'
 import type { Browser } from 'playwright'
+
+import type { BenchCase, Mode } from './cases'
+import { mean } from './stats'
 
 // The evaluate/waitForFunction callbacks below run inside the page; this
 // config has no DOM lib, so the page global is declared here instead.

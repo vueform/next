@@ -1,7 +1,8 @@
-import { noopConditions } from './noop'
 import type { VueformInstance } from '#core/helpers'
-import type { ConditionsModule } from './types'
 import { resolveModules } from '#core/helpers/resolveModules'
+
+import { noopConditions } from './noop'
+import type { ConditionsModule } from './types'
 
 /**
  * Returns the resolved instance's conditions module, or the inert

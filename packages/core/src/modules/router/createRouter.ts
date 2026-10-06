@@ -6,13 +6,8 @@ import {
   watch,
   type MaybeRef,
 } from 'vue'
+
 import type { VueformInstance } from '#core/helpers'
-import type {
-  RouterHistory,
-  RouterModule,
-  RouterModuleOptions,
-  VueformRouter,
-} from './types'
 import {
   isClient,
   isServer,
@@ -20,6 +15,13 @@ import {
   getGenericInstance,
   warn,
 } from '#core/utils'
+
+import type {
+  RouterHistory,
+  RouterModule,
+  RouterModuleOptions,
+  VueformRouter,
+} from './types'
 
 function buildRoute(
   page: string,

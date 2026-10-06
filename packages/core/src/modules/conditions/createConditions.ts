@@ -12,16 +12,11 @@ import {
   type Ref,
   type WatchSource,
 } from 'vue'
-import type { VueformInstance } from '#core/helpers'
-import type { FormContext } from '#core/types'
-import type {
-  ConditionalProp,
-  ConditionsModule,
-  ConditionsResult,
-  ConditionsTriggerProp,
-} from './types'
+
 import { useDate } from '#core/composables'
+import type { VueformInstance } from '#core/helpers'
 import { getExpressionModule } from '#core/modules/expression'
+import type { FormContext } from '#core/types'
 import {
   alwaysTrue as alwaysAvailable,
   debounce,
@@ -32,6 +27,13 @@ import {
   warn as vfWarn,
   isDev,
 } from '#core/utils'
+
+import type {
+  ConditionalProp,
+  ConditionsModule,
+  ConditionsResult,
+  ConditionsTriggerProp,
+} from './types'
 
 interface ConditionRelativeOperands {
   '>': string | number

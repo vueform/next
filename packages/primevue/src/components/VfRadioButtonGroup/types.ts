@@ -1,4 +1,15 @@
 import type {
+  WidenProps,
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+  DomAttrsOf,
+  PartOf,
+  ResolvedGroup,
+} from '@vueform/core'
+import type { VNode } from 'vue'
+
+import type {
   RadioButtonGroupApi,
   RadioButtonGroupClasses,
   RadioButtonGroupEmits,
@@ -20,16 +31,6 @@ import type {
   OptionValueOf,
   RawOptionOf,
 } from '#primevue/features/options'
-import type {
-  WidenProps,
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-  DomAttrsOf,
-  PartOf,
-  ResolvedGroup,
-} from '@vueform/core'
-import type { VNode } from 'vue'
 
 /**
  * VfRadioButtonGroup props narrowed from a registry `TEntry` payload, applying

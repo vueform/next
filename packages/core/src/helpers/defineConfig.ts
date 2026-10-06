@@ -1,3 +1,5 @@
+import type { ComputedRef, MaybeRef } from 'vue'
+
 import type {
   AutosaveModule,
   AutosaveModuleOptions,
@@ -38,9 +40,6 @@ import type {
   ValidationModule,
   ValidationModuleOptions,
 } from '#core/modules/validation'
-import type { VueformModule } from './defineModule'
-import type { VueformPlugin } from './definePlugin'
-import type { ComputedRef, MaybeRef } from 'vue'
 import {
   type ComponentRegistry,
   type ComponentNames,
@@ -55,6 +54,9 @@ import {
   type VueformComponent,
   type ThemeTokens,
 } from '#core/types'
+
+import type { VueformModule } from './defineModule'
+import type { VueformPlugin } from './definePlugin'
 
 /**
  * The registered Vueform module implementations.

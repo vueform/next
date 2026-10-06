@@ -13,8 +13,6 @@ import {
   type DefineElementContext,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeSlider from 'primevue/slider'
-import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -26,8 +24,11 @@ import {
   type SliderProps,
   type SliderSlots,
 } from '@vueform/primevue/blueprints/slider'
-import '@vueform/primevue/slider.css'
 import type { SliderProps as PvSliderProps } from 'primevue'
+import PrimeSlider from 'primevue/slider'
+
+import '@vueform/primevue/slider.css'
+import type { WritableComputedRef } from 'vue'
 
 /**
  * Prop definitions.

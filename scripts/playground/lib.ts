@@ -27,11 +27,13 @@ import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 // Via the built package (not a deep src import): the node program is
 // composite, and package sources pulled in as program files would each need
 // listing in its include — dist types resolve as an external dependency.
 // Requires @vueform/utils to be built.
 import { workspaceSourcePaths } from '@vueform/utils'
+
 import { assemblePlayground } from './assemble'
 
 export const repoRoot = path.resolve(

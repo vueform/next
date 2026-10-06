@@ -39,22 +39,11 @@ import {
   makeItems,
 } from '@vueform/core'
 import type {
-  AllowedCascadeOptionGroupChildren,
-  CascadeOptionGroupChildrenProp,
-  OptionsProps,
-  OptionsModelProp,
-  OptionValueProp,
-  AllowsOptionKeyProps,
-  OptionsProp,
-  OptionsModelApi,
-  OptionsGenericsBrand,
-} from '#primevue/features/options'
-import type { ForwardedEmits } from '#primevue/types'
-import type {
   CascadeSelectProps as ACascadeSelectProps,
   CascadeSelectEmitsOptions as ACascadeSelectEmits,
   CascadeSelectChangeEvent,
 } from 'primevue/cascadeselect'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -65,7 +54,19 @@ import {
   type IftaLabelProps,
   type InfoProps,
 } from '#primevue/features'
+import type {
+  AllowedCascadeOptionGroupChildren,
+  CascadeOptionGroupChildrenProp,
+  OptionsProps,
+  OptionsModelProp,
+  OptionValueProp,
+  AllowsOptionKeyProps,
+  OptionsProp,
+  OptionsModelApi,
+  OptionsGenericsBrand,
+} from '#primevue/features/options'
 import { optionItemAliases } from '#primevue/helpers'
+import type { ForwardedEmits } from '#primevue/types'
 
 /**
  * Plain props type for the cascade-select element blueprint — the widest

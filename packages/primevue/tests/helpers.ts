@@ -6,6 +6,7 @@ import * as rules from '@vueform/core/rules'
 import PrimeVue from 'primevue/config'
 import tooltip from 'primevue/tooltip'
 import type { DefineComponent } from 'vue'
+
 import exprEval from '#expr-eval'
 import * as components from '#primevue/components'
 import defaultConfig from '#primevue/config'

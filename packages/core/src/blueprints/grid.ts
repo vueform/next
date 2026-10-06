@@ -1,14 +1,5 @@
 import { computed, ref, toRef, type Component } from 'vue'
-import type {
-  GridSchema,
-  AlignProp,
-  ValignProp,
-  LooseRequired,
-  GridCellAttrs,
-  GridCellContent,
-  GridCellSchema,
-  NamedElementSchema,
-} from '#core/types'
+
 import {
   useConfig,
   useContainerProvider,
@@ -40,6 +31,16 @@ import {
   type ValidationEmits,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type {
+  GridSchema,
+  AlignProp,
+  ValignProp,
+  LooseRequired,
+  GridCellAttrs,
+  GridCellContent,
+  GridCellSchema,
+  NamedElementSchema,
+} from '#core/types'
 import { walkCells } from '#core/utils'
 
 /**

@@ -1,6 +1,7 @@
-import { createForm } from '../../helpers'
 import { defineSchema } from '#core'
 import { en_US, hu_HU } from '#core/locales'
+
+import { createForm } from '../../helpers'
 
 describe('Locale', () => {
   describe('Default Locale', () => {

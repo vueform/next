@@ -5,10 +5,12 @@
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeCheckbox from 'primevue/checkbox'
-import type { VfCheckboxEmits, VfCheckboxProps, VfCheckboxSlots } from './types'
 import type { Ref } from 'vue'
+
 import { blueprint, defaults } from '#primevue/blueprints/checkbox'
 import { vdomPrime } from '#primevue/helpers'
+
+import type { VfCheckboxEmits, VfCheckboxProps, VfCheckboxSlots } from './types'
 
 const Checkbox = vdomPrime(PrimeCheckbox)
 

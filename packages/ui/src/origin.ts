@@ -8,6 +8,7 @@ import {
   pathExpressionAdapter,
 } from '@vueform/core'
 import { en_US } from '@vueform/core/locales'
+
 import * as components from '#ui/components'
 import defaultConfig from '#ui/config'
 import * as modules from '#ui/modules/modules'

@@ -46,11 +46,11 @@ import {
   type TranslatableModelApi,
   aliasProps,
 } from '@vueform/core'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   PasswordProps as APasswordProps,
   PasswordEmitsOptions as APasswordEmits,
 } from 'primevue/password'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -63,6 +63,7 @@ import {
   type InfoProps,
   type TooltipProps,
 } from '#primevue/features'
+import type { ForwardedEmits } from '#primevue/types'
 
 /**
  * The model value type carried by the password element's wide props.

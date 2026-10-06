@@ -3,6 +3,7 @@ import type {
   EntryLanguagesOf,
   EntryTranslateOf,
 } from '#core'
+
 import type {
   VfTestClasses,
   VfTestContext,

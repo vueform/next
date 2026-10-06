@@ -1,8 +1,10 @@
 import { computed } from 'vue'
-import type { AriaProp, ReturnsOf, TProp } from '#core/types'
-import type { makeMultilingual } from './makeMultilingual'
+
 import { type makeLayout, type makeData } from '#core/features'
 import { defineFeature } from '#core/helpers'
+import type { AriaProp, ReturnsOf, TProp } from '#core/types'
+
+import type { makeMultilingual } from './makeMultilingual'
 
 /**
  * Configuration for the text ARIA factory resolving language-aware describedby

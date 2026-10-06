@@ -1,13 +1,5 @@
-import type {
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-  AriaProp,
-  ClassValue,
-  DomAttrsOf,
-  EntryPropOr,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type RadioApi,
   type RadioClasses,
@@ -17,6 +9,15 @@ import {
   type RadioProps,
   type RadioSlots,
 } from '#core/blueprints/radio'
+import type {
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+  AriaProp,
+  ClassValue,
+  DomAttrsOf,
+  EntryPropOr,
+} from '#core/types'
 
 /**
  * VfRadio props narrowed from a registry `TEntry` payload, applying the entry's

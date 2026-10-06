@@ -1,4 +1,3 @@
-import type { LooseRequired, TProp } from '#core/types'
 import { useFeatures } from '#core/composables'
 import {
   makeElement,
@@ -32,6 +31,7 @@ import {
   type ModelApi,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type { LooseRequired, TProp } from '#core/types'
 
 /**
  * Checkbox model shape: the union of `trueValue` and `falseValue`.

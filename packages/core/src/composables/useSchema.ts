@@ -1,6 +1,7 @@
 import { computed, unref, type Ref } from 'vue'
-import type { FormSchema, NamedElementSchema } from '#core/types'
+
 import { useComponentFactory, useSecurity } from '#core/composables'
+import type { FormSchema, NamedElementSchema } from '#core/types'
 import { typedEntries, warn, isDev } from '#core/utils'
 
 /**

@@ -1,14 +1,5 @@
-import type { EntryMultipleOf } from '#core/features'
-import type {
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-  ClassValue,
-  DomAttrsOf,
-  PartOf,
-  FileProp,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type FileApi,
   type FileClasses,
@@ -19,6 +10,16 @@ import {
   type FileProps,
   type FileSlots,
 } from '#core/blueprints/file'
+import type { EntryMultipleOf } from '#core/features'
+import type {
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+  ClassValue,
+  DomAttrsOf,
+  PartOf,
+  FileProp,
+} from '#core/types'
 
 /**
  * VfFile props narrowed from a registry `TEntry` payload, applying the entry's

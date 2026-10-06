@@ -1,7 +1,8 @@
-import { noopExpression } from './noop'
 import type { VueformInstance } from '#core/helpers'
-import type { ExpressionModule } from './types'
 import { resolveModules } from '#core/helpers/resolveModules'
+
+import { noopExpression } from './noop'
+import type { ExpressionModule } from './types'
 
 /**
  * Returns the resolved instance's expression module, or the inert

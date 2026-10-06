@@ -6,6 +6,16 @@
  */
 
 import {
+  useBlueprint,
+  defineEvents,
+  type AlignProp,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
+  type ValignProp,
+  type WidenProps,
+} from '@vueform/primevue'
+import {
   defaults,
   blueprint,
   type GridApi,
@@ -17,16 +27,7 @@ import {
   type GridProps,
   type GridSlots,
 } from '@vueform/primevue/blueprints/grid'
-import {
-  useBlueprint,
-  defineEvents,
-  type AlignProp,
-  type ClassValue,
-  type DefineElementContext,
-  type DomAttrsOf,
-  type ValignProp,
-  type WidenProps,
-} from '@vueform/primevue'
+
 import '@vueform/primevue/grid.css'
 import type { VNode } from 'vue'
 

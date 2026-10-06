@@ -7,11 +7,12 @@
     TNullValue = [TTranslate] extends [true] ? string | number | null : any
   "
 >
-import type { LanguagesProp } from '#core/types'
-import type { VfFieldEmits, VfFieldProps, VfFieldSlots } from './types'
 import { defaults, blueprint } from '#core/blueprints/field'
 import { useBlueprint } from '#core/composables'
 import { defineEvents } from '#core/helpers'
+import type { LanguagesProp } from '#core/types'
+
+import type { VfFieldEmits, VfFieldProps, VfFieldSlots } from './types'
 
 defineOptions({
   name: 'VfField',

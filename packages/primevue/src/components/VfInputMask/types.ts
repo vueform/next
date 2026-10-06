@@ -1,21 +1,4 @@
 import type {
-  InputMaskApi,
-  InputMaskClasses,
-  InputMaskEmits,
-  InputMaskExpose,
-  InputMaskParts,
-  InputMaskProps,
-  InputMaskSlots,
-} from '#primevue/blueprints/input-mask'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -32,6 +15,24 @@ import type {
   LanguagesProp,
 } from '@vueform/core'
 import type { InputMaskProps as PvInputMaskProps } from 'primevue'
+
+import type {
+  InputMaskApi,
+  InputMaskClasses,
+  InputMaskEmits,
+  InputMaskExpose,
+  InputMaskParts,
+  InputMaskProps,
+  InputMaskSlots,
+} from '#primevue/blueprints/input-mask'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#primevue/features'
 
 /**
  * VfInputMask props narrowed from a registry `TEntry` payload, applying the

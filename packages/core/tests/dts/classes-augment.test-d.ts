@@ -6,9 +6,9 @@
  * Run by `pnpm test:dts`.
  */
 import { defineSchema, type ClassValue, type ContextOf } from '@vueform/core'
-import { describe, expectTypeOf, test } from 'vitest'
-import '@vueform/core/components'
 import type { VfTextProps } from '@vueform/core/components/VfText'
+import '@vueform/core/components'
+import { describe, expectTypeOf, test } from 'vitest'
 
 declare module '@vueform/core/components/VfText' {
   interface VfTextClasses {

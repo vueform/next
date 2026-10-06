@@ -1,3 +1,5 @@
+import type { VNode } from 'vue'
+
 import type {
   FormApi,
   FormProps,
@@ -10,7 +12,6 @@ import type {
 import type { NavPosProp } from '#core/blueprints/nav'
 import type { Pager } from '#core/composables'
 import type { TabbedSlots } from '#core/features'
-import type { VNode } from 'vue'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,

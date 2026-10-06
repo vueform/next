@@ -7,6 +7,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
+
 import { CASES, MODES, SWEEP } from './cases'
 import { generateCharts } from './charts'
 import { RESULTS_JSON } from './lib'

@@ -5,6 +5,7 @@
  */
 import { dirname, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import vue from '@vitejs/plugin-vue'
 import { workspaceSourceAliases } from '@vueform/utils'
 import { defineConfig } from 'vite'

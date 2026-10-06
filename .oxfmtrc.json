@@ -10,6 +10,7 @@
   "jsdocCapitalizeDescription": false,
   "jsdocCommentLineStrategy": "multiline",
   "sortPackageJson": {},
+  "sortImports": {},
   "ignorePatterns": [
     "node_modules",
     "dist",

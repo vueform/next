@@ -1,13 +1,4 @@
 import type {
-  RadioButtonApi,
-  RadioButtonClasses,
-  RadioButtonEmits,
-  RadioButtonExpose,
-  RadioButtonParts,
-  RadioButtonProps,
-  RadioButtonSlots,
-} from '#primevue/blueprints/radio-button'
-import type {
   ClassValue,
   DomAttrsOf,
   AriaProp,
@@ -18,6 +9,16 @@ import type {
 } from '@vueform/core'
 import type { RadioButtonProps as PvRadioButtonProps } from 'primevue/radiobutton'
 import type { VNode } from 'vue'
+
+import type {
+  RadioButtonApi,
+  RadioButtonClasses,
+  RadioButtonEmits,
+  RadioButtonExpose,
+  RadioButtonParts,
+  RadioButtonProps,
+  RadioButtonSlots,
+} from '#primevue/blueprints/radio-button'
 
 /**
  * VfRadioButton props narrowed from a registry `TEntry` payload, applying the

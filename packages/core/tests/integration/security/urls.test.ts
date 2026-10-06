@@ -12,9 +12,11 @@
  * obfuscations (embedded tabs/newlines) the way browsers would forgive them.
  */
 import { nextTick } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
+
 import { defineSchema } from '#core'
 import * as modules from '#core/modules'
+
+import { createForm, flushPromises } from '../../helpers'
 
 // Forms built without the security module observe the permissive surface.
 const { security: _security, ...modulesWithoutSecurity } = modules as any

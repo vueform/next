@@ -23,7 +23,9 @@
 import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
+
 import { chromium } from 'playwright'
+
 import { CASES, MODES, SWEEP, type Mode } from './cases'
 import { generateCharts } from './charts'
 import { captureEnvironment } from './env'

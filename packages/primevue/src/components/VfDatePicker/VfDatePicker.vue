@@ -5,18 +5,20 @@
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeDatePicker from 'primevue/datepicker'
-import type {
-  VfDatePickerEmits,
-  VfDatePickerProps,
-  VfDatePickerSlots,
-} from './types'
 import type { ComputedRef, WritableComputedRef } from 'vue'
+
 import {
   blueprint,
   defaults,
   type DatePickerSelectionModeProp,
 } from '#primevue/blueprints/date-picker'
 import { vdomPrime } from '#primevue/helpers'
+
+import type {
+  VfDatePickerEmits,
+  VfDatePickerProps,
+  VfDatePickerSlots,
+} from './types'
 
 const DatePicker = vdomPrime(PrimeDatePicker)
 

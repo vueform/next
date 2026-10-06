@@ -1,4 +1,19 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  AddonsParts,
+  IconsParts,
+  AddonGroupParts,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { MultiSelectProps as PvMultiSelectProps } from 'primevue'
+import type { MultiSelectSlots as AMultiSelectSlots } from 'primevue/multiselect'
+import type { VNode } from 'vue'
+
+import type {
   MultiSelectApi,
   MultiSelectClasses,
   MultiSelectEmits,
@@ -24,20 +39,6 @@ import type {
   OptionValueProp,
 } from '#primevue/features'
 import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  AddonsParts,
-  IconsParts,
-  AddonGroupParts,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { MultiSelectProps as PvMultiSelectProps } from 'primevue'
-import type { MultiSelectSlots as AMultiSelectSlots } from 'primevue/multiselect'
-import type { VNode } from 'vue'
 
 /**
  * VfMultiSelect props narrowed from a registry `TEntry` payload, applying the

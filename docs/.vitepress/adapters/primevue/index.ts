@@ -1,5 +1,6 @@
 import { definePreset } from '@primeuix/themes'
 import Aura from '@primeuix/themes/aura'
+
 import 'primeicons/primeicons.css'
 import '@vueform/primevue/theme.css'
 import './index.scss'
@@ -12,6 +13,7 @@ import { theme } from '@vueform/primevue/themes'
 import PrimeVue from 'primevue/config'
 import InputIcon from 'primevue/inputicon'
 import Tooltip from 'primevue/tooltip'
+
 import type { AdapterEntry } from '../types'
 
 const entry: AdapterEntry = {

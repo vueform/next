@@ -2,8 +2,10 @@ import Aura from '@primeuix/themes/aura'
 import { createVueform } from '@vueform/primevue/full'
 import PrimeVue from 'primevue/config'
 import { createVaporApp, vaporInteropPlugin, type VaporComponent } from 'vue'
+
 import config from '../vueform.config'
 import App from './App.vue'
+
 import 'primeicons/primeicons.css'
 
 // The SFC is vapor-compiled at build time (vite plugin `features.vapor`),

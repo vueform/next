@@ -1,5 +1,5 @@
-import type { DefineElementContext, DefineRegistryEntry } from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type ContentApi,
   type ContentClasses,
@@ -9,6 +9,7 @@ import {
   type ContentProps,
   type ContentSlots,
 } from '#core/blueprints/content'
+import type { DefineElementContext, DefineRegistryEntry } from '#core/types'
 
 /**
  * Props for the VfContent component.

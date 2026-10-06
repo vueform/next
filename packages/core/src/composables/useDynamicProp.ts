@@ -6,13 +6,15 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
+
+import { useComponentContext } from '#core/contexts'
+import type { DProp } from '#core/types'
+import { containsHtml, normalize, resolveIcon, toKebabCase } from '#core/utils'
+
+import { useConfig } from '.'
 import { useExpression } from './useExpression'
 import { useLocale } from './useLocale'
 import { useSecurity } from './useSecurity'
-import { useConfig } from '.'
-import type { DProp } from '#core/types'
-import { useComponentContext } from '#core/contexts'
-import { containsHtml, normalize, resolveIcon, toKebabCase } from '#core/utils'
 
 /**
  * Extracts the underlying value type from a `DProp` by unwrapping its `Ref`

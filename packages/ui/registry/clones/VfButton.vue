@@ -5,7 +5,13 @@
  * @see https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { useAttrs, type VNode } from 'vue'
+import {
+  useBlueprint,
+  defineEvents,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
+} from '@vueform/ui'
 import {
   defaults,
   blueprint,
@@ -17,13 +23,8 @@ import {
   type ButtonProps,
   type ButtonSlots,
 } from '@vueform/ui/blueprints/button'
-import {
-  useBlueprint,
-  defineEvents,
-  type ClassValue,
-  type DefineElementContext,
-  type DomAttrsOf,
-} from '@vueform/ui'
+import { useAttrs, type VNode } from 'vue'
+
 import '@vueform/ui/button.css'
 import '@vueform/ui/animation.css'
 

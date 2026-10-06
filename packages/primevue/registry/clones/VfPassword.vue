@@ -35,10 +35,6 @@ import {
   type TranslateSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimePassword, {
-  type PasswordSlots as APasswordSlots,
-} from 'primevue/password'
-import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -52,6 +48,10 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/password'
 import type { PasswordProps as PvPasswordProps } from 'primevue'
+import PrimePassword, {
+  type PasswordSlots as APasswordSlots,
+} from 'primevue/password'
+import type { WritableComputedRef } from 'vue'
 
 /**
  * Prop definitions.

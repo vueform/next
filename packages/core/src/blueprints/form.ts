@@ -10,13 +10,48 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
+
 import type { NavPosProp } from '#core/blueprints/nav'
+import {
+  useAutosave,
+  useChildren,
+  useConfig,
+  useCurrentElement,
+  usePager,
+  useSchema,
+  useDynamicProp,
+  useData,
+  type Pager,
+  type ResolvedPage,
+  useExpression,
+  useHttp,
+  useLocale,
+  useTokens,
+} from '#core/composables'
+import { createFormContext, createContainerContext } from '#core/contexts'
 import type { StackedProps, TabbedEmits, TabbedProps } from '#core/features'
+import {
+  defineDefaults,
+  getAttachedValidationSchema,
+  type DefineEvents,
+} from '#core/helpers'
 import type { AutosaveProp } from '#core/modules/autosave'
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
 } from '#core/modules/conditions'
+import { getExpressionModule } from '#core/modules/expression'
+import {
+  HttpError,
+  type HttpResponse,
+  type RequestMethod,
+} from '#core/modules/http'
+import {
+  getModelModule,
+  type ModelInstance,
+  type ModelNode,
+} from '#core/modules/model'
+import { getValidationModule, type Issue } from '#core/modules/validation'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -44,40 +79,6 @@ import type {
   SchemaToModel,
   StandardSchemaV1,
 } from '#core/types'
-import {
-  useAutosave,
-  useChildren,
-  useConfig,
-  useCurrentElement,
-  usePager,
-  useSchema,
-  useDynamicProp,
-  useData,
-  type Pager,
-  type ResolvedPage,
-  useExpression,
-  useHttp,
-  useLocale,
-  useTokens,
-} from '#core/composables'
-import { createFormContext, createContainerContext } from '#core/contexts'
-import {
-  defineDefaults,
-  getAttachedValidationSchema,
-  type DefineEvents,
-} from '#core/helpers'
-import { getExpressionModule } from '#core/modules/expression'
-import {
-  HttpError,
-  type HttpResponse,
-  type RequestMethod,
-} from '#core/modules/http'
-import {
-  getModelModule,
-  type ModelInstance,
-  type ModelNode,
-} from '#core/modules/model'
-import { getValidationModule, type Issue } from '#core/modules/validation'
 import {
   get as getByPath,
   isPlainObject,

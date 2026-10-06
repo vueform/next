@@ -10,12 +10,12 @@
       "path": "VfMatrix.vue",
       "target": "{componentsDir}/VfMatrix.vue",
       "kind": "component",
-      "hash": "sha256:8448a4ec122ecce7c3d5716f2a6f4eb17f6810048cdbe55c2748ea488dc923c4"
+      "hash": "sha256:c93dc33cc4a5fff27a3bf20c71d106d7897fe339a22c4e42a94cbf311d0072e1"
     }
   ],
   "imports": [
-    "@vueform/primevue/components/VfMatrix",
     "@vueform/primevue/blueprints/matrix",
+    "@vueform/primevue/components/VfMatrix",
     "@vueform/primevue",
     "@vueform/primevue/matrix.css"
   ],
@@ -28,7 +28,7 @@
   "clone": {
     "path": "VfMatrix.vue",
     "blueprint": "matrix",
-    "hash": "sha256:ba2e120dd038c67861c81c0ab68102fcefe5757efaf6d4b68013050e04ea3432",
+    "hash": "sha256:46daa3a94c486262d735a29dbffbd3b1e65d804a493113adba02ec0bc8e259b4",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

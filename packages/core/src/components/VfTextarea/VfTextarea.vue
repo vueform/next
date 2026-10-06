@@ -6,12 +6,14 @@
     TLanguages extends LanguagesProp = LanguagesProp
   "
 >
-import type { LanguagesProp } from '#core/types'
-import type { VfTextareaEmits, VfTextareaProps, VfTextareaSlots } from './types'
 import type { WritableComputedRef } from 'vue'
+
 import { defaults, blueprint } from '#core/blueprints/textarea'
 import { useBlueprint } from '#core/composables'
 import { defineEvents } from '#core/helpers'
+import type { LanguagesProp } from '#core/types'
+
+import type { VfTextareaEmits, VfTextareaProps, VfTextareaSlots } from './types'
 
 defineOptions({
   name: 'VfTextarea',

@@ -1,13 +1,5 @@
-import type {
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-  AriaProp,
-  ClassValue,
-  DomAttrsOf,
-  EntryPropOr,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type CheckboxApi,
   type CheckboxClasses,
@@ -17,6 +9,15 @@ import {
   type CheckboxProps,
   type CheckboxSlots,
 } from '#core/blueprints/checkbox'
+import type {
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+  AriaProp,
+  ClassValue,
+  DomAttrsOf,
+  EntryPropOr,
+} from '#core/types'
 
 /**
  * VfCheckbox props narrowed from a registry `TEntry` payload, applying the

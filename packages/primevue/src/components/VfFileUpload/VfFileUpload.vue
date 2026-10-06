@@ -1,13 +1,15 @@
 <script setup lang="ts" generic="const TMultiple extends boolean = false">
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeFileUpload from 'primevue/fileupload'
+
+import { blueprint, defaults } from '#primevue/blueprints/file-upload'
+import { vdomPrime } from '#primevue/helpers'
+
 import type {
   VfFileUploadEmits,
   VfFileUploadProps,
   VfFileUploadSlots,
 } from './types'
-import { blueprint, defaults } from '#primevue/blueprints/file-upload'
-import { vdomPrime } from '#primevue/helpers'
 
 const FileUpload = vdomPrime(PrimeFileUpload)
 

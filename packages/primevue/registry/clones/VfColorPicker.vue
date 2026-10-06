@@ -12,7 +12,6 @@ import {
   type ClassValue,
   type DefineElementContext,
 } from '@vueform/primevue'
-import PrimeColorPicker from 'primevue/colorpicker'
 import {
   blueprint,
   defaults,
@@ -24,8 +23,10 @@ import {
   type ColorPickerProps,
   type ColorPickerSlots,
 } from '@vueform/primevue/blueprints/color-picker'
-import '@vueform/primevue/color-picker.css'
 import type { ColorPickerProps as PvColorPickerProps } from 'primevue'
+
+import '@vueform/primevue/color-picker.css'
+import PrimeColorPicker from 'primevue/colorpicker'
 
 /**
  * Prop definitions.

@@ -1,3 +1,5 @@
+import type { App, ComponentPropsOptions } from 'vue'
+
 import type {
   RawContextOf,
   PropsOf,
@@ -6,6 +8,7 @@ import type {
   ComponentOptions,
   VueformComponent,
 } from '#core/types'
+
 import type { VueformInstance } from './createVueform'
 import type {
   GlobalsHookContext,
@@ -13,7 +16,6 @@ import type {
   VueformGlobals,
 } from './defineConfig'
 import type { DefineEvents } from './defineEvents'
-import type { App, ComponentPropsOptions } from 'vue'
 
 /**
  * Valid targets for a plugin's `apply` option, including component names,

@@ -14,9 +14,9 @@
  */
 
 import {
-  type LanguagesProp,
   useBlueprint,
   defineEvents,
+  type LanguagesProp,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,
@@ -40,6 +40,7 @@ import {
   type FieldProps,
   type FieldSlots,
 } from '@vueform/ui/blueprints/field'
+
 import '@vueform/ui/input.css'
 import type { VNode } from 'vue'
 

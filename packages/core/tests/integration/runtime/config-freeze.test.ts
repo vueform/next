@@ -11,9 +11,11 @@
  * mutates) must keep working.
  */
 import { nextTick } from 'vue'
-import { createForm } from '../../helpers'
+
 import { defineSchema } from '#core'
 import dompurify from '#dompurify'
+
+import { createForm } from '../../helpers'
 
 describe('Config freeze', () => {
   it('should keep applying plugin config() hook changes made before install', async () => {

@@ -1,3 +1,5 @@
+import type { ControlRegistry } from '@vueform/core'
+import type { VfSelectProps } from '@vueform/primevue/components/VfSelect/unstyled'
 /*
  * Dist type tests for `@vueform/primevue` as a consumer sees it: imports
  * resolve through the exports maps to built dist types — including the
@@ -12,8 +14,6 @@
  * - exports-map `types` targets for styled/unstyled tiers.
  */
 import { describe, expectTypeOf, test } from 'vitest'
-import type { ControlRegistry } from '@vueform/core'
-import type { VfSelectProps } from '@vueform/primevue/components/VfSelect/unstyled'
 import type { GlobalComponents } from 'vue'
 
 describe('adapter dist module augmentations', () => {

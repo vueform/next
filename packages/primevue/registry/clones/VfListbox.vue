@@ -29,9 +29,6 @@ import {
   type OverrideSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeListbox, {
-  type ListboxSlots as AListboxSlots,
-} from 'primevue/listbox'
 import {
   blueprint,
   defaults,
@@ -45,8 +42,11 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/listbox'
 import type { ListboxProps as PvListboxProps } from 'primevue'
-import type { VNode } from 'vue'
+import PrimeListbox, {
+  type ListboxSlots as AListboxSlots,
+} from 'primevue/listbox'
 import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
+import type { VNode } from 'vue'
 
 /**
  * Prop definitions.

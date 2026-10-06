@@ -1,7 +1,9 @@
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { basename, join, resolve } from 'node:path'
-import { shorthandsMarker } from './shared'
+
 import type { Plugin, UserConfig } from 'vite'
+
+import { shorthandsMarker } from './shared'
 
 /**
  * Options for the `adapter` config factory.
@@ -52,10 +54,6 @@ export interface AdapterOptions {
    * one — an escape hatch for anything not covered by the options.
    */
   vite?: UserConfig
-}
-
-function adapterExternal(options: AdapterOptions): (string | RegExp)[] {
-  return ['vue', options.name, /^@vueform\/core/, ...(options.external ?? [])]
 }
 
 /**

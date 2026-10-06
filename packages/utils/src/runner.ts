@@ -14,6 +14,7 @@ import {
   writeFileSync,
 } from 'node:fs'
 import { join } from 'node:path'
+
 import { findWorkspaceRoot } from './shared'
 
 // Located from the caller's cwd: this module ships inside @vueform/utils,
@@ -412,7 +413,7 @@ export interface RunOptions {
 
 /**
  * Content hashes of every dirty (modified or untracked) file, for counting what
- * a writing task (eslint/stylelint `--fix`, prettier `--write`) really changed
+ * a writing task (oxlint/stylelint `--fix`, oxfmt) really changed
  * — the tools themselves report no usable "fixes applied" count.
  */
 function dirtyFileHashes(): Map<string, string> {

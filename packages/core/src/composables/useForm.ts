@@ -11,12 +11,14 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
+
 import type {
   VfFormContext,
   VfFormEmits,
   VfFormProps,
 } from '#core/components/VfForm/types'
 import type { VueformInstance } from '#core/helpers'
+import { resolveVueform } from '#core/helpers/resolveVueform'
 import type { ModelInstance } from '#core/modules/model'
 import type {
   ArraySchema,
@@ -29,7 +31,6 @@ import type {
   SchemaToModel,
   StandardSchemaV1,
 } from '#core/types'
-import { resolveVueform } from '#core/helpers/resolveVueform'
 
 /**
  * Registers a callback fired with the form context once the form is mounted

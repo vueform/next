@@ -16,10 +16,10 @@
  */
 
 import {
+  useBlueprint,
   type ItemsProp,
   type ItemValueProp,
   type GroupChildrenProp,
-  useBlueprint,
   defineEvents,
   type ClassValue,
   type DefineElementContext,
@@ -42,9 +42,10 @@ import {
   type RadiosProps,
   type RadiosSlots,
 } from '@vueform/ui/blueprints/radios'
+
 import '@vueform/ui/choices.css'
-import type { VNode } from 'vue'
 import type { VfRadioSlots } from '@vueform/ui/components/VfRadio'
+import type { VNode } from 'vue'
 
 /**
  * Prop definitions.

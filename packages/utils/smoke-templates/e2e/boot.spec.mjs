@@ -5,6 +5,7 @@
  * hydrate without mismatches, and vapor cells actually run vapor.
  */
 import { expect, test } from '@playwright/test'
+
 import { runInfo, watchConsole } from './helpers.mjs'
 
 const info = runInfo()

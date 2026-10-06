@@ -11,11 +11,11 @@ import {
   type LanguagesProp,
   type UnwrapTopLevelRef,
 } from '@vueform/core'
-import { describe, expectTypeOf, test } from 'vitest'
 import type {
   VfTextContext,
   VfTextProps,
 } from '@vueform/core/components/VfText'
+import { describe, expectTypeOf, test } from 'vitest'
 import type { ComputedRef } from 'vue'
 import '@vueform/core/components'
 

@@ -1,14 +1,4 @@
 import type {
-  FormApi,
-  FormProps,
-  FormEmits,
-  FormParts,
-  FormSlots,
-  FormExpose,
-  FormClasses,
-} from '#primevue/blueprints/form'
-import type { NavPosProp } from '#primevue/blueprints/nav'
-import type {
   Pager,
   PartOf,
   ClassValue,
@@ -30,6 +20,17 @@ import type { StepListProps } from 'primevue/steplist'
 import type { StepPanelsProps } from 'primevue/steppanels'
 import type { TabPanelsProps } from 'primevue/tabpanels'
 import type { VNode } from 'vue'
+
+import type {
+  FormApi,
+  FormProps,
+  FormEmits,
+  FormParts,
+  FormSlots,
+  FormExpose,
+  FormClasses,
+} from '#primevue/blueprints/form'
+import type { NavPosProp } from '#primevue/blueprints/nav'
 
 /**
  * VfForm props narrowed from a registry `TEntry` payload, applying the entry's

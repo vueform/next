@@ -75,7 +75,7 @@ createVueform({
 | Module                                              | Size          |
 | --------------------------------------------------- | ------------- |
 | [`model`](/guide/model) | 7.50&nbsp;kB |
-| [`validation`](/guide/validation) | 5.98&nbsp;kB |
+| [`validation`](/guide/validation) | 5.99&nbsp;kB |
 | [`conditions`](/guide/conditions) | 2.01&nbsp;kB |
 | [`autosave`](/guide/autosave) | 1.99&nbsp;kB |
 | [`theme`](/guide/themes-tokens) | 2.06&nbsp;kB |
@@ -85,7 +85,7 @@ createVueform({
 | [`locale`](/guide/locales) | 0.28&nbsp;kB |
 | [`security`](/guide/security) | 1.60&nbsp;kB |
 | [`date`](/guide/date) | 0.14&nbsp;kB |
-| **Total** | 44.04&nbsp;kB |
+| **Total** | 44.02&nbsp;kB |
 
 <!-- @bundle-sizes:modules end -->
 
@@ -136,7 +136,7 @@ A component that's rendered but not registered surfaces as Vue's "Failed to reso
 
 ### Component Sizes
 
-All components together add <!-- @size:components-total-js -->`49.21 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`0.00 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
+All components together add <!-- @size:components-total-js -->`49.15 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`0.00 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
 
 <!-- @bundle-sizes:components start -->
 
@@ -144,17 +144,17 @@ All components together add <!-- @size:components-total-js -->`49.21 kB`<!-- /@s
 
 | Component                          | JS           | CSS           |
 | ---------------------------------- | ------------ | ------------- |
-| [`VfButton`](/ui/VfButton) | 0.99&nbsp;kB | 0.00&nbsp;kB |
+| [`VfButton`](/ui/VfButton) | 1.00&nbsp;kB | 0.00&nbsp;kB |
 | [`VfCheckbox`](/ui/VfCheckbox) | 0.68&nbsp;kB | 0.00&nbsp;kB |
 | [`VfCheckboxes`](/ui/VfCheckboxes) | 0.75&nbsp;kB | 0.00&nbsp;kB |
 | [`VfContent`](/ui/VfContent) | 0.32&nbsp;kB | 0.00&nbsp;kB |
 | [`VfField`](/ui/VfField) | 0.37&nbsp;kB | 0.00&nbsp;kB |
 | [`VfFile`](/ui/VfFile) | 1.60&nbsp;kB | 0.00&nbsp;kB |
-| [`VfHidden`](/ui/VfHidden) | 0.27&nbsp;kB | 0.00&nbsp;kB |
-| [`VfRadio`](/ui/VfRadio) | 0.66&nbsp;kB | 0.00&nbsp;kB |
+| [`VfHidden`](/ui/VfHidden) | 0.26&nbsp;kB | 0.00&nbsp;kB |
+| [`VfRadio`](/ui/VfRadio) | 0.65&nbsp;kB | 0.00&nbsp;kB |
 | [`VfRadios`](/ui/VfRadios) | 0.60&nbsp;kB | 0.00&nbsp;kB |
 | [`VfSelect`](/ui/VfSelect) | 0.42&nbsp;kB | 0.00&nbsp;kB |
-| [`VfText`](/ui/VfText) | 0.39&nbsp;kB | 0.00&nbsp;kB |
+| [`VfText`](/ui/VfText) | 0.40&nbsp;kB | 0.00&nbsp;kB |
 | [`VfTextarea`](/ui/VfTextarea) | 0.48&nbsp;kB | 0.00&nbsp;kB |
 
 **Containers**
@@ -173,15 +173,15 @@ All components together add <!-- @size:components-total-js -->`49.21 kB`<!-- /@s
 | -------------------------------- | ------------ | ------------ |
 | [`VfElements`](/ui/VfElements) | 0.11&nbsp;kB | 0.00&nbsp;kB |
 | [`VfLanguages`](/ui/VfLanguages) | 0.34&nbsp;kB | 0.00&nbsp;kB |
-| [`VfNav`](/ui/VfNav) | 1.07&nbsp;kB | 0.00&nbsp;kB |
-| [`VfSteps`](/ui/VfSteps) | 0.15&nbsp;kB | 0.00&nbsp;kB |
-| [`VfTabs`](/ui/VfTabs) | 0.11&nbsp;kB | 0.00&nbsp;kB |
+| [`VfNav`](/ui/VfNav) | 1.06&nbsp;kB | 0.00&nbsp;kB |
+| [`VfSteps`](/ui/VfSteps) | 0.16&nbsp;kB | 0.00&nbsp;kB |
+| [`VfTabs`](/ui/VfTabs) | 0.12&nbsp;kB | 0.00&nbsp;kB |
 
 **Layout & internals**
 
 | Component                  | JS           | CSS           |
 | -------------------------- | ------------ | ------------- |
-| [`VfAddon`](/ui/VfAddon) | 0.31&nbsp;kB | 0.00&nbsp;kB |
+| [`VfAddon`](/ui/VfAddon) | 0.32&nbsp;kB | 0.00&nbsp;kB |
 | [`VfCol`](/ui/VfCol) | 0.70&nbsp;kB | 0.00&nbsp;kB |
 | [`VfIcon`](/ui/VfIcon) | 0.17&nbsp;kB | 0.00&nbsp;kB |
 | [`VfLayout`](/ui/VfLayout) | 2.97&nbsp;kB | 0.00&nbsp;kB |
@@ -204,7 +204,7 @@ createVueform({
 })
 ```
 
-Rules are the cheapest part of the framework: the complete built-in set adds <!-- @size:rules-total -->`3.20 kB`<!-- /@size --> gzipped, a single rule between <!-- @size:rules-min -->`0.17 kB`<!-- /@size --> and <!-- @size:rules-max -->`0.60 kB`<!-- /@size -->. Unless you're chasing every kilobyte, `import * as rules` is a perfectly reasonable default — trimming pays off in the other sections first. Rules only run when the `validation` module is registered; without it, they're dead weight.
+Rules are the cheapest part of the framework: the complete built-in set adds <!-- @size:rules-total -->`3.19 kB`<!-- /@size --> gzipped, a single rule between <!-- @size:rules-min -->`0.17 kB`<!-- /@size --> and <!-- @size:rules-max -->`0.60 kB`<!-- /@size -->. Unless you're chasing every kilobyte, `import * as rules` is a perfectly reasonable default — trimming pays off in the other sections first. Rules only run when the `validation` module is registered; without it, they're dead weight.
 
 ::: details Per-rule sizes
 <!-- @bundle-sizes:rules start -->
@@ -233,26 +233,26 @@ Rules are the cheapest part of the framework: the complete built-in set adds <!-
 | `dimensions` | 0.60&nbsp;kB |
 | `distinct` | 0.21&nbsp;kB |
 | `email` | 0.29&nbsp;kB |
-| `file` | 0.22&nbsp;kB |
+| `file` | 0.23&nbsp;kB |
 | `filled` | 0.18&nbsp;kB |
 | `gt` | 0.28&nbsp;kB |
 | `gte` | 0.29&nbsp;kB |
-| `image` | 0.28&nbsp;kB |
+| `image` | 0.29&nbsp;kB |
 | `in` | 0.20&nbsp;kB |
 | `in_array` | 0.24&nbsp;kB |
 | `integer` | 0.19&nbsp;kB |
 | `ip` | 0.46&nbsp;kB |
 | `ipv4` | 0.25&nbsp;kB |
-| `ipv6` | 0.39&nbsp;kB |
-| `json` | 0.19&nbsp;kB |
+| `ipv6` | 0.40&nbsp;kB |
+| `json` | 0.20&nbsp;kB |
 | `lt` | 0.28&nbsp;kB |
 | `lte` | 0.29&nbsp;kB |
 | `max` | 0.21&nbsp;kB |
-| `mimes` | 0.26&nbsp;kB |
+| `mimes` | 0.27&nbsp;kB |
 | `mimetypes` | 0.26&nbsp;kB |
 | `min` | 0.21&nbsp;kB |
 | `not_in` | 0.19&nbsp;kB |
-| `not_regex` | 0.43&nbsp;kB |
+| `not_regex` | 0.44&nbsp;kB |
 | `nullable` | 0.17&nbsp;kB |
 | `numeric` | 0.22&nbsp;kB |
 | `regex` | 0.41&nbsp;kB |
@@ -263,7 +263,7 @@ Rules are the cheapest part of the framework: the complete built-in set adds <!-
 | `timezone` | 0.21&nbsp;kB |
 | `url` | 0.45&nbsp;kB |
 | `uuid` | 0.20&nbsp;kB |
-| **Total** | 3.20&nbsp;kB |
+| **Total** | 3.19&nbsp;kB |
 
 <!-- @bundle-sizes:rules end -->
 
@@ -336,4 +336,4 @@ app.use(createVueform())
 app.mount('#app')
 ```
 
-Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`105.96 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`105.96 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`0.00 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.
+Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`105.90 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`105.90 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`0.00 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.

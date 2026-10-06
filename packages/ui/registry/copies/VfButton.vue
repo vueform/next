@@ -4,15 +4,16 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { useAttrs } from 'vue'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfButtonEmits,
   type VfButtonProps,
   type VfButtonSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfButton'
-import { useBlueprint, defineEvents } from '@vueform/ui'
+import { useAttrs } from 'vue'
+
 import '@vueform/ui/button.css'
 import '@vueform/ui/animation.css'
 

@@ -5,14 +5,14 @@
  */
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
-import PrimeToggleButton from 'primevue/togglebutton'
 import {
+  blueprint,
+  defaults,
   type VfToggleButtonEmits,
   type VfToggleButtonProps,
   type VfToggleButtonSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfToggleButton'
+import PrimeToggleButton from 'primevue/togglebutton'
 
 const ToggleButton = vdomPrime(PrimeToggleButton)
 

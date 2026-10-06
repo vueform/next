@@ -9,7 +9,7 @@ import {
   watch,
   type Ref,
 } from 'vue'
-import type { ComponentProp, ElementName, TProp } from '#core/types'
+
 import {
   useChildren,
   useConfig,
@@ -30,6 +30,7 @@ import {
   type ConditionsTriggerProp,
 } from '#core/modules/conditions'
 import { getModelModule } from '#core/modules/model'
+import type { ComponentProp, ElementName, TProp } from '#core/types'
 import { isClient, pickRefs } from '#core/utils'
 
 /**

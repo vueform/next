@@ -1,6 +1,6 @@
 /**
- * Monorepo autofix orchestrator (`pnpm fix`): per target, eslint `--fix`,
- * stylelint `--fix`, then prettier `--write` — one task (and bar) per workspace
+ * Monorepo autofix orchestrator (`pnpm fix`): per target, oxlint `--fix`,
+ * stylelint `--fix`, then oxfmt — one task (and bar) per workspace
  * package plus `root`. Selection flags work like the build orchestrator's —
  * `--core`, `--pv`, `--adapters`, `--root`.
  *

@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { VfColEmits, VfColProps, VfColSlots } from './types'
 import { defaults, blueprint } from '#core/blueprints/col'
 import { useBlueprint } from '#core/composables'
 import { defineEvents } from '#core/helpers'
+
+import type { VfColEmits, VfColProps, VfColSlots } from './types'
 
 defineOptions({ name: 'VfCol', inheritAttrs: false })
 defineEmits<VfColEmits>()

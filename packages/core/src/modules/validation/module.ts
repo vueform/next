@@ -1,7 +1,8 @@
-import { noopValidation } from './noop'
 import type { VueformInstance } from '#core/helpers'
-import type { ValidationModule } from './types'
 import { resolveModules } from '#core/helpers/resolveModules'
+
+import { noopValidation } from './noop'
+import type { ValidationModule } from './types'
 
 /**
  * Returns the resolved instance's validation module, or the inert

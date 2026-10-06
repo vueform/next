@@ -1,5 +1,6 @@
-import { createForm, flushPromises } from '../../helpers'
 import { defineSchema, createRule } from '#core'
+
+import { createForm, flushPromises } from '../../helpers'
 
 describe('Validation', () => {
   describe('Basic Usage', () => {

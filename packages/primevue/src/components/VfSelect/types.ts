@@ -1,4 +1,21 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  AddonsParts,
+  IconsParts,
+  AddonGroupParts,
+  EntryMultipleOf,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { SelectProps as PvSelectProps } from 'primevue'
+import type { SelectSlots as ASelectSlots } from 'primevue/select'
+import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
+import type { VNode } from 'vue'
+
+import type {
   SelectApi,
   SelectClasses,
   SelectEmits,
@@ -24,22 +41,6 @@ import type {
   OptionValueProp,
 } from '#primevue/features'
 import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  AddonsParts,
-  IconsParts,
-  AddonGroupParts,
-  EntryMultipleOf,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { SelectProps as PvSelectProps } from 'primevue'
-import type { SelectSlots as ASelectSlots } from 'primevue/select'
-import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
-import type { VNode } from 'vue'
 
 /**
  * VfSelect props narrowed from a registry `TEntry` payload, applying the

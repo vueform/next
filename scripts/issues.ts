@@ -7,6 +7,7 @@
  */
 import { rmSync, writeFileSync } from 'node:fs'
 import { join, relative } from 'node:path'
+
 import {
   badge,
   dim,
@@ -71,7 +72,7 @@ let lintErrors = 0
 const lintErrorBlocks = new Map<string, string>()
 
 /**
- * Counts eslint/stylelint problems from their stylish summaries (`✖ N problems
+ * Counts oxlint/stylelint problems from their stylish summaries (`✖ N problems
  * (E errors, W warnings)`) and collects the per-file diagnostic blocks that
  * contain errors.
  */
@@ -152,7 +153,7 @@ let formatWarns = 0
 let formatErrors = 0
 
 /**
- * Counts prettier `--check` findings: each `[warn] <file>` is one warn (an
+ * Counts oxfmt `--check` findings: each `[warn] <file>` is one warn (an
  * unformatted file), `[error]` lines (syntax failures) are errors.
  */
 export function analyzeFormatOutput(_task: Task, output: string) {

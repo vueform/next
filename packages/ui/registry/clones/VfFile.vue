@@ -6,6 +6,16 @@
  */
 
 import {
+  useBlueprint,
+  defineEvents,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
+  type FileProp,
+  type PartOf,
+  type WidenProps,
+} from '@vueform/ui'
+import {
   defaults,
   blueprint,
   type FileApi,
@@ -17,16 +27,7 @@ import {
   type FileProps,
   type FileSlots,
 } from '@vueform/ui/blueprints/file'
-import {
-  useBlueprint,
-  defineEvents,
-  type ClassValue,
-  type DefineElementContext,
-  type DomAttrsOf,
-  type FileProp,
-  type PartOf,
-  type WidenProps,
-} from '@vueform/ui'
+
 import '@vueform/ui/file.css'
 import type { VNode } from 'vue'
 

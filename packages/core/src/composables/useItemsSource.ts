@@ -8,13 +8,12 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
-import { useExpression } from './useExpression'
-import { useHttp } from './useHttp'
+
+import { useComponentContext, useFormContext } from '#core/contexts'
 import type { ItemsProp } from '#core/features'
 import type { ConditionsTriggerProp } from '#core/modules/conditions'
 import type { HttpResponse } from '#core/modules/http'
 import type { ExpressionableKeys } from '#core/types'
-import { useComponentContext, useFormContext } from '#core/contexts'
 import {
   debounce,
   isPlainObject,
@@ -23,6 +22,9 @@ import {
   warn,
   isDev,
 } from '#core/utils'
+
+import { useExpression } from './useExpression'
+import { useHttp } from './useHttp'
 
 /**
  * Options for resolving a raw items source (plain data, endpoint URL, or

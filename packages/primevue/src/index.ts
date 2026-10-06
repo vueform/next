@@ -1,4 +1,5 @@
 import { createVueformFactory } from '@vueform/core'
+
 import defaultConfig from '#primevue/config'
 
 export * from '@vueform/core'

@@ -5,6 +5,7 @@
  * and exposes `window.__smoke` for the Playwright specs.
  */
 import { onMounted, ref } from 'vue'
+
 import { schema } from './schema'
 import SmokeFormInline from './SmokeFormInline.vue'
 

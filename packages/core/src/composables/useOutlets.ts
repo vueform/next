@@ -8,8 +8,9 @@ import {
   type ComputedRef,
   type FunctionalComponent,
 } from 'vue'
-import type { ComponentProp } from '#core/types'
+
 import { useComponentFactory, useSecurity } from '#core/composables'
+import type { ComponentProp } from '#core/types'
 import {
   getGenericInstance,
   isVaporInstance,

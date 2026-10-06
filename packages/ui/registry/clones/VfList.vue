@@ -6,17 +6,6 @@
  */
 
 import {
-  defaults,
-  blueprint,
-  type ListApi,
-  type ListClasses,
-  type ListEmits,
-  type ListExpose,
-  type ListParts,
-  type ListProps,
-  type ListSlots,
-} from '@vueform/ui/blueprints/list'
-import {
   useBlueprint,
   useLocale,
   defineEvents,
@@ -27,6 +16,18 @@ import {
   type PartOf,
   type WidenProps,
 } from '@vueform/ui'
+import {
+  defaults,
+  blueprint,
+  type ListApi,
+  type ListClasses,
+  type ListEmits,
+  type ListExpose,
+  type ListParts,
+  type ListProps,
+  type ListSlots,
+} from '@vueform/ui/blueprints/list'
+
 import '@vueform/ui/list.css'
 import type { Component, VNode } from 'vue'
 

@@ -1,4 +1,12 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { ToggleButtonProps as PvToggleButtonProps } from 'primevue'
+import type { ToggleButtonSlots as AToggleButtonSlots } from 'primevue/togglebutton'
+
+import type {
   ToggleButtonApi,
   ToggleButtonClasses,
   ToggleButtonEmits,
@@ -9,13 +17,6 @@ import type {
   forwards,
 } from '#primevue/blueprints/toggle-button'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { ToggleButtonProps as PvToggleButtonProps } from 'primevue'
-import type { ToggleButtonSlots as AToggleButtonSlots } from 'primevue/togglebutton'
 
 /**
  * Props for the VfToggleButton component.

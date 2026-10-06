@@ -5,7 +5,15 @@
  * @see https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import type { Ref, VNode } from 'vue'
+import {
+  useBlueprint,
+  defineEvents,
+  type AriaProp,
+  type ClassValue,
+  type DefineElementContext,
+  type DomAttrsOf,
+  type WidenProps,
+} from '@vueform/ui'
 import {
   defaults,
   blueprint,
@@ -17,15 +25,8 @@ import {
   type RadioProps,
   type RadioSlots,
 } from '@vueform/ui/blueprints/radio'
-import {
-  useBlueprint,
-  defineEvents,
-  type AriaProp,
-  type ClassValue,
-  type DefineElementContext,
-  type DomAttrsOf,
-  type WidenProps,
-} from '@vueform/ui'
+import type { Ref, VNode } from 'vue'
+
 import '@vueform/ui/choice.css'
 
 /**

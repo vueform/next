@@ -1,8 +1,9 @@
 <script setup lang="ts">
-import type { VfElementsEmits, VfElementsProps, VfElementsSlots } from './types'
 import { defaults, blueprint } from '#core/blueprints/elements'
 import { useBlueprint } from '#core/composables'
 import { defineEvents } from '#core/helpers'
+
+import type { VfElementsEmits, VfElementsProps, VfElementsSlots } from './types'
 
 defineOptions({
   name: 'VfElements',

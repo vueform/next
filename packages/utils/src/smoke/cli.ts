@@ -4,6 +4,7 @@
  * cells.ts.
  */
 import path from 'node:path'
+
 import { fixtureDir } from './assemble'
 import {
   CELLS,

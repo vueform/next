@@ -1,6 +1,7 @@
 import type { VueformInstance } from '#core/helpers'
-import type { DateModule } from './types'
 import { resolveModules } from '#core/helpers/resolveModules'
+
+import type { DateModule } from './types'
 
 /**
  * Returns the resolved instance's date module. Throws when the module is not

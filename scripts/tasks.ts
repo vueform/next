@@ -3,11 +3,12 @@
  * `format`, `fix`).
  *
  * Script-based queues (`build`/`check`/`test`) delegate to each package's own
- * script. Tool-based queues (`lint`/`format`) invoke eslint/stylelint/prettier
+ * script. Tool-based queues (`lint`/`format`) invoke oxlint/stylelint/oxfmt
  * from the repo root with path scoping, so the root configs and ignore files
  * apply uniformly; their `root` target covers everything outside `packages/`.
  */
 import { relative } from 'node:path'
+
 import {
   discoverPackages,
   discoverPackageTasks,
@@ -62,28 +63,13 @@ const toolTask = (target: ToolTarget, steps: Step[]): Task => ({
 })
 
 /**
- * Oxlint first (the fast correctness bulk, config in .oxlintrc.json); the
- * slimmed eslint pass keeps what oxlint cannot run (vue template rules,
- * perfectionist, the import plugin family).
+ * Oxlint is the only linter (config in .oxlintrc.json): correctness bulk,
+ * import plugin, restricted-imports and unused-vars. `--fix-suggestions` is
+ * required for the unused-import removal fixer (suggestion-level in oxlint).
  */
 function oxlintStep(target: ToolTarget, fix: boolean): Step {
-  const fixArgs = fix ? ['--fix'] : []
+  const fixArgs = fix ? ['--fix', '--fix-suggestions'] : []
   return exec('oxlint', target.path ?? '.', ...fixArgs)
-}
-
-function eslintStep(target: ToolTarget, fix: boolean): Step {
-  const fixArgs = fix ? ['--fix'] : []
-  return target.path
-    ? exec('eslint', target.path, ...fixArgs)
-    : exec(
-        'eslint',
-        '.',
-        '--ignore-pattern',
-        'packages/**',
-        '--ignore-pattern',
-        '.playgrounds/**',
-        ...fixArgs
-      )
 }
 
 function stylelintStep(target: ToolTarget, fix: boolean): Step {
@@ -98,25 +84,17 @@ function stylelintStep(target: ToolTarget, fix: boolean): Step {
 }
 
 /**
- * Oxfmt owns TS/JS/JSON formatting (config: .oxfmtrc.json); prettier keeps
- * the rest (.vue, .scss, yaml, the printWidth-override files) via the
- * .prettierignore partition.
+ * Oxfmt owns all formatting (config: .oxfmtrc.json): TS/JS/JSON/SCSS/YAML
+ * natively, .vue via its bundled prettier, import ordering via sortImports.
  */
 function oxfmtStep(target: ToolTarget, write: boolean): Step {
   const mode = write ? [] : ['--check']
-  // Defaults (.gitignore + .prettierignore) are safe: the prettier-side
-  // domain partition lives in .prettierignore-partition, which oxfmt never
-  // reads — keeping its CLI and editor LSP able to see TS/JS files.
   return exec('oxfmt', ...mode, target.path ?? '.')
 }
 
 export const lintTasks = (fix: boolean): Task[] =>
   toolTargets().map((target) =>
-    toolTask(target, [
-      oxlintStep(target, fix),
-      eslintStep(target, fix),
-      stylelintStep(target, fix),
-    ])
+    toolTask(target, [oxlintStep(target, fix), stylelintStep(target, fix)])
   )
 
 export const formatTasks = (write: boolean): Task[] =>
@@ -129,7 +107,6 @@ export const fixTasks = (): Task[] =>
   toolTargets().map((target) =>
     toolTask(target, [
       oxlintStep(target, true),
-      eslintStep(target, true),
       stylelintStep(target, true),
       oxfmtStep(target, true),
     ])

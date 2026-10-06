@@ -10,7 +10,7 @@
       "path": "VfSteps.vue",
       "target": "{componentsDir}/VfSteps.vue",
       "kind": "component",
-      "hash": "sha256:7d7d4d857361c2ca443bfbfccfa36916fd458af5c567dca3c5cf662d8189fcf5"
+      "hash": "sha256:f00a073fb2311665fc9afac3023cb2143314cfb7a681fc2a51c61cee1a71d79b"
     }
   ],
   "imports": [

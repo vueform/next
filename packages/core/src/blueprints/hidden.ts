@@ -1,5 +1,5 @@
 import { computed } from 'vue'
-import type { LooseRequired } from '#core/types'
+
 import { useFeatures } from '#core/composables'
 import {
   makeElement,
@@ -17,6 +17,7 @@ import {
   type ValidationEmits,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type { LooseRequired } from '#core/types'
 
 /**
  * Props for the hidden element blueprint.

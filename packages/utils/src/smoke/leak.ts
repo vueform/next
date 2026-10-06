@@ -11,6 +11,7 @@
  * perfectly healthy installs.
  */
 import path from 'node:path'
+
 import { exists, readJson, SmokeError } from './lib'
 
 /**

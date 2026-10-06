@@ -1,6 +1,19 @@
-import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { defineConfig, mergeConfig } from 'vitepress'
+import { fileURLToPath } from 'node:url'
+
+import type { ThemeRegistrationAny } from 'shiki'
+import { mergeConfig } from 'vitepress'
+import {
+  groupIconMdPlugin,
+  groupIconVitePlugin,
+  localIconLoader,
+} from 'vitepress-plugin-group-icons'
+
+import docsConfig from '../config.json'
+import * as adapterConfigs from './adapters/configs'
+import { resolveAdapterLayer } from './build/adapterLayer'
+import { vitepressCssLayerPostcss } from './build/cssLayer'
+import { slugifyHeading } from './build/slugify'
 import {
   adapterContent,
   autoCollapseTypes,
@@ -26,19 +39,8 @@ import {
   vueTemplateHighlight,
   wordHighlight,
 } from './theme/plugins'
-import {
-  groupIconMdPlugin,
-  groupIconVitePlugin,
-  localIconLoader,
-} from 'vitepress-plugin-group-icons'
-import shikiLightTheme from './theme/style/shiki-light.json'
 import shikiDarkTheme from './theme/style/shiki-dark.json'
-import type { ThemeRegistrationAny } from 'shiki'
-import * as adapterConfigs from './adapters/configs'
-import docsConfig from '../config.json'
-import { resolveAdapterLayer } from './build/adapterLayer'
-import { vitepressCssLayerPostcss } from './build/cssLayer'
-import { slugifyHeading } from './build/slugify'
+import shikiLightTheme from './theme/style/shiki-light.json'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 

@@ -14,6 +14,14 @@ import {
   vTooltip,
   vdomPrime,
 } from '@vueform/primevue'
+import {
+  blueprint,
+  defaults,
+  type VfLayoutEmits,
+  type VfLayoutParts,
+  type VfLayoutProps,
+  type VfLayoutSlots,
+} from '@vueform/primevue/components/VfLayout'
 import PrimeFloatLabel from 'primevue/floatlabel'
 import PrimeIconField from 'primevue/iconfield'
 import PrimeIftaLabel from 'primevue/iftalabel'
@@ -29,14 +37,7 @@ import PrimeTabPanel from 'primevue/tabpanel'
 import PrimeTabPanels from 'primevue/tabpanels'
 import PrimeTabs from 'primevue/tabs'
 import { computed } from 'vue'
-import {
-  type VfLayoutEmits,
-  type VfLayoutParts,
-  type VfLayoutProps,
-  type VfLayoutSlots,
-  blueprint,
-  defaults,
-} from '@vueform/primevue/components/VfLayout'
+
 import '@vueform/primevue/blockquote.css'
 import '@vueform/primevue/element.css'
 import '@vueform/primevue/hr.css'

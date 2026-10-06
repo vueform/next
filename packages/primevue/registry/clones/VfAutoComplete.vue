@@ -35,9 +35,6 @@ import {
   type OverrideSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeAutoComplete, {
-  type AutoCompleteSlots as AAutoCompleteSlots,
-} from 'primevue/autocomplete'
 import {
   blueprint,
   defaults,
@@ -51,6 +48,9 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/auto-complete'
 import type { AutoCompleteProps as PvAutoCompleteProps } from 'primevue'
+import PrimeAutoComplete, {
+  type AutoCompleteSlots as AAutoCompleteSlots,
+} from 'primevue/autocomplete'
 import type { VNode } from 'vue'
 
 /**

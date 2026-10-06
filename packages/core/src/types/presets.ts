@@ -1,4 +1,5 @@
 import type { ComponentOptions } from 'vue'
+
 import { type ComponentNames, type MaybeArray } from '#core/types'
 
 /**

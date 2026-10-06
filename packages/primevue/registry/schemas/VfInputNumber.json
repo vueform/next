@@ -10,14 +10,14 @@
       "path": "VfInputNumber.vue",
       "target": "{componentsDir}/VfInputNumber.vue",
       "kind": "component",
-      "hash": "sha256:cda848d951ad2d6b8a02c86e078a6c6e9c03414184fe5c8e3b8023185d412e91"
+      "hash": "sha256:e704cccf20844e1fc631f89c426ae9d5fcbf2f60435f490b115618efc6405b3a"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/inputnumber",
-    "@vueform/primevue/components/VfInputNumber",
-    "vue"
+    "vue",
+    "@vueform/primevue/components/VfInputNumber"
   ],
   "dependencies": {},
   "registryDependencies": [],
@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfInputNumber.vue",
     "blueprint": "input-number",
-    "hash": "sha256:256b85fa330211e38df864db43a3cfad25b89f2d048083dd483c81d9daa04266",
+    "hash": "sha256:e067ef465b2c4bf26ec00f1bd1fbffa1b0b7a37e74baf587e69bbe8436517f76",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

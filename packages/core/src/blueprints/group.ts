@@ -1,5 +1,5 @@
 import { toRef } from 'vue'
-import type { FormSchema, LooseRequired } from '#core/types'
+
 import {
   useContainerProvider,
   useFeatures,
@@ -32,6 +32,7 @@ import {
   type ValidationEmits,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type { FormSchema, LooseRequired } from '#core/types'
 
 /**
  * Props for the group element blueprint.

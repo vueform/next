@@ -26,8 +26,9 @@ import {
   useDynamicProp,
   type DProp,
 } from '@vueform/core'
-import { computed } from 'vue'
 import type { ButtonProps as AButtonProps } from 'primevue/button'
+import { computed } from 'vue'
+
 import {
   makeInfo,
   makeTooltip,

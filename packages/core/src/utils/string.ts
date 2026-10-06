@@ -1,5 +1,6 @@
-import { warn } from './warn'
 import type { KebabToPascal } from '#core/types'
+
+import { warn } from './warn'
 
 /**
  * Converts a string to camelCase.

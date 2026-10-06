@@ -1,4 +1,15 @@
 import type {
+  ClassValue,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+  EntryPropOr,
+} from '@vueform/core'
+import type { ToggleSwitchProps as PvToggleSwitchProps } from 'primevue'
+import type { ToggleSwitchSlots as AToggleSwitchSlots } from 'primevue/toggleswitch'
+import type { VNode } from 'vue'
+
+import type {
   ToggleSwitchApi,
   ToggleSwitchClasses,
   ToggleSwitchEmits,
@@ -9,16 +20,6 @@ import type {
   forwards,
 } from '#primevue/blueprints/toggle-switch'
 import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-  EntryPropOr,
-} from '@vueform/core'
-import type { ToggleSwitchProps as PvToggleSwitchProps } from 'primevue'
-import type { ToggleSwitchSlots as AToggleSwitchSlots } from 'primevue/toggleswitch'
-import type { VNode } from 'vue'
 
 /**
  * VfToggleSwitch props narrowed from a registry `TEntry` payload, applying the

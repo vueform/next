@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { nextTick, ref } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
+
 import { defineSchema } from '#core'
+
+import { createForm, flushPromises } from '../../helpers'
 
 /**
  * Installs a Vueform app (registering the model + expression modules with the

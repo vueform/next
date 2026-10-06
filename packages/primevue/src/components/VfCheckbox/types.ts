@@ -1,15 +1,4 @@
 import type {
-  CheckboxApi,
-  CheckboxClasses,
-  CheckboxEmits,
-  CheckboxExpose,
-  CheckboxParts,
-  CheckboxProps,
-  CheckboxSlots,
-  forwards,
-} from '#primevue/blueprints/checkbox'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   AriaProp,
   WidenProps,
@@ -22,6 +11,18 @@ import type {
   CheckboxSlots as ACheckboxSlots,
 } from 'primevue/checkbox'
 import type { VNode } from 'vue'
+
+import type {
+  CheckboxApi,
+  CheckboxClasses,
+  CheckboxEmits,
+  CheckboxExpose,
+  CheckboxParts,
+  CheckboxProps,
+  CheckboxSlots,
+  forwards,
+} from '#primevue/blueprints/checkbox'
+import type { ForwardedSlots } from '#primevue/types'
 
 /**
  * VfCheckbox props narrowed from a registry `TEntry` payload, applying the

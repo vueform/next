@@ -12,8 +12,10 @@
  * nonce.
  */
 import { nextTick } from 'vue'
-import { createForm } from '../../helpers'
+
 import { createVueform, defineSchema, model, security, theme } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('Security: CSS injection containment', () => {
   describe('token declarations', () => {

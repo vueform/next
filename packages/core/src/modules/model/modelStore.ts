@@ -1,5 +1,5 @@
 import { computed, ref, toRaw, watch, type WatchStopHandle } from 'vue'
-import type { ModelInstance, ModelStore } from './types'
+
 import {
   clone,
   equals,
@@ -13,6 +13,8 @@ import {
   unset,
   warn,
 } from '#core/utils'
+
+import type { ModelInstance, ModelStore } from './types'
 
 /**
  * Configuration options for `makeModelStore`.

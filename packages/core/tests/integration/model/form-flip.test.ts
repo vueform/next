@@ -1,7 +1,9 @@
 import { describe, expect, it } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
-import { createForm, flushPromises, mountApp } from '../../helpers'
+
 import { defineSchema, useModel, type ModelInstance } from '#core'
+
+import { createForm, flushPromises, mountApp } from '../../helpers'
 
 /**
  * Runs a factory inside a mounted component's setup (so `useConfig()` resolves)

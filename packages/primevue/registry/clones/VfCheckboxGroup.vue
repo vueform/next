@@ -42,9 +42,10 @@ import {
   type CheckboxGroupProps,
   type CheckboxGroupSlots,
 } from '@vueform/primevue/blueprints/checkbox-group'
+
 import '@vueform/primevue/choices.css'
-import type { VNode } from 'vue'
 import type { VfCheckboxSlots } from '@vueform/primevue/components/VfCheckbox'
+import type { VNode } from 'vue'
 
 /**
  * Prop definitions.

@@ -14,7 +14,7 @@ import {
   type ComputedRef,
   type Ref,
 } from 'vue'
-import type { LocaleModule } from '#core/modules/locale'
+
 import {
   useConfig,
   useCurrentInstance,
@@ -38,6 +38,7 @@ import {
   type DefineEvents,
   type VueformConfig,
 } from '#core/helpers'
+import type { LocaleModule } from '#core/modules/locale'
 import { getSecurityModule, type SecurityModule } from '#core/modules/security'
 import {
   type ClassesProp,

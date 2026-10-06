@@ -34,8 +34,6 @@ import {
   type TranslateSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeInputMask from 'primevue/inputmask'
-import type { WritableComputedRef } from 'vue'
 import {
   blueprint,
   defaults,
@@ -48,6 +46,8 @@ import {
   type InputMaskSlots,
 } from '@vueform/primevue/blueprints/input-mask'
 import type { InputMaskProps as PvInputMaskProps } from 'primevue'
+import PrimeInputMask from 'primevue/inputmask'
+import type { WritableComputedRef } from 'vue'
 
 /**
  * Prop definitions.

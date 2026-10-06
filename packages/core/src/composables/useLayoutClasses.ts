@@ -1,7 +1,9 @@
 import { toRaw } from 'vue'
-import { useConfig } from './useConfig'
+
 import { BASE_CLASS_REGISTRAR, useElementContext } from '#core/contexts'
 import { warn, isDev } from '#core/utils'
+
+import { useConfig } from './useConfig'
 
 /**
  * Wraps static values back into functions for keys the layout's own map defines

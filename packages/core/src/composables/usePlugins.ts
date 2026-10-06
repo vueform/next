@@ -1,7 +1,8 @@
-import { useConfig } from './useConfig'
 import type { VueformPlugin } from '#core/helpers'
 import type { VueformComponent, ComponentOptions } from '#core/types'
 import { toArray, getComponentDef, getGenericInstance } from '#core/utils'
+
+import { useConfig } from './useConfig'
 
 /**
  * Determines whether a plugin should be applied to the given component based on

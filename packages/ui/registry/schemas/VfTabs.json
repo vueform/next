@@ -10,7 +10,7 @@
       "path": "VfTabs.vue",
       "target": "{componentsDir}/VfTabs.vue",
       "kind": "component",
-      "hash": "sha256:3aabb670f3d38c049e805f16988af432e095a899f1ef1dc95958a04c47ae8502"
+      "hash": "sha256:3ae8e3933b6be194fe04bb0ac135a8ab4fa7beccc6e1248cb8d102373df9cedb"
     }
   ],
   "imports": [

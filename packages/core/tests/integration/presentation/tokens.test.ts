@@ -1,5 +1,6 @@
-import { createForm2 } from '../../helpers'
 import { createVueformFactory, defineSchema, model } from '#core'
+
+import { createForm2 } from '../../helpers'
 
 const schema = defineSchema({
   text: { type: 'text', label: 'Foo' },

@@ -1,13 +1,5 @@
 import { computed, toRef, unref, markRaw, toRaw } from 'vue'
-import type {
-  BaseComponentEmits,
-  BaseComponentProps,
-  BaseComponentExpose,
-  ColumnKeys,
-  ErrorLevelProp,
-  LooseRequired,
-  ShowRequiredProp,
-} from '#core/types'
+
 import {
   useGlobals,
   useConfig,
@@ -24,6 +16,15 @@ import {
   type BaseElementClasses,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type {
+  BaseComponentEmits,
+  BaseComponentProps,
+  BaseComponentExpose,
+  ColumnKeys,
+  ErrorLevelProp,
+  LooseRequired,
+  ShowRequiredProp,
+} from '#core/types'
 import {
   withDefaultProps as withDefaultPropsBase,
   pickRefs,

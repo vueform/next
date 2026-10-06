@@ -4,23 +4,24 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { computed } from 'vue'
 import VfPassthrough, {
-  type HeadingProp,
-  type UnknownElementParts,
   useBlueprint,
   useLayoutClasses,
   useLocale,
   defineEvents,
+  type HeadingProp,
+  type UnknownElementParts,
   mergeClass,
 } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfLayoutEmits,
   type VfLayoutProps,
   type VfLayoutSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfLayout'
+import { computed } from 'vue'
+
 import '@vueform/ui/element.css'
 import '@vueform/ui/input.css'
 import '@vueform/ui/icon.css'

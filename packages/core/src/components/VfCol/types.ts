@@ -1,12 +1,5 @@
-import type {
-  DefineElementContext,
-  AlignProp,
-  ClassValue,
-  DomAttrsOf,
-  ValignProp,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type ColApi,
   type ColClasses,
@@ -16,6 +9,14 @@ import {
   type ColProps,
   type ColSlots,
 } from '#core/blueprints/col'
+import type {
+  DefineElementContext,
+  AlignProp,
+  ClassValue,
+  DomAttrsOf,
+  ValignProp,
+  DefineRegistryEntry,
+} from '#core/types'
 
 /**
  * Props for the VfCol component.

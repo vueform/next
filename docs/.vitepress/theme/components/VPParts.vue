@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, provide, ref, watch } from 'vue'
+
 import { initKeywordPopovers } from '../composables/usePopovers'
 import shikiDark from '../style/shiki-dark.json'
 import shikiLight from '../style/shiki-light.json'

@@ -1,4 +1,3 @@
-import type { DProp, LooseRequired } from '#core/types'
 import { useFeatures } from '#core/composables'
 import {
   makeButton,
@@ -20,6 +19,7 @@ import {
   type BtnProps,
 } from '#core/features'
 import { defineDefaults, type DefineEvents } from '#core/helpers'
+import type { DProp, LooseRequired } from '#core/types'
 
 /**
  * Props for the button element blueprint.

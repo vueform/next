@@ -1,3 +1,14 @@
+import type { VNode } from 'vue'
+
+import {
+  type CheckboxesApi,
+  type CheckboxesClasses,
+  type CheckboxesEmits,
+  type CheckboxesExpose,
+  type CheckboxesParts,
+  type CheckboxesProps,
+  type CheckboxesSlots,
+} from '#core/blueprints/checkboxes'
 import type { VfCheckboxSlots } from '#core/components/VfCheckbox/types'
 import type {
   ResolvedGroup,
@@ -20,16 +31,6 @@ import type {
   DomAttrsOf,
   PartOf,
 } from '#core/types'
-import type { VNode } from 'vue'
-import {
-  type CheckboxesApi,
-  type CheckboxesClasses,
-  type CheckboxesEmits,
-  type CheckboxesExpose,
-  type CheckboxesParts,
-  type CheckboxesProps,
-  type CheckboxesSlots,
-} from '#core/blueprints/checkboxes'
 
 /**
  * VfCheckboxes props narrowed from a registry `TEntry` payload, applying the

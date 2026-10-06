@@ -6,14 +6,7 @@ import {
   watch,
   type Ref,
 } from 'vue'
-import type { RulesProp } from '#core/modules/validation'
-import type {
-  TProp,
-  MakeOptional,
-  LooseRequired,
-  ElementName,
-  DProp,
-} from '#core/types'
+
 import {
   useConfig,
   useContainerProvider,
@@ -54,6 +47,14 @@ import {
   type ConditionsResult,
   type ConditionsTriggerProp,
 } from '#core/modules/conditions'
+import type { RulesProp } from '#core/modules/validation'
+import type {
+  TProp,
+  MakeOptional,
+  LooseRequired,
+  ElementName,
+  DProp,
+} from '#core/types'
 import {
   alwaysTrue as alwaysAvailable,
   equals,

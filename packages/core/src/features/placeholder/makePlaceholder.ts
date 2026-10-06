@@ -1,8 +1,9 @@
 import { computed } from 'vue'
-import type { ShowRequiredProp, TProp } from '#core/types'
+
 import { useDynamicProp, useFallbackProp } from '#core/composables'
 import { useComponentContext } from '#core/contexts'
 import { defineFeature } from '#core/helpers'
+import type { ShowRequiredProp, TProp } from '#core/types'
 
 /**
  * Configuration for the placeholder factory supplying resolved placeholder text

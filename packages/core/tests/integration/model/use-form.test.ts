@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from 'vitest'
 import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
-import { createForm, flushPromises, mountApp } from '../../helpers'
+
 import {
   NotInstalledError,
   useModel,
@@ -11,6 +11,8 @@ import {
   type UseFormReturn,
   defineSchema,
 } from '#core'
+
+import { createForm, flushPromises, mountApp } from '../../helpers'
 
 /**
  * Runs a factory inside a mounted component's setup (so `useConfig()` resolves)

@@ -19,11 +19,11 @@ import {
   type LanguagesProp,
   type SlotProps,
 } from '@vueform/core'
-import { describe, expectTypeOf, test } from 'vitest'
 import type {
   VfFieldContext,
   VfFieldProps,
 } from '@vueform/core/components/VfField'
+import { describe, expectTypeOf, test } from 'vitest'
 import '@vueform/core/components'
 
 // `model` carries a `NoInfer` wrapper (mutually assignable with its base but

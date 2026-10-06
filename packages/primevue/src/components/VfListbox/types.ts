@@ -1,4 +1,16 @@
 import type {
+  ClassValue,
+  EntryMultipleOf,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { ListboxProps as PvListboxProps } from 'primevue'
+import type { ListboxSlots as AListboxSlots } from 'primevue/listbox'
+import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
+import type { VNode } from 'vue'
+
+import type {
   ListboxApi,
   ListboxClasses,
   ListboxEmits,
@@ -18,17 +30,6 @@ import type {
   OptionValueProp,
 } from '#primevue/features'
 import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  EntryMultipleOf,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { ListboxProps as PvListboxProps } from 'primevue'
-import type { ListboxSlots as AListboxSlots } from 'primevue/listbox'
-import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
-import type { VNode } from 'vue'
 
 /**
  * VfListbox props narrowed from a registry `TEntry` payload, applying the

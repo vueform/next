@@ -1,4 +1,15 @@
 import type {
+  ClassValue,
+  EntryMultipleOf,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { SelectButtonProps as PvSelectButtonProps } from 'primevue'
+import type { SelectButtonSlots as ASelectButtonSlots } from 'primevue/selectbutton'
+import type { VNode } from 'vue'
+
+import type {
   SelectButtonApi,
   SelectButtonClasses,
   SelectButtonEmits,
@@ -20,16 +31,6 @@ import type {
   OverrideSlots,
   WithPtShorthands,
 } from '#primevue/types'
-import type {
-  ClassValue,
-  EntryMultipleOf,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { SelectButtonProps as PvSelectButtonProps } from 'primevue'
-import type { SelectButtonSlots as ASelectButtonSlots } from 'primevue/selectbutton'
-import type { VNode } from 'vue'
 
 /**
  * VfSelectButton props narrowed from a registry `TEntry` payload, applying the

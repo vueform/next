@@ -5,8 +5,9 @@ import {
   type ShallowReactive,
   type Ref,
 } from 'vue'
-import type { ElementName, StatefulElement } from '#core/types'
+
 import { defineEvents } from '#core/helpers'
+import type { ElementName, StatefulElement } from '#core/types'
 import { lazyComputed } from '#core/utils'
 
 /**

@@ -13,7 +13,7 @@
  * the page cannot flip Vueform's own security policy.
  */
 import { nextTick } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
+
 import {
   clone,
   createVueform,
@@ -29,6 +29,8 @@ import {
   unset,
 } from '#core'
 import dompurify from '#dompurify'
+
+import { createForm, flushPromises } from '../../helpers'
 
 describe('Security: prototype pollution', () => {
   describe('path utilities', () => {

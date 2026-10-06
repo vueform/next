@@ -1,4 +1,5 @@
 import { describe, test } from 'vitest'
+
 import { clone, equals, get, merge, mergeClass, set } from '#core'
 
 /**

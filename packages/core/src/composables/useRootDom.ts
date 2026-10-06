@@ -1,6 +1,8 @@
 import { toRef } from 'vue'
-import { useCurrentElement } from './useCurrentElement'
+
 import { rootDomOf } from '#core/utils'
+
+import { useCurrentElement } from './useCurrentElement'
 
 /**
  * Returns a reactive ref to the root DOM element of the current component.

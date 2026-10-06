@@ -1,4 +1,12 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+  DomAttrsOf,
+} from '@vueform/core'
+import type { VNode } from 'vue'
+
+import type {
   AddonApi,
   AddonProps,
   AddonEmits,
@@ -7,13 +15,6 @@ import type {
   AddonClasses,
   AddonExpose,
 } from '#primevue/blueprints/addon'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-  DomAttrsOf,
-} from '@vueform/core'
-import type { VNode } from 'vue'
 
 /**
  * Props for the VfAddon component.

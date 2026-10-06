@@ -1,10 +1,5 @@
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type AddonApi,
   type AddonProps,
@@ -14,6 +9,12 @@ import {
   type AddonClasses,
   type AddonExpose,
 } from '#core/blueprints/addon'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  DefineRegistryEntry,
+} from '#core/types'
 
 /**
  * Props for the VfAddon component.

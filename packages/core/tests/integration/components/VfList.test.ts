@@ -1,6 +1,8 @@
 import { nextTick } from 'vue'
-import { createForm } from '../../helpers'
+
 import { defineSchema } from '#core'
+
+import { createForm } from '../../helpers'
 
 describe('VfList', () => {
   it('should add', async () => {

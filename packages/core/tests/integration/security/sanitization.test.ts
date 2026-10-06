@@ -10,9 +10,11 @@
  * all.
  */
 import { nextTick } from 'vue'
-import { createForm } from '../../helpers'
+
 import { defineSchema } from '#core'
 import dompurify from '#dompurify'
+
+import { createForm } from '../../helpers'
 
 describe('Security: sanitization pipeline', () => {
   describe('expression resolution cannot bypass the sanitizer', () => {

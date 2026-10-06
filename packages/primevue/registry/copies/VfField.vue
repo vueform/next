@@ -13,16 +13,16 @@
  */
 
 import {
-  type LanguagesProp,
   useBlueprint,
   defineEvents,
+  type LanguagesProp,
 } from '@vueform/primevue'
 import {
+  defaults,
+  blueprint,
   type VfFieldEmits,
   type VfFieldProps,
   type VfFieldSlots,
-  defaults,
-  blueprint,
 } from '@vueform/primevue/components/VfField'
 
 defineOptions({

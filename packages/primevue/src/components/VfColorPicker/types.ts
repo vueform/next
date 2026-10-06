@@ -1,4 +1,11 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { ColorPickerProps as PvColorPickerProps } from 'primevue'
+
+import type {
   ColorPickerApi,
   ColorPickerClasses,
   ColorPickerEmits,
@@ -7,12 +14,6 @@ import type {
   ColorPickerProps,
   ColorPickerSlots,
 } from '#primevue/blueprints/color-picker'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { ColorPickerProps as PvColorPickerProps } from 'primevue'
 
 /**
  * Props for the VfColorPicker component.

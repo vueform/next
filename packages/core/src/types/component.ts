@@ -1,8 +1,9 @@
-/* eslint-disable unused-imports/no-unused-vars -- TEntry is required for module augmentation */
+/* eslint-disable no-unused-vars -- TEntry is required for module augmentation */
+
+import type { Component, ComponentPropsOptions } from 'vue'
 
 import type { BaseElementContext } from './base'
 import type { NarrowExpose } from './utils'
-import type { Component, ComponentPropsOptions } from 'vue'
 
 /**
  * A slot callback with its signature re-declared in method syntax, which is
@@ -101,7 +102,6 @@ export interface GridRegistry<TEntry = Record<string, any>> {}
 /**
  * Stores matrix type component definitions (matrix-like containers).
  */
-// eslint-enable unused-imports/no-unused-vars
 export interface MatrixRegistry<TEntry = Record<string, any>> {}
 
 /**

@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { HeadingProp, UnknownElementParts } from '#core/types'
-import type { VfLayoutEmits, VfLayoutProps, VfLayoutSlots } from './types'
+
 import { defaults, blueprint } from '#core/blueprints/layout'
 import { useBlueprint, useLayoutClasses, useLocale } from '#core/composables'
 import { defineEvents } from '#core/helpers'
@@ -10,7 +9,10 @@ import { defineEvents } from '#core/helpers'
 // VfPassthrough inside a vapor tree renders nothing. The direct .vue import
 // stays internal and gets vapor-compiled.
 import VfPassthrough from '#core/helpers/VfPassthrough.vue'
+import type { HeadingProp, UnknownElementParts } from '#core/types'
 import { mergeClass } from '#core/utils'
+
+import type { VfLayoutEmits, VfLayoutProps, VfLayoutSlots } from './types'
 
 defineOptions({
   name: 'VfLayout',

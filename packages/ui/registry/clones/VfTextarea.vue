@@ -13,9 +13,9 @@
  */
 
 import {
-  type LanguagesProp,
   useBlueprint,
   defineEvents,
+  type LanguagesProp,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,
@@ -29,7 +29,6 @@ import {
   type TranslateSlots,
   type WidenProps,
 } from '@vueform/ui'
-import type { WritableComputedRef } from 'vue'
 import {
   defaults,
   blueprint,
@@ -41,6 +40,8 @@ import {
   type TextareaProps,
   type TextareaSlots,
 } from '@vueform/ui/blueprints/textarea'
+import type { WritableComputedRef } from 'vue'
+
 import '@vueform/ui/textarea.css'
 import '@vueform/ui/input.css'
 
