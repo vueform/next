@@ -14,18 +14,18 @@ import {
   type Ref,
 } from 'vue'
 
-import { type VueformInstance, type VueformConfig } from '#core/helpers'
+import { type VueformInstance, type VueformConfig } from '#src/helpers'
 import {
   getConditionsModule,
   hasConditionsModule,
   type ConditionalProp,
-} from '#core/modules/conditions'
-import { hasLocaleModule } from '#core/modules/locale'
+} from '#src/modules/conditions'
+import { hasLocaleModule } from '#src/modules/locale'
 import {
   type FormContext,
   type StandardSchemaV1,
   type StatefulElement,
-} from '#core/types'
+} from '#src/types'
 import {
   alwaysFalse,
   alwaysTrue,
@@ -40,7 +40,7 @@ import {
   toArray,
   own,
   warn,
-} from '#core/utils'
+} from '#src/utils'
 
 import { RULE_BRAND } from './symbols'
 import type {

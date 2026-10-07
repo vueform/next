@@ -1,4 +1,4 @@
-import { useFeatures } from '#core/composables'
+import { useFeatures } from '#src/composables'
 import {
   makeElement,
   makeInteraction,
@@ -29,9 +29,9 @@ import {
   type ValidationEmits,
   type AlignedProps,
   type ModelApi,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import type { LooseRequired, TProp } from '#core/types'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { LooseRequired, TProp } from '#src/types'
 
 /**
  * Checkbox model shape: the union of `trueValue` and `falseValue`.

@@ -8,7 +8,7 @@ import {
   type CheckboxParts,
   type CheckboxProps,
   type CheckboxSlots,
-} from '#core/blueprints/checkbox'
+} from '#src/blueprints/checkbox'
 import type {
   WidenProps,
   DefineElementContext,
@@ -17,7 +17,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   EntryPropOr,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * VfCheckbox props narrowed from a registry `TEntry` payload, applying the

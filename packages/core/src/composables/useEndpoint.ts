@@ -1,4 +1,4 @@
-import type { HttpRequestConfig, HttpInstance } from '#core/modules/http'
+import type { HttpRequestConfig, HttpInstance } from '#src/modules/http'
 
 import { useHttp } from './useHttp'
 

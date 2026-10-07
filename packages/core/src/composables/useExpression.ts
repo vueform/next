@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
-import { useElementContext, useFormContext } from '#core/contexts'
-import { getExpressionModule } from '#core/modules/expression'
-import type { ExpressionableKeys } from '#core/types'
+import { useElementContext, useFormContext } from '#src/contexts'
+import { getExpressionModule } from '#src/modules/expression'
+import type { ExpressionableKeys } from '#src/types'
 
 import { useConfig } from './useConfig'
 

@@ -34,7 +34,7 @@ import {
   makeTooltip,
   type InfoProps,
   type TooltipProps,
-} from '#primevue/features'
+} from '#src/features'
 
 /**
  * Props for the button element blueprint.

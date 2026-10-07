@@ -1,1 +1,1 @@
-import '#primevue/scss/group.scss'
+import '#src/scss/group.scss'

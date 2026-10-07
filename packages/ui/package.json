@@ -25,6 +25,14 @@
   "types": "./dist/index.d.ts",
   "unpkg": "./dist/origin.global.js",
   "jsdelivr": "./dist/origin.global.js",
+  "imports": {
+    "#src": "./src/index.ts",
+    "#src/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*/index.ts"
+    ]
+  },
   "exports": {
     ".": {
       "vueform-source": "./src/index.ts",

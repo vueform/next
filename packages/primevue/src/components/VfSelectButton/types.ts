@@ -18,19 +18,19 @@ import type {
   SelectButtonProps,
   SelectButtonSlots,
   forwards,
-} from '#primevue/blueprints/select-button'
+} from '#src/blueprints/select-button'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
   EntryOptionValueReturnOf,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features'
+} from '#src/features'
 import type {
   ForwardedSlots,
   OverrideSlots,
   WithPtShorthands,
-} from '#primevue/types'
+} from '#src/types'
 
 /**
  * VfSelectButton props narrowed from a registry `TEntry` payload, applying the

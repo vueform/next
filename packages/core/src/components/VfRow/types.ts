@@ -8,13 +8,13 @@ import {
   type RowParts,
   type RowProps,
   type RowSlots,
-} from '#core/blueprints/row'
+} from '#src/blueprints/row'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfRow component.

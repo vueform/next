@@ -1,4 +1,4 @@
-import { get, warn, isDev } from '#core/utils'
+import { get, warn, isDev } from '#src/utils'
 
 import type { ExpressionAdapter, ExpressionEngine } from './types'
 

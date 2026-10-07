@@ -1,8 +1,8 @@
 import { computed, onMounted, toRef, watch } from 'vue'
 
-import { useConfig, useCurrentInstance } from '#core/composables'
-import { useRowContext } from '#core/contexts'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+import { useConfig, useCurrentInstance } from '#src/composables'
+import { useRowContext } from '#src/contexts'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -13,7 +13,7 @@ import type {
   AlignProp,
   ValignProp,
   LooseRequired,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the col component blueprint that represents a column cell within a

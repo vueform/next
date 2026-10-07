@@ -22,8 +22,8 @@ import type {
   EditorProps,
   EditorSlots,
   forwards,
-} from '#primevue/blueprints/editor'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/blueprints/editor'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * VfEditor props narrowed from a registry `TEntry` payload, applying the

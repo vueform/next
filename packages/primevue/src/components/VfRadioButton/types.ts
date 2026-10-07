@@ -18,7 +18,7 @@ import type {
   RadioButtonParts,
   RadioButtonProps,
   RadioButtonSlots,
-} from '#primevue/blueprints/radio-button'
+} from '#src/blueprints/radio-button'
 
 /**
  * VfRadioButton props narrowed from a registry `TEntry` payload, applying the

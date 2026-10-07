@@ -23,7 +23,7 @@ import type {
   DatePickerSelectionModeProp,
   DatePickerSlots,
   forwards,
-} from '#primevue/blueprints/date-picker'
+} from '#src/blueprints/date-picker'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -31,8 +31,8 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '#primevue/features'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * Resolves the `TSelectionMode` generic from a registry `TEntry` payload's

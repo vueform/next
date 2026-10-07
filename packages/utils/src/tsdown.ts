@@ -25,6 +25,7 @@ import {
   shorthandProps,
   shorthandsMarker,
   sourceSideEffects,
+  SRC_ALIAS,
   srcAlias,
   themeCss,
   themeScss,
@@ -63,11 +64,6 @@ export interface CoreTsdownOptions {
    * The package's published name (e.g. `'@vueform/core'`).
    */
   name: string
-  /**
-   * Alias pointing at the source directory (e.g. `'#core'`). No alias is
-   * registered when omitted.
-   */
-  alias?: string
   /**
    * Additional external module ids. `'vue'` and `name` are always external.
    */
@@ -131,7 +127,7 @@ export function createPluginTsdownConfig(
 
 /**
  * Filesystem pass over the written `.d.ts` files (closeBundle): resolves source
- * aliases (`#core/x` → a file-relative dist specifier — raw vue-tsc emission
+ * aliases (`#src/x` → a file-relative dist specifier — raw vue-tsc emission
  * keeps path-mapped specifiers verbatim, which consumers cannot resolve),
  * applies the given rewrites, and then HARD-FAILS on any surviving relative
  * `.ts` module augmentation or alias specifier — either would silently break
@@ -233,10 +229,6 @@ export interface AdapterTsdownOptions {
    */
   name: string
   /**
-   * Alias pointing at the source directory (e.g. `'#ui'`).
-   */
-  alias?: string
-  /**
    * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
    * subpaths) are always external.
    */
@@ -297,7 +289,7 @@ export async function createCoreTsdownConfig(
       shorthandsMarker(),
       pruneModules(),
       namespaceExports(),
-      ...(options.alias ? [srcAlias(options.alias, srcAbs)] : []),
+      srcAlias(SRC_ALIAS, srcAbs),
       themeScss(
         root,
         resolve(srcAbs, 'scss'),
@@ -308,11 +300,9 @@ export async function createCoreTsdownConfig(
         isProduction: true,
         template: { compilerOptions: { comments: false } },
       }),
-      dtsRewrites(
-        outAbs,
-        [selfAugmentationRewrite(options.name)],
-        options.alias ? { [options.alias]: outAbs } : {}
-      ),
+      dtsRewrites(outAbs, [selfAugmentationRewrite(options.name)], {
+        [SRC_ALIAS]: outAbs,
+      }),
       shorthandProps(outAbs, '../../types', resolve(srcAbs, 'components')),
     ],
   }
@@ -367,7 +357,7 @@ export async function createCoreVaporTsdownConfig(
       shorthandsMarker(),
       pruneModules(),
       namespaceExports(),
-      ...(options.alias ? [srcAlias(options.alias, srcAbs)] : []),
+      srcAlias(SRC_ALIAS, srcAbs),
       vaporExternals(root, srcAbs, resolve(root, outDir), [componentsAbs]),
       Vue({
         isProduction: true,
@@ -426,17 +416,13 @@ export async function createAdapterTsdownConfig(
     // declarations. The runtime chunks keep the real css side-effect imports
     // (scssExternals). Must run BEFORE the generic alias pass, which would
     // otherwise relativize the `#alias/...` spelling.
-    ...(options.alias
-      ? [
-          {
-            pattern: new RegExp(
-              `import\\s+(["'])${escapeRegExp(options.alias)}/scss/[\\w-]+\\.scss\\1;?\\r?\\n?`,
-              'g'
-            ),
-            replacement: '',
-          },
-        ]
-      : []),
+    {
+      pattern: new RegExp(
+        `import\\s+(["'])${escapeRegExp(SRC_ALIAS)}/scss/[\\w-]+\\.scss\\1;?\\r?\\n?`,
+        'g'
+      ),
+      replacement: '',
+    },
     // TS declaration emit names inferred types via the nearest in-program
     // re-exporter — this package's own src/index.ts — as a source-relative
     // `.ts` specifier. src is not shipped, so rewrite to the public entry.
@@ -473,8 +459,8 @@ export async function createAdapterTsdownConfig(
       pruneModules(),
       namespaceExports(),
       sourceSideEffects(STYLES_SIDECARS),
-      scssExternals(options.name, scssAbs, options.alias),
-      ...(options.alias ? [srcAlias(options.alias, srcAbs)] : []),
+      scssExternals(options.name, scssAbs, SRC_ALIAS),
+      srcAlias(SRC_ALIAS, srcAbs),
       themeScss(
         root,
         scssAbs,
@@ -493,16 +479,10 @@ export async function createAdapterTsdownConfig(
         isProduction: true,
         template: { compilerOptions: { comments: false } },
       }),
-      dtsRewrites(
-        outAbs,
-        rewrites,
-        options.alias ? { [options.alias]: outAbs } : {}
-      ),
+      dtsRewrites(outAbs, rewrites, { [SRC_ALIAS]: outAbs }),
       shorthandProps(outAbs, '@vueform/core', resolve(srcAbs, 'components')),
       componentNames(resolve(outAbs, 'components')),
-      ...(options.cdn
-        ? [cdnBuild({ name: options.name, alias: options.alias }, root, srcAbs)]
-        : []),
+      ...(options.cdn ? [cdnBuild({ name: options.name }, root, srcAbs)] : []),
     ],
   }
 }
@@ -576,8 +556,8 @@ export async function createAdapterVaporTsdownConfig(
       pruneModules(),
       namespaceExports(),
       sourceSideEffects(STYLES_SIDECARS),
-      scssExternals(options.name, resolve(srcAbs, 'scss'), options.alias),
-      ...(options.alias ? [srcAlias(options.alias, srcAbs)] : []),
+      scssExternals(options.name, resolve(srcAbs, 'scss'), SRC_ALIAS),
+      srcAlias(SRC_ALIAS, srcAbs),
       vaporExternals(root, srcAbs, resolve(root, outDir), [componentsAbs]),
       Vue({
         isProduction: true,

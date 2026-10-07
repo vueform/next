@@ -6,7 +6,7 @@ import {
   type PartOf,
   type ClassValue,
   type DomAttrsOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * @write

@@ -8,7 +8,7 @@ import {
   type SelectParts,
   type SelectProps,
   type SelectSlots,
-} from '#core/blueprints/select'
+} from '#src/blueprints/select'
 import type {
   AddonsParts,
   AddonsSlots,
@@ -27,14 +27,14 @@ import type {
   EntryItemValueReturnOf,
   EntryGroupChildrenOf,
   EntryMultipleOf,
-} from '#core/features'
+} from '#src/features'
 import type {
   WidenProps,
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
   DomAttrsOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * VfSelect props narrowed from a registry `TEntry` payload, applying the

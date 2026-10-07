@@ -15,7 +15,7 @@ import type {
   SliderParts,
   SliderProps,
   SliderSlots,
-} from '#primevue/blueprints/slider'
+} from '#src/blueprints/slider'
 
 /**
  * Resolves a `TRange` generic from a registry `TEntry` payload's `range` prop,

@@ -8,13 +8,13 @@ import {
   type ElementsSlots,
   type ElementsExpose,
   type ElementsClasses,
-} from '#core/blueprints/elements'
+} from '#src/blueprints/elements'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfElements component.

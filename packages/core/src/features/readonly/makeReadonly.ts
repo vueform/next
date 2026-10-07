@@ -1,14 +1,14 @@
 import { computed, toRef, unref } from 'vue'
 
-import { useConditions } from '#core/composables'
-import { useFormContext } from '#core/contexts'
-import type { makeElement } from '#core/features'
-import { defineFeature } from '#core/helpers'
+import { useConditions } from '#src/composables'
+import { useFormContext } from '#src/contexts'
+import type { makeElement } from '#src/features'
+import { defineFeature } from '#src/helpers'
 import {
   type ConditionalProp,
   type ConditionsTriggerProp,
-} from '#core/modules/conditions'
-import type { ReturnsOf } from '#core/types'
+} from '#src/modules/conditions'
+import type { ReturnsOf } from '#src/types'
 
 /**
  * Configuration for the readonly factory controlling whether the element is

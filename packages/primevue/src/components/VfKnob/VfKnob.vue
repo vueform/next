@@ -3,8 +3,8 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeKnob from 'primevue/knob'
 import type { WritableComputedRef } from 'vue'
 
-import { blueprint, defaults } from '#primevue/blueprints/knob'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/knob'
+import { vdomPrime } from '#src/helpers'
 
 import type { VfKnobEmits, VfKnobProps, VfKnobSlots } from './types'
 

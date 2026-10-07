@@ -18,8 +18,8 @@ import type {
   ToggleSwitchProps,
   ToggleSwitchSlots,
   forwards,
-} from '#primevue/blueprints/toggle-switch'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/blueprints/toggle-switch'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * VfToggleSwitch props narrowed from a registry `TEntry` payload, applying the

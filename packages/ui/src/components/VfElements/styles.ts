@@ -1,1 +1,1 @@
-import '#ui/scss/form.scss'
+import '#src/scss/form.scss'

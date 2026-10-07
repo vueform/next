@@ -60,9 +60,9 @@ import {
   type OptionValueProp,
   type OptionsProp,
   type OptionsModelApi,
-} from '#primevue/features'
-import { optionItemAliases } from '#primevue/helpers'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features'
+import { optionItemAliases } from '#src/helpers'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Plain props type for the select element blueprint — the widest instantiation

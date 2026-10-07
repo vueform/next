@@ -3,8 +3,8 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeRadioButton from 'primevue/radiobutton'
 import type { Ref } from 'vue'
 
-import { blueprint, defaults } from '#primevue/blueprints/radio-button'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/radio-button'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfRadioButtonEmits,

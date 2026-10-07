@@ -3,43 +3,43 @@ import type { ComputedRef, MaybeRef } from 'vue'
 import type {
   AutosaveModule,
   AutosaveModuleOptions,
-} from '#core/modules/autosave'
+} from '#src/modules/autosave'
 import type {
   ConditionsModule,
   ConditionsModuleOptions,
-} from '#core/modules/conditions'
-import type { DateModule, DateModuleOptions } from '#core/modules/date'
+} from '#src/modules/conditions'
+import type { DateModule, DateModuleOptions } from '#src/modules/date'
 import type {
   DevtoolsModule,
   DevtoolsModuleOptions,
-} from '#core/modules/devtools'
+} from '#src/modules/devtools'
 import type {
   ExpressionModule,
   ExpressionModuleOptions,
-} from '#core/modules/expression'
-import type { HttpModule, HttpModuleOptions } from '#core/modules/http'
-import type { LocaleModule, LocaleModuleOptions } from '#core/modules/locale'
-import type { ModelModule, ModelModuleOptions } from '#core/modules/model'
+} from '#src/modules/expression'
+import type { HttpModule, HttpModuleOptions } from '#src/modules/http'
+import type { LocaleModule, LocaleModuleOptions } from '#src/modules/locale'
+import type { ModelModule, ModelModuleOptions } from '#src/modules/model'
 import type {
   RouterModule,
   RouterModuleOptions,
   VueformRouter,
-} from '#core/modules/router'
+} from '#src/modules/router'
 import type {
   SecurityModule,
   SecurityModuleOptions,
-} from '#core/modules/security'
+} from '#src/modules/security'
 import type {
   DarkModeConfig,
   ThemeModule,
   ThemeModuleOptions,
-} from '#core/modules/theme'
+} from '#src/modules/theme'
 import type {
   SizeTypes,
   RuleDefinition,
   ValidationModule,
   ValidationModuleOptions,
-} from '#core/modules/validation'
+} from '#src/modules/validation'
 import {
   type ComponentRegistry,
   type ComponentNames,
@@ -53,7 +53,7 @@ import {
   type UID,
   type VueformComponent,
   type ThemeTokens,
-} from '#core/types'
+} from '#src/types'
 
 import type { VueformModule } from './defineModule'
 import type { VueformPlugin } from './definePlugin'

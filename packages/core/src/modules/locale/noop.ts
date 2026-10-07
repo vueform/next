@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import { warn, isProd } from '#core/utils'
+import { warn, isProd } from '#src/utils'
 
 import type { LocaleModule } from './types'
 

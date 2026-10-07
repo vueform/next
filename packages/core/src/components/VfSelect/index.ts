@@ -1,3 +1,3 @@
 export { default } from './VfSelect.vue'
 export type * from './types'
-export { defaults, blueprint } from '#core/blueprints/select'
+export { defaults, blueprint } from '#src/blueprints/select'

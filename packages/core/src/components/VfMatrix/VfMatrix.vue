@@ -4,10 +4,10 @@ import {
   defaults,
   normalizeSourceItems,
   resolveItemProp,
-} from '#core/blueprints/matrix'
-import { useBlueprint, useLocale } from '#core/composables'
-import { defineEvents } from '#core/helpers'
-import { isPlainObject } from '#core/utils'
+} from '#src/blueprints/matrix'
+import { useBlueprint, useLocale } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+import { isPlainObject } from '#src/utils'
 
 import type { VfMatrixEmits, VfMatrixProps, VfMatrixSlots } from './types'
 

@@ -3,8 +3,8 @@ import type { MaybeRef, Ref } from 'vue'
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
-} from '#core/modules/conditions'
-import type { EntryPropOf } from '#core/types'
+} from '#src/modules/conditions'
+import type { EntryPropOf } from '#src/types'
 
 /**
  * Type-only key carrying `ItemsProps` generics for consumers like

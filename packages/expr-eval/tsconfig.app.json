@@ -1,0 +1,10 @@
+{
+  // Includes ALL of core's src: core's ControlRegistry is populated by each
+  // component's `declare module` registration ("what you import is what's
+  // registered" — dist consumers get the same semantics via the entry they
+  // pick). A program consuming core WHOLE must therefore load the whole
+  // registration set, exactly as dist/index.d.ts assembles it — a reachable
+  // subset leaves the registry partial and core's own files error (never/{}).
+  "extends": "@vueform/tsconfig/plugin.json",
+  "include": ["../global.d.ts", "../core/src", "src"]
+}

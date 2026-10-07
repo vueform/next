@@ -1,5 +1,5 @@
-import { type Pager } from '#core/composables'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+import { type Pager } from '#src/composables'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -8,7 +8,7 @@ import type {
   BaseComponentExpose,
   BaseComponentClasses,
   LooseRequired,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the steps component blueprint.

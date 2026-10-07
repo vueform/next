@@ -1,1 +1,1 @@
-import '#ui/scss/group.scss'
+import '#src/scss/group.scss'

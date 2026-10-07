@@ -8,7 +8,7 @@ import {
   type ColParts,
   type ColProps,
   type ColSlots,
-} from '#core/blueprints/col'
+} from '#src/blueprints/col'
 import type {
   DefineElementContext,
   AlignProp,
@@ -16,7 +16,7 @@ import type {
   DomAttrsOf,
   ValignProp,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfCol component.

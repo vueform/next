@@ -1,5 +1,5 @@
-import type { ComponentNames } from '#core/types'
-import { getComponentDef, getGenericInstance } from '#core/utils'
+import type { ComponentNames } from '#src/types'
+import { getComponentDef, getGenericInstance } from '#src/utils'
 
 /**
  * Returns the registered component name of the current component instance (VDOM

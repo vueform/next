@@ -24,7 +24,7 @@ import type {
   TreeSelectProps,
   TreeSelectSlots,
   forwards,
-} from '#primevue/blueprints/tree-select'
+} from '#src/blueprints/tree-select'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -32,13 +32,9 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '#primevue/features'
-import type { TreeSelectionModeProp } from '#primevue/features/tree-options'
-import type {
-  ForwardedSlots,
-  OverrideSlots,
-  TreeOptionsProp,
-} from '#primevue/types'
+} from '#src/features'
+import type { TreeSelectionModeProp } from '#src/features/tree-options'
+import type { ForwardedSlots, OverrideSlots, TreeOptionsProp } from '#src/types'
 
 /**
  * Resolves the `TOptions` generic from a registry `TEntry` payload's `options`

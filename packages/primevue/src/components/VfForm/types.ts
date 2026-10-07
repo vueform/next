@@ -29,8 +29,8 @@ import type {
   FormSlots,
   FormExpose,
   FormClasses,
-} from '#primevue/blueprints/form'
-import type { NavPosProp } from '#primevue/blueprints/nav'
+} from '#src/blueprints/form'
+import type { NavPosProp } from '#src/blueprints/nav'
 
 /**
  * VfForm props narrowed from a registry `TEntry` payload, applying the entry's

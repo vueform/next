@@ -1,4 +1,4 @@
-import type { HeadingProp } from '#core/types'
+import type { HeadingProp } from '#src/types'
 
 /**
  * Props shared by container-type elements that render a heading.

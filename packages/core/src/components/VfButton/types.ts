@@ -8,13 +8,13 @@ import {
   type ButtonParts,
   type ButtonProps,
   type ButtonSlots,
-} from '#core/blueprints/button'
+} from '#src/blueprints/button'
 import type {
   DefineElementContext,
   DomAttrsOf,
   ClassValue,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfButton component.

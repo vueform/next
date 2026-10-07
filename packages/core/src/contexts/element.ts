@@ -1,6 +1,6 @@
-import { useComponentContext } from '#core/contexts'
-import { createContext } from '#core/helpers'
-import type { UnknownElement } from '#core/types'
+import { useComponentContext } from '#src/contexts'
+import { createContext } from '#src/helpers'
+import type { UnknownElement } from '#src/types'
 
 const [_useElementContext, provideElementContext] =
   createContext<UnknownElement>('vueform-element')

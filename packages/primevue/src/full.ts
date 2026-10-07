@@ -9,11 +9,11 @@ import {
 } from '@vueform/core'
 import { en_US } from '@vueform/core/locales'
 
-import * as components from '#primevue/components'
-import defaultConfig from '#primevue/config'
-import * as modules from '#primevue/modules/modules'
-import * as rules from '#primevue/rules'
-import { theme } from '#primevue/themes'
+import * as components from '#src/components'
+import defaultConfig from '#src/config'
+import * as modules from '#src/modules/modules'
+import * as rules from '#src/rules'
+import { theme } from '#src/themes'
 
 export const createVueform = createVueformFactory(
   defineConfig({

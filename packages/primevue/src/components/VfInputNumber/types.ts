@@ -22,7 +22,7 @@ import type {
   InputNumberProps,
   InputNumberSlots,
   forwards,
-} from '#primevue/blueprints/input-number'
+} from '#src/blueprints/input-number'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -30,8 +30,8 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '#primevue/features'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * Props for the VfInputNumber component.

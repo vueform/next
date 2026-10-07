@@ -5,10 +5,10 @@ import {
   useDynamicProp,
   useGlobals,
   useExpression,
-} from '#core/composables'
-import { useComponentContext } from '#core/contexts'
-import type { makeElement } from '#core/features'
-import { defineFeature } from '#core/helpers'
+} from '#src/composables'
+import { useComponentContext } from '#src/contexts'
+import type { makeElement } from '#src/features'
+import { defineFeature } from '#src/helpers'
 import type {
   BreakpointsColumns,
   ColumnKeys,
@@ -21,8 +21,8 @@ import type {
   ResolvedColumns,
   ReturnsOf,
   TProp,
-} from '#core/types'
-import { clone, isTopInViewport, rootDomOf } from '#core/utils'
+} from '#src/types'
+import { clone, isTopInViewport, rootDomOf } from '#src/utils'
 
 /**
  * Configuration for the element factory providing core lifecycle, state, and

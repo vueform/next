@@ -3,8 +3,8 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeRating from 'primevue/rating'
 import type { WritableComputedRef } from 'vue'
 
-import { blueprint, defaults } from '#primevue/blueprints/rating'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/rating'
+import { vdomPrime } from '#src/helpers'
 
 import type { VfRatingEmits, VfRatingProps, VfRatingSlots } from './types'
 

@@ -12,9 +12,9 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeSelectButton from 'primevue/selectbutton'
 
-import { blueprint, defaults } from '#primevue/blueprints/select-button'
-import type { OptionsProp, OptionValueProp } from '#primevue/features'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/select-button'
+import type { OptionsProp, OptionValueProp } from '#src/features'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfSelectButtonEmits,

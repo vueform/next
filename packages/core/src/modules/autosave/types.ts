@@ -1,7 +1,7 @@
 import type { ComputedRef, Ref } from 'vue'
 
-import type { HttpError, HttpResponse, RequestMethod } from '#core/modules/http'
-import type { EndpointHandler } from '#core/types'
+import type { HttpError, HttpResponse, RequestMethod } from '#src/modules/http'
+import type { EndpointHandler } from '#src/types'
 
 /**
  * Global options for the autosave module (the `$autosave` config object).

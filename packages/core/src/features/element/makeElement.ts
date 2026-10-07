@@ -17,21 +17,21 @@ import {
   useDynamicProp,
   useRootDom,
   useConditions,
-} from '#core/composables'
+} from '#src/composables'
 import {
   createContainerContext,
   createElementContext,
   useContainerContext,
   useFormContext,
-} from '#core/contexts'
-import { defineFeature } from '#core/helpers'
+} from '#src/contexts'
+import { defineFeature } from '#src/helpers'
 import {
   type ConditionalProp,
   type ConditionsTriggerProp,
-} from '#core/modules/conditions'
-import { getModelModule } from '#core/modules/model'
-import type { ComponentProp, ElementName, TProp } from '#core/types'
-import { isClient, pickRefs } from '#core/utils'
+} from '#src/modules/conditions'
+import { getModelModule } from '#src/modules/model'
+import type { ComponentProp, ElementName, TProp } from '#src/types'
+import { isClient, pickRefs } from '#src/utils'
 
 /**
  * Configuration for the element factory providing core lifecycle, state, and

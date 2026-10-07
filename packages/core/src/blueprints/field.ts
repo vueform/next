@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import { useFeatures } from '#core/composables'
+import { useFeatures } from '#src/composables'
 import {
   makeAddons,
   makeTData,
@@ -38,10 +38,10 @@ import {
   type ValidationEmits,
   type TranslateModel,
   type TranslatableModelApi,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import type { LanguagesProp, LooseRequired } from '#core/types'
-import { toReactive } from '#core/utils'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { LanguagesProp, LooseRequired } from '#src/types'
+import { toReactive } from '#src/utils'
 
 /**
  * Field model shape. `TNullValue` always types **one value** — the model itself

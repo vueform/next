@@ -13,7 +13,7 @@ import type {
   ColorPickerParts,
   ColorPickerProps,
   ColorPickerSlots,
-} from '#primevue/blueprints/color-picker'
+} from '#src/blueprints/color-picker'
 
 /**
  * Props for the VfColorPicker component.

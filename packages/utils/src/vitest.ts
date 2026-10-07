@@ -10,11 +10,6 @@ import { workspaceSourceAliases } from './sourceAliases'
  */
 export interface VitestOptions {
   /**
-   * The package's own source alias (e.g. `'@'`), pointing at its `src`
-   * directory. No alias is registered when omitted.
-   */
-  alias?: string
-  /**
    * Additional Vitest config merged (via `mergeConfig`) on top of the generated
    * one — an escape hatch for anything not covered by the defaults.
    */
@@ -26,10 +21,6 @@ export interface VitestOptions {
  * loosely so this package needs no vitest dependency.
  */
 export type VitestConfig = UserConfig & { test?: Record<string, any> }
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
 
 /**
  * Vitest config factory for the workspace packages — usable directly as the
@@ -73,14 +64,6 @@ export async function createVitestConfig(
 
   const aliases: Alias[] = [
     { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' },
-    ...(options.alias
-      ? [
-          {
-            find: new RegExp(`^${escapeRegExp(options.alias)}/(.+)$`),
-            replacement: `${join(root, 'src')}/$1`,
-          },
-        ]
-      : []),
   ]
 
   aliases.push(...workspaceSourceAliases(packagesDir))

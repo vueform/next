@@ -8,7 +8,7 @@ import {
   type RadioParts,
   type RadioProps,
   type RadioSlots,
-} from '#core/blueprints/radio'
+} from '#src/blueprints/radio'
 import type {
   WidenProps,
   DefineElementContext,
@@ -17,7 +17,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   EntryPropOr,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * VfRadio props narrowed from a registry `TEntry` payload, applying the entry's

@@ -1,4 +1,4 @@
-import { useVueformContext } from '#core/contexts/vueform'
+import { useVueformContext } from '#src/contexts/vueform'
 
 // Private: imported by deep path from `resolveModules`, the security doorway,
 // and `useForm`; never re-exported from the helpers barrel.

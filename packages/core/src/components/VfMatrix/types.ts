@@ -10,8 +10,8 @@ import type {
   MatrixProps,
   MatrixSlots,
   ResolvedMatrixCol,
-} from '#core/blueprints/matrix'
-import type { ObjectModel } from '#core/features'
+} from '#src/blueprints/matrix'
+import type { ObjectModel } from '#src/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -26,7 +26,7 @@ import type {
   WidenProps,
   UnwrapEntryRef,
   WidenScalar,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * The resolved selection mode from a registry `TEntry` payload — anything but

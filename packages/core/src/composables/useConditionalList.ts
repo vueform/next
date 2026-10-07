@@ -1,10 +1,10 @@
 import { toRef, type Ref } from 'vue'
 
-import { useComponentContext, useFormContext } from '#core/contexts'
+import { useComponentContext, useFormContext } from '#src/contexts'
 import {
   getConditionsModule,
   type ConditionsResult,
-} from '#core/modules/conditions'
+} from '#src/modules/conditions'
 
 import type { UseConditionsOptions } from './useConditions'
 

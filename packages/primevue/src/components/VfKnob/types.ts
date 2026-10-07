@@ -13,7 +13,7 @@ import type {
   KnobParts,
   KnobProps,
   KnobSlots,
-} from '#primevue/blueprints/knob'
+} from '#src/blueprints/knob'
 
 /**
  * Props for the VfKnob component.

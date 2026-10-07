@@ -17,8 +17,8 @@ import type {
   RatingProps,
   RatingSlots,
   forwards,
-} from '#primevue/blueprints/rating'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/blueprints/rating'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * Props for the VfRating component.

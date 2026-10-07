@@ -1,5 +1,5 @@
-import type { VueformInstance } from '#core/helpers'
-import { getHttpModule, type HttpInstance } from '#core/modules/http'
+import type { VueformInstance } from '#src/helpers'
+import { getHttpModule, type HttpInstance } from '#src/modules/http'
 
 /**
  * Returns an instance over the http module configured via `config.$http` (the

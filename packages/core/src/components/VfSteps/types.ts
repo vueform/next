@@ -8,15 +8,15 @@ import {
   type StepsParts,
   type StepsProps,
   type StepsSlots,
-} from '#core/blueprints/steps'
-import type { ResolvedPage } from '#core/composables'
+} from '#src/blueprints/steps'
+import type { ResolvedPage } from '#src/composables'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   UnknownElement,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfSteps component.

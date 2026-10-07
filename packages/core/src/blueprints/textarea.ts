@@ -1,4 +1,4 @@
-import { useFeatures } from '#core/composables'
+import { useFeatures } from '#src/composables'
 import {
   makeAddons,
   makeAutogrow,
@@ -42,9 +42,9 @@ import {
   type InputEmits,
   type ValidationEmits,
   type TranslatableModelApi,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import type { LanguagesProp, LooseRequired } from '#core/types'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { LanguagesProp, LooseRequired } from '#src/types'
 
 /**
  * Props for the textarea element blueprint, parameterized by the model-driving

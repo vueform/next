@@ -25,7 +25,7 @@ import {
   type ComponentProp,
   type EntryPropOf,
   type ExpressionString,
-} from '#core/types'
+} from '#src/types'
 
 // ============ TYPE UNIONS =============
 

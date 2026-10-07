@@ -1,4 +1,4 @@
-import { useVueformContext } from '#core/contexts'
+import { useVueformContext } from '#src/contexts'
 
 /**
  * Returns the globals of the calling component's Vueform instance.

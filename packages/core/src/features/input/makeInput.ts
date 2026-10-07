@@ -1,9 +1,9 @@
 import { computed, ref, toValue, watch, type MaybeRefOrGetter } from 'vue'
 
-import { useComponentContext } from '#core/contexts'
-import type { makeData, makeInteraction } from '#core/features'
-import { defineFeature, type FeatureEvents } from '#core/helpers'
-import type { LooseContext, ReturnsOf } from '#core/types'
+import { useComponentContext } from '#src/contexts'
+import type { makeData, makeInteraction } from '#src/features'
+import { defineFeature, type FeatureEvents } from '#src/helpers'
+import type { LooseContext, ReturnsOf } from '#src/types'
 
 /**
  * @write

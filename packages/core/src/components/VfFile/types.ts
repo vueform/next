@@ -9,8 +9,8 @@ import {
   type FileParts,
   type FileProps,
   type FileSlots,
-} from '#core/blueprints/file'
-import type { EntryMultipleOf } from '#core/features'
+} from '#src/blueprints/file'
+import type { EntryMultipleOf } from '#src/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -19,7 +19,7 @@ import type {
   DomAttrsOf,
   PartOf,
   FileProp,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * VfFile props narrowed from a registry `TEntry` payload, applying the entry's

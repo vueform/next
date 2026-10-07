@@ -9,11 +9,11 @@ import {
 } from '@vueform/core'
 import { en_US } from '@vueform/core/locales'
 
-import * as components from '#ui/components'
-import defaultConfig from '#ui/config'
-import * as modules from '#ui/modules/modules'
-import * as rules from '#ui/rules'
-import { origin as theme } from '#ui/themes'
+import * as components from '#src/components'
+import defaultConfig from '#src/config'
+import * as modules from '#src/modules/modules'
+import * as rules from '#src/rules'
+import { origin as theme } from '#src/themes'
 
 /**
  * Creates a pre-configured Vueform plugin with all components, rules, modules,

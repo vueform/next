@@ -1,6 +1,6 @@
-import { useDynamicProp } from '#core/composables'
-import { defineFeature } from '#core/helpers'
-import type { TProp } from '#core/types'
+import { useDynamicProp } from '#src/composables'
+import { defineFeature } from '#src/helpers'
+import type { TProp } from '#src/types'
 
 /**
  * Configuration for the text label factory resolving label and related text for

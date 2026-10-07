@@ -1,4 +1,4 @@
-import { createRule } from '#core/helpers'
+import { createRule } from '#src/helpers'
 
 /**
  * Validates that the field has a non-empty value.

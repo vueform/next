@@ -1,4 +1,4 @@
-import { createRule } from '#core/helpers'
+import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value's size is less than or equal to another field's

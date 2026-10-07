@@ -1,5 +1,5 @@
-import type { ForwardsConfig } from '#core/composables'
-import { defineFeature } from '#core/helpers'
+import type { ForwardsConfig } from '#src/composables'
+import { defineFeature } from '#src/helpers'
 
 /**
  * Declares the events and slots an adapter component forwards to the underlying

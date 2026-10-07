@@ -1,1 +1,1 @@
-import '#primevue/scss/content.scss'
+import '#src/scss/content.scss'

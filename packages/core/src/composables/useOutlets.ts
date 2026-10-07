@@ -9,14 +9,14 @@ import {
   type FunctionalComponent,
 } from 'vue'
 
-import { useComponentFactory, useSecurity } from '#core/composables'
-import type { ComponentProp } from '#core/types'
+import { useComponentFactory, useSecurity } from '#src/composables'
+import type { ComponentProp } from '#src/types'
 import {
   getGenericInstance,
   isVaporInstance,
   toCamelCase,
   toVdomRenderableSlot,
-} from '#core/utils'
+} from '#src/utils'
 
 /**
  * Configuration options for the useOutlets composable.

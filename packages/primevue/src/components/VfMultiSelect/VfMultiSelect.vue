@@ -12,13 +12,13 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeMultiSelect from 'primevue/multiselect'
 
-import { blueprint, defaults } from '#primevue/blueprints/multi-select'
+import { blueprint, defaults } from '#src/blueprints/multi-select'
 import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features'
-import { vdomPrime } from '#primevue/helpers'
+} from '#src/features'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfMultiSelectEmits,

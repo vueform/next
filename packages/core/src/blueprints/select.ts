@@ -1,4 +1,4 @@
-import { useFeatures } from '#core/composables'
+import { useFeatures } from '#src/composables'
 import {
   makeAddons,
   makeAria,
@@ -41,9 +41,9 @@ import {
   type ItemsProp,
   type BaseElementExpose,
   type ItemsModelApi,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import type { LooseRequired } from '#core/types'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { LooseRequired } from '#src/types'
 
 /**
  * Plain props type for the select element blueprint — the widest instantiation

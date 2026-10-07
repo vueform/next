@@ -5,7 +5,7 @@ import {
   type DomAttrsOf,
   type PartOf,
   type DProp,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for elements that support before/after icon slots.

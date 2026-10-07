@@ -8,13 +8,13 @@ import {
   type AddonSlots,
   type AddonClasses,
   type AddonExpose,
-} from '#core/blueprints/addon'
+} from '#src/blueprints/addon'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfAddon component.

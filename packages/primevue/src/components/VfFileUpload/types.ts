@@ -22,8 +22,8 @@ import type {
   FileUploadProps,
   FileUploadSlots,
   forwards,
-} from '#primevue/blueprints/file-upload'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/blueprints/file-upload'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * VfFileUpload props narrowed from a registry `TEntry` payload, applying the

@@ -16,8 +16,8 @@ import {
   useConditionalList,
   useSecurity,
   useComponentFactory,
-} from '#core/composables'
-import { useComponentContext } from '#core/contexts'
+} from '#src/composables'
+import { useComponentContext } from '#src/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -40,28 +40,28 @@ import {
   type ObjectModel,
   type ValidationEmits,
   type ItemsProp,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
 import {
   type ConditionalProp,
   type ConditionsResult,
   type ConditionsTriggerProp,
-} from '#core/modules/conditions'
-import type { RulesProp } from '#core/modules/validation'
+} from '#src/modules/conditions'
+import type { RulesProp } from '#src/modules/validation'
 import type {
   TProp,
   MakeOptional,
   LooseRequired,
   ElementName,
   DProp,
-} from '#core/types'
+} from '#src/types'
 import {
   alwaysTrue as alwaysAvailable,
   equals,
   isPlainObject,
   kebabToPascal,
   typedEntries,
-} from '#core/utils'
+} from '#src/utils'
 
 /**
  * A matrix column normalized from any accepted source format, with its value,

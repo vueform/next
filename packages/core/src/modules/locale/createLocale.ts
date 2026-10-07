@@ -1,8 +1,8 @@
 import { computed, isRef, unref } from 'vue'
 
-import type { VueformInstance } from '#core/helpers'
-import type { en_US } from '#core/locales'
-import { typedEntries } from '#core/utils'
+import type { VueformInstance } from '#src/helpers'
+import type { en_US } from '#src/locales'
+import { typedEntries } from '#src/utils'
 
 import type { LocaleModule, LocaleModuleOptions } from './types'
 

@@ -7,9 +7,9 @@ import {
   type Ref,
 } from 'vue'
 
-import { useComponentContext } from '#core/contexts'
-import type { DProp } from '#core/types'
-import { containsHtml, normalize, resolveIcon, toKebabCase } from '#core/utils'
+import { useComponentContext } from '#src/contexts'
+import type { DProp } from '#src/types'
+import { containsHtml, normalize, resolveIcon, toKebabCase } from '#src/utils'
 
 import { useConfig } from '.'
 import { useExpression } from './useExpression'

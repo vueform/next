@@ -1,4 +1,4 @@
-import { createRule } from '#core/helpers'
+import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value is numeric with a digit count between a minimum and

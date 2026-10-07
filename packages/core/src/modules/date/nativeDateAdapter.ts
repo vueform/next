@@ -1,4 +1,4 @@
-import { warn } from '#core/utils'
+import { warn } from '#src/utils'
 
 import type { DateAdapter, DateInstance, DateModule, DateUnit } from './types'
 

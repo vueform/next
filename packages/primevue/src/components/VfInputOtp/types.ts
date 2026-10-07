@@ -17,7 +17,7 @@ import type {
   InputOtpProps,
   InputOtpSlots,
   forwards,
-} from '#primevue/blueprints/input-otp'
+} from '#src/blueprints/input-otp'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -25,8 +25,8 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '#primevue/features'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * Props for the VfInputOtp component.

@@ -1,4 +1,4 @@
-import { defineModule } from '#core/helpers'
+import { defineModule } from '#src/helpers'
 
 import { createTheme, getCSS, injectThemeCss } from './createTheme'
 

@@ -13,10 +13,10 @@ import {
   type WatchSource,
 } from 'vue'
 
-import { useDate } from '#core/composables'
-import type { VueformInstance } from '#core/helpers'
-import { getExpressionModule } from '#core/modules/expression'
-import type { FormContext } from '#core/types'
+import { useDate } from '#src/composables'
+import type { VueformInstance } from '#src/helpers'
+import { getExpressionModule } from '#src/modules/expression'
+import type { FormContext } from '#src/types'
 import {
   alwaysTrue as alwaysAvailable,
   debounce,
@@ -26,7 +26,7 @@ import {
   replaceWildcards,
   warn as vfWarn,
   isDev,
-} from '#core/utils'
+} from '#src/utils'
 
 import type {
   ConditionalProp,

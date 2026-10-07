@@ -9,14 +9,10 @@
     TModel = any
   "
 >
-import { defaults, blueprint } from '#core/blueprints/checkboxes'
-import { useBlueprint } from '#core/composables'
-import type {
-  ItemsProp,
-  ItemValueProp,
-  GroupChildrenProp,
-} from '#core/features'
-import { defineEvents } from '#core/helpers'
+import { defaults, blueprint } from '#src/blueprints/checkboxes'
+import { useBlueprint } from '#src/composables'
+import type { ItemsProp, ItemValueProp, GroupChildrenProp } from '#src/features'
+import { defineEvents } from '#src/helpers'
 
 import type {
   VfCheckboxesEmits,

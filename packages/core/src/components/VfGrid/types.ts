@@ -9,8 +9,8 @@ import type {
   GridProps,
   GridSlots,
   GridCell,
-} from '#core/blueprints/grid'
-import type { ObjectModel } from '#core/features'
+} from '#src/blueprints/grid'
+import type { ObjectModel } from '#src/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -23,7 +23,7 @@ import type {
   IsAny,
   SchemaToModel,
   WidenProps,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Resolves the `grid` schema from a registry `TEntry` payload (unwrapping a

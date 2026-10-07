@@ -17,8 +17,8 @@ import type {
   CheckboxGroupParts,
   CheckboxGroupProps,
   CheckboxGroupSlots,
-} from '#primevue/blueprints/checkbox-group'
-import type { VfCheckboxSlots } from '#primevue/components/VfCheckbox/types'
+} from '#src/blueprints/checkbox-group'
+import type { VfCheckboxSlots } from '#src/components/VfCheckbox/types'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
@@ -30,7 +30,7 @@ import type {
   OptionValueProp,
   OptionValueOf,
   RawOptionOf,
-} from '#primevue/features/options'
+} from '#src/features/options'
 
 /**
  * VfCheckboxGroup props narrowed from a registry `TEntry` payload, applying the

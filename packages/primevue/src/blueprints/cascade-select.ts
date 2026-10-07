@@ -53,7 +53,7 @@ import {
   type FloatLabelProps,
   type IftaLabelProps,
   type InfoProps,
-} from '#primevue/features'
+} from '#src/features'
 import type {
   AllowedCascadeOptionGroupChildren,
   CascadeOptionGroupChildrenProp,
@@ -64,9 +64,9 @@ import type {
   OptionsProp,
   OptionsModelApi,
   OptionsGenericsBrand,
-} from '#primevue/features/options'
-import { optionItemAliases } from '#primevue/helpers'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features/options'
+import { optionItemAliases } from '#src/helpers'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Plain props type for the cascade-select element blueprint — the widest

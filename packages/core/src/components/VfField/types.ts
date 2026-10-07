@@ -8,7 +8,7 @@ import {
   type FieldParts,
   type FieldProps,
   type FieldSlots,
-} from '#core/blueprints/field'
+} from '#src/blueprints/field'
 import type {
   AddonsSlots,
   IconsClasses,
@@ -20,7 +20,7 @@ import type {
   AddonGroupClasses,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '#core/features'
+} from '#src/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -28,7 +28,7 @@ import type {
   DomAttrsOf,
   EntryPropOr,
   LanguagesProp,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * `TNullValue` fallback for a registry `TEntry` payload without a `nullValue`

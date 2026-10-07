@@ -1,4 +1,4 @@
-import type { InferThemeTokens } from '#core/types'
+import type { InferThemeTokens } from '#src/types'
 
 /**
  * Produces a new theme object by layering overrides on top of an existing

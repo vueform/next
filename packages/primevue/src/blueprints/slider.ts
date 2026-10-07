@@ -46,8 +46,8 @@ import {
   type ModelPropsWithDefaultValue,
   type InfoProps,
   type IntervalProps,
-} from '#primevue/features'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Slider model shaped by `range`:

@@ -8,8 +8,8 @@ import {
   type CheckboxesParts,
   type CheckboxesProps,
   type CheckboxesSlots,
-} from '#core/blueprints/checkboxes'
-import type { VfCheckboxSlots } from '#core/components/VfCheckbox/types'
+} from '#src/blueprints/checkboxes'
+import type { VfCheckboxSlots } from '#src/components/VfCheckbox/types'
 import type {
   ResolvedGroup,
   ResolvedItem,
@@ -22,7 +22,7 @@ import type {
   EntryItemValueKeyOf,
   EntryItemValueReturnOf,
   EntryGroupChildrenOf,
-} from '#core/features'
+} from '#src/features'
 import type {
   WidenProps,
   ClassValue,
@@ -30,7 +30,7 @@ import type {
   DefineRegistryEntry,
   DomAttrsOf,
   PartOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * VfCheckboxes props narrowed from a registry `TEntry` payload, applying the

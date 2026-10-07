@@ -8,8 +8,8 @@ import {
   type GroupParts,
   type GroupProps,
   type GroupSlots,
-} from '#core/blueprints/group'
-import type { ObjectModel } from '#core/features'
+} from '#src/blueprints/group'
+import type { ObjectModel } from '#src/features'
 import type {
   ClassValue,
   DefineElementContext,
@@ -21,7 +21,7 @@ import type {
   WidenProps,
   ResolvedSchema,
   EntrySchemaOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Groups carry a model shaped by their child schema regardless of `nested`:

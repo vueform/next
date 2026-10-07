@@ -1,4 +1,4 @@
-import { isForbiddenKey, isPlainObject, typedEntries } from '#core/utils'
+import { isForbiddenKey, isPlainObject, typedEntries } from '#src/utils'
 
 /**
  * Recursively normalizes a value by parsing numeric strings into numbers.

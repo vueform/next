@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 
-import { createContext } from '#core/helpers'
-import type { NormalizedPresetDefinition } from '#core/types'
+import { createContext } from '#src/helpers'
+import type { NormalizedPresetDefinition } from '#src/types'
 
 /**
  * A reactive ref holding the normalized preset definitions for the current

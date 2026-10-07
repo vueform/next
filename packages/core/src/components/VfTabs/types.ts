@@ -8,15 +8,15 @@ import type {
   TabbedSlots,
   TabsExpose,
   TabsClasses,
-} from '#core/blueprints/tabs'
-import type { ResolvedPage } from '#core/composables'
+} from '#src/blueprints/tabs'
+import type { ResolvedPage } from '#src/composables'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   UnknownElement,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfTabs component.

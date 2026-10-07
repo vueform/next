@@ -24,7 +24,7 @@ import type {
   SelectProps,
   SelectSlots,
   forwards,
-} from '#primevue/blueprints/select'
+} from '#src/blueprints/select'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -39,8 +39,8 @@ import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfSelect props narrowed from a registry `TEntry` payload, applying the

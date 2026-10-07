@@ -3,9 +3,9 @@ import type { App } from 'vue'
 // Leaf module: reached (via `#core/helpers/resolveVueform`) from every module
 // doorway, so it must never import `#core/contexts` or `#core/composables` — that
 // would close the cycle modules → contexts → composables → modules.
-import type { VueformInstance } from '#core/helpers'
-import { createContext } from '#core/helpers/createContext'
-import { NotInstalledError } from '#core/utils/errors'
+import type { VueformInstance } from '#src/helpers'
+import { createContext } from '#src/helpers/createContext'
+import { NotInstalledError } from '#src/utils/errors'
 
 /**
  * The instance context: provided app-wide at install, injected by the calling

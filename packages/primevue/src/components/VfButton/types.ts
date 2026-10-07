@@ -17,8 +17,8 @@ import type {
   ButtonProps,
   ButtonSlots,
   forwards,
-} from '#primevue/blueprints/button'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/blueprints/button'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * Props for the VfButton component.

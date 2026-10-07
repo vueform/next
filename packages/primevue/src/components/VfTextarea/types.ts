@@ -24,7 +24,7 @@ import type {
   TextareaParts,
   TextareaProps,
   TextareaSlots,
-} from '#primevue/blueprints/textarea'
+} from '#src/blueprints/textarea'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -32,7 +32,7 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '#primevue/features'
+} from '#src/features'
 
 /**
  * VfTextarea props narrowed from a registry `TEntry` payload, applying the

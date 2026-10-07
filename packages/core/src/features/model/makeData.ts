@@ -1,25 +1,25 @@
 import type { Ref, WritableComputedRef } from 'vue'
 
-import { useData, type CastOption } from '#core/composables'
+import { useData, type CastOption } from '#src/composables'
 import {
   type makeElement,
   type makeInteraction,
   type makeMultilingual,
-} from '#core/features'
+} from '#src/features'
 import {
   defineFeature,
   type FeatureContext,
   type FeatureEvents,
-} from '#core/helpers'
-import type { RulesProp, TRulesProp } from '#core/modules/validation'
+} from '#src/helpers'
+import type { RulesProp, TRulesProp } from '#src/modules/validation'
 import type {
   Booleanish,
   ElementName,
   LanguagesProp,
   ReturnsOf,
   RuleMessagesProp,
-} from '#core/types'
-import { pickRefs } from '#core/utils'
+} from '#src/types'
+import { pickRefs } from '#src/utils'
 
 /**
  * Keys returned by useData only when the element is a dynamic list (has the

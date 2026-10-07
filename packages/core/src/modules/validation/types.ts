@@ -1,12 +1,12 @@
 import type { ComputedRef } from 'vue'
 
-import type { VueformInstance } from '#core/helpers'
-import type { ConditionalProp } from '#core/modules/conditions'
+import type { VueformInstance } from '#src/helpers'
+import type { ConditionalProp } from '#src/modules/conditions'
 import {
   type FormContext,
   type StatefulElement,
   type StandardSchemaV1,
-} from '#core/types'
+} from '#src/types'
 
 import type { RULE_BRAND } from './symbols'
 

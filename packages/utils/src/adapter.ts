@@ -3,7 +3,7 @@ import { basename, join, resolve } from 'node:path'
 
 import type { Plugin, UserConfig } from 'vite'
 
-import { shorthandsMarker } from './shared'
+import { shorthandsMarker, SRC_ALIAS } from './shared'
 
 /**
  * Options for the `adapter` config factory.
@@ -22,11 +22,6 @@ export interface AdapterOptions {
    * `process.cwd()` to the package dir, which remains the fallback.
    */
   dir?: string
-  /**
-   * Alias pointing at the source directory (e.g. `'@'`). No alias is registered
-   * when omitted.
-   */
-  alias?: string
   /**
    * Additional external module ids. `'vue'`, `name` and `@vueform/core` (all
    * subpaths) are always external.
@@ -129,7 +124,7 @@ export function cdnBuild(
             __VUEFORM_VAPOR__: JSON.stringify(false),
           },
           resolve: {
-            alias: options.alias ? { [options.alias]: srcAbs } : {},
+            alias: { [SRC_ALIAS]: srcAbs },
           },
           plugins: [
             shorthandsMarker(),

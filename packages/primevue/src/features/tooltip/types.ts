@@ -1,6 +1,6 @@
 import type { TProp } from '@vueform/core'
 
-import type { TooltipPosProp } from '#primevue/types'
+import type { TooltipPosProp } from '#src/types'
 
 /**
  * Tooltip-related props mixed into element components that support tooltips.

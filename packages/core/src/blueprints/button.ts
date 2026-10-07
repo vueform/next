@@ -1,4 +1,4 @@
-import { useFeatures } from '#core/composables'
+import { useFeatures } from '#src/composables'
 import {
   makeButton,
   makeDisabled,
@@ -17,9 +17,9 @@ import {
   type InteractionEmits,
   type BtnEmits,
   type BtnProps,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import type { DProp, LooseRequired } from '#core/types'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { DProp, LooseRequired } from '#src/types'
 
 /**
  * Props for the button element blueprint.

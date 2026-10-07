@@ -1,6 +1,6 @@
 import type { TProp } from '@vueform/core'
 
-import type { InfoPositionProp } from '#primevue/types'
+import type { InfoPositionProp } from '#src/types'
 
 /**
  * Info-related props mixed into element components that support info tooltips.

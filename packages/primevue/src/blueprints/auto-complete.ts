@@ -59,8 +59,8 @@ import {
   type SuggestionsProps,
   type SuggestionsProp,
   type OptionsModelProp,
-} from '#primevue/features'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Plain props type for the auto-complete element blueprint — the widest

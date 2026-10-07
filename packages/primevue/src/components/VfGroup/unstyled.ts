@@ -1,4 +1,4 @@
-import type { TabsClasses, TabsParts, TabsSlots } from '#primevue/features'
+import type { TabsClasses, TabsParts, TabsSlots } from '#src/features'
 
 export * from '@vueform/core/components/VfGroup'
 export { default } from '@vueform/core/components/VfGroup'

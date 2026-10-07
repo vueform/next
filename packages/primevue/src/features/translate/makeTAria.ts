@@ -9,7 +9,7 @@ import {
 } from '@vueform/core'
 import { computed } from 'vue'
 
-import { type makeFloatLabel, type makeIfta } from '#primevue/features'
+import { type makeFloatLabel, type makeIfta } from '#src/features'
 
 /**
  * Configuration for the PrimeVue text ARIA factory resolving language-aware

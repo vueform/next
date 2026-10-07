@@ -8,18 +8,18 @@ import {
   type LayoutParts,
   type LayoutSlots,
   type LayoutClasses,
-} from '#core/blueprints/layout'
+} from '#src/blueprints/layout'
 import type {
   TabbedSlots,
   AddonGroupClasses,
   IconsClasses,
-} from '#core/features'
+} from '#src/features'
 import type {
   DefineElementContext,
   ClassValue,
   HeadingProp,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfLayout component.

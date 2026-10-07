@@ -3,8 +3,8 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeInputNumber from 'primevue/inputnumber'
 import type { WritableComputedRef } from 'vue'
 
-import { blueprint, defaults } from '#primevue/blueprints/input-number'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/input-number'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfInputNumberEmits,

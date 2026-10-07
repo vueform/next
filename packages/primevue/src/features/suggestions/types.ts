@@ -6,7 +6,7 @@ import type {
 } from '@vueform/core'
 import type { MaybeRef } from 'vue'
 
-import type { OptionKeyProp, OptionsProp } from '#primevue/features/options'
+import type { OptionKeyProp, OptionsProp } from '#src/features/options'
 
 /**
  * Allowed types for the `suggestions` prop. PrimeVue AutoComplete counterpart

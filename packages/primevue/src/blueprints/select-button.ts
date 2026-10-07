@@ -48,9 +48,9 @@ import {
   type OptionValueProp,
   type OptionsProp,
   type OptionsModelApi,
-} from '#primevue/features'
-import { flatOptionItemAliases } from '#primevue/helpers'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features'
+import { flatOptionItemAliases } from '#src/helpers'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Plain props type for the select-button element blueprint — the widest

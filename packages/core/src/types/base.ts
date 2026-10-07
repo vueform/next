@@ -1,7 +1,7 @@
 import type { VNode } from 'vue'
 
-import type { BlueprintContext } from '#core/composables'
-import type { DefineEvents } from '#core/helpers'
+import type { BlueprintContext } from '#src/composables'
+import type { DefineEvents } from '#src/helpers'
 
 import type { ClassValue } from './classes'
 import type {

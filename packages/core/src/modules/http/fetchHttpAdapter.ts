@@ -4,8 +4,8 @@ import {
   type HttpRequestConfig,
   type HttpResponse,
   type RequestType,
-} from '#core/modules/http'
-import { isFileValue, toFormData, warn, isDev } from '#core/utils'
+} from '#src/modules/http'
+import { isFileValue, toFormData, warn, isDev } from '#src/utils'
 
 import { resolveRequestUrl } from './resolveUrl'
 

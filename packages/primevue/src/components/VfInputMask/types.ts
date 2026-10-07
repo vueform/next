@@ -24,7 +24,7 @@ import type {
   InputMaskParts,
   InputMaskProps,
   InputMaskSlots,
-} from '#primevue/blueprints/input-mask'
+} from '#src/blueprints/input-mask'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -32,7 +32,7 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '#primevue/features'
+} from '#src/features'
 
 /**
  * VfInputMask props narrowed from a registry `TEntry` payload, applying the

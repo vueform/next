@@ -62,8 +62,8 @@ import {
   type InfoProps,
   type IntervalProps,
   type TooltipProps,
-} from '#primevue/features'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Props for the input-number element blueprint.

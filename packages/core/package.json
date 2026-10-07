@@ -12,6 +12,14 @@
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
+  "imports": {
+    "#src": "./src/index.ts",
+    "#src/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*/index.ts"
+    ]
+  },
   "exports": {
     ".": {
       "vueform-source": "./src/index.ts",

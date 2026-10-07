@@ -6,7 +6,7 @@ import {
   type Slot,
 } from 'vue'
 
-import type { ComponentOptions } from '#core/types'
+import type { ComponentOptions } from '#src/types'
 
 import { camelToKebab } from './string'
 

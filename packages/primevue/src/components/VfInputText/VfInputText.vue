@@ -10,8 +10,8 @@ import { defineEvents, useBlueprint, type LanguagesProp } from '@vueform/core'
 import PrimeInputText from 'primevue/inputtext'
 import type { WritableComputedRef } from 'vue'
 
-import { blueprint, defaults } from '#primevue/blueprints/input-text'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/input-text'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfInputTextEmits,

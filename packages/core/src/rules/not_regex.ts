@@ -1,4 +1,4 @@
-import { createRule } from '#core/helpers'
+import { createRule } from '#src/helpers'
 
 import { compileRulePattern } from './regex'
 

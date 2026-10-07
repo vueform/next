@@ -1,7 +1,7 @@
 import type { VNode } from 'vue'
 
-import { type Pager, type ResolvedPage } from '#core/composables'
-import type { PartOf, SlotPropsOf } from '#core/types'
+import { type Pager, type ResolvedPage } from '#src/composables'
+import type { PartOf, SlotPropsOf } from '#src/types'
 
 /**
  * Props for components that support tabbed navigation.

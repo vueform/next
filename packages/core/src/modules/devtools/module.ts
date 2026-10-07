@@ -1,5 +1,5 @@
-import type { VueformInstance } from '#core/helpers'
-import { resolveModules } from '#core/helpers/resolveModules'
+import type { VueformInstance } from '#src/helpers'
+import { resolveModules } from '#src/helpers/resolveModules'
 
 import { noopDevtools } from './noop'
 import type { DevtoolsModule } from './types'

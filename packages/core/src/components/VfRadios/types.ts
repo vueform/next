@@ -8,8 +8,8 @@ import {
   type RadiosParts,
   type RadiosProps,
   type RadiosSlots,
-} from '#core/blueprints/radios'
-import type { VfRadioSlots } from '#core/components/VfRadio/types'
+} from '#src/blueprints/radios'
+import type { VfRadioSlots } from '#src/components/VfRadio/types'
 import type {
   ResolvedGroup,
   ResolvedItem,
@@ -22,7 +22,7 @@ import type {
   EntryItemValueKeyOf,
   EntryItemValueReturnOf,
   EntryGroupChildrenOf,
-} from '#core/features'
+} from '#src/features'
 import type {
   WidenProps,
   ClassValue,
@@ -30,7 +30,7 @@ import type {
   DefineRegistryEntry,
   DomAttrsOf,
   PartOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * VfRadios props narrowed from a registry `TEntry` payload, applying the

@@ -4,5 +4,4 @@ import { createAdapterVaporTsdownConfig } from '@vueform/utils'
 // — the vapor tree imports shared modules from it by relative path.
 export default createAdapterVaporTsdownConfig({
   name: '@vueform/ui',
-  alias: '#ui',
 })

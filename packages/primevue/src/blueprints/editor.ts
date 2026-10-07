@@ -52,8 +52,8 @@ import {
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
-} from '#primevue/features'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * The model value type carried by the editor element's wide props.

@@ -17,8 +17,8 @@ import type {
   RadioButtonGroupParts,
   RadioButtonGroupProps,
   RadioButtonGroupSlots,
-} from '#primevue/blueprints/radio-button-group'
-import type { VfRadioButtonSlots } from '#primevue/components/VfRadioButton/types'
+} from '#src/blueprints/radio-button-group'
+import type { VfRadioButtonSlots } from '#src/components/VfRadioButton/types'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
@@ -30,7 +30,7 @@ import type {
   OptionValueProp,
   OptionValueOf,
   RawOptionOf,
-} from '#primevue/features/options'
+} from '#src/features/options'
 
 /**
  * VfRadioButtonGroup props narrowed from a registry `TEntry` payload, applying

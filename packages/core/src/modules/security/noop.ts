@@ -1,5 +1,5 @@
-import type { VueformConfig } from '#core/helpers'
-import { isDev, isProd } from '#core/utils'
+import type { VueformConfig } from '#src/helpers'
+import { isDev, isProd } from '#src/utils'
 
 import type { SecurityModule } from './types'
 

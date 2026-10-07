@@ -1,9 +1,9 @@
 <script setup lang="ts" generic="const TRadioValue = true">
 import type { Ref } from 'vue'
 
-import { defaults, blueprint } from '#core/blueprints/radio'
-import { useBlueprint } from '#core/composables'
-import { defineEvents } from '#core/helpers'
+import { defaults, blueprint } from '#src/blueprints/radio'
+import { useBlueprint } from '#src/composables'
+import { defineEvents } from '#src/helpers'
 
 import type { VfRadioEmits, VfRadioProps, VfRadioSlots } from './types'
 

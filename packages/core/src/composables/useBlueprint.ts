@@ -21,7 +21,7 @@ import {
   useCurrentName,
   useOutlets,
   usePlugins,
-} from '#core/composables'
+} from '#src/composables'
 import {
   BASE_CLASS_REGISTRAR,
   CLASS_REGISTRAR,
@@ -32,14 +32,14 @@ import {
   useComponentContext,
   useVueformContext,
   usePresetContext,
-} from '#core/contexts'
+} from '#src/contexts'
 import {
   type VueformGlobals,
   type DefineEvents,
   type VueformConfig,
-} from '#core/helpers'
-import type { LocaleModule } from '#core/modules/locale'
-import { getSecurityModule, type SecurityModule } from '#core/modules/security'
+} from '#src/helpers'
+import type { LocaleModule } from '#src/modules/locale'
+import { getSecurityModule, type SecurityModule } from '#src/modules/security'
 import {
   type ClassesProp,
   type ClassValue,
@@ -51,7 +51,7 @@ import {
   type PresetsProp,
   type SpreadMerge,
   type UnwrapApiRefs,
-} from '#core/types'
+} from '#src/types'
 import {
   createPropRefs,
   getComponentDef,
@@ -70,7 +70,7 @@ import {
   type GenericInstance,
   warn,
   isDev,
-} from '#core/utils'
+} from '#src/utils'
 
 /**
  * The shape returned by `useParts`: the original part type (callable parts

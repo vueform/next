@@ -23,9 +23,9 @@ import PrimeTabPanels from 'primevue/tabpanels'
 import PrimeTabs from 'primevue/tabs'
 import { computed } from 'vue'
 
-import { blueprint, defaults } from '#primevue/blueprints/layout'
-import { vTooltip } from '#primevue/directives'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/layout'
+import { vTooltip } from '#src/directives'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfLayoutEmits,

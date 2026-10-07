@@ -6,7 +6,7 @@ import {
   useFeatures,
   useSecurity,
   useComponentFactory,
-} from '#core/composables'
+} from '#src/composables'
 import {
   makeElement,
   makeDisabled,
@@ -28,10 +28,10 @@ import {
   type ModelEmits,
   type ArrayModel,
   type ValidationEmits,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import type { DProp, FormSchema, LooseRequired, TProp } from '#core/types'
-import { warn } from '#core/utils'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { DProp, FormSchema, LooseRequired, TProp } from '#src/types'
+import { warn } from '#src/utils'
 
 /**
  * Props for the list element blueprint.

@@ -5,24 +5,16 @@
   // resolution belongs to the builds (tsconfig.build.json clears the
   // condition) and the release gate — never the inner loop.
   //
-  // The `#<pkg>` internal aliases are tsconfig `paths` (not package.json
-  // `imports`): `paths` targets get extension/index probing, which the
-  // directory-style `#core/...` imports rely on. The mapping is a fixed
-  // convention (`#<dir>` ↔ `packages/<dir>/src`), so it is static — targets
-  // resolve relative to THIS file.
+  // The `#src/*` internal alias resolves through each package.json's
+  // `imports` field — context-local by spec, so the SAME spelling means
+  // "this package's src" in every package, even when another package's
+  // source is pulled into the program. The fallback-array targets supply
+  // the extension/index probing that `imports` does not do on its own.
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     // node types (NOT vitest/globals — that is test.json's): src code
     // legitimately touches process.env for environment detection.
     "types": ["node"],
-    "customConditions": ["vueform-source"],
-    "paths": {
-      "#core": ["../core/src/index.ts"],
-      "#core/*": ["../core/src/*"],
-      "#ui": ["../ui/src/index.ts"],
-      "#ui/*": ["../ui/src/*"],
-      "#primevue": ["../primevue/src/index.ts"],
-      "#primevue/*": ["../primevue/src/*"]
-    }
+    "customConditions": ["vueform-source"]
   }
 }

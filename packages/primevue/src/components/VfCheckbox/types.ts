@@ -21,8 +21,8 @@ import type {
   CheckboxProps,
   CheckboxSlots,
   forwards,
-} from '#primevue/blueprints/checkbox'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/blueprints/checkbox'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * VfCheckbox props narrowed from a registry `TEntry` payload, applying the

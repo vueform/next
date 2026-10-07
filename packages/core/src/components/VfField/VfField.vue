@@ -7,10 +7,10 @@
     TNullValue = [TTranslate] extends [true] ? string | number | null : any
   "
 >
-import { defaults, blueprint } from '#core/blueprints/field'
-import { useBlueprint } from '#core/composables'
-import { defineEvents } from '#core/helpers'
-import type { LanguagesProp } from '#core/types'
+import { defaults, blueprint } from '#src/blueprints/field'
+import { useBlueprint } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+import type { LanguagesProp } from '#src/types'
 
 import type { VfFieldEmits, VfFieldProps, VfFieldSlots } from './types'
 

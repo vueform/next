@@ -12,7 +12,7 @@ import {
   toFormData,
   unset,
   warn,
-} from '#core/utils'
+} from '#src/utils'
 
 import type { ModelInstance, ModelStore } from './types'
 

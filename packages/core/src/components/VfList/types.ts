@@ -8,8 +8,8 @@ import type {
   ListParts,
   ListProps,
   ListSlots,
-} from '#core/blueprints/list'
-import type { ArrayModel } from '#core/features'
+} from '#src/blueprints/list'
+import type { ArrayModel } from '#src/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -23,7 +23,7 @@ import type {
   SchemaToModel,
   WidenProps,
   EntrySchemaOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Lists carry a rows-array model shaped by their child schema and `flat` prop:

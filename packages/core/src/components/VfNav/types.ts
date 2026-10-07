@@ -10,9 +10,9 @@ import type {
   NavSlots,
   NavExpose,
   NavClasses,
-} from '#core/blueprints/nav'
-import type { Pager } from '#core/composables'
-import type { ConditionalProp } from '#core/modules/conditions'
+} from '#src/blueprints/nav'
+import type { Pager } from '#src/composables'
+import type { ConditionalProp } from '#src/modules/conditions'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,
@@ -20,7 +20,7 @@ import {
   type DomAttrsOf,
   type PartOf,
   type TProp,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfNav component.

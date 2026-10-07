@@ -10,8 +10,8 @@ import { defineEvents, useBlueprint, type LanguagesProp } from '@vueform/core'
 import PrimeTextarea from 'primevue/textarea'
 import type { WritableComputedRef } from 'vue'
 
-import { blueprint, defaults } from '#primevue/blueprints/textarea'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/textarea'
+import { vdomPrime } from '#src/helpers'
 
 import type { VfTextareaEmits, VfTextareaProps, VfTextareaSlots } from './types'
 

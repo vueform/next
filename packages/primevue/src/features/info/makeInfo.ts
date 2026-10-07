@@ -1,7 +1,7 @@
 import { defineFeature, type TProp, useDynamicProp } from '@vueform/core'
 import { toRef } from 'vue'
 
-import type { InfoPositionProp } from '#primevue/types'
+import type { InfoPositionProp } from '#src/types'
 
 /**
  * Configuration for the info factory resolving informational tooltip or helper

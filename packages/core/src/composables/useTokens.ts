@@ -1,6 +1,6 @@
 import { computed, toRef, useId, type MaybeRefOrGetter } from 'vue'
 
-import { getThemeModule } from '#core/modules/theme'
+import { getThemeModule } from '#src/modules/theme'
 
 import { useConfig } from './useConfig'
 

@@ -10,10 +10,10 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeTreeSelect from 'primevue/treeselect'
 
-import { blueprint, defaults } from '#primevue/blueprints/tree-select'
-import type { TreeSelectionModeProp } from '#primevue/features/tree-options'
-import { vdomPrime } from '#primevue/helpers'
-import type { TreeOptionsProp } from '#primevue/types'
+import { blueprint, defaults } from '#src/blueprints/tree-select'
+import type { TreeSelectionModeProp } from '#src/features/tree-options'
+import { vdomPrime } from '#src/helpers'
+import type { TreeOptionsProp } from '#src/types'
 
 import type {
   VfTreeSelectEmits,

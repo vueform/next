@@ -11,8 +11,8 @@ import {
   blueprint,
   defaults,
   type DatePickerSelectionModeProp,
-} from '#primevue/blueprints/date-picker'
-import { vdomPrime } from '#primevue/helpers'
+} from '#src/blueprints/date-picker'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfDatePickerEmits,

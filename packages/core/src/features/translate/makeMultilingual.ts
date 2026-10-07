@@ -7,17 +7,17 @@ import {
   type WatchStopHandle,
 } from 'vue'
 
-import { useConfig, useLocale } from '#core/composables'
-import { useFormContext } from '#core/contexts'
-import type { makeElement } from '#core/features'
-import { defineFeature } from '#core/helpers'
+import { useConfig, useLocale } from '#src/composables'
+import { useFormContext } from '#src/contexts'
+import type { makeElement } from '#src/features'
+import { defineFeature } from '#src/helpers'
 import type {
   AddonSchema,
   LanguagesProp,
   ResolvedLanguagesProp,
   ReturnsOf,
-} from '#core/types'
-import { warn } from '#core/utils'
+} from '#src/types'
+import { warn } from '#src/utils'
 
 /**
  * Configuration for the translatable factory handling language resolution and

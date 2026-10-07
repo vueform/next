@@ -14,7 +14,7 @@ import type {
   AddonSlots,
   AddonClasses,
   AddonExpose,
-} from '#primevue/blueprints/addon'
+} from '#src/blueprints/addon'
 
 /**
  * Props for the VfAddon component.

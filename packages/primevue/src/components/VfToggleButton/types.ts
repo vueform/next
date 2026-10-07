@@ -15,8 +15,8 @@ import type {
   ToggleButtonProps,
   ToggleButtonSlots,
   forwards,
-} from '#primevue/blueprints/toggle-button'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/blueprints/toggle-button'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * Props for the VfToggleButton component.

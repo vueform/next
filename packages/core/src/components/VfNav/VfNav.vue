@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { defaults, blueprint } from '#core/blueprints/nav'
-import { useBlueprint, useLocale } from '#core/composables'
-import { useFormContext } from '#core/contexts'
-import { defineEvents } from '#core/helpers'
+import { defaults, blueprint } from '#src/blueprints/nav'
+import { useBlueprint, useLocale } from '#src/composables'
+import { useFormContext } from '#src/contexts'
+import { defineEvents } from '#src/helpers'
 
 import type { VfNavEmits, VfNavProps, VfNavSlots } from './types'
 

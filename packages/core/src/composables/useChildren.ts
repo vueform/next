@@ -6,9 +6,9 @@ import {
   type Ref,
 } from 'vue'
 
-import { defineEvents } from '#core/helpers'
-import type { ElementName, StatefulElement } from '#core/types'
-import { lazyComputed } from '#core/utils'
+import { defineEvents } from '#src/helpers'
+import type { ElementName, StatefulElement } from '#src/types'
+import { lazyComputed } from '#src/utils'
 
 /**
  * Event map for child element registration and unregistration.

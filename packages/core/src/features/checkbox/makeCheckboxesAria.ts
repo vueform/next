@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
-import { type makeLayout, type makeData } from '#core/features'
-import { defineFeature } from '#core/helpers'
-import type { ReturnsOf } from '#core/types'
+import { type makeLayout, type makeData } from '#src/features'
+import { defineFeature } from '#src/helpers'
+import type { ReturnsOf } from '#src/types'
 
 /**
  * Configuration for the checkboxes group ARIA factory resolving invalid,

@@ -24,7 +24,7 @@ import type {
   InputTextParts,
   InputTextProps,
   InputTextSlots,
-} from '#primevue/blueprints/input-text'
+} from '#src/blueprints/input-text'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -32,7 +32,7 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '#primevue/features'
+} from '#src/features'
 
 /**
  * VfInputText props narrowed from a registry `TEntry` payload, applying the

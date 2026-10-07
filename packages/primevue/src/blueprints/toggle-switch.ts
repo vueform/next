@@ -47,8 +47,8 @@ import {
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
-} from '#primevue/features'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Toggle-switch model shape: the union of `trueValue` and `falseValue`.

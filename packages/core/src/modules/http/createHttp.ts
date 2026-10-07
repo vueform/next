@@ -1,5 +1,5 @@
-import type { VueformInstance } from '#core/helpers'
-import { getSecurityModule } from '#core/modules/security'
+import type { VueformInstance } from '#src/helpers'
+import { getSecurityModule } from '#src/modules/security'
 
 import { HttpError } from './error'
 import { resolveRequestUrl } from './resolveUrl'

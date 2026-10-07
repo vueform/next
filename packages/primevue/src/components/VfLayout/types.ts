@@ -23,7 +23,7 @@ import type {
   LayoutSlots,
   LayoutExpose,
   LayoutClasses,
-} from '#primevue/blueprints/layout'
+} from '#src/blueprints/layout'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -34,7 +34,7 @@ import type {
   TabsClasses,
   TabsParts,
   TabsSlots,
-} from '#primevue/features'
+} from '#src/features'
 
 /**
  * Props for the VfLayout component.

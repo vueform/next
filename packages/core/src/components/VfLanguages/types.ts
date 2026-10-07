@@ -8,14 +8,14 @@ import {
   type LanguagesSlots,
   type LanguagesExpose,
   type LanguagesClasses,
-} from '#core/blueprints/languages'
+} from '#src/blueprints/languages'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   ResolvedLanguagesProp,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfLanguages component.

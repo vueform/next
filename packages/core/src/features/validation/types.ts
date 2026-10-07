@@ -1,11 +1,11 @@
-import type { RulesProp, TRulesProp } from '#core/modules/validation'
+import type { RulesProp, TRulesProp } from '#src/modules/validation'
 import type {
   ElementValidateOnProp,
   LooseContext,
   RuleMessagesProp,
   ShowRequiredProp,
   TProp,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for elements that support validation rules and error display.

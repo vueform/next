@@ -190,6 +190,11 @@ export function escapeRegExp(value: string): string {
 export function shorthandsMarker(): Plugin {
   return {
     name: 'vf:shorthands-marker',
+    // 'pre': in Vite builds the core resolver otherwise sees `#shorthands`
+    // first and hard-errors on it (an `imports`-field package rejects any
+    // undeclared `#` specifier). Rolldown runs plugins before its builtin
+    // resolver regardless.
+    enforce: 'pre',
     resolveId(id) {
       if (id === '#shorthands') {
         return { id: SHORTHANDS_VIRTUAL, moduleSideEffects: false }
@@ -219,6 +224,12 @@ export function shorthandsMarker(): Plugin {
  * `resolve.alias`, which resolves before JS `resolveId` hooks run and would
  * bypass plugins that must see the raw alias specifier (`scssExternals`).
  */
+/**
+ * The uniform package-internal source alias: `#src/*` means "this package's
+ * src", resolved context-locally through each package.json's `imports` field.
+ */
+export const SRC_ALIAS = '#src'
+
 export function srcAlias(find: string, srcAbs: string): Plugin {
   return {
     name: 'vf:src-alias',

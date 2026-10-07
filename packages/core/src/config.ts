@@ -1,6 +1,6 @@
 import { computed, useId } from 'vue'
 
-import { defineConfig } from '#core/helpers'
+import { defineConfig } from '#src/helpers'
 
 /**
  * The default Vueform configuration including all built-in rules, modules,

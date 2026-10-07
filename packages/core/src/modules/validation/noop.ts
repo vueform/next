@@ -1,7 +1,7 @@
 import { computed, toRef } from 'vue'
 
-import type { StandardSchemaV1 } from '#core/types'
-import { warn, isDev } from '#core/utils'
+import type { StandardSchemaV1 } from '#src/types'
+import { warn, isDev } from '#src/utils'
 
 import type {
   Issue,

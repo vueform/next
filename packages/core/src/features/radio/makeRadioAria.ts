@@ -1,8 +1,8 @@
 import { computed } from 'vue'
 
-import { type makeLayout, type makeData, type makeText } from '#core/features'
-import { defineFeature } from '#core/helpers'
-import type { AriaProp, ReturnsOf, TProp } from '#core/types'
+import { type makeLayout, type makeData, type makeText } from '#src/features'
+import { defineFeature } from '#src/helpers'
+import type { AriaProp, ReturnsOf, TProp } from '#src/types'
 
 /**
  * Configuration for the radio ARIA factory resolving describedby, invalid,

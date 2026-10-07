@@ -8,8 +8,8 @@ import {
   type ContentParts,
   type ContentProps,
   type ContentSlots,
-} from '#core/blueprints/content'
-import type { DefineElementContext, DefineRegistryEntry } from '#core/types'
+} from '#src/blueprints/content'
+import type { DefineElementContext, DefineRegistryEntry } from '#src/types'
 
 /**
  * Props for the VfContent component.

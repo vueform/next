@@ -22,7 +22,7 @@ import type {
   CascadeSelectProps,
   CascadeSelectSlots,
   forwards,
-} from '#primevue/blueprints/cascade-select'
+} from '#src/blueprints/cascade-select'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -32,15 +32,15 @@ import type {
   IftaSlots,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features'
+} from '#src/features'
 import type {
   CascadeOptionGroupChildrenProp,
   EntryOptionsOf,
   EntryOptionValueKeyOf,
   EntryOptionValueReturnOf,
   EntryOptionGroupChildrenOf,
-} from '#primevue/features/options'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
+} from '#src/features/options'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfCascadeSelect props narrowed from a registry `TEntry` payload, applying the

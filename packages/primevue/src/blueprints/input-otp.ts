@@ -44,8 +44,8 @@ import {
   type ModelPropsWithDefaultValue,
   type InfoProps,
   type TooltipProps,
-} from '#primevue/features'
-import type { ForwardedEmits } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * String model for OTP inputs.

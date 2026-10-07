@@ -26,7 +26,7 @@ import type {
   PasswordProps,
   PasswordSlots,
   forwards,
-} from '#primevue/blueprints/password'
+} from '#src/blueprints/password'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -34,8 +34,8 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-} from '#primevue/features'
-import type { ForwardedSlots } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * VfPassword props narrowed from a registry `TEntry` payload, applying the

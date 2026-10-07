@@ -2,8 +2,8 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeFileUpload from 'primevue/fileupload'
 
-import { blueprint, defaults } from '#primevue/blueprints/file-upload'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/file-upload'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfFileUploadEmits,

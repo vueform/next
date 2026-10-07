@@ -1,7 +1,7 @@
 import { toRaw } from 'vue'
 
-import { BASE_CLASS_REGISTRAR, useElementContext } from '#core/contexts'
-import { warn, isDev } from '#core/utils'
+import { BASE_CLASS_REGISTRAR, useElementContext } from '#src/contexts'
+import { warn, isDev } from '#src/utils'
 
 import { useConfig } from './useConfig'
 

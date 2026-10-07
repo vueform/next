@@ -8,10 +8,10 @@ import type {
   FormSlots,
   FormExpose,
   FormClasses,
-} from '#core/blueprints/form'
-import type { NavPosProp } from '#core/blueprints/nav'
-import type { Pager } from '#core/composables'
-import type { TabbedSlots } from '#core/features'
+} from '#src/blueprints/form'
+import type { NavPosProp } from '#src/blueprints/nav'
+import type { Pager } from '#src/composables'
+import type { TabbedSlots } from '#src/features'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,
@@ -25,7 +25,7 @@ import {
   type TProp,
   type ResolvedSchema,
   type EntrySchemaOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * VfForm props narrowed from a registry `TEntry` payload, applying the entry's

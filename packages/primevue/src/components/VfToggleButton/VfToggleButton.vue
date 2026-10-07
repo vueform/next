@@ -2,8 +2,8 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeToggleButton from 'primevue/togglebutton'
 
-import { blueprint, defaults } from '#primevue/blueprints/toggle-button'
-import { vdomPrime } from '#primevue/helpers'
+import { blueprint, defaults } from '#src/blueprints/toggle-button'
+import { vdomPrime } from '#src/helpers'
 
 import type {
   VfToggleButtonEmits,

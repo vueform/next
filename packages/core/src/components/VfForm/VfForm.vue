@@ -3,10 +3,10 @@
   lang="ts"
   generic="TSchema extends FormSchema | Record<string, any> = FormSchema"
 >
-import { defaults, blueprint } from '#core/blueprints/form'
-import { useConfig, useBlueprint } from '#core/composables'
-import { defineEvents } from '#core/helpers'
-import type { FormSchema } from '#core/types'
+import { defaults, blueprint } from '#src/blueprints/form'
+import { useConfig, useBlueprint } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+import type { FormSchema } from '#src/types'
 
 import type { VfFormEmits, VfFormProps, VfFormSlots } from './types'
 

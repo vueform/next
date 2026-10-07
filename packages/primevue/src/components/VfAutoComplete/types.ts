@@ -23,7 +23,7 @@ import type {
   AutoCompleteProps,
   AutoCompleteSlots,
   forwards,
-} from '#primevue/blueprints/auto-complete'
+} from '#src/blueprints/auto-complete'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -33,8 +33,8 @@ import type {
   IftaSlots,
   EntrySuggestionsOf,
   SuggestionsProp,
-} from '#primevue/features'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfAutoComplete props narrowed from a registry `TEntry` payload, applying the

@@ -5,7 +5,7 @@ import type {
   ElementRegistry,
   ElementNames,
   PresetDefinition,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Optional flags that control how a preset cascades and merges with other

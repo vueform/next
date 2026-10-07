@@ -8,15 +8,15 @@ import {
   type ShallowRef,
 } from 'vue'
 
-import { useItemsSource, useConditionalList } from '#core/composables'
-import type { makeData, MakeDataModelApi } from '#core/features'
-import { defineFeature } from '#core/helpers'
+import { useItemsSource, useConditionalList } from '#src/composables'
+import type { makeData, MakeDataModelApi } from '#src/features'
+import { defineFeature } from '#src/helpers'
 import {
   type ConditionsResult,
   type ConditionsTriggerProp,
-} from '#core/modules/conditions'
-import type { ReturnsOf } from '#core/types'
-import { equals, isPlainObject, normalize, typedEntries } from '#core/utils'
+} from '#src/modules/conditions'
+import type { ReturnsOf } from '#src/types'
+import { equals, isPlainObject, normalize, typedEntries } from '#src/utils'
 
 import {
   type ItemsProp,

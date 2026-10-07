@@ -2,7 +2,7 @@ import { type TProp, type ClassValue, type DOMAttrs } from '@vueform/core'
 import type { FloatLabelProps as AFloatLabelProps } from 'primevue'
 import type { VNode } from 'vue'
 
-import type { FloatProp } from '#primevue/types'
+import type { FloatProp } from '#src/types'
 
 /**
  * Float label props mixed into element components that support PrimeVue

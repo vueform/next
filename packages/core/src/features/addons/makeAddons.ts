@@ -1,8 +1,8 @@
 import { computed, type ComputedRef } from 'vue'
 
-import { useComponentContext } from '#core/contexts'
-import { defineFeature } from '#core/helpers'
-import type { AddonItem, AddonProp } from '#core/types'
+import { useComponentContext } from '#src/contexts'
+import { defineFeature } from '#src/helpers'
+import type { AddonItem, AddonProp } from '#src/types'
 
 /**
  * Configuration for the addons factory providing before/after addon props.

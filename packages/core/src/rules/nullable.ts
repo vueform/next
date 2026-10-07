@@ -1,4 +1,4 @@
-import { createRule } from '#core/helpers'
+import { createRule } from '#src/helpers'
 
 /**
  * Marks the field as nullable, skipping other validation rules when the value

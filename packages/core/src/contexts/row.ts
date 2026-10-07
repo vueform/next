@@ -1,6 +1,6 @@
 import type { ComputedRef } from 'vue'
 
-import { createContext } from '#core/helpers'
+import { createContext } from '#src/helpers'
 
 import type { GridContext } from './'
 

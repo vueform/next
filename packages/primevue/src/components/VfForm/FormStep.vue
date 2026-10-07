@@ -3,7 +3,7 @@ import type { ResolvedPage } from '@vueform/core'
 import PrimeDivider from 'primevue/divider'
 import PrimeStep from 'primevue/step'
 
-import { vdomPrime } from '#primevue/helpers'
+import { vdomPrime } from '#src/helpers'
 
 import type { VfFormClasses, VfFormParts } from './types'
 

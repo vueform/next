@@ -19,7 +19,7 @@ import type {
   ListboxProps,
   ListboxSlots,
   forwards,
-} from '#primevue/blueprints/listbox'
+} from '#src/blueprints/listbox'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
@@ -28,8 +28,8 @@ import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
+} from '#src/features'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfListbox props narrowed from a registry `TEntry` payload, applying the

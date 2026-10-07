@@ -1,9 +1,9 @@
 import { computed, onMounted, onUnmounted, unref, watch } from 'vue'
 
-import { useHttp, useSecurity } from '#core/composables'
-import type { VueformInstance } from '#core/helpers'
-import { HttpError, type HttpResponse } from '#core/modules/http'
-import { debounce, isFileValue, unset, warn, isDev, isProd } from '#core/utils'
+import { useHttp, useSecurity } from '#src/composables'
+import type { VueformInstance } from '#src/helpers'
+import { HttpError, type HttpResponse } from '#src/modules/http'
+import { debounce, isFileValue, unset, warn, isDev, isProd } from '#src/utils'
 
 import type {
   AutosaveInstance,

@@ -1,5 +1,5 @@
-import { createRule } from '#core/helpers'
-import { equals } from '#core/utils'
+import { createRule } from '#src/helpers'
+import { equals } from '#src/utils'
 
 /**
  * Validates that all items in an array are unique.

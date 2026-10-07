@@ -34,7 +34,6 @@ import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import { defineConfig } from 'vite-plus'
-import type { OxlintConfig } from 'vite-plus/lint'
 
 const repoDir = fileURLToPath(new URL('.', import.meta.url))
 
@@ -190,25 +189,24 @@ export default defineConfig({
       ],
     },
     overrides: [
-      ...aliasedSrcPackages.map(
-        (dir): NonNullable<OxlintConfig['overrides']>[number] => ({
-          files: [`packages/${dir}/src/**`],
-          rules: {
-            'no-restricted-imports': [
-              'error',
-              {
-                patterns: [
-                  {
-                    group: ['../**'],
-                    message: `Do not use parent relative imports (../*). Use #${dir}/* instead.`,
-                  },
-                ],
-              },
-            ],
-            'no-console': ['error', { allow: ['warn', 'error'] }],
-          },
-        })
-      ),
+      {
+        files: aliasedSrcPackages.map((dir) => `packages/${dir}/src/**`),
+        rules: {
+          'no-restricted-imports': [
+            'error',
+            {
+              patterns: [
+                {
+                  group: ['../**'],
+                  message:
+                    'Do not use parent relative imports (../*). Use #src/* instead.',
+                },
+              ],
+            },
+          ],
+          'no-console': ['error', { allow: ['warn', 'error'] }],
+        },
+      },
       {
         files: ['packages/core/src/**'],
         excludeFiles: ['packages/core/src/index.ts'],
@@ -217,19 +215,19 @@ export default defineConfig({
             'error',
             {
               paths: [
-                '#core/modules',
-                '#core/modules/index',
+                '#src/modules',
+                '#src/modules/index',
                 './modules',
                 './modules/index',
               ].map((name) => ({
                 name,
-                message: `Do not import from '${name}'. Import from a specific module (e.g. '#core/modules/validation') instead. The barrel is only allowed in modules.ts and index.ts.`,
+                message: `Do not import from '${name}'. Import from a specific module (e.g. '#src/modules/validation') instead. The barrel is only allowed in modules.ts and index.ts.`,
               })),
               patterns: [
                 {
                   group: ['../**'],
                   message:
-                    'Do not use parent relative imports (../…). Use #core/… instead.',
+                    'Do not use parent relative imports (../…). Use #src/… instead.',
                 },
               ],
             },

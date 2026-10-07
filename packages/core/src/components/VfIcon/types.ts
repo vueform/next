@@ -6,13 +6,13 @@ import {
   type IconSlots,
   type IconExpose,
   type IconClasses,
-} from '#core/blueprints/icon'
+} from '#src/blueprints/icon'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   DefineRegistryEntry,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for the VfIcon component.

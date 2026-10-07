@@ -1,7 +1,7 @@
 import { onUnmounted, unref, watch, type App } from 'vue'
 
-import type { VueformInstance } from '#core/helpers'
-import { isDev } from '#core/utils'
+import type { VueformInstance } from '#src/helpers'
+import { isDev } from '#src/utils'
 
 import { refreshInspector, setupInspector } from './inspector'
 import { noopDevtools } from './noop'
