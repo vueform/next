@@ -34,7 +34,7 @@ export default [
     languageOptions: {
       parser: vueParser,
       parserOptions: {
-        parser: tsParser, // script blocks
+        parser: tsParser,
         ecmaVersion: 'latest',
         sourceType: 'module',
         extraFileExtensions: ['.vue'],
