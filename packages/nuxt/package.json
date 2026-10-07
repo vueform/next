@@ -25,6 +25,7 @@
     "@nuxt/schema": "catalog:",
     "@vueform/core": "workspace:*",
     "@vueform/primevue": "workspace:*",
+    "@vueform/tsconfig": "workspace:*",
     "@vueform/ui": "workspace:*"
   },
   "peerDependencies": {

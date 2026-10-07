@@ -1,7 +1,10 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
-
-import { defineSchema, getDevtoolsModule, hasDevtoolsModule } from '#core'
-import * as modules from '#core/modules'
+import {
+  defineSchema,
+  getDevtoolsModule,
+  hasDevtoolsModule,
+} from '@vueform/core'
+import * as modules from '@vueform/core/modules'
 
 import { createForm, flushPromises } from '../../helpers'
 

@@ -1,5 +1,5 @@
-import { defineSchema } from '#core'
-import { en_US, hu_HU } from '#core/locales'
+import { defineSchema } from '@vueform/core'
+import { en_US, hu_HU } from '@vueform/core/locales'
 
 import { createForm } from '../../helpers'
 

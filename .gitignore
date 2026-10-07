@@ -2,17 +2,15 @@
 *.log
 
 # Packages
-**/node_modules/**
-**/dist/**
-**/cache/**
-*.local
-*.tsbuildinfo
+node_modules
+dist
+cache
 
 # Editor directories and files
 .DS_Store
-.idea/**
-.claude/**
-.cursor/**
+.idea
+.claude
+.cursor
 *.suo
 *.ntvs*
 *.njsproj
@@ -20,12 +18,12 @@
 *.sw?
 
 # Local tool artifacts
-.vueform/**
-.playgrounds/**
+.vueform
+.playgrounds
 
 # Custom files
-.temp/**
+.temp
 
 # Playwright
-**/test-results/**
-**/playwright-report/**
+test-results
+playwright-report

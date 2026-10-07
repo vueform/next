@@ -1,12 +1,11 @@
-import { nextTick } from 'vue'
-
 import {
   defineSchema,
   HttpError,
   type HttpAdapter,
   type HttpRequestConfig,
   type HttpResponse,
-} from '#core'
+} from '@vueform/core'
+import { nextTick } from 'vue'
 
 import { createForm, flushPromises } from '../../helpers'
 

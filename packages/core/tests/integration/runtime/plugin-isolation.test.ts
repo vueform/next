@@ -1,7 +1,6 @@
+import { createVueform, definePlugin, model } from '@vueform/core'
+import * as components from '@vueform/core/components'
 import { describe, expect, it } from 'vitest'
-
-import { createVueform, definePlugin, model } from '#core'
-import * as components from '#core/components'
 
 const { VfText, VfTextarea } = components as any
 

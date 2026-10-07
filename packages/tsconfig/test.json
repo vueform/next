@@ -1,0 +1,8 @@
+{
+  // Test programs: the src world plus vitest globals — the ONLY preset that
+  // includes them — and node types for test tooling.
+  "extends": "./dom.json",
+  "compilerOptions": {
+    "types": ["vitest/globals", "node"]
+  }
+}

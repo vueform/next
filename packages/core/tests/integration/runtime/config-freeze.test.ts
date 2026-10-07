@@ -1,3 +1,5 @@
+import { defineSchema } from '@vueform/core'
+import dompurify from '@vueform/dompurify'
 /**
  * Dev-mode config freeze.
  *
@@ -11,9 +13,6 @@
  * mutates) must keep working.
  */
 import { nextTick } from 'vue'
-
-import { defineSchema } from '#core'
-import dompurify from '#dompurify'
 
 import { createForm } from '../../helpers'
 

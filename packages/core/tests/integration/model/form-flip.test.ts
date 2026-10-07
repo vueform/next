@@ -1,7 +1,6 @@
+import { defineSchema, useModel, type ModelInstance } from '@vueform/core'
 import { describe, expect, it } from 'vitest'
 import { defineComponent, nextTick } from 'vue'
-
-import { defineSchema, useModel, type ModelInstance } from '#core'
 
 import { createForm, flushPromises, mountApp } from '../../helpers'
 

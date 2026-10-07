@@ -1,6 +1,5 @@
+import { definePlugin, defineSchema } from '@vueform/core'
 import { computed, defineComponent, h, markRaw, nextTick } from 'vue'
-
-import { definePlugin, defineSchema } from '#core'
 
 import { createForm } from '../../helpers'
 

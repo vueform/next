@@ -1,6 +1,5 @@
+import { defineSchema, isComponentDefinition, mergeProp } from '@vueform/core'
 import { defineComponent, h, nextTick } from 'vue'
-
-import { defineSchema, isComponentDefinition, mergeProp } from '#core'
 
 import { createForm } from '../../helpers'
 

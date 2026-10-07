@@ -1,11 +1,7 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
-  "compilerOptions": {
-    "noEmit": true,
-    "types": ["node"],
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"]
-  },
-  "include": [".vitepress/**/*", "scripts/**/*", "src/**/*.ts", "src/**/*.vue"],
-  "exclude": [".vitepress/cache", ".vitepress/dist"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

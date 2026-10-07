@@ -1,7 +1,6 @@
+import { get } from '@vueform/core'
 import { expect, vi } from 'vitest'
 import { nextTick } from 'vue'
-
-import { get } from '#core'
 
 import { makeApp, mountApp } from '../../helpers'
 

@@ -1,4 +1,4 @@
-import { defineSchema, createRule } from '#core'
+import { defineSchema, createRule } from '@vueform/core'
 
 import { createForm, flushPromises } from '../../helpers'
 

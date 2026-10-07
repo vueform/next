@@ -1,6 +1,5 @@
+import { defineSchema } from '@vueform/primevue'
 import { nextTick, ref } from 'vue'
-
-import { defineSchema } from '#primevue'
 
 import { createForm, flushPromises } from '../../helpers'
 

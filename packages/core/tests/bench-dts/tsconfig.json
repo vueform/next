@@ -1,5 +1,5 @@
 {
-  "extends": "../../../../tsconfig.json",
+  "extends": "@vueform/tsconfig/test.json",
   "compilerOptions": {
     "noEmit": true
   },

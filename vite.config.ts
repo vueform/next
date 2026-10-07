@@ -54,45 +54,90 @@ const aliasedSrcPackages = [
 ]
 
 /**
- * Packages with a `typecheck` script (vue-tsc / tsc --noEmit). Each becomes a
- * cached `:typecheck:<dir>` task; the `:typecheck` aggregate adds the root
- * tsconfig.node.json pass on top. Type checking is vue-tsc/tsc only — oxlint's
- * type-aware path (tsgolint) cannot do it here, see the `lint` block note.
+ * Workspace package manifests, for the typecheck task graph: which packages
+ * have a `typecheck` script, and which workspace packages each one depends on
+ * (transitively), so a leg's cache only watches the sources it can actually
+ * resolve.
  */
-const checkedPackages = readdirSync(join(repoDir, 'packages')).flatMap(
-  (dir) => {
+const packageManifests = new Map(
+  readdirSync(join(repoDir, 'packages')).flatMap((dir) => {
     const manifest = join(repoDir, 'packages', dir, 'package.json')
     if (!existsSync(manifest)) return []
-    const pkg = JSON.parse(readFileSync(manifest, 'utf8'))
-    return pkg.scripts?.typecheck ? [{ dir, name: pkg.name as string }] : []
+    return [[dir, JSON.parse(readFileSync(manifest, 'utf8'))] as const]
+  })
+)
+const packageDirByName = new Map(
+  [...packageManifests].map(([dir, pkg]) => [pkg.name as string, dir])
+)
+
+/** Transitive workspace dependencies of a package, as package dir names. */
+const workspaceDeps = (dir: string): string[] => {
+  const seen = new Set<string>()
+  const visit = (current: string) => {
+    const pkg = packageManifests.get(current)
+    const declared = {
+      ...pkg?.dependencies,
+      ...pkg?.peerDependencies,
+      ...pkg?.devDependencies,
+    }
+    for (const name of Object.keys(declared)) {
+      const depDir = packageDirByName.get(name)
+      if (depDir && !seen.has(depDir)) {
+        seen.add(depDir)
+        visit(depDir)
+      }
+    }
   }
+  visit(dir)
+  seen.delete(dir)
+  return [...seen]
+}
+
+/**
+ * Packages with a `typecheck` script (vue-tsc / tsc --noEmit). Each becomes a
+ * cached `:typecheck:<dir>` task; the `:typecheck` aggregate adds the root
+ * tooling pass (root tsconfig.json) on top. Type checking is vue-tsc/tsc only
+ * — oxlint's type-aware path (tsgolint) cannot check .vue SFCs.
+ */
+const checkedPackages = [...packageManifests].flatMap(([dir, pkg]) =>
+  pkg.scripts?.typecheck ? [{ dir, name: pkg.name as string }] : []
 )
 
 /**
- * A package's typecheck resolves other packages through the root tsconfig's
- * `#<dir>` and `@vueform` SOURCE aliases, so every leg's cache depends on the
- * src of every package — over-invalidation is safe, a stale pass is not.
+ * Core, the adapters and the plugins check in the src world (the
+ * `vueform-source` exports condition, enabled by the @vueform/tsconfig
+ * presets), so their legs resolve workspace deps to SOURCE; the node
+ * packages resolve deps through the workspace links to their BUILT dists.
+ * The cache inputs mirror that split — narrowed to the leg's transitive
+ * workspace deps, and dep manifests are inputs because the exports maps ARE
+ * the resolution map.
  */
 const typecheckTasks = Object.fromEntries(
-  checkedPackages.map(({ dir, name }) => [
-    `:typecheck:${dir}`,
-    {
-      command: `pnpm --filter ${name} run typecheck`,
-      cache: {
-        input: [
-          `packages/${dir}/src/**`,
-          `packages/${dir}/tests/**`,
-          `packages/${dir}/*.ts`,
-          `packages/${dir}/*.json`,
-          'packages/*/src/**',
-          'packages/global.d.ts',
-          'tsconfig.json',
-          'pnpm-lock.yaml',
-        ],
-        output: [],
+  checkedPackages.map(({ dir, name }) => {
+    const srcLinked = aliasedSrcPackages.includes(dir)
+    return [
+      `:typecheck:${dir}`,
+      {
+        command: `pnpm --filter ${name} run typecheck`,
+        cache: {
+          input: [
+            `packages/${dir}/src/**`,
+            `packages/${dir}/tests/**`,
+            `packages/${dir}/*.ts`,
+            `packages/${dir}/*.json`,
+            ...workspaceDeps(dir).flatMap((dep) => [
+              srcLinked ? `packages/${dep}/src/**` : `packages/${dep}/dist/**`,
+              `packages/${dep}/package.json`,
+            ]),
+            'packages/global.d.ts',
+            'packages/tsconfig/**',
+            'pnpm-lock.yaml',
+          ],
+          output: [],
+        },
       },
-    },
-  ])
+    ]
+  })
 )
 
 export default defineConfig({
@@ -198,6 +243,28 @@ export default defineConfig({
           'no-unused-expressions': 'off',
         },
       },
+      {
+        // Tests speak the PUBLIC dialect: `@vueform/<pkg>` goes through the
+        // exports maps (the consumer gatekeeper), so tests exercise the
+        // published surface; the `#` aliases bypass it via the preset's
+        // catch-all paths. A genuine internal import is spelled as a
+        // relative `../src/...` path — visibly white-box.
+        files: ['packages/*/tests/**'],
+        rules: {
+          'no-restricted-imports': [
+            'error',
+            {
+              patterns: [
+                {
+                  group: ['#*', '#*/**'],
+                  message:
+                    'Tests must not use # aliases. Import the public surface via @vueform/<pkg> (exports-map enforced), or internals via a relative ../src path.',
+                },
+              ],
+            },
+          ],
+        },
+      },
     ],
   },
   run: {
@@ -218,7 +285,6 @@ export default defineConfig({
             'docs/*.ts',
             '!docs/.vitepress/cache/**',
             '!docs/.vitepress/dist/**',
-            '!docs/.vitepress/.generated/**',
             '!docs/src/playground/**',
             'packages/*/dist/**',
             'pnpm-lock.yaml',
@@ -226,24 +292,71 @@ export default defineConfig({
           output: [],
         },
       },
+      ':typecheck:benchmark': {
+        command: 'pnpm --filter @vueform/benchmark run typecheck',
+        cache: {
+          input: [
+            'benchmark/scripts/**',
+            'benchmark/*.json',
+            'benchmark/app/src/**',
+            'benchmark/app/*.json',
+            'benchmark/app/*.ts',
+            'benchmark/app/pnpm-lock.yaml',
+            // The app typecheck SKIPS (exit 0) while the standalone app is
+            // uninstalled — this file flips on (re)install, so the cached
+            // skip does not outlive it.
+            'benchmark/app/node_modules/.modules.yaml',
+            'packages/tsconfig/**',
+            'pnpm-lock.yaml',
+          ],
+          output: [],
+        },
+      },
       ':typecheck': {
-        command: 'tsc --noEmit -p tsconfig.node.json',
+        // The root program (root tsconfig.json): root scripts and configs
+        // only — every other folder owns its tsconfig.
+        command: 'tsc --noEmit',
         dependsOn: [
           ...checkedPackages.map(({ dir }) => `:typecheck:${dir}`),
           ':typecheck:docs',
+          ':typecheck:benchmark',
         ],
         cache: {
           input: [
             '*.config.ts',
             'scripts/**',
-            'packages/*/tests/bench-dts/generate.ts',
-            'tsconfig.node.json',
+            '!scripts/playground/templates/**',
+            'tsconfig.json',
+            'packages/tsconfig/**',
             'pnpm-lock.yaml',
             // scripts/ imports @vueform/utils, which resolves to BUILT types.
             'packages/utils/dist/**',
           ],
           output: [],
         },
+      },
+      // The dist-type gate (NOT part of the default checks): packs every
+      // publishable package and verifies the tarballs statically (publint +
+      // attw, run by the pack step itself).
+      ':pack': {
+        command: 'pnpm --filter @vueform/ui run test:smoke --pack-only',
+        cache: {
+          input: [
+            'packages/*/dist/**',
+            'packages/*/package.json',
+            'packages/*/bin/**',
+            'pnpm-lock.yaml',
+          ],
+          output: ['.vueform/smoke/tarballs/**'],
+        },
+      },
+      // Tiers 0–1 are browserless (install → leak check → build → typecheck
+      // in every env cell), so unlike the full smoke suites this is safe for
+      // agents/CI. Installs from the network — never cached.
+      ':release:verify': {
+        command:
+          'pnpm --filter @vueform/ui run test:smoke --skip-pack --tiers=0,1 && pnpm --filter @vueform/primevue run test:smoke --skip-pack --tiers=0,1',
+        dependsOn: [':pack'],
       },
       ':eslint': {
         command: 'eslint "**/*.vue"',

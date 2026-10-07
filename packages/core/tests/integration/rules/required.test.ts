@@ -1,6 +1,5 @@
 import { flushPromises } from '@vue/test-utils'
-
-import { defineSchema } from '#core'
+import { defineSchema } from '@vueform/core'
 
 import { createForm } from '../../helpers'
 

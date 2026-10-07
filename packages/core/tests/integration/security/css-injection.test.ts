@@ -1,3 +1,10 @@
+import {
+  createVueform,
+  defineSchema,
+  model,
+  security,
+  theme,
+} from '@vueform/core'
 /**
  * # CSS injection containment
  *
@@ -12,8 +19,6 @@
  * nonce.
  */
 import { nextTick } from 'vue'
-
-import { createVueform, defineSchema, model, security, theme } from '#core'
 
 import { createForm } from '../../helpers'
 

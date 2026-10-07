@@ -1,5 +1,3 @@
-import { defineComponent } from 'vue'
-
 import {
   useModel,
   defineSchema,
@@ -8,7 +6,8 @@ import {
   type HttpRequestConfig,
   type HttpResponse,
   type StandardSchemaV1,
-} from '#core'
+} from '@vueform/core'
+import { defineComponent } from 'vue'
 
 import { createForm, flushPromises, mountApp } from '../../helpers'
 

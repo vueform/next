@@ -1,7 +1,6 @@
+import { defineSchema } from '@vueform/core'
 import { describe, expect, it } from 'vitest'
 import { nextTick, ref } from 'vue'
-
-import { defineSchema } from '#core'
 
 import { createForm, flushPromises } from '../../helpers'
 

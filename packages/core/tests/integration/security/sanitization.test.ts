@@ -1,3 +1,5 @@
+import { defineSchema } from '@vueform/core'
+import dompurify from '@vueform/dompurify'
 /**
  * # Sanitization pipeline
  *
@@ -10,9 +12,6 @@
  * all.
  */
 import { nextTick } from 'vue'
-
-import { defineSchema } from '#core'
-import dompurify from '#dompurify'
 
 import { createForm } from '../../helpers'
 

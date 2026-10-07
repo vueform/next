@@ -9,6 +9,7 @@
     "dist",
     "registry"
   ],
+  "type": "module",
   "sideEffects": [
     "**/*.css",
     "**/*.scss",
@@ -24,6 +25,7 @@
   "jsdelivr": "./dist/vueform.global.js",
   "exports": {
     ".": {
+      "vueform-source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
@@ -36,79 +38,93 @@
       "default": "./dist/scss/*.scss"
     },
     "./blueprints/*": {
+      "vueform-source": "./src/blueprints/*.ts",
       "types": "./dist/blueprints/*.d.ts",
       "import": "./dist/blueprints/*.mjs"
     },
     "./components": {
+      "vueform-source": "./src/components/index.ts",
       "types": "./dist/components/index.d.ts",
       "vapor": "./dist/vapor/components/index.mjs",
       "import": "./dist/components/index.mjs"
     },
     "./components/names": {
+      "vueform-source": "./src/components/names.ts",
       "types": "./dist/components/names.d.ts"
     },
     "./components/*/raw": {
+      "vueform-source": "./src/components/*/index.ts",
       "types": "./dist/components/*/index.d.ts",
       "vapor": "./dist/vapor/components/*/index.mjs",
       "import": "./dist/components/*/index.mjs"
     },
     "./components/*/unstyled": {
+      "vueform-source": "./src/components/*/unstyled.ts",
       "types": "./dist/components/*/unstyled.d.ts",
       "vapor": "./dist/vapor/components/*/unstyled.mjs",
       "import": "./dist/components/*/unstyled.mjs"
     },
     "./components/*": {
+      "vueform-source": "./src/components/*/styled.ts",
       "types": "./dist/components/*/styled.d.ts",
       "vapor": "./dist/vapor/components/*/styled.mjs",
       "import": "./dist/components/*/styled.mjs"
     },
     "./locales": {
+      "vueform-source": "./src/locales/index.ts",
       "types": "./dist/locales/index.d.ts",
       "import": "./dist/locales/index.mjs"
     },
     "./modules": {
+      "vueform-source": "./src/modules/modules.ts",
       "types": "./dist/modules/modules.d.ts",
       "import": "./dist/modules/modules.mjs"
     },
     "./rules": {
+      "vueform-source": "./src/rules/index.ts",
       "types": "./dist/rules/index.d.ts",
       "import": "./dist/rules/index.mjs"
     },
     "./themes": {
+      "vueform-source": "./src/themes/index.ts",
       "types": "./dist/themes/index.d.ts",
       "import": "./dist/themes/index.mjs"
     },
     "./vapor/components": {
+      "vueform-source": "./src/components/index.ts",
       "types": "./dist/components/index.d.ts",
       "import": "./dist/vapor/components/index.mjs"
     },
     "./vapor/components/*/raw": {
+      "vueform-source": "./src/components/*/index.ts",
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/vapor/components/*/index.mjs"
     },
     "./vapor/components/*": {
+      "vueform-source": "./src/components/*/unstyled.ts",
       "types": "./dist/components/*/unstyled.d.ts",
       "import": "./dist/vapor/components/*/unstyled.mjs"
     },
     "./vapor/full": {
+      "vueform-source": "./src/full.ts",
       "types": "./dist/full.d.ts",
       "import": "./dist/vapor/full.mjs"
     },
     "./full": {
+      "vueform-source": "./src/full.ts",
       "types": "./dist/full.d.ts",
       "vapor": "./dist/vapor/full.mjs",
       "import": "./dist/full.mjs"
     }
   },
   "scripts": {
-    "build": "vf-validate-source && rm -rf dist && vue-tsc -p tsconfig.dts.json && tsdown && tsdown -c tsdown.vapor.config.ts",
-    "typecheck": "vue-tsc --incremental --noEmit",
+    "build": "vf-validate-source && rm -rf dist && vue-tsc -p tsconfig.build.json && tsdown && tsdown -c tsdown.vapor.config.ts",
+    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "registry": "vf-registry",
     "size": "vf-size",
     "size:report": "vf-size --report",
     "test": "vitest --project integration --maxWorkers=16",
     "test:dts": "vitest run --project test-dts",
-    "test:dts-dist": "vitest run --project test-dts-dist",
     "test:smoke": "tsx tests/smoke/run.ts",
     "test:visual": "playwright test --config tests/visual/playwright.config.ts",
     "validate": "vf-validate-source"
@@ -123,6 +139,7 @@
     "@primevue/core": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/test-utils": "catalog:",
+    "@vueform/tsconfig": "workspace:*",
     "@vueform/utils": "workspace:^",
     "fast-glob": "catalog:",
     "happy-dom": "catalog:",

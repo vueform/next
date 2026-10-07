@@ -1,6 +1,5 @@
+import { defineSchema, defineSlot } from '@vueform/primevue'
 import { defineComponent, h } from 'vue'
-
-import { defineSchema, defineSlot } from '#primevue'
 
 import { createForm, mountApp } from '../../helpers'
 

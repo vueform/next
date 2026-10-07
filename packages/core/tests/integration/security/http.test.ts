@@ -1,3 +1,12 @@
+import {
+  defineSchema,
+  HttpError,
+  useHttp,
+  type HttpAdapter,
+  type HttpRequestConfig,
+  type HttpResponse,
+} from '@vueform/core'
+import * as modules from '@vueform/core/modules'
 /**
  * # Network trust
  *
@@ -11,16 +20,6 @@
  * never really happened is never reported as a successful submission.
  */
 import { nextTick } from 'vue'
-
-import {
-  defineSchema,
-  HttpError,
-  useHttp,
-  type HttpAdapter,
-  type HttpRequestConfig,
-  type HttpResponse,
-} from '#core'
-import * as modules from '#core/modules'
 
 import { createForm, flushPromises } from '../../helpers'
 

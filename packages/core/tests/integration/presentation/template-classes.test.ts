@@ -1,6 +1,5 @@
+import { defineSchema, useClasses, useContext } from '@vueform/core'
 import { defineComponent, h, markRaw, nextTick, ref } from 'vue'
-
-import { defineSchema, useClasses, useContext } from '#core'
 
 import { createForm } from '../../helpers'
 

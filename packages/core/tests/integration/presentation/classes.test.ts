@@ -1,6 +1,5 @@
+import { defineSchema, mergeClass } from '@vueform/core'
 import { nextTick, ref } from 'vue'
-
-import { defineSchema, mergeClass } from '#core'
 
 import { createForm, getClass, makeApp, mountApp } from '../../helpers'
 

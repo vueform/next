@@ -1,7 +1,4 @@
 {
-  "extends": "../../tsconfig.node.json",
-  "compilerOptions": {
-    "paths": {}
-  },
+  "extends": "@vueform/tsconfig/node.json",
   "include": ["../global.d.ts", "src"]
 }

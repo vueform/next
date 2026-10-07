@@ -1,6 +1,8 @@
 import { existsSync, readdirSync, readFileSync, writeFileSync } from 'node:fs'
 import { join, relative, resolve } from 'node:path'
 
+import { dtsEsmExtensionFix } from './dtsEsm'
+
 export interface ShorthandPropsOptions {
   /**
    * Module specifier used when importing `PartProps` / `ClassProps` /
@@ -363,15 +365,20 @@ export function injectShorthandPropsDts(
       parsed.extraImportLines
     )
 
-    writeFileSync(join(componentDir, 'shorthands.d.ts'), content)
+    // The generator runs after the vf:dts-rewrites pass, so it fixes its own
+    // output's relative specifiers for node16 ESM declaration resolution.
+    const shorthandsPath = join(componentDir, 'shorthands.d.ts')
+    writeFileSync(shorthandsPath, dtsEsmExtensionFix(shorthandsPath, content))
 
     for (const path of markedDts) {
       const current = readFileSync(path, 'utf-8')
+      // `.js` extension: the packages are ESM (`"type": "module"`), so
+      // node16 declaration resolution needs it to find `shorthands.d.ts`.
       const rewritten = markerFromSource
-        ? `import './shorthands';\n${current}`
+        ? `import './shorthands.js';\n${current}`
         : current.replace(
             /import\s+['"]#shorthands['"]\s*;?/g,
-            "import './shorthands';"
+            "import './shorthands.js';"
           )
       writeFileSync(path, rewritten)
     }

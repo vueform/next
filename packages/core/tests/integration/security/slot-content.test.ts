@@ -1,3 +1,6 @@
+import { defineSchema } from '@vueform/core'
+import * as modules from '@vueform/core/modules'
+import dompurify from '@vueform/dompurify'
 /**
  * # Slot content
  *
@@ -14,10 +17,6 @@
  * inline `on*` handlers.
  */
 import { h, nextTick, type FunctionalComponent } from 'vue'
-
-import { defineSchema } from '#core'
-import * as modules from '#core/modules'
-import dompurify from '#dompurify'
 
 import { createForm } from '../../helpers'
 

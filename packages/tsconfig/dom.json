@@ -1,0 +1,28 @@
+{
+  // The src world: DOM env + the `vueform-source` exports condition, so
+  // `@vueform/*` imports resolve through the packages' exports maps to
+  // SOURCE (edit core, every dependent sees it, no rebuild). Dist
+  // resolution belongs to the builds (tsconfig.build.json clears the
+  // condition) and the release gate — never the inner loop.
+  //
+  // The `#<pkg>` internal aliases are tsconfig `paths` (not package.json
+  // `imports`): `paths` targets get extension/index probing, which the
+  // directory-style `#core/...` imports rely on. The mapping is a fixed
+  // convention (`#<dir>` ↔ `packages/<dir>/src`), so it is static — targets
+  // resolve relative to THIS file.
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    // node types (NOT vitest/globals — that is test.json's): src code
+    // legitimately touches process.env for environment detection.
+    "types": ["node"],
+    "customConditions": ["vueform-source"],
+    "paths": {
+      "#core": ["../core/src/index.ts"],
+      "#core/*": ["../core/src/*"],
+      "#ui": ["../ui/src/index.ts"],
+      "#ui/*": ["../ui/src/*"],
+      "#primevue": ["../primevue/src/index.ts"],
+      "#primevue/*": ["../primevue/src/*"]
+    }
+  }
+}

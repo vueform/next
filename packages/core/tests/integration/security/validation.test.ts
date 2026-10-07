@@ -1,4 +1,4 @@
-import { defineSchema } from '#core'
+import { defineSchema } from '@vueform/core'
 
 /**
  * # Validation integrity

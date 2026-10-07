@@ -1,6 +1,3 @@
-import { describe, expect, it, vi } from 'vitest'
-import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
-
 import {
   NotInstalledError,
   useModel,
@@ -10,7 +7,9 @@ import {
   type ModelInstance,
   type UseFormReturn,
   defineSchema,
-} from '#core'
+} from '@vueform/core'
+import { describe, expect, it, vi } from 'vitest'
+import { computed, defineComponent, nextTick, reactive, ref } from 'vue'
 
 import { createForm, flushPromises, mountApp } from '../../helpers'
 

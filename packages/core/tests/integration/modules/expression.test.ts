@@ -1,6 +1,5 @@
+import { defineSchema, pathExpressionAdapter } from '@vueform/core'
 import { nextTick, ref } from 'vue'
-
-import { defineSchema, pathExpressionAdapter } from '#core'
 
 import { createForm } from '../../helpers'
 

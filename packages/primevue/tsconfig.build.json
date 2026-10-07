@@ -1,0 +1,12 @@
+{
+  "extends": "@vueform/tsconfig/adapter.json",
+  "compilerOptions": {
+    "customConditions": [],
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["../global.d.ts", "src"]
+}

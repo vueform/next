@@ -1,6 +1,9 @@
+import {
+  defineSchema,
+  type RouterModule,
+  type VueformRouter,
+} from '@vueform/core'
 import { ref } from 'vue'
-
-import { defineSchema, type RouterModule, type VueformRouter } from '#core'
 
 import { createForm, flushPromises } from '../../helpers'
 

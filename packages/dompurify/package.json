@@ -4,26 +4,28 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
-      "import": "./dist/index.mjs",
-      "types": "./dist/index.d.ts"
+      "vueform-source": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs"
     }
   },
   "scripts": {
     "build": "tsdown",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "size": "vf-size",
-    "size:report": "vf-size --report",
-    "test:dts-dist": "vitest run --project test-dts-dist"
+    "size:report": "vf-size --report"
   },
   "dependencies": {
     "isomorphic-dompurify": "catalog:"
   },
   "devDependencies": {
+    "@vueform/tsconfig": "workspace:*",
     "@vueform/ui": "workspace:^",
     "@vueform/utils": "workspace:^",
     "happy-dom": "catalog:",

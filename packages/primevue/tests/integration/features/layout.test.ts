@@ -1,7 +1,6 @@
+import { defineSchema, defineSlot } from '@vueform/primevue'
 import InputGroupAddon from 'primevue/inputgroupaddon'
 import { defineComponent, h, markRaw, nextTick } from 'vue'
-
-import { defineSchema, defineSlot } from '#primevue'
 
 import { createForm, mountApp } from '../../helpers'
 

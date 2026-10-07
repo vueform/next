@@ -1,6 +1,5 @@
+import { clone, equals, get, merge, mergeClass, set } from '@vueform/core'
 import { describe, test } from 'vitest'
-
-import { clone, equals, get, merge, mergeClass, set } from '#core'
 
 /**
  * Pure-function microbenches on the hot utilities that run per element and per

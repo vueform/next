@@ -1,7 +1,6 @@
 import { defineSchema } from '@vueform/core'
 
-import defaultConfig from '#primevue/config'
-
+import defaultConfig from '../../../src/config'
 import { createForm } from '../../helpers'
 
 describe('Semantic icons', () => {

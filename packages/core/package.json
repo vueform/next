@@ -4,6 +4,7 @@
   "files": [
     "dist"
   ],
+  "type": "module",
   "sideEffects": [
     "**/*.css",
     "**/*.scss"
@@ -13,6 +14,7 @@
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
+      "vueform-source": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     },
@@ -25,62 +27,72 @@
       "default": "./dist/scss/*.scss"
     },
     "./blueprints/*": {
+      "vueform-source": "./src/blueprints/*.ts",
       "types": "./dist/blueprints/*.d.ts",
       "import": "./dist/blueprints/*.mjs"
     },
     "./components": {
+      "vueform-source": "./src/components/index.ts",
       "types": "./dist/components/index.d.ts",
       "vapor": "./dist/vapor/components/index.mjs",
       "import": "./dist/components/index.mjs"
     },
     "./components/*/raw": {
+      "vueform-source": "./src/components/*/index.ts",
       "types": "./dist/components/*/index.d.ts",
       "vapor": "./dist/vapor/components/*/index.mjs",
       "import": "./dist/components/*/index.mjs"
     },
     "./components/*": {
+      "vueform-source": "./src/components/*/unstyled.ts",
       "types": "./dist/components/*/unstyled.d.ts",
       "vapor": "./dist/vapor/components/*/unstyled.mjs",
       "import": "./dist/components/*/unstyled.mjs"
     },
     "./vapor/components": {
+      "vueform-source": "./src/components/index.ts",
       "types": "./dist/components/index.d.ts",
       "import": "./dist/vapor/components/index.mjs"
     },
     "./vapor/components/*/raw": {
+      "vueform-source": "./src/components/*/index.ts",
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/vapor/components/*/index.mjs"
     },
     "./vapor/components/*": {
+      "vueform-source": "./src/components/*/unstyled.ts",
       "types": "./dist/components/*/unstyled.d.ts",
       "import": "./dist/vapor/components/*/unstyled.mjs"
     },
     "./locales": {
+      "vueform-source": "./src/locales/index.ts",
       "types": "./dist/locales/index.d.ts",
       "import": "./dist/locales/index.mjs"
     },
     "./modules": {
+      "vueform-source": "./src/modules/modules.ts",
       "types": "./dist/modules/modules.d.ts",
       "import": "./dist/modules/modules.mjs"
     },
     "./rules": {
+      "vueform-source": "./src/rules/index.ts",
       "types": "./dist/rules/index.d.ts",
       "import": "./dist/rules/index.mjs"
     },
     "./tokens": {
+      "vueform-source": "./src/tokens/index.ts",
       "types": "./dist/tokens/index.d.ts",
       "import": "./dist/tokens/index.mjs"
     }
   },
   "scripts": {
-    "build": "rm -rf dist && vue-tsc -p tsconfig.dts.json && tsdown && tsdown -c tsdown.vapor.config.ts",
-    "typecheck": "vue-tsc --incremental --noEmit",
+    "build": "rm -rf dist && vue-tsc -p tsconfig.build.json && tsdown && tsdown -c tsdown.vapor.config.ts",
+    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "size": "vf-size",
     "test": "vitest --project integration --maxWorkers=16",
     "test:bench": "NODE_OPTIONS=--max-old-space-size=8192 vitest bench",
     "test:bench-dts": "vf-bench-dts",
-    "test:dts": "vitest run --project test-dts",
-    "test:dts-dist": "vitest run --project test-dts-dist"
+    "test:dts": "vitest run --project test-dts"
   },
   "dependencies": {
     "@vue/devtools-api": "catalog:"
@@ -89,6 +101,7 @@
     "@vitejs/plugin-vue": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
+    "@vueform/tsconfig": "workspace:*",
     "@vueform/utils": "workspace:^",
     "fast-glob": "catalog:",
     "happy-dom": "catalog:",

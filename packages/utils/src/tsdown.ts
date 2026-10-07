@@ -14,6 +14,7 @@ import type { UserConfig } from 'tsdown'
 import type { Plugin } from 'vite'
 
 import { cdnBuild, exportedVaporEntries, themeNames } from './adapter'
+import { dtsEsmExtensionFix } from './dtsEsm'
 import {
   componentNames,
   escapeRegExp,
@@ -110,10 +111,14 @@ export function createPluginTsdownConfig(
         ...(options.external ?? []),
       ],
     },
+    // `tsconfig.app.json` explicitly: the package's default tsconfig.json is
+    // a solution file (files: [] + references) the dts plugin cannot use.
+    // Clearing `customConditions` drops the `vueform-source` src resolution
+    // (see factory docblock): `@vueform/core` resolves to BUILT dist types.
     dts: {
+      tsconfig: 'tsconfig.app.json',
       compilerOptions: {
-        // Drop the root tsconfig's source `paths` (see factory docblock).
-        paths: {},
+        customConditions: [],
       },
     },
     // The marker/prune plugins are not strictly needed for single-entry
@@ -176,6 +181,9 @@ export function dtsRewrites(
               }
             )
           }
+          // node16/nodenext ESM declaration resolution needs explicit
+          // extensions on every relative specifier — see dtsEsm.ts.
+          rewritten = dtsEsmExtensionFix(abs, rewritten)
           const stray =
             rewritten.match(/declare module ['"][^'"]*\.ts['"]/) ??
             (aliasRe ? rewritten.match(aliasRe) : null)
@@ -272,12 +280,17 @@ export async function createCoreTsdownConfig(
     minify: false,
     target: false,
     deps: { neverBundle: coreExternal(options) },
-    // d.ts comes from a separate `vue-tsc -p tsconfig.dts.json` step run
-    // BEFORE this build (see the package's build script): per-module tsc
-    // emission preserves `export *` barrels verbatim, where the dts
-    // bundler's explicit-name expansion silently drops type names (TS2742
-    // in the adapters). `clean` is off so this build keeps those d.ts; the
-    // script starts with its own `rm -rf dist`.
+    // d.ts comes from a separate `vue-tsc -p tsconfig.build.json` step run
+    // BEFORE this build (see the package's build script). Re-verified on
+    // tsdown 0.23 / rolldown-plugin-dts 0.28 (2026-10): `dts: { vue: true,
+    // tsconfig: 'tsconfig.app.json' }` emits core fine (surface intact,
+    // `export *` barrels expanded to explicit lists), but the ADAPTERS'
+    // emission fails with TS2742 — the plugin's per-module tsc emit cannot
+    // name the blueprints' inferred builder-chain types through the public
+    // barrels and reaches for deep `node_modules/.../dist/...` paths, where
+    // vue-tsc's whole-program emitter finds the public aliases. vue-tsc
+    // stays the producer. `clean` is off so this build keeps those d.ts;
+    // the script starts with its own `rm -rf dist`.
     dts: false,
     clean: false,
     plugins: [
@@ -393,7 +406,7 @@ const STYLES_SIDECARS = [/src\/components\/[^/]+\/styles\.ts$/]
  * scss/css pipeline, vdom-compiled SFCs, d.ts rewrites as a post-write pass,
  * and optionally the CDN builds. The vapor tree is a separate config
  * (`createAdapterVaporTsdownConfig`) run AFTER this one by the build script;
- * d.ts come from a `vue-tsc -p tsconfig.dts.json` step run BEFORE (see the core
+ * d.ts come from a `vue-tsc -p tsconfig.build.json` step run BEFORE (see the core
  * factory for why).
  */
 export async function createAdapterTsdownConfig(
@@ -407,16 +420,20 @@ export async function createAdapterTsdownConfig(
   const outAbs = resolve(root, 'dist')
 
   const rewrites: DtsRewrite[] = [
-    // The styles sidecars' side-effect imports keep their source spelling;
-    // rewrite to the published subpaths BEFORE the generic alias pass.
+    // The styles sidecars' side-effect scss imports carry no type
+    // information, and a css import inside a d.ts cannot resolve for
+    // consumers (only skipLibCheck hides the error) — STRIP them from the
+    // declarations. The runtime chunks keep the real css side-effect imports
+    // (scssExternals). Must run BEFORE the generic alias pass, which would
+    // otherwise relativize the `#alias/...` spelling.
     ...(options.alias
       ? [
           {
             pattern: new RegExp(
-              `(["'])${escapeRegExp(options.alias)}/scss/([\\w-]+)\\.scss(["'])`,
+              `import\\s+(["'])${escapeRegExp(options.alias)}/scss/[\\w-]+\\.scss\\1;?\\r?\\n?`,
               'g'
             ),
-            replacement: `$1${options.name}/$2.css$3`,
+            replacement: '',
           },
         ]
       : []),
@@ -439,6 +456,11 @@ export async function createAdapterTsdownConfig(
     minify: false,
     target: false,
     clean: false,
+    // d.ts from the vue-tsc step, as in the core factory — see its note for
+    // the TS2742 detail. Also tested (2026-10): `dts: { build: true }` (tsc
+    // whole-program emit, which WOULD fix the TS2742 naming) has no Vue
+    // language support — its project loader cannot contain .vue files — so
+    // no plugin option combination works for SFC packages today.
     dts: false,
     define: {
       // Selects the vdom function form of shared dual-mode directives.

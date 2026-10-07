@@ -1,6 +1,5 @@
+import { defineSchema } from '@vueform/core'
 import { nextTick, ref } from 'vue'
-
-import { defineSchema } from '#core'
 
 import { createForm } from '../../helpers'
 

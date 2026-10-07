@@ -1,0 +1,13 @@
+{
+  // NodeNext on top of the node preset: cli is a published ESM bin package
+  // that node loads directly, so its sources check against real ESM
+  // resolution — the way node consumers load them.
+  "extends": "@vueform/tsconfig/node.json",
+  "compilerOptions": {
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/app.tsbuildinfo"
+  },
+  "include": ["src"]
+}

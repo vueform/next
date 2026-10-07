@@ -1,3 +1,4 @@
+import { defineSchema, useContext } from '@vueform/core'
 import {
   defineComponent,
   h,
@@ -11,8 +12,6 @@ import {
   toRef,
   toRefs,
 } from 'vue'
-
-import { defineSchema, useContext } from '#core'
 
 import { createForm } from '../../helpers'
 

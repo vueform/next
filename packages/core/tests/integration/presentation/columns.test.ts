@@ -1,4 +1,4 @@
-import { defineSchema } from '#core'
+import { defineSchema } from '@vueform/core'
 
 import { createForm2, createForm, getClass } from '../../helpers'
 

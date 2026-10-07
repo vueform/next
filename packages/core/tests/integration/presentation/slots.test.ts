@@ -1,3 +1,4 @@
+import { defineSchema } from '@vueform/core'
 import {
   defineComponent,
   h,
@@ -5,8 +6,6 @@ import {
   nextTick,
   type FunctionalComponent,
 } from 'vue'
-
-import { defineSchema } from '#core'
 
 import { createForm, mountApp } from '../../helpers'
 

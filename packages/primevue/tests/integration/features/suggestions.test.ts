@@ -3,9 +3,8 @@ import type {
   HttpRequestConfig,
   HttpResponse,
 } from '@vueform/core'
+import { defineSchema } from '@vueform/primevue'
 import { defineComponent, nextTick, ref } from 'vue'
-
-import { defineSchema } from '#primevue'
 
 import { createForm, flushPromises, mountApp } from '../../helpers'
 

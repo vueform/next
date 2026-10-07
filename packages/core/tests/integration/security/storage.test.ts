@@ -1,3 +1,10 @@
+import {
+  defineSchema,
+  type HttpAdapter,
+  type HttpRequestConfig,
+  type HttpResponse,
+} from '@vueform/core'
+import * as modules from '@vueform/core/modules'
 /**
  * # Persistence security (autosave storage)
  *
@@ -11,14 +18,6 @@
  * unreadable drafts are discarded instead of trusted.
  */
 import { nextTick } from 'vue'
-
-import {
-  defineSchema,
-  type HttpAdapter,
-  type HttpRequestConfig,
-  type HttpResponse,
-} from '#core'
-import * as modules from '#core/modules'
 
 import { createForm, flushPromises } from '../../helpers'
 

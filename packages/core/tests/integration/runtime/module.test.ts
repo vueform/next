@@ -1,6 +1,3 @@
-import { describe, expect, it, vi } from 'vitest'
-import { defineComponent, h } from 'vue'
-
 import {
   createVueform,
   getLocaleModule,
@@ -13,9 +10,11 @@ import {
   locale as localeModule,
   useLocale,
   useModel,
-} from '#core'
-import * as components from '#core/components'
-import { en_US } from '#core/locales'
+} from '@vueform/core'
+import * as components from '@vueform/core/components'
+import { en_US } from '@vueform/core/locales'
+import { describe, expect, it, vi } from 'vitest'
+import { defineComponent, h } from 'vue'
 
 import { mount } from '../../helpers'
 
