@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '@vueform/core'
+
 import VfInputOtp, { type VfInputOtpEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfInputOtp: typeof VfInputOtp
   }
+}
+
+declare module './types' {
+  interface VfInputOtpProps
+    extends
+      PartProps<VfInputOtpParts, VfInputOtpContext>,
+      ClassProps<VfInputOtpClasses, VfInputOtpContext>,
+      ReclassProps<VfInputOtpClasses, VfInputOtpContext> {}
 }

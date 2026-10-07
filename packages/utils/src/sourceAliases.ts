@@ -165,21 +165,13 @@ export function packageSourceAliases(
 }
 
 /**
- * Source aliases for every package in a `packages/` directory, plus the
- * workspace-wide `#shorthands` mapping every source-serving context needs: the
- * marker module is type-only, so its runtime import is kept inert via the
- * source stand-in (the compiled dist copy is CJS, which the browser can't
- * consume untransformed).
+ * Source aliases for every package in a `packages/` directory.
  */
 export function workspaceSourceAliases(
   packagesDir: string,
   options: SourceAliasOptions = {}
 ): Alias[] {
   return [
-    {
-      find: '#shorthands',
-      replacement: join(packagesDir, 'utils/src/mock.ts'),
-    },
     ...readdirSync(packagesDir, { withFileTypes: true })
       .filter((entry) => entry.isDirectory())
       .flatMap((entry) =>

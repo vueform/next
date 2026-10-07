@@ -1,10 +1,8 @@
 /*
- * Dist-only type tests for `part:*` / `class:*` / `reclass:*` shorthand attrs.
- * Requires a prior core build (`vite build`) so `shorthands.d.ts` exists.
- * Run by `pnpm test:dts`.
- *
- * Source `Vf*Props` stay clean; vf-build injects these keys into published
- * types via the `#shorthands` marker on each `unstyled.ts`.
+ * Dist type tests for `part:*` / `class:*` / `reclass:*` shorthand attrs:
+ * the declaration merge in each component's `unstyled.ts` must survive into
+ * the published tier d.ts. Requires a prior core build. Run by `pnpm
+ * test:dts`.
  */
 import { describe, expectTypeOf, test } from 'vitest'
 

@@ -4,5 +4,5 @@
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/app.tsbuildinfo"
   },
-  "include": ["../global.d.ts", "src"]
+  "include": ["src"]
 }

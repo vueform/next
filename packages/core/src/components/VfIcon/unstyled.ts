@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfIcon, { type VfIconEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfIcon: typeof VfIcon
   }
+}
+
+declare module './types' {
+  interface VfIconProps
+    extends
+      PartProps<VfIconParts, VfIconContext>,
+      ClassProps<VfIconClasses, VfIconContext>,
+      ReclassProps<VfIconClasses, VfIconContext> {}
 }

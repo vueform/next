@@ -4,6 +4,6 @@
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/test.tsbuildinfo"
   },
-  "include": ["../global.d.ts", "src", "tests"],
+  "include": ["src", "tests"],
   "exclude": ["tests/smoke"]
 }

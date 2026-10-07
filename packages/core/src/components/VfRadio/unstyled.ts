@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfRadio, { type VfRadioEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfRadio: typeof VfRadio
   }
+}
+
+declare module './types' {
+  interface VfRadioProps<TRadioValue = any>
+    extends
+      PartProps<VfRadioParts, VfRadioContext>,
+      ClassProps<VfRadioClasses, VfRadioContext>,
+      ReclassProps<VfRadioClasses, VfRadioContext> {}
 }

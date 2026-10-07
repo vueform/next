@@ -1,4 +1,11 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '@vueform/core'
+
+import type {
+  OptionGroupChildrenProp,
+  OptionValueProp,
+  OptionsProp,
+} from '#src/features/options'
+
 import VfCheckboxGroup, { type VfCheckboxGroupEntry } from './index'
 
 export * from './index'
@@ -14,4 +21,18 @@ declare module 'vue' {
   interface GlobalComponents {
     VfCheckboxGroup: typeof VfCheckboxGroup
   }
+}
+
+declare module './types' {
+  interface VfCheckboxGroupProps<
+    TOptions extends OptionsProp = OptionsProp,
+    TOptionValueKey extends OptionValueProp = undefined,
+    TGroupChildren extends OptionGroupChildrenProp = undefined,
+    TModel = any,
+    TOptionValueReturn = unknown,
+  >
+    extends
+      PartProps<VfCheckboxGroupParts, VfCheckboxGroupContext>,
+      ClassProps<VfCheckboxGroupClasses, VfCheckboxGroupContext>,
+      ReclassProps<VfCheckboxGroupClasses, VfCheckboxGroupContext> {}
 }

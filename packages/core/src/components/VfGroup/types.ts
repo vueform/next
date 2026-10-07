@@ -48,8 +48,8 @@ export type EntryProps<TEntry> = Omit<VfGroupProps, 'modelValue'> & {
 /**
  * Props for the VfGroup component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfGroupProps extends GroupProps<
   'group',

@@ -3,5 +3,5 @@
   "compilerOptions": {
     "noEmit": true
   },
-  "include": ["../../../global.d.ts", "./suites/*.ts", "../../src"]
+  "include": ["./suites/*.ts", "../../src"]
 }

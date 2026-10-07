@@ -35,8 +35,8 @@ export type EntryProps<TEntry> = VfToggleSwitchProps<
  * the model-driving type arguments (e.g. `VfToggleSwitchProps<1, 0>`). Reach
  * for `VfToggleSwitchProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfToggleSwitchProps<
   TTrueValue = true,

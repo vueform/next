@@ -3,7 +3,7 @@ import { basename, join, resolve } from 'node:path'
 
 import type { Plugin, UserConfig } from 'vite'
 
-import { shorthandsMarker, SRC_ALIAS } from './shared'
+import { SRC_ALIAS } from './shared'
 
 /**
  * Options for the `adapter` config factory.
@@ -127,7 +127,6 @@ export function cdnBuild(
             alias: { [SRC_ALIAS]: srcAbs },
           },
           plugins: [
-            shorthandsMarker(),
             Vue({
               template: {
                 compilerOptions: {

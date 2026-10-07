@@ -1,4 +1,4 @@
 {
   "extends": "@vueform/tsconfig/node.json",
-  "include": ["../global.d.ts", "src"]
+  "include": ["src"]
 }

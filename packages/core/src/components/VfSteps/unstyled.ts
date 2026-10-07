@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfSteps, { type VfStepsEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfSteps: typeof VfSteps
   }
+}
+
+declare module './types' {
+  interface VfStepsProps
+    extends
+      PartProps<VfStepsParts, VfStepsContext>,
+      ClassProps<VfStepsClasses, VfStepsContext>,
+      ReclassProps<VfStepsClasses, VfStepsContext> {}
 }

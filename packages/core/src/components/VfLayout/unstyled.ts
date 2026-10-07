@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfLayout, { type VfLayoutEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfLayout: typeof VfLayout
   }
+}
+
+declare module './types' {
+  interface VfLayoutProps
+    extends
+      PartProps<VfLayoutParts, VfLayoutContext>,
+      ClassProps<VfLayoutClasses, VfLayoutContext>,
+      ReclassProps<VfLayoutClasses, VfLayoutContext> {}
 }

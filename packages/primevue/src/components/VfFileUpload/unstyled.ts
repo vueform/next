@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '@vueform/core'
+
 import VfFileUpload, { type VfFileUploadEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfFileUpload: typeof VfFileUpload
   }
+}
+
+declare module './types' {
+  interface VfFileUploadProps<TMultiple extends boolean = boolean>
+    extends
+      PartProps<VfFileUploadParts, VfFileUploadContext>,
+      ClassProps<VfFileUploadClasses, VfFileUploadContext>,
+      ReclassProps<VfFileUploadClasses, VfFileUploadContext> {}
 }

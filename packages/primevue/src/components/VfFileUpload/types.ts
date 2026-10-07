@@ -36,8 +36,8 @@ export type EntryProps<TEntry> = VfFileUploadProps<EntryMultipleOf<TEntry>>
  * model-driving type argument (e.g. `VfFileUploadProps<true>`). Reach for
  * `VfFileUploadProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfFileUploadProps<
   TMultiple extends boolean = boolean,

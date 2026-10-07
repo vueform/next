@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '@vueform/core'
+
 import VfRadioButton, { type VfRadioButtonEntry } from './index'
 
 export * from './index'
@@ -16,4 +17,12 @@ declare module 'vue' {
     VfRadioButton: typeof VfRadioButton
     VfRadio: typeof VfRadioButton
   }
+}
+
+declare module './types' {
+  interface VfRadioButtonProps<TRadioValue = any>
+    extends
+      PartProps<VfRadioButtonParts, VfRadioButtonContext>,
+      ClassProps<VfRadioButtonClasses, VfRadioButtonContext>,
+      ReclassProps<VfRadioButtonClasses, VfRadioButtonContext> {}
 }

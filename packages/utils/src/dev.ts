@@ -48,7 +48,6 @@ export function dev(adapter: string): Plugin {
       const p = (rel: string) => resolve(root!, rel)
 
       const alias: Alias[] = [
-        // `#shorthands` (the build-time marker module, see shorthandsMarker)
         // is covered by the workspace aliases' source stand-in.
         ...workspaceSourceAliases(p('packages'), { styles: true }),
       ]

@@ -44,8 +44,8 @@ export type EntryProps<TEntry> = VfTextareaProps<
  * languages>`). Reach for `VfTextareaProps` instead when no narrowing is
  * needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfTextareaProps<
   TTranslate extends boolean = boolean,

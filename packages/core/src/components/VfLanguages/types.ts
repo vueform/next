@@ -20,8 +20,8 @@ import type {
 /**
  * Props for the VfLanguages component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfLanguagesProps extends LanguagesProps<
   VfLanguagesSlots,

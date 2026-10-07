@@ -22,8 +22,6 @@ import {
   namespaceExports,
   pruneModules,
   scssExternals,
-  shorthandProps,
-  shorthandsMarker,
   sourceSideEffects,
   SRC_ALIAS,
   srcAlias,
@@ -121,7 +119,7 @@ export function createPluginTsdownConfig(
     // plugins; they run here to prove the Rollup-hook ports (virtual module
     // resolution, generateBundle chunk pruning) under raw Rolldown before
     // the core/adapter builds (migration stages 4–5) depend on them.
-    plugins: [shorthandsMarker(), pruneModules()],
+    plugins: [pruneModules()],
   }
 }
 
@@ -135,7 +133,7 @@ export function createPluginTsdownConfig(
  *
  * This replaces vite-plugin-dts' `beforeWriteFile`: the d.ts now come from a
  * plain `vue-tsc` emission step, so the rewrite happens on disk right after the
- * bundle (and before `shorthandProps`, which reads the rewritten files).
+ * bundle.
  */
 export function dtsRewrites(
   outAbs: string,
@@ -286,7 +284,6 @@ export async function createCoreTsdownConfig(
     dts: false,
     clean: false,
     plugins: [
-      shorthandsMarker(),
       pruneModules(),
       namespaceExports(),
       srcAlias(SRC_ALIAS, srcAbs),
@@ -303,7 +300,6 @@ export async function createCoreTsdownConfig(
       dtsRewrites(outAbs, [selfAugmentationRewrite(options.name)], {
         [SRC_ALIAS]: outAbs,
       }),
-      shorthandProps(outAbs, '../../types', resolve(srcAbs, 'components')),
     ],
   }
 }
@@ -354,7 +350,6 @@ export async function createCoreVaporTsdownConfig(
       makeAbsoluteExternalsRelative: false,
     },
     plugins: [
-      shorthandsMarker(),
       pruneModules(),
       namespaceExports(),
       srcAlias(SRC_ALIAS, srcAbs),
@@ -455,7 +450,6 @@ export async function createAdapterTsdownConfig(
     deps: { neverBundle: adapterTsdownExternal(options) },
     treeshake: { moduleSideEffects: CSS_SIDE_EFFECT_RULES },
     plugins: [
-      shorthandsMarker(),
       pruneModules(),
       namespaceExports(),
       sourceSideEffects(STYLES_SIDECARS),
@@ -480,7 +474,6 @@ export async function createAdapterTsdownConfig(
         template: { compilerOptions: { comments: false } },
       }),
       dtsRewrites(outAbs, rewrites, { [SRC_ALIAS]: outAbs }),
-      shorthandProps(outAbs, '@vueform/core', resolve(srcAbs, 'components')),
       componentNames(resolve(outAbs, 'components')),
       ...(options.cdn ? [cdnBuild({ name: options.name }, root, srcAbs)] : []),
     ],
@@ -552,7 +545,6 @@ export async function createAdapterVaporTsdownConfig(
           : id,
     },
     plugins: [
-      shorthandsMarker(),
       pruneModules(),
       namespaceExports(),
       sourceSideEffects(STYLES_SIDECARS),

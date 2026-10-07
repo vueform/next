@@ -128,7 +128,6 @@ const typecheckTasks = Object.fromEntries(
               srcLinked ? `packages/${dep}/src/**` : `packages/${dep}/dist/**`,
               `packages/${dep}/package.json`,
             ]),
-            'packages/global.d.ts',
             'packages/tsconfig/**',
             'pnpm-lock.yaml',
           ],

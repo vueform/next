@@ -1,8 +1,8 @@
 /**
  * Registration (type level): the adapter's component .d.ts files augment core's
  * element registries and Vue's GlobalComponents. This only works when the dist
- * declaration chain survived packaging (`declare module` blocks plus the
- * rewritten `#shorthands` imports), so it can only be proven against the
+ * declaration chain survived packaging (the `declare module` blocks), so it
+ * can only be proven against the
  * tarballs. Everything is derived from the adapter's canonical schema, never
  * from adapter-specific names.
  *

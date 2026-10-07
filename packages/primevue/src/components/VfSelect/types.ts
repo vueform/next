@@ -61,8 +61,8 @@ export type EntryProps<TEntry> = VfSelectProps<
  * option-driving type arguments (e.g. `VfSelectProps<typeof options, 'id'>`).
  * Reach for `VfSelectProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfSelectProps<
   TOptions extends OptionsProp = OptionsProp,

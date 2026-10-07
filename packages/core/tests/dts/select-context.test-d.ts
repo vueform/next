@@ -340,8 +340,8 @@ describe('VfSelect classes / parts / class:* / reclass:* / part:* — schema + e
     expectTypeOf<VfSelectContext>().toExtend<SchemaPartsContext>()
   })
 
-  // `part:*` / `class:*` / `reclass:*` attr keys are injected into dist only
-  // (see `#shorthands` + vf-build). Asserted in `shorthand-attrs-dist.test-d.ts`.
+  // `part:*` / `class:*` / `reclass:*` attr keys come from the declaration
+  // merge in each unstyled.ts. Asserted in `shorthand-attrs-dist.test-d.ts`.
   test('defineSchema classes / reclass / parts are context-checked', () => {
     defineSchema({
       classesPartsOk: {

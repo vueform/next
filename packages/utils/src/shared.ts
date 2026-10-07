@@ -13,8 +13,6 @@ import { pathToFileURL } from 'node:url'
 
 import type { BuildOptions, Plugin } from 'vite'
 
-import { injectShorthandPropsDts } from './shorthands'
-
 interface SassCompiler {
   compile(
     path: string,
@@ -55,8 +53,6 @@ export interface LibBuildOptions {
    */
   noHoistTransitiveImports?: boolean
 }
-
-export const SHORTHANDS_VIRTUAL = '\0vueform-shorthands-marker'
 
 // Served in place of the real .css/.scss under the "node" exports condition
 // so plain Node (SSR with externalized deps, test runners) can evaluate
@@ -179,31 +175,6 @@ export function findWorkspaceRoot(from: string): string {
 
 export function escapeRegExp(value: string): string {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
-
-/**
- * Resolves the `#shorthands` marker (a type-only import in component
- * `unstyled.ts` files) to an empty, side-effect-free virtual module, so Rollup
- * tree-shakes the import away entirely. The type side is covered by the ambient
- * `declare module '#shorthands'` in the root tsconfig's include.
- */
-export function shorthandsMarker(): Plugin {
-  return {
-    name: 'vf:shorthands-marker',
-    // 'pre': in Vite builds the core resolver otherwise sees `#shorthands`
-    // first and hard-errors on it (an `imports`-field package rejects any
-    // undeclared `#` specifier). Rolldown runs plugins before its builtin
-    // resolver regardless.
-    enforce: 'pre',
-    resolveId(id) {
-      if (id === '#shorthands') {
-        return { id: SHORTHANDS_VIRTUAL, moduleSideEffects: false }
-      }
-    },
-    load(id) {
-      if (id === SHORTHANDS_VIRTUAL) return 'export {}'
-    },
-  }
 }
 
 /**
@@ -711,42 +682,6 @@ export function mirrorEntries(dir: string): Record<string, string> {
     }
   })(dir)
   return entries
-}
-
-/**
- * After the d.ts files are written, injects the `part:*` / `class:*` /
- * `reclass:*` shorthand prop types for every component whose tier entry
- * (`styled.d.ts` / `unstyled.d.ts`) carries the `#shorthands` marker import: a
- * `shorthands.d.ts` declaration merge is written beside it and the marker
- * import is rewritten to `./shorthands`. `helpersFrom` is the specifier the
- * generated files import the prop helpers from — `'../../types'` in core,
- * `'@vueform/core'` in adapters.
- */
-export function shorthandProps(
-  distAbs: string,
-  helpersFrom: string,
-  srcComponentsDir?: string
-): Plugin {
-  return {
-    name: 'vf:shorthand-props',
-    enforce: 'post',
-    closeBundle() {
-      const { written, skipped } = injectShorthandPropsDts(distAbs, {
-        helpersFrom,
-        srcComponentsDir,
-      })
-      if (written > 0) {
-        const skipNote =
-          skipped.length > 0
-            ? ` (skipped ${skipped.length}: ${skipped.slice(0, 3).join('; ')}${skipped.length > 3 ? '…' : ''})`
-            : ''
-
-        console.info(
-          `[vf:shorthand-props] wrote ${written} shorthands.d.ts${skipNote}`
-        )
-      }
-    },
-  }
 }
 
 /**

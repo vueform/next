@@ -442,12 +442,6 @@ function patchTsconfig(combo: Combo) {
   co.noUnusedLocals = false
   co.noUnusedParameters = false
 
-  const include = (tsconfig.include ??= [])
-  // The ambient `declare module '#shorthands'` marker.
-  if (!include.includes('../../packages/global.d.ts')) {
-    include.push('../../packages/global.d.ts')
-  }
-
   writeTsconfig(tsconfigPath, tsconfig)
 
   // `tsconfig.build.json` resets `paths` to `{}` so the build type-checks
