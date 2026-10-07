@@ -55,7 +55,7 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <div v-else :class="classes.root">
       <ol :class="classes.list" role="tablist" v-bind="parts.list">
-        <template v-for="page in pager.pages">
+        <template v-for="page in pager.pages" :key="page.pageId">
           <li
             v-if="page.available"
             :class="classes.wrapper(page)"

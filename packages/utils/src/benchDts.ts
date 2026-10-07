@@ -26,7 +26,7 @@
  * - `--save` — overwrite the baseline with this run (combinable with `--compare`
  *   for a rolling baseline)
  *
- * Baselines live outside git in `node_modules/.vueform/bench-dts.json` at the
+ * Baselines live outside git in `.vueform/bench-dts.json` at the
  * workspace root, keyed by package → measurement. Typical flow: `--save` on
  * `main`, switch branch, `--compare`.
  */
@@ -362,7 +362,7 @@ export async function runBenchDts(options: BenchDtsOptions): Promise<boolean> {
     }
   ).name
   const root = workspaceRoot(packageDir)
-  const baselineDir = join(root, 'node_modules/.vueform')
+  const baselineDir = join(root, '.vueform')
   const baselinePath = join(baselineDir, 'bench-dts.json')
   let baselines: BaselineFile = {}
   try {

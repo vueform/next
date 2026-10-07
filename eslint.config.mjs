@@ -16,17 +16,13 @@ import vueParser from 'vue-eslint-parser'
  */
 export default [
   {
-    // Mirrors the oxlint ignorePatterns (vite.config.ts `lint` block), plus
-    // the generated user-project simulations that carry their own configs.
     ignores: [
-      '**/node_modules/**',
       '**/dist/**',
-      '**/.playgrounds/**',
-      'docs/.vitepress/.generated/**',
+      '.vueform/**',
+      '.playgrounds/**',
       'docs/.vitepress/cache/**',
-      'docs/.vitepress/dist/**',
-      'packages/*/registry/**',
       'docs/src/playground/**',
+      'packages/*/registry/**',
       'scripts/playground/templates/**',
     ],
   },
@@ -60,15 +56,6 @@ export default [
       // convention; the rule also false-positives on same-name shorthand
       // (`:form$`).
       'vue/valid-attribute-name': 'off',
-
-      // VfContent & co. render user-provided HTML by design.
-      'vue/no-v-text-v-html-on-component': 'off',
-
-      // TODO(review): 10 pre-existing violations in core src components
-      // (VfForm, VfGrid, VfLanguages, VfMatrix ×2, VfSteps, VfTabs, VfForm ×2,
-      // VfGrid) — keyless v-for means patch-in-place reuse. Decide per case
-      // (add :key vs intentional positional reuse), then re-enable.
-      'vue/require-v-for-key': 'off',
     },
   },
 

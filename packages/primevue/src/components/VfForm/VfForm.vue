@@ -306,7 +306,8 @@ defineExpose(expose)
                 <ul v-else :class="classes.errors" v-bind="parts.errors">
                   <template v-for="(fieldErrors, path) in errors" :key="path">
                     <li
-                      v-for="error in fieldErrors"
+                      v-for="(error, i) in fieldErrors"
+                      :key="`${path}-${i}`"
                       :class="classes.error"
                       v-bind="parts.error"
                     >
@@ -345,7 +346,8 @@ defineExpose(expose)
                 />
                 <ul v-else :class="classes.messages" v-bind="parts.messages">
                   <li
-                    v-for="message in messages"
+                    v-for="(message, i) in messages"
+                    :key="i"
                     :class="classes.message"
                     v-bind="parts.message"
                   >
@@ -395,7 +397,7 @@ defineExpose(expose)
           <slot v-if="tabbed" name="tabs" :pager="tabs">
             <component v-if="outlets?.tabs" :is="outlets?.tabs" :pager="tabs" />
             <TabList v-else :class="classes.tabs" v-bind="parts.tabs">
-              <template v-for="page in tabs.pages">
+              <template v-for="page in tabs.pages" :key="page.name">
                 <slot name="tab" :page>
                   <component v-if="outlets?.tab" :is="outlets.tab" :page>
                     {{ page.label }}
@@ -420,7 +422,7 @@ defineExpose(expose)
               :pager="steps"
             />
             <template v-else-if="vertical">
-              <template v-for="page in steps.pages">
+              <template v-for="page in steps.pages" :key="page.name">
                 <slot name="step" :page>
                   <component v-if="outlets?.step" :is="outlets?.step" :page />
                   <StepItem
@@ -458,7 +460,7 @@ defineExpose(expose)
               </template>
             </template>
             <StepList v-else :class="classes.steps" v-bind="parts.steps">
-              <template v-for="page in steps.pages">
+              <template v-for="page in steps.pages" :key="page.name">
                 <slot name="step" :page>
                   <component v-if="outlets?.step" :is="outlets?.step" :page />
                   <FormStep
@@ -516,8 +518,8 @@ defineExpose(expose)
                       <component
                         :is="el.component"
                         v-for="el in resolvedSchema"
-                        v-bind="el.props"
                         :key="el.props.name"
+                        v-bind="el.props"
                       />
                     </template>
                   </slot>

@@ -9,7 +9,7 @@ import { requireData, SCRAPE_HINT } from './ensureData'
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
-const TOKENS_JSON = path.resolve(DOCS_ROOT, '../.api/core/tokens.json')
+const TOKENS_JSON = path.resolve(DOCS_ROOT, '../.vueform/api/core/tokens.json')
 requireData('tokens', TOKENS_JSON, SCRAPE_HINT)
 const TOKENS_GUIDE = path.join(DOCS_ROOT, 'src/guide/themes-tokens.md')
 

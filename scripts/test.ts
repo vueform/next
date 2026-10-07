@@ -4,12 +4,12 @@
  * Without flags, runs every package's own `test` script (alphabetical);
  * packages without one are simply not in the queue. Selection flags work like
  * the build orchestrator's — `--core`, `--pv`, `--adapters`. Durations are
- * persisted in `node_modules/.vueform/times.json`.
+ * persisted in `.vueform/times.json`.
  *
  * The runner spawns without a TTY, so vitest runs in single-pass mode rather
  * than watch mode. Console output captured during tests is aggregated and
  * reported after the queue (see `warns.ts`), with the full messages in
- * `node_modules/.vueform/tests.md`.
+ * `.vueform/tests.md`.
  */
 import { join } from 'node:path'
 

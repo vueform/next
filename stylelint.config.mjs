@@ -25,5 +25,5 @@ export default {
     'at-rule-empty-line-before': null,
     'scss/load-partial-extension': null,
   },
-  ignoreFiles: ['**/node_modules/**', '**/dist/**'],
+  ignoreFiles: ['**/dist/**', '.vueform/**', '.playgrounds/**'],
 }

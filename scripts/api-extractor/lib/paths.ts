@@ -15,4 +15,4 @@ export const monorepoRoot = resolve(pkgRoot, '../..')
  * Output tree: one json per scraper, with per-adapter `_<adapter>` subtrees.
  * Git-ignored — regenerate with `pnpm extract` at the monorepo root.
  */
-export const generatedDir = resolve(monorepoRoot, '.api')
+export const generatedDir = resolve(monorepoRoot, '.vueform/api')

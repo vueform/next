@@ -1,7 +1,7 @@
 /**
  * Shared helpers for the smoke harness: repo/path discovery, process spawning
  * and small fs utilities. Everything ephemeral lives under
- * `node_modules/.vueform/smoke` (swept by `pnpm clean` for free).
+ * `.vueform/smoke` at the repo root (survives installs and `pnpm clean`).
  */
 import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
@@ -57,7 +57,7 @@ export function findRepoRoot(from: string): string {
 }
 
 export function smokeStateDir(root: string) {
-  return path.join(root, 'node_modules', '.vueform', 'smoke')
+  return path.join(root, '.vueform', 'smoke')
 }
 
 /**

@@ -102,7 +102,7 @@
   },
   "scripts": {
     "build": "vf-validate-source && rm -rf dist && vue-tsc -p tsconfig.dts.json && tsdown && tsdown -c tsdown.vapor.config.ts",
-    "check": "vue-tsc --incremental --noEmit",
+    "typecheck": "vue-tsc --incremental --noEmit",
     "registry": "vf-registry",
     "size": "vf-size",
     "size:report": "vf-size --report",

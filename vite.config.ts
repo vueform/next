@@ -53,6 +53,48 @@ const aliasedSrcPackages = [
   }),
 ]
 
+/**
+ * Packages with a `typecheck` script (vue-tsc / tsc --noEmit). Each becomes a
+ * cached `:typecheck:<dir>` task; the `:typecheck` aggregate adds the root
+ * tsconfig.node.json pass on top. Type checking is vue-tsc/tsc only — oxlint's
+ * type-aware path (tsgolint) cannot do it here, see the `lint` block note.
+ */
+const checkedPackages = readdirSync(join(repoDir, 'packages')).flatMap(
+  (dir) => {
+    const manifest = join(repoDir, 'packages', dir, 'package.json')
+    if (!existsSync(manifest)) return []
+    const pkg = JSON.parse(readFileSync(manifest, 'utf8'))
+    return pkg.scripts?.typecheck ? [{ dir, name: pkg.name as string }] : []
+  }
+)
+
+/**
+ * A package's typecheck resolves other packages through the root tsconfig's
+ * `#<dir>` and `@vueform` SOURCE aliases, so every leg's cache depends on the
+ * src of every package — over-invalidation is safe, a stale pass is not.
+ */
+const typecheckTasks = Object.fromEntries(
+  checkedPackages.map(({ dir, name }) => [
+    `:typecheck:${dir}`,
+    {
+      command: `pnpm --filter ${name} run typecheck`,
+      cache: {
+        input: [
+          `packages/${dir}/src/**`,
+          `packages/${dir}/tests/**`,
+          `packages/${dir}/*.ts`,
+          `packages/${dir}/*.json`,
+          'packages/*/src/**',
+          'packages/global.d.ts',
+          'tsconfig.json',
+          'pnpm-lock.yaml',
+        ],
+        output: [],
+      },
+    },
+  ])
+)
+
 export default defineConfig({
   fmt: {
     semi: false,
@@ -66,7 +108,13 @@ export default defineConfig({
     jsdocCommentLineStrategy: 'multiline',
     sortPackageJson: {},
     sortImports: {},
-    ignorePatterns: ['*.md', 'docs/src/playground/*.js'],
+    ignorePatterns: [
+      '**/dist/**',
+      '.vueform/**',
+      '.playgrounds/**',
+      '*.md',
+      'docs/src/playground/*.js',
+    ],
   },
   lint: {
     categories: {
@@ -74,9 +122,10 @@ export default defineConfig({
     },
     plugins: ['typescript', 'import'],
     ignorePatterns: [
-      'docs/.vitepress/.generated',
-      'docs/.vitepress/cache',
-      'docs/.vitepress/dist',
+      '**/dist/**',
+      '.vueform/**',
+      '.playgrounds/**',
+      'docs/.vitepress/cache/**',
       'docs/src/playground/*.js',
     ],
     rules: {
@@ -156,6 +205,45 @@ export default defineConfig({
       ':lint': {
         command: 'vp lint',
         dependsOn: [':stylelint', ':eslint'],
+      },
+      ...typecheckTasks,
+      ':typecheck:docs': {
+        command: 'pnpm --filter @vueform/docs run typecheck',
+        cache: {
+          input: [
+            'docs/.vitepress/**',
+            'docs/scripts/**',
+            'docs/src/**',
+            'docs/*.json',
+            'docs/*.ts',
+            '!docs/.vitepress/cache/**',
+            '!docs/.vitepress/dist/**',
+            '!docs/.vitepress/.generated/**',
+            '!docs/src/playground/**',
+            'packages/*/dist/**',
+            'pnpm-lock.yaml',
+          ],
+          output: [],
+        },
+      },
+      ':typecheck': {
+        command: 'tsc --noEmit -p tsconfig.node.json',
+        dependsOn: [
+          ...checkedPackages.map(({ dir }) => `:typecheck:${dir}`),
+          ':typecheck:docs',
+        ],
+        cache: {
+          input: [
+            '*.config.ts',
+            'scripts/**',
+            'packages/*/tests/bench-dts/generate.ts',
+            'tsconfig.node.json',
+            'pnpm-lock.yaml',
+            // scripts/ imports @vueform/utils, which resolves to BUILT types.
+            'packages/utils/dist/**',
+          ],
+          output: [],
+        },
       },
       ':eslint': {
         command: 'eslint "**/*.vue"',

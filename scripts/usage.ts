@@ -81,7 +81,7 @@ console.log(
     line(
       'test',
       '[packages]',
-      'run package test suites; warns land in node_modules/.vueform/test-issues.md',
+      'run package test suites; warns land in .vueform/test-issues.md',
       [resume]
     ),
     line(
@@ -109,12 +109,16 @@ console.log(
       row(
         'extract',
         '[targets]',
-        'extract api jsons of core + the adapters into .api/'
+        'extract api jsons of core + the adapters into .vueform/api/'
       ),
       flagRows([
         ['--core, --ui, --pv', 'narrow the extracted sources'],
       ] as Flag[]),
-      row('extract:validate', null, 'validate .api/ against the schemas'),
+      row(
+        'extract:validate',
+        null,
+        'validate .vueform/api/ against the schemas'
+      ),
       row('extract:issues', null, 'print the undocumented items collected'),
     ].join('\n') + '\n',
     [

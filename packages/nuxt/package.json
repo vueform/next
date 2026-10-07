@@ -13,7 +13,7 @@
   },
   "scripts": {
     "build": "nuxt-module-build build",
-    "check": "tsc --noEmit"
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "@nuxt/kit": "catalog:",

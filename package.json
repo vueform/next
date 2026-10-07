@@ -2,7 +2,8 @@
   "private": true,
   "scripts": {
     "fmt": "vp fmt",
-    "lint": "vpr :lint"
+    "lint": "vpr :lint",
+    "typecheck": "vpr :typecheck"
   },
   "devDependencies": {
     "@commitlint/cli": "catalog:",

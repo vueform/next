@@ -6,11 +6,11 @@
  * flags work like the test orchestrator's — `--core`, `--pv`, `--adapters`. The
  * engine flags `--save`, `--compare` and `--runs=N` are forwarded to each
  * package (see `vf-bench-dts` in `@vueform/utils`). Durations are persisted in
- * `node_modules/.vueform/times.json`.
+ * `.vueform/times.json`.
  *
  * Like `pnpm test:bench`, the captured output is replayed after the queue — the
  * measurements are the whole point of the run. Baselines are only written with
- * `--save` (to `node_modules/.vueform/bench-dts.json`, outside git).
+ * `--save` (to `.vueform/bench-dts.json`, outside git).
  */
 import { join } from 'node:path'
 

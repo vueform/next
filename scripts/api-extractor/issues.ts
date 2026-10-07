@@ -1,5 +1,5 @@
 /**
- * Prints the issues collected by the last scrape (`.api/issues.json`). Accepts
+ * Prints the issues collected by the last scrape (`.vueform/api/issues.json`). Accepts
  * the same source scope flags as `pnpm extract` (default: all): `--core`,
  * `--adapter=x,y` / `-a=x,y`, `--ui`, `--pv` / `--primevue`.
  */

@@ -1,5 +1,5 @@
 /**
- * Assembles the final `core/` + adapter folders in `.api/` from the scrapers'
+ * Assembles the final `core/` + adapter folders in `.vueform/api/` from the scrapers'
  * raw output and refreshes `issues.json` — the closing task of `pnpm extract`
  * (see extract.ts). Takes the same scope flags plus the scraper names that
  * ran.

@@ -711,7 +711,7 @@ function onHtmlLineClick(key: string) {
             </svg>
             {{ activeKey }}
           </div>
-          <component :is="'style'" v-text="highlightStyle" />
+          <component :is="'style'">{{ highlightStyle }}</component>
         </div>
         <div v-if="viewMode === 'html'" class="vp-parts-html language-html">
           <pre><code><span
@@ -780,7 +780,7 @@ function onHtmlLineClick(key: string) {
             ></span>
 </span></code></pre>
         </div>
-        <component :is="'style'" v-text="shikiThemeStyle" />
+        <component :is="'style'">{{ shikiThemeStyle }}</component>
       </div>
     </div>
     <div v-if="lockedKey && lockedPartInfo" class="vp-parts-info">

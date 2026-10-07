@@ -7,7 +7,7 @@
  *
  * Structural json extraction (blueprints, classes, components, composables,
  * contexts, helpers, locales, modules, tokens) lives in scripts/api-extractor
- * and writes to `.api/` at the monorepo root — run `pnpm extract` there first
+ * and writes to `.vueform/api/` at the monorepo root — run `pnpm extract` there first
  * when those are stale. The generators here only produce docs content from
  * those jsons.
  *

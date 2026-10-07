@@ -23,7 +23,7 @@
   },
   "scripts": {
     "build": "rm -rf dist && tsc",
-    "check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "test": "vitest"
   },
   "devDependencies": {

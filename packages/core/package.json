@@ -74,7 +74,7 @@
   },
   "scripts": {
     "build": "rm -rf dist && vue-tsc -p tsconfig.dts.json && tsdown && tsdown -c tsdown.vapor.config.ts",
-    "check": "vue-tsc --incremental --noEmit",
+    "typecheck": "vue-tsc --incremental --noEmit",
     "size": "vf-size",
     "test": "vitest --project integration --maxWorkers=16",
     "test:bench": "NODE_OPTIONS=--max-old-space-size=8192 vitest bench",

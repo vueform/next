@@ -4,7 +4,7 @@
  * Without flags, runs every package's own `test:dts` script (alphabetical);
  * packages without one are simply not in the queue. Selection flags work like
  * the test orchestrator's — `--core`, `--pv`, `--adapters`. Durations are
- * persisted in `node_modules/.vueform/times.json`.
+ * persisted in `.vueform/times.json`.
  *
  * Unlike `pnpm test`, captured console output is not aggregated or persisted —
  * type tests produce none worth keeping.

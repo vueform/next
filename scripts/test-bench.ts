@@ -4,7 +4,7 @@
  * Without flags, runs every package's own `test:bench` script (alphabetical);
  * packages without one are simply not in the queue. Selection flags work like
  * the test orchestrator's — `--core`, `--pv`, `--adapters`. Durations are
- * persisted in `node_modules/.vueform/times.json`.
+ * persisted in `.vueform/times.json`.
  *
  * Nothing is persisted, but unlike `pnpm test:dts` the captured output is
  * replayed after the queue — the benchmark numbers are the whole point of the

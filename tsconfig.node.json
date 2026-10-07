@@ -11,7 +11,8 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "emitDeclarationOnly": true,
-    "outDir": "node_modules/.cache/tsconfig.node"
+    "outDir": "node_modules/.tmp/tsconfig.node",
+    "tsBuildInfoFile": "node_modules/.tmp/tsconfig.node.tsbuildinfo"
   },
   "include": [
     "*.config.ts",

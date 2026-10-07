@@ -7,7 +7,7 @@
  * flags (cell filters like `--vite`/`--ssr`/`--vapor`, `--tiers=…`,
  * `--skip-pack`, package-manager picks) are forwarded to each adapter — see
  * `pnpm --filter @vueform/ui test:smoke --help`. Durations are persisted in
- * `node_modules/.vueform/times.json`.
+ * `.vueform/times.json`.
  *
  * A failing adapter dumps the smoke harness output and stops the queue;
  * successful output is not replayed.

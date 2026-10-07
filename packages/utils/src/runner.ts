@@ -24,10 +24,11 @@ export const repoRoot = findWorkspaceRoot(process.cwd())
 const packagesDir = join(repoRoot, 'packages')
 
 /**
- * Local orchestrator artifacts (recorded durations, captured messages) — kept
- * inside node_modules so they stay out of sight and out of git.
+ * Local tool artifacts (recorded durations, captured messages, baselines,
+ * size reports) — the root `.vueform/` directory, gitignored but OUTSIDE
+ * node_modules so `pnpm install` pruning cannot delete them.
  */
-export const outputDir = join(repoRoot, 'node_modules/.vueform')
+export const outputDir = join(repoRoot, '.vueform')
 mkdirSync(outputDir, { recursive: true })
 
 const isTTY = process.stdout.isTTY === true
@@ -359,7 +360,7 @@ interface ResumeState {
 
 export interface RunOptions {
   /**
-   * Namespace for duration records in `node_modules/.vueform/times.json`, e.g.
+   * Namespace for duration records in `.vueform/times.json`, e.g.
    * `build`.
    */
   timesScope: string

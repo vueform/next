@@ -7,7 +7,7 @@
  * Playwright's own `--update-snapshots`/`-u`) regenerates the committed
  * screenshot baselines, and `--grep=…`/`-g=…` narrows the cases; both are
  * forwarded to each package. Durations are persisted in
- * `node_modules/.vueform/times.json`.
+ * `.vueform/times.json`.
  *
  * A failing package dumps Playwright's output (with the diff artifact paths)
  * and stops the queue; successful output is not replayed.

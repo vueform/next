@@ -16,8 +16,8 @@ import { requireData, SCRAPE_HINT } from './ensureData'
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
-const GENERATED_DIR = path.join(DOCS_ROOT, '.generated')
-const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.api')
+const GENERATED_DIR = path.join(DOCS_ROOT, '..', '.vueform', 'docs')
+const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
 
 requireData(
   'reference',

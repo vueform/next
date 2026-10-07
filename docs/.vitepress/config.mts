@@ -199,19 +199,19 @@ export default mergeConfig(
           // adapter folder.
           'virtual:vf-generated/components': path.resolve(
             __dirname,
-            `../../.api/${ADAPTER}/components.json`
+            `../../.vueform/api/${ADAPTER}/components.json`
           ),
           'virtual:vf-generated/classes': path.resolve(
             __dirname,
-            `../../.api/${ADAPTER}/classes.json`
+            `../../.vueform/api/${ADAPTER}/classes.json`
           ),
           'virtual:vf-generated/keywords': path.resolve(
             __dirname,
-            `../.generated/${ADAPTER}/keywords.json`
+            `../../.vueform/docs/${ADAPTER}/keywords.json`
           ),
           'virtual:vf-generated/types': path.resolve(
             __dirname,
-            `../.generated/${ADAPTER}/types.json`
+            `../../.vueform/docs/${ADAPTER}/types.json`
           ),
         },
       },

@@ -5,7 +5,7 @@ import { generatedDir } from './paths'
 import type { ScrapeScope } from './scope'
 
 /**
- * `.api/issues.json`: everything the scrape found wanting, keyed by source
+ * `.vueform/api/issues.json`: everything the scrape found wanting, keyed by source
  * (`core` or an adapter name). Written by the scrapers, displayed by `pnpm
  * extract:issues` and `pnpm extract:validate` — the data files themselves stay
  * clean.

@@ -3,9 +3,9 @@
  * selected by target flags) as a task list with per-task progress bars — the
  * same renderer as `pnpm build` / `pnpm check` — closing with an `assemble`
  * task that writes the structural json representations of core and the adapters
- * into `.api/` at the monorepo root. The scrapers' own output stays captured
+ * into `.vueform/api/` at the monorepo root. The scrapers' own output stays captured
  * (dumped only on failure); undocumented items are summarized after the queue
- * with the path to `.api/issues.json`.
+ * with the path to `.vueform/api/issues.json`.
  *
  * Target flags (default: every target): `--tokens`, `--classes`, … — one per
  * output file, combinable (`pnpm extract --tokens --classes`). Selection is
@@ -18,7 +18,7 @@
  * - `--adapter=x,y` / `-a=x,y` the listed adapters
  * - `--ui`, `--pv` / `--primevue` shorthands for `--adapter=ui` / `=primevue`
  *
- * An adapter-scoped run merges against the existing `.api/core` — when that is
+ * An adapter-scoped run merges against the existing `.vueform/api/core` — when that is
  * missing (any requested file), core is scraped first automatically.
  */
 import * as fs from 'node:fs'

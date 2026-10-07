@@ -1,5 +1,5 @@
 /**
- * Validates the assembled `.api/` trees against the json schemas in schemas/.
+ * Validates the assembled `.vueform/api/` trees against the json schemas in schemas/.
  * Run with `pnpm extract:validate` at the monorepo root after an extract.
  *
  * Accepts the same source scope flags as `pnpm extract` (default: all):
@@ -133,7 +133,7 @@ for (const folder of folders) {
 
 // --- collected issues (warning) ---------------------------------------------
 // The scrapers write everything wanting documentation to
-// `.api/issues.json`; `pnpm extract:issues` prints the same report.
+// `.vueform/api/issues.json`; `pnpm extract:issues` prints the same report.
 
 const issues = scopedIssues(scope)
 const undocumented = issues.length

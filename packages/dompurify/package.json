@@ -15,7 +15,7 @@
   },
   "scripts": {
     "build": "tsdown",
-    "check": "tsc --noEmit",
+    "typecheck": "tsc --noEmit",
     "size": "vf-size",
     "size:report": "vf-size --report",
     "test:dts-dist": "vitest run --project test-dts-dist"
