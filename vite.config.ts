@@ -491,6 +491,10 @@ export default defineConfig({
         dependsOn: [':build:utils'],
       },
       ...testDtsTasks,
+      ':test-visual': {
+        command: 'tsx scripts/test-visual.ts',
+        dependsOn: [':build:utils'],
+      },
       ':test-smoke': {
         command: 'tsx scripts/test-smoke.ts --nopack',
         dependsOn: [':build', ':pack'],

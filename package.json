@@ -11,6 +11,7 @@
     "test": "tsx scripts/test.ts",
     "test-dts": "tsx scripts/test-dts.ts",
     "test-smoke": "tsx scripts/test-smoke.ts",
+    "test-visual": "tsx scripts/test-visual.ts",
     "typecheck": "vpr :typecheck"
   },
   "devDependencies": {

@@ -139,16 +139,6 @@ export const checkTasks = (): Task[] => [
 ]
 
 /**
- * `passthrough` flags (e.g. `--update-snapshots` / `--grep=…`) are forwarded to
- * every package's `test-visual` script.
- */
-export const testVisualTasks = (passthrough: string[] = []): Task[] =>
-  discoverPackageTasks('test-visual').map((task) => ({
-    ...task,
-    args: [...task.args, ...passthrough],
-  }))
-
-/**
  * Collapses a stage's tasks into a single task (one progress bar), running
  * every step of every task sequentially.
  */

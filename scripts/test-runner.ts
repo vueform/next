@@ -20,6 +20,7 @@
 import { spawn, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
+import readline from 'node:readline'
 import { fileURLToPath } from 'node:url'
 
 const repoRoot = path.resolve(
@@ -62,6 +63,17 @@ export interface TestRunnerOptions {
    * The live display's heading.
    */
   title: string
+  /**
+   * The tool behind the script: vitest (default) appends its reporter flags
+   * and extracts Vue warns; playwright reports via PLAYWRIGHT_JSON_OUTPUT_NAME
+   * and has no warn pass.
+   */
+  kind?: 'vitest' | 'playwright'
+  /**
+   * 'errors-only' writes no full session log and no warns file — only the
+   * errors log when something fails (the visual suites' choice).
+   */
+  logs?: 'full' | 'errors-only'
 }
 const colors = live && !('NO_COLOR' in process.env)
 const paint = (code: string, text: string) =>
@@ -104,12 +116,25 @@ interface PkgState {
   errors: string[]
   failed: boolean
   failedTests: number
+  /**
+   * Tests finished so far (counted live from the reporter's per-test lines).
+   */
+  done: number
 }
 
 export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
   const stateDir = path.join(repoRoot, '.vueform', opts.scope)
   const logsDir = path.join(stateDir, 'logs')
   const resultsDir = path.join(stateDir, 'results')
+  // Last run's per-package test totals — the `y` of the live `x/y` progress.
+  // A first run shows `x/?` until the totals exist.
+  const totalsFile = path.join(stateDir, 'totals.json')
+  let totals: Record<string, number> = {}
+  try {
+    totals = JSON.parse(fs.readFileSync(totalsFile, 'utf8'))
+  } catch {
+    // No totals yet.
+  }
 
   let packages: Pkg[] = fs
     .readdirSync(path.join(repoRoot, 'packages'))
@@ -189,7 +214,8 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
   const logFile = path.join(logsDir, `${stamp}.log`)
   const warnsFile = path.join(logsDir, `${stamp}.warns.log`)
   const errorsFile = path.join(logsDir, `${stamp}.errors.log`)
-  const logFd = fs.openSync(logFile, 'w')
+  const fullLogs = (opts.logs ?? 'full') === 'full'
+  const logFd = fullLogs ? fs.openSync(logFile, 'w') : null
 
   // ---------------------------------------------------------------------------
   // Display: one row per package.
@@ -204,6 +230,7 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
         errors: [],
         failed: false,
         failedTests: 0,
+        done: 0,
       },
     ])
   )
@@ -221,7 +248,7 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
           : red('✗')
     const detail =
       state.status === 'running'
-        ? dim('running…')
+        ? dim(`${state.done}/${totals[name] ?? '?'}`)
         : state.status === 'pass'
           ? green(state.detail)
           : red(state.detail)
@@ -345,39 +372,96 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
     return errors
   }
 
+  /**
+   * Failed tests from Playwright's JSON report: walk the suite tree and
+   * collect each not-ok spec's title with its error messages.
+   */
+  function extractPlaywrightErrors(data: any): string[] {
+    const errors: string[] = []
+    const walk = (suite: any, trail: string[]) => {
+      for (const child of suite.suites ?? []) {
+        walk(child, [...trail, child.title].filter(Boolean))
+      }
+      for (const spec of suite.specs ?? []) {
+        if (spec.ok) continue
+        const messages = (spec.tests ?? [])
+          .flatMap((test: any) => test.results ?? [])
+          .flatMap((result: any) =>
+            (result.errors ?? (result.error ? [result.error] : [])).map(
+              (error: any) => String(error.message ?? error)
+            )
+          )
+          .join('\n')
+          .replace(ansiRe, '')
+        errors.push(
+          `✗ ${[...trail, spec.title].join(' › ')}\n${messages.replace(/^/gm, '  ')}`
+        )
+      }
+    }
+    for (const suite of data?.suites ?? [])
+      walk(suite, [suite.title].filter(Boolean))
+    return errors
+  }
+
   function runPackage(pkg: Pkg): Promise<void> {
     return new Promise((resolve) => {
       const jsonFile = path.join(resultsDir, `${pkg.dir}.json`)
-      const child = spawn(
-        'pnpm',
-        [
-          '--filter',
-          pkg.name,
-          'run',
-          opts.script,
-          '--run',
-          '--reporter=verbose',
-          '--reporter=json',
-          `--outputFile=${jsonFile}`,
-        ],
-        { cwd: repoRoot, stdio: ['ignore', 'pipe', 'pipe'] }
-      )
+      const playwright = opts.kind === 'playwright'
+      const args = playwright
+        ? ['--filter', pkg.name, 'run', opts.script, '--reporter=list,json']
+        : [
+            '--filter',
+            pkg.name,
+            'run',
+            opts.script,
+            '--run',
+            '--reporter=verbose',
+            '--reporter=json',
+            `--outputFile=${jsonFile}`,
+          ]
+      const child = spawn('pnpm', args, {
+        cwd: repoRoot,
+        stdio: ['ignore', 'pipe', 'pipe'],
+        env: playwright
+          ? { ...process.env, PLAYWRIGHT_JSON_OUTPUT_NAME: jsonFile }
+          : process.env,
+      })
 
       let output = ''
-      child.stdout.on('data', (chunk: Buffer) => (output += chunk.toString()))
+      const state = states.get(pkg.name)!
+      // Per-test lines: vitest's verbose reporter prints `✓ file > test`,
+      // playwright's list reporter `✓  12 [project] › file › test`.
+      const testLineRe = playwright ? /^\s*[✓✘✗×-]\s+\d+\s/ : /^\s*[✓✗×] .* > /
+      const rl = readline.createInterface({ input: child.stdout })
+      rl.on('line', (line) => {
+        output += line + '\n'
+        const plain = line.replace(ansiRe, '')
+        // Playwright announces its total upfront — a first run gets a real
+        // denominator instead of `?`.
+        if (playwright) {
+          const total = plain.match(/^Running (\d+) test/)
+          if (total) totals[pkg.name] = Number(total[1])
+        }
+        if (testLineRe.test(plain)) state.done++
+      })
       child.stderr.on('data', (chunk: Buffer) => (output += chunk.toString()))
 
       child.on('close', (code) => {
-        const state = states.get(pkg.name)!
-        state.warns = extractWarns(output, pkg.dir)
+        if (!playwright) state.warns = extractWarns(output, pkg.dir)
 
         let passed = 0
         let failed = 0
         try {
           const data = JSON.parse(fs.readFileSync(jsonFile, 'utf8'))
-          passed = data.numPassedTests ?? 0
-          failed = data.numFailedTests ?? 0
-          state.errors = extractErrors(data)
+          if (playwright) {
+            passed = (data.stats?.expected ?? 0) + (data.stats?.flaky ?? 0)
+            failed = data.stats?.unexpected ?? 0
+            state.errors = extractPlaywrightErrors(data)
+          } else {
+            passed = data.numPassedTests ?? 0
+            failed = data.numFailedTests ?? 0
+            state.errors = extractErrors(data)
+          }
         } catch {
           // No/invalid JSON (e.g. the process died before the reporter ran) —
           // fall through to the exit code.
@@ -400,8 +484,10 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
           }
         }
 
-        fs.writeSync(logFd, `\n––––– ${pkg.name} –––––\n`)
-        fs.writeSync(logFd, output.endsWith('\n') ? output : output + '\n')
+        if (logFd !== null) {
+          fs.writeSync(logFd, `\n––––– ${pkg.name} –––––\n`)
+          fs.writeSync(logFd, output.endsWith('\n') ? output : output + '\n')
+        }
 
         if (live) repaint()
         else if (verbose) {
@@ -416,11 +502,22 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
 
   await Promise.all(packages.map(runPackage))
 
+  // Remember this run's totals for the next run's `x/y` denominators.
+  for (const { name } of packages) {
+    const finished = states.get(name)!.done
+    if (finished > 0) totals[name] = finished
+  }
+  try {
+    fs.writeFileSync(totalsFile, JSON.stringify(totals, null, 2) + '\n')
+  } catch {
+    // Totals are a convenience — never fail the run over them.
+  }
+
   if (timer) clearInterval(timer)
   if (live) repaint()
   restoreCursor()
   process.removeListener('exit', restoreCursor)
-  fs.closeSync(logFd)
+  if (logFd !== null) fs.closeSync(logFd)
 
   const failures = packages.filter(({ name }) => states.get(name)!.failed)
   const totalWarns = packages.reduce(
