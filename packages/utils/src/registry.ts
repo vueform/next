@@ -1095,8 +1095,8 @@ function loadValidators() {
     JSON.parse(fs.readFileSync(path.join(schemasDir, name), 'utf8'))
 
   return {
-    item: ajv.compile(read('registry-item.json')),
-    index: ajv.compile(read('registry.json')),
+    item: ajv.compile(read('registry-item.schema.json')),
+    index: ajv.compile(read('registry.schema.json')),
   }
 }
 
