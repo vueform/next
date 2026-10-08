@@ -7,7 +7,6 @@
     "fmt": "vp fmt",
     "lint": "vpr :lint",
     "quick": "vpr :quick",
-    "release:verify": "vpr :release:verify",
     "typecheck": "vpr :typecheck"
   },
   "devDependencies": {
@@ -61,7 +60,7 @@
     ]
   },
   "engines": {
-    "node": ">=20.0.0"
+    "node": ">=24.0.0"
   },
   "packageManager": "pnpm@10.20.0",
   "pnpm": {

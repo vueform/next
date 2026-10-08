@@ -22,6 +22,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "publint": "publint",
     "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "test": "vitest"
   },
@@ -32,6 +33,6 @@
     "vitest": "catalog:"
   },
   "engines": {
-    "node": ">=20.10.0"
+    "node": ">=22.12.0"
   }
 }

@@ -25,6 +25,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "publint": "publint",
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "size": "vf-size",
     "size:report": "vf-size --report"
@@ -53,5 +54,8 @@
       "depImport": "import DOMPurify from 'isomorphic-dompurify'",
       "depRetain": "console.log(DOMPurify.sanitize('<b>vueform</b>'))"
     }
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }

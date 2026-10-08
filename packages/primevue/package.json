@@ -127,6 +127,7 @@
   },
   "scripts": {
     "build": "rm -rf dist && vue-tsc -p tsconfig.build.json && tsdown && tsdown -c tsdown.vapor.config.ts",
+    "publint": "publint",
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "registry": "vf-registry",
     "size": "vf-size",
@@ -195,5 +196,8 @@
         "primeicons"
       ]
     }
+  },
+  "engines": {
+    "node": ">=22.12.0"
   }
 }
