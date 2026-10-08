@@ -17,6 +17,7 @@
     "@vueform/dompurify": "workspace:*",
     "@vueform/expr-eval": "workspace:*",
     "@vueform/tsconfig": "workspace:*",
+    "@vueform/ui": "workspace:*",
     "@vueform/utils": "workspace:*",
     "ajv": "catalog:",
     "eslint": "catalog:",

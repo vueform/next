@@ -1,0 +1,12 @@
+{
+  // The package DEFAULT (bare `"extends": "@vueform/tsconfig"`): node
+  // tooling env, bundler resolution — root scripts, benchmark, utils, nuxt,
+  // and the packages' config-file programs. The published ESM bin package
+  // (cli) adds NodeNext on top in its own tsconfig.app.json.
+  "extends": "@vue/tsconfig/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022"],
+    "types": ["node"]
+  }
+}

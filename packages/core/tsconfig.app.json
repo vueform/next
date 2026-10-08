@@ -1,5 +1,5 @@
 {
-  "extends": "@vueform/tsconfig/dom.json",
+  "extends": "@vueform/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/app.tsbuildinfo"

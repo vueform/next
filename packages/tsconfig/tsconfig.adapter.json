@@ -1,5 +1,5 @@
 {
   // Adapters (ui, primevue) check in the same src world as core. A separate
   // preset so the roles stay named and can diverge without churn.
-  "extends": "./dom.json"
+  "extends": "./tsconfig.dom.json"
 }

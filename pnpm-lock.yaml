@@ -218,6 +218,9 @@ importers:
       '@vueform/tsconfig':
         specifier: workspace:*
         version: link:packages/tsconfig
+      '@vueform/ui':
+        specifier: workspace:*
+        version: link:packages/ui
       '@vueform/utils':
         specifier: workspace:*
         version: link:packages/utils

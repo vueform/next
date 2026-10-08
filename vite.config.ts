@@ -270,16 +270,67 @@ export default defineConfig({
         command: 'vp lint',
         dependsOn: [':stylelint', ':eslint'],
       },
+      ':stylelint': {
+        command: 'stylelint "**/*.{scss,css}"',
+        cache: {
+          input: [
+            '**/*.scss',
+            '**/*.css',
+            '!**/dist/**',
+            '!.vueform/**',
+            '!.playgrounds/**',
+            '!docs/.vitepress/cache/**',
+            '!scripts/playground/templates/**',
+            'stylelint.config.mjs',
+            'pnpm-lock.yaml',
+          ],
+          output: [],
+        },
+      },
+      ':eslint': {
+        command: 'eslint "**/*.vue"',
+        cache: {
+          input: [
+            '**/*.vue',
+            '!**/dist/**',
+            '!.vueform/**',
+            '!.playgrounds/**',
+            '!docs/.vitepress/cache/**',
+            '!docs/src/playground/**',
+            '!packages/*/registry/**',
+            '!scripts/playground/templates/**',
+            'eslint.config.mjs',
+            'pnpm-lock.yaml',
+          ],
+          output: [],
+        },
+      },
+      ':typecheck': {
+        command: 'tsc --noEmit',
+        dependsOn: [
+          ...checkedPackages.map(({ dir }) => `:typecheck:${dir}`),
+          ':typecheck:docs',
+          ':typecheck:benchmark',
+        ],
+        cache: {
+          input: [
+            '*.config.ts',
+            'scripts/**',
+            '!scripts/playground/templates/**',
+            'packages/tsconfig/**',
+            'packages/utils/dist/**',
+            'tsconfig.json',
+            'pnpm-lock.yaml',
+          ],
+          output: [],
+        },
+      },
       ...typecheckTasks,
       ':typecheck:docs': {
         command: 'pnpm --filter @vueform/docs run typecheck',
         cache: {
           input: [
-            'docs/.vitepress/**',
-            'docs/scripts/**',
-            'docs/src/**',
-            'docs/*.json',
-            'docs/*.ts',
+            'docs/**',
             '!docs/.vitepress/cache/**',
             '!docs/.vitepress/dist/**',
             '!docs/src/playground/**',
@@ -299,35 +350,9 @@ export default defineConfig({
             'benchmark/app/*.json',
             'benchmark/app/*.ts',
             'benchmark/app/pnpm-lock.yaml',
-            // The app typecheck SKIPS (exit 0) while the standalone app is
-            // uninstalled — this file flips on (re)install, so the cached
-            // skip does not outlive it.
             'benchmark/app/node_modules/.modules.yaml',
             'packages/tsconfig/**',
             'pnpm-lock.yaml',
-          ],
-          output: [],
-        },
-      },
-      ':typecheck': {
-        // The root program (root tsconfig.json): root scripts and configs
-        // only — every other folder owns its tsconfig.
-        command: 'tsc --noEmit',
-        dependsOn: [
-          ...checkedPackages.map(({ dir }) => `:typecheck:${dir}`),
-          ':typecheck:docs',
-          ':typecheck:benchmark',
-        ],
-        cache: {
-          input: [
-            '*.config.ts',
-            'scripts/**',
-            '!scripts/playground/templates/**',
-            'tsconfig.json',
-            'packages/tsconfig/**',
-            'pnpm-lock.yaml',
-            // scripts/ imports @vueform/utils, which resolves to BUILT types.
-            'packages/utils/dist/**',
           ],
           output: [],
         },
@@ -354,31 +379,6 @@ export default defineConfig({
         command:
           'pnpm --filter @vueform/ui run test:smoke --skip-pack --tiers=0,1 && pnpm --filter @vueform/primevue run test:smoke --skip-pack --tiers=0,1',
         dependsOn: [':pack'],
-      },
-      ':eslint': {
-        command: 'eslint "**/*.vue"',
-        cache: {
-          input: [
-            '**/*.vue',
-            '!**/dist/**',
-            'eslint.config.mjs',
-            'pnpm-lock.yaml',
-          ],
-          output: [],
-        },
-      },
-      ':stylelint': {
-        command: 'stylelint "**/*.{scss,css}"',
-        cache: {
-          input: [
-            '**/*.scss',
-            '**/*.css',
-            '!**/dist/**',
-            'stylelint.config.mjs',
-            'pnpm-lock.yaml',
-          ],
-          output: [],
-        },
       },
     },
   },

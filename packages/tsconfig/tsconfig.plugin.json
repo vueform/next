@@ -3,5 +3,5 @@
   // separate preset so the roles stay named and can diverge without churn.
   // Their consumer-view (dist) check lives in the tsdown dts build and the
   // release gate.
-  "extends": "./dom.json"
+  "extends": "./tsconfig.dom.json"
 }

@@ -46,11 +46,10 @@ function fail(message: string): never {
 }
 
 /**
- * The built packages must exist before packing — their tarballs ship `dist`
- * only (@vueform/cli has no build step; it ships its bin directly).
+ * The built packages must exist before packing — their tarballs ship `dist`.
  */
 export function checkDistBuilt(): void {
-  for (const name of PACKAGES.filter((name) => name !== 'cli')) {
+  for (const name of PACKAGES) {
     const dist = path.join(ROOT, 'packages', name, 'dist')
     if (!fs.existsSync(dist)) {
       fail(

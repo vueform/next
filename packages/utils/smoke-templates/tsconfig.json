@@ -1,0 +1,10 @@
+{
+  // Editor-only: imports of fixture-supplied files (`../adapter`, …) resolve
+  // into editor-stubs/ via `rootDirs`. The real check is smoke tier 1.
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "rootDirs": ["app", "editor-stubs"]
+  },
+  "include": ["app", "editor-stubs"]
+}

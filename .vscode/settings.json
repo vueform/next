@@ -7,13 +7,6 @@
     "source.fixAll.stylelint": "explicit"
   },
   "files.insertFinalNewline": false,
-  // The shared tsconfig presets don't match the built-in tsconfig*.json
-  // filename pattern, so VS Code would validate them as strict JSON and
-  // flag their comments (tsc itself parses the whole extends chain as
-  // JSONC regardless of name).
-  "files.associations": {
-    "**/packages/tsconfig/{node,dom,adapter,plugin,test}.json": "jsonc"
-  },
   "git.useEditorAsCommitInput": false,
   "github.copilot.chat.commitMessageGeneration.instructions": [
     {

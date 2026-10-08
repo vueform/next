@@ -1,5 +1,5 @@
 {
-  "extends": "@vueform/tsconfig/dom.json",
+  "extends": "@vueform/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "declaration": true,
     "emitDeclarationOnly": true,
