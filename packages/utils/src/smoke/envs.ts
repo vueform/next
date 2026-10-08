@@ -1,35 +1,33 @@
 /**
- * The smoke-test cell model.
+ * The smoke-test env model.
  *
- * A cell is one project setup an adapter is smoke-tested in, described by three
- * dimensions: env (vite | nuxt), rendering (spa | ssr) and mode (vdom | vapor).
- * CLI flags are FILTERS over the fixed cell set — each given dimension flag
- * narrows the selection to cells matching any of that dimension's given values,
- * and a selection that comes up empty is an unsupported combination (e.g.
- * `--nuxt --vapor`).
+ * An env is one project setup an adapter is smoke-tested in, described by
+ * three dimensions: framework (vite | nuxt), rendering (spa | ssr) and mode
+ * (vdom | vapor). The CLI runs the full set, or a single env selected by id
+ * (`--env <id>`).
  */
 
-export const ENVS = ['vite', 'nuxt'] as const
+export const FRAMEWORKS = ['vite', 'nuxt'] as const
 export const RENDERINGS = ['spa', 'ssr'] as const
 export const MODES = ['vdom', 'vapor'] as const
 export const PMS = ['pnpm', 'npm', 'yarn', 'bun'] as const
 
-export type Env = (typeof ENVS)[number]
+export type Framework = (typeof FRAMEWORKS)[number]
 export type Rendering = (typeof RENDERINGS)[number]
 export type SfcMode = (typeof MODES)[number]
 export type Pm = (typeof PMS)[number]
 
-export interface CellDef {
+export interface EnvDef {
   /**
-   * Cell id, also the run directory suffix.
+   * Env id, also the run directory suffix.
    */
   id: string
-  env: Env
+  framework: Framework
   rendering: Rendering
   mode: SfcMode
   /**
    * Fixture directory under `packages/<adapter>/tests/smoke/`. Variants
-   * (nuxt-spa) share the fixture of their base cell.
+   * (nuxt-spa) share the fixture of their base env.
    */
   fixture: string
   /**
@@ -39,10 +37,10 @@ export interface CellDef {
   note: string
 }
 
-export const CELLS: CellDef[] = [
+export const ENVS: EnvDef[] = [
   {
     id: 'vite',
-    env: 'vite',
+    framework: 'vite',
     rendering: 'spa',
     mode: 'vdom',
     fixture: 'vite',
@@ -50,7 +48,7 @@ export const CELLS: CellDef[] = [
   },
   {
     id: 'vite-ssr',
-    env: 'vite',
+    framework: 'vite',
     rendering: 'ssr',
     mode: 'vdom',
     fixture: 'vite-ssr',
@@ -58,7 +56,7 @@ export const CELLS: CellDef[] = [
   },
   {
     id: 'vapor',
-    env: 'vite',
+    framework: 'vite',
     rendering: 'spa',
     mode: 'vapor',
     fixture: 'vapor',
@@ -66,7 +64,7 @@ export const CELLS: CellDef[] = [
   },
   {
     id: 'nuxt',
-    env: 'nuxt',
+    framework: 'nuxt',
     rendering: 'ssr',
     mode: 'vdom',
     fixture: 'nuxt',
@@ -74,7 +72,7 @@ export const CELLS: CellDef[] = [
   },
   {
     id: 'nuxt-spa',
-    env: 'nuxt',
+    framework: 'nuxt',
     rendering: 'spa',
     mode: 'vdom',
     fixture: 'nuxt',
@@ -82,23 +80,3 @@ export const CELLS: CellDef[] = [
     note: 'same nuxt fixture with ssr: false',
   },
 ]
-
-export interface CellFilters {
-  envs: Env[]
-  renderings: Rendering[]
-  modes: SfcMode[]
-}
-
-/**
- * Applies the dimension filters. An empty filter array means "no filter on this
- * dimension".
- */
-export function filterCells(filters: CellFilters): CellDef[] {
-  return CELLS.filter(
-    (cell) =>
-      (!filters.envs.length || filters.envs.includes(cell.env)) &&
-      (!filters.renderings.length ||
-        filters.renderings.includes(cell.rendering)) &&
-      (!filters.modes.length || filters.modes.includes(cell.mode))
-  )
-}

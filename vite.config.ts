@@ -321,7 +321,6 @@ export default defineConfig({
   run: {
     tasks: {
       ':build': {
-        // Aggregate only — the per-package tasks do the work.
         command: "node -e ''",
         dependsOn: buildablePackages.map(({ dir }) => `:build:${dir}`),
       },
@@ -428,42 +427,19 @@ export default defineConfig({
           output: [],
         },
       },
+      ':check': {
+        command: 'vp fmt --check',
+        dependsOn: [':lint', ':typecheck'],
+      },
       ':quick': {
         command: "node -e ''",
         dependsOn: checkedPackages
           .filter(({ dir }) => aliasedSrcPackages.includes(dir))
           .map(({ dir }) => `:typecheck:${dir}`),
       },
-      ':check': {
-        command: 'vp fmt --check',
-        dependsOn: [':lint', ':typecheck'],
-      },
       ':fix': {
         command:
           'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt',
-      },
-      // Packs every publishable package (NOT part of the default checks) and
-      // lints the publish shape of each tarball (publint, run by the pack
-      // step itself).
-      ':pack': {
-        command: 'pnpm --filter @vueform/ui run test:smoke --pack-only',
-        cache: {
-          input: [
-            'packages/*/dist/**',
-            'packages/*/package.json',
-            'packages/*/bin/**',
-            'pnpm-lock.yaml',
-          ],
-          output: ['.vueform/smoke/tarballs/**'],
-        },
-      },
-      // Tier 0 is browserless (install → leak check → build in every env
-      // cell), so unlike the full smoke suites this is safe for agents/CI.
-      // Installs from the network — never cached.
-      ':release:verify': {
-        command:
-          'pnpm --filter @vueform/ui run test:smoke --skip-pack --tiers=0 && pnpm --filter @vueform/primevue run test:smoke --skip-pack --tiers=0',
-        dependsOn: [':pack'],
       },
     },
   },

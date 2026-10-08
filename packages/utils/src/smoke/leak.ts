@@ -30,7 +30,7 @@ function locate(name: string, fromDir: string): string | null {
   }
 }
 
-export function leakCheck(runDir: string) {
+export function leakCheck(runDir: string, log?: (text: string) => void) {
   const pkg = readJson(path.join(runDir, 'package.json'))
   const names = Object.keys({
     ...pkg.dependencies,
@@ -59,5 +59,5 @@ export function leakCheck(runDir: string) {
     )
   }
 
-  console.log(`[smoke] Leak check passed (${names.length} packages).`)
+  log?.(`Leak check passed (${names.length} packages).`)
 }

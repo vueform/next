@@ -1,11 +1,11 @@
 /**
  * Package-manager abstraction for smoke runs. pnpm is the default and gates CI;
  * npm, yarn (node-modules linker) and bun run a scheduled "basic install proof"
- * on representative cells. The differences the harness cares about: install
+ * on representative envs. The differences the harness cares about: install
  * argv (fixtures live inside the pnpm workspace, so pnpm needs
  * --ignore-workspace) and where tarball overrides go in package.json.
  */
-import type { Pm } from './cells'
+import type { Pm } from './envs'
 
 export function installArgs(pm: Pm): string[] {
   switch (pm) {

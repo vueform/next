@@ -1,8 +1,8 @@
 /**
- * Tier 2 — boot. The app loads with a clean console, every canonical schema
+ * Boot stage: the app loads with a clean console, every canonical schema
  * element actually rendered (in both the schema-driven and the
- * inline-components form), SSR cells serve real server-rendered markup and
- * hydrate without mismatches, and vapor cells actually run vapor.
+ * inline-components form), SSR envs serve real server-rendered markup and
+ * hydrate without mismatches, and vapor envs actually run vapor.
  */
 import { expect, test } from '@playwright/test'
 
@@ -44,14 +44,14 @@ test('exposes the smoke handle', async ({ page }) => {
   await page.waitForFunction(() => Boolean(window.__smoke))
 
   if (info.mode === 'vapor') {
-    // Guard against a silent vdom fallback: a vapor cell that renders fine
+    // Guard against a silent vdom fallback: a vapor env that renders fine
     // but not in vapor mode must fail, not pass vacuously.
     expect(await page.evaluate(() => window.__smoke.vaporActive)).toBe(true)
   }
 })
 
 test('server-renders the form markup', async ({ request }) => {
-  test.skip(info.rendering !== 'ssr', 'SSR cells only')
+  test.skip(info.rendering !== 'ssr', 'SSR envs only')
 
   // The raw HTML response, before any client JS: the form must be there.
   const response = await request.get('/')

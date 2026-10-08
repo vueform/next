@@ -1,5 +1,5 @@
 /**
- * Tier 3 — the canonical interaction, identical in every cell: submit with the
+ * Interaction stage: the canonical interaction, identical in every env: submit with the
  * required field empty (validation error appears), fill it, submit again
  * (payload arrives), plus the runtime mirror of the find() type assertion.
  */

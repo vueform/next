@@ -1,5 +1,5 @@
 /**
- * Shared spec plumbing: the console policy and the cell metadata the harness
+ * Shared spec plumbing: the console policy and the env metadata the harness
  * wrote at assemble time. Plain ESM on purpose — runs live under node_modules,
  * where Node refuses to type-strip TypeScript.
  */
@@ -10,7 +10,7 @@ import { fileURLToPath } from 'node:url'
 import { expect } from '@playwright/test'
 
 /**
- * The cell metadata (adapter, cell, env, rendering, mode, pm, port).
+ * The env metadata (adapter, env, framework, rendering, mode, pm, port).
  */
 export function runInfo() {
   const dir = path.dirname(fileURLToPath(import.meta.url))

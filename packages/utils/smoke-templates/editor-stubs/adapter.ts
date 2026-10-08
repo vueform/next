@@ -1,5 +1,5 @@
 // Editor stand-in for the harness-generated adapter indirection (ui as the
-// representative adapter). Never copied into cells.
+// representative adapter). Never copied into envs.
 import '@vueform/ui/components'
 
 export * from '@vueform/ui'
