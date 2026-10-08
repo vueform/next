@@ -15,9 +15,10 @@
  * name, dir name, or bare name); everything else (`--env`/`-E`,
  * `--sequential`, …) is forwarded to each adapter's smoke CLI untouched.
  */
-import { spawnSync } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
+import readline from 'node:readline'
 import { fileURLToPath } from 'node:url'
 
 const repoRoot = path.resolve(
@@ -80,42 +81,84 @@ if (filter !== undefined) {
   packages = [match]
 }
 
-// Pack through vp so the cache decides whether a repack is needed; the
-// adapter CLIs then always reuse. An explicit --nopack skips the vp step.
-// Output is captured — vp replays the cached builds' stored logs, which is
-// pure noise here — and shown only when packing fails.
-if (!passthrough.includes('--nopack')) {
-  console.log('[smoke] ensuring tarballs (vpr :pack, cached)…')
-  const pack = spawnSync('pnpm', ['exec', 'vpr', ':pack'], {
-    cwd: repoRoot,
-    encoding: 'utf8',
-    stdio: ['ignore', 'pipe', 'pipe'],
-    maxBuffer: 64 * 1024 * 1024,
+/**
+ * Runs `vpr :pack` with a live single-line status: vp's `$ <task> …` lines
+ * (which carry the cache verdicts) and the pack script's `[pack] …` lines
+ * are surfaced as they happen, so a cache miss (builds + repack after e.g. a
+ * utils change) is visibly progressing instead of hanging silently. The full
+ * output is kept and dumped only on failure.
+ */
+function packWithStatus(): Promise<boolean> {
+  return new Promise((resolve) => {
+    const live = Boolean(process.stdout.isTTY)
+    const child = spawn('pnpm', ['exec', 'vpr', ':pack'], {
+      cwd: repoRoot,
+      stdio: ['ignore', 'pipe', 'pipe'],
+    })
+
+    let output = ''
+    let statusShown = false
+    const status = (text: string) => {
+      const line = `[smoke] ${text}`.slice(0, 100)
+      if (live) {
+        process.stdout.write(`\x1b[2K\r${line}`)
+        statusShown = true
+      } else {
+        console.log(line)
+      }
+    }
+    const clearStatus = () => {
+      if (live && statusShown) process.stdout.write('\x1b[2K\r')
+    }
+
+    status('ensuring tarballs (vpr :pack, cached)…')
+
+    const rl = readline.createInterface({ input: child.stdout })
+    rl.on('line', (line) => {
+      output += line + '\n'
+      const task = line.match(/^\$ (.+)$/)
+      if (task) status(task[1])
+      const pack = line.match(/^\[pack\] (.+)$/)
+      if (pack) status(pack[1])
+    })
+    child.stderr.on('data', (chunk: Buffer) => (output += chunk.toString()))
+
+    child.on('close', (code) => {
+      clearStatus()
+      if (code !== 0) console.error(output)
+      resolve(code === 0)
+    })
   })
-  if (pack.status !== 0) {
-    console.error(pack.stdout + pack.stderr)
-    process.exit(pack.status ?? 1)
+}
+
+async function main() {
+  // Pack through vp so the cache decides whether a repack is needed; the
+  // adapter CLIs then always reuse. An explicit --nopack skips the vp step.
+  if (!passthrough.includes('--nopack')) {
+    if (!(await packWithStatus())) process.exit(1)
+    passthrough.push('--nopack')
   }
-  passthrough.push('--nopack')
-}
 
-const failed: Pkg[] = []
-for (const pkg of packages) {
-  const res = spawnSync(
-    'pnpm',
-    ['--filter', pkg.name, 'run', 'test-smoke', ...passthrough],
-    { cwd: repoRoot, stdio: 'inherit' }
-  )
-  if (res.status !== 0) failed.push(pkg)
-}
-
-if (packages.length > 1 || failed.length) {
-  console.log(bold('\n[smoke] Adapters:'))
+  const failed: Pkg[] = []
   for (const pkg of packages) {
-    const ok = !failed.includes(pkg)
-    console.log(`  ${ok ? green('✓') : red('✗')} ${pkg.name}`)
+    const res = spawnSync(
+      'pnpm',
+      ['--filter', pkg.name, 'run', 'test-smoke', ...passthrough],
+      { cwd: repoRoot, stdio: 'inherit' }
+    )
+    if (res.status !== 0) failed.push(pkg)
   }
-  console.log('')
+
+  if (packages.length > 1 || failed.length) {
+    console.log(bold('\n[smoke] Adapters:'))
+    for (const pkg of packages) {
+      const ok = !failed.includes(pkg)
+      console.log(`  ${ok ? green('✓') : red('✗')} ${pkg.name}`)
+    }
+    console.log('')
+  }
+
+  if (failed.length) process.exit(1)
 }
 
-if (failed.length) process.exit(1)
+void main()

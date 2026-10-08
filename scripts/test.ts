@@ -5,4 +5,8 @@
  */
 import { runTestRunner } from './test-runner'
 
-void runTestRunner({ script: 'test', scope: 'tests', title: 'Tests' })
+void runTestRunner({
+  script: 'test',
+  scope: 'tests',
+  title: 'Integration & invariant tests',
+})

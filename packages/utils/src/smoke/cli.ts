@@ -195,7 +195,6 @@ async function main(options: SmokeCliOptions) {
   const log = createSmokeLog(root, adapter)
   const display = createDisplay({
     adapter: pkg.name ?? adapter,
-    pm: 'pnpm',
     envIds: runnable.map((e) => e.id),
     live: Boolean(process.stdout.isTTY),
   })

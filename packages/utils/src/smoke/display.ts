@@ -26,6 +26,7 @@ export const green = (t: string) => paint('32', t)
 export const red = (t: string) => paint('31', t)
 export const cyan = (t: string) => paint('36', t)
 export const dim = (t: string) => paint('2', t)
+export const gray = (t: string) => paint('90', t)
 export const bold = (t: string) => paint('1', t)
 
 /**
@@ -116,7 +117,6 @@ export interface Display {
 
 export function createDisplay(opts: {
   adapter: string
-  pm: string
   envIds: string[]
   live: boolean
 }): Display {
@@ -152,7 +152,7 @@ export function createDisplay(opts: {
   const renderLines = (): string[] => {
     const spin = SPINNER[tick % SPINNER.length]
     const lines: string[] = []
-    lines.push(bold(`Smoke ${opts.adapter}`) + dim(` — ${opts.pm}`))
+    lines.push(bold('Smoke tests ') + gray(`(${opts.adapter})`))
     lines.push(
       dim(
         '  ' +
