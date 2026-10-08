@@ -2,7 +2,7 @@
  * Type-level tests for the "Extending a Template" docs section: the
  * augmentations a template ships next to a plugin (props, emits, expose,
  * parts) must flow into the context a template receives (`ContextOf`), the
- * component's props, and `fire`. Run by `pnpm test:dts`.
+ * component's props, and `fire`. Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

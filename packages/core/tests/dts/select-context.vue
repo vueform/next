@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Vue-level VfSelect typing (generics, events, slots, prop callbacks, classes /
- * parts). Validated by `pnpm test:dts` (vue-sfc.test.ts typechecks the SFCs and
+ * parts). Validated by `pnpm test-dts` (vue-sfc.test.ts typechecks the SFCs and
  * reports each ✅/❌ case as a named test). Failures use `@vue-expect-error`.
  */
 import '@vueform/core/components'

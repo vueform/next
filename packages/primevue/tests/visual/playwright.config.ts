@@ -1,9 +1,9 @@
 /**
- * Playwright config for the visual (screenshot) suite (`pnpm test:visual`).
+ * Playwright config for the visual (screenshot) suite (`pnpm test-visual`).
  *
  * Baselines are committed under `screenshots/<spec>/` and are
  * darwin/chromium-only — the suite is a local gate; other platforms would need
- * their own baselines. Regenerate deliberately with `pnpm test:visual
+ * their own baselines. Regenerate deliberately with `pnpm test-visual
  * --update-snapshots` after an intended visual change.
  *
  * The fixture app (see `fixtures/`) is served from workspace sources by the

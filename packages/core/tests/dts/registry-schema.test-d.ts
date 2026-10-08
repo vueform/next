@@ -8,7 +8,7 @@
  * - SchemaToModel / ModelByPath
  * - ElementByPath narrowing and unknown-path fallback
  *
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineComputedSchema,

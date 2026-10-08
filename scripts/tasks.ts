@@ -138,14 +138,12 @@ export const checkTasks = (): Task[] => [
   },
 ]
 
-export const testDtsTasks = (): Task[] => discoverPackageTasks('test:dts')
-
 /**
  * `passthrough` flags (e.g. `--update-snapshots` / `--grep=…`) are forwarded to
- * every package's `test:visual` script.
+ * every package's `test-visual` script.
  */
 export const testVisualTasks = (passthrough: string[] = []): Task[] =>
-  discoverPackageTasks('test:visual').map((task) => ({
+  discoverPackageTasks('test-visual').map((task) => ({
     ...task,
     args: [...task.args, ...passthrough],
   }))

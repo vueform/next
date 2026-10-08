@@ -1,7 +1,7 @@
 /**
- * Monorepo visual-test orchestrator (`pnpm test:visual`).
+ * Monorepo visual-test orchestrator (`pnpm test-visual`).
  *
- * Without flags, runs every package's own `test:visual` script (alphabetical);
+ * Without flags, runs every package's own `test-visual` script (alphabetical);
  * packages without one are simply not in the queue. Selection flags work like
  * the test orchestrator's — `--core`, `--pv`, `--adapters`. `--update` (or
  * Playwright's own `--update-snapshots`/`-u`) regenerates the committed

@@ -3,7 +3,7 @@ import type { ContextOf, ContextOutlets } from '@vueform/core'
  * Type-level tests for `context.outlets` typing on the public context:
  * outlet values keep their slot payload types (not `any`), and the SFC's
  * narrow slots remain assignable to the canonical bivariant outlets.
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import { describe, expectTypeOf, test } from 'vitest'
 import '@vueform/core/components'

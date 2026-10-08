@@ -2,7 +2,7 @@
  * Type-level tests for the `useClasses` return value: the host component's
  * declared class keys plus every key the passed definitions introduce, typed by
  * inference — no module augmentation needed inside the template. Run by `pnpm
- * test:dts`.
+ * test-dts`.
  */
 import { useClasses, type ClassValue } from '@vueform/core'
 import { describe, expectTypeOf, test } from 'vitest'

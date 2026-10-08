@@ -5,7 +5,7 @@ import type {
 } from '@vueform/core/components/VfRadios'
 /**
  * Type-level assertions for VfRadios slots (generic `#template` / named slots).
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import { describe, expectTypeOf, test } from 'vitest'
 

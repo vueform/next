@@ -1,7 +1,7 @@
 /*
  * Type-level tests for defineSchema items → modelValue inference and
  * SchemaToModel / ModelByPath derivation from items.
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

@@ -2,7 +2,7 @@
  * Type-level tests for the Standard Schema integration: `MatchesSchemaModel`
  * via `defineSchema` / `defineComputedSchema` / `useForm` / `useModel`
  * second/option arguments, and `RulesProp` accepting Standard Schemas. Run by
- * `pnpm test:dts`.
+ * `pnpm test-dts`.
  */
 import {
   defineComputedSchema,

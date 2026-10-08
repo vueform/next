@@ -1,6 +1,6 @@
 /*
  * Type-level tests for `useModel` / `useForm` typing. This file is not
- * imported at runtime; it is only typechecked. Run by `pnpm test:dts`.
+ * imported at runtime; it is only typechecked. Run by `pnpm test-dts`.
  *
  * Covers:
  * - useModel schema → ModelInstance model inference (incl. flat groups)

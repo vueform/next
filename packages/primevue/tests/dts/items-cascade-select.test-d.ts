@@ -1,7 +1,7 @@
 /*
  * Compile-time assertions for PrimeVue VfCascadeSelect options → model
  * inference (including optionGroupChildren path arrays).
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Vue-level items → model / key-prop inference cases for VfSelect. Validated by
- * `pnpm test:dts` (vue-sfc.test.ts typechecks the SFCs and reports each ✅/❌
+ * `pnpm test-dts` (vue-sfc.test.ts typechecks the SFCs and reports each ✅/❌
  * case as a named test). Failures use `@vue-expect-error`.
  */
 import '@vueform/core/components'

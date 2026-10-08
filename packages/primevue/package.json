@@ -133,9 +133,9 @@
     "size": "vf-size",
     "size:report": "vf-size --report",
     "test": "vitest --project integration --project invariants --maxWorkers=16",
-    "test:dts": "vitest run --project test-dts",
-    "test:smoke": "tsx tests/smoke/run.ts",
-    "test:visual": "playwright test --config tests/visual/playwright.config.ts"
+    "test-dts": "vitest run --project test-dts",
+    "test-smoke": "tsx tests/smoke/run.ts",
+    "test-visual": "playwright test --config tests/visual/playwright.config.ts"
   },
   "dependencies": {
     "@vueform/cli": "workspace:^",

@@ -3,7 +3,7 @@
  * template that registers a key of its own via `useClasses()` can type it by
  * augmenting the component's `*Classes` interface; the key must then flow into
  * the context's `classes`, the `classes` / `reclass` props, and schema entries.
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import { defineSchema, type ClassValue, type ContextOf } from '@vueform/core'
 import type { VfTextProps } from '@vueform/core/components/VfText'

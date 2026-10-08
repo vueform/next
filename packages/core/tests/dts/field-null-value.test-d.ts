@@ -11,7 +11,7 @@
  * - objects — the shape with every key optional; a provided key must match its
  *   declared (widened) property type
  *
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

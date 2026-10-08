@@ -1,6 +1,6 @@
 /*
  * Compile-time assertions for PrimeVue VfMultiSelect options → model inference
- * (always Value[]). Run by `pnpm test:dts`.
+ * (always Value[]). Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

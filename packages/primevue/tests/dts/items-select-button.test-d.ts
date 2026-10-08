@@ -1,7 +1,7 @@
 /*
  * Compile-time assertions for PrimeVue VfSelectButton options → model inference
  * (flat options; optional multiple).
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

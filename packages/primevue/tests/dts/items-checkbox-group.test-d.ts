@@ -1,6 +1,6 @@
 /*
  * Compile-time assertions for PrimeVue VfCheckboxGroup options → model
- * inference (always Value[]). Run by `pnpm test:dts`.
+ * inference (always Value[]). Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

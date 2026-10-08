@@ -9,7 +9,7 @@ import type {
 import type { SelectProps } from '@vueform/core/blueprints/select'
 import type { VfSelectProps } from '@vueform/core/components/VfSelect'
 /*
- * Type-level tests for items → modelValue inference. Run by `pnpm test:dts`.
+ * Type-level tests for items → modelValue inference. Run by `pnpm test-dts`.
  *
  * =============================================================================
  * How items type inference should work

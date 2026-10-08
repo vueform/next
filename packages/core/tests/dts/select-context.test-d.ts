@@ -1,6 +1,6 @@
 /*
  * Type-level tests for VfSelect / select typing in schema.
- * SFC cases live in select-context.vue. Run by `pnpm test:dts`.
+ * SFC cases live in select-context.vue. Run by `pnpm test-dts`.
  *
  * Covers:
  * - items / modelValue / default / multiple generics

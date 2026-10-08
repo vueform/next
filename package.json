@@ -8,6 +8,7 @@
     "lint": "vpr :lint",
     "quick": "vpr :quick",
     "test": "tsx scripts/test.ts",
+    "test-dts": "tsx scripts/test-dts.ts",
     "typecheck": "vpr :typecheck"
   },
   "devDependencies": {

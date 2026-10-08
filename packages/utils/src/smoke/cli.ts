@@ -1,5 +1,5 @@
 /**
- * The per-adapter smoke CLI (`pnpm --filter @vueform/<adapter> test:smoke
+ * The per-adapter smoke CLI (`pnpm --filter @vueform/<adapter> test-smoke
  * ...`). `--env <name>` / `-E <name>` selects a single env from the fixed
  * set (see envs.ts); without it every env runs. `--build` / `-B` builds
  * core and the current adapter first. Every run packs fresh tarballs and
@@ -55,7 +55,7 @@ function helpText(adapter: string): string {
 
   return `Smoke tests for @vueform/${adapter} — proves the packed tarballs work in real project setups.
 
-Usage: pnpm --filter @vueform/${adapter} test:smoke [--env <name>] [--build]
+Usage: pnpm --filter @vueform/${adapter} test-smoke [--env <name>] [--build]
 
 Envs (each is one project setup, run from packed tarballs):
 ${envRows}

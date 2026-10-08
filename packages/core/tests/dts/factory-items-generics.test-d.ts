@@ -1,7 +1,7 @@
 import type { DefineEvents, LooseRequired } from '@vueform/core'
 /**
  * Type-level assertions that useFeatures + makeItems preserve items generics
- * through checkboxes/select blueprints. Run by `pnpm test:dts`.
+ * through checkboxes/select blueprints. Run by `pnpm test-dts`.
  */
 import {
   blueprint as checkboxesBlueprint,

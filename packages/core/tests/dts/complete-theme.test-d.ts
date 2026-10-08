@@ -2,7 +2,7 @@
  * Type-level tests for `CompleteTheme` — the exhaustive theme shape adapters
  * use to type their `defineTheme` helper. Every top-level token of the base
  * map must be defined, `dark` must be present (`{}` opts out), and custom
- * keys beyond the base set are accepted. Run by `pnpm test:dts`.
+ * keys beyond the base set are accepted. Run by `pnpm test-dts`.
  */
 import {
   extendTheme,

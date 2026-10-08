@@ -24,8 +24,8 @@
  *   invalidate the downstream task.
  * - `pnpm-lock.yaml` is an input of every cached task: any dependency bump
  *   invalidates everything (coarse, but always correct).
- * - Mutating tasks (`p:fix`) never cache; Playwright suites (`p:test:smoke`,
- *   `p:test:visual`) never cache and are never run by agents — user-run only.
+ * - Mutating tasks (`p:fix`) never cache; Playwright suites (`p:test-smoke`,
+ *   `p:test-visual`) never cache and are never run by agents — user-run only.
  * - Docs tasks stay uncached until their read/write sets are modeled.
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
@@ -169,8 +169,8 @@ const typecheckTasks = Object.fromEntries(
 
 /**
  * Test graph: every package with a plain `test` script gets a `:test:<dir>`
- * leg running exactly that script — the specialized suites (test:dts,
- * test:smoke, test:visual) stay out of `:test` and are run by their own
+ * leg running exactly that script — the specialized suites (test-dts,
+ * test-smoke, test-visual) stay out of `:test` and are run by their own
  * commands. Tests run source via the vitest factory, so the legs only need
  * utils' dist. Uncached for now.
  */
@@ -183,6 +183,25 @@ const testTasks = Object.fromEntries(
     `:test:${dir}`,
     {
       command: `pnpm --filter ${name} run test --run`,
+      dependsOn: [':build:utils'],
+    },
+  ])
+)
+
+/**
+ * Same pattern for the dts type-test suites: every package with a `test-dts`
+ * script gets a `:test-dts:<dir>` leg (the aggregate `:test-dts` runs the
+ * pretty runner over the same set).
+ */
+const dtsTestedPackages = [...packageManifests].flatMap(([dir, pkg]) =>
+  pkg.scripts?.['test-dts'] ? [{ dir, name: pkg.name as string }] : []
+)
+
+const testDtsTasks = Object.fromEntries(
+  dtsTestedPackages.map(({ dir, name }) => [
+    `:test-dts:${dir}`,
+    {
+      command: `pnpm --filter ${name} run test-dts --run`,
       dependsOn: [':build:utils'],
     },
   ])
@@ -466,7 +485,12 @@ export default defineConfig({
         command: 'tsx scripts/test.ts',
         dependsOn: [':build:utils'],
       },
+      ':test-dts': {
+        command: 'tsx scripts/test-dts.ts',
+        dependsOn: [':build:utils'],
+      },
       ...testTasks,
+      ...testDtsTasks,
     },
   },
 })
