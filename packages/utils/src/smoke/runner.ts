@@ -52,14 +52,15 @@ export interface EnvResult {
 
 /**
  * Makes sure the Playwright chromium binary exists (a fast no-op when it is
- * already in the shared browser cache). Once per harness invocation.
+ * already in the shared browser cache). Called by the CLI BEFORE the env
+ * fan-out — parallel envs must not race the install.
  */
-async function ensureBrowsers(smokeRun: SmokeRun, log: (text: string) => void) {
+export async function ensureBrowsers(cwd: string, log: (text: string) => void) {
   if (browsersEnsured) return
   browsersEnsured = true
 
   await run(PM, execArgs(PM, 'playwright', ['install', 'chromium']), {
-    cwd: smokeRun.dir,
+    cwd,
     log,
     fail: '[smoke] Installing the Playwright chromium browser failed',
   })
@@ -86,7 +87,7 @@ export async function runEnv(input: EnvRunInput): Promise<void> {
 
   log(`\n===== ${tag} (port: ${port}) =====`)
   const assembleInput: AssembleInput = { ...input, port }
-  const smokeRun = assembleRun(assembleInput)
+  const smokeRun = await assembleRun(assembleInput)
 
   const scriptEnv = env.fixtureEnv
   const script = (name: string, fail: string) =>
@@ -107,8 +108,6 @@ export async function runEnv(input: EnvRunInput): Promise<void> {
   })
 
   await step('build', () => script('build', 'Build failed'))
-
-  await ensureBrowsers(smokeRun, log)
 
   const playwright = (spec: string, fail: string) =>
     run(

@@ -5,6 +5,7 @@
  * core and the current adapter first. Every run packs fresh tarballs and
  * runs all tiers headless with pnpm as the fixture installer.
  */
+import { writeFileSync } from 'node:fs'
 import path from 'node:path'
 
 import { fixtureDir } from './assemble'
@@ -27,7 +28,7 @@ import {
   SmokeError,
 } from './lib'
 import { packWorkspace } from './pack'
-import { runEnv, type EnvResult } from './runner'
+import { ensureBrowsers, runEnv, type EnvResult } from './runner'
 
 interface ParsedArgs {
   /**
@@ -38,6 +39,15 @@ interface ParsedArgs {
    * Build core and the current adapter before packing (`--build` / `-B`).
    */
   build: boolean
+  /**
+   * Reuse the previously packed tarballs (`--nopack`).
+   */
+  nopack: boolean
+  /**
+   * Run the envs one after another instead of in parallel
+   * (`--sequential`).
+   */
+  sequential: boolean
 }
 
 export interface SmokeCliOptions {
@@ -63,6 +73,9 @@ ${envRows}
 Options:
   --env <name>, -E, -e      run only that env (default: all of them)
   --build, -B, -b           build @vueform/core and this adapter first
+  --nopack                  reuse the previously packed tarballs
+  --sequential              run the envs one after another (default: all in
+                            parallel)
   --help                    this text
 
 All child-process output is captured into .vueform/smoke/logs/; the run ends
@@ -73,6 +86,8 @@ with a link to the log file.
 function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
   let env: string | undefined
   let build = false
+  let nopack = false
+  let sequential = false
 
   const envIds = ENVS.map((e) => e.id)
   const setEnv = (value: string | undefined, arg: string) => {
@@ -119,10 +134,20 @@ function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
       continue
     }
 
+    if (arg === '--nopack') {
+      nopack = true
+      continue
+    }
+
+    if (arg === '--sequential') {
+      sequential = true
+      continue
+    }
+
     throw new SmokeError(`Unknown argument: ${arg}\n\n${helpText(adapter)}`)
   }
 
-  return { env, build }
+  return { env, build, nopack, sequential }
 }
 
 const fmtDuration = (ms: number) => {
@@ -189,20 +214,32 @@ async function main(options: SmokeCliOptions) {
       }
     }
 
-    display.phase('packing tarballs…')
+    display.phase(parsed.nopack ? 'checking tarballs…' : 'packing tarballs…')
     log.section('pack')
     const tarballs = await packWorkspace(
       root,
       path.join(stateDir, 'tarballs'),
       {
+        skipPack: parsed.nopack,
         log: log.write,
         onStatus: display.phase,
       }
     )
+
+    // Before the fan-out: parallel envs must not race the browser install.
+    display.phase('checking the Playwright browser…')
+    await ensureBrowsers(adapterDir, log.write)
     display.phase(null)
 
-    for (const env of runnable) {
+    // Each env logs into its own buffer, flushed as one section on
+    // completion — parallel envs would otherwise interleave the log file.
+    const resultByEnv = new Map<string, EnvResult>()
+    const runOne = async (env: EnvDef) => {
       const started = Date.now()
+      let buffer = ''
+      const bufLog = (text: string) => {
+        buffer += text.endsWith('\n') ? text : text + '\n'
+      }
       try {
         await runEnv({
           root,
@@ -211,14 +248,14 @@ async function main(options: SmokeCliOptions) {
           env,
           tarballs,
           runsDir: path.join(stateDir, 'runs'),
-          log: log.write,
+          log: bufLog,
           report: (stage, status) => display.stage(env.id, stage, status),
         })
-        results.push({ adapter, env, status: 'pass' })
+        resultByEnv.set(env.id, { adapter, env, status: 'pass' })
       } catch (error) {
         if (!(error instanceof SmokeError)) throw error
-        log.write(`FAILED: ${error.message}`)
-        results.push({
+        bufLog(`FAILED: ${error.message}`)
+        resultByEnv.set(env.id, {
           adapter,
           env,
           status: 'fail',
@@ -228,7 +265,17 @@ async function main(options: SmokeCliOptions) {
         })
       }
       durations.set(env.id, Date.now() - started)
+      log.write(buffer)
     }
+
+    if (parsed.sequential) {
+      for (const env of runnable) await runOne(env)
+    } else {
+      await Promise.all(runnable.map(runOne))
+    }
+
+    // Summary rows in the fixed env order, not completion order.
+    for (const env of runnable) results.push(resultByEnv.get(env.id)!)
   } finally {
     display.stop()
     log.close()
@@ -252,22 +299,27 @@ async function main(options: SmokeCliOptions) {
     console.log(`  ${mark} ${r.env.id}${time}${where}${skip}`)
   }
 
-  if (failures.length) {
-    console.log(
-      `\n${red(`${failures.length} of ${results.length - results.filter((r) => r.status === 'skip').length} envs failed.`)}`
-    )
-    for (const f of failures) {
-      console.log(
-        `\n${red('✗')} ${bold(`${f.adapter}:${f.env.id}`)}${f.stage ? ` — ${f.stage}` : ''}`
-      )
-      console.log(`  ${f.detail}`)
-      if (f.logTail) {
-        console.log(dim(f.logTail.replace(/^/gm, '  │ ')))
-      }
-    }
-  }
+  const ran = results.length - results.filter((r) => r.status === 'skip').length
+  const status = failures.length
+    ? red(`${failures.length} of ${ran} envs failed.`)
+    : green('All envs passed.')
+  console.log(`\n${status}`)
 
-  console.log(`\nFull log: ${termLink(log.file)}`)
+  if (failures.length) {
+    // The failure details go to the errors sibling log, not the terminal.
+    const sections = failures.map((f) => {
+      const head = `––––– ${f.adapter}:${f.env.id}${f.stage ? ` — ${f.stage}` : ''} –––––`
+      return [head, '', f.detail, ...(f.logTail ? ['', f.logTail] : [])].join(
+        '\n'
+      )
+    })
+    writeFileSync(log.errorsFile, sections.join('\n\n') + '\n')
+
+    console.log(
+      `\n${red(`${failures.length} envs failed - see full error log:`)}\n${termLink(log.errorsFile)}`
+    )
+  }
+  console.log('')
 
   if (failures.length) process.exit(1)
 }

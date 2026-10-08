@@ -39,6 +39,10 @@ export function termLink(file: string): string {
 
 export interface SmokeLog {
   file: string
+  /**
+   * The `.errors.log` sibling path (written by the CLI on failures).
+   */
+  errorsFile: string
   write(text: string): void
   /**
    * A visual divider naming the step the following output belongs to.
@@ -51,13 +55,21 @@ export function createSmokeLog(root: string, adapter: string): SmokeLog {
   const dir = path.join(smokeStateDir(root), 'logs')
   fs.mkdirSync(dir, { recursive: true })
 
-  // Keep the directory from growing without bound.
-  const old = fs
-    .readdirSync(dir)
-    .filter((f) => f.endsWith('.log'))
-    .sort()
-    .slice(0, -KEPT_LOGS + 1)
-  for (const f of old) fs.rmSync(path.join(dir, f), { force: true })
+  // Keep the directory from growing without bound — prune by session (a run
+  // writes up to two files sharing a `<adapter>-<stamp>` prefix).
+  const prefixes = [
+    ...new Set(
+      fs
+        .readdirSync(dir)
+        .filter((f) => f.endsWith('.log'))
+        .map((f) => f.split('.')[0])
+    ),
+  ].sort()
+  for (const old of prefixes.slice(0, -KEPT_LOGS + 1)) {
+    for (const f of fs.readdirSync(dir)) {
+      if (f.startsWith(`${old}.`)) fs.rmSync(path.join(dir, f), { force: true })
+    }
+  }
 
   const stamp = new Date()
     .toISOString()
@@ -65,6 +77,7 @@ export function createSmokeLog(root: string, adapter: string): SmokeLog {
     .replace(/\..+/, '')
     .replace('T', '-')
   const file = path.join(dir, `${adapter}-${stamp}.log`)
+  const errorsFile = path.join(dir, `${adapter}-${stamp}.errors.log`)
   // Synchronous writes: the harness itself is synchronous (spawnSync), and a
   // buffered stream would lose its tail to the process.exit(1) after the
   // summary.
@@ -72,6 +85,7 @@ export function createSmokeLog(root: string, adapter: string): SmokeLog {
 
   return {
     file,
+    errorsFile,
     write: (text) => {
       if (text) fs.writeSync(fd, text.endsWith('\n') ? text : text + '\n')
     },

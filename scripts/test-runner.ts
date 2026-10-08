@@ -35,6 +35,20 @@ const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', 
 const verbose = process.argv.includes('--verbose')
 const live = Boolean(process.stdout.isTTY) && !verbose
 
+// --filter <pkg> / -F / -f: run only that one package (by package name, dir
+// name, or bare name without the @vueform/ scope).
+function parseFilter(): string | undefined {
+  const argv = process.argv.slice(2)
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i]
+    if (arg === '--filter' || arg === '-F' || arg === '-f') return argv[i + 1]
+    const match = arg.match(/^(?:--filter|-F|-f)=(.*)$/)
+    if (match) return match[1]
+  }
+  return undefined
+}
+const filter = parseFilter()
+
 export interface TestRunnerOptions {
   /**
    * The per-package script to run (`test`, `test-dts`).
@@ -97,7 +111,7 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
   const logsDir = path.join(stateDir, 'logs')
   const resultsDir = path.join(stateDir, 'results')
 
-  const packages: Pkg[] = fs
+  let packages: Pkg[] = fs
     .readdirSync(path.join(repoRoot, 'packages'))
     .flatMap((dir) => {
       const manifest = path.join(repoRoot, 'packages', dir, 'package.json')
@@ -111,6 +125,21 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
   if (!packages.length) {
     console.error(`No package has a "${opts.script}" script.`)
     process.exit(1)
+  }
+
+  if (filter !== undefined) {
+    const match = packages.find(
+      ({ dir, name }) =>
+        name === filter || dir === filter || name === `@vueform/${filter}`
+    )
+    if (!match) {
+      console.error(
+        `No package matching "${filter}" has a "${opts.script}" script ` +
+          `(available: ${packages.map(({ dir }) => dir).join(', ')}).`
+      )
+      process.exit(1)
+    }
+    packages = [match]
   }
 
   // ---------------------------------------------------------------------------

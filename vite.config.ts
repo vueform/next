@@ -491,6 +491,22 @@ export default defineConfig({
         dependsOn: [':build:utils'],
       },
       ...testDtsTasks,
+      ':pack': {
+        command: 'tsx scripts/pack.ts',
+        dependsOn: [':build'],
+        cache: {
+          input: [
+            'packages/*/dist/**',
+            'packages/*/package.json',
+            'pnpm-lock.yaml',
+          ],
+          output: ['.vueform/smoke/tarballs/**'],
+        },
+      },
+      ':test-smoke': {
+        command: 'tsx scripts/test-smoke.ts --nopack',
+        dependsOn: [':build', ':pack'],
+      },
     },
   },
 })

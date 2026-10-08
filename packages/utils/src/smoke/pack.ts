@@ -67,6 +67,10 @@ const MANIFEST = 'manifest.json'
 
 export interface PackOptions {
   /**
+   * Reuse the previously packed tarballs instead of repacking (`--nopack`).
+   */
+  skipPack?: boolean
+  /**
    * Sink for child-process output (the harness log file).
    */
   log?: (text: string) => void
@@ -81,6 +85,30 @@ export async function packWorkspace(
   tarballsDir: string,
   opts: PackOptions
 ): Promise<PackedTarballs> {
+  if (opts.skipPack) {
+    const manifestPath = path.join(tarballsDir, MANIFEST)
+    if (!exists(manifestPath)) {
+      throw new SmokeError(
+        '--nopack given but no packed tarballs found — run once without it.'
+      )
+    }
+
+    const manifest: Record<string, string> = readJson(manifestPath)
+    const byName = new Map<string, string>()
+    for (const [name, file] of Object.entries(manifest)) {
+      const abs = path.join(tarballsDir, file)
+      if (!exists(abs)) {
+        throw new SmokeError(
+          `--nopack given but ${file} is missing — run once without it.`
+        )
+      }
+      byName.set(name, abs)
+    }
+
+    opts.log?.(`Reusing ${byName.size} packed tarballs (--nopack).`)
+    return { dir: tarballsDir, byName }
+  }
+
   const packages = discoverPackable(root)
   assertBuilt(packages)
 

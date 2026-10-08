@@ -240,12 +240,16 @@ export function fixtureDir(adapterDir: string, env: EnvDef) {
   return path.join(adapterDir, 'tests', 'smoke', env.fixture)
 }
 
-export function assembleRun(input: AssembleInput): SmokeRun {
+export async function assembleRun(input: AssembleInput): Promise<SmokeRun> {
   const name = runName(input)
   const dir = path.join(input.runsDir, name)
   const src = fixtureDir(input.adapterDir, input.env)
 
-  fs.rmSync(dir, { recursive: true, force: true })
+  // Async on purpose: the previous run dir holds a full node_modules, and a
+  // synchronous rm of it blocks the event loop for seconds — freezing the
+  // display's spinners while parallel envs assemble one after another. The
+  // remaining copies below are a handful of small files.
+  await fs.promises.rm(dir, { recursive: true, force: true })
   copyFixture(src, dir)
 
   copySharedApp(dir, input.env)
