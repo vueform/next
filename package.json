@@ -1,6 +1,8 @@
 {
   "private": true,
   "scripts": {
+    "check": "vpr :check",
+    "fix": "vpr :fix",
     "fmt": "vp fmt",
     "lint": "vpr :lint",
     "release:verify": "vpr :release:verify",

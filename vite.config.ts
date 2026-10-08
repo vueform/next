@@ -357,6 +357,14 @@ export default defineConfig({
           output: [],
         },
       },
+      ':check': {
+        command: 'vp fmt --check',
+        dependsOn: [':lint', ':typecheck'],
+      },
+      ':fix': {
+        command:
+          'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt',
+      },
       // The dist-type gate (NOT part of the default checks): packs every
       // publishable package and verifies the tarballs statically (publint +
       // attw, run by the pack step itself).
