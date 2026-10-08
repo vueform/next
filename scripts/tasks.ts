@@ -150,15 +150,6 @@ export const testVisualTasks = (passthrough: string[] = []): Task[] =>
     args: [...task.args, ...passthrough],
   }))
 
-export const testTasks = (): Task[] =>
-  // Vitest's default reporter omits the per-test captured console blocks in
-  // non-TTY runs; the verbose reporter prints them, which is what the warn
-  // report parses. (Assumes every `test` script is vitest.)
-  discoverPackageTasks('test').map((task) => ({
-    ...task,
-    args: [...task.args, '--reporter=verbose'],
-  }))
-
 /**
  * Collapses a stage's tasks into a single task (one progress bar), running
  * every step of every task sequentially.

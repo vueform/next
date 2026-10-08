@@ -463,8 +463,8 @@ export default defineConfig({
           'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt',
       },
       ':test': {
-        command: "node -e ''",
-        dependsOn: testedPackages.map(({ dir }) => `:test:${dir}`),
+        command: 'tsx scripts/test.ts',
+        dependsOn: [':build:utils'],
       },
       ...testTasks,
     },

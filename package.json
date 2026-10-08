@@ -7,7 +7,7 @@
     "fmt": "vp fmt",
     "lint": "vpr :lint",
     "quick": "vpr :quick",
-    "test": "vpr :test",
+    "test": "tsx scripts/test.ts",
     "typecheck": "vpr :typecheck"
   },
   "devDependencies": {
