@@ -111,6 +111,27 @@ const checkedPackages = [...packageManifests].flatMap(([dir, pkg]) =>
  * workspace deps, and dep manifests are inputs because the exports maps ARE
  * the resolution map.
  */
+/**
+ * Build graph: every package with a `build` script, ordered by its declared
+ * workspace deps (transitively, via `workspaceDeps`) — adapters, plugins and
+ * nuxt autodiscover their place after core, everything after utils. A
+ * package build's inputs include its upstream dists (adapter/plugin d.ts
+ * emission type-checks against core's BUILT types), so a stale upstream
+ * invalidates the downstream task.
+ */
+const buildablePackages = [...packageManifests]
+  .filter(([, pkg]) => pkg.scripts?.build)
+  .map(([dir, pkg]) => ({ dir, name: pkg.name as string }))
+const buildableDirs = new Set(buildablePackages.map(({ dir }) => dir))
+
+const docsManifest = JSON.parse(
+  readFileSync(join(repoDir, 'docs', 'package.json'), 'utf8')
+)
+/** Docs type-check as a consumer; these builds must precede its leg. */
+const docsBuildDeps = Object.keys(docsManifest.dependencies ?? {})
+  .map((name) => packageDirByName.get(name))
+  .filter((dir): dir is string => !!dir && buildableDirs.has(dir))
+
 const typecheckTasks = Object.fromEntries(
   checkedPackages.map(({ dir, name }) => {
     const srcLinked = aliasedSrcPackages.includes(dir)
@@ -118,9 +139,18 @@ const typecheckTasks = Object.fromEntries(
       `:typecheck:${dir}`,
       {
         command: `pnpm --filter ${name} run typecheck`,
+        // Dist-view legs run AFTER the builds they consume; src-linked legs
+        // only need utils' dist (their config-file sub-program imports the
+        // tsdown factories).
+        dependsOn: srcLinked
+          ? [':build:utils']
+          : workspaceDeps(dir)
+              .filter((dep) => buildableDirs.has(dep))
+              .map((dep) => `:build:${dep}`),
         cache: {
           input: [
             `packages/${dir}/src/**`,
+            ...(srcLinked ? ['packages/utils/dist/**'] : []),
             `packages/${dir}/tests/**`,
             `packages/${dir}/*.ts`,
             `packages/${dir}/*.json`,
@@ -136,6 +166,31 @@ const typecheckTasks = Object.fromEntries(
       },
     ]
   })
+)
+
+const buildTasks = Object.fromEntries(
+  buildablePackages.map(({ dir, name }) => [
+    `:build:${dir}`,
+    {
+      command: `pnpm --filter ${name} run build`,
+      dependsOn: workspaceDeps(dir)
+        .filter((dep) => buildableDirs.has(dep))
+        .map((dep) => `:build:${dep}`),
+      cache: {
+        input: [
+          `packages/${dir}/src/**`,
+          `packages/${dir}/*.ts`,
+          `packages/${dir}/*.json`,
+          ...workspaceDeps(dir)
+            .filter((dep) => buildableDirs.has(dep))
+            .map((dep) => `packages/${dep}/dist/**`),
+          'packages/tsconfig/**',
+          'pnpm-lock.yaml',
+        ],
+        output: [`packages/${dir}/dist/**`],
+      },
+    },
+  ])
 )
 
 export default defineConfig({
@@ -266,6 +321,12 @@ export default defineConfig({
   },
   run: {
     tasks: {
+      ':build': {
+        // Aggregate only — the per-package tasks do the work.
+        command: "node -e ''",
+        dependsOn: buildablePackages.map(({ dir }) => `:build:${dir}`),
+      },
+      ...buildTasks,
       ':lint': {
         command: 'vp lint',
         dependsOn: [':stylelint', ':eslint'],
@@ -306,12 +367,23 @@ export default defineConfig({
         },
       },
       ':typecheck': {
-        command: 'tsc --noEmit',
+        command: "node -e ''",
         dependsOn: [
-          ...checkedPackages.map(({ dir }) => `:typecheck:${dir}`),
+          ':build',
+          ':typecheck:pkg',
+          ':typecheck:root',
           ':typecheck:docs',
           ':typecheck:benchmark',
         ],
+      },
+      ...typecheckTasks,
+      ':typecheck:pkg': {
+        command: "node -e ''",
+        dependsOn: checkedPackages.map(({ dir }) => `:typecheck:${dir}`),
+      },
+      ':typecheck:root': {
+        command: 'tsc --noEmit',
+        dependsOn: [':build:utils'],
         cache: {
           input: [
             '*.config.ts',
@@ -325,9 +397,9 @@ export default defineConfig({
           output: [],
         },
       },
-      ...typecheckTasks,
       ':typecheck:docs': {
         command: 'pnpm --filter @vueform/docs run typecheck',
+        dependsOn: docsBuildDeps.map((dep) => `:build:${dep}`),
         cache: {
           input: [
             'docs/**',
@@ -356,6 +428,12 @@ export default defineConfig({
           ],
           output: [],
         },
+      },
+      ':quick': {
+        command: "node -e ''",
+        dependsOn: checkedPackages
+          .filter(({ dir }) => aliasedSrcPackages.includes(dir))
+          .map(({ dir }) => `:typecheck:${dir}`),
       },
       ':check': {
         command: 'vp fmt --check',
