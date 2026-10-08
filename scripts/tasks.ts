@@ -138,8 +138,6 @@ export const checkTasks = (): Task[] => [
   },
 ]
 
-export const testBenchTasks = (): Task[] => discoverPackageTasks('test:bench')
-
 export const testDtsTasks = (): Task[] => discoverPackageTasks('test:dts')
 
 /**

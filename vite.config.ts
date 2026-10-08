@@ -24,9 +24,8 @@
  *   invalidate the downstream task.
  * - `pnpm-lock.yaml` is an input of every cached task: any dependency bump
  *   invalidates everything (coarse, but always correct).
- * - Mutating (`p:fix`) and measuring (`p:test:bench*`) tasks never cache;
- *   Playwright suites (`p:test:smoke`, `p:test:visual`, `p:bench`) never cache
- *   and are never run by agents — user-run only.
+ * - Mutating tasks (`p:fix`) never cache; Playwright suites (`p:test:smoke`,
+ *   `p:test:visual`) never cache and are never run by agents — user-run only.
  * - Docs tasks stay uncached until their read/write sets are modeled.
  */
 import { existsSync, readFileSync, readdirSync } from 'node:fs'

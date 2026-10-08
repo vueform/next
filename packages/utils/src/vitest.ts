@@ -38,10 +38,6 @@ export type VitestConfig = UserConfig & { test?: Record<string, any> }
  * exports-derived subpaths, plus full package names) so tests always run
  * against sources, never dist.
  *
- * A separate `bench` project picks up `tests/bench/**\/*.bench.ts` for `vitest
- * bench` — plain `vitest` never runs bench files and `vitest bench` never runs
- * tests, each mode matching exactly one project.
- *
  * When the package has a `tests/dts` directory, a `test-dts` project is added
  * that typechecks `tests/dts/**\/*.test-d.ts` with `vue-tsc` (run it alone with
  * `vitest run --project test-dts`). The directory needs its own `tsconfig.json`
@@ -73,12 +69,6 @@ export async function createVitestConfig(
     test: {
       name: 'integration',
       include: ['./tests/integration/**/*.test.ts'],
-      // Vitest 5: `vitest bench` selects files by `benchmark.include`
-      // within the same project (`vitest bench --project integration`),
-      // while normal runs use `include` — one project, mode-based
-      // selection. A dedicated empty-`include` bench project is pruned
-      // by v5 before `--project` filtering and cannot be selected.
-      benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
     },
   }
 
@@ -105,17 +95,11 @@ export async function createVitestConfig(
                   name: 'invariants',
                   environment: 'node',
                   include: ['./tests/invariants/**/*.test.ts'],
-                  benchmark: { include: [] },
                 },
               },
             ]
           : []),
 
-        // Vitest 5: `vitest bench` selects files by `benchmark.include`
-        // within the same project (`vitest bench --project integration`),
-        // while normal runs use `include` — one project, mode-based
-        // selection. A dedicated empty-`include` bench project is pruned
-        // by v5 before `--project` filtering and cannot be selected.
         ...(existsSync(join(root, 'tests/dts'))
           ? [
               {
@@ -126,7 +110,6 @@ export async function createVitestConfig(
                   // template-type runner, which maps vue-tsc diagnostics to
                   // named tests) run alongside the typecheck pass.
                   include: ['./tests/dts/**/*.test.ts'],
-                  benchmark: { include: [] },
                   typecheck: {
                     enabled: true,
                     checker: 'vue-tsc',

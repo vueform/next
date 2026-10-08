@@ -98,16 +98,12 @@
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "size": "vf-size",
     "test": "vitest --project integration --maxWorkers=16",
-    "test:bench": "tsx tests/bench/compare.ts",
-    "test:bench-dts": "tsx tests/bench-dts/run.ts",
-    "test:dts": "vitest run --project test-dts",
-    "test:bench:run": "NODE_OPTIONS=--max-old-space-size=8192 vitest bench"
+    "test:dts": "vitest run --project test-dts"
   },
   "dependencies": {
     "@vue/devtools-api": "catalog:"
   },
   "devDependencies": {
-    "@ark/attest": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",

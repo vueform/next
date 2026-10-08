@@ -5,5 +5,5 @@
     "tsBuildInfoFile": "./node_modules/.tmp/test.tsbuildinfo"
   },
   "include": ["src", "tests"],
-  "exclude": ["tests/bench-dts", "tests/dts"]
+  "exclude": ["tests/dts"]
 }
