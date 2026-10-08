@@ -7,6 +7,7 @@
     "fmt": "vp fmt",
     "lint": "vpr :lint",
     "quick": "vpr :quick",
+    "test": "vpr :test",
     "typecheck": "vpr :typecheck"
   },
   "devDependencies": {

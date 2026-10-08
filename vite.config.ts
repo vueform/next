@@ -167,6 +167,27 @@ const typecheckTasks = Object.fromEntries(
   })
 )
 
+/**
+ * Test graph: every package with a plain `test` script gets a `:test:<dir>`
+ * leg running exactly that script — the specialized suites (test:dts,
+ * test:smoke, test:visual) stay out of `:test` and are run by their own
+ * commands. Tests run source via the vitest factory, so the legs only need
+ * utils' dist. Uncached for now.
+ */
+const testedPackages = [...packageManifests].flatMap(([dir, pkg]) =>
+  pkg.scripts?.test ? [{ dir, name: pkg.name as string }] : []
+)
+
+const testTasks = Object.fromEntries(
+  testedPackages.map(({ dir, name }) => [
+    `:test:${dir}`,
+    {
+      command: `pnpm --filter ${name} run test --run`,
+      dependsOn: [':build:utils'],
+    },
+  ])
+)
+
 const buildTasks = Object.fromEntries(
   buildablePackages.map(({ dir, name }) => [
     `:build:${dir}`,
@@ -441,6 +462,11 @@ export default defineConfig({
         command:
           'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt',
       },
+      ':test': {
+        command: "node -e ''",
+        dependsOn: testedPackages.map(({ dir }) => `:test:${dir}`),
+      },
+      ...testTasks,
     },
   },
 })

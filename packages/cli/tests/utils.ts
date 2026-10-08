@@ -21,11 +21,22 @@ export interface RunResult {
 
 /**
  * Runs the built CLI in `cwd`, capturing output; never throws on exit 1.
+ *
+ * The VS Code markers are stripped from the child env: commands adapt to
+ * running inside an editor terminal (`vueform view` opens files via `code`
+ * instead of dumping them), and a test run must behave the same from any
+ * terminal — not pop editor tabs for its temp projects.
  */
 export function runCli(cwd: string, args: string[]): RunResult {
+  const env = { ...process.env }
+  delete env.TERM_PROGRAM
+  delete env.VSCODE_GIT_IPC_HANDLE
+  delete env.VSCODE_PID
+
   try {
     const stdout = execFileSync(process.execPath, [bin, ...args], {
       cwd,
+      env,
       stdio: ['ignore', 'pipe', 'pipe'],
       encoding: 'utf8',
     })
