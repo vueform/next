@@ -485,11 +485,11 @@ export default defineConfig({
         command: 'tsx scripts/test.ts',
         dependsOn: [':build:utils'],
       },
+      ...testTasks,
       ':test-dts': {
         command: 'tsx scripts/test-dts.ts',
         dependsOn: [':build:utils'],
       },
-      ...testTasks,
       ...testDtsTasks,
     },
   },
