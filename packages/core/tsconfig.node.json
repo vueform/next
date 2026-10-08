@@ -4,5 +4,5 @@
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/node.tsbuildinfo"
   },
-  "include": ["*.config.ts", "tests/bench-dts/generate.ts"]
+  "include": ["*.config.ts"]
 }

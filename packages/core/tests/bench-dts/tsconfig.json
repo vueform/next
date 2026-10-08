@@ -1,7 +1,15 @@
 {
-  "extends": "@vueform/tsconfig/tsconfig.test.json",
+  // Consumer view: @vueform/* resolves to BUILT dist types — the same types
+  // a user's editor evaluates. Requires a prior core build.
   "compilerOptions": {
-    "noEmit": true
+    "strict": true,
+    "noEmit": true,
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM"],
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "types": []
   },
-  "include": ["./suites/*.ts", "../../src"]
+  "include": ["."]
 }

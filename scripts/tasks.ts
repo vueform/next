@@ -140,16 +140,6 @@ export const checkTasks = (): Task[] => [
 
 export const testBenchTasks = (): Task[] => discoverPackageTasks('test:bench')
 
-/**
- * `passthrough` flags (e.g. `--save` / `--compare`) are forwarded to every
- * package's `test:bench-dts` script.
- */
-export const testBenchDtsTasks = (passthrough: string[] = []): Task[] =>
-  discoverPackageTasks('test:bench-dts').map((task) => ({
-    ...task,
-    args: [...task.args, ...passthrough],
-  }))
-
 export const testDtsTasks = (): Task[] => discoverPackageTasks('test:dts')
 
 /**

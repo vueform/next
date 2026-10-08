@@ -99,13 +99,14 @@
     "size": "vf-size",
     "test": "vitest --project integration --maxWorkers=16",
     "test:bench": "NODE_OPTIONS=--max-old-space-size=8192 vitest bench",
-    "test:bench-dts": "vf-bench-dts",
+    "test:bench-dts": "tsx tests/bench-dts/run.ts",
     "test:dts": "vitest run --project test-dts"
   },
   "dependencies": {
     "@vue/devtools-api": "catalog:"
   },
   "devDependencies": {
+    "@ark/attest": "catalog:",
     "@vitejs/plugin-vue": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",

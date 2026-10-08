@@ -3,7 +3,6 @@
   "version": "2.0.0-alpha.1",
   "private": true,
   "bin": {
-    "vf-bench-dts": "./bin/vf-bench-dts.js",
     "vf-registry": "./bin/vf-registry.js",
     "vf-size": "./bin/vf-size.js"
   },

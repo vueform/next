@@ -19,8 +19,6 @@ export type {
 } from './tsdown'
 export { packageSourceAliases, workspaceSourceAliases } from './sourceAliases'
 export type { SourceAliasOptions } from './sourceAliases'
-export { runBenchDts } from './benchDts'
-export type { BenchDtsMetrics, BenchDtsOptions } from './benchDts'
 export { createVitestConfig } from './vitest'
 export type { VitestConfig, VitestOptions } from './vitest'
 export { formatEmittedSource, generateRegistry } from './registry'
