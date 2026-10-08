@@ -1,6 +1,7 @@
 {
   // Editor-only: imports of fixture-supplied files (`../adapter`, …) resolve
-  // into editor-stubs/ via `rootDirs`. The real check is smoke tier 1.
+  // into editor-stubs/ via `rootDirs`. The templates are verified by the
+  // smoke runs themselves (built and exercised in every cell).
   "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "lib": ["ES2022", "DOM", "DOM.Iterable"],

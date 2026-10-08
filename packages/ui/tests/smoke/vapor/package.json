@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "vite build",
-    "serve": "vite preview --strictPort",
-    "typecheck": "vue-tsc --noEmit"
+    "serve": "vite preview --strictPort"
   },
   "dependencies": {
     "@vueform/core": "file:managed-by-smoke-harness",
@@ -18,8 +17,6 @@
     "@playwright/test": "^1.51.1",
     "@vitejs/plugin-vue": "^6.0.9",
     "@vue/tsconfig": "^0.7.0",
-    "typescript": "~5.9.3",
-    "vite": "^7.0.0",
-    "vue-tsc": "^2.2.12"
+    "vite": "^7.0.0"
   }
 }

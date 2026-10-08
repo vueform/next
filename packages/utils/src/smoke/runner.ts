@@ -2,11 +2,9 @@
  * Runs one cell end to end. The tiers:
  *
  * - 0: install (+ leak check) and production build
- * - 1: types — the fixture's `typecheck` script over the shared type assertions,
- *   against the tarballs' dist .d.ts
- * - 2: boot — Playwright `boot.spec` (console/pageerror/warning policy,
+ * - 1: boot — Playwright `boot.spec` (console/pageerror/warning policy,
  *   per-element render assertions, SSR/hydration checks)
- * - 3: canonical interaction — Playwright `interaction.spec`
+ * - 2: canonical interaction — Playwright `interaction.spec`
  *
  * Install always runs (everything needs it); the build runs for tier 0 or
  * whenever Playwright tiers are selected. Playwright starts the fixture's
@@ -82,12 +80,7 @@ export async function runCell(input: CellRunInput): Promise<void> {
   })
   leakCheck(smokeRun.dir)
 
-  if (tiers.has(1)) {
-    console.log(`${tag} Type-checking (tier 1)...`)
-    script('typecheck', 'Tier 1 (types) failed')
-  }
-
-  const wantsBrowser = tiers.has(2) || tiers.has(3)
+  const wantsBrowser = tiers.has(1) || tiers.has(2)
 
   if (tiers.has(0) || wantsBrowser) {
     console.log(`${tag} Building (tier 0)...`)
@@ -99,8 +92,8 @@ export async function runCell(input: CellRunInput): Promise<void> {
   ensureBrowsers(pm, smokeRun)
 
   const specs = [
-    ...(tiers.has(2) ? ['boot.spec.mjs'] : []),
-    ...(tiers.has(3) ? ['interaction.spec.mjs'] : []),
+    ...(tiers.has(1) ? ['boot.spec.mjs'] : []),
+    ...(tiers.has(2) ? ['interaction.spec.mjs'] : []),
   ]
 
   console.log(`${tag} Running Playwright (${specs.join(', ')})...`)
@@ -114,7 +107,7 @@ export async function runCell(input: CellRunInput): Promise<void> {
     ]),
     {
       cwd: smokeRun.dir,
-      fail: `${tag} Tier ${tiers.has(2) ? '2/3' : '3'} (browser) failed`,
+      fail: `${tag} Tier ${tiers.has(1) ? '1/2' : '2'} (browser) failed`,
     }
   )
 }

@@ -141,16 +141,6 @@ export const checkTasks = (): Task[] => [
 export const testDtsTasks = (): Task[] => discoverPackageTasks('test:dts')
 
 /**
- * `passthrough` flags (cell filters like `--vite`/`--ssr`, `--tiers=…`,
- * `--skip-pack`) are forwarded to every adapter's `test:smoke` script.
- */
-export const testSmokeTasks = (passthrough: string[] = []): Task[] =>
-  discoverPackageTasks('test:smoke').map((task) => ({
-    ...task,
-    args: [...task.args, ...passthrough],
-  }))
-
-/**
  * `passthrough` flags (e.g. `--update-snapshots` / `--grep=…`) are forwarded to
  * every package's `test:visual` script.
  */

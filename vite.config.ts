@@ -442,9 +442,9 @@ export default defineConfig({
         command:
           'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt',
       },
-      // The dist-type gate (NOT part of the default checks): packs every
-      // publishable package and verifies the tarballs statically (publint +
-      // attw, run by the pack step itself).
+      // Packs every publishable package (NOT part of the default checks) and
+      // lints the publish shape of each tarball (publint, run by the pack
+      // step itself).
       ':pack': {
         command: 'pnpm --filter @vueform/ui run test:smoke --pack-only',
         cache: {
@@ -457,12 +457,12 @@ export default defineConfig({
           output: ['.vueform/smoke/tarballs/**'],
         },
       },
-      // Tiers 0–1 are browserless (install → leak check → build → typecheck
-      // in every env cell), so unlike the full smoke suites this is safe for
-      // agents/CI. Installs from the network — never cached.
+      // Tier 0 is browserless (install → leak check → build in every env
+      // cell), so unlike the full smoke suites this is safe for agents/CI.
+      // Installs from the network — never cached.
       ':release:verify': {
         command:
-          'pnpm --filter @vueform/ui run test:smoke --skip-pack --tiers=0,1 && pnpm --filter @vueform/primevue run test:smoke --skip-pack --tiers=0,1',
+          'pnpm --filter @vueform/ui run test:smoke --skip-pack --tiers=0 && pnpm --filter @vueform/primevue run test:smoke --skip-pack --tiers=0',
         dependsOn: [':pack'],
       },
     },

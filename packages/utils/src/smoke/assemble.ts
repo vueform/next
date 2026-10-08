@@ -8,18 +8,15 @@
  * Every fixture obeys one script contract, which keeps the runner identical
  * across environments:
  *
- * - `typecheck`: tier 1 (vue-tsc --noEmit / nuxi typecheck)
  * - `build`: tier 0 production build (vite build / nuxi build)
  * - `serve`: serves the built app on the port in `SMOKE_PORT`
  *
  * Shared content is copied from `@vueform/utils`' smoke-templates:
  *
  * - `app/*` → `<run>/smoke/` — canonical schema, inline-components form,
- *   window.__smoke exposure, type assertions. A `<name>.nuxt.<ext>` variant
- *   replaces `<name>.<ext>` in nuxt cells (e.g. the registration type test,
- *   which must NOT import the components manually there — the module's
- *   generated type template has to do it).
- * - `e2e/*` → `<run>/e2e/` — the shared Playwright specs (tier 2 boot, tier 3
+ *   window.__smoke exposure. A `<name>.nuxt.<ext>` variant replaces
+ *   `<name>.<ext>` in nuxt cells.
+ * - `e2e/*` → `<run>/e2e/` — the shared Playwright specs (tier 1 boot, tier 2
  *   interaction) plus helpers.
  */
 import fs from 'node:fs'
@@ -137,7 +134,7 @@ function copySharedSpecs(runDir: string) {
  * In vite cells it also side-effect-imports `<adapter>/components`, which is
  * what activates the registry/GlobalComponents type augmentations. Nuxt cells
  * deliberately get NO such import — there the @vueform/nuxt module's generated
- * type template must activate them, and the registration type test proves it.
+ * type template has to do it.
  */
 function writeAdapterModule(runDir: string, input: AssembleInput) {
   const pkgName: string = readJson(
@@ -163,8 +160,7 @@ function writeAdapterModule(runDir: string, input: AssembleInput) {
  * Caveat: pnpm's auto-installed PEER dependencies bypass overrides (they
  * resolve from the registry), so any packed package that appears as a peer in
  * the closure (e.g. plugins peer-depend on @vueform/core) must be a direct
- * dependency of the committed fixture. The shared type tests import
- * @vueform/core directly anyway, so fixtures declare it regardless.
+ * dependency of the committed fixture.
  */
 function patchManifest(runDir: string, input: AssembleInput) {
   const pkgPath = path.join(runDir, 'package.json')
@@ -223,7 +219,7 @@ function patchManifest(runDir: string, input: AssembleInput) {
 }
 
 /**
- * Playwright drives tiers 2–3 against the fixture's own `serve` script. Always
+ * Playwright drives tiers 1–2 against the fixture's own `serve` script. Always
  * headless — headed runs exist only behind the explicit --headed debug flag,
  * and no script or CI path passes it.
  */

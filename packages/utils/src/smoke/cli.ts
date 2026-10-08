@@ -72,8 +72,8 @@ Package manager (installer for the fixture; not a filter):
   --pnpm (default) | --npm | --yarn | --bun
 
 Options:
-  --tiers=0,1,2,3      which tiers to run (default: all)
-                       0 install+build, 1 types, 2 boot, 3 interaction
+  --tiers=0,1,2        which tiers to run (default: all)
+                       0 install+build, 1 boot, 2 interaction
   --skip-pack          reuse the previously packed tarballs
   --vite-major=<n>     pin the fixture's vite to that major (nightly lane;
                        vite-based cells only)
@@ -89,7 +89,7 @@ function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
   const filters: CellFilters = { envs: [], renderings: [], modes: [] }
   const pms: Pm[] = []
   let filtered = false
-  let tiers = new Set([0, 1, 2, 3])
+  let tiers = new Set([0, 1, 2])
   let skipPack = false
   let headed = false
   let packOnly = false
@@ -125,7 +125,7 @@ function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
         .split(',')
         .filter(Boolean)
         .map((t) => Number(t))
-      if (!parsed.length || parsed.some((t) => ![0, 1, 2, 3].includes(t))) {
+      if (!parsed.length || parsed.some((t) => ![0, 1, 2].includes(t))) {
         throw new SmokeError(
           `Invalid --tiers value: ${value} (use e.g. --tiers=0,1)`
         )

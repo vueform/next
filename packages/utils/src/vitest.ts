@@ -44,10 +44,6 @@ export type VitestConfig = UserConfig & { test?: Record<string, any> }
  * covering the test files (the checker resolves imports through tsconfig paths,
  * not vite aliases), because the package tsconfig excludes `tests/dts` — type
  * tests are the `test-dts` gate's concern, not `check`'s.
- *
- * Dist-type verification lives in the `:release:verify` gate (packed
- * tarballs: publint + attw + the smoke cells' consumer typechecks), not in a
- * vitest project.
  */
 export async function createVitestConfig(
   options: VitestOptions = {}

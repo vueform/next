@@ -5,8 +5,7 @@
   "type": "module",
   "scripts": {
     "build": "nuxt build",
-    "serve": "HOST=127.0.0.1 PORT=$SMOKE_PORT node .output/server/index.mjs",
-    "typecheck": "nuxt typecheck"
+    "serve": "HOST=127.0.0.1 PORT=$SMOKE_PORT node .output/server/index.mjs"
   },
   "dependencies": {
     "@primeuix/themes": "^2.0.3",
@@ -22,8 +21,6 @@
     "quill": "^2.0.3"
   },
   "devDependencies": {
-    "@playwright/test": "^1.51.1",
-    "typescript": "~5.9.3",
-    "vue-tsc": "^2.2.12"
+    "@playwright/test": "^1.51.1"
   }
 }

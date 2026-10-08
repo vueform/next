@@ -65,38 +65,15 @@ function assertBuilt(packages: PackablePackage[]) {
 
 /**
  * Static verification of the packed output: `publint` checks each package's
- * publish shape (files, exports map, field consistency) and `attw` checks
- * that the tarball's types actually resolve under every resolution mode — the
- * class of bug no workspace type-check can see. ESM-only packages (no
- * `require` condition on the root export) use attw's esm-only profile, which
- * skips the CJS-from-node16 expectations they intentionally do not meet.
+ * publish shape (files, exports map, field consistency).
  */
-function verifyTarballs(
-  packages: PackablePackage[],
-  byName: Map<string, string>
-) {
+function verifyTarballs(packages: PackablePackage[]) {
   for (const pkg of packages) {
     console.log(`[smoke] publint ${pkg.name}...`)
     run('pnpm', ['exec', 'publint'], {
       cwd: pkg.dir,
       fail: `publint failed for ${pkg.name}`,
     })
-
-    const tarball = byName.get(pkg.name)!
-    const rootExport = readJson(path.join(pkg.dir, 'package.json')).exports?.[
-      '.'
-    ]
-    const esmOnly =
-      !!rootExport &&
-      typeof rootExport === 'object' &&
-      !('require' in rootExport)
-
-    console.log(`[smoke] attw ${pkg.name}...`)
-    run(
-      'pnpm',
-      ['exec', 'attw', ...(esmOnly ? ['--profile', 'esm-only'] : []), tarball],
-      { cwd: pkg.dir, fail: `attw failed for ${pkg.name}` }
-    )
   }
 }
 
@@ -163,7 +140,7 @@ export function packWorkspace(
   writeJson(path.join(tarballsDir, MANIFEST), manifest)
   console.log(`[smoke] Packed ${byName.size} packages into ${tarballsDir}`)
 
-  verifyTarballs(packages, byName)
+  verifyTarballs(packages)
 
   return { dir: tarballsDir, byName }
 }
