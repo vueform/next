@@ -24,6 +24,7 @@ cache
 # Custom files
 .temp
 
-# Playwright
+# Tests
+.attest
 test-results
 playwright-report
