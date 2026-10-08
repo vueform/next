@@ -27,11 +27,11 @@ export { formatEmittedSource, generateRegistry } from './registry'
 export type { RegistryOptions } from './registry'
 export { runSize } from './size/run'
 export type { RunSizeOptions } from './size/run'
-export { validateSource } from './validateSource'
+export { verifyCssImports } from './verifyCssImports'
 export type {
-  ValidateSourceConfig,
-  ValidateSourceOptions,
-} from './validateSource'
+  VerifyCssImportsConfig,
+  VerifyCssImportsOptions,
+} from './verifyCssImports'
 export type {
   MeasurementType,
   Results as SizeResults,

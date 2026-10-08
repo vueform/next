@@ -146,7 +146,7 @@
     "size:report": "vf-size --report",
     "test:smoke": "tsx tests/smoke/run.ts",
     "test:visual": "playwright test --config tests/visual/playwright.config.ts",
-    "validate": "vf-validate-source"
+    "test": "vitest"
   },
   "dependencies": {
     "@vueform/cli": "workspace:^",

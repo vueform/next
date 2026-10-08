@@ -68,6 +68,20 @@ export async function createVitestConfig(
 
   aliases.push(...workspaceSourceAliases(packagesDir))
 
+  const integrationProject = {
+    extends: true,
+    test: {
+      name: 'integration',
+      include: ['./tests/integration/**/*.test.ts'],
+      // Vitest 5: `vitest bench` selects files by `benchmark.include`
+      // within the same project (`vitest bench --project integration`),
+      // while normal runs use `include` — one project, mode-based
+      // selection. A dedicated empty-`include` bench project is pruned
+      // by v5 before `--project` filtering and cannot be selected.
+      benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
+    },
+  }
+
   const config: VitestConfig = {
     plugins: [Vue()],
     resolve: {
@@ -77,20 +91,31 @@ export async function createVitestConfig(
       globals: true,
       environment: 'happy-dom',
       projects: [
-        {
-          extends: true,
-          test: {
-            name: 'integration',
-            include: ['./tests/integration/**/*.test.ts'],
-            // Vitest 5: `vitest bench` selects files by `benchmark.include`
-            // within the same project (`vitest bench --project integration`),
-            // while normal runs use `include` — one project, mode-based
-            // selection. A dedicated empty-`include` bench project is pruned
-            // by v5 before `--project` filtering and cannot be selected.
-            benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
-          },
-        },
+        ...(existsSync(join(root, 'tests/integration'))
+          ? [integrationProject]
+          : []),
 
+        // Repo-invariant suites (standing rules about the sources, e.g. the
+        // styles.ts chunk-import validation) — node context, no DOM.
+        ...(existsSync(join(root, 'tests/invariants'))
+          ? [
+              {
+                extends: true,
+                test: {
+                  name: 'invariants',
+                  environment: 'node',
+                  include: ['./tests/invariants/**/*.test.ts'],
+                  benchmark: { include: [] },
+                },
+              },
+            ]
+          : []),
+
+        // Vitest 5: `vitest bench` selects files by `benchmark.include`
+        // within the same project (`vitest bench --project integration`),
+        // while normal runs use `include` — one project, mode-based
+        // selection. A dedicated empty-`include` bench project is pruned
+        // by v5 before `--project` filtering and cannot be selected.
         ...(existsSync(join(root, 'tests/dts'))
           ? [
               {

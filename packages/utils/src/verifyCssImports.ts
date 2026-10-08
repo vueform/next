@@ -35,8 +35,10 @@
  * core chunk of the same name, BOTH are required — the own chunk styles on top
  * of core's base rules.
  *
- * Fails when a component emits a class whose providing chunk(s) are not
- * imported.
+ * Returns per-component findings; the adapters' `tests/invariants` suites
+ * assert them (one test per component). `suggest` prints inferred styles.ts
+ * content instead — run it programmatically, e.g.
+ * `node -e "require('@vueform/utils').verifyCssImports({ packageDir: '.', suggest: true })"`.
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -58,10 +60,10 @@ interface Occurrence {
 }
 
 /**
- * Adapter-specific validation data under `vueform.validateSource` in the
+ * Adapter-specific validation data under `vueform.verifyCssImports` in the
  * adapter's manifest.
  */
-export interface ValidateSourceConfig {
+export interface VerifyCssImportsConfig {
   /**
    * Core chunks the adapter's aggregate recipe layers its own chunks onto
    * (`core:` provider space). Omitted when the adapter's own chunks ARE core's
@@ -70,7 +72,18 @@ export interface ValidateSourceConfig {
   coreRecipeChunks?: string[]
 }
 
-export interface ValidateSourceOptions {
+export interface VerifyCssImportsResult {
+  components: Array<{
+    name: string
+    /**
+     * Violations — empty when the component's styles.ts imports cover every
+     * class it emits.
+     */
+    errors: string[]
+  }>
+}
+
+export interface VerifyCssImportsOptions {
   /**
    * The adapter package's directory (the invoking package's cwd).
    */
@@ -122,11 +135,11 @@ function extractClassTokens(source: string): Set<string> {
 }
 
 /**
- * Validates the adapter's styles.ts imports (see the module docblock). Returns
- * the number of problems found (0 = OK); prints errors, warnings and the
- * summary itself.
+ * Validates the adapter's styles.ts imports (see the module docblock).
  */
-export function validateSource(options: ValidateSourceOptions): number {
+export function verifyCssImports(
+  options: VerifyCssImportsOptions
+): VerifyCssImportsResult {
   const pkgDir = path.resolve(options.packageDir)
   const { verbose = false, suggest = false } = options
 
@@ -134,7 +147,8 @@ export function validateSource(options: ValidateSourceOptions): number {
     fs.readFileSync(path.join(pkgDir, 'package.json'), 'utf8')
   )
   const adapterName = path.basename(pkgDir)
-  const config: ValidateSourceConfig = manifest.vueform?.validateSource ?? {}
+  const config: VerifyCssImportsConfig =
+    manifest.vueform?.verifyCssImports ?? {}
 
   // Whitelisted classes (utils' config.json) satisfy selector mates without
   // any component emitting them: exact names or `prefix-*` patterns, from the
@@ -236,10 +250,7 @@ export function validateSource(options: ValidateSourceOptions): number {
   }
 
   if (!fs.existsSync(ownScssDir)) {
-    console.error(
-      `[validate:source] ${path.relative(root, ownScssDir)} not found`
-    )
-    return 1
+    throw new Error(`${path.relative(root, ownScssDir)} not found`)
   }
 
   // Chunks are compiled from the scss sources on the fly — the same compiler
@@ -338,7 +349,7 @@ export function validateSource(options: ValidateSourceOptions): number {
     )
     .sort()
 
-  const errors: string[] = []
+  const results: VerifyCssImportsResult['components'] = []
   const baseline = declaredProviders('VfLayout')
   // Layout wrapper classes are present around every element — selector mates
   // like `.vf-label-group` in `.vf-slider .vf-label-group + …` should not
@@ -346,6 +357,7 @@ export function validateSource(options: ValidateSourceOptions): number {
   const layoutClasses = emittedClasses('VfLayout')
 
   for (const name of components) {
+    const errors: string[] = []
     const emitted = emittedClasses(name)
     const declared = declaredProviders(name)
     const matched = new Set<string>()
@@ -408,7 +420,7 @@ export function validateSource(options: ValidateSourceOptions): number {
           openRequirements.push(options)
         } else {
           errors.push(
-            `${adapterName}/${name}: emits .${cls} but none of its providing chunk(s) [${options.join(', ')}] are imported in ${stylesFile}`
+            `emits .${cls} but none of its providing chunk(s) [${options.join(', ')}] are imported in ${stylesFile}`
           )
         }
       }
@@ -439,7 +451,7 @@ export function validateSource(options: ValidateSourceOptions): number {
         if (declared.has(owner)) matched.add(owner)
         else
           errors.push(
-            `${adapterName}/${name}: chunk '${provider}' animates with '${kf}' from '${owner}' — import it in ${stylesFile}`
+            `chunk '${provider}' animates with '${kf}' from '${owner}' — import it in ${stylesFile}`
           )
       }
     }
@@ -464,19 +476,9 @@ export function validateSource(options: ValidateSourceOptions): number {
         `${name}: declared=[${[...declared].sort().join(', ')}] matched=[${[...matched].sort().join(', ')}]`
       )
     }
+
+    results.push({ name, errors })
   }
 
-  if (suggest) return 0
-
-  if (errors.length) {
-    for (const error of errors) console.error(`[validate:source] ${error}`)
-    const count = `${errors.length} problem(s)`
-    console.error(
-      `\nFAILED — ${process.stderr.isTTY ? `\x1b[31m${count}\x1b[0m` : count}\n`
-    )
-    return errors.length
-  }
-  const summary = `OK — ${components.length} components checked`
-  console.log(process.stdout.isTTY ? `\x1b[32m${summary}\x1b[0m` : summary)
-  return 0
+  return { components: results }
 }
