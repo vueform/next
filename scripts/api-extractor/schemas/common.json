@@ -1,0 +1,126 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://vueform.com/schemas/scraper/common.json",
+  "title": "Vueform scraped shared definitions",
+  "description": "Definitions shared by the scraped-file schemas. Not a document schema of its own.",
+  "definitions": {
+    "param": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1
+        },
+        "description": {
+          "type": "string"
+        },
+        "loc": {
+          "type": "string"
+        }
+      }
+    },
+    "returns": {
+      "type": "object",
+      "required": ["type"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        }
+      }
+    },
+    "apiMember": {
+      "type": "object",
+      "required": ["type", "description"],
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "loc": {
+          "type": "string"
+        },
+        "params": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/param"
+          }
+        },
+        "returns": {
+          "$ref": "#/definitions/returns"
+        }
+      }
+    },
+    "member": {
+      "description": "Recursive member node shared by helpers, composables and features. `type` is always a string; object shapes expand under `members`, and `from` refers to another entry as `<file>.<entry>[.<member>]`.",
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string",
+          "minLength": 1,
+          "description": "The member's type as a string; structured members live under `members`."
+        },
+        "members": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/definitions/member"
+          },
+          "description": "Named members of an object-shaped type (`type: \"object\"`, or a named type whose shape is expanded)."
+        },
+        "description": {
+          "type": "string"
+        },
+        "loc": {
+          "type": "string"
+        },
+        "from": {
+          "type": "string",
+          "pattern": "^[a-z]+(\\.[A-Za-z0-9_$]+)+$",
+          "description": "Reference to another entry (`<file>.<entry>[.<member>]`) this member is spread from."
+        },
+        "required": {
+          "const": true,
+          "description": "Present on required members — absence means optional (incl. deps picked from ReturnsOf's second argument)."
+        },
+        "private": {
+          "const": true,
+          "description": "Internal member documented for completeness."
+        },
+        "rest": {
+          "const": true,
+          "description": "Marks a rest (...) parameter."
+        },
+        "default": {
+          "description": "Default value of a parameter."
+        },
+        "params": {
+          "type": "object",
+          "description": "Parameters, for function-like members.",
+          "additionalProperties": {
+            "$ref": "#/definitions/member"
+          }
+        },
+        "returns": {
+          "$ref": "#/definitions/member"
+        },
+        "overloads": {
+          "type": "array",
+          "items": {
+            "allOf": [
+              {
+                "$ref": "#/definitions/member"
+              }
+            ],
+            "required": ["description", "params", "returns"]
+          }
+        }
+      }
+    }
+  }
+}

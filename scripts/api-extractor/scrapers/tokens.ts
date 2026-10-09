@@ -16,6 +16,12 @@ const ROOT = monorepoRoot
 const TOKENS_FILE = path.join(ROOT, 'packages/core/src/tokens/index.ts')
 const GENERATED_DIR = generatedDir
 
+/**
+ * A token entry with the declaration's repo-relative `path:line` in a single
+ * `loc` string (replaces the former `file` + `line` pair).
+ */
+type TokenEntry = Omit<TokenJsonEntry, 'file' | 'line'> & { loc?: string }
+
 // ---------------------------------------------------------------------------
 // Token parsing
 // ---------------------------------------------------------------------------
@@ -23,8 +29,8 @@ const GENERATED_DIR = generatedDir
 function parseAllTokenGroups(
   source: string,
   relPath: string
-): Record<string, TokenJsonEntry> {
-  const result: Record<string, TokenJsonEntry> = {}
+): Record<string, TokenEntry> {
+  const result: Record<string, TokenEntry> = {}
   const groups = discoverTokenGroups(source)
 
   for (const groupName of groups) {
@@ -134,8 +140,7 @@ function parseAllTokenGroups(
               key,
               default: value,
               ...(description ? { description } : {}),
-              file: relPath,
-              line: bodyStartLine + j,
+              loc: `${relPath}:${bodyStartLine + j}`,
             }
             continue
           }
@@ -201,8 +206,7 @@ function parseAllTokenGroups(
           group: groupName,
           key,
           default: value,
-          file: relPath,
-          line: bodyStartLine + i,
+          loc: `${relPath}:${bodyStartLine + i}`,
         }
       }
 
@@ -223,10 +227,10 @@ function parseAllTokenGroups(
  */
 function parseAdapterTokens(
   source: string,
-  coreTokens: Record<string, TokenJsonEntry>,
+  coreTokens: Record<string, TokenEntry>,
   relPath: string
-): Record<string, TokenJsonEntry> {
-  const result: Record<string, TokenJsonEntry> = {}
+): Record<string, TokenEntry> {
+  const result: Record<string, TokenEntry> = {}
 
   // Core token entries by camelCase key: an adapter redeclaring a core key
   // overrides it (its own default/dark/docs win, the rest is inherited).
@@ -362,8 +366,7 @@ function parseAdapterTokens(
                   ...(currentSubgroup ? { subgroup: currentSubgroup } : {}),
                   default: value,
                   ...(description ? { description } : {}),
-                  file: relPath,
-                  line: bodyStartLine + j,
+                  loc: `${relPath}:${bodyStartLine + j}`,
                 }
               : {
                   group: blockName,
@@ -371,8 +374,7 @@ function parseAdapterTokens(
                   key,
                   default: value,
                   ...(description ? { description } : {}),
-                  file: relPath,
-                  line: bodyStartLine + j,
+                  loc: `${relPath}:${bodyStartLine + j}`,
                 }
             continue
           }
@@ -441,16 +443,14 @@ function parseAdapterTokens(
               ...coreEntry,
               ...(currentSubgroup ? { subgroup: currentSubgroup } : {}),
               default: value,
-              file: relPath,
-              line: bodyStartLine + i,
+              loc: `${relPath}:${bodyStartLine + i}`,
             }
           : {
               group: blockName,
               ...(currentSubgroup ? { subgroup: currentSubgroup } : {}),
               key,
               default: value,
-              file: relPath,
-              line: bodyStartLine + i,
+              loc: `${relPath}:${bodyStartLine + i}`,
             }
       }
 
@@ -549,15 +549,7 @@ function main(): void {
   const darkOverrides = parseDarkOverrides(source)
   for (const [cssVar, entry] of Object.entries(tokensJson)) {
     if (darkOverrides[entry.key] !== undefined) {
-      const {
-        group,
-        subgroup,
-        key,
-        default: def,
-        description,
-        file,
-        line,
-      } = entry
+      const { group, subgroup, key, default: def, description, loc } = entry
       tokensJson[cssVar] = {
         group,
         ...(subgroup ? { subgroup } : {}),
@@ -565,8 +557,7 @@ function main(): void {
         default: def,
         dark: darkOverrides[entry.key],
         ...(description ? { description } : {}),
-        ...(file ? { file } : {}),
-        ...(line ? { line } : {}),
+        ...(loc ? { loc } : {}),
       }
     }
   }

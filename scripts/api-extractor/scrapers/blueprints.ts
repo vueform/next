@@ -4,7 +4,7 @@ import * as path from 'node:path'
 import * as ts from 'typescript'
 
 import { corePackage, adapters, nonCoreAdapters } from '../lib/adapters'
-import { createProgram } from '../lib/extract'
+import { createProgram, loc } from '../lib/extract'
 import { generatedDir, monorepoRoot } from '../lib/paths'
 import { parseScope } from '../lib/scope'
 
@@ -22,11 +22,13 @@ const SKIP_FILES = new Set(['types.ts', 'index.ts'])
 interface ParamInfo {
   type: string
   description: string
+  loc?: string
 }
 
 interface PropInfo {
   type: string
   description: string
+  loc?: string
   required?: true
   private?: true
   default?: unknown
@@ -36,18 +38,21 @@ interface PropInfo {
 
 interface EventInfo {
   description: string
+  loc?: string
   params: Record<string, ParamInfo>
 }
 
 interface ApiMemberInfo {
   type: string
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
   returns?: { type: string }
 }
 
 interface BlueprintEntry {
   description?: string
+  loc?: string
   props: Record<string, PropInfo>
   events: Record<string, EventInfo>
   features?: string[]
@@ -201,9 +206,11 @@ function getFunctionParams(
 
   for (const param of sigs[0].getParameters()) {
     const paramType = checker.getTypeOfSymbolAtLocation(param, decl)
+    const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
       description: jsdoc.get(param.name) ?? '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
 
@@ -251,6 +258,7 @@ function getEventParams(
             .replace(/\s+/g, ' ')
             .trim(),
           description: jsdoc.get(elem.name.text) ?? '',
+          loc: loc(elem),
         }
       }
     }
@@ -290,7 +298,7 @@ function extractProps(
 
     const { typeText, isFunction } = getPropertyTypeInfo(propSym, decl, checker)
     const description = getSymbolDescription(propSym, checker)
-    const info: PropInfo = { type: typeText, description }
+    const info: PropInfo = { type: typeText, description, loc: loc(decl) }
 
     if (ts.isPropertySignature(decl) && !decl.questionToken) {
       info.required = true
@@ -334,8 +342,15 @@ function extractEvents(
   for (const propSym of type.getProperties()) {
     const description = getSymbolDescription(propSym, checker)
     const params = getEventParams(propSym, checker)
+    // Mapped-type members (forwarded adapter events) have no declaration of
+    // their own — anchor those on the Emits interface instead.
+    const decl = propSym.getDeclarations()?.[0] ?? interfaceDecl
 
-    const info: EventInfo = { description, params: params ?? {} }
+    const info: EventInfo = {
+      description,
+      loc: loc(decl),
+      params: params ?? {},
+    }
 
     result[propSym.name] = info
   }
@@ -652,7 +667,7 @@ function extractSpreadMembers(
       ? 'function'
       : checker.typeToString(memberType, decl, TYPE_FORMAT_FLAGS)
 
-    const member: ApiMemberInfo = { type: typeStr, description }
+    const member: ApiMemberInfo = { type: typeStr, description, loc: loc(decl) }
 
     if (isFunc) {
       const params = getFunctionParams(memberType, decl, checker)
@@ -699,7 +714,11 @@ function extractApi(
         ? 'function'
         : checker.typeToString(memberType, decl, TYPE_FORMAT_FLAGS)
 
-      const member: ApiMemberInfo = { type: typeStr, description }
+      const member: ApiMemberInfo = {
+        type: typeStr,
+        description,
+        loc: loc(decl),
+      }
 
       if (isFunc) {
         const params = getFunctionParams(memberType, decl, checker)
@@ -718,7 +737,11 @@ function extractApi(
         ? 'function'
         : checker.typeToString(exprType, prop, TYPE_FORMAT_FLAGS)
 
-      const member: ApiMemberInfo = { type: typeStr, description }
+      const member: ApiMemberInfo = {
+        type: typeStr,
+        description,
+        loc: loc(prop),
+      }
 
       if (isFunc) {
         const jsdoc = getJSDocParamDescriptions(prop)
@@ -729,9 +752,11 @@ function extractApi(
 
           for (const sp of sigParams) {
             const pt = checker.getTypeOfSymbolAtLocation(sp, prop)
+            const spDecl = sp.getDeclarations()?.[0]
             params[sp.name] = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
               description: jsdoc.get(sp.name) ?? '',
+              ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
           }
           if (Object.keys(params).length) member.params = params
@@ -866,11 +891,16 @@ function findDefineComponentReturn(
 
 // ========== BLUEPRINT DESC ============
 
-function extractBlueprintDescription(sourceFile: ts.SourceFile): string {
+function extractBlueprintDescription(sourceFile: ts.SourceFile): {
+  description: string
+  loc?: string
+} {
   let description = ''
+  let statementLoc: string | undefined
+  let fallbackLoc: string | undefined
 
   ts.forEachChild(sourceFile, (node) => {
-    if (description) return
+    if (statementLoc) return
 
     if (
       ts.isVariableStatement(node) &&
@@ -879,11 +909,22 @@ function extractBlueprintDescription(sourceFile: ts.SourceFile): string {
       const decl = node.declarationList.declarations[0]
       if (ts.isIdentifier(decl.name) && decl.name.text === 'useBlueprint') {
         description = getNodeJSDocDescription(node)
+        statementLoc = loc(node)
       }
+    }
+
+    // Anchor for files without a `useBlueprint` statement: the exported
+    // `blueprint` factory is where a blueprint description would be written.
+    if (
+      !fallbackLoc &&
+      ts.isFunctionDeclaration(node) &&
+      node.name?.text === 'blueprint'
+    ) {
+      fallbackLoc = loc(node)
     }
   })
 
-  return description
+  return { description, loc: statementLoc ?? fallbackLoc }
 }
 
 // ============= EXTRACTION =============
@@ -1023,9 +1064,13 @@ function extractBlueprints(
 
     if (!Object.keys(props).length && !Object.keys(events).length) continue
 
-    const description = extractBlueprintDescription(sourceFile)
+    const { description, loc: blueprintLoc } =
+      extractBlueprintDescription(sourceFile)
+    // Entries historically carry no description key — emit one only when a
+    // real description exists; `loc` alone marks where one would be written.
     const entry: BlueprintEntry = {
       ...(description ? { description } : {}),
+      ...(blueprintLoc ? { loc: blueprintLoc } : {}),
       props,
       events,
     }

@@ -1,0 +1,62 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://vueform.com/schemas/scraper/classes.json",
+  "title": "Vueform scraped classes",
+  "description": "Documented CSS classes (.vf-* plus virtual classes such as sr-only) keyed by class name without the leading dot (.generated/<source>/classes.json).",
+  "type": "object",
+  "propertyNames": {
+    "pattern": "^[a-z][a-z0-9-]*$"
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": ["description"],
+    "additionalProperties": false,
+    "properties": {
+      "description": {
+        "type": "string",
+        "minLength": 1
+      },
+      "loc": {
+        "type": "string",
+        "minLength": 1,
+        "description": "Repo-relative `path:line` of the declaring docblock (1-based line); virtual classes point at their key in data/virtual-classes.json."
+      },
+      "tokens": {
+        "type": "array",
+        "minItems": 1,
+        "description": "Design tokens the class consumes; absent when none.",
+        "items": {
+          "type": "string",
+          "pattern": "^--vf-[a-z0-9-]+$"
+        }
+      },
+      "modifiers": {
+        "type": "object",
+        "description": "Modifier classes documented under this root class; absent when none.",
+        "additionalProperties": {
+          "type": "object",
+          "required": ["description", "loc"],
+          "additionalProperties": false,
+          "properties": {
+            "description": {
+              "type": "string",
+              "minLength": 1
+            },
+            "loc": {
+              "type": "string",
+              "minLength": 1
+            },
+            "tokens": {
+              "type": "array",
+              "minItems": 1,
+              "items": {
+                "type": "string",
+                "pattern": "^--vf-[a-z0-9-]+$"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

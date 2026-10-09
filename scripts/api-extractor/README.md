@@ -57,6 +57,16 @@ guarantees that.
 
 Not scraped yet (no scrapers exist for these): `rules.json`, `styles.json`.
 
+## Schemas
+
+`schemas/` holds one JSON Schema (draft-07) per generated file, describing
+its structure — the same schema covers the file in every folder, since
+`core/`, `ui/` and `primevue/` share shapes. Definitions shared between
+files (`param`, `returns`, `apiMember` and the recursive `member` node of
+helpers/composables/features) live in `schemas/common.json`. Nothing
+validates against them right now — the validator went with the removed
+validation flow and returns with the extractor rework.
+
 ## Layout
 
 - `scrapers/` — one standalone script per output file
@@ -64,6 +74,7 @@ Not scraped yet (no scrapers exist for these): `rules.json`, `styles.json`.
   display of the root test runner (one row per scraper, session logs under
   `.vueform/api/logs/`), closing with an `assemble.ts` task that builds the
   `core/` + adapter folders from the scrapers' raw output (`lib/output.ts`)
+- `schemas/` — one JSON Schema per generated file (reference only for now)
 - `lib/adapters.ts` — which packages are scanned (and per-adapter type renames)
 - `lib/extract.ts` — shared TS-compiler plumbing
 - `data/` — hand-maintained inputs (e.g. virtual classes)

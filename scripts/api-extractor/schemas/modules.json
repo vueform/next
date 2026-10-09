@@ -1,0 +1,59 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://vueform.com/schemas/scraper/modules.json",
+  "title": "Vueform scraped modules",
+  "description": "Modules keyed by module name (.generated/<source>/modules.json).",
+  "type": "object",
+  "additionalProperties": {
+    "type": "object",
+    "required": ["description", "interface", "api"],
+    "additionalProperties": false,
+    "properties": {
+      "description": {
+        "type": "string"
+      },
+      "loc": {
+        "type": "string",
+        "description": "Repo-relative `path:line` of the module interface declaration.",
+        "minLength": 1
+      },
+      "interface": {
+        "type": "string",
+        "description": "Name of the module's public interface type.",
+        "minLength": 1
+      },
+      "api": {
+        "type": "object",
+        "description": "The module's public API: what you can use on the module instance.",
+        "additionalProperties": {
+          "type": "object",
+          "required": ["type", "description"],
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "minLength": 1
+            },
+            "description": {
+              "type": "string"
+            },
+            "loc": {
+              "type": "string",
+              "description": "Repo-relative `path:line` of the member declaration.",
+              "minLength": 1
+            },
+            "params": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "common.json#/definitions/param"
+              }
+            },
+            "returns": {
+              "$ref": "common.json#/definitions/returns"
+            }
+          }
+        }
+      }
+    }
+  }
+}

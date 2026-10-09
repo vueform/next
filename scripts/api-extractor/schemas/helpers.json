@@ -1,0 +1,15 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://vueform.com/schemas/scraper/helpers.json",
+  "title": "Vueform scraped helpers",
+  "description": "Helper functions keyed by helper name (.generated/<source>/helpers.json). Entries are recursive member nodes — see common.json#/definitions/member.",
+  "type": "object",
+  "additionalProperties": {
+    "allOf": [
+      {
+        "$ref": "common.json#/definitions/member"
+      }
+    ],
+    "required": ["type", "description", "returns"]
+  }
+}

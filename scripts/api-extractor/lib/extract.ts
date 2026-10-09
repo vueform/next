@@ -3,16 +3,20 @@ import * as path from 'node:path'
 
 import * as ts from 'typescript'
 
+import { monorepoRoot } from './paths'
+
 // =============== TYPES ================
 
 export interface ParamInfo {
   type: string
   description: string
+  loc?: string
 }
 
 export interface PropInfo {
   type: string
   description: string
+  loc?: string
   required?: true
   private?: true
   default?: unknown
@@ -23,12 +27,14 @@ export interface PropInfo {
 
 export interface EventInfo {
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
 }
 
 export interface PartInfo {
   type: string
   description: string
+  loc?: string
   tag?: string
   params?: Record<string, ParamInfo>
 }
@@ -36,25 +42,29 @@ export interface PartInfo {
 export interface SlotParamInfo {
   type: string
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
   returns?: { type: string }
 }
 
 export interface SlotInfo {
   description: string
+  loc?: string
   exposes?: string
   inherits?: string
   params?: Record<string, SlotParamInfo>
 }
 
 export interface ClassParamExpanded {
-  type: Record<string, { type: string; description: string }>
+  type: Record<string, { type: string; description: string; loc?: string }>
   description: string
+  loc?: string
 }
 
 export interface ClassInfo {
   type: string
   description: string
+  loc?: string
   default?: string
   params?: Record<string, string | ClassParamExpanded>
 }
@@ -62,6 +72,7 @@ export interface ClassInfo {
 export interface ApiMemberInfo {
   type: string
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
   returns?: { type: string }
 }
@@ -69,6 +80,7 @@ export interface ApiMemberInfo {
 export interface AdapterPropVersion {
   type: string
   description: string
+  loc?: string
 }
 
 export interface AdapterTypeInfo {
@@ -127,6 +139,20 @@ export function createProgram(packageDir: string) {
   const program = ts.createProgram(parsed.fileNames, parsed.options)
 
   return { program, checker: program.getTypeChecker() }
+}
+
+// ================ LOC =================
+
+/**
+ * Repo-relative `path:line` of a node's start (leading trivia skipped, so
+ * the line is the declaration itself — where a missing JSDoc block would
+ * be written). Emitted as the `loc` field next to every description-bearing
+ * node of the generated jsons.
+ */
+export function loc(node: ts.Node): string {
+  const sourceFile = node.getSourceFile()
+  const { line } = sourceFile.getLineAndCharacterOfPosition(node.getStart())
+  return `${path.relative(monorepoRoot, sourceFile.fileName)}:${line + 1}`
 }
 
 // ============ JSDOC HELPERS ===========
@@ -309,9 +335,11 @@ export function getFunctionParams(
 
   for (const param of sigs[0].getParameters()) {
     const paramType = checker.getTypeOfSymbolAtLocation(param, decl)
+    const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
       description: jsdoc.get(param.name) ?? '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
 
@@ -364,6 +392,7 @@ export function getEventParams(
               .replace(/^\|\s*/, '')
               .trim(),
             description: jsdoc.get(elem.name.text) ?? '',
+            loc: loc(elem),
           }
         }
       }
@@ -404,6 +433,7 @@ export function getEventParams(
               ? checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS)
               : 'any',
             description: '',
+            loc: loc(label),
           }
         }
         if (Object.keys(params).length) return params
@@ -627,7 +657,7 @@ export function extractComponentProps(
     }
 
     const description = getSymbolDescription(propSym, checker)
-    const info: PropInfo = { type: typeText, description }
+    const info: PropInfo = { type: typeText, description, loc: loc(decl) }
 
     if (ts.isPropertySignature(decl) && !decl.questionToken) {
       info.required = true
@@ -787,11 +817,16 @@ function extractAdapterTypeInfoFromInterface(
 
           const { typeText } = getPropertyTypeInfo(propSym, decl, checker)
           const description = getSymbolDescription(propSym, checker)
+          const version: AdapterPropVersion = {
+            type: typeText,
+            description,
+            loc: loc(decl),
+          }
 
           if (finalProps[name]) {
-            overwrittenProps[name] = { type: typeText, description }
+            overwrittenProps[name] = version
           } else {
-            unavailableProps[name] = { type: typeText, description }
+            unavailableProps[name] = version
           }
         }
       }
@@ -848,8 +883,9 @@ export function extractEvents(
   for (const propSym of type.getProperties()) {
     const description = getSymbolDescription(propSym, checker)
     const params = getEventParams(propSym, checker, interfaceDecl)
+    const decl = propSym.getDeclarations()?.[0]
 
-    const info: EventInfo = { description }
+    const info: EventInfo = { description, loc: loc(decl ?? interfaceDecl) }
     if (params) info.params = params
 
     result[propSym.name] = info
@@ -909,7 +945,7 @@ export function extractParts(
       )
     }
 
-    const info: PartInfo = { type: partType, description }
+    const info: PartInfo = { type: partType, description, loc: loc(decl) }
     if (tag) info.tag = tag
 
     if (isFunc) {
@@ -948,7 +984,7 @@ export function extractSlots(
     const exposes = getJSDocTag(decl, 'exposes')
     const inherits = getJSDocTag(decl, 'inherits')
 
-    const info: SlotInfo = { description }
+    const info: SlotInfo = { description, loc: loc(decl) }
 
     if (contextTag !== undefined || exposes !== undefined) {
       info.exposes = exposes || 'context'
@@ -980,6 +1016,7 @@ export function extractSlots(
               const member: SlotParamInfo = {
                 type: 'function',
                 description: memberDesc,
+                loc: loc(memberDecl),
               }
               const funcParams = getFunctionParams(
                 memberType,
@@ -1012,6 +1049,7 @@ export function extractSlots(
               params[memberSym.name] = {
                 type: memberTypeText,
                 description: memberDesc,
+                loc: loc(memberDecl),
               }
             }
           }
@@ -1068,6 +1106,7 @@ export function extractClassTypes(
     const info: ClassInfo = {
       type: isFunc ? 'function' : 'ClassValue',
       description,
+      loc: loc(decl),
     }
 
     if (isFunc) {
@@ -1082,10 +1121,7 @@ export function extractClassTypes(
           const paramDesc = jsdoc.get(paramSym.name) ?? ''
 
           if (shouldExpandType(paramType)) {
-            const expanded: Record<
-              string,
-              { type: string; description: string }
-            > = {}
+            const expanded: ClassParamExpanded['type'] = {}
 
             for (const memberSym of paramType.getProperties()) {
               const memberDecl = memberSym.getDeclarations()?.[0]
@@ -1112,10 +1148,16 @@ export function extractClassTypes(
               expanded[memberSym.name] = {
                 type: memberTypeText,
                 description: getSymbolDescription(memberSym, checker),
+                loc: loc(memberDecl),
               }
             }
 
-            params[paramSym.name] = { type: expanded, description: paramDesc }
+            const paramDecl = paramSym.getDeclarations()?.[0]
+            params[paramSym.name] = {
+              type: expanded,
+              description: paramDesc,
+              ...(paramDecl ? { loc: loc(paramDecl) } : {}),
+            }
           } else {
             params[paramSym.name] = paramDesc
           }
@@ -1632,7 +1674,11 @@ export function extractComponentApi(
         ? 'function'
         : checker.typeToString(memberType, decl, TYPE_FORMAT_FLAGS)
 
-      const member: ApiMemberInfo = { type: typeStr, description }
+      const member: ApiMemberInfo = {
+        type: typeStr,
+        description,
+        loc: loc(decl),
+      }
 
       if (isFunc) {
         const params = getFunctionParams(memberType, decl, checker)
@@ -1652,7 +1698,11 @@ export function extractComponentApi(
         ? 'function'
         : checker.typeToString(exprType, prop, TYPE_FORMAT_FLAGS)
 
-      const member: ApiMemberInfo = { type: typeStr, description }
+      const member: ApiMemberInfo = {
+        type: typeStr,
+        description,
+        loc: loc(prop),
+      }
 
       if (isFunc) {
         const jsdoc = getJSDocParamDescriptions(prop)
@@ -1663,9 +1713,11 @@ export function extractComponentApi(
 
           for (const sp of sigParams) {
             const pt = checker.getTypeOfSymbolAtLocation(sp, prop)
+            const spDecl = sp.getDeclarations()?.[0]
             params[sp.name] = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
               description: jsdoc.get(sp.name) ?? '',
+              ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
           }
           if (Object.keys(params).length) member.params = params

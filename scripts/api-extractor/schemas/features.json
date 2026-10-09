@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://vueform.com/schemas/scraper/features.json",
+  "title": "Vueform scraped features",
+  "description": "Features (make* factories from src/features) keyed by factory name (.generated/<source>/features.json). Each section is a plain map of member nodes (common.json#/definitions/member): `props` / `deps` / `events` from the options type, `config` from the outer defineFeature parameter, and `returns`.",
+  "type": "object",
+  "propertyNames": {
+    "pattern": "^make[A-Za-z0-9]+$"
+  },
+  "additionalProperties": {
+    "type": "object",
+    "required": ["type", "description"],
+    "additionalProperties": false,
+    "properties": {
+      "type": {
+        "const": "function"
+      },
+      "description": {
+        "type": "string"
+      },
+      "loc": {
+        "type": "string"
+      },
+      "props": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "common.json#/definitions/member"
+        },
+        "description": "The feature's props section."
+      },
+      "deps": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "common.json#/definitions/member"
+        },
+        "description": "The feature's deps section (members reference their source via `from`; ReturnsOf second-argument picks are optional and unflagged)."
+      },
+      "events": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "common.json#/definitions/member"
+        },
+        "description": "The feature's events inventory."
+      },
+      "config": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "common.json#/definitions/member"
+        },
+        "description": "The outer defineFeature config parameter's members."
+      },
+      "returns": {
+        "type": "object",
+        "additionalProperties": {
+          "$ref": "common.json#/definitions/member"
+        },
+        "description": "The feature's return members."
+      }
+    }
+  }
+}

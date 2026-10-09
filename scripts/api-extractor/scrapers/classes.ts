@@ -14,15 +14,13 @@ const GENERATED_DIR = generatedDir
 
 interface ModifierEntry {
   description: string
-  file: string
-  line: number
+  loc: string
   tokens?: string[]
 }
 
 interface ClassEntry {
   description: string
-  file?: string
-  line?: number
+  loc?: string
   tokens?: string[]
   modifiers?: Record<string, ModifierEntry>
 }
@@ -342,8 +340,7 @@ function parseFile(filePath: string): Record<string, ClassEntry> {
         if (className) {
           const entry: ClassEntry = {
             description: parsed.description,
-            file: relPath,
-            line: blockStart + 1,
+            loc: `${relPath}:${blockStart + 1}`,
             modifiers: {},
           }
 
@@ -421,8 +418,7 @@ function scanModifiers(
         if (modName && desc) {
           modifiers[modName] = {
             description: desc,
-            file: relPath,
-            line: docLine,
+            loc: `${relPath}:${docLine}`,
           }
         }
       }
@@ -479,14 +475,21 @@ function main(): void {
   // Core (ui) adapter
   const coreResult = parseDirectory(SCSS_DIR)
 
-  const virtualClasses: Record<string, string> = JSON.parse(
-    fs.readFileSync(VIRTUAL_CLASSES_FILE, 'utf-8')
-  )
+  const virtualRaw = fs.readFileSync(VIRTUAL_CLASSES_FILE, 'utf-8')
+  const virtualClasses: Record<string, string> = JSON.parse(virtualRaw)
+  const virtualRelPath = path.relative(ROOT, VIRTUAL_CLASSES_FILE)
+  const virtualLines = virtualRaw.split('\n')
 
   for (const [name, description] of Object.entries(virtualClasses)) {
     if (!coreResult[name]) {
+      // Anchor the virtual class at its key's line in the data file — the
+      // only honest source it has.
+      const lineIdx = virtualLines.findIndex((l) =>
+        l.includes(JSON.stringify(name))
+      )
       coreResult[name] = {
         description,
+        ...(lineIdx >= 0 ? { loc: `${virtualRelPath}:${lineIdx + 1}` } : {}),
       }
     }
   }

@@ -4,7 +4,7 @@ import * as path from 'node:path'
 import * as ts from 'typescript'
 
 import { corePackage, nonCoreAdapters } from '../lib/adapters'
-import { createProgram } from '../lib/extract'
+import { createProgram, loc } from '../lib/extract'
 import { generatedDir, monorepoRoot } from '../lib/paths'
 import { parseScope } from '../lib/scope'
 
@@ -20,11 +20,13 @@ const CORE_DIR = path.join(ROOT, corePackage)
 interface ParamInfo {
   type: string
   description: string
+  loc?: string
 }
 
 interface MemberInfo {
   type: string
   description: string
+  loc?: string
   private?: true
   params?: Record<string, ParamInfo>
   returns?: { type: string }
@@ -32,12 +34,14 @@ interface MemberInfo {
 
 interface CallInfo {
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
   returns?: { type: string }
 }
 
 interface ModuleEntry {
   description: string
+  loc?: string
   interface: string
   api: Record<string, MemberInfo>
   call?: CallInfo
@@ -165,9 +169,11 @@ function getFunctionParams(
 
   for (const param of sigs[0].getParameters()) {
     const paramType = checker.getTypeOfSymbolAtLocation(param, decl)
+    const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
       description: jsdoc.get(param.name) ?? '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
 
@@ -214,9 +220,11 @@ function extractModuleInterface(
 
     for (const param of sig.getParameters()) {
       const paramType = checker.getTypeOfSymbolAtLocation(param, sigDecl)
+      const paramDecl = param.getDeclarations()?.[0]
       params[param.name] = {
         type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
         description: jsdoc.get(param.name) ?? '',
+        ...(paramDecl ? { loc: loc(paramDecl) } : {}),
       }
     }
 
@@ -226,7 +234,7 @@ function extractModuleInterface(
         returnType.getDefault() ?? returnType.getConstraint() ?? returnType
     }
 
-    call = { description }
+    call = { description, loc: loc(sigDecl) }
     if (Object.keys(params).length) call.params = params
     const retStr = checker.typeToString(
       returnType,
@@ -244,7 +252,7 @@ function extractModuleInterface(
     const { typeText, isFunction } = getPropertyTypeInfo(propSym, decl, checker)
     const description = getSymbolDescription(propSym, checker)
 
-    const member: MemberInfo = { type: typeText, description }
+    const member: MemberInfo = { type: typeText, description, loc: loc(decl) }
 
     if (hasJSDocTag(decl, 'private')) {
       member.private = true
@@ -335,6 +343,7 @@ function extractModules(
     const moduleName = dirName
     const entry: ModuleEntry = {
       description,
+      loc: loc(decl),
       interface: interfaceName,
       api: members,
     }
