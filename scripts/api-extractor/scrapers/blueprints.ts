@@ -897,7 +897,6 @@ function extractBlueprintDescription(sourceFile: ts.SourceFile): {
 } {
   let description = ''
   let statementLoc: string | undefined
-  let fallbackLoc: string | undefined
 
   ts.forEachChild(sourceFile, (node) => {
     if (statementLoc) return
@@ -912,19 +911,9 @@ function extractBlueprintDescription(sourceFile: ts.SourceFile): {
         statementLoc = loc(node)
       }
     }
-
-    // Anchor for files without a `useBlueprint` statement: the exported
-    // `blueprint` factory is where a blueprint description would be written.
-    if (
-      !fallbackLoc &&
-      ts.isFunctionDeclaration(node) &&
-      node.name?.text === 'blueprint'
-    ) {
-      fallbackLoc = loc(node)
-    }
   })
 
-  return { description, loc: statementLoc ?? fallbackLoc }
+  return { description, loc: statementLoc }
 }
 
 // ============= EXTRACTION =============
@@ -1066,11 +1055,12 @@ function extractBlueprints(
 
     const { description, loc: blueprintLoc } =
       extractBlueprintDescription(sourceFile)
-    // Entries historically carry no description key — emit one only when a
-    // real description exists; `loc` alone marks where one would be written.
+    // Entries historically carry no description key — description and its
+    // loc are emitted only when a blueprint actually documents itself.
     const entry: BlueprintEntry = {
-      ...(description ? { description } : {}),
-      ...(blueprintLoc ? { loc: blueprintLoc } : {}),
+      ...(description && blueprintLoc
+        ? { description, loc: blueprintLoc }
+        : {}),
       props,
       events,
     }

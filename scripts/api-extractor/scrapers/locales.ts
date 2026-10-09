@@ -24,7 +24,7 @@ interface LocaleEntry {
   /**
    * The docblock's prose description.
    */
-  description?: string
+  description: string
   /**
    * Repo-relative `path:line` of the locale's docblock (anchored at line 1 by
    * construction).
@@ -39,12 +39,12 @@ interface LocaleEntry {
  */
 function parseDocblock(source: string): Omit<LocaleEntry, 'key' | 'loc'> {
   const match = source.match(/^\/\*\*([\s\S]*?)\*\//)
-  if (!match) return {}
+  if (!match) return { description: '' }
   const lines = match[1]
     .split('\n')
     .map((l) => l.replace(/^\s*\*\s?/, '').trim())
 
-  const out: Omit<LocaleEntry, 'key' | 'loc'> = {}
+  const out: Omit<LocaleEntry, 'key' | 'loc'> = { description: '' }
   const prose: string[] = []
   for (const line of lines) {
     const tag = line.match(/^@(name|flag)\s+(.*)$/)
@@ -54,7 +54,7 @@ function parseDocblock(source: string): Omit<LocaleEntry, 'key' | 'loc'> {
       prose.push(line)
     }
   }
-  if (prose.length) out.description = prose.join(' ').trim()
+  out.description = prose.join(' ').trim()
   return out
 }
 

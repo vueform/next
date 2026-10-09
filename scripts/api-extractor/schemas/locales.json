@@ -9,7 +9,7 @@
   },
   "additionalProperties": {
     "type": "object",
-    "required": ["key"],
+    "required": ["key", "description", "loc"],
     "additionalProperties": false,
     "properties": {
       "key": {

@@ -13,7 +13,12 @@ pnpm api   # run every scraper for every source + assemble
 
 The orchestrator takes no flags — it only guarantees that the jsons are
 generated and any error is surfaced (full session log + distilled error log
-under `.vueform/api/logs/`). Validation and issue tracking were removed
+under `.vueform/api/logs/`). After a successful run it also counts the
+missing descriptions across the assembled trees (an empty `description`
+value; nodes without the key — like blueprint entries — and inheriting
+`{from}` references don't count), writes the report to
+`.vueform/api/missing.json` (per target/file, each node's `loc` as a
+clickable `file://…#L<line>` link) and prints a yellow summary line. Validation and issue tracking were removed
 pending the extractor rework. A scraper run standalone accepts
 `--adapter=x,y` / `-a=x,y` / `-A=x,y` to scope to the listed adapters
 (default: core + every adapter).

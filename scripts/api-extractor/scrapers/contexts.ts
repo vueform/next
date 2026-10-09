@@ -466,7 +466,7 @@ function extractContexts(
       if (useFn?.returns) {
         entry.returns = {
           ...useFn.returns,
-          ...(useFn.description ? { description: useFn.description } : {}),
+          description: useFn.description,
           ...(useFn.loc ? { loc: useFn.loc } : {}),
         }
       }

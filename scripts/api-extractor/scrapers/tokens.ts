@@ -20,7 +20,10 @@ const GENERATED_DIR = generatedDir
  * A token entry with the declaration's repo-relative `path:line` in a single
  * `loc` string (replaces the former `file` + `line` pair).
  */
-type TokenEntry = Omit<TokenJsonEntry, 'file' | 'line'> & { loc?: string }
+type TokenEntry = Omit<TokenJsonEntry, 'file' | 'line' | 'description'> & {
+  description: string
+  loc?: string
+}
 
 // ---------------------------------------------------------------------------
 // Token parsing
@@ -139,7 +142,7 @@ function parseAllTokenGroups(
               ...(currentSubgroup ? { subgroup: currentSubgroup } : {}),
               key,
               default: value,
-              ...(description ? { description } : {}),
+              description: description ?? '',
               loc: `${relPath}:${bodyStartLine + j}`,
             }
             continue
@@ -206,6 +209,7 @@ function parseAllTokenGroups(
           group: groupName,
           key,
           default: value,
+          description: '',
           loc: `${relPath}:${bodyStartLine + i}`,
         }
       }
@@ -365,7 +369,7 @@ function parseAdapterTokens(
                   ...coreEntry,
                   ...(currentSubgroup ? { subgroup: currentSubgroup } : {}),
                   default: value,
-                  ...(description ? { description } : {}),
+                  description: description ?? coreEntry.description,
                   loc: `${relPath}:${bodyStartLine + j}`,
                 }
               : {
@@ -373,7 +377,7 @@ function parseAdapterTokens(
                   ...(currentSubgroup ? { subgroup: currentSubgroup } : {}),
                   key,
                   default: value,
-                  ...(description ? { description } : {}),
+                  description: description ?? '',
                   loc: `${relPath}:${bodyStartLine + j}`,
                 }
             continue
@@ -450,6 +454,7 @@ function parseAdapterTokens(
               ...(currentSubgroup ? { subgroup: currentSubgroup } : {}),
               key,
               default: value,
+              description: '',
               loc: `${relPath}:${bodyStartLine + i}`,
             }
       }
@@ -556,7 +561,7 @@ function main(): void {
         key,
         default: def,
         dark: darkOverrides[entry.key],
-        ...(description ? { description } : {}),
+        description,
         ...(loc ? { loc } : {}),
       }
     }
