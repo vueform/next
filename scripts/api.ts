@@ -26,7 +26,6 @@ const repoRoot = path.resolve(
   '..'
 )
 const extractorDir = path.join(repoRoot, 'scripts', 'api-extractor')
-
 const KEPT_LOGS = 20
 const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 

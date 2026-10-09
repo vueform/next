@@ -497,10 +497,6 @@ export default defineConfig({
         command: 'tsx scripts/test.ts',
         dependsOn: [':build:utils'],
       },
-      ':api': {
-        command: 'tsx scripts/api.ts',
-        dependsOn: [':build:utils'],
-      },
       ...testTasks,
       ':test-dts': {
         command: 'tsx scripts/test-dts.ts',
@@ -515,13 +511,6 @@ export default defineConfig({
         command: 'tsx scripts/test-smoke.ts --nopack',
         dependsOn: [':build', ':pack'],
       },
-      // Registry, size and size:report fan out via nested `vp run` over the
-      // packages that define the script (the root package is filtered out —
-      // its same-named scripts point back at these tasks). The inlined legs
-      // run in workspace dependency order, so core's size.json is fresh
-      // before the adapter/plugin reports embed it. All three stay uncached
-      // (package scripts): the generators rewrite committed files they also
-      // read, and size bakes in toolchain versions the glob model cannot see.
       ':registry': {
         command: "vp run --filter './packages/*' registry",
         dependsOn: [':build:utils'],
@@ -532,6 +521,10 @@ export default defineConfig({
       },
       ':size:report': {
         command: "vp run --filter './packages/*' size:report",
+        dependsOn: [':build:utils'],
+      },
+      ':api': {
+        command: 'tsx scripts/api.ts',
         dependsOn: [':build:utils'],
       },
     },
