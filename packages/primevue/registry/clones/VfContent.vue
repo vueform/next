@@ -199,6 +199,9 @@ declare module 'vue' {
     <VfLayout v-else :label="false">
       <slot :context>
         <component v-if="outlets?.default" :is="outlets.default" :context />
+        <!-- `tag` is always a native HTML tag, and rendering user-provided
+          HTML is this component's purpose. -->
+        <!-- eslint-disable-next-line vue/no-v-text-v-html-on-component -->
         <component v-else-if="isHtml" :is="tag" v-html="content" />
         <component v-else :is="() => content" />
       </slot>

@@ -83,9 +83,9 @@ defineExpose(expose)
             <template v-else>
               <component
                 v-for="el in resolvedSchema"
+                :key="el.props.name"
                 :is="el.component"
                 v-bind="el.props"
-                :key="el.props.name"
               />
             </template>
           </slot>

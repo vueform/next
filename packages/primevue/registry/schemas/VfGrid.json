@@ -10,7 +10,7 @@
       "path": "VfGrid.vue",
       "target": "{componentsDir}/VfGrid.vue",
       "kind": "component",
-      "hash": "sha256:81dd7546b1e4d624871a29cf9a6541b07a1cd512a7875c55ec342571cb9a93aa"
+      "hash": "sha256:79033f6235acc82bf7cfd3c04185dfa39a4f6de04f6998ac42695b24a661fe1d"
     }
   ],
   "imports": [
@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfGrid.vue",
     "blueprint": "grid",
-    "hash": "sha256:0d88b64dff3ad7716baa6fc122ad8bb8a0c1a26d6a9521c47470c9a48695bc31",
+    "hash": "sha256:c33be38cc9cdb088f48741669b13a10b00b6785f3bf98459c32823073f2f8c78",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

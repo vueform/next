@@ -1,10 +1,6 @@
 {
   "name": "@vueform/cli",
   "version": "2.0.0-alpha.1",
-  "private": false,
-  "description": "Vueform CLI",
-  "license": "MIT",
-  "author": "Adam Berecz",
   "bin": {
     "vueform": "./bin/vueform.js"
   },

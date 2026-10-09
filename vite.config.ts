@@ -232,6 +232,39 @@ const buildTasks = Object.fromEntries(
   ])
 )
 
+/**
+ * Registry graph: every adapter with a `registry` script (ui, primevue) gets a
+ * `:registry:<dir>` leg regenerating its committed `registry/` folder via
+ * `vf-registry`. The generator runs from utils' dist and reads the adapter's
+ * sources plus core's components and schemas — no adapter or core build
+ * needed (the plain run skips `--check`, which is the only dist consumer).
+ */
+const registryPackages = [...packageManifests].flatMap(([dir, pkg]) =>
+  pkg.scripts?.registry ? [{ dir, name: pkg.name as string }] : []
+)
+
+const registryTasks = Object.fromEntries(
+  registryPackages.map(({ dir, name }) => [
+    `:registry:${dir}`,
+    {
+      command: `pnpm --filter ${name} run registry`,
+      dependsOn: [':build:utils'],
+      cache: {
+        input: [
+          `packages/${dir}/src/**`,
+          `packages/${dir}/package.json`,
+          'packages/core/src/components/**',
+          'packages/core/schemas/**',
+          'scripts/data/components.json',
+          'packages/utils/dist/**',
+          'pnpm-lock.yaml',
+        ],
+        output: [`packages/${dir}/registry/**`],
+      },
+    },
+  ])
+)
+
 export default defineConfig({
   fmt: {
     semi: false,
@@ -365,6 +398,11 @@ export default defineConfig({
         dependsOn: buildablePackages.map(({ dir }) => `:build:${dir}`),
       },
       ...buildTasks,
+      ':registry': {
+        command: "node -e ''",
+        dependsOn: registryPackages.map(({ dir }) => `:registry:${dir}`),
+      },
+      ...registryTasks,
       ':lint': {
         command: 'vp lint',
         dependsOn: [':stylelint', ':eslint'],

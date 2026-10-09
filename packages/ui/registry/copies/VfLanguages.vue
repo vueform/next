@@ -53,6 +53,7 @@ defineExpose(expose)
       <ul :class="classes.list" role="tablist" v-bind="parts.list">
         <li
           v-for="(label, value) in languages"
+          :key="value"
           :class="
             classes.wrapper(
               language === value,

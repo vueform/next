@@ -8,6 +8,7 @@
     "lint": "vpr :lint",
     "quick": "vpr :quick",
     "pack": "vpr :pack",
+    "registry": "vpr :registry",
     "test": "tsx scripts/test.ts",
     "test-dts": "tsx scripts/test-dts.ts",
     "test-smoke": "tsx scripts/test-smoke.ts",

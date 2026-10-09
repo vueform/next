@@ -1,7 +1,6 @@
 {
   "name": "@vueform/utils",
   "version": "2.0.0-alpha.1",
-  "private": true,
   "bin": {
     "vf-registry": "./bin/vf-registry.js",
     "vf-size": "./bin/vf-size.js"

@@ -346,6 +346,7 @@ declare module 'vue' {
             <template v-else>
               <div
                 v-for="cell in cells"
+                :key="cell.key"
                 :class="classes.cell(cell)"
                 :data-col="cell.col"
                 :data-row="cell.row"

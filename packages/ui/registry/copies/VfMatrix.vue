@@ -203,7 +203,10 @@ defineExpose(expose)
             v-bind="parts.header"
           />
           <div v-else :class="classes.header" v-bind="parts.header">
-            <template v-for="{ id, label, available } in headers">
+            <template
+              v-for="({ id, label, available }, i) in headers"
+              :key="id || i"
+            >
               <slot
                 name="colHeader"
                 v-if="!id || available.value"
@@ -235,11 +238,11 @@ defineExpose(expose)
 
         <div
           v-for="(row, rowIndex) in resolvedRows"
+          :key="row.key"
           v-show="row.available.value"
           :class="
             classes.row(dragIndex === row.dataIndex, dropTarget === row.key)
           "
-          :key="row.key"
           v-bind="parts.row"
         >
           <component
@@ -514,7 +517,7 @@ defineExpose(expose)
       </div>
 
       <template v-if="!showColHeaders">
-        <template v-for="header in headers">
+        <template v-for="(header, i) in headers" :key="header.id || i">
           <div v-if="'label' in header" class="sr-only" :id="header.id">
             {{ header.label }}
           </div>
