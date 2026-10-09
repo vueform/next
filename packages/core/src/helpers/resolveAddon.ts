@@ -31,6 +31,9 @@ export interface ResolveAddonModules {
  * components that render addons without a dedicated addon component.
  *
  * @private
+ * @param addon The raw addon value to resolve.
+ * @param options The `$security` module slice used to allowlist and sanitize
+ *   schema addon components.
  */
 export function resolveAddon(
   addon: AddonItem | undefined,

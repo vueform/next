@@ -33,7 +33,10 @@ export function useExpression() {
   const installed = expression.installed
 
   /**
-   * The set of model paths referenced by resolved expressions.
+   * Extracts the element paths referenced inside an expression chain string.
+   *
+   * @param expressionChain The raw expression string to scan.
+   * @param path The base element path for resolving relative references.
    */
   const usedPaths = expression.usedPaths
 
@@ -110,6 +113,9 @@ export function useExpression() {
     allowed,
     usedPaths,
     resolveIfAllowed,
+    /**
+     * Warns (dev-only, once per app) that an expression engine is required.
+     */
     warn,
   }
 }

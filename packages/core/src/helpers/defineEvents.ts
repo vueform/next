@@ -20,12 +20,17 @@ export type TypeEmitsToOptions<T extends Record<string, any>> = {
 /**
  * Registers or removes a callback for a specific event.
  */
-export type EventListener<TEvents extends Record<string, any[]>> = <
-  E extends keyof TEvents,
->(
-  e: E,
-  callback: (...args: TEvents[E]) => any
-) => void
+export type EventListener<TEvents extends Record<string, any[]>> =
+  /**
+   * Registers or removes a callback for a specific event.
+   *
+   * @param e The event name.
+   * @param callback The handler to register or remove.
+   */
+  <E extends keyof TEvents>(
+    e: E,
+    callback: (...args: TEvents[E]) => any
+  ) => void
 
 /**
  * Builds a `fire` signature from an event-name-to-argument-tuple map. Combines
@@ -36,7 +41,14 @@ export type EventListener<TEvents extends Record<string, any[]>> = <
 export type FeatureFire<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
     {
-      [K in keyof TEvents & string]: (e: K, ...args: TEvents[K]) => any
+      [K in keyof TEvents & string]:
+        /**
+         * Fires the event with its typed arguments.
+         *
+         * @param e The event name.
+         * @param args The event arguments forwarded to each callback.
+         */
+        (e: K, ...args: TEvents[K]) => any
     }[keyof TEvents & string]
   > &
     ((e: keyof TEvents & string, ...args: any[]) => any)
@@ -50,10 +62,17 @@ export type FeatureFire<TEvents extends Record<string, any[]>> =
 export type FeatureListener<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
     {
-      [K in keyof TEvents & string]: (
-        e: K,
-        callback: (...args: TEvents[K]) => any
-      ) => void
+      [K in keyof TEvents & string]:
+        /**
+         * Registers or removes a callback for the event.
+         *
+         * @param e The event name.
+         * @param callback The handler to register or remove.
+         */
+        (
+          e: K,
+          callback: (...args: TEvents[K]) => any
+        ) => void
     }[keyof TEvents & string]
   > &
     ((e: keyof TEvents & string, callback: (...args: any[]) => any) => void)
@@ -98,6 +117,8 @@ export type FeatureEvents<TEvents extends Record<string, any[]>> = {
   /**
    * Whether any callback is currently registered for the given event, either
    * via `on` / `onBefore` / `onAfter` or as a component prop listener.
+   *
+   * @param e The event name.
    */
   hasListeners?: (e: keyof TEvents & string) => boolean
 }

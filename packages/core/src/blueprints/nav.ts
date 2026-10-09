@@ -55,7 +55,8 @@ export interface NavProps<
   hideBack?: boolean
 
   /**
-   * @write
+   * The alignment of the navigation buttons: `'left'`, `'center'`, `'right'`,
+   * `'fluid'` (stretched to full width), or `'auto'`.
    */
   position?: NavPosProp
 }
@@ -180,7 +181,8 @@ export function blueprint<TProps extends NavProps>(
   const loading = computed(() => !!props.pager.currentPage?.loading)
 
   /**
-   * @write
+   * Whether the navigation buttons are stretched to the full available width
+   * (`position: 'fluid'`).
    */
   const fluid = computed(() => props.position === 'fluid')
 

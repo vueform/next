@@ -187,6 +187,8 @@ export type MakeAutosaveOptions = {
 
   /**
    * Loads data into the form's model (used to restore local drafts).
+   *
+   * @param data The data to load into the form's model.
    */
   load: (data: Record<string, any>) => void
 

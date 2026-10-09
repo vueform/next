@@ -164,9 +164,15 @@ type MakeItemsOptions = {
     groupConditions?: GroupConditions
     multiple?: boolean
     /**
-     * @write
+     * The minimum query length before items are resolved. When set, the
+     * initial items resolution on setup is skipped.
      */
     minLength?: number
+    /**
+     * Transforms data received from an endpoint into the items format.
+     *
+     * @param data The response data received from the endpoint.
+     */
     transformItems?: (data: any) => any[] | Record<string, any>
   }
   deps: ReturnsOf<[[typeof makeData, ['nullValue', 'update', 'model']]]>
@@ -229,16 +235,18 @@ type MakeItemsFn = <P extends MakeItemsOptions['props']>(options: {
 }) => MakeItemsReturn<P>
 
 /**
- * @write
+ * Compile-time configuration a blueprint passes to `makeItems`.
  */
 export type MakeItemsConfig = {
   /**
-   * @write
+   * Whether item and group conditions are evaluated and values of
+   * filtered-out items are cleared from the model. Defaults to `true`.
    */
   conditions?: boolean
 
   /**
-   * @write
+   * Whether the element always holds multiple selected values, regardless of
+   * its `multiple` prop.
    */
   multiple?: boolean
 }
@@ -275,6 +283,12 @@ export type ItemsModelApi<Base, P> = Omit<
   MakeDataModelApi<P> &
   Pick<MakeItemsReturn<P>, 'items' | 'groups'>
 
+/**
+ * Provides the items handling of option-based elements: resolves items from
+ * static data, an endpoint URL, or a function, normalizes and groups them,
+ * applies item/group conditions, and exposes accessors for third-party
+ * components.
+ */
 export const makeItems = defineFeature<
   (config?: MakeItemsConfig) => MakeItemsFn
 >(
@@ -385,7 +399,8 @@ export const makeItems = defineFeature<
       })
 
       /**
-       * @write
+       * All normalized items before conditional filtering, flattened across
+       * groups when grouped.
        */
       const normalizedItems = computed(() => {
         if (grouped.value) {
@@ -404,7 +419,8 @@ export const makeItems = defineFeature<
       })
 
       /**
-       * @write
+       * Whether the items are grouped (a `groupLabel` or `groupChildren` prop
+       * is set).
        */
       const grouped = computed(
         () => !!(props.groupLabel || props.groupChildren)

@@ -195,11 +195,28 @@ declare module '@vueform/core' {
   interface BaseElementClasses {
     /**
      * The element's root wrapper.
+     *
+     * @param props The layout-related props the root classes depend on.
      */
     root: (props: {
+      /**
+       * Whether space is added above the layout.
+       */
       spaceTop?: number
+
+      /**
+       * Whether space is added below the layout.
+       */
       spaceBottom?: number
+
+      /**
+       * Whether a separator line is rendered above the layout.
+       */
       lineTop?: boolean
+
+      /**
+       * Whether a separator line is rendered below the layout.
+       */
       lineBottom?: boolean
     }) => ClassValue
 

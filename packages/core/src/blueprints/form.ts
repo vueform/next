@@ -209,7 +209,8 @@ export interface FormProps<
   nav?: boolean
 
   /**
-   * @write
+   * The alignment of the step navigation buttons: `'left'`, `'center'`,
+   * `'right'`, `'fluid'` (stretched to full width), or `'auto'`.
    */
   navPos?: NavPosProp
 
@@ -978,6 +979,9 @@ function setup(
   const form$ = createFormContext()
   const context$ = form$ as any
 
+  /**
+   * The resolved global configuration object.
+   */
   const config = useConfig()
 
   const expression = useExpression()
@@ -2025,6 +2029,9 @@ function setup(
 
   /**
    * Updates a child element's value in the root model by its data path.
+   *
+   * @param dataPath The data path of the child element to update.
+   * @param value The value to set at the data path.
    */
   const updateChild = setModel
 

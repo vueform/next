@@ -69,7 +69,9 @@ export interface BaseElementProps<
   detached?: boolean
 
   /**
-   * @write
+   * Controls which props allow dynamic expression resolution. Set to `false`
+   * to disable all expression evaluation, `true` to enable for all
+   * expressionable props, or an array of prop keys to enable selectively.
    */
   expressions?: ExpressionsProp
 }

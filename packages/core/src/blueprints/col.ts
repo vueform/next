@@ -104,7 +104,8 @@ export function blueprint<TProps extends ColProps>(
   const config = useConfig()
 
   /**
-   * @write
+   * The unique identifier of the component instance, used to key the cell
+   * within the parent row.
    */
   const uid = useCurrentInstance().uid
 
@@ -175,12 +176,12 @@ export function blueprint<TProps extends ColProps>(
   })
 
   /**
-   * @write
+   * The number of columns the cell spans.
    */
   const colspan = toRef(() => Number(props.colspan || 1))
 
   /**
-   * @write
+   * The number of rows the cell spans.
    */
   const rowspan = toRef(() => Number(props.rowspan || 1))
 

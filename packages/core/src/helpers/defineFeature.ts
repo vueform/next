@@ -18,6 +18,8 @@ export type FeatureContext<
  * config.
  *
  * @private
+ * @param factory The feature factory: takes the optional config and returns
+ *   the feature function.
  */
 export function defineFeature<
   C extends any,
@@ -30,6 +32,8 @@ export function defineFeature<
  * config.
  *
  * @private
+ * @param factory The feature factory: takes the required config and returns
+ *   the feature function.
  */
 export function defineFeature<
   C extends any,
@@ -43,6 +47,8 @@ export function defineFeature<
  * automatically.
  *
  * @private
+ * @param factory The feature factory implementation, cast to the explicit
+ *   signature `F`.
  */
 export function defineFeature<F extends (...args: any[]) => any>(
   factory: (...args: any[]) => any

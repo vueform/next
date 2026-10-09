@@ -95,6 +95,9 @@ export function blueprint<TProps extends ContentProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<ContentEmits>
 ) {
+  /**
+   * The element's message bag holding user-facing error and message strings.
+   */
   const messageBag = useMessageBag()
 
   const api = useFeatures(props, events)

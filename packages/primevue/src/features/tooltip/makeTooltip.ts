@@ -29,7 +29,7 @@ type MakeTooltipOptions = {
  */
 type MakeTooltipConfig = {
   /**
-   * @write
+   * The event that triggers the tooltip display.
    */
   event: 'focus' | 'hover'
 }

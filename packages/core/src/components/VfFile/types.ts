@@ -129,6 +129,8 @@ export interface VfFileSlots<
 
     /**
      * Callback to remove a file by index.
+     *
+     * @param index The index to remove.
      */
     remove: (index: number) => void
   }) => VNode[]
@@ -197,6 +199,8 @@ export interface VfFileParts extends FileParts {
   /**
    * An individual file entry in the file list.
    *
+   * @param file The file entry data.
+   * @param index The file's index in the list.
    * @tag div
    */
   item: (file: FileListItem, index: number) => DomAttrsOf<'div'>
@@ -204,6 +208,8 @@ export interface VfFileParts extends FileParts {
   /**
    * The file name text or link.
    *
+   * @param file The file entry data.
+   * @param index The file's index in the list.
    * @tag a | span
    */
   name: (file: FileListItem, index: number) => DomAttrsOf<'a' | 'span'>
@@ -211,6 +217,8 @@ export interface VfFileParts extends FileParts {
   /**
    * The remove button for a file entry.
    *
+   * @param file The file entry data.
+   * @param index The file's index in the list.
    * @tag VfButton
    */
   remove: (file: FileListItem, index: number) => PartOf<'VfButton'>

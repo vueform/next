@@ -409,6 +409,12 @@ export function useDynamicProp<
   options?: UseDynamicPropOptions<V, UnwrapDynamicProp<P[K]>>
 ): ComputedRef<ResolvedValue<V, P[K]> | undefined>
 
+/**
+ * @param nameOrKey The prop name in the props object, or the expression
+ *   allow-list key when resolving a single ref.
+ * @param propsOrProp The component props object, or the dynamic prop value
+ *   ref to resolve.
+ */
 export function useDynamicProp(
   nameOrKey: string,
   propsOrProp: Record<string, any> | Ref<any>,

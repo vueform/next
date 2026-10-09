@@ -11,7 +11,7 @@ import type { ReturnsOf } from '#src/types'
 type MakeSortableOptions = {
   props: {
     /**
-     * @write
+     * Whether to enable drag-and-drop sorting of the container's items.
      */
     sort: boolean | undefined
   }

@@ -7,19 +7,34 @@ type ResponseType = 'json' | 'text' | 'blob' | 'arrayBuffer'
  * An HTTP method that accepts a URL, optional request body, and optional config
  * overrides.
  */
-type HttpMethodWithData = <T = any>(
-  url: string,
-  data?: any,
-  c?: Partial<HttpRequestConfig>
-) => Promise<HttpResponse<T>>
+type HttpMethodWithData =
+  /**
+   * Sends a request with a body to the given URL.
+   *
+   * @param url The request URL.
+   * @param data The request body.
+   * @param c The request config overrides merged into the defaults.
+   */
+  <T = any>(
+    url: string,
+    data?: any,
+    c?: Partial<HttpRequestConfig>
+  ) => Promise<HttpResponse<T>>
 
 /**
  * An HTTP method that accepts a URL and optional config overrides (no body).
  */
-type HttpMethodWithoutData = <T = any>(
-  url: string,
-  c?: Partial<HttpRequestConfig>
-) => Promise<HttpResponse<T>>
+type HttpMethodWithoutData =
+  /**
+   * Sends a request without a body to the given URL.
+   *
+   * @param url The request URL.
+   * @param c The request config overrides merged into the defaults.
+   */
+  <T = any>(
+    url: string,
+    c?: Partial<HttpRequestConfig>
+  ) => Promise<HttpResponse<T>>
 
 /**
  * An interceptor that can inspect or modify the request config before the

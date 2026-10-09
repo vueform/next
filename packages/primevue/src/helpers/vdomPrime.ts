@@ -39,6 +39,10 @@ const isVapor = typeof __VUEFORM_VAPOR__ !== 'undefined' && __VUEFORM_VAPOR__
  *
  * Template aliases such as `VdomPrimeSelect` still resolve correctly in VDOM
  * mode — resolution uses the script binding, not `component.name`.
+ *
+ * @param component The PrimeVue component to wrap.
+ * @param name The name of the bridge component, defaulting to the wrapped
+ * component's name prefixed with `Pv`.
  */
 export function vdomPrime<C extends Component>(
   component: C,

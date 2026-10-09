@@ -1976,6 +1976,9 @@ export function createValidation(vueform: VueformInstance) {
       }
     }
 
+    /**
+     * Exports the form's resolved validation as a Standard Schema.
+     */
     const toStandardSchema = () =>
       buildStandardSchema({
         vueform,
@@ -2029,14 +2032,20 @@ export function createValidation(vueform: VueformInstance) {
     )
 
     /**
-     * @write
+     * The form's current validation issues as reported by the validator.
      */
     const issues = computed<Issue[]>(() => validator.issues.value)
 
+    /**
+     * Exports the form's resolved validation as a Standard Schema.
+     */
     const exportStandardSchema = () => validator.toStandardSchema()
 
     return {
       issues,
+      /**
+       * Exports the form's resolved validation as a Standard Schema.
+       */
       toStandardSchema: exportStandardSchema,
     }
   }
@@ -2159,7 +2168,8 @@ export function createValidation(vueform: VueformInstance) {
     })
 
     /**
-     * @write
+     * The validator instance the element is registered with: the form's
+     * validator, a store-attached one, or a newly created one.
      */
     const validator: Validator = (() => {
       if (form$?.validator) return form$.validator

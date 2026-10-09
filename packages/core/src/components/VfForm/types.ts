@@ -86,9 +86,26 @@ export interface VfFormSlots<TSchema = FormSchema>
    * select handler.
    */
   languages: (scope: {
+    /**
+     * Language codes that currently have validation errors.
+     */
     invalidLanguages: Set<string>
+
+    /**
+     * The available languages.
+     */
     languages: LanguagesProp
+
+    /**
+     * The currently selected language code.
+     */
     language: string
+
+    /**
+     * Handler to select a language.
+     *
+     * @param language The language code to select.
+     */
     select: (language: string) => void
   }) => VNode[]
 
@@ -102,7 +119,12 @@ export interface VfFormSlots<TSchema = FormSchema>
   /**
    * Slot that replaces the steps navigation bar. Receives the pager instance.
    */
-  steps: (scope: { pager: Pager }) => VNode[]
+  steps: (scope: {
+    /**
+     * The pager instance managing step state.
+     */
+    pager: Pager
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual step indicator.
@@ -114,7 +136,12 @@ export interface VfFormSlots<TSchema = FormSchema>
   /**
    * Slot that replaces the tabs navigation bar. Receives the pager instance.
    */
-  tabs: (scope: { pager: Pager }) => VNode[]
+  tabs: (scope: {
+    /**
+     * The pager instance managing tab state.
+     */
+    pager: Pager
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual tab.
@@ -126,43 +153,111 @@ export interface VfFormSlots<TSchema = FormSchema>
   /**
    * Slot that replaces the form-level errors container.
    */
-  errors: (scope: { errors: Record<string, string[]>; id: string }) => VNode[]
+  errors: (scope: {
+    /**
+     * The form errors keyed by element path.
+     */
+    errors: Record<string, string[]>
+
+    /**
+     * The errors container's element id.
+     */
+    id: string
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual error message.
    */
-  error: (scope: { error: string; path: string }) => VNode[]
+  error: (scope: {
+    /**
+     * The error message text.
+     */
+    error: string
+
+    /**
+     * The element path the error belongs to.
+     */
+    path: string
+  }) => VNode[]
 
   /**
    * Slot that replaces the form-level messages container.
    */
-  messages: (scope: { messages?: string[]; id: string }) => VNode[]
+  messages: (scope: {
+    /**
+     * The form-level message texts.
+     */
+    messages?: string[]
+
+    /**
+     * The messages container's element id.
+     */
+    id: string
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual message.
    */
-  message: (scope: { message: string }) => VNode[]
+  message: (scope: {
+    /**
+     * The message text.
+     */
+    message: string
+  }) => VNode[]
 
   /**
    * Slot that replaces the form elements area. Receives the resolved schema.
    */
-  elements: (scope: { resolvedSchema: ResolvedSchema }) => VNode[]
+  elements: (scope: {
+    /**
+     * The form's resolved schema.
+     */
+    resolvedSchema: ResolvedSchema
+  }) => VNode[]
 
   /**
    * Slot for the default form body content. Receives the resolved schema.
    */
-  default: (scope: { resolvedSchema: ResolvedSchema }) => VNode[]
+  default: (scope: {
+    /**
+     * The form's resolved schema.
+     */
+    resolvedSchema: ResolvedSchema
+  }) => VNode[]
 
   /**
    * Slot that replaces the navigation bar. Receives pager, button labels, and
    * visibility.
    */
   nav: (scope: {
+    /**
+     * The pager instance managing navigation state.
+     */
     pager: Pager
+
+    /**
+     * The next button's label text.
+     */
     next?: TProp
+
+    /**
+     * The back button's label text.
+     */
     back?: TProp
+
+    /**
+     * The finish button's label text.
+     */
     finish?: TProp
+
+    /**
+     * Whether the back button is hidden.
+     */
     hideBack?: boolean
+
+    /**
+     * The nav position.
+     */
     position?: NavPosProp
   }) => VNode[]
 

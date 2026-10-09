@@ -19,6 +19,8 @@ const validationSchemas = new WeakMap<object, StandardSchemaV1>()
  * `defineComputedSchema`.
  *
  * @private
+ * @param schema The schema object or ref to key the Standard Schema by.
+ * @param validationSchema The Standard Schema to attach.
  */
 export function attachValidationSchema(
   schema: object,

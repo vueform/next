@@ -133,11 +133,34 @@ export interface VfRadiosSlots<
    * groups, and shared state.
    */
   default: (scope: {
+    /**
+     * The shared radio name attribute.
+     */
     radioName: string
+
+    /**
+     * Whether the radios are disabled.
+     */
     disabled: boolean
+
+    /**
+     * The element's resolved label.
+     */
     label: string | undefined
+
+    /**
+     * Resolved flat radio items.
+     */
     items: ResolvedItem<TValue, TRaw>[]
+
+    /**
+     * Resolved radio groups.
+     */
     groups: ResolvedGroup<TValue, TRaw>[]
+
+    /**
+     * Whether items are rendered as groups.
+     */
     grouped: boolean
   }) => VNode[]
 
@@ -145,9 +168,24 @@ export interface VfRadiosSlots<
    * Slot that replaces each option group when items are grouped.
    */
   group: (scope: {
+    /**
+     * The shared radio name attribute.
+     */
     radioName: string
+
+    /**
+     * Whether the radios are disabled.
+     */
     disabled: boolean
+
+    /**
+     * The element's resolved label.
+     */
     label: string | undefined
+
+    /**
+     * The resolved option group.
+     */
     group: ResolvedGroup<TValue, TRaw>
   }) => VNode[]
 
@@ -156,9 +194,24 @@ export interface VfRadiosSlots<
    * and shared state.
    */
   item: (scope: {
+    /**
+     * The shared radio name attribute.
+     */
     radioName: string
+
+    /**
+     * Whether the radios are disabled.
+     */
     disabled: boolean
+
+    /**
+     * The element's resolved label.
+     */
     label: string | undefined
+
+    /**
+     * The resolved radio item.
+     */
     item: ResolvedItem<TValue, TRaw>
   }) => VNode[]
 

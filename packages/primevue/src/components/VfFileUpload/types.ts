@@ -88,7 +88,7 @@ export interface VfFileUploadSlots<TMultiple extends boolean = boolean>
  */
 export interface VfFileUploadParts extends FileUploadParts {
   /**
-   * @write
+   * The wrapper element surrounding the file upload input.
    */
   wrapper: DomAttrsOf<'div'>
 
@@ -112,7 +112,7 @@ export interface VfFileUploadParts extends FileUploadParts {
  */
 export interface VfFileUploadClasses extends FileUploadClasses {
   /**
-   * @write
+   * The wrapper element surrounding the file upload input.
    */
   wrapper: ClassValue
 

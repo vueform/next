@@ -32,6 +32,11 @@ type MakeSuggestionsOptions = {
     optionDisabled?: ItemDisabled
     optionsTrigger?: ConditionsTriggerProp
     optionsDebounce?: number
+    /**
+     * Transforms data received from an endpoint into the suggestions format.
+     *
+     * @param data The data received from the endpoint.
+     */
     transformOptions?: (data: any) => any[] | Record<string, any>
     headers?: Record<string, string>
     method?: string
@@ -80,7 +85,7 @@ export const makeSuggestions = defineFeature(
       // ================ REFS ================
 
       /**
-       * @write
+       * The current search query typed into the AutoComplete input.
        */
       const query = ref('')
 
@@ -94,7 +99,7 @@ export const makeSuggestions = defineFeature(
       // ============== COMPUTED ==============
 
       /**
-       * @write
+       * The resolved suggestion items passed to the AutoComplete.
        */
       const suggestions = computed(() => {
         const suggestions = unref(props.suggestions)
@@ -107,7 +112,9 @@ export const makeSuggestions = defineFeature(
       // =============== METHODS ==============
 
       /**
-       * @write
+       * Handles the AutoComplete change event, updating the model and query.
+       *
+       * @param event The AutoComplete change event.
        */
       const handleChange = (event: AutoCompleteChangeEvent) => {
         deps.handleInput(event.value, event.originalEvent)
@@ -115,7 +122,10 @@ export const makeSuggestions = defineFeature(
       }
 
       /**
-       * @write
+       * Handles the AutoComplete complete event, re-resolving function- or
+       * endpoint-based suggestions for the typed query.
+       *
+       * @param event The AutoComplete complete event.
        */
       const handleComplete = (event: AutoCompleteCompleteEvent) => {
         events.fire('complete', event)

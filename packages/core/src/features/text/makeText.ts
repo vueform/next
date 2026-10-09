@@ -9,7 +9,8 @@ import type { TProp } from '#src/types'
 type MakeTextOptions = {
   props: {
     /**
-     * @write
+     * The label text displayed alongside the element's input (e.g. next to a
+     * checkbox or radio).
      */
     text: TProp | undefined
   }

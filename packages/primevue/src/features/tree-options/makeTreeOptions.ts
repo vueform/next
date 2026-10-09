@@ -39,6 +39,11 @@ interface MakeTreeOptionsOptions {
     optionsDebounce?: number
     conditionsTrigger?: ConditionsTriggerProp
     conditionsDebounce?: number
+    /**
+     * Transforms data received from an endpoint into the tree options format.
+     *
+     * @param data The data received from the endpoint.
+     */
     transformOptions?: (data: any) => any[]
     headers?: Record<string, string>
     method?: string

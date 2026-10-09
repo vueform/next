@@ -243,6 +243,12 @@ export type MakeDataOptions<C extends MakeDataConfig = {}> = {
     languages?: LanguagesProp | undefined
     nullValue?: any
 
+    /**
+     * Transforms the element's value when submitting the form.
+     *
+     * @param value The raw value being submitted.
+     * @param context$ The element's component context.
+     */
     transformPayload: ((value: any, context$: any) => any) | undefined
   }
 

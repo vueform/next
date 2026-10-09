@@ -155,7 +155,6 @@ export type TProp<T = string, TContext = any> =
  * interfaces specialize it (same pattern as event `context$`).
  *
  * @param context$ The component context when used as a function.
- * @write
  */
 export type DProp<T = string, TContext = any> =
   | T
@@ -167,8 +166,6 @@ export type DProp<T = string, TContext = any> =
 /**
  * Converts selected keys of a record type into `DProp` variants. Keys listed in
  * `K` become `DProp<T[K]>`, all others are excluded.
- *
- * @write
  */
 export type DynamicProps<T, K extends keyof T, TContext = any> = {
   [P in K]?: DProp<T[P], TContext>

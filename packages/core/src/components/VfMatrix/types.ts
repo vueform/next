@@ -323,11 +323,15 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
 
     /**
      * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
      */
     handleDragEnter: ($event: DragEvent) => void
 
     /**
      * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
      */
     handleDragStart: ($event: DragEvent) => void
 
@@ -389,10 +393,18 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
      * CSS classes for the wrapper.
      */
     class: ClassValue
+
+    /**
+     * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
+     */
     handleDragEnter: ($event: DragEvent) => void
 
     /**
      * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
      */
     handleDragStart: ($event: DragEvent) => void
 
@@ -412,10 +424,18 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
      * CSS classes for the handle element.
      */
     class: ClassValue
+
+    /**
+     * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
+     */
     handleDragEnter: ($event: DragEvent) => void
 
     /**
      * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
      */
     handleDragStart: ($event: DragEvent) => void
 
@@ -444,6 +464,8 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
 
     /**
      * Handler for the drag enter event on the cell.
+     *
+     * @param $event The native drag event.
      */
     handleDragEnter: ($event: DragEvent) => void
   }) => VNode[]

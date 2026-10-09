@@ -68,11 +68,29 @@ export interface VfLayoutClasses
   extends LayoutClasses, AddonGroupClasses, IconsClasses {
   /**
    * The element's root wrapper.
+   *
+   * @param props Spacing and divider values used when computing the root
+   *   classes.
    */
   root: (props: {
+    /**
+     * Vertical spacing (padding) above the element, as a spacing token (1-3).
+     */
     spaceTop?: number
+
+    /**
+     * Vertical spacing (padding) below the element, as a spacing token (1-3).
+     */
     spaceBottom?: number
+
+    /**
+     * Whether a horizontal line (border) renders above the element.
+     */
     lineTop?: boolean
+
+    /**
+     * Whether a horizontal line (border) renders below the element.
+     */
     lineBottom?: boolean
   }) => ClassValue
 

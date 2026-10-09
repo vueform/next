@@ -15,6 +15,8 @@ import { useConfig } from './useConfig'
  * follow the global dark-mode detection.
  *
  * @private
+ * @param source The `tokens` prop value: a map of theme token overrides,
+ *   optionally with a `dark` section.
  * @param dark Force dark (`true`) or light (`false`) for `tokens.dark`
  *   overrides. Omit to inherit from the global config.
  */

@@ -56,6 +56,8 @@ export function defineDefaults<TProps>() {
  * no `as const` is needed at the call site.
  *
  * @private
+ * @param defaults The blueprint defaults whose `type` to replace.
+ * @param type The component's own element type literal.
  */
 export function withType<TDefaults extends { type: string }, T extends string>(
   defaults: TDefaults,

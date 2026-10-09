@@ -60,7 +60,7 @@ type MakeViewOptions = {
     ifta?: TProp
 
     /**
-     * @write
+     * The placeholder text of the element's input.
      */
     placeholder?: TProp
     displayName?: TProp

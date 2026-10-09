@@ -233,12 +233,57 @@ type UseDataOptions = {
    */
   cast?: CastOption
 } & FeatureEvents<{
+  /**
+   * Fired when the element's value is reset to its default.
+   *
+   * @param context$ The element's component context.
+   */
   reset: [context$: any]
+
+  /**
+   * Fired when the element's value is cleared to its null value.
+   *
+   * @param context$ The element's component context.
+   */
   clear: [context$: any]
+
+  /**
+   * Fired when the element's value is loaded programmatically via the `load`
+   * method.
+   *
+   * @param value The loaded value.
+   * @param context$ The element's component context.
+   */
   load: [value: any, context$: any]
+
+  /**
+   * Fired when the element's value changes.
+   *
+   * @param newValue The new element value.
+   * @param oldValue The previous element value.
+   * @param context$ The element's component context.
+   */
   change: [newValue: any, oldValue: any, context$: any]
+
+  /**
+   * Fired to update the v-model binding.
+   *
+   * @param value The new model value.
+   */
   'update:modelValue': [value: any]
+
+  /**
+   * Fired when the element's validation state turns valid.
+   *
+   * @param context$ The element's component context.
+   */
   valid: [context$: any]
+
+  /**
+   * Fired when the element's validation state turns invalid.
+   *
+   * @param context$ The element's component context.
+   */
   invalid: [context$: any]
 }>
 
@@ -1644,6 +1689,9 @@ export function useData(options: UseDataOptions) {
     nullValue,
 
     invalid,
+    /**
+     * Whether the element is required by its current validation rules.
+     */
     required,
     dirty,
     pending,
@@ -1651,6 +1699,10 @@ export function useData(options: UseDataOptions) {
     busy,
     validated,
     completed,
+    /**
+     * Whether the element has been validated and passed (always `true` for
+     * elements without own rules), once touched.
+     */
     success,
     empty,
     hoisted,
@@ -1670,10 +1722,30 @@ export function useData(options: UseDataOptions) {
 
     ...(options.translatable ? { invalidLanguages } : {}),
 
+    /**
+     * Per-language validation views keyed by language (`default` for
+     * non-translatable elements).
+     */
     validation,
+    /**
+     * The validation view of the active language (`default` when the element is
+     * not translatable).
+     */
     currentValidation,
+    /**
+     * The validator instance the element is registered with: the form's
+     * validator, a store-attached one, or a newly created one.
+     */
     validator,
+    /**
+     * Whether the element should validate live on user input, per the
+     * `validateOn` policy and the form's state.
+     */
     shouldValidate,
+    /**
+     * Validates the element on user input when the live-validation policy
+     * allows it.
+     */
     onUserInput,
     isContainer,
     isFlatContainer,
@@ -1685,8 +1757,15 @@ export function useData(options: UseDataOptions) {
     clear,
     load,
     validate,
+    /**
+     * Validates the element's own rules (without children), resolving with the
+     * result.
+     */
     validateSelf,
     validateChildren,
+    /**
+     * Validates only the active language's value of the element.
+     */
     validateCurrent,
     unvalidate,
     invalidate,
@@ -1714,7 +1793,14 @@ export function useData(options: UseDataOptions) {
     initModel,
     reinitModel,
     destroyModel,
+    /**
+     * Registers the element with the validator and compiles its rules.
+     */
     initValidation,
+    /**
+     * Unregisters the element from the validator and clears its validation
+     * views.
+     */
     destroyValidation,
   }
 }

@@ -99,11 +99,15 @@ export interface VfListSlots extends ListSlots<VfListContext> {
 
     /**
      * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
      */
     handleDragEnter: ($event: DragEvent) => void
 
     /**
      * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
      */
     handleDragStart: ($event: DragEvent) => void
 
@@ -131,6 +135,8 @@ export interface VfListSlots extends ListSlots<VfListContext> {
 
     /**
      * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
      */
     handleDragStart: ($event: DragEvent) => void
 

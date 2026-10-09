@@ -3,10 +3,9 @@
  * missing means a `description` key holding an empty string. Nodes without
  * the key don't count (blueprint entries carry only a `loc` by design), and
  * `{ from: … }` references inherit their origin's docs and are skipped. The
- * report lands in `.vueform/api/missing.json` for the future validator /
- * doc-writing agent. Shared by the `pnpm api` runner (which reports after a
- * successful extraction) and `pnpm api:missing` (which only regenerates the
- * report, optionally filtered by the `@write` flag).
+ * report lands in `.vueform/api/missing.json` for the validator / doc
+ * tooling. Shared by the `pnpm api` runner (which reports after a successful
+ * extraction) and `pnpm api:missing` (which only regenerates the report).
  */
 import * as fs from 'node:fs'
 import * as path from 'node:path'

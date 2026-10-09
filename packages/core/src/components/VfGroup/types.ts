@@ -73,8 +73,19 @@ export interface VfGroupSlots extends GroupSlots<VfGroupContext> {
    * resolved schema.
    */
   wrapper: (scope: {
+    /**
+     * CSS classes for the wrapper element.
+     */
     class: ClassValue
+
+    /**
+     * The resolved schema of the group's child elements.
+     */
     resolvedSchema: ResolvedSchema
+
+    /**
+     * The group's resolved label.
+     */
     label?: string
   }) => VNode[]
 
@@ -82,7 +93,12 @@ export interface VfGroupSlots extends GroupSlots<VfGroupContext> {
    * Slot that replaces the default content. Receives the resolved schema for
    * rendering children.
    */
-  default: (scope: { resolvedSchema: ResolvedSchema }) => VNode[]
+  default: (scope: {
+    /**
+     * The resolved schema of the group's child elements.
+     */
+    resolvedSchema: ResolvedSchema
+  }) => VNode[]
 }
 
 /**

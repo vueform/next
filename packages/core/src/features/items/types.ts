@@ -640,7 +640,7 @@ export interface ItemsProps<
    * `items` is a string (endpoint URL), the HTTP response data is passed
    * through this function before normalization.
    *
-   * @write
+   * @param data The response data received from the endpoint.
    */
   transformItems?: (data: any) => any[] | Record<string, any>
 }

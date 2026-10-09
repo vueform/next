@@ -287,12 +287,12 @@ export function blueprint<TProps extends ListProps<string>>(
     return true
   })
 
-  /**
-   * The resolved schema prototype used to create new list items.
-   */
   const { sanitizeProps } = useSecurity()
   const { makeFromSchema } = useComponentFactory()
 
+  /**
+   * The resolved schema prototype used to create new list items.
+   */
   const prototype = computed(() => {
     if (!props.schema) return {}
 

@@ -672,6 +672,12 @@ function expandEventsLeg(
         if (tupleOwner && ts.isPropertySignature(tupleOwner)) {
           entryLoc = loc(tupleOwner)
         }
+        // Param docs live as `@param` tags on the tuple's owning event-map
+        // property, when present.
+        const ownerDocs =
+          tupleOwner && ts.isPropertySignature(tupleOwner)
+            ? getJSDocParamDescriptions(tupleOwner)
+            : undefined
         target.labeledElementDeclarations.forEach((label, i) => {
           if (!label || !typeArgs[i]) return
           const name = label.name.getText(label.getSourceFile())
@@ -681,7 +687,7 @@ function expandEventsLeg(
               undefined,
               TYPE_FORMAT_FLAGS
             ),
-            description: '',
+            description: ownerDocs?.get(name) ?? '',
             loc: loc(label),
           }
         })

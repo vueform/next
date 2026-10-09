@@ -120,17 +120,17 @@ export interface VfEditorClasses extends EditorClasses {
   input: ClassValue
 
   /**
-   * @write
+   * The placeholder skeleton shown while the editor is loading.
    */
   placeholder: ClassValue
 
   /**
-   * @write
+   * The toolbar area of the loading placeholder.
    */
   placeholderToolbar: ClassValue
 
   /**
-   * @write
+   * The content area of the loading placeholder.
    */
   placeholderContent: ClassValue
 }

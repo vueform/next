@@ -73,9 +73,24 @@ export interface VfColClasses extends ColClasses {
    *   classes.
    */
   root: (options: {
+    /**
+     * The column's horizontal alignment.
+     */
     align: AlignProp
+
+    /**
+     * The column's vertical alignment.
+     */
     valign: ValignProp
+
+    /**
+     * Whether the column is a column header.
+     */
     colHeader: boolean
+
+    /**
+     * Whether the column is a row header.
+     */
     rowHeader: boolean
   }) => ClassValue
 }

@@ -84,58 +84,131 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
   /**
    * Slot that replaces the form-level errors <ul> container.
    */
-  errors: (scope: { errors: Record<string, string[]>; id: string }) => VNode[]
+  errors: (scope: {
+    /**
+     * The error messages keyed by element path.
+     */
+    errors: Record<string, string[]>
+
+    /**
+     * The errors container's element id.
+     */
+    id: string
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual error message inside <li>.
    */
-  error: (scope: { error: string; path: string }) => VNode[]
+  error: (scope: {
+    /**
+     * The error message.
+     */
+    error: string
+
+    /**
+     * The element path the error belongs to.
+     */
+    path: string
+  }) => VNode[]
 
   /**
    * Slot that replaces the form-level messages <ul> container.
    */
-  messages: (scope: { messages?: string[]; id: string }) => VNode[]
+  messages: (scope: {
+    /**
+     * The list of info messages.
+     */
+    messages?: string[]
+
+    /**
+     * The messages container's element id.
+     */
+    id: string
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual message inside <li>.
    */
-  message: (scope: { message: string }) => VNode[]
+  message: (scope: {
+    /**
+     * The info message.
+     */
+    message: string
+  }) => VNode[]
 
   /**
    * Slot that replaces the language navigation bar. Receives the available
    * languages and the current selection.
    */
   languages: (scope: {
+    /**
+     * The available languages.
+     */
     languages: ResolvedLanguagesProp
+
+    /**
+     * The currently selected language.
+     */
     language: string
+
+    /**
+     * The set of languages containing validation errors.
+     */
     invalidLanguages: Set<string>
   }) => VNode[]
 
   /**
    * Slot that replaces the tabs navigation bar. Receives the pager instance.
    */
-  tabs: (scope: { pager: Pager }) => VNode[]
+  tabs: (scope: {
+    /**
+     * The pager instance controlling the tabs.
+     */
+    pager: Pager
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual tab.
    */
-  tab: (scope: { page: ResolvedPage }) => VNode[]
+  tab: (scope: {
+    /**
+     * The resolved page of the tab.
+     */
+    page: ResolvedPage
+  }) => VNode[]
 
   /**
    * Slot that replaces the steps navigation bar. Receives the pager instance.
    */
-  steps: (scope: { pager: Pager }) => VNode[]
+  steps: (scope: {
+    /**
+     * The pager instance controlling the steps.
+     */
+    pager: Pager
+  }) => VNode[]
 
   /**
-   * @write
+   * Slot that replaces each individual step.
    */
-  step: (scope: { page: ResolvedPage }) => VNode[]
+  step: (scope: {
+    /**
+     * The resolved page of the step.
+     */
+    page: ResolvedPage
+  }) => VNode[]
 
   /**
    * Slot that replaces the form elements area. Receives the resolved schema.
    */
   elements: (scope: {
+    /**
+     * The resolved form schema.
+     */
     resolvedSchema: ResolvedSchema
+
+    /**
+     * The pager instance when the form is paged.
+     */
     pager?: Pager
   }) => VNode[]
 
@@ -144,11 +217,34 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
    * visibility.
    */
   nav: (scope: {
+    /**
+     * The pager instance controlling navigation.
+     */
     pager: Pager
+
+    /**
+     * The label of the next button.
+     */
     nextLabel?: TProp
+
+    /**
+     * The label of the back button.
+     */
     backLabel?: TProp
+
+    /**
+     * The label of the finish button.
+     */
     finishLabel?: TProp
+
+    /**
+     * Whether the back button is displayed.
+     */
     showBack: boolean
+
+    /**
+     * The position of the navigation bar.
+     */
     position?: NavPosProp
   }) => VNode[]
 
@@ -197,7 +293,12 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
   /**
    * Slot for the default form body content. Receives the resolved schema.
    */
-  default: (scope: { resolvedSchema: ResolvedSchema }) => VNode[]
+  default: (scope: {
+    /**
+     * The resolved form schema.
+     */
+    resolvedSchema: ResolvedSchema
+  }) => VNode[]
 }
 
 /**
@@ -219,7 +320,7 @@ export interface VfFormParts extends FormParts {
   tabsContainer: TabListProps
 
   /**
-   * @write
+   * Props forwarded to the nested Stepper component.
    */
   stepsContainer: StepperProps
 
@@ -273,13 +374,14 @@ export interface VfFormParts extends FormParts {
   languages: PartOf<'VfSelectButton'>
 
   /**
-   * @write
+   * Props forwarded to the nested TabList component.
    */
   tabs: TabListProps
 
   /**
-   * @write
+   * Props forwarded to each nested Tab component.
    *
+   * @param page The tab’s resolved page.
    * @tag Tab
    */
   tab: (page: ResolvedPage) => TabProps
@@ -292,42 +394,58 @@ export interface VfFormParts extends FormParts {
   steps: StepListProps
 
   /**
-   * @write
+   * Props forwarded to each nested Step component.
+   *
+   * @param page The step’s resolved page.
    */
   step: (page: ResolvedPage) => StepProps
 
   /**
-   * @write
+   * The inner wrapper element of each step.
+   *
+   * @param page The step’s resolved page.
    */
   stepInner: (page: ResolvedPage) => DomAttrsOf<'div'>
 
   /**
-   * @write
+   * The clickable header button of each step.
+   *
+   * @param page The step’s resolved page.
    */
   stepHeader: (page: ResolvedPage) => DomAttrsOf<'button'>
 
   /**
-   * @write
+   * The number indicator element of each step.
+   *
+   * @param page The step’s resolved page.
    */
   stepNumber: (page: ResolvedPage) => DomAttrsOf<'span'>
 
   /**
-   * @write
+   * The icon element of each step, shown in place of the number.
+   *
+   * @param page The step’s resolved page.
    */
   stepIcon: (page: ResolvedPage) => DomAttrsOf<'i'>
 
   /**
-   * @write
+   * The title element of each step.
+   *
+   * @param page The step’s resolved page.
    */
   stepTitle: (page: ResolvedPage) => DomAttrsOf<'span'>
 
   /**
-   * @write
+   * Props forwarded to each nested StepItem component in vertical mode.
+   *
+   * @param page The step’s resolved page.
    */
   stepItem: (page: ResolvedPage) => StepProps
 
   /**
-   * @write
+   * Props forwarded to each nested StepPanel component in vertical mode.
+   *
+   * @param page The step’s resolved page.
    */
   stepPanel: (page: ResolvedPage) => StepProps
 
@@ -346,12 +464,12 @@ export interface VfFormParts extends FormParts {
   elements: PartOf<'VfElements'>
 
   /**
-   * @write
+   * Props forwarded to the nested TabPanels component.
    */
   tabPanels: TabPanelsProps
 
   /**
-   * @write
+   * Props forwarded to the nested StepPanels component.
    */
   stepPanels: StepPanelsProps
 }
@@ -366,12 +484,12 @@ export interface VfFormClasses extends FormClasses {
   root: ClassValue
 
   /**
-   * @write
+   * The tabs container element.
    */
   tabsContainer: ClassValue
 
   /**
-   * @write
+   * The steps container element.
    */
   stepsContainer: ClassValue
 
@@ -406,82 +524,100 @@ export interface VfFormClasses extends FormClasses {
   message: ClassValue
 
   /**
-   * @write
+   * The language selector element.
    */
   languages: ClassValue
 
   /**
-   * @write
+   * The tab list element.
    */
   tabs: ClassValue
 
   /**
-   * @write
+   * Each individual tab element.
+   *
+   * @param page The tab’s resolved page.
    */
   tab: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * The step list element.
    */
   steps: ClassValue
 
   /**
-   * @write
+   * Each individual step element.
+   *
+   * @param page The step’s resolved page.
    */
   step: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * The inner wrapper element of each step.
+   *
+   * @param page The step’s resolved page.
    */
   stepInner: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * The clickable header button of each step.
+   *
+   * @param page The step’s resolved page.
    */
   stepHeader: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * The number indicator element of each step.
+   *
+   * @param page The step’s resolved page.
    */
   stepNumber: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * The icon element of each step, shown in place of the number.
+   *
+   * @param page The step’s resolved page.
    */
   stepIcon: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * The title element of each step.
+   *
+   * @param page The step’s resolved page.
    */
   stepTitle: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * Each step item element in vertical mode.
+   *
+   * @param page The step’s resolved page.
    */
   stepItem: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * Each step panel element in vertical mode.
+   *
+   * @param page The step’s resolved page.
    */
   stepPanel: (page: ResolvedPage) => ClassValue
 
   /**
-   * @write
+   * The navigation bar element.
    */
   nav: ClassValue
 
   /**
-   * @write
+   * The form elements container element.
    */
   elements: ClassValue
 
   /**
-   * @write
+   * The tab panels container element.
    */
   tabPanels: ClassValue
 
   /**
-   * @write
+   * The step panels container element.
    */
   stepPanels: ClassValue
 }

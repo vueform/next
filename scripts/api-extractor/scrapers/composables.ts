@@ -438,13 +438,21 @@ function extractCallSignatureOverloads(
             label && ts.isNamedTupleMember(label)
               ? label.name.text
               : `${param.name}${i}`
+          // The signature is often a generic mapped fn (FeatureFire) whose
+          // docblock cannot name consumer labels — those `@param` tags live
+          // on the tuple's owning property (the event-map member).
+          const ownerDocs = label
+            ? getJSDocParamDescriptions(
+                ts.findAncestor(label, ts.isPropertySignature) ?? label
+              )
+            : undefined
           params[elemName] = {
             type: checker.typeToString(
               elementTypes[i],
               undefined,
               TYPE_FORMAT_FLAGS
             ),
-            description: jsdoc.get(elemName) ?? '',
+            description: jsdoc.get(elemName) || ownerDocs?.get(elemName) || '',
             ...(label ? { loc: loc(label) } : {}),
           }
         }
@@ -825,6 +833,29 @@ function getReturnTypeDescriptions(
   return map
 }
 
+/**
+ * Per member: the `@param` docs declared on the annotated return type's
+ * property — the public type is the single source for return-member param
+ * docs, so implementations need no mirrored docblocks.
+ */
+function getReturnTypeParamDocs(
+  funcDecl: ts.FunctionDeclaration,
+  checker: ts.TypeChecker
+): Map<string, Map<string, string>> {
+  const map = new Map<string, Map<string, string>>()
+  const returnTypeNode = funcDecl.type
+  if (!returnTypeNode) return map
+
+  const returnType = checker.getTypeFromTypeNode(returnTypeNode)
+  for (const prop of returnType.getProperties()) {
+    const decl = prop.getDeclarations()?.[0]
+    if (!decl) continue
+    const docs = getJSDocParamDescriptions(decl)
+    if (docs.size) map.set(prop.name, docs)
+  }
+  return map
+}
+
 function extractReturnMembers(
   funcDecl: ts.FunctionDeclaration,
   checker: ts.TypeChecker,
@@ -835,6 +866,7 @@ function extractReturnMembers(
 
   const defineEventsInfo = traceDefineEvents(funcDecl, checker)
   const returnTypeDescs = getReturnTypeDescriptions(funcDecl, checker)
+  const returnTypeParamDocs = getReturnTypeParamDocs(funcDecl, checker)
   const result: Record<string, any> = {}
 
   for (const prop of obj.properties) {
@@ -934,7 +966,10 @@ function extractReturnMembers(
 
             const paramEntry: ParamInfo = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
-              description: jsdoc.get(paramName) ?? '',
+              description:
+                jsdoc.get(paramName) ||
+                returnTypeParamDocs.get(propName)?.get(paramName) ||
+                '',
               ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
 
@@ -986,7 +1021,10 @@ function extractReturnMembers(
             const spDecl = sp.getDeclarations()?.[0]
             params[sp.name] = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
-              description: jsdoc.get(sp.name) ?? '',
+              description:
+                jsdoc.get(sp.name) ||
+                returnTypeParamDocs.get(propName)?.get(sp.name) ||
+                '',
               ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
           }

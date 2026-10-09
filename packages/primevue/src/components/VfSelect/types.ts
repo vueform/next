@@ -257,11 +257,15 @@ export interface VfSelectSlots<
 
           /**
            * Reference of the content.
+           *
+           * @param el The element of the content reference.
            */
           contentRef: (el: any) => void
 
           /**
            * Options of the items.
+           *
+           * @param index The rendered index of the item.
            */
           getItemOptions: (index: number) => VirtualScrollerItemOptions
         }) => VNode[]
