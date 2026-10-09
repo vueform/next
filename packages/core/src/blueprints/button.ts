@@ -4,6 +4,7 @@ import {
   makeDisabled,
   makeLayout,
   makeElement,
+  makeStatic,
   type DisabledProps,
   type BaseElementEmits,
   type BaseElementProps,
@@ -116,6 +117,7 @@ export function blueprint<TProps extends ButtonProps<string>>(
 ) {
   return useFeatures(props, events)
     .use(makeElement())
+    .use(makeStatic())
     .use(makeLayout())
     .use(makeDisabled())
     .use(makeButton())

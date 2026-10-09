@@ -8,6 +8,7 @@ import {
 } from '#src/composables'
 import {
   makeElement,
+  makeStatic,
   makeLayout,
   type AlignedProps,
   type BaseElementEmits,
@@ -102,6 +103,7 @@ export function blueprint<TProps extends ContentProps<string>>(
 
   const api = useFeatures(props, events)
     .use(makeElement())
+    .use(makeStatic())
     .use(makeLayout())
     .build()
 

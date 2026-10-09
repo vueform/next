@@ -2,6 +2,7 @@ import {
   defineDefaults,
   useFeatures,
   makeElement,
+  makeStatic,
   makeLayout,
   makeDisabled,
   makeForwards,
@@ -163,6 +164,7 @@ export function blueprint<TProps extends ButtonProps<string>>(
 ) {
   const api = useFeatures(props, events)
     .use(makeElement())
+    .use(makeStatic())
     .use(makeLayout())
     .use(makeDisabled())
     .use(makeInfo())
