@@ -106,17 +106,15 @@ export const TYPE_ENVS: TypeEnvDef[] = [
     check: 'nuxi',
     note: 'nuxi typecheck — generated .nuxt types + module augmentations',
   },
-  ...Object.entries(PROBE_TYPESCRIPTS).map(
-    ([id, typescript]): TypeEnvDef => ({
-      id,
-      framework: 'vite',
-      fixture: 'vite',
-      check: 'tsc-probe',
-      typescript,
-      note:
-        id === 'ts-min'
-          ? `nodenext resolution probe on the TS support floor (${MIN_TYPESCRIPT})`
-          : `nodenext resolution probe on typescript@${typescript}`,
-    })
-  ),
+  ...Object.entries(PROBE_TYPESCRIPTS).map(([id, typescript]): TypeEnvDef => ({
+    id,
+    framework: 'vite',
+    fixture: 'vite',
+    check: 'tsc-probe',
+    typescript,
+    note:
+      id === 'ts-min'
+        ? `nodenext resolution probe on the TS support floor (${MIN_TYPESCRIPT})`
+        : `nodenext resolution probe on typescript@${typescript}`,
+  })),
 ]

@@ -1,9 +1,11 @@
 /**
- * Package-manager abstraction for smoke runs. pnpm is the default and gates CI;
- * npm, yarn (node-modules linker) and bun run a scheduled "basic install proof"
- * on representative envs. The differences the harness cares about: install
- * argv (fixtures live inside the pnpm workspace, so pnpm needs
- * --ignore-workspace) and where tarball overrides go in package.json.
+ * Package-manager abstraction for smoke runs. pnpm is the default and gates
+ * CI; npm, yarn (pinned to the node-modules linker by the assemble step's
+ * .yarnrc.yml) and bun are selectable per run via the CLIs' `--pm` flag as
+ * the occasional cross-PM proof. The differences the harness cares about:
+ * install argv (fixtures live inside the pnpm workspace, so pnpm needs
+ * --ignore-workspace), where tarball overrides go in package.json, and who
+ * may run dependency build scripts (see patchManifest).
  */
 import type { Pm } from './envs'
 

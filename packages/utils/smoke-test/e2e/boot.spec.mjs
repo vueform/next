@@ -32,6 +32,7 @@ test('boots with a clean console and renders every element', async ({
     'checkboxes',
     'group',
     'list',
+    'grid',
     'submit',
   ]) {
     expect(

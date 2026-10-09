@@ -18,6 +18,7 @@ import {
   red,
   termLink,
 } from './display'
+import { PMS, type Pm } from './envs'
 import {
   exists,
   findRepoRoot,
@@ -49,6 +50,12 @@ interface ParsedArgs {
    * (`--sequential`).
    */
   sequential: boolean
+  /**
+   * The package manager the fixtures install and run with (`--pm`).
+   * pnpm is the default and what CI gates on; npm, yarn and bun are the
+   * occasional cross-PM proof.
+   */
+  pm: Pm
 }
 
 export interface SmokeTypesCliOptions {
@@ -77,6 +84,8 @@ Options:
   --nopack                  reuse the previously packed tarballs
   --sequential              run the envs one after another (default: all in
                             parallel)
+  --pm <name>               install and run the fixtures with another package
+                            manager (${PMS.join(', ')}; default: pnpm)
   --help                    this text
 
 All child-process output is captured into .vueform/smoke-types/logs/; the run
@@ -89,6 +98,7 @@ function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
   let build = false
   let nopack = false
   let sequential = false
+  let pm: Pm = 'pnpm'
 
   const envIds = TYPE_ENVS.map((e) => e.id)
   const setEnv = (value: string | undefined, arg: string) => {
@@ -145,10 +155,21 @@ function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
       continue
     }
 
+    if (arg === '--pm' || arg.startsWith('--pm=')) {
+      const value = arg === '--pm' ? argv[++i] : arg.split('=', 2)[1]
+      if (!PMS.includes(value as Pm)) {
+        throw new SmokeError(
+          `--pm needs a package manager name (one of: ${PMS.join(', ')}).`
+        )
+      }
+      pm = value as Pm
+      continue
+    }
+
     throw new SmokeError(`Unknown argument: ${arg}\n\n${helpText(adapter)}`)
   }
 
-  return { env, build, nopack, sequential }
+  return { env, build, nopack, sequential, pm }
 }
 
 const fmtDuration = (ms: number) => {
@@ -246,6 +267,7 @@ async function main(options: SmokeTypesCliOptions) {
           adapterDir,
           env,
           tarballs,
+          pm: parsed.pm,
           runsDir: path.join(stateDir, 'runs'),
           log: bufLog,
           report: (stage, status) => {

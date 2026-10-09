@@ -12,13 +12,11 @@
  */
 import { assembleRun, type AssembleInput, type SmokeRun } from './assemble'
 import type { StageName, StageStatus } from './display'
-import type { EnvDef } from './envs'
+import type { EnvDef, Pm } from './envs'
 import { leakCheck } from './leak'
 import { pickPort, run, SmokeError } from './lib'
 import type { PackedTarballs } from './pack'
 import { execArgs, installArgs, runScriptArgs } from './pm'
-
-const PM = 'pnpm'
 
 export interface EnvRunInput {
   root: string
@@ -27,6 +25,7 @@ export interface EnvRunInput {
   env: EnvDef
   tarballs: PackedTarballs
   runsDir: string
+  pm: Pm
   log: (text: string) => void
   report: (stage: StageName, status: StageStatus) => void
 }
@@ -57,7 +56,9 @@ export async function ensureBrowsers(cwd: string, log: (text: string) => void) {
   if (browsersEnsured) return
   browsersEnsured = true
 
-  await run(PM, execArgs(PM, 'playwright', ['install', 'chromium']), {
+  // Repo-side tooling: the browser cache install always goes through pnpm,
+  // whatever the fixtures install with.
+  await run('pnpm', execArgs('pnpm', 'playwright', ['install', 'chromium']), {
     cwd,
     log,
     fail: '[smoke] Installing the Playwright chromium browser failed',
@@ -65,7 +66,7 @@ export async function ensureBrowsers(cwd: string, log: (text: string) => void) {
 }
 
 export async function runEnv(input: EnvRunInput): Promise<void> {
-  const { env, log, report } = input
+  const { env, log, report, pm } = input
   const tag = `${input.adapter}:${env.id}`
   const port = await pickPort()
 
@@ -89,7 +90,7 @@ export async function runEnv(input: EnvRunInput): Promise<void> {
 
   const scriptEnv = env.fixtureEnv
   const script = (name: string, fail: string) =>
-    run(PM, runScriptArgs(PM, name), {
+    run(pm, runScriptArgs(pm, name), {
       cwd: smokeRun.dir,
       env: scriptEnv,
       log,
@@ -97,7 +98,7 @@ export async function runEnv(input: EnvRunInput): Promise<void> {
     })
 
   await step('install', async () => {
-    await run(PM, installArgs(PM), {
+    await run(pm, installArgs(pm), {
       cwd: smokeRun.dir,
       log,
       fail: `[smoke:${tag}] Install failed`,
@@ -109,8 +110,8 @@ export async function runEnv(input: EnvRunInput): Promise<void> {
 
   const playwright = (spec: string, fail: string) =>
     run(
-      PM,
-      execArgs(PM, 'playwright', ['test', '-c', 'playwright.config.mjs', spec]),
+      pm,
+      execArgs(pm, 'playwright', ['test', '-c', 'playwright.config.mjs', spec]),
       {
         cwd: smokeRun.dir,
         log,

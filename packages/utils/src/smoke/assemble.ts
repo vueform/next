@@ -47,6 +47,10 @@ export interface AssembleFixtureInput {
   tarballs: PackedTarballs
   runsDir: string
   /**
+   * The package manager the run installs and executes with.
+   */
+  pm: Pm
+  /**
    * The run directory name (and `smoke-<name>` manifest name).
    */
   name: string
@@ -59,10 +63,9 @@ export interface AssembleInput {
   env: EnvDef
   tarballs: PackedTarballs
   runsDir: string
+  pm: Pm
   port: number
 }
-
-const PM: Pm = 'pnpm'
 
 export interface SmokeRun {
   dir: string
@@ -350,6 +353,20 @@ function patchManifest(
 
   pkg.dependencies = pkg.dependencies ?? {}
 
+  // The fixture's Playwright must match the workspace's: ensureBrowsers
+  // warms the browser cache with the workspace version before the env
+  // fan-out, and a freshly resolved newer Playwright would demand browser
+  // builds that are not in that cache.
+  const workspacePw = path.join(
+    input.adapterDir,
+    'node_modules',
+    '@playwright/test',
+    'package.json'
+  )
+  if (pkg.devDependencies?.['@playwright/test'] && exists(workspacePw)) {
+    pkg.devDependencies['@playwright/test'] = readJson(workspacePw).version
+  }
+
   // Registry packages a consumer installs alongside the adapter (component
   // library, themes, icons) — plain semver, resolved from the registry.
   for (const [depName, range] of Object.entries(
@@ -372,11 +389,17 @@ function patchManifest(
   for (const [depName, tarball] of input.tarballs.byName) {
     overrides[depName] = fileRef(tarball)
   }
-  applyOverrides(pkg, PM, overrides)
+  applyOverrides(pkg, input.pm, overrides)
 
   // Standalone installs run their own build scripts (same as the vapor
   // playgrounds): esbuild's postinstall is just a binary sanity check.
-  pkg.pnpm = { ...pkg.pnpm, onlyBuiltDependencies: ['esbuild'] }
+  // npm and yarn run dependency scripts by default; pnpm and bun need the
+  // explicit allowance.
+  if (input.pm === 'pnpm') {
+    pkg.pnpm = { ...pkg.pnpm, onlyBuiltDependencies: ['esbuild'] }
+  } else if (input.pm === 'bun') {
+    pkg.trustedDependencies = ['esbuild']
+  }
 
   writeJson(pkgPath, pkg)
 }
@@ -386,7 +409,7 @@ function patchManifest(
  * own `serve` script. Always headless.
  */
 function writePlaywrightConfig(runDir: string, input: AssembleInput) {
-  const [cmd, ...args] = [PM, ...runScriptArgs(PM, 'serve')]
+  const [cmd, ...args] = [input.pm, ...runScriptArgs(input.pm, 'serve')]
   const config = [
     `import { defineConfig } from '@playwright/test'`,
     ``,
@@ -455,6 +478,15 @@ export async function assembleFixture(
   await fs.promises.rm(dir, { recursive: true, force: true })
   copyFixture(src, dir)
 
+  // Yarn berry would otherwise default to PnP and immutable installs; the
+  // rc pins the node-modules linker (classic yarn ignores the file).
+  if (input.pm === 'yarn') {
+    fs.writeFileSync(
+      path.join(dir, '.yarnrc.yml'),
+      'nodeLinker: node-modules\nenableImmutableInstalls: false\n'
+    )
+  }
+
   copySharedApp(dir, input.env)
   copyAdapterContent(dir, input)
   generateCanonicalContent(dir, input, config)
@@ -486,7 +518,7 @@ export async function assembleRun(input: AssembleInput): Promise<SmokeRun> {
   writeJson(path.join(dir, 'smoke', 'run.json'), {
     adapter: input.adapter,
     env: input.env.id,
-    pm: PM,
+    pm: input.pm,
     port: input.port,
     framework: input.env.framework,
     rendering: input.env.rendering,

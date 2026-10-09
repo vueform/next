@@ -15,13 +15,13 @@ import fg from 'fast-glob'
 
 import { assembleFixture } from './assemble'
 import type { StageStatus, TypesStageName } from './display'
+import type { Pm } from './envs'
 import { leakCheck } from './leak'
 import { readJson, run, SmokeError, writeJson } from './lib'
 import type { PackedTarballs } from './pack'
 import { execArgs, installArgs } from './pm'
 import { DEFAULT_TYPESCRIPT, type TypeEnvDef } from './typesEnvs'
 
-const PM = 'pnpm'
 const TSCONFIG = 'tsconfig.smoke-types.json'
 
 export interface TypesEnvRunInput {
@@ -31,6 +31,10 @@ export interface TypesEnvRunInput {
   env: TypeEnvDef
   tarballs: PackedTarballs
   runsDir: string
+  /**
+   * The package manager the run installs and executes with.
+   */
+  pm: Pm
   log: (text: string) => void
   report: (stage: TypesStageName, status: StageStatus) => void
 }
@@ -68,6 +72,12 @@ function injectCheckerDeps(runDir: string, env: TypeEnvDef) {
     ...pkg.devDependencies,
     typescript: env.typescript ?? DEFAULT_TYPESCRIPT,
     ...(env.check === 'tsc-probe' ? {} : { 'vue-tsc': 'latest' }),
+  }
+  // The probe never compiles the fixture app, so the fixture's tsconfig
+  // preset is dead weight — and its `typescript@5.x` peer makes npm's
+  // strict resolver hard-fail the TS 6/7 probes.
+  if (env.check === 'tsc-probe') {
+    delete pkg.devDependencies['@vue/tsconfig']
   }
   writeJson(pkgPath, pkg)
 }
@@ -199,19 +209,19 @@ function writeTypecheckConfig(runDir: string, input: TypesEnvRunInput) {
   })
 }
 
-function checkerArgs(env: TypeEnvDef): string[] {
+function checkerArgs(env: TypeEnvDef, pm: Pm): string[] {
   switch (env.check) {
     case 'vue-tsc':
-      return execArgs(PM, 'vue-tsc', ['-p', TSCONFIG])
+      return execArgs(pm, 'vue-tsc', ['-p', TSCONFIG])
     case 'tsc-probe':
-      return execArgs(PM, 'tsc', ['-p', TSCONFIG])
+      return execArgs(pm, 'tsc', ['-p', TSCONFIG])
     case 'nuxi':
-      return execArgs(PM, 'nuxi', ['typecheck'])
+      return execArgs(pm, 'nuxi', ['typecheck'])
   }
 }
 
 export async function runTypesEnv(input: TypesEnvRunInput): Promise<void> {
-  const { env, log, report } = input
+  const { env, log, report, pm } = input
   const tag = `${input.adapter}:${env.id}`
 
   const step = async (stage: TypesStageName, fn: () => Promise<void>) => {
@@ -236,13 +246,14 @@ export async function runTypesEnv(input: TypesEnvRunInput): Promise<void> {
     env,
     tarballs: input.tarballs,
     runsDir: input.runsDir,
+    pm,
     name: typesRunName(input.adapter, env),
   })
   injectCheckerDeps(dir, env)
   writeTypecheckConfig(dir, input)
 
   await step('install', async () => {
-    await run(PM, installArgs(PM), {
+    await run(pm, installArgs(pm), {
       cwd: dir,
       log,
       fail: `[smoke-types:${tag}] Install failed`,
@@ -251,7 +262,7 @@ export async function runTypesEnv(input: TypesEnvRunInput): Promise<void> {
   })
 
   await step('typecheck', () =>
-    run(PM, checkerArgs(env), {
+    run(pm, checkerArgs(env, pm), {
       cwd: dir,
       log,
       fail: `[smoke-types:${tag}] Typecheck failed`,
