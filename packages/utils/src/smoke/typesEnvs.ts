@@ -66,6 +66,23 @@ export interface TypeEnvDef {
   note: string
 }
 
+/**
+ * The TypeScript versions the probe envs sweep: the support floor plus the
+ * latest of each major. Plain `tsc` probes on purpose — vue-tsc cannot
+ * drive TS 7 (see DEFAULT_TYPESCRIPT) and is unproven on the 6 beta, while
+ * the probe checks what version compatibility is really about: the shipped
+ * d.ts resolving and libchecking clean under each compiler.
+ *
+ * `6.0.0-beta` is a literal because no stable 6 exists yet (semver ranges
+ * skip prereleases) — switch it to '6' when 6.0 ships.
+ */
+export const PROBE_TYPESCRIPTS: Record<string, string> = {
+  'ts-min': MIN_TYPESCRIPT,
+  'ts-5': '5',
+  'ts-6': '6.0.0-beta',
+  'ts-7': '7',
+}
+
 export const TYPE_ENVS: TypeEnvDef[] = [
   {
     id: 'vite',
@@ -83,18 +100,23 @@ export const TYPE_ENVS: TypeEnvDef[] = [
     note: 'skipLibCheck: false — every shipped d.ts joins the program',
   },
   {
-    id: 'vite-nodenext',
-    framework: 'vite',
-    fixture: 'vite',
-    check: 'tsc-probe',
-    typescript: MIN_TYPESCRIPT,
-    note: `nodenext resolution probe on the TS support floor (${MIN_TYPESCRIPT})`,
-  },
-  {
     id: 'nuxt',
     framework: 'nuxt',
     fixture: 'nuxt',
     check: 'nuxi',
     note: 'nuxi typecheck — generated .nuxt types + module augmentations',
   },
+  ...Object.entries(PROBE_TYPESCRIPTS).map(
+    ([id, typescript]): TypeEnvDef => ({
+      id,
+      framework: 'vite',
+      fixture: 'vite',
+      check: 'tsc-probe',
+      typescript,
+      note:
+        id === 'ts-min'
+          ? `nodenext resolution probe on the TS support floor (${MIN_TYPESCRIPT})`
+          : `nodenext resolution probe on typescript@${typescript}`,
+    })
+  ),
 ]
