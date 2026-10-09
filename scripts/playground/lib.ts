@@ -28,12 +28,6 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-// Via the built package (not a deep src import): the node program is
-// composite, and package sources pulled in as program files would each need
-// listing in its include — dist types resolve as an external dependency.
-// Requires @vueform/utils to be built.
-import { workspaceSourcePaths } from '@vueform/utils'
-
 import { assemblePlayground } from './assemble'
 
 export const repoRoot = path.resolve(
@@ -184,8 +178,8 @@ export function usage(tag: string, opts: ParseOptions) {
   const extras = (opts.extraFlags ?? []).map((f) => ` [--${f}]`).join('')
 
   return (
-    `[${tag}] Usage: pnpm ${tag} ${opts.singleAdapter ? '[--<adapter>]' : '[--<adapter> ...]'} [--nuxt | --vapor]${extras}\n` +
-    `Adapters: ${list} (default: --ui)\n` +
+    `[${tag}] Usage: pnpm ${tag} ${opts.singleAdapter ? '[<adapter>]' : '[<adapter> ...]'} [--nuxt | --vapor]${extras}\n` +
+    `Adapters: ${list} — bare or as flags (default: ui)\n` +
     `Modes: plain Vite (default), --nuxt, --vapor`
   )
 }
@@ -210,9 +204,8 @@ export function parseArgs(argv: string[], opts: ParseOptions): ParsedArgs {
   const flags = new Set<string>()
 
   for (const arg of argv) {
-    if (!arg.startsWith('--')) fail(`Unexpected argument: ${arg}`)
-
-    const flag = arg.slice(2)
+    // `pnpm pg primevue` — bare words select adapters like their flags do.
+    const flag = arg.startsWith('--') ? arg.slice(2) : arg
 
     if (flag === 'nuxt' || flag === 'vapor') {
       modes.add(flag)
@@ -222,7 +215,7 @@ export function parseArgs(argv: string[], opts: ParseOptions): ParsedArgs {
       const name = byFlag.get(flag)!
       if (!selected.includes(name)) selected.push(name)
     } else {
-      fail(`Unknown flag: ${arg}`)
+      fail(`Unknown ${arg.startsWith('--') ? 'flag' : 'adapter'}: ${arg}`)
     }
   }
 
@@ -323,10 +316,11 @@ function patchPackageManifest(combo: Combo) {
 }
 
 /**
- * Injects exports-derived source `paths` (plus the monorepo type-check
- * adjustments) into the copied playground's tsconfig, so its editor and
- * type-check resolve published specifiers to `packages/*\/src`. The template's
- * own tsconfig stays a plain default and checks against installed packages.
+ * Applies the monorepo type-check adjustments to the copied playground's
+ * tsconfig. Source resolution itself needs no patching: the template extends
+ * `@vueform/tsconfig/tsconfig.dom.json`, whose `vueform-source` exports
+ * condition resolves `@vueform/*` to `packages/*\/src` (the build config
+ * clears the condition and checks against installed packages).
  */
 /**
  * Parses tsconfig-style JSONC: comments and trailing commas are tolerated. A
@@ -419,26 +413,20 @@ function patchTsconfig(combo: Combo) {
   const tsconfig = readJsonc(tsconfigPath)
 
   const co = (tsconfig.compilerOptions ??= {})
+  // The playground's vite major can differ from the workspace root's (the
+  // template poses as a real consumer), and @vueform/utils' declarations
+  // type against the root's copy — vite's class types carry private
+  // members, so two declaration copies are never mutually assignable. Pin
+  // `vite` to the playground's copy everywhere; standalone playgrounds
+  // (own lockfile, own physical vue) additionally pin `vue` (the tsconfig
+  // twin of the vite config's `dedupe: ['vue']`).
   co.paths = {
-    ...workspaceSourcePaths(path.join(repoRoot, 'packages'), combo.dir, {
-      adapter: combo.adapter,
-      vapor: combo.mode === 'vapor',
-    }),
-    // Standalone playgrounds install their own physical vite and vue copies
-    // (own lockfile), while package sources pulled in through the paths above
-    // resolve the workspace root's — and these libs' class types carry
-    // private members, so two declaration copies are never mutually
-    // assignable. Pin both to the playground's copy (the tsconfig twin of the
-    // vite config's `dedupe: ['vue']`). Workspace playgrounds dedupe to a
-    // single copy and need no pin.
-    ...(combo.standalone
-      ? { vite: ['./node_modules/vite'], vue: ['./node_modules/vue'] }
-      : {}),
+    vite: ['./node_modules/vite'],
+    ...(combo.standalone ? { vue: ['./node_modules/vue'] } : {}),
     ...co.paths,
   }
-  // Package sources are pulled into the project through the paths above;
-  // check them the way the repo's own `pnpm check` does.
-  co.types = [...new Set([...(co.types ?? []), 'node'])]
+  // Package sources are pulled into the project through the source
+  // condition; check them the way the repo's own `pnpm check` does.
   co.noUnusedLocals = false
   co.noUnusedParameters = false
 
@@ -481,10 +469,10 @@ function patchNuxtTsconfig(combo: Combo) {
 
   const tsconfig = readJsonc(tsconfigPath)
   const co = (tsconfig.compilerOptions ??= {})
+  // Source resolution via the exports condition (as in the vite template's
+  // preset) — Nuxt generates its own tsconfig, so it is set here instead.
+  co.customConditions = ['vueform-source']
   co.paths = {
-    ...workspaceSourcePaths(path.join(repoRoot, 'packages'), combo.dir, {
-      adapter: combo.adapter,
-    }),
     // The ambient `declare module '#shorthands'` marker — mapped instead of
     // included, since overriding `include` would replace Nuxt's generated
     // one wholesale.
@@ -525,8 +513,6 @@ function patchRootTsconfig(combo: Combo, appInclude: string[]) {
  * copies are never mutually assignable no matter the version.
  */
 function patchNodeTsconfig(combo: Combo) {
-  if (!combo.standalone) return
-
   const tsconfigPath = path.join(combo.dir, 'tsconfig.node.json')
   if (!exists(tsconfigPath)) return
 
@@ -617,6 +603,14 @@ export function build(tag: string, combo: Combo) {
 export function dev(tag: string, combo: Combo) {
   console.log(`[${tag}] Starting dev server for "${combo.name}"...`)
   run('pnpm', ['run', 'dev'], combo.dir, { USE_DEV: 'true' })
+}
+
+/**
+ * Serves the playground's existing build without rebuilding (`pg:preview`).
+ */
+export function previewOnly(tag: string, combo: Combo) {
+  console.log(`[${tag}] Starting preview for "${combo.name}"...`)
+  run('pnpm', ['run', 'preview'], combo.dir, { USE_DEV: 'true' })
 }
 
 export function preview(tag: string, combo: Combo) {

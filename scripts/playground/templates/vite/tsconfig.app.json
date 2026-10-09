@@ -1,8 +1,11 @@
 {
-  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  // The src-world preset: `@vueform/*` resolves through the exports maps'
+  // `vueform-source` condition straight to packages/*/src — live testing
+  // against sources, no rebuilds, no generated path mappings.
+  "extends": "@vueform/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
-    "types": ["vite/client"],
+    "types": ["vite/client", "node"],
     "allowArbitraryExtensions": true,
 
     /* Linting */

@@ -17,6 +17,7 @@
   "devDependencies": {
     "@vitejs/plugin-vue": "^6.0.8",
     "@vue/tsconfig": "^0.7.0",
+    "@vueform/tsconfig": "^2.0.0-alpha.1",
     "@vueform/utils": "^2.0.0-alpha.1",
     "sass-embedded": "^1.104.1",
     "typescript": "~5.9.3",

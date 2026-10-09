@@ -1,6 +1,9 @@
 {
+  // Builds type-check against installed packages: clearing the condition
+  // restores default exports resolution (dist types), same pattern as the
+  // packages' own tsconfig.build.json files.
   "extends": "./tsconfig.app.json",
   "compilerOptions": {
-    "paths": {}
+    "customConditions": []
   }
 }

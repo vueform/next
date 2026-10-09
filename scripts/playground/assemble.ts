@@ -162,7 +162,7 @@ function buildViteConfigTs(combo: Combo, assets: AdapterAssets): string {
     `import vue from '@vitejs/plugin-vue'`,
     `import { dev } from '@vueform/utils'`,
     `import { defineConfig } from 'vite'`,
-    `import { vitePlugins } from './vite.adapter'`,
+    `import { vitePlugins } from './vite.adapter.ts'`,
     ``,
   ]
 
