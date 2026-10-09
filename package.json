@@ -9,6 +9,8 @@
     "quick": "vpr :quick",
     "pack": "vpr :pack",
     "registry": "vpr :registry",
+    "size": "vpr :size",
+    "size:report": "vpr :size:report",
     "test": "tsx scripts/test.ts",
     "test-dts": "tsx scripts/test-dts.ts",
     "test-smoke": "tsx scripts/test-smoke.ts",

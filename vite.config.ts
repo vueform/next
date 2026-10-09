@@ -232,39 +232,6 @@ const buildTasks = Object.fromEntries(
   ])
 )
 
-/**
- * Registry graph: every adapter with a `registry` script (ui, primevue) gets a
- * `:registry:<dir>` leg regenerating its committed `registry/` folder via
- * `vf-registry`. The generator runs from utils' dist and reads the adapter's
- * sources plus core's components and schemas — no adapter or core build
- * needed (the plain run skips `--check`, which is the only dist consumer).
- */
-const registryPackages = [...packageManifests].flatMap(([dir, pkg]) =>
-  pkg.scripts?.registry ? [{ dir, name: pkg.name as string }] : []
-)
-
-const registryTasks = Object.fromEntries(
-  registryPackages.map(({ dir, name }) => [
-    `:registry:${dir}`,
-    {
-      command: `pnpm --filter ${name} run registry`,
-      dependsOn: [':build:utils'],
-      cache: {
-        input: [
-          `packages/${dir}/src/**`,
-          `packages/${dir}/package.json`,
-          'packages/core/src/components/**',
-          'packages/core/schemas/**',
-          'scripts/data/components.json',
-          'packages/utils/dist/**',
-          'pnpm-lock.yaml',
-        ],
-        output: [`packages/${dir}/registry/**`],
-      },
-    },
-  ])
-)
-
 export default defineConfig({
   fmt: {
     semi: false,
@@ -397,12 +364,19 @@ export default defineConfig({
         command: "node -e ''",
         dependsOn: buildablePackages.map(({ dir }) => `:build:${dir}`),
       },
-      ...buildTasks,
-      ':registry': {
-        command: "node -e ''",
-        dependsOn: registryPackages.map(({ dir }) => `:registry:${dir}`),
+      ':pack': {
+        command: 'tsx scripts/pack.ts',
+        dependsOn: [':build'],
+        cache: {
+          input: [
+            'packages/*/dist/**',
+            'packages/*/package.json',
+            'pnpm-lock.yaml',
+          ],
+          output: ['.vueform/smoke/tarballs/**'],
+        },
       },
-      ...registryTasks,
+      ...buildTasks,
       ':lint': {
         command: 'vp lint',
         dependsOn: [':stylelint', ':eslint'],
@@ -537,17 +511,24 @@ export default defineConfig({
         command: 'tsx scripts/test-smoke.ts --nopack',
         dependsOn: [':build', ':pack'],
       },
-      ':pack': {
-        command: 'tsx scripts/pack.ts',
+      // Registry, size and size:report fan out via nested `vp run` over the
+      // packages that define the script (the root package is filtered out —
+      // its same-named scripts point back at these tasks). The inlined legs
+      // run in workspace dependency order, so core's size.json is fresh
+      // before the adapter/plugin reports embed it. All three stay uncached
+      // (package scripts): the generators rewrite committed files they also
+      // read, and size bakes in toolchain versions the glob model cannot see.
+      ':registry': {
+        command: "vp run --filter './packages/*' registry",
+        dependsOn: [':build:utils'],
+      },
+      ':size': {
+        command: "vp run --filter './packages/*' size",
         dependsOn: [':build'],
-        cache: {
-          input: [
-            'packages/*/dist/**',
-            'packages/*/package.json',
-            'pnpm-lock.yaml',
-          ],
-          output: ['.vueform/smoke/tarballs/**'],
-        },
+      },
+      ':size:report': {
+        command: "vp run --filter './packages/*' size:report",
+        dependsOn: [':build:utils'],
       },
     },
   },
