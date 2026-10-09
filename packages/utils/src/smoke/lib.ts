@@ -96,6 +96,36 @@ interface SpawnResult {
   stderr: string
 }
 
+const activeChildren = new Set<ReturnType<typeof spawn>>()
+let signalHandlersInstalled = false
+
+/**
+ * On POSIX every child runs detached (its own process group), and a Ctrl-C
+ * on the harness is handled HERE: each live group is killed (grandchildren
+ * included — Playwright's web server, vite preview, installs) before the
+ * process exits. Without this, an interrupted run leaves servers behind.
+ */
+function ensureSignalHandlers() {
+  if (signalHandlersInstalled) return
+  signalHandlersInstalled = true
+
+  for (const signal of ['SIGINT', 'SIGTERM'] as const) {
+    process.on(signal, () => {
+      for (const child of activeChildren) {
+        if (!child.pid) continue
+        try {
+          if (process.platform === 'win32') child.kill()
+          else process.kill(-child.pid, 'SIGTERM')
+        } catch {
+          // Already gone.
+        }
+      }
+      process.stdout.write('\x1b[?25h')
+      process.exit(signal === 'SIGINT' ? 130 : 143)
+    })
+  }
+}
+
 /**
  * Async spawn with full stdout/stderr capture. Async on purpose: a
  * synchronous child blocks the event loop and freezes the display's spinner
@@ -107,19 +137,29 @@ function spawnCollect(
   opts: RunOptions
 ): Promise<SpawnResult> {
   return new Promise((resolve, reject) => {
+    ensureSignalHandlers()
+
     const spawnOpts: SpawnOptions = {
       cwd: opts.cwd,
       stdio: ['ignore', 'pipe', 'pipe'],
       shell: process.platform === 'win32',
+      detached: process.platform !== 'win32',
       env: { ...process.env, ...opts.env },
     }
     const child = spawn(cmd, args, spawnOpts)
+    activeChildren.add(child)
     let stdout = ''
     let stderr = ''
     child.stdout!.on('data', (chunk: Buffer) => (stdout += chunk.toString()))
     child.stderr!.on('data', (chunk: Buffer) => (stderr += chunk.toString()))
-    child.on('error', reject)
-    child.on('close', (status) => resolve({ status, stdout, stderr }))
+    child.on('error', (error) => {
+      activeChildren.delete(child)
+      reject(error)
+    })
+    child.on('close', (status) => {
+      activeChildren.delete(child)
+      resolve({ status, stdout, stderr })
+    })
   })
 }
 

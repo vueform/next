@@ -16,7 +16,7 @@ import type { EnvDef, Pm } from './envs'
 import { leakCheck } from './leak'
 import { pickPort, run, SmokeError } from './lib'
 import type { PackedTarballs } from './pack'
-import { execArgs, installArgs, runScriptArgs } from './pm'
+import { execArgs, installArgs, runScriptArgs, withInstallLock } from './pm'
 
 export interface EnvRunInput {
   root: string
@@ -98,11 +98,13 @@ export async function runEnv(input: EnvRunInput): Promise<void> {
     })
 
   await step('install', async () => {
-    await run(pm, installArgs(pm), {
-      cwd: smokeRun.dir,
-      log,
-      fail: `[smoke:${tag}] Install failed`,
-    })
+    await withInstallLock(pm, () =>
+      run(pm, installArgs(pm), {
+        cwd: smokeRun.dir,
+        log,
+        fail: `[smoke:${tag}] Install failed`,
+      })
+    )
     leakCheck(smokeRun.dir, log)
   })
 

@@ -19,7 +19,7 @@ import type { Pm } from './envs'
 import { leakCheck } from './leak'
 import { readJson, run, SmokeError, writeJson } from './lib'
 import type { PackedTarballs } from './pack'
-import { execArgs, installArgs } from './pm'
+import { execArgs, installArgs, withInstallLock } from './pm'
 import { DEFAULT_TYPESCRIPT, type TypeEnvDef } from './typesEnvs'
 
 const TSCONFIG = 'tsconfig.smoke-types.json'
@@ -253,11 +253,13 @@ export async function runTypesEnv(input: TypesEnvRunInput): Promise<void> {
   writeTypecheckConfig(dir, input)
 
   await step('install', async () => {
-    await run(pm, installArgs(pm), {
-      cwd: dir,
-      log,
-      fail: `[smoke-types:${tag}] Install failed`,
-    })
+    await withInstallLock(pm, () =>
+      run(pm, installArgs(pm), {
+        cwd: dir,
+        log,
+        fail: `[smoke-types:${tag}] Install failed`,
+      })
+    )
     leakCheck(dir, log)
   })
 

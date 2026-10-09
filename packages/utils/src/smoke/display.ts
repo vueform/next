@@ -63,17 +63,25 @@ export function createSmokeLog(
   const dir = path.join(stateDir, 'logs')
   fs.mkdirSync(dir, { recursive: true })
 
-  // Keep the directory from growing without bound — prune by session (a run
-  // writes up to two files sharing a `<adapter>-<stamp>` prefix).
-  const prefixes = [
-    ...new Set(
-      fs
-        .readdirSync(dir)
-        .filter((f) => f.endsWith('.log'))
-        .map((f) => f.split('.')[0])
-    ),
-  ].sort()
-  for (const old of prefixes.slice(0, -KEPT_LOGS + 1)) {
+  // Keep the directory from growing without bound — prune by session AGE
+  // (newest file mtime per `<name>-<stamp>` prefix), never by name: names
+  // sort adapter-first, and a name-sorted prune deleted one adapter's fresh
+  // logs while another adapter's run was still printing links to them.
+  const sessions = new Map<string, number>()
+  for (const f of fs.readdirSync(dir)) {
+    if (!f.endsWith('.log')) continue
+    try {
+      const mtime = fs.statSync(path.join(dir, f)).mtimeMs
+      const prefix = f.split('.')[0]
+      sessions.set(prefix, Math.max(sessions.get(prefix) ?? 0, mtime))
+    } catch {
+      // Pruned by a parallel invocation.
+    }
+  }
+  const byAge = [...sessions.entries()]
+    .sort((a, b) => a[1] - b[1])
+    .map(([prefix]) => prefix)
+  for (const old of byAge.slice(0, -KEPT_LOGS + 1)) {
     for (const f of fs.readdirSync(dir)) {
       if (f.startsWith(`${old}.`)) fs.rmSync(path.join(dir, f), { force: true })
     }

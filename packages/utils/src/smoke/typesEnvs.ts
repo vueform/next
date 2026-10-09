@@ -79,8 +79,10 @@ export interface TypeEnvDef {
 export const PROBE_TYPESCRIPTS: Record<string, string> = {
   'ts-min': MIN_TYPESCRIPT,
   'ts-5': '5',
-  'ts-6': '6.0.0-beta',
-  'ts-7': '7',
+  // Temporarily deactivated until the 6/7 lines stabilize — reactivate by
+  // uncommenting ('6.0.0-beta' becomes '6' once a stable 6 ships).
+  // 'ts-6': '6.0.0-beta',
+  // 'ts-7': '7',
 }
 
 export const TYPE_ENVS: TypeEnvDef[] = [

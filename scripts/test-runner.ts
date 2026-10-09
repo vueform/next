@@ -31,6 +31,27 @@ const repoRoot = path.resolve(
 const KEPT_LOGS = 20
 const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 
+// On POSIX the per-package children run detached (own process groups), and
+// Ctrl-C is handled here: every live group is killed (vitest workers and
+// browser processes included) before exiting. Without this, an interrupted
+// run leaves test workers behind.
+const activeChildren = new Set<ReturnType<typeof spawn>>()
+for (const signal of ['SIGINT', 'SIGTERM'] as const) {
+  process.on(signal, () => {
+    for (const child of activeChildren) {
+      if (!child.pid) continue
+      try {
+        if (process.platform === 'win32') child.kill()
+        else process.kill(-child.pid, 'SIGTERM')
+      } catch {
+        // Already gone.
+      }
+    }
+    process.stdout.write('\x1b[?25h')
+    process.exit(signal === 'SIGINT' ? 130 : 143)
+  })
+}
+
 // --verbose: dump each package's original vitest output (grouped, printed as
 // each package finishes) instead of the live status rows.
 const verbose = process.argv.includes('--verbose')
@@ -422,10 +443,12 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
       const child = spawn('pnpm', args, {
         cwd: repoRoot,
         stdio: ['ignore', 'pipe', 'pipe'],
+        detached: process.platform !== 'win32',
         env: playwright
           ? { ...process.env, PLAYWRIGHT_JSON_OUTPUT_NAME: jsonFile }
           : process.env,
       })
+      activeChildren.add(child)
 
       let output = ''
       const state = states.get(pkg.name)!
@@ -447,6 +470,7 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
       child.stderr.on('data', (chunk: Buffer) => (output += chunk.toString()))
 
       child.on('close', (code) => {
+        activeChildren.delete(child)
         if (!playwright) state.warns = extractWarns(output, pkg.dir)
 
         let passed = 0

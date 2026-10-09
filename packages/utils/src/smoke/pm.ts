@@ -9,6 +9,21 @@
  */
 import type { Pm } from './envs'
 
+/**
+ * yarn classic's global cache is not concurrency-safe — parallel env
+ * installs race it (cold-cache runs fail on cache ENOENT/merge errors), so
+ * yarn installs are serialized through this chain. The other package
+ * managers install concurrently.
+ */
+let yarnInstalls: Promise<unknown> = Promise.resolve()
+
+export function withInstallLock<T>(pm: Pm, fn: () => Promise<T>): Promise<T> {
+  if (pm !== 'yarn') return fn()
+  const next = yarnInstalls.then(fn, fn)
+  yarnInstalls = next.catch(() => undefined)
+  return next
+}
+
 export function installArgs(pm: Pm): string[] {
   switch (pm) {
     case 'pnpm':
@@ -36,7 +51,10 @@ export function execArgs(pm: Pm, bin: string, args: string[]): string[] {
     case 'npm':
       return ['exec', '--no', '--', bin, ...args]
     case 'yarn':
-      return ['exec', bin, ...args]
+      // Not `exec`: yarn classic's exec SWALLOWS the bin's arguments
+      // (`yarn exec tsc -p x` runs a bare `tsc`); `run` resolves .bin
+      // entries and forwards args on both classic and berry.
+      return ['run', bin, ...args]
     case 'bun':
       return ['x', '--no-install', bin, ...args]
   }

@@ -69,7 +69,23 @@ function packWithStatus(tag: string): Promise<boolean> {
     const child = spawn('pnpm', ['exec', 'vpr', ':pack'], {
       cwd: repoRoot,
       stdio: ['ignore', 'pipe', 'pipe'],
+      detached: process.platform !== 'win32',
     })
+    // Ctrl-C during the pack step: kill the vp group (its builds included)
+    // before exiting — detached children outlive the parent otherwise.
+    const onSignal = () => {
+      if (child.pid) {
+        try {
+          if (process.platform === 'win32') child.kill()
+          else process.kill(-child.pid, 'SIGTERM')
+        } catch {
+          // Already gone.
+        }
+      }
+      process.exit(130)
+    }
+    process.once('SIGINT', onSignal)
+    process.once('SIGTERM', onSignal)
 
     let output = ''
     let statusShown = false
@@ -99,6 +115,8 @@ function packWithStatus(tag: string): Promise<boolean> {
     child.stderr.on('data', (chunk: Buffer) => (output += chunk.toString()))
 
     child.on('close', (code) => {
+      process.removeListener('SIGINT', onSignal)
+      process.removeListener('SIGTERM', onSignal)
       clearStatus()
       if (code !== 0) console.error(output)
       resolve(code === 0)

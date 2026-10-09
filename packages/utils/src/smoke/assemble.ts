@@ -20,6 +20,7 @@
  * - `e2e/*` → `<run>/e2e/` — the shared Playwright specs (tier 1 boot, tier 2
  *   interaction) plus helpers.
  */
+import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -293,6 +294,26 @@ function writeAdapterModule(
   fs.writeFileSync(path.join(runDir, 'smoke', 'adapter.ts'), lines.join('\n'))
 }
 
+let cachedYarnVersion: string | undefined
+
+/**
+ * The installed yarn's version — stamped into yarn runs' manifests as their
+ * own `packageManager`, because yarn walks up from the run dir into the
+ * monorepo and trips over the root's `packageManager: pnpm@…` Corepack pin.
+ */
+function yarnVersion(): string {
+  if (!cachedYarnVersion) {
+    const res = spawnSync('yarn', ['--version'], { encoding: 'utf8' })
+    if (res.status !== 0 || !res.stdout.trim()) {
+      throw new SmokeError(
+        'Could not run `yarn --version` — is yarn installed?'
+      )
+    }
+    cachedYarnVersion = res.stdout.trim()
+  }
+  return cachedYarnVersion
+}
+
 /**
  * Rewires the fixture manifest to the packed tarballs. The workspace
  * dependency set comes from the adapter's smoke config (plus the adapter
@@ -389,7 +410,14 @@ function patchManifest(
   for (const [depName, tarball] of input.tarballs.byName) {
     overrides[depName] = fileRef(tarball)
   }
+  // The fixture's vue pin wins graph-wide: npm's strict peer resolver
+  // otherwise rejects a prerelease pin (the vapor env's 3.6 RC) against the
+  // packages' `^3.5` peer ranges, and a second vue identity would break the
+  // runtime anyway.
+  if (pkg.dependencies?.vue) overrides.vue = pkg.dependencies.vue
   applyOverrides(pkg, input.pm, overrides)
+
+  if (input.pm === 'yarn') pkg.packageManager = `yarn@${yarnVersion()}`
 
   // Standalone installs run their own build scripts (same as the vapor
   // playgrounds): esbuild's postinstall is just a binary sanity check.
