@@ -1,9 +1,0 @@
-```ts
-/**
- * Returns the resolved instance's model module. Throws when the module is not
- * registered. Resolves the explicit `vueform` (a `createVueform()` instance or
- * config) when given, otherwise the config injected by the calling component's
- * app.
- */
-function getModelModule(vueform?: VueformInstance): ModelModule
-```

@@ -1021,7 +1021,7 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — |  |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -1166,15 +1166,9 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
-| `required` | — | Slot for customizing the required indicator. |
-| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `before` | — | Slot for content rendered before the label. |
 | `default` | [`text`](!code#slot.default.text "string \| undefined") | Default slot that replaces the button label content. |
 | `after` | — | Slot for content rendered after the label. |
-| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
-| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
-| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -1215,78 +1209,6 @@ messageBag.append('Form submitted successfully', 'message')
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
-### `panel`
-
-The wrapper around `root` with `display: contents` when the element is a step or a tab.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-panel` |
-
-### `root`
-
-The element's root wrapper.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` `<fieldset>` |
-| **Classes** | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-button` `.vf-align-label?` |
-
-### `labelGroup`
-
-The container holding the label and required indicator.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-label-group` `.vf-h1?` `.vf-h2?` `.vf-h3?` `.vf-h4?` `.vf-h5?` `.vf-h6?` |
-
-### `label`
-
-The label element.
-
-| | |
-| --- | --- |
-| **Element** | `<label>` `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
-| **Classes** | `.vf-label` |
-
-### `required`
-
-The required indicator.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-required` |
-
-### `elementGroup`
-
-The container wrapping the input and related UI.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-element-group` |
-
-### `elementWrapper`
-
-The wrapper directly around the input control.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-element-wrapper` |
-
-### `help`
-
-The help text area.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-help` |
-
 ### `button`
 
 The root button or anchor element.
@@ -1313,51 +1235,6 @@ The text of the button.
 | --- | --- |
 | **Element** | `<span>` |
 | **Classes** | `.vf-btn-text` |
-
-### `description`
-
-The description text area.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-description` |
-
-### `errors`
-
-The validation errors container.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-errors` |
-
-### `error`
-
-An individual validation error.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-error` |
-
-### `messages`
-
-The info messages container.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-messages` |
-
-### `message`
-
-An individual info message.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-message` |
 <!-- @parts-end -->
 <!-- @endtab -->
 

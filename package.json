@@ -3,6 +3,7 @@
   "scripts": {
     "build": "vpr :build",
     "check": "vpr :check",
+    "docs:gen": "tsx docs/scripts/gen.ts",
     "api": "tsx scripts/api.ts",
     "api:missing": "tsx scripts/api-missing.ts",
     "fix": "vpr :fix",

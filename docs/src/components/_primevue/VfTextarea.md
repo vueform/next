@@ -481,7 +481,7 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — |  |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -538,8 +538,8 @@ PrimeVue props that work exactly the same — Vueform does not modify them.
 | [`size`](!code#props.size "HintedString<'small' \| 'large'> \| undefined") | Defines the size of the component. |
 | [`unstyled`](!code#props.unstyled "boolean") | When enabled, it removes component related styles in the core. |
 | [`variant`](!code#props.variant "HintedString<'outlined' \| 'filled'> \| undefined \| null") | Specifies the input variant of the component. |
-| [`about`](!code#props.about "string \| undefined") |  |
-| [`accesskey`](!code#props.accesskey "string \| undefined") |  |
+| [`about`](!code#props.about "string \| undefined") | RDFa: the resource the metadata is about. |
+| [`accesskey`](!code#props.accesskey "string \| undefined") | Provides a hint for generating a keyboard shortcut for the current element. This attribute consists of a space-separated list of characters. The browser should use the first one that exists on the computer keyboard layout. |
 | [`aria-activedescendant`](!code#props.aria-activedescendant "string \| undefined") | Identifies the currently active element when DOM focus is on a composite widget, textbox, group, or application. |
 | [`aria-atomic`](!code#props.aria-atomic "Booleanish \| undefined") | Indicates whether assistive technologies will present all, or only parts of, the changed region based on the change notifications defined by the aria-relevant attribute. |
 | [`aria-autocomplete`](!code#props.aria-autocomplete "'none' \| 'inline' \| 'list' \| 'both' \| undefined") | Indicates whether inputting text could trigger display of one or more predictions of the user's intended value for an input and specifies how predictions would be presented if they are made. |
@@ -588,150 +588,150 @@ PrimeVue props that work exactly the same — Vueform does not modify them.
 | [`aria-valuemin`](!code#props.aria-valuemin "Numberish \| undefined") | Defines the minimum allowed value for a range widget. |
 | [`aria-valuenow`](!code#props.aria-valuenow "Numberish \| undefined") | Defines the current value for a range widget. |
 | [`aria-valuetext`](!code#props.aria-valuetext "string \| undefined") | Defines the human readable text alternative of aria-valuenow for a range widget. |
-| [`autocapitalize`](!code#props.autocapitalize "string \| undefined") |  |
-| [`autocomplete`](!code#props.autocomplete "string \| undefined") |  |
-| [`autocorrect`](!code#props.autocorrect "string \| undefined") |  |
-| [`autofocus`](!code#props.autofocus "Booleanish \| undefined") |  |
-| [`autosave`](!code#props.autosave "string \| undefined") |  |
-| [`color`](!code#props.color "string \| undefined") |  |
-| [`cols`](!code#props.cols "Numberish \| undefined") |  |
-| [`contenteditable`](!code#props.contenteditable "Booleanish \| 'inherit' \| 'plaintext-only' \| undefined") |  |
-| [`contextmenu`](!code#props.contextmenu "string \| undefined") |  |
-| [`datatype`](!code#props.datatype "string \| undefined") |  |
-| [`dir`](!code#props.dir "string \| undefined") |  |
-| [`dirname`](!code#props.dirname "string \| undefined") |  |
-| [`draggable`](!code#props.draggable "Booleanish \| undefined") |  |
-| [`enterkeyhint`](!code#props.enterkeyhint "'enter' \| 'done' \| 'go' \| 'next' \| 'previous' \| 'search' \| 'send' \| undefined") |  |
-| [`enterKeyHint`](!code#props.enterKeyHint "HTMLAttributes['enterkeyhint']") |  |
-| [`exportparts`](!code#props.exportparts "string") |  |
-| [`form`](!code#props.form "string \| undefined") |  |
-| [`hidden`](!code#props.hidden "Booleanish \| '' \| 'hidden' \| 'until-found' \| undefined") |  |
-| [`inert`](!code#props.inert "Booleanish \| undefined") |  |
-| [`inlist`](!code#props.inlist "any") |  |
-| [`innerHTML`](!code#props.innerHTML "string \| undefined") |  |
+| [`autocapitalize`](!code#props.autocapitalize "string \| undefined") | Controls whether and how text input is automatically capitalized as it is entered/edited by the user. It can have the following values:<br><br>*   `off` or `none`, no autocapitalization is applied (all letters default to lowercase) *   `on` or `sentences`, the first letter of each sentence defaults to a capital letter; all other letters default to lowercase *   `words`, the first letter of each word defaults to a capital letter; all other letters default to lowercase *   `characters`, all letters should default to uppercase |
+| [`autocomplete`](!code#props.autocomplete "string \| undefined") | This attribute indicates whether the value of the control can be automatically completed by the browser. Possible values are:<br><br>*   `off`: The user must explicitly enter a value into this field for every use, or the document provides its own auto-completion method; the browser does not automatically complete the entry. *   `on`: The browser can automatically complete the value based on values that the user has entered during previous uses.<br><br>If the `autocomplete` attribute is not specified on a `<textarea>` element, then the browser uses the `autocomplete` attribute value of the `<textarea>` element's form owner. The form owner is either the [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form "The HTML <form> element represents a document section that contains interactive controls for submitting information to a web server.") element that this `<textarea>` element is a descendant of or the form element whose `id` is specified by the `form` attribute of the input element. For more information, see the [`autocomplete`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form#attr-autocomplete) attribute in [`<form>`](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/form "The HTML <form> element represents a document section that contains interactive controls for submitting information to a web server."). |
+| [`autocorrect`](!code#props.autocorrect "string \| undefined") | Controls whether autocorrection of editable text is enabled for spelling and/or punctuation errors. |
+| [`autofocus`](!code#props.autofocus "Booleanish \| undefined") | This Boolean attribute lets you specify that a form control should have input focus when the page loads. Only one form-associated element in a document can have this attribute specified. |
+| [`autosave`](!code#props.autosave "string \| undefined") | Non-standard Safari attribute persisting a search field's value across page loads. |
+| [`color`](!code#props.color "string \| undefined") | Sets the color of the rule through color name or hexadecimal value. |
+| [`cols`](!code#props.cols "Numberish \| undefined") | The visible width of the text control, in average character widths. If it is specified, it must be a positive integer. If it is not specified, the default value is `20`. |
+| [`contenteditable`](!code#props.contenteditable "Booleanish \| 'inherit' \| 'plaintext-only' \| undefined") | An enumerated attribute indicating if the element should be editable by the user. If so, the browser modifies its widget to allow editing. The attribute must take one of the following values:<br><br>*   `true` or the _empty string_, which indicates that the element must be editable; *   `false`, which indicates that the element must not be editable. |
+| [`contextmenu`](!code#props.contextmenu "string \| undefined") | The `[**id**](#attr-id)` of a [`<menu>`](https://developer.mozilla.org/docs/Web/HTML/Element/menu "The HTML <menu> element represents a group of commands that a user can perform or activate. This includes both list menus, which might appear across the top of a screen, as well as context menus, such as those that might appear underneath a button after it has been clicked.") to use as the contextual menu for this element. |
+| [`datatype`](!code#props.datatype "string \| undefined") | RDFa: the datatype of the property's value. |
+| [`dir`](!code#props.dir "string \| undefined") | An enumerated attribute indicating the directionality of the element's text. It can have the following values:<br><br>*   `ltr`, which means _left to right_ and is to be used for languages that are written from the left to the right (like English); *   `rtl`, which means _right to left_ and is to be used for languages that are written from the right to the left (like Arabic); *   `auto`, which lets the user agent decide. It uses a basic algorithm as it parses the characters inside the element until it finds a character with a strong directionality, then it applies that directionality to the whole element. |
+| [`dirname`](!code#props.dirname "string \| undefined") | Submits the element's text directionality with the form data. |
+| [`draggable`](!code#props.draggable "Booleanish \| undefined") | An enumerated attribute indicating whether the element can be dragged, using the [Drag and Drop API](https://developer.mozilla.org/docs/DragDrop/Drag_and_Drop). It can have the following values:<br><br>*   `true`, which indicates that the element may be dragged *   `false`, which indicates that the element may not be dragged. |
+| [`enterkeyhint`](!code#props.enterkeyhint "'enter' \| 'done' \| 'go' \| 'next' \| 'previous' \| 'search' \| 'send' \| undefined") | An enumerated attribute defining what action label (or icon) to present for the enter key on virtual keyboards. |
+| [`enterKeyHint`](!code#props.enterKeyHint "HTMLAttributes['enterkeyhint']") | An enumerated attribute defining what action label (or icon) to present for the enter key on virtual keyboards. |
+| [`exportparts`](!code#props.exportparts "string") | Used to transitively export shadow parts from a nested shadow tree into a containing light tree. |
+| [`form`](!code#props.form "string \| undefined") | The form element that the `<textarea>` element is associated with (its "form owner"). The value of the attribute must be the `id` of a form element in the same document. If this attribute is not specified, the `<textarea>` element must be a descendant of a form element. This attribute enables you to place `<textarea>` elements anywhere within a document, not just as descendants of form elements. |
+| [`hidden`](!code#props.hidden "Booleanish \| '' \| 'hidden' \| 'until-found' \| undefined") | A Boolean attribute indicates that the element is not yet, or is no longer, _relevant_. For example, it can be used to hide elements of the page that can't be used until the login process has been completed. The browser won't render such elements. This attribute must not be used to hide content that could legitimately be shown. |
+| [`inert`](!code#props.inert "Booleanish \| undefined") | Indicates that the element and all of its flat tree descendants become _inert_. Modal `<dialog>`s generated with [`showModal()`](https://developer.mozilla.org/docs/Web/API/HTMLDialogElement/showModal) escape inertness, meaning that they don't inherit inertness from their ancestors, but can only be made inert by having the `inert` attribute explicitly set on themselves. |
+| [`inlist`](!code#props.inlist "any") | RDFa: marks the property value as a member of a list. |
+| [`innerHTML`](!code#props.innerHTML "string \| undefined") | The element's content, set as raw HTML. |
 | [`inputmode`](!code#props.inputmode "'none' \| 'text' \| 'tel' \| 'url' \| 'email' \| 'numeric' \| 'decimal' \| 'search' \| undefined") | Hints at the type of data that might be entered by the user while editing the element or its contents |
 | [`is`](!code#props.is "string \| undefined") | Specify that a standard HTML element should behave like a defined custom built-in element |
-| [`itemid`](!code#props.itemid "string \| undefined") |  |
-| [`itemprop`](!code#props.itemprop "string \| undefined") |  |
-| [`itemref`](!code#props.itemref "string \| undefined") |  |
-| [`itemscope`](!code#props.itemscope "Booleanish \| undefined") |  |
-| [`itemtype`](!code#props.itemtype "string \| undefined") |  |
-| [`lang`](!code#props.lang "string \| undefined") |  |
-| [`maxlength`](!code#props.maxlength "Numberish \| undefined") |  |
-| [`minlength`](!code#props.minlength "Numberish \| undefined") |  |
-| [`onAbort`](!code#props.onAbort "(payload: UIEvent) => void") |  |
-| [`onAnimationcancel`](!code#props.onAnimationcancel "(payload: AnimationEvent) => void") |  |
-| [`onAnimationend`](!code#props.onAnimationend "(payload: AnimationEvent) => void") |  |
-| [`onAnimationiteration`](!code#props.onAnimationiteration "(payload: AnimationEvent) => void") |  |
-| [`onAnimationstart`](!code#props.onAnimationstart "(payload: AnimationEvent) => void") |  |
-| [`onAuxclick`](!code#props.onAuxclick "(payload: PointerEvent) => void") |  |
-| [`onBeforeinput`](!code#props.onBeforeinput "(payload: InputEvent) => void") |  |
-| [`onBeforetoggle`](!code#props.onBeforetoggle "(payload: ToggleEvent) => void") |  |
-| [`onBlur`](!code#props.onBlur "(payload: FocusEvent) => void") |  |
-| [`onCanplay`](!code#props.onCanplay "(payload: Event) => void") |  |
-| [`onCanplaythrough`](!code#props.onCanplaythrough "(payload: Event) => void") |  |
-| [`onChange`](!code#props.onChange "(payload: Event) => void") |  |
-| [`onClick`](!code#props.onClick "(payload: PointerEvent) => void") |  |
-| [`onCompositionend`](!code#props.onCompositionend "(payload: CompositionEvent) => void") |  |
-| [`onCompositionstart`](!code#props.onCompositionstart "(payload: CompositionEvent) => void") |  |
-| [`onCompositionupdate`](!code#props.onCompositionupdate "(payload: CompositionEvent) => void") |  |
-| [`onContextmenu`](!code#props.onContextmenu "(payload: PointerEvent) => void") |  |
-| [`onCopy`](!code#props.onCopy "(payload: ClipboardEvent) => void") |  |
-| [`onCut`](!code#props.onCut "(payload: ClipboardEvent) => void") |  |
-| [`onDblclick`](!code#props.onDblclick "(payload: MouseEvent) => void") |  |
-| [`onDrag`](!code#props.onDrag "(payload: DragEvent) => void") |  |
-| [`onDragend`](!code#props.onDragend "(payload: DragEvent) => void") |  |
-| [`onDragenter`](!code#props.onDragenter "(payload: DragEvent) => void") |  |
-| [`onDragexit`](!code#props.onDragexit "(payload: DragEvent) => void") |  |
-| [`onDragleave`](!code#props.onDragleave "(payload: DragEvent) => void") |  |
-| [`onDragover`](!code#props.onDragover "(payload: DragEvent) => void") |  |
-| [`onDragstart`](!code#props.onDragstart "(payload: DragEvent) => void") |  |
-| [`onDrop`](!code#props.onDrop "(payload: DragEvent) => void") |  |
-| [`onDurationchange`](!code#props.onDurationchange "(payload: Event) => void") |  |
-| [`onEmptied`](!code#props.onEmptied "(payload: Event) => void") |  |
-| [`onEncrypted`](!code#props.onEncrypted "(payload: MediaEncryptedEvent) => void") |  |
-| [`onEnded`](!code#props.onEnded "(payload: Event) => void") |  |
-| [`onError`](!code#props.onError "(payload: Event) => void") |  |
-| [`onFocus`](!code#props.onFocus "(payload: FocusEvent) => void") |  |
-| [`onFocusin`](!code#props.onFocusin "(payload: FocusEvent) => void") |  |
-| [`onFocusout`](!code#props.onFocusout "(payload: FocusEvent) => void") |  |
-| [`onFormdata`](!code#props.onFormdata "(payload: FormDataEvent) => void") |  |
-| [`onFullscreenchange`](!code#props.onFullscreenchange "(payload: Event) => void") |  |
-| [`onFullscreenerror`](!code#props.onFullscreenerror "(payload: Event) => void") |  |
-| [`onGotpointercapture`](!code#props.onGotpointercapture "(payload: PointerEvent) => void") |  |
-| [`onInput`](!code#props.onInput "(payload: InputEvent) => void") |  |
-| [`onInvalid`](!code#props.onInvalid "(payload: Event) => void") |  |
-| [`onKeydown`](!code#props.onKeydown "(payload: KeyboardEvent) => void") |  |
-| [`onKeypress`](!code#props.onKeypress "(payload: KeyboardEvent) => void") |  |
-| [`onKeyup`](!code#props.onKeyup "(payload: KeyboardEvent) => void") |  |
-| [`onLoad`](!code#props.onLoad "(payload: Event) => void") |  |
-| [`onLoadeddata`](!code#props.onLoadeddata "(payload: Event) => void") |  |
-| [`onLoadedmetadata`](!code#props.onLoadedmetadata "(payload: Event) => void") |  |
-| [`onLoadstart`](!code#props.onLoadstart "(payload: Event) => void") |  |
-| [`onLostpointercapture`](!code#props.onLostpointercapture "(payload: PointerEvent) => void") |  |
-| [`onMousedown`](!code#props.onMousedown "(payload: MouseEvent) => void") |  |
-| [`onMouseenter`](!code#props.onMouseenter "(payload: MouseEvent) => void") |  |
-| [`onMouseleave`](!code#props.onMouseleave "(payload: MouseEvent) => void") |  |
-| [`onMousemove`](!code#props.onMousemove "(payload: MouseEvent) => void") |  |
-| [`onMouseout`](!code#props.onMouseout "(payload: MouseEvent) => void") |  |
-| [`onMouseover`](!code#props.onMouseover "(payload: MouseEvent) => void") |  |
-| [`onMouseup`](!code#props.onMouseup "(payload: MouseEvent) => void") |  |
-| [`onPaste`](!code#props.onPaste "(payload: ClipboardEvent) => void") |  |
-| [`onPause`](!code#props.onPause "(payload: Event) => void") |  |
-| [`onPlay`](!code#props.onPlay "(payload: Event) => void") |  |
-| [`onPlaying`](!code#props.onPlaying "(payload: Event) => void") |  |
-| [`onPointercancel`](!code#props.onPointercancel "(payload: PointerEvent) => void") |  |
-| [`onPointerdown`](!code#props.onPointerdown "(payload: PointerEvent) => void") |  |
-| [`onPointerenter`](!code#props.onPointerenter "(payload: PointerEvent) => void") |  |
-| [`onPointerleave`](!code#props.onPointerleave "(payload: PointerEvent) => void") |  |
-| [`onPointermove`](!code#props.onPointermove "(payload: PointerEvent) => void") |  |
-| [`onPointerout`](!code#props.onPointerout "(payload: PointerEvent) => void") |  |
-| [`onPointerover`](!code#props.onPointerover "(payload: PointerEvent) => void") |  |
-| [`onPointerup`](!code#props.onPointerup "(payload: PointerEvent) => void") |  |
-| [`onProgress`](!code#props.onProgress "(payload: ProgressEvent<EventTarget>) => void") |  |
-| [`onRatechange`](!code#props.onRatechange "(payload: Event) => void") |  |
-| [`onReset`](!code#props.onReset "(payload: Event) => void") |  |
-| [`onScroll`](!code#props.onScroll "(payload: Event) => void") |  |
-| [`onScrollend`](!code#props.onScrollend "(payload: Event) => void") |  |
-| [`onSecuritypolicyviolation`](!code#props.onSecuritypolicyviolation "(payload: SecurityPolicyViolationEvent) => void") |  |
-| [`onSeeked`](!code#props.onSeeked "(payload: Event) => void") |  |
-| [`onSeeking`](!code#props.onSeeking "(payload: Event) => void") |  |
-| [`onSelect`](!code#props.onSelect "(payload: Event) => void") |  |
-| [`onStalled`](!code#props.onStalled "(payload: Event) => void") |  |
-| [`onSubmit`](!code#props.onSubmit "(payload: SubmitEvent) => void") |  |
-| [`onSuspend`](!code#props.onSuspend "(payload: Event) => void") |  |
-| [`onTimeupdate`](!code#props.onTimeupdate "(payload: Event) => void") |  |
-| [`onToggle`](!code#props.onToggle "(payload: ToggleEvent) => void") |  |
-| [`onTouchcancel`](!code#props.onTouchcancel "(payload: TouchEvent) => void") |  |
-| [`onTouchend`](!code#props.onTouchend "(payload: TouchEvent) => void") |  |
-| [`onTouchmove`](!code#props.onTouchmove "(payload: TouchEvent) => void") |  |
-| [`onTouchstart`](!code#props.onTouchstart "(payload: TouchEvent) => void") |  |
-| [`onTransitioncancel`](!code#props.onTransitioncancel "(payload: TransitionEvent) => void") |  |
-| [`onTransitionend`](!code#props.onTransitionend "(payload: TransitionEvent) => void") |  |
-| [`onTransitionrun`](!code#props.onTransitionrun "(payload: TransitionEvent) => void") |  |
-| [`onTransitionstart`](!code#props.onTransitionstart "(payload: TransitionEvent) => void") |  |
-| [`onVolumechange`](!code#props.onVolumechange "(payload: Event) => void") |  |
-| [`onWaiting`](!code#props.onWaiting "(payload: Event) => void") |  |
-| [`onWheel`](!code#props.onWheel "(payload: WheelEvent) => void") |  |
-| [`part`](!code#props.part "string") |  |
-| [`prefix`](!code#props.prefix "string \| undefined") |  |
-| [`property`](!code#props.property "string \| undefined") |  |
-| [`radiogroup`](!code#props.radiogroup "string \| undefined") |  |
-| [`required`](!code#props.required "Booleanish \| undefined") |  |
-| [`resource`](!code#props.resource "string \| undefined") |  |
-| [`results`](!code#props.results "Numberish \| undefined") |  |
-| [`role`](!code#props.role "string \| undefined") |  |
-| [`rows`](!code#props.rows "Numberish \| undefined") |  |
-| [`security`](!code#props.security "string \| undefined") |  |
-| [`spellcheck`](!code#props.spellcheck "Booleanish \| undefined") |  |
-| [`style`](!code#props.style "StyleValue \| undefined") |  |
-| [`tabindex`](!code#props.tabindex "Numberish \| undefined") |  |
-| [`title`](!code#props.title "string \| undefined") |  |
-| [`typeof`](!code#props.typeof "string \| undefined") |  |
-| [`unselectable`](!code#props.unselectable "'on' \| 'off' \| undefined") |  |
-| [`value`](!code#props.value "string \| ReadonlyArray<string> \| number \| null \| undefined") |  |
-| [`vocab`](!code#props.vocab "string \| undefined") |  |
-| [`wrap`](!code#props.wrap "string \| undefined") |  |
+| [`itemid`](!code#props.itemid "string \| undefined") | The unique, global identifier of an item. |
+| [`itemprop`](!code#props.itemprop "string \| undefined") | Used to add properties to an item. Every HTML element may have an `itemprop` attribute specified, where an `itemprop` consists of a name and value pair. |
+| [`itemref`](!code#props.itemref "string \| undefined") | Properties that are not descendants of an element with the `itemscope` attribute can be associated with the item using an `itemref`. It provides a list of element ids (not `itemid`s) with additional properties elsewhere in the document. |
+| [`itemscope`](!code#props.itemscope "Booleanish \| undefined") | `itemscope` (usually) works along with `[itemtype](https://developer.mozilla.org/docs/Web/HTML/Global_attributes#attr-itemtype)` to specify that the HTML contained in a block is about a particular item. `itemscope` creates the Item and defines the scope of the `itemtype` associated with it. `itemtype` is a valid URL of a vocabulary (such as [schema.org](https://schema.org/)) that describes the item and its properties context. |
+| [`itemtype`](!code#props.itemtype "string \| undefined") | Specifies the URL of the vocabulary that will be used to define `itemprop`s (item properties) in the data structure. `[itemscope](https://developer.mozilla.org/docs/Web/HTML/Global_attributes#attr-itemscope)` is used to set the scope of where in the data structure the vocabulary set by `itemtype` will be active. |
+| [`lang`](!code#props.lang "string \| undefined") | Helps define the language of an element: the language that non-editable elements are in, or the language that editable elements should be written in by the user. The attribute contains one “language tag” (made of hyphen-separated “language subtags”) in the format defined in [_Tags for Identifying Languages (BCP47)_](https://www.ietf.org/rfc/bcp/bcp47.txt). [**xml:lang**](#attr-xml:lang) has priority over it. |
+| [`maxlength`](!code#props.maxlength "Numberish \| undefined") | The maximum number of characters (unicode code points) that the user can enter. If this value isn't specified, the user can enter an unlimited number of characters. |
+| [`minlength`](!code#props.minlength "Numberish \| undefined") | The minimum number of characters (unicode code points) required that the user should enter. |
+| [`onAbort`](!code#props.onAbort "(payload: UIEvent) => void") | The loading of a resource has been aborted. |
+| [`onAnimationcancel`](!code#props.onAnimationcancel "(payload: AnimationEvent) => void") | Handler for the native `animationcancel` event. |
+| [`onAnimationend`](!code#props.onAnimationend "(payload: AnimationEvent) => void") | Handler for the native `animationend` event. |
+| [`onAnimationiteration`](!code#props.onAnimationiteration "(payload: AnimationEvent) => void") | Handler for the native `animationiteration` event. |
+| [`onAnimationstart`](!code#props.onAnimationstart "(payload: AnimationEvent) => void") | Handler for the native `animationstart` event. |
+| [`onAuxclick`](!code#props.onAuxclick "(payload: PointerEvent) => void") | Handler for the native `auxclick` event. |
+| [`onBeforeinput`](!code#props.onBeforeinput "(payload: InputEvent) => void") | Handler for the native `beforeinput` event. |
+| [`onBeforetoggle`](!code#props.onBeforetoggle "(payload: ToggleEvent) => void") | Handler for the native `beforetoggle` event. |
+| [`onBlur`](!code#props.onBlur "(payload: FocusEvent) => void") | An element has lost focus (does not bubble). |
+| [`onCanplay`](!code#props.onCanplay "(payload: Event) => void") | The user agent can play the media, but estimates that not enough data has been loaded to play the media up to its end without having to stop for further buffering of content. |
+| [`onCanplaythrough`](!code#props.onCanplaythrough "(payload: Event) => void") | The user agent can play the media up to its end without having to stop for further buffering of content. |
+| [`onChange`](!code#props.onChange "(payload: Event) => void") | The change event is fired for <input>, <select>, and <textarea> elements when a change to the element's value is committed by the user. |
+| [`onClick`](!code#props.onClick "(payload: PointerEvent) => void") | A pointing device button has been pressed and released on an element. |
+| [`onCompositionend`](!code#props.onCompositionend "(payload: CompositionEvent) => void") | Handler for the native `compositionend` event. |
+| [`onCompositionstart`](!code#props.onCompositionstart "(payload: CompositionEvent) => void") | Handler for the native `compositionstart` event. |
+| [`onCompositionupdate`](!code#props.onCompositionupdate "(payload: CompositionEvent) => void") | Handler for the native `compositionupdate` event. |
+| [`onContextmenu`](!code#props.onContextmenu "(payload: PointerEvent) => void") | The right button of the mouse is clicked (before the context menu is displayed). |
+| [`onCopy`](!code#props.onCopy "(payload: ClipboardEvent) => void") | Handler for the native `copy` event. |
+| [`onCut`](!code#props.onCut "(payload: ClipboardEvent) => void") | Handler for the native `cut` event. |
+| [`onDblclick`](!code#props.onDblclick "(payload: MouseEvent) => void") | A pointing device button is clicked twice on an element. |
+| [`onDrag`](!code#props.onDrag "(payload: DragEvent) => void") | An element or text selection is being dragged (every 350ms). |
+| [`onDragend`](!code#props.onDragend "(payload: DragEvent) => void") | A drag operation is being ended (by releasing a mouse button or hitting the escape key). |
+| [`onDragenter`](!code#props.onDragenter "(payload: DragEvent) => void") | A dragged element or text selection enters a valid drop target. |
+| [`onDragexit`](!code#props.onDragexit "(payload: DragEvent) => void") | Handler for the native `dragexit` event. |
+| [`onDragleave`](!code#props.onDragleave "(payload: DragEvent) => void") | A dragged element or text selection leaves a valid drop target. |
+| [`onDragover`](!code#props.onDragover "(payload: DragEvent) => void") | An element or text selection is being dragged over a valid drop target (every 350ms). |
+| [`onDragstart`](!code#props.onDragstart "(payload: DragEvent) => void") | The user starts dragging an element or text selection. |
+| [`onDrop`](!code#props.onDrop "(payload: DragEvent) => void") | An element is dropped on a valid drop target. |
+| [`onDurationchange`](!code#props.onDurationchange "(payload: Event) => void") | The duration attribute has been updated. |
+| [`onEmptied`](!code#props.onEmptied "(payload: Event) => void") | The media has become empty; for example, this event is sent if the media has already been loaded (or partially loaded), and the load() method is called to reload it. |
+| [`onEncrypted`](!code#props.onEncrypted "(payload: MediaEncryptedEvent) => void") | Handler for the native `encrypted` event. |
+| [`onEnded`](!code#props.onEnded "(payload: Event) => void") | Playback has stopped because the end of the media was reached. |
+| [`onError`](!code#props.onError "(payload: Event) => void") | A resource failed to load. |
+| [`onFocus`](!code#props.onFocus "(payload: FocusEvent) => void") | An element has received focus (does not bubble). |
+| [`onFocusin`](!code#props.onFocusin "(payload: FocusEvent) => void") | Handler for the native `focusin` event. |
+| [`onFocusout`](!code#props.onFocusout "(payload: FocusEvent) => void") | Handler for the native `focusout` event. |
+| [`onFormdata`](!code#props.onFormdata "(payload: FormDataEvent) => void") | Handler for the native `formdata` event. |
+| [`onFullscreenchange`](!code#props.onFullscreenchange "(payload: Event) => void") | Handler for the native `fullscreenchange` event. |
+| [`onFullscreenerror`](!code#props.onFullscreenerror "(payload: Event) => void") | Handler for the native `fullscreenerror` event. |
+| [`onGotpointercapture`](!code#props.onGotpointercapture "(payload: PointerEvent) => void") | Handler for the native `gotpointercapture` event. |
+| [`onInput`](!code#props.onInput "(payload: InputEvent) => void") | The value of an element changes or the content of an element with the attribute contenteditable is modified. |
+| [`onInvalid`](!code#props.onInvalid "(payload: Event) => void") | A submittable element has been checked and doesn't satisfy its constraints. |
+| [`onKeydown`](!code#props.onKeydown "(payload: KeyboardEvent) => void") | A key is pressed down. |
+| [`onKeypress`](!code#props.onKeypress "(payload: KeyboardEvent) => void") | A key is pressed down and that key normally produces a character value (use input instead). |
+| [`onKeyup`](!code#props.onKeyup "(payload: KeyboardEvent) => void") | A key is released. |
+| [`onLoad`](!code#props.onLoad "(payload: Event) => void") | A resource and its dependent resources have finished loading. |
+| [`onLoadeddata`](!code#props.onLoadeddata "(payload: Event) => void") | The first frame of the media has finished loading. |
+| [`onLoadedmetadata`](!code#props.onLoadedmetadata "(payload: Event) => void") | The metadata has been loaded. |
+| [`onLoadstart`](!code#props.onLoadstart "(payload: Event) => void") | Progress has begun. |
+| [`onLostpointercapture`](!code#props.onLostpointercapture "(payload: PointerEvent) => void") | Handler for the native `lostpointercapture` event. |
+| [`onMousedown`](!code#props.onMousedown "(payload: MouseEvent) => void") | A pointing device button (usually a mouse) is pressed on an element. |
+| [`onMouseenter`](!code#props.onMouseenter "(payload: MouseEvent) => void") | A pointing device is moved onto the element that has the listener attached. |
+| [`onMouseleave`](!code#props.onMouseleave "(payload: MouseEvent) => void") | A pointing device is moved off the element that has the listener attached. |
+| [`onMousemove`](!code#props.onMousemove "(payload: MouseEvent) => void") | A pointing device is moved over an element. |
+| [`onMouseout`](!code#props.onMouseout "(payload: MouseEvent) => void") | A pointing device is moved off the element that has the listener attached or off one of its children. |
+| [`onMouseover`](!code#props.onMouseover "(payload: MouseEvent) => void") | A pointing device is moved onto the element that has the listener attached or onto one of its children. |
+| [`onMouseup`](!code#props.onMouseup "(payload: MouseEvent) => void") | A pointing device button is released over an element. |
+| [`onPaste`](!code#props.onPaste "(payload: ClipboardEvent) => void") | Handler for the native `paste` event. |
+| [`onPause`](!code#props.onPause "(payload: Event) => void") | Playback has been paused. |
+| [`onPlay`](!code#props.onPlay "(payload: Event) => void") | Playback has begun. |
+| [`onPlaying`](!code#props.onPlaying "(payload: Event) => void") | Playback is ready to start after having been paused or delayed due to lack of data. |
+| [`onPointercancel`](!code#props.onPointercancel "(payload: PointerEvent) => void") | The pointer is unlikely to produce any more events. |
+| [`onPointerdown`](!code#props.onPointerdown "(payload: PointerEvent) => void") | The pointer enters the active buttons state. |
+| [`onPointerenter`](!code#props.onPointerenter "(payload: PointerEvent) => void") | Pointing device is moved inside the hit-testing boundary. |
+| [`onPointerleave`](!code#props.onPointerleave "(payload: PointerEvent) => void") | Pointing device is moved out of the hit-testing boundary. |
+| [`onPointermove`](!code#props.onPointermove "(payload: PointerEvent) => void") | The pointer changed coordinates. |
+| [`onPointerout`](!code#props.onPointerout "(payload: PointerEvent) => void") | The pointing device moved out of hit-testing boundary or leaves detectable hover range. |
+| [`onPointerover`](!code#props.onPointerover "(payload: PointerEvent) => void") | The pointing device is moved into the hit-testing boundary. |
+| [`onPointerup`](!code#props.onPointerup "(payload: PointerEvent) => void") | The pointer leaves the active buttons state. |
+| [`onProgress`](!code#props.onProgress "(payload: ProgressEvent<EventTarget>) => void") | In progress. |
+| [`onRatechange`](!code#props.onRatechange "(payload: Event) => void") | The playback rate has changed. |
+| [`onReset`](!code#props.onReset "(payload: Event) => void") | A form is reset. |
+| [`onScroll`](!code#props.onScroll "(payload: Event) => void") | The document view or an element has been scrolled. |
+| [`onScrollend`](!code#props.onScrollend "(payload: Event) => void") | Handler for the native `scrollend` event. |
+| [`onSecuritypolicyviolation`](!code#props.onSecuritypolicyviolation "(payload: SecurityPolicyViolationEvent) => void") | Handler for the native `securitypolicyviolation` event. |
+| [`onSeeked`](!code#props.onSeeked "(payload: Event) => void") | A seek operation completed. |
+| [`onSeeking`](!code#props.onSeeking "(payload: Event) => void") | A seek operation began. |
+| [`onSelect`](!code#props.onSelect "(payload: Event) => void") | Some text is being selected. |
+| [`onStalled`](!code#props.onStalled "(payload: Event) => void") | The user agent is trying to fetch media data, but data is unexpectedly not forthcoming. |
+| [`onSubmit`](!code#props.onSubmit "(payload: SubmitEvent) => void") | A form is submitted. |
+| [`onSuspend`](!code#props.onSuspend "(payload: Event) => void") | Media data loading has been suspended. |
+| [`onTimeupdate`](!code#props.onTimeupdate "(payload: Event) => void") | The time indicated by the currentTime attribute has been updated. |
+| [`onToggle`](!code#props.onToggle "(payload: ToggleEvent) => void") | Handler for the native `toggle` event. |
+| [`onTouchcancel`](!code#props.onTouchcancel "(payload: TouchEvent) => void") | Handler for the native `touchcancel` event. |
+| [`onTouchend`](!code#props.onTouchend "(payload: TouchEvent) => void") | Handler for the native `touchend` event. |
+| [`onTouchmove`](!code#props.onTouchmove "(payload: TouchEvent) => void") | Handler for the native `touchmove` event. |
+| [`onTouchstart`](!code#props.onTouchstart "(payload: TouchEvent) => void") | Handler for the native `touchstart` event. |
+| [`onTransitioncancel`](!code#props.onTransitioncancel "(payload: TransitionEvent) => void") | Handler for the native `transitioncancel` event. |
+| [`onTransitionend`](!code#props.onTransitionend "(payload: TransitionEvent) => void") | Handler for the native `transitionend` event. |
+| [`onTransitionrun`](!code#props.onTransitionrun "(payload: TransitionEvent) => void") | Handler for the native `transitionrun` event. |
+| [`onTransitionstart`](!code#props.onTransitionstart "(payload: TransitionEvent) => void") | Handler for the native `transitionstart` event. |
+| [`onVolumechange`](!code#props.onVolumechange "(payload: Event) => void") | The volume has changed. |
+| [`onWaiting`](!code#props.onWaiting "(payload: Event) => void") | Playback has stopped because of a temporary lack of data. |
+| [`onWheel`](!code#props.onWheel "(payload: WheelEvent) => void") | Handler for the native `wheel` event. |
+| [`part`](!code#props.part "string") | A space-separated list of the part names of the element. Part names allows CSS to select and style specific elements in a shadow tree via the [`::part`](https://developer.mozilla.org/docs/Web/CSS/::part "The ::part CSS pseudo-element represents any element within a shadow tree that has a matching part attribute.") pseudo-element. |
+| [`prefix`](!code#props.prefix "string \| undefined") | RDFa: prefix mappings for CURIE terms. |
+| [`property`](!code#props.property "string \| undefined") | RDFa: the property relating the subject to the value. |
+| [`radiogroup`](!code#props.radiogroup "string \| undefined") | The radio group a command of type radio belongs to. |
+| [`required`](!code#props.required "Booleanish \| undefined") | This attribute specifies that the user must fill in a value before submitting a form. |
+| [`resource`](!code#props.resource "string \| undefined") | RDFa: the resource the property refers to. |
+| [`results`](!code#props.results "Numberish \| undefined") | Non-standard Safari attribute limiting the number of recent-search entries shown in a search field. |
+| [`role`](!code#props.role "string \| undefined") | The element's ARIA role, defining its purpose for assistive technologies. |
+| [`rows`](!code#props.rows "Numberish \| undefined") | The number of visible text lines for the control. |
+| [`security`](!code#props.security "string \| undefined") | Non-standard legacy attribute (Internet Explorer) controlling script security in a frame. |
+| [`spellcheck`](!code#props.spellcheck "Booleanish \| undefined") | An enumerated attribute defines whether the element may be checked for spelling errors. It may have the following values:<br><br>*   `true`, which indicates that the element should be, if possible, checked for spelling errors; *   `false`, which indicates that the element should not be checked for spelling errors. |
+| [`style`](!code#props.style "StyleValue \| undefined") | Contains [CSS](https://developer.mozilla.org/docs/Web/CSS) styling declarations to be applied to the element. Note that it is recommended for styles to be defined in a separate file or files. This attribute and the [`<style>`](https://developer.mozilla.org/docs/Web/HTML/Element/style "The HTML <style> element contains style information for a document, or part of a document.") element have mainly the purpose of allowing for quick styling, for example for testing purposes. |
+| [`tabindex`](!code#props.tabindex "Numberish \| undefined") | An integer attribute indicating if the element can take input focus (is _focusable_), if it should participate to sequential keyboard navigation, and if so, at what position. It can take several values:<br><br>*   a _negative value_ means that the element should be focusable, but should not be reachable via sequential keyboard navigation; *   `0` means that the element should be focusable and reachable via sequential keyboard navigation, but its relative order is defined by the platform convention; *   a _positive value_ means that the element should be focusable and reachable via sequential keyboard navigation; the order in which the elements are focused is the increasing value of the [**tabindex**](#attr-tabindex). If several elements share the same tabindex, their relative order follows their relative positions in the document. |
+| [`title`](!code#props.title "string \| undefined") | Contains a text representing advisory information related to the element it belongs to. Such information can typically, but not necessarily, be presented to the user as a tooltip. |
+| [`typeof`](!code#props.typeof "string \| undefined") | RDFa: the RDF types of the subject. |
+| [`unselectable`](!code#props.unselectable "'on' \| 'off' \| undefined") | Non-standard legacy attribute (Internet Explorer/Opera) preventing text selection. |
+| [`value`](!code#props.value "string \| ReadonlyArray<string> \| number \| null \| undefined") | The value of the control. |
+| [`vocab`](!code#props.vocab "string \| undefined") | RDFa: the default vocabulary for property and typeof terms. |
+| [`wrap`](!code#props.wrap "string \| undefined") | Indicates how the control wraps text. Possible values are:<br><br>*   `hard`: The browser automatically inserts line breaks (CR+LF) so that each line has no more than the width of the control; the `cols` attribute must also be specified for this to take effect. *   `soft`: The browser ensures that all line breaks in the value consist of a CR+LF pair, but does not insert any additional line breaks. *   `off` : Like `soft` but changes appearance to `white-space: pre` so line segments exceeding `cols` are not wrapped and the `<textarea>` becomes horizontally scrollable.<br><br>If this attribute is not specified, `soft` is its default value. |
 
 <!-- @endcollapsible -->
 <!-- @props-adapter-end -->
@@ -759,17 +759,17 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | --- | --- |
 | [`description`](!code#context.description "string \| (string & {}) \| undefined") | The resolved description text for the element. |
 | [`descriptionId`](!code#context.descriptionId "string") | The DOM id for the element's description text region. |
-| [`translateAddon`](!code#context.translateAddon "any") | Schema for the language selector addon rendered in translatable mode. |
-| [`validation`](!code#context.validation "ShallowReactive<Record<string, ValidationView>>") |  |
-| [`currentValidation`](!code#context.currentValidation "ValidationView") |  |
-| [`validator`](!code#context.validator "Validator") |  |
-| [`shouldValidate`](!code#context.shouldValidate "boolean") |  |
-| [`onUserInput()`](!code#context.onUserInput "() => void") |  |
+| [`translateAddon`](!code#context.translateAddon "AddonSchema") | Schema for the language selector addon rendered in translatable mode. |
+| [`validation`](!code#context.validation "ShallowReactive<Record<string, ValidationView>>") | Per-language validation views keyed by language (`default` for non-translatable elements). |
+| [`currentValidation`](!code#context.currentValidation "ValidationView") | The validation view of the active language (`default` when the element is not translatable). |
+| [`validator`](!code#context.validator "Validator") | The validator instance the element is registered with: the form's validator, a store-attached one, or a newly created one. |
+| [`shouldValidate`](!code#context.shouldValidate "boolean") | Whether the element should validate live on user input, per the `validateOn` policy and the form's state. |
+| [`onUserInput()`](!code#context.onUserInput "() => void") | Validates the element on user input when the live-validation policy allows it. |
 | [`isFlatContainer`](!code#context.isFlatContainer "boolean") | Whether the element's data is flattened into the parent container rather than nested under its own `name` key. |
 | [`containerModel`](!code#context.containerModel "unknown") | The model ref the element provides to its children via the container context. For flat containers this is the parent's model — children's data lives merged at the parent level, while the public `model` is a scoped projection. For every other element it is the element's own `model`. |
 | [`handleModelUpdate()`](!code#context.handleModelUpdate "(data: Event) => void") | Handles a native input event and updates the model from the event target. Text and select inputs use `target.value`. Checkboxes and radios use the `checked` state with `trueValue` / `falseValue` when available. |
-| [`initValidation()`](!code#context.initValidation "() => void") |  |
-| [`destroyValidation()`](!code#context.destroyValidation "() => void") |  |
+| [`initValidation()`](!code#context.initValidation "() => void") | Registers the element with the validator and compiles its rules. |
+| [`destroyValidation()`](!code#context.destroyValidation "() => void") | Unregisters the element from the validator and clears its validation views. |
 | [`rootModel`](!code#context.rootModel "RootModel \| undefined") | The root model backing the form when this element operates as the form root (adopting a `useModel` instance from `modelValue` or creating an internal store), `undefined` for every other element. |
 | [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. A sensitive element marks its whole subtree; containers otherwise aggregate from children. Unavailable elements are included: their data may still linger in the model, and stripping an absent path is harmless. |
 | [`setInputRef()`](!code#context.setInputRef "(el: any) => void") | Registers the underlying input element. Bind it as a function ref in custom templates and slots (`:ref="context.setInputRef"`) — the context members are read-only there, so `input` can't be assigned directly. Receives the element (or component instance) on mount and `null` on unmount, like any function ref. |
@@ -823,7 +823,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`invalid`](!code#context.invalid "boolean") | Whether any of the element's validations (across all languages) are currently invalid, including children. |
 | [`validated`](!code#context.validated "boolean") | Whether all of the element's validations (across all languages) have been executed, including children. |
 | [`completed`](!code#context.completed "boolean") | Whether the element is completed, meaning it either has no rules or has been validated without errors. |
-| [`success`](!code#context.success "boolean") |  |
+| [`success`](!code#context.success "boolean") | Whether the element has been validated and passed (always `true` for elements without own rules), once touched. |
 | [`pending`](!code#context.pending "boolean") | Whether any of the element's validations are currently pending an async check, including children. |
 | [`debouncing`](!code#context.debouncing "boolean") | Whether any of the element's validations are currently debouncing, including children. |
 | [`errors`](!code#context.errors "any[]") | All error messages for this element: its own plus any pushed up by hoisted children. |
@@ -833,12 +833,12 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`formErrors`](!code#context.formErrors "object") | Error messages propagated to the form, keyed by element path. Empty when the element pushes its errors to its parent. |
 | [`messages`](!code#context.messages "string[]") | The list of custom messages from the message bag, including messages from hoisted children. |
 | [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for managing custom errors, messages, and prepended/appended messages. |
-| [`required`](!code#context.required "boolean") |  |
+| [`required`](!code#context.required "boolean") | Whether the element is required by its current validation rules. |
 | [`genericName`](!code#context.genericName "string") | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop. |
 | [`validate()`](!code#context.validate "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Runs validation on the element's own rules and all children, returning whether everything is valid. Elements already validated without errors against their current value are skipped unless `force: true` re-runs everything — for rules whose outcome can change without the value changing (async server checks, date boundaries). |
-| [`validateSelf()`](!code#context.validateSelf "() => Promise<boolean>") |  |
+| [`validateSelf()`](!code#context.validateSelf "() => Promise<boolean>") | Validates the element's own rules (without children), resolving with the result. |
 | [`validateChildren()`](!code#context.validateChildren "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Validates stateful children, returning whether all are valid. By default only incomplete children run — never-validated, stale, or invalid ones; children validated without errors against their current value keep their result. `force: true` runs every child regardless of prior results. |
-| [`validateCurrent()`](!code#context.validateCurrent "() => Promise<boolean>") |  |
+| [`validateCurrent()`](!code#context.validateCurrent "() => Promise<boolean>") | Validates only the active language's value of the element. |
 | [`invalidate()`](!code#context.invalidate "() => void") | Marks all validation instances as invalidated, requiring revalidation. For isContainer.value containers, also delegates to children. |
 | [`unvalidate()`](!code#context.unvalidate "() => void") | Resets all validation state. For isContainer.value containers, also delegates to children. |
 | [`filled()`](!code#context.filled "(value: any) => boolean") | Checks whether a value is considered filled. For isContainer.value containers, delegates to children. For leaf elements, checks the scalar value. |
@@ -858,8 +858,8 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`placeholder`](!code#context.placeholder "string \| (string & {}) \| undefined") | The resolved placeholder text, supporting static strings and dynamic text props. |
 | [`page`](!code#context.page "PageProp \| undefined") | Page metadata for stepped/tabbed forms. |
 | [`addonable`](!code#context.addonable "true") | Whether this element supports before/after addons. |
-| [`addonsBefore`](!code#context.addonsBefore "any[]") | Array of resolved before-addons, each an individual `AddonItem` for `VfAddon`. |
-| [`addonsAfter`](!code#context.addonsAfter "any[]") | Array of resolved after-addons, each an individual `AddonItem` for `VfAddon`. |
+| [`addonsBefore`](!code#context.addonsBefore "AddonItem[]") | Array of resolved before-addons, each an individual `AddonItem` for `VfAddon`. |
+| [`addonsAfter`](!code#context.addonsAfter "AddonItem[]") | Array of resolved after-addons, each an individual `AddonItem` for `VfAddon`. |
 | [`iconBefore`](!code#context.iconBefore "string \| undefined") | The resolved CSS class string for the icon displayed before the input. |
 | [`iconAfter`](!code#context.iconAfter "string \| undefined") | The resolved CSS class string for the icon displayed after the input. |
 | [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
@@ -894,7 +894,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 | Name | Description |
 | --- | --- |
-| [`handleInput()`](!code#context.handleInput "(payload: any, e: Event \| undefined) => void") | Handles a user-initiated change end to end. Bind it to the one event that means "the user changed it": `@input` for native text inputs, `@change` for native checkbox / radio / select / file controls, `@update:model-value` for components — alongside `v-model`, or without it. Accepts the new value or the native event carrying it (an event's value is read the way `v-model` reads it); a plain value may pass the originating event as the second argument so composition filtering still applies. Events fired during an IME composition session are ignored — the composed text arrives once, when the session ends. The value is written to the model only when the model doesn't hold it yet — with `v-model` in place this is a pure user-input notification, without it `handleInput` performs the write itself. Values resolved from native events are only adopted while `canonicalDomValue` is on; on formatted inputs (masks) the event carries display text, so only the notification fires, with the current model value as the payload. Either way it reports the input: fires the `input` event with `(value, event, context$)` and triggers `validateOn` / expression untracking. It does **not** touch the interaction states — `visited` and `touched` come from `handleFocus` / `handleBlur`. |
+| [`handleInput()`](!code#context.handleInput "(payload: any, e: Event \| undefined) => void") | Handles a user-initiated change end to end. Bind it to the one event that means "the user changed it": `@input` for native text inputs, `@change` for native checkbox / radio / select / file controls, `@update:model-value` for components — alongside `v-model`, or without it.<br><br>Accepts the new value or the native event carrying it (an event's value is read the way `v-model` reads it); a plain value may pass the originating event as the second argument so composition filtering still applies. Events fired during an IME composition session are ignored — the composed text arrives once, when the session ends.<br><br>The value is written to the model only when the model doesn't hold it yet — with `v-model` in place this is a pure user-input notification, without it `handleInput` performs the write itself. Values resolved from native events are only adopted while `canonicalDomValue` is on; on formatted inputs (masks) the event carries display text, so only the notification fires, with the current model value as the payload. Either way it reports the input: fires the `input` event with `(value, event, context$)` and triggers `validateOn` / expression untracking. It does **not** touch the interaction states — `visited` and `touched` come from `handleFocus` / `handleBlur`. |
 | [`handleKeydown()`](!code#context.handleKeydown "(e: Event) => any") | Fires the keydown event on the element. |
 | [`handleKeyup()`](!code#context.handleKeyup "(e: Event) => any") | Fires the keyup event on the element. |
 | [`handleKeypress()`](!code#context.handleKeypress "(e: Event) => any") | Fires the keypress event on the element. |
@@ -925,7 +925,7 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 | Name | Params | Description |
 | --- | --- | --- |
 | `change` | [`newValue`](!code#events.change.newValue "T"), [`oldValue`](!code#events.change.oldValue "T"), [`context$`](!code#events.change.context$ "TContext") | Emitted when the element value changes. |
-| `valueChange` | [`value`](!code#events.valueChange.value "string"), [`context$`](!code#events.valueChange.context$ "VfTextareaContext<VfTextareaProps<TTranslate, TLanguages>>") |  |
+| `valueChange` | [`value`](!code#events.valueChange.value "string"), [`context$`](!code#events.valueChange.context$ "VfTextareaContext<VfTextareaProps<TTranslate, TLanguages>>") | Emitted when the value changes in uncontrolled mode. |
 | `update:modelValue` | [`value`](!code#events.update:modelValue.value "T") | Emitted to update the v-model binding. |
 | `load` | [`value`](!code#events.load.value "T"), [`context$`](!code#events.load.context$ "TContext") | Emitted when the element's value is loaded programmatically via the `load` method. |
 | `reset` | [`context$`](!code#events.reset.context$ "TContext") | Emitted when the element is reset to its default value. |

@@ -600,7 +600,7 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — |  |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -642,15 +642,15 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | --- | --- |
 | [`description`](!code#context.description "string \| (string & {}) \| undefined") | The resolved description text for the element. |
 | [`descriptionId`](!code#context.descriptionId "string") | The DOM id for the element's description text region. |
-| [`validation`](!code#context.validation "ShallowReactive<Record<string, ValidationView>>") |  |
-| [`validator`](!code#context.validator "Validator") |  |
-| [`shouldValidate`](!code#context.shouldValidate "boolean") |  |
-| [`onUserInput()`](!code#context.onUserInput "() => void") |  |
+| [`validation`](!code#context.validation "ShallowReactive<Record<string, ValidationView>>") | Per-language validation views keyed by language (`default` for non-translatable elements). |
+| [`validator`](!code#context.validator "Validator") | The validator instance the element is registered with: the form's validator, a store-attached one, or a newly created one. |
+| [`shouldValidate`](!code#context.shouldValidate "boolean") | Whether the element should validate live on user input, per the `validateOn` policy and the form's state. |
+| [`onUserInput()`](!code#context.onUserInput "() => void") | Validates the element on user input when the live-validation policy allows it. |
 | [`isFlatContainer`](!code#context.isFlatContainer "boolean") | Whether the element's data is flattened into the parent container rather than nested under its own `name` key. |
 | [`containerModel`](!code#context.containerModel "unknown") | The model ref the element provides to its children via the container context. For flat containers this is the parent's model — children's data lives merged at the parent level, while the public `model` is a scoped projection. For every other element it is the element's own `model`. |
 | [`handleModelUpdate()`](!code#context.handleModelUpdate "(data: Event) => void") | Handles a native input event and updates the model from the event target. Text and select inputs use `target.value`. Checkboxes and radios use the `checked` state with `trueValue` / `falseValue` when available. |
-| [`initValidation()`](!code#context.initValidation "() => void") |  |
-| [`destroyValidation()`](!code#context.destroyValidation "() => void") |  |
+| [`initValidation()`](!code#context.initValidation "() => void") | Registers the element with the validator and compiles its rules. |
+| [`destroyValidation()`](!code#context.destroyValidation "() => void") | Unregisters the element from the validator and clears its validation views. |
 | [`rootModel`](!code#context.rootModel "RootModel \| undefined") | The root model backing the form when this element operates as the form root (adopting a `useModel` instance from `modelValue` or creating an internal store), `undefined` for every other element. |
 | [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. A sensitive element marks its whole subtree; containers otherwise aggregate from children. Unavailable elements are included: their data may still linger in the model, and stripping an absent path is harmless. |
 | [`pager`](!code#context.pager "Pager") | Pager instance for tabbed navigation within the group. |
@@ -695,7 +695,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`invalid`](!code#context.invalid "boolean") | Whether any of the element's validations (across all languages) are currently invalid, including children. |
 | [`validated`](!code#context.validated "boolean") | Whether all of the element's validations (across all languages) have been executed, including children. |
 | [`completed`](!code#context.completed "boolean") | Whether the element is completed, meaning it either has no rules or has been validated without errors. |
-| [`success`](!code#context.success "boolean") |  |
+| [`success`](!code#context.success "boolean") | Whether the element has been validated and passed (always `true` for elements without own rules), once touched. |
 | [`pending`](!code#context.pending "boolean") | Whether any of the element's validations are currently pending an async check, including children. |
 | [`debouncing`](!code#context.debouncing "boolean") | Whether any of the element's validations are currently debouncing, including children. |
 | [`errors`](!code#context.errors "any[]") | All error messages for this element: its own plus any pushed up by hoisted children. |
@@ -705,10 +705,10 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`formErrors`](!code#context.formErrors "object") | Error messages propagated to the form, keyed by element path. Empty when the element pushes its errors to its parent. |
 | [`messages`](!code#context.messages "string[]") | The list of custom messages from the message bag, including messages from hoisted children. |
 | [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for managing custom errors, messages, and prepended/appended messages. |
-| [`required`](!code#context.required "boolean") |  |
+| [`required`](!code#context.required "boolean") | Whether the element is required by its current validation rules. |
 | [`genericName`](!code#context.genericName "string") | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop. |
 | [`validate()`](!code#context.validate "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Runs validation on the element's own rules and all children, returning whether everything is valid. Elements already validated without errors against their current value are skipped unless `force: true` re-runs everything — for rules whose outcome can change without the value changing (async server checks, date boundaries). |
-| [`validateSelf()`](!code#context.validateSelf "() => Promise<boolean>") |  |
+| [`validateSelf()`](!code#context.validateSelf "() => Promise<boolean>") | Validates the element's own rules (without children), resolving with the result. |
 | [`validateChildren()`](!code#context.validateChildren "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Validates stateful children, returning whether all are valid. By default only incomplete children run — never-validated, stale, or invalid ones; children validated without errors against their current value keep their result. `force: true` runs every child regardless of prior results. |
 | [`invalidate()`](!code#context.invalidate "() => void") | Marks all validation instances as invalidated, requiring revalidation. For isContainer.value containers, also delegates to children. |
 | [`unvalidate()`](!code#context.unvalidate "() => void") | Resets all validation state. For isContainer.value containers, also delegates to children. |
@@ -794,14 +794,8 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
-| `required` | — | Slot for customizing the required indicator. |
-| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `wrapper` | [`class`](!code#slot.wrapper.class "ClassValue") [`resolvedSchema`](!code#slot.wrapper.resolvedSchema "ResolvedSchema") [`label`](!code#slot.wrapper.label "string") | Slot that replaces the wrapper element. Receives the wrapper class and resolved schema. |
 | `default` | [`resolvedSchema`](!code#slot.default.resolvedSchema "ResolvedSchema") | Slot that replaces the default content. Receives the resolved schema for rendering children. |
-| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
-| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
-| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -873,78 +867,6 @@ messageBag.append('Name verified', 'message')
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
-### `panel`
-
-The wrapper around `root` with `display: contents` when the element is a step or a tab.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-panel` |
-
-### `root`
-
-The element's root wrapper.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` `<fieldset>` |
-| **Classes** | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-group` `.vf-wrapped?` |
-
-### `labelGroup`
-
-The container holding the label and required indicator.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-label-group` `.vf-h1?` `.vf-h2?` `.vf-h3?` `.vf-h4?` `.vf-h5?` `.vf-h6?` |
-
-### `label`
-
-The label element.
-
-| | |
-| --- | --- |
-| **Element** | `<label>` `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
-| **Classes** | `.vf-label` |
-
-### `required`
-
-The required indicator.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-required` |
-
-### `elementGroup`
-
-The container wrapping the input and related UI.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-element-group` |
-
-### `elementWrapper`
-
-The wrapper directly around the input control.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-element-wrapper` |
-
-### `help`
-
-The help text area.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-help` |
-
 ### `wrapper`
 
 The wrapper element containing child elements.
@@ -953,51 +875,6 @@ The wrapper element containing child elements.
 | --- | --- |
 | **Element** | `<div>` |
 | **Classes** | `.vf-group-elements` `.vf-stacked?` `.vf-wrapped?` |
-
-### `description`
-
-The description text area.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-description` |
-
-### `errors`
-
-The validation errors container.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-errors` |
-
-### `error`
-
-An individual validation error.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-error` |
-
-### `messages`
-
-The info messages container.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-messages` |
-
-### `message`
-
-An individual info message.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-message` |
 <!-- @parts-end -->
 <!-- @endtab -->
 
