@@ -3,7 +3,11 @@
   "scripts": {
     "build": "vpr :build",
     "check": "vpr :check",
+    "docs:dev": "pnpm --filter @vueform/docs run dev",
+    "docs:build": "pnpm --filter @vueform/docs run build",
     "docs:gen": "tsx docs/scripts/gen.ts",
+    "docs:pre": "pnpm --filter @vueform/docs run pre",
+    "docs:preview": "pnpm --filter @vueform/docs run preview",
     "api": "tsx scripts/api.ts",
     "api:missing": "tsx scripts/api-missing.ts",
     "fix": "vpr :fix",
