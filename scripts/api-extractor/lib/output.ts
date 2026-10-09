@@ -188,6 +188,45 @@ function writeJson(file: string, data: unknown): void {
 }
 
 /**
+ * Applies the adapter's hand-maintained `missingDescriptions` from
+ * config.json (third-party docblock gaps that cannot be fixed upstream):
+ * flat node path → description, tried against every assembled file of the
+ * adapter and set wherever it resolves to an empty description. `status`
+ * accumulates each entry's outcome across the files, so assemble can warn
+ * about stale entries at the end.
+ */
+function applyMissingDescriptions(
+  data: Record<string, unknown>,
+  fixes: Record<string, string>,
+  status: Map<string, 'applied' | 'documented'>,
+  keyPrefix: string
+): void {
+  for (const [nodePath, description] of Object.entries(fixes)) {
+    const segments = nodePath.match(/[^.[\]]+|\[\d+\]/g) ?? []
+    let node: unknown = data
+    for (const segment of segments) {
+      if (node === null || typeof node !== 'object') {
+        node = undefined
+        break
+      }
+      node = segment.startsWith('[')
+        ? (node as unknown[])[Number(segment.slice(1, -1))]
+        : (node as Record<string, unknown>)[segment]
+    }
+    const record = node as Record<string, unknown> | undefined
+    if (!record || typeof record.description !== 'string') continue
+    if (record.description.trim() !== '') {
+      if (!status.has(keyPrefix + nodePath)) {
+        status.set(keyPrefix + nodePath, 'documented')
+      }
+      continue
+    }
+    record.description = description
+    status.set(keyPrefix + nodePath, 'applied')
+  }
+}
+
+/**
  * Assembles the final `core/` and per-adapter (`ui/`, `primevue/`, …) trees
  * from the scrapers' raw output (core-level files plus `_<adapter>` deltas),
  * then removes the raw files. Only the folders in scope are written; an
@@ -198,6 +237,8 @@ function writeJson(file: string, data: unknown): void {
  */
 export function assemble(names: readonly string[], scope: ScrapeScope): void {
   const assembled: string[] = []
+  // Per adapter: each missingDescriptions entry's outcome across the files.
+  const fixStatus = new Map<string, Map<string, 'applied' | 'documented'>>()
 
   for (const name of names) {
     const file = `${name}.json`
@@ -240,6 +281,28 @@ export function assemble(names: readonly string[], scope: ScrapeScope): void {
           : ADAPTER_REPLACES_CORE.has(name)
             ? rawAdapter
             : { ...(rawCore as object), ...(rawAdapter as object) }
+      const fixes = adapters[adapterName]?.missingDescriptions
+      if (fixes && merged && typeof merged === 'object') {
+        // Keys are `<file>.<node path>` — apply this file's entries only.
+        const prefix = `${name}.`
+        const scoped: Record<string, string> = {}
+        for (const [key, value] of Object.entries(fixes)) {
+          if (key.startsWith(prefix)) scoped[key.slice(prefix.length)] = value
+        }
+        if (Object.keys(scoped).length) {
+          let status = fixStatus.get(adapterName)
+          if (!status) {
+            status = new Map()
+            fixStatus.set(adapterName, status)
+          }
+          applyMissingDescriptions(
+            merged as Record<string, unknown>,
+            scoped,
+            status,
+            prefix
+          )
+        }
+      }
       writeJson(path.join(generatedDir, adapterName, file), sortRoot(merged))
     }
 
@@ -257,6 +320,24 @@ export function assemble(names: readonly string[], scope: ScrapeScope): void {
   }
 
   const targets = [...(scope.core ? ['core'] : []), ...scope.adapters]
+
+  // Stale-entry warnings only make sense when every file was assembled.
+  if (names.length === FILES.length) {
+    for (const adapterName of scope.adapters) {
+      const fixes = adapters[adapterName]?.missingDescriptions
+      if (!fixes) continue
+      const status = fixStatus.get(adapterName)
+      for (const nodePath of Object.keys(fixes)) {
+        const outcome = status?.get(nodePath)
+        if (outcome === 'applied') continue
+        console.warn(
+          outcome === 'documented'
+            ? `[assemble] missingDescriptions (${adapterName}): "${nodePath}" is documented upstream now — remove the entry`
+            : `[assemble] missingDescriptions (${adapterName}): "${nodePath}" resolved nowhere — stale entry?`
+        )
+      }
+    }
+  }
 
   console.log(`[assemble] ${targets.join(' + ')}: ${assembled.join(', ')}`)
 }

@@ -164,7 +164,7 @@ export interface VfSelectSlots<
         /**
          * Custom value template.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Value of the component.
            */
@@ -179,7 +179,7 @@ export interface VfSelectSlots<
         /**
          * Custom header template of panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Value of the component.
            */
@@ -194,7 +194,7 @@ export interface VfSelectSlots<
         /**
          * Custom footer template of panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Value of the component.
            */
@@ -209,7 +209,7 @@ export interface VfSelectSlots<
         /**
          * Custom option template.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -229,7 +229,7 @@ export interface VfSelectSlots<
         /**
          * Custom option group template.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The raw option group (or raw item when ungrouped).
            */
@@ -244,7 +244,7 @@ export interface VfSelectSlots<
         /**
          * Custom content template.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * An array of objects to display for virtualscroller.
            */

@@ -73,9 +73,14 @@ export interface VfFileUploadSlots<TMultiple extends boolean = boolean>
   /**
    * Slot that replaces the upload button. Receives the upload handler.
    *
-   * @param props.upload The upload handler function.
+   * @param scope The button slot's params.
    */
-  button: (props: { upload: () => void }) => VNode[]
+  button: (scope: {
+    /**
+     * The upload handler function.
+     */
+    upload: () => void
+  }) => VNode[]
 }
 
 /**

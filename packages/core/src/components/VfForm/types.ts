@@ -71,16 +71,21 @@ export interface VfFormSlots<TSchema = FormSchema>
    * Slot that replaces the entire form content area. Receives the form's
    * context as a single `context` prop, like the `template` slot.
    *
-   * @param props.context The component's context.
+   * @param scope The content slot's params.
    * @context
    */
-  content: (props: { context: VfFormContext<VfFormProps<TSchema>> }) => VNode[]
+  content: (scope: {
+    /**
+     * The component's context.
+     */
+    context: VfFormContext<VfFormProps<TSchema>>
+  }) => VNode[]
 
   /**
    * Slot that replaces the language selector. Receives available languages and
    * select handler.
    */
-  languages: (props: {
+  languages: (scope: {
     invalidLanguages: Set<string>
     languages: LanguagesProp
     language: string
@@ -92,67 +97,67 @@ export interface VfFormSlots<TSchema = FormSchema>
    *
    * @inherits VfLanguages.default
    */
-  language: (props: SlotPropsOf<'VfLanguages', 'default'>) => VNode[]
+  language: (scope: SlotPropsOf<'VfLanguages', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the steps navigation bar. Receives the pager instance.
    */
-  steps: (props: { pager: Pager }) => VNode[]
+  steps: (scope: { pager: Pager }) => VNode[]
 
   /**
    * Slot that replaces each individual step indicator.
    *
    * @inherits VfSteps.default
    */
-  step: (props: SlotPropsOf<'VfSteps', 'default'>) => VNode[]
+  step: (scope: SlotPropsOf<'VfSteps', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the tabs navigation bar. Receives the pager instance.
    */
-  tabs: (props: { pager: Pager }) => VNode[]
+  tabs: (scope: { pager: Pager }) => VNode[]
 
   /**
    * Slot that replaces each individual tab.
    *
    * @inherits VfTabs.default
    */
-  tab: (props: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
+  tab: (scope: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the form-level errors container.
    */
-  errors: (props: { errors: Record<string, string[]>; id: string }) => VNode[]
+  errors: (scope: { errors: Record<string, string[]>; id: string }) => VNode[]
 
   /**
    * Slot that replaces each individual error message.
    */
-  error: (props: { error: string; path: string }) => VNode[]
+  error: (scope: { error: string; path: string }) => VNode[]
 
   /**
    * Slot that replaces the form-level messages container.
    */
-  messages: (props: { messages?: string[]; id: string }) => VNode[]
+  messages: (scope: { messages?: string[]; id: string }) => VNode[]
 
   /**
    * Slot that replaces each individual message.
    */
-  message: (props: { message: string }) => VNode[]
+  message: (scope: { message: string }) => VNode[]
 
   /**
    * Slot that replaces the form elements area. Receives the resolved schema.
    */
-  elements: (props: { resolvedSchema: ResolvedSchema }) => VNode[]
+  elements: (scope: { resolvedSchema: ResolvedSchema }) => VNode[]
 
   /**
    * Slot for the default form body content. Receives the resolved schema.
    */
-  default: (props: { resolvedSchema: ResolvedSchema }) => VNode[]
+  default: (scope: { resolvedSchema: ResolvedSchema }) => VNode[]
 
   /**
    * Slot that replaces the navigation bar. Receives pager, button labels, and
    * visibility.
    */
-  nav: (props: {
+  nav: (scope: {
     pager: Pager
     next?: TProp
     back?: TProp
@@ -166,42 +171,42 @@ export interface VfFormSlots<TSchema = FormSchema>
    *
    * @inherits VfNav.back
    */
-  back: (props: SlotPropsOf<'VfNav', 'back'>) => VNode[]
+  back: (scope: SlotPropsOf<'VfNav', 'back'>) => VNode[]
 
   /**
    * Slot that replaces the back button's text label.
    *
    * @inherits VfNav.backText
    */
-  backText: (props: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
+  backText: (scope: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
 
   /**
    * Slot that replaces the next button in the navigation bar.
    *
    * @inherits VfNav.next
    */
-  next: (props: SlotPropsOf<'VfNav', 'next'>) => VNode[]
+  next: (scope: SlotPropsOf<'VfNav', 'next'>) => VNode[]
 
   /**
    * Slot that replaces the next button's text label.
    *
    * @inherits VfNav.nextText
    */
-  nextText: (props: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
+  nextText: (scope: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
 
   /**
    * Slot that replaces the finish button in the navigation bar.
    *
    * @inherits VfNav.finish
    */
-  finish: (props: SlotPropsOf<'VfNav', 'finish'>) => VNode[]
+  finish: (scope: SlotPropsOf<'VfNav', 'finish'>) => VNode[]
 
   /**
    * Slot that replaces the finish button's text label.
    *
    * @inherits VfNav.finishText
    */
-  finishText: (props: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
+  finishText: (scope: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
 }
 
 /**

@@ -155,7 +155,7 @@ export interface VfCascadeSelectSlots<
         /**
          * Custom content for each option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -170,7 +170,7 @@ export interface VfCascadeSelectSlots<
         /**
          * Custom value template.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Value of the component.
            */
@@ -185,7 +185,7 @@ export interface VfCascadeSelectSlots<
         /**
          * Custom header template.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Current value.
            */
@@ -200,7 +200,7 @@ export interface VfCascadeSelectSlots<
         /**
          * Custom footer template.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Current value.
            */

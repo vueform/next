@@ -101,10 +101,19 @@ export interface TranslateSlots {
   /**
    * Slot that replaces the language selector rendering.
    *
-   * @param props.language The currently active language code.
-   * @param props.languages The available languages map.
+   * @param scope The language slot's params.
    */
-  language: (props: { language: string; languages: LanguagesProp }) => VNode[]
+  language: (scope: {
+    /**
+     * The currently active language code.
+     */
+    language: string
+
+    /**
+     * The available languages map.
+     */
+    languages: LanguagesProp
+  }) => VNode[]
 }
 
 /**

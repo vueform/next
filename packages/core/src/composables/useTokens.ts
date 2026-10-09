@@ -15,7 +15,6 @@ import { useConfig } from './useConfig'
  * follow the global dark-mode detection.
  *
  * @private
- * @param tokens Token overrides — typically `toRef(props, 'tokens')`.
  * @param dark Force dark (`true`) or light (`false`) for `tokens.dark`
  *   overrides. Omit to inherit from the global config.
  */

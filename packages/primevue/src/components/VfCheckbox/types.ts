@@ -81,7 +81,7 @@ export interface VfCheckboxSlots<TTrueValue = any, TFalseValue = any>
    * Slot that replaces the default checkbox rendering. Receives input-specific
    * props.
    */
-  default: (props: {
+  default: (scope: {
     model: TTrueValue | TFalseValue
     trueValue: TTrueValue
     falseValue: TFalseValue
@@ -99,13 +99,22 @@ export interface VfCheckboxSlots<TTrueValue = any, TFalseValue = any>
   /**
    * Slot that replaces the text/label portion of the checkbox.
    *
-   * @param props.text The resolved label text.
-   * @param props.id The element's unique ID.
-   * @param props.genericName The element's display name for accessibility.
+   * @param scope The text slot's params.
    */
-  text: (props: {
+  text: (scope: {
+    /**
+     * The resolved label text.
+     */
     text: string | undefined
+
+    /**
+     * The element's unique ID.
+     */
     id: string
+
+    /**
+     * The element's display name for accessibility.
+     */
     genericName: string
   }) => VNode[]
 }

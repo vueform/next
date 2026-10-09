@@ -132,6 +132,10 @@ function getFunctionParams(
   if (!sigs.length) return undefined
 
   const jsdoc = getJSDocParamDescriptions(decl)
+  // The member's decl can be a doc-less alias (an interface property typed
+  // `typeof fn`) — the function's own declaration carries the docblock then.
+  const sigDecl = sigs[0].getDeclaration() as ts.Declaration | undefined
+  const sigDocs = sigDecl ? getJSDocParamDescriptions(sigDecl) : undefined
   const params: Record<string, ParamInfo> = {}
 
   for (const param of sigs[0].getParameters()) {
@@ -139,7 +143,7 @@ function getFunctionParams(
     const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
-      description: jsdoc.get(param.name) ?? '',
+      description: jsdoc.get(param.name) || sigDocs?.get(param.name) || '',
       ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
@@ -213,11 +217,23 @@ function extractModuleInterface(
 
   // Extract property members
   for (const propSym of type.getProperties()) {
-    const decl = propSym.getDeclarations()?.[0]
+    let symbol = propSym
+    let decl = propSym.getDeclarations()?.[0]
     if (!decl) continue
 
-    const { typeText, isFunction } = getPropertyTypeInfo(propSym, decl, checker)
-    const description = getSymbolDescription(propSym, checker)
+    // A member backed by a shorthand in the factory's return object carries
+    // no docs of its own — resolve to the local value it forwards.
+    if (ts.isShorthandPropertyAssignment(decl)) {
+      const valueSym = checker.getShorthandAssignmentValueSymbol(decl)
+      const valueDecl = valueSym?.getDeclarations()?.[0]
+      if (valueSym && valueDecl) {
+        symbol = valueSym
+        decl = valueDecl
+      }
+    }
+
+    const { typeText, isFunction } = getPropertyTypeInfo(symbol, decl, checker)
+    const description = getSymbolDescription(symbol, checker)
 
     const member: MemberInfo = { type: typeText, description, loc: loc(decl) }
 
@@ -226,7 +242,7 @@ function extractModuleInterface(
     }
 
     if (isFunction) {
-      const resolved = checker.getTypeOfSymbolAtLocation(propSym, decl)
+      const resolved = checker.getTypeOfSymbolAtLocation(symbol, decl)
       const params = getFunctionParams(resolved, decl, checker)
       if (params) member.params = params
       const ret = getFunctionReturnType(resolved, checker)

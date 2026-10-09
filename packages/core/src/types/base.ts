@@ -159,9 +159,14 @@ export interface BaseComponentSlots<TContext = LooseContext> {
    * Slot that replaces the entire component rendering. Receives the full
    * component context as a single `context` prop.
    *
-   * @param props.context The component context.
+   * @param scope The template slot's params.
    */
-  template: (props: { context: TContext }) => VNode[]
+  template: (scope: {
+    /**
+     * The component context.
+     */
+    context: TContext
+  }) => VNode[]
 }
 
 export interface BaseComponentParts {}

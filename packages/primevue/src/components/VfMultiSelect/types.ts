@@ -153,7 +153,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom selected value display.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Selected values of the component.
            */
@@ -168,7 +168,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom chip template for a selected value.
          */
-        chip: (props: {
+        chip: (scope: {
           /**
            * A value in the selection.
            */
@@ -186,7 +186,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom chip remove icon template.
          */
-        chipicon: (props: {
+        chipicon: (scope: {
           /**
            * Style class of the icon.
            */
@@ -209,7 +209,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom header template of the overlay panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Selected values of the component.
            */
@@ -224,7 +224,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom footer template of the overlay panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Selected values of the component.
            */
@@ -239,7 +239,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom content for each option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -259,7 +259,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom content for each option group.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The option group, or raw item when groups are not used.
            */
@@ -274,7 +274,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom content template for virtual scrolling.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * Items to display for the virtual scroller.
            */

@@ -10,6 +10,13 @@
         "checkboxes": "checkbox-group",
         "radios": "radio-button-group",
         "radio": "radio-button"
+      },
+      "missingDescriptions": {
+        "blueprints.date-picker.events.keydown.params.event": "Browser event.",
+        "components.VfDatePicker.events.keydown.params.event": "Browser event.",
+        "components.VfAutoComplete.slots.chipicon.params.removeCallback.params.index": "Index of the token to remove.",
+        "components.VfInputMask.events.complete.params.event": "Browser event.",
+        "components.VfInputMask.events.paste.params.event": "Browser event."
       }
     }
   }

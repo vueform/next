@@ -42,7 +42,7 @@ export interface VfLanguagesSlots extends LanguagesSlots<VfLanguagesContext> {
   /**
    * Slot that replaces each individual language option rendering.
    */
-  default: (props: {
+  default: (scope: {
     parts: Partial<VfLanguagesParts>
     classes: VfLanguagesClasses
     language: string

@@ -64,7 +64,7 @@ export interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
    * Slot that replaces the default radio input rendering. Receives
    * input-specific props.
    */
-  default: (props: {
+  default: (scope: {
     value: TRadioValue
     model: TRadioValue | null
     aria: AriaProp
@@ -81,7 +81,7 @@ export interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
   /**
    * Slot that replaces the text/label portion of the radio.
    */
-  text: (props: {
+  text: (scope: {
     text: string | undefined
     id: string
     genericName: string

@@ -52,16 +52,21 @@ export interface TabbedSlots {
   /**
    * Slot for customizing the tab navigation bar.
    *
-   * @param props.pager The pager instance managing tab state.
+   * @param scope The tabs slot's params.
    */
-  tabs: (props: { pager: Pager }) => VNode[]
+  tabs: (scope: {
+    /**
+     * The pager instance managing tab state.
+     */
+    pager: Pager
+  }) => VNode[]
 
   /**
    * Slot for customizing an individual tab button.
    *
    * @inherits VfTabs.default
    */
-  tab: (props: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
+  tab: (scope: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
 }
 
 export interface TabbedParts {

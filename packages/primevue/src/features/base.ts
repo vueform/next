@@ -117,9 +117,14 @@ declare module '@vueform/core' {
     /**
      * Slot for customizing the element's label content.
      *
-     * @param props.label The resolved label text.
+     * @param scope The label slot's params.
      */
-    label: (props: { label?: string }) => VNode[]
+    label: (scope: {
+      /**
+       * The resolved label text.
+       */
+      label?: string
+    }) => VNode[]
 
     /**
      * Slot for customizing the required indicator.
@@ -129,37 +134,62 @@ declare module '@vueform/core' {
     /**
      * Slot for customizing the help text.
      *
-     * @param props.help The resolved help text.
+     * @param scope The help slot's params.
      */
-    help: (props: { help?: string }) => VNode[]
+    help: (scope: {
+      /**
+       * The resolved help text.
+       */
+      help?: string
+    }) => VNode[]
 
     /**
      * Slot for customizing the description text.
      *
-     * @param props.description The resolved description text.
+     * @param scope The description slot's params.
      */
-    description: (props: { description?: string }) => VNode[]
+    description: (scope: {
+      /**
+       * The resolved description text.
+       */
+      description?: string
+    }) => VNode[]
 
     /**
      * Slot for customizing the validation errors display.
      *
-     * @param props.errors The list of validation error messages.
+     * @param scope The errors slot's params.
      */
-    errors: (props: { errors: string[] }) => VNode[]
+    errors: (scope: {
+      /**
+       * The list of validation error messages.
+       */
+      errors: string[]
+    }) => VNode[]
 
     /**
      * Slot for customizing the info messages display.
      *
-     * @param props.messages The list of info messages.
+     * @param scope The messages slot's params.
      */
-    messages: (props: { messages: string[] }) => VNode[]
+    messages: (scope: {
+      /**
+       * The list of info messages.
+       */
+      messages: string[]
+    }) => VNode[]
 
     /**
      * Slot for customizing the info tooltip or helper content.
      *
-     * @param props.info The info text.
+     * @param scope The info slot's params.
      */
-    info: (props: { info?: string }) => VNode[]
+    info: (scope: {
+      /**
+       * The info text.
+       */
+      info?: string
+    }) => VNode[]
   }
 
   interface BaseElementClasses {

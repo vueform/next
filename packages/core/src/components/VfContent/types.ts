@@ -40,7 +40,7 @@ export interface VfContentSlots extends ContentSlots<VfContentContext> {
    *
    * @exposes VfContent
    */
-  default: (props: { context: VfContentContext }) => VNode[]
+  default: (scope: { context: VfContentContext }) => VNode[]
 }
 
 /**

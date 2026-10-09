@@ -79,33 +79,33 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
    *
    * @exposes VfForm
    */
-  content: (props: { context: VfFormContext<VfFormProps<TSchema>> }) => VNode[]
+  content: (scope: { context: VfFormContext<VfFormProps<TSchema>> }) => VNode[]
 
   /**
    * Slot that replaces the form-level errors <ul> container.
    */
-  errors: (props: { errors: Record<string, string[]>; id: string }) => VNode[]
+  errors: (scope: { errors: Record<string, string[]>; id: string }) => VNode[]
 
   /**
    * Slot that replaces each individual error message inside <li>.
    */
-  error: (props: { error: string; path: string }) => VNode[]
+  error: (scope: { error: string; path: string }) => VNode[]
 
   /**
    * Slot that replaces the form-level messages <ul> container.
    */
-  messages: (props: { messages?: string[]; id: string }) => VNode[]
+  messages: (scope: { messages?: string[]; id: string }) => VNode[]
 
   /**
    * Slot that replaces each individual message inside <li>.
    */
-  message: (props: { message: string }) => VNode[]
+  message: (scope: { message: string }) => VNode[]
 
   /**
    * Slot that replaces the language navigation bar. Receives the available
    * languages and the current selection.
    */
-  languages: (props: {
+  languages: (scope: {
     languages: ResolvedLanguagesProp
     language: string
     invalidLanguages: Set<string>
@@ -114,27 +114,27 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
   /**
    * Slot that replaces the tabs navigation bar. Receives the pager instance.
    */
-  tabs: (props: { pager: Pager }) => VNode[]
+  tabs: (scope: { pager: Pager }) => VNode[]
 
   /**
    * Slot that replaces each individual tab.
    */
-  tab: (props: { page: ResolvedPage }) => VNode[]
+  tab: (scope: { page: ResolvedPage }) => VNode[]
 
   /**
    * Slot that replaces the steps navigation bar. Receives the pager instance.
    */
-  steps: (props: { pager: Pager }) => VNode[]
+  steps: (scope: { pager: Pager }) => VNode[]
 
   /**
    * @write
    */
-  step: (props: { page: ResolvedPage }) => VNode[]
+  step: (scope: { page: ResolvedPage }) => VNode[]
 
   /**
    * Slot that replaces the form elements area. Receives the resolved schema.
    */
-  elements: (props: {
+  elements: (scope: {
     resolvedSchema: ResolvedSchema
     pager?: Pager
   }) => VNode[]
@@ -143,7 +143,7 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
    * Slot that replaces the navigation bar. Receives pager, button labels, and
    * visibility.
    */
-  nav: (props: {
+  nav: (scope: {
     pager: Pager
     nextLabel?: TProp
     backLabel?: TProp
@@ -157,47 +157,47 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
    *
    * @inherits VfNav.back
    */
-  back: (props: SlotPropsOf<'VfNav', 'back'>) => VNode[]
+  back: (scope: SlotPropsOf<'VfNav', 'back'>) => VNode[]
 
   /**
    * Slot that replaces the back button's text label.
    *
    * @inherits VfNav.backText
    */
-  backText: (props: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
+  backText: (scope: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
 
   /**
    * Slot that replaces the next button in the navigation bar.
    *
    * @inherits VfNav.next
    */
-  next: (props: SlotPropsOf<'VfNav', 'next'>) => VNode[]
+  next: (scope: SlotPropsOf<'VfNav', 'next'>) => VNode[]
 
   /**
    * Slot that replaces the next button's text label.
    *
    * @inherits VfNav.nextText
    */
-  nextText: (props: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
+  nextText: (scope: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
 
   /**
    * Slot that replaces the finish button in the navigation bar.
    *
    * @inherits VfNav.finish
    */
-  finish: (props: SlotPropsOf<'VfNav', 'finish'>) => VNode[]
+  finish: (scope: SlotPropsOf<'VfNav', 'finish'>) => VNode[]
 
   /**
    * Slot that replaces the finish button's text label.
    *
    * @inherits VfNav.finishText
    */
-  finishText: (props: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
+  finishText: (scope: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
 
   /**
    * Slot for the default form body content. Receives the resolved schema.
    */
-  default: (props: { resolvedSchema: ResolvedSchema }) => VNode[]
+  default: (scope: { resolvedSchema: ResolvedSchema }) => VNode[]
 }
 
 /**

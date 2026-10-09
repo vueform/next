@@ -79,9 +79,9 @@ export interface VfToggleSwitchSlots<TTrueValue = true, TFalseValue = false>
   /**
    * Custom handle template.
    *
-   * @param props.checked Current checked state of the item as a boolean.
+   * @param scope The handle slot's params.
    */
-  handle(props: {
+  handle(scope: {
     /**
      * Current checked state of the item as a boolean.
      */

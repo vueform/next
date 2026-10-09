@@ -21,9 +21,14 @@ export interface IftaSlots {
   /**
    * Slot for customizing the IFTA label content.
    *
-   * @param props.ifta The IFTA label text.
+   * @param scope The ifta slot's params.
    */
-  ifta: (props: { ifta?: string }) => VNode[]
+  ifta: (scope: {
+    /**
+     * The IFTA label text.
+     */
+    ifta?: string
+  }) => VNode[]
 }
 
 /**

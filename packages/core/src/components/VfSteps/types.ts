@@ -44,7 +44,7 @@ export interface VfStepsSlots extends StepsSlots<VfStepsContext> {
    * Slot that replaces each step wrapper element. Receives step state and page
    * info.
    */
-  wrapper: (props: {
+  wrapper: (scope: {
     class: ClassValue
     index: number
     label?: string
@@ -61,7 +61,7 @@ export interface VfStepsSlots extends StepsSlots<VfStepsContext> {
   /**
    * Slot that replaces each step's inner content. Receives step state.
    */
-  default: (props: {
+  default: (scope: {
     index: number
     label?: string
     meta?: Record<string, any>

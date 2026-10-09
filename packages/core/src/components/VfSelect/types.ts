@@ -149,9 +149,14 @@ export interface VfSelectSlots<
   /**
    * Slot that replaces the label of each native option.
    *
-   * @param props.item The resolved option item.
+   * @param scope The option slot's params.
    */
-  option: (props: { item: ResolvedItem<TValue, TRaw> }) => VNode[]
+  option: (scope: {
+    /**
+     * The resolved option item.
+     */
+    item: ResolvedItem<TValue, TRaw>
+  }) => VNode[]
 }
 
 /**

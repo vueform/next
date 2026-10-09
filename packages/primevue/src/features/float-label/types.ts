@@ -28,9 +28,14 @@ export interface FloatLabelSlots {
   /**
    * Slot for customizing the floating label content.
    *
-   * @param props.floatLabel The floating label text.
+   * @param scope The floatLabel slot's params.
    */
-  floatLabel: (props: { floatLabel?: string }) => VNode[]
+  floatLabel: (scope: {
+    /**
+     * The floating label text.
+     */
+    floatLabel?: string
+  }) => VNode[]
 }
 
 /**

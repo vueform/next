@@ -65,6 +65,13 @@ The `features` scraper reads the blueprints output to enrich descriptions,
 so `blueprints` must run before it — the orchestrator's order already
 guarantees that.
 
+Third-party docblock gaps that cannot be fixed upstream are hand-maintained
+in `config.json` under `adapters.<name>.missingDescriptions` — a flat map
+whose keys are the output file plus the node path exactly as missing.json
+prints it (`blueprints.date-picker.…`, `components.VfInputMask.…`).
+Assemble applies them onto empty descriptions and warns when an entry goes
+stale (a lib update moved or documented the node).
+
 Not scraped yet (no scrapers exist for these): `rules.json`, `styles.json`.
 
 ## Schemas

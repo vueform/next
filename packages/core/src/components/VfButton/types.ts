@@ -50,9 +50,14 @@ export interface VfButtonSlots extends ButtonSlots<VfButtonContext> {
   /**
    * Default slot that replaces the button label content.
    *
-   * @param props.text The resolved button label text.
+   * @param scope The default slot's params.
    */
-  default: (props: { text: string | undefined }) => VNode[]
+  default: (scope: {
+    /**
+     * The resolved button label text.
+     */
+    text: string | undefined
+  }) => VNode[]
 
   /**
    * Slot for content rendered after the label.

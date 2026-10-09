@@ -47,7 +47,7 @@ export interface VfTabsSlots extends TabbedSlots<VfTabsContext> {
    * Slot that replaces each tab wrapper element. Receives tab state and page
    * info.
    */
-  wrapper: (props: {
+  wrapper: (scope: {
     class: ClassValue
     index: number
     label?: string
@@ -62,7 +62,7 @@ export interface VfTabsSlots extends TabbedSlots<VfTabsContext> {
   /**
    * Slot that replaces each tab's inner content. Receives tab state.
    */
-  default: (props: {
+  default: (scope: {
     index: number
     label?: string
     meta?: Record<string, any>

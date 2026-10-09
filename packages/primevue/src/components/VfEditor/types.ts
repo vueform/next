@@ -83,11 +83,17 @@ export interface VfEditorSlots<
   /**
    * Custom editor toolbar content.
    *
-   * @param props.languages Available language labels keyed by locale code.
-   * @param props.language The currently active language code.
+   * @param scope The toolbar slot's params.
    */
-  toolbar: (props: {
+  toolbar: (scope: {
+    /**
+     * Available language labels keyed by locale code.
+     */
     languages: Record<string, string>
+
+    /**
+     * The currently active language code.
+     */
     language: string
   }) => VNode[]
 }

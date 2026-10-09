@@ -132,7 +132,7 @@ export interface VfRadiosSlots<
    * Slot that replaces the default radios rendering. Receives resolved items,
    * groups, and shared state.
    */
-  default: (props: {
+  default: (scope: {
     radioName: string
     disabled: boolean
     label: string | undefined
@@ -144,7 +144,7 @@ export interface VfRadiosSlots<
   /**
    * Slot that replaces each option group when items are grouped.
    */
-  group: (props: {
+  group: (scope: {
     radioName: string
     disabled: boolean
     label: string | undefined
@@ -155,7 +155,7 @@ export interface VfRadiosSlots<
    * Slot that replaces each entire `VfRadio` child. Receives the resolved item
    * and shared state.
    */
-  item: (props: {
+  item: (scope: {
     radioName: string
     disabled: boolean
     label: string | undefined
@@ -171,14 +171,14 @@ export interface VfRadiosSlots<
    *
    * @inherits VfRadio.default
    */
-  radio: (props: Parameters<VfRadioSlots<true>['default']>[0]) => VNode[]
+  radio: (scope: Parameters<VfRadioSlots<true>['default']>[0]) => VNode[]
 
   /**
    * Slot that replaces the text/label of each individual radio.
    *
    * @inherits VfRadio.text
    */
-  text: (props: Parameters<VfRadioSlots['text']>[0]) => VNode[]
+  text: (scope: Parameters<VfRadioSlots['text']>[0]) => VNode[]
 }
 
 /**

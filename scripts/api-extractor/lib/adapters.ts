@@ -26,6 +26,14 @@ export interface AdapterDef {
    * docs/config.json).
    */
   typeOverrides?: Record<string, string>
+  /**
+   * Hand-maintained descriptions for gaps in third-party docblocks the
+   * adapter cannot fix upstream — flat keys: the output file, then the node
+   * path exactly as missing.json prints it (`blueprints.date-picker.…`,
+   * `components.VfInputMask.…`). Set onto empty descriptions; stale
+   * entries warn.
+   */
+  missingDescriptions?: Record<string, string>
 }
 
 /**
