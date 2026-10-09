@@ -134,7 +134,8 @@
     "size:report": "vf-size --report",
     "test": "vitest --project integration --project invariants --maxWorkers=16",
     "test-dts": "vitest run --project test-dts",
-    "test-smoke": "tsx tests/smoke/run.ts",
+    "test-smoke": "vf-smoke",
+    "test-smoke-types": "vf-smoke-types",
     "test-visual": "playwright test --config tests/visual/playwright.config.ts"
   },
   "dependencies": {

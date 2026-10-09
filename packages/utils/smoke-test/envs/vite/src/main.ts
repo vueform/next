@@ -1,7 +1,13 @@
 import { createApp } from 'vue'
 
 import { createVueform } from '../smoke/adapter'
+import { setupApp } from '../smoke/setup/vite'
 import config from '../vueform.config'
 import App from './App.vue'
 
-createApp(App).use(createVueform(config)).mount('#app')
+const app = createApp(App)
+
+setupApp(app, { mode: 'vdom' })
+app.use(createVueform(config))
+
+app.mount('#app')

@@ -192,7 +192,10 @@ function writeTypecheckConfig(runDir: string, input: TypesEnvRunInput) {
       types: [],
       ...env.compilerOptions,
     },
-    include: ['smoke-types'],
+    // The adapter's committed ambient shims (smoke/setup/*.d.ts, plus the
+    // shared app's globals) join the probe — a strict consumer declares
+    // away upstream packages that ship broken types, and so does this env.
+    include: ['smoke-types', 'smoke/**/*.d.ts'],
   })
 }
 

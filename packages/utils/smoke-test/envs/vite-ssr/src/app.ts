@@ -1,6 +1,7 @@
 import { createSSRApp } from 'vue'
 
 import { createVueform } from '../smoke/adapter'
+import { setupApp } from '../smoke/setup/vite'
 import config from '../vueform.config'
 import App from './App.vue'
 
@@ -8,6 +9,7 @@ import App from './App.vue'
 // exact same app (the SSR contract).
 export function createApp() {
   const app = createSSRApp(App)
+  setupApp(app, { mode: 'vdom' })
   app.use(createVueform(config))
   return { app }
 }

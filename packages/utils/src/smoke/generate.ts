@@ -146,6 +146,36 @@ function vueformConfigSource(): string {
   ].join('\n')
 }
 
+function setupSource(): string {
+  return [
+    `${GENERATED}`,
+    `// edit — commit tests/smoke/setup/vite.ts to override. A no-op: this`,
+    `// adapter needs no extra app wiring. An adapter built on a component`,
+    `// library registers that library here (plugins, directives, theme`,
+    `// css), with \`mode\` distinguishing the vdom and vapor apps.`,
+    `export function setupApp(`,
+    `  _app: unknown,`,
+    `  _ctx: { mode: 'vdom' | 'vapor' }`,
+    `) {}`,
+    ``,
+  ].join('\n')
+}
+
+function nuxtSetupSource(): string {
+  return [
+    `${GENERATED}`,
+    `// edit — commit tests/smoke/setup/nuxt.ts to override. Extra Nuxt config`,
+    `// the adapter's consumers need (modules, css, library options), merged`,
+    `// into the generic nuxt.config.ts; adapter modules load before`,
+    `// @vueform/nuxt.`,
+    `export default {} as Record<string, unknown> & {`,
+    `  modules?: string[]`,
+    `  css?: string[]`,
+    `}`,
+    ``,
+  ].join('\n')
+}
+
 /**
  * Writes the canonical files into the assembled run, each one skipped when
  * the adapter committed its own (copied there by `copyAdapterContent`).
@@ -156,6 +186,7 @@ export function generateCanonicalContent(
   config: SmokeConfig
 ) {
   const knobs = resolveKnobs(config, input.adapter)
+  fs.mkdirSync(path.join(runDir, 'smoke', 'setup'), { recursive: true })
 
   const targets: [string, () => string][] = [
     [path.join(runDir, 'smoke', 'schema.ts'), () => schemaSource(knobs)],
@@ -163,6 +194,8 @@ export function generateCanonicalContent(
       path.join(runDir, 'smoke', 'SmokeFormInline.vue'),
       () => inlineFormSource(knobs),
     ],
+    [path.join(runDir, 'smoke', 'setup', 'vite.ts'), () => setupSource()],
+    [path.join(runDir, 'smoke', 'setup', 'nuxt.ts'), () => nuxtSetupSource()],
     [path.join(runDir, 'vueform.config.ts'), () => vueformConfigSource()],
   ]
 

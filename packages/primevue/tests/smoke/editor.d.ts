@@ -1,0 +1,1 @@
+import '@vueform/primevue/full'

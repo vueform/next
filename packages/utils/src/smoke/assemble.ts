@@ -148,6 +148,13 @@ export interface SmokeConfig {
     string,
     { type?: string; component?: string; itemsProp?: string }
   >
+  /**
+   * REGISTRY packages (name → semver) a consumer of this adapter must
+   * install themselves, injected into every fixture manifest — e.g.
+   * PrimeVue's component library, themes and icons. Workspace packages
+   * never go here (they are tarball-injected via `dependencies`).
+   */
+  registryDependencies?: Record<string, string>
 }
 
 function readSmokeConfig(adapterDir: string, adapter: string): SmokeConfig {
@@ -170,6 +177,17 @@ function readSmokeConfig(adapterDir: string, adapter: string): SmokeConfig {
       `tests/smoke/config.json of "${adapter}": "dependencies" must be an ` +
         `array of package names.`
     )
+  }
+  for (const [name, range] of Object.entries(
+    config.registryDependencies ?? {}
+  )) {
+    if (typeof range !== 'string' || name.startsWith('@vueform/')) {
+      throw new SmokeError(
+        `tests/smoke/config.json of "${adapter}": "registryDependencies" ` +
+          `maps registry package names to semver ranges — workspace ` +
+          `packages belong in "dependencies".`
+      )
+    }
   }
   if (config.entry !== undefined && typeof config.entry !== 'string') {
     throw new SmokeError(
@@ -197,14 +215,30 @@ function copyAdapterContent(runDir: string, input: AssembleFixtureInput) {
   fs.mkdirSync(destDir, { recursive: true })
 
   for (const entry of fs.readdirSync(contentDir, { withFileTypes: true })) {
-    if (!entry.isFile() || entry.name.endsWith('.md')) continue
-    // config.json is the harness's input; tsconfig.json and d.ts files are
-    // the folder's EDITOR scaffolding (the runs generate their own project
-    // and ambient setup).
-    if (entry.name === 'config.json' || entry.name === 'tsconfig.json') {
+    // The setup/ dir (app wiring, nuxt config extension, ambient shims for
+    // upstream packages with broken strict types) mirrors into
+    // `<run>/smoke/setup/`; missing pieces are generated afterwards.
+    if (entry.isDirectory()) {
+      if (entry.name === 'setup') {
+        fs.cpSync(path.join(contentDir, 'setup'), path.join(destDir, 'setup'), {
+          recursive: true,
+        })
+      }
       continue
     }
-    if (entry.name.endsWith('.d.ts')) continue
+    if (entry.name.endsWith('.md')) continue
+    // config.json is the harness's input; tsconfig.json and editor.d.ts are
+    // the folder's EDITOR scaffolding (the runs generate their own project
+    // and ambient setup). Other committed d.ts files are adapter content —
+    // e.g. ambient shims for upstream packages whose types break under
+    // skipLibCheck: false.
+    if (
+      entry.name === 'config.json' ||
+      entry.name === 'tsconfig.json' ||
+      entry.name === 'editor.d.ts'
+    ) {
+      continue
+    }
     const dest =
       entry.name === 'vueform.config.ts'
         ? path.join(runDir, entry.name)
@@ -315,6 +349,15 @@ function patchManifest(
   ]
 
   pkg.dependencies = pkg.dependencies ?? {}
+
+  // Registry packages a consumer installs alongside the adapter (component
+  // library, themes, icons) — plain semver, resolved from the registry.
+  for (const [depName, range] of Object.entries(
+    config.registryDependencies ?? {}
+  )) {
+    pkg.dependencies[depName] = range
+  }
+
   for (const depName of workspaceDeps) {
     const tarball = input.tarballs.byName.get(depName)
     if (!tarball) {

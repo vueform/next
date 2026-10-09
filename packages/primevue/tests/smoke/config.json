@@ -1,0 +1,21 @@
+{
+  "entry": "full",
+  "schema": {
+    "text": { "type": "input-text", "component": "VfInputText" },
+    "select": { "itemsProp": "options" },
+    "checkboxes": {
+      "type": "checkbox-group",
+      "component": "VfCheckboxGroup",
+      "itemsProp": "options"
+    }
+  },
+  "registryDependencies": {
+    "@primeuix/styled": "^0.7.4",
+    "@primeuix/themes": "^2.0.3",
+    "@primevue/core": "^4.5.5",
+    "@primevue/nuxt-module": "^4.5.5",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.5.5",
+    "quill": "^2.0.3"
+  }
+}
