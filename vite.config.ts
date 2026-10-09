@@ -531,12 +531,6 @@ export default defineConfig({
         command: 'tsx scripts/api-missing.ts',
         cache: false,
       },
-      // Report/content generators over the existing .vueform/api trees —
-      // uncached (they rewrite docs/.generated wholesale).
-      ':docs:gen': {
-        command: 'tsx docs/scripts/gen.ts',
-        cache: false,
-      },
     },
   },
 })

@@ -45,102 +45,164 @@ import { serve } from './serve'
 const isTTY = process.stdout.isTTY === true
 const paint = (code: string, text: string) =>
   isTTY ? `\x1b[${code}m${text}\x1b[0m` : text
-// Vueform brand green (#17c495), as 24-bit truecolor (matches scripts/runner.ts).
-const green = (text: string) => paint('38;2;23;196;149', text)
+const green = (text: string) => paint('32', text)
 const red = (text: string) => paint('31', text)
 const dim = (text: string) => paint('2', text)
 
 const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
-const BAR_WIDTH = 22
 
 /**
- * Sticky one-line progress renderer (TTY only): the whole run lives on a single
- * rewritten line — prep phases spin with the phase name, the sweep fills the
- * bar with completed points and names the one being measured, and the run
- * closes with a ✓/✗ line. Everything else stays off the terminal: child output
- * is captured (see lib.ts `run`) and only a failure dumps it, after the bar has
- * closed. Non-TTY logs plain sequential lines instead.
+ * Row-based progress renderer in the style of the root api/docs runners: one
+ * row per prep step and per case, stacked under a heading — spinner and
+ * elapsed (plus the case's point counter) while working, ✓/✗ when done.
+ * Cases run SEQUENTIALLY on purpose: timings and heap deltas are only
+ * meaningful without CPU contention, so the rows advance one at a time.
+ * Child output stays captured (see lib.ts `run`) and only surfaces on
+ * failure. Non-TTY logs plain lines instead.
  */
-class BenchProgress {
-  private phaseLabel = 'start'
-  private sweeping = false
-  private done = 0
-  private points = 0
-  private current = ''
-  private tick = 0
-  private started = Date.now()
-  private timer: NodeJS.Timeout | undefined
-  private finished = false
-
-  constructor() {
-    if (!isTTY) return
-    process.stdout.write(`${this.line()}\n`)
-    this.timer = setInterval(() => this.redraw(), 100)
-  }
-
-  private elapsed() {
-    return `${((Date.now() - this.started) / 1000).toFixed(1)}s`
-  }
-
-  private line() {
-    const ratio = this.sweeping && this.points ? this.done / this.points : 0
-    const filled = Math.round(ratio * BAR_WIDTH)
-    const bar = green('█'.repeat(filled)) + dim('░'.repeat(BAR_WIDTH - filled))
-    const spinner = green(SPINNER[this.tick % SPINNER.length])
-    const status = this.sweeping
-      ? `${this.done}/${this.points}${this.current ? dim(` · ${this.current}`) : ''}`
-      : dim(this.phaseLabel)
-    return `${spinner} bench ${bar} ${status} ${dim(this.elapsed())}`
-  }
-
-  private redraw() {
-    this.tick++
-    process.stdout.write(`\x1b[1A\x1b[2K\r${this.line()}\n`)
-  }
-
-  phase(label: string) {
-    this.phaseLabel = label
-    if (isTTY) this.redraw()
-    else console.log(`[bench] ${label}`)
-  }
-
+interface RowState {
+  label: string
+  status: 'pending' | 'running' | 'pass' | 'fail'
+  detail: string
+  startedAt: number
   /**
-   * Switches from phases to the sweep: the bar now fills with completed points.
+   * Sweep rows: completed / total points within the case.
    */
-  sweep(points: number) {
-    this.sweeping = true
-    this.points = points
+  done?: number
+  points?: number
+  current?: string
+}
+
+class BenchProgress {
+  private rows: RowState[] = []
+  private byId = new Map<string, RowState>()
+  private tick = 0
+  private printedLines = 0
+  private timer: NodeJS.Timeout | undefined
+  private active: RowState | undefined
+
+  constructor(rowDefs: { id: string; label: string }[]) {
+    for (const { id, label } of rowDefs) {
+      const row: RowState = {
+        label,
+        status: 'pending',
+        detail: '',
+        startedAt: 0,
+      }
+      this.rows.push(row)
+      this.byId.set(id, row)
+    }
+    if (!isTTY) return
+    process.stdout.write('\x1b[?25l')
+    this.repaint()
+    this.timer = setInterval(() => {
+      this.tick++
+      this.repaint()
+    }, 100)
+  }
+
+  private elapsed(row: RowState) {
+    return `${((Date.now() - row.startedAt) / 1000).toFixed(1)}s`
+  }
+
+  private rowText(row: RowState, spin: string, width: number) {
+    const mark =
+      row.status === 'running'
+        ? paint('36', spin)
+        : row.status === 'pass'
+          ? green('✓')
+          : row.status === 'fail'
+            ? red('✗')
+            : dim('·')
+    const sweep =
+      row.points !== undefined
+        ? `${row.done}/${row.points}${row.current ? dim(` · ${row.current}`) : ''} `
+        : ''
+    const detail =
+      row.status === 'running'
+        ? `${sweep}${dim(this.elapsed(row))}`
+        : row.status === 'pass'
+          ? green(row.detail)
+          : row.status === 'fail'
+            ? red(row.detail)
+            : dim('waiting')
+    return `  ${mark} ${row.label.padEnd(width)}${detail}`
+  }
+
+  private repaint() {
+    const width = Math.max(...this.rows.map((r) => r.label.length)) + 2
+    const spin = SPINNER[this.tick % SPINNER.length]
+    const lines = [
+      paint('1', 'Benchmark'),
+      ...this.rows.map((row) => this.rowText(row, spin, width)),
+    ]
+    let out = ''
+    if (this.printedLines > 0) out += `\x1b[${this.printedLines}A`
+    for (const line of lines) out += `\x1b[2K${line}\n`
+    process.stdout.write(out)
+    this.printedLines = lines.length
+  }
+
+  start(id: string, points?: number) {
+    const row = this.byId.get(id)
+    if (!row) return
+    this.active = row
+    row.status = 'running'
+    row.startedAt = Date.now()
+    if (points !== undefined) {
+      row.done = 0
+      row.points = points
+    }
+    if (isTTY) this.repaint()
+    else console.log(`[bench] ${row.label}`)
   }
 
   measuring(label: string) {
-    this.current = label
-    if (isTTY) this.redraw()
+    if (this.active) this.active.current = label
+    if (isTTY) this.repaint()
   }
 
   /**
-   * TTY: the bar's count advances; non-TTY logs the point's result line.
+   * TTY: the active row's counter advances; non-TTY logs the result line.
    */
   result(line: string) {
-    this.done++
-    this.current = ''
-    if (isTTY) this.redraw()
+    if (this.active && this.active.done !== undefined) {
+      this.active.done++
+      this.active.current = ''
+    }
+    if (isTTY) this.repaint()
     else console.log(line)
   }
 
+  end(id: string, ok = true, detail?: string) {
+    const row = this.byId.get(id)
+    if (!row) return
+    row.status = ok ? 'pass' : 'fail'
+    row.detail =
+      detail ?? (ok ? `done in ${this.elapsed(row)}` : 'failed')
+    if (isTTY) this.repaint()
+    else if (!ok) console.log(`[bench] ${row.label}: ${row.detail}`)
+  }
+
   /**
-   * Replaces the bar with its ✓/✗ done line. Idempotent, so the error path can
-   * close an already-closed bar without harm.
+   * Marks whatever is still running as failed and closes the display so the
+   * error prints below the rows. Idempotent.
    */
   finish(ok: boolean) {
-    if (this.finished) return
-    this.finished = true
     if (this.timer) clearInterval(this.timer)
-    if (!isTTY) return
-    const mark = ok ? green('✓') : red('✗')
-    const counts = this.sweeping ? ` ${this.done}/${this.points}` : ''
-    process.stdout.write(
-      `\x1b[1A\x1b[2K\r${mark} bench${counts} ${dim(this.elapsed())}\n`
-    )
+    this.timer = undefined
+    if (!ok) {
+      for (const row of this.rows) {
+        if (row.status === 'running') {
+          row.status = 'fail'
+          row.detail = 'failed'
+        }
+      }
+    }
+    if (isTTY) {
+      this.repaint()
+      process.stdout.write('\x1b[?25h')
+    }
   }
 }
 
@@ -245,20 +307,43 @@ async function main(): Promise<void> {
   checkAppVueVersion()
   ensureChromium()
 
-  const progress = new BenchProgress()
+  const rowDefs: { id: string; label: string }[] = [
+    ...(options.pack
+      ? [
+          { id: 'pack', label: 'pack' },
+          { id: 'install', label: 'install app' },
+        ]
+      : []),
+    ...(options.build
+      ? options.modes.map((mode) => ({
+          id: `build:${mode}`,
+          label: `build app (${mode})`,
+        }))
+      : []),
+    { id: 'launch', label: 'launch' },
+    ...CASES.filter((c) => options.cases.includes(c.id)).map((c) => ({
+      id: c.id,
+      label: c.id,
+    })),
+    ...(options.charts ? [{ id: 'charts', label: 'charts' }] : []),
+  ]
+  const progress = new BenchProgress(rowDefs)
 
   try {
     if (options.pack) {
-      progress.phase('pack dist tarballs')
+      progress.start('pack')
       pack()
-      progress.phase('install app (pnpm install --ignore-workspace)')
+      progress.end('pack')
+      progress.start('install')
       installApp()
+      progress.end('install')
     }
 
     if (options.build) {
       for (const mode of options.modes) {
-        progress.phase(`build app (${mode})`)
+        progress.start(`build:${mode}`)
         buildApp(mode)
+        progress.end(`build:${mode}`)
       }
     }
 
@@ -270,9 +355,10 @@ async function main(): Promise<void> {
       }
     }
 
-    progress.phase('launch browser')
+    progress.start('launch')
     const server = await serve(path.join(APP_DIR, 'dist'))
     const browser = await chromium.launch({ headless: true })
+    progress.end('launch')
 
     try {
       await runSweep(options, progress, server.origin, browser)
@@ -280,9 +366,12 @@ async function main(): Promise<void> {
       await browser.close()
       await server.close()
     }
+
+    progress.finish(true)
   } finally {
-    // On failure the bar is still up — close it with ✗ so the error (with any
-    // captured child output) prints below it; a no-op after a ✓ close.
+    // On failure rows are still up — close with the running row marked ✗ so
+    // the error (with any captured child output) prints below; a no-op after
+    // a successful close.
     progress.finish(false)
   }
 }
@@ -296,12 +385,13 @@ async function runSweep(
   const results = loadResults()
   const environment = captureEnvironment(browser.version())
   const points = options.cases.length * options.modes.length * options.ns.length
+  const casePoints = options.modes.length * options.ns.length
   let done = 0
-
-  progress.sweep(points)
 
   for (const benchCase of CASES) {
     if (!options.cases.includes(benchCase.id)) continue
+
+    progress.start(benchCase.id, casePoints)
 
     const entry = (results[benchCase.id] ??= {
       label: benchCase.label,
@@ -317,7 +407,7 @@ async function runSweep(
 
     for (const mode of options.modes) {
       for (const n of options.ns) {
-        progress.measuring(`${benchCase.id} ${mode} n=${n}`)
+        progress.measuring(`${mode} n=${n}`)
         const sample = await measurePoint(
           browser,
           origin,
@@ -339,6 +429,8 @@ async function runSweep(
         )
       }
     }
+
+    progress.end(benchCase.id)
   }
 
   results.environment = environment
@@ -346,19 +438,24 @@ async function runSweep(
   fs.mkdirSync(path.dirname(RESULTS_JSON), { recursive: true })
   fs.writeFileSync(RESULTS_JSON, JSON.stringify(results, null, 2) + '\n')
 
-  progress.finish(true)
-  console.log(
-    `[bench] ${points} sweep points — vue ${environment.vue}, ` +
-      `vueform ${environment.vueform}, ${environment.browser}`
-  )
-  console.log(`[bench] results → ${path.relative(process.cwd(), RESULTS_JSON)}`)
-
   if (options.charts) {
+    progress.start('charts')
     const charts = generateCharts(
       results as Parameters<typeof generateCharts>[0]
     )
-    console.log(`[bench] ${charts.length} charts regenerated`)
+    progress.end('charts', true, `${charts.length} regenerated`)
   }
+
+  progress.finish(true)
+  console.log(`\n${green(`${points} sweep points measured.`)}`)
+  console.log(
+    dim(
+      `vue ${environment.vue}, vueform ${environment.vueform}, ${environment.browser}`
+    )
+  )
+  console.log(
+    `${dim('results:')} ${path.relative(process.cwd(), RESULTS_JSON)}\n`
+  )
 }
 
 main().catch((error) => {

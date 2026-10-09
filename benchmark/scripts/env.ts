@@ -12,6 +12,10 @@ export interface Environment {
   browser: string
   vue: string
   vueform: string
+  /**
+   * ISO timestamp of the run (second precision).
+   */
+  capturedAt: string
 }
 
 function osName(): string {
@@ -34,6 +38,7 @@ function packageVersion(pkgJsonPath: string): string {
  */
 export function captureEnvironment(browserVersion: string): Environment {
   return {
+    capturedAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z'),
     cpu: os.cpus()[0]?.model ?? 'unknown',
     ramBytes: os.totalmem(),
     os: osName(),

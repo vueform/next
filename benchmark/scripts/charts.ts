@@ -40,9 +40,10 @@ const SERIES: Record<Mode, string> = {
   vapor: '#10b981',
 }
 
-// Canvas and plot rectangle, as in the shipped charts.
+// Canvas and plot rectangle, as in the shipped charts — the canvas extends
+// below the x-axis legend for the centered meta line.
 const W = 720
-const H = 452
+const H = 470
 const PLOT = { x0: 80, x1: 688, y0: 96, y1: 388 }
 const Y_INTERVALS = 3
 
@@ -54,7 +55,15 @@ interface CaseSamples {
 }
 
 type Results = Record<string, CaseSamples> & {
-  environment?: { vueform?: string }
+  environment?: {
+    cpu?: string
+    ramBytes?: number
+    os?: string
+    browser?: string
+    vue?: string
+    vueform?: string
+    capturedAt?: string
+  }
 }
 
 /**
@@ -98,6 +107,7 @@ function renderChart(
   title: string,
   yLabel: string,
   vueform: string,
+  meta: { line: string },
   series: Partial<Record<Mode, Record<string, { value: number }>>>,
   theme: Theme
 ): string {
@@ -161,6 +171,13 @@ function renderChart(
     `<text x="28" y="242" font-size="12" fill="${theme.text}" text-anchor="middle" transform="rotate(-90 28 242)">${yLabel}</text>`
   )
 
+  // Run metadata, centered below the x-axis legend — smaller and fainter.
+  if (meta.line) {
+    parts.push(
+      `<text x="${W / 2}" y="450" font-size="10" fill="${theme.axis}" text-anchor="middle">${meta.line}</text>`
+    )
+  }
+
   for (const mode of MODES) {
     const samples = series[mode]
     if (!samples) continue
@@ -180,6 +197,44 @@ function renderChart(
 }
 
 /**
+ * The meta line under each chart: the run's ISO timestamp followed by the
+ * environment summary. Results predating `environment.capturedAt` fall back
+ * to the newest sample timestamp.
+ */
+function buildMeta(results: Results): { line: string } {
+  const e = results.environment ?? {}
+  const env = [
+    e.cpu,
+    e.ramBytes ? `${Math.round(e.ramBytes / 1024 ** 3)} GB RAM` : undefined,
+    e.os,
+    e.browser,
+    e.vue ? `vue@${e.vue}` : undefined,
+  ]
+    .filter(Boolean)
+    .join(' • ')
+
+  let capturedAt = e.capturedAt ?? ''
+  if (!capturedAt) {
+    let latest = 0
+    for (const [key, value] of Object.entries(results)) {
+      if (key === 'environment') continue
+      const caseValue = value as CaseSamples
+      for (const samples of Object.values(caseValue.results ?? {})) {
+        for (const sample of Object.values(samples ?? {})) {
+          const ts = (sample as { timestamp?: number }).timestamp ?? 0
+          if (ts > latest) latest = ts
+        }
+      }
+    }
+    if (latest) {
+      capturedAt = new Date(latest * 1000).toISOString().replace(/\.\d+Z$/, 'Z')
+    }
+  }
+
+  return { line: [capturedAt, env].filter(Boolean).join(' • ') }
+}
+
+/**
  * Regenerates every chart from the full results file, pruning charts of metrics
  * the suite no longer records.
  */
@@ -187,6 +242,7 @@ export function generateCharts(results: Results): string[] {
   fs.mkdirSync(CHARTS_DIR, { recursive: true })
 
   const vueform = results.environment?.vueform ?? ''
+  const meta = buildMeta(results)
   const written: string[] = []
 
   const write = (name: string, content: string) => {
@@ -231,11 +287,11 @@ export function generateCharts(results: Results): string[] {
       const title = `${results[benchCase.id].label ?? benchCase.label} — ${metric.suffix}`
       write(
         `${benchCase.id}-${metric.suffix}.svg`,
-        renderChart(title, metric.yLabel, vueform, series, LIGHT)
+        renderChart(title, metric.yLabel, vueform, meta, series, LIGHT)
       )
       write(
         `${benchCase.id}-${metric.suffix}-dark.svg`,
-        renderChart(title, metric.yLabel, vueform, series, DARK)
+        renderChart(title, metric.yLabel, vueform, meta, series, DARK)
       )
     }
   }
