@@ -3,13 +3,15 @@
   "version": "2.0.0-alpha.1",
   "bin": {
     "vf-registry": "./bin/vf-registry.js",
-    "vf-size": "./bin/vf-size.js"
+    "vf-size": "./bin/vf-size.js",
+    "vf-smoke": "./bin/vf-smoke.js",
+    "vf-smoke-types": "./bin/vf-smoke-types.js"
   },
   "files": [
     "bin",
     "config.json",
     "dist",
-    "smoke-templates",
+    "smoke-test",
     "type-test",
     "visual-test"
   ],

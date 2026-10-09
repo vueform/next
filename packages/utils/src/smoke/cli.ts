@@ -26,6 +26,7 @@ import {
   run,
   smokeStateDir,
   SmokeError,
+  tarballsDir,
 } from './lib'
 import { packWorkspace } from './pack'
 import { ensureBrowsers, runEnv, type EnvResult } from './runner'
@@ -174,11 +175,11 @@ async function main(options: SmokeCliOptions) {
   const results: EnvResult[] = []
 
   for (const env of selected) {
-    if (exists(fixtureDir(adapterDir, env))) {
+    if (exists(fixtureDir(env))) {
       runnable.push(env)
     } else if (parsed.env) {
       throw new SmokeError(
-        `Env "${env.id}" has no fixture at packages/${adapter}/tests/smoke/${env.fixture}.`
+        `Env "${env.id}" has no fixture shell at smoke-test/envs/${env.fixture} (in @vueform/utils).`
       )
     } else {
       results.push({ adapter, env, status: 'skip', detail: 'no fixture yet' })
@@ -187,7 +188,7 @@ async function main(options: SmokeCliOptions) {
 
   if (!runnable.length) {
     throw new SmokeError(
-      `No smoke fixtures exist yet under packages/${adapter}/tests/smoke/.`
+      `No fixture shells exist under smoke-test/envs/ (in @vueform/utils).`
     )
   }
 
@@ -215,15 +216,11 @@ async function main(options: SmokeCliOptions) {
 
     display.phase(parsed.nopack ? 'checking tarballs…' : 'packing tarballs…')
     log.section('pack')
-    const tarballs = await packWorkspace(
-      root,
-      path.join(stateDir, 'tarballs'),
-      {
-        skipPack: parsed.nopack,
-        log: log.write,
-        onStatus: display.phase,
-      }
-    )
+    const tarballs = await packWorkspace(root, tarballsDir(root), {
+      skipPack: parsed.nopack,
+      log: log.write,
+      onStatus: display.phase,
+    })
 
     // Before the fan-out: parallel envs must not race the browser install.
     display.phase('checking the Playwright browser…')

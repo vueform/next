@@ -373,7 +373,7 @@ export default defineConfig({
             'packages/*/package.json',
             'pnpm-lock.yaml',
           ],
-          output: ['.vueform/smoke/tarballs/**'],
+          output: ['.vueform/tarballs/**'],
         },
       },
       ...buildTasks,
@@ -510,6 +510,13 @@ export default defineConfig({
       ':test-smoke': {
         command: 'tsx scripts/test-smoke.ts --nopack',
         dependsOn: [':build', ':pack'],
+      },
+      ':test-smoke-types': {
+        command: 'tsx scripts/test-smoke-types.ts --nopack',
+        dependsOn: [':build', ':pack'],
+        // Never cached: the envs install from the registry (checker versions
+        // float on purpose — a consumer's `latest` does too).
+        cache: false,
       },
       ':registry': {
         command: "vp run --filter './packages/*' registry",

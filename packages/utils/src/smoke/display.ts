@@ -1,6 +1,7 @@
 /**
  * Terminal UI + log capture for the smoke harness. Child-process output goes
- * to a per-invocation log file under `.vueform/smoke/logs/`; the terminal
+ * to a per-invocation log file under the invoking suite's state dir
+ * (`.vueform/smoke/logs/`, `.vueform/smoke-types/logs/`); the terminal
  * shows a live env × stage matrix instead (spinner while a stage runs,
  * green ✓ / red ✗ / dim – per result), with a plain-line fallback when stdout
  * is not a TTY (CI).
@@ -12,6 +13,8 @@ import { smokeStateDir } from './lib'
 
 export const STAGES = ['install', 'build', 'boot', 'interaction'] as const
 export type StageName = (typeof STAGES)[number]
+export const TYPES_STAGES = ['install', 'typecheck'] as const
+export type TypesStageName = (typeof TYPES_STAGES)[number]
 export type StageStatus = 'pending' | 'active' | 'pass' | 'fail' | 'skip'
 
 const KEPT_LOGS = 20
@@ -52,8 +55,12 @@ export interface SmokeLog {
   close(): void
 }
 
-export function createSmokeLog(root: string, adapter: string): SmokeLog {
-  const dir = path.join(smokeStateDir(root), 'logs')
+export function createSmokeLog(
+  root: string,
+  adapter: string,
+  stateDir = smokeStateDir(root)
+): SmokeLog {
+  const dir = path.join(stateDir, 'logs')
   fs.mkdirSync(dir, { recursive: true })
 
   // Keep the directory from growing without bound — prune by session (a run
@@ -215,6 +222,157 @@ export function createDisplay(opts: {
     },
     stage(envId, stage, status) {
       grid.get(envId)!.set(stage, status)
+      repaint()
+    },
+    stop() {
+      clearInterval(timer)
+      phaseText = null
+      repaint()
+      restoreCursor()
+      process.removeListener('exit', restoreCursor)
+    },
+  }
+}
+
+export type ListRowStatus = 'pending' | 'active' | 'pass' | 'fail' | 'skip'
+
+export interface ListDisplay {
+  /**
+   * Transient status line shown below the rows (packing, assembling, …).
+   */
+  phase(text: string | null): void
+  row(id: string, status: ListRowStatus, detail?: string): void
+  /**
+   * Final repaint + cursor restore. Leaves the finished rows on screen.
+   */
+  stop(): void
+}
+
+/**
+ * The flat sibling of `createDisplay`: one live row per entry (spinner while
+ * active with its current step as the detail, then ✓/✗/– plus the final
+ * detail) instead of an env × stage matrix — the smoke-types suite's choice,
+ * whose two stages don't earn a grid. Same TTY contract: live repaint on a
+ * TTY, plain completion lines otherwise.
+ */
+export function createListDisplay(opts: {
+  /**
+   * The heading, e.g. "Smoke-types tests".
+   */
+  title: string
+  /**
+   * The non-live fallback's line prefix, e.g. "smoke-types".
+   */
+  tag: string
+  adapter: string
+  /**
+   * Initial rows in display order (skipped entries arrive preset).
+   */
+  rows: { id: string; status?: ListRowStatus; detail?: string }[]
+  live: boolean
+}): ListDisplay {
+  const rows = new Map(
+    opts.rows.map((row) => [
+      row.id,
+      {
+        status: row.status ?? ('pending' as ListRowStatus),
+        detail: row.detail ?? '',
+      },
+    ])
+  )
+
+  const glyph = (status: ListRowStatus, spin: string) =>
+    status === 'active'
+      ? cyan(spin)
+      : status === 'pass'
+        ? green('✓')
+        : status === 'fail'
+          ? red('✗')
+          : dim(status === 'skip' ? '–' : '·')
+
+  const detailText = (status: ListRowStatus, detail: string) =>
+    !detail
+      ? ''
+      : status === 'fail'
+        ? red(detail)
+        : status === 'pass'
+          ? green(detail)
+          : dim(detail)
+
+  if (!opts.live) {
+    for (const [id, row] of rows) {
+      if (row.status === 'skip') {
+        console.log(`[${opts.tag}:${opts.adapter}:${id}] – ${row.detail}`)
+      }
+    }
+    return {
+      phase(text) {
+        if (text) console.log(`[${opts.tag}] ${text}`)
+      },
+      row(id, status, detail = '') {
+        rows.get(id)!.status = status
+        rows.get(id)!.detail = detail
+        if (status === 'pass' || status === 'fail') {
+          console.log(
+            `[${opts.tag}:${opts.adapter}:${id}] ${status === 'pass' ? '✓' : '✗'}${detail ? ` ${detail}` : ''}`
+          )
+        }
+      },
+      stop() {},
+    }
+  }
+
+  const idWidth = Math.max(...[...rows.keys()].map((id) => id.length), 4) + 2
+  let phaseText: string | null = null
+  let tick = 0
+  let printedLines = 0
+
+  const renderLines = (): string[] => {
+    const spin = SPINNER[tick % SPINNER.length]
+    const lines: string[] = []
+    lines.push(bold(`${opts.title} `) + gray(`(${opts.adapter})`))
+    for (const [id, row] of rows) {
+      lines.push(
+        `  ${glyph(row.status, spin)} ${id.padEnd(idWidth)}${detailText(row.status, row.detail)}`
+      )
+    }
+    if (phaseText) lines.push(dim(`  ${spin} ${phaseText}`))
+    return lines
+  }
+
+  const repaint = () => {
+    const lines = renderLines()
+    let out = ''
+    if (printedLines > 0) out += `\x1b[${printedLines}A`
+    for (const line of lines) out += `\x1b[2K${line}\n`
+    // A shrinking frame (phase line disappearing) leaves stale lines behind.
+    for (let i = lines.length; i < printedLines; i++) out += '\x1b[2K\n'
+    if (printedLines > lines.length) {
+      out += `\x1b[${printedLines - lines.length}A`
+    }
+    process.stdout.write(out)
+    printedLines = lines.length
+  }
+
+  process.stdout.write('\x1b[?25l')
+  const timer = setInterval(() => {
+    tick++
+    repaint()
+  }, 100)
+  repaint()
+
+  const restoreCursor = () => process.stdout.write('\x1b[?25h')
+  process.on('exit', restoreCursor)
+
+  return {
+    phase(text) {
+      phaseText = text
+      repaint()
+    },
+    row(id, status, detail = '') {
+      const row = rows.get(id)!
+      row.status = status
+      row.detail = detail
       repaint()
     },
     stop() {

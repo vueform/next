@@ -11,6 +11,7 @@ packages:
   - docs
 
 catalog:
+  '@arethetypeswrong/cli': ^0.18.2
   '@commitlint/cli': ^21.2.3
   '@commitlint/config-conventional': ^21.2.3
   '@nuxt/kit': ^3.17.5

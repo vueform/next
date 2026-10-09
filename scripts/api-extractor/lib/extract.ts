@@ -435,7 +435,10 @@ export function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
   }
   // A property's fn type (`autosave: (options: …) => …`) carries no JSDoc —
   // the tags live on the property signature itself.
-  if (ts.isFunctionTypeNode(current) && ts.isPropertySignature(current.parent)) {
+  if (
+    ts.isFunctionTypeNode(current) &&
+    ts.isPropertySignature(current.parent)
+  ) {
     sources.push(current.parent)
   }
   if (

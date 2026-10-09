@@ -10,8 +10,6 @@
  * All child output goes to the invocation's log file (`input.log`); progress
  * is reported per stage through `input.report`.
  */
-import path from 'node:path'
-
 import { assembleRun, type AssembleInput, type SmokeRun } from './assemble'
 import type { StageName, StageStatus } from './display'
 import type { EnvDef } from './envs'
@@ -125,10 +123,6 @@ export async function runEnv(input: EnvRunInput): Promise<void> {
   await step('interaction', () =>
     playwright('interaction.spec.mjs', 'Interaction spec failed')
   )
-}
-
-export function fixturePath(adapterDir: string, env: EnvDef) {
-  return path.join(adapterDir, 'tests', 'smoke', env.fixture)
 }
 
 export type { PackedTarballs, SmokeRun }

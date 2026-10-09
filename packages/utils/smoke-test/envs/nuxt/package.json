@@ -1,0 +1,16 @@
+{
+  "name": "smoke-ui-nuxt",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "nuxt build",
+    "serve": "HOST=127.0.0.1 PORT=$SMOKE_PORT node .output/server/index.mjs"
+  },
+  "dependencies": {
+    "nuxt": "^3.17.5"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.51.1"
+  }
+}

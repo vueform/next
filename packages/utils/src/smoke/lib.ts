@@ -1,7 +1,10 @@
 /**
  * Shared helpers for the smoke harness: repo/path discovery, process spawning
- * and small fs utilities. Everything ephemeral lives under
- * `.vueform/smoke` at the repo root (survives installs and `pnpm clean`).
+ * and small fs utilities. Everything ephemeral lives under `.vueform/` at the
+ * repo root (survives installs and `pnpm clean`): the packed tarballs in
+ * `.vueform/tarballs` (shared — smoke, smoke-types and the attw gate all
+ * consume the same pack artifact), each suite's runs and logs in its own
+ * state dir (`.vueform/smoke`, `.vueform/smoke-types`).
  */
 import { spawn, type SpawnOptions } from 'node:child_process'
 import fs from 'node:fs'
@@ -72,6 +75,19 @@ export function findRepoRoot(from: string): string {
 
 export function smokeStateDir(root: string) {
   return path.join(root, '.vueform', 'smoke')
+}
+
+export function smokeTypesStateDir(root: string) {
+  return path.join(root, '.vueform', 'smoke-types')
+}
+
+/**
+ * Where `vpr :pack` puts the packed tarballs — outside both suites' state
+ * dirs on purpose, because the tarballs are the shared input of everything
+ * dist-side (smoke runs, smoke-types runs, the attw gate).
+ */
+export function tarballsDir(root: string) {
+  return path.join(root, '.vueform', 'tarballs')
 }
 
 interface SpawnResult {

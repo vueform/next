@@ -1,0 +1,15 @@
+// Editor-only project for the adapter smoke content (types.ts, types.vue).
+// @vueform/ui resolves through the package's own exports map (Node
+// self-name resolution) and @vueform/core through the workspace link — the
+// types condition lands on the BUILT dists, the same types the smoke-types
+// envs check from the tarballs (so `pnpm build` first). editor.d.ts pulls
+// in the GlobalComponents augmentation. The runs never read this file; the
+// harness assembles its own tsconfigs and skips tsconfig.json and d.ts
+// files when copying this folder's content.
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "noEmit": true
+  },
+  "include": ["editor.d.ts", "*.ts", "*.vue"]
+}
