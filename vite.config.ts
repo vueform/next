@@ -497,6 +497,10 @@ export default defineConfig({
         command: 'tsx scripts/test.ts',
         dependsOn: [':build:utils'],
       },
+      ':api': {
+        command: 'tsx scripts/api.ts',
+        dependsOn: [':build:utils'],
+      },
       ...testTasks,
       ':test-dts': {
         command: 'tsx scripts/test-dts.ts',

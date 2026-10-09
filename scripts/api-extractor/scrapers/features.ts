@@ -4,8 +4,7 @@ import * as path from 'node:path'
 import * as ts from 'typescript'
 
 import { corePackage, nonCoreAdapters } from '../lib/adapters.js'
-import { importedCalleeName } from '../lib/extract.js'
-import { updateIssues, type Issue } from '../lib/issues.js'
+import { createProgram, importedCalleeName } from '../lib/extract.js'
 import { generatedDir, monorepoRoot } from '../lib/paths.js'
 import { parseScope } from '../lib/scope.js'
 
@@ -32,28 +31,6 @@ interface OverloadInfo {
 }
 
 // ============= TS PROGRAM =============
-
-function createProgram(pkgDir: string) {
-  const configPath = path.join(pkgDir, 'tsconfig.json')
-  const raw = ts.readConfigFile(configPath, ts.sys.readFile)
-
-  if (raw.error) {
-    throw new Error(
-      `Failed to read ${configPath}: ${ts.flattenDiagnosticMessageText(raw.error.messageText, '\n')}`
-    )
-  }
-
-  const parsed = ts.parseJsonConfigFileContent(
-    raw.config,
-    ts.sys,
-    path.dirname(configPath),
-    undefined,
-    configPath
-  )
-  const program = ts.createProgram(parsed.fileNames, parsed.options)
-
-  return { program, checker: program.getTypeChecker() }
-}
 
 // ============ JSDOC HELPERS ===========
 
@@ -483,7 +460,6 @@ function expandPropsLeg(
       if (overloads.length) entry.overloads = overloads
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     } else if (sigs.length === 1 && isFunctionLikeType(propType)) {
       const entry: any = { type: 'function', description }
@@ -493,7 +469,6 @@ function expandPropsLeg(
       if (params && Object.keys(params).length) entry.params = params
       const ret = getFunctionReturnTypeFromSig(sigs[0], checker)
       if (ret) entry.returns = { type: ret }
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     } else {
       let typeText = getPropertyTypeText(propSym, propDecl, checker)
@@ -516,7 +491,6 @@ function expandPropsLeg(
       const entry: any = { type: typeText, description }
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     }
   }
@@ -646,7 +620,6 @@ function expandDepsLeg(
       if (overloads.length) entry.overloads = overloads
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     } else if (sigs.length === 1 && isFunctionLikeType(propType)) {
       const entry: any = { type: 'function', description }
@@ -656,14 +629,12 @@ function expandDepsLeg(
       if (params && Object.keys(params).length) entry.params = params
       const ret = getFunctionReturnTypeFromSig(sigs[0], checker)
       if (ret) entry.returns = { type: ret }
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     } else {
       const typeText = getPropertyTypeText(propSym, propDecl, checker)
       const entry: any = { type: typeText, description }
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     }
   }
@@ -729,7 +700,6 @@ function expandEventsLeg(
 
     const entry: any = { description }
     if (Object.keys(eventParams).length) entry.params = eventParams
-    markUndocumented(entry, sig.getDeclaration())
     result[eventName] = entry
   }
 
@@ -1055,7 +1025,6 @@ function extractReturnMembers(
               const ret = getFunctionReturnTypeFromSig(sigs[0], checker)
               if (ret) entry.returns = { type: ret }
             }
-            markUndocumented(entry, spreadDecl)
             result[spreadProp.name] = entry
           } else {
             const entry: any = {
@@ -1067,7 +1036,6 @@ function extractReturnMembers(
               description: desc,
             }
             if (isPrivate) entry.private = true
-            markUndocumented(entry, spreadDecl)
             result[spreadProp.name] = entry
           }
         }
@@ -1168,8 +1136,6 @@ function extractReturnMembers(
           if (ret) entry.returns = { type: ret }
         }
       }
-
-      markUndocumented(entry, localDecl)
       result[propName] = entry
     } else if (ts.isPropertyAssignment(prop)) {
       const description = getNodeJSDocDescription(prop)
@@ -1201,8 +1167,6 @@ function extractReturnMembers(
           if (ret) entry.returns = { type: ret }
         }
       }
-
-      markUndocumented(entry, prop)
       result[propName] = entry
     }
   }
@@ -1239,7 +1203,7 @@ interface BlueprintEntry {
  * Fills empty prop and event descriptions of each feature from the blueprints
  * that list the feature among their `features`. A description is inherited only
  * when those blueprints agree (one distinct value) — ambiguity among the using
- * blueprints leaves it empty for `pnpm extract:validate` to flag.
+ * blueprints leaves it empty.
  */
 function enrichFromUsingBlueprints(
   output: Record<string, any>,
@@ -1716,8 +1680,7 @@ function extractFactories(
  * Resolves remaining undescribed deps to their origin: a dep is by definition
  * another feature's return, so a name concretely returned (not itself a
  * reference) by exactly one other feature becomes a `from` reference to it.
- * Ambiguous or unmatched deps stay as they are and `pnpm extract:validate`
- * flags them for a manual description.
+ * Ambiguous or unmatched deps stay as they are.
  */
 function resolveDepOrigins(
   output: Record<string, any>,
@@ -1796,69 +1759,10 @@ function extractConfig(
     if (ts.isPropertySignature(propDecl) && !propDecl.questionToken) {
       member.required = true
     }
-    markUndocumented(member, propDecl)
     members[propSym.name] = member
   }
 
   return Object.keys(members).length ? members : undefined
-}
-
-/**
- * Stamps an undocumented member with its source location so `pnpm
- * extract:validate` can print a clickable `file:line`. Pruned again once
- * enrichment fills the description or the member resolves to a `from`
- * reference.
- */
-function markUndocumented(entry: any, decl: ts.Node | undefined): void {
-  if (!decl || entry.description || entry.from) return
-  const sf = decl.getSourceFile()
-  entry.file = path.relative(ROOT, sf.fileName)
-  entry.line = sf.getLineAndCharacterOfPosition(decl.getStart()).line + 1
-  // A docblock holding only `@write` deliberately marks the member writable
-  // but leaves it undescribed.
-  if (hasJSDocTag(decl, 'write')) entry.reason = 'flagged'
-}
-
-function collectIssues(output: Record<string, any>): Issue[] {
-  const issues: Issue[] = []
-
-  const take = (name: string, member: any) => {
-    if (!member || typeof member !== 'object') return
-    const undocumented = !member.description && !member.from
-    if (undocumented) {
-      issues.push({
-        name,
-        reason: member.reason ?? 'missing',
-        ...(member.file ? { file: member.file, line: member.line } : {}),
-      })
-    }
-    delete member.file
-    delete member.line
-    delete member.reason
-  }
-
-  for (const [featureName, entry] of Object.entries(output)) {
-    const options = entry
-    for (const section of ['props', 'deps', 'events']) {
-      for (const [memberName, member] of Object.entries<any>(
-        options[section] ?? {}
-      )) {
-        take(`${featureName}.${section}.${memberName}`, member)
-      }
-    }
-    for (const [memberName, member] of Object.entries<any>(
-      entry.returns ?? {}
-    )) {
-      take(`${featureName}.returns.${memberName}`, member)
-    }
-    for (const [memberName, member] of Object.entries<any>(
-      entry.config ?? {}
-    )) {
-      take(`${featureName}.config.${memberName}`, member)
-    }
-  }
-
-  return issues
 }
 
 // ================ MAIN ================
@@ -1883,11 +1787,6 @@ function main() {
     coreBlueprintsPath
   )
   resolveDepOrigins(coreOutput, [coreOutput])
-  if (scope.core) {
-    updateIssues('core', collectIssues(coreOutput))
-  } else {
-    collectIssues(coreOutput)
-  }
 
   if (scope.core) {
     fs.mkdirSync(path.dirname(coreOutputFile), { recursive: true })
@@ -1930,7 +1829,6 @@ function main() {
       adapterBlueprintsPath
     )
     resolveDepOrigins(adapterOutput, [coreOutput, adapterOutput])
-    updateIssues(adapterName, collectIssues(adapterOutput))
 
     const outputDir = path.join(GENERATED_DIR, `_${adapterName}`)
     const outputFile = path.join(outputDir, 'features.json')

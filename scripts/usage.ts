@@ -2,7 +2,6 @@
  * Monorepo CLI help (`pnpm usage`): commands with their flags, and the selector
  * vocabulary discovered live from the workspace.
  */
-import { FILES } from './api-extractor/lib/output'
 import { dim, discoverPackages, green, printBanner } from './runner'
 
 const pkgs = discoverPackages()
@@ -105,22 +104,11 @@ console.log(
       '[adapter]',
       'regenerate the adapter(s) committed registry folder'
     ),
-    [
-      row(
-        'extract',
-        '[targets]',
-        'extract api jsons of core + the adapters into .vueform/api/'
-      ),
-      flagRows([
-        ['--core, --ui, --pv', 'narrow the extracted sources'],
-      ] as Flag[]),
-      row(
-        'extract:validate',
-        null,
-        'validate .vueform/api/ against the schemas'
-      ),
-      row('extract:issues', null, 'print the undocumented items collected'),
-    ].join('\n') + '\n',
+    row(
+      'api',
+      null,
+      'extract api jsons of core + the adapters into .vueform/api/'
+    ) + '\n',
     [
       row(
         'pg',
@@ -148,8 +136,5 @@ console.log(
     '',
     `[adapter]${dim(': vueform adapters')}`,
     `  ${adapterList}`,
-    '',
-    `[targets]${dim(': extract output files (runs all when omitted)')}`,
-    `  ${flags([...FILES])}`,
   ].join('\n')
 )

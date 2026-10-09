@@ -3,6 +3,7 @@
   "scripts": {
     "build": "vpr :build",
     "check": "vpr :check",
+    "api": "tsx scripts/api.ts",
     "fix": "vpr :fix",
     "fmt": "vp fmt",
     "lint": "vpr :lint",

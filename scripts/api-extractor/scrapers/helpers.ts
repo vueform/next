@@ -4,7 +4,7 @@ import * as path from 'node:path'
 import * as ts from 'typescript'
 
 import { corePackage, nonCoreAdapters } from '../lib/adapters.js'
-import { importedCalleeName } from '../lib/extract.js'
+import { createProgram, importedCalleeName } from '../lib/extract.js'
 import { generatedDir, monorepoRoot } from '../lib/paths.js'
 import { parseScope } from '../lib/scope.js'
 
@@ -44,28 +44,6 @@ interface HelperEntry {
 }
 
 // ============= TS PROGRAM =============
-
-function createProgram(pkgDir: string) {
-  const configPath = path.join(pkgDir, 'tsconfig.json')
-  const raw = ts.readConfigFile(configPath, ts.sys.readFile)
-
-  if (raw.error) {
-    throw new Error(
-      `Failed to read ${configPath}: ${ts.flattenDiagnosticMessageText(raw.error.messageText, '\n')}`
-    )
-  }
-
-  const parsed = ts.parseJsonConfigFileContent(
-    raw.config,
-    ts.sys,
-    path.dirname(configPath),
-    undefined,
-    configPath
-  )
-  const program = ts.createProgram(parsed.fileNames, parsed.options)
-
-  return { program, checker: program.getTypeChecker() }
-}
 
 // ============ JSDOC HELPERS ===========
 

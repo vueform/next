@@ -1,0 +1,16 @@
+{
+  "adapters": {
+    "ui": {
+      "path": "packages/ui"
+    },
+    "primevue": {
+      "path": "packages/primevue",
+      "typeOverrides": {
+        "text": "input-text",
+        "checkboxes": "checkbox-group",
+        "radios": "radio-button-group",
+        "radio": "radio-button"
+      }
+    }
+  }
+}

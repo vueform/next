@@ -103,7 +103,12 @@ export interface DefaultEntry {
 // ============= TS PROGRAM =============
 
 export function createProgram(packageDir: string) {
-  const configPath = path.join(packageDir, 'tsconfig.json')
+  // The packages' tsconfig.json is a solution file (`files: []` +
+  // `references`) — the sources live in the app leg's include.
+  const appConfigPath = path.join(packageDir, 'tsconfig.app.json')
+  const configPath = fs.existsSync(appConfigPath)
+    ? appConfigPath
+    : path.join(packageDir, 'tsconfig.json')
   const raw = ts.readConfigFile(configPath, ts.sys.readFile)
 
   if (raw.error) {

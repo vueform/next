@@ -3,6 +3,10 @@
  * (docs/config.json) for presentation concerns (hosts, sidebar configs, type
  * page output dirs); this one holds only what scraping needs.
  */
+import * as fs from 'node:fs'
+import * as path from 'node:path'
+
+import { pkgRoot } from './paths'
 
 /**
  * Where core lives — a fact of the monorepo, not adapter configuration.
@@ -24,23 +28,15 @@ export interface AdapterDef {
   typeOverrides?: Record<string, string>
 }
 
-export const adapters: Record<string, AdapterDef> = {
-  // "ui" is the core-based default adapter: its structural data is scraped
-  // from @vueform/core (the corePackage fallback); its own package holds only
-  // styles, config and re-exports.
-  ui: {
-    path: 'packages/ui',
-  },
-  primevue: {
-    path: 'packages/primevue',
-    typeOverrides: {
-      text: 'input-text',
-      checkboxes: 'checkbox-group',
-      radios: 'radio-button-group',
-      radio: 'radio-button',
-    },
-  },
-}
+/**
+ * The adapter registry lives in ../config.json. Of note there: "ui" is the
+ * core-based default adapter — its structural data is scraped from
+ * @vueform/core (the corePackage fallback); its own package holds only
+ * styles, config and re-exports.
+ */
+export const adapters: Record<string, AdapterDef> = JSON.parse(
+  fs.readFileSync(path.join(pkgRoot, 'config.json'), 'utf8')
+).adapters
 
 export const nonCoreAdapters = Object.entries(adapters).filter(
   ([name]) => name !== 'ui'
