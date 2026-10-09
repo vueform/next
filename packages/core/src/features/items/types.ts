@@ -639,6 +639,8 @@ export interface ItemsProps<
    * Transforms data received from an endpoint into the items format. When
    * `items` is a string (endpoint URL), the HTTP response data is passed
    * through this function before normalization.
+   *
+   * @write
    */
   transformItems?: (data: any) => any[] | Record<string, any>
 }

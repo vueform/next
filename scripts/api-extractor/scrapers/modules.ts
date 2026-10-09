@@ -4,7 +4,12 @@ import * as path from 'node:path'
 import * as ts from 'typescript'
 
 import { corePackage, nonCoreAdapters } from '../lib/adapters'
-import { createProgram, loc } from '../lib/extract'
+import {
+  createProgram,
+  getJSDocParamDescriptions,
+  getSymbolDescription,
+  loc,
+} from '../lib/extract'
 import { generatedDir, monorepoRoot } from '../lib/paths'
 import { parseScope } from '../lib/scope'
 
@@ -53,44 +58,6 @@ interface ModuleEntry {
 
 function singleLine(s: string): string {
   return s.replace(/\s*\n\s*/g, ' ').trim()
-}
-
-function getSymbolDescription(
-  symbol: ts.Symbol,
-  checker: ts.TypeChecker
-): string {
-  return singleLine(
-    symbol
-      .getDocumentationComment(checker)
-      .map((p) => p.text)
-      .join('')
-  )
-}
-
-function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
-  const result = new Map<string, string>()
-
-  for (const entry of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(entry) || !entry.tags) continue
-
-    for (const tag of entry.tags) {
-      if (
-        !ts.isJSDocParameterTag(tag) ||
-        !tag.name ||
-        !ts.isIdentifier(tag.name)
-      )
-        continue
-
-      const comment =
-        typeof tag.comment === 'string'
-          ? tag.comment
-          : (tag.comment?.map((c) => c.text || '').join('') ?? '')
-
-      result.set(tag.name.text, singleLine(comment))
-    }
-  }
-
-  return result
 }
 
 function getNodeJSDocDescription(node: ts.Node): string {

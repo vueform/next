@@ -21,6 +21,7 @@ catalog:
   '@primevue/core': ^4.5.5
   '@tsconfig/node22': ^22.0.6
   '@types/hast': ^3.0.5
+  '@vscode/web-custom-data': ^0.6.3
   '@types/node': ^24.13.6
   '@typescript-eslint/parser': ^8.52.0
   '@vitejs/plugin-vue': ^6.0.9

@@ -376,6 +376,8 @@ export interface MatrixProps<
   /**
    * Transforms data received from a `cols` endpoint or function into the cols
    * format before normalization.
+   *
+   * @param data The data received from the endpoint.
    */
   transformCols?: (data: any) => any[] | Record<string, any>
 
@@ -397,6 +399,8 @@ export interface MatrixProps<
   /**
    * Transforms data received from a `rows` endpoint or function into the rows
    * format before normalization.
+   *
+   * @param data The data received from the endpoint.
    */
   transformRows?: (data: any) => any[] | Record<string, any>
 
@@ -422,6 +426,8 @@ export interface MatrixProps<
   /**
    * Transforms data received from the `endpoint` before the column and row
    * definitions are extracted.
+   *
+   * @param data The data to transform.
    */
   transformEndpoint?: (data: any) => any[] | Record<string, any>
 }

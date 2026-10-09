@@ -73,6 +73,7 @@ export interface VfFileSlots<
    * @param props.disabled Whether the element is disabled.
    * @param props.type The kind of value: `'file'`, `'string'`, or `'object'`.
    * @param props.remove Callback to remove a file by index.
+   * @param props.remove.index The index to remove.
    */
   file: (props: {
     value: FileProp

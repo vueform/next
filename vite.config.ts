@@ -527,6 +527,13 @@ export default defineConfig({
         command: 'tsx scripts/api.ts',
         dependsOn: [':build:utils'],
       },
+      // Report-only: regenerates missing.json from the existing trees
+      // (`--flagged` / `--unflagged` narrow it); never cached — the output
+      // depends on the flags.
+      ':api:missing': {
+        command: 'tsx scripts/api-missing.ts',
+        cache: false,
+      },
     },
   },
 })

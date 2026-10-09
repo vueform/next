@@ -102,6 +102,10 @@ export function blueprint<TProps extends ColProps>(
 ) {
   const rowContext = useRowContext()
   const config = useConfig()
+
+  /**
+   * @write
+   */
   const uid = useCurrentInstance().uid
 
   if (!rowContext) {
@@ -170,7 +174,14 @@ export function blueprint<TProps extends ColProps>(
     return false
   })
 
+  /**
+   * @write
+   */
   const colspan = toRef(() => Number(props.colspan || 1))
+
+  /**
+   * @write
+   */
   const rowspan = toRef(() => Number(props.rowspan || 1))
 
   /**

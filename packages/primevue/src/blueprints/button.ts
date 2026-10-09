@@ -176,6 +176,10 @@ export function blueprint<TProps extends ButtonProps<string>>(
     .use(makeButton())
     .build()
 
+  /**
+   * The element the button renders as — an anchor (`a`) when `href` is set,
+   * the default button element otherwise.
+   */
   const as = computed(() => {
     return props.href ? 'a' : undefined
   })

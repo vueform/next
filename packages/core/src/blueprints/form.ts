@@ -2050,11 +2050,7 @@ function setup(
 
   // ============== AUTOSAVE ==============
 
-  const {
-    autosave: triggerAutosave,
-    clearAutosaved,
-    loadAutosaved,
-  } = useAutosave({
+  const { autosave, clearAutosaved, loadAutosaved } = useAutosave({
     autosave: toRef(() => props.autosave),
     payload,
     model,
@@ -2150,7 +2146,7 @@ function setup(
     clearMessageBag,
     submit,
     abort,
-    autosave: triggerAutosave,
+    autosave,
     clearAutosaved,
     loadAutosaved,
     on,

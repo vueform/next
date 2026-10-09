@@ -8,7 +8,11 @@ source of truth for anything that needs to know what Vueform is made of
 
 ```sh
 # at the monorepo root
-pnpm api   # run every scraper for every source + assemble
+pnpm api                     # run every scraper for every source + assemble
+pnpm api:missing             # regenerate missing.json from the existing trees
+pnpm api:missing --flagged   # …only `@write`-flagged entries
+pnpm api:missing --unflagged # …only entries without `@write`
+pnpm api:missing --unique    # …each loc once (first occurrence wins)
 ```
 
 The orchestrator takes no flags — it only guarantees that the jsons are
@@ -18,7 +22,8 @@ missing descriptions across the assembled trees (an empty `description`
 value; nodes without the key — like blueprint entries — and inheriting
 `{from}` references don't count), writes the report to
 `.vueform/api/missing.json` (per target/file, each node's `loc` as a
-clickable `file://…#L<line>` link) and prints a yellow summary line. Validation and issue tracking were removed
+clickable `file://…#L<line>` link; entries whose docblock carries `@write`
+are marked `flagged: true`) and prints a yellow summary line. Validation and issue tracking were removed
 pending the extractor rework. A scraper run standalone accepts
 `--adapter=x,y` / `-a=x,y` / `-A=x,y` to scope to the listed adapters
 (default: core + every adapter).

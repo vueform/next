@@ -4,7 +4,14 @@ import * as path from 'node:path'
 import * as ts from 'typescript'
 
 import { corePackage, nonCoreAdapters } from '../lib/adapters.js'
-import { createProgram, importedCalleeName, loc } from '../lib/extract.js'
+import {
+  addOverloadParamDescriptions,
+  createProgram,
+  getJSDocParamDescriptions,
+  getSymbolDescription,
+  importedCalleeName,
+  loc,
+} from '../lib/extract.js'
 import { generatedDir, monorepoRoot } from '../lib/paths.js'
 import { parseScope } from '../lib/scope.js'
 
@@ -52,44 +59,6 @@ interface HelperEntry {
 
 function singleLine(s: string): string {
   return s.replace(/\s*\n\s*/g, ' ').trim()
-}
-
-function getSymbolDescription(
-  symbol: ts.Symbol,
-  checker: ts.TypeChecker
-): string {
-  return singleLine(
-    symbol
-      .getDocumentationComment(checker)
-      .map((p) => p.text)
-      .join('')
-  )
-}
-
-function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
-  const result = new Map<string, string>()
-
-  for (const entry of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(entry) || !entry.tags) continue
-
-    for (const tag of entry.tags) {
-      if (
-        !ts.isJSDocParameterTag(tag) ||
-        !tag.name ||
-        !ts.isIdentifier(tag.name)
-      )
-        continue
-
-      const comment =
-        typeof tag.comment === 'string'
-          ? tag.comment
-          : (tag.comment?.map((c) => c.text || '').join('') ?? '')
-
-      result.set(tag.name.text, singleLine(comment))
-    }
-  }
-
-  return result
 }
 
 function getNodeJSDocDescription(node: ts.Node): string {
@@ -470,6 +439,9 @@ function extractSigParams(
   checker: ts.TypeChecker
 ): Record<string, ParamInfo> | undefined {
   const jsdoc = getJSDocParamDescriptions(sig.getDeclaration())
+  // A property's function type carries no JSDoc of its own — the `@param`
+  // tags live on the owning property signature (the contextNode).
+  const ownerDocs = getJSDocParamDescriptions(contextNode)
   const params: Record<string, ParamInfo> = {}
 
   for (const param of sig.getParameters()) {
@@ -477,7 +449,7 @@ function extractSigParams(
     const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
-      description: jsdoc.get(param.name) ?? '',
+      description: jsdoc.get(param.name) || ownerDocs.get(param.name) || '',
       ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
@@ -1040,7 +1012,11 @@ function scanHelpers(
       if (output[funcName]) return
 
       const description = getNodeJSDocDescription(node)
-      const jsdoc = getJSDocParamDescriptions(node)
+      const jsdoc = addOverloadParamDescriptions(
+        getJSDocParamDescriptions(node),
+        node,
+        sourceFile
+      )
       const category = getJSDocCategory(node)
       const isPrivate = fnDeclarationsHaveTag(node, sourceFile, 'private')
 

@@ -19,6 +19,10 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
+import {
+  collectMissingDescriptions,
+  writeMissingReport,
+} from './api-extractor/lib/missing'
 import { FILES } from './api-extractor/lib/output'
 
 const repoRoot = path.resolve(
@@ -66,104 +70,6 @@ const tasks: ExtractTask[] = [
   })),
   { id: 'assemble', script: path.join(extractorDir, 'assemble.ts') },
 ]
-
-// ---------------------------------------------------------------------------
-// Missing descriptions: after a successful run, every description-bearing
-// node of the assembled trees is checked — missing means a `description`
-// key holding an empty string. Nodes without the key don't count (blueprint
-// entries carry only a `loc` by design), and `{ from: … }` references
-// inherit their origin's docs and are skipped. The report lands in
-// `.vueform/api/missing.json` for the future validator / doc-writing agent.
-
-interface MissingItem {
-  path: string
-  loc?: string
-}
-
-interface MissingReport {
-  total: number
-  /**
-   * Distinct `loc` values — core/ui/primevue repeat the same sources, so
-   * this is the number of places a description actually has to be written.
-   */
-  locations: number
-  targets: Record<string, Record<string, MissingItem[]>>
-}
-
-function collectMissingDescriptions(apiDir: string): MissingReport {
-  const report: MissingReport = { total: 0, locations: 0, targets: {} }
-  const locations = new Set<string>()
-
-  const walk = (
-    node: unknown,
-    jsonPath: string,
-    items: MissingItem[],
-    excludeCoreLocs: boolean
-  ) => {
-    if (Array.isArray(node)) {
-      node.forEach((child, i) =>
-        walk(child, `${jsonPath}[${i}]`, items, excludeCoreLocs)
-      )
-      return
-    }
-    if (!node || typeof node !== 'object') return
-    const record = node as Record<string, unknown>
-
-    const isFromRef = typeof record.from === 'string'
-    // Adapter trees merge core's entries in — a node whose loc points into
-    // core is already listed under the core target, so adapter targets only
-    // list their own sources.
-    const inheritedFromCore =
-      excludeCoreLocs &&
-      typeof record.loc === 'string' &&
-      record.loc.startsWith('packages/core/')
-    const missing =
-      !isFromRef &&
-      !inheritedFromCore &&
-      typeof record.description === 'string' &&
-      record.description.trim() === ''
-
-    if (missing) {
-      report.total++
-      const item: MissingItem = { path: jsonPath }
-      if (typeof record.loc === 'string') {
-        // As a `file://<abs>#L<line>` URL the loc is clickable right in the
-        // editor view of missing.json (the editor's link detector only
-        // recognizes http/https/file schemes; the #L fragment carries the
-        // line).
-        const splitAt = record.loc.lastIndexOf(':')
-        const relPath = record.loc.slice(0, splitAt)
-        const line = record.loc.slice(splitAt + 1)
-        item.loc = `file://${path.resolve(repoRoot, relPath)}#L${line}`
-        locations.add(record.loc)
-      }
-      items.push(item)
-    }
-
-    for (const [key, child] of Object.entries(record)) {
-      walk(child, jsonPath ? `${jsonPath}.${key}` : key, items, excludeCoreLocs)
-    }
-  }
-
-  for (const target of fs.readdirSync(apiDir)) {
-    if (target === 'logs') continue
-    if (!fs.statSync(path.join(apiDir, target)).isDirectory()) continue
-    const files: Record<string, MissingItem[]> = {}
-    for (const file of fs.readdirSync(path.join(apiDir, target))) {
-      if (!file.endsWith('.json')) continue
-      const items: MissingItem[] = []
-      const data = JSON.parse(
-        fs.readFileSync(path.join(apiDir, target, file), 'utf8')
-      )
-      walk(data, '', items, target !== 'core')
-      if (items.length) files[path.basename(file, '.json')] = items
-    }
-    if (Object.keys(files).length) report.targets[target] = files
-  }
-
-  report.locations = locations.size
-  return report
-}
 
 async function main(): Promise<void> {
   // ---------------------------------------------------------------------------
@@ -371,10 +277,8 @@ async function main(): Promise<void> {
   } else {
     console.log(`\n${green('All targets extracted.')}`)
 
-    const apiDir = path.join(repoRoot, '.vueform', 'api')
-    const missing = collectMissingDescriptions(apiDir)
-    const missingFile = path.join(apiDir, 'missing.json')
-    fs.writeFileSync(missingFile, JSON.stringify(missing, null, 2) + '\n')
+    const missing = collectMissingDescriptions()
+    const missingFile = writeMissingReport(missing)
 
     if (missing.total > 0) {
       console.log(

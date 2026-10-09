@@ -4,7 +4,14 @@ import * as path from 'node:path'
 import * as ts from 'typescript'
 
 import { corePackage, adapters, nonCoreAdapters } from '../lib/adapters'
-import { createProgram, loc } from '../lib/extract'
+import {
+  createProgram,
+  domEventPayloadDescription,
+  getJSDocParamDescriptions,
+  getSymbolDescription,
+  htmlAttributeDescription,
+  loc,
+} from '../lib/extract'
 import { generatedDir, monorepoRoot } from '../lib/paths'
 import { parseScope } from '../lib/scope'
 
@@ -70,44 +77,6 @@ interface DefaultEntry {
 
 function singleLine(s: string): string {
   return s.replace(/\s*\n\s*/g, ' ').trim()
-}
-
-function getSymbolDescription(
-  symbol: ts.Symbol,
-  checker: ts.TypeChecker
-): string {
-  return singleLine(
-    symbol
-      .getDocumentationComment(checker)
-      .map((p) => p.text)
-      .join('')
-  )
-}
-
-function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
-  const result = new Map<string, string>()
-
-  for (const entry of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(entry) || !entry.tags) continue
-
-    for (const tag of entry.tags) {
-      if (
-        !ts.isJSDocParameterTag(tag) ||
-        !tag.name ||
-        !ts.isIdentifier(tag.name)
-      )
-        continue
-
-      const comment =
-        typeof tag.comment === 'string'
-          ? tag.comment
-          : (tag.comment?.map((c) => c.text || '').join('') ?? '')
-
-      result.set(tag.name.text, singleLine(comment))
-    }
-  }
-
-  return result
 }
 
 function getNodeJSDocDescription(node: ts.Node): string {
@@ -202,6 +171,10 @@ function getFunctionParams(
   if (!sigs.length) return undefined
 
   const jsdoc = getJSDocParamDescriptions(decl)
+  // The member's decl can be a doc-less alias (a destructured binding, a
+  // re-export) — the function's own declaration carries the docblock then.
+  const sigDecl = sigs[0].getDeclaration() as ts.Declaration | undefined
+  const sigDocs = sigDecl ? getJSDocParamDescriptions(sigDecl) : undefined
   const params: Record<string, ParamInfo> = {}
 
   for (const param of sigs[0].getParameters()) {
@@ -209,7 +182,11 @@ function getFunctionParams(
     const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
-      description: jsdoc.get(param.name) ?? '',
+      description:
+        jsdoc.get(param.name) ||
+        sigDocs?.get(param.name) ||
+        domEventPayloadDescription(param.name, paramDecl) ||
+        '',
       ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
@@ -297,7 +274,10 @@ function extractProps(
     if (!decl) continue
 
     const { typeText, isFunction } = getPropertyTypeInfo(propSym, decl, checker)
-    const description = getSymbolDescription(propSym, checker)
+    const description =
+      getSymbolDescription(propSym, checker) ||
+      htmlAttributeDescription(propSym.name, decl) ||
+      ''
     const info: PropInfo = { type: typeText, description, loc: loc(decl) }
 
     if (ts.isPropertySignature(decl) && !decl.questionToken) {
@@ -329,6 +309,71 @@ function extractProps(
   return result
 }
 
+const kebabToCamel = (s: string) =>
+  s.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase())
+
+/**
+ * Members contributed by a `ForwardedEmits<ALibEmits, …>` heritage are
+ * mapped-type synthetics without declarations or docs. This maps each
+ * forwarded member's camelCased name to the original emit member of the
+ * referenced lib type, so descriptions, params and locs can be read from the
+ * lib's d.ts.
+ */
+function forwardedEmitOrigins(
+  checker: ts.TypeChecker,
+  interfaceDecl: ts.InterfaceDeclaration
+): Map<string, ts.Symbol> {
+  const origins = new Map<string, ts.Symbol>()
+  const sourceFile = interfaceDecl.getSourceFile()
+
+  for (const clause of interfaceDecl.heritageClauses ?? []) {
+    for (const typeExpr of clause.types) {
+      if (typeExpr.expression.getText(sourceFile) !== 'ForwardedEmits') {
+        continue
+      }
+      const emitsArg = typeExpr.typeArguments?.[0]
+      if (!emitsArg) continue
+      for (const prop of checker.getTypeAtLocation(emitsArg).getProperties()) {
+        origins.set(kebabToCamel(prop.name), prop)
+      }
+    }
+  }
+
+  return origins
+}
+
+/**
+ * Params of a forwarded event, read from the original lib emit method:
+ * declared parameters (types, `@param` docs, locs) plus the `context$` the
+ * ForwardedEmits mapping appends as the last argument.
+ */
+function forwardedEventParams(
+  decl: ts.Declaration
+): Record<string, ParamInfo> | undefined {
+  if (!ts.isMethodSignature(decl)) return undefined
+
+  const sourceFile = decl.getSourceFile()
+  const jsdoc = getJSDocParamDescriptions(decl)
+  const params: Record<string, ParamInfo> = {}
+
+  for (const param of decl.parameters) {
+    const name = param.name.getText(sourceFile)
+    params[name] = {
+      type: param.type
+        ? param.type.getText(sourceFile).replace(/\s+/g, ' ').trim()
+        : 'any',
+      // Lib docblocks write `@param {Type} name - Description.` — drop the
+      // dash separator.
+      description: (jsdoc.get(name) ?? '').replace(/^-\s*/, ''),
+      loc: loc(param),
+    }
+  }
+
+  params.context$ = { type: 'TContext', description: 'The component context.' }
+
+  return params
+}
+
 function extractEvents(
   checker: ts.TypeChecker,
   interfaceDecl: ts.InterfaceDeclaration
@@ -338,21 +383,33 @@ function extractEvents(
   if (!sym) return result
 
   const type = checker.getDeclaredTypeOfSymbol(sym)
+  const origins = forwardedEmitOrigins(checker, interfaceDecl)
 
   for (const propSym of type.getProperties()) {
-    const description = getSymbolDescription(propSym, checker)
-    const params = getEventParams(propSym, checker)
-    // Mapped-type members (forwarded adapter events) have no declaration of
-    // their own — anchor those on the Emits interface instead.
-    const decl = propSym.getDeclarations()?.[0] ?? interfaceDecl
+    const decl = propSym.getDeclarations()?.[0]
 
-    const info: EventInfo = {
-      description,
-      loc: loc(decl),
-      params: params ?? {},
+    if (decl) {
+      result[propSym.name] = {
+        description: getSymbolDescription(propSym, checker),
+        loc: loc(decl),
+        params: getEventParams(propSym, checker) ?? {},
+      }
+      continue
     }
 
-    result[propSym.name] = info
+    // Mapped-type member (forwarded adapter event) — docs, params and loc
+    // live on the original emit member of the lib type.
+    const origin = origins.get(propSym.name)
+    const originDecl = origin?.getDeclarations()?.[0]
+    result[propSym.name] =
+      origin && originDecl
+        ? {
+            description: getSymbolDescription(origin, checker),
+            loc: loc(originDecl),
+            params: forwardedEventParams(originDecl) ?? {},
+          }
+        : // Unresolvable synthetic — anchor on the Emits interface.
+          { description: '', loc: loc(interfaceDecl), params: {} }
   }
 
   return result

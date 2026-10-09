@@ -433,6 +433,8 @@ export interface OptionsProps<
    * Transforms data received from an endpoint into the options format. When
    * `options` is a string (endpoint URL), the HTTP response data is passed
    * through this function before normalization.
+   *
+   * @param data The received from the endpoint.
    */
   transformOptions?: (data: any) => any[] | Record<string, any>
 }

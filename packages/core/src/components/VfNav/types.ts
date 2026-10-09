@@ -54,6 +54,8 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
    * @param props.pager The pager instance managing navigation state.
    * @param props.form$ The form's component context.
    * @param props.disabled Whether the button is disabled.
+   * @param props.fluid Whether the nav is in fluid position mode — the button
+   *   stretches to the full available width.
    * @param props.a11yBindings Ready-to-spread ARIA attribute bindings for the
    *   rendered control.
    * @param props.back Handler to navigate back.
@@ -93,6 +95,8 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
    * @param props.form$ The form's component context.
    * @param props.disabled Whether the button is disabled.
    * @param props.loading Whether the form is in a loading state.
+   * @param props.fluid Whether the nav is in fluid position mode — the button
+   *   stretches to the full available width.
    * @param props.a11yBindings Ready-to-spread ARIA attribute bindings for the
    *   rendered control.
    * @param props.next Handler to navigate to the next step.
@@ -133,6 +137,8 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
    * @param props.form$ The form's component context.
    * @param props.disabled Whether the button is disabled.
    * @param props.loading Whether the form is in a loading state.
+   * @param props.fluid Whether the nav is in fluid position mode — the button
+   *   stretches to the full available width.
    * @param props.a11yBindings Ready-to-spread ARIA attribute bindings for the
    *   rendered control.
    * @param props.finish Handler to finish/submit the form.

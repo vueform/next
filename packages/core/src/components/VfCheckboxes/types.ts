@@ -129,25 +129,43 @@ export interface VfCheckboxesSlots<
   /**
    * Slot that replaces the default checkboxes rendering.
    *
-   * @param props.checkboxName The shared checkbox name attribute.
-   * @param props.disabled Whether the checkboxes are disabled.
-   * @param props.label The element's resolved label.
-   * @param props.items Resolved flat checkbox items.
-   * @param props.groups Resolved checkbox groups.
-   * @param props.grouped Whether items are rendered as groups.
+   * @param scope The default slot's params.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The shared checkbox name attribute.
+     */
     checkboxName: string
+
+    /**
+     * Whether the checkboxes are disabled.
+     */
     disabled: boolean
+
+    /**
+     * The element's resolved label.
+     */
     label: string | undefined
+
+    /**
+     * Resolved flat checkbox items.
+     */
     items: ResolvedItem<
       ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>,
       RawItemOf<TItems, TGroupChildren>
     >[]
+
+    /**
+     * Resolved checkbox groups.
+     */
     groups: ResolvedGroup<
       ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>,
       RawItemOf<TItems, TGroupChildren>
     >[]
+
+    /**
+     * Whether items are rendered as groups.
+     */
     grouped: boolean
   }) => VNode[]
 
