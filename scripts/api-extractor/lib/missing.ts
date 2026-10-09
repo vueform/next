@@ -13,86 +13,39 @@ import * as path from 'node:path'
 
 import { generatedDir, monorepoRoot } from './paths'
 
-export interface MissingItem {
-  path: string
-  /**
-   * Whether the declaration's docblock carries `@write` — deliberately
-   * writable and left undescribed.
-   */
-  flagged: boolean
-  loc?: string
-}
+/**
+ * Flat map: `<target>.<file>.<node path>` → the node's `loc` (empty when
+ * the node has none).
+ */
+export type MissingReport = Record<string, string>
 
-export interface MissingReport {
-  total: number
+export interface MissingOptions {
   /**
-   * Distinct `loc` values — core/ui/primevue repeat the same sources, so
-   * this is the number of places a description actually has to be written.
+   * Write locs as clickable `file://<abs>#L<line>` URLs instead of the
+   * repo-relative `path:line` default.
    */
-  locations: number
-  targets: Record<string, Record<string, MissingItem[]>>
+  fullPath?: boolean
 }
 
 /**
- * Restricts the report to `@write`-flagged entries or to unflagged ones;
- * without it everything is included.
+ * Every `loc` is listed once — the first occurrence wins (targets are
+ * walked alphabetically, so that is core's).
  */
-export type MissingFilter = 'flagged' | 'unflagged'
-
-export interface MissingOptions {
-  filter?: MissingFilter
-  /**
-   * List each `loc` only once — the first occurrence wins (targets are
-   * walked alphabetically, so that is core's).
-   */
-  unique?: boolean
-}
-
 export function collectMissingDescriptions({
-  filter,
-  unique,
+  fullPath,
 }: MissingOptions = {}): MissingReport {
-  const report: MissingReport = { total: 0, locations: 0, targets: {} }
+  const report: MissingReport = {}
   const locations = new Set<string>()
-
-  // Cached source lines for the @write docblock check.
-  const sourceLines = new Map<string, string[]>()
-  const hasWriteTag = (rawLoc: string): boolean => {
-    const splitAt = rawLoc.lastIndexOf(':')
-    const rel = rawLoc.slice(0, splitAt)
-    const line = Number(rawLoc.slice(splitAt + 1))
-    let lines = sourceLines.get(rel)
-    if (!lines) {
-      try {
-        lines = fs
-          .readFileSync(path.resolve(monorepoRoot, rel), 'utf8')
-          .split('\n')
-      } catch {
-        lines = []
-      }
-      sourceLines.set(rel, lines)
-    }
-    // The loc line is the declaration itself (leading trivia skipped), so its
-    // docblock ends right above — scan that contiguous block upward.
-    let i = line - 2
-    if (i < 0 || !lines[i]?.trim().endsWith('*/')) return false
-    for (; i >= 0; i--) {
-      const text = lines[i].trim()
-      if (text.includes('@write')) return true
-      if (text.startsWith('/*')) break
-    }
-    return false
-  }
 
   const walk = (
     node: unknown,
     jsonPath: string,
-    items: MissingItem[],
+    keyPrefix: string,
     excludeCoreLocs: boolean
   ) => {
     if (Array.isArray(node)) {
       node.forEach((child, i) =>
-        walk(child, `${jsonPath}[${i}]`, items, excludeCoreLocs)
+        walk(child, `${jsonPath}[${i}]`, keyPrefix, excludeCoreLocs)
       )
       return
     }
@@ -114,55 +67,56 @@ export function collectMissingDescriptions({
       record.description.trim() === ''
 
     if (missing) {
-      const item: MissingItem = { path: jsonPath, flagged: false }
-      if (typeof record.loc === 'string') {
-        item.flagged = hasWriteTag(record.loc)
-      }
-      const included =
-        !filter || (filter === 'flagged') === item.flagged // both directions
       const duplicate =
-        unique === true &&
-        typeof record.loc === 'string' &&
-        locations.has(record.loc)
-      if (included && !duplicate) {
-        report.total++
+        typeof record.loc === 'string' && locations.has(record.loc)
+      if (!duplicate) {
+        let loc = ''
         if (typeof record.loc === 'string') {
-          // As a `file://<abs>#L<line>` URL the loc is clickable right in
-          // the editor view of missing.json (the editor's link detector only
-          // recognizes http/https/file schemes; the #L fragment carries the
-          // line).
-          const splitAt = record.loc.lastIndexOf(':')
-          const relPath = record.loc.slice(0, splitAt)
-          const line = record.loc.slice(splitAt + 1)
-          item.loc = `file://${path.resolve(monorepoRoot, relPath)}#L${line}`
+          if (fullPath) {
+            // As a `file://<abs>#L<line>` URL the loc is clickable right in
+            // the editor view of missing.json (the editor's link detector
+            // only recognizes http/https/file schemes; the #L fragment
+            // carries the line).
+            const splitAt = record.loc.lastIndexOf(':')
+            const relPath = record.loc.slice(0, splitAt)
+            const line = record.loc.slice(splitAt + 1)
+            loc = `file://${path.resolve(monorepoRoot, relPath)}#L${line}`
+          } else {
+            loc = record.loc
+          }
           locations.add(record.loc)
         }
-        items.push(item)
+        report[`${keyPrefix}.${jsonPath}`] = loc
       }
     }
 
     for (const [key, child] of Object.entries(record)) {
-      walk(child, jsonPath ? `${jsonPath}.${key}` : key, items, excludeCoreLocs)
+      walk(
+        child,
+        jsonPath ? `${jsonPath}.${key}` : key,
+        keyPrefix,
+        excludeCoreLocs
+      )
     }
   }
 
   for (const target of fs.readdirSync(generatedDir)) {
     if (target === 'logs') continue
     if (!fs.statSync(path.join(generatedDir, target)).isDirectory()) continue
-    const files: Record<string, MissingItem[]> = {}
     for (const file of fs.readdirSync(path.join(generatedDir, target))) {
       if (!file.endsWith('.json')) continue
-      const items: MissingItem[] = []
       const data = JSON.parse(
         fs.readFileSync(path.join(generatedDir, target, file), 'utf8')
       )
-      walk(data, '', items, target !== 'core')
-      if (items.length) files[path.basename(file, '.json')] = items
+      walk(
+        data,
+        '',
+        `${target}.${path.basename(file, '.json')}`,
+        target !== 'core'
+      )
     }
-    if (Object.keys(files).length) report.targets[target] = files
   }
 
-  report.locations = locations.size
   return report
 }
 

@@ -279,11 +279,12 @@ async function main(): Promise<void> {
 
     const missing = collectMissingDescriptions()
     const missingFile = writeMissingReport(missing)
+    const total = Object.keys(missing).length
 
-    if (missing.total > 0) {
+    if (total > 0) {
       console.log(
         `\n${yellow(
-          `⚠ ${missing.total} missing description${missing.total > 1 ? 's' : ''} (${missing.locations} unique locations)`
+          `⚠ ${total} missing description${total > 1 ? 's' : ''}`
         )}${dim(' — ')}${termLink(missingFile)}`
       )
     }
