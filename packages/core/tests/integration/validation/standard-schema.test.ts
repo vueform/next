@@ -1,13 +1,14 @@
-import { defineComponent } from 'vue'
-import { z } from 'zod'
-import { createForm, flushPromises, mountApp } from '../../helpers'
 import {
   useModel,
   defineComputedSchema,
   defineSchema,
   getValidationModule,
   type StandardSchemaV1,
-} from '#core'
+} from '@vueform/core'
+import { defineComponent } from 'vue'
+import { z } from 'zod'
+
+import { createForm, flushPromises, mountApp } from '../../helpers'
 
 /**
  * Builds a spec-compliant Standard Schema V1 mock around a validate function.

@@ -33,18 +33,19 @@ import {
   type AlignedProps,
   aliasProps,
 } from '@vueform/core'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   RatingProps as ARatingProps,
   RatingEmitsOptions as ARatingEmits,
   RatingChangeEvent,
 } from 'primevue/rating'
+
 import {
   makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
-} from '#primevue/features'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Props for the rating element blueprint.

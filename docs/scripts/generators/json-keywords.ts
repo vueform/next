@@ -1,6 +1,7 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import uiConfig from '../../.vitepress/adapters/ui/config'
 import { requireData, SCRAPE_HINT } from './ensureData'
 
@@ -8,8 +9,8 @@ import { requireData, SCRAPE_HINT } from './ensureData'
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
-const GENERATED_DIR = path.join(DOCS_ROOT, '.generated')
-const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.api')
+const GENERATED_DIR = path.join(DOCS_ROOT, '..', '.vueform', 'docs')
+const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
 
 requireData('keywords', path.join(SCRAPED_DIR, 'core'), SCRAPE_HINT)
 
@@ -101,9 +102,21 @@ function collectHelpers(file: string): Record<string, any> {
 
 interface ModifierData {
   description: string
-  file?: string
-  line?: number
+  loc?: string
   tokens?: string[]
+}
+
+/**
+ * Turns a repo-relative `path:line` loc string into a GitHub blob link.
+ * Splits at the last colon (paths contain no colon, but be safe).
+ */
+function locToGithub(baseUrl: string, loc?: string): string | undefined {
+  if (!loc) return undefined
+  const idx = loc.lastIndexOf(':')
+  if (idx === -1) return undefined
+  const file = loc.slice(0, idx)
+  const line = loc.slice(idx + 1)
+  return file && line ? `${baseUrl}${file}#L${line}` : undefined
 }
 
 /**
@@ -113,8 +126,7 @@ function buildClassEntry(
   baseUrl: string,
   mod: ModifierData
 ): Record<string, any> {
-  const githubUrl =
-    mod.file && mod.line ? `${baseUrl}${mod.file}#L${mod.line}` : undefined
+  const githubUrl = locToGithub(baseUrl, mod.loc)
   const popover: string[] = [mod.description]
   if (mod.tokens?.length) popover.push('$tokens')
   if (githubUrl) popover.push('$github')
@@ -142,8 +154,7 @@ function collectClasses(
   for (const [name, entry] of Object.entries(data)) {
     const classEntry = entry as {
       description: string
-      file?: string
-      line?: number
+      loc?: string
       tokens?: string[]
       modifiers?: Record<string, ModifierData>
     }
@@ -201,14 +212,10 @@ function collectTokens(
   for (const [cssVar, entry] of Object.entries(data)) {
     const tokenEntry = entry as {
       description?: string
-      file?: string
-      line?: number
+      loc?: string
     }
     if (!tokenEntry.description) continue
-    const githubUrl =
-      tokenEntry.file && tokenEntry.line
-        ? `${baseUrl}${tokenEntry.file}#L${tokenEntry.line}`
-        : undefined
+    const githubUrl = locToGithub(baseUrl, tokenEntry.loc)
     const classes = tokenToClasses[cssVar]
     const popover: string[] = [tokenEntry.description]
     if (classes?.length) popover.push('$classes')

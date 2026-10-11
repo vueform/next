@@ -1,3 +1,5 @@
+import type { VNode } from 'vue'
+
 import type {
   TabsApi,
   TabsProps,
@@ -6,16 +8,15 @@ import type {
   TabbedSlots,
   TabsExpose,
   TabsClasses,
-} from '#core/blueprints/tabs'
-import type { ResolvedPage } from '#core/composables'
+} from '#src/blueprints/tabs'
+import type { ResolvedPage } from '#src/composables'
 import type {
   DefineElementContext,
   ClassValue,
   DomAttrsOf,
   UnknownElement,
   DefineRegistryEntry,
-} from '#core/types'
-import type { VNode } from 'vue'
+} from '#src/types'
 
 /**
  * Props for the VfTabs component.
@@ -23,8 +24,8 @@ import type { VNode } from 'vue'
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfTabsProps extends TabsProps<
   VfTabsSlots,
@@ -46,28 +47,90 @@ export interface VfTabsSlots extends TabbedSlots<VfTabsContext> {
    * Slot that replaces each tab wrapper element. Receives tab state and page
    * info.
    */
-  wrapper: (props: {
+  wrapper: (scope: {
+    /**
+     * CSS classes for the tab wrapper.
+     */
     class: ClassValue
+
+    /**
+     * The zero-based index of the tab's page.
+     */
     index: number
+
+    /**
+     * The tab's resolved label text.
+     */
     label?: string
+
+    /**
+     * The metadata object from the page prop's tuple form.
+     */
     meta?: Record<string, any>
+
+    /**
+     * Whether the tab is currently selected.
+     */
     selected: boolean
+
+    /**
+     * Whether the tab's page has validation errors.
+     */
     invalid: boolean
+
+    /**
+     * Whether the tab's page is busy validating or processing an event.
+     */
     loading: boolean
+
+    /**
+     * The tab's element context.
+     */
     el$: UnknownElement
+
+    /**
+     * The resolved page object for this tab.
+     */
     page: ResolvedPage
   }) => VNode[]
 
   /**
    * Slot that replaces each tab's inner content. Receives tab state.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The zero-based index of the tab's page.
+     */
     index: number
+
+    /**
+     * The tab's resolved label text.
+     */
     label?: string
+
+    /**
+     * The metadata object from the page prop's tuple form.
+     */
     meta?: Record<string, any>
+
+    /**
+     * Whether the tab is currently selected.
+     */
     selected: boolean
+
+    /**
+     * Whether the tab's page has validation errors.
+     */
     invalid: boolean
+
+    /**
+     * Whether the tab's page is busy validating or processing an event.
+     */
     loading: boolean
+
+    /**
+     * The tab's element context.
+     */
     el$: UnknownElement
   }) => VNode[]
 }

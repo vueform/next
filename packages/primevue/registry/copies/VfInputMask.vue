@@ -17,14 +17,14 @@ import {
   type LanguagesProp,
   vdomPrime,
 } from '@vueform/primevue'
-import PrimeInputMask from 'primevue/inputmask'
 import {
+  blueprint,
+  defaults,
   type VfInputMaskEmits,
   type VfInputMaskProps,
   type VfInputMaskSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfInputMask'
+import PrimeInputMask from 'primevue/inputmask'
 import type { WritableComputedRef } from 'vue'
 
 const InputMask = vdomPrime(PrimeInputMask)

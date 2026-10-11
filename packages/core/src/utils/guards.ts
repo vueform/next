@@ -1,5 +1,6 @@
 import { toRaw } from 'vue'
-import type { StandardSchemaV1 } from '#core/types'
+
+import type { StandardSchemaV1 } from '#src/types'
 
 /**
  * Checks whether a value has the shape of a File object (name, lastModified,

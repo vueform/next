@@ -5,8 +5,10 @@ import {
   type ComponentInternalInstance,
   type Slot,
 } from 'vue'
+
+import type { ComponentOptions } from '#src/types'
+
 import { camelToKebab } from './string'
-import type { ComponentOptions } from '#core/types'
 
 /**
  * A dynamic props source in a Vapor instance's `rawProps.$` array: either a
@@ -14,7 +16,8 @@ import type { ComponentOptions } from '#core/types'
  * or a plain props object.
  */
 type DynamicPropsSource =
-  (() => Record<string, unknown>) | Record<string, unknown>
+  | (() => Record<string, unknown>)
+  | Record<string, unknown>
 
 /**
  * Structural type for Vue 3.6+ Vapor component instances. Vue does not publicly
@@ -85,10 +88,12 @@ export type GenericInstance = ComponentInternalInstance | VaporInstanceLike
 
 // Vue 3.6 runtime-exports the shared `currentInstance` binding (which holds
 // vapor instances during vapor setup, where `getCurrentInstance()` returns
-// null), but Vue 3.5 does not. Accessing it via a namespace record keeps
-// builds and runtime on 3.5 working (resolves to `undefined`) without a
-// static named import that bundlers would flag as missing.
-const vueRuntime = vue as Record<string, any>
+// null), but Vue 3.5 does not. STATIC namespace property access (`vue.x`,
+// like `rawVaporSlotKey` below) keeps 3.5 working (resolves to `undefined`)
+// AND stays tree-shakeable: aliasing the namespace into a record and using
+// computed access (`vueRuntime['x']`) makes Rolldown-based consumer builds
+// (vite 8) bail out and retain the entire vue runtime (~50 kB gzip measured
+// on the bare `createVueform` import).
 
 /**
  * Returns whether the given instance is a Vapor component instance.
@@ -112,7 +117,7 @@ export function isVaporInstance(
  * subtree root rather than the current component.
  */
 export function getGenericInstance(): GenericInstance | null {
-  const vapor = vueRuntime['currentInstance']
+  const vapor = (vue as Record<string, any>).currentInstance
   if (isVaporInstance(vapor)) return vapor
 
   return getCurrentInstance()
@@ -249,7 +254,8 @@ export function getInstanceRawPropKeys(vm: GenericInstance): string[] {
   if (raw.$) {
     for (const source of raw.$) {
       const resolved = resolveSource(source) as
-        Record<string, unknown> | undefined
+        | Record<string, unknown>
+        | undefined
       if (!resolved) continue
       for (const key in resolved) {
         if (!keys.includes(key)) keys.push(key)
@@ -283,7 +289,8 @@ export function hasInstanceRawProp(vm: GenericInstance, key: string): boolean {
     let i = dynamicSources.length
     while (i--) {
       const source = resolveSource(dynamicSources[i]) as
-        Record<string, unknown> | undefined
+        | Record<string, unknown>
+        | undefined
       if (source && Object.prototype.hasOwnProperty.call(source, key)) {
         return true
       }
@@ -339,7 +346,8 @@ export function getInstanceRawProp(vm: GenericInstance, key: string): unknown {
       const source = dynamicSources[i]
       const isDynamic = typeof source === 'function'
       const resolved = (isDynamic ? resolveSource(source) : source) as
-        Record<string, unknown> | undefined
+        | Record<string, unknown>
+        | undefined
       if (resolved && Object.prototype.hasOwnProperty.call(resolved, key)) {
         return isDynamic ? resolved[key] : resolveSource(resolved[key])
       }

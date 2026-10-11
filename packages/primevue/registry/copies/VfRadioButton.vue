@@ -5,15 +5,16 @@
  */
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
-import PrimeRadioButton from 'primevue/radiobutton'
 import {
+  blueprint,
+  defaults,
   type VfRadioButtonEmits,
   type VfRadioButtonProps,
   type VfRadioButtonSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfRadioButton'
+import PrimeRadioButton from 'primevue/radiobutton'
 import type { Ref } from 'vue'
+
 import '@vueform/primevue/choice.css'
 
 const RadioButton = vdomPrime(PrimeRadioButton)

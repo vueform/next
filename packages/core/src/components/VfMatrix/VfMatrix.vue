@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import type { VfMatrixEmits, VfMatrixProps, VfMatrixSlots } from './types'
 import {
   blueprint,
   defaults,
   normalizeSourceItems,
   resolveItemProp,
-} from '#core/blueprints/matrix'
-import { useBlueprint, useLocale } from '#core/composables'
-import { defineEvents } from '#core/helpers'
-import { isPlainObject } from '#core/utils'
+} from '#src/blueprints/matrix'
+import { useBlueprint, useLocale } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+import { isPlainObject } from '#src/utils'
+
+import type { VfMatrixEmits, VfMatrixProps, VfMatrixSlots } from './types'
 
 defineOptions({
   name: 'VfMatrix',
@@ -188,7 +189,10 @@ defineExpose(expose)
             v-bind="parts.header"
           />
           <div v-else :class="classes.header" v-bind="parts.header">
-            <template v-for="{ id, label, available } in headers">
+            <template
+              v-for="({ id, label, available }, i) in headers"
+              :key="id || i"
+            >
               <slot
                 name="colHeader"
                 v-if="!id || available.value"
@@ -220,11 +224,11 @@ defineExpose(expose)
 
         <div
           v-for="(row, rowIndex) in resolvedRows"
+          :key="row.key"
           v-show="row.available.value"
           :class="
             classes.row(dragIndex === row.dataIndex, dropTarget === row.key)
           "
-          :key="row.key"
           v-bind="parts.row"
         >
           <component
@@ -499,7 +503,7 @@ defineExpose(expose)
       </div>
 
       <template v-if="!showColHeaders">
-        <template v-for="header in headers">
+        <template v-for="(header, i) in headers" :key="header.id || i">
           <div v-if="'label' in header" class="sr-only" :id="header.id">
             {{ header.label }}
           </div>

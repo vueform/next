@@ -1,6 +1,7 @@
+import { defineSchema } from '@vueform/core'
 import { nextTick } from 'vue'
+
 import { createForm, makeApp, mountApp } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('useParts', () => {
   // ==========================================================================

@@ -11,11 +11,19 @@
  * - objects — the shape with every key optional; a provided key must match its
  *   declared (widened) property type
  *
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
-import { defineSchema, type ContextOf, type LanguagesProp, type SlotProps } from '@vueform/core'
+import {
+  defineSchema,
+  type ContextOf,
+  type LanguagesProp,
+  type SlotProps,
+} from '@vueform/core'
+import type {
+  VfFieldContext,
+  VfFieldProps,
+} from '@vueform/core/components/VfField'
 import { describe, expectTypeOf, test } from 'vitest'
-import type { VfFieldContext, VfFieldProps } from '@vueform/core/components/VfField'
 import '@vueform/core/components'
 
 // `model` carries a `NoInfer` wrapper (mutually assignable with its base but
@@ -23,7 +31,10 @@ import '@vueform/core/components'
 
 // Fixture for the narrowed-slot test below — type-test files are typechecked,
 // never executed.
-declare const tags$: ContextOf<'VfField', { nullValue: readonly ['1234', 'asdf'] }>
+declare const tags$: ContextOf<
+  'VfField',
+  { nullValue: readonly ['1234', 'asdf'] }
+>
 
 describe('widening rules — entry nullValue → context value / model', () => {
   test('no nullValue: undeclared shape stays unconstrained', () => {
@@ -60,7 +71,10 @@ describe('widening rules — entry nullValue → context value / model', () => {
 
     expectTypeOf<EmptyArrCtx['value']>().toEqualTypeOf<any[]>()
 
-    type TupleCtx = ContextOf<'VfField', { nullValue: readonly ['1234', 'asdf'] }>
+    type TupleCtx = ContextOf<
+      'VfField',
+      { nullValue: readonly ['1234', 'asdf'] }
+    >
 
     expectTypeOf<TupleCtx['value']>().toEqualTypeOf<any[]>()
 
@@ -70,7 +84,10 @@ describe('widening rules — entry nullValue → context value / model', () => {
   })
 
   test('objects keep their shape — properties widened, optional, readonly dropped', () => {
-    type ObjCtx = ContextOf<'VfField', { nullValue: { readonly lat: 0; readonly lng: 0 } }>
+    type ObjCtx = ContextOf<
+      'VfField',
+      { nullValue: { readonly lat: 0; readonly lng: 0 } }
+    >
 
     expectTypeOf<ObjCtx['value']>().toEqualTypeOf<{
       lat?: number
@@ -108,14 +125,26 @@ describe('defineSchema — nullValue + modelValue / default acceptance', () => {
       bool: { type: 'field', nullValue: false, modelValue: true },
 
       // arrays — the members never restrict the model, only that it's an array
-      emptyArr: { type: 'field', nullValue: [], modelValue: [1, 'mixed', true] },
-      strArr: { type: 'field', nullValue: ['1234', 'asdf'], modelValue: ['123'] },
+      emptyArr: {
+        type: 'field',
+        nullValue: [],
+        modelValue: [1, 'mixed', true],
+      },
+      strArr: {
+        type: 'field',
+        nullValue: ['1234', 'asdf'],
+        modelValue: ['123'],
+      },
       mixedIntoStrArr: {
         type: 'field',
         nullValue: ['1234', 'asdf'],
         modelValue: [1, true],
       },
-      typedArr: { type: 'field', nullValue: [] as string[], modelValue: ['a', 1] },
+      typedArr: {
+        type: 'field',
+        nullValue: [] as string[],
+        modelValue: ['a', 1],
+      },
 
       // objects — keys are optional; provided keys must match the widened shape
       obj: {
@@ -191,9 +220,14 @@ describe('defineSchema — nullValue + modelValue / default acceptance', () => {
 
 describe('translate: true — nullValue types each language entry', () => {
   test('without nullValue the per-language scalar defaults to the text scalar', () => {
-    type TransDefaultCtx = ContextOf<'VfField', { translate: true; languages: { en: 'English'; de: 'German' } }>
+    type TransDefaultCtx = ContextOf<
+      'VfField',
+      { translate: true; languages: { en: 'English'; de: 'German' } }
+    >
 
-    expectTypeOf<TransDefaultCtx['value']>().toEqualTypeOf<string | number | null>()
+    expectTypeOf<TransDefaultCtx['value']>().toEqualTypeOf<
+      string | number | null
+    >()
   })
 
   test('with a scalar nullValue, the entry (and the value) follow it', () => {
@@ -251,14 +285,18 @@ describe('SFC generic path (what :null-value / :translate infer in templates)', 
 
     expectTypeOf<SfcEmpty['value']>().toEqualTypeOf<any[]>()
 
-    type SfcCoords = VfFieldContext<VfFieldProps<false, LanguagesProp, { lat: number; lng: number }>>
+    type SfcCoords = VfFieldContext<
+      VfFieldProps<false, LanguagesProp, { lat: number; lng: number }>
+    >
 
     expectTypeOf<SfcCoords['value']>().toEqualTypeOf<{
       lat?: number
       lng?: number
     }>()
 
-    type SfcTrans = VfFieldContext<VfFieldProps<true, { en: 'English' }, string | null>>
+    type SfcTrans = VfFieldContext<
+      VfFieldProps<true, { en: 'English' }, string | null>
+    >
 
     expectTypeOf<SfcTrans['value']>().toEqualTypeOf<string | null>()
   })

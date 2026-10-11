@@ -1,5 +1,6 @@
+import { defineModule } from '#src/helpers'
+
 import { createValidation } from './createValidation'
-import { defineModule } from '#core/helpers'
 
 /**
  * The validation module. Register via `createVueform({ modules: { validation }

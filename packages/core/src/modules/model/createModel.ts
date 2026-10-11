@@ -12,36 +12,20 @@ import {
   type Ref,
   type WatchStopHandle,
 } from 'vue'
-import {
-  getModelStore,
-  hasModelStore,
-  makeModelStore,
-  setModelStore,
-} from './modelStore'
-import type {
-  ModelInstance,
-  ModelModule,
-  ModelNode,
-  ModelStore,
-  RootModel,
-  SchemaIndex,
-} from './types'
-import {
-  type VueformInstance,
-  getAttachedValidationSchema,
-} from '#core/helpers'
+
+import { type VueformInstance, getAttachedValidationSchema } from '#src/helpers'
 import {
   getConditionsModule,
   hasConditionsModule,
-} from '#core/modules/conditions'
-import { getExpressionModule } from '#core/modules/expression'
+} from '#src/modules/conditions'
+import { getExpressionModule } from '#src/modules/expression'
 import {
   getValidationModule,
   hasValidationModule,
   type TRulesProp,
   type Validator,
   type ValidationOwner,
-} from '#core/modules/validation'
+} from '#src/modules/validation'
 import {
   type ElementName,
   type FormSchema,
@@ -49,7 +33,7 @@ import {
   type StatefulElement,
   type VueformComponent,
   type StandardSchemaV1,
-} from '#core/types'
+} from '#src/types'
 import {
   alwaysTrue,
   clone,
@@ -64,7 +48,22 @@ import {
   unset,
   warn,
   isDev,
-} from '#core/utils'
+} from '#src/utils'
+
+import {
+  getModelStore,
+  hasModelStore,
+  makeModelStore,
+  setModelStore,
+} from './modelStore'
+import type {
+  ModelInstance,
+  ModelModule,
+  ModelNode,
+  ModelStore,
+  RootModel,
+  SchemaIndex,
+} from './types'
 
 type ReconciledNodePrev = Pick<
   ModelNode,

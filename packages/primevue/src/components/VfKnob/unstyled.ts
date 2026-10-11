@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '@vueform/core'
+
 import VfKnob, { type VfKnobEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfKnob: typeof VfKnob
   }
+}
+
+declare module './types' {
+  interface VfKnobProps
+    extends
+      PartProps<VfKnobParts, VfKnobContext>,
+      ClassProps<VfKnobClasses, VfKnobContext>,
+      ReclassProps<VfKnobClasses, VfKnobContext> {}
 }

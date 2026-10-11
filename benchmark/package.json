@@ -4,10 +4,14 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "bench": "tsx scripts/bench.ts"
+    "bench": "tsx scripts/bench.ts",
+    "charts": "tsx scripts/charts-cli.ts",
+    "typecheck": "tsc --noEmit && pnpm run typecheck:app",
+    "typecheck:app": "if [ -d app/node_modules ]; then vue-tsc -p app/tsconfig.app.json --noEmit && tsc -p app/tsconfig.node.json --noEmit; else echo '[benchmark] app not installed — skipping app typecheck (pnpm bench installs it)'; fi"
   },
   "devDependencies": {
     "@types/node": "catalog:",
+    "@vueform/tsconfig": "workspace:*",
     "playwright": "catalog:",
     "tsx": "catalog:"
   }

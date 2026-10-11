@@ -1,5 +1,6 @@
+import { defineSchema, createRule } from '@vueform/core'
+
 import { createForm, flushPromises } from '../../helpers'
-import { defineSchema, createRule } from '#core'
 
 describe('Validation', () => {
   describe('Basic Usage', () => {

@@ -1,17 +1,14 @@
 import { existsSync } from 'node:fs'
 import { join, resolve } from 'node:path'
-import { workspaceSourceAliases } from './sourceAliases'
+
 import type { Alias, UserConfig } from 'vite'
+
+import { workspaceSourceAliases } from './sourceAliases'
 
 /**
  * Options for the `vitest` config factory.
  */
 export interface VitestOptions {
-  /**
-   * The package's own source alias (e.g. `'@'`), pointing at its `src`
-   * directory. No alias is registered when omitted.
-   */
-  alias?: string
   /**
    * Additional Vitest config merged (via `mergeConfig`) on top of the generated
    * one — an escape hatch for anything not covered by the defaults.
@@ -24,10 +21,6 @@ export interface VitestOptions {
  * loosely so this package needs no vitest dependency.
  */
 export type VitestConfig = UserConfig & { test?: Record<string, any> }
-
-function escapeRegExp(value: string): string {
-  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
-}
 
 /**
  * Vitest config factory for the workspace packages — usable directly as the
@@ -44,10 +37,6 @@ function escapeRegExp(value: string): string {
  * aliases for every workspace package (short `#<dir>` aliases with
  * exports-derived subpaths, plus full package names) so tests always run
  * against sources, never dist.
- *
- * A separate `bench` project picks up `tests/bench/**\/*.bench.ts` for `vitest
- * bench` — plain `vitest` never runs bench files and `vitest bench` never runs
- * tests, each mode matching exactly one project.
  *
  * When the package has a `tests/dts` directory, a `test-dts` project is added
  * that typechecks `tests/dts/**\/*.test-d.ts` with `vue-tsc` (run it alone with
@@ -67,17 +56,17 @@ export async function createVitestConfig(
 
   const aliases: Alias[] = [
     { find: /^vue$/, replacement: 'vue/dist/vue.esm-bundler.js' },
-    ...(options.alias
-      ? [
-          {
-            find: new RegExp(`^${escapeRegExp(options.alias)}/(.+)$`),
-            replacement: `${join(root, 'src')}/$1`,
-          },
-        ]
-      : []),
   ]
 
   aliases.push(...workspaceSourceAliases(packagesDir))
+
+  const integrationProject = {
+    extends: true,
+    test: {
+      name: 'integration',
+      include: ['./tests/integration/**/*.test.ts'],
+    },
+  }
 
   const config: VitestConfig = {
     plugins: [Vue()],
@@ -88,22 +77,25 @@ export async function createVitestConfig(
       globals: true,
       environment: 'happy-dom',
       projects: [
-        {
-          extends: true,
-          test: {
-            name: 'integration',
-            include: ['./tests/integration/**/*.test.ts'],
-            benchmark: { include: [] },
-          },
-        },
-        {
-          extends: true,
-          test: {
-            name: 'bench',
-            include: [],
-            benchmark: { include: ['./tests/bench/**/*.bench.ts'] },
-          },
-        },
+        ...(existsSync(join(root, 'tests/integration'))
+          ? [integrationProject]
+          : []),
+
+        // Repo-invariant suites (standing rules about the sources, e.g. the
+        // styles.ts chunk-import validation) — node context, no DOM.
+        ...(existsSync(join(root, 'tests/invariants'))
+          ? [
+              {
+                extends: true,
+                test: {
+                  name: 'invariants',
+                  environment: 'node',
+                  include: ['./tests/invariants/**/*.test.ts'],
+                },
+              },
+            ]
+          : []),
+
         ...(existsSync(join(root, 'tests/dts'))
           ? [
               {
@@ -114,7 +106,6 @@ export async function createVitestConfig(
                   // template-type runner, which maps vue-tsc diagnostics to
                   // named tests) run alongside the typecheck pass.
                   include: ['./tests/dts/**/*.test.ts'],
-                  benchmark: { include: [] },
                   typecheck: {
                     enabled: true,
                     checker: 'vue-tsc',

@@ -12,14 +12,16 @@
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeSelect from 'primevue/select'
+
+import { blueprint, defaults } from '#src/blueprints/select'
 import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features'
+} from '#src/features'
+import { vdomPrime } from '#src/helpers'
+
 import type { VfSelectEmits, VfSelectProps, VfSelectSlots } from './types'
-import { blueprint, defaults } from '#primevue/blueprints/select'
-import { vdomPrime } from '#primevue/helpers'
 
 const PvSelect = vdomPrime(PrimeSelect)
 

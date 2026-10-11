@@ -10,8 +10,6 @@ declare module '@vueform/core/blueprints/form' {
   interface FormProps {
     /**
      * Whether to render steps/tabs in a vertical layout.
-     *
-     * @write
      */
     vertical?: boolean
   }

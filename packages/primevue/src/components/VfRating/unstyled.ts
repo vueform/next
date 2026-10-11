@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '@vueform/core'
+
 import VfRating, { type VfRatingEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfRating: typeof VfRating
   }
+}
+
+declare module './types' {
+  interface VfRatingProps
+    extends
+      PartProps<VfRatingParts, VfRatingContext>,
+      ClassProps<VfRatingClasses, VfRatingContext>,
+      ReclassProps<VfRatingClasses, VfRatingContext> {}
 }

@@ -1,5 +1,6 @@
 import { expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+
 import { makeApp, mountApp } from '../../helpers'
 
 export default async (Case: any, template: string) => {

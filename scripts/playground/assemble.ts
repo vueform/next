@@ -20,6 +20,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
+
 import type { Combo } from './lib'
 
 interface PlaygroundMeta {
@@ -161,7 +162,7 @@ function buildViteConfigTs(combo: Combo, assets: AdapterAssets): string {
     `import vue from '@vitejs/plugin-vue'`,
     `import { dev } from '@vueform/utils'`,
     `import { defineConfig } from 'vite'`,
-    `import { vitePlugins } from './vite.adapter'`,
+    `import { vitePlugins } from './vite.adapter.ts'`,
     ``,
   ]
 
@@ -228,7 +229,7 @@ function buildNuxtConfigTs(combo: Combo): string {
     `const adapter = adapterConfig as Parameters<typeof defineNuxtConfig>[0]`,
     ``,
     `export default defineNuxtConfig({`,
-    `  compatibilityDate: '2026-01-01',`,
+    `  compatibilityDate: '2025-05-27',`,
     `  devtools: { enabled: true },`,
     `  telemetry: false,`,
     `  ...adapter,`,

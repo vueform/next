@@ -1,6 +1,19 @@
-import { fileURLToPath } from 'node:url'
 import path from 'node:path'
-import { defineConfig, mergeConfig } from 'vitepress'
+import { fileURLToPath } from 'node:url'
+
+import type { ThemeRegistrationAny } from 'shiki'
+import { mergeConfig } from 'vitepress'
+import {
+  groupIconMdPlugin,
+  groupIconVitePlugin,
+  localIconLoader,
+} from 'vitepress-plugin-group-icons'
+
+import docsConfig from '../config.json'
+import * as adapterConfigs from './adapters/configs'
+import { resolveAdapterLayer } from './build/adapterLayer'
+import { vitepressCssLayerPostcss } from './build/cssLayer'
+import { slugifyHeading } from './build/slugify'
 import {
   adapterContent,
   autoCollapseTypes,
@@ -26,14 +39,8 @@ import {
   vueTemplateHighlight,
   wordHighlight,
 } from './theme/plugins'
-import { groupIconMdPlugin, groupIconVitePlugin, localIconLoader } from 'vitepress-plugin-group-icons'
-import shikiLightTheme from './theme/style/shiki-light.json'
 import shikiDarkTheme from './theme/style/shiki-dark.json'
-import * as adapterConfigs from './adapters/configs'
-import docsConfig from '../config.json'
-import { resolveAdapterLayer } from './build/adapterLayer'
-import { vitepressCssLayerPostcss } from './build/cssLayer'
-import { slugifyHeading } from './build/slugify'
+import shikiLightTheme from './theme/style/shiki-light.json'
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
 
@@ -41,14 +48,23 @@ const adapterDefs = docsConfig.adapters
 
 const ADAPTER = process.env.VF_ADAPTER ?? 'ui'
 const adapterConfig = (adapterConfigs as Record<string, any>)[ADAPTER]
-const { rewrites, srcExclude: adapterExclude } = resolveAdapterLayer(ADAPTER, path.resolve(__dirname, '../src'), Object.keys(adapterDefs))
+const { rewrites, srcExclude: adapterExclude } = resolveAdapterLayer(
+  ADAPTER,
+  path.resolve(__dirname, '../src'),
+  Object.keys(adapterDefs)
+)
 const srcExclude = [...adapterExclude, 'types/**']
 
 // Resolve `virtual:vf-active-adapter` to the active adapter's entry module so
 // that only its JS, theme, and CSS enter the build graph. Falls back to `ui`.
-const adapterEntryModule = path.resolve(__dirname, `adapters/${ADAPTER in adapterConfigs ? ADAPTER : 'ui'}/index.ts`)
+const adapterEntryModule = path.resolve(
+  __dirname,
+  `adapters/${ADAPTER in adapterConfigs ? ADAPTER : 'ui'}/index.ts`
+)
 
-const adapterHosts: Record<string, string> = Object.fromEntries(Object.entries(adapterDefs).map(([k, v]) => [k, v.host]))
+const adapterHosts: Record<string, string> = Object.fromEntries(
+  Object.entries(adapterDefs).map(([k, v]) => [k, v.host])
+)
 const canonicalHost = adapterHosts[ADAPTER] ?? adapterHosts.ui
 
 // https://vitepress.dev/reference/site-config
@@ -58,7 +74,13 @@ export default mergeConfig(
     description: '',
     head: [
       ['link', { rel: 'icon', href: '/favicon.ico' }],
-      ['link', { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css' }],
+      [
+        'link',
+        {
+          rel: 'stylesheet',
+          href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css',
+        },
+      ],
     ],
     cleanUrls: true,
     ignoreDeadLinks: true,
@@ -68,14 +90,28 @@ export default mergeConfig(
     srcExclude,
     transformHead({ pageData }) {
       const head: Array<[string, Record<string, string>]> = []
-      const pagePath = pageData.relativePath.replace(/\.md$/, '').replace(/\/index$/, '/')
-      const normalizedPath = pagePath.startsWith('/') ? pagePath : `/${pagePath}`
+      const pagePath = pageData.relativePath
+        .replace(/\.md$/, '')
+        .replace(/\/index$/, '/')
+      const normalizedPath = pagePath.startsWith('/')
+        ? pagePath
+        : `/${pagePath}`
 
-      head.push(['link', { rel: 'canonical', href: `${canonicalHost}${normalizedPath}` }])
+      head.push([
+        'link',
+        { rel: 'canonical', href: `${canonicalHost}${normalizedPath}` },
+      ])
 
       for (const [key, host] of Object.entries(adapterHosts)) {
         if (key !== ADAPTER) {
-          head.push(['link', { rel: 'alternate', hreflang: 'en', href: `${host}${normalizedPath}` }])
+          head.push([
+            'link',
+            {
+              rel: 'alternate',
+              hreflang: 'en',
+              href: `${host}${normalizedPath}`,
+            },
+          ])
         }
       }
 
@@ -83,8 +119,10 @@ export default mergeConfig(
     },
     markdown: {
       theme: {
-        light: shikiLightTheme,
-        dark: shikiDarkTheme,
+        // JSON imports widen `"type": "light"` to `string`; the registration
+        // type wants the literal.
+        light: shikiLightTheme as ThemeRegistrationAny,
+        dark: shikiDarkTheme as ThemeRegistrationAny,
       },
       anchor: {
         slugify: slugifyHeading,
@@ -128,7 +166,10 @@ export default mergeConfig(
             // Deliberate Vue 3.6 (Vapor) feature detection in core's
             // utils/instance — the export is absent on the pinned Vue 3.5 and
             // the access is guarded, so the missing-export warning is noise.
-            if (warning.code === 'MISSING_EXPORT' && (warning as any).binding === 'rawVaporSlotKey') {
+            if (
+              warning.code === 'MISSING_EXPORT' &&
+              (warning as any).binding === 'rawVaporSlotKey'
+            ) {
               return
             }
             warn(warning)
@@ -156,10 +197,22 @@ export default mergeConfig(
           // The active adapter's generated data — aliased so each build
           // bundles exactly one chunk per file instead of globbing every
           // adapter folder.
-          'virtual:vf-generated/components': path.resolve(__dirname, `../../.api/${ADAPTER}/components.json`),
-          'virtual:vf-generated/classes': path.resolve(__dirname, `../../.api/${ADAPTER}/classes.json`),
-          'virtual:vf-generated/keywords': path.resolve(__dirname, `../.generated/${ADAPTER}/keywords.json`),
-          'virtual:vf-generated/types': path.resolve(__dirname, `../.generated/${ADAPTER}/types.json`),
+          'virtual:vf-generated/components': path.resolve(
+            __dirname,
+            `../../.vueform/api/${ADAPTER}/components.json`
+          ),
+          'virtual:vf-generated/classes': path.resolve(
+            __dirname,
+            `../../.vueform/api/${ADAPTER}/classes.json`
+          ),
+          'virtual:vf-generated/keywords': path.resolve(
+            __dirname,
+            `../../.vueform/docs/${ADAPTER}/keywords.json`
+          ),
+          'virtual:vf-generated/types': path.resolve(
+            __dirname,
+            `../../.vueform/docs/${ADAPTER}/types.json`
+          ),
         },
       },
       css: {
@@ -177,20 +230,48 @@ export default mergeConfig(
         groupIconVitePlugin({
           customIcon: {
             template: {
-              light: localIconLoader(import.meta.url, '../src/assets/mingcute--code-line.svg'),
-              dark: localIconLoader(import.meta.url, '../src/assets/mingcute--code-line.svg'),
+              light: localIconLoader(
+                import.meta.url,
+                '../src/assets/mingcute--code-line.svg'
+              ),
+              dark: localIconLoader(
+                import.meta.url,
+                '../src/assets/mingcute--code-line.svg'
+              ),
             },
             schema: {
-              light: localIconLoader(import.meta.url, '../src/assets/mingcute--braces-line.svg'),
-              dark: localIconLoader(import.meta.url, '../src/assets/mingcute--braces-line.svg'),
+              light: localIconLoader(
+                import.meta.url,
+                '../src/assets/mingcute--braces-line.svg'
+              ),
+              dark: localIconLoader(
+                import.meta.url,
+                '../src/assets/mingcute--braces-line.svg'
+              ),
             },
             'on()': {
-              light: localIconLoader(import.meta.url, '../src/assets/mingcute--parentheses-fill.svg'),
-              dark: localIconLoader(import.meta.url, '../src/assets/mingcute--parentheses-fill.svg'),
+              light: localIconLoader(
+                import.meta.url,
+                '../src/assets/mingcute--parentheses-fill.svg'
+              ),
+              dark: localIconLoader(
+                import.meta.url,
+                '../src/assets/mingcute--parentheses-fill.svg'
+              ),
             },
             vueform: localIconLoader(import.meta.url, '../src/assets/logo.svg'),
           },
-          defaultLabels: ['npm', 'yarn', 'pnpm', 'bun', 'deno', 'vue', 'template', 'schema', 'ts'],
+          defaultLabels: [
+            'npm',
+            'yarn',
+            'pnpm',
+            'bun',
+            'deno',
+            'vue',
+            'template',
+            'schema',
+            'ts',
+          ],
         }),
       ],
     },
@@ -289,7 +370,10 @@ export default mergeConfig(
             items: [
               { text: 'Locales', link: '/guide/locales' },
               { text: 'Translating Props', link: '/guide/translating-props' },
-              { text: 'Multilingual Inputs', link: '/guide/multilingual-inputs' },
+              {
+                text: 'Multilingual Inputs',
+                link: '/guide/multilingual-inputs',
+              },
             ],
           },
           {
@@ -355,7 +439,10 @@ export default mergeConfig(
               { text: 'createRule', link: '/api/helpers/createRule' },
               { text: 'defineConfig', link: '/api/helpers/defineConfig' },
               { text: 'defineSchema', link: '/api/helpers/defineSchema' },
-              { text: 'defineComputedSchema', link: '/api/helpers/defineComputedSchema' },
+              {
+                text: 'defineComputedSchema',
+                link: '/api/helpers/defineComputedSchema',
+              },
               { text: 'defineTheme', link: '/api/helpers/defineTheme' },
               { text: 'extendTheme', link: '/api/helpers/extendTheme' },
               { text: 'defineSlot', link: '/api/helpers/defineSlot' },

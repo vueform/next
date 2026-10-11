@@ -1,7 +1,7 @@
 /*
  * Compile-time assertions for PrimeVue VfAutoComplete suggestions → model
  * inference (no optionValue — model is the whole item / scalar).
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

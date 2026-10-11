@@ -1,13 +1,14 @@
 import { computed } from 'vue'
-import type { AlignProp, LooseRequired, TProp } from '#core/types'
+
 import {
   useDynamicProp,
   useFeatures,
   useMessageBag,
   useSecurity,
-} from '#core/composables'
+} from '#src/composables'
 import {
   makeElement,
+  makeStatic,
   makeLayout,
   type AlignedProps,
   type BaseElementEmits,
@@ -17,9 +18,10 @@ import {
   type BaseElementExpose,
   type BaseElementSlots,
   type LayoutProps,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import { containsHtml } from '#core/utils'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { AlignProp, LooseRequired, TProp } from '#src/types'
+import { containsHtml } from '#src/utils'
 
 /**
  * Props for the content element blueprint.
@@ -94,10 +96,14 @@ export function blueprint<TProps extends ContentProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<ContentEmits>
 ) {
+  /**
+   * The element's message bag holding user-facing error and message strings.
+   */
   const messageBag = useMessageBag()
 
   const api = useFeatures(props, events)
     .use(makeElement())
+    .use(makeStatic())
     .use(makeLayout())
     .build()
 

@@ -1,3 +1,5 @@
+import { defineSchema } from '@vueform/core'
+import * as modules from '@vueform/core/modules'
 /**
  * # Untrusted-schema containment
  *
@@ -12,9 +14,8 @@
  * developer-code trust boundary.
  */
 import { defineComponent, h, nextTick, type FunctionalComponent } from 'vue'
+
 import { createForm, mountApp } from '../../helpers'
-import { defineSchema } from '#core'
-import * as modules from '#core/modules'
 
 // Forms built without the security module observe the inert noop surface.
 const { security: _security, ...modulesWithoutSecurity } = modules as any

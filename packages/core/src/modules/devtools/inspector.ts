@@ -1,5 +1,6 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import { unref, type App } from 'vue'
+
 import { getForms, onRegistryChange } from './registry'
 
 const INSPECTOR_ID = 'vueform'

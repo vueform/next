@@ -1,15 +1,5 @@
-import type {
-  TabbedSlots,
-  AddonGroupClasses,
-  IconsClasses,
-} from '#core/features'
-import type {
-  DefineElementContext,
-  ClassValue,
-  HeadingProp,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type LayoutApi,
   type LayoutProps,
@@ -18,13 +8,24 @@ import {
   type LayoutParts,
   type LayoutSlots,
   type LayoutClasses,
-} from '#core/blueprints/layout'
+} from '#src/blueprints/layout'
+import type {
+  TabbedSlots,
+  AddonGroupClasses,
+  IconsClasses,
+} from '#src/features'
+import type {
+  DefineElementContext,
+  ClassValue,
+  HeadingProp,
+  DefineRegistryEntry,
+} from '#src/types'
 
 /**
  * Props for the VfLayout component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfLayoutProps extends LayoutProps<
   VfLayoutSlots,
@@ -67,11 +68,29 @@ export interface VfLayoutClasses
   extends LayoutClasses, AddonGroupClasses, IconsClasses {
   /**
    * The element's root wrapper.
+   *
+   * @param props Spacing and divider values used when computing the root
+   *   classes.
    */
   root: (props: {
+    /**
+     * Vertical spacing (padding) above the element, as a spacing token (1-3).
+     */
     spaceTop?: number
+
+    /**
+     * Vertical spacing (padding) below the element, as a spacing token (1-3).
+     */
     spaceBottom?: number
+
+    /**
+     * Whether a horizontal line (border) renders above the element.
+     */
     lineTop?: boolean
+
+    /**
+     * Whether a horizontal line (border) renders below the element.
+     */
     lineBottom?: boolean
   }) => ClassValue
 

@@ -1,7 +1,7 @@
 /*
  * Compile-time assertions for PrimeVue VfSelect options → modelValue inference
  * and defineSchema / SchemaToModel via the definition items key map.
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

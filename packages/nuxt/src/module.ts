@@ -1,5 +1,6 @@
 import { existsSync } from 'node:fs'
 import { join, resolve as pathResolve } from 'node:path'
+
 import {
   addPlugin,
   addTemplate,
@@ -7,8 +8,16 @@ import {
   createResolver,
   defineNuxtModule,
 } from '@nuxt/kit'
+import type { Nuxt } from '@nuxt/schema'
 import { consola } from 'consola'
 import { addDependency } from 'nypm'
+
+import type {
+  AdapterName,
+  InstallAdapterMode,
+  ModuleOptions,
+  UiModuleOptions,
+} from './types'
 import {
   detectPackageManager,
   getInstallCommand,
@@ -17,13 +26,6 @@ import {
   resolveAdapterRules,
   resolvePackageDir,
 } from './utils'
-import type {
-  AdapterName,
-  InstallAdapterMode,
-  ModuleOptions,
-  UiModuleOptions,
-} from './types'
-import type { Nuxt } from '@nuxt/schema'
 
 const UI_THEMES = ['origin', 'material'] as const
 

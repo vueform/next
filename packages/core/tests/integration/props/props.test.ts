@@ -1,6 +1,7 @@
+import { defineSchema } from '@vueform/core'
 import { defineComponent, nextTick, ref } from 'vue'
+
 import { createForm, mountApp } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('Prop defaults', () => {
   test('it should use direct component prop', () => {

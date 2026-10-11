@@ -1,15 +1,4 @@
 import type {
-  FileUploadApi,
-  FileUploadClasses,
-  FileUploadEmits,
-  FileUploadExpose,
-  FileUploadParts,
-  FileUploadProps,
-  FileUploadSlots,
-  forwards,
-} from '#primevue/blueprints/file-upload'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   DomAttrsOf,
   PartOf,
@@ -24,6 +13,18 @@ import type {
 } from 'primevue/fileupload'
 import type { VNode } from 'vue'
 
+import type {
+  FileUploadApi,
+  FileUploadClasses,
+  FileUploadEmits,
+  FileUploadExpose,
+  FileUploadParts,
+  FileUploadProps,
+  FileUploadSlots,
+  forwards,
+} from '#src/blueprints/file-upload'
+import type { ForwardedSlots } from '#src/types'
+
 /**
  * VfFileUpload props narrowed from a registry `TEntry` payload, applying the
  * entry's `multiple` prop as a generic.
@@ -35,8 +36,8 @@ export type EntryProps<TEntry> = VfFileUploadProps<EntryMultipleOf<TEntry>>
  * model-driving type argument (e.g. `VfFileUploadProps<true>`). Reach for
  * `VfFileUploadProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfFileUploadProps<
   TMultiple extends boolean = boolean,
@@ -72,9 +73,14 @@ export interface VfFileUploadSlots<TMultiple extends boolean = boolean>
   /**
    * Slot that replaces the upload button. Receives the upload handler.
    *
-   * @param props.upload The upload handler function.
+   * @param scope The button slot's params.
    */
-  button: (props: { upload: () => void }) => VNode[]
+  button: (scope: {
+    /**
+     * The upload handler function.
+     */
+    upload: () => void
+  }) => VNode[]
 }
 
 /**
@@ -82,7 +88,7 @@ export interface VfFileUploadSlots<TMultiple extends boolean = boolean>
  */
 export interface VfFileUploadParts extends FileUploadParts {
   /**
-   * @write
+   * The wrapper element surrounding the file upload input.
    */
   wrapper: DomAttrsOf<'div'>
 
@@ -106,7 +112,7 @@ export interface VfFileUploadParts extends FileUploadParts {
  */
 export interface VfFileUploadClasses extends FileUploadClasses {
   /**
-   * @write
+   * The wrapper element surrounding the file upload input.
    */
   wrapper: ClassValue
 

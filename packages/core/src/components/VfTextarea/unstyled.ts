@@ -1,4 +1,10 @@
-import '#shorthands'
+import {
+  type ClassProps,
+  type PartProps,
+  type ReclassProps,
+  type LanguagesProp,
+} from '#src/types'
+
 import VfTextarea, { type VfTextareaEntry } from './index'
 
 export * from './index'
@@ -14,4 +20,15 @@ declare module 'vue' {
   interface GlobalComponents {
     VfTextarea: typeof VfTextarea
   }
+}
+
+declare module './types' {
+  interface VfTextareaProps<
+    TTranslate extends boolean = boolean,
+    TLanguages extends LanguagesProp = LanguagesProp,
+  >
+    extends
+      PartProps<VfTextareaParts, VfTextareaContext>,
+      ClassProps<VfTextareaClasses, VfTextareaContext>,
+      ReclassProps<VfTextareaClasses, VfTextareaContext> {}
 }

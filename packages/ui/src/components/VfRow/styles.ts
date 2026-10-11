@@ -1,1 +1,1 @@
-import '#ui/scss/grid.scss'
+import '#src/scss/grid.scss'

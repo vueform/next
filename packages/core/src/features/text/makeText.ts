@@ -1,6 +1,6 @@
-import type { TProp } from '#core/types'
-import { useDynamicProp } from '#core/composables'
-import { defineFeature } from '#core/helpers'
+import { useDynamicProp } from '#src/composables'
+import { defineFeature } from '#src/helpers'
+import type { TProp } from '#src/types'
 
 /**
  * Configuration for the text label factory resolving label and related text for
@@ -9,7 +9,8 @@ import { defineFeature } from '#core/helpers'
 type MakeTextOptions = {
   props: {
     /**
-     * @write
+     * The label text displayed alongside the element's input (e.g. next to a
+     * checkbox or radio).
      */
     text: TProp | undefined
   }

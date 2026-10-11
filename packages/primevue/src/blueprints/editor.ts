@@ -40,19 +40,20 @@ import {
   makeTData,
   merge,
 } from '@vueform/core'
-import { computed, ref, toRef, nextTick } from 'vue'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   EditorProps as AEditorProps,
   EditorEmitsOptions as AEditorEmits,
   EditorLoadEvent,
 } from 'primevue/editor'
+import { computed, ref, toRef, nextTick } from 'vue'
+
 import {
   makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
-} from '#primevue/features'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * The model value type carried by the editor element's wide props.

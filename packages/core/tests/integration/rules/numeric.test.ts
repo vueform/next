@@ -1,5 +1,6 @@
+import { defineSchema } from '@vueform/core'
+
 import { createForm } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('numeric', () => {
   it('should pass for integer string', async () => {

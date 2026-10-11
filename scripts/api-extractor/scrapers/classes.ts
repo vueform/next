@@ -1,6 +1,7 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import { nonCoreAdapters } from '../lib/adapters'
 import { generatedDir, monorepoRoot } from '../lib/paths'
 import { parseScope } from '../lib/scope'
@@ -13,15 +14,13 @@ const GENERATED_DIR = generatedDir
 
 interface ModifierEntry {
   description: string
-  file: string
-  line: number
+  loc: string
   tokens?: string[]
 }
 
 interface ClassEntry {
   description: string
-  file?: string
-  line?: number
+  loc?: string
   tokens?: string[]
   modifiers?: Record<string, ModifierEntry>
 }
@@ -101,7 +100,7 @@ function extractModifierName(selectorLine: string): string | null {
   if (nestedMatch) return nestedMatch[1]
 
   // Suffix .vf-xxx before { or :pseudo (e.g. .vf-btn[...].vf-sm {)
-  const suffixMatch = trimmed.match(/\.(vf-[\w-]+)\s*[\{:]/)
+  const suffixMatch = trimmed.match(/\.(vf-[\w-]+)\s*[{:]/)
   if (suffixMatch) {
     // Find the *last* .vf-xxx match to handle compound selectors
     const allMatches = [...trimmed.matchAll(/\.(vf-[\w-]+)/g)]
@@ -341,8 +340,7 @@ function parseFile(filePath: string): Record<string, ClassEntry> {
         if (className) {
           const entry: ClassEntry = {
             description: parsed.description,
-            file: relPath,
-            line: blockStart + 1,
+            loc: `${relPath}:${blockStart + 1}`,
             modifiers: {},
           }
 
@@ -420,8 +418,7 @@ function scanModifiers(
         if (modName && desc) {
           modifiers[modName] = {
             description: desc,
-            file: relPath,
-            line: docLine,
+            loc: `${relPath}:${docLine}`,
           }
         }
       }
@@ -478,14 +475,21 @@ function main(): void {
   // Core (ui) adapter
   const coreResult = parseDirectory(SCSS_DIR)
 
-  const virtualClasses: Record<string, string> = JSON.parse(
-    fs.readFileSync(VIRTUAL_CLASSES_FILE, 'utf-8')
-  )
+  const virtualRaw = fs.readFileSync(VIRTUAL_CLASSES_FILE, 'utf-8')
+  const virtualClasses: Record<string, string> = JSON.parse(virtualRaw)
+  const virtualRelPath = path.relative(ROOT, VIRTUAL_CLASSES_FILE)
+  const virtualLines = virtualRaw.split('\n')
 
   for (const [name, description] of Object.entries(virtualClasses)) {
     if (!coreResult[name]) {
+      // Anchor the virtual class at its key's line in the data file — the
+      // only honest source it has.
+      const lineIdx = virtualLines.findIndex((l) =>
+        l.includes(JSON.stringify(name))
+      )
       coreResult[name] = {
         description,
+        ...(lineIdx >= 0 ? { loc: `${virtualRelPath}:${lineIdx + 1}` } : {}),
       }
     }
   }

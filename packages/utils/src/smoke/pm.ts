@@ -1,11 +1,28 @@
 /**
- * Package-manager abstraction for smoke runs. pnpm is the default and gates CI;
- * npm, yarn (node-modules linker) and bun run a scheduled "basic install proof"
- * on representative cells. The differences the harness cares about: install
- * argv (fixtures live inside the pnpm workspace, so pnpm needs
- * --ignore-workspace) and where tarball overrides go in package.json.
+ * Package-manager abstraction for smoke runs. pnpm is the default and gates
+ * CI; npm, yarn (pinned to the node-modules linker by the assemble step's
+ * .yarnrc.yml) and bun are selectable per run via the CLIs' `--pm` flag as
+ * the occasional cross-PM proof. The differences the harness cares about:
+ * install argv (fixtures live inside the pnpm workspace, so pnpm needs
+ * --ignore-workspace), where tarball overrides go in package.json, and who
+ * may run dependency build scripts (see patchManifest).
  */
-import type { Pm } from './cells'
+import type { Pm } from './envs'
+
+/**
+ * yarn classic's global cache is not concurrency-safe — parallel env
+ * installs race it (cold-cache runs fail on cache ENOENT/merge errors), so
+ * yarn installs are serialized through this chain. The other package
+ * managers install concurrently.
+ */
+let yarnInstalls: Promise<unknown> = Promise.resolve()
+
+export function withInstallLock<T>(pm: Pm, fn: () => Promise<T>): Promise<T> {
+  if (pm !== 'yarn') return fn()
+  const next = yarnInstalls.then(fn, fn)
+  yarnInstalls = next.catch(() => undefined)
+  return next
+}
 
 export function installArgs(pm: Pm): string[] {
   switch (pm) {
@@ -34,7 +51,10 @@ export function execArgs(pm: Pm, bin: string, args: string[]): string[] {
     case 'npm':
       return ['exec', '--no', '--', bin, ...args]
     case 'yarn':
-      return ['exec', bin, ...args]
+      // Not `exec`: yarn classic's exec SWALLOWS the bin's arguments
+      // (`yarn exec tsc -p x` runs a bare `tsc`); `run` resolves .bin
+      // entries and forwards args on both classic and berry.
+      return ['run', bin, ...args]
     case 'bun':
       return ['x', '--no-install', bin, ...args]
   }

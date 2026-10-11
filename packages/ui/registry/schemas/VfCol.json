@@ -10,7 +10,7 @@
       "path": "VfCol.vue",
       "target": "{componentsDir}/VfCol.vue",
       "kind": "component",
-      "hash": "sha256:2f8d76591befef189e8b97f8b83330ea623da60a6f8b6f5bc96791806af79606"
+      "hash": "sha256:246cf597aab7a3160dbe16ae6a6c290eabd301dd97ac3c912ce0443a5a448773"
     }
   ],
   "imports": [
@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "grid"
-  ],
+  "styles": ["grid"],
   "register": {
     "component": "VfCol",
     "import": "{componentsDir}/VfCol.vue"

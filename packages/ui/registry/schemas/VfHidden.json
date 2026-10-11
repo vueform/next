@@ -10,20 +10,17 @@
       "path": "VfHidden.vue",
       "target": "{componentsDir}/VfHidden.vue",
       "kind": "component",
-      "hash": "sha256:6bd3c00ef4202a3c9fd6619a6f78e27e70811d3424125545a3b68f20e2fe6e7c"
+      "hash": "sha256:9198dd418e2251c2bb6cc3da0f5c70c8e03c4c07224f02f7f444dbd0e05d7e5b"
     }
   ],
-  "imports": [
-    "@vueform/ui/components/VfHidden",
-    "@vueform/ui"
-  ],
+  "imports": ["@vueform/ui/components/VfHidden", "@vueform/ui"],
   "dependencies": {},
   "registryDependencies": [],
   "element": true,
   "clone": {
     "path": "VfHidden.vue",
     "blueprint": "hidden",
-    "hash": "sha256:e4435e7a0ecc50e3e4295fed0972cf616d8d36693f01621f8445f972ee1b515b",
+    "hash": "sha256:b583080fb1c515d2a80c4ed854bf73cd4b0e5e3a3f4cb159106ec2bc0320d4eb",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

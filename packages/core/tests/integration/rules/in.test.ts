@@ -1,5 +1,6 @@
+import { defineSchema } from '@vueform/core'
+
 import { createForm } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('in', () => {
   it('should pass when value is in the list', async () => {

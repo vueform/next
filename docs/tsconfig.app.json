@@ -1,0 +1,13 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": [".vitepress/**/*", "src/**/*.ts", "src/**/*.vue"],
+  "exclude": [
+    ".vitepress/cache",
+    ".vitepress/dist",
+    ".vitepress/config.mts",
+    ".vitepress/build"
+  ]
+}

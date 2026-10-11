@@ -1,5 +1,6 @@
+import { defineModule } from '#src/helpers'
+
 import { createDate } from './createDate'
-import { defineModule } from '#core/helpers'
 
 /**
  * The date module. Register via `createVueform({ modules: { date } })`.

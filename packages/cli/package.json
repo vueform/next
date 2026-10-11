@@ -1,17 +1,22 @@
 {
   "name": "@vueform/cli",
   "version": "2.0.0-alpha.1",
-  "private": false,
-  "description": "Vueform CLI",
+  "description": "Command-line tooling for Vueform projects.",
+  "keywords": [
+    "cli",
+    "form",
+    "forms",
+    "vue",
+    "vueform"
+  ],
+  "homepage": "https://github.com/vueform/core",
+  "bugs": "https://github.com/vueform/core/issues",
   "license": "MIT",
   "author": "Adam Berecz",
-  "type": "module",
-  "exports": {
-    ".": {
-      "types": "./dist/index.d.ts",
-      "import": "./dist/index.js"
-    },
-    "./bin": "./bin/vueform.js"
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueform/core.git",
+    "directory": "packages/cli"
   },
   "bin": {
     "vueform": "./bin/vueform.js"
@@ -21,16 +26,30 @@
     "dist",
     "schema.json"
   ],
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
-    "build": "rm -rf dist && tsc",
-    "check": "tsc --noEmit",
+    "build": "tsdown",
+    "publint": "publint",
+    "typecheck": "tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "test": "vitest"
   },
   "devDependencies": {
+    "@vueform/tsconfig": "workspace:*",
+    "tsdown": "catalog:",
     "typescript": "catalog:",
     "vitest": "catalog:"
   },
   "engines": {
-    "node": ">=20.10.0"
+    "node": ">=22.12.0"
   }
 }

@@ -1,6 +1,7 @@
-import type { HttpError, HttpResponse, RequestMethod } from '#core/modules/http'
-import type { EndpointHandler } from '#core/types'
 import type { ComputedRef, Ref } from 'vue'
+
+import type { HttpError, HttpResponse, RequestMethod } from '#src/modules/http'
+import type { EndpointHandler } from '#src/types'
 
 /**
  * Global options for the autosave module (the `$autosave` config object).
@@ -186,6 +187,8 @@ export type MakeAutosaveOptions = {
 
   /**
    * Loads data into the form's model (used to restore local drafts).
+   *
+   * @param data The data to load into the form's model.
    */
   load: (data: Record<string, any>) => void
 

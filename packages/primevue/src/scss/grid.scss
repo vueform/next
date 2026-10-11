@@ -75,10 +75,16 @@
     --vf-tabular-radius-br: 0px;
     --vf-tabular-radius-bl: 0px;
 
-    --vf-tabular-cell-radius: var(--vf-tabular-radius-tl) var(--vf-tabular-radius-tr) var(--vf-tabular-radius-br) var(--vf-tabular-radius-bl);
+    --vf-tabular-cell-radius: var(--vf-tabular-radius-tl)
+      var(--vf-tabular-radius-tr) var(--vf-tabular-radius-br)
+      var(--vf-tabular-radius-bl);
 
-    --vf-tabular-input-radius: calc(var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width))
-      calc(var(--vf-tabular-radius-br) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width));
+    --vf-tabular-input-radius: calc(
+        var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width)
+      )
+      calc(var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width))
+      calc(var(--vf-tabular-radius-br) - var(--vf-tabular-border-width))
+      calc(var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width));
 
     --vf-input-radius: var(--vf-tabular-input-radius);
     --vf-btn-radius: var(--vf-tabular-input-radius);

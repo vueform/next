@@ -12,8 +12,10 @@
  */
 import { existsSync } from 'node:fs'
 import { dirname, resolve } from 'node:path'
-import { workspaceSourceAliases } from './sourceAliases'
+
 import type { Alias, Plugin } from 'vite'
+
+import { workspaceSourceAliases } from './sourceAliases'
 
 function findMonorepoRoot(startDir: string): string | null {
   let dir = startDir
@@ -46,7 +48,6 @@ export function dev(adapter: string): Plugin {
       const p = (rel: string) => resolve(root!, rel)
 
       const alias: Alias[] = [
-        // `#shorthands` (the build-time marker module, see shorthandsMarker)
         // is covered by the workspace aliases' source stand-in.
         ...workspaceSourceAliases(p('packages'), { styles: true }),
       ]

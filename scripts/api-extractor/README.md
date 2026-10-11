@@ -8,23 +8,31 @@ source of truth for anything that needs to know what Vueform is made of
 
 ```sh
 # at the monorepo root
-pnpm extract                    # run every scraper for every source
-pnpm extract --tokens           # run one (or more) target by flag
-pnpm extract --tokens --classes # …combinable, canonical order preserved
-pnpm extract --core             # core only
-pnpm extract --pv               # one adapter (--ui / --pv / --primevue,
-                                # or --adapter=x,y / -a=x,y); merges against
-                                # the existing core tree, scraping core first
-                                # if missing
-pnpm extract:validate           # validate the output (same scope flags)
-pnpm extract:issues             # print collected issues (same scope flags)
+pnpm api                     # run every scraper for every source + assemble
+pnpm api:missing             # regenerate missing.json from the existing trees
+pnpm api:missing --fullpath  # …locs as clickable file://…#L links
 ```
 
-Output goes to `.api/` at the monorepo root (git-ignored), one folder
-per source, each holding **every** file:
+The orchestrator takes no flags — it only guarantees that the jsons are
+generated and any error is surfaced (full session log + distilled error log
+under `.vueform/api/logs/`). After a successful run it also counts the
+missing descriptions across the assembled trees (an empty `description`
+value; nodes without the key — like blueprint entries — and inheriting
+`{from}` references don't count), writes the report to
+`.vueform/api/missing.json` — a flat map of
+`<target>.<file>.<node path>` → the node's repo-relative `loc`, every loc
+listed once (first occurrence wins; `--fullpath` on `pnpm api:missing`
+writes clickable `file://…#L<line>` URLs instead) — and prints a yellow
+summary line. Validation and issue tracking were removed
+pending the extractor rework. A scraper run standalone accepts
+`--adapter=x,y` / `-a=x,y` / `-A=x,y` to scope to the listed adapters
+(default: core + every adapter).
+
+Output goes to `.vueform/api/` at the monorepo root (git-ignored), one
+folder per source, each holding **every** file:
 
 ```
-.api/
+.vueform/api/
   core/                  # scraped straight from @vueform/core
   ui/                    # the core-based default adapter
   primevue/
@@ -53,16 +61,16 @@ plus core fallbacks, minus core entries the adapter renames away, e.g.
 primevue's `text` → `input-text`) and therefore replaces core wholesale.
 Every file has alphabetic root key order.
 
-Everything a scrape found wanting documentation lands in
-`.api/issues.json`, keyed by source and always written (empty arrays
-when clean) — the data files themselves carry no issue metadata.
-`pnpm extract:issues` prints it as an aligned report whose trailing
-`file:line` is clickable in editors' terminals; `pnpm extract:validate`
-appends the same report after schema and reference checks.
-
 The `features` scraper reads the blueprints output to enrich descriptions,
 so `blueprints` must run before it — the orchestrator's order already
 guarantees that.
+
+Third-party docblock gaps that cannot be fixed upstream are hand-maintained
+in `config.json` under `adapters.<name>.missingDescriptions` — a flat map
+whose keys are the output file plus the node path exactly as missing.json
+prints it (`blueprints.date-picker.…`, `components.VfInputMask.…`).
+Assemble applies them onto empty descriptions and warns when an entry goes
+stale (a lib update moved or documented the node).
 
 Not scraped yet (no scrapers exist for these): `rules.json`, `styles.json`.
 
@@ -72,24 +80,20 @@ Not scraped yet (no scrapers exist for these): `rules.json`, `styles.json`.
 its structure — the same schema covers the file in every folder, since
 `core/`, `ui/` and `primevue/` share shapes. Definitions shared between
 files (`param`, `returns`, `apiMember` and the recursive `member` node of
-helpers/composables/features) live in `schemas/common.json`.
-
-`pnpm extract:validate` checks every assembled file against its schema and
-resolves every `from` reference against the generated tree, so dangling
-references fail loudly; run it after changing a scraper or a schema.
+helpers/composables/features) live in `schemas/common.json`. Nothing
+validates against them right now — the validator went with the removed
+validation flow and returns with the extractor rework.
 
 ## Layout
 
 - `scrapers/` — one standalone script per output file
-- `extract.ts` — the orchestrator behind `pnpm extract`: the shared task-list
-  renderer (`scripts/runner.ts`, same as `pnpm build` / `pnpm check`) with one
-  progress bar per scraper, an `assemble.ts` task that builds the `core/` +
-  adapter folders from the scrapers' raw output (`lib/output.ts`), and a
-  closing undocumented-items summary pointing at `.api/issues.json`
-- `schemas/` — one JSON Schema per generated file (`pnpm extract:validate`
-  checks the output against them)
+- `../api.ts` — the orchestrator behind `pnpm api`: the live per-task
+  display of the root test runner (one row per scraper, session logs under
+  `.vueform/api/logs/`), closing with an `assemble.ts` task that builds the
+  `core/` + adapter folders from the scrapers' raw output (`lib/output.ts`)
+- `schemas/` — one JSON Schema per generated file (reference only for now)
 - `lib/adapters.ts` — which packages are scanned (and per-adapter type renames)
-- `lib/extract.ts`, `lib/token-utils.ts` — shared TS-compiler/token plumbing
+- `lib/extract.ts` — shared TS-compiler plumbing
 - `data/` — hand-maintained inputs (e.g. virtual classes)
 
 The docs (`docs/scripts/generators`) consume these jsons and keep their own

@@ -1,5 +1,6 @@
 import { readFileSync } from 'fs'
 import { dirname, resolve } from 'path'
+
 import type { Plugin } from 'vite'
 
 const INCLUDE_RE = /<!--\s*@include:\s*(\S+?)\s*-->/g

@@ -10,7 +10,7 @@ import {
 import { createRequire } from 'node:module'
 import { basename, dirname, join, relative, resolve, sep } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { injectShorthandPropsDts } from './shorthands'
+
 import type { BuildOptions, Plugin } from 'vite'
 
 interface SassCompiler {
@@ -53,8 +53,6 @@ export interface LibBuildOptions {
    */
   noHoistTransitiveImports?: boolean
 }
-
-export const SHORTHANDS_VIRTUAL = '\0vueform-shorthands-marker'
 
 // Served in place of the real .css/.scss under the "node" exports condition
 // so plain Node (SSR with externalized deps, test runners) can evaluate
@@ -180,26 +178,6 @@ export function escapeRegExp(value: string): string {
 }
 
 /**
- * Resolves the `#shorthands` marker (a type-only import in component
- * `unstyled.ts` files) to an empty, side-effect-free virtual module, so Rollup
- * tree-shakes the import away entirely. The type side is covered by the ambient
- * `declare module '#shorthands'` in the root tsconfig's include.
- */
-export function shorthandsMarker(): Plugin {
-  return {
-    name: 'vf:shorthands-marker',
-    resolveId(id) {
-      if (id === '#shorthands') {
-        return { id: SHORTHANDS_VIRTUAL, moduleSideEffects: false }
-      }
-    },
-    load(id) {
-      if (id === SHORTHANDS_VIRTUAL) return 'export {}'
-    },
-  }
-}
-
-/**
  * Drops two kinds of dead chunks that `preserveModules` keeps around:
  *
  * - Empty chunks: type-only source modules (interfaces, type aliases) compile to
@@ -211,13 +189,167 @@ export function shorthandsMarker(): Plugin {
  *   script sub-module (which claims the `.vue.mjs` chunk name), leaving the
  *   facade as a pure default re-export chunk that nothing imports.
  */
+/**
+ * JS-level source alias for the tsdown factories: resolves `<find>` and
+ * `<find>/x` into the package's `src`. Used INSTEAD of rolldown's native
+ * `resolve.alias`, which resolves before JS `resolveId` hooks run and would
+ * bypass plugins that must see the raw alias specifier (`scssExternals`).
+ */
+/**
+ * The uniform package-internal source alias: `#src/*` means "this package's
+ * src", resolved context-locally through each package.json's `imports` field.
+ */
+export const SRC_ALIAS = '#src'
+
+export function srcAlias(find: string, srcAbs: string): Plugin {
+  return {
+    name: 'vf:src-alias',
+    async resolveId(source, importer, options) {
+      if (source !== find && !source.startsWith(`${find}/`)) return
+      const mapped =
+        source === find
+          ? join(srcAbs, 'index')
+          : join(srcAbs, source.slice(find.length + 1))
+      const resolved = await this.resolve(mapped, importer, {
+        ...options,
+        skipSelf: true,
+      })
+      return resolved ?? mapped
+    },
+  }
+}
+
+/**
+ * Marks matching SOURCE modules as side-effectful during the build.
+ *
+ * Vite's resolver applies the package's own `sideEffects` globs to workspace
+ * source files; those globs describe the published dist layout, so a source
+ * module like `src/components/VfText/styles.ts` (whose only job is its css
+ * side-effect imports) is wrongly treated as side-effect-free and Rolldown
+ * drops the `styled → styles` import edge. Marking at transform time keeps the
+ * published package.json free of src paths.
+ */
+export function sourceSideEffects(tests: RegExp[]): Plugin {
+  return {
+    name: 'vf:source-side-effects',
+    transform(code, id) {
+      if (!tests.some((test) => test.test(id))) return
+      return { code, map: null, moduleSideEffects: true }
+    },
+  }
+}
+
+/**
+ * Restores consumer-side namespace reification under Rolldown (vite 8).
+ *
+ * `import * as ns from './barrel'` across preserved modules makes Rolldown
+ * materialize the namespace as an `__exportAll({...})` object INSIDE the barrel
+ * chunk and export it (`components_exports`). That extra export eagerly
+ * references every binding of the barrel, so consumers bundling any import of
+ * the barrel lose all tree-shaking (measured: the minimal ui bundle grew ~5x).
+ * Rollup instead reified the namespace in the consuming chunk, keeping the
+ * barrel clean.
+ *
+ * This pass rewrites the emitted chunks back to the Rollup shape:
+ *
+ * - consuming chunks: `import { x_exports } from "spec"` becomes `import * as
+ *   x_exports from "spec"` (named siblings are kept),
+ * - defining chunks: the `var x_exports = __exportAll({...});` block, the
+ *   `x_exports` entry in the final export statement, and the then-unused
+ *   `__exportAll` import are removed.
+ */
+export function namespaceExports(): Plugin {
+  const EXPORTS_NAME = /^\w+_exports$/
+  return {
+    name: 'vf:namespace-exports',
+    generateBundle(_, bundle) {
+      for (const output of Object.values(bundle)) {
+        if (output.type !== 'chunk') continue
+        let code = output.code
+
+        // Consumer side: named `x_exports` imports become namespace imports.
+        code = code.replace(
+          /^import \{([^}]+)\} from ("[^"]+");$/gm,
+          (statement, names: string, spec: string) => {
+            const parts = names.split(',').map((part) => part.trim())
+            const ns = parts.filter((part) => EXPORTS_NAME.test(part))
+            if (ns.length === 0) return statement
+            const rest = parts.filter((part) => !EXPORTS_NAME.test(part))
+            return [
+              ...ns.map((name) => `import * as ${name} from ${spec};`),
+              ...(rest.length
+                ? [`import { ${rest.join(', ')} } from ${spec};`]
+                : []),
+            ].join('\n')
+          }
+        )
+
+        // Definer side: drop the materialized namespace object and its
+        // export — but only for names the chunk actually EXPORTS. An IIFE or
+        // inlined bundle reifies the same `x_exports` pattern for internal
+        // use; those must stay.
+        const exported = new Set<string>()
+        for (const match of code.matchAll(/^export \{([^}]+)\};/gm)) {
+          for (const part of match[1].split(',')) {
+            const name = part.trim()
+            if (EXPORTS_NAME.test(name)) exported.add(name)
+          }
+        }
+        if (exported.size > 0) {
+          code = code.replace(
+            /^var (\w+_exports) = __exportAll\(\{[^{}]*\}\);\n?/gm,
+            (statement, name: string) => (exported.has(name) ? '' : statement)
+          )
+          code = code.replace(
+            /^export \{([^}]+)\};/gm,
+            (statement, names: string) => {
+              const kept = names
+                .split(',')
+                .map((part) => part.trim())
+                .filter((part) => !EXPORTS_NAME.test(part))
+              return kept.length ? `export { ${kept.join(', ')} };` : ''
+            }
+          )
+          if (!/\b__exportAll\(/.test(code)) {
+            code = code.replace(
+              /^import \{ __exportAll \} from "[^"]+";\n?/gm,
+              ''
+            )
+          }
+        }
+
+        output.code = code
+      }
+    },
+  }
+}
+
 export function pruneModules(): Plugin {
   return {
     name: 'vf:prune-modules',
     generateBundle(_, bundle) {
-      for (const [file, output] of Object.entries(bundle)) {
-        if (output.type === 'chunk' && !output.code.trim()) {
-          delete bundle[file]
+      // Deleting an empty chunk can leave bare side-effect imports of it
+      // dangling in other chunks (rolldown keeps glue imports that rollup
+      // dropped); strip those and re-check, until stable.
+      for (;;) {
+        const deleted = new Set<string>()
+        for (const [file, output] of Object.entries(bundle)) {
+          if (output.type === 'chunk' && !output.code.trim()) {
+            delete bundle[file]
+            deleted.add(file)
+          }
+        }
+        if (deleted.size === 0) break
+        for (const [file, output] of Object.entries(bundle)) {
+          if (output.type !== 'chunk') continue
+          output.code = output.code.replace(
+            /^import\s+"([^"]+)";\n?/gm,
+            (statement, spec: string) => {
+              if (!spec.startsWith('.')) return statement
+              const target = join(file, '..', spec).split(sep).join('/')
+              return deleted.has(target) ? '' : statement
+            }
+          )
         }
       }
 
@@ -252,13 +384,29 @@ export function pruneModules(): Plugin {
  * Node shims otherwise). The chunks themselves are compiled separately
  * (`themeScss`) — they never enter the bundle graph.
  */
-export function scssExternals(name: string, scssAbs: string): Plugin {
+export function scssExternals(
+  name: string,
+  scssAbs: string,
+  aliasPrefix?: string
+): Plugin {
   return {
     name: 'vf:scss-externals',
     enforce: 'pre',
     resolveId(source, importer) {
       const [path] = source.split('?')
       if (!path.endsWith('.scss')) return
+      // Raw alias form (`#ui/scss/x.scss`): under tsdown/rolldown there is
+      // no earlier alias plugin feeding this hook absolute ids — rolldown's
+      // native `resolve.alias` would bypass JS resolveId hooks entirely, so
+      // the tsdown factories alias via plugins and this hook claims the
+      // alias-form scss imports directly.
+      if (aliasPrefix && path.startsWith(`${aliasPrefix}/scss/`)) {
+        return {
+          id: `${name}/${basename(path, '.scss')}.css`,
+          external: true,
+          moduleSideEffects: true,
+        }
+      }
       // Vite's alias pass runs before pre plugins, so an aliased specifier
       // may arrive already resolved to an absolute path.
       const abs = path.startsWith('.')
@@ -267,7 +415,15 @@ export function scssExternals(name: string, scssAbs: string): Plugin {
           : path
         : path
       if (dirname(abs) !== scssAbs) return
-      return { id: `${name}/${basename(abs, '.scss')}.css`, external: true }
+      // `moduleSideEffects` on the resolution itself: the global
+      // `treeshake.moduleSideEffects` function is not honored for external
+      // modules by Rolldown (vite 8), which silently dropped these css
+      // side-effect imports from the emitted modules.
+      return {
+        id: `${name}/${basename(abs, '.scss')}.css`,
+        external: true,
+        moduleSideEffects: true,
+      }
     },
   }
 }
@@ -422,8 +578,17 @@ export function createLibBuild(options: LibBuildOptions): BuildOptions {
       ...(options.cssExternalSideEffects
         ? {
             treeshake: {
-              moduleSideEffects: (id: string, isExternal: boolean) =>
-                isExternal ? id.endsWith('.css') : true,
+              // Rule array, not a function: under vite 8 (Rolldown) the
+              // function form is not applied — rules are evaluated natively
+              // (first match wins) and survive the Rust boundary. Semantics
+              // match the previous function: external css imports are
+              // side-effectful (they must stay in the emitted modules),
+              // other externals are not, local modules always are.
+              moduleSideEffects: [
+                { test: /\.css$/, sideEffects: true, external: true },
+                { sideEffects: false, external: true },
+                { sideEffects: true, external: false },
+              ],
             },
           }
         : {}),
@@ -520,37 +685,6 @@ export function mirrorEntries(dir: string): Record<string, string> {
 }
 
 /**
- * After the d.ts files are written, injects the `part:*` / `class:*` /
- * `reclass:*` shorthand prop types for every component whose tier entry
- * (`styled.d.ts` / `unstyled.d.ts`) carries the `#shorthands` marker import: a
- * `shorthands.d.ts` declaration merge is written beside it and the marker
- * import is rewritten to `./shorthands`. `helpersFrom` is the specifier the
- * generated files import the prop helpers from — `'../../types'` in core,
- * `'@vueform/core'` in adapters.
- */
-export function shorthandProps(distAbs: string, helpersFrom: string): Plugin {
-  return {
-    name: 'vf:shorthand-props',
-    enforce: 'post',
-    closeBundle() {
-      const { written, skipped } = injectShorthandPropsDts(distAbs, {
-        helpersFrom,
-      })
-      if (written > 0) {
-        const skipNote =
-          skipped.length > 0
-            ? ` (skipped ${skipped.length}: ${skipped.slice(0, 3).join('; ')}${skipped.length > 3 ? '…' : ''})`
-            : ''
-
-        console.info(
-          `[vf:shorthand-props] wrote ${written} shorthands.d.ts${skipNote}`
-        )
-      }
-    },
-  }
-}
-
-/**
  * Writes `names.d.ts` beside the built components: a component-name union with
  * ZERO imports — nuxt module options (and any other name-level tooling) can
  * reference it without pulling the barrel's d.ts, whose per-component
@@ -573,4 +707,31 @@ export function componentNames(componentsDistAbs: string): Plugin {
       )
     },
   }
+}
+
+/**
+ * The `/*!`-marked legal banner for a package's primary dist artifacts, with
+ * the version read from the package's manifest at build time. The `/*!` and
+ * `@license` markers make consumers' minifiers (terser, esbuild, swc) preserve
+ * it, so attribution survives into application bundles.
+ */
+export function legalBanner(name: string, root: string): string {
+  const { version } = JSON.parse(
+    readFileSync(join(root, 'package.json'), 'utf8')
+  ) as { version: string }
+  return `/*!\n * ${name} v${version}\n * (c) 2020-present Adam Berecz\n * @license MIT\n */\n`
+}
+
+/**
+ * {@link legalBanner} as a rolldown `output.banner` function applied to the
+ * root `index` chunk ONLY: the dists are unbundled file-per-module trees, and
+ * a preserved legal comment on every module would be duplicated hundreds of
+ * times into consumers' bundles — the primary entry alone carries it.
+ */
+export function indexBanner(
+  name: string,
+  root: string
+): (chunk: { name: string }) => string {
+  const banner = legalBanner(name, root)
+  return (chunk) => (chunk.name === 'index' ? banner : '')
 }

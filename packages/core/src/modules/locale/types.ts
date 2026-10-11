@@ -1,5 +1,7 @@
 import { type MaybeRef, type WritableComputedRef } from 'vue'
-import type { LocalesProp } from '#core/types'
+
+import type { LocalesProp } from '#src/types'
+
 import type { LocaleTag } from './createLocale'
 
 /**

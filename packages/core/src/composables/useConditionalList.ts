@@ -1,10 +1,12 @@
 import { toRef, type Ref } from 'vue'
-import type { UseConditionsOptions } from './useConditions'
-import { useComponentContext, useFormContext } from '#core/contexts'
+
+import { useComponentContext, useFormContext } from '#src/contexts'
 import {
   getConditionsModule,
   type ConditionsResult,
-} from '#core/modules/conditions'
+} from '#src/modules/conditions'
+
+import type { UseConditionsOptions } from './useConditions'
 
 /**
  * Resolves conditions for a dynamic list of items into a parallel array of

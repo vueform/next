@@ -1,38 +1,46 @@
-import type { RulesProp, TRulesProp } from '#core/modules/validation'
+import type { Ref, WritableComputedRef } from 'vue'
+
+import { useData, type CastOption } from '#src/composables'
+import {
+  type makeElement,
+  type makeInteraction,
+  type makeMultilingual,
+} from '#src/features'
+import {
+  defineFeature,
+  type FeatureContext,
+  type FeatureEvents,
+} from '#src/helpers'
+import type { RulesProp, TRulesProp } from '#src/modules/validation'
 import type {
   Booleanish,
   ElementName,
   LanguagesProp,
   ReturnsOf,
   RuleMessagesProp,
-} from '#core/types'
-import type { Ref, WritableComputedRef } from 'vue'
-import { useData, type CastOption } from '#core/composables'
-import {
-  type makeElement,
-  type makeInteraction,
-  type makeMultilingual,
-} from '#core/features'
-import {
-  defineFeature,
-  type FeatureContext,
-  type FeatureEvents,
-} from '#core/helpers'
-import { pickRefs } from '#core/utils'
+} from '#src/types'
+import { pickRefs } from '#src/utils'
 
 /**
  * Keys returned by useData only when the element is a dynamic list (has the
  * `rows` option).
  */
 type UseDataRepeatableKeys =
-  'items' | 'dragIndex' | 'dropIndex' | 'add' | 'remove' | 'sort'
+  | 'items'
+  | 'dragIndex'
+  | 'dropIndex'
+  | 'add'
+  | 'remove'
+  | 'sort'
 
 /**
  * Keys returned by useData only when the element supports translation (has the
  * `translate` option).
  */
 type UseDataTranslatableKeys =
-  'currentValidation' | 'invalidLanguages' | 'validateCurrent'
+  | 'currentValidation'
+  | 'invalidLanguages'
+  | 'validateCurrent'
 
 /**
  * The full return type of useData, including all conditional groups.
@@ -235,6 +243,12 @@ export type MakeDataOptions<C extends MakeDataConfig = {}> = {
     languages?: LanguagesProp | undefined
     nullValue?: any
 
+    /**
+     * Transforms the element's value when submitting the form.
+     *
+     * @param value The raw value being submitted.
+     * @param context$ The element's component context.
+     */
     transformPayload: ((value: any, context$: any) => any) | undefined
   }
 

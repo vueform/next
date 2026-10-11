@@ -1,11 +1,12 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import type {
-  Results,
   ScenarioResult,
   Size,
-} from '../../../packages/utils/src/size/types'
+  SizeResults as Results,
+} from '@vueform/utils'
 
 /**
  * Fills the measured bundle sizes of each adapter's code-splitting guide from
@@ -23,7 +24,7 @@ import type {
  *   other cell and the row order are left untouched.
  *
  * Sizes come from each measured package's own
- * `packages/<name>/node_modules/.vueform/size.json`, and — for the
+ * the root `.vueform/size/<name>.json`, and — for the
  * adapter-independent building blocks (modules, rules, locales) — from the core
  * package's, the same way the suite's own report does. All values are gzipped
  * deltas.
@@ -59,14 +60,7 @@ interface KindSizes {
 // ---------------------------------------------------------------------------
 
 function readResults(name: string): Results | undefined {
-  const file = path.join(
-    ROOT,
-    'packages',
-    name,
-    'node_modules',
-    '.vueform',
-    'size.json'
-  )
+  const file = path.join(ROOT, '.vueform', 'size', `${name}.json`)
   return fs.existsSync(file)
     ? (JSON.parse(fs.readFileSync(file, 'utf-8')) as Results)
     : undefined

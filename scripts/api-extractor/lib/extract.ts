@@ -1,17 +1,22 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+
 import * as ts from 'typescript'
+
+import { monorepoRoot } from './paths'
 
 // =============== TYPES ================
 
 export interface ParamInfo {
   type: string
   description: string
+  loc?: string
 }
 
 export interface PropInfo {
   type: string
   description: string
+  loc?: string
   required?: true
   private?: true
   default?: unknown
@@ -22,12 +27,14 @@ export interface PropInfo {
 
 export interface EventInfo {
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
 }
 
 export interface PartInfo {
   type: string
   description: string
+  loc?: string
   tag?: string
   params?: Record<string, ParamInfo>
 }
@@ -35,25 +42,29 @@ export interface PartInfo {
 export interface SlotParamInfo {
   type: string
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
   returns?: { type: string }
 }
 
 export interface SlotInfo {
   description: string
+  loc?: string
   exposes?: string
   inherits?: string
   params?: Record<string, SlotParamInfo>
 }
 
 export interface ClassParamExpanded {
-  type: Record<string, { type: string; description: string }>
+  type: Record<string, { type: string; description: string; loc?: string }>
   description: string
+  loc?: string
 }
 
 export interface ClassInfo {
   type: string
   description: string
+  loc?: string
   default?: string
   params?: Record<string, string | ClassParamExpanded>
 }
@@ -61,6 +72,7 @@ export interface ClassInfo {
 export interface ApiMemberInfo {
   type: string
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
   returns?: { type: string }
 }
@@ -68,6 +80,7 @@ export interface ApiMemberInfo {
 export interface AdapterPropVersion {
   type: string
   description: string
+  loc?: string
 }
 
 export interface AdapterTypeInfo {
@@ -102,7 +115,12 @@ export interface DefaultEntry {
 // ============= TS PROGRAM =============
 
 export function createProgram(packageDir: string) {
-  const configPath = path.join(packageDir, 'tsconfig.json')
+  // The packages' tsconfig.json is a solution file (`files: []` +
+  // `references`) — the sources live in the app leg's include.
+  const appConfigPath = path.join(packageDir, 'tsconfig.app.json')
+  const configPath = fs.existsSync(appConfigPath)
+    ? appConfigPath
+    : path.join(packageDir, 'tsconfig.json')
   const raw = ts.readConfigFile(configPath, ts.sys.readFile)
 
   if (raw.error) {
@@ -123,21 +141,62 @@ export function createProgram(packageDir: string) {
   return { program, checker: program.getTypeChecker() }
 }
 
-// ============ JSDOC HELPERS ===========
+// ================ LOC =================
 
-export function singleLine(s: string): string {
-  return s.replace(/\s*\n\s*/g, ' ').trim()
+/**
+ * Repo-relative `path:line` of a node's start (leading trivia skipped, so
+ * the line is the declaration itself — where a missing JSDoc block would
+ * be written). Emitted as the `loc` field next to every description-bearing
+ * node of the generated jsons.
+ */
+export function loc(node: ts.Node): string {
+  const sourceFile = node.getSourceFile()
+  const { line } = sourceFile.getLineAndCharacterOfPosition(node.getStart())
+  return `${path.relative(monorepoRoot, sourceFile.fileName)}:${line + 1}`
 }
 
-export function getSymbolDescription(
-  symbol: ts.Symbol,
-  checker: ts.TypeChecker
-): string {
-  const raw = symbol
-    .getDocumentationComment(checker)
-    .map((p) => p.text)
-    .join('')
+// ====== HTML ATTRIBUTE DESCRIPTIONS ======
 
+/**
+ * Standard HTML/ARIA attribute and DOM event-handler descriptions from
+ * @vscode/web-custom-data (the dataset behind VS Code's HTML hovers;
+ * MDN-derived, CC BY-SA — the source data carries the reference links).
+ * Vue's runtime-dom attribute interfaces (HTMLAttributes, AriaAttributes,
+ * EventHandlers, per-tag XxxHTMLAttributes) have no JSDoc, so props
+ * resolving there are filled from this dataset instead.
+ */
+let htmlAttributeDocs: {
+  global: Map<string, string>
+  byTag: Map<string, Map<string, string>>
+  /**
+   * First description found across all tags, for attributes Vue declares on
+   * the generic HTMLAttributes but the dataset keys per tag (placeholder…).
+   */
+  anyTag: Map<string, string>
+  /**
+   * Hand-maintained descriptions (data/html-attributes.json) for attributes
+   * the dataset lists without a description (role), keys it cannot know
+   * (Vue's innerHTML, the DOM-only indeterminate) or nonstandard/legacy ones
+   * (RDFa set, autosave…). Lowercased keys.
+   */
+  supplement: Map<string, string>
+} | null = null
+
+/**
+ * The dataset's descriptions are strings or `{ kind, value }` markup
+ * contents, in multi-line markdown — normalized to the single-line-paragraph
+ * form of every other scraped description.
+ */
+function markupText(description: unknown): string | undefined {
+  const raw =
+    typeof description === 'string'
+      ? description
+      : description &&
+          typeof description === 'object' &&
+          typeof (description as { value?: unknown }).value === 'string'
+        ? (description as { value: string }).value
+        : undefined
+  if (!raw) return undefined
   return raw
     .split('\n')
     .map((l) => l.trim())
@@ -149,30 +208,304 @@ export function getSymbolDescription(
     .join('\n\n')
 }
 
-export function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
-  const result = new Map<string, string>()
+function loadHtmlAttributeDocs(): NonNullable<typeof htmlAttributeDocs> {
+  if (htmlAttributeDocs) return htmlAttributeDocs
 
-  for (const entry of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(entry) || !entry.tags) continue
+  const data = JSON.parse(
+    fs.readFileSync(
+      path.join(
+        monorepoRoot,
+        'node_modules/@vscode/web-custom-data/data/browsers.html-data.json'
+      ),
+      'utf8'
+    )
+  ) as {
+    globalAttributes: { name: string; description?: unknown }[]
+    tags: {
+      name: string
+      attributes: { name: string; description?: unknown }[]
+    }[]
+  }
 
-    for (const tag of entry.tags) {
-      if (
-        !ts.isJSDocParameterTag(tag) ||
-        !tag.name ||
-        !ts.isIdentifier(tag.name)
-      )
-        continue
+  const global = new Map<string, string>()
+  for (const attr of data.globalAttributes) {
+    const text = markupText(attr.description)
+    if (text) global.set(attr.name, text)
+  }
 
-      const comment =
-        typeof tag.comment === 'string'
-          ? tag.comment
-          : (tag.comment?.map((c) => c.text || '').join('') ?? '')
+  const byTag = new Map<string, Map<string, string>>()
+  const anyTag = new Map<string, string>()
+  for (const tag of data.tags) {
+    const attrs = new Map<string, string>()
+    for (const attr of tag.attributes) {
+      const text = markupText(attr.description)
+      if (!text) continue
+      attrs.set(attr.name, text)
+      if (!anyTag.has(attr.name)) anyTag.set(attr.name, text)
+    }
+    if (attrs.size) byTag.set(tag.name, attrs)
+  }
 
-      result.set(tag.name.text, singleLine(comment))
+  const supplement = new Map<string, string>(
+    Object.entries(
+      JSON.parse(
+        fs.readFileSync(
+          path.join(
+            monorepoRoot,
+            'scripts/api-extractor/data/html-attributes.json'
+          ),
+          'utf8'
+        )
+      ) as Record<string, string>
+    )
+  )
+
+  htmlAttributeDocs = { global, byTag, anyTag, supplement }
+  return htmlAttributeDocs
+}
+
+/**
+ * Attributes whose meaning genuinely differs per tag — never filled from
+ * another tag's description (they stay empty when their own tag's dataset
+ * entry has none).
+ */
+const TAG_NUANCED_ATTRIBUTES = new Set(['type', 'value', 'name'])
+
+/**
+ * Description for a prop declared in Vue's runtime-dom attribute interfaces,
+ * from the web-custom-data set: the declaring interface scopes the lookup
+ * (`InputHTMLAttributes` → the `input` tag's attributes, falling back to the
+ * global ones), and lowercasing maps event handlers (`onClick` → `onclick`);
+ * `aria-*` keys match as-is. Returns nothing for props declared elsewhere.
+ */
+export function htmlAttributeDescription(
+  name: string,
+  decl: ts.Declaration
+): string | undefined {
+  const file = decl.getSourceFile().fileName
+  if (!file.includes('@vue') || !file.includes('runtime-dom')) return undefined
+
+  const docs = loadHtmlAttributeDocs()
+  const attr = name.toLowerCase()
+  const iface =
+    decl.parent && ts.isInterfaceDeclaration(decl.parent)
+      ? decl.parent.name.text
+      : undefined
+  const tag = iface?.match(/^([A-Za-z]+)HTMLAttributes$/)?.[1]?.toLowerCase()
+
+  return (
+    (tag ? docs.byTag.get(tag)?.get(attr) : undefined) ??
+    docs.global.get(attr) ??
+    // Tag-qualified supplement entries (input.type, …) cover the names too
+    // tag-specific for the any-tag fallback below.
+    (tag ? docs.supplement.get(`${tag}.${attr}`) : undefined) ??
+    // The dataset leaves many tag entries description-less (all of input's,
+    // e.g.) — fall back to any tag's description, except for the few names
+    // whose meaning is genuinely tag-specific.
+    (TAG_NUANCED_ATTRIBUTES.has(attr) ? undefined : docs.anyTag.get(attr)) ??
+    docs.supplement.get(attr) ??
+    // Event handlers beyond the dataset's classic set (onCopy,
+    // onCompositionstart, …). Synthesized: their declarations live in
+    // node_modules, so they could never be documented by hand anyway.
+    (/^on[a-z]+$/i.test(name) && name.startsWith('on')
+      ? `Handler for the native \`${name.slice(2).toLowerCase()}\` event.`
+      : undefined)
+  )
+}
+
+/**
+ * Vue's EventHandlers mapped type gives every handler prop a single
+ * `payload` parameter (the native event object) — synthesized for the same
+ * reason as the handlers themselves.
+ */
+export function domEventPayloadDescription(
+  name: string,
+  paramDecl: ts.Declaration | undefined
+): string | undefined {
+  if (name !== 'payload' || !paramDecl) return undefined
+  const file = paramDecl.getSourceFile().fileName
+  if (!file.includes('@vue') || !file.includes('runtime-dom')) return undefined
+  return 'The native event payload.'
+}
+
+// ============ JSDOC HELPERS ===========
+
+export function singleLine(s: string): string {
+  return s.replace(/\s*\n\s*/g, ' ').trim()
+}
+
+function normalizeDocText(raw: string): string {
+  return raw
+    .split('\n')
+    .map((l) => l.trim())
+    .join('\n')
+    .replace(/\n{3,}/g, '\n\n')
+    .trim()
+    .split('\n\n')
+    .map((paragraph) => paragraph.replace(/\n/g, ' '))
+    .join('\n\n')
+}
+
+export function getSymbolDescription(
+  symbol: ts.Symbol,
+  checker: ts.TypeChecker
+): string {
+  const raw = symbol
+    .getDocumentationComment(checker)
+    .map((p) => p.text)
+    .join('')
+  if (raw.trim()) return normalizeDocText(raw)
+
+  // Some lib docblocks put a tag above the prose (`@deprecated …` first, the
+  // actual description below) — TS then files the prose as the tag's comment
+  // and the summary comes back empty. Recover the lines after the tag's own
+  // (sentence-terminated) first line.
+  for (const tag of symbol.getJsDocTags(checker)) {
+    if (tag.name !== 'deprecated') continue
+    const text = (tag.text ?? []).map((p) => p.text).join('')
+    const lines = text.split('\n').map((l) => l.trim())
+    if (lines.length < 2 || !lines[0].endsWith('.')) continue
+    const rest = lines.slice(1).join('\n').trim()
+    if (rest) return normalizeDocText(rest)
+  }
+
+  // Other docblocks open with `/*` instead of `/**` — a plain block comment
+  // TS attaches to nothing. Recover its prose from the source text.
+  const decl = symbol.getDeclarations()?.[0]
+  if (decl) {
+    const fullText = decl.getSourceFile().getFullText()
+    const ranges = ts.getLeadingCommentRanges(fullText, decl.pos) ?? []
+    const last = ranges[ranges.length - 1]
+    if (last && last.kind === ts.SyntaxKind.MultiLineCommentTrivia) {
+      const comment = fullText.slice(last.pos, last.end)
+      // Real JSDoc was already handled above; only salvage plain comments.
+      if (!comment.startsWith('/**')) {
+        const prose = comment
+          .replace(/^\/\*+/, '')
+          .replace(/\*+\/$/, '')
+          .split('\n')
+          .map((l) => l.replace(/^\s*\*\s?/, '').trim())
+          .filter(Boolean)
+        // Tag-only or directive-style comments are not descriptions.
+        const stop = prose.findIndex((l) => l.startsWith('@'))
+        const text = prose
+          .slice(0, stop === -1 ? undefined : stop)
+          .join('\n')
+          .trim()
+        if (
+          text &&
+          /[A-Za-z]/.test(text) &&
+          !/^(eslint|ts-|prettier|biome|oxlint|\/)/.test(text)
+        ) {
+          return normalizeDocText(text)
+        }
+      }
     }
   }
 
+  return ''
+}
+
+/**
+ * `@param` descriptions keyed by the documented name. The returned map's
+ * `get` tolerates the unused-parameter convention: an implementation
+ * parameter named `_event` still finds a docblock entry written as
+ * `@param event`.
+ */
+class ParamDescriptions extends Map<string, string> {
+  override get(name: string): string | undefined {
+    return super.get(name) ?? super.get(name.replace(/^_+/, ''))
+  }
+}
+
+export function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
+  const result = new ParamDescriptions()
+
+  // The docblock of `const fn = (…) => {}` hangs on the VariableSTATEMENT —
+  // ts.getJSDocCommentsAndTags on the declaration (or the arrow itself)
+  // returns nothing, so climb to it. The statement is read first; the node's
+  // own tags win on conflicts.
+  const sources: ts.Node[] = []
+  let current: ts.Node = node
+  if (
+    (ts.isArrowFunction(current) || ts.isFunctionExpression(current)) &&
+    ts.isVariableDeclaration(current.parent)
+  ) {
+    current = current.parent
+  }
+  // A property's fn type (`autosave: (options: …) => …`) carries no JSDoc —
+  // the tags live on the property signature itself.
+  if (
+    ts.isFunctionTypeNode(current) &&
+    ts.isPropertySignature(current.parent)
+  ) {
+    sources.push(current.parent)
+  }
+  if (
+    ts.isVariableDeclaration(current) &&
+    ts.isVariableDeclarationList(current.parent) &&
+    ts.isVariableStatement(current.parent.parent)
+  ) {
+    sources.push(current.parent.parent)
+  }
+  sources.push(node)
+
+  for (const source of sources) collect(source)
   return result
+
+  function collect(target: ts.Node): void {
+    for (const entry of ts.getJSDocCommentsAndTags(target)) {
+      if (!ts.isJSDoc(entry) || !entry.tags) continue
+
+      for (const tag of entry.tags) {
+        if (!ts.isJSDocParameterTag(tag) || !tag.name) continue
+
+        // Dotted names document an object param's members (the slot-scope
+        // convention `@param props.context …`) — keyed by their full path.
+        const name = ts.isIdentifier(tag.name)
+          ? tag.name.text
+          : ts.isQualifiedName(tag.name)
+            ? tag.name.getText()
+            : undefined
+        if (!name) continue
+
+        const comment =
+          typeof tag.comment === 'string'
+            ? tag.comment
+            : (tag.comment?.map((c) => c.text || '').join('') ?? '')
+
+        result.set(name, singleLine(comment))
+      }
+    }
+  }
+}
+
+/**
+ * Fills a declaration's `@param` map with entries documented on same-name
+ * sibling declarations — for overloaded functions the docblock lives on the
+ * first overload signature while the implementation signature often has
+ * none. Existing entries win; siblings fill the gaps in source order.
+ */
+export function addOverloadParamDescriptions(
+  jsdoc: Map<string, string>,
+  node: ts.FunctionDeclaration,
+  sourceFile: ts.SourceFile
+): Map<string, string> {
+  const name = node.name?.text
+  if (!name) return jsdoc
+  ts.forEachChild(sourceFile, (sibling) => {
+    if (
+      sibling === node ||
+      !ts.isFunctionDeclaration(sibling) ||
+      sibling.name?.text !== name
+    ) {
+      return
+    }
+    for (const [param, desc] of getJSDocParamDescriptions(sibling)) {
+      if (!jsdoc.has(param)) jsdoc.set(param, desc)
+    }
+  })
+  return jsdoc
 }
 
 export function getNodeJSDocDescription(node: ts.Node): string {
@@ -266,7 +599,8 @@ export function getPropertyTypeInfo(
     if (ts.isTypeReferenceNode(decl.type) && !decl.type.typeArguments) {
       const sym = checker.getSymbolAtLocation(decl.type.typeName)
       const tpDecl = sym?.declarations?.find(ts.isTypeParameterDeclaration) as
-        ts.TypeParameterDeclaration | undefined
+        | ts.TypeParameterDeclaration
+        | undefined
 
       if (tpDecl?.constraint) {
         text = tpDecl.constraint
@@ -298,13 +632,23 @@ export function getFunctionParams(
   if (!sigs.length) return undefined
 
   const jsdoc = getJSDocParamDescriptions(decl)
+  // The member's decl can be a doc-less alias (a destructured binding, a
+  // re-export) — the function's own declaration carries the docblock then.
+  const sigDecl = sigs[0].getDeclaration() as ts.Declaration | undefined
+  const sigDocs = sigDecl ? getJSDocParamDescriptions(sigDecl) : undefined
   const params: Record<string, ParamInfo> = {}
 
   for (const param of sigs[0].getParameters()) {
     const paramType = checker.getTypeOfSymbolAtLocation(param, decl)
+    const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
-      description: jsdoc.get(param.name) ?? '',
+      description:
+        jsdoc.get(param.name) ||
+        sigDocs?.get(param.name) ||
+        domEventPayloadDescription(param.name, paramDecl) ||
+        '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
 
@@ -357,6 +701,7 @@ export function getEventParams(
               .replace(/^\|\s*/, '')
               .trim(),
             description: jsdoc.get(elem.name.text) ?? '',
+            loc: loc(elem),
           }
         }
       }
@@ -397,6 +742,7 @@ export function getEventParams(
               ? checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS)
               : 'any',
             description: '',
+            loc: loc(label),
           }
         }
         if (Object.keys(params).length) return params
@@ -619,8 +965,11 @@ export function extractComponentProps(
       }
     }
 
-    const description = getSymbolDescription(propSym, checker)
-    const info: PropInfo = { type: typeText, description }
+    const description =
+      getSymbolDescription(propSym, checker) ||
+      htmlAttributeDescription(propSym.name, decl) ||
+      ''
+    const info: PropInfo = { type: typeText, description, loc: loc(decl) }
 
     if (ts.isPropertySignature(decl) && !decl.questionToken) {
       info.required = true
@@ -779,12 +1128,20 @@ function extractAdapterTypeInfoFromInterface(
           if (!decl) continue
 
           const { typeText } = getPropertyTypeInfo(propSym, decl, checker)
-          const description = getSymbolDescription(propSym, checker)
+          const description =
+            getSymbolDescription(propSym, checker) ||
+            htmlAttributeDescription(propSym.name, decl) ||
+            ''
+          const version: AdapterPropVersion = {
+            type: typeText,
+            description,
+            loc: loc(decl),
+          }
 
           if (finalProps[name]) {
-            overwrittenProps[name] = { type: typeText, description }
+            overwrittenProps[name] = version
           } else {
-            unavailableProps[name] = { type: typeText, description }
+            unavailableProps[name] = version
           }
         }
       }
@@ -841,8 +1198,9 @@ export function extractEvents(
   for (const propSym of type.getProperties()) {
     const description = getSymbolDescription(propSym, checker)
     const params = getEventParams(propSym, checker, interfaceDecl)
+    const decl = propSym.getDeclarations()?.[0]
 
-    const info: EventInfo = { description }
+    const info: EventInfo = { description, loc: loc(decl ?? interfaceDecl) }
     if (params) info.params = params
 
     result[propSym.name] = info
@@ -902,7 +1260,7 @@ export function extractParts(
       )
     }
 
-    const info: PartInfo = { type: partType, description }
+    const info: PartInfo = { type: partType, description, loc: loc(decl) }
     if (tag) info.tag = tag
 
     if (isFunc) {
@@ -941,7 +1299,7 @@ export function extractSlots(
     const exposes = getJSDocTag(decl, 'exposes')
     const inherits = getJSDocTag(decl, 'inherits')
 
-    const info: SlotInfo = { description }
+    const info: SlotInfo = { description, loc: loc(decl) }
 
     if (contextTag !== undefined || exposes !== undefined) {
       info.exposes = exposes || 'context'
@@ -954,6 +1312,9 @@ export function extractSlots(
       if (sigs.length && sigs[0].getParameters().length) {
         const paramSym = sigs[0].getParameters()[0]
         const paramType = checker.getTypeOfSymbolAtLocation(paramSym, decl)
+        // The slot's own docblock may document scope members with dotted
+        // params (`@param props.context …`).
+        const slotParamDocs = getJSDocParamDescriptions(decl)
 
         if (paramType.getProperties().length) {
           const params: Record<string, SlotParamInfo> = {}
@@ -962,7 +1323,10 @@ export function extractSlots(
             const memberDecl = memberSym.getDeclarations()?.[0]
             if (!memberDecl) continue
 
-            const memberDesc = getSymbolDescription(memberSym, checker)
+            const memberDesc =
+              getSymbolDescription(memberSym, checker) ||
+              slotParamDocs.get(`${paramSym.name}.${memberSym.name}`) ||
+              ''
             const memberType = checker.getTypeOfSymbolAtLocation(
               memberSym,
               memberDecl
@@ -973,13 +1337,26 @@ export function extractSlots(
               const member: SlotParamInfo = {
                 type: 'function',
                 description: memberDesc,
+                loc: loc(memberDecl),
               }
               const funcParams = getFunctionParams(
                 memberType,
                 memberDecl,
                 checker
               )
-              if (funcParams) member.params = funcParams
+              if (funcParams) {
+                // A function member's params may be documented on the slot's
+                // docblock one level deeper (`@param props.remove.index …`).
+                for (const [name, info] of Object.entries(funcParams)) {
+                  if (!info.description) {
+                    info.description =
+                      slotParamDocs.get(
+                        `${paramSym.name}.${memberSym.name}.${name}`
+                      ) ?? ''
+                  }
+                }
+                member.params = funcParams
+              }
               const ret = getFunctionReturnType(memberType, checker)
               if (ret) member.returns = { type: ret }
               params[memberSym.name] = member
@@ -1005,6 +1382,7 @@ export function extractSlots(
               params[memberSym.name] = {
                 type: memberTypeText,
                 description: memberDesc,
+                loc: loc(memberDecl),
               }
             }
           }
@@ -1061,6 +1439,7 @@ export function extractClassTypes(
     const info: ClassInfo = {
       type: isFunc ? 'function' : 'ClassValue',
       description,
+      loc: loc(decl),
     }
 
     if (isFunc) {
@@ -1075,10 +1454,7 @@ export function extractClassTypes(
           const paramDesc = jsdoc.get(paramSym.name) ?? ''
 
           if (shouldExpandType(paramType)) {
-            const expanded: Record<
-              string,
-              { type: string; description: string }
-            > = {}
+            const expanded: ClassParamExpanded['type'] = {}
 
             for (const memberSym of paramType.getProperties()) {
               const memberDecl = memberSym.getDeclarations()?.[0]
@@ -1105,10 +1481,16 @@ export function extractClassTypes(
               expanded[memberSym.name] = {
                 type: memberTypeText,
                 description: getSymbolDescription(memberSym, checker),
+                loc: loc(memberDecl),
               }
             }
 
-            params[paramSym.name] = { type: expanded, description: paramDesc }
+            const paramDecl = paramSym.getDeclarations()?.[0]
+            params[paramSym.name] = {
+              type: expanded,
+              description: paramDesc,
+              ...(paramDecl ? { loc: loc(paramDecl) } : {}),
+            }
           } else {
             params[paramSym.name] = paramDesc
           }
@@ -1625,7 +2007,11 @@ export function extractComponentApi(
         ? 'function'
         : checker.typeToString(memberType, decl, TYPE_FORMAT_FLAGS)
 
-      const member: ApiMemberInfo = { type: typeStr, description }
+      const member: ApiMemberInfo = {
+        type: typeStr,
+        description,
+        loc: loc(decl),
+      }
 
       if (isFunc) {
         const params = getFunctionParams(memberType, decl, checker)
@@ -1645,7 +2031,11 @@ export function extractComponentApi(
         ? 'function'
         : checker.typeToString(exprType, prop, TYPE_FORMAT_FLAGS)
 
-      const member: ApiMemberInfo = { type: typeStr, description }
+      const member: ApiMemberInfo = {
+        type: typeStr,
+        description,
+        loc: loc(prop),
+      }
 
       if (isFunc) {
         const jsdoc = getJSDocParamDescriptions(prop)
@@ -1656,9 +2046,11 @@ export function extractComponentApi(
 
           for (const sp of sigParams) {
             const pt = checker.getTypeOfSymbolAtLocation(sp, prop)
+            const spDecl = sp.getDeclarations()?.[0]
             params[sp.name] = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
               description: jsdoc.get(sp.name) ?? '',
+              ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
           }
           if (Object.keys(params).length) member.params = params
@@ -1891,16 +2283,29 @@ function kebabToCamel(s: string): string {
   return s.replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }
 
+export interface ForwardedEventOrigin {
+  description: string
+  /**
+   * The original emit member's declaration in the lib's d.ts.
+   */
+  loc?: string
+  /**
+   * Param name → `@param` description from the origin emit member.
+   */
+  paramDescriptions: Map<string, string>
+}
+
 /**
- * Resolves descriptions for forwarded events by looking at the original adapter
- * emits type referenced in `ForwardedEvents<EmitsType, ...>` heritage. Walks
- * one level of heritage to find ForwardedEvents.
+ * Resolves forwarded events to their origins: the original emit members of
+ * the lib type referenced in a `ForwardedEmits<EmitsType, …>` heritage
+ * (searched recursively — component Emits reach it through the blueprint
+ * interface). Keys are the camelCased published event names.
  */
 export function resolveForwardedEventDescriptions(
   checker: ts.TypeChecker,
   eventsDecl: ts.InterfaceDeclaration
-): Record<string, string> {
-  const result: Record<string, string> = {}
+): Record<string, ForwardedEventOrigin> {
+  const result: Record<string, ForwardedEventOrigin> = {}
 
   function searchHeritage(decl: ts.InterfaceDeclaration): void {
     if (!decl.heritageClauses) return
@@ -1910,7 +2315,7 @@ export function resolveForwardedEventDescriptions(
       for (const typeExpr of clause.types) {
         const exprText = typeExpr.expression.getText(sf)
 
-        if (exprText === 'ForwardedEvents') {
+        if (exprText === 'ForwardedEmits') {
           const typeArgs = typeExpr.typeArguments
           if (!typeArgs || typeArgs.length < 1) continue
 
@@ -1918,18 +2323,21 @@ export function resolveForwardedEventDescriptions(
           if (!emitsType) continue
 
           for (const prop of emitsType.getProperties()) {
-            const docs = prop.getDocumentationComment(checker)
-            const desc = docs.map((d) => d.text).join('')
-            if (desc) {
-              result[kebabToCamel(prop.name)] = desc
-                .split('\n')
-                .map((l) => l.trim())
-                .join('\n')
-                .replace(/\n{3,}/g, '\n\n')
-                .trim()
-                .split('\n\n')
-                .map((paragraph) => paragraph.replace(/\n/g, ' '))
-                .join('\n\n')
+            const originDecl = prop.getDeclarations()?.[0]
+            const paramDescriptions = new Map<string, string>()
+            if (originDecl) {
+              for (const [name, desc] of getJSDocParamDescriptions(
+                originDecl
+              )) {
+                // Lib docblocks write `@param {Type} name - Description.` —
+                // drop the dash separator.
+                paramDescriptions.set(name, desc.replace(/^-\s*/, ''))
+              }
+            }
+            result[kebabToCamel(prop.name)] = {
+              description: getSymbolDescription(prop, checker),
+              ...(originDecl ? { loc: loc(originDecl) } : {}),
+              paramDescriptions,
             }
           }
           continue

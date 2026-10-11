@@ -1,0 +1,59 @@
+{
+  "editor.tabSize": 2,
+  "editor.formatOnSave": true,
+  "editor.defaultFormatter": "oxc.oxc-vscode",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.oxc": "explicit",
+    "source.fixAll.stylelint": "explicit"
+  },
+  "files.insertFinalNewline": false,
+  "git.useEditorAsCommitInput": false,
+  "github.copilot.chat.commitMessageGeneration.instructions": [
+    {
+      "text": "Follow Conventional Commits: <type>(<scope>): <subject>. Types: feat, fix, refactor, perf, test, docs, build, ci, chore. Use ci only for pipeline config (workflows, CI jobs); local dev tooling (hooks, lint config, editor settings) is chore; dependency bumps are build(deps). Scope is the directory name of the workspace package touched (under packages/, e.g. core, ui, primevue) or docs/playground/deps/ci/repo. A package plus its docs/tests uses just the package scope. Multiple packages: list scopes comma-separated, originating package first (e.g. core,primevue) — or use a group scope (adapters, plugins) when the change covers that whole category. Omit the scope when the change spans many packages. Subject: imperative mood, lowercase after the colon, no trailing period, under 72 characters. See CONTRIBUTING.md."
+    }
+  ],
+
+  "oxc.enable": true,
+  "oxc.fixKind": "safe_fix_or_suggestion",
+
+  "js/ts.preferences.quoteStyle": "single",
+  "js/ts.preferences.importModuleSpecifier": "non-relative",
+  "js/ts.preferences.importModuleSpecifierEnding": "auto",
+  "js/ts.preferences.preferTypeOnlyAutoImports": true,
+  "js/ts.updateImportsOnFileMove.enabled": "always",
+  "js/ts.preferences.organizeImports": { "typeOrder": "last" },
+
+  "eslint.validate": ["vue"],
+  "[vue]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.oxc": "explicit",
+      "source.fixAll.eslint": "explicit"
+    }
+  },
+  // removeUnusedImports lives in the ts/js scopes, NOT the global block: in
+  // .vue files the action reaches Volar's embedded-TS document (which ignores
+  // the [vue] scope) and ADDS imports for compiler macros (defineProps etc.).
+  "[typescript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.oxc": "explicit",
+      "source.removeUnusedImports": "explicit"
+    }
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "oxc.oxc-vscode",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.oxc": "explicit",
+      "source.removeUnusedImports": "explicit"
+    }
+  },
+  "[json]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
+  "[html]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
+  "[css]": { "editor.defaultFormatter": "oxc.oxc-vscode" },
+
+  "oxc.disableNestedConfig": true,
+  "oxc.fmt.disableNestedConfig": true,
+  "editor.formatOnSaveMode": "file"
+}

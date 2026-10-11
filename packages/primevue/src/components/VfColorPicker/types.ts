@@ -1,4 +1,11 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { ColorPickerProps as PvColorPickerProps } from 'primevue'
+
+import type {
   ColorPickerApi,
   ColorPickerClasses,
   ColorPickerEmits,
@@ -6,13 +13,7 @@ import type {
   ColorPickerParts,
   ColorPickerProps,
   ColorPickerSlots,
-} from '#primevue/blueprints/color-picker'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { ColorPickerProps as PvColorPickerProps } from 'primevue'
+} from '#src/blueprints/color-picker'
 
 /**
  * Props for the VfColorPicker component.
@@ -20,8 +21,8 @@ import type { ColorPickerProps as PvColorPickerProps } from 'primevue'
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfColorPickerProps extends ColorPickerProps<
   'color-picker',

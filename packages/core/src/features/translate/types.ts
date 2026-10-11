@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
-import { type LanguagesProp, type PartOf, type EntryPropOf } from '#core/types'
+
+import { type LanguagesProp, type PartOf, type EntryPropOf } from '#src/types'
 
 // ========== ENTRY GENERICS ============
 
@@ -100,10 +101,19 @@ export interface TranslateSlots {
   /**
    * Slot that replaces the language selector rendering.
    *
-   * @param props.language The currently active language code.
-   * @param props.languages The available languages map.
+   * @param scope The language slot's params.
    */
-  language: (props: { language: string; languages: LanguagesProp }) => VNode[]
+  language: (scope: {
+    /**
+     * The currently active language code.
+     */
+    language: string
+
+    /**
+     * The available languages map.
+     */
+    languages: LanguagesProp
+  }) => VNode[]
 }
 
 /**

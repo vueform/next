@@ -24,7 +24,12 @@ interface LocaleEntry {
   /**
    * The docblock's prose description.
    */
-  description?: string
+  description: string
+  /**
+   * Repo-relative `path:line` of the locale's docblock (anchored at line 1 by
+   * construction).
+   */
+  loc: string
 }
 
 /**
@@ -32,14 +37,14 @@ interface LocaleEntry {
  *
  * @flag tags.
  */
-function parseDocblock(source: string): Omit<LocaleEntry, 'key'> {
+function parseDocblock(source: string): Omit<LocaleEntry, 'key' | 'loc'> {
   const match = source.match(/^\/\*\*([\s\S]*?)\*\//)
-  if (!match) return {}
+  if (!match) return { description: '' }
   const lines = match[1]
     .split('\n')
     .map((l) => l.replace(/^\s*\*\s?/, '').trim())
 
-  const out: Omit<LocaleEntry, 'key'> = {}
+  const out: Omit<LocaleEntry, 'key' | 'loc'> = { description: '' }
   const prose: string[] = []
   for (const line of lines) {
     const tag = line.match(/^@(name|flag)\s+(.*)$/)
@@ -49,7 +54,7 @@ function parseDocblock(source: string): Omit<LocaleEntry, 'key'> {
       prose.push(line)
     }
   }
-  if (prose.length) out.description = prose.join(' ').trim()
+  out.description = prose.join(' ').trim()
   return out
 }
 
@@ -62,11 +67,13 @@ function main() {
 
   const locales: Record<string, LocaleEntry> = {}
   for (const code of codes) {
-    const source = fs.readFileSync(
-      path.join(LOCALES_DIR, `${code}.ts`),
-      'utf-8'
-    )
-    locales[code] = { key: code, ...parseDocblock(source) }
+    const filePath = path.join(LOCALES_DIR, `${code}.ts`)
+    const source = fs.readFileSync(filePath, 'utf-8')
+    locales[code] = {
+      key: code,
+      ...parseDocblock(source),
+      loc: `${path.relative(monorepoRoot, filePath)}:1`,
+    }
   }
 
   fs.mkdirSync(generatedDir, { recursive: true })

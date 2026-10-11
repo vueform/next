@@ -1,3 +1,14 @@
+import type { VNode } from 'vue'
+
+import {
+  type SelectApi,
+  type SelectClasses,
+  type SelectEmits,
+  type SelectExpose,
+  type SelectParts,
+  type SelectProps,
+  type SelectSlots,
+} from '#src/blueprints/select'
 import type {
   AddonsParts,
   AddonsSlots,
@@ -16,24 +27,14 @@ import type {
   EntryItemValueReturnOf,
   EntryGroupChildrenOf,
   EntryMultipleOf,
-} from '#core/features'
+} from '#src/features'
 import type {
   WidenProps,
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
   DomAttrsOf,
-} from '#core/types'
-import type { VNode } from 'vue'
-import {
-  type SelectApi,
-  type SelectClasses,
-  type SelectEmits,
-  type SelectExpose,
-  type SelectParts,
-  type SelectProps,
-  type SelectSlots,
-} from '#core/blueprints/select'
+} from '#src/types'
 
 /**
  * VfSelect props narrowed from a registry `TEntry` payload, applying the
@@ -148,9 +149,14 @@ export interface VfSelectSlots<
   /**
    * Slot that replaces the label of each native option.
    *
-   * @param props.item The resolved option item.
+   * @param scope The option slot's params.
    */
-  option: (props: { item: ResolvedItem<TValue, TRaw> }) => VNode[]
+  option: (scope: {
+    /**
+     * The resolved option item.
+     */
+    item: ResolvedItem<TValue, TRaw>
+  }) => VNode[]
 }
 
 /**

@@ -1,3 +1,4 @@
+import { getSecurityModule, type VueformConfig } from '@vueform/core'
 /**
  * # Misconfiguration containment — production
  *
@@ -17,7 +18,6 @@
  * both environments; only this misconfiguration state differs.
  */
 import { afterEach, describe, expect, it, vi } from 'vitest'
-import { getSecurityModule, type VueformConfig } from '#core'
 
 /**
  * The inert security surface an app observes when the `security` module is not

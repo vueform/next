@@ -1,6 +1,7 @@
-import type { PartOf, SlotPropsOf } from '#core/types'
 import type { VNode } from 'vue'
-import { type Pager, type ResolvedPage } from '#core/composables'
+
+import { type Pager, type ResolvedPage } from '#src/composables'
+import type { PartOf, SlotPropsOf } from '#src/types'
 
 /**
  * Props for components that support tabbed navigation.
@@ -51,16 +52,21 @@ export interface TabbedSlots {
   /**
    * Slot for customizing the tab navigation bar.
    *
-   * @param props.pager The pager instance managing tab state.
+   * @param scope The tabs slot's params.
    */
-  tabs: (props: { pager: Pager }) => VNode[]
+  tabs: (scope: {
+    /**
+     * The pager instance managing tab state.
+     */
+    pager: Pager
+  }) => VNode[]
 
   /**
    * Slot for customizing an individual tab button.
    *
    * @inherits VfTabs.default
    */
-  tab: (props: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
+  tab: (scope: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
 }
 
 export interface TabbedParts {

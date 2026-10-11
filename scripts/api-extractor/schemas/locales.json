@@ -9,7 +9,7 @@
   },
   "additionalProperties": {
     "type": "object",
-    "required": ["key"],
+    "required": ["key", "description", "loc"],
     "additionalProperties": false,
     "properties": {
       "key": {
@@ -30,6 +30,11 @@
       "description": {
         "type": "string",
         "description": "The locale docblock's prose description.",
+        "minLength": 1
+      },
+      "loc": {
+        "type": "string",
+        "description": "Repo-relative `path:line` of the locale file's docblock (anchored at line 1).",
         "minLength": 1
       }
     }

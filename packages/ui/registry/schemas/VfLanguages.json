@@ -10,7 +10,7 @@
       "path": "VfLanguages.vue",
       "target": "{componentsDir}/VfLanguages.vue",
       "kind": "component",
-      "hash": "sha256:85523f67e8ede111e2f2cba1aee317d1191b6a75f6f5cea54368f3ffedc89a41"
+      "hash": "sha256:562cf52d8811f41856a983b69327f013f050cff9959843c5f2369c45ea64974c"
     }
   ],
   "imports": [
@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "languages"
-  ],
+  "styles": ["languages"],
   "register": {
     "component": "VfLanguages",
     "import": "{componentsDir}/VfLanguages.vue"

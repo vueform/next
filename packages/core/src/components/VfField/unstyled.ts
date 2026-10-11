@@ -1,4 +1,10 @@
-import '#shorthands'
+import {
+  type ClassProps,
+  type PartProps,
+  type ReclassProps,
+  type LanguagesProp,
+} from '#src/types'
+
 import VfField, { type VfFieldEntry } from './index'
 
 export * from './index'
@@ -14,4 +20,16 @@ declare module 'vue' {
   interface GlobalComponents {
     VfField: typeof VfField
   }
+}
+
+declare module './types' {
+  interface VfFieldProps<
+    TTranslate extends boolean = boolean,
+    TLanguages extends LanguagesProp = LanguagesProp,
+    TNullValue = any,
+  >
+    extends
+      PartProps<VfFieldParts, VfFieldContext>,
+      ClassProps<VfFieldClasses, VfFieldContext>,
+      ReclassProps<VfFieldClasses, VfFieldContext> {}
 }

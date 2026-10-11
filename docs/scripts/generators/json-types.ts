@@ -1,7 +1,8 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import * as prettier from 'prettier'
+
+import { formatEmittedSource } from '@vueform/utils'
 import * as ts from 'typescript'
 
 // =============== PATHS ================
@@ -145,9 +146,19 @@ function stripExport(text: string): string {
 }
 
 function stripInternalTags(code: string): string {
-  return code.replace(
-    /^\s*\*\s*@(?:category|related|private|skipTypeExport)\b.*$/gm,
-    ''
+  return (
+    code
+      // Consume the stripped tag's whole line, newline included — leaving an
+      // emptied line behind puts a stray blank inside the docblock. (The old
+      // prettier-plugin-jsdoc pass used to re-normalize that debris away;
+      // oxfmt's jsdoc formatter leaves comment interiors as written.)
+      .replace(
+        /^\s*\*\s*@(?:category|related|private|skipTypeExport)\b.*$\n?/gm,
+        ''
+      )
+      // A separator ` *` line directly before `*/` is left dangling when the
+      // stripped tag was the last entry — drop trailing empty comment lines.
+      .replace(/(?:\n\s*\*)+(?=\n\s*\*\/)/g, '')
   )
 }
 
@@ -795,16 +806,22 @@ function buildBlueprintCallableEntry(
 
 // ================ FORMATTING ================
 
-async function formatTS(code: string, prettierConfig: prettier.Options) {
-  try {
-    const formatted = await prettier.format(code, {
-      ...prettierConfig,
-      parser: 'typescript',
-    })
-    return formatted.trimEnd()
-  } catch {
-    return code
+async function formatTS(code: string) {
+  let formatted = await formatEmittedSource('snippet.ts', code)
+  if (formatted === code) {
+    // Unformatted means the snippet did not parse standalone — typically an
+    // initializer-less `const x: Type` from a variable-declaration doc
+    // (valid in prettier's lenient parser, a hard error in oxfmt's). Retry
+    // as an ambient declaration, then strip the wrapper from the output.
+    const ambient = code.replace(/^(const|let|var)\b/m, 'declare $1')
+    if (ambient !== code) {
+      const rescued = await formatEmittedSource('snippet.ts', ambient)
+      if (rescued !== ambient) {
+        formatted = rescued.replace(/^declare (const|let|var)\b/m, '$1')
+      }
+    }
   }
+  return formatted.trimEnd()
 }
 
 // ================ PHASE 1: CORE TYPES ================
@@ -815,7 +832,7 @@ type FnGroup = {
   sourceFile: ts.SourceFile
 }
 
-async function phase1(prettierConfig: prettier.Options): Promise<Set<string>> {
+async function phase1(): Promise<Set<string>> {
   console.log('Phase 1: Core types...')
 
   const { program, checker } = createProgram(CORE_DIR)
@@ -872,10 +889,7 @@ async function phase1(prettierConfig: prettier.Options): Promise<Set<string>> {
       let declText = extractDeclarationText(node, sourceFile)
       declText = declText.replace(/\bexport\s+/, '')
 
-      const formatted = await formatTS(
-        stripInternalTags(declText),
-        prettierConfig
-      )
+      const formatted = await formatTS(stripInternalTags(declText))
       const content = fenceTs(stripUnderscorePrefix(formatted))
       const outPath = path.join(CORE_OUTPUT_DIR, `${name}.md`)
 
@@ -930,7 +944,7 @@ async function phase1(prettierConfig: prettier.Options): Promise<Set<string>> {
 
       if (!entry) continue
 
-      const formatted = await formatTS(stripInternalTags(entry), prettierConfig)
+      const formatted = await formatTS(stripInternalTags(entry))
       const content = fenceTs(stripUnderscorePrefix(formatted))
       const outPath = path.join(CORE_OUTPUT_DIR, `${name}.md`)
 
@@ -971,7 +985,7 @@ async function phase1(prettierConfig: prettier.Options): Promise<Set<string>> {
     })
 
     for (const { name, entry } of varEntries) {
-      const formatted = await formatTS(stripInternalTags(entry), prettierConfig)
+      const formatted = await formatTS(stripInternalTags(entry))
       const content = fenceTs(stripUnderscorePrefix(formatted))
       const outPath = path.join(CORE_OUTPUT_DIR, `${name}.md`)
 
@@ -992,8 +1006,7 @@ async function phase1(prettierConfig: prettier.Options): Promise<Set<string>> {
 async function phase2(
   adapterName: string,
   adapterDef: AdapterDef,
-  coreSeen: Set<string>,
-  prettierConfig: prettier.Options
+  coreSeen: Set<string>
 ): Promise<Set<string>> {
   console.log(`Phase 2: Adapter types (${adapterName})...`)
 
@@ -1035,10 +1048,7 @@ async function phase2(
       let declText = extractDeclarationText(node, sourceFile)
       declText = declText.replace(/\bexport\s+/, '')
 
-      const formatted = await formatTS(
-        stripInternalTags(declText),
-        prettierConfig
-      )
+      const formatted = await formatTS(stripInternalTags(declText))
       const content = fenceTs(stripUnderscorePrefix(formatted))
       const outPath = path.join(outputDir, `${name}.md`)
 
@@ -1088,7 +1098,7 @@ async function phase2(
 
       if (!entry) continue
 
-      const formatted = await formatTS(stripInternalTags(entry), prettierConfig)
+      const formatted = await formatTS(stripInternalTags(entry))
       const content = fenceTs(stripUnderscorePrefix(formatted))
       const outPath = path.join(outputDir, `${name}.md`)
 
@@ -1120,10 +1130,7 @@ async function phase2(
         if (!entry) return
 
         void (async () => {
-          const formatted = await formatTS(
-            stripInternalTags(entry),
-            prettierConfig
-          )
+          const formatted = await formatTS(stripInternalTags(entry))
           const content = fenceTs(stripUnderscorePrefix(formatted))
           const outPath = path.join(outputDir, `${name}.md`)
           fs.writeFileSync(outPath, content)
@@ -1191,15 +1198,10 @@ function phase3(): void {
 // ================ MAIN ================
 
 async function main() {
-  const prettierConfig =
-    (await prettier.resolveConfig(path.join(ROOT, 'package.json'), {
-      editorconfig: true,
-    })) ?? {}
-
-  const coreSeen = await phase1(prettierConfig)
+  const coreSeen = await phase1()
 
   for (const [name, def] of nonCoreAdapters) {
-    await phase2(name, def, coreSeen, prettierConfig)
+    await phase2(name, def, coreSeen)
   }
 
   phase3()

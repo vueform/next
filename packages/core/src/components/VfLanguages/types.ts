@@ -1,11 +1,5 @@
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  ResolvedLanguagesProp,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type LanguagesApi,
   type LanguagesProps,
@@ -14,13 +8,20 @@ import {
   type LanguagesSlots,
   type LanguagesExpose,
   type LanguagesClasses,
-} from '#core/blueprints/languages'
+} from '#src/blueprints/languages'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  ResolvedLanguagesProp,
+  DefineRegistryEntry,
+} from '#src/types'
 
 /**
  * Props for the VfLanguages component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfLanguagesProps extends LanguagesProps<
   VfLanguagesSlots,
@@ -41,12 +42,35 @@ export interface VfLanguagesSlots extends LanguagesSlots<VfLanguagesContext> {
   /**
    * Slot that replaces each individual language option rendering.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The component's structural part bindings.
+     */
     parts: Partial<VfLanguagesParts>
+
+    /**
+     * The component's resolved CSS classes.
+     */
     classes: VfLanguagesClasses
+
+    /**
+     * The currently selected language code.
+     */
     language: string
+
+    /**
+     * The resolved available languages (code to label map).
+     */
     languages: ResolvedLanguagesProp
+
+    /**
+     * This option's language code.
+     */
     value: string
+
+    /**
+     * This option's display label.
+     */
     label: string
   }) => VNode[]
 }

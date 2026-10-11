@@ -1,11 +1,12 @@
-import { defineComponent, nextTick, ref } from 'vue'
-import { createForm, flushPromises, mountApp } from '../../helpers'
 import type {
   HttpAdapter,
   HttpRequestConfig,
   HttpResponse,
 } from '@vueform/core'
-import { defineSchema } from '#primevue'
+import { defineSchema } from '@vueform/primevue'
+import { defineComponent, nextTick, ref } from 'vue'
+
+import { createForm, flushPromises, mountApp } from '../../helpers'
 
 function mockAdapter(response: Partial<HttpResponse> = {}): {
   adapter: HttpAdapter

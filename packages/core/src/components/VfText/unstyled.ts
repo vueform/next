@@ -1,4 +1,10 @@
-import '#shorthands'
+import {
+  type ClassProps,
+  type PartProps,
+  type ReclassProps,
+  type LanguagesProp,
+} from '#src/types'
+
 import VfText, { type VfTextEntry } from './index'
 
 export * from './index'
@@ -14,4 +20,15 @@ declare module 'vue' {
   interface GlobalComponents {
     VfText: typeof VfText
   }
+}
+
+declare module './types' {
+  interface VfTextProps<
+    TTranslate extends boolean = boolean,
+    TLanguages extends LanguagesProp = LanguagesProp,
+  >
+    extends
+      PartProps<VfTextParts, VfTextContext>,
+      ClassProps<VfTextClasses, VfTextContext>,
+      ReclassProps<VfTextClasses, VfTextContext> {}
 }

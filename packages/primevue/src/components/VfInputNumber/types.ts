@@ -1,23 +1,4 @@
 import type {
-  InputNumberApi,
-  InputNumberClasses,
-  InputNumberEmits,
-  InputNumberExpose,
-  InputNumberParts,
-  InputNumberProps,
-  InputNumberSlots,
-  forwards,
-} from '#primevue/blueprints/input-number'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -32,14 +13,34 @@ import type {
   InputNumberSlots as AInputNumberSlots,
 } from 'primevue'
 
+import type {
+  InputNumberApi,
+  InputNumberClasses,
+  InputNumberEmits,
+  InputNumberExpose,
+  InputNumberParts,
+  InputNumberProps,
+  InputNumberSlots,
+  forwards,
+} from '#src/blueprints/input-number'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#src/features'
+import type { ForwardedSlots } from '#src/types'
+
 /**
  * Props for the VfInputNumber component.
  *
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfInputNumberProps extends InputNumberProps<
   'input-number',

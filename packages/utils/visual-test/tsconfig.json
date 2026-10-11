@@ -1,0 +1,9 @@
+{
+  // Editor-only (no typecheck leg runs this): consumer-view strict program
+  // for the shared testers. The adapters' test legs check them src-world.
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "lib": ["ES2022", "DOM", "DOM.Iterable"]
+  },
+  "include": ["."]
+}

@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfCol, { type VfColEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfCol: typeof VfCol
   }
+}
+
+declare module './types' {
+  interface VfColProps
+    extends
+      PartProps<VfColParts, VfColContext>,
+      ClassProps<VfColClasses, VfColContext>,
+      ReclassProps<VfColClasses, VfColContext> {}
 }

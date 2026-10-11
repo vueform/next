@@ -12,16 +12,11 @@ import {
   type Ref,
   type WatchSource,
 } from 'vue'
-import type { VueformInstance } from '#core/helpers'
-import type { FormContext } from '#core/types'
-import type {
-  ConditionalProp,
-  ConditionsModule,
-  ConditionsResult,
-  ConditionsTriggerProp,
-} from './types'
-import { useDate } from '#core/composables'
-import { getExpressionModule } from '#core/modules/expression'
+
+import { useDate } from '#src/composables'
+import type { VueformInstance } from '#src/helpers'
+import { getExpressionModule } from '#src/modules/expression'
+import type { FormContext } from '#src/types'
 import {
   alwaysTrue as alwaysAvailable,
   debounce,
@@ -31,7 +26,14 @@ import {
   replaceWildcards,
   warn as vfWarn,
   isDev,
-} from '#core/utils'
+} from '#src/utils'
+
+import type {
+  ConditionalProp,
+  ConditionsModule,
+  ConditionsResult,
+  ConditionsTriggerProp,
+} from './types'
 
 interface ConditionRelativeOperands {
   '>': string | number
@@ -531,8 +533,6 @@ export function createConditions(vueform: VueformInstance): ConditionsModule {
         // }
         return false
     }
-
-    return false
   }
 
   const checkExpr = (condition: string, scope: EvaluationScope) => {

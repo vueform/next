@@ -1,4 +1,4 @@
-import { getGenericInstance } from '#core/utils'
+import { getGenericInstance } from '#src/utils'
 
 /**
  * Returns the current component instance (VDOM or Vapor), throwing if called

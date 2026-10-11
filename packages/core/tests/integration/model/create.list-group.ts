@@ -1,7 +1,8 @@
+import { get } from '@vueform/core'
 import { expect, vi } from 'vitest'
 import { nextTick } from 'vue'
+
 import { makeApp, mountApp } from '../../helpers'
-import { get } from '#core'
 
 export default async (Case: any, template: string) => {
   const formHasVModel = Case.hasOwnProperty('formVModel')

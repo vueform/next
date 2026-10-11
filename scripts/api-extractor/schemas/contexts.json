@@ -12,6 +12,11 @@
       "description": {
         "type": "string"
       },
+      "loc": {
+        "type": "string",
+        "description": "Repo-relative `path:line` of the create<Name>Context (falling back to use<Name>Context) declaration.",
+        "minLength": 1
+      },
       "params": {
         "type": "object",
         "description": "Arguments of create<Name>Context.",
@@ -26,6 +31,11 @@
             },
             "description": {
               "type": "string"
+            },
+            "loc": {
+              "type": "string",
+              "description": "Repo-relative `path:line` of the parameter declaration.",
+              "minLength": 1
             },
             "required": {
               "const": true
@@ -45,6 +55,11 @@
           },
           "description": {
             "type": "string"
+          },
+          "loc": {
+            "type": "string",
+            "description": "Repo-relative `path:line` of the use<Name>Context declaration.",
+            "minLength": 1
           }
         }
       }

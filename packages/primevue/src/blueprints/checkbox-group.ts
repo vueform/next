@@ -29,6 +29,12 @@ import {
   makeItems,
 } from '@vueform/core'
 import { ref } from 'vue'
+
+import {
+  makeInfo,
+  type ModelPropsWithDefaultValue,
+  type InfoProps,
+} from '#src/features'
 import type {
   OptionGroupChildrenProp,
   OptionsProps,
@@ -36,13 +42,8 @@ import type {
   OptionValueProp,
   OptionsProp,
   OptionsModelApi,
-} from '#primevue/features/options'
-import {
-  makeInfo,
-  type ModelPropsWithDefaultValue,
-  type InfoProps,
-} from '#primevue/features'
-import { optionItemAliases } from '#primevue/helpers'
+} from '#src/features/options'
+import { optionItemAliases } from '#src/helpers'
 
 /**
  * Plain props type for the checkbox-group element blueprint — the widest

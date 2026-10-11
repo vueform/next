@@ -5,14 +5,14 @@
  */
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
-import PrimeInputOtp from 'primevue/inputotp'
 import {
+  blueprint,
+  defaults,
   type VfInputOtpEmits,
   type VfInputOtpProps,
   type VfInputOtpSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfInputOtp'
+import PrimeInputOtp from 'primevue/inputotp'
 import type { WritableComputedRef } from 'vue'
 
 const InputOtp = vdomPrime(PrimeInputOtp)

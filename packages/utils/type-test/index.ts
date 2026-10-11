@@ -33,6 +33,7 @@ import { execFile } from 'node:child_process'
 import { existsSync, readFileSync, readdirSync } from 'node:fs'
 import { dirname, join, relative } from 'node:path'
 import { promisify } from 'node:util'
+
 import { beforeAll, describe, expect, test } from 'vitest'
 
 export interface VueSfcTypeTestsOptions {

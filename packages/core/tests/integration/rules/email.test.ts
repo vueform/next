@@ -1,5 +1,6 @@
+import { defineSchema } from '@vueform/core'
+
 import { createForm } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('email', () => {
   it('should pass for valid email', async () => {

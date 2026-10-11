@@ -634,7 +634,7 @@ Configure the component's behavior and appearance with these props.
 | [`stepped`](!code#props.stepped "boolean") | `false` | Whether the form uses a multi-step wizard layout. |
 | [`progress`](!code#props.progress "boolean") | `true` | Whether to show a progress bar in stepped forms. |
 | [`nav`](!code#props.nav "boolean") | `true` | Whether to show step navigation in stepped forms. |
-| [`navPos`](!code#props.navPos "NavPosProp") | `'auto'` |  |
+| [`navPos`](!code#props.navPos "NavPosProp") | `'auto'` | The alignment of the step navigation buttons: `'left'`, `'center'`, `'right'`, `'fluid'` (stretched to full width), or `'auto'`. |
 | [`syncSteps`](!code#props.syncSteps "boolean") | `true` | Whether to automatically sync step state when data is loaded or the form mounts with pre-filled data. When enabled, steps are enabled up to the last step that has data and that step is selected. |
 | [`history`](!code#props.history "boolean") | `false` | Whether to enable browser history for stepped forms. |
 | [`routerQueryParam`](!code#props.routerQueryParam "string") | — | Overrides the global `config.routerQueryParam` for this form. When set, step names are encoded as a query parameter instead of a path segment. |
@@ -753,17 +753,17 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`submit()`](!code#context.submit "() => Promise<SubmitResult \| undefined>") | Validates and submits the form, returning a result describing the outcome. |
 | [`abort()`](!code#context.abort "() => void") | Aborts the current in-flight submission request. |
 | [`handleSubmit()`](!code#context.handleSubmit "() => Promise<SubmitResult \| undefined>") | Handles form submission triggered from the UI. |
-| [`config`](!code#context.config "VueformConfig") |  |
+| [`config`](!code#context.config "VueformConfig") | The resolved global configuration object. |
 | [`validationDisabled`](!code#context.validationDisabled "boolean") | Whether submit-time validation is currently disabled (see `disableValidation` / `enableValidation`). |
 | [`disableValidation()`](!code#context.disableValidation "() => void") | Turns off the form's built-in submit-time validation entirely — the floor that otherwise always runs regardless of `validateOn`. Deliberately a programmatic call rather than a prop: opting out of validation should be an explicit act in code, not a template flag. `enableValidation` turns it back on. |
 | [`enableValidation()`](!code#context.enableValidation "() => void") | Re-enables the form's submit-time validation after `disableValidation`. |
 | [`index`](!code#context.index "SchemaIndex") | The schema index describing every data-carrying element: the adopted instance's index, or an empty one for internally created stores. |
 | [`resolvedConsts`](!code#context.resolvedConsts "Record<string, any> \| undefined") | Resolved form-level expression constants. Each TProp value is resolved to a primitive and made available to the expression evaluation scope. |
-| [`validator`](!code#context.validator "Validator") |  |
-| [`issues`](!code#context.issues "Issue[]") |  |
-| [`toStandardSchema()`](!code#context.toStandardSchema "() => StandardSchemaV1<unknown, unknown>") |  |
+| [`validator`](!code#context.validator "Validator") | The validator instance the element is registered with: the form's validator, a store-attached one, or a newly created one. |
+| [`issues`](!code#context.issues "Issue[]") | The form's current validation issues as reported by the validator. |
+| [`toStandardSchema()`](!code#context.toStandardSchema "() => StandardSchemaV1<unknown, unknown>") | Exports the form's resolved validation as a Standard Schema. |
 | [`syncSteps()`](!code#context.syncSteps "() => void") | Synchronizes step states based on which steps contain data, enabling steps up to the last one with values. |
-| [`autosave()`](!code#context.autosave "() => Promise<void>") |  |
+| [`autosave()`](!code#context.autosave "(options: { invalid?: boolean \| undefined; } \| undefined) => Promise<void>") | Performs an autosave immediately: writes the local draft (when `local` is configured) and runs the remote save (when `endpoint` is configured). The validity gate applies as configured; pass `invalid` to override the config's `invalid` prop for this one call — `true` sends even while the form is invalid, `false` enforces the gate. A gated call while the form is invalid still writes the local draft and defers the remote save. |
 | [`clearAutosaved()`](!code#context.clearAutosaved "() => void") | Removes the locally stored draft, if any. |
 | [`loadAutosaved()`](!code#context.loadAutosaved "() => Promise<boolean>") | Loads the stored draft into the form, resolving whether a draft was found and loaded (async because a configured `$security.decrypt` may be). Unlike the automatic load on mount, a manual call fires no `autosaveRestore` pre-hook — calling it _is_ the consent. |
 | [`toJSON()`](!code#context.toJSON "() => string") | Serializes the current model value to a JSON string. |

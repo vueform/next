@@ -10,26 +10,24 @@
       "path": "VfRating.vue",
       "target": "{componentsDir}/VfRating.vue",
       "kind": "component",
-      "hash": "sha256:9497876ff119bdae1cc64067d407cc8ba17f9ab9b404dfb7216db1096933a602"
+      "hash": "sha256:888267c2f665007ba03d9ff5a10a9d192e1e603cc19a2255213dd121a4a072ff"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/rating",
-    "@vueform/primevue/components/VfRating",
     "vue",
+    "@vueform/primevue/components/VfRating",
     "@vueform/primevue/rating.css"
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "rating"
-  ],
+  "styles": ["rating"],
   "element": true,
   "clone": {
     "path": "VfRating.vue",
     "blueprint": "rating",
-    "hash": "sha256:7b4714a143dad6ea0db5992fb5e8383b6468e4d2688ab944f6c58305a50e22bf",
+    "hash": "sha256:93ec50f48dce96f0bfa3147e7ce0853901d454086d25d879b18b705a4b89ba40",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

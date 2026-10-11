@@ -2,6 +2,7 @@
 import { type Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { defineAsyncComponent } from 'vue'
+
 import './style/layers.css'
 import './style/index.scss'
 import VPExample from './components/VPExample.vue'
@@ -14,6 +15,7 @@ import VPTab from './components/VPTab.vue'
 import VPTabs from './components/VPTabs.vue'
 import VPUsage from './components/VPUsage.vue'
 import { installVueform } from './vueform'
+
 import 'virtual:group-icons.css'
 
 const VPPlayground = defineAsyncComponent(

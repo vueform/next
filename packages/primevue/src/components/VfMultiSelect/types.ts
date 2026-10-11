@@ -1,4 +1,19 @@
 import type {
+  ClassValue,
+  AddonsSlots,
+  IconsSlots,
+  AddonsParts,
+  IconsParts,
+  AddonGroupParts,
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { MultiSelectProps as PvMultiSelectProps } from 'primevue'
+import type { MultiSelectSlots as AMultiSelectSlots } from 'primevue/multiselect'
+import type { VNode } from 'vue'
+
+import type {
   MultiSelectApi,
   MultiSelectClasses,
   MultiSelectEmits,
@@ -7,7 +22,7 @@ import type {
   MultiSelectProps,
   MultiSelectSlots,
   forwards,
-} from '#primevue/blueprints/multi-select'
+} from '#src/blueprints/multi-select'
 import type {
   FloatLabelClasses,
   FloatLabelParts,
@@ -22,22 +37,8 @@ import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  AddonsSlots,
-  IconsSlots,
-  AddonsParts,
-  IconsParts,
-  AddonGroupParts,
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { MultiSelectProps as PvMultiSelectProps } from 'primevue'
-import type { MultiSelectSlots as AMultiSelectSlots } from 'primevue/multiselect'
-import type { VNode } from 'vue'
+} from '#src/features'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfMultiSelect props narrowed from a registry `TEntry` payload, applying the
@@ -57,8 +58,8 @@ export type EntryProps<TEntry> = VfMultiSelectProps<
  * option-driving type arguments (e.g. `VfMultiSelectProps<typeof options,
  * 'id'>`). Reach for `VfMultiSelectProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfMultiSelectProps<
   TOptions extends OptionsProp = OptionsProp,
@@ -152,7 +153,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom selected value display.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Selected values of the component.
            */
@@ -167,7 +168,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom chip template for a selected value.
          */
-        chip: (props: {
+        chip: (scope: {
           /**
            * A value in the selection.
            */
@@ -185,7 +186,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom chip remove icon template.
          */
-        chipicon: (props: {
+        chipicon: (scope: {
           /**
            * Style class of the icon.
            */
@@ -208,7 +209,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom header template of the overlay panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Selected values of the component.
            */
@@ -223,7 +224,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom footer template of the overlay panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Selected values of the component.
            */
@@ -238,7 +239,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom content for each option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -258,7 +259,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom content for each option group.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The option group, or raw item when groups are not used.
            */
@@ -273,7 +274,7 @@ export interface VfMultiSelectSlots<
         /**
          * Custom content template for virtual scrolling.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * Items to display for the virtual scroller.
            */

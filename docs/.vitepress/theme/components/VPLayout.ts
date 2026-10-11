@@ -1,6 +1,7 @@
 import { useData } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import { defineComponent, h } from 'vue'
+
 import { useCollapsibles } from '../composables/useCollapsibles'
 import { usePopovers } from '../composables/usePopovers'
 import { useSidebarScroll } from '../composables/useSidebarScroll'

@@ -51,7 +51,7 @@ function usage(error?: string): never {
       '',
       '  pre = build + preview',
       '',
-      '  --adapter=<list>, -a=<list>   comma-separated adapter names',
+      '  --adapter=<list>, -a=<list>, -A=<list>   comma-separated adapter names',
       '  --<adapter>                   adapter name or alias as a flag',
       '',
       `Adapters: ${names}`,
@@ -72,10 +72,14 @@ function parseArgs(argv: string[]): { command: string; keys: string[] } {
     const arg = rest[i]
     let value: string | undefined
 
-    if (arg === '--adapter' || arg === '-a') {
+    if (arg === '--adapter' || arg === '-a' || arg === '-A') {
       value = rest[++i]
       if (!value) usage(`Missing value for ${arg}`)
-    } else if (arg.startsWith('--adapter=') || arg.startsWith('-a=')) {
+    } else if (
+      arg.startsWith('--adapter=') ||
+      arg.startsWith('-a=') ||
+      arg.startsWith('-A=')
+    ) {
       value = arg.slice(arg.indexOf('=') + 1)
     } else if (arg.startsWith('--')) {
       value = arg.slice(2)

@@ -1,7 +1,15 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+
 import * as ts from 'typescript'
+
 import { corePackage, nonCoreAdapters } from '../lib/adapters'
+import {
+  createProgram,
+  getJSDocParamDescriptions,
+  getSymbolDescription,
+  loc,
+} from '../lib/extract'
 import { generatedDir, monorepoRoot } from '../lib/paths'
 import { parseScope } from '../lib/scope'
 
@@ -19,11 +27,13 @@ const EXCLUDED_FILES = new Set(['index.ts', 'createContext.ts'])
 interface ParamInfo {
   type: string | Record<string, any>
   description: string
+  loc?: string
   required?: true
 }
 
 interface OverloadInfo {
   description: string
+  loc?: string
   params: Record<string, ParamInfo>
   returns: { type: string }
 }
@@ -31,82 +41,24 @@ interface OverloadInfo {
 interface FunctionEntry {
   type: 'function'
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
   returns?: { type: string }
 }
 
 interface ContextEntry {
   description: string
+  loc?: string
   params?: Record<string, any>
   returns?: Record<string, any>
 }
 
 // ============= TS PROGRAM =============
 
-function createProgram(pkgDir: string) {
-  const configPath = path.join(pkgDir, 'tsconfig.json')
-  const raw = ts.readConfigFile(configPath, ts.sys.readFile)
-
-  if (raw.error) {
-    throw new Error(
-      `Failed to read ${configPath}: ${ts.flattenDiagnosticMessageText(raw.error.messageText, '\n')}`
-    )
-  }
-
-  const parsed = ts.parseJsonConfigFileContent(
-    raw.config,
-    ts.sys,
-    path.dirname(configPath),
-    undefined,
-    configPath
-  )
-  const program = ts.createProgram(parsed.fileNames, parsed.options)
-
-  return { program, checker: program.getTypeChecker() }
-}
-
 // ============ JSDOC HELPERS ===========
 
 function singleLine(s: string): string {
   return s.replace(/\s*\n\s*/g, ' ').trim()
-}
-
-function getSymbolDescription(
-  symbol: ts.Symbol,
-  checker: ts.TypeChecker
-): string {
-  return singleLine(
-    symbol
-      .getDocumentationComment(checker)
-      .map((p) => p.text)
-      .join('')
-  )
-}
-
-function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
-  const result = new Map<string, string>()
-
-  for (const entry of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(entry) || !entry.tags) continue
-
-    for (const tag of entry.tags) {
-      if (
-        !ts.isJSDocParameterTag(tag) ||
-        !tag.name ||
-        !ts.isIdentifier(tag.name)
-      )
-        continue
-
-      const comment =
-        typeof tag.comment === 'string'
-          ? tag.comment
-          : (tag.comment?.map((c) => c.text || '').join('') ?? '')
-
-      result.set(tag.name.text, singleLine(comment))
-    }
-  }
-
-  return result
 }
 
 function getNodeJSDocDescription(node: ts.Node): string {
@@ -176,9 +128,11 @@ function extractCallSignatureOverloads(
 
     for (const param of sig.getParameters()) {
       const paramType = checker.getTypeOfSymbolAtLocation(param, contextNode)
+      const paramDecl = param.getDeclarations()?.[0]
       params[param.name] = {
         type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
         description: jsdoc.get(param.name) ?? '',
+        ...(paramDecl ? { loc: loc(paramDecl) } : {}),
       }
     }
 
@@ -186,6 +140,7 @@ function extractCallSignatureOverloads(
 
     overloads.push({
       description,
+      loc: loc(sigDecl),
       params,
       returns: { type: ret },
     })
@@ -200,13 +155,18 @@ function extractSigParams(
   checker: ts.TypeChecker
 ): Record<string, ParamInfo> | undefined {
   const jsdoc = getJSDocParamDescriptions(sig.getDeclaration())
+  // A property's function type carries no JSDoc of its own — the `@param`
+  // tags live on the owning property signature (the contextNode).
+  const ownerDocs = getJSDocParamDescriptions(contextNode)
   const params: Record<string, ParamInfo> = {}
 
   for (const param of sig.getParameters()) {
     const paramType = checker.getTypeOfSymbolAtLocation(param, contextNode)
+    const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
-      description: jsdoc.get(param.name) ?? '',
+      description: jsdoc.get(param.name) || ownerDocs.get(param.name) || '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
 
@@ -231,13 +191,13 @@ function expandObjectType(
 
     if (sigs.length > 1) {
       const overloads = extractCallSignatureOverloads(sigs, propDecl, checker)
-      const entry: any = { type: 'function', description }
+      const entry: any = { type: 'function', description, loc: loc(propDecl) }
       if (overloads.length) entry.overloads = overloads
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
       result[propSym.name] = entry
     } else if (sigs.length === 1 && isFunctionLikeType(propType)) {
-      const entry: any = { type: 'function', description }
+      const entry: any = { type: 'function', description, loc: loc(propDecl) }
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
       const params = extractSigParams(sigs[0], propDecl, checker)
@@ -247,7 +207,7 @@ function expandObjectType(
       result[propSym.name] = entry
     } else {
       const typeText = getPropertyTypeText(propSym, propDecl, checker)
-      const entry: any = { type: typeText, description }
+      const entry: any = { type: typeText, description, loc: loc(propDecl) }
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
       result[propSym.name] = entry
@@ -271,7 +231,11 @@ function processFunctionDeclaration(
 ): FunctionEntry {
   const description = getNodeJSDocDescription(funcDecl)
   const jsdoc = getJSDocParamDescriptions(funcDecl)
-  const entry: FunctionEntry = { type: 'function', description }
+  const entry: FunctionEntry = {
+    type: 'function',
+    description,
+    loc: loc(funcDecl),
+  }
 
   const params: Record<string, ParamInfo> = {}
 
@@ -291,7 +255,11 @@ function processFunctionDeclaration(
     if (isInlineObjectParam(param)) {
       const paramType = checker.getTypeAtLocation(param)
       const expanded = expandObjectType(paramType, checker)
-      const paramEntry: ParamInfo = { type: expanded, description: paramDesc }
+      const paramEntry: ParamInfo = {
+        type: expanded,
+        description: paramDesc,
+        loc: loc(param),
+      }
       if (!isOptional) paramEntry.required = true
       params[paramName] = paramEntry
     } else {
@@ -303,7 +271,11 @@ function processFunctionDeclaration(
         typeText = checker.typeToString(paramType, param, TYPE_FORMAT_FLAGS)
       }
 
-      const paramEntry: ParamInfo = { type: typeText, description: paramDesc }
+      const paramEntry: ParamInfo = {
+        type: typeText,
+        description: paramDesc,
+        loc: loc(param),
+      }
       if (!isOptional) paramEntry.required = true
       params[paramName] = paramEntry
     }
@@ -337,10 +309,14 @@ function processReExportedBinding(
   if (sigs.length === 0) return undefined
 
   const description = getSymbolDescription(symbol, checker)
-  const entry: FunctionEntry = { type: 'function', description }
 
   const sig = sigs[0]
   const sigDecl = sig.getDeclaration()
+  const entry: FunctionEntry = {
+    type: 'function',
+    description,
+    loc: loc(sigDecl),
+  }
   const jsdoc = getJSDocParamDescriptions(sigDecl)
   const params: Record<string, ParamInfo> = {}
 
@@ -358,6 +334,7 @@ function processReExportedBinding(
     const paramEntry: ParamInfo = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
       description: jsdoc.get(param.name) ?? '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
     if (!isOptional) paramEntry.required = true
 
@@ -450,14 +427,17 @@ function extractContexts(
     const useFn = moduleEntries[`use${pascal}`]
 
     if (createFn || useFn) {
+      const entryLoc = createFn?.loc ?? useFn?.loc
       const entry: ContextEntry = {
         description: createFn?.description ?? useFn?.description ?? '',
+        ...(entryLoc ? { loc: entryLoc } : {}),
       }
       if (createFn?.params) entry.params = createFn.params
       if (useFn?.returns) {
         entry.returns = {
           ...useFn.returns,
-          ...(useFn.description ? { description: useFn.description } : {}),
+          description: useFn.description,
+          ...(useFn.loc ? { loc: useFn.loc } : {}),
         }
       }
       output[moduleName] = entry

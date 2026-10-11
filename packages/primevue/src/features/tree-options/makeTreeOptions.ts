@@ -26,7 +26,8 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
-import type { TreeNode, TreeOptionsProp } from '#primevue/types'
+
+import type { TreeNode, TreeOptionsProp } from '#src/types'
 
 /**
  * Options for the makeTreeOptions factory.
@@ -38,6 +39,11 @@ interface MakeTreeOptionsOptions {
     optionsDebounce?: number
     conditionsTrigger?: ConditionsTriggerProp
     conditionsDebounce?: number
+    /**
+     * Transforms data received from an endpoint into the tree options format.
+     *
+     * @param data The data received from the endpoint.
+     */
     transformOptions?: (data: any) => any[]
     headers?: Record<string, string>
     method?: string

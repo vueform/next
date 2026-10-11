@@ -1,12 +1,5 @@
-import type { ResolvedPage } from '#core/composables'
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  UnknownElement,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type StepsApi,
   type StepsClasses,
@@ -15,13 +8,21 @@ import {
   type StepsParts,
   type StepsProps,
   type StepsSlots,
-} from '#core/blueprints/steps'
+} from '#src/blueprints/steps'
+import type { ResolvedPage } from '#src/composables'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  UnknownElement,
+  DefineRegistryEntry,
+} from '#src/types'
 
 /**
  * Props for the VfSteps component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfStepsProps extends StepsProps<
   VfStepsSlots,
@@ -43,32 +44,110 @@ export interface VfStepsSlots extends StepsSlots<VfStepsContext> {
    * Slot that replaces each step wrapper element. Receives step state and page
    * info.
    */
-  wrapper: (props: {
+  wrapper: (scope: {
+    /**
+     * CSS classes for the step wrapper.
+     */
     class: ClassValue
+
+    /**
+     * The zero-based index of the step's page.
+     */
     index: number
+
+    /**
+     * The step's resolved label text.
+     */
     label?: string
+
+    /**
+     * The metadata object from the page prop's tuple form.
+     */
     meta?: Record<string, any>
+
+    /**
+     * Whether the step is currently selected.
+     */
     selected: boolean
+
+    /**
+     * Whether the step's page has validation errors.
+     */
     invalid: boolean
+
+    /**
+     * Whether the step's page is busy validating or processing an event.
+     */
     loading: boolean
+
+    /**
+     * Whether the step is enabled for navigation.
+     */
     enabled: boolean
+
+    /**
+     * Whether the step's page has been completed.
+     */
     completed: boolean
+
+    /**
+     * The step's element context.
+     */
     el$: UnknownElement
+
+    /**
+     * The resolved page object for this step.
+     */
     page: ResolvedPage
   }) => VNode[]
 
   /**
    * Slot that replaces each step's inner content. Receives step state.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The zero-based index of the step's page.
+     */
     index: number
+
+    /**
+     * The step's resolved label text.
+     */
     label?: string
+
+    /**
+     * The metadata object from the page prop's tuple form.
+     */
     meta?: Record<string, any>
+
+    /**
+     * Whether the step is currently selected.
+     */
     selected: boolean
+
+    /**
+     * Whether the step's page has validation errors.
+     */
     invalid: boolean
+
+    /**
+     * Whether the step's page is busy validating or processing an event.
+     */
     loading: boolean
+
+    /**
+     * Whether the step is enabled for navigation.
+     */
     enabled: boolean
+
+    /**
+     * Whether the step's page has been completed.
+     */
     completed: boolean
+
+    /**
+     * The step's element context.
+     */
     el$: UnknownElement
   }) => VNode[]
 }
@@ -133,10 +212,29 @@ export interface VfStepsClasses extends StepsClasses {
    * @param options Step state used for this wrapper.
    */
   wrapper: (options: {
+    /**
+     * Whether the step is currently selected.
+     */
     selected: boolean
+
+    /**
+     * Whether the step is enabled for navigation.
+     */
     enabled: boolean
+
+    /**
+     * Whether the step's page has been completed.
+     */
     completed: boolean
+
+    /**
+     * Whether the step's page has validation errors.
+     */
     invalid: boolean
+
+    /**
+     * Whether the step's page is busy validating or processing an event.
+     */
     loading: boolean
   }) => ClassValue
 

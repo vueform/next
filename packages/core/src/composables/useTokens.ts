@@ -1,6 +1,8 @@
 import { computed, toRef, useId, type MaybeRefOrGetter } from 'vue'
+
+import { getThemeModule } from '#src/modules/theme'
+
 import { useConfig } from './useConfig'
-import { getThemeModule } from '#core/modules/theme'
 
 /**
  * Returns a reactive inline style object from a `tokens` prop. Token keys are
@@ -13,7 +15,8 @@ import { getThemeModule } from '#core/modules/theme'
  * follow the global dark-mode detection.
  *
  * @private
- * @param tokens Token overrides — typically `toRef(props, 'tokens')`.
+ * @param source The `tokens` prop value: a map of theme token overrides,
+ *   optionally with a `dark` section.
  * @param dark Force dark (`true`) or light (`false`) for `tokens.dark`
  *   overrides. Omit to inherit from the global config.
  */

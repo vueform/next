@@ -1,89 +1,97 @@
 {
   "private": true,
   "scripts": {
-    "bench": "pnpm --filter @vueform/benchmark run bench",
-    "build": "tsx scripts/build.ts",
-    "check": "tsx scripts/check.ts",
+    "build": "vpr :build",
+    "check": "vpr :check",
     "clean": "tsx scripts/clean.ts",
-    "docs:build": "pnpm -r --filter docs run build",
-    "docs:dev": "pnpm -r --filter docs run dev",
-    "docs:gen": "pnpm -r --filter docs run gen",
-    "docs:pre": "pnpm -r --filter docs run pre",
-    "docs:preview": "pnpm -r --filter docs run preview",
-    "extract": "tsx scripts/api-extractor/extract.ts",
-    "extract:issues": "tsx scripts/api-extractor/issues.ts",
-    "extract:validate": "tsx scripts/api-extractor/validate.ts",
-    "fix": "tsx scripts/fix.ts",
-    "format": "tsx scripts/format.ts",
-    "lint": "tsx scripts/lint.ts",
+    "docs:dev": "pnpm --filter @vueform/docs run dev",
+    "docs:build": "pnpm --filter @vueform/docs run build",
+    "docs:gen": "pnpm --filter @vueform/docs run gen",
+    "docs:pre": "pnpm --filter @vueform/docs run pre",
+    "docs:preview": "pnpm --filter @vueform/docs run preview",
+    "api": "tsx scripts/api.ts",
+    "bench": "pnpm --filter @vueform/benchmark run bench",
+    "bench:charts": "pnpm --filter @vueform/benchmark run charts",
+    "api:missing": "tsx scripts/api-missing.ts",
+    "fix": "vpr :fix",
+    "fmt": "vp fmt",
+    "lint": "vpr :lint",
+    "quick": "vpr :quick",
+    "pack": "vpr :pack",
     "pg": "tsx scripts/playground/dev.ts",
     "pg:build": "tsx scripts/playground/build.ts",
     "pg:down": "tsx scripts/playground/down.ts",
     "pg:pre": "tsx scripts/playground/pre.ts",
+    "pg:preview": "tsx scripts/playground/preview.ts",
     "pg:re": "tsx scripts/playground/re.ts",
     "pg:up": "tsx scripts/playground/up.ts",
-    "prepare": "husky",
-    "re": "pnpm clean && pnpm install",
-    "registry": "tsx scripts/registry.ts",
-    "size": "tsx scripts/size.ts",
+    "registry": "vpr :registry",
+    "size": "vpr :size",
+    "size:report": "vpr :size:report",
     "test": "tsx scripts/test.ts",
-    "test:bench": "tsx scripts/test-bench.ts",
-    "test:bench-dts": "tsx scripts/test-bench-dts.ts",
-    "test:dts": "tsx scripts/test-dts.ts",
-    "test:smoke": "tsx scripts/smoke.ts",
-    "test:visual": "tsx scripts/test-visual.ts",
-    "usage": "tsx scripts/usage.ts",
-    "validate": "tsx scripts/validate.ts"
-  },
-  "lint-staged": {
-    "*.{js,ts,vue}": [
-      "pnpm eslint --fix",
-      "pnpm prettier --write"
-    ],
-    "*.scss": [
-      "pnpm stylelint --fix",
-      "pnpm prettier --write"
-    ],
-    "*.{json,md,yml,yaml}": [
-      "pnpm prettier --write"
-    ]
+    "test-dts": "tsx scripts/test-dts.ts",
+    "test-smoke": "tsx scripts/test-smoke.ts",
+    "test-smoke-types": "tsx scripts/test-smoke-types.ts",
+    "test-visual": "tsx scripts/test-visual.ts",
+    "typecheck": "vpr :typecheck"
   },
   "devDependencies": {
+    "@arethetypeswrong/cli": "catalog:",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@types/node": "catalog:",
-    "@typescript-eslint/eslint-plugin": "catalog:",
     "@typescript-eslint/parser": "catalog:",
+    "@vscode/web-custom-data": "catalog:",
     "@vue/tsconfig": "catalog:",
+    "@vueform/core": "workspace:*",
+    "@vueform/dompurify": "workspace:*",
+    "@vueform/expr-eval": "workspace:*",
+    "@vueform/tsconfig": "workspace:*",
+    "@vueform/ui": "workspace:*",
     "@vueform/utils": "workspace:*",
     "ajv": "catalog:",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
-    "eslint-plugin-import": "catalog:",
-    "eslint-plugin-perfectionist": "catalog:",
-    "eslint-plugin-unused-imports": "catalog:",
     "eslint-plugin-vue": "catalog:",
     "husky": "catalog:",
     "lint-staged": "catalog:",
-    "prettier": "catalog:",
-    "prettier-plugin-jsdoc": "catalog:",
-    "prettier-plugin-packagejson": "catalog:",
+    "publint": "catalog:",
     "stylelint": "catalog:",
     "stylelint-config-recess-order": "catalog:",
     "stylelint-config-standard-scss": "catalog:",
     "stylelint-order": "catalog:",
+    "taze": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",
+    "vite-plus": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
     "vue-eslint-parser": "catalog:",
     "vue-tsc": "catalog:"
   },
-  "packageManager": "pnpm@10.20.0",
-  "engines": {
-    "node": ">=20.0.0"
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,mts,cts}": [
+      "pnpm vp lint --fix --fix-suggestions",
+      "pnpm vp fmt"
+    ],
+    "*.vue": [
+      "pnpm vp lint --fix --fix-suggestions",
+      "pnpm eslint --fix",
+      "pnpm vp fmt"
+    ],
+    "*.scss": [
+      "pnpm stylelint --fix",
+      "pnpm vp fmt"
+    ],
+    "*.{json,yml,yaml}": [
+      "pnpm vp fmt"
+    ]
   },
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "packageManager": "pnpm@10.20.0",
   "pnpm": {
     "overrides": {
       "vue": "catalog:"

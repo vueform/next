@@ -1,7 +1,7 @@
 /**
  * Monorepo format orchestrator (`pnpm format`, `pnpm format --check`).
  *
- * One prettier task per workspace package plus `root` for everything outside
+ * One oxfmt task per workspace package plus `root` for everything outside
  * `packages/`. Selection flags work like the build orchestrator's — `--core`,
  * `--pv`, `--adapters`, `--root`.
  *

@@ -1,21 +1,4 @@
 import type {
-  InputMaskApi,
-  InputMaskClasses,
-  InputMaskEmits,
-  InputMaskExpose,
-  InputMaskParts,
-  InputMaskProps,
-  InputMaskSlots,
-} from '#primevue/blueprints/input-mask'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -33,6 +16,24 @@ import type {
 } from '@vueform/core'
 import type { InputMaskProps as PvInputMaskProps } from 'primevue'
 
+import type {
+  InputMaskApi,
+  InputMaskClasses,
+  InputMaskEmits,
+  InputMaskExpose,
+  InputMaskParts,
+  InputMaskProps,
+  InputMaskSlots,
+} from '#src/blueprints/input-mask'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#src/features'
+
 /**
  * VfInputMask props narrowed from a registry `TEntry` payload, applying the
  * entry's `translate` / `languages` props as generics (so `translate: true`
@@ -49,8 +50,8 @@ export type EntryProps<TEntry> = VfInputMaskProps<
  * languages>`). Reach for `VfInputMaskProps` instead when no narrowing is
  * needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfInputMaskProps<
   TTranslate extends boolean = boolean,

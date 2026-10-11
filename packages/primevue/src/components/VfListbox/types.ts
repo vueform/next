@@ -1,24 +1,4 @@
 import type {
-  ListboxApi,
-  ListboxClasses,
-  ListboxEmits,
-  ListboxExpose,
-  ListboxParts,
-  ListboxProps,
-  ListboxSlots,
-  forwards,
-} from '#primevue/blueprints/listbox'
-import type {
-  EntryOptionsOf,
-  EntryOptionValueKeyOf,
-  EntryOptionValueReturnOf,
-  EntryOptionGroupChildrenOf,
-  OptionGroupChildrenProp,
-  OptionsProp,
-  OptionValueProp,
-} from '#primevue/features'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
   ClassValue,
   EntryMultipleOf,
   WidenProps,
@@ -29,6 +9,27 @@ import type { ListboxProps as PvListboxProps } from 'primevue'
 import type { ListboxSlots as AListboxSlots } from 'primevue/listbox'
 import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
 import type { VNode } from 'vue'
+
+import type {
+  ListboxApi,
+  ListboxClasses,
+  ListboxEmits,
+  ListboxExpose,
+  ListboxParts,
+  ListboxProps,
+  ListboxSlots,
+  forwards,
+} from '#src/blueprints/listbox'
+import type {
+  EntryOptionsOf,
+  EntryOptionValueKeyOf,
+  EntryOptionValueReturnOf,
+  EntryOptionGroupChildrenOf,
+  OptionGroupChildrenProp,
+  OptionsProp,
+  OptionValueProp,
+} from '#src/features'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfListbox props narrowed from a registry `TEntry` payload, applying the
@@ -49,8 +50,8 @@ export type EntryProps<TEntry> = VfListboxProps<
  * option-driving type arguments (e.g. `VfListboxProps<typeof options, 'id'>`).
  * Reach for `VfListboxProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfListboxProps<
   TOptions extends OptionsProp = OptionsProp,
@@ -147,7 +148,7 @@ export interface VfListboxSlots<
         /**
          * Custom header template.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Value of the component.
            */
@@ -162,7 +163,7 @@ export interface VfListboxSlots<
         /**
          * Custom footer template.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Value of the component.
            */
@@ -177,7 +178,7 @@ export interface VfListboxSlots<
         /**
          * Custom option template.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -197,7 +198,7 @@ export interface VfListboxSlots<
         /**
          * Custom option group template.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The raw option group (or raw item when ungrouped).
            */
@@ -212,7 +213,7 @@ export interface VfListboxSlots<
         /**
          * Custom content template.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * An array of objects to display for virtualscroller.
            */
@@ -225,11 +226,15 @@ export interface VfListboxSlots<
 
           /**
            * Reference of the content.
+           *
+           * @param el The element of the content reference.
            */
           contentRef: (el: any) => void
 
           /**
            * Options of the items.
+           *
+           * @param index The rendered index of the item.
            */
           getItemOptions: (index: number) => VirtualScrollerItemOptions
         }) => VNode[]

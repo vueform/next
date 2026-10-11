@@ -1,10 +1,12 @@
 <script setup lang="ts" generic="const TRange extends boolean = false">
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeSlider from 'primevue/slider'
-import type { VfSliderEmits, VfSliderProps, VfSliderSlots } from './types'
 import type { WritableComputedRef } from 'vue'
-import { blueprint, defaults } from '#primevue/blueprints/slider'
-import { vdomPrime } from '#primevue/helpers'
+
+import { blueprint, defaults } from '#src/blueprints/slider'
+import { vdomPrime } from '#src/helpers'
+
+import type { VfSliderEmits, VfSliderProps, VfSliderSlots } from './types'
 
 const Slider = vdomPrime(PrimeSlider)
 defineOptions({

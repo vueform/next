@@ -1,1 +1,1 @@
-import '#primevue/scss/grid.scss'
+import '#src/scss/grid.scss'

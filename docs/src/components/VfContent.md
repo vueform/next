@@ -227,7 +227,7 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — |  |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -270,7 +270,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`description`](!code#context.description "string \| (string & {}) \| undefined") | The resolved description text for the element. |
 | [`descriptionId`](!code#context.descriptionId "string") | The DOM id for the element's description text region. |
 | [`content`](!code#context.content "UnwrapDynamicProp<LooseRequired<TProps>[\"content\"]> \| undefined") | The resolved text content for the element — sanitized in the resolution pipeline after localization and expressions, and only when the resolved string actually contains markup, so plain text never enters the engine. |
-| [`isHtml`](!code#context.isHtml "boolean") | Whether the content renders as HTML. `$security.allowHtml: ['content']` must list the area, so no schema entry can grant itself HTML rendering. When refused, the markup renders as escaped text instead. Markup-free content never consults the gate — it renders identically either way. |
+| [`isHtml`](!code#context.isHtml "boolean") | Whether the content renders as HTML.<br><br>`$security.allowHtml: ['content']` must list the area, so no schema entry can grant itself HTML rendering. When refused, the markup renders as escaped text instead. Markup-free content never consults the gate — it renders identically either way. |
 | [`tag`](!code#context.tag "string") | The HTML tag used to render the content wrapper. |
 
 ### State {#section-state}
@@ -287,7 +287,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`errors`](!code#context.errors "string[]") | The reactive list of validation error messages. |
 | [`displayErrors`](!code#context.displayErrors "string[]") | The reactive list of validation error messages. |
 | [`messages`](!code#context.messages "string[]") | The reactive list of informational messages. |
-| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for managing custom errors, messages, and prepended/appended messages. |
+| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag holding user-facing error and message strings. |
 | [`genericName`](!code#context.genericName "string") | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop. |
 
 ### Layout {#section-layout}
@@ -356,169 +356,10 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
-| `required` | — | Slot for customizing the required indicator. |
-| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `default` | [`Context`](#context "Full context available. Click to see") | Default slot that replaces the content. Receives the full component context. |
-| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
-| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
-| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
-
-<!-- @tab Parts -->
-
-## Parts
-
-DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) for details.
-
-<VPParts
-component="VfContent"
-:examples="{
-default: 'Default',
-}"
-:schema="{
-content: 'YOUR_CONTENT',
-label: 'Information',
-help: 'This section displays static content',
-hint: 'Content supports HTML and Vue components',
-showRequired: ['label'],
-onMounted: ({ messageBag }) => {
-messageBag.append('Content failed to load', 'error')
-messageBag.append('Content loaded', 'message')
-},
-}"
->
-
-<template #example-default="{ schema }">
-<VfContent
-      name="default"
-      v-bind="schema"
-    />
-</template>
-</VPParts>
-
-<!-- @parts-start -->
-### `panel`
-
-The wrapper around `root` with `display: contents` when the element is a step or a tab.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-panel` |
-
-### `root`
-
-The element's root wrapper.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` `<fieldset>` |
-| **Classes** | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-content` `.vf-left?` `.vf-center?` `.vf-right?` `.vf-justify?` `.vf-aligned?` |
-
-### `labelGroup`
-
-The container holding the label and required indicator.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-label-group` `.vf-h1?` `.vf-h2?` `.vf-h3?` `.vf-h4?` `.vf-h5?` `.vf-h6?` |
-
-### `label`
-
-The label element.
-
-| | |
-| --- | --- |
-| **Element** | `<label>` `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
-| **Classes** | `.vf-label` |
-
-### `required`
-
-The required indicator.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-required` |
-
-### `elementGroup`
-
-The container wrapping the input and related UI.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-element-group` |
-
-### `elementWrapper`
-
-The wrapper directly around the input control.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-element-wrapper` |
-
-### `help`
-
-The help text area.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-help` |
-
-### `description`
-
-The description text area.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-description` |
-
-### `errors`
-
-The validation errors container.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-errors` |
-
-### `error`
-
-An individual validation error.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-error` |
-
-### `messages`
-
-The info messages container.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-messages` |
-
-### `message`
-
-An individual info message.
-
-| | |
-| --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-message` |
-<!-- @parts-end -->
-<!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens

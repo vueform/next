@@ -12,6 +12,11 @@
       "description": {
         "type": "string"
       },
+      "loc": {
+        "type": "string",
+        "description": "Repo-relative `path:line` of the module interface declaration.",
+        "minLength": 1
+      },
       "interface": {
         "type": "string",
         "description": "Name of the module's public interface type.",
@@ -31,6 +36,11 @@
             },
             "description": {
               "type": "string"
+            },
+            "loc": {
+              "type": "string",
+              "description": "Repo-relative `path:line` of the member declaration.",
+              "minLength": 1
             },
             "params": {
               "type": "object",

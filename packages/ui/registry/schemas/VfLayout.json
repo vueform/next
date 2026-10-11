@@ -10,13 +10,13 @@
       "path": "VfLayout.vue",
       "target": "{componentsDir}/VfLayout.vue",
       "kind": "component",
-      "hash": "sha256:ad63fd4ebe89c920f65f0db9825d1caf9ad6098762f462df92b32c3e7a8ae76d"
+      "hash": "sha256:c7e37578526682191e42614c71dd922c19e7332496ae68d36c88c8c077a2040b"
     }
   ],
   "imports": [
     "vue",
-    "@vueform/ui",
     "@vueform/ui/components/VfLayout",
+    "@vueform/ui",
     "@vueform/ui/element.css",
     "@vueform/ui/input.css",
     "@vueform/ui/icon.css",

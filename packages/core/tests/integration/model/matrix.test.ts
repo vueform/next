@@ -1,6 +1,7 @@
+import { defineSchema } from '@vueform/core'
 import { computed, nextTick, unref, ref, type Ref } from 'vue'
+
 import { createForm, makeApp, mountApp, vModelAndChange } from '../../helpers'
-import { defineSchema } from '#core'
 
 const staticSchema = {
   cols: [

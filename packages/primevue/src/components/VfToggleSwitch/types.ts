@@ -1,15 +1,4 @@
 import type {
-  ToggleSwitchApi,
-  ToggleSwitchClasses,
-  ToggleSwitchEmits,
-  ToggleSwitchExpose,
-  ToggleSwitchParts,
-  ToggleSwitchProps,
-  ToggleSwitchSlots,
-  forwards,
-} from '#primevue/blueprints/toggle-switch'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   WidenProps,
   DefineElementContext,
@@ -19,6 +8,18 @@ import type {
 import type { ToggleSwitchProps as PvToggleSwitchProps } from 'primevue'
 import type { ToggleSwitchSlots as AToggleSwitchSlots } from 'primevue/toggleswitch'
 import type { VNode } from 'vue'
+
+import type {
+  ToggleSwitchApi,
+  ToggleSwitchClasses,
+  ToggleSwitchEmits,
+  ToggleSwitchExpose,
+  ToggleSwitchParts,
+  ToggleSwitchProps,
+  ToggleSwitchSlots,
+  forwards,
+} from '#src/blueprints/toggle-switch'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * VfToggleSwitch props narrowed from a registry `TEntry` payload, applying the
@@ -34,8 +35,8 @@ export type EntryProps<TEntry> = VfToggleSwitchProps<
  * the model-driving type arguments (e.g. `VfToggleSwitchProps<1, 0>`). Reach
  * for `VfToggleSwitchProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfToggleSwitchProps<
   TTrueValue = true,
@@ -78,9 +79,9 @@ export interface VfToggleSwitchSlots<TTrueValue = true, TFalseValue = false>
   /**
    * Custom handle template.
    *
-   * @param props.checked Current checked state of the item as a boolean.
+   * @param scope The handle slot's params.
    */
-  handle(props: {
+  handle(scope: {
     /**
      * Current checked state of the item as a boolean.
      */

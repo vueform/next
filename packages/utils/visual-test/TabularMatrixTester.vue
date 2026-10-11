@@ -8,6 +8,7 @@
  */
 import { defineSchema } from '@vueform/core'
 import { computed, ref, watch } from 'vue'
+
 import { defaultBindings, defaultTypes } from './TabularGridTester.vue'
 
 const props = withDefaults(

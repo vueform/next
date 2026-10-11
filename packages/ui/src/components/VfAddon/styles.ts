@@ -1,1 +1,1 @@
-import '#ui/scss/addon.scss'
+import '#src/scss/addon.scss'

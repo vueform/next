@@ -1,5 +1,8 @@
-import type { BlueprintContext } from '#core/composables'
-import type { DefineEvents } from '#core/helpers'
+import type { VNode } from 'vue'
+
+import type { BlueprintContext } from '#src/composables'
+import type { DefineEvents } from '#src/helpers'
+
 import type { ClassValue } from './classes'
 import type {
   ClassesProp,
@@ -10,7 +13,6 @@ import type {
   SlotsProp,
 } from './props'
 import type { LooseContext } from './shared'
-import type { VNode } from 'vue'
 
 /**
  * Base public context for plain form components (e.g. addon, nav). Wraps
@@ -157,9 +159,14 @@ export interface BaseComponentSlots<TContext = LooseContext> {
    * Slot that replaces the entire component rendering. Receives the full
    * component context as a single `context` prop.
    *
-   * @param props.context The component context.
+   * @param scope The template slot's params.
    */
-  template: (props: { context: TContext }) => VNode[]
+  template: (scope: {
+    /**
+     * The component context.
+     */
+    context: TContext
+  }) => VNode[]
 }
 
 export interface BaseComponentParts {}

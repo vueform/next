@@ -7,6 +7,7 @@ import {
   isProd,
 } from '@vueform/core'
 import { Parser } from 'expr-eval-fork'
+
 import * as builtinFunctions from './functions'
 import type { ExpressionFunctionContext } from './functions'
 
@@ -24,8 +25,8 @@ function dotToBracket(expression: string): string {
 // access so they appear in the extracted variable list.
 function bracketToPlaceholder(expression: string): string {
   return expression
-    .replace(/\[([0-9\*])+\]/g, '._$1_')
-    .replace(/\[([0-9\*])+\]\./g, '._$1_.')
+    .replace(/\[([0-9*])+\]/g, '._$1_')
+    .replace(/\[([0-9*])+\]\./g, '._$1_.')
 }
 
 function placeholderToDot(path: string): string {

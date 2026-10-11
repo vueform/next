@@ -6,7 +6,7 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
 // Scraped by scripts/api-extractor — run `pnpm extract` at the monorepo root first
-const LOCALES_JSON = path.join(ROOT, '.api/core/locales.json')
+const LOCALES_JSON = path.join(ROOT, '.vueform/api/core/locales.json')
 const TARGET_FILE = path.join(DOCS_ROOT, 'src/guide/locales.md')
 
 const START_MARKER = '<!-- #region available-locales -->'

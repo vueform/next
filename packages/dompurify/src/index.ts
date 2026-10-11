@@ -32,7 +32,6 @@ export function domPurifySanitizer(
   return (html: string) => domPurify.sanitize(html, sanitizeOptions)
 }
 
-// eslint-disable-next-line
 export default definePlugin(() => ({
   name: 'dompurify',
   config(config) {

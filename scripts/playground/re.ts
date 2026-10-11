@@ -1,8 +1,19 @@
-import { parseArgs, resolveCombos, up } from './lib'
+import { ensureUtilsDist } from './ensure-utils'
 
-const tag = 'pg:re'
-const parsed = parseArgs(process.argv.slice(2), { tag })
+ensureUtilsDist()
 
-for (const combo of resolveCombos(tag, parsed)) {
-  up(tag, combo, { force: true })
+// The lib imports @vueform/utils from its dist, so it loads only after
+// the warm-up above — dynamically, inside an async main (this file is
+// CJS-compiled; top-level await is not available without type: module).
+async function main(): Promise<void> {
+  const { parseArgs, resolveCombos, up } = await import('./lib')
+
+  const tag = 'pg:re'
+  const parsed = parseArgs(process.argv.slice(2), { tag })
+
+  for (const combo of resolveCombos(tag, parsed)) {
+    up(tag, combo, { force: true })
+  }
 }
+
+void main()

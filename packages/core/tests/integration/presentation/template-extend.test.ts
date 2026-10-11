@@ -1,6 +1,7 @@
+import { definePlugin, defineSchema } from '@vueform/core'
 import { computed, defineComponent, h, markRaw, nextTick } from 'vue'
+
 import { createForm } from '../../helpers'
-import { definePlugin, defineSchema } from '#core'
 
 // The "Extending a Template" docs story: a plugin grows the component (prop,
 // emit, exposed member) and the template consumes it through the `context`

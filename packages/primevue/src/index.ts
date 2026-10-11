@@ -1,12 +1,13 @@
 import { createVueformFactory } from '@vueform/core'
-import defaultConfig from '#primevue/config'
+
+import defaultConfig from '#src/config'
 
 export * from '@vueform/core'
-export { makeTAria, makeAria } from '#primevue/features'
-export * from '#primevue/directives'
-export * from '#primevue/features'
-export * from '#primevue/helpers'
-export * from '#primevue/types'
+export { makeTAria, makeAria } from '#src/features'
+export * from '#src/directives'
+export * from '#src/features'
+export * from '#src/helpers'
+export * from '#src/types'
 
 export { defaultConfig }
 

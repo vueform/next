@@ -5,8 +5,6 @@ export default {
   extends: ['stylelint-config-standard-scss', 'stylelint-config-recess-order'],
   rules: {
     'declaration-block-no-duplicate-custom-properties': true,
-
-    // Disable rules that conflict with the project's formatting style
     'custom-property-empty-line-before': null,
     'declaration-empty-line-before': null,
     'no-descending-specificity': null,
@@ -25,9 +23,7 @@ export default {
     'color-hex-length': null,
     'length-zero-no-unit': null,
     'at-rule-empty-line-before': null,
-    // Cross-package @use/@forward must keep the .scss extension — the
-    // packages' `./*.scss` exports patterns match on it.
     'scss/load-partial-extension': null,
   },
-  ignoreFiles: ['**/node_modules/**', '**/dist/**'],
+  ignoreFiles: ['**/dist/**', '.vueform/**', '.playgrounds/**'],
 }

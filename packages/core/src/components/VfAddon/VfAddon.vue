@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAttrs } from 'vue'
+
+import { defaults, blueprint } from '#src/blueprints/addon'
+import { useBlueprint } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+
 import type { VfAddonEmits, VfAddonProps, VfAddonSlots } from './types'
-import { defaults, blueprint } from '#core/blueprints/addon'
-import { useBlueprint } from '#core/composables'
-import { defineEvents } from '#core/helpers'
 
 defineOptions({ name: 'VfAddon', inheritAttrs: false })
 defineEmits<VfAddonEmits>()

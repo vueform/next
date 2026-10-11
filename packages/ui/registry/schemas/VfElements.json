@@ -10,7 +10,7 @@
       "path": "VfElements.vue",
       "target": "{componentsDir}/VfElements.vue",
       "kind": "component",
-      "hash": "sha256:78c28c8428484767045de7f1b9495e269cc57c1b30ce841896c4b29a50f17935"
+      "hash": "sha256:0b7f2eff77cccf701779146a5ddbd60592dae6e1c490536f3e130feda9226572"
     }
   ],
   "imports": [
@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "form"
-  ],
+  "styles": ["form"],
   "register": {
     "component": "VfElements",
     "import": "{componentsDir}/VfElements.vue"

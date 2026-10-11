@@ -21,7 +21,8 @@
 
 .vp-doc a.code-popover {
   color: var(--vp-code-color);
-  text-decoration: underline dotted color-mix(in srgb, currentcolor 50%, transparent);
+  text-decoration: underline dotted
+    color-mix(in srgb, currentcolor 50%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   cursor: text;
@@ -31,7 +32,8 @@
 /* Popover-only keyword links — dotted underline, text cursor */
 a[data-popover]:not([href]) {
   color: inherit;
-  text-decoration: underline dotted color-mix(in srgb, currentcolor 50%, transparent);
+  text-decoration: underline dotted
+    color-mix(in srgb, currentcolor 50%, transparent);
   text-decoration-thickness: 1px;
   text-underline-offset: 3px;
   cursor: text;
@@ -89,7 +91,8 @@ pre code a[data-popover] {
     text-decoration-color: color-mix(in srgb, currentcolor 35%, transparent);
 
     &:hover {
-      text-decoration: underline solid color-mix(in srgb, currentcolor 70%, transparent);
+      text-decoration: underline solid
+        color-mix(in srgb, currentcolor 70%, transparent);
     }
   }
 }
@@ -540,7 +543,11 @@ pre code a[data-popover] {
     height: 80px;
     pointer-events: none;
     content: '';
-    background: linear-gradient(to bottom, transparent, var(--vp-code-block-bg));
+    background: linear-gradient(
+      to bottom,
+      transparent,
+      var(--vp-code-block-bg)
+    );
     transition: opacity 0.2s;
   }
 

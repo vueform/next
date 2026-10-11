@@ -1,18 +1,3 @@
-import {
-  type EditorProps as PvEditorProps,
-  type EditorSlots as AEditorSlots,
-} from 'primevue/editor'
-import type {
-  EditorApi,
-  EditorClasses,
-  EditorEmits,
-  EditorExpose,
-  EditorParts,
-  EditorProps,
-  EditorSlots,
-  forwards,
-} from '#primevue/blueprints/editor'
-import type { ForwardedSlots } from '#primevue/types'
 import type {
   ClassValue,
   EntryTranslateOf,
@@ -22,7 +7,23 @@ import type {
   DefineRegistryEntry,
   LanguagesProp,
 } from '@vueform/core'
+import {
+  type EditorProps as PvEditorProps,
+  type EditorSlots as AEditorSlots,
+} from 'primevue/editor'
 import type { VNode } from 'vue'
+
+import type {
+  EditorApi,
+  EditorClasses,
+  EditorEmits,
+  EditorExpose,
+  EditorParts,
+  EditorProps,
+  EditorSlots,
+  forwards,
+} from '#src/blueprints/editor'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * VfEditor props narrowed from a registry `TEntry` payload, applying the
@@ -39,8 +40,8 @@ export type EntryProps<TEntry> = VfEditorProps<
  * model-driving type arguments (e.g. `VfEditorProps<true, typeof languages>`).
  * Reach for `VfEditorProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfEditorProps<
   TTranslate extends boolean = boolean,
@@ -82,11 +83,17 @@ export interface VfEditorSlots<
   /**
    * Custom editor toolbar content.
    *
-   * @param props.languages Available language labels keyed by locale code.
-   * @param props.language The currently active language code.
+   * @param scope The toolbar slot's params.
    */
-  toolbar: (props: {
+  toolbar: (scope: {
+    /**
+     * Available language labels keyed by locale code.
+     */
     languages: Record<string, string>
+
+    /**
+     * The currently active language code.
+     */
     language: string
   }) => VNode[]
 }
@@ -113,17 +120,17 @@ export interface VfEditorClasses extends EditorClasses {
   input: ClassValue
 
   /**
-   * @write
+   * The placeholder skeleton shown while the editor is loading.
    */
   placeholder: ClassValue
 
   /**
-   * @write
+   * The toolbar area of the loading placeholder.
    */
   placeholderToolbar: ClassValue
 
   /**
-   * @write
+   * The content area of the loading placeholder.
    */
   placeholderContent: ClassValue
 }

@@ -1,2 +1,2 @@
-import '#primevue/scss/editor.scss'
-import '#primevue/scss/utils.scss'
+import '#src/scss/editor.scss'
+import '#src/scss/utils.scss'

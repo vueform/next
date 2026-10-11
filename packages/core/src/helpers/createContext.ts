@@ -6,7 +6,8 @@ import {
   type App,
   type InjectionKey,
 } from 'vue'
-import { getGenericInstance, type GenericInstance } from '#core/utils'
+
+import { getGenericInstance, type GenericInstance } from '#src/utils'
 
 /**
  * Key used to provide or inject typed context, as a Vue `InjectionKey` or

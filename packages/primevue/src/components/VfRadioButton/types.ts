@@ -1,13 +1,4 @@
 import type {
-  RadioButtonApi,
-  RadioButtonClasses,
-  RadioButtonEmits,
-  RadioButtonExpose,
-  RadioButtonParts,
-  RadioButtonProps,
-  RadioButtonSlots,
-} from '#primevue/blueprints/radio-button'
-import type {
   ClassValue,
   DomAttrsOf,
   AriaProp,
@@ -18,6 +9,16 @@ import type {
 } from '@vueform/core'
 import type { RadioButtonProps as PvRadioButtonProps } from 'primevue/radiobutton'
 import type { VNode } from 'vue'
+
+import type {
+  RadioButtonApi,
+  RadioButtonClasses,
+  RadioButtonEmits,
+  RadioButtonExpose,
+  RadioButtonParts,
+  RadioButtonProps,
+  RadioButtonSlots,
+} from '#src/blueprints/radio-button'
 
 /**
  * VfRadioButton props narrowed from a registry `TEntry` payload, applying the
@@ -32,8 +33,8 @@ export type EntryProps<TEntry> = VfRadioButtonProps<
  * model-driving type argument (e.g. `VfRadioButtonProps<'a'>`). Reach for
  * `VfRadioButtonProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfRadioButtonProps<TRadioValue = any> extends RadioButtonProps<
   'radio-button',
@@ -64,31 +65,96 @@ export interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
    * Slot that replaces the default radio input rendering. Receives
    * input-specific props.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The value represented by the radio button when selected.
+     */
     value: TRadioValue
+
+    /**
+     * The current model value.
+     */
     model: TRadioValue | null
+
+    /**
+     * The aria attributes to bind to the input.
+     */
     aria: AriaProp
+
+    /**
+     * The `name` attribute of the input.
+     */
     inputName: string
+
+    /**
+     * The element's unique ID.
+     */
     id: string
+
+    /**
+     * Whether the input is disabled.
+     */
     disabled: boolean
+
+    /**
+     * Ref to the underlying input element.
+     */
     input: any
+
+    /**
+     * The resolved label text.
+     */
     text: string | undefined
+
+    /**
+     * Handles the input's blur event.
+     *
+     * @param e The native blur event.
+     */
     handleBlur: (e: FocusEvent) => void
+
+    /**
+     * Handles the input's focus event.
+     *
+     * @param e The native focus event.
+     */
     handleFocus: (e: FocusEvent) => void
+
+    /**
+     * Handles the input's change event, updating the model.
+     *
+     * @param payload The new input value.
+     * @param e The originating native event.
+     */
     handleInput: (payload: any, e?: Event) => void
+
+    /**
+     * Handles a native input event, updating the model from the event target.
+     *
+     * @param e The native input event.
+     */
     handleModelUpdate: (e: Event) => void
   }) => VNode[]
 
   /**
    * Slot that replaces the text/label portion of the radio.
    *
-   * @param props.text The resolved label text.
-   * @param props.id The element's unique ID.
-   * @param props.genericName The element's display name for accessibility.
+   * @param scope The text slot's params.
    */
-  text: (props: {
+  text: (scope: {
+    /**
+     * The resolved label text.
+     */
     text: string | undefined
+
+    /**
+     * The element's unique ID.
+     */
     id: string
+
+    /**
+     * The element's display name for accessibility.
+     */
     genericName: string
   }) => VNode[]
 }

@@ -1,23 +1,4 @@
 import type {
-  PasswordApi,
-  PasswordClasses,
-  PasswordEmits,
-  PasswordExpose,
-  PasswordParts,
-  PasswordProps,
-  PasswordSlots,
-  forwards,
-} from '#primevue/blueprints/password'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -36,6 +17,26 @@ import type {
 import type { PasswordProps as PvPasswordProps } from 'primevue'
 import type { PasswordSlots as APasswordSlots } from 'primevue/password'
 
+import type {
+  PasswordApi,
+  PasswordClasses,
+  PasswordEmits,
+  PasswordExpose,
+  PasswordParts,
+  PasswordProps,
+  PasswordSlots,
+  forwards,
+} from '#src/blueprints/password'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#src/features'
+import type { ForwardedSlots } from '#src/types'
+
 /**
  * VfPassword props narrowed from a registry `TEntry` payload, applying the
  * entry's `translate` / `languages` props as generics (so `translate: true`
@@ -52,8 +53,8 @@ export type EntryProps<TEntry> = VfPasswordProps<
  * languages>`). Reach for `VfPasswordProps` instead when no narrowing is
  * needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfPasswordProps<
   TTranslate extends boolean = boolean,

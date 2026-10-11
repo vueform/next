@@ -1,5 +1,6 @@
+import { defineSchema } from '@vueform/core'
+
 import { createForm } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('digits', () => {
   it('should pass for digits with exact length', async () => {

@@ -1,13 +1,15 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
+
+import type { TokenJsonEntry } from '@vueform/utils'
+
 import { requireData, SCRAPE_HINT } from './ensureData'
-import type { TokenJsonEntry } from '../../../scripts/api-extractor/lib/token-utils'
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
-const TOKENS_JSON = path.resolve(DOCS_ROOT, '../.api/core/tokens.json')
+const TOKENS_JSON = path.resolve(DOCS_ROOT, '../.vueform/api/core/tokens.json')
 requireData('tokens', TOKENS_JSON, SCRAPE_HINT)
 const TOKENS_GUIDE = path.join(DOCS_ROOT, 'src/guide/themes-tokens.md')
 
@@ -16,13 +18,30 @@ const PRIMITIVES_END = '<!-- @token-table:primitives end -->'
 const SEMANTIC_START = '<!-- @token-table:semantic start -->'
 const SEMANTIC_END = '<!-- @token-table:semantic end -->'
 
+/**
+ * A token entry as scraped: the declaration's repo-relative `path:line` lives
+ * in a single `loc` string (replaces the former `file` + `line` pair).
+ */
+type TokenEntry = Omit<TokenJsonEntry, 'file' | 'line'> & { loc?: string }
+
 interface TokenGroup {
   name: string
   tokens: { cssVar: string; description: string }[]
 }
 
+/**
+ * Splits a `path:line` loc string at the last colon (paths contain no colon,
+ * but be safe).
+ */
+function parseLoc(loc?: string): { file: string; line: number } {
+  if (!loc) return { file: '', line: 0 }
+  const idx = loc.lastIndexOf(':')
+  if (idx === -1) return { file: loc, line: 0 }
+  return { file: loc.slice(0, idx), line: Number(loc.slice(idx + 1)) || 0 }
+}
+
 function collectGroups(
-  tokens: Record<string, TokenJsonEntry>,
+  tokens: Record<string, TokenEntry>,
   groupFilter: string
 ): TokenGroup[] {
   const groups: TokenGroup[] = []
@@ -30,11 +49,11 @@ function collectGroups(
 
   // tokens.json has alphabetic root key order; the guide keeps the source
   // declaration order, so sort back by position.
-  const bySource = Object.entries(tokens).sort(
-    ([, a], [, b]) =>
-      (a.file ?? '').localeCompare(b.file ?? '') ||
-      (a.line ?? 0) - (b.line ?? 0)
-  )
+  const bySource = Object.entries(tokens).sort(([, a], [, b]) => {
+    const la = parseLoc(a.loc)
+    const lb = parseLoc(b.loc)
+    return la.file.localeCompare(lb.file) || la.line - lb.line
+  })
 
   for (const [cssVar, entry] of bySource) {
     if (entry.group !== groupFilter) continue
@@ -102,7 +121,7 @@ function replaceRegion(
 }
 
 function main(): void {
-  const tokens: Record<string, TokenJsonEntry> = JSON.parse(
+  const tokens: Record<string, TokenEntry> = JSON.parse(
     fs.readFileSync(TOKENS_JSON, 'utf-8')
   )
 

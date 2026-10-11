@@ -1,6 +1,6 @@
-import type { SecurityModule } from '#core/modules/security'
-import type { AddonItem } from '#core/types'
-import { kebabToPascal } from '#core/utils'
+import type { SecurityModule } from '#src/modules/security'
+import type { AddonItem } from '#src/types'
+import { kebabToPascal } from '#src/utils'
 
 /**
  * A resolved addon value: display text (rendered escaped by the addon
@@ -8,7 +8,9 @@ import { kebabToPascal } from '#core/utils'
  * (`{ component, props }`) for schema addons.
  */
 export type ResolvedAddon =
-  string | { component: string; props: Record<string, any> } | undefined
+  | string
+  | { component: string; props: Record<string, any> }
+  | undefined
 
 /**
  * Modules `resolveAddon` needs from the caller's setup context — gather them
@@ -29,6 +31,9 @@ export interface ResolveAddonModules {
  * components that render addons without a dedicated addon component.
  *
  * @private
+ * @param addon The raw addon value to resolve.
+ * @param options The `$security` module slice used to allowlist and sanitize
+ *   schema addon components.
  */
 export function resolveAddon(
   addon: AddonItem | undefined,

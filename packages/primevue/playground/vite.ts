@@ -17,18 +17,17 @@ function sharePrimeuixStyled(): Plugin {
       return {
         optimizeDeps: {
           include: ['@primeuix/styled'],
-          esbuildOptions: {
+          rolldownOptions: {
             plugins: [
               {
                 name: 'externalize-primeuix-styled',
-                setup(build) {
-                  build.onResolve({ filter: /^@primeuix\/styled$/ }, (args) => {
-                    // Keep the dedicated `@primeuix/styled` optimizeDeps
-                    // entry bundling itself; only externalize when another
-                    // entry (e.g. primevue/config) imports it.
-                    if (args.kind === 'entry-point') return undefined
-                    return { path: '@primeuix/styled', external: true }
-                  })
+                resolveId(source, _importer, options) {
+                  if (source !== '@primeuix/styled') return undefined
+                  // Keep the dedicated `@primeuix/styled` optimizeDeps entry
+                  // bundling itself; only externalize when another entry
+                  // (e.g. primevue/config) imports it.
+                  if (options.isEntry) return undefined
+                  return { id: '@primeuix/styled', external: true }
                 },
               },
             ],

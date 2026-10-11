@@ -1,3 +1,10 @@
+import {
+  createVueform,
+  defineSchema,
+  model,
+  security,
+  theme,
+} from '@vueform/core'
 /**
  * # CSS injection containment
  *
@@ -12,8 +19,8 @@
  * nonce.
  */
 import { nextTick } from 'vue'
+
 import { createForm } from '../../helpers'
-import { createVueform, defineSchema, model, security, theme } from '#core'
 
 describe('Security: CSS injection containment', () => {
   describe('token declarations', () => {

@@ -3,11 +3,13 @@
   lang="ts"
   generic="const TTrueValue = true, const TFalseValue = false"
 >
-import type { VfCheckboxEmits, VfCheckboxProps, VfCheckboxSlots } from './types'
 import type { Ref } from 'vue'
-import { defaults, blueprint } from '#core/blueprints/checkbox'
-import { useBlueprint } from '#core/composables'
-import { defineEvents } from '#core/helpers'
+
+import { defaults, blueprint } from '#src/blueprints/checkbox'
+import { useBlueprint } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+
+import type { VfCheckboxEmits, VfCheckboxProps, VfCheckboxSlots } from './types'
 
 defineOptions({
   name: 'VfCheckbox',

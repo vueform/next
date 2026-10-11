@@ -1,5 +1,5 @@
-import type { VueformInstance } from '#core/helpers'
-import { getDateModule, type DateInstance } from '#core/modules/date'
+import type { VueformInstance } from '#src/helpers'
+import { getDateModule, type DateInstance } from '#src/modules/date'
 
 /**
  * Parses a value into a `DateInstance` using the configured date adapter

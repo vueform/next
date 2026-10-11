@@ -22,14 +22,14 @@ import {
   type OptionValueProp,
   vdomPrime,
 } from '@vueform/primevue'
-import PrimeCascadeSelect from 'primevue/cascadeselect'
 import {
+  blueprint,
+  defaults,
   type VfCascadeSelectEmits,
   type VfCascadeSelectProps,
   type VfCascadeSelectSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfCascadeSelect'
+import PrimeCascadeSelect from 'primevue/cascadeselect'
 
 const CascadeSelect = vdomPrime(PrimeCascadeSelect)
 

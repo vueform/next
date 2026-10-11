@@ -1,0 +1,4 @@
+{
+  "extends": "@vueform/tsconfig",
+  "include": ["scripts/**/*", ".vitepress/config.mts", ".vitepress/build/**/*"]
+}

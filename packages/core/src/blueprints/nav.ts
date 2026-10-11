@@ -1,4 +1,8 @@
 import { computed, toRef, useId } from 'vue'
+
+import { useDynamicProp, type Pager, useLocale } from '#src/composables'
+import { useFormContext } from '#src/contexts'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -8,10 +12,7 @@ import type {
   BaseComponentClasses,
   LooseRequired,
   TProp,
-} from '#core/types'
-import { useDynamicProp, type Pager, useLocale } from '#core/composables'
-import { useFormContext } from '#core/contexts'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+} from '#src/types'
 
 /**
  * Positioning options for the nav component.
@@ -54,7 +55,8 @@ export interface NavProps<
   hideBack?: boolean
 
   /**
-   * @write
+   * The alignment of the navigation buttons: `'left'`, `'center'`, `'right'`,
+   * `'fluid'` (stretched to full width), or `'auto'`.
    */
   position?: NavPosProp
 }
@@ -179,7 +181,8 @@ export function blueprint<TProps extends NavProps>(
   const loading = computed(() => !!props.pager.currentPage?.loading)
 
   /**
-   * @write
+   * Whether the navigation buttons are stretched to the full available width
+   * (`position: 'fluid'`).
    */
   const fluid = computed(() => props.position === 'fluid')
 

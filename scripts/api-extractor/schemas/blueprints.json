@@ -12,6 +12,12 @@
     "required": ["props", "events"],
     "additionalProperties": false,
     "properties": {
+      "description": {
+        "type": "string"
+      },
+      "loc": {
+        "type": "string"
+      },
       "props": {
         "type": "object",
         "additionalProperties": {
@@ -54,6 +60,9 @@
         "description": {
           "type": "string"
         },
+        "loc": {
+          "type": "string"
+        },
         "required": {
           "const": true
         },
@@ -81,6 +90,9 @@
       "additionalProperties": false,
       "properties": {
         "description": {
+          "type": "string"
+        },
+        "loc": {
           "type": "string"
         },
         "params": {

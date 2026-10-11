@@ -10,26 +10,23 @@
       "path": "VfText.vue",
       "target": "{componentsDir}/VfText.vue",
       "kind": "component",
-      "hash": "sha256:5bb6220527c4e4d31ac4230ce6806819ca479ac590ae13c9ce64bde671d361a4"
+      "hash": "sha256:7ec41f3b46b8ba083bcb4af4f48322068fc5b7497510526b6f5b0df4b14d179c"
     }
   ],
   "imports": [
-    "@vueform/ui",
     "@vueform/ui/components/VfText",
+    "@vueform/ui",
     "@vueform/ui/input.css",
     "@vueform/ui/text.css"
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "input",
-    "text"
-  ],
+  "styles": ["input", "text"],
   "element": true,
   "clone": {
     "path": "VfText.vue",
     "blueprint": "text",
-    "hash": "sha256:07c7a57e07eded157b45dbfd68ccfe82ca467277f93246458b2cf26df310c9fe",
+    "hash": "sha256:f88cea44b36be4f7e921d7127e21719e8888b4ce526ff1019f32e1dae698169b",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

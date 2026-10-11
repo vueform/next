@@ -1,3 +1,5 @@
+import type { App, ComponentPropsOptions } from 'vue'
+
 import type {
   RawContextOf,
   PropsOf,
@@ -5,7 +7,8 @@ import type {
   ElementNames,
   ComponentOptions,
   VueformComponent,
-} from '#core/types'
+} from '#src/types'
+
 import type { VueformInstance } from './createVueform'
 import type {
   GlobalsHookContext,
@@ -13,14 +16,17 @@ import type {
   VueformGlobals,
 } from './defineConfig'
 import type { DefineEvents } from './defineEvents'
-import type { App, ComponentPropsOptions } from 'vue'
 
 /**
  * Valid targets for a plugin's `apply` option, including component names,
  * wildcards, and pattern matchers.
  */
 type PluginApplyName =
-  ComponentNames | '*element' | '*' | RegExp | (string & {})
+  | ComponentNames
+  | '*element'
+  | '*'
+  | RegExp
+  | (string & {})
 
 /**
  * The context passed to a plugin's `install` hook when Vueform is installed
@@ -139,6 +145,14 @@ export type VueformPluginFactory<Args extends unknown[] = []> = (
 export function definePlugin<Args extends unknown[], T extends PluginApplyName>(
   definition: (...args: Args) => VueformPluginOptions<T>
 ): VueformPluginFactory<Args>
+/**
+ * Defines a Vueform plugin whose `apply` is a predicate function for custom
+ * component matching.
+ *
+ * @param definition A factory producing the plugin's definition — a custom
+ *   `apply` predicate, props, emits, and lifecycle hooks — from the plugin's
+ *   options.
+ */
 export function definePlugin<Args extends unknown[]>(
   definition: (...args: Args) => VueformPluginOptionsWithApplyFn
 ): VueformPluginFactory<Args>

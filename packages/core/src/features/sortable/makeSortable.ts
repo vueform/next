@@ -1,7 +1,8 @@
 import { computed, ref } from 'vue'
-import type { ReturnsOf } from '#core/types'
-import { type makeDisabled, type makeRData } from '#core/features'
-import { defineFeature } from '#core/helpers'
+
+import { type makeDisabled, type makeRData } from '#src/features'
+import { defineFeature } from '#src/helpers'
+import type { ReturnsOf } from '#src/types'
 
 /**
  * Configuration for the sortable factory enabling drag-and-drop reordering of
@@ -10,7 +11,7 @@ import { defineFeature } from '#core/helpers'
 type MakeSortableOptions = {
   props: {
     /**
-     * @write
+     * Whether to enable drag-and-drop sorting of the container's items.
      */
     sort: boolean | undefined
   }

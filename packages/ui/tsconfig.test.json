@@ -1,0 +1,9 @@
+{
+  "extends": "@vueform/tsconfig/tsconfig.test.json",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/test.tsbuildinfo"
+  },
+  "include": ["src", "tests"],
+  "exclude": ["tests/smoke"]
+}

@@ -2,9 +2,10 @@ import { existsSync, readFileSync, writeFileSync } from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
+import type TS from 'typescript'
+
 import { diffPreview } from './diff.js'
 import { findPackageDir } from './project.js'
-import type TS from 'typescript'
 
 export type RegisterPlan =
   | { status: 'impossible'; reason: string }

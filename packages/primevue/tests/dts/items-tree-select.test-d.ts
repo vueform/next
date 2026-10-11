@@ -1,7 +1,7 @@
 /*
  * Compile-time assertions for PrimeVue VfTreeSelect options → selection-keys
  * model inference (shaped by selectionMode).
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

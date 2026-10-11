@@ -1,3 +1,12 @@
+import {
+  type TextareaApi,
+  type TextareaClasses,
+  type TextareaEmits,
+  type TextareaExpose,
+  type TextareaParts,
+  type TextareaProps,
+  type TextareaSlots,
+} from '#src/blueprints/textarea'
 import type {
   AddonsParts,
   AddonsSlots,
@@ -9,7 +18,7 @@ import type {
   TranslateSlots,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '#core/features'
+} from '#src/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -17,16 +26,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   LanguagesProp,
-} from '#core/types'
-import {
-  type TextareaApi,
-  type TextareaClasses,
-  type TextareaEmits,
-  type TextareaExpose,
-  type TextareaParts,
-  type TextareaProps,
-  type TextareaSlots,
-} from '#core/blueprints/textarea'
+} from '#src/types'
 
 /**
  * VfTextarea props narrowed from a registry `TEntry` payload, applying the
@@ -44,8 +44,8 @@ export type EntryProps<TEntry> = VfTextareaProps<
  * languages>`). Reach for `VfTextareaProps` instead when no narrowing is
  * needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfTextareaProps<
   TTranslate extends boolean = boolean,

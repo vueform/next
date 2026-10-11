@@ -6,6 +6,7 @@
  */
 import { dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
+
 import { vueSfcTypeTests } from '@vueform/utils/type-test'
 
 vueSfcTypeTests({ dir: dirname(fileURLToPath(import.meta.url)) })

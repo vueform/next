@@ -4,14 +4,15 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, useLocale, defineEvents } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfListEmits,
   type VfListProps,
   type VfListSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfList'
-import { useBlueprint, useLocale, defineEvents } from '@vueform/ui'
+
 import '@vueform/ui/list.css'
 
 defineOptions({

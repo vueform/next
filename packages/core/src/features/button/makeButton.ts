@@ -1,20 +1,21 @@
 import { computed, toRef, unref } from 'vue'
-import type { LooseContext, ReturnsOf, ThemeTokens, TProp } from '#core/types'
+
 import {
   useConfig,
   useDynamicProp,
   useConditions,
   useMessageBag,
   useTokens,
-} from '#core/composables'
-import { useComponentContext, useFormContext } from '#core/contexts'
-import { type makeDisabled, type makeElement } from '#core/features'
-import { defineFeature, type FeatureEvents } from '#core/helpers'
+} from '#src/composables'
+import { useComponentContext, useFormContext } from '#src/contexts'
+import { type makeDisabled, type makeElement } from '#src/features'
+import { defineFeature, type FeatureEvents } from '#src/helpers'
 import {
   type ConditionalProp,
   type ConditionsTriggerProp,
-} from '#core/modules/conditions'
-import { resolveRouter } from '#core/utils'
+} from '#src/modules/conditions'
+import type { LooseContext, ReturnsOf, ThemeTokens, TProp } from '#src/types'
+import { resolveRouter } from '#src/utils'
 
 /**
  * Configuration for the button factory providing click handling, loading state,

@@ -32,12 +32,12 @@ import {
   aliasProps,
   makeItems,
 } from '@vueform/core'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   SelectButtonProps as ASelectButtonProps,
   SelectButtonEmitsOptions as ASelectButtonEmits,
   SelectButtonChangeEvent,
 } from 'primevue/selectbutton'
+
 import {
   makeInfo,
   makeAria,
@@ -48,8 +48,9 @@ import {
   type OptionValueProp,
   type OptionsProp,
   type OptionsModelApi,
-} from '#primevue/features'
-import { flatOptionItemAliases } from '#primevue/helpers'
+} from '#src/features'
+import { flatOptionItemAliases } from '#src/helpers'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Plain props type for the select-button element blueprint — the widest

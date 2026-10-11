@@ -8,10 +8,12 @@ import {
   type MaybeRefOrGetter,
   type Ref,
 } from 'vue'
+
+import { type VueformInstance, type VueformConfig } from '#src/helpers'
+import { getSecurityModule, type SecurityModule } from '#src/modules/security'
+import { isDev, normalize, warn } from '#src/utils'
+
 import type { DarkModeConfig, ThemeModule } from './types'
-import { type VueformInstance, type VueformConfig } from '#core/helpers'
-import { getSecurityModule, type SecurityModule } from '#core/modules/security'
-import { isDev, normalize, warn } from '#core/utils'
 
 /**
  * Converts a camelCase or kebab-case theme key to a `--vf-*` CSS custom
@@ -280,11 +282,11 @@ function generateCssGrid(
       `\n\n@media (${mobileFirst ? 'min' : 'max'}-width: ${breakpoint}) {\n` +
       `  ${makeCol(undefined, size)}\n` +
       `${[...Array(12)].map((_, i) => `  ${makeCol(i + 1, size)}`).join('\n')}\n\n` +
-      `  .vf-align-label .${formatter(undefined, size)}\:vf-vertical,\n` +
-      `  :not(.vf-align-label) .${formatter(undefined, size)}\:vf-vertical {\n` +
+      `  .vf-align-label .${formatter(undefined, size)}\\:vf-vertical,\n` +
+      `  :not(.vf-align-label) .${formatter(undefined, size)}\\:vf-vertical {\n` +
       `    padding-top: 0;\n` +
       `  }\n\n` +
-      `  .vf-align-label .${formatter(undefined, size)}\:vf-horizontal {\n` +
+      `  .vf-align-label .${formatter(undefined, size)}\\:vf-horizontal {\n` +
       `    padding-top: var(--vf-label-offset);\n` +
       `  }\n` +
       `}`

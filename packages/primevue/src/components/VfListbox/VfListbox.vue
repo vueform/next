@@ -12,14 +12,16 @@
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeListbox from 'primevue/listbox'
+
+import { blueprint, defaults } from '#src/blueprints/listbox'
 import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features'
+} from '#src/features'
+import { vdomPrime } from '#src/helpers'
+
 import type { VfListboxEmits, VfListboxProps, VfListboxSlots } from './types'
-import { blueprint, defaults } from '#primevue/blueprints/listbox'
-import { vdomPrime } from '#primevue/helpers'
 
 const Listbox = vdomPrime(PrimeListbox)
 

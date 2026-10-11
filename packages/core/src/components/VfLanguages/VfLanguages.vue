@@ -1,12 +1,13 @@
 <script setup lang="ts">
+import { defaults, blueprint } from '#src/blueprints/languages'
+import { useBlueprint } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+
 import type {
   VfLanguagesEmits,
   VfLanguagesProps,
   VfLanguagesSlots,
 } from './types'
-import { defaults, blueprint } from '#core/blueprints/languages'
-import { useBlueprint } from '#core/composables'
-import { defineEvents } from '#core/helpers'
 
 defineOptions({
   name: 'VfLanguages',
@@ -46,6 +47,7 @@ defineExpose(expose)
       <ul :class="classes.list" role="tablist" v-bind="parts.list">
         <li
           v-for="(label, value) in languages"
+          :key="value"
           :class="
             classes.wrapper(
               language === value,

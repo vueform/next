@@ -43,12 +43,12 @@ import {
   type ModelApi,
   aliasProps,
 } from '@vueform/core'
-import { computed } from 'vue'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   InputNumberProps as AInputNumberProps,
   InputNumberEmitsOptions as AInputNumberEmits,
 } from 'primevue/inputnumber'
+import { computed } from 'vue'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -62,7 +62,8 @@ import {
   type InfoProps,
   type IntervalProps,
   type TooltipProps,
-} from '#primevue/features'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Props for the input-number element blueprint.
@@ -268,7 +269,7 @@ export function blueprint<TProps extends InputNumberProps<string>>(
    */
   const mode = computed(() =>
     props.mode === 'currency'
-      ? !!currency.value
+      ? currency.value
         ? props.mode
         : 'decimal'
       : props.mode

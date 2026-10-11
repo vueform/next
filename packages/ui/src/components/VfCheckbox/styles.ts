@@ -1,1 +1,1 @@
-import '#ui/scss/choice.scss'
+import '#src/scss/choice.scss'

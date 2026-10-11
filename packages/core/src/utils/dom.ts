@@ -5,7 +5,11 @@ import { unref, type ComponentPublicInstance, type MaybeRef } from 'vue'
  * nothing.
  */
 export type MaybeElement =
-  HTMLElement | SVGElement | ComponentPublicInstance | null | undefined
+  | HTMLElement
+  | SVGElement
+  | ComponentPublicInstance
+  | null
+  | undefined
 
 /**
  * Returns the root DOM element for a component ref, handling fragment

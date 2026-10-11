@@ -1,5 +1,6 @@
+import { defineSchema } from '@vueform/core'
+
 import { createForm } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('date_equals', () => {
   it('should pass when value equals the date parameter', async () => {

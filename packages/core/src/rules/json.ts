@@ -1,5 +1,5 @@
-import { createRule } from '#core/helpers'
-import { isJson } from '#core/utils'
+import { createRule } from '#src/helpers'
+import { isJson } from '#src/utils'
 
 /**
  * Validates that the value is a valid JSON string.

@@ -1,9 +1,0 @@
-```ts
-/**
- * Factory API produced by the radio blueprint's `blueprint` function,
- * optionally parameterized by concrete props. Prefer this over
- * `ReturnType<typeof blueprint<TProps>>` at consumer sites.
- */
-type RadioApi<TProps extends RadioProps<string> = RadioProps<string>> =
-  ModelApi<ReturnType<typeof blueprint>, TProps>
-```

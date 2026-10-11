@@ -1,4 +1,23 @@
 import { isReactive, isRef, ref, type App } from 'vue'
+
+import {
+  shouldApplyPlugin,
+  useForm,
+  useHttp,
+  type useModel,
+} from '#src/composables'
+import { defaultConfig } from '#src/config'
+import { createVueformContext } from '#src/contexts'
+import type { HttpInstance } from '#src/modules/http'
+import { getLocaleModule, type LocaleModule } from '#src/modules/locale'
+import type {
+  ComponentNames,
+  NormalizedPresetDefinition,
+  PresetDefinition,
+  VueformComponent,
+} from '#src/types'
+import { mergeProp, normalizePreset, warn, isDev } from '#src/utils'
+
 import {
   type UserConfig,
   type VueformConfig,
@@ -6,26 +25,9 @@ import {
   type VueformInstanceModules,
   type VueformModules,
 } from './defineConfig'
-import { extendTheme } from './extendTheme'
-import type { HttpInstance } from '#core/modules/http'
-import type {
-  ComponentNames,
-  NormalizedPresetDefinition,
-  PresetDefinition,
-  VueformComponent,
-} from '#core/types'
 import type { VueformModule } from './defineModule'
 import type { VueformPlugin } from './definePlugin'
-import {
-  shouldApplyPlugin,
-  useForm,
-  useHttp,
-  type useModel,
-} from '#core/composables'
-import { defaultConfig } from '#core/config'
-import { createVueformContext } from '#core/contexts'
-import { getLocaleModule, type LocaleModule } from '#core/modules/locale'
-import { mergeProp, normalizePreset, warn, isDev } from '#core/utils'
+import { extendTheme } from './extendTheme'
 
 // @todo: shouldn't this be moved into helpers?
 

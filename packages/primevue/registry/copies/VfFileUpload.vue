@@ -5,14 +5,15 @@
  */
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
-import PrimeFileUpload from 'primevue/fileupload'
 import {
+  blueprint,
+  defaults,
   type VfFileUploadEmits,
   type VfFileUploadProps,
   type VfFileUploadSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfFileUpload'
+import PrimeFileUpload from 'primevue/fileupload'
+
 import '@vueform/primevue/file-upload.css'
 
 const FileUpload = vdomPrime(PrimeFileUpload)

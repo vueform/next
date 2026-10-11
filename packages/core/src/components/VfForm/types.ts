@@ -1,3 +1,5 @@
+import type { VNode } from 'vue'
+
 import type {
   FormApi,
   FormProps,
@@ -6,11 +8,10 @@ import type {
   FormSlots,
   FormExpose,
   FormClasses,
-} from '#core/blueprints/form'
-import type { NavPosProp } from '#core/blueprints/nav'
-import type { Pager } from '#core/composables'
-import type { TabbedSlots } from '#core/features'
-import type { VNode } from 'vue'
+} from '#src/blueprints/form'
+import type { NavPosProp } from '#src/blueprints/nav'
+import type { Pager } from '#src/composables'
+import type { TabbedSlots } from '#src/features'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,
@@ -24,7 +25,7 @@ import {
   type TProp,
   type ResolvedSchema,
   type EntrySchemaOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * VfForm props narrowed from a registry `TEntry` payload, applying the entry's
@@ -39,8 +40,8 @@ export type EntryProps<TEntry> = VfFormProps<EntrySchemaOf<TEntry>>
  * `set` / `model` / `payload` / `update`). Reach for `VfFormProps` instead when
  * no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfFormProps<TSchema = FormSchema> extends FormProps<
   VfFormSlots<TSchema>,
@@ -70,19 +71,41 @@ export interface VfFormSlots<TSchema = FormSchema>
    * Slot that replaces the entire form content area. Receives the form's
    * context as a single `context` prop, like the `template` slot.
    *
-   * @param props.context The component's context.
+   * @param scope The content slot's params.
    * @context
    */
-  content: (props: { context: VfFormContext<VfFormProps<TSchema>> }) => VNode[]
+  content: (scope: {
+    /**
+     * The component's context.
+     */
+    context: VfFormContext<VfFormProps<TSchema>>
+  }) => VNode[]
 
   /**
    * Slot that replaces the language selector. Receives available languages and
    * select handler.
    */
-  languages: (props: {
+  languages: (scope: {
+    /**
+     * Language codes that currently have validation errors.
+     */
     invalidLanguages: Set<string>
+
+    /**
+     * The available languages.
+     */
     languages: LanguagesProp
+
+    /**
+     * The currently selected language code.
+     */
     language: string
+
+    /**
+     * Handler to select a language.
+     *
+     * @param language The language code to select.
+     */
     select: (language: string) => void
   }) => VNode[]
 
@@ -91,72 +114,150 @@ export interface VfFormSlots<TSchema = FormSchema>
    *
    * @inherits VfLanguages.default
    */
-  language: (props: SlotPropsOf<'VfLanguages', 'default'>) => VNode[]
+  language: (scope: SlotPropsOf<'VfLanguages', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the steps navigation bar. Receives the pager instance.
    */
-  steps: (props: { pager: Pager }) => VNode[]
+  steps: (scope: {
+    /**
+     * The pager instance managing step state.
+     */
+    pager: Pager
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual step indicator.
    *
    * @inherits VfSteps.default
    */
-  step: (props: SlotPropsOf<'VfSteps', 'default'>) => VNode[]
+  step: (scope: SlotPropsOf<'VfSteps', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the tabs navigation bar. Receives the pager instance.
    */
-  tabs: (props: { pager: Pager }) => VNode[]
+  tabs: (scope: {
+    /**
+     * The pager instance managing tab state.
+     */
+    pager: Pager
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual tab.
    *
    * @inherits VfTabs.default
    */
-  tab: (props: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
+  tab: (scope: SlotPropsOf<'VfTabs', 'default'>) => VNode[]
 
   /**
    * Slot that replaces the form-level errors container.
    */
-  errors: (props: { errors: Record<string, string[]>; id: string }) => VNode[]
+  errors: (scope: {
+    /**
+     * The form errors keyed by element path.
+     */
+    errors: Record<string, string[]>
+
+    /**
+     * The errors container's element id.
+     */
+    id: string
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual error message.
    */
-  error: (props: { error: string; path: string }) => VNode[]
+  error: (scope: {
+    /**
+     * The error message text.
+     */
+    error: string
+
+    /**
+     * The element path the error belongs to.
+     */
+    path: string
+  }) => VNode[]
 
   /**
    * Slot that replaces the form-level messages container.
    */
-  messages: (props: { messages?: string[]; id: string }) => VNode[]
+  messages: (scope: {
+    /**
+     * The form-level message texts.
+     */
+    messages?: string[]
+
+    /**
+     * The messages container's element id.
+     */
+    id: string
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual message.
    */
-  message: (props: { message: string }) => VNode[]
+  message: (scope: {
+    /**
+     * The message text.
+     */
+    message: string
+  }) => VNode[]
 
   /**
    * Slot that replaces the form elements area. Receives the resolved schema.
    */
-  elements: (props: { resolvedSchema: ResolvedSchema }) => VNode[]
+  elements: (scope: {
+    /**
+     * The form's resolved schema.
+     */
+    resolvedSchema: ResolvedSchema
+  }) => VNode[]
 
   /**
    * Slot for the default form body content. Receives the resolved schema.
    */
-  default: (props: { resolvedSchema: ResolvedSchema }) => VNode[]
+  default: (scope: {
+    /**
+     * The form's resolved schema.
+     */
+    resolvedSchema: ResolvedSchema
+  }) => VNode[]
 
   /**
    * Slot that replaces the navigation bar. Receives pager, button labels, and
    * visibility.
    */
-  nav: (props: {
+  nav: (scope: {
+    /**
+     * The pager instance managing navigation state.
+     */
     pager: Pager
+
+    /**
+     * The next button's label text.
+     */
     next?: TProp
+
+    /**
+     * The back button's label text.
+     */
     back?: TProp
+
+    /**
+     * The finish button's label text.
+     */
     finish?: TProp
+
+    /**
+     * Whether the back button is hidden.
+     */
     hideBack?: boolean
+
+    /**
+     * The nav position.
+     */
     position?: NavPosProp
   }) => VNode[]
 
@@ -165,42 +266,42 @@ export interface VfFormSlots<TSchema = FormSchema>
    *
    * @inherits VfNav.back
    */
-  back: (props: SlotPropsOf<'VfNav', 'back'>) => VNode[]
+  back: (scope: SlotPropsOf<'VfNav', 'back'>) => VNode[]
 
   /**
    * Slot that replaces the back button's text label.
    *
    * @inherits VfNav.backText
    */
-  backText: (props: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
+  backText: (scope: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
 
   /**
    * Slot that replaces the next button in the navigation bar.
    *
    * @inherits VfNav.next
    */
-  next: (props: SlotPropsOf<'VfNav', 'next'>) => VNode[]
+  next: (scope: SlotPropsOf<'VfNav', 'next'>) => VNode[]
 
   /**
    * Slot that replaces the next button's text label.
    *
    * @inherits VfNav.nextText
    */
-  nextText: (props: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
+  nextText: (scope: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
 
   /**
    * Slot that replaces the finish button in the navigation bar.
    *
    * @inherits VfNav.finish
    */
-  finish: (props: SlotPropsOf<'VfNav', 'finish'>) => VNode[]
+  finish: (scope: SlotPropsOf<'VfNav', 'finish'>) => VNode[]
 
   /**
    * Slot that replaces the finish button's text label.
    *
    * @inherits VfNav.finishText
    */
-  finishText: (props: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
+  finishText: (scope: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
 }
 
 /**

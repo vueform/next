@@ -1,6 +1,6 @@
-import type { FormContext } from '#core/types'
-import { useComponentContext } from '#core/contexts'
-import { createContext } from '#core/helpers'
+import { useComponentContext } from '#src/contexts'
+import { createContext } from '#src/helpers'
+import type { FormContext } from '#src/types'
 
 const [_useFormContext, provideFormContext] =
   createContext<FormContext>('vueform-form')

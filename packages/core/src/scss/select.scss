@@ -12,19 +12,23 @@
   cursor: pointer;
 
   &:not([multiple]) {
-    padding: var(--vf-input-pt) calc(var(--vf-input-pr) * 2 + var(--vf-select-icon-width)) var(--vf-input-pb) var(--vf-input-pl);
+    padding: var(--vf-input-pt)
+      calc(var(--vf-input-pr) * 2 + var(--vf-select-icon-width))
+      var(--vf-input-pb) var(--vf-input-pl);
     background-image: var(--vf-select-icon-caret);
     background-repeat: no-repeat;
     background-position: right var(--vf-input-pr) center;
     background-size: var(--vf-select-icon-width) var(--vf-select-icon-height);
 
     &:has(+ .vf-icon) {
-      background-position: right calc(var(--vf-input-pr) + var(--vf-icon-group-width)) center;
+      background-position: right
+        calc(var(--vf-input-pr) + var(--vf-icon-group-width)) center;
     }
   }
 
   &[multiple] {
-    padding: var(--vf-input-pt) var(--vf-input-pr) var(--vf-input-pb) var(--vf-input-pl);
+    padding: var(--vf-input-pt) var(--vf-input-pr) var(--vf-input-pb)
+      var(--vf-input-pl);
   }
 
   /** Placeholder color when no option is selected. */

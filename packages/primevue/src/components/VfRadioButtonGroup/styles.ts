@@ -1,1 +1,1 @@
-import '#primevue/scss/choices.scss'
+import '#src/scss/choices.scss'

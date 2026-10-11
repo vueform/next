@@ -1,10 +1,5 @@
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type ElementsApi,
   type ElementsProps,
@@ -13,13 +8,19 @@ import {
   type ElementsSlots,
   type ElementsExpose,
   type ElementsClasses,
-} from '#core/blueprints/elements'
+} from '#src/blueprints/elements'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  DefineRegistryEntry,
+} from '#src/types'
 
 /**
  * Props for the VfElements component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfElementsProps extends ElementsProps<
   VfElementsSlots,

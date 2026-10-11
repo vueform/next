@@ -92,7 +92,8 @@ label.vf-label {
   font-size: var(--vf-help-font-size);
   color: var(--vf-help-color);
   background: var(--vf-help-bg);
-  border: var(--vf-help-border-width) var(--vf-help-border-style) var(--vf-help-border-color);
+  border: var(--vf-help-border-width) var(--vf-help-border-style)
+    var(--vf-help-border-color);
   border-radius: var(--vf-help-radius);
 }
 
@@ -105,7 +106,8 @@ label.vf-label {
   font-size: var(--vf-description-font-size);
   color: var(--vf-description-color);
   background: var(--vf-description-bg);
-  border: var(--vf-description-border-width) var(--vf-description-border-style) var(--vf-description-border-color);
+  border: var(--vf-description-border-width) var(--vf-description-border-style)
+    var(--vf-description-border-color);
   border-radius: var(--vf-description-radius);
 }
 
@@ -118,7 +120,8 @@ label.vf-label {
   font-size: var(--vf-errors-font-size);
   color: var(--vf-errors-color);
   background: var(--vf-errors-bg);
-  border: var(--vf-errors-border-width) var(--vf-errors-border-style) var(--vf-errors-border-color);
+  border: var(--vf-errors-border-width) var(--vf-errors-border-style)
+    var(--vf-errors-border-color);
   border-radius: var(--vf-errors-radius);
 }
 
@@ -131,7 +134,8 @@ label.vf-label {
   font-size: var(--vf-messages-font-size);
   color: var(--vf-messages-color);
   background: var(--vf-messages-bg);
-  border: var(--vf-messages-border-width) var(--vf-messages-border-style) var(--vf-messages-border-color);
+  border: var(--vf-messages-border-width) var(--vf-messages-border-style)
+    var(--vf-messages-border-color);
   border-radius: var(--vf-messages-radius);
 }
 

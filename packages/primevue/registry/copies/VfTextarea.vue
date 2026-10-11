@@ -17,14 +17,14 @@ import {
   type LanguagesProp,
   vdomPrime,
 } from '@vueform/primevue'
-import PrimeTextarea from 'primevue/textarea'
 import {
+  blueprint,
+  defaults,
   type VfTextareaEmits,
   type VfTextareaProps,
   type VfTextareaSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfTextarea'
+import PrimeTextarea from 'primevue/textarea'
 import type { WritableComputedRef } from 'vue'
 
 // Non-colliding tag: Vapor treats `<Textarea>` as native `<textarea>`.

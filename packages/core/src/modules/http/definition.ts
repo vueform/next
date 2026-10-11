@@ -1,5 +1,6 @@
+import { defineModule } from '#src/helpers'
+
 import { createHttp } from './createHttp'
-import { defineModule } from '#core/helpers'
 
 /**
  * The http module. Register via `createVueform({ modules: { http } })`.

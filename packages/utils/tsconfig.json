@@ -1,16 +1,8 @@
 {
-  "extends": "../../tsconfig.node.json",
+  "extends": "@vueform/tsconfig",
   "compilerOptions": {
-    "composite": false,
     "incremental": true,
-    "tsBuildInfoFile": "dist/.tsbuildinfo",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "verbatimModuleSyntax": false,
-    "declaration": true,
-    "emitDeclarationOnly": false,
-    "rootDir": "src",
-    "outDir": "dist"
+    "tsBuildInfoFile": "./node_modules/.tmp/typecheck.tsbuildinfo"
   },
-  "include": ["src"]
+  "include": ["src", "type-test", "*.config.ts"]
 }

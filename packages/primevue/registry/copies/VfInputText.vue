@@ -17,14 +17,14 @@ import {
   type LanguagesProp,
   vdomPrime,
 } from '@vueform/primevue'
-import PrimeInputText from 'primevue/inputtext'
 import {
+  blueprint,
+  defaults,
   type VfInputTextEmits,
   type VfInputTextProps,
   type VfInputTextSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfInputText'
+import PrimeInputText from 'primevue/inputtext'
 import type { WritableComputedRef } from 'vue'
 
 const InputText = vdomPrime(PrimeInputText)

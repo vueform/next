@@ -1,5 +1,5 @@
-import { createRule } from '#core/helpers'
-import { isFile } from '#core/utils'
+import { createRule } from '#src/helpers'
+import { isFile } from '#src/utils'
 
 function readImage(file: Blob): Promise<string> {
   return new Promise((resolve, reject) => {

@@ -3,11 +3,12 @@
  * `format`, `fix`).
  *
  * Script-based queues (`build`/`check`/`test`) delegate to each package's own
- * script. Tool-based queues (`lint`/`format`) invoke eslint/stylelint/prettier
+ * script. Tool-based queues (`lint`/`format`) invoke oxlint/stylelint/oxfmt
  * from the repo root with path scoping, so the root configs and ignore files
  * apply uniformly; their `root` target covers everything outside `packages/`.
  */
 import { relative } from 'node:path'
+
 import {
   discoverPackages,
   discoverPackageTasks,
@@ -61,19 +62,16 @@ const toolTask = (target: ToolTarget, steps: Step[]): Task => ({
   also: steps.slice(1),
 })
 
-function eslintStep(target: ToolTarget, fix: boolean): Step {
-  const fixArgs = fix ? ['--fix'] : []
-  return target.path
-    ? exec('eslint', target.path, ...fixArgs)
-    : exec(
-        'eslint',
-        '.',
-        '--ignore-pattern',
-        'packages/**',
-        '--ignore-pattern',
-        '.playgrounds/**',
-        ...fixArgs
-      )
+/**
+ * Oxlint (via `vp lint` — the config is the `lint` block of the root
+ * vite.config.ts, which plain `oxlint` does not read) is the only linter:
+ * correctness bulk, import plugin, restricted-imports and unused-vars.
+ * `--fix-suggestions` is required for the unused-import removal fixer
+ * (suggestion-level in oxlint).
+ */
+function oxlintStep(target: ToolTarget, fix: boolean): Step {
+  const fixArgs = fix ? ['--fix', '--fix-suggestions'] : []
+  return exec('vp', 'lint', target.path ?? '.', ...fixArgs)
 }
 
 function stylelintStep(target: ToolTarget, fix: boolean): Step {
@@ -87,20 +85,24 @@ function stylelintStep(target: ToolTarget, fix: boolean): Step {
   )
 }
 
-function prettierStep(target: ToolTarget, write: boolean): Step {
-  const mode = write ? '--write' : '--check'
-  return target.path
-    ? exec('prettier', target.path, mode)
-    : exec('prettier', '.', '!packages', '!.playgrounds', mode)
+/**
+ * Oxfmt (via `vp fmt` — the config is the `fmt` block of the root
+ * vite.config.ts, which plain `oxfmt` does not read) owns all formatting:
+ * TS/JS/JSON/SCSS/YAML natively, .vue via its bundled prettier, import
+ * ordering via sortImports.
+ */
+function oxfmtStep(target: ToolTarget, write: boolean): Step {
+  const mode = write ? [] : ['--check']
+  return exec('vp', 'fmt', ...mode, target.path ?? '.')
 }
 
 export const lintTasks = (fix: boolean): Task[] =>
   toolTargets().map((target) =>
-    toolTask(target, [eslintStep(target, fix), stylelintStep(target, fix)])
+    toolTask(target, [oxlintStep(target, fix), stylelintStep(target, fix)])
   )
 
 export const formatTasks = (write: boolean): Task[] =>
-  toolTargets().map((target) => toolTask(target, [prettierStep(target, write)]))
+  toolTargets().map((target) => toolTask(target, [oxfmtStep(target, write)]))
 
 /**
  * `fix` = lint autofixes plus formatting, per target.
@@ -108,9 +110,9 @@ export const formatTasks = (write: boolean): Task[] =>
 export const fixTasks = (): Task[] =>
   toolTargets().map((target) =>
     toolTask(target, [
-      eslintStep(target, true),
+      oxlintStep(target, true),
       stylelintStep(target, true),
-      prettierStep(target, true),
+      oxfmtStep(target, true),
     ])
   )
 
@@ -135,49 +137,6 @@ export const checkTasks = (): Task[] => [
     args: ['exec', 'tsc', '--noEmit', '-p', 'tsconfig.node.json'],
   },
 ]
-
-export const testBenchTasks = (): Task[] => discoverPackageTasks('test:bench')
-
-/**
- * `passthrough` flags (e.g. `--save` / `--compare`) are forwarded to every
- * package's `test:bench-dts` script.
- */
-export const testBenchDtsTasks = (passthrough: string[] = []): Task[] =>
-  discoverPackageTasks('test:bench-dts').map((task) => ({
-    ...task,
-    args: [...task.args, ...passthrough],
-  }))
-
-export const testDtsTasks = (): Task[] => discoverPackageTasks('test:dts')
-
-/**
- * `passthrough` flags (cell filters like `--vite`/`--ssr`, `--tiers=…`,
- * `--skip-pack`) are forwarded to every adapter's `test:smoke` script.
- */
-export const testSmokeTasks = (passthrough: string[] = []): Task[] =>
-  discoverPackageTasks('test:smoke').map((task) => ({
-    ...task,
-    args: [...task.args, ...passthrough],
-  }))
-
-/**
- * `passthrough` flags (e.g. `--update-snapshots` / `--grep=…`) are forwarded to
- * every package's `test:visual` script.
- */
-export const testVisualTasks = (passthrough: string[] = []): Task[] =>
-  discoverPackageTasks('test:visual').map((task) => ({
-    ...task,
-    args: [...task.args, ...passthrough],
-  }))
-
-export const testTasks = (): Task[] =>
-  // Vitest's default reporter omits the per-test captured console blocks in
-  // non-TTY runs; the verbose reporter prints them, which is what the warn
-  // report parses. (Assumes every `test` script is vitest.)
-  discoverPackageTasks('test').map((task) => ({
-    ...task,
-    args: [...task.args, '--reporter=verbose'],
-  }))
 
 /**
  * Collapses a stage's tasks into a single task (one progress bar), running

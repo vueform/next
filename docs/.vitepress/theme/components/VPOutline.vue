@@ -10,6 +10,7 @@ import {
   defineComponent,
   h,
 } from 'vue'
+
 import { useActiveTab } from '../composables/useActiveTab'
 
 const { activeTabSlug, tabs } = useActiveTab()

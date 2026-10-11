@@ -22,15 +22,17 @@ import PrimeTabPanel from 'primevue/tabpanel'
 import PrimeTabPanels from 'primevue/tabpanels'
 import PrimeTabs from 'primevue/tabs'
 import { computed } from 'vue'
+
+import { blueprint, defaults } from '#src/blueprints/layout'
+import { vTooltip } from '#src/directives'
+import { vdomPrime } from '#src/helpers'
+
 import type {
   VfLayoutEmits,
   VfLayoutParts,
   VfLayoutProps,
   VfLayoutSlots,
 } from './types'
-import { blueprint, defaults } from '#primevue/blueprints/layout'
-import { vTooltip } from '#primevue/directives'
-import { vdomPrime } from '#primevue/helpers'
 
 const FloatLabel = vdomPrime(PrimeFloatLabel)
 const IconField = vdomPrime(PrimeIconField)
@@ -211,6 +213,11 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <template v-else-if="isContainer || el$.viewLoaded">
       <!-- Inline mode -->
+      <!-- TODO(bug): v-show on <template> is a no-op — el$.visible is never
+        applied in the layout-less path. Pre-existing; fixing it changes
+        runtime behavior (elements would start hiding), so it needs a
+        deliberate decision + visual run. -->
+      <!-- eslint-disable-next-line vue/valid-v-show, vue/no-useless-template-attributes -->
       <template v-if="el$.props.layout === false" v-show="el$.visible">
         <component :is="rootProps ? 'div' : VfPassthrough" v-bind="rootProps">
           <component

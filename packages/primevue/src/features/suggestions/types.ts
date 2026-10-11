@@ -1,4 +1,3 @@
-import type { OptionKeyProp, OptionsProp } from '#primevue/features/options'
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
@@ -6,6 +5,8 @@ import type {
   EntryPropOf,
 } from '@vueform/core'
 import type { MaybeRef } from 'vue'
+
+import type { OptionKeyProp, OptionsProp } from '#src/features/options'
 
 /**
  * Allowed types for the `suggestions` prop. PrimeVue AutoComplete counterpart
@@ -87,6 +88,8 @@ export interface SuggestionsProps<
    * Transforms data received from an endpoint into the suggestions format. When
    * `suggestions` is a string (endpoint URL), the HTTP response data is passed
    * through this function before normalization.
+   *
+   * @param data The received from the endpoint.
    */
   transformOptions?: (data: any) => any[] | Record<string, any>
 }

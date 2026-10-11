@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfHidden, { type VfHiddenEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfHidden: typeof VfHidden
   }
+}
+
+declare module './types' {
+  interface VfHiddenProps
+    extends
+      PartProps<VfHiddenParts, VfHiddenContext>,
+      ClassProps<VfHiddenClasses, VfHiddenContext>,
+      ReclassProps<VfHiddenClasses, VfHiddenContext> {}
 }

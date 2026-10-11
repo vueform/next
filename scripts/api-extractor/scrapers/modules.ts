@@ -1,7 +1,15 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+
 import * as ts from 'typescript'
+
 import { corePackage, nonCoreAdapters } from '../lib/adapters'
+import {
+  createProgram,
+  getJSDocParamDescriptions,
+  getSymbolDescription,
+  loc,
+} from '../lib/extract'
 import { generatedDir, monorepoRoot } from '../lib/paths'
 import { parseScope } from '../lib/scope'
 
@@ -17,11 +25,13 @@ const CORE_DIR = path.join(ROOT, corePackage)
 interface ParamInfo {
   type: string
   description: string
+  loc?: string
 }
 
 interface MemberInfo {
   type: string
   description: string
+  loc?: string
   private?: true
   params?: Record<string, ParamInfo>
   returns?: { type: string }
@@ -29,12 +39,14 @@ interface MemberInfo {
 
 interface CallInfo {
   description: string
+  loc?: string
   params?: Record<string, ParamInfo>
   returns?: { type: string }
 }
 
 interface ModuleEntry {
   description: string
+  loc?: string
   interface: string
   api: Record<string, MemberInfo>
   call?: CallInfo
@@ -42,70 +54,10 @@ interface ModuleEntry {
 
 // ============= TS PROGRAM =============
 
-function createProgram(pkgDir: string) {
-  const configPath = path.join(pkgDir, 'tsconfig.json')
-  const raw = ts.readConfigFile(configPath, ts.sys.readFile)
-
-  if (raw.error) {
-    throw new Error(
-      `Failed to read ${configPath}: ${ts.flattenDiagnosticMessageText(raw.error.messageText, '\n')}`
-    )
-  }
-
-  const parsed = ts.parseJsonConfigFileContent(
-    raw.config,
-    ts.sys,
-    path.dirname(configPath),
-    undefined,
-    configPath
-  )
-  const program = ts.createProgram(parsed.fileNames, parsed.options)
-
-  return { program, checker: program.getTypeChecker() }
-}
-
 // ============ JSDOC HELPERS ===========
 
 function singleLine(s: string): string {
   return s.replace(/\s*\n\s*/g, ' ').trim()
-}
-
-function getSymbolDescription(
-  symbol: ts.Symbol,
-  checker: ts.TypeChecker
-): string {
-  return singleLine(
-    symbol
-      .getDocumentationComment(checker)
-      .map((p) => p.text)
-      .join('')
-  )
-}
-
-function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
-  const result = new Map<string, string>()
-
-  for (const entry of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(entry) || !entry.tags) continue
-
-    for (const tag of entry.tags) {
-      if (
-        !ts.isJSDocParameterTag(tag) ||
-        !tag.name ||
-        !ts.isIdentifier(tag.name)
-      )
-        continue
-
-      const comment =
-        typeof tag.comment === 'string'
-          ? tag.comment
-          : (tag.comment?.map((c) => c.text || '').join('') ?? '')
-
-      result.set(tag.name.text, singleLine(comment))
-    }
-  }
-
-  return result
 }
 
 function getNodeJSDocDescription(node: ts.Node): string {
@@ -180,13 +132,19 @@ function getFunctionParams(
   if (!sigs.length) return undefined
 
   const jsdoc = getJSDocParamDescriptions(decl)
+  // The member's decl can be a doc-less alias (an interface property typed
+  // `typeof fn`) — the function's own declaration carries the docblock then.
+  const sigDecl = sigs[0].getDeclaration() as ts.Declaration | undefined
+  const sigDocs = sigDecl ? getJSDocParamDescriptions(sigDecl) : undefined
   const params: Record<string, ParamInfo> = {}
 
   for (const param of sigs[0].getParameters()) {
     const paramType = checker.getTypeOfSymbolAtLocation(param, decl)
+    const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
-      description: jsdoc.get(param.name) ?? '',
+      description: jsdoc.get(param.name) || sigDocs?.get(param.name) || '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
 
@@ -233,9 +191,11 @@ function extractModuleInterface(
 
     for (const param of sig.getParameters()) {
       const paramType = checker.getTypeOfSymbolAtLocation(param, sigDecl)
+      const paramDecl = param.getDeclarations()?.[0]
       params[param.name] = {
         type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
         description: jsdoc.get(param.name) ?? '',
+        ...(paramDecl ? { loc: loc(paramDecl) } : {}),
       }
     }
 
@@ -245,7 +205,7 @@ function extractModuleInterface(
         returnType.getDefault() ?? returnType.getConstraint() ?? returnType
     }
 
-    call = { description }
+    call = { description, loc: loc(sigDecl) }
     if (Object.keys(params).length) call.params = params
     const retStr = checker.typeToString(
       returnType,
@@ -257,20 +217,32 @@ function extractModuleInterface(
 
   // Extract property members
   for (const propSym of type.getProperties()) {
-    const decl = propSym.getDeclarations()?.[0]
+    let symbol = propSym
+    let decl = propSym.getDeclarations()?.[0]
     if (!decl) continue
 
-    const { typeText, isFunction } = getPropertyTypeInfo(propSym, decl, checker)
-    const description = getSymbolDescription(propSym, checker)
+    // A member backed by a shorthand in the factory's return object carries
+    // no docs of its own — resolve to the local value it forwards.
+    if (ts.isShorthandPropertyAssignment(decl)) {
+      const valueSym = checker.getShorthandAssignmentValueSymbol(decl)
+      const valueDecl = valueSym?.getDeclarations()?.[0]
+      if (valueSym && valueDecl) {
+        symbol = valueSym
+        decl = valueDecl
+      }
+    }
 
-    const member: MemberInfo = { type: typeText, description }
+    const { typeText, isFunction } = getPropertyTypeInfo(symbol, decl, checker)
+    const description = getSymbolDescription(symbol, checker)
+
+    const member: MemberInfo = { type: typeText, description, loc: loc(decl) }
 
     if (hasJSDocTag(decl, 'private')) {
       member.private = true
     }
 
     if (isFunction) {
-      const resolved = checker.getTypeOfSymbolAtLocation(propSym, decl)
+      const resolved = checker.getTypeOfSymbolAtLocation(symbol, decl)
       const params = getFunctionParams(resolved, decl, checker)
       if (params) member.params = params
       const ret = getFunctionReturnType(resolved, checker)
@@ -354,6 +326,7 @@ function extractModules(
     const moduleName = dirName
     const entry: ModuleEntry = {
       description,
+      loc: loc(decl),
       interface: interfaceName,
       api: members,
     }

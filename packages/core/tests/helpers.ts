@@ -1,7 +1,4 @@
 import { mount, DOMWrapper, flushPromises } from '@vue/test-utils'
-import { defineComponent, nextTick, onMounted, ref, type Component } from 'vue'
-import VfTest from './integration/fixtures/VfTest.vue'
-import './integration/fixtures/base'
 import {
   createVueform,
   fetchHttpAdapter,
@@ -10,12 +7,17 @@ import {
   upperFirst,
   type UserConfig,
   type VueformInstance,
-} from '#core'
-import * as components from '#core/components'
-import { en_US } from '#core/locales'
-import * as modules from '#core/modules'
-import * as rules from '#core/rules'
-import exprEval from '#expr-eval'
+} from '@vueform/core'
+import * as components from '@vueform/core/components'
+
+import './integration/fixtures/base'
+import { en_US } from '@vueform/core/locales'
+import * as modules from '@vueform/core/modules'
+import * as rules from '@vueform/core/rules'
+import exprEval from '@vueform/expr-eval'
+import { defineComponent, nextTick, onMounted, ref, type Component } from 'vue'
+
+import VfTest from './integration/fixtures/VfTest.vue'
 
 export { flushPromises, mount }
 

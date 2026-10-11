@@ -1,11 +1,14 @@
+import type { HttpRequestConfig, HttpInstance } from '#src/modules/http'
+
 import { useHttp } from './useHttp'
-import type { HttpRequestConfig, HttpInstance } from '#core/modules/http'
 
 /**
  * A string URL, request config, or function that `useEndpoint` can resolve.
  */
 type EndpointDefinition =
-  string | HttpRequestConfig | ((http: HttpInstance, ...args: any[]) => any)
+  | string
+  | HttpRequestConfig
+  | ((http: HttpInstance, ...args: any[]) => any)
 
 /**
  * Resolves an endpoint definition into an HTTP response, handling string URLs,

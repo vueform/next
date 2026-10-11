@@ -6,13 +6,15 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
+
+import { useComponentContext } from '#src/contexts'
+import type { DProp } from '#src/types'
+import { containsHtml, normalize, resolveIcon, toKebabCase } from '#src/utils'
+
+import { useConfig } from '.'
 import { useExpression } from './useExpression'
 import { useLocale } from './useLocale'
 import { useSecurity } from './useSecurity'
-import { useConfig } from '.'
-import type { DProp } from '#core/types'
-import { useComponentContext } from '#core/contexts'
-import { containsHtml, normalize, resolveIcon, toKebabCase } from '#core/utils'
 
 /**
  * Extracts the underlying value type from a `DProp` by unwrapping its `Ref`
@@ -407,6 +409,12 @@ export function useDynamicProp<
   options?: UseDynamicPropOptions<V, UnwrapDynamicProp<P[K]>>
 ): ComputedRef<ResolvedValue<V, P[K]> | undefined>
 
+/**
+ * @param nameOrKey The prop name in the props object, or the expression
+ *   allow-list key when resolving a single ref.
+ * @param propsOrProp The component props object, or the dynamic prop value
+ *   ref to resolve.
+ */
 export function useDynamicProp(
   nameOrKey: string,
   propsOrProp: Record<string, any> | Ref<any>,

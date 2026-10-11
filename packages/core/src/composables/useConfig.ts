@@ -1,4 +1,4 @@
-import { useVueformContext } from '#core/contexts'
+import { useVueformContext } from '#src/contexts'
 
 /**
  * Returns the resolved Vueform configuration of the calling component's app.

@@ -115,7 +115,7 @@ Configure the component's behavior and appearance with these props.
 | [`next`](!code#props.next "TProp<string, TContext>") | — | The label text for the "next" navigation button. |
 | [`finish`](!code#props.finish "TProp<string, TContext>") | — | The label text for the "finish" navigation button. |
 | [`hideBack`](!code#props.hideBack "boolean") | `true` | Whether to hide the "back" navigation button. |
-| [`position`](!code#props.position "NavPosProp") | `'auto'` |  |
+| [`position`](!code#props.position "NavPosProp") | `'auto'` | The alignment of the navigation buttons: `'left'`, `'center'`, `'right'`, `'fluid'` (stretched to full width), or `'auto'`. |
 
 ### Customization {#props-customization}
 
@@ -157,7 +157,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`finishLabel`](!code#context.finishLabel "UnwrapDynamicProp<string \| NonNullable<TProps[\"finish\"]>> \| undefined") | The resolved label text for the "finish" button. |
 | [`describedby`](!code#context.describedby "string \| undefined") | The `aria-describedby` value linking to the status element when on the last enabled page with errors or loading. |
 | [`statusId`](!code#context.statusId "string") | The HTML `id` for the navigation status message element. |
-| [`fluid`](!code#context.fluid "boolean") |  |
+| [`fluid`](!code#context.fluid "boolean") | Whether the navigation buttons are stretched to the full available width (`position: 'fluid'`). |
 | [`backAriaBindings`](!code#context.backAriaBindings "NavBackAriaBindings") | Ready-to-spread ARIA attribute bindings for the back control — applied to the built-in button and passed to the `back` slot as `a11yBindings`. |
 | [`forwardAriaBindings`](!code#context.forwardAriaBindings "NavForwardAriaBindings") | Ready-to-spread ARIA attribute bindings for the next/finish controls — applied to the built-in buttons and passed to the `next` / `finish` slots as `a11yBindings`. |
 

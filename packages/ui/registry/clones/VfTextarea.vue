@@ -13,9 +13,9 @@
  */
 
 import {
-  type LanguagesProp,
   useBlueprint,
   defineEvents,
+  type LanguagesProp,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,
@@ -29,7 +29,6 @@ import {
   type TranslateSlots,
   type WidenProps,
 } from '@vueform/ui'
-import type { WritableComputedRef } from 'vue'
 import {
   defaults,
   blueprint,
@@ -41,6 +40,8 @@ import {
   type TextareaProps,
   type TextareaSlots,
 } from '@vueform/ui/blueprints/textarea'
+import type { WritableComputedRef } from 'vue'
+
 import '@vueform/ui/textarea.css'
 import '@vueform/ui/input.css'
 
@@ -140,8 +141,8 @@ export interface VfCloneNameClasses
 }
 
 /**
- * Custom exposed API members. Add props you return from useBlueprint's 5th
- * 'extend' callback.
+ * Custom exposed API members. Add props you return from useBlueprint's
+ * 5th 'extend' callback.
  *
  * @example
  *   plain: string
@@ -153,9 +154,9 @@ export interface VfCloneNameClasses
 export interface VfCloneNameExpose extends TextareaExpose {}
 
 /**
- * The element's context — the object slots, outlets, and event handlers receive
- * (`context$`). Its shape is derived from the blueprint and the interfaces
- * above — customize those; don't extend or edit this one.
+ * The element's context — the object slots, outlets, and event handlers
+ * receive (`context$`). Its shape is derived from the blueprint and the
+ * interfaces above — customize those; don't extend or edit this one.
  */
 export interface VfCloneNameContext<
   TProps extends WidenProps<VfCloneNameProps, TextareaProps<string>> =
@@ -190,9 +191,9 @@ const events = defineEvents<VfCloneNameEmits>()
 const slots = defineSlots<VfCloneNameSlots<TTranslate, TLanguages>>()
 
 /**
- * Extend the element's API by passing a 5th 'extend' callback to useBlueprint —
- * whatever it returns merges into the api / expose (declare the members on
- * VfCloneNameExpose above).
+ * Extend the element's API by passing a 5th 'extend' callback to
+ * useBlueprint — whatever it returns merges into the api / expose
+ * (declare the members on VfCloneNameExpose above).
  *
  * @example
  *   useBlueprint(blueprint, props, events, slots, () => ({
@@ -207,8 +208,8 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
 /**
- * The element's own classes, per part — reactive via the callback's api refs.
- * The class keys come from VfCloneNameClasses above.
+ * The element's own classes, per part — reactive via the callback's api
+ * refs. The class keys come from VfCloneNameClasses above.
  *
  * @see https://ui.vueform.com/guide/classes
  */

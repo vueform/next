@@ -1,14 +1,5 @@
 import { computed, ref, toRef, type Component } from 'vue'
-import type {
-  GridSchema,
-  AlignProp,
-  ValignProp,
-  LooseRequired,
-  GridCellAttrs,
-  GridCellContent,
-  GridCellSchema,
-  NamedElementSchema,
-} from '#core/types'
+
 import {
   useConfig,
   useContainerProvider,
@@ -16,8 +7,8 @@ import {
   useRootDom,
   useSecurity,
   useComponentFactory,
-} from '#core/composables'
-import { createGridContext } from '#core/contexts'
+} from '#src/composables'
+import { createGridContext } from '#src/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -38,9 +29,19 @@ import {
   type ModelEmits,
   type ObjectModel,
   type ValidationEmits,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import { walkCells } from '#core/utils'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type {
+  GridSchema,
+  AlignProp,
+  ValignProp,
+  LooseRequired,
+  GridCellAttrs,
+  GridCellContent,
+  GridCellSchema,
+  NamedElementSchema,
+} from '#src/types'
+import { walkCells } from '#src/utils'
 
 /**
  * A resolved column tuple: [cell, colspan, rowspan, alignment].

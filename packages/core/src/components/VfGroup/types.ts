@@ -1,4 +1,15 @@
-import type { ObjectModel } from '#core/features'
+import type { VNode } from 'vue'
+
+import {
+  type GroupApi,
+  type GroupClasses,
+  type GroupEmits,
+  type GroupExpose,
+  type GroupParts,
+  type GroupProps,
+  type GroupSlots,
+} from '#src/blueprints/group'
+import type { ObjectModel } from '#src/features'
 import type {
   ClassValue,
   DefineElementContext,
@@ -10,17 +21,7 @@ import type {
   WidenProps,
   ResolvedSchema,
   EntrySchemaOf,
-} from '#core/types'
-import type { VNode } from 'vue'
-import {
-  type GroupApi,
-  type GroupClasses,
-  type GroupEmits,
-  type GroupExpose,
-  type GroupParts,
-  type GroupProps,
-  type GroupSlots,
-} from '#core/blueprints/group'
+} from '#src/types'
 
 /**
  * Groups carry a model shaped by their child schema regardless of `nested`:
@@ -47,8 +48,8 @@ export type EntryProps<TEntry> = Omit<VfGroupProps, 'modelValue'> & {
 /**
  * Props for the VfGroup component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfGroupProps extends GroupProps<
   'group',
@@ -71,9 +72,20 @@ export interface VfGroupSlots extends GroupSlots<VfGroupContext> {
    * Slot that replaces the wrapper element. Receives the wrapper class and
    * resolved schema.
    */
-  wrapper: (props: {
+  wrapper: (scope: {
+    /**
+     * CSS classes for the wrapper element.
+     */
     class: ClassValue
+
+    /**
+     * The resolved schema of the group's child elements.
+     */
     resolvedSchema: ResolvedSchema
+
+    /**
+     * The group's resolved label.
+     */
     label?: string
   }) => VNode[]
 
@@ -81,7 +93,12 @@ export interface VfGroupSlots extends GroupSlots<VfGroupContext> {
    * Slot that replaces the default content. Receives the resolved schema for
    * rendering children.
    */
-  default: (props: { resolvedSchema: ResolvedSchema }) => VNode[]
+  default: (scope: {
+    /**
+     * The resolved schema of the group's child elements.
+     */
+    resolvedSchema: ResolvedSchema
+  }) => VNode[]
 }
 
 /**

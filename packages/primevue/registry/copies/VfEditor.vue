@@ -17,15 +17,16 @@ import {
   type LanguagesProp,
   vdomPrime,
 } from '@vueform/primevue'
-import PrimeEditor from 'primevue/editor'
 import {
+  blueprint,
+  defaults,
   type VfEditorEmits,
   type VfEditorProps,
   type VfEditorSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfEditor'
+import PrimeEditor from 'primevue/editor'
 import type { WritableComputedRef } from 'vue'
+
 import '@vueform/primevue/editor.css'
 import '@vueform/primevue/utils.css'
 

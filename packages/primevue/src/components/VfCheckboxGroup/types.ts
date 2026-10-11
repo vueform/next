@@ -1,4 +1,15 @@
 import type {
+  WidenProps,
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+  DomAttrsOf,
+  PartOf,
+  ResolvedGroup,
+} from '@vueform/core'
+import type { VNode } from 'vue'
+
+import type {
   CheckboxGroupApi,
   CheckboxGroupClasses,
   CheckboxGroupEmits,
@@ -6,8 +17,8 @@ import type {
   CheckboxGroupParts,
   CheckboxGroupProps,
   CheckboxGroupSlots,
-} from '#primevue/blueprints/checkbox-group'
-import type { VfCheckboxSlots } from '#primevue/components/VfCheckbox/types'
+} from '#src/blueprints/checkbox-group'
+import type { VfCheckboxSlots } from '#src/components/VfCheckbox/types'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
@@ -19,17 +30,7 @@ import type {
   OptionValueProp,
   OptionValueOf,
   RawOptionOf,
-} from '#primevue/features/options'
-import type {
-  WidenProps,
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-  DomAttrsOf,
-  PartOf,
-  ResolvedGroup,
-} from '@vueform/core'
-import type { VNode } from 'vue'
+} from '#src/features/options'
 
 /**
  * VfCheckboxGroup props narrowed from a registry `TEntry` payload, applying the
@@ -49,8 +50,8 @@ export type EntryProps<TEntry> = VfCheckboxGroupProps<
  * 'id'>`). Reach for `VfCheckboxGroupProps` instead when no narrowing is
  * needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfCheckboxGroupProps<
   TOptions extends OptionsProp = OptionsProp,
@@ -132,17 +133,27 @@ export interface VfCheckboxGroupSlots<
   /**
    * Slot that replaces the default checkboxes rendering.
    *
-   * @param props.checkboxName The shared checkbox name attribute.
-   * @param props.disabled Whether the checkboxes are disabled.
-   * @param props.label The element's resolved label.
-   * @param props.items Resolved flat checkbox items.
-   * @param props.groups Resolved checkbox groups.
-   * @param props.grouped Whether items are rendered as groups.
+   * @param scope The default slot's params.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The shared checkbox name attribute.
+     */
     checkboxName: string
+
+    /**
+     * Whether the checkboxes are disabled.
+     */
     disabled: boolean
+
+    /**
+     * The element's resolved label.
+     */
     label: string | undefined
+
+    /**
+     * Resolved flat checkbox items.
+     */
     items: ResolvedOption<
       OptionValueOf<
         TOptions,
@@ -152,6 +163,10 @@ export interface VfCheckboxGroupSlots<
       >,
       RawOptionOf<TOptions, TGroupChildren>
     >[]
+
+    /**
+     * Resolved checkbox groups.
+     */
     groups: ResolvedGroup<
       OptionValueOf<
         TOptions,
@@ -161,21 +176,37 @@ export interface VfCheckboxGroupSlots<
       >,
       RawOptionOf<TOptions, TGroupChildren>
     >[]
+
+    /**
+     * Whether items are rendered as groups.
+     */
     grouped: boolean
   }) => VNode[]
 
   /**
    * Slot that replaces each option group when items are grouped.
    *
-   * @param props.checkboxName The shared checkbox name attribute.
-   * @param props.disabled Whether the checkboxes are disabled.
-   * @param props.label The element's resolved label.
-   * @param props.group The resolved option group.
+   * @param scope The group slot's params.
    */
-  group: (props: {
+  group: (scope: {
+    /**
+     * The shared checkbox name attribute.
+     */
     checkboxName: string
+
+    /**
+     * Whether the checkboxes are disabled.
+     */
     disabled: boolean
+
+    /**
+     * The element's resolved label.
+     */
     label: string | undefined
+
+    /**
+     * The resolved option group.
+     */
     group: ResolvedGroup<
       OptionValueOf<
         TOptions,
@@ -190,15 +221,27 @@ export interface VfCheckboxGroupSlots<
   /**
    * Slot that replaces each entire `VfCheckbox` child.
    *
-   * @param props.checkboxName The shared checkbox name attribute.
-   * @param props.disabled Whether the checkboxes are disabled.
-   * @param props.label The element's resolved label.
-   * @param props.item The resolved checkbox item.
+   * @param scope The item slot's params.
    */
-  item: (props: {
+  item: (scope: {
+    /**
+     * The shared checkbox name attribute.
+     */
     checkboxName: string
+
+    /**
+     * Whether the checkboxes are disabled.
+     */
     disabled: boolean
+
+    /**
+     * The element's resolved label.
+     */
     label: string | undefined
+
+    /**
+     * The resolved checkbox item.
+     */
     item: ResolvedOption<
       OptionValueOf<
         TOptions,
@@ -218,14 +261,14 @@ export interface VfCheckboxGroupSlots<
    *
    * @inherits VfCheckbox.default
    */
-  checkbox: (props: Parameters<VfCheckboxSlots['default']>[0]) => VNode[]
+  checkbox: (scope: Parameters<VfCheckboxSlots['default']>[0]) => VNode[]
 
   /**
    * Slot that replaces the text/label of each individual checkbox.
    *
    * @inherits VfCheckbox.text
    */
-  text: (props: Parameters<VfCheckboxSlots['text']>[0]) => VNode[]
+  text: (scope: Parameters<VfCheckboxSlots['text']>[0]) => VNode[]
 }
 
 /**

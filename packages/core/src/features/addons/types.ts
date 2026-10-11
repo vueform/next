@@ -1,11 +1,12 @@
 import type { VNode } from 'vue'
+
 import {
   type AddonProp,
   type AddonItem,
   type PartOf,
   type ClassValue,
   type DomAttrsOf,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * @write
@@ -41,16 +42,26 @@ export interface AddonsSlots {
   /**
    * Slot that replaces the before-addons section.
    *
-   * @param props.addonBefore The resolved before-addon prop value.
+   * @param scope The addonBefore slot's params.
    */
-  addonBefore: (props: { addonBefore: AddonProp | undefined }) => VNode[]
+  addonBefore: (scope: {
+    /**
+     * The resolved before-addon prop value.
+     */
+    addonBefore: AddonProp | undefined
+  }) => VNode[]
 
   /**
    * Slot that replaces the after-addons section.
    *
-   * @param props.addonAfter The resolved after-addon prop value.
+   * @param scope The addonAfter slot's params.
    */
-  addonAfter: (props: { addonAfter: AddonProp | undefined }) => VNode[]
+  addonAfter: (scope: {
+    /**
+     * The resolved after-addon prop value.
+     */
+    addonAfter: AddonProp | undefined
+  }) => VNode[]
 }
 
 /**

@@ -10,12 +10,32 @@ export interface TabsSlots {
   /**
    * Slot that replaces the tabs navigation bar. Receives the pager instance.
    */
-  tabs: (props: { pager: Pager; class: ClassValue }) => VNode[]
+  tabs: (scope: {
+    /**
+     * The pager instance controlling the tabs.
+     */
+    pager: Pager
+
+    /**
+     * CSS classes to apply to the tab list.
+     */
+    class: ClassValue
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual tab.
    */
-  tab: (props: { page: ResolvedPage; class: ClassValue }) => VNode[]
+  tab: (scope: {
+    /**
+     * The resolved page of the tab.
+     */
+    page: ResolvedPage
+
+    /**
+     * CSS classes to apply to the tab.
+     */
+    class: ClassValue
+  }) => VNode[]
 }
 
 /**
@@ -30,8 +50,9 @@ export interface TabsParts {
   tabs: TabListProps
 
   /**
-   * @write
+   * Props forwarded to each nested Tab component.
    *
+   * @param page The tab’s resolved page.
    * @tag Tab
    */
   tab: (page: ResolvedPage) => TabProps
@@ -42,12 +63,14 @@ export interface TabsParts {
  */
 export interface TabsClasses {
   /**
-   * @write
+   * The tab list element.
    */
   tabs: ClassValue
 
   /**
-   * @write
+   * Each individual tab element.
+   *
+   * @param page The tab’s resolved page.
    */
   tab: (page: ResolvedPage) => ClassValue
 }

@@ -10,17 +10,19 @@
   "
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
+
+import { blueprint, defaults } from '#src/blueprints/checkbox-group'
 import type {
   OptionGroupChildrenProp,
   OptionsProp,
   OptionValueProp,
-} from '#primevue/features/options'
+} from '#src/features/options'
+
 import type {
   VfCheckboxGroupEmits,
   VfCheckboxGroupProps,
   VfCheckboxGroupSlots,
 } from './types'
-import { blueprint, defaults } from '#primevue/blueprints/checkbox-group'
 
 defineOptions({ name: 'VfCheckboxGroup', element: true, inheritAttrs: false })
 defineEmits<

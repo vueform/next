@@ -1,3 +1,14 @@
+import type { VNode } from 'vue'
+
+import {
+  type FieldApi,
+  type FieldClasses,
+  type FieldEmits,
+  type FieldExpose,
+  type FieldParts,
+  type FieldProps,
+  type FieldSlots,
+} from '#src/blueprints/field'
 import type {
   AddonsSlots,
   IconsClasses,
@@ -9,7 +20,7 @@ import type {
   AddonGroupClasses,
   EntryTranslateOf,
   EntryLanguagesOf,
-} from '#core/features'
+} from '#src/features'
 import type {
   WidenProps,
   DefineElementContext,
@@ -17,17 +28,7 @@ import type {
   DomAttrsOf,
   EntryPropOr,
   LanguagesProp,
-} from '#core/types'
-import type { VNode } from 'vue'
-import {
-  type FieldApi,
-  type FieldClasses,
-  type FieldEmits,
-  type FieldExpose,
-  type FieldParts,
-  type FieldProps,
-  type FieldSlots,
-} from '#core/blueprints/field'
+} from '#src/types'
 
 /**
  * `TNullValue` fallback for a registry `TEntry` payload without a `nullValue`
@@ -58,8 +59,8 @@ export type EntryProps<TEntry> = VfFieldProps<
  * model when `translate` is false, each language's entry when it is true. Reach
  * for `VfFieldProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfFieldProps<
   TTranslate extends boolean = boolean,
@@ -109,9 +110,12 @@ export interface VfFieldSlots<
    * Default slot where the user renders their 3rd party component. Receives the
    * full component context.
    *
-   * @param props.context The component's context.
+   * @param scope The default slot's params.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The component's context.
+     */
     context: VfFieldContext<VfFieldProps<TTranslate, TLanguages, TNullValue>>
   }) => VNode[]
 }

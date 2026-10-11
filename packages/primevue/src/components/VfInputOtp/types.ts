@@ -1,23 +1,4 @@
 import type {
-  InputOtpApi,
-  InputOtpClasses,
-  InputOtpEmits,
-  InputOtpExpose,
-  InputOtpParts,
-  InputOtpProps,
-  InputOtpSlots,
-  forwards,
-} from '#primevue/blueprints/input-otp'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
@@ -27,14 +8,34 @@ import type {
   InputOtpSlots as AInputOtpSlots,
 } from 'primevue'
 
+import type {
+  InputOtpApi,
+  InputOtpClasses,
+  InputOtpEmits,
+  InputOtpExpose,
+  InputOtpParts,
+  InputOtpProps,
+  InputOtpSlots,
+  forwards,
+} from '#src/blueprints/input-otp'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#src/features'
+import type { ForwardedSlots } from '#src/types'
+
 /**
  * Props for the VfInputOtp component.
  *
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfInputOtpProps extends InputOtpProps<
   'input-otp',

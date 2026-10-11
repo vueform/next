@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { Pager, TProp } from '@vueform/primevue'
 import type { NavPosProp } from '@vueform/primevue/blueprints/nav'
 import type {
   VfFormClasses,
   VfFormParts,
 } from '@vueform/primevue/components/VfForm'
-import type { Pager, TProp } from '@vueform/primevue'
 
 defineOptions({ name: 'VfFormNav' })
 

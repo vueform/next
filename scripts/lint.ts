@@ -1,13 +1,13 @@
 /**
  * Monorepo lint orchestrator (`pnpm lint`, `pnpm lint --fix`).
  *
- * One task per workspace package (eslint + stylelint over its directory) plus
+ * One task per workspace package (oxlint + stylelint over its directory) plus
  * `root` for everything outside `packages/`. Selection flags work like the
  * build orchestrator's — `--core`, `--pv`, `--adapters`, `--root`.
  *
  * Issue-gathering semantics: every selected target runs even when earlier ones
  * report problems, so one run collects everything. Warn/error counts land on
- * each done line; errors are written to `node_modules/.vueform/lint-errors.md`;
+ * each done line; errors are written to `.vueform/lint-errors.md`;
  * the exit code is non-zero only when errors remain.
  */
 import { analyzeLintOutput, lintSummary, lintTotals } from './issues'

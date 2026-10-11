@@ -5,14 +5,16 @@
 >
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeToggleSwitch from 'primevue/toggleswitch'
+import type { Ref, WritableComputedRef } from 'vue'
+
+import { blueprint, defaults } from '#src/blueprints/toggle-switch'
+import { vdomPrime } from '#src/helpers'
+
 import type {
   VfToggleSwitchEmits,
   VfToggleSwitchProps,
   VfToggleSwitchSlots,
 } from './types'
-import type { Ref, WritableComputedRef } from 'vue'
-import { blueprint, defaults } from '#primevue/blueprints/toggle-switch'
-import { vdomPrime } from '#primevue/helpers'
 
 const ToggleSwitch = vdomPrime(PrimeToggleSwitch)
 

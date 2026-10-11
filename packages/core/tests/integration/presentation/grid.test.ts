@@ -1,5 +1,6 @@
+import { defineSchema } from '@vueform/core'
+
 import { createForm2, getClass } from '../../helpers'
-import { defineSchema } from '#core'
 
 function getGridCss() {
   return document.getElementById('vueform-theme')?.textContent ?? ''

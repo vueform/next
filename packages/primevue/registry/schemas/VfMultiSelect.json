@@ -10,7 +10,7 @@
       "path": "VfMultiSelect.vue",
       "target": "{componentsDir}/VfMultiSelect.vue",
       "kind": "component",
-      "hash": "sha256:c37d886df29107954d595fdb258bffd6157492d5ae45eb3c13b239f7bab280d0"
+      "hash": "sha256:448df9a2d8690006bf60af86b179f0319bdbb536dcc1da2e202102f27352648f"
     }
   ],
   "imports": [
@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfMultiSelect.vue",
     "blueprint": "multi-select",
-    "hash": "sha256:b5a8a74d505ee68239fe897e6651d73bb23525f197e965ae806728052623ab05",
+    "hash": "sha256:746da5f0f955b433533a8e145b11a83ae73d77d998dece93d01bbf698c0aff43",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

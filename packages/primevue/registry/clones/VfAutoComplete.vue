@@ -8,8 +8,7 @@
   "
 >
 /**
- * VfCloneName — a custom element created from Vueform's `auto-complete`
- * blueprint.
+ * VfCloneName — a custom element created from Vueform's `auto-complete` blueprint.
  *
  * @see https://primevue.vueform.com/guide/components#building-on-blueprints
  */
@@ -36,9 +35,6 @@ import {
   type OverrideSlots,
   type WidenProps,
 } from '@vueform/primevue'
-import PrimeAutoComplete, {
-  type AutoCompleteSlots as AAutoCompleteSlots,
-} from 'primevue/autocomplete'
 import {
   blueprint,
   defaults,
@@ -52,6 +48,9 @@ import {
   type forwards,
 } from '@vueform/primevue/blueprints/auto-complete'
 import type { AutoCompleteProps as PvAutoCompleteProps } from 'primevue'
+import PrimeAutoComplete, {
+  type AutoCompleteSlots as AAutoCompleteSlots,
+} from 'primevue/autocomplete'
 import type { VNode } from 'vue'
 
 /**
@@ -271,8 +270,8 @@ export interface VfCloneNameClasses
 }
 
 /**
- * Custom exposed API members. Add props you return from useBlueprint's 5th
- * 'extend' callback.
+ * Custom exposed API members. Add props you return from useBlueprint's
+ * 5th 'extend' callback.
  *
  * @example
  *   plain: string
@@ -284,9 +283,9 @@ export interface VfCloneNameClasses
 export interface VfCloneNameExpose extends AutoCompleteExpose {}
 
 /**
- * The element's context — the object slots, outlets, and event handlers receive
- * (`context$`). Its shape is derived from the blueprint and the interfaces
- * above — customize those; don't extend or edit this one.
+ * The element's context — the object slots, outlets, and event handlers
+ * receive (`context$`). Its shape is derived from the blueprint and the
+ * interfaces above — customize those; don't extend or edit this one.
  */
 export interface VfCloneNameContext<
   TProps extends WidenProps<
@@ -325,9 +324,9 @@ const events = defineEvents<VfCloneNameEmits<TSuggestions, TMultiple, TModel>>()
 const slots = defineSlots<VfCloneNameSlots<TSuggestions, TMultiple, TModel>>()
 
 /**
- * Extend the element's API by passing a 5th 'extend' callback to useBlueprint —
- * whatever it returns merges into the api / expose (declare the members on
- * VfCloneNameExpose above).
+ * Extend the element's API by passing a 5th 'extend' callback to
+ * useBlueprint — whatever it returns merges into the api / expose
+ * (declare the members on VfCloneNameExpose above).
  *
  * @example
  *   useBlueprint(blueprint, props, events, slots, () => ({
@@ -342,8 +341,8 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
 /**
- * The element's own classes, per part — reactive via the callback's api refs.
- * The class keys come from VfCloneNameClasses above.
+ * The element's own classes, per part — reactive via the callback's api
+ * refs. The class keys come from VfCloneNameClasses above.
  *
  * @see https://primevue.vueform.com/guide/classes
  */

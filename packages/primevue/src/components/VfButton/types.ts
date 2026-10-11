@@ -1,15 +1,4 @@
 import type {
-  ButtonApi,
-  ButtonClasses,
-  ButtonEmits,
-  ButtonExpose,
-  ButtonParts,
-  ButtonProps,
-  ButtonSlots,
-  forwards,
-} from '#primevue/blueprints/button'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
@@ -19,14 +8,26 @@ import type {
   ButtonSlots as AButtonSlots,
 } from 'primevue'
 
+import type {
+  ButtonApi,
+  ButtonClasses,
+  ButtonEmits,
+  ButtonExpose,
+  ButtonParts,
+  ButtonProps,
+  ButtonSlots,
+  forwards,
+} from '#src/blueprints/button'
+import type { ForwardedSlots } from '#src/types'
+
 /**
  * Props for the VfButton component.
  *
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfButtonProps extends ButtonProps<
   'button',

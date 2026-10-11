@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfRow, { type VfRowEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfRow: typeof VfRow
   }
+}
+
+declare module './types' {
+  interface VfRowProps
+    extends
+      PartProps<VfRowParts, VfRowContext>,
+      ClassProps<VfRowClasses, VfRowContext>,
+      ReclassProps<VfRowClasses, VfRowContext> {}
 }

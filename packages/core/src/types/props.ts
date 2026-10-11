@@ -1,5 +1,6 @@
-import type { HttpResponse } from '#core/modules/http'
 import type { Component, Ref } from 'vue'
+
+import type { HttpResponse } from '#src/modules/http'
 import {
   type AddonSchema,
   type ClassInput,
@@ -7,7 +8,7 @@ import {
   type LooseClasses,
   type OpenObject,
   type PresetDefinition,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Horizontal alignment options for layout and grid cells.
@@ -18,7 +19,11 @@ export type AlignProp = 'left' | 'center' | 'right' | 'justify' | (string & {})
  * Vertical alignment options for layout and grid cells.
  */
 export type ValignProp =
-  'top' | 'middle' | 'bottom' | 'baseline' | (string & {})
+  | 'top'
+  | 'middle'
+  | 'bottom'
+  | 'baseline'
+  | (string & {})
 
 /**
  * Controls at which level validation errors are displayed.
@@ -35,14 +40,24 @@ export type ElementValidateOnProp = ('change' | 'blur' | (string & {}))[]
  * events.
  */
 export type ValidateOnProp = (
-  'change' | 'blur' | 'next' | 'back' | 'submit' | (string & {})
+  | 'change'
+  | 'blur'
+  | 'next'
+  | 'back'
+  | 'submit'
+  | (string & {})
 )[]
 
 /**
  * Navigation events that trigger scrolling to the top of the form.
  */
 export type ScrollTopOnProp = (
-  'always' | 'next' | 'back' | 'success' | 'error' | (string & {})
+  | 'always'
+  | 'next'
+  | 'back'
+  | 'success'
+  | 'error'
+  | (string & {})
 )[]
 
 /**
@@ -76,7 +91,8 @@ export type EndpointProp<TContext = any> = string | EndpointHandler<TContext>
  * entirely.
  */
 export type ShowRequiredProp =
-  false | ('label' | 'placeholder' | (string & {}))[]
+  | false
+  | ('label' | 'placeholder' | (string & {}))[]
 
 /**
  * Custom validation messages keyed by rule name, supporting text props.
@@ -128,7 +144,8 @@ export type PresetsProp = (string | PresetDefinition)[]
  * @param context$ The component context when used as a function.
  */
 export type TProp<T = string, TContext = any> =
-  DProp<T, TContext> | Record<string, T | (string & {})>
+  | DProp<T, TContext>
+  | Record<string, T | (string & {})>
 
 /**
  * A prop value of type `T` that can also be provided as a plain string (e.g. an
@@ -138,7 +155,6 @@ export type TProp<T = string, TContext = any> =
  * interfaces specialize it (same pattern as event `context$`).
  *
  * @param context$ The component context when used as a function.
- * @write
  */
 export type DProp<T = string, TContext = any> =
   | T
@@ -150,8 +166,6 @@ export type DProp<T = string, TContext = any> =
 /**
  * Converts selected keys of a record type into `DProp` variants. Keys listed in
  * `K` become `DProp<T[K]>`, all others are excluded.
- *
- * @write
  */
 export type DynamicProps<T, K extends keyof T, TContext = any> = {
   [P in K]?: DProp<T[P], TContext>
@@ -340,9 +354,10 @@ export type ReclassProp<T, TContext = any> = LooseClasses<T, TContext> &
 export type PartValue<V, TContext = any> = V extends (
   ...args: infer A
 ) => infer R
-  ? | OpenObject<R>
-    | ((...args: A) => OpenObject<R>)
-    | ((...args: [...A, TContext]) => OpenObject<R>)
+  ?
+      | OpenObject<R>
+      | ((...args: A) => OpenObject<R>)
+      | ((...args: [...A, TContext]) => OpenObject<R>)
   : OpenObject<V> | ((context$: TContext) => OpenObject<V>)
 
 /**

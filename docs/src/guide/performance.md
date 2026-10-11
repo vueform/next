@@ -22,7 +22,7 @@ The charts follow your color scheme. The environment behind the numbers:
 - **Browser:** &nbsp;<!-- @bench:env.browser -->`Chromium 153.0.8010.12`<!-- /@bench --> (headless)
 - **Vue:** &nbsp;<!-- @bench:env.vue -->`3.6.0-rc.5`<!-- /@bench -->
 - **Vueform:** &nbsp;<!-- @bench:env.vueform -->`2.0.0-alpha.1`<!-- /@bench -->
-- **Last run:** &nbsp;<!-- @bench:updated -->`2026-10-02`<!-- /@bench -->
+- **Last run:** &nbsp;<!-- @bench:updated -->`2026-10-09`<!-- /@bench -->
 
 ### Rendering
 
@@ -51,9 +51,9 @@ The baseline case mounts a form whose schema holds _N_ text elements — from sc
 
 </div>
 
-A thousand elements mount in <!-- @bench:render-text.vdom.1000.time -->`506 ms`<!-- /@bench --> — about <!-- @bench:render-text.vdom.1000.per-element -->`0.51 ms`<!-- /@bench --> per element, with each one bringing its full machinery: model binding, validation, conditions, classes. The curve stays near-linear across the sweep; there is no cliff where the form suddenly falls over. Memory scales the same way — mounting the thousand-element form grows the heap by <!-- @bench:render-text.vdom.1000.memory -->`107 MB`<!-- /@bench -->, about <!-- @bench:render-text.vdom.1000.memory-per-element -->`110 KB`<!-- /@bench --> per element.
+A thousand elements mount in <!-- @bench:render-text.vdom.1000.time -->`509 ms`<!-- /@bench --> — about <!-- @bench:render-text.vdom.1000.per-element -->`0.51 ms`<!-- /@bench --> per element, with each one bringing its full machinery: model binding, validation, conditions, classes. The curve stays near-linear across the sweep; there is no cliff where the form suddenly falls over. Memory scales the same way — mounting the thousand-element form grows the heap by <!-- @bench:render-text.vdom.1000.memory -->`107 MB`<!-- /@bench -->, about <!-- @bench:render-text.vdom.1000.memory-per-element -->`110 KB`<!-- /@bench --> per element.
 
-The two modes land within noise of each other at mount (<!-- @bench:render-text.100.vapor-ratio -->`×1.12`<!-- /@bench --> to <!-- @bench:render-text.1000.vapor-ratio -->`×1.05`<!-- /@bench --> of vdom across the sweep). That's expected: mounting is dominated by work both modes share — creating each element's reactive state and the real DOM nodes — and there is no diffing at mount for vapor to skip. Vapor's advantage is in _updates_, where the vdom re-renders and diffs while vapor patches the exact DOM nodes a change touches; the [full-form update](#updating-the-whole-form) case below shows exactly that.
+The two modes land within noise of each other at mount (<!-- @bench:render-text.100.vapor-ratio -->`×1.00`<!-- /@bench --> to <!-- @bench:render-text.1000.vapor-ratio -->`×1.06`<!-- /@bench --> of vdom across the sweep). That's expected: mounting is dominated by work both modes share — creating each element's reactive state and the real DOM nodes — and there is no diffing at mount for vapor to skip. Vapor's advantage is in _updates_, where the vdom re-renders and diffs while vapor patches the exact DOM nodes a change touches; the [full-form update](#updating-the-whole-form) case below shows exactly that.
 
 That's the worst case, though: a thousand inputs visible at once is rarely what you actually want to show a user. Structure the same form the way a user would want to fill it — in steps — and the picture improves considerably.
 
@@ -84,7 +84,7 @@ The second case mounts the same _N_ text elements split evenly across 10 steps o
 
 </div>
 
-The same thousand elements now reach interactive in <!-- @bench:render-steps.vdom.1000.time -->`294 ms`<!-- /@bench --> — <!-- @bench:render-steps/render-text.vdom.1000.percent -->`58%`<!-- /@bench --> of the flat mount, with heap growth down from <!-- @bench:render-text.vdom.1000.memory -->`107 MB`<!-- /@bench --> to <!-- @bench:render-steps.vdom.1000.memory -->`113 MB`<!-- /@bench --> (<!-- @bench:render-steps/render-text.vdom.1000.memory-percent -->`105%`<!-- /@bench -->).
+The same thousand elements now reach interactive in <!-- @bench:render-steps.vdom.1000.time -->`299 ms`<!-- /@bench --> — <!-- @bench:render-steps/render-text.vdom.1000.percent -->`59%`<!-- /@bench --> of the flat mount, with heap growth down from <!-- @bench:render-text.vdom.1000.memory -->`107 MB`<!-- /@bench --> to <!-- @bench:render-steps.vdom.1000.memory -->`114 MB`<!-- /@bench --> (<!-- @bench:render-steps/render-text.vdom.1000.memory-percent -->`106%`<!-- /@bench -->).
 
 The mechanism is Vueform's lazy view mounting, on by default via the [`lazy`](/guide/configuration#lazy) config option. Every element registers itself and its state at mount — values, validation, and conditions work immediately across all steps — but elements that aren't currently visible defer rendering their view. Once the form is interactive, the deferred views stream into the DOM (hidden) during browser idle time, so switching steps later is instant. The user pays the full cost of only the step they're looking at; the rest of the form renders while they read the first field's label.
 
@@ -108,7 +108,7 @@ That guarantee holds as long as nothing subscribes to the whole model on every c
 
 <p class="chart-caption">Average cost of one input event with an active <code>v-model</code> binding</p>
 
-Now the cost grows with form size — still only <!-- @bench:input-text-vmodel.vdom.1000.time -->`1.76 ms`<!-- /@bench --> per keystroke at 1,000 elements (<!-- @bench:input-text-vmodel.vapor.1000.time -->`2.13 ms`<!-- /@bench --> in vapor), nowhere near perceptible lag, but no longer free. It's the price of live two-way sync, not of typing — which is why [Best Practices](#bind-v-model-only-when-you-consume-it) below suggests reading the model on demand instead when nothing outside the form consumes it live.
+Now the cost grows with form size — still only <!-- @bench:input-text-vmodel.vdom.1000.time -->`1.79 ms`<!-- /@bench --> per keystroke at 1,000 elements (<!-- @bench:input-text-vmodel.vapor.1000.time -->`2.13 ms`<!-- /@bench --> in vapor), nowhere near perceptible lag, but no longer free. It's the price of live two-way sync, not of typing — which is why [Best Practices](#bind-v-model-only-when-you-consume-it) below suggests reading the model on demand instead when nothing outside the form consumes it live.
 
 ### Updating the Whole Form
 
@@ -119,7 +119,7 @@ The heaviest write path is replacing the entire model at once — `form$.update(
 
 <p class="chart-caption">Time to update all <em>N</em> elements' values at once</p>
 
-The cost is linear in _N_, as it must be — every element genuinely changes. A full update of 1,000 elements takes <!-- @bench:update-all.vdom.1000.time -->`12.6 ms`<!-- /@bench --> in vdom mode and <!-- @bench:update-all.vapor.1000.time -->`5.31 ms`<!-- /@bench --> in vapor. This is where vapor mode earns its keep: with every element re-rendering, the vdom pays for diffing across the board while vapor writes straight to the changed DOM nodes, landing at <!-- @bench:update-all.1000.vapor-ratio -->`×0.42`<!-- /@bench --> of the vdom cost — <!-- @bench:update-all.1000.vapor-speedup -->`2.4×`<!-- /@bench --> faster.
+The cost is linear in _N_, as it must be — every element genuinely changes. A full update of 1,000 elements takes <!-- @bench:update-all.vdom.1000.time -->`12.7 ms`<!-- /@bench --> in vdom mode and <!-- @bench:update-all.vapor.1000.time -->`5.23 ms`<!-- /@bench --> in vapor. This is where vapor mode earns its keep: with every element re-rendering, the vdom pays for diffing across the board while vapor writes straight to the changed DOM nodes, landing at <!-- @bench:update-all.1000.vapor-ratio -->`×0.41`<!-- /@bench --> of the vdom cost — <!-- @bench:update-all.1000.vapor-speedup -->`2.4×`<!-- /@bench --> faster.
 
 ### Run Them Yourself
 

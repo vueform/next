@@ -4,14 +4,15 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfGridEmits,
   type VfGridProps,
   type VfGridSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfGrid'
-import { useBlueprint, defineEvents } from '@vueform/ui'
+
 import '@vueform/ui/grid.css'
 import '@vueform/ui/tabular.css'
 
@@ -114,6 +115,7 @@ defineExpose(expose)
             <template v-else>
               <div
                 v-for="cell in cells"
+                :key="cell.key"
                 :class="classes.cell(cell)"
                 :data-col="cell.col"
                 :data-row="cell.row"

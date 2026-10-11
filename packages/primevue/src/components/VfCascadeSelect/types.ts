@@ -1,32 +1,4 @@
 import type {
-  CascadeSelectApi,
-  CascadeSelectClasses,
-  CascadeSelectEmits,
-  CascadeSelectExpose,
-  CascadeSelectParts,
-  CascadeSelectProps,
-  CascadeSelectSlots,
-  forwards,
-} from '#primevue/blueprints/cascade-select'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-  OptionsProp,
-  OptionValueProp,
-} from '#primevue/features'
-import type {
-  CascadeOptionGroupChildrenProp,
-  EntryOptionsOf,
-  EntryOptionValueKeyOf,
-  EntryOptionValueReturnOf,
-  EntryOptionGroupChildrenOf,
-} from '#primevue/features/options'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -40,6 +12,35 @@ import type {
 import type { CascadeSelectProps as PvCascadeSelectProps } from 'primevue'
 import type { CascadeSelectSlots as ACascadeSelectSlots } from 'primevue/cascadeselect'
 import type { VNode } from 'vue'
+
+import type {
+  CascadeSelectApi,
+  CascadeSelectClasses,
+  CascadeSelectEmits,
+  CascadeSelectExpose,
+  CascadeSelectParts,
+  CascadeSelectProps,
+  CascadeSelectSlots,
+  forwards,
+} from '#src/blueprints/cascade-select'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+  OptionsProp,
+  OptionValueProp,
+} from '#src/features'
+import type {
+  CascadeOptionGroupChildrenProp,
+  EntryOptionsOf,
+  EntryOptionValueKeyOf,
+  EntryOptionValueReturnOf,
+  EntryOptionGroupChildrenOf,
+} from '#src/features/options'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfCascadeSelect props narrowed from a registry `TEntry` payload, applying the
@@ -60,8 +61,8 @@ export type EntryProps<TEntry> = VfCascadeSelectProps<
  * 'id'>`). Reach for `VfCascadeSelectProps` instead when no narrowing is
  * needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfCascadeSelectProps<
   TOptions extends OptionsProp = OptionsProp,
@@ -154,7 +155,7 @@ export interface VfCascadeSelectSlots<
         /**
          * Custom content for each option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -169,7 +170,7 @@ export interface VfCascadeSelectSlots<
         /**
          * Custom value template.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Value of the component.
            */
@@ -184,7 +185,7 @@ export interface VfCascadeSelectSlots<
         /**
          * Custom header template.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Current value.
            */
@@ -199,7 +200,7 @@ export interface VfCascadeSelectSlots<
         /**
          * Custom footer template.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Current value.
            */

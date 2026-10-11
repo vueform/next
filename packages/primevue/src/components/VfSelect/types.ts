@@ -1,30 +1,4 @@
 import type {
-  SelectApi,
-  SelectClasses,
-  SelectEmits,
-  SelectExpose,
-  SelectParts,
-  SelectProps,
-  SelectSlots,
-  forwards,
-} from '#primevue/blueprints/select'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-  EntryOptionsOf,
-  EntryOptionValueKeyOf,
-  EntryOptionValueReturnOf,
-  EntryOptionGroupChildrenOf,
-  OptionGroupChildrenProp,
-  OptionsProp,
-  OptionValueProp,
-} from '#primevue/features'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -40,6 +14,33 @@ import type { SelectProps as PvSelectProps } from 'primevue'
 import type { SelectSlots as ASelectSlots } from 'primevue/select'
 import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
 import type { VNode } from 'vue'
+
+import type {
+  SelectApi,
+  SelectClasses,
+  SelectEmits,
+  SelectExpose,
+  SelectParts,
+  SelectProps,
+  SelectSlots,
+  forwards,
+} from '#src/blueprints/select'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+  EntryOptionsOf,
+  EntryOptionValueKeyOf,
+  EntryOptionValueReturnOf,
+  EntryOptionGroupChildrenOf,
+  OptionGroupChildrenProp,
+  OptionsProp,
+  OptionValueProp,
+} from '#src/features'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfSelect props narrowed from a registry `TEntry` payload, applying the
@@ -60,8 +61,8 @@ export type EntryProps<TEntry> = VfSelectProps<
  * option-driving type arguments (e.g. `VfSelectProps<typeof options, 'id'>`).
  * Reach for `VfSelectProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfSelectProps<
   TOptions extends OptionsProp = OptionsProp,
@@ -163,7 +164,7 @@ export interface VfSelectSlots<
         /**
          * Custom value template.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Value of the component.
            */
@@ -178,7 +179,7 @@ export interface VfSelectSlots<
         /**
          * Custom header template of panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Value of the component.
            */
@@ -193,7 +194,7 @@ export interface VfSelectSlots<
         /**
          * Custom footer template of panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Value of the component.
            */
@@ -208,7 +209,7 @@ export interface VfSelectSlots<
         /**
          * Custom option template.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -228,7 +229,7 @@ export interface VfSelectSlots<
         /**
          * Custom option group template.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The raw option group (or raw item when ungrouped).
            */
@@ -243,7 +244,7 @@ export interface VfSelectSlots<
         /**
          * Custom content template.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * An array of objects to display for virtualscroller.
            */
@@ -256,11 +257,15 @@ export interface VfSelectSlots<
 
           /**
            * Reference of the content.
+           *
+           * @param el The element of the content reference.
            */
           contentRef: (el: any) => void
 
           /**
            * Options of the items.
+           *
+           * @param index The rendered index of the item.
            */
           getItemOptions: (index: number) => VirtualScrollerItemOptions
         }) => VNode[]

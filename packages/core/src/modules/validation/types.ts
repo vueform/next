@@ -1,12 +1,14 @@
-import type { VueformInstance } from '#core/helpers'
-import type { ConditionalProp } from '#core/modules/conditions'
-import type { RULE_BRAND } from './symbols'
 import type { ComputedRef } from 'vue'
+
+import type { VueformInstance } from '#src/helpers'
+import type { ConditionalProp } from '#src/modules/conditions'
 import {
   type FormContext,
   type StatefulElement,
   type StandardSchemaV1,
-} from '#core/types'
+} from '#src/types'
+
+import type { RULE_BRAND } from './symbols'
 
 /**
  * Union of all known validation rule names — built-in rules plus any
@@ -166,7 +168,10 @@ export type RulesProp<TContext = any> =
   | RuleDefinition
   | ConditionalRule<TContext>
   | (
-      RuleString | ConditionalRule<TContext> | RuleDefinition | StandardSchemaV1
+      | RuleString
+      | ConditionalRule<TContext>
+      | RuleDefinition
+      | StandardSchemaV1
     )[]
 
 /**
@@ -179,7 +184,8 @@ export type TOnlyRulesProp<TContext = any> = Record<string, RulesProp<TContext>>
  * object.
  */
 export type TRulesProp<TContext = any> =
-  RulesProp<TContext> | TOnlyRulesProp<TContext>
+  | RulesProp<TContext>
+  | TOnlyRulesProp<TContext>
 
 /**
  * A single `validateOn` trigger.

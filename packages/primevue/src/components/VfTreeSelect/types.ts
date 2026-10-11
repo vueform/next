@@ -1,28 +1,4 @@
 import type {
-  TreeSelectApi,
-  TreeSelectClasses,
-  TreeSelectEmits,
-  TreeSelectExpose,
-  TreeSelectParts,
-  TreeSelectProps,
-  TreeSelectSlots,
-  forwards,
-} from '#primevue/blueprints/tree-select'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type { TreeSelectionModeProp } from '#primevue/features/tree-options'
-import type {
-  ForwardedSlots,
-  OverrideSlots,
-  TreeOptionsProp,
-} from '#primevue/types'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -38,6 +14,27 @@ import type {
 import type { TreeSelectProps as PvTreeSelectProps } from 'primevue'
 import type { TreeSelectSlots as ATreeSelectSlots } from 'primevue/treeselect'
 import type { VNode } from 'vue'
+
+import type {
+  TreeSelectApi,
+  TreeSelectClasses,
+  TreeSelectEmits,
+  TreeSelectExpose,
+  TreeSelectParts,
+  TreeSelectProps,
+  TreeSelectSlots,
+  forwards,
+} from '#src/blueprints/tree-select'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#src/features'
+import type { TreeSelectionModeProp } from '#src/features/tree-options'
+import type { ForwardedSlots, OverrideSlots, TreeOptionsProp } from '#src/types'
 
 /**
  * Resolves the `TOptions` generic from a registry `TEntry` payload's `options`
@@ -80,8 +77,8 @@ export type EntryProps<TEntry> = VfTreeSelectProps<
  * options, 'checkbox'>`). Reach for `VfTreeSelectProps` instead when no
  * narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfTreeSelectProps<
   TOptions extends TreeOptionsProp = TreeOptionsProp,
@@ -136,7 +133,7 @@ export interface VfTreeSelectSlots<
         /**
          * Custom selected value display.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Selected tree nodes for display.
            */
@@ -151,7 +148,7 @@ export interface VfTreeSelectSlots<
         /**
          * Custom content for each tree node option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * Current tree node.
            */
@@ -171,7 +168,7 @@ export interface VfTreeSelectSlots<
         /**
          * Custom header template of the overlay panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Selected keys map of the component.
            */
@@ -186,7 +183,7 @@ export interface VfTreeSelectSlots<
         /**
          * Custom footer template of the overlay panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Selected keys map of the component.
            */
@@ -201,7 +198,7 @@ export interface VfTreeSelectSlots<
         /**
          * Custom toggle icon for a tree node.
          */
-        itemtoggleicon: (props: {
+        itemtoggleicon: (scope: {
           /**
            * Current tree node.
            */

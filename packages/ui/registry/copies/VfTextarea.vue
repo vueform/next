@@ -11,15 +11,16 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { type LanguagesProp, useBlueprint, defineEvents } from '@vueform/ui'
+import { useBlueprint, defineEvents, type LanguagesProp } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfTextareaEmits,
   type VfTextareaProps,
   type VfTextareaSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfTextarea'
 import type { WritableComputedRef } from 'vue'
+
 import '@vueform/ui/textarea.css'
 import '@vueform/ui/input.css'
 

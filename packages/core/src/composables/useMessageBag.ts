@@ -209,9 +209,11 @@ export function useMessageBag(): MessageBagInstance {
     type: 'errors' | 'messages',
     index: number
   ) => {
-    group === 'prepends'
-      ? prepends[type].splice(index, 1)
-      : appends[type].splice(index, 1)
+    if (group === 'prepends') {
+      prepends[type].splice(index, 1)
+    } else {
+      appends[type].splice(index, 1)
+    }
   }
 
   const clear = (type: 'all' | 'errors' | 'messages' = 'all') => {

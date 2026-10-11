@@ -1,6 +1,7 @@
+import { defineSchema } from '@vueform/primevue'
 import { nextTick } from 'vue'
+
 import { createForm } from '../../helpers'
-import { defineSchema } from '#primevue'
 
 // =============================================================================
 // Basic rendering

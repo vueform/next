@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { defaults, blueprint } from '#src/blueprints/grid'
+import { useBlueprint } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+
 import type { VfGridEmits, VfGridProps, VfGridSlots } from './types'
-import { defaults, blueprint } from '#core/blueprints/grid'
-import { useBlueprint } from '#core/composables'
-import { defineEvents } from '#core/helpers'
 
 defineOptions({
   name: 'VfGrid',
@@ -103,6 +104,7 @@ defineExpose(expose)
             <template v-else>
               <div
                 v-for="cell in cells"
+                :key="cell.key"
                 :class="classes.cell(cell)"
                 :data-col="cell.col"
                 :data-row="cell.row"

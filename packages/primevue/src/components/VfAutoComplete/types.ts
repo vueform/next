@@ -1,25 +1,4 @@
 import type {
-  AutoCompleteApi,
-  AutoCompleteClasses,
-  AutoCompleteEmits,
-  AutoCompleteExpose,
-  AutoCompleteParts,
-  AutoCompleteProps,
-  AutoCompleteSlots,
-  forwards,
-} from '#primevue/blueprints/auto-complete'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-  EntrySuggestionsOf,
-  SuggestionsProp,
-} from '#primevue/features'
-import type { ForwardedSlots, OverrideSlots } from '#primevue/types'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -34,6 +13,28 @@ import type {
 import type { AutoCompleteProps as PvAutoCompleteProps } from 'primevue'
 import type { AutoCompleteSlots as AAutoCompleteSlots } from 'primevue/autocomplete'
 import type { VNode } from 'vue'
+
+import type {
+  AutoCompleteApi,
+  AutoCompleteClasses,
+  AutoCompleteEmits,
+  AutoCompleteExpose,
+  AutoCompleteParts,
+  AutoCompleteProps,
+  AutoCompleteSlots,
+  forwards,
+} from '#src/blueprints/auto-complete'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+  EntrySuggestionsOf,
+  SuggestionsProp,
+} from '#src/features'
+import type { ForwardedSlots, OverrideSlots } from '#src/types'
 
 /**
  * VfAutoComplete props narrowed from a registry `TEntry` payload, applying the
@@ -51,8 +52,8 @@ export type EntryProps<TEntry> = VfAutoCompleteProps<
  * suggestions>`). Reach for `VfAutoCompleteProps` instead when no narrowing is
  * needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfAutoCompleteProps<
   TSuggestions extends SuggestionsProp = SuggestionsProp,
@@ -110,7 +111,7 @@ export interface VfAutoCompleteSlots<
         /**
          * Custom content for each suggestion option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw suggestion item.
            */
@@ -125,7 +126,7 @@ export interface VfAutoCompleteSlots<
         /**
          * Custom content for each suggestion option group.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The option group, or raw suggestion when groups are not used.
            */
@@ -140,7 +141,7 @@ export interface VfAutoCompleteSlots<
         /**
          * Custom chip template for a selected suggestion in multiple mode.
          */
-        chip: (props: {
+        chip: (scope: {
           /**
            * A selected suggestion value.
            */
@@ -162,7 +163,7 @@ export interface VfAutoCompleteSlots<
         /**
          * Custom header template of the overlay panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Value of the component.
            */
@@ -177,7 +178,7 @@ export interface VfAutoCompleteSlots<
         /**
          * Custom footer template of the overlay panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Value of the component.
            */
@@ -192,7 +193,7 @@ export interface VfAutoCompleteSlots<
         /**
          * Custom content template for virtual scrolling.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * Suggestions to display for the virtual scroller.
            */

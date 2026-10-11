@@ -38,12 +38,12 @@ import {
   aliasProps,
   makeLoading,
 } from '@vueform/core'
-import { computed } from 'vue'
-import type { ForwardedEmits, TreeOptionsProp } from '#primevue/types'
 import type {
   TreeSelectProps as ATreeSelectProps,
   TreeSelectEmitsOptions as ATreeSelectEmits,
 } from 'primevue/treeselect'
+import { computed } from 'vue'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -53,14 +53,15 @@ import {
   type FloatLabelProps,
   type IftaLabelProps,
   type InfoProps,
-} from '#primevue/features'
+} from '#src/features'
 import {
   makeTreeOptions,
   type TreeOptionsProps,
   type TreeSelectionModeProp,
   type TreeSelectModel,
   type TreeSelectModelProp,
-} from '#primevue/features/tree-options'
+} from '#src/features/tree-options'
+import type { ForwardedEmits, TreeOptionsProp } from '#src/types'
 
 export type { TreeSelectModel, TreeSelectModelProp }
 

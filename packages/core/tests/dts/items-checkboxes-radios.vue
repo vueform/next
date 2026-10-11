@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Vue-level items → model inference for VfCheckboxes / VfRadios. Validated by
- * `pnpm test:dts` (vue-sfc.test.ts typechecks the SFCs and reports each ✅/❌
+ * `pnpm test-dts` (vue-sfc.test.ts typechecks the SFCs and reports each ✅/❌
  * case as a named test).
  */
 import '@vueform/core/components'
@@ -21,7 +21,11 @@ const checkboxesBad = ref(1)
  * @param trueValue Always `true` for holder children.
  * @param falseValue Always `false` for holder children.
  */
-const assertCheckboxSlot = (model: boolean, trueValue: true, falseValue: false) => [model, trueValue, falseValue]
+const assertCheckboxSlot = (
+  model: boolean,
+  trueValue: true,
+  falseValue: false
+) => [model, trueValue, falseValue]
 
 /**
  * Rejects a checkbox-slot model that is not boolean.

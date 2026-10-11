@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import type { HeadingProp, UnknownElementParts } from '#core/types'
+
+import { defaults, blueprint } from '#src/blueprints/layout'
+import { useBlueprint, useLayoutClasses, useLocale } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+// Imported by direct SFC path, not via a barrel: the vapor build externalizes
+// .ts modules to the main (vdom) dist and only vapor-compiles .vue files it
+// resolves directly — a barrel import would smuggle in the vdom-compiled
+// VfPassthrough, which renders nothing inside a vapor tree.
+import VfPassthrough from '#src/helpers/VfPassthrough.vue'
+import type { HeadingProp, UnknownElementParts } from '#src/types'
+import { mergeClass } from '#src/utils'
+
 import type { VfLayoutEmits, VfLayoutProps, VfLayoutSlots } from './types'
-import { defaults, blueprint } from '#core/blueprints/layout'
-import { useBlueprint, useLayoutClasses, useLocale } from '#core/composables'
-import { defineEvents } from '#core/helpers'
-// Imported by file, not through the helpers barrel: the vapor build
-// externalizes barrel .ts modules to the main (vdom) dist, and a vdom
-// VfPassthrough inside a vapor tree renders nothing. The direct .vue import
-// stays internal and gets vapor-compiled.
-import VfPassthrough from '#core/helpers/VfPassthrough.vue'
-import { mergeClass } from '#core/utils'
 
 defineOptions({
   name: 'VfLayout',
@@ -203,6 +205,11 @@ defineExpose(expose)
   >
     <component v-if="outlets.template" :is="outlets.template" :context />
     <template v-else-if="isContainer || el$.viewLoaded">
+      <!-- TODO(bug): v-show on <template> is a no-op — el$.visible is never
+        applied in the layout-less path. Pre-existing; fixing it changes
+        runtime behavior (elements would start hiding), so it needs a
+        deliberate decision + visual run. -->
+      <!-- eslint-disable-next-line vue/valid-v-show, vue/no-useless-template-attributes -->
       <template v-if="el$.props.layout === false" v-show="el$.visible">
         <component :is="rootProps ? 'div' : VfPassthrough" v-bind="rootProps">
           <component

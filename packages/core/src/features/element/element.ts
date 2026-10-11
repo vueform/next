@@ -1,7 +1,7 @@
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
-} from '#core/modules/conditions'
+} from '#src/modules/conditions'
 import type {
   BaseComponentClasses,
   BaseComponentEmits,
@@ -13,7 +13,7 @@ import type {
   ExpressionsProp,
   LooseContext,
   TProp,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Base props shared by all form element types (text, checkbox, select, etc.).
@@ -69,7 +69,9 @@ export interface BaseElementProps<
   detached?: boolean
 
   /**
-   * @write
+   * Controls which props allow dynamic expression resolution. Set to `false`
+   * to disable all expression evaluation, `true` to enable for all
+   * expressionable props, or an array of prop keys to enable selectively.
    */
   expressions?: ExpressionsProp
 }

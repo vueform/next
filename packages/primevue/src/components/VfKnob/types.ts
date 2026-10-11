@@ -1,4 +1,11 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { KnobProps as PvKnobProps } from 'primevue'
+
+import type {
   KnobApi,
   KnobClasses,
   KnobEmits,
@@ -6,13 +13,7 @@ import type {
   KnobParts,
   KnobProps,
   KnobSlots,
-} from '#primevue/blueprints/knob'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { KnobProps as PvKnobProps } from 'primevue'
+} from '#src/blueprints/knob'
 
 /**
  * Props for the VfKnob component.
@@ -20,8 +21,8 @@ import type { KnobProps as PvKnobProps } from 'primevue'
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfKnobProps extends KnobProps<
   'knob',

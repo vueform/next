@@ -1,41 +1,60 @@
 /**
- * The per-adapter smoke CLI (`pnpm --filter @vueform/<adapter> test:smoke
- * ...`). Dimension flags act as FILTERS over the fixed cell set — see
- * cells.ts.
+ * The per-adapter smoke CLI (`pnpm --filter @vueform/<adapter> test-smoke
+ * ...`). `--env <name>` / `-E <name>` selects a single env from the fixed
+ * set (see envs.ts); without it every env runs. `--build` / `-B` builds
+ * core and the current adapter first. Every run packs fresh tarballs and
+ * runs all tiers headless with pnpm as the fixture installer.
  */
+import { writeFileSync } from 'node:fs'
 import path from 'node:path'
+
 import { fixtureDir } from './assemble'
 import {
-  CELLS,
-  filterCells,
-  PMS,
-  type CellDef,
-  type CellFilters,
-  type Pm,
-} from './cells'
+  bold,
+  createDisplay,
+  createSmokeLog,
+  dim,
+  green,
+  red,
+  termLink,
+} from './display'
+import { ENVS, PMS, type EnvDef, type Pm } from './envs'
 import {
   exists,
   findRepoRoot,
   readJson,
+  run,
   smokeStateDir,
   SmokeError,
+  tarballsDir,
 } from './lib'
 import { packWorkspace } from './pack'
-import { runCell, summarize, type CellResult } from './runner'
-
-const ENV_FLAGS = { vite: 'envs', nuxt: 'envs', nuxt3: 'envs' } as const
-const RENDERING_FLAGS = { ssr: 'renderings', spa: 'renderings' } as const
-const MODE_FLAGS = { vapor: 'modes', vdom: 'modes' } as const
+import { ensureBrowsers, runEnv, type EnvResult } from './runner'
 
 interface ParsedArgs {
-  filters: CellFilters
-  filtered: boolean
+  /**
+   * The single env id to run (`--env` / `-E`), or undefined for all envs.
+   */
+  env?: string
+  /**
+   * Build core and the current adapter before packing (`--build` / `-B`).
+   */
+  build: boolean
+  /**
+   * Reuse the previously packed tarballs (`--nopack`).
+   */
+  nopack: boolean
+  /**
+   * Run the envs one after another instead of in parallel
+   * (`--sequential`).
+   */
+  sequential: boolean
+  /**
+   * The package manager the fixtures install and run with (`--pm`).
+   * pnpm is the default and what CI gates on; npm, yarn and bun are the
+   * occasional cross-PM proof.
+   */
   pm: Pm
-  tiers: Set<number>
-  skipPack: boolean
-  packOnly: boolean
-  headed: boolean
-  viteMajor?: number
 }
 
 export interface SmokeCliOptions {
@@ -46,122 +65,115 @@ export interface SmokeCliOptions {
 }
 
 function helpText(adapter: string): string {
-  const cellRows = CELLS.map(
-    (c) =>
-      `  ${c.id.padEnd(10)} env=${c.env.padEnd(5)} rendering=${c.rendering.padEnd(4)} mode=${c.mode.padEnd(6)} ${c.note}`
+  const envRows = ENVS.map(
+    (e) =>
+      `  ${e.id.padEnd(10)} framework=${e.framework.padEnd(5)} rendering=${e.rendering.padEnd(4)} mode=${e.mode.padEnd(6)} ${e.note}`
   ).join('\n')
 
   return `Smoke tests for @vueform/${adapter} — proves the packed tarballs work in real project setups.
 
-Usage: pnpm --filter @vueform/${adapter} test:smoke [filters] [options]
+Usage: pnpm --filter @vueform/${adapter} test-smoke [--env <name>] [--build]
 
-Cells (each is one project setup, run from packed tarballs):
-${cellRows}
-
-Filters (each flag narrows one dimension; no flags = all cells; a combination
-that matches no cell is unsupported and exits with an error):
-  --vite | --nuxt | --nuxt3   env (--nuxt is Nuxt 4, --nuxt3 is Nuxt 3)
-  --ssr  | --spa       rendering
-  --vapor | --vdom     SFC mode
-
-  Examples: --vite --ssr → vite-ssr | --nuxt --spa → nuxt-spa | --vapor → vapor
-            --ssr → vite-ssr + nuxt + nuxt3 | --nuxt --vapor → error (unsupported)
-
-Package manager (installer for the fixture; not a filter):
-  --pnpm (default) | --npm | --yarn | --bun
+Envs (each is one project setup, run from packed tarballs):
+${envRows}
 
 Options:
-  --tiers=0,1,2,3      which tiers to run (default: all)
-                       0 install+build, 1 types, 2 boot, 3 interaction
-  --skip-pack          reuse the previously packed tarballs
-  --vite-major=<n>     pin the fixture's vite to that major (nightly lane;
-                       vite-based cells only)
-  --pack-only          build nothing, run nothing — just pack the tarballs
-                       (CI's shared pack job)
-  --headed             run the browser headed (manual debugging only;
-                       everything is headless otherwise)
-  --help               this text
+  --env <name>, -E, -e      run only that env (default: all of them)
+  --build, -B, -b           build @vueform/core and this adapter first
+  --nopack                  reuse the previously packed tarballs
+  --sequential              run the envs one after another (default: all in
+                            parallel)
+  --pm <name>               install and run the fixtures with another package
+                            manager (${PMS.join(', ')}; default: pnpm)
+  --help                    this text
+
+All child-process output is captured into .vueform/smoke/logs/; the run ends
+with a link to the log file.
 `
 }
 
 function parseArgs(argv: string[], adapter: string): ParsedArgs | null {
-  const filters: CellFilters = { envs: [], renderings: [], modes: [] }
-  const pms: Pm[] = []
-  let filtered = false
-  let tiers = new Set([0, 1, 2, 3])
-  let skipPack = false
-  let headed = false
-  let packOnly = false
-  let viteMajor: number | undefined
+  let env: string | undefined
+  let build = false
+  let nopack = false
+  let sequential = false
+  let pm: Pm = 'pnpm'
 
-  for (const arg of argv) {
+  const envIds = ENVS.map((e) => e.id)
+  const setEnv = (value: string | undefined, arg: string) => {
+    if (value === undefined) {
+      throw new SmokeError(
+        `${arg} needs an env name (one of: ${envIds.join(', ')}).`
+      )
+    }
+    if (!envIds.includes(value)) {
+      throw new SmokeError(
+        `Unknown env "${value}" (one of: ${envIds.join(', ')}).`
+      )
+    }
+    if (env !== undefined && env !== value) {
+      throw new SmokeError(`--env given twice (${env} and ${value}).`)
+    }
+    env = value
+  }
+
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i]
+
     if (arg === '--help' || arg === '-h') {
       console.log(helpText(adapter))
       return null
     }
 
-    if (!arg.startsWith('--')) {
-      throw new SmokeError(
-        `Unexpected argument: ${arg}\n\n${helpText(adapter)}`
-      )
+    // Accepts both `--env name` and `--env=name` (same for -E/-e).
+    if (arg === '--env' || arg === '-E' || arg === '-e') {
+      setEnv(argv[++i], arg)
+      continue
+    }
+    if (
+      arg.startsWith('--env=') ||
+      arg.startsWith('-E=') ||
+      arg.startsWith('-e=')
+    ) {
+      setEnv(arg.split('=', 2)[1], arg)
+      continue
     }
 
-    const [flag, value] = arg.slice(2).split('=', 2)
+    if (arg === '--build' || arg === '-B' || arg === '-b') {
+      build = true
+      continue
+    }
 
-    if (flag in ENV_FLAGS) {
-      filters.envs.push(flag as CellFilters['envs'][number])
-      filtered = true
-    } else if (flag in RENDERING_FLAGS) {
-      filters.renderings.push(flag as CellFilters['renderings'][number])
-      filtered = true
-    } else if (flag in MODE_FLAGS) {
-      filters.modes.push(flag as CellFilters['modes'][number])
-      filtered = true
-    } else if ((PMS as readonly string[]).includes(flag)) {
-      pms.push(flag as Pm)
-    } else if (flag === 'tiers') {
-      const parsed = (value ?? '')
-        .split(',')
-        .filter(Boolean)
-        .map((t) => Number(t))
-      if (!parsed.length || parsed.some((t) => ![0, 1, 2, 3].includes(t))) {
+    if (arg === '--nopack') {
+      nopack = true
+      continue
+    }
+
+    if (arg === '--sequential') {
+      sequential = true
+      continue
+    }
+
+    if (arg === '--pm' || arg.startsWith('--pm=')) {
+      const value = arg === '--pm' ? argv[++i] : arg.split('=', 2)[1]
+      if (!PMS.includes(value as Pm)) {
         throw new SmokeError(
-          `Invalid --tiers value: ${value} (use e.g. --tiers=0,1)`
+          `--pm needs a package manager name (one of: ${PMS.join(', ')}).`
         )
       }
-      tiers = new Set(parsed)
-    } else if (flag === 'skip-pack') {
-      skipPack = true
-    } else if (flag === 'pack-only') {
-      packOnly = true
-    } else if (flag === 'headed') {
-      headed = true
-    } else if (flag === 'vite-major') {
-      viteMajor = Number(value)
-      if (!Number.isInteger(viteMajor) || viteMajor < 2) {
-        throw new SmokeError(`Invalid --vite-major value: ${value}`)
-      }
-    } else {
-      throw new SmokeError(`Unknown flag: ${arg}\n\n${helpText(adapter)}`)
+      pm = value as Pm
+      continue
     }
+
+    throw new SmokeError(`Unknown argument: ${arg}\n\n${helpText(adapter)}`)
   }
 
-  if (pms.length > 1) {
-    throw new SmokeError(
-      `At most one package manager flag may be given (got --${pms.join(' --')}).`
-    )
-  }
+  return { env, build, nopack, sequential, pm }
+}
 
-  return {
-    filters,
-    filtered,
-    pm: pms[0] ?? 'pnpm',
-    tiers,
-    skipPack,
-    packOnly,
-    headed,
-    viteMajor,
-  }
+const fmtDuration = (ms: number) => {
+  const s = Math.round(ms / 1000)
+  return s >= 60 ? `${Math.floor(s / 60)}m ${s % 60}s` : `${s}s`
 }
 
 async function main(options: SmokeCliOptions) {
@@ -173,73 +185,160 @@ async function main(options: SmokeCliOptions) {
   const parsed = parseArgs(process.argv.slice(2), adapter)
   if (!parsed) return
 
-  if (parsed.packOnly) {
-    packWorkspace(root, path.join(smokeStateDir(root), 'tarballs'), {
-      skipPack: false,
-    })
-    return
-  }
+  const selected = parsed.env
+    ? ENVS.filter((env) => env.id === parsed.env)
+    : ENVS
 
-  const cells = filterCells(parsed.filters)
-  if (!cells.length) {
-    throw new SmokeError(
-      `Unsupported combination — no cell matches the given filters.\n\n${helpText(adapter)}`
-    )
-  }
+  // Envs without a committed fixture: hard error when explicitly selected,
+  // skip with a note on "run everything" invocations.
+  const runnable: EnvDef[] = []
+  const results: EnvResult[] = []
 
-  // Cells without a committed fixture: hard error when explicitly selected,
-  // skip with a note on unfiltered "run everything" invocations.
-  const runnable: CellDef[] = []
-  const results: CellResult[] = []
-
-  for (const cell of cells) {
-    if (exists(fixtureDir(adapterDir, cell))) {
-      runnable.push(cell)
-    } else if (parsed.filtered) {
+  for (const env of selected) {
+    if (exists(fixtureDir(env))) {
+      runnable.push(env)
+    } else if (parsed.env) {
       throw new SmokeError(
-        `Cell "${cell.id}" has no fixture at packages/${adapter}/tests/smoke/${cell.fixture}.`
+        `Env "${env.id}" has no fixture shell at smoke-test/envs/${env.fixture} (in @vueform/utils).`
       )
     } else {
-      results.push({ adapter, cell, status: 'skip', detail: 'no fixture yet' })
+      results.push({ adapter, env, status: 'skip', detail: 'no fixture yet' })
     }
   }
 
   if (!runnable.length) {
     throw new SmokeError(
-      `No smoke fixtures exist yet under packages/${adapter}/tests/smoke/.`
+      `No fixture shells exist under smoke-test/envs/ (in @vueform/utils).`
     )
   }
 
   const stateDir = smokeStateDir(root)
-  const tarballs = packWorkspace(root, path.join(stateDir, 'tarballs'), {
-    skipPack: parsed.skipPack,
+  const log = createSmokeLog(root, adapter)
+  const display = createDisplay({
+    adapter: pkg.name ?? adapter,
+    envIds: runnable.map((e) => e.id),
+    live: Boolean(process.stdout.isTTY),
   })
+  const durations = new Map<string, number>()
 
-  for (const cell of runnable) {
-    try {
-      await runCell({
-        root,
-        adapter,
-        adapterDir,
-        cell,
-        pm: parsed.pm,
-        tarballs,
-        runsDir: path.join(stateDir, 'runs'),
-        tiers: parsed.tiers,
-        headed: parsed.headed,
-        viteMajor: parsed.viteMajor,
-      })
-      results.push({ adapter, cell, status: 'pass' })
-    } catch (error) {
-      if (!(error instanceof SmokeError)) throw error
-      console.error(`\n${error.message}\n`)
-      results.push({ adapter, cell, status: 'fail', detail: error.message })
+  try {
+    if (parsed.build) {
+      log.section('build')
+      for (const name of ['@vueform/core', pkg.name]) {
+        display.phase(`building ${name}…`)
+        await run('pnpm', ['--filter', name, 'run', 'build'], {
+          cwd: root,
+          log: log.write,
+          fail: `Building ${name} failed`,
+        })
+      }
     }
+
+    display.phase(parsed.nopack ? 'checking tarballs…' : 'packing tarballs…')
+    log.section('pack')
+    const tarballs = await packWorkspace(root, tarballsDir(root), {
+      skipPack: parsed.nopack,
+      log: log.write,
+      onStatus: display.phase,
+    })
+
+    // Before the fan-out: parallel envs must not race the browser install.
+    display.phase('checking the Playwright browser…')
+    await ensureBrowsers(adapterDir, log.write)
+    display.phase(null)
+
+    // Each env logs into its own buffer, flushed as one section on
+    // completion — parallel envs would otherwise interleave the log file.
+    const resultByEnv = new Map<string, EnvResult>()
+    const runOne = async (env: EnvDef) => {
+      const started = Date.now()
+      let buffer = ''
+      const bufLog = (text: string) => {
+        buffer += text.endsWith('\n') ? text : text + '\n'
+      }
+      try {
+        await runEnv({
+          root,
+          adapter,
+          adapterDir,
+          env,
+          tarballs,
+          pm: parsed.pm,
+          runsDir: path.join(stateDir, 'runs'),
+          log: bufLog,
+          report: (stage, status) => display.stage(env.id, stage, status),
+        })
+        resultByEnv.set(env.id, { adapter, env, status: 'pass' })
+      } catch (error) {
+        if (!(error instanceof SmokeError)) throw error
+        bufLog(`FAILED: ${error.message}`)
+        resultByEnv.set(env.id, {
+          adapter,
+          env,
+          status: 'fail',
+          detail: error.message,
+          stage: (error as SmokeError & { stage?: EnvResult['stage'] }).stage,
+          logTail: error.logTail,
+        })
+      }
+      durations.set(env.id, Date.now() - started)
+      log.write(buffer)
+    }
+
+    if (parsed.sequential) {
+      for (const env of runnable) await runOne(env)
+    } else {
+      await Promise.all(runnable.map(runOne))
+    }
+
+    // Summary rows in the fixed env order, not completion order.
+    for (const env of runnable) results.push(resultByEnv.get(env.id)!)
+  } finally {
+    display.stop()
+    log.close()
   }
 
-  if (!summarize(results)) process.exit(1)
+  const failures = results.filter((r) => r.status === 'fail')
 
-  void pkg
+  console.log(`\n${bold('[smoke] Summary:')}`)
+  for (const r of results) {
+    const mark =
+      r.status === 'pass'
+        ? green('✓')
+        : r.status === 'fail'
+          ? red('✗')
+          : dim('–')
+    const time = durations.has(r.env.id)
+      ? dim(` (${fmtDuration(durations.get(r.env.id)!)})`)
+      : ''
+    const where = r.status === 'fail' && r.stage ? dim(` — ${r.stage}`) : ''
+    const skip = r.status === 'skip' ? dim(` — ${r.detail}`) : ''
+    console.log(`  ${mark} ${r.env.id}${time}${where}${skip}`)
+  }
+
+  const ran = results.length - results.filter((r) => r.status === 'skip').length
+  const status = failures.length
+    ? red(`${failures.length} of ${ran} envs failed.`)
+    : green('All envs passed.')
+  console.log(`\n${status}`)
+
+  if (failures.length) {
+    // The failure details go to the errors sibling log, not the terminal.
+    const sections = failures.map((f) => {
+      const head = `––––– ${f.adapter}:${f.env.id}${f.stage ? ` — ${f.stage}` : ''} –––––`
+      return [head, '', f.detail, ...(f.logTail ? ['', f.logTail] : [])].join(
+        '\n'
+      )
+    })
+    writeFileSync(log.errorsFile, sections.join('\n\n') + '\n')
+
+    console.log(
+      `\n${red(`${failures.length} envs failed - see full error log:`)}\n${termLink(log.errorsFile)}`
+    )
+  }
+  console.log('')
+
+  if (failures.length) process.exit(1)
 }
 
 export async function runSmokeCli(

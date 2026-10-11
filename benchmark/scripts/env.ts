@@ -2,6 +2,7 @@ import { execFileSync } from 'node:child_process'
 import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
+
 import { APP_DIR, ROOT } from './lib'
 
 export interface Environment {
@@ -11,6 +12,10 @@ export interface Environment {
   browser: string
   vue: string
   vueform: string
+  /**
+   * ISO timestamp of the run (second precision).
+   */
+  capturedAt: string
 }
 
 function osName(): string {
@@ -33,6 +38,7 @@ function packageVersion(pkgJsonPath: string): string {
  */
 export function captureEnvironment(browserVersion: string): Environment {
   return {
+    capturedAt: new Date().toISOString().replace(/\.\d+Z$/, 'Z'),
     cpu: os.cpus()[0]?.model ?? 'unknown',
     ramBytes: os.totalmem(),
     os: osName(),

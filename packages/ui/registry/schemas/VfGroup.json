@@ -10,7 +10,7 @@
       "path": "VfGroup.vue",
       "target": "{componentsDir}/VfGroup.vue",
       "kind": "component",
-      "hash": "sha256:b133cb5167e0e130a3d707796da3ec75e332a10b7d5db01276ab826bcebca74b"
+      "hash": "sha256:28a9e7d3267e8b7d06475822cedbcbfb754541b9d304bfab213273a98ed553ef"
     }
   ],
   "imports": [
@@ -20,14 +20,12 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "group"
-  ],
+  "styles": ["group"],
   "element": true,
   "clone": {
     "path": "VfGroup.vue",
     "blueprint": "group",
-    "hash": "sha256:972107b83fe306aa170e55f4b506dc7745475568c3d4693471599dff40c4a937",
+    "hash": "sha256:cb39ddfa64d2065e142b73bd76e4874504e61ba443e5c8e6822e8b038e7e1679",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -83,6 +83,9 @@
         "description": {
           "type": "string"
         },
+        "loc": {
+          "type": "string"
+        },
         "required": {
           "const": true
         },
@@ -116,6 +119,9 @@
         "description": {
           "type": "string"
         },
+        "loc": {
+          "type": "string"
+        },
         "params": {
           "type": "object",
           "additionalProperties": {
@@ -134,6 +140,9 @@
           "minLength": 1
         },
         "description": {
+          "type": "string"
+        },
+        "loc": {
           "type": "string"
         },
         "tag": {
@@ -161,6 +170,9 @@
         "description": {
           "type": "string"
         },
+        "loc": {
+          "type": "string"
+        },
         "params": {
           "type": "object",
           "description": "Parameters, for function-typed slot payload members.",
@@ -179,6 +191,9 @@
       "additionalProperties": false,
       "properties": {
         "description": {
+          "type": "string"
+        },
+        "loc": {
           "type": "string"
         },
         "exposes": {
@@ -206,6 +221,9 @@
         "description": {
           "type": "string"
         },
+        "loc": {
+          "type": "string"
+        },
         "default": {
           "type": "string",
           "minLength": 1
@@ -224,6 +242,9 @@
                 "additionalProperties": false,
                 "properties": {
                   "description": {
+                    "type": "string"
+                  },
+                  "loc": {
                     "type": "string"
                   },
                   "type": {

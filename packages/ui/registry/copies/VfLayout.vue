@@ -4,23 +4,24 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { computed } from 'vue'
 import VfPassthrough, {
-  type HeadingProp,
-  type UnknownElementParts,
   useBlueprint,
   useLayoutClasses,
   useLocale,
   defineEvents,
+  type HeadingProp,
+  type UnknownElementParts,
   mergeClass,
 } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfLayoutEmits,
   type VfLayoutProps,
   type VfLayoutSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfLayout'
+import { computed } from 'vue'
+
 import '@vueform/ui/element.css'
 import '@vueform/ui/input.css'
 import '@vueform/ui/icon.css'
@@ -29,10 +30,10 @@ import '@vueform/ui/utils.css'
 import '@vueform/ui/hr.css'
 import '@vueform/ui/blockquote.css'
 
-// Imported by file, not through the helpers barrel: the vapor build
-// externalizes barrel .ts modules to the main (vdom) dist, and a vdom
-// VfPassthrough inside a vapor tree renders nothing. The direct .vue import
-// stays internal and gets vapor-compiled.
+// Imported by direct SFC path, not via a barrel: the vapor build externalizes
+// .ts modules to the main (vdom) dist and only vapor-compiles .vue files it
+// resolves directly — a barrel import would smuggle in the vdom-compiled
+// VfPassthrough, which renders nothing inside a vapor tree.
 
 defineOptions({
   name: 'VfLayout',
@@ -225,6 +226,11 @@ defineExpose(expose)
   >
     <component v-if="outlets.template" :is="outlets.template" :context />
     <template v-else-if="isContainer || el$.viewLoaded">
+      <!-- TODO(bug): v-show on <template> is a no-op — el$.visible is never
+        applied in the layout-less path. Pre-existing; fixing it changes
+        runtime behavior (elements would start hiding), so it needs a
+        deliberate decision + visual run. -->
+      <!-- eslint-disable-next-line vue/valid-v-show, vue/no-useless-template-attributes -->
       <template v-if="el$.props.layout === false" v-show="el$.visible">
         <component :is="rootProps ? 'div' : VfPassthrough" v-bind="rootProps">
           <component

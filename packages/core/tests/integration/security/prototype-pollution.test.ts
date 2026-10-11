@@ -1,3 +1,18 @@
+import {
+  clone,
+  createVueform,
+  defineSchema,
+  get,
+  getSecurityModule,
+  merge,
+  mergeOrReplace,
+  model,
+  normalize,
+  security,
+  set,
+  unset,
+} from '@vueform/core'
+import dompurify from '@vueform/dompurify'
 /**
  * # Prototype pollution and data-layer hygiene
  *
@@ -13,22 +28,8 @@
  * the page cannot flip Vueform's own security policy.
  */
 import { nextTick } from 'vue'
+
 import { createForm, flushPromises } from '../../helpers'
-import {
-  clone,
-  createVueform,
-  defineSchema,
-  get,
-  getSecurityModule,
-  merge,
-  mergeOrReplace,
-  model,
-  normalize,
-  security,
-  set,
-  unset,
-} from '#core'
-import dompurify from '#dompurify'
 
 describe('Security: prototype pollution', () => {
   describe('path utilities', () => {
@@ -335,7 +336,7 @@ describe('Security: prototype pollution', () => {
      */
     test('it should ignore prototype-named keys in server error maps', async () => {
       const failing422 = async (config: any) => {
-        const err = new (await import('#core')).HttpError(
+        const err = new (await import('@vueform/core')).HttpError(
           'unprocessable',
           config,
           'http',

@@ -295,8 +295,8 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`valign`](!code#context.valign "ValignProp \| NonNullable<TProps[\"valign\"]>") | The resolved vertical alignment, falling back to the grid's valign prop. |
 | [`cell`](!code#context.cell "GridCell \| undefined") | The grid cell data for this column at the current row position. |
 | [`cellCss`](!code#context.cellCss "string") | The CSS text for the cell's grid-area when it spans multiple columns or rows. |
-| [`colspan`](!code#context.colspan "number") |  |
-| [`rowspan`](!code#context.rowspan "number") |  |
+| [`colspan`](!code#context.colspan "number") | The number of columns the cell spans. |
+| [`rowspan`](!code#context.rowspan "number") | The number of rows the cell spans. |
 | [`colHeader`](!code#context.colHeader "boolean") | Whether this cell should be styled as a column header, resolved from the header prop and position or the parent grid's colHeaders setting. |
 | [`rowHeader`](!code#context.rowHeader "boolean") | Whether this cell should be styled as a row header, resolved from the header prop and position or the parent grid's rowHeaders setting. |
 
@@ -312,7 +312,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 | Name | Description |
 | --- | --- |
-| [`uid`](!code#context.uid "number") |  |
+| [`uid`](!code#context.uid "number") | The unique identifier of the component instance, used to key the cell within the parent row. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->

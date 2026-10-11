@@ -12,9 +12,9 @@
  */
 // The main barrel first: entering the graph at the modules barrel alone
 // evaluates module definitions before `~/helpers` finishes initializing.
-import '#core'
+import '@vueform/core'
+import { security } from '@vueform/core/modules'
 import { describe, expect, it } from 'vitest'
-import { security } from '#core/modules'
 
 /**
  * Builds the security module against a bare config, the way `createVueform`

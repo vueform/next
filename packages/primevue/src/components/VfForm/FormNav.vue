@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import type { NavPosProp } from '#primevue/blueprints/nav'
-import type { VfFormClasses, VfFormParts } from './types'
 import type { Pager, TProp } from '@vueform/core'
+
+import type { NavPosProp } from '#src/blueprints/nav'
+
+import type { VfFormClasses, VfFormParts } from './types'
 
 defineOptions({ name: 'VfFormNav' })
 
@@ -20,9 +22,6 @@ defineProps<{
   /**
    * Inline template slots from the parent VfForm (`useSlots()`). Keys are only
    * checked for presence — never invoked for inspection.
-   */
-  /**
-   * @write
    */
   position?: NavPosProp
 }>()

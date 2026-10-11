@@ -1,24 +1,4 @@
 import type {
-  LayoutApi,
-  LayoutEmits,
-  LayoutProps,
-  LayoutParts,
-  LayoutSlots,
-  LayoutExpose,
-  LayoutClasses,
-} from '#primevue/blueprints/layout'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-  TabsClasses,
-  TabsParts,
-  TabsSlots,
-} from '#primevue/features'
-import type {
   DOMAttrs,
   AddonsParts,
   AddonsSlots,
@@ -35,11 +15,32 @@ import type { InputGroupProps } from 'primevue/inputgroup'
 import type { InputGroupAddonProps } from 'primevue/inputgroupaddon'
 import type { VNode } from 'vue'
 
+import type {
+  LayoutApi,
+  LayoutEmits,
+  LayoutProps,
+  LayoutParts,
+  LayoutSlots,
+  LayoutExpose,
+  LayoutClasses,
+} from '#src/blueprints/layout'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+  TabsClasses,
+  TabsParts,
+  TabsSlots,
+} from '#src/features'
+
 /**
  * Props for the VfLayout component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfLayoutProps extends LayoutProps<
   VfLayoutSlots,

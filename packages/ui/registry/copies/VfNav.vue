@@ -5,18 +5,19 @@
  */
 
 import {
-  type VfNavEmits,
-  type VfNavProps,
-  type VfNavSlots,
-  defaults,
-  blueprint,
-} from '@vueform/ui/components/VfNav'
-import {
   useBlueprint,
   useLocale,
   useFormContext,
   defineEvents,
 } from '@vueform/ui'
+import {
+  defaults,
+  blueprint,
+  type VfNavEmits,
+  type VfNavProps,
+  type VfNavSlots,
+} from '@vueform/ui/components/VfNav'
+
 import '@vueform/ui/nav.css'
 
 defineOptions({ name: 'VfNav', inheritAttrs: false })

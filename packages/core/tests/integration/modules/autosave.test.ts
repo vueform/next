@@ -1,12 +1,13 @@
-import { nextTick } from 'vue'
-import { createForm, flushPromises } from '../../helpers'
 import {
   defineSchema,
   HttpError,
   type HttpAdapter,
   type HttpRequestConfig,
   type HttpResponse,
-} from '#core'
+} from '@vueform/core'
+import { nextTick } from 'vue'
+
+import { createForm, flushPromises } from '../../helpers'
 
 /**
  * Autosave subscribes to navigation EVENTS, not their payloads — these tests

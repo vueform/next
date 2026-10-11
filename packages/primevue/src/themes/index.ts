@@ -1,5 +1,6 @@
-import type { theme } from './tokens'
 import type { CompleteTheme, InferThemeTokens } from '@vueform/core'
+
+import type { theme } from './tokens'
 
 declare module '@vueform/core' {
   interface ThemeTokens extends InferThemeTokens<typeof theme> {}

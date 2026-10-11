@@ -10,7 +10,7 @@
       "path": "VfIcon.vue",
       "target": "{componentsDir}/VfIcon.vue",
       "kind": "component",
-      "hash": "sha256:d021de4511a65a2e7be0bcf491a7988ed2628b4866b6fc80abb828e3549aaf38"
+      "hash": "sha256:1cbf3cc9d938643a5f432ab0873687286d1226e5a7b1086fefca8f61ad1aa112"
     }
   ],
   "imports": [
@@ -22,10 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "icon",
-    "animation"
-  ],
+  "styles": ["icon", "animation"],
   "register": {
     "component": "VfIcon",
     "import": "{componentsDir}/VfIcon.vue"

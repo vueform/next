@@ -1,6 +1,7 @@
+import { defineSchema, useClasses, useContext } from '@vueform/core'
 import { defineComponent, h, markRaw, nextTick, ref } from 'vue'
+
 import { createForm } from '../../helpers'
-import { defineSchema, useClasses, useContext } from '#core'
 
 // `useClasses()` called from a custom template registers class definitions on
 // the host component's own registrar: a key the template sets replaces the

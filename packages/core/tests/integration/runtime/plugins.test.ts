@@ -1,6 +1,7 @@
+import { definePlugin, defineSchema } from '@vueform/core'
 import { nextTick } from 'vue'
+
 import { createForm } from '../../helpers'
-import { definePlugin, defineSchema } from '#core'
 
 describe('Plugins', () => {
   describe('apply', () => {

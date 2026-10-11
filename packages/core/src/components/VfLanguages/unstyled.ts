@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfLanguages, { type VfLanguagesEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfLanguages: typeof VfLanguages
   }
+}
+
+declare module './types' {
+  interface VfLanguagesProps
+    extends
+      PartProps<VfLanguagesParts, VfLanguagesContext>,
+      ClassProps<VfLanguagesClasses, VfLanguagesContext>,
+      ReclassProps<VfLanguagesClasses, VfLanguagesContext> {}
 }

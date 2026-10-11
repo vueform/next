@@ -1,7 +1,7 @@
 <script setup lang="ts">
 /**
  * Vue-level items → model / key-prop inference cases for VfSelect. Validated by
- * `pnpm test:dts` (vue-sfc.test.ts typechecks the SFCs and reports each ✅/❌
+ * `pnpm test-dts` (vue-sfc.test.ts typechecks the SFCs and reports each ✅/❌
  * case as a named test). Failures use `@vue-expect-error`.
  */
 import '@vueform/core/components'
@@ -226,18 +226,42 @@ const v20c = ref([{ value: 123, label: 'Foo' }])
   <!-- ============================================================ -->
 
   <!-- ✅: item-value is string and model matches any of the loose object values shape -->
-  <VfSelect name="s6a" :items="i6" v-model="v6a" :default="v6a" item-value="any" />
+  <VfSelect
+    name="s6a"
+    :items="i6"
+    v-model="v6a"
+    :default="v6a"
+    item-value="any"
+  />
 
   <!-- ❌: item-value is string and model does not match any of the loose object values shape -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s6b" :items="i6" v-model="v6b" :default="v6b" item-value="any" />
+  <VfSelect
+    name="s6b"
+    :items="i6"
+    v-model="v6b"
+    :default="v6b"
+    item-value="any"
+  />
 
   <!-- ✅: item-value is function returning number and model matches it -->
-  <VfSelect name="s6c" :items="i6" v-model="v6c" :default="v6c" :item-value="() => 123" />
+  <VfSelect
+    name="s6c"
+    :items="i6"
+    v-model="v6c"
+    :default="v6c"
+    :item-value="() => 123"
+  />
 
   <!-- ❌: item-value is function returning number and model does not match it -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s6d" :items="i6" v-model="v6d" :default="v6d" :item-value="() => 123" />
+  <VfSelect
+    name="s6d"
+    :items="i6"
+    v-model="v6d"
+    :default="v6d"
+    :item-value="() => 123"
+  />
 
   <!-- ============================================================ -->
   <!-- Arrays of strict objects — unset itemValue                   -->
@@ -255,40 +279,110 @@ const v20c = ref([{ value: 123, label: 'Foo' }])
   <!-- ============================================================ -->
 
   <!-- ✅: item-value is a valid string that model matches -->
-  <VfSelect name="s8a" :items="i8" v-model="v8a" :default="v8a" item-value="value" />
+  <VfSelect
+    name="s8a"
+    :items="i8"
+    v-model="v8a"
+    :default="v8a"
+    item-value="value"
+  />
 
   <!-- ❌: item-value is a valid string that model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s8b" :items="i8" v-model="v8b" :default="v8b" item-value="value" />
+  <VfSelect
+    name="s8b"
+    :items="i8"
+    v-model="v8b"
+    :default="v8b"
+    item-value="value"
+  />
 
   <!-- ❌: item-value is an invalid string  -->
   <!-- @vue-expect-error -->
   <VfSelect name="s8c" :items="i8" item-value="not_value" />
 
   <!-- ✅: item-value is an annotated function returning value and model matches -->
-  <VfSelect name="s8d" :items="i8" v-model="v8d" :default="v8d" :item-value="(item: Item8) => item.value" />
+  <VfSelect
+    name="s8d"
+    :items="i8"
+    v-model="v8d"
+    :default="v8d"
+    :item-value="(item: Item8) => item.value"
+  />
 
   <!-- ❌: item-value is an annotated function returning value and model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s8e" :items="i8" v-model="v8e" :default="v8e" :item-value="(item: Item8) => item.value" />
+  <VfSelect
+    name="s8e"
+    :items="i8"
+    v-model="v8e"
+    :default="v8e"
+    :item-value="(item: Item8) => item.value"
+  />
 
   <!-- ❌: item-value is a non-annoted function returning value but model matches -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s8f" :items="i8" v-model="v8f" :default="v8f" :item-value="(item) => item.value" />
+  <VfSelect
+    name="s8f"
+    :items="i8"
+    v-model="v8f"
+    :default="v8f"
+    :item-value="(item) => item.value"
+  />
 
   <!-- ✅: item-value is function with any item and returns type that model matches -->
-  <VfSelect name="s8g" :items="i8" v-model="v8g" :default="v8g" :item-value="(i: any): string => (i ? 'foo' : 'bar')" />
+  <VfSelect
+    name="s8g"
+    :items="i8"
+    v-model="v8g"
+    :default="v8g"
+    :item-value="(i: any): string => (i ? 'foo' : 'bar')"
+  />
 
   <!-- ✅: item-value is function with any item and returns type that model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s8h" :items="i8" v-model="v8h" :default="v8h" :item-value="(i: any): string => (i ? 'foo' : 'bar')" />
+  <VfSelect
+    name="s8h"
+    :items="i8"
+    v-model="v8h"
+    :default="v8h"
+    :item-value="(i: any): string => (i ? 'foo' : 'bar')"
+  />
 
   <!-- ✅: item-value is function with unknown item and returns type that model matches -->
-  <VfSelect name="s8i" :items="i8" v-model="v8i" :default="v8i" :item-value="(i: unknown) => (i && typeof i === 'object' && 'value' in i && typeof i.value === 'string' ? i.value : undefined)" />
+  <VfSelect
+    name="s8i"
+    :items="i8"
+    v-model="v8i"
+    :default="v8i"
+    :item-value="
+      (i: unknown) =>
+        i &&
+        typeof i === 'object' &&
+        'value' in i &&
+        typeof i.value === 'string'
+          ? i.value
+          : undefined
+    "
+  />
 
   <!-- ✅: item-value is function with unknown item and returns type that model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s8j" :items="i8" v-model="v8j" :default="v8j" :item-value="(i: unknown) => (i && typeof i === 'object' && 'value' in i && typeof i.value === 'string' ? i.value : undefined)" />
+  <VfSelect
+    name="s8j"
+    :items="i8"
+    v-model="v8j"
+    :default="v8j"
+    :item-value="
+      (i: unknown) =>
+        i &&
+        typeof i === 'object' &&
+        'value' in i &&
+        typeof i.value === 'string'
+          ? i.value
+          : undefined
+    "
+  />
 
   <!-- ============================================================ -->
   <!-- Arrays of loose objects — key props                          -->
@@ -342,80 +436,234 @@ const v20c = ref([{ value: 123, label: 'Foo' }])
   <!-- ============================================================ -->
 
   <!-- ✅: model shape loosely matches -->
-  <VfSelect name="s12a" :items="i12" group-label="label" group-children="items" v-model="v12a" :default="v12a" />
+  <VfSelect
+    name="s12a"
+    :items="i12"
+    group-label="label"
+    group-children="items"
+    v-model="v12a"
+    :default="v12a"
+  />
 
   <!-- ❌: model shape is not an object -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s12b" :items="i12" group-label="label" group-children="items" v-model="v12b" :default="v12b" />
+  <VfSelect
+    name="s12b"
+    :items="i12"
+    group-label="label"
+    group-children="items"
+    v-model="v12b"
+    :default="v12b"
+  />
 
   <!-- ============================================================ -->
   <!-- Grouped arrays of loose objects — itemValue is set           -->
   <!-- ============================================================ -->
 
   <!-- ✅: item-value is string and model matches any of the loose object values shape -->
-  <VfSelect name="s13a" :items="i13" group-label="label" group-children="items" v-model="v13a" :default="v13a" item-value="any" />
+  <VfSelect
+    name="s13a"
+    :items="i13"
+    group-label="label"
+    group-children="items"
+    v-model="v13a"
+    :default="v13a"
+    item-value="any"
+  />
 
   <!-- ❌: item-value is string and model does not match any of the loose object values shape -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s13b" :items="i13" group-label="label" group-children="items" v-model="v13b" :default="v13b" item-value="any" />
+  <VfSelect
+    name="s13b"
+    :items="i13"
+    group-label="label"
+    group-children="items"
+    v-model="v13b"
+    :default="v13b"
+    item-value="any"
+  />
 
   <!-- ✅: item-value is function returning number and model matches it -->
-  <VfSelect name="s13c" :items="i13" group-label="label" group-children="items" v-model="v13c" :default="v13c" :item-value="() => 123" />
+  <VfSelect
+    name="s13c"
+    :items="i13"
+    group-label="label"
+    group-children="items"
+    v-model="v13c"
+    :default="v13c"
+    :item-value="() => 123"
+  />
 
   <!-- ❌: item-value is function returning number and model does not match it -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s13d" :items="i13" group-label="label" group-children="items" v-model="v13d" :default="v13d" :item-value="() => 123" />
+  <VfSelect
+    name="s13d"
+    :items="i13"
+    group-label="label"
+    group-children="items"
+    v-model="v13d"
+    :default="v13d"
+    :item-value="() => 123"
+  />
 
   <!-- ============================================================ -->
   <!-- Grouped arrays of strict objects — unset itemValue           -->
   <!-- ============================================================ -->
 
   <!-- ✅: model matches -->
-  <VfSelect name="s14a" :items="i14" group-label="label" group-children="items" v-model="v14a" :default="v14a" />
+  <VfSelect
+    name="s14a"
+    :items="i14"
+    group-label="label"
+    group-children="items"
+    v-model="v14a"
+    :default="v14a"
+  />
 
   <!-- ❌: model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s14b" :items="i14" group-label="label" group-children="items" v-model="v14b" :default="v14b" />
+  <VfSelect
+    name="s14b"
+    :items="i14"
+    group-label="label"
+    group-children="items"
+    v-model="v14b"
+    :default="v14b"
+  />
 
   <!-- ============================================================ -->
   <!-- Grouped arrays of strict objects — itemValue is set          -->
   <!-- ============================================================ -->
 
   <!-- ✅: item-value is a valid string that model matches -->
-  <VfSelect name="s15a" :items="i15" group-label="label" group-children="items" v-model="v15a" :default="v15a" item-value="value" />
+  <VfSelect
+    name="s15a"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15a"
+    :default="v15a"
+    item-value="value"
+  />
 
   <!-- ❌: item-value is a valid string that model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s15b" :items="i15" group-label="label" group-children="items" v-model="v15b" :default="v15b" item-value="value" />
+  <VfSelect
+    name="s15b"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15b"
+    :default="v15b"
+    item-value="value"
+  />
 
   <!-- ❌: item-value is an invalid string  -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s15c" :items="i15" group-label="label" group-children="items" item-value="not_value" />
+  <VfSelect
+    name="s15c"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    item-value="not_value"
+  />
 
   <!-- ✅: item-value is an annotated function returning value and model matches -->
-  <VfSelect name="s15d" :items="i15" group-label="label" group-children="items" v-model="v15d" :default="v15d" :item-value="(item: Item15) => item.value" />
+  <VfSelect
+    name="s15d"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15d"
+    :default="v15d"
+    :item-value="(item: Item15) => item.value"
+  />
 
   <!-- ❌: item-value is an annotated function returning value and model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s15e" :items="i15" group-label="label" group-children="items" v-model="v15e" :default="v15e" :item-value="(item: Item15) => item.value" />
+  <VfSelect
+    name="s15e"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15e"
+    :default="v15e"
+    :item-value="(item: Item15) => item.value"
+  />
 
   <!-- ❌: item-value is a non-annoted function returning value but model matches -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s15f" :items="i15" group-label="label" group-children="items" v-model="v15f" :default="v15f" :item-value="(item) => item.value" />
+  <VfSelect
+    name="s15f"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15f"
+    :default="v15f"
+    :item-value="(item) => item.value"
+  />
 
   <!-- ✅: item-value is function with any item and returns type that model matches -->
-  <VfSelect name="s15g" :items="i15" group-label="label" group-children="items" v-model="v15g" :default="v15g" :item-value="(i: any): string => (i ? 'foo' : 'bar')" />
+  <VfSelect
+    name="s15g"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15g"
+    :default="v15g"
+    :item-value="(i: any): string => (i ? 'foo' : 'bar')"
+  />
 
   <!-- ✅: item-value is function with any item and returns type that model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s15h" :items="i15" group-label="label" group-children="items" v-model="v15h" :default="v15h" :item-value="(i: any): string => (i ? 'foo' : 'bar')" />
+  <VfSelect
+    name="s15h"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15h"
+    :default="v15h"
+    :item-value="(i: any): string => (i ? 'foo' : 'bar')"
+  />
 
   <!-- ✅: item-value is function with unknown item and returns type that model matches -->
-  <VfSelect name="s15i" :items="i15" group-label="label" group-children="items" v-model="v15i" :default="v15i" :item-value="(i: unknown) => (i && typeof i === 'object' && 'value' in i && typeof i.value === 'string' ? i.value : undefined)" />
+  <VfSelect
+    name="s15i"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15i"
+    :default="v15i"
+    :item-value="
+      (i: unknown) =>
+        i &&
+        typeof i === 'object' &&
+        'value' in i &&
+        typeof i.value === 'string'
+          ? i.value
+          : undefined
+    "
+  />
 
   <!-- ✅: item-value is function with unknown item and returns type that model does not match -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s15j" :items="i15" group-label="label" group-children="items" v-model="v15j" :default="v15j" :item-value="(i: unknown) => (i && typeof i === 'object' && 'value' in i && typeof i.value === 'string' ? i.value : undefined)" />
+  <VfSelect
+    name="s15j"
+    :items="i15"
+    group-label="label"
+    group-children="items"
+    v-model="v15j"
+    :default="v15j"
+    :item-value="
+      (i: unknown) =>
+        i &&
+        typeof i === 'object' &&
+        'value' in i &&
+        typeof i.value === 'string'
+          ? i.value
+          : undefined
+    "
+  />
 
   <!-- ============================================================ -->
   <!-- Arrays of strict objects — group key props                   -->
@@ -450,39 +698,76 @@ const v20c = ref([{ value: 123, label: 'Foo' }])
   <VfSelect name="s16h" :items="i16" group-children="items" item-label="any" />
 
   <!-- ✅: item-disabled is valid string prop -->
-  <VfSelect name="s16i" :items="i16" group-children="items" item-disabled="on" />
+  <VfSelect
+    name="s16i"
+    :items="i16"
+    group-children="items"
+    item-disabled="on"
+  />
 
   <!-- ❌: item-disabled is invalid string prop -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s16j" :items="i16" group-children="items" item-disabled="any" />
+  <VfSelect
+    name="s16j"
+    :items="i16"
+    group-children="items"
+    item-disabled="any"
+  />
 
   <!-- ✅: item-conditions is valid string prop -->
-  <VfSelect name="s16k" :items="i16" group-children="items" item-conditions="if" />
+  <VfSelect
+    name="s16k"
+    :items="i16"
+    group-children="items"
+    item-conditions="if"
+  />
 
   <!-- ❌: item-conditions is invalid string prop -->
   <!-- @vue-expect-error -->
-  <VfSelect name="s16l" :items="i16" group-children="items" item-conditions="any" />
+  <VfSelect
+    name="s16l"
+    :items="i16"
+    group-children="items"
+    item-conditions="any"
+  />
 
   <!-- ============================================================ -->
   <!-- Endpoint                                                     -->
   <!-- ============================================================ -->
 
   <!-- ✅: model defines shape -->
-  <VfSelect name="s17a" :items="i17" v-model="v17a" :default="d17a" @change="(n, o) => n.value && o.value" />
+  <VfSelect
+    name="s17a"
+    :items="i17"
+    v-model="v17a"
+    :default="d17a"
+    @change="(n, o) => n.value && o.value"
+  />
 
   <!-- ❌: default does not match model shape -->
   <!-- @vue-expect-error -->
   <VfSelect name="s17a" :items="i17" v-model="v17b" :default="d17b" />
 
   <!-- ✅: @change args are wide (SelectEmits); modelValue stays items-aware -->
-  <VfSelect name="s17c" :items="i17" v-model="v17c" @change="(n, o) => n.value && o.value" />
+  <VfSelect
+    name="s17c"
+    :items="i17"
+    v-model="v17c"
+    @change="(n, o) => n.value && o.value"
+  />
 
   <!-- ============================================================ -->
   <!-- Function                                                     -->
   <!-- ============================================================ -->
 
   <!-- ✅: model matches items return shape -->
-  <VfSelect name="s18a" :items="i18" v-model="v18a" :default="v18a" @change="(n, o) => n?.value && o?.value" />
+  <VfSelect
+    name="s18a"
+    :items="i18"
+    v-model="v18a"
+    :default="v18a"
+    @change="(n, o) => n?.value && o?.value"
+  />
 
   <!-- ❌: model does not match items return shape -->
   <!-- @vue-expect-error -->
@@ -493,7 +778,13 @@ const v20c = ref([{ value: 123, label: 'Foo' }])
   <!-- ============================================================ -->
 
   <!-- ✅: model matches items return shape -->
-  <VfSelect name="s19a" :items="i19" v-model="v19a" :default="v19a" @change="(n, o) => n?.value && o?.value" />
+  <VfSelect
+    name="s19a"
+    :items="i19"
+    v-model="v19a"
+    :default="v19a"
+    @change="(n, o) => n?.value && o?.value"
+  />
 
   <!-- ❌: model does not match items return shape -->
   <!-- @vue-expect-error -->

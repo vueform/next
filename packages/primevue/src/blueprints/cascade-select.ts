@@ -39,22 +39,11 @@ import {
   makeItems,
 } from '@vueform/core'
 import type {
-  AllowedCascadeOptionGroupChildren,
-  CascadeOptionGroupChildrenProp,
-  OptionsProps,
-  OptionsModelProp,
-  OptionValueProp,
-  AllowsOptionKeyProps,
-  OptionsProp,
-  OptionsModelApi,
-  OptionsGenericsBrand,
-} from '#primevue/features/options'
-import type { ForwardedEmits } from '#primevue/types'
-import type {
   CascadeSelectProps as ACascadeSelectProps,
   CascadeSelectEmitsOptions as ACascadeSelectEmits,
   CascadeSelectChangeEvent,
 } from 'primevue/cascadeselect'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -64,8 +53,20 @@ import {
   type FloatLabelProps,
   type IftaLabelProps,
   type InfoProps,
-} from '#primevue/features'
-import { optionItemAliases } from '#primevue/helpers'
+} from '#src/features'
+import type {
+  AllowedCascadeOptionGroupChildren,
+  CascadeOptionGroupChildrenProp,
+  OptionsProps,
+  OptionsModelProp,
+  OptionValueProp,
+  AllowsOptionKeyProps,
+  OptionsProp,
+  OptionsModelApi,
+  OptionsGenericsBrand,
+} from '#src/features/options'
+import { optionItemAliases } from '#src/helpers'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Plain props type for the cascade-select element blueprint — the widest
@@ -168,8 +169,9 @@ export interface CascadeSelectProps<
    * defaulted schema surface where `TGroupChildren` is still `undefined`.
    */
   optionGroupChildren?: AllowsOptionKeyProps<TOptions> extends true
-    ? | (TGroupChildren & AllowedCascadeOptionGroupChildren<TOptions>)
-      | AllowedCascadeOptionGroupChildren<TOptions>
+    ?
+        | (TGroupChildren & AllowedCascadeOptionGroupChildren<TOptions>)
+        | AllowedCascadeOptionGroupChildren<TOptions>
     : never
 }
 

@@ -10,7 +10,7 @@
       "path": "VfNav.vue",
       "target": "{componentsDir}/VfNav.vue",
       "kind": "component",
-      "hash": "sha256:f75040cb5696e0dd6f7686d18ae2cd37d53dc262eedc69807a0da1d03c42b28f"
+      "hash": "sha256:21e159027d8f18d72021328401bf5bf5275d9672ee5c93c0420053d68f9b2474"
     }
   ],
   "imports": [
@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "nav"
-  ],
+  "styles": ["nav"],
   "register": {
     "component": "VfNav",
     "import": "{componentsDir}/VfNav.vue"

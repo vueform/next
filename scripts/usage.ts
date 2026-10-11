@@ -2,7 +2,6 @@
  * Monorepo CLI help (`pnpm usage`): commands with their flags, and the selector
  * vocabulary discovered live from the workspace.
  */
-import { FILES } from './api-extractor/lib/output'
 import { dim, discoverPackages, green, printBanner } from './runner'
 
 const pkgs = discoverPackages()
@@ -81,45 +80,35 @@ console.log(
     line(
       'test',
       '[packages]',
-      'run package test suites; warns land in node_modules/.vueform/test-issues.md',
+      'run package test suites; warns land in .vueform/test-issues.md',
       [resume]
     ),
     line(
       'lint',
       '[packages]',
-      'eslint + stylelint per target, gathering all issues',
+      'oxlint + stylelint per target, gathering all issues',
       [
         ['--root', 'everything outside packages'],
         ['--fix', 'apply autofixes'],
       ]
     ),
-    line('format', '[packages]', 'prettier per target', [
+    line('format', '[packages]', 'oxfmt per target', [
       ['--root', 'everything outside packages'],
       ['--check', 'check instead of write'],
     ]),
-    line(
-      'fix',
-      '[packages]',
-      'eslint --fix + stylelint --fix + prettier --write',
-      [['--root', 'everything outside packages']]
-    ),
+    line('fix', '[packages]', 'oxlint --fix + stylelint --fix + oxfmt', [
+      ['--root', 'everything outside packages'],
+    ]),
     line(
       'registry',
       '[adapter]',
       'regenerate the adapter(s) committed registry folder'
     ),
-    [
-      row(
-        'extract',
-        '[targets]',
-        'extract api jsons of core + the adapters into .api/'
-      ),
-      flagRows([
-        ['--core, --ui, --pv', 'narrow the extracted sources'],
-      ] as Flag[]),
-      row('extract:validate', null, 'validate .api/ against the schemas'),
-      row('extract:issues', null, 'print the undocumented items collected'),
-    ].join('\n') + '\n',
+    row(
+      'api',
+      null,
+      'extract api jsons of core + the adapters into .vueform/api/'
+    ) + '\n',
     [
       row(
         'pg',
@@ -147,8 +136,5 @@ console.log(
     '',
     `[adapter]${dim(': vueform adapters')}`,
     `  ${adapterList}`,
-    '',
-    `[targets]${dim(': extract output files (runs all when omitted)')}`,
-    `  ${flags([...FILES])}`,
   ].join('\n')
 )

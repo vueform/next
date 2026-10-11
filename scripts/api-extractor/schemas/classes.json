@@ -16,15 +16,10 @@
         "type": "string",
         "minLength": 1
       },
-      "file": {
+      "loc": {
         "type": "string",
         "minLength": 1,
-        "description": "Declaring scss file, relative to the monorepo root; absent for virtual classes."
-      },
-      "line": {
-        "type": "integer",
-        "minimum": 1,
-        "description": "1-based line of the declaration; absent for virtual classes."
+        "description": "Repo-relative `path:line` of the declaring docblock (1-based line); virtual classes point at their key in data/virtual-classes.json."
       },
       "tokens": {
         "type": "array",
@@ -40,20 +35,16 @@
         "description": "Modifier classes documented under this root class; absent when none.",
         "additionalProperties": {
           "type": "object",
-          "required": ["description", "file", "line"],
+          "required": ["description", "loc"],
           "additionalProperties": false,
           "properties": {
             "description": {
               "type": "string",
               "minLength": 1
             },
-            "file": {
+            "loc": {
               "type": "string",
               "minLength": 1
-            },
-            "line": {
-              "type": "integer",
-              "minimum": 1
             },
             "tokens": {
               "type": "array",

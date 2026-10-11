@@ -1,1 +1,1 @@
-import '#ui/scss/content.scss'
+import '#src/scss/content.scss'

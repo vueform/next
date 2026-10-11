@@ -1,5 +1,15 @@
+import type {
+  ExpressionString,
+  GroupChildrenProp,
+  ItemsModel,
+  ItemValueOf,
+  ItemsProp,
+  RawItemOf,
+} from '@vueform/core'
+import type { SelectProps } from '@vueform/core/blueprints/select'
+import type { VfSelectProps } from '@vueform/core/components/VfSelect'
 /*
- * Type-level tests for items → modelValue inference. Run by `pnpm test:dts`.
+ * Type-level tests for items → modelValue inference. Run by `pnpm test-dts`.
  *
  * =============================================================================
  * How items type inference should work
@@ -170,9 +180,6 @@
  * string case (§4) lets `v-model` define the model type.
  */
 import { describe, expectTypeOf, test } from 'vitest'
-import type { ExpressionString, GroupChildrenProp, ItemsModel, ItemValueOf, ItemsProp, RawItemOf } from '@vueform/core'
-import type { SelectProps } from '@vueform/core/blueprints/select'
-import type { VfSelectProps } from '@vueform/core/components/VfSelect'
 
 /*
  * `NoInfer` is transparent for `extends` but not for strict type equality, so
@@ -186,9 +193,23 @@ import type { VfSelectProps } from '@vueform/core/components/VfSelect'
  * `SelectProps` prop types they gate (`itemValue` / `groupChildren`) —
  * the assertions below then also exercise the user-visible prop surface.
  */
-type AllowsItemKeyProps<TItems extends ItemsProp> = [NonNullable<SelectProps<'select', TItems>['itemValue']>] extends [never] ? false : true
-type AllowedItemValueKey<TItems extends ItemsProp, TGroupChildren extends GroupChildrenProp = undefined> = Extract<NonNullable<SelectProps<'select', TItems, undefined, TGroupChildren>['itemValue']>, string>
-type AllowedGroupChildren<TItems extends ItemsProp> = NonNullable<SelectProps<'select', TItems>['groupChildren']>
+type AllowsItemKeyProps<TItems extends ItemsProp> = [
+  NonNullable<SelectProps<'select', TItems>['itemValue']>,
+] extends [never]
+  ? false
+  : true
+type AllowedItemValueKey<
+  TItems extends ItemsProp,
+  TGroupChildren extends GroupChildrenProp = undefined,
+> = Extract<
+  NonNullable<
+    SelectProps<'select', TItems, undefined, TGroupChildren>['itemValue']
+  >,
+  string
+>
+type AllowedGroupChildren<TItems extends ItemsProp> = NonNullable<
+  SelectProps<'select', TItems>['groupChildren']
+>
 
 // Shared items fixtures.
 type ScalarItems = ('a' | 'b')[]
@@ -208,21 +229,33 @@ describe('scalar array items', () => {
     expectTypeOf<RawItemOf<ScalarItems>>().toEqualTypeOf<'a' | 'b'>()
     expectTypeOf<ItemValueOf<ScalarItems>>().toEqualTypeOf<'a' | 'b'>()
     expectTypeOf<ItemsModel<ScalarItems>>().toEqualTypeOf<'a' | 'b' | null>()
-    expectTypeOf<ItemsModel<ScalarItems, 'value', undefined, true>>().toEqualTypeOf<('a' | 'b')[]>()
+    expectTypeOf<
+      ItemsModel<ScalarItems, 'value', undefined, true>
+    >().toEqualTypeOf<('a' | 'b')[]>()
   })
 })
 
 describe('readonly / as const scalar tuple', () => {
   test('literal union drives item / value / model', () => {
     expectTypeOf<RawItemOf<ConstItems>>().toEqualTypeOf<'foo' | 'bar' | 'baz'>()
-    expectTypeOf<ItemValueOf<ConstItems>>().toEqualTypeOf<'foo' | 'bar' | 'baz'>()
-    expectTypeOf<ItemsModel<ConstItems>>().toEqualTypeOf<'foo' | 'bar' | 'baz' | null>()
+    expectTypeOf<ItemValueOf<ConstItems>>().toEqualTypeOf<
+      'foo' | 'bar' | 'baz'
+    >()
+    expectTypeOf<ItemsModel<ConstItems>>().toEqualTypeOf<
+      'foo' | 'bar' | 'baz' | null
+    >()
   })
 
   test('SelectProps modelValue is the literal union and rejects plain string', () => {
-    expectTypeOf<SelectProps<'select', ConstItems>['modelValue']>().toExtend<'foo' | 'bar' | 'baz' | null | undefined>()
-    expectTypeOf<'foo' | 'bar' | 'baz' | null | undefined>().toExtend<SelectProps<'select', ConstItems>['modelValue']>()
-    expectTypeOf<string>().not.toExtend<NonNullable<SelectProps<'select', ConstItems>['modelValue']>>()
+    expectTypeOf<SelectProps<'select', ConstItems>['modelValue']>().toExtend<
+      'foo' | 'bar' | 'baz' | null | undefined
+    >()
+    expectTypeOf<'foo' | 'bar' | 'baz' | null | undefined>().toExtend<
+      SelectProps<'select', ConstItems>['modelValue']
+    >()
+    expectTypeOf<string>().not.toExtend<
+      NonNullable<SelectProps<'select', ConstItems>['modelValue']>
+    >()
   })
 })
 
@@ -231,7 +264,9 @@ describe('object array items + itemValue key', () => {
     expectTypeOf<RawItemOf<ObjectItems>>().toEqualTypeOf<ObjectItem>()
     expectTypeOf<ItemValueOf<ObjectItems, 'id'>>().toEqualTypeOf<number>()
     expectTypeOf<ItemsModel<ObjectItems, 'id'>>().toEqualTypeOf<number | null>()
-    expectTypeOf<ItemsModel<ObjectItems, 'id', undefined, true>>().toEqualTypeOf<number[]>()
+    expectTypeOf<
+      ItemsModel<ObjectItems, 'id', undefined, true>
+    >().toEqualTypeOf<number[]>()
     expectTypeOf<ItemValueOf<ObjectItems>>().toEqualTypeOf<ObjectItem>()
   })
 
@@ -241,11 +276,21 @@ describe('object array items + itemValue key', () => {
     expectTypeOf<ItemValueOf<LabelItems>>().toEqualTypeOf<LabelItem>()
     expectTypeOf<ItemValueOf<LabelItems, 'value'>>().toEqualTypeOf<string>()
     expectTypeOf<ItemsModel<LabelItems>>().toEqualTypeOf<LabelItem | null>()
-    expectTypeOf<SelectProps<'select', LabelItems>['modelValue']>().toExtend<LabelItem | null | undefined>()
-    expectTypeOf<LabelItem | null | undefined>().toExtend<SelectProps<'select', LabelItems>['modelValue']>()
-    expectTypeOf<SelectProps<'select', LabelItems, 'value'>['modelValue']>().toExtend<string | null | undefined>()
-    expectTypeOf<string | null | undefined>().toExtend<SelectProps<'select', LabelItems, 'value'>['modelValue']>()
-    expectTypeOf<string>().not.toExtend<NonNullable<SelectProps<'select', LabelItems>['modelValue']>>()
+    expectTypeOf<SelectProps<'select', LabelItems>['modelValue']>().toExtend<
+      LabelItem | null | undefined
+    >()
+    expectTypeOf<LabelItem | null | undefined>().toExtend<
+      SelectProps<'select', LabelItems>['modelValue']
+    >()
+    expectTypeOf<
+      SelectProps<'select', LabelItems, 'value'>['modelValue']
+    >().toExtend<string | null | undefined>()
+    expectTypeOf<string | null | undefined>().toExtend<
+      SelectProps<'select', LabelItems, 'value'>['modelValue']
+    >()
+    expectTypeOf<string>().not.toExtend<
+      NonNullable<SelectProps<'select', LabelItems>['modelValue']>
+    >()
   })
 })
 
@@ -270,30 +315,60 @@ describe('function items source', () => {
 
 describe('grouped items', () => {
   test('item / value derive from the group children', () => {
-    expectTypeOf<RawItemOf<GroupItems, 'children'>>().toEqualTypeOf<ObjectItem>()
-    expectTypeOf<ItemValueOf<GroupItems, 'id', 'children'>>().toEqualTypeOf<number>()
+    expectTypeOf<
+      RawItemOf<GroupItems, 'children'>
+    >().toEqualTypeOf<ObjectItem>()
+    expectTypeOf<
+      ItemValueOf<GroupItems, 'id', 'children'>
+    >().toEqualTypeOf<number>()
   })
 })
 
 describe('endpoint string items', () => {
   test('model is free and driven by the TModel binding', () => {
-    expectTypeOf<ItemsModel<string, 'value', undefined, false, number | null>>().toEqualTypeOf<number | null>()
+    expectTypeOf<
+      ItemsModel<string, 'value', undefined, false, number | null>
+    >().toEqualTypeOf<number | null>()
   })
 })
 
 describe('itemValue function', () => {
   test('mapper return type drives the value type', () => {
-    expectTypeOf<ItemValueOf<ObjectItems, (item: ObjectItem) => string>>().toEqualTypeOf<string>()
-    expectTypeOf<ItemValueOf<ObjectItems, undefined, undefined, string>>().toEqualTypeOf<string>()
+    expectTypeOf<
+      ItemValueOf<ObjectItems, (item: ObjectItem) => string>
+    >().toEqualTypeOf<string>()
+    expectTypeOf<
+      ItemValueOf<ObjectItems, undefined, undefined, string>
+    >().toEqualTypeOf<string>()
   })
 
   // Inference from an itemValue mapper must win over a simultaneous modelValue
   // binding (NoInfer on the model prop), otherwise the value generics stay
   // unset and the model is typed as the whole item object.
   test('mapper inference wins over a simultaneous modelValue binding', () => {
-    function inferSelectProps<TItems extends ObjectItems, TItemValueKey extends AllowedItemValueKey<TItems> | undefined = undefined, TItemValueReturn = unknown>(
-      p: SelectProps<'select', TItems, TItemValueKey, undefined, false, any, TItemValueReturn>
-    ): SelectProps<'select', TItems, TItemValueKey, undefined, false, any, TItemValueReturn>['modelValue'] {
+    function inferSelectProps<
+      TItems extends ObjectItems,
+      TItemValueKey extends AllowedItemValueKey<TItems> | undefined = undefined,
+      TItemValueReturn = unknown,
+    >(
+      p: SelectProps<
+        'select',
+        TItems,
+        TItemValueKey,
+        undefined,
+        false,
+        any,
+        TItemValueReturn
+      >
+    ): SelectProps<
+      'select',
+      TItems,
+      TItemValueKey,
+      undefined,
+      false,
+      any,
+      TItemValueReturn
+    >['modelValue'] {
       return p.modelValue
     }
 
@@ -318,36 +393,56 @@ describe('itemValue function', () => {
       modelValue: 1,
     })
     expectTypeOf(inferredKeyModel).toExtend<number | null | undefined>()
-    expectTypeOf<number | null | undefined>().toExtend<typeof inferredKeyModel>()
+    expectTypeOf<number | null | undefined>().toExtend<
+      typeof inferredKeyModel
+    >()
   })
 })
 
 describe('blueprint / component props', () => {
   test('SelectProps / VfSelectProps model derives from items + itemValue', () => {
     expectTypeOf<ItemsModel<ObjectItems, 'id'>>().toEqualTypeOf<number | null>()
-    expectTypeOf<ItemsModel<ObjectItems, 'id', undefined, true>>().toEqualTypeOf<number[]>()
+    expectTypeOf<
+      ItemsModel<ObjectItems, 'id', undefined, true>
+    >().toEqualTypeOf<number[]>()
 
     type SelectWithObjects = SelectProps<'select', ObjectItems, 'id'>
-    expectTypeOf<SelectWithObjects['modelValue']>().toExtend<number | null | undefined>()
-    expectTypeOf<number | null | undefined>().toExtend<SelectWithObjects['modelValue']>()
+    expectTypeOf<SelectWithObjects['modelValue']>().toExtend<
+      number | null | undefined
+    >()
+    expectTypeOf<number | null | undefined>().toExtend<
+      SelectWithObjects['modelValue']
+    >()
     // `default` is expressionable, so it also accepts `{...}` expression strings.
-    expectTypeOf<SelectWithObjects['default']>().toExtend<number | null | undefined | ExpressionString>()
-    expectTypeOf<number | null | undefined | ExpressionString>().toExtend<SelectWithObjects['default']>()
+    expectTypeOf<SelectWithObjects['default']>().toExtend<
+      number | null | undefined | ExpressionString
+    >()
+    expectTypeOf<number | null | undefined | ExpressionString>().toExtend<
+      SelectWithObjects['default']
+    >()
 
     type VfSelectWithObjects = VfSelectProps<ObjectItems, 'id'>
-    expectTypeOf<VfSelectWithObjects['modelValue']>().toExtend<number | null | undefined>()
-    expectTypeOf<number | null | undefined>().toExtend<VfSelectWithObjects['modelValue']>()
+    expectTypeOf<VfSelectWithObjects['modelValue']>().toExtend<
+      number | null | undefined
+    >()
+    expectTypeOf<number | null | undefined>().toExtend<
+      VfSelectWithObjects['modelValue']
+    >()
   })
 
   // Valid itemValue keys remain assignable; invalid keys are rejected by the
   // TItemValueKey / TGroupChildren constraints (and itemLabel's key union).
   test('valid keys stay assignable; unknown keys are rejected', () => {
-    type ValidItemValue = NonNullable<SelectProps<'select', ObjectItems, 'id'>['itemValue']>
+    type ValidItemValue = NonNullable<
+      SelectProps<'select', ObjectItems, 'id'>['itemValue']
+    >
     expectTypeOf<'id'>().toExtend<ValidItemValue>()
     expectTypeOf<'nope'>().not.toExtend<AllowedItemValueKey<ObjectItems>>()
 
     expectTypeOf<'not_value'>().not.toExtend<AllowedItemValueKey<LabelItems>>()
-    expectTypeOf<'not_label'>().not.toExtend<NonNullable<SelectProps<'select', LabelItems>['itemLabel']>>()
+    expectTypeOf<'not_label'>().not.toExtend<
+      NonNullable<SelectProps<'select', LabelItems>['itemLabel']>
+    >()
     expectTypeOf<'not_items'>().not.toExtend<AllowedGroupChildren<LabelItems>>()
   })
 })
@@ -360,23 +455,45 @@ describe('key props forbidden for synthetic shapes', () => {
     expectTypeOf<AllowsItemKeyProps<GroupItems>>().toEqualTypeOf<true>()
     expectTypeOf<AllowsItemKeyProps<string>>().toEqualTypeOf<true>()
     expectTypeOf<AllowsItemKeyProps<FnItems>>().toEqualTypeOf<true>()
-    expectTypeOf<AllowsItemKeyProps<() => ('a' | 'b')[]>>().toEqualTypeOf<false>()
+    expectTypeOf<
+      AllowsItemKeyProps<() => ('a' | 'b')[]>
+    >().toEqualTypeOf<false>()
   })
 
   test('scalar / record shapes forbid item key props; mappers stay allowed', () => {
-    expectTypeOf<NonNullable<SelectProps<'select', ScalarItems>['itemValue']>>().toBeNever()
+    expectTypeOf<
+      NonNullable<SelectProps<'select', ScalarItems>['itemValue']>
+    >().toBeNever()
     // Scalar arrays reject string-key lookup but still allow function mappers,
     // which receive the synthetic `{ value, label }` item.
-    expectTypeOf<'label'>().not.toExtend<NonNullable<SelectProps<'select', ScalarItems>['itemLabel']>>()
-    expectTypeOf<(item: any) => string>().toExtend<NonNullable<SelectProps<'select', ScalarItems>['itemLabel']>>()
-    expectTypeOf<NonNullable<SelectProps<'select', RecordItems>['itemValue']>>().toBeNever()
-    expectTypeOf<'name'>().toExtend<NonNullable<SelectProps<'select', ObjectItems, 'id'>['itemLabel']>>()
+    expectTypeOf<'label'>().not.toExtend<
+      NonNullable<SelectProps<'select', ScalarItems>['itemLabel']>
+    >()
+    expectTypeOf<(item: any) => string>().toExtend<
+      NonNullable<SelectProps<'select', ScalarItems>['itemLabel']>
+    >()
+    expectTypeOf<
+      NonNullable<SelectProps<'select', RecordItems>['itemValue']>
+    >().toBeNever()
+    expectTypeOf<'name'>().toExtend<
+      NonNullable<SelectProps<'select', ObjectItems, 'id'>['itemLabel']>
+    >()
   })
 
   test('scalar / record shapes forbid group props; grouped shapes allow them', () => {
-    expectTypeOf<NonNullable<SelectProps<'select', ScalarItems>['groupLabel']>>().toBeNever()
-    expectTypeOf<NonNullable<SelectProps<'select', ScalarItems>['groupChildren']>>().toBeNever()
-    expectTypeOf<NonNullable<SelectProps<'select', RecordItems>['groupConditions']>>().toBeNever()
-    expectTypeOf<'children'>().toExtend<NonNullable<SelectProps<'select', GroupItems, 'id', 'children'>['groupChildren']>>()
+    expectTypeOf<
+      NonNullable<SelectProps<'select', ScalarItems>['groupLabel']>
+    >().toBeNever()
+    expectTypeOf<
+      NonNullable<SelectProps<'select', ScalarItems>['groupChildren']>
+    >().toBeNever()
+    expectTypeOf<
+      NonNullable<SelectProps<'select', RecordItems>['groupConditions']>
+    >().toBeNever()
+    expectTypeOf<'children'>().toExtend<
+      NonNullable<
+        SelectProps<'select', GroupItems, 'id', 'children'>['groupChildren']
+      >
+    >()
   })
 })

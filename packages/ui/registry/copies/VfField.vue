@@ -12,14 +12,15 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { type LanguagesProp, useBlueprint, defineEvents } from '@vueform/ui'
+import { useBlueprint, defineEvents, type LanguagesProp } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfFieldEmits,
   type VfFieldProps,
   type VfFieldSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfField'
+
 import '@vueform/ui/input.css'
 
 defineOptions({

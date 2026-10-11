@@ -1,5 +1,6 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+
 import {
   corePackage,
   nonCoreAdapters,
@@ -417,13 +418,28 @@ function extractAdapterComponents(
     const slots = slotsDecl ? extractSlots(adapterChecker, slotsDecl) : {}
 
     if (eventsDecl) {
-      const forwardedDescs = resolveForwardedEventDescriptions(
+      const forwarded = resolveForwardedEventDescriptions(
         adapterChecker,
         eventsDecl
       )
-      for (const [name, desc] of Object.entries(forwardedDescs)) {
-        if (events[name] && !events[name].description) {
-          events[name].description = desc
+      for (const [name, origin] of Object.entries(forwarded)) {
+        const event = events[name]
+        if (!event) continue
+        // An undocumented member here is the forwarded synthetic — its docs
+        // (and the place to edit them) live on the lib's emit member.
+        if (!event.description) {
+          event.description = origin.description
+          if (origin.loc) event.loc = origin.loc
+        }
+        for (const [paramName, desc] of origin.paramDescriptions) {
+          const param = event.params?.[paramName]
+          if (param && !param.description) param.description = desc
+        }
+        // The trailing context$ is appended by the ForwardedEmits mapping —
+        // synthetic, so it gets the standard wording instead of a doc gap.
+        const context = event.params?.context$
+        if (context && !context.description) {
+          context.description = 'The component context.'
         }
       }
     }

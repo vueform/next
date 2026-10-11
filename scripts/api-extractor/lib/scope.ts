@@ -1,14 +1,12 @@
 import { adapters } from './adapters'
 
 /**
- * Which sources a run covers: the core package and/or named adapters. Selected
- * by CLI flags, shared by `pnpm extract` and `pnpm extract:validate`:
+ * Which sources a run covers: the core package and/or named adapters.
+ * Selected by CLI flags:
  *
- * - `--core` core only
- * - `--adapter=x,y` / `-a=x,y` the listed adapters
- * - `--ui`, `--pv` / `--primevue` shorthands for `--adapter=ui` / `=primevue`
+ * - `--adapter=x,y` / `-a=x,y` / `-A=x,y` the listed adapters only
  *
- * Without flags everything is in scope. Flags combine (`--core --pv`).
+ * Without flags everything is in scope (core + every adapter).
  */
 export interface ScrapeScope {
   core: boolean
@@ -21,22 +19,16 @@ export function parseScope(argv: string[]): {
 } {
   const names = Object.keys(adapters)
 
-  let core = false
   let scoped = false
   const requested: string[] = []
   const rest: string[] = []
 
   for (const arg of argv) {
-    if (arg === '--core') {
-      core = true
-      scoped = true
-    } else if (arg === '--ui') {
-      requested.push('ui')
-      scoped = true
-    } else if (arg === '--pv' || arg === '--primevue') {
-      requested.push('primevue')
-      scoped = true
-    } else if (arg.startsWith('--adapter=') || arg.startsWith('-a=')) {
+    if (
+      arg.startsWith('--adapter=') ||
+      arg.startsWith('-a=') ||
+      arg.startsWith('-A=')
+    ) {
       requested.push(
         ...arg
           .slice(arg.indexOf('=') + 1)
@@ -57,7 +49,7 @@ export function parseScope(argv: string[]): {
   }
 
   const scope: ScrapeScope = scoped
-    ? { core, adapters: [...new Set(requested)] }
+    ? { core: false, adapters: [...new Set(requested)] }
     : { core: true, adapters: names }
 
   return { scope, rest }

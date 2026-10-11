@@ -1,8 +1,5 @@
 {
   "extends": "./tsconfig.json",
-  // Re-include the SFC template type tests that `tsconfig.json` excludes;
-  // `vue-sfc.test.ts` typechecks this program and maps the diagnostics to
-  // named tests.
-  "include": ["../../../global.d.ts", "../../src", "./*.vue"],
+  "include": ["../../src", "./*.vue"],
   "exclude": []
 }

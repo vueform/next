@@ -10,19 +10,17 @@
       "path": "VfForm.vue",
       "target": "{componentsDir}/VfForm.vue",
       "kind": "component",
-      "hash": "sha256:4f65635e23c7006bb55f10cf93f6c9fa06e01bf3a0bc05ecc0ccd72eee2d2577"
+      "hash": "sha256:7f7082a124ee093c4d36884b716aaa1c9d58d2862e935eb9b027fac729dc4f36"
     }
   ],
   "imports": [
-    "@vueform/ui",
     "@vueform/ui/components/VfForm",
+    "@vueform/ui",
     "@vueform/ui/form.css"
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "form"
-  ],
+  "styles": ["form"],
   "register": {
     "component": "VfForm",
     "import": "{componentsDir}/VfForm.vue"

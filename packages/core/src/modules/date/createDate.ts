@@ -1,4 +1,5 @@
-import type { VueformInstance } from '#core/helpers'
+import type { VueformInstance } from '#src/helpers'
+
 import type { DateModule } from './types'
 
 const MISSING_ADAPTER =

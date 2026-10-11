@@ -1,14 +1,16 @@
 import { computed, onMounted, onUnmounted, unref, watch } from 'vue'
-import type { VueformInstance } from '#core/helpers'
+
+import { useHttp, useSecurity } from '#src/composables'
+import type { VueformInstance } from '#src/helpers'
+import { HttpError, type HttpResponse } from '#src/modules/http'
+import { debounce, isFileValue, unset, warn, isDev, isProd } from '#src/utils'
+
 import type {
   AutosaveInstance,
   AutosaveModule,
   AutosaveStorage,
   MakeAutosaveOptions,
 } from './types'
-import { useHttp, useSecurity } from '#core/composables'
-import { HttpError, type HttpResponse } from '#core/modules/http'
-import { debounce, isFileValue, unset, warn, isDev, isProd } from '#core/utils'
 
 /**
  * Navigation events that trigger an immediate local draft save. Fixed by design
@@ -54,7 +56,6 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     const security = useSecurity()
 
     const {
-      autosave,
       payload,
       model,
       sensitivePaths,
@@ -75,7 +76,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     /**
      * The current autosave configuration object.
      */
-    const config = computed(() => unref(autosave))
+    const config = computed(() => unref(options.autosave))
 
     // ============== REMOTE ================
 
@@ -578,9 +579,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
      * overrides the config for this one save. A gated call while the form is
      * invalid still writes the local draft and leaves the remote save pending.
      */
-    const triggerAutosave = async (options?: {
-      invalid?: boolean
-    }): Promise<void> => {
+    const autosave = async (options?: { invalid?: boolean }): Promise<void> => {
       const allowInvalid = options?.invalid ?? config.value?.invalid
 
       if (!allowInvalid && invalid.value) {
@@ -594,7 +593,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     }
 
     return {
-      autosave: triggerAutosave,
+      autosave,
       clearAutosaved,
       loadAutosaved,
     }

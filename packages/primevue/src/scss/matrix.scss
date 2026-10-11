@@ -85,13 +85,20 @@
   .vf-matrix-row:first-of-type .vf-matrix-row-header,
   .vf-matrix-row:first-of-type .vf-matrix-row-remove:first-of-type,
   .vf-matrix-row:first-of-type .sr-only:first-of-type + .vf-matrix-cell,
-  .vf-matrix-row:first-of-type .sr-only:first-of-type ~ .sr-only + .vf-matrix-cell {
+  .vf-matrix-row:first-of-type
+    .sr-only:first-of-type
+    ~ .sr-only
+    + .vf-matrix-cell {
     --vf-tabular-radius-tl: var(--vf-tabular-radius);
   }
 
   .vf-matrix-row:first-of-type .vf-matrix-row-sort ~ .vf-matrix-row-header,
   .vf-matrix-row:first-of-type .vf-matrix-row-sort ~ .sr-only + .vf-matrix-cell,
-  .vf-matrix-row:first-of-type .vf-matrix-row-sort ~ .sr-only ~ .sr-only + .vf-matrix-cell {
+  .vf-matrix-row:first-of-type
+    .vf-matrix-row-sort
+    ~ .sr-only
+    ~ .sr-only
+    + .vf-matrix-cell {
     --vf-tabular-radius-tl: 0px;
   }
 
@@ -99,13 +106,20 @@
   .vf-matrix-row:last-of-type .vf-matrix-row-header,
   .vf-matrix-row:last-of-type .vf-matrix-row-remove:first-of-type,
   .vf-matrix-row:last-of-type .sr-only:first-of-type + .vf-matrix-cell,
-  .vf-matrix-row:last-of-type .sr-only:first-of-type ~ .sr-only + .vf-matrix-cell {
+  .vf-matrix-row:last-of-type
+    .sr-only:first-of-type
+    ~ .sr-only
+    + .vf-matrix-cell {
     --vf-tabular-radius-bl: var(--vf-tabular-radius);
   }
 
   .vf-matrix-row:last-of-type .vf-matrix-row-sort ~ .vf-matrix-row-header,
   .vf-matrix-row:last-of-type .vf-matrix-row-sort ~ .sr-only + .vf-matrix-cell,
-  .vf-matrix-row:last-of-type .vf-matrix-row-sort ~ .sr-only ~ .sr-only + .vf-matrix-cell {
+  .vf-matrix-row:last-of-type
+    .vf-matrix-row-sort
+    ~ .sr-only
+    ~ .sr-only
+    + .vf-matrix-cell {
     --vf-tabular-radius-bl: 0px;
   }
 
@@ -130,10 +144,16 @@
     --vf-tabular-radius-br: 0px;
     --vf-tabular-radius-bl: 0px;
 
-    --vf-tabular-cell-radius: var(--vf-tabular-radius-tl) var(--vf-tabular-radius-tr) var(--vf-tabular-radius-br) var(--vf-tabular-radius-bl);
+    --vf-tabular-cell-radius: var(--vf-tabular-radius-tl)
+      var(--vf-tabular-radius-tr) var(--vf-tabular-radius-br)
+      var(--vf-tabular-radius-bl);
 
-    --vf-tabular-input-radius: calc(var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width))
-      calc(var(--vf-tabular-radius-br) - var(--vf-tabular-border-width)) calc(var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width));
+    --vf-tabular-input-radius: calc(
+        var(--vf-tabular-radius-tl) - var(--vf-tabular-border-width)
+      )
+      calc(var(--vf-tabular-radius-tr) - var(--vf-tabular-border-width))
+      calc(var(--vf-tabular-radius-br) - var(--vf-tabular-border-width))
+      calc(var(--vf-tabular-radius-bl) - var(--vf-tabular-border-width));
 
     border-radius: var(--vf-tabular-cell-radius);
   }

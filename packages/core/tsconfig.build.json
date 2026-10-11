@@ -1,0 +1,11 @@
+{
+  "extends": "@vueform/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "declaration": true,
+    "emitDeclarationOnly": true,
+    "noEmit": false,
+    "rootDir": "src",
+    "outDir": "dist"
+  },
+  "include": ["src"]
+}

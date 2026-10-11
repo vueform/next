@@ -1,7 +1,8 @@
 import { ref } from 'vue'
-import { useRootDom } from '#core/composables'
-import { useComponentContext } from '#core/contexts'
-import { defineFeature, type FeatureEvents } from '#core/helpers'
+
+import { useRootDom } from '#src/composables'
+import { useComponentContext } from '#src/contexts'
+import { defineFeature, type FeatureEvents } from '#src/helpers'
 
 /**
  * Configuration for the focusable factory enabling programmatic focus and

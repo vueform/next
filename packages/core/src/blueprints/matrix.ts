@@ -6,14 +6,7 @@ import {
   watch,
   type Ref,
 } from 'vue'
-import type { RulesProp } from '#core/modules/validation'
-import type {
-  TProp,
-  MakeOptional,
-  LooseRequired,
-  ElementName,
-  DProp,
-} from '#core/types'
+
 import {
   useConfig,
   useContainerProvider,
@@ -23,8 +16,8 @@ import {
   useConditionalList,
   useSecurity,
   useComponentFactory,
-} from '#core/composables'
-import { useComponentContext } from '#core/contexts'
+} from '#src/composables'
+import { useComponentContext } from '#src/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -47,20 +40,28 @@ import {
   type ObjectModel,
   type ValidationEmits,
   type ItemsProp,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
 import {
   type ConditionalProp,
   type ConditionsResult,
   type ConditionsTriggerProp,
-} from '#core/modules/conditions'
+} from '#src/modules/conditions'
+import type { RulesProp } from '#src/modules/validation'
+import type {
+  TProp,
+  MakeOptional,
+  LooseRequired,
+  ElementName,
+  DProp,
+} from '#src/types'
 import {
   alwaysTrue as alwaysAvailable,
   equals,
   isPlainObject,
   kebabToPascal,
   typedEntries,
-} from '#core/utils'
+} from '#src/utils'
 
 /**
  * A matrix column normalized from any accepted source format, with its value,
@@ -311,7 +312,8 @@ export interface MatrixProps<
    * an array of objects. Defaults to `'conditions'`.
    */
   colConditions?:
-    string | ((col: any) => ConditionsResult<TContext> | undefined)
+    | string
+    | ((col: any) => ConditionsResult<TContext> | undefined)
 
   /**
    * The key or function that resolves each column's custom element schema when
@@ -374,6 +376,8 @@ export interface MatrixProps<
   /**
    * Transforms data received from a `cols` endpoint or function into the cols
    * format before normalization.
+   *
+   * @param data The data received from the endpoint.
    */
   transformCols?: (data: any) => any[] | Record<string, any>
 
@@ -395,6 +399,8 @@ export interface MatrixProps<
   /**
    * Transforms data received from a `rows` endpoint or function into the rows
    * format before normalization.
+   *
+   * @param data The data received from the endpoint.
    */
   transformRows?: (data: any) => any[] | Record<string, any>
 
@@ -420,6 +426,8 @@ export interface MatrixProps<
   /**
    * Transforms data received from the `endpoint` before the column and row
    * definitions are extracted.
+   *
+   * @param data The data to transform.
    */
   transformEndpoint?: (data: any) => any[] | Record<string, any>
 }

@@ -11,7 +11,7 @@ export interface LanguagesSlots {
    * Slot that replaces the language navigation bar. Receives the available
    * languages and the current selection.
    */
-  languages: (props: {
+  languages: (scope: {
     languages: ResolvedLanguagesProp
     language: string
     invalidLanguages: Set<string>
@@ -22,7 +22,7 @@ export interface LanguagesSlots {
   /**
    * Slot that replaces each individual language tab.
    */
-  language: (props: {
+  language: (scope: {
     value: string
     label: string
     selected: boolean

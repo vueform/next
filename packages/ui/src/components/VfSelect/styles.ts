@@ -1,2 +1,2 @@
-import '#ui/scss/select.scss'
-import '#ui/scss/input.scss'
+import '#src/scss/select.scss'
+import '#src/scss/input.scss'

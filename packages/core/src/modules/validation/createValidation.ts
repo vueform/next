@@ -13,6 +13,35 @@ import {
   type EffectScope,
   type Ref,
 } from 'vue'
+
+import { type VueformInstance, type VueformConfig } from '#src/helpers'
+import {
+  getConditionsModule,
+  hasConditionsModule,
+  type ConditionalProp,
+} from '#src/modules/conditions'
+import { hasLocaleModule } from '#src/modules/locale'
+import {
+  type FormContext,
+  type StandardSchemaV1,
+  type StatefulElement,
+} from '#src/types'
+import {
+  alwaysFalse,
+  alwaysTrue,
+  emptyLanguages,
+  equals,
+  get as getByPath,
+  isThenable,
+  replaceWildcards,
+  isPlainObject,
+  isStandardSchema,
+  normalize,
+  toArray,
+  own,
+  warn,
+} from '#src/utils'
+
 import { RULE_BRAND } from './symbols'
 import type {
   ConditionalRule,
@@ -35,33 +64,6 @@ import type {
   RuleOptions,
   TOnlyRulesProp,
 } from './types'
-import { type VueformInstance, type VueformConfig } from '#core/helpers'
-import {
-  getConditionsModule,
-  hasConditionsModule,
-  type ConditionalProp,
-} from '#core/modules/conditions'
-import { hasLocaleModule } from '#core/modules/locale'
-import {
-  type FormContext,
-  type StandardSchemaV1,
-  type StatefulElement,
-} from '#core/types'
-import {
-  alwaysFalse,
-  alwaysTrue,
-  emptyLanguages,
-  equals,
-  get as getByPath,
-  isThenable,
-  replaceWildcards,
-  isPlainObject,
-  isStandardSchema,
-  normalize,
-  toArray,
-  own,
-  warn,
-} from '#core/utils'
 
 type CompileContext = {
   config: VueformConfig
@@ -695,7 +697,8 @@ function makeRuleContext(options: {
       getType: getElementType,
       getOther$: (path) =>
         form$?.find(replaceWildcards(path, unit.owner.path() || '')) as
-          StatefulElement | undefined,
+          | StatefulElement
+          | undefined,
     }
     return { ...base, params }
   }
@@ -1973,6 +1976,9 @@ export function createValidation(vueform: VueformInstance) {
       }
     }
 
+    /**
+     * Exports the form's resolved validation as a Standard Schema.
+     */
     const toStandardSchema = () =>
       buildStandardSchema({
         vueform,
@@ -2025,12 +2031,21 @@ export function createValidation(vueform: VueformInstance) {
       { immediate: true }
     )
 
+    /**
+     * The form's current validation issues as reported by the validator.
+     */
     const issues = computed<Issue[]>(() => validator.issues.value)
 
+    /**
+     * Exports the form's resolved validation as a Standard Schema.
+     */
     const exportStandardSchema = () => validator.toStandardSchema()
 
     return {
       issues,
+      /**
+       * Exports the form's resolved validation as a Standard Schema.
+       */
       toStandardSchema: exportStandardSchema,
     }
   }
@@ -2152,6 +2167,10 @@ export function createValidation(vueform: VueformInstance) {
       available: () => available.value,
     })
 
+    /**
+     * The validator instance the element is registered with: the form's
+     * validator, a store-attached one, or a newly created one.
+     */
     const validator: Validator = (() => {
       if (form$?.validator) return form$.validator
       if (store) {

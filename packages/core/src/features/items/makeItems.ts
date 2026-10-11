@@ -7,21 +7,23 @@ import {
   type Ref,
   type ShallowRef,
 } from 'vue'
+
+import { useItemsSource, useConditionalList } from '#src/composables'
+import type { makeData, MakeDataModelApi } from '#src/features'
+import { defineFeature } from '#src/helpers'
+import {
+  type ConditionsResult,
+  type ConditionsTriggerProp,
+} from '#src/modules/conditions'
+import type { ReturnsOf } from '#src/types'
+import { equals, isPlainObject, normalize, typedEntries } from '#src/utils'
+
 import {
   type ItemsProp,
   type ItemValueOf,
   type ItemsGenericsBrand,
   type RawItemOf,
 } from './types'
-import type { makeData, MakeDataModelApi } from '#core/features'
-import type { ReturnsOf } from '#core/types'
-import { useItemsSource, useConditionalList } from '#core/composables'
-import { defineFeature } from '#core/helpers'
-import {
-  type ConditionsResult,
-  type ConditionsTriggerProp,
-} from '#core/modules/conditions'
-import { equals, isPlainObject, normalize, typedEntries } from '#core/utils'
 
 /**
  * Intermediate normalized item before conditions/disabled are resolved.
@@ -47,7 +49,8 @@ export type ItemLabel = string | ((item: any) => string)
  * lookup, or a function returning a `ConditionalProp` for reactive evaluation.
  */
 export type ItemDisabled =
-  string | ((item: any) => ConditionsResult | undefined)
+  | string
+  | ((item: any) => ConditionsResult | undefined)
 
 /**
  * Determines whether an item is available (visible). A string key for direct
@@ -55,7 +58,8 @@ export type ItemDisabled =
  * evaluation. Items whose conditions are not met are omitted from the list.
  */
 export type ItemConditions =
-  string | ((item: any) => ConditionsResult | undefined)
+  | string
+  | ((item: any) => ConditionsResult | undefined)
 
 /**
  * Determines whether a group is available. A string key for direct property
@@ -63,7 +67,8 @@ export type ItemConditions =
  * are not met are omitted entirely.
  */
 export type GroupConditions =
-  string | ((group: any) => ConditionsResult | undefined)
+  | string
+  | ((group: any) => ConditionsResult | undefined)
 
 /**
  * Resolves the label for a group. A string key or a mapping function.
@@ -75,7 +80,9 @@ export type GroupLabel = string | ((group: any) => string)
  * returning children in any ItemsProp format.
  */
 export type GroupChildren =
-  string[] | string | ((group: any) => any[] | Record<string, any>)
+  | string[]
+  | string
+  | ((group: any) => any[] | Record<string, any>)
 
 /**
  * A normalized item with resolved value, label, and disabled state. Items
@@ -157,9 +164,15 @@ type MakeItemsOptions = {
     groupConditions?: GroupConditions
     multiple?: boolean
     /**
-     * @write
+     * The minimum query length before items are resolved. When set, the
+     * initial items resolution on setup is skipped.
      */
     minLength?: number
+    /**
+     * Transforms data received from an endpoint into the items format.
+     *
+     * @param data The response data received from the endpoint.
+     */
     transformItems?: (data: any) => any[] | Record<string, any>
   }
   deps: ReturnsOf<[[typeof makeData, ['nullValue', 'update', 'model']]]>
@@ -222,16 +235,18 @@ type MakeItemsFn = <P extends MakeItemsOptions['props']>(options: {
 }) => MakeItemsReturn<P>
 
 /**
- * @write
+ * Compile-time configuration a blueprint passes to `makeItems`.
  */
 export type MakeItemsConfig = {
   /**
-   * @write
+   * Whether item and group conditions are evaluated and values of
+   * filtered-out items are cleared from the model. Defaults to `true`.
    */
   conditions?: boolean
 
   /**
-   * @write
+   * Whether the element always holds multiple selected values, regardless of
+   * its `multiple` prop.
    */
   multiple?: boolean
 }
@@ -268,6 +283,12 @@ export type ItemsModelApi<Base, P> = Omit<
   MakeDataModelApi<P> &
   Pick<MakeItemsReturn<P>, 'items' | 'groups'>
 
+/**
+ * Provides the items handling of option-based elements: resolves items from
+ * static data, an endpoint URL, or a function, normalizes and groups them,
+ * applies item/group conditions, and exposes accessors for third-party
+ * components.
+ */
 export const makeItems = defineFeature<
   (config?: MakeItemsConfig) => MakeItemsFn
 >(
@@ -378,7 +399,8 @@ export const makeItems = defineFeature<
       })
 
       /**
-       * @write
+       * All normalized items before conditional filtering, flattened across
+       * groups when grouped.
        */
       const normalizedItems = computed(() => {
         if (grouped.value) {
@@ -397,7 +419,8 @@ export const makeItems = defineFeature<
       })
 
       /**
-       * @write
+       * Whether the items are grouped (a `groupLabel` or `groupChildren` prop
+       * is set).
        */
       const grouped = computed(
         () => !!(props.groupLabel || props.groupChildren)

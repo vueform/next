@@ -2,9 +2,15 @@
  * Type-level tests for the Standard Schema integration: `MatchesSchemaModel`
  * via `defineSchema` / `defineComputedSchema` / `useForm` / `useModel`
  * second/option arguments, and `RulesProp` accepting Standard Schemas. Run by
- * `pnpm test:dts`.
+ * `pnpm test-dts`.
  */
-import { defineComputedSchema, defineSchema, useForm, useModel, type StandardSchemaV1 } from '@vueform/core'
+import {
+  defineComputedSchema,
+  defineSchema,
+  useForm,
+  useModel,
+  type StandardSchemaV1,
+} from '@vueform/core'
 import { describe, test } from 'vitest'
 import '@vueform/core/components'
 import { z } from 'zod'
@@ -105,11 +111,17 @@ describe('useModel — validationSchema option type checking', () => {
 describe('real Zod schemas — inferred input types drive the same check', () => {
   test('accepts compatible Zod schemas', () => {
     // Nullability/optionality tolerance: text model is string | number | null.
-    defineSchema({ name: { type: 'text' } }, z.object({ name: z.string().min(3).nullable().optional() }))
+    defineSchema(
+      { name: { type: 'text' } },
+      z.object({ name: z.string().min(3).nullable().optional() })
+    )
 
     // Narrower input (enum) and partial coverage (extra model keys) are
     // allowed.
-    defineSchema({ name: { type: 'text' }, other: { type: 'text' } }, z.object({ name: z.enum(['a', 'b']) }))
+    defineSchema(
+      { name: { type: 'text' }, other: { type: 'text' } },
+      z.object({ name: z.enum(['a', 'b']) })
+    )
 
     // Cross-field refinements keep the object input type.
     defineSchema(
@@ -117,7 +129,9 @@ describe('real Zod schemas — inferred input types drive the same check', () =>
         password: { type: 'text' },
         confirm: { type: 'text' },
       },
-      z.object({ password: z.string(), confirm: z.string() }).refine((data) => data.password === data.confirm)
+      z
+        .object({ password: z.string(), confirm: z.string() })
+        .refine((data) => data.password === data.confirm)
     )
   })
 

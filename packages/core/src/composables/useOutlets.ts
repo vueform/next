@@ -8,14 +8,15 @@ import {
   type ComputedRef,
   type FunctionalComponent,
 } from 'vue'
-import type { ComponentProp } from '#core/types'
-import { useComponentFactory, useSecurity } from '#core/composables'
+
+import { useComponentFactory, useSecurity } from '#src/composables'
+import type { ComponentProp } from '#src/types'
 import {
   getGenericInstance,
   isVaporInstance,
   toCamelCase,
   toVdomRenderableSlot,
-} from '#core/utils'
+} from '#src/utils'
 
 /**
  * Configuration options for the useOutlets composable.
@@ -197,11 +198,13 @@ export function useOutlets(options: UseOutletsOptions): UseOutletsReturn {
         // resolve; plain text always renders, and HTML rendering is
         // the string-content component's decision (`$security.allowHtml`, with
         // sanitization applied at the sink).
-        if (!(
-          COMPONENT_NAME_RE.test(slot) &&
-          isRegisteredComponent(slot) &&
-          allowsComponent(slot)
-        )) {
+        if (
+          !(
+            COMPONENT_NAME_RE.test(slot) &&
+            isRegisteredComponent(slot) &&
+            allowsComponent(slot)
+          )
+        ) {
           slot = makeFromString(slot, {
             htmlArea: 'slots',
             exprKey: 'slots',

@@ -1,6 +1,7 @@
 import { defineFeature, type TProp, useDynamicProp } from '@vueform/core'
 import { computed } from 'vue'
-import type { TooltipPosProp } from '#primevue/types'
+
+import type { TooltipPosProp } from '#src/types'
 
 /**
  * Configuration for the tooltip factory resolving tooltip content and
@@ -28,7 +29,7 @@ type MakeTooltipOptions = {
  */
 type MakeTooltipConfig = {
   /**
-   * @write
+   * The event that triggers the tooltip display.
    */
   event: 'focus' | 'hover'
 }

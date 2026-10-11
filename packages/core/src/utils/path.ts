@@ -88,7 +88,7 @@ export function replaceWildcardsExpr(
     // Element names are schema-supplied — escape them so a name carrying regex
     // metacharacters can't throw or inject a pathological pattern.
     fillable = fillable.replace(
-      new RegExp(`(?<![a-zA-Z0-9_\-])${escapeRegExp(key)}\\[\\*\\]`, 'g'),
+      new RegExp(`(?<![a-zA-Z0-9_-])${escapeRegExp(key)}\\[\\*\\]`, 'g'),
       brackets ? `${key}[${keys[key]}]` : `${key}.${keys[key]}`
     )
   })

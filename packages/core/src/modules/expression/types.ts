@@ -1,12 +1,13 @@
-import type { ModelNode, ModelStore, SchemaIndex } from '#core/modules/model'
+import type { MaybeRef, Ref } from 'vue'
+
+import { type VueformInstance, type VueformConfig } from '#src/helpers'
+import type { ModelNode, ModelStore, SchemaIndex } from '#src/modules/model'
 import type {
   ExpressionableKeys,
   ExpressionsProp,
   LanguagesProp,
-} from '#core/types'
-import type { getComponentDef } from '#core/utils'
-import type { MaybeRef, Ref } from 'vue'
-import { type VueformInstance, type VueformConfig } from '#core/helpers'
+} from '#src/types'
+import type { getComponentDef } from '#src/utils'
 
 /**
  * Per-node expression-tracking state, attached to `ModelNode.expression` while

@@ -1,5 +1,6 @@
-import type { ComponentRegistry } from '#core/types'
 import type { Component } from 'vue'
+
+import type { ComponentRegistry } from '#src/types'
 
 /**
  * Maps component names to their accepted slot prop type.

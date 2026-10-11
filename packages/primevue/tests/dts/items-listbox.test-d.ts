@@ -1,6 +1,6 @@
 /*
  * Compile-time assertions for PrimeVue VfListbox options → model inference.
- * Run by `pnpm test:dts`.
+ * Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

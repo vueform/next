@@ -1,12 +1,5 @@
-import type {
-  DefineElementContext,
-  AlignProp,
-  ClassValue,
-  DomAttrsOf,
-  ValignProp,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type ColApi,
   type ColClasses,
@@ -15,7 +8,15 @@ import {
   type ColParts,
   type ColProps,
   type ColSlots,
-} from '#core/blueprints/col'
+} from '#src/blueprints/col'
+import type {
+  DefineElementContext,
+  AlignProp,
+  ClassValue,
+  DomAttrsOf,
+  ValignProp,
+  DefineRegistryEntry,
+} from '#src/types'
 
 /**
  * Props for the VfCol component.
@@ -23,8 +24,8 @@ import {
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfColProps extends ColProps<
   VfColSlots,
@@ -72,9 +73,24 @@ export interface VfColClasses extends ColClasses {
    *   classes.
    */
   root: (options: {
+    /**
+     * The column's horizontal alignment.
+     */
     align: AlignProp
+
+    /**
+     * The column's vertical alignment.
+     */
     valign: ValignProp
+
+    /**
+     * Whether the column is a column header.
+     */
     colHeader: boolean
+
+    /**
+     * Whether the column is a row header.
+     */
     rowHeader: boolean
   }) => ClassValue
 }

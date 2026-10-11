@@ -1,9 +1,10 @@
 import { computed, watch } from 'vue'
-import type { ReturnsOf, TProp } from '#core/types'
-import { useDynamicProp } from '#core/composables'
-import { useComponentContext } from '#core/contexts'
-import { type makeElement, type makeData } from '#core/features'
-import { defineFeature } from '#core/helpers'
+
+import { useDynamicProp } from '#src/composables'
+import { useComponentContext } from '#src/contexts'
+import { type makeElement, type makeData } from '#src/features'
+import { defineFeature } from '#src/helpers'
+import type { ReturnsOf, TProp } from '#src/types'
 
 /**
  * Configuration for the radio name factory resolving the HTML name attribute

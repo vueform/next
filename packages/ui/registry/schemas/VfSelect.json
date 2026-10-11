@@ -10,26 +10,23 @@
       "path": "VfSelect.vue",
       "target": "{componentsDir}/VfSelect.vue",
       "kind": "component",
-      "hash": "sha256:7a76097a797f6d340cd7ed804757c1ed63d7912caa93d8513d93536c2ab7033d"
+      "hash": "sha256:242196c731c5f1b2a9daa44702886ec21fc657ed6a6f32d848c520c1e9ac2de1"
     }
   ],
   "imports": [
-    "@vueform/ui",
     "@vueform/ui/components/VfSelect",
+    "@vueform/ui",
     "@vueform/ui/select.css",
     "@vueform/ui/input.css"
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "select",
-    "input"
-  ],
+  "styles": ["select", "input"],
   "element": true,
   "clone": {
     "path": "VfSelect.vue",
     "blueprint": "select",
-    "hash": "sha256:8d9dc5b562d1edc3f5f664d5f02e74e496a4ae8f9c7aca70a792a8a255470bef",
+    "hash": "sha256:64124b517e755fcf6bd919b9ef2f935fe924582b89c370caa052992d00edf9b9",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

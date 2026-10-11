@@ -1,10 +1,11 @@
 import type { VNode } from 'vue'
+
 import {
   type ClassValue,
   type DomAttrsOf,
   type PartOf,
   type DProp,
-} from '#core/types'
+} from '#src/types'
 
 /**
  * Props for elements that support before/after icon slots.
@@ -28,16 +29,26 @@ export interface IconsSlots {
   /**
    * Slot that replaces the icon rendered before the input.
    *
-   * @param props.iconBefore The resolved icon class string.
+   * @param scope The iconBefore slot's params.
    */
-  iconBefore: (props: { iconBefore: string | undefined }) => VNode[]
+  iconBefore: (scope: {
+    /**
+     * The resolved icon class string.
+     */
+    iconBefore: string | undefined
+  }) => VNode[]
 
   /**
    * Slot that replaces the icon rendered after the input.
    *
-   * @param props.iconAfter The resolved icon class string.
+   * @param scope The iconAfter slot's params.
    */
-  iconAfter: (props: { iconAfter: string | undefined }) => VNode[]
+  iconAfter: (scope: {
+    /**
+     * The resolved icon class string.
+     */
+    iconAfter: string | undefined
+  }) => VNode[]
 }
 
 /**

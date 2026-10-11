@@ -1,6 +1,7 @@
+import { defineSchema } from '@vueform/core'
 import { computed, nextTick, ref } from 'vue'
+
 import { createForm } from '../../helpers'
-import { defineSchema } from '#core'
 
 describe('Translate', () => {
   it('should translate input model', async () => {

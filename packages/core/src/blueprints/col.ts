@@ -1,4 +1,8 @@
 import { computed, onMounted, toRef, watch } from 'vue'
+
+import { useConfig, useCurrentInstance } from '#src/composables'
+import { useRowContext } from '#src/contexts'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -9,10 +13,7 @@ import type {
   AlignProp,
   ValignProp,
   LooseRequired,
-} from '#core/types'
-import { useConfig, useCurrentInstance } from '#core/composables'
-import { useRowContext } from '#core/contexts'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+} from '#src/types'
 
 /**
  * Props for the col component blueprint that represents a column cell within a
@@ -101,6 +102,11 @@ export function blueprint<TProps extends ColProps>(
 ) {
   const rowContext = useRowContext()
   const config = useConfig()
+
+  /**
+   * The unique identifier of the component instance, used to key the cell
+   * within the parent row.
+   */
   const uid = useCurrentInstance().uid
 
   if (!rowContext) {
@@ -169,7 +175,14 @@ export function blueprint<TProps extends ColProps>(
     return false
   })
 
+  /**
+   * The number of columns the cell spans.
+   */
   const colspan = toRef(() => Number(props.colspan || 1))
+
+  /**
+   * The number of rows the cell spans.
+   */
   const rowspan = toRef(() => Number(props.rowspan || 1))
 
   /**

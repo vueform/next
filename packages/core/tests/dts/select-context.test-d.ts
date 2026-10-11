@@ -1,6 +1,6 @@
 /*
  * Type-level tests for VfSelect / select typing in schema.
- * SFC cases live in select-context.vue. Run by `pnpm test:dts`.
+ * SFC cases live in select-context.vue. Run by `pnpm test-dts`.
  *
  * Covers:
  * - items / modelValue / default / multiple generics
@@ -9,20 +9,37 @@
  * - classes / parts / reclass object forms receive VfSelectContext
  * - class:* / reclass:* / part:* attrs are dist-only (see shorthand-attrs-dist.test-d.ts)
  */
-import { defineSchema, type ComponentRegistry, type ContextOf, type ExpressionString, type SchemaEntryOf } from '@vueform/core'
-import { describe, expectTypeOf, test } from 'vitest'
+import {
+  defineSchema,
+  type ComponentRegistry,
+  type ContextOf,
+  type ExpressionString,
+  type SchemaEntryOf,
+} from '@vueform/core'
+import type {
+  VfSelectContext,
+  VfSelectEmits,
+  VfSelectExpose,
+  VfSelectProps,
+  VfSelectSlots,
+} from '@vueform/core/components/VfSelect'
 import '@vueform/core/components'
-import type { VfSelectContext, VfSelectEmits, VfSelectExpose, VfSelectProps, VfSelectSlots } from '@vueform/core/components/VfSelect'
+import { describe, expectTypeOf, test } from 'vitest'
 
 type VfSelectDefinition = ComponentRegistry['VfSelect']
 type VfSelectSchemaEntry = SchemaEntryOf<'VfSelect'>
-type ObjectItems = [{ id: 1; label: 'A'; foo: () => void }, { id: 2; label: 'B'; foo: () => void }]
+type ObjectItems = [
+  { id: 1; label: 'A'; foo: () => void },
+  { id: 2; label: 'B'; foo: () => void },
+]
 type SelectContext = ContextOf<'VfSelect'>
 
 describe('VfSelect expose — factory API lives on VfSelectExpose; context unwraps its refs', () => {
   test('every Expose key appears on the public context (values may be unwrapped)', () => {
     expectTypeOf<keyof VfSelectExpose>().toExtend<keyof SelectContext>()
-    expectTypeOf<keyof VfSelectExpose>().toExtend<keyof VfSelectDefinition['context']>()
+    expectTypeOf<keyof VfSelectExpose>().toExtend<
+      keyof VfSelectDefinition['context']
+    >()
   })
 
   test('props / outlets / parts / classes are typed', () => {
@@ -51,7 +68,9 @@ describe('VfSelect expose — factory API lives on VfSelectExpose; context unwra
     expectTypeOf<SelectContext>().toHaveProperty('$globals')
     expectTypeOf<SelectContext['$locale']>().toHaveProperty('set')
     expectTypeOf<SelectContext['$config']>().toHaveProperty('modules')
-    expectTypeOf<SelectContext['$globals']>().toHaveProperty('defaultBreakpoint')
+    expectTypeOf<SelectContext['$globals']>().toHaveProperty(
+      'defaultBreakpoint'
+    )
   })
 })
 
@@ -60,9 +79,15 @@ describe('VfSelect generics — props (type-level) + schema defineSchema checks'
   type ExactMultiProps = VfSelectProps<ObjectItems, 'id', undefined, true>
 
   test('modelValue / default narrow to the item id union', () => {
-    expectTypeOf<NonNullable<ExactProps['modelValue']>>().toExtend<1 | 2 | null>()
-    expectTypeOf<NonNullable<ExactProps['default']>>().toExtend<1 | 2 | null | ExpressionString>()
-    expectTypeOf<NonNullable<ExactMultiProps['modelValue']>>().toExtend<(1 | 2)[]>()
+    expectTypeOf<NonNullable<ExactProps['modelValue']>>().toExtend<
+      1 | 2 | null
+    >()
+    expectTypeOf<NonNullable<ExactProps['default']>>().toExtend<
+      1 | 2 | null | ExpressionString
+    >()
+    expectTypeOf<NonNullable<ExactMultiProps['modelValue']>>().toExtend<
+      (1 | 2)[]
+    >()
   })
 
   test('defineSchema accepts matching models and rejects mismatches', () => {
@@ -140,7 +165,10 @@ describe('VfSelect contextual props (label) — schema + definition extraction',
   // the wide `VfSelectContext`.
   test('narrowed props pin label to the narrowed context', () => {
     type ExactProps = VfSelectProps<ObjectItems, 'id'>
-    type ExactLabelFn = Extract<NonNullable<ExactProps['label']>, (...args: any[]) => any>
+    type ExactLabelFn = Extract<
+      NonNullable<ExactProps['label']>,
+      (...args: any[]) => any
+    >
     type ExactLabelContext = Parameters<ExactLabelFn>[0]
 
     expectTypeOf<ExactLabelContext>().toExtend<VfSelectContext<ExactProps>>()
@@ -244,12 +272,22 @@ describe('VfSelect slots — definition extraction (SFC usage in .vue)', () => {
 
   test('scalar multi slots refine model / props / items', () => {
     type ScalarMultiSlots = VfSelectSlots<[1, 2, 3], undefined, undefined, true>
-    type ScalarMultiSlotContext = Parameters<ScalarMultiSlots['template']>[0]['context']
+    type ScalarMultiSlotContext = Parameters<
+      ScalarMultiSlots['template']
+    >[0]['context']
 
-    expectTypeOf<ScalarMultiSlotContext['model']>().toEqualTypeOf<(1 | 2 | 3)[]>()
-    expectTypeOf<true>().toExtend<NonNullable<ScalarMultiSlotContext['props']['multiple']>>()
-    expectTypeOf<[1, 2, 3]>().toExtend<NonNullable<ScalarMultiSlotContext['props']['items']>>()
-    expectTypeOf<ScalarMultiSlotContext['items'][number]['value']>().toEqualTypeOf<1 | 2 | 3>()
+    expectTypeOf<ScalarMultiSlotContext['model']>().toEqualTypeOf<
+      (1 | 2 | 3)[]
+    >()
+    expectTypeOf<true>().toExtend<
+      NonNullable<ScalarMultiSlotContext['props']['multiple']>
+    >()
+    expectTypeOf<[1, 2, 3]>().toExtend<
+      NonNullable<ScalarMultiSlotContext['props']['items']>
+    >()
+    expectTypeOf<
+      ScalarMultiSlotContext['items'][number]['value']
+    >().toEqualTypeOf<1 | 2 | 3>()
   })
 
   test('object slots refine model / item values', () => {
@@ -257,12 +295,16 @@ describe('VfSelect slots — definition extraction (SFC usage in .vue)', () => {
     type ObjectSlotContext = Parameters<ObjectSlots['template']>[0]['context']
 
     expectTypeOf<ObjectSlotContext['model']>().toEqualTypeOf<1 | 2 | null>()
-    expectTypeOf<ObjectSlotContext['items'][number]['value']>().toEqualTypeOf<1 | 2>()
+    expectTypeOf<ObjectSlotContext['items'][number]['value']>().toEqualTypeOf<
+      1 | 2
+    >()
   })
 
   test('object multi slots refine model to an array', () => {
     type ObjectMultiSlots = VfSelectSlots<ObjectItems, 'id', undefined, true>
-    type ObjectMultiSlotContext = Parameters<ObjectMultiSlots['template']>[0]['context']
+    type ObjectMultiSlotContext = Parameters<
+      ObjectMultiSlots['template']
+    >[0]['context']
 
     expectTypeOf<ObjectMultiSlotContext['model']>().toEqualTypeOf<(1 | 2)[]>()
   })
@@ -270,21 +312,27 @@ describe('VfSelect slots — definition extraction (SFC usage in .vue)', () => {
 
 describe('VfSelect classes / parts / class:* / reclass:* / part:* — schema + extraction', () => {
   test('classes / reclass / parts object-form callbacks receive VfSelectContext', () => {
-    type SchemaClassesInput = NonNullable<NonNullable<VfSelectSchemaEntry['classes']>['input']>
+    type SchemaClassesInput = NonNullable<
+      NonNullable<VfSelectSchemaEntry['classes']>['input']
+    >
     type SchemaClassesFn = Extract<SchemaClassesInput, (...args: any[]) => any>
     type SchemaClassesContext = Parameters<SchemaClassesFn>[0]
 
     expectTypeOf<SchemaClassesContext>().toExtend<VfSelectContext>()
     expectTypeOf<VfSelectContext>().toExtend<SchemaClassesContext>()
 
-    type SchemaReclassInput = NonNullable<NonNullable<VfSelectSchemaEntry['reclass']>['input']>
+    type SchemaReclassInput = NonNullable<
+      NonNullable<VfSelectSchemaEntry['reclass']>['input']
+    >
     type SchemaReclassFn = Extract<SchemaReclassInput, (...args: any[]) => any>
     type SchemaReclassContext = Parameters<SchemaReclassFn>[0]
 
     expectTypeOf<SchemaReclassContext>().toExtend<VfSelectContext>()
     expectTypeOf<VfSelectContext>().toExtend<SchemaReclassContext>()
 
-    type SchemaPartsInput = NonNullable<NonNullable<VfSelectSchemaEntry['parts']>['input']>
+    type SchemaPartsInput = NonNullable<
+      NonNullable<VfSelectSchemaEntry['parts']>['input']
+    >
     type SchemaPartsFn = Extract<SchemaPartsInput, (...args: any[]) => any>
     type SchemaPartsContext = Parameters<SchemaPartsFn>[0]
 
@@ -292,8 +340,8 @@ describe('VfSelect classes / parts / class:* / reclass:* / part:* — schema + e
     expectTypeOf<VfSelectContext>().toExtend<SchemaPartsContext>()
   })
 
-  // `part:*` / `class:*` / `reclass:*` attr keys are injected into dist only
-  // (see `#shorthands` + vf-build). Asserted in `shorthand-attrs-dist.test-d.ts`.
+  // `part:*` / `class:*` / `reclass:*` attr keys come from the declaration
+  // merge in each unstyled.ts. Asserted in `shorthand-attrs-dist.test-d.ts`.
   test('defineSchema classes / reclass / parts are context-checked', () => {
     defineSchema({
       classesPartsOk: {

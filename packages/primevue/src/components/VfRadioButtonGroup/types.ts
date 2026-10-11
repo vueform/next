@@ -1,4 +1,15 @@
 import type {
+  WidenProps,
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+  DomAttrsOf,
+  PartOf,
+  ResolvedGroup,
+} from '@vueform/core'
+import type { VNode } from 'vue'
+
+import type {
   RadioButtonGroupApi,
   RadioButtonGroupClasses,
   RadioButtonGroupEmits,
@@ -6,8 +17,8 @@ import type {
   RadioButtonGroupParts,
   RadioButtonGroupProps,
   RadioButtonGroupSlots,
-} from '#primevue/blueprints/radio-button-group'
-import type { VfRadioButtonSlots } from '#primevue/components/VfRadioButton/types'
+} from '#src/blueprints/radio-button-group'
+import type { VfRadioButtonSlots } from '#src/components/VfRadioButton/types'
 import type {
   EntryOptionsOf,
   EntryOptionValueKeyOf,
@@ -19,17 +30,7 @@ import type {
   OptionValueProp,
   OptionValueOf,
   RawOptionOf,
-} from '#primevue/features/options'
-import type {
-  WidenProps,
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-  DomAttrsOf,
-  PartOf,
-  ResolvedGroup,
-} from '@vueform/core'
-import type { VNode } from 'vue'
+} from '#src/features/options'
 
 /**
  * VfRadioButtonGroup props narrowed from a registry `TEntry` payload, applying
@@ -50,8 +51,8 @@ export type EntryProps<TEntry> = VfRadioButtonGroupProps<
  * options, 'id'>`). Reach for `VfRadioButtonGroupProps` instead when no
  * narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfRadioButtonGroupProps<
   TOptions extends OptionsProp = OptionsProp,
@@ -141,22 +142,60 @@ export interface VfRadioButtonGroupSlots<
    * Slot that replaces the default radio buttons rendering. Receives resolved
    * items, groups, and shared state.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The shared `name` attribute of the radio inputs.
+     */
     radioName: string
+
+    /**
+     * Whether the group is disabled.
+     */
     disabled: boolean
+
+    /**
+     * The resolved label text.
+     */
     label: string | undefined
+
+    /**
+     * The resolved option items.
+     */
     items: ResolvedOption<TValue, TRaw>[]
+
+    /**
+     * The resolved option groups.
+     */
     groups: ResolvedGroup<TValue, TRaw>[]
+
+    /**
+     * Whether the options are grouped.
+     */
     grouped: boolean
   }) => VNode[]
 
   /**
    * Slot that replaces each option group when items are grouped.
    */
-  group: (props: {
+  group: (scope: {
+    /**
+     * The shared `name` attribute of the radio inputs.
+     */
     radioName: string
+
+    /**
+     * Whether the group is disabled.
+     */
     disabled: boolean
+
+    /**
+     * The resolved label text.
+     */
     label: string | undefined
+
+    /**
+     * The resolved option group.
+     */
     group: ResolvedGroup<TValue, TRaw>
   }) => VNode[]
 
@@ -164,10 +203,25 @@ export interface VfRadioButtonGroupSlots<
    * Slot that replaces each entire `VfRadioButton` child. Receives the resolved
    * item and shared state.
    */
-  item: (props: {
+  item: (scope: {
+    /**
+     * The shared `name` attribute of the radio inputs.
+     */
     radioName: string
+
+    /**
+     * Whether the group is disabled.
+     */
     disabled: boolean
+
+    /**
+     * The resolved label text.
+     */
     label: string | undefined
+
+    /**
+     * The resolved option item.
+     */
     item: ResolvedOption<TValue, TRaw>
   }) => VNode[]
 
@@ -180,14 +234,14 @@ export interface VfRadioButtonGroupSlots<
    *
    * @inherits VfRadioButton.default
    */
-  radio: (props: Parameters<VfRadioButtonSlots['default']>[0]) => VNode[]
+  radio: (scope: Parameters<VfRadioButtonSlots['default']>[0]) => VNode[]
 
   /**
    * Slot that replaces the text/label of each individual radio button.
    *
    * @inherits VfRadioButton.text
    */
-  text: (props: Parameters<VfRadioButtonSlots['text']>[0]) => VNode[]
+  text: (scope: Parameters<VfRadioButtonSlots['text']>[0]) => VNode[]
 }
 
 /**

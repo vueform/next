@@ -5,15 +5,16 @@
  */
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
-import PrimeSlider from 'primevue/slider'
 import {
+  blueprint,
+  defaults,
   type VfSliderEmits,
   type VfSliderProps,
   type VfSliderSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfSlider'
+import PrimeSlider from 'primevue/slider'
 import type { WritableComputedRef } from 'vue'
+
 import '@vueform/primevue/slider.css'
 
 const Slider = vdomPrime(PrimeSlider)

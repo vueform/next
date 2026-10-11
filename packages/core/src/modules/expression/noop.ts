@@ -1,5 +1,6 @@
+import { warn as vfWarn, isDev } from '#src/utils'
+
 import type { ExpressionModule, ExpressionTracking } from './types'
-import { warn as vfWarn, isDev } from '#core/utils'
 
 let warnedMissingEngine = false
 

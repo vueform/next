@@ -1,10 +1,16 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
-import * as ts from 'typescript'
-import { corePackage, nonCoreAdapters } from '../lib/adapters.js'
-import { importedCalleeName } from '../lib/extract.js'
 
-import { updateIssues, type Issue } from '../lib/issues.js'
+import * as ts from 'typescript'
+
+import { corePackage, nonCoreAdapters } from '../lib/adapters.js'
+import {
+  createProgram,
+  getJSDocParamDescriptions,
+  getSymbolDescription,
+  importedCalleeName,
+  loc,
+} from '../lib/extract.js'
 import { generatedDir, monorepoRoot } from '../lib/paths.js'
 import { parseScope } from '../lib/scope.js'
 
@@ -20,82 +26,24 @@ const CORE_DIR = path.join(ROOT, corePackage)
 interface ParamInfo {
   type: string | Record<string, any>
   description: string
+  loc?: string
   required?: true
   default?: unknown
 }
 
 interface OverloadInfo {
   description: string
+  loc?: string
   params: Record<string, ParamInfo>
   returns: { type: string }
 }
 
 // ============= TS PROGRAM =============
 
-function createProgram(pkgDir: string) {
-  const configPath = path.join(pkgDir, 'tsconfig.json')
-  const raw = ts.readConfigFile(configPath, ts.sys.readFile)
-
-  if (raw.error) {
-    throw new Error(
-      `Failed to read ${configPath}: ${ts.flattenDiagnosticMessageText(raw.error.messageText, '\n')}`
-    )
-  }
-
-  const parsed = ts.parseJsonConfigFileContent(
-    raw.config,
-    ts.sys,
-    path.dirname(configPath),
-    undefined,
-    configPath
-  )
-  const program = ts.createProgram(parsed.fileNames, parsed.options)
-
-  return { program, checker: program.getTypeChecker() }
-}
-
 // ============ JSDOC HELPERS ===========
 
 function singleLine(s: string): string {
   return s.replace(/\s*\n\s*/g, ' ').trim()
-}
-
-function getSymbolDescription(
-  symbol: ts.Symbol,
-  checker: ts.TypeChecker
-): string {
-  return singleLine(
-    symbol
-      .getDocumentationComment(checker)
-      .map((p) => p.text)
-      .join('')
-  )
-}
-
-function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
-  const result = new Map<string, string>()
-
-  for (const entry of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(entry) || !entry.tags) continue
-
-    for (const tag of entry.tags) {
-      if (
-        !ts.isJSDocParameterTag(tag) ||
-        !tag.name ||
-        !ts.isIdentifier(tag.name)
-      )
-        continue
-
-      const comment =
-        typeof tag.comment === 'string'
-          ? tag.comment
-          : (tag.comment?.map((c) => c.text || '').join('') ?? '')
-
-      result.set(tag.name.text, singleLine(comment))
-    }
-  }
-
-  return result
 }
 
 function getNodeJSDocDescription(node: ts.Node): string {
@@ -277,9 +225,11 @@ function extractCallSignatureOverloads(
 
     for (const param of sig.getParameters()) {
       const paramType = checker.getTypeOfSymbolAtLocation(param, contextNode)
+      const paramDecl = param.getDeclarations()?.[0]
       params[param.name] = {
         type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
         description: jsdoc.get(param.name) ?? '',
+        ...(paramDecl ? { loc: loc(paramDecl) } : {}),
       }
     }
 
@@ -287,6 +237,7 @@ function extractCallSignatureOverloads(
 
     overloads.push({
       description,
+      loc: loc(sigDecl),
       params,
       returns: { type: ret },
     })
@@ -301,13 +252,18 @@ function extractSigParams(
   checker: ts.TypeChecker
 ): Record<string, ParamInfo> | undefined {
   const jsdoc = getJSDocParamDescriptions(sig.getDeclaration())
+  // A property's function type carries no JSDoc of its own — the `@param`
+  // tags live on the owning property signature (the contextNode).
+  const ownerDocs = getJSDocParamDescriptions(contextNode)
   const params: Record<string, ParamInfo> = {}
 
   for (const param of sig.getParameters()) {
     const paramType = checker.getTypeOfSymbolAtLocation(param, contextNode)
+    const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
-      description: jsdoc.get(param.name) ?? '',
+      description: jsdoc.get(param.name) || ownerDocs.get(param.name) || '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
 
@@ -478,21 +434,19 @@ function expandPropsLeg(
 
     if (sigs.length > 1) {
       const overloads = extractCallSignatureOverloads(sigs, propDecl, checker)
-      const entry: any = { type: 'function', description }
+      const entry: any = { type: 'function', description, loc: loc(propDecl) }
       if (overloads.length) entry.overloads = overloads
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     } else if (sigs.length === 1 && isFunctionLikeType(propType)) {
-      const entry: any = { type: 'function', description }
+      const entry: any = { type: 'function', description, loc: loc(propDecl) }
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
       const params = extractSigParams(sigs[0], propDecl, checker)
       if (params && Object.keys(params).length) entry.params = params
       const ret = getFunctionReturnTypeFromSig(sigs[0], checker)
       if (ret) entry.returns = { type: ret }
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     } else {
       let typeText = getPropertyTypeText(propSym, propDecl, checker)
@@ -512,10 +466,9 @@ function expandPropsLeg(
         }
       }
 
-      const entry: any = { type: typeText, description }
+      const entry: any = { type: typeText, description, loc: loc(propDecl) }
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     }
   }
@@ -641,28 +594,25 @@ function expandDepsLeg(
 
     if (sigs.length > 1) {
       const overloads = extractCallSignatureOverloads(sigs, propDecl, checker)
-      const entry: any = { type: 'function', description }
+      const entry: any = { type: 'function', description, loc: loc(propDecl) }
       if (overloads.length) entry.overloads = overloads
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     } else if (sigs.length === 1 && isFunctionLikeType(propType)) {
-      const entry: any = { type: 'function', description }
+      const entry: any = { type: 'function', description, loc: loc(propDecl) }
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
       const params = extractSigParams(sigs[0], propDecl, checker)
       if (params && Object.keys(params).length) entry.params = params
       const ret = getFunctionReturnTypeFromSig(sigs[0], checker)
       if (ret) entry.returns = { type: ret }
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     } else {
       const typeText = getPropertyTypeText(propSym, propDecl, checker)
-      const entry: any = { type: typeText, description }
+      const entry: any = { type: typeText, description, loc: loc(propDecl) }
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken)
         entry.required = true
-      markUndocumented(entry, propDecl)
       result[propSym.name] = entry
     }
   }
@@ -699,7 +649,13 @@ function expandEventsLeg(
     // Overloads are ordered most-specific first; keep the first per event.
     if (result[eventName]) continue
 
-    const description = getNodeJSDocDescription(sig.getDeclaration())
+    const sigDecl = sig.getDeclaration()
+    const description = getNodeJSDocDescription(sigDecl)
+
+    // The resolved `fire` signature declaration is the generic mapped-type
+    // member in defineEvents.ts — refined below to the event-map property
+    // (the event's own source construct) through its args tuple's labels.
+    let entryLoc = loc(sigDecl)
 
     const eventParams: Record<string, any> = {}
     if (sigParams[1]) {
@@ -711,6 +667,17 @@ function expandEventsLeg(
       const target = argsType.target as ts.TupleType | undefined
       if (target?.labeledElementDeclarations) {
         const typeArgs = checker.getTypeArguments(argsType)
+        const firstLabel = target.labeledElementDeclarations.find(Boolean)
+        const tupleOwner = firstLabel?.parent?.parent
+        if (tupleOwner && ts.isPropertySignature(tupleOwner)) {
+          entryLoc = loc(tupleOwner)
+        }
+        // Param docs live as `@param` tags on the tuple's owning event-map
+        // property, when present.
+        const ownerDocs =
+          tupleOwner && ts.isPropertySignature(tupleOwner)
+            ? getJSDocParamDescriptions(tupleOwner)
+            : undefined
         target.labeledElementDeclarations.forEach((label, i) => {
           if (!label || !typeArgs[i]) return
           const name = label.name.getText(label.getSourceFile())
@@ -720,15 +687,15 @@ function expandEventsLeg(
               undefined,
               TYPE_FORMAT_FLAGS
             ),
-            description: '',
+            description: ownerDocs?.get(name) ?? '',
+            loc: loc(label),
           }
         })
       }
     }
 
-    const entry: any = { description }
+    const entry: any = { description, loc: entryLoc }
     if (Object.keys(eventParams).length) entry.params = eventParams
-    markUndocumented(entry, sig.getDeclaration())
     result[eventName] = entry
   }
 
@@ -865,7 +832,8 @@ function traceSpreadSource(
 
 function resolveSpreadMembers(
   source:
-    { kind: 'factory'; name: string } | { kind: 'composable'; name: string },
+    | { kind: 'factory'; name: string }
+    | { kind: 'composable'; name: string },
   spreadExpr: ts.Expression,
   checker: ts.TypeChecker
 ): Record<string, any> {
@@ -1030,7 +998,11 @@ function extractReturnMembers(
           const isPrivate = hasJSDocTag(spreadDecl, 'private')
 
           if (isFunc) {
-            const entry: any = { type: 'function', description: desc }
+            const entry: any = {
+              type: 'function',
+              description: desc,
+              loc: loc(spreadDecl),
+            }
             if (isPrivate) entry.private = true
             const sigs = memberType.getNonNullableType().getCallSignatures()
             if (sigs.length > 0) {
@@ -1042,6 +1014,7 @@ function extractReturnMembers(
                 const paramEntry: ParamInfo = {
                   type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
                   description: jsdoc.get(sp.name) ?? '',
+                  ...(spDecl ? { loc: loc(spDecl) } : {}),
                 }
                 if (spDecl && ts.isParameter(spDecl) && spDecl.initializer) {
                   const defVal = evalSimpleDefault(spDecl.initializer)
@@ -1053,7 +1026,6 @@ function extractReturnMembers(
               const ret = getFunctionReturnTypeFromSig(sigs[0], checker)
               if (ret) entry.returns = { type: ret }
             }
-            markUndocumented(entry, spreadDecl)
             result[spreadProp.name] = entry
           } else {
             const entry: any = {
@@ -1063,9 +1035,9 @@ function extractReturnMembers(
                 TYPE_FORMAT_FLAGS
               ),
               description: desc,
+              loc: loc(spreadDecl),
             }
             if (isPrivate) entry.private = true
-            markUndocumented(entry, spreadDecl)
             result[spreadProp.name] = entry
           }
         }
@@ -1136,7 +1108,7 @@ function extractReturnMembers(
           ? 'function'
           : checker.typeToString(memberType, localDecl, TYPE_FORMAT_FLAGS)
       }
-      const entry: any = { type: typeStr, description }
+      const entry: any = { type: typeStr, description, loc: loc(localDecl) }
       if (wholeCallRef) entry.from = wholeCallRef
 
       if (hasJSDocTag(localDecl, 'private')) {
@@ -1154,6 +1126,7 @@ function extractReturnMembers(
             const paramEntry: ParamInfo = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
               description: jsdoc.get(sp.name) ?? '',
+              ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
             if (spDecl && ts.isParameter(spDecl) && spDecl.initializer) {
               const defVal = evalSimpleDefault(spDecl.initializer)
@@ -1166,8 +1139,6 @@ function extractReturnMembers(
           if (ret) entry.returns = { type: ret }
         }
       }
-
-      markUndocumented(entry, localDecl)
       result[propName] = entry
     } else if (ts.isPropertyAssignment(prop)) {
       const description = getNodeJSDocDescription(prop)
@@ -1176,7 +1147,7 @@ function extractReturnMembers(
       const typeStr = isFunc
         ? 'function'
         : checker.typeToString(exprType, prop, TYPE_FORMAT_FLAGS)
-      const entry: any = { type: typeStr, description }
+      const entry: any = { type: typeStr, description, loc: loc(prop) }
 
       if (hasJSDocTag(prop, 'private')) {
         entry.private = true
@@ -1189,9 +1160,11 @@ function extractReturnMembers(
           const params: Record<string, ParamInfo> = {}
           for (const sp of sigs[0].getParameters()) {
             const pt = checker.getTypeOfSymbolAtLocation(sp, prop)
+            const spDecl = sp.getDeclarations()?.[0]
             params[sp.name] = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
               description: jsdoc.get(sp.name) ?? '',
+              ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
           }
           if (Object.keys(params).length) entry.params = params
@@ -1199,8 +1172,6 @@ function extractReturnMembers(
           if (ret) entry.returns = { type: ret }
         }
       }
-
-      markUndocumented(entry, prop)
       result[propName] = entry
     }
   }
@@ -1237,7 +1208,7 @@ interface BlueprintEntry {
  * Fills empty prop and event descriptions of each feature from the blueprints
  * that list the feature among their `features`. A description is inherited only
  * when those blueprints agree (one distinct value) — ambiguity among the using
- * blueprints leaves it empty for `pnpm extract:validate` to flag.
+ * blueprints leaves it empty.
  */
 function enrichFromUsingBlueprints(
   output: Record<string, any>,
@@ -1427,6 +1398,7 @@ function makeFactoryAliasEntry(
   _funcName: string,
   targetName: string,
   description: string,
+  declNode: ts.Node,
   delegateCall: ts.CallExpression,
   checker: ts.TypeChecker
 ): any {
@@ -1447,6 +1419,7 @@ function makeFactoryAliasEntry(
   return {
     type: 'function',
     description,
+    loc: loc(declNode),
     aliasOf: targetName,
     _aliasReturnKeys: aliasReturnKeys,
   }
@@ -1523,7 +1496,7 @@ function extractFactories(
         const funcName = node.name.text
         const description = getNodeJSDocDescription(node)
 
-        const entry: any = { type: 'function', description }
+        const entry: any = { type: 'function', description, loc: loc(node) }
 
         if (node.parameters.length > 0) {
           const resolved = resolveOptionsTypeForInlineIntersection(
@@ -1562,6 +1535,7 @@ function extractFactories(
             funcName,
             (call.expression as ts.Identifier).text,
             description,
+            node,
             call,
             checker
           )
@@ -1597,7 +1571,7 @@ function extractFactories(
           const description =
             getNodeJSDocDescription(node) || getNodeJSDocDescription(innerFn)
 
-          const entry: any = { type: 'function', description }
+          const entry: any = { type: 'function', description, loc: loc(decl) }
 
           const config = extractConfig(outerArg, checker, sourceFile)
           if (config) entry.config = config
@@ -1661,6 +1635,7 @@ function extractFactories(
               decl.name.text,
               (call.expression as ts.Identifier).text,
               getNodeJSDocDescription(node),
+              decl,
               call,
               checker
             )
@@ -1714,8 +1689,7 @@ function extractFactories(
  * Resolves remaining undescribed deps to their origin: a dep is by definition
  * another feature's return, so a name concretely returned (not itself a
  * reference) by exactly one other feature becomes a `from` reference to it.
- * Ambiguous or unmatched deps stay as they are and `pnpm extract:validate`
- * flags them for a manual description.
+ * Ambiguous or unmatched deps stay as they are.
  */
 function resolveDepOrigins(
   output: Record<string, any>,
@@ -1790,73 +1764,15 @@ function extractConfig(
     const member: any = {
       type: getPropertyTypeText(propSym, propDecl, checker),
       description: getSymbolDescription(propSym, checker),
+      loc: loc(propDecl),
     }
     if (ts.isPropertySignature(propDecl) && !propDecl.questionToken) {
       member.required = true
     }
-    markUndocumented(member, propDecl)
     members[propSym.name] = member
   }
 
   return Object.keys(members).length ? members : undefined
-}
-
-/**
- * Stamps an undocumented member with its source location so `pnpm
- * extract:validate` can print a clickable `file:line`. Pruned again once
- * enrichment fills the description or the member resolves to a `from`
- * reference.
- */
-function markUndocumented(entry: any, decl: ts.Node | undefined): void {
-  if (!decl || entry.description || entry.from) return
-  const sf = decl.getSourceFile()
-  entry.file = path.relative(ROOT, sf.fileName)
-  entry.line = sf.getLineAndCharacterOfPosition(decl.getStart()).line + 1
-  // A docblock holding only `@write` deliberately marks the member writable
-  // but leaves it undescribed.
-  if (hasJSDocTag(decl, 'write')) entry.reason = 'flagged'
-}
-
-function collectIssues(output: Record<string, any>): Issue[] {
-  const issues: Issue[] = []
-
-  const take = (name: string, member: any) => {
-    if (!member || typeof member !== 'object') return
-    const undocumented = !member.description && !member.from
-    if (undocumented) {
-      issues.push({
-        name,
-        reason: member.reason ?? 'missing',
-        ...(member.file ? { file: member.file, line: member.line } : {}),
-      })
-    }
-    delete member.file
-    delete member.line
-    delete member.reason
-  }
-
-  for (const [featureName, entry] of Object.entries(output)) {
-    const options = entry
-    for (const section of ['props', 'deps', 'events']) {
-      for (const [memberName, member] of Object.entries<any>(
-        options[section] ?? {}
-      )) {
-        take(`${featureName}.${section}.${memberName}`, member)
-      }
-    }
-    for (const [memberName, member] of Object.entries<any>(
-      entry.returns ?? {}
-    )) {
-      take(`${featureName}.returns.${memberName}`, member)
-    }
-    for (const [memberName, member] of Object.entries<any>(
-      entry.config ?? {}
-    )) {
-      take(`${featureName}.config.${memberName}`, member)
-    }
-  }
-
-  return issues
 }
 
 // ================ MAIN ================
@@ -1881,11 +1797,6 @@ function main() {
     coreBlueprintsPath
   )
   resolveDepOrigins(coreOutput, [coreOutput])
-  if (scope.core) {
-    updateIssues('core', collectIssues(coreOutput))
-  } else {
-    collectIssues(coreOutput)
-  }
 
   if (scope.core) {
     fs.mkdirSync(path.dirname(coreOutputFile), { recursive: true })
@@ -1928,7 +1839,6 @@ function main() {
       adapterBlueprintsPath
     )
     resolveDepOrigins(adapterOutput, [coreOutput, adapterOutput])
-    updateIssues(adapterName, collectIssues(adapterOutput))
 
     const outputDir = path.join(GENERATED_DIR, `_${adapterName}`)
     const outputFile = path.join(outputDir, 'features.json')

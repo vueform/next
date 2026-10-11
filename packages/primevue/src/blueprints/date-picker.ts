@@ -43,6 +43,10 @@ import {
   createElementContext,
   aliasProps,
 } from '@vueform/core'
+import type {
+  DatePickerProps as ADatePickerProps,
+  DatePickerEmitsOptions as ADatePickerEmits,
+} from 'primevue/datepicker'
 import {
   computed,
   onMounted,
@@ -51,11 +55,7 @@ import {
   type WatchHandle,
   type WritableComputedRef,
 } from 'vue'
-import type { ForwardedEmits } from '#primevue/types'
-import type {
-  DatePickerProps as ADatePickerProps,
-  DatePickerEmitsOptions as ADatePickerEmits,
-} from 'primevue/datepicker'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -67,7 +67,8 @@ import {
   type IftaLabelProps,
   type InfoProps,
   type TooltipProps,
-} from '#primevue/features'
+} from '#src/features'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * The model value type carried by the date-picker element's wide props.
@@ -82,7 +83,10 @@ type DatePickerModel = Required<DatePickerProps>['modelValue']
  * stay assignable to the component's canonical (defaulted) context.
  */
 export type DatePickerSelectionModeProp =
-  'single' | 'multiple' | 'range' | undefined
+  | 'single'
+  | 'multiple'
+  | 'range'
+  | undefined
 
 /**
  * Date-picker model shaped by `selectionMode`:

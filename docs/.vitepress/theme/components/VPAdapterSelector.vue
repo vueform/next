@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { useRoute } from 'vitepress'
+
 import { adapters } from '../composables/useAdapter'
 
 declare const __VF_ADAPTER__: string

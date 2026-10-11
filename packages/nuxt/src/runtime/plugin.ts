@@ -1,4 +1,5 @@
 import type { App } from 'vue'
+
 import { defineNuxtPlugin } from '#imports'
 import createPlugin from '#vueform-resolved-config'
 

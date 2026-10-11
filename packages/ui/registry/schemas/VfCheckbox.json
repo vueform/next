@@ -10,25 +10,23 @@
       "path": "VfCheckbox.vue",
       "target": "{componentsDir}/VfCheckbox.vue",
       "kind": "component",
-      "hash": "sha256:955e71c0f46eb00e4f4424e1e0a10873b379f370841c03be686c70eef3cd8589"
+      "hash": "sha256:6dbac7052526735c6b2b3156b10e7db9b9d8a239c252d372b85eae2d80bf7798"
     }
   ],
   "imports": [
-    "@vueform/ui/components/VfCheckbox",
     "vue",
+    "@vueform/ui/components/VfCheckbox",
     "@vueform/ui",
     "@vueform/ui/choice.css"
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "choice"
-  ],
+  "styles": ["choice"],
   "element": true,
   "clone": {
     "path": "VfCheckbox.vue",
     "blueprint": "checkbox",
-    "hash": "sha256:782d47db36a342125455b5b41c5f087bff53a1e01ed5bdfc73248d9e4d33ce30",
+    "hash": "sha256:ed1b5bc53f971d0676eb7ae9a397279d7f956645a40c20af515d227c241a11a4",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

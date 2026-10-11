@@ -10,7 +10,7 @@
       "path": "VfTabs.vue",
       "target": "{componentsDir}/VfTabs.vue",
       "kind": "component",
-      "hash": "sha256:3aabb670f3d38c049e805f16988af432e095a899f1ef1dc95958a04c47ae8502"
+      "hash": "sha256:3fec4ceb39bafd358c62ccf485612a00c049f19ca744279186ff66dd4bc99b8e"
     }
   ],
   "imports": [
@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "tabs"
-  ],
+  "styles": ["tabs"],
   "register": {
     "component": "VfTabs",
     "import": "{componentsDir}/VfTabs.vue"

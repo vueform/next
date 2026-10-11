@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfAddon, { type VfAddonEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfAddon: typeof VfAddon
   }
+}
+
+declare module './types' {
+  interface VfAddonProps
+    extends
+      PartProps<VfAddonParts, VfAddonContext>,
+      ClassProps<VfAddonClasses, VfAddonContext>,
+      ReclassProps<VfAddonClasses, VfAddonContext> {}
 }

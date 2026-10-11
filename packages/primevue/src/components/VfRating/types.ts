@@ -1,15 +1,4 @@
 import type {
-  RatingApi,
-  RatingClasses,
-  RatingEmits,
-  RatingExpose,
-  RatingParts,
-  RatingProps,
-  RatingSlots,
-  forwards,
-} from '#primevue/blueprints/rating'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
@@ -19,14 +8,26 @@ import type {
   RatingSlots as ARatingSlots,
 } from 'primevue'
 
+import type {
+  RatingApi,
+  RatingClasses,
+  RatingEmits,
+  RatingExpose,
+  RatingParts,
+  RatingProps,
+  RatingSlots,
+  forwards,
+} from '#src/blueprints/rating'
+import type { ForwardedSlots } from '#src/types'
+
 /**
  * Props for the VfRating component.
  *
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfRatingProps extends RatingProps<
   'rating',

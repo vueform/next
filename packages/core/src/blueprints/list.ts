@@ -1,12 +1,12 @@
 import { computed, toRef } from 'vue'
-import type { DProp, FormSchema, LooseRequired, TProp } from '#core/types'
+
 import {
   useContainerProvider,
   useDynamicProp,
   useFeatures,
   useSecurity,
   useComponentFactory,
-} from '#core/composables'
+} from '#src/composables'
 import {
   makeElement,
   makeDisabled,
@@ -28,9 +28,10 @@ import {
   type ModelEmits,
   type ArrayModel,
   type ValidationEmits,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import { warn } from '#core/utils'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { DProp, FormSchema, LooseRequired, TProp } from '#src/types'
+import { warn } from '#src/utils'
 
 /**
  * Props for the list element blueprint.
@@ -286,12 +287,12 @@ export function blueprint<TProps extends ListProps<string>>(
     return true
   })
 
-  /**
-   * The resolved schema prototype used to create new list items.
-   */
   const { sanitizeProps } = useSecurity()
   const { makeFromSchema } = useComponentFactory()
 
+  /**
+   * The resolved schema prototype used to create new list items.
+   */
   const prototype = computed(() => {
     if (!props.schema) return {}
 

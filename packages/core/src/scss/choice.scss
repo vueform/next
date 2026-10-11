@@ -38,7 +38,8 @@
   background: var(--vf-choice-bg);
   border-color: var(--vf-choice-border-color);
   border-style: solid;
-  border-width: var(--vf-choice-border-width-t) var(--vf-choice-border-width-r) var(--vf-choice-border-width-b) var(--vf-choice-border-width-l);
+  border-width: var(--vf-choice-border-width-t) var(--vf-choice-border-width-r)
+    var(--vf-choice-border-width-b) var(--vf-choice-border-width-l);
   border-radius: var(--vf-choice-radius);
   box-shadow: var(--vf-choice-shadow);
 
@@ -56,8 +57,12 @@
       top: calc(var(--vf-choice-border-width-t) * (-1));
       left: calc(var(--vf-choice-border-width-l) * (-1));
       display: block;
-      width: calc(100% + var(--vf-choice-border-width-l) + var(--vf-choice-border-width-r));
-      height: calc(100% + var(--vf-choice-border-width-t) + var(--vf-choice-border-width-b));
+      width: calc(
+        100% + var(--vf-choice-border-width-l) + var(--vf-choice-border-width-r)
+      );
+      height: calc(
+        100% + var(--vf-choice-border-width-t) + var(--vf-choice-border-width-b)
+      );
       content: ' ';
       background: var(--vf-choice-icon-color);
       mask-image: var(--vf-choice-icon-checked);

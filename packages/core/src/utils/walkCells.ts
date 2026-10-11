@@ -1,4 +1,4 @@
-import type { ResolvedCell, ResolvedGrid } from '#core/blueprints/grid'
+import type { ResolvedCell, ResolvedGrid } from '#src/blueprints/grid'
 
 /**
  * Iterates over every cell in a resolved grid, computing rowspan/colspan and

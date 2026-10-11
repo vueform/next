@@ -10,13 +10,48 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
-import type { NavPosProp } from '#core/blueprints/nav'
-import type { StackedProps, TabbedEmits, TabbedProps } from '#core/features'
-import type { AutosaveProp } from '#core/modules/autosave'
+
+import type { NavPosProp } from '#src/blueprints/nav'
+import {
+  useAutosave,
+  useChildren,
+  useConfig,
+  useCurrentElement,
+  usePager,
+  useSchema,
+  useDynamicProp,
+  useData,
+  type Pager,
+  type ResolvedPage,
+  useExpression,
+  useHttp,
+  useLocale,
+  useTokens,
+} from '#src/composables'
+import { createFormContext, createContainerContext } from '#src/contexts'
+import type { StackedProps, TabbedEmits, TabbedProps } from '#src/features'
+import {
+  defineDefaults,
+  getAttachedValidationSchema,
+  type DefineEvents,
+} from '#src/helpers'
+import type { AutosaveProp } from '#src/modules/autosave'
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
-} from '#core/modules/conditions'
+} from '#src/modules/conditions'
+import { getExpressionModule } from '#src/modules/expression'
+import {
+  HttpError,
+  type HttpResponse,
+  type RequestMethod,
+} from '#src/modules/http'
+import {
+  getModelModule,
+  type ModelInstance,
+  type ModelNode,
+} from '#src/modules/model'
+import { getValidationModule, type Issue } from '#src/modules/validation'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -43,41 +78,7 @@ import type {
   Paths,
   SchemaToModel,
   StandardSchemaV1,
-} from '#core/types'
-import {
-  useAutosave,
-  useChildren,
-  useConfig,
-  useCurrentElement,
-  usePager,
-  useSchema,
-  useDynamicProp,
-  useData,
-  type Pager,
-  type ResolvedPage,
-  useExpression,
-  useHttp,
-  useLocale,
-  useTokens,
-} from '#core/composables'
-import { createFormContext, createContainerContext } from '#core/contexts'
-import {
-  defineDefaults,
-  getAttachedValidationSchema,
-  type DefineEvents,
-} from '#core/helpers'
-import { getExpressionModule } from '#core/modules/expression'
-import {
-  HttpError,
-  type HttpResponse,
-  type RequestMethod,
-} from '#core/modules/http'
-import {
-  getModelModule,
-  type ModelInstance,
-  type ModelNode,
-} from '#core/modules/model'
-import { getValidationModule, type Issue } from '#core/modules/validation'
+} from '#src/types'
 import {
   get as getByPath,
   isPlainObject,
@@ -85,7 +86,7 @@ import {
   scrollIntoViewIfNeeded,
   warn,
   isDev,
-} from '#core/utils'
+} from '#src/utils'
 
 /**
  * The non-generic bulk of the form factory API, computed and cached once at the
@@ -101,7 +102,7 @@ type FormApiBase = Omit<ReturnType<typeof setup>, keyof FormSchemaApi>
  * unwrapped), falling back to the wide `FormSchema`.
  */
 type FormPropsSchema<TProps> = TProps extends {
-  schema?: MaybeRef<infer S | undefined>
+  schema?: MaybeRef<(infer S) | undefined>
 }
   ? [S] extends [never]
     ? FormSchema
@@ -208,7 +209,8 @@ export interface FormProps<
   nav?: boolean
 
   /**
-   * @write
+   * The alignment of the step navigation buttons: `'left'`, `'center'`,
+   * `'right'`, `'fluid'` (stretched to full width), or `'auto'`.
    */
   navPos?: NavPosProp
 
@@ -816,7 +818,13 @@ export interface SubmitFail {
    * blocked by `$security.allowOrigins`, or an SSR-time request).
    */
   reason:
-    'network' | 'timeout' | 'http' | 'abort' | 'blocked' | 'ssr' | 'unknown'
+    | 'network'
+    | 'timeout'
+    | 'http'
+    | 'abort'
+    | 'blocked'
+    | 'ssr'
+    | 'unknown'
 
   /**
    * The HTTP status code, or null if no response was received.
@@ -869,7 +877,10 @@ export interface SubmitCancelled {
  * Discriminated union of all possible form submission outcomes.
  */
 export type SubmitResult =
-  SubmitSuccess | SubmitInvalid | SubmitFail | SubmitCancelled
+  | SubmitSuccess
+  | SubmitInvalid
+  | SubmitFail
+  | SubmitCancelled
 
 /**
  * Factory API produced by the form blueprint's `blueprint` function, optionally
@@ -968,6 +979,9 @@ function setup(
   const form$ = createFormContext()
   const context$ = form$ as any
 
+  /**
+   * The resolved global configuration object.
+   */
   const config = useConfig()
 
   const expression = useExpression()
@@ -2015,6 +2029,9 @@ function setup(
 
   /**
    * Updates a child element's value in the root model by its data path.
+   *
+   * @param dataPath The data path of the child element to update.
+   * @param value The value to set at the data path.
    */
   const updateChild = setModel
 
@@ -2040,11 +2057,7 @@ function setup(
 
   // ============== AUTOSAVE ==============
 
-  const {
-    autosave: triggerAutosave,
-    clearAutosaved,
-    loadAutosaved,
-  } = useAutosave({
+  const { autosave, clearAutosaved, loadAutosaved } = useAutosave({
     autosave: toRef(() => props.autosave),
     payload,
     model,
@@ -2140,7 +2153,7 @@ function setup(
     clearMessageBag,
     submit,
     abort,
-    autosave: triggerAutosave,
+    autosave,
     clearAutosaved,
     loadAutosaved,
     on,

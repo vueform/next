@@ -1,8 +1,17 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
+
 import * as ts from 'typescript'
+
 import { corePackage, nonCoreAdapters } from '../lib/adapters.js'
-import { importedCalleeName } from '../lib/extract.js'
+import {
+  addOverloadParamDescriptions,
+  createProgram,
+  getJSDocParamDescriptions,
+  getSymbolDescription,
+  importedCalleeName,
+  loc,
+} from '../lib/extract.js'
 import { generatedDir, monorepoRoot } from '../lib/paths.js'
 import { parseScope } from '../lib/scope.js'
 
@@ -20,6 +29,7 @@ const SKIP_FILES = new Set(['types.ts', 'index.ts'])
 interface ParamInfo {
   type: string | Record<string, any>
   description: string
+  loc?: string
   required?: true
   rest?: true
   default?: unknown
@@ -27,6 +37,7 @@ interface ParamInfo {
 
 interface OverloadInfo {
   description: string
+  loc?: string
   params: Record<string, ParamInfo>
   returns: { type: string }
 }
@@ -34,6 +45,7 @@ interface OverloadInfo {
 interface HelperEntry {
   type: 'function'
   description: string
+  loc?: string
   category?: string
   private?: true
   params?: Record<string, ParamInfo>
@@ -43,70 +55,10 @@ interface HelperEntry {
 
 // ============= TS PROGRAM =============
 
-function createProgram(pkgDir: string) {
-  const configPath = path.join(pkgDir, 'tsconfig.json')
-  const raw = ts.readConfigFile(configPath, ts.sys.readFile)
-
-  if (raw.error) {
-    throw new Error(
-      `Failed to read ${configPath}: ${ts.flattenDiagnosticMessageText(raw.error.messageText, '\n')}`
-    )
-  }
-
-  const parsed = ts.parseJsonConfigFileContent(
-    raw.config,
-    ts.sys,
-    path.dirname(configPath),
-    undefined,
-    configPath
-  )
-  const program = ts.createProgram(parsed.fileNames, parsed.options)
-
-  return { program, checker: program.getTypeChecker() }
-}
-
 // ============ JSDOC HELPERS ===========
 
 function singleLine(s: string): string {
   return s.replace(/\s*\n\s*/g, ' ').trim()
-}
-
-function getSymbolDescription(
-  symbol: ts.Symbol,
-  checker: ts.TypeChecker
-): string {
-  return singleLine(
-    symbol
-      .getDocumentationComment(checker)
-      .map((p) => p.text)
-      .join('')
-  )
-}
-
-function getJSDocParamDescriptions(node: ts.Node): Map<string, string> {
-  const result = new Map<string, string>()
-
-  for (const entry of ts.getJSDocCommentsAndTags(node)) {
-    if (!ts.isJSDoc(entry) || !entry.tags) continue
-
-    for (const tag of entry.tags) {
-      if (
-        !ts.isJSDocParameterTag(tag) ||
-        !tag.name ||
-        !ts.isIdentifier(tag.name)
-      )
-        continue
-
-      const comment =
-        typeof tag.comment === 'string'
-          ? tag.comment
-          : (tag.comment?.map((c) => c.text || '').join('') ?? '')
-
-      result.set(tag.name.text, singleLine(comment))
-    }
-  }
-
-  return result
 }
 
 function getNodeJSDocDescription(node: ts.Node): string {
@@ -270,7 +222,8 @@ function resolveGenericParamType(
   if (ts.isTypeReferenceNode(param.type) && !param.type.typeArguments) {
     const sym = checker.getSymbolAtLocation(param.type.typeName)
     const tpDecl = sym?.declarations?.find(ts.isTypeParameterDeclaration) as
-      ts.TypeParameterDeclaration | undefined
+      | ts.TypeParameterDeclaration
+      | undefined
 
     if (tpDecl && funcDecl.typeParameters?.includes(tpDecl)) {
       if (tpDecl.constraint) {
@@ -294,7 +247,8 @@ function resolveGenericParamType(
     if (inner && ts.isTypeReferenceNode(inner) && !inner.typeArguments) {
       const sym = checker.getSymbolAtLocation(inner.typeName)
       const tpDecl = sym?.declarations?.find(ts.isTypeParameterDeclaration) as
-        ts.TypeParameterDeclaration | undefined
+        | ts.TypeParameterDeclaration
+        | undefined
       if (tpDecl && funcDecl.typeParameters?.includes(tpDecl)) {
         return `Readonly<${inner.getText(param.getSourceFile())}>`
       }
@@ -407,7 +361,7 @@ function expandObjectType(
 
     if (sigs.length > 1) {
       const overloads = extractCallSignatureOverloads(sigs, propDecl, checker)
-      const entry: any = { type: 'function', description }
+      const entry: any = { type: 'function', description, loc: loc(propDecl) }
       if (overloads.length) entry.overloads = overloads
 
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken) {
@@ -416,7 +370,7 @@ function expandObjectType(
 
       result[propSym.name] = entry
     } else if (sigs.length === 1 && isFunctionLikeType(propType)) {
-      const entry: any = { type: 'function', description }
+      const entry: any = { type: 'function', description, loc: loc(propDecl) }
 
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken) {
         entry.required = true
@@ -430,7 +384,7 @@ function expandObjectType(
       result[propSym.name] = entry
     } else {
       const typeText = getPropertyTypeText(propSym, propDecl, checker)
-      const entry: any = { type: typeText, description }
+      const entry: any = { type: typeText, description, loc: loc(propDecl) }
 
       if (ts.isPropertySignature(propDecl) && !propDecl.questionToken) {
         entry.required = true
@@ -458,9 +412,11 @@ function extractCallSignatureOverloads(
 
     for (const param of sig.getParameters()) {
       const paramType = checker.getTypeOfSymbolAtLocation(param, contextNode)
+      const paramDecl = param.getDeclarations()?.[0]
       params[param.name] = {
         type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
         description: jsdoc.get(param.name) ?? '',
+        ...(paramDecl ? { loc: loc(paramDecl) } : {}),
       }
     }
 
@@ -468,6 +424,7 @@ function extractCallSignatureOverloads(
 
     overloads.push({
       description,
+      loc: loc(sigDecl),
       params,
       returns: { type: ret },
     })
@@ -482,13 +439,18 @@ function extractSigParams(
   checker: ts.TypeChecker
 ): Record<string, ParamInfo> | undefined {
   const jsdoc = getJSDocParamDescriptions(sig.getDeclaration())
+  // A property's function type carries no JSDoc of its own — the `@param`
+  // tags live on the owning property signature (the contextNode).
+  const ownerDocs = getJSDocParamDescriptions(contextNode)
   const params: Record<string, ParamInfo> = {}
 
   for (const param of sig.getParameters()) {
     const paramType = checker.getTypeOfSymbolAtLocation(param, contextNode)
+    const paramDecl = param.getDeclarations()?.[0]
     params[param.name] = {
       type: checker.typeToString(paramType, undefined, TYPE_FORMAT_FLAGS),
-      description: jsdoc.get(param.name) ?? '',
+      description: jsdoc.get(param.name) || ownerDocs.get(param.name) || '',
+      ...(paramDecl ? { loc: loc(paramDecl) } : {}),
     }
   }
 
@@ -621,7 +583,7 @@ function extractReturnMembers(
         typeStr = checker.typeToString(memberType, localDecl, TYPE_FORMAT_FLAGS)
       }
 
-      const entry: any = { type: typeStr, description }
+      const entry: any = { type: typeStr, description, loc: loc(localDecl) }
 
       if (hasJSDocTag(localDecl, 'private')) {
         entry.private = true
@@ -640,6 +602,7 @@ function extractReturnMembers(
             const paramEntry: ParamInfo = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
               description: jsdoc.get(sp.name) ?? '',
+              ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
 
             if (spDecl && ts.isParameter(spDecl) && spDecl.initializer) {
@@ -673,7 +636,7 @@ function extractReturnMembers(
         typeStr = checker.typeToString(exprType, prop, TYPE_FORMAT_FLAGS)
       }
 
-      const entry: any = { type: typeStr, description }
+      const entry: any = { type: typeStr, description, loc: loc(prop) }
 
       if (hasJSDocTag(prop, 'private')) {
         entry.private = true
@@ -686,9 +649,11 @@ function extractReturnMembers(
           const params: Record<string, ParamInfo> = {}
           for (const sp of sigs[0].getParameters()) {
             const pt = checker.getTypeOfSymbolAtLocation(sp, prop)
+            const spDecl = sp.getDeclarations()?.[0]
             params[sp.name] = {
               type: checker.typeToString(pt, undefined, TYPE_FORMAT_FLAGS),
               description: jsdoc.get(sp.name) ?? '',
+              ...(spDecl ? { loc: loc(spDecl) } : {}),
             }
           }
           if (Object.keys(params).length) entry.params = params
@@ -792,6 +757,7 @@ function detectConditionalRestOverloads(
               params[elemName] = {
                 type: expanded,
                 description: paramDesc,
+                loc: loc(elemTypeSym.declarations![0]),
                 required: true,
               }
               continue
@@ -807,13 +773,14 @@ function detectConditionalRestOverloads(
         const entry: ParamInfo = {
           type: typeText,
           description: '',
+          loc: loc(elem),
         }
         if (!isOptional) entry.required = true
         params[elemName] = entry
       }
     }
 
-    overloads.push({ description: branchDesc, params })
+    overloads.push({ description: branchDesc, loc: loc(branch), params })
   }
 
   return overloads.length >= 2 ? overloads : undefined
@@ -910,14 +877,17 @@ function extractTsOverloads(
     const params: Record<string, ParamInfo> = {}
     for (const p of sig.getParameters()) {
       const pType = checker.getTypeOfSymbolAtLocation(p, sibling)
+      const pDecl = p.getDeclarations()?.[0]
       params[p.name] = {
         type: checker.typeToString(pType, undefined, TYPE_FORMAT_FLAGS),
         description: jsdoc.get(p.name) ?? '',
+        ...(pDecl ? { loc: loc(pDecl) } : {}),
       }
     }
 
     overloads.push({
       description,
+      loc: loc(sibling),
       params,
       returns: { type: getFunctionReturnTypeFromSig(sig, checker) },
     })
@@ -1042,11 +1012,19 @@ function scanHelpers(
       if (output[funcName]) return
 
       const description = getNodeJSDocDescription(node)
-      const jsdoc = getJSDocParamDescriptions(node)
+      const jsdoc = addOverloadParamDescriptions(
+        getJSDocParamDescriptions(node),
+        node,
+        sourceFile
+      )
       const category = getJSDocCategory(node)
       const isPrivate = fnDeclarationsHaveTag(node, sourceFile, 'private')
 
-      const entry: HelperEntry = { type: 'function', description }
+      const entry: HelperEntry = {
+        type: 'function',
+        description,
+        loc: loc(node),
+      }
 
       if (category) {
         entry.category = category
@@ -1113,6 +1091,7 @@ function scanHelpers(
           const paramEntry: ParamInfo = {
             type: expanded,
             description: paramDesc,
+            loc: loc(param),
           }
           if (!isOptional && !isRest) paramEntry.required = true
           if (isRest) paramEntry.rest = true
@@ -1126,6 +1105,7 @@ function scanHelpers(
             const paramEntry: ParamInfo = {
               type: innerType,
               description: paramDesc,
+              loc: loc(param),
               rest: true,
             }
             if (!isOptional) paramEntry.required = true
@@ -1134,6 +1114,7 @@ function scanHelpers(
             const paramEntry: ParamInfo = {
               type: typeText,
               description: paramDesc,
+              loc: loc(param),
             }
             if (!isOptional) paramEntry.required = true
             params[paramName] = paramEntry

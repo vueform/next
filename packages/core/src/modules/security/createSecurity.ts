@@ -1,9 +1,4 @@
-import type { VueformInstance } from '#core/helpers'
-import type {
-  SecurityHtmlArea,
-  SecurityModule,
-  SecurityModuleOptions,
-} from './types'
+import type { VueformInstance } from '#src/helpers'
 import {
   isClient,
   isDev,
@@ -12,7 +7,13 @@ import {
   own,
   toCamelCase,
   warn,
-} from '#core/utils'
+} from '#src/utils'
+
+import type {
+  SecurityHtmlArea,
+  SecurityModule,
+  SecurityModuleOptions,
+} from './types'
 
 /**
  * A parsed wildcard `allowOrigins` entry. Exactly two forms compile:

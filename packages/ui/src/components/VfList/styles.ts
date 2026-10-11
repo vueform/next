@@ -1,1 +1,1 @@
-import '#ui/scss/list.scss'
+import '#src/scss/list.scss'

@@ -1,0 +1,8 @@
+{
+  "extends": "@vueform/tsconfig",
+  "compilerOptions": {
+    "incremental": true,
+    "tsBuildInfoFile": "./node_modules/.tmp/node.tsbuildinfo"
+  },
+  "include": ["*.config.ts", "tests/smoke/run.ts"]
+}

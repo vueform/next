@@ -10,9 +10,11 @@ import {
   type MaybeRef,
   type Ref,
 } from 'vue'
+
+import type { VueformRouter } from '#src/modules/router'
+
 import { joinMaybeArrays } from './array'
 import { getGenericInstance } from './instance'
-import type { VueformRouter } from '#core/modules/router'
 
 /**
  * Shared constant computed that always resolves to `true`. Reuse it for

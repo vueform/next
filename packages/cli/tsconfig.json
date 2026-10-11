@@ -1,17 +1,7 @@
 {
-  "extends": "../../tsconfig.node.json",
-  "compilerOptions": {
-    "composite": false,
-    "incremental": true,
-    "tsBuildInfoFile": "dist/.tsbuildinfo",
-    "module": "NodeNext",
-    "moduleResolution": "NodeNext",
-    "verbatimModuleSyntax": false,
-    "resolveJsonModule": true,
-    "declaration": true,
-    "emitDeclarationOnly": false,
-    "rootDir": "src",
-    "outDir": "dist"
-  },
-  "include": ["src"]
+  "files": [],
+  "references": [
+    { "path": "./tsconfig.app.json" },
+    { "path": "./tsconfig.node.json" }
+  ]
 }

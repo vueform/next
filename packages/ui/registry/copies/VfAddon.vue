@@ -4,15 +4,16 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { useAttrs } from 'vue'
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfAddonEmits,
   type VfAddonProps,
   type VfAddonSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfAddon'
-import { useBlueprint, defineEvents } from '@vueform/ui'
+import { useAttrs } from 'vue'
+
 import '@vueform/ui/addon.css'
 
 defineOptions({ name: 'VfAddon', inheritAttrs: false })

@@ -1,6 +1,8 @@
 import { computed } from 'vue'
+
+import { warn, isProd } from '#src/utils'
+
 import type { LocaleModule } from './types'
-import { warn, isProd } from '#core/utils'
 
 let warnedSetLocale = false
 

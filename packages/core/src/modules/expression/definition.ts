@@ -1,5 +1,6 @@
+import { defineModule } from '#src/helpers'
+
 import { createExpression } from './createExpression'
-import { defineModule } from '#core/helpers'
 
 /**
  * The expression module. Register via `createVueform({ modules: { expression }

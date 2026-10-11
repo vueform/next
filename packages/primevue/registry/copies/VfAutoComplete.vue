@@ -18,14 +18,14 @@ import {
   type SuggestionsProp,
   vdomPrime,
 } from '@vueform/primevue'
-import PrimeAutoComplete from 'primevue/autocomplete'
 import {
+  blueprint,
+  defaults,
   type VfAutoCompleteEmits,
   type VfAutoCompleteProps,
   type VfAutoCompleteSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfAutoComplete'
+import PrimeAutoComplete from 'primevue/autocomplete'
 
 const AutoComplete = vdomPrime(PrimeAutoComplete)
 

@@ -1,5 +1,5 @@
 import { computed, type ComputedRef } from 'vue'
-import { attachValidationSchema } from './defineSchema'
+
 import type {
   ArraySchema,
   ExactValidatedSchema,
@@ -7,7 +7,9 @@ import type {
   MatchesSchemaModel,
   ObjectSchema,
   StandardSchemaV1,
-} from '#core/types'
+} from '#src/types'
+
+import { attachValidationSchema } from './defineSchema'
 
 /**
  * `defineSchema` counterpart for reactive schemas: takes a getter and returns

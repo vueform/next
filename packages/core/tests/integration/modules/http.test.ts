@@ -1,4 +1,3 @@
-import { createForm } from '../../helpers'
 import {
   defineSchema,
   hasHttpModule,
@@ -8,7 +7,9 @@ import {
   type HttpAdapter,
   type HttpRequestConfig,
   type HttpResponse,
-} from '#core'
+} from '@vueform/core'
+
+import { createForm } from '../../helpers'
 
 function mockAdapter(response: Partial<HttpResponse> = {}): {
   adapter: HttpAdapter

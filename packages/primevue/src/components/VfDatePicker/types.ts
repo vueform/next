@@ -1,24 +1,4 @@
 import type {
-  DatePickerApi,
-  DatePickerClasses,
-  DatePickerEmits,
-  DatePickerExpose,
-  DatePickerParts,
-  DatePickerProps,
-  DatePickerSelectionModeProp,
-  DatePickerSlots,
-  forwards,
-} from '#primevue/blueprints/date-picker'
-import type {
-  FloatLabelClasses,
-  FloatLabelParts,
-  FloatLabelSlots,
-  IftaClasses,
-  IftaParts,
-  IftaSlots,
-} from '#primevue/features'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
   ClassValue,
   AddonsSlots,
   IconsSlots,
@@ -32,6 +12,27 @@ import type {
 } from '@vueform/core'
 import type { DatePickerProps as PvDatePickerProps } from 'primevue'
 import type { DatePickerSlots as ADatePickerSlots } from 'primevue/datepicker'
+
+import type {
+  DatePickerApi,
+  DatePickerClasses,
+  DatePickerEmits,
+  DatePickerExpose,
+  DatePickerParts,
+  DatePickerProps,
+  DatePickerSelectionModeProp,
+  DatePickerSlots,
+  forwards,
+} from '#src/blueprints/date-picker'
+import type {
+  FloatLabelClasses,
+  FloatLabelParts,
+  FloatLabelSlots,
+  IftaClasses,
+  IftaParts,
+  IftaSlots,
+} from '#src/features'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * Resolves the `TSelectionMode` generic from a registry `TEntry` payload's
@@ -55,8 +56,8 @@ export type EntryProps<TEntry> = VfDatePickerProps<EntrySelectionModeOf<TEntry>>
  * model-driving type argument (e.g. `VfDatePickerProps<'multiple'>`). Reach for
  * `VfDatePickerProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfDatePickerProps<
   TSelectionMode extends DatePickerSelectionModeProp =

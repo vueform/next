@@ -10,9 +10,10 @@
  *
  * Selection flags work like the build orchestrator's — `--core`, `--pv`,
  * `--adapters`, plus `--root` and `--node` for the root-level programs.
- * Durations are persisted in `node_modules/.vueform/times.json`.
+ * Durations are persisted in `.vueform/times.json`.
  */
 import { join } from 'node:path'
+
 import { outputDir, runQueue, selectTasks, type Task } from './runner'
 import { checkTasks } from './tasks'
 

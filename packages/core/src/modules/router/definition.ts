@@ -1,5 +1,6 @@
+import { defineModule } from '#src/helpers'
+
 import { createRouter } from './createRouter'
-import { defineModule } from '#core/helpers'
 
 /**
  * The router module. Register via `createVueform({ modules: { router } })`.

@@ -11,10 +11,11 @@
  *
  * The whole queue is rendered upfront as a task list; the active package shows
  * a progress bar sized by its previous build time, persisted in
- * `node_modules/.vueform/times.json`. Unknown packages fall back to per-group
+ * `.vueform/times.json`. Unknown packages fall back to per-group
  * defaults. Build output is captured and only shown when a build fails.
  */
 import { join } from 'node:path'
+
 import { outputDir, runQueue, selectTasks, type Task } from './runner'
 import { buildTasks } from './tasks'
 

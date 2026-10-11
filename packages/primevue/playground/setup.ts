@@ -6,6 +6,7 @@ import Aura from '@primeuix/themes/aura'
 import PrimeVue from 'primevue/config'
 import Tooltip from 'primevue/tooltip'
 import type { App } from 'vue'
+
 import 'primeicons/primeicons.css'
 
 export function installApp(app: App, mode: { vapor: boolean }): void {

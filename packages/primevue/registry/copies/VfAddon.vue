@@ -5,15 +5,16 @@
  */
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
-import PrimeInputGroupAddon from 'primevue/inputgroupaddon'
-import { useAttrs } from 'vue'
 import {
+  blueprint,
+  defaults,
   type VfAddonEmits,
   type VfAddonProps,
   type VfAddonSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfAddon'
+import PrimeInputGroupAddon from 'primevue/inputgroupaddon'
+import { useAttrs } from 'vue'
+
 import '@vueform/primevue/addon.css'
 
 const InputGroupAddon = vdomPrime(PrimeInputGroupAddon)

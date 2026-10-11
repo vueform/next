@@ -17,10 +17,12 @@ import { spawnSync } from 'node:child_process'
 import { createHash } from 'node:crypto'
 import fs from 'node:fs'
 import path from 'node:path'
+
 import Ajv from 'ajv'
-import prettier from 'prettier'
 import ts from 'typescript'
 import { parse as parseSfc } from 'vue/compiler-sfc'
+
+import { findWorkspaceRoot } from './shared'
 
 const SCHEMA_VERSION = 1
 
@@ -488,6 +490,8 @@ const CLONE_SUFFIXES = [
   'Expose',
   'Context',
 ]
+
+type EmbeddedFormatOptions = Record<string, unknown>
 
 /**
  * Options for `generateRegistry`.
@@ -1015,18 +1019,60 @@ function emitCloneTemplate(
   return { content: emitted, blueprint }
 }
 
+let cachedFormatOptions: Promise<EmbeddedFormatOptions> | undefined
+
 /**
- * Formats an emitted SFC with the repo's Prettier config so a user's
- * format-on-save is a no-op in matching projects and hashes stay stable.
- * (Projects with diverging Prettier configs will still reformat — resolving
- * that needs normalized comparison on the CLI side.)
+ * The repo's oxfmt style options: the `fmt` block of the root vite.config.ts
+ * (the single source of truth — there is no `.oxfmtrc.json`), evaluated with
+ * vite's own config loader so this compiled module can read the TS config at
+ * runtime. `ignorePatterns` is dropped (meaningless for in-memory formatting).
  */
+function embeddedFormatOptions(): Promise<EmbeddedFormatOptions> {
+  cachedFormatOptions ??= (async () => {
+    // The config bundles to CJS (no root `"type": "module"`); vite warns that
+    // its future native loader won't support that. We always use the bundle
+    // loader, so the warning is noise in every vf-registry run.
+    process.env.VITE_CONFIG_NATIVE_IGNORE_WARNING ??= 'true'
+    // Dynamic import: vite ships ESM only, while this package compiles to CJS.
+    const { loadConfigFromFile } = await import('vite')
+    const root = findWorkspaceRoot(process.cwd())
+    const loaded = await loadConfigFromFile(
+      { command: 'build', mode: 'production' },
+      path.join(root, 'vite.config.ts'),
+      root
+    )
+    const fmt = (loaded?.config as { fmt?: EmbeddedFormatOptions })?.fmt
+    if (!fmt) {
+      throw new Error(
+        `No \`fmt\` block in ${path.join(root, 'vite.config.ts')} — it is the repo's only format config and generated output must match it.`
+      )
+    }
+    const options = { ...fmt }
+    delete options.ignorePatterns
+    return options
+  })()
+  return cachedFormatOptions
+}
+
+/**
+ * Formats generator-emitted source (vf-registry clones, the docs json-types
+ * snippets) with oxfmt — the repo's one formatter — so generated output is
+ * consistent with the codebase by construction. The parser is inferred from
+ * `fileName`'s extension. A formatting error returns the input unchanged,
+ * matching the previous behavior for unparsable snippets.
+ */
+export async function formatEmittedSource(
+  fileName: string,
+  content: string
+): Promise<string> {
+  // Dynamic import: oxfmt ships ESM only, while this package compiles to CJS.
+  const { format } = await import('oxfmt')
+  const result = await format(fileName, content, await embeddedFormatOptions())
+  return result.errors.length > 0 ? content : result.code
+}
+
 async function formatEmitted(content: string): Promise<string> {
-  // resolveConfig resolves the config that applies to a FILE — hand it a
-  // hypothetical file at the repo root so .prettierrc is found.
-  const config =
-    (await prettier.resolveConfig(path.join(repoRoot, 'x.vue'))) ?? {}
-  return prettier.format(content, { ...config, parser: 'vue' })
+  return formatEmittedSource('clone.vue', content)
 }
 
 function sha256(content: string): string {
@@ -1049,8 +1095,8 @@ function loadValidators() {
     JSON.parse(fs.readFileSync(path.join(schemasDir, name), 'utf8'))
 
   return {
-    item: ajv.compile(read('registry-item.json')),
-    index: ajv.compile(read('registry.json')),
+    item: ajv.compile(read('registry-item.schema.json')),
+    index: ajv.compile(read('registry.schema.json')),
   }
 }
 
@@ -1241,7 +1287,10 @@ export async function generateRegistry(options: RegistryOptions) {
 
     fs.writeFileSync(
       path.join(registryDir, 'schemas', `${name}.json`),
-      JSON.stringify(item, null, 2) + '\n'
+      await formatEmittedSource(
+        `${name}.json`,
+        JSON.stringify(item, null, 2) + '\n'
+      )
     )
     indexItems.push({
       name,
@@ -1270,7 +1319,10 @@ export async function generateRegistry(options: RegistryOptions) {
 
   fs.writeFileSync(
     path.join(registryDir, 'index.json'),
-    JSON.stringify(index, null, 2) + '\n'
+    await formatEmittedSource(
+      'index.json',
+      JSON.stringify(index, null, 2) + '\n'
+    )
   )
   process.stdout.write(
     `[registry] wrote ${path.relative(repoRoot, registryDir)} (${indexItems.length} items)` +

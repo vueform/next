@@ -1,4 +1,5 @@
-import '#shorthands'
+import type { ClassProps, PartProps, ReclassProps } from '#src/types'
+
 import VfButton, { type VfButtonEntry } from './index'
 
 export * from './index'
@@ -14,4 +15,12 @@ declare module 'vue' {
   interface GlobalComponents {
     VfButton: typeof VfButton
   }
+}
+
+declare module './types' {
+  interface VfButtonProps
+    extends
+      PartProps<VfButtonParts, VfButtonContext>,
+      ClassProps<VfButtonClasses, VfButtonContext>,
+      ReclassProps<VfButtonClasses, VfButtonContext> {}
 }

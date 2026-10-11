@@ -1,3 +1,5 @@
+import type { Ref, VNode } from 'vue'
+
 import type {
   GridApi,
   GridClasses,
@@ -7,8 +9,8 @@ import type {
   GridProps,
   GridSlots,
   GridCell,
-} from '#core/blueprints/grid'
-import type { ObjectModel } from '#core/features'
+} from '#src/blueprints/grid'
+import type { ObjectModel } from '#src/features'
 import type {
   DefineElementContext,
   ClassValue,
@@ -21,8 +23,7 @@ import type {
   IsAny,
   SchemaToModel,
   WidenProps,
-} from '#core/types'
-import type { Ref, VNode } from 'vue'
+} from '#src/types'
 
 /**
  * Resolves the `grid` schema from a registry `TEntry` payload (unwrapping a
@@ -63,8 +64,8 @@ export type EntryProps<TEntry> = Omit<VfGridProps, 'modelValue'> & {
 /**
  * Props for the VfGrid component.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfGridProps extends GridProps<
   'grid',
@@ -87,12 +88,22 @@ export interface VfGridSlots extends GridSlots<VfGridContext> {
    * Slot that replaces the default grid content. Receives the resolved grid
    * cells.
    */
-  default: (props: { cells: GridCell[] }) => VNode[]
+  default: (scope: {
+    /**
+     * The resolved grid cells.
+     */
+    cells: GridCell[]
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual grid cell rendering.
    */
-  cell: (props: { cell: GridCell }) => VNode[]
+  cell: (scope: {
+    /**
+     * The resolved grid cell.
+     */
+    cell: GridCell
+  }) => VNode[]
 }
 
 /**
@@ -141,10 +152,29 @@ export interface VfGridClasses extends GridClasses {
    * @param options Alignment, optional schema, and header flags for this cell.
    */
   cell: (options: {
+    /**
+     * The cell's horizontal alignment.
+     */
     align: AlignProp
+
+    /**
+     * The cell's vertical alignment.
+     */
     valign: ValignProp
+
+    /**
+     * The element schema rendered in the cell, if any.
+     */
     schema?: any
+
+    /**
+     * Whether the cell is a column header.
+     */
     colHeader?: boolean
+
+    /**
+     * Whether the cell is a row header.
+     */
     rowHeader?: boolean
   }) => ClassValue
 }

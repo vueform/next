@@ -2,6 +2,7 @@ import {
   defineDefaults,
   useFeatures,
   makeElement,
+  makeStatic,
   makeLayout,
   makeDisabled,
   makeForwards,
@@ -26,14 +27,15 @@ import {
   useDynamicProp,
   type DProp,
 } from '@vueform/core'
-import { computed } from 'vue'
 import type { ButtonProps as AButtonProps } from 'primevue/button'
+import { computed } from 'vue'
+
 import {
   makeInfo,
   makeTooltip,
   type InfoProps,
   type TooltipProps,
-} from '#primevue/features'
+} from '#src/features'
 
 /**
  * Props for the button element blueprint.
@@ -162,6 +164,7 @@ export function blueprint<TProps extends ButtonProps<string>>(
 ) {
   const api = useFeatures(props, events)
     .use(makeElement())
+    .use(makeStatic())
     .use(makeLayout())
     .use(makeDisabled())
     .use(makeInfo())
@@ -175,6 +178,10 @@ export function blueprint<TProps extends ButtonProps<string>>(
     .use(makeButton())
     .build()
 
+  /**
+   * The element the button renders as — an anchor (`a`) when `href` is set,
+   * the default button element otherwise.
+   */
   const as = computed(() => {
     return props.href ? 'a' : undefined
   })

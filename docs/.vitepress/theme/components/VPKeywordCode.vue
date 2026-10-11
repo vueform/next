@@ -152,16 +152,18 @@ function resolveVariantsContent(kwEntry: KeywordEntry | null): string {
 </script>
 
 <template>
-  <code v-if="hasPopover"
-    >{{ matchedFull ? '' : (prefix ?? '')
-    }}<a
+  <code v-if="hasPopover">
+    {{ matchedFull ? '' : (prefix ?? '') }}
+    <a
       class="keyword-link"
       :href="entry.link || undefined"
       :data-popover="popoverAttr"
-      >{{
+    >
+      {{
         matchedFull ? `${prefix ?? ''}${cleanValue}${suffix ?? ''}` : cleanValue
-      }}</a
-    >{{ matchedFull ? '' : (suffix ?? '') }}{{ trailingSuffix }}</code
-  >
+      }}
+    </a>
+    {{ matchedFull ? '' : (suffix ?? '') }}{{ trailingSuffix }}
+  </code>
   <code v-else>{{ `${prefix ?? ''}${value}${suffix ?? ''}` }}</code>
 </template>

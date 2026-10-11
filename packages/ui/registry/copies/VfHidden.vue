@@ -4,14 +4,14 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, defineEvents } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfHiddenEmits,
   type VfHiddenProps,
   type VfHiddenSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfHidden'
-import { useBlueprint, defineEvents } from '@vueform/ui'
 
 defineOptions({ name: 'VfHidden', element: true, inheritAttrs: false })
 defineEmits<VfHiddenEmits>()

@@ -10,26 +10,24 @@
       "path": "VfRadioButton.vue",
       "target": "{componentsDir}/VfRadioButton.vue",
       "kind": "component",
-      "hash": "sha256:1adc551adc1d8748ad9d5a445cff9f8d444b0a1bd31f05eae86c7677227b1770"
+      "hash": "sha256:ace5afa891b9cb616c4ac8d4cf12b3dc73456cf8167e38247296e41392929dad"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/radiobutton",
-    "@vueform/primevue/components/VfRadioButton",
     "vue",
+    "@vueform/primevue/components/VfRadioButton",
     "@vueform/primevue/choice.css"
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "choice"
-  ],
+  "styles": ["choice"],
   "element": true,
   "clone": {
     "path": "VfRadioButton.vue",
     "blueprint": "radio-button",
-    "hash": "sha256:1a35e0ce162bfd874a811ba2badff5ce04e4161516b9793e73a90f2228fa2974",
+    "hash": "sha256:4e8238147a61beee9a8321248fbb8a606355fce03be2c409fe70f8f53cd55dfa",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

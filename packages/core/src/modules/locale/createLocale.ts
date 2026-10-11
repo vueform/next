@@ -1,8 +1,10 @@
 import { computed, isRef, unref } from 'vue'
-import type { VueformInstance } from '#core/helpers'
-import type { en_US } from '#core/locales'
+
+import type { VueformInstance } from '#src/helpers'
+import type { en_US } from '#src/locales'
+import { typedEntries } from '#src/utils'
+
 import type { LocaleModule, LocaleModuleOptions } from './types'
-import { typedEntries } from '#core/utils'
 
 export type LocaleTag = keyof typeof en_US | (string & {})
 

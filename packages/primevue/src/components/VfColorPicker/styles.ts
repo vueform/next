@@ -1,1 +1,1 @@
-import '#primevue/scss/color-picker.scss'
+import '#src/scss/color-picker.scss'

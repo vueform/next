@@ -1,6 +1,7 @@
+import { defineSchema } from '@vueform/core'
 import { defineComponent, h, markRaw, nextTick } from 'vue'
+
 import { createForm, mountApp } from '../../helpers'
-import { defineSchema } from '#core'
 
 // =============================================================================
 // Label

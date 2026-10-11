@@ -1,12 +1,14 @@
 import fs from 'node:fs'
 import path from 'node:path'
+
 import {
   createHighlighter,
   type Highlighter,
   type ShikiTransformer,
 } from 'shiki'
-import { keywordLink } from './keywordLink'
 import type { Plugin } from 'vite'
+
+import { keywordLink } from './keywordLink'
 
 const ROUTE_PREFIX = '/type-snippets/'
 

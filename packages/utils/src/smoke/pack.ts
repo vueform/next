@@ -11,6 +11,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
+
 import { exists, readJson, runCapture, SmokeError, writeJson } from './lib'
 
 interface PackablePackage {
@@ -64,16 +65,31 @@ function assertBuilt(packages: PackablePackage[]) {
 
 const MANIFEST = 'manifest.json'
 
-export function packWorkspace(
+export interface PackOptions {
+  /**
+   * Reuse the previously packed tarballs instead of repacking (`--nopack`).
+   */
+  skipPack?: boolean
+  /**
+   * Sink for child-process output (the harness log file).
+   */
+  log?: (text: string) => void
+  /**
+   * Progress callback for the display's transient status line.
+   */
+  onStatus?: (text: string) => void
+}
+
+export async function packWorkspace(
   root: string,
   tarballsDir: string,
-  opts: { skipPack: boolean }
-): PackedTarballs {
+  opts: PackOptions
+): Promise<PackedTarballs> {
   if (opts.skipPack) {
     const manifestPath = path.join(tarballsDir, MANIFEST)
     if (!exists(manifestPath)) {
       throw new SmokeError(
-        '--skip-pack given but no packed tarballs found — run once without it.'
+        '--nopack given but no packed tarballs found — run once without it.'
       )
     }
 
@@ -83,13 +99,13 @@ export function packWorkspace(
       const abs = path.join(tarballsDir, file)
       if (!exists(abs)) {
         throw new SmokeError(
-          `--skip-pack given but ${file} is missing — run once without it.`
+          `--nopack given but ${file} is missing — run once without it.`
         )
       }
       byName.set(name, abs)
     }
 
-    console.log(`[smoke] Reusing ${byName.size} packed tarballs (--skip-pack).`)
+    opts.log?.(`Reusing ${byName.size} packed tarballs (--nopack).`)
     return { dir: tarballsDir, byName }
   }
 
@@ -103,11 +119,11 @@ export function packWorkspace(
   const manifest: Record<string, string> = {}
 
   for (const pkg of packages) {
-    console.log(`[smoke] Packing ${pkg.name}...`)
-    const stdout = runCapture(
+    opts.onStatus?.(`packing ${pkg.name}…`)
+    const stdout = await runCapture(
       'pnpm',
       ['pack', '--pack-destination', tarballsDir],
-      { cwd: pkg.dir, fail: `Packing ${pkg.name} failed` }
+      { cwd: pkg.dir, log: opts.log, fail: `Packing ${pkg.name} failed` }
     )
 
     const lines = stdout.trim().split('\n')
@@ -123,7 +139,7 @@ export function packWorkspace(
   }
 
   writeJson(path.join(tarballsDir, MANIFEST), manifest)
-  console.log(`[smoke] Packed ${byName.size} packages into ${tarballsDir}`)
+  opts.log?.(`Packed ${byName.size} packages into ${tarballsDir}`)
 
   return { dir: tarballsDir, byName }
 }

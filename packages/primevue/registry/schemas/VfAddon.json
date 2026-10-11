@@ -10,7 +10,7 @@
       "path": "VfAddon.vue",
       "target": "{componentsDir}/VfAddon.vue",
       "kind": "component",
-      "hash": "sha256:6abdf1e164488e2724ee3696b4433c98a318096c6aec23909270f40a853858d9"
+      "hash": "sha256:516faeba69e3eae8151c31ec094d4268621255811a90acab13b546020b712fb0"
     }
   ],
   "imports": [
@@ -22,9 +22,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "addon"
-  ],
+  "styles": ["addon"],
   "register": {
     "component": "VfAddon",
     "import": "{componentsDir}/VfAddon.vue"

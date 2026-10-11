@@ -1,5 +1,6 @@
+import { defineModule } from '#src/helpers'
+
 import { createSecurity } from './createSecurity'
-import { defineModule } from '#core/helpers'
 
 /**
  * The security module. Register via `createVueform({ modules: { security } })`.

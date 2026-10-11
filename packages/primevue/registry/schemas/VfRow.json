@@ -10,7 +10,7 @@
       "path": "VfRow.vue",
       "target": "{componentsDir}/VfRow.vue",
       "kind": "component",
-      "hash": "sha256:8cce0ea1eda34d30f4f87c556eb079e4c30fb5ec850c789e8d3406777389b460"
+      "hash": "sha256:b4d9a1b30a3eb5ec79caa6e92766d2551b17e1958d3f6503a7b23eeffa4556a9"
     }
   ],
   "imports": [
@@ -20,9 +20,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "grid"
-  ],
+  "styles": ["grid"],
   "register": {
     "component": "VfRow",
     "import": "{componentsDir}/VfRow.vue"

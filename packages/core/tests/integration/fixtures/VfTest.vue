@@ -23,7 +23,7 @@ import {
   type TranslateParts,
   type TranslateSlots,
   type WidenProps,
-} from '#core'
+} from '@vueform/core'
 import {
   defaults,
   blueprint,
@@ -34,7 +34,7 @@ import {
   type TextParts,
   type TextProps,
   type TextSlots,
-} from '#core/blueprints/text'
+} from '@vueform/core/blueprints/text'
 
 /**
  * Prop definitions.

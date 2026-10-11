@@ -1,10 +1,5 @@
-import type {
-  DefineElementContext,
-  ClassValue,
-  DomAttrsOf,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type RowApi,
   type RowClasses,
@@ -13,7 +8,13 @@ import {
   type RowParts,
   type RowProps,
   type RowSlots,
-} from '#core/blueprints/row'
+} from '#src/blueprints/row'
+import type {
+  DefineElementContext,
+  ClassValue,
+  DomAttrsOf,
+  DefineRegistryEntry,
+} from '#src/types'
 
 /**
  * Props for the VfRow component.
@@ -21,8 +22,8 @@ import {
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfRowProps extends RowProps<
   VfRowSlots,

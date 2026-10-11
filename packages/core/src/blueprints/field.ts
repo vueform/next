@@ -1,6 +1,6 @@
 import { computed } from 'vue'
-import type { LanguagesProp, LooseRequired } from '#core/types'
-import { useFeatures } from '#core/composables'
+
+import { useFeatures } from '#src/composables'
 import {
   makeAddons,
   makeTData,
@@ -38,9 +38,10 @@ import {
   type ValidationEmits,
   type TranslateModel,
   type TranslatableModelApi,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
-import { toReactive } from '#core/utils'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { LanguagesProp, LooseRequired } from '#src/types'
+import { toReactive } from '#src/utils'
 
 /**
  * Field model shape. `TNullValue` always types **one value** — the model itself
@@ -56,8 +57,9 @@ type FieldTranslateModel<
   TLanguages extends LanguagesProp = LanguagesProp,
   TNullValue = any,
 > = [boolean] extends [TTranslate]
-  ? | FieldNullValue<TNullValue>
-    | TranslateModel<boolean, TLanguages, FieldNullValue<TNullValue>>
+  ?
+      | FieldNullValue<TNullValue>
+      | TranslateModel<boolean, TLanguages, FieldNullValue<TNullValue>>
   : [TTranslate] extends [true]
     ? TranslateModel<true, TLanguages, FieldNullValue<TNullValue>>
     : FieldNullValue<TNullValue>

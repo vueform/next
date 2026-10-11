@@ -1,10 +1,11 @@
 import { computed } from 'vue'
-import type { ContainerTypes } from '#core/contexts'
-import type { ElementName, ReturnsOf } from '#core/types'
-import { useContainerProvider } from '#core/composables'
-import { type makeElement, type makeItems, type makeData } from '#core/features'
-import { defineFeature } from '#core/helpers'
-import { equals } from '#core/utils'
+
+import { useContainerProvider } from '#src/composables'
+import type { ContainerTypes } from '#src/contexts'
+import { type makeElement, type makeItems, type makeData } from '#src/features'
+import { defineFeature } from '#src/helpers'
+import type { ElementName, ReturnsOf } from '#src/types'
+import { equals } from '#src/utils'
 
 /**
  * Configuration for the holder provider factory, controlling single- or

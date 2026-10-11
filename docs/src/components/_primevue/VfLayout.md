@@ -80,7 +80,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`useLabelTag`](!code#context.useLabelTag "boolean") | Whether to render a `<label>` tag for the element. Extends the base so it also returns `false` when a floating or IFTA label is active and the input wrapper's label is the only one with `for`. |
 | [`tags`](!code#context.tags "object") | Merged translation tags from the active locale and the fallback locale. |
 | [`elementSlots`](!code#context.elementSlots "any") | The host element's resolved outlets (`el$.outlets`). |
-| [`pager`](!code#context.pager "any") | The pager of the element's container, if any. Always a `Ref` (never `Ref \| undefined`) so `ContextOf` / `slotContext` unwrap agree — `UnwrapTopLevelRef` does not peel `Ref \| undefined`. |
+| [`pager`](!code#context.pager "any") | The pager of the element's container, if any.<br><br>Always a `Ref` (never `Ref \| undefined`) so `ContextOf` / `slotContext` unwrap agree — `UnwrapTopLevelRef` does not peel `Ref \| undefined`. |
 | [`infoTooltipArg`](!code#context.infoTooltipArg "object") | Argument object for the PrimeVue tooltip directive on the info icon. |
 | [`isLoading`](!code#context.isLoading "boolean") | Whether the element is currently in a loading state that should show a spinner (respects an explicit `loading: false` prop override). |
 | [`hasIcons`](!code#context.hasIcons "boolean") | Whether the content needs an IconField wrapper (an icon on either side or a loading spinner). |
@@ -365,7 +365,7 @@ Props forwarded to the nested TabList component.
 
 ### `tab`
 
-
+Props forwarded to each nested Tab component.
 
 | | |
 | --- | --- |

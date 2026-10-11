@@ -9,18 +9,19 @@
  */
 
 import {
-  type FormSchema,
   useConfig,
   useBlueprint,
   defineEvents,
+  type FormSchema,
 } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfFormEmits,
   type VfFormProps,
   type VfFormSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfForm'
+
 import '@vueform/ui/form.css'
 
 defineOptions({ name: 'VfForm', inheritAttrs: false })
@@ -121,7 +122,8 @@ defineExpose(expose)
                 <ul :class="classes.errors" v-bind="parts.errors">
                   <template v-for="(fieldErrors, path) in errors" :key="path">
                     <li
-                      v-for="error in fieldErrors"
+                      v-for="(error, i) in fieldErrors"
+                      :key="`${path}-${i}`"
                       :class="classes.error"
                       v-bind="parts.error"
                     >
@@ -163,7 +165,8 @@ defineExpose(expose)
               >
                 <ul :class="classes.messages" v-bind="parts.messages">
                   <li
-                    v-for="message in messages"
+                    v-for="(message, i) in messages"
+                    :key="i"
                     :class="classes.message"
                     v-bind="parts.message"
                   >
@@ -254,8 +257,8 @@ defineExpose(expose)
                   <component
                     :is="el.component"
                     v-for="el in resolvedSchema"
-                    v-bind="el.props"
                     :key="el.props.name"
+                    v-bind="el.props"
                   />
                 </template>
               </slot>

@@ -2,7 +2,8 @@ import type {
   DefineRegistryEntry,
   EntryLanguagesOf,
   EntryTranslateOf,
-} from '#core'
+} from '@vueform/core'
+
 import type {
   VfTestClasses,
   VfTestContext,

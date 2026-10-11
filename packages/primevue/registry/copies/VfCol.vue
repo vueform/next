@@ -4,14 +4,15 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, defineEvents } from '@vueform/primevue'
 import {
+  defaults,
+  blueprint,
   type VfColEmits,
   type VfColProps,
   type VfColSlots,
-  defaults,
-  blueprint,
 } from '@vueform/primevue/components/VfCol'
-import { useBlueprint, defineEvents } from '@vueform/primevue'
+
 import '@vueform/primevue/grid.css'
 
 defineOptions({ name: 'VfCol', inheritAttrs: false })

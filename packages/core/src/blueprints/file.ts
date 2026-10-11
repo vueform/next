@@ -1,13 +1,12 @@
 import { computed, toRef } from 'vue'
-import type { SecurityModule } from '#core/modules/security'
-import type { DProp, FileProp, LooseRequired, TProp } from '#core/types'
+
 import {
   useDynamicProp,
   useFeatures,
   useLocale,
   useSecurity,
-} from '#core/composables'
-import { useComponentContext } from '#core/contexts'
+} from '#src/composables'
+import { useComponentContext } from '#src/contexts'
 import {
   makeAria,
   makeData,
@@ -36,8 +35,10 @@ import {
   type InputEmits,
   type ValidationEmits,
   type ModelApi,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { SecurityModule } from '#src/modules/security'
+import type { DProp, FileProp, LooseRequired, TProp } from '#src/types'
 
 /**
  * The model value type carried by the file element's wide props.

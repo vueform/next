@@ -1,6 +1,6 @@
 /*
  * Type-level tests for `useModel` / `useForm` typing. This file is not
- * imported at runtime; it is only typechecked. Run by `pnpm test:dts`.
+ * imported at runtime; it is only typechecked. Run by `pnpm test-dts`.
  *
  * Covers:
  * - useModel schema → ModelInstance model inference (incl. flat groups)
@@ -10,7 +10,12 @@
  * - useForm tuple member typing (form$ context, formReady)
  * - useForm `on*` event-handler contextual typing (`onSubmit`)
  */
-import { defineComputedSchema, useForm, useModel, type FormContext } from '@vueform/core'
+import {
+  defineComputedSchema,
+  useForm,
+  useModel,
+  type FormContext,
+} from '@vueform/core'
 import { describe, expectTypeOf, test } from 'vitest'
 import '@vueform/core/components'
 import { reactive, ref } from 'vue'
@@ -90,8 +95,12 @@ describe('useModel computed schema acceptance', () => {
   const _computedModel$ = useModel(computedSchema)
 
   test('computed schema infers the same model as a plain schema', () => {
-    expectTypeOf<(typeof _computedModel$.model)['name']>().toEqualTypeOf<TextModel>()
-    expectTypeOf<(typeof _computedModel$.model)['subscribe']>().toEqualTypeOf<boolean>()
+    expectTypeOf<
+      (typeof _computedModel$.model)['name']
+    >().toEqualTypeOf<TextModel>()
+    expectTypeOf<
+      (typeof _computedModel$.model)['subscribe']
+    >().toEqualTypeOf<boolean>()
   })
 
   test('plain-schema validation keeps reporting inline at the offending property', () => {
@@ -157,9 +166,15 @@ describe('useForm tuple typing and model acceptance matrix', () => {
   test('model argument matrix', () => {
     useForm({ schema: { name: { type: 'text' } } }, { name: 'John' })
     useForm({ schema: { name: { type: 'text' } } }, ref({ name: 'John' }))
-    useForm({ schema: { name: { type: 'text' } } }, ref<Record<string, any> | undefined>(undefined))
+    useForm(
+      { schema: { name: { type: 'text' } } },
+      ref<Record<string, any> | undefined>(undefined)
+    )
     useForm({ schema: { name: { type: 'text' } } }, reactive({ name: 'John' }))
-    useForm({ schema: { name: { type: 'text' } } }, useModel({ name: { type: 'text' } }))
+    useForm(
+      { schema: { name: { type: 'text' } } },
+      useModel({ name: { type: 'text' } })
+    )
     useForm({ schema: { name: { type: 'text' } } }, { extra: 'accepted' })
   })
 

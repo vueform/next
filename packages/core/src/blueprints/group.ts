@@ -1,12 +1,12 @@
 import { toRef } from 'vue'
-import type { FormSchema, LooseRequired } from '#core/types'
+
 import {
   useContainerProvider,
   useFeatures,
   usePager,
   useSchema,
-} from '#core/composables'
-import { useComponentContext } from '#core/contexts'
+} from '#src/composables'
+import { useComponentContext } from '#src/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -30,8 +30,9 @@ import {
   type ModelEmits,
   type ObjectModel,
   type ValidationEmits,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
+import type { FormSchema, LooseRequired } from '#src/types'
 
 /**
  * Props for the group element blueprint.

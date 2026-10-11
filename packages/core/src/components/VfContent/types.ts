@@ -1,5 +1,5 @@
-import type { DefineElementContext, DefineRegistryEntry } from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type ContentApi,
   type ContentClasses,
@@ -8,7 +8,8 @@ import {
   type ContentParts,
   type ContentProps,
   type ContentSlots,
-} from '#core/blueprints/content'
+} from '#src/blueprints/content'
+import type { DefineElementContext, DefineRegistryEntry } from '#src/types'
 
 /**
  * Props for the VfContent component.
@@ -39,7 +40,7 @@ export interface VfContentSlots extends ContentSlots<VfContentContext> {
    *
    * @exposes VfContent
    */
-  default: (props: { context: VfContentContext }) => VNode[]
+  default: (scope: { context: VfContentContext }) => VNode[]
 }
 
 /**

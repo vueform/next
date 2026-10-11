@@ -1,3 +1,4 @@
+import type { Command } from '../types.js'
 import { clone } from './clone.js'
 import { copy } from './copy.js'
 import { info } from './info.js'
@@ -5,7 +6,6 @@ import { list } from './list.js'
 import { register } from './register.js'
 import { remove } from './remove.js'
 import { view } from './view.js'
-import type { Command } from '../types.js'
 
 /**
  * Command registry. Add a new command by creating a module in this directory

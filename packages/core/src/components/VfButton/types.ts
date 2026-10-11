@@ -1,10 +1,5 @@
-import type {
-  DefineElementContext,
-  DomAttrsOf,
-  ClassValue,
-  DefineRegistryEntry,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type ButtonApi,
   type ButtonClasses,
@@ -13,7 +8,13 @@ import {
   type ButtonParts,
   type ButtonProps,
   type ButtonSlots,
-} from '#core/blueprints/button'
+} from '#src/blueprints/button'
+import type {
+  DefineElementContext,
+  DomAttrsOf,
+  ClassValue,
+  DefineRegistryEntry,
+} from '#src/types'
 
 /**
  * Props for the VfButton component.
@@ -21,8 +22,8 @@ import {
  * Non-generic — there is no plain-props split because nothing is
  * item-parameterized. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfButtonProps extends ButtonProps<
   'button',
@@ -49,9 +50,14 @@ export interface VfButtonSlots extends ButtonSlots<VfButtonContext> {
   /**
    * Default slot that replaces the button label content.
    *
-   * @param props.text The resolved button label text.
+   * @param scope The default slot's params.
    */
-  default: (props: { text: string | undefined }) => VNode[]
+  default: (scope: {
+    /**
+     * The resolved button label text.
+     */
+    text: string | undefined
+  }) => VNode[]
 
   /**
    * Slot for content rendered after the label.

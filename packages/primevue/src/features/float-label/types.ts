@@ -1,7 +1,8 @@
 import { type TProp, type ClassValue, type DOMAttrs } from '@vueform/core'
-import type { FloatProp } from '#primevue/types'
 import type { FloatLabelProps as AFloatLabelProps } from 'primevue'
 import type { VNode } from 'vue'
+
+import type { FloatProp } from '#src/types'
 
 /**
  * Float label props mixed into element components that support PrimeVue
@@ -27,9 +28,14 @@ export interface FloatLabelSlots {
   /**
    * Slot for customizing the floating label content.
    *
-   * @param props.floatLabel The floating label text.
+   * @param scope The floatLabel slot's params.
    */
-  floatLabel: (props: { floatLabel?: string }) => VNode[]
+  floatLabel: (scope: {
+    /**
+     * The floating label text.
+     */
+    floatLabel?: string
+  }) => VNode[]
 }
 
 /**

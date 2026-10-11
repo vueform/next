@@ -1,3 +1,4 @@
+import { defineSchema } from '@vueform/core'
 import {
   defineComponent,
   h,
@@ -5,8 +6,8 @@ import {
   nextTick,
   type FunctionalComponent,
 } from 'vue'
+
 import { createForm, mountApp } from '../../helpers'
-import { defineSchema } from '#core'
 
 // =============================================================================
 // C1 — inline `template` slot receives unwrapped (raw) values, not refs

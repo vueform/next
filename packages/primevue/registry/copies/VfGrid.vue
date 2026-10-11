@@ -4,14 +4,15 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
+import { useBlueprint, defineEvents } from '@vueform/primevue'
 import {
+  defaults,
+  blueprint,
   type VfGridEmits,
   type VfGridProps,
   type VfGridSlots,
-  defaults,
-  blueprint,
 } from '@vueform/primevue/components/VfGrid'
-import { useBlueprint, defineEvents } from '@vueform/primevue'
+
 import '@vueform/primevue/grid.css'
 
 defineOptions({
@@ -113,6 +114,7 @@ defineExpose(expose)
             <template v-else>
               <div
                 v-for="cell in cells"
+                :key="cell.key"
                 :class="classes.cell(cell)"
                 :data-col="cell.col"
                 :data-row="cell.row"

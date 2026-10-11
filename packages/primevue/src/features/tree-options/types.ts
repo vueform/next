@@ -1,10 +1,11 @@
-import type { TreeOptionsProp } from '#primevue/types'
 import type {
   ConditionsTriggerProp,
   IsDefaultItems,
   UnwrappedItems,
 } from '@vueform/core'
 import type { MaybeRef } from 'vue'
+
+import type { TreeOptionsProp } from '#src/types'
 
 /**
  * Recursively collects `key` literals from a tree node array.
@@ -93,7 +94,10 @@ export type TreeKeysModelProp<
  * stay assignable to the component's canonical (defaulted) context.
  */
 export type TreeSelectionModeProp =
-  'single' | 'multiple' | 'checkbox' | undefined
+  | 'single'
+  | 'multiple'
+  | 'checkbox'
+  | undefined
 
 /**
  * Resolved model value for a tree-select given `options` + `selectionMode`.
@@ -166,6 +170,8 @@ export interface TreeOptionsProps<
    * Transforms data received from an endpoint into the tree node array format.
    * When `options` is a string (endpoint URL), the HTTP response data is passed
    * through this function before normalization.
+   *
+   * @param data The received from the endpoint.
    */
   transformOptions?: (data: any) => any[]
 }

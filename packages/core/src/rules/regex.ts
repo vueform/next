@@ -1,5 +1,5 @@
-import { createRule } from '#core/helpers'
-import { stringToRegex, warn, isDev } from '#core/utils'
+import { createRule } from '#src/helpers'
+import { stringToRegex, warn, isDev } from '#src/utils'
 
 /**
  * Compiles the rule's pattern param, failing closed: a value must never pass

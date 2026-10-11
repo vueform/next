@@ -1,5 +1,6 @@
 import { computed, useId } from 'vue'
-import { defineConfig } from '#core/helpers'
+
+import { defineConfig } from '#src/helpers'
 
 /**
  * The default Vueform configuration including all built-in rules, modules,
@@ -103,6 +104,5 @@ const defaultConfig = defineConfig({
     type ? `rule_${name}_${type}_error` : `rule_${name}_error`,
 })
 
-// eslint-disable-next-line
 export default defaultConfig
 export { defaultConfig }

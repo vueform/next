@@ -1,4 +1,21 @@
 import { computed, toRef, unref, markRaw, toRaw } from 'vue'
+
+import {
+  useGlobals,
+  useConfig,
+  useFallbackProp,
+  useOutlets,
+  useSecurity,
+  useTokens,
+} from '#src/composables'
+import { useElementContext } from '#src/contexts'
+import {
+  type LoadingProps,
+  type BaseElementParts,
+  type BaseElementSlots,
+  type BaseElementClasses,
+} from '#src/features'
+import { defineDefaults, type DefineEvents } from '#src/helpers'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -7,28 +24,12 @@ import type {
   ErrorLevelProp,
   LooseRequired,
   ShowRequiredProp,
-} from '#core/types'
-import {
-  useGlobals,
-  useConfig,
-  useFallbackProp,
-  useOutlets,
-  useSecurity,
-  useTokens,
-} from '#core/composables'
-import { useElementContext } from '#core/contexts'
-import {
-  type LoadingProps,
-  type BaseElementParts,
-  type BaseElementSlots,
-  type BaseElementClasses,
-} from '#core/features'
-import { defineDefaults, type DefineEvents } from '#core/helpers'
+} from '#src/types'
 import {
   withDefaultProps as withDefaultPropsBase,
   pickRefs,
   mergeClass,
-} from '#core/utils'
+} from '#src/utils'
 
 /**
  * Props for the element layout blueprint that provides layout, labels, and

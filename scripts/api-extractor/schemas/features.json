@@ -18,6 +18,9 @@
       "description": {
         "type": "string"
       },
+      "loc": {
+        "type": "string"
+      },
       "props": {
         "type": "object",
         "additionalProperties": {

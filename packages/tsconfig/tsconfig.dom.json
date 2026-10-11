@@ -1,0 +1,20 @@
+{
+  // The src world: DOM env + the `vueform-source` exports condition, so
+  // `@vueform/*` imports resolve through the packages' exports maps to
+  // SOURCE (edit core, every dependent sees it, no rebuild). Dist
+  // resolution belongs to the builds (tsconfig.build.json clears the
+  // condition) and the release gate — never the inner loop.
+  //
+  // The `#src/*` internal alias resolves through each package.json's
+  // `imports` field — context-local by spec, so the SAME spelling means
+  // "this package's src" in every package, even when another package's
+  // source is pulled into the program. The fallback-array targets supply
+  // the extension/index probing that `imports` does not do on its own.
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    // node types (NOT vitest/globals — that is test.json's): src code
+    // legitimately touches process.env for environment detection.
+    "types": ["node"],
+    "customConditions": ["vueform-source"]
+  }
+}

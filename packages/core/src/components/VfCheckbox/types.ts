@@ -1,13 +1,5 @@
-import type {
-  WidenProps,
-  DefineElementContext,
-  DefineRegistryEntry,
-  AriaProp,
-  ClassValue,
-  DomAttrsOf,
-  EntryPropOr,
-} from '#core/types'
 import type { VNode } from 'vue'
+
 import {
   type CheckboxApi,
   type CheckboxClasses,
@@ -16,7 +8,16 @@ import {
   type CheckboxParts,
   type CheckboxProps,
   type CheckboxSlots,
-} from '#core/blueprints/checkbox'
+} from '#src/blueprints/checkbox'
+import type {
+  WidenProps,
+  DefineElementContext,
+  DefineRegistryEntry,
+  AriaProp,
+  ClassValue,
+  DomAttrsOf,
+  EntryPropOr,
+} from '#src/types'
 
 /**
  * VfCheckbox props narrowed from a registry `TEntry` payload, applying the
@@ -32,8 +33,8 @@ export type EntryProps<TEntry> = VfCheckboxProps<
  * model-driving type arguments (e.g. `VfCheckboxProps<1, 0>`). Reach for
  * `VfCheckboxProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfCheckboxProps<
   TTrueValue = any,
@@ -74,27 +75,91 @@ export interface VfCheckboxSlots<
    * Slot that replaces the default checkbox rendering. Receives input-specific
    * props.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The current model value.
+     */
     model: TTrueValue | TFalseValue
+
+    /**
+     * The value used when the checkbox is checked.
+     */
     trueValue: TTrueValue
+
+    /**
+     * The value used when the checkbox is unchecked.
+     */
     falseValue: TFalseValue
+
+    /**
+     * The input's `name` attribute.
+     */
     inputName: string
+
+    /**
+     * The input's `id` attribute.
+     */
     id: string
+
+    /**
+     * Whether the checkbox is disabled.
+     */
     disabled: boolean
+
+    /**
+     * The input DOM element reference.
+     */
     input: any
+
+    /**
+     * The checkbox label text.
+     */
     text: string | undefined
+
+    /**
+     * ARIA attributes for the input.
+     */
     aria: AriaProp
+
+    /**
+     * Handler for the input's blur event.
+     *
+     * @param e The native blur event.
+     */
     handleBlur: (e: FocusEvent) => void
+
+    /**
+     * Handler for the input's focus event.
+     *
+     * @param e The native focus event.
+     */
     handleFocus: (e: FocusEvent) => void
+
+    /**
+     * Handler that updates the model from an input event.
+     *
+     * @param e The native input event.
+     */
     handleModelUpdate: (e: Event) => void
   }) => VNode[]
 
   /**
    * Slot that replaces the text/label portion of the checkbox.
    */
-  text: (props: {
+  text: (scope: {
+    /**
+     * The checkbox label text.
+     */
     text: string | undefined
+
+    /**
+     * The input's `id` attribute.
+     */
     id: string
+
+    /**
+     * The element's generic name, used as screen-reader-only fallback text.
+     */
     genericName: string
   }) => VNode[]
 }

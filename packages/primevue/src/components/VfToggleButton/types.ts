@@ -1,4 +1,12 @@
 import type {
+  ClassValue,
+  DefineElementContext,
+  DefineRegistryEntry,
+} from '@vueform/core'
+import type { ToggleButtonProps as PvToggleButtonProps } from 'primevue'
+import type { ToggleButtonSlots as AToggleButtonSlots } from 'primevue/togglebutton'
+
+import type {
   ToggleButtonApi,
   ToggleButtonClasses,
   ToggleButtonEmits,
@@ -7,15 +15,8 @@ import type {
   ToggleButtonProps,
   ToggleButtonSlots,
   forwards,
-} from '#primevue/blueprints/toggle-button'
-import type { ForwardedSlots } from '#primevue/types'
-import type {
-  ClassValue,
-  DefineElementContext,
-  DefineRegistryEntry,
-} from '@vueform/core'
-import type { ToggleButtonProps as PvToggleButtonProps } from 'primevue'
-import type { ToggleButtonSlots as AToggleButtonSlots } from 'primevue/togglebutton'
+} from '#src/blueprints/toggle-button'
+import type { ForwardedSlots } from '#src/types'
 
 /**
  * Props for the VfToggleButton component.
@@ -23,8 +24,8 @@ import type { ToggleButtonSlots as AToggleButtonSlots } from 'primevue/togglebut
  * Non-generic — `onLabel` / `offLabel` are display strings and do not drive the
  * model. The interface itself is the props type.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfToggleButtonProps extends ToggleButtonProps<
   'toggle-button',

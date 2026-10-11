@@ -5,15 +5,16 @@
  */
 
 import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
-import PrimeButton from 'primevue/button'
-import { useAttrs } from 'vue'
 import {
+  blueprint,
+  defaults,
   type VfButtonEmits,
   type VfButtonProps,
   type VfButtonSlots,
-  blueprint,
-  defaults,
 } from '@vueform/primevue/components/VfButton'
+import PrimeButton from 'primevue/button'
+import { useAttrs } from 'vue'
+
 import '@vueform/primevue/button.css'
 
 defineOptions({ name: 'VfButton', element: true, inheritAttrs: false })

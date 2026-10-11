@@ -1,26 +1,4 @@
 import type {
-  SelectButtonApi,
-  SelectButtonClasses,
-  SelectButtonEmits,
-  SelectButtonExpose,
-  SelectButtonParts,
-  SelectButtonProps,
-  SelectButtonSlots,
-  forwards,
-} from '#primevue/blueprints/select-button'
-import type {
-  EntryOptionsOf,
-  EntryOptionValueKeyOf,
-  EntryOptionValueReturnOf,
-  OptionsProp,
-  OptionValueProp,
-} from '#primevue/features'
-import type {
-  ForwardedSlots,
-  OverrideSlots,
-  WithPtShorthands,
-} from '#primevue/types'
-import type {
   ClassValue,
   EntryMultipleOf,
   WidenProps,
@@ -30,6 +8,29 @@ import type {
 import type { SelectButtonProps as PvSelectButtonProps } from 'primevue'
 import type { SelectButtonSlots as ASelectButtonSlots } from 'primevue/selectbutton'
 import type { VNode } from 'vue'
+
+import type {
+  SelectButtonApi,
+  SelectButtonClasses,
+  SelectButtonEmits,
+  SelectButtonExpose,
+  SelectButtonParts,
+  SelectButtonProps,
+  SelectButtonSlots,
+  forwards,
+} from '#src/blueprints/select-button'
+import type {
+  EntryOptionsOf,
+  EntryOptionValueKeyOf,
+  EntryOptionValueReturnOf,
+  OptionsProp,
+  OptionValueProp,
+} from '#src/features'
+import type {
+  ForwardedSlots,
+  OverrideSlots,
+  WithPtShorthands,
+} from '#src/types'
 
 /**
  * VfSelectButton props narrowed from a registry `TEntry` payload, applying the
@@ -50,8 +51,8 @@ export type EntryProps<TEntry> = VfSelectButtonProps<
  * 'id'>`). Reach for `VfSelectButtonProps` instead when no narrowing is
  * needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfSelectButtonProps<
   TOptions extends OptionsProp = OptionsProp,
@@ -140,7 +141,7 @@ export interface VfSelectButtonSlots<
         /**
          * Custom content for each option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */

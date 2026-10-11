@@ -15,19 +15,20 @@
  */
 
 import {
+  useBlueprint,
   type ItemsProp,
   type ItemValueProp,
   type GroupChildrenProp,
-  useBlueprint,
   defineEvents,
 } from '@vueform/ui'
 import {
+  defaults,
+  blueprint,
   type VfRadiosEmits,
   type VfRadiosProps,
   type VfRadiosSlots,
-  defaults,
-  blueprint,
 } from '@vueform/ui/components/VfRadios'
+
 import '@vueform/ui/choices.css'
 
 defineOptions({ name: 'VfRadios', element: true, inheritAttrs: false })

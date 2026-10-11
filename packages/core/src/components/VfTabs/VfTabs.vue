@@ -1,8 +1,9 @@
 <script setup lang="ts">
+import { defaults, blueprint } from '#src/blueprints/tabs'
+import { useBlueprint } from '#src/composables'
+import { defineEvents } from '#src/helpers'
+
 import type { VfTabsEmits, VfTabsProps, VfTabsSlots } from './types'
-import { defaults, blueprint } from '#core/blueprints/tabs'
-import { useBlueprint } from '#core/composables'
-import { defineEvents } from '#core/helpers'
 
 defineOptions({ name: 'VfTabs' })
 defineEmits<VfTabsEmits>()
@@ -39,7 +40,7 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <div v-else :class="classes.root" v-bind="parts.root">
       <ul :class="classes.list" role="tablist" v-bind="parts.list">
-        <template v-for="page in pager.pages">
+        <template v-for="page in pager.pages" :key="page.pageId">
           <li
             v-if="page.available"
             :class="classes.wrapper(page)"

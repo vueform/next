@@ -10,7 +10,7 @@
       "path": "VfLayout.vue",
       "target": "{componentsDir}/VfLayout.vue",
       "kind": "component",
-      "hash": "sha256:a8374a290bd467586234f23523a9aa4ff8a3cfa2c6dec4c8cc16b82a9419eb19"
+      "hash": "sha256:616d3d144523b57aa9cd64d69596dd98d7de390eed32ddf4ae84cd2979407d04"
     }
   ],
   "imports": [
@@ -40,14 +40,7 @@
   ],
   "dependencies": {},
   "registryDependencies": [],
-  "styles": [
-    "blockquote",
-    "element",
-    "hr",
-    "icon",
-    "info",
-    "tooltip"
-  ],
+  "styles": ["blockquote", "element", "hr", "icon", "info", "tooltip"],
   "register": {
     "component": "VfLayout",
     "import": "{componentsDir}/VfLayout.vue"

@@ -1,138 +1,131 @@
 /**
- * Runs one cell end to end. The tiers:
+ * Runs one env end to end: install (+ leak check), production build, then
+ * the two Playwright specs — `boot.spec` (console/pageerror/warning policy,
+ * per-element render assertions, SSR/hydration checks) and `interaction.spec`
+ * (canonical interaction). Playwright starts the fixture's `serve` script
+ * itself (webServer in the generated config) and always runs headless; each
+ * spec is its own invocation so the display can report boot and interaction
+ * separately.
  *
- * - 0: install (+ leak check) and production build
- * - 1: types — the fixture's `typecheck` script over the shared type assertions,
- *   against the tarballs' dist .d.ts
- * - 2: boot — Playwright `boot.spec` (console/pageerror/warning policy,
- *   per-element render assertions, SSR/hydration checks)
- * - 3: canonical interaction — Playwright `interaction.spec`
- *
- * Install always runs (everything needs it); the build runs for tier 0 or
- * whenever Playwright tiers are selected. Playwright starts the fixture's
- * `serve` script itself (webServer in the generated config) and is always
- * headless unless --headed was explicitly given.
+ * All child output goes to the invocation's log file (`input.log`); progress
+ * is reported per stage through `input.report`.
  */
-import path from 'node:path'
 import { assembleRun, type AssembleInput, type SmokeRun } from './assemble'
+import type { StageName, StageStatus } from './display'
+import type { EnvDef, Pm } from './envs'
 import { leakCheck } from './leak'
 import { pickPort, run, SmokeError } from './lib'
-import { execArgs, installArgs, runScriptArgs } from './pm'
-import type { CellDef, Pm } from './cells'
 import type { PackedTarballs } from './pack'
+import { execArgs, installArgs, runScriptArgs, withInstallLock } from './pm'
 
-export interface CellRunInput {
+export interface EnvRunInput {
   root: string
   adapter: string
   adapterDir: string
-  cell: CellDef
-  pm: Pm
+  env: EnvDef
   tarballs: PackedTarballs
   runsDir: string
-  tiers: Set<number>
-  headed: boolean
-  viteMajor?: number
+  pm: Pm
+  log: (text: string) => void
+  report: (stage: StageName, status: StageStatus) => void
 }
 
 let browsersEnsured = false
 
-export interface CellResult {
+export interface EnvResult {
   adapter: string
-  cell: CellDef
+  env: EnvDef
   status: 'pass' | 'fail' | 'skip'
   detail?: string
+  /**
+   * The stage the failure happened in, when status is 'fail'.
+   */
+  stage?: StageName
+  /**
+   * Tail of the failing step's output (full output is in the log file).
+   */
+  logTail?: string
 }
 
 /**
  * Makes sure the Playwright chromium binary exists (a fast no-op when it is
- * already in the shared browser cache). Once per harness invocation.
+ * already in the shared browser cache). Called by the CLI BEFORE the env
+ * fan-out — parallel envs must not race the install.
  */
-function ensureBrowsers(pm: Pm, smokeRun: SmokeRun) {
+export async function ensureBrowsers(cwd: string, log: (text: string) => void) {
   if (browsersEnsured) return
   browsersEnsured = true
 
-  run(pm, execArgs(pm, 'playwright', ['install', 'chromium']), {
-    cwd: smokeRun.dir,
+  // Repo-side tooling: the browser cache install always goes through pnpm,
+  // whatever the fixtures install with.
+  await run('pnpm', execArgs('pnpm', 'playwright', ['install', 'chromium']), {
+    cwd,
+    log,
     fail: '[smoke] Installing the Playwright chromium browser failed',
   })
 }
 
-export async function runCell(input: CellRunInput): Promise<void> {
-  const { cell, pm, tiers } = input
-  const tag = `[smoke:${input.adapter}:${cell.id}]`
+export async function runEnv(input: EnvRunInput): Promise<void> {
+  const { env, log, report, pm } = input
+  const tag = `${input.adapter}:${env.id}`
   const port = await pickPort()
 
-  console.log(`${tag} Assembling run (pm: ${pm}, port: ${port})...`)
-  const assembleInput: AssembleInput = { ...input, port }
-  const smokeRun = assembleRun(assembleInput)
+  const step = async (stage: StageName, fn: () => Promise<void>) => {
+    report(stage, 'active')
+    try {
+      await fn()
+    } catch (error) {
+      report(stage, 'fail')
+      if (error instanceof SmokeError) {
+        throw Object.assign(error, { stage })
+      }
+      throw error
+    }
+    report(stage, 'pass')
+  }
 
-  const scriptEnv = cell.fixtureEnv
+  log(`\n===== ${tag} (port: ${port}) =====`)
+  const assembleInput: AssembleInput = { ...input, port }
+  const smokeRun = await assembleRun(assembleInput)
+
+  const scriptEnv = env.fixtureEnv
   const script = (name: string, fail: string) =>
     run(pm, runScriptArgs(pm, name), {
       cwd: smokeRun.dir,
       env: scriptEnv,
-      fail: `${tag} ${fail}`,
+      log,
+      fail: `[smoke:${tag}] ${fail}`,
     })
 
-  console.log(`${tag} Installing (tier 0)...`)
-  run(pm, installArgs(pm), {
-    cwd: smokeRun.dir,
-    fail: `${tag} Tier 0 (install) failed`,
-  })
-  leakCheck(smokeRun.dir)
-
-  if (tiers.has(1)) {
-    console.log(`${tag} Type-checking (tier 1)...`)
-    script('typecheck', 'Tier 1 (types) failed')
-  }
-
-  const wantsBrowser = tiers.has(2) || tiers.has(3)
-
-  if (tiers.has(0) || wantsBrowser) {
-    console.log(`${tag} Building (tier 0)...`)
-    script('build', 'Tier 0 (build) failed')
-  }
-
-  if (!wantsBrowser) return
-
-  ensureBrowsers(pm, smokeRun)
-
-  const specs = [
-    ...(tiers.has(2) ? ['boot.spec.mjs'] : []),
-    ...(tiers.has(3) ? ['interaction.spec.mjs'] : []),
-  ]
-
-  console.log(`${tag} Running Playwright (${specs.join(', ')})...`)
-  run(
-    pm,
-    execArgs(pm, 'playwright', [
-      'test',
-      '-c',
-      'playwright.config.mjs',
-      ...specs,
-    ]),
-    {
-      cwd: smokeRun.dir,
-      fail: `${tag} Tier ${tiers.has(2) ? '2/3' : '3'} (browser) failed`,
-    }
-  )
-}
-
-export function summarize(results: CellResult[]): boolean {
-  console.log('\n[smoke] Summary:')
-  for (const r of results) {
-    const mark =
-      r.status === 'pass' ? 'PASS' : r.status === 'fail' ? 'FAIL' : 'SKIP'
-    console.log(
-      `  ${mark}  ${r.adapter}:${r.cell.id}${r.detail ? ` — ${r.detail}` : ''}`
+  await step('install', async () => {
+    await withInstallLock(pm, () =>
+      run(pm, installArgs(pm), {
+        cwd: smokeRun.dir,
+        log,
+        fail: `[smoke:${tag}] Install failed`,
+      })
     )
-  }
+    leakCheck(smokeRun.dir, log)
+  })
 
-  return results.every((r) => r.status !== 'fail')
-}
+  await step('build', () => script('build', 'Build failed'))
 
-export function fixturePath(adapterDir: string, cell: CellDef) {
-  return path.join(adapterDir, 'tests', 'smoke', cell.fixture)
+  const playwright = (spec: string, fail: string) =>
+    run(
+      pm,
+      execArgs(pm, 'playwright', ['test', '-c', 'playwright.config.mjs', spec]),
+      {
+        cwd: smokeRun.dir,
+        log,
+        fail: `[smoke:${tag}] ${fail}`,
+      }
+    )
+
+  await step('boot', () => playwright('boot.spec.mjs', 'Boot spec failed'))
+
+  await step('interaction', () =>
+    playwright('interaction.spec.mjs', 'Interaction spec failed')
+  )
 }
 
 export type { PackedTarballs, SmokeRun }

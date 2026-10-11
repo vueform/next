@@ -1,8 +1,8 @@
 import { planAutoRegister, registrationSnippet } from './autoregister.js'
 import { CONFIG_FILENAME, setConfigValue } from './config.js'
+import type { Output } from './output.js'
 import { detectProjectType } from './project.js'
 import { canPrompt, confirm } from './prompt.js'
-import type { Output } from './output.js'
 
 /**
  * Shared closing move of `copy` and `clone`: make sure the barrel ends up

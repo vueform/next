@@ -1,9 +1,8 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-import { adapters, corePackage } from './adapters'
-import { mergeIssues, type Issue } from './issues'
-import { generatedDir, monorepoRoot } from './paths'
+import { adapters } from './adapters'
+import { generatedDir } from './paths'
 import type { ScrapeScope } from './scope'
 
 /**
@@ -188,235 +187,43 @@ function writeJson(file: string, data: unknown): void {
   fs.writeFileSync(file, JSON.stringify(data, null, 2) + '\n')
 }
 
-const CLASS_ISSUE_PREFIX = 'classes.'
-
 /**
- * Files searched for a missing class's source location: the component that
- * renders it, then the VfLayout that contributes the base classes.
+ * Applies the adapter's hand-maintained `missingDescriptions` from
+ * config.json (third-party docblock gaps that cannot be fixed upstream):
+ * flat node path → description, tried against every assembled file of the
+ * adapter and set wherever it resolves to an empty description. `status`
+ * accumulates each entry's outcome across the files, so assemble can warn
+ * about stale entries at the end.
  */
-function classLiteralCandidates(
-  target: string,
-  componentName: string
-): string[] {
-  const pkg = adapters[target]?.path ?? corePackage
-  const dirs = pkg === corePackage ? [pkg] : [pkg, corePackage]
-  return dirs.flatMap((dir) => [
-    path.join(
-      monorepoRoot,
-      dir,
-      'src/components',
-      componentName,
-      `${componentName}.vue`
-    ),
-    path.join(monorepoRoot, dir, 'src/components/VfLayout/VfLayout.vue'),
-  ])
-}
-
-function locateClassLiteral(
-  target: string,
-  componentName: string,
-  cls: string
-): { file?: string; line?: number } {
-  const pattern = new RegExp(`['"\`]${cls}['"\`]`)
-  for (const candidate of classLiteralCandidates(target, componentName)) {
-    if (!fs.existsSync(candidate)) continue
-    const lines = fs.readFileSync(candidate, 'utf-8').split('\n')
-    const idx = lines.findIndex((l) => pattern.test(l))
-    if (idx !== -1) {
-      return { file: path.relative(monorepoRoot, candidate), line: idx + 1 }
-    }
-  }
-  return {}
-}
-
-/**
- * Records a `missing` issue for every vf-* class a component default renders
- * that has no documented entry (root or modifier) in the source's classes.json
- * — those show up in the docs without a description popover.
- */
-function collectClassIssues(target: string): Issue[] {
-  const classesData = readJson(path.join(generatedDir, target, 'classes.json'))
-  const componentsData = readJson(
-    path.join(generatedDir, target, 'components.json')
-  )
-  if (
-    !classesData ||
-    !componentsData ||
-    typeof classesData !== 'object' ||
-    typeof componentsData !== 'object'
-  ) {
-    return []
-  }
-
-  const documented = new Set(Object.keys(classesData))
-  for (const entry of Object.values(
-    classesData as Record<string, { modifiers?: Record<string, unknown> }>
-  )) {
-    for (const modifier of Object.keys(entry.modifiers ?? {})) {
-      documented.add(modifier)
-    }
-  }
-
-  const issues = new Map<string, Issue>()
-  for (const [componentName, entry] of Object.entries(
-    componentsData as Record<
-      string,
-      { classes?: Record<string, { default?: string }> }
-    >
-  )) {
-    for (const info of Object.values(entry.classes ?? {})) {
-      for (const raw of (info.default ?? '').split(/\s+/)) {
-        const cls = raw.replace(/\?$/, '')
-        if (!cls.startsWith('vf-') || documented.has(cls)) continue
-        if (issues.has(cls)) continue
-        issues.set(cls, {
-          name: `${CLASS_ISSUE_PREFIX}${cls}`,
-          reason: 'missing',
-          ...locateClassLiteral(target, componentName, cls),
-        })
+function applyMissingDescriptions(
+  data: Record<string, unknown>,
+  fixes: Record<string, string>,
+  status: Map<string, 'applied' | 'documented'>,
+  keyPrefix: string
+): void {
+  for (const [nodePath, description] of Object.entries(fixes)) {
+    const segments = nodePath.match(/[^.[\]]+|\[\d+\]/g) ?? []
+    let node: unknown = data
+    for (const segment of segments) {
+      if (node === null || typeof node !== 'object') {
+        node = undefined
+        break
       }
+      node = segment.startsWith('[')
+        ? (node as unknown[])[Number(segment.slice(1, -1))]
+        : (node as Record<string, unknown>)[segment]
     }
-  }
-
-  const memberIssues: Issue[] = []
-  const walkMembers = (
-    node: unknown,
-    namePath: string,
-    componentName: string,
-    partName: string
-  ) => {
-    if (!node || typeof node !== 'object' || Array.isArray(node)) return
-    const record = node as {
-      description?: unknown
-      type?: unknown
-      params?: Record<string, unknown>
-    }
-    if (!record.description) {
-      memberIssues.push({
-        name: namePath,
-        reason: 'missing',
-        ...locateInterfaceMember(target, componentName, 'Classes', partName),
-      })
-    }
-    for (const [paramName, param] of Object.entries(record.params ?? {})) {
-      walkMembers(param, `${namePath}.${paramName}`, componentName, partName)
-    }
-    if (record.type && typeof record.type === 'object') {
-      for (const [memberName, member] of Object.entries(
-        record.type as Record<string, unknown>
-      )) {
-        walkMembers(
-          member,
-          `${namePath}.${memberName}`,
-          componentName,
-          partName
-        )
+    const record = node as Record<string, unknown> | undefined
+    if (!record || typeof record.description !== 'string') continue
+    if (record.description.trim() !== '') {
+      if (!status.has(keyPrefix + nodePath)) {
+        status.set(keyPrefix + nodePath, 'documented')
       }
+      continue
     }
+    record.description = description
+    status.set(keyPrefix + nodePath, 'applied')
   }
-
-  for (const [componentName, entry] of Object.entries(
-    componentsData as Record<string, { classes?: Record<string, unknown> }>
-  )) {
-    for (const [partName, info] of Object.entries(entry.classes ?? {})) {
-      walkMembers(
-        info,
-        `${CLASS_ISSUE_PREFIX}${componentName}.${partName}`,
-        componentName,
-        partName
-      )
-    }
-  }
-
-  return [...issues.values(), ...memberIssues]
-}
-
-const SLOT_ISSUE_PREFIX = 'slots.'
-
-/**
- * Locates a member inside a `<Component><suffix>` interface (Slots, Classes, …)
- * of a types.ts, searching the adapter package first, then core.
- */
-function locateInterfaceMember(
-  target: string,
-  componentName: string,
-  suffix: string,
-  member: string
-): { file?: string; line?: number } {
-  const pkg = adapters[target]?.path ?? corePackage
-  const dirs = pkg === corePackage ? [pkg] : [pkg, corePackage]
-  const memberPattern = new RegExp(`^\\s*(['"]?)${member}\\1\\??:`)
-
-  for (const dir of dirs) {
-    const candidate = path.join(
-      monorepoRoot,
-      dir,
-      'src/components',
-      componentName,
-      'types.ts'
-    )
-    if (!fs.existsSync(candidate)) continue
-    const lines = fs.readFileSync(candidate, 'utf-8').split('\n')
-    const start = lines.findIndex((l) =>
-      l.includes(`interface ${componentName}${suffix}`)
-    )
-    if (start === -1) continue
-    for (let i = start + 1; i < lines.length; i++) {
-      if (/^(export )?(interface|type) /.test(lines[i])) break
-      if (memberPattern.test(lines[i])) {
-        return { file: path.relative(monorepoRoot, candidate), line: i + 1 }
-      }
-    }
-  }
-  return {}
-}
-
-/**
- * Records a `missing` issue for every slot and slot param in components.json
- * without a description.
- */
-function collectSlotIssues(target: string): Issue[] {
-  const componentsData = readJson(
-    path.join(generatedDir, target, 'components.json')
-  )
-  if (!componentsData || typeof componentsData !== 'object') return []
-
-  const issues: Issue[] = []
-  for (const [componentName, entry] of Object.entries(
-    componentsData as Record<
-      string,
-      {
-        slots?: Record<
-          string,
-          { description?: string; params?: Record<string, unknown> }
-        >
-      }
-    >
-  )) {
-    for (const [slotName, slot] of Object.entries(entry.slots ?? {})) {
-      if (!slot.description) {
-        issues.push({
-          name: `${SLOT_ISSUE_PREFIX}${componentName}.${slotName}`,
-          reason: 'missing',
-          ...locateInterfaceMember(target, componentName, 'Slots', slotName),
-        })
-      }
-      for (const [paramName, param] of Object.entries(slot.params ?? {})) {
-        const description =
-          param && typeof param === 'object'
-            ? (param as { description?: string }).description
-            : undefined
-        if (!description) {
-          issues.push({
-            name: `${SLOT_ISSUE_PREFIX}${componentName}.${slotName}.${paramName}`,
-            reason: 'missing',
-            ...locateInterfaceMember(target, componentName, 'Slots', slotName),
-          })
-        }
-      }
-    }
-  }
-  return issues
 }
 
 /**
@@ -430,6 +237,8 @@ function collectSlotIssues(target: string): Issue[] {
  */
 export function assemble(names: readonly string[], scope: ScrapeScope): void {
   const assembled: string[] = []
+  // Per adapter: each missingDescriptions entry's outcome across the files.
+  const fixStatus = new Map<string, Map<string, 'applied' | 'documented'>>()
 
   for (const name of names) {
     const file = `${name}.json`
@@ -449,7 +258,7 @@ export function assemble(names: readonly string[], scope: ScrapeScope): void {
       rawCore = readJson(path.join(generatedDir, 'core', file))
       if (rawCore === undefined) {
         console.warn(
-          `[assemble] no core/${file} to merge against — run \`pnpm extract --core ${name}\` first`
+          `[assemble] no core/${file} to merge against — run \`pnpm api\` first`
         )
         continue
       }
@@ -472,6 +281,28 @@ export function assemble(names: readonly string[], scope: ScrapeScope): void {
           : ADAPTER_REPLACES_CORE.has(name)
             ? rawAdapter
             : { ...(rawCore as object), ...(rawAdapter as object) }
+      const fixes = adapters[adapterName]?.missingDescriptions
+      if (fixes && merged && typeof merged === 'object') {
+        // Keys are `<file>.<node path>` — apply this file's entries only.
+        const prefix = `${name}.`
+        const scoped: Record<string, string> = {}
+        for (const [key, value] of Object.entries(fixes)) {
+          if (key.startsWith(prefix)) scoped[key.slice(prefix.length)] = value
+        }
+        if (Object.keys(scoped).length) {
+          let status = fixStatus.get(adapterName)
+          if (!status) {
+            status = new Map()
+            fixStatus.set(adapterName, status)
+          }
+          applyMissingDescriptions(
+            merged as Record<string, unknown>,
+            scoped,
+            status,
+            prefix
+          )
+        }
+      }
       writeJson(path.join(generatedDir, adapterName, file), sortRoot(merged))
     }
 
@@ -490,16 +321,21 @@ export function assemble(names: readonly string[], scope: ScrapeScope): void {
 
   const targets = [...(scope.core ? ['core'] : []), ...scope.adapters]
 
-  // Classes that render in the docs need a documented description; refresh the
-  // report only when this run rebuilt both sides of the cross-check.
-  if (assembled.includes('classes') && assembled.includes('components')) {
-    for (const target of targets) {
-      mergeIssues(target, CLASS_ISSUE_PREFIX, collectClassIssues(target))
-    }
-  }
-  if (assembled.includes('components')) {
-    for (const target of targets) {
-      mergeIssues(target, SLOT_ISSUE_PREFIX, collectSlotIssues(target))
+  // Stale-entry warnings only make sense when every file was assembled.
+  if (names.length === FILES.length) {
+    for (const adapterName of scope.adapters) {
+      const fixes = adapters[adapterName]?.missingDescriptions
+      if (!fixes) continue
+      const status = fixStatus.get(adapterName)
+      for (const nodePath of Object.keys(fixes)) {
+        const outcome = status?.get(nodePath)
+        if (outcome === 'applied') continue
+        console.warn(
+          outcome === 'documented'
+            ? `[assemble] missingDescriptions (${adapterName}): "${nodePath}" is documented upstream now — remove the entry`
+            : `[assemble] missingDescriptions (${adapterName}): "${nodePath}" resolved nowhere — stale entry?`
+        )
+      }
     }
   }
 

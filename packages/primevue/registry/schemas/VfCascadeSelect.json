@@ -10,7 +10,7 @@
       "path": "VfCascadeSelect.vue",
       "target": "{componentsDir}/VfCascadeSelect.vue",
       "kind": "component",
-      "hash": "sha256:6820546a53e06b87ab3ba41e1cc40d3e2a1ad103a926068571d3e04208ea2ad0"
+      "hash": "sha256:bbb8dd65f6cb0c3c9884ed5e875e56dfa732806dbf2f36f4727cfd6b0814dda9"
     }
   ],
   "imports": [
@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfCascadeSelect.vue",
     "blueprint": "cascade-select",
-    "hash": "sha256:90abe1fcdeafca45c47c0e10a10c69b93f09a9effbe8f50e8a5c7da2b60d0194",
+    "hash": "sha256:62ecab0ef2248ae12cd83b2a27743945a53bb8795a248865f9558d4c73f274d6",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

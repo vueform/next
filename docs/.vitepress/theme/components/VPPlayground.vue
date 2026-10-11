@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { Repl, useStore, useVueImportMap } from '@vue/repl'
 import CodeMirror from '@vue/repl/codemirror-editor'
+
 import '@vue/repl/style.css'
 import { useData } from 'vitepress'
 import { ref, watchEffect } from 'vue'

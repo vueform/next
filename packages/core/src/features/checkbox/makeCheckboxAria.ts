@@ -1,7 +1,8 @@
 import { computed } from 'vue'
-import type { AriaProp, ReturnsOf, TProp } from '#core/types'
-import { type makeLayout, type makeData, type makeText } from '#core/features'
-import { defineFeature } from '#core/helpers'
+
+import { type makeLayout, type makeData, type makeText } from '#src/features'
+import { defineFeature } from '#src/helpers'
+import type { AriaProp, ReturnsOf, TProp } from '#src/types'
 
 /**
  * Configuration for the checkbox ARIA factory resolving describedby, invalid,
@@ -52,8 +53,8 @@ export const makeCheckboxAria = defineFeature(
           'aria-describedby':
             [
               text?.value && !!props.label ? labelId.value : null,
-              !!props.help ? helpId.value : null,
-              !!props.description ? descriptionId.value : null,
+              props.help ? helpId.value : null,
+              props.description ? descriptionId.value : null,
               hasError.value ? errorId.value : null,
             ]
               .filter((d) => !!d)

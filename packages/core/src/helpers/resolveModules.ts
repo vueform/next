@@ -1,8 +1,8 @@
+import type { VueformInstance } from './createVueform'
+import type { VueformInstanceModules } from './defineConfig'
 // Private: imported by deep path from module doorways, never re-exported from
 // the helpers barrel.
 import { resolveVueform } from './resolveVueform'
-import type { VueformInstance } from './createVueform'
-import type { VueformInstanceModules } from './defineConfig'
 
 /**
  * Resolves the modules of the instance a call should read from — the shared

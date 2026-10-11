@@ -15,6 +15,9 @@
         },
         "description": {
           "type": "string"
+        },
+        "loc": {
+          "type": "string"
         }
       }
     },
@@ -37,6 +40,9 @@
           "type": "string"
         },
         "description": {
+          "type": "string"
+        },
+        "loc": {
           "type": "string"
         },
         "params": {
@@ -68,6 +74,9 @@
           "description": "Named members of an object-shaped type (`type: \"object\"`, or a named type whose shape is expanded)."
         },
         "description": {
+          "type": "string"
+        },
+        "loc": {
           "type": "string"
         },
         "from": {

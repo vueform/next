@@ -1,4 +1,5 @@
 import { isRef, toRaw } from 'vue'
+
 import type {
   ArraySchema,
   ExactValidatedSchema,
@@ -6,7 +7,7 @@ import type {
   MatchesSchemaModel,
   ObjectSchema,
   StandardSchemaV1,
-} from '#core/types'
+} from '#src/types'
 
 // Side-table: never mutates the user's schema, GC'd with it. Reactive schemas
 // key by the computed ref (its getter returns a fresh object each time).
@@ -18,6 +19,8 @@ const validationSchemas = new WeakMap<object, StandardSchemaV1>()
  * `defineComputedSchema`.
  *
  * @private
+ * @param schema The schema object or ref to key the Standard Schema by.
+ * @param validationSchema The Standard Schema to attach.
  */
 export function attachValidationSchema(
   schema: object,

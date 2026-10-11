@@ -6,6 +6,11 @@
  */
 
 import {
+  useBlueprint,
+  defineEvents,
+  type DefineElementContext,
+} from '@vueform/ui'
+import {
   defaults,
   blueprint,
   type HiddenApi,
@@ -16,11 +21,6 @@ import {
   type HiddenProps,
   type HiddenSlots,
 } from '@vueform/ui/blueprints/hidden'
-import {
-  useBlueprint,
-  defineEvents,
-  type DefineElementContext,
-} from '@vueform/ui'
 
 /**
  * Prop definitions.
@@ -79,8 +79,8 @@ export interface VfCloneNameParts extends HiddenParts {}
 export interface VfCloneNameClasses extends HiddenClasses {}
 
 /**
- * Custom exposed API members. Add props you return from useBlueprint's 5th
- * 'extend' callback.
+ * Custom exposed API members. Add props you return from useBlueprint's
+ * 5th 'extend' callback.
  *
  * @example
  *   plain: string
@@ -92,9 +92,9 @@ export interface VfCloneNameClasses extends HiddenClasses {}
 export interface VfCloneNameExpose extends HiddenExpose {}
 
 /**
- * The element's context — the object slots, outlets, and event handlers receive
- * (`context$`). Its shape is derived from the blueprint and the interfaces
- * above — customize those; don't extend or edit this one.
+ * The element's context — the object slots, outlets, and event handlers
+ * receive (`context$`). Its shape is derived from the blueprint and the
+ * interfaces above — customize those; don't extend or edit this one.
  */
 export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameProps,
@@ -117,9 +117,9 @@ const events = defineEvents<VfCloneNameEmits>()
 const slots = defineSlots<VfCloneNameSlots>()
 
 /**
- * Extend the element's API by passing a 5th 'extend' callback to useBlueprint —
- * whatever it returns merges into the api / expose (declare the members on
- * VfCloneNameExpose above).
+ * Extend the element's API by passing a 5th 'extend' callback to
+ * useBlueprint — whatever it returns merges into the api / expose
+ * (declare the members on VfCloneNameExpose above).
  *
  * @example
  *   useBlueprint(blueprint, props, events, slots, () => ({

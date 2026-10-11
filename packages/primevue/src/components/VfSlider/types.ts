@@ -1,13 +1,4 @@
 import type {
-  SliderApi,
-  SliderClasses,
-  SliderEmits,
-  SliderExpose,
-  SliderParts,
-  SliderProps,
-  SliderSlots,
-} from '#primevue/blueprints/slider'
-import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
@@ -15,6 +6,16 @@ import type {
   WidenProps,
 } from '@vueform/core'
 import type { SliderProps as PvSliderProps } from 'primevue'
+
+import type {
+  SliderApi,
+  SliderClasses,
+  SliderEmits,
+  SliderExpose,
+  SliderParts,
+  SliderProps,
+  SliderSlots,
+} from '#src/blueprints/slider'
 
 /**
  * Resolves a `TRange` generic from a registry `TEntry` payload's `range` prop,
@@ -38,8 +39,8 @@ export type EntryProps<TEntry> = VfSliderProps<EntryRangeOf<TEntry>>
  * model-driving type argument (e.g. `VfSliderProps<true>`). Reach for
  * `VfSliderProps` instead when no narrowing is needed.
  *
- * The `part:*` / `class:*` / `reclass:*` shorthand attrs are injected into dist
- * by `@vueform/utils` (see the `#shorthands` marker import on `unstyled.ts`).
+ * The `part:*` / `class:*` / `reclass:*` shorthand attrs come from the
+ * declaration merge on this interface in `unstyled.ts` / `styled.ts`.
  */
 export interface VfSliderProps<
   TRange extends boolean = boolean,

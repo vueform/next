@@ -1,6 +1,6 @@
 /*
  * Compile-time assertions for PrimeVue VfRadioButtonGroup options → model
- * inference (always Value | null). Run by `pnpm test:dts`.
+ * inference (always Value | null). Run by `pnpm test-dts`.
  */
 import {
   defineSchema,

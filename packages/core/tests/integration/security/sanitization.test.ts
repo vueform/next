@@ -1,3 +1,5 @@
+import { defineSchema } from '@vueform/core'
+import dompurify from '@vueform/dompurify'
 /**
  * # Sanitization pipeline
  *
@@ -10,9 +12,8 @@
  * all.
  */
 import { nextTick } from 'vue'
+
 import { createForm } from '../../helpers'
-import { defineSchema } from '#core'
-import dompurify from '#dompurify'
 
 describe('Security: sanitization pipeline', () => {
   describe('expression resolution cannot bypass the sanitizer', () => {

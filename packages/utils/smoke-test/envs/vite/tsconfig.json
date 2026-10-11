@@ -1,0 +1,22 @@
+// The committed fixture is a thin shell: the smoke/ dir it references is
+// injected by the harness into the assembled run copy, where this config is
+// actually used — it is the base the smoke-types envs typecheck through
+// (their generated tsconfig.smoke-types.json extends it). The adapter
+// package's own tsconfig excludes tests/smoke, so none of this joins the
+// repo's `pnpm check`.
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "types": ["vite/client"],
+    "noUnusedLocals": false,
+    "noUnusedParameters": false
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.vue",
+    "smoke/**/*.ts",
+    "smoke/**/*.d.ts",
+    "smoke/**/*.vue",
+    "vueform.config.ts"
+  ]
+}

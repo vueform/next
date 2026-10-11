@@ -39,12 +39,12 @@ import {
   type InputEmits,
   type MultipleProps,
 } from '@vueform/core'
-import type { ForwardedEmits } from '#primevue/types'
 import type {
   SelectProps as ASelectProps,
   SelectEmitsOptions as ASelectEmits,
   SelectChangeEvent,
 } from 'primevue/select'
+
 import {
   makeFloatLabel,
   makeIfta,
@@ -60,8 +60,9 @@ import {
   type OptionValueProp,
   type OptionsProp,
   type OptionsModelApi,
-} from '#primevue/features'
-import { optionItemAliases } from '#primevue/helpers'
+} from '#src/features'
+import { optionItemAliases } from '#src/helpers'
+import type { ForwardedEmits } from '#src/types'
 
 /**
  * Plain props type for the select element blueprint — the widest instantiation
