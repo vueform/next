@@ -59,6 +59,7 @@
     "stylelint-config-recess-order": "catalog:",
     "stylelint-config-standard-scss": "catalog:",
     "stylelint-order": "catalog:",
+    "taze": "catalog:",
     "tsx": "catalog:",
     "typescript": "catalog:",
     "vite": "catalog:",

@@ -1,6 +1,25 @@
 {
   "name": "@vueform/primevue",
   "version": "2.0.0-alpha.1",
+  "description": "PrimeVue adapter for Vueform — build Vueform forms from PrimeVue components.",
+  "keywords": [
+    "components",
+    "form",
+    "forms",
+    "primevue",
+    "vue",
+    "vue3",
+    "vueform"
+  ],
+  "homepage": "https://github.com/vueform/core",
+  "bugs": "https://github.com/vueform/core/issues",
+  "license": "MIT",
+  "author": "Adam Berecz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueform/core.git",
+    "directory": "packages/primevue"
+  },
   "bin": {
     "vueform": "./bin/vueform.mjs"
   },
@@ -125,6 +144,9 @@
       "import": "./dist/full.mjs"
     }
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "rm -rf dist && vue-tsc -p tsconfig.build.json && tsdown && tsdown -c tsdown.vapor.config.ts",
     "publint": "publint",
@@ -167,6 +189,9 @@
     "primevue": "catalog:peer",
     "vue": "catalog:peer"
   },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "vueform": {
     "group": "adapters",
     "alias": [
@@ -197,8 +222,5 @@
         "primeicons"
       ]
     }
-  },
-  "engines": {
-    "node": ">=22.12.0"
   }
 }

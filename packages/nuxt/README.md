@@ -1,0 +1,26 @@
+# @vueform/nuxt
+
+Nuxt module for [Vueform](https://github.com/vueform/core).
+
+> **Alpha**: Vueform 2 is in early alpha. APIs may change between releases without notice.
+
+## Installation
+
+```sh
+npm install @vueform/nuxt@alpha
+```
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['@vueform/nuxt'],
+})
+```
+
+## Documentation
+
+See the [Vueform repository](https://github.com/vueform/core) for documentation and examples.
+
+## License
+
+[MIT](./LICENSE)

@@ -1,12 +1,8 @@
 packages:
   - packages/*
   - .playgrounds/*
-  # Vapor playgrounds are standalone (own Vue 3.6 build, own lockfile),
-  # installed with `pnpm install --ignore-workspace` by the pg scripts.
   - '!.playgrounds/*-vapor'
   - benchmark
-  # The bench app pins its own Vue 3.6 (vapor) build — standalone install,
-  # own lockfile, `pnpm install --ignore-workspace` by the bench runner.
   - '!benchmark/app'
   - docs
 
@@ -22,12 +18,12 @@ catalog:
   '@primevue/core': ^4.5.5
   '@tsconfig/node22': ^22.0.6
   '@types/hast': ^3.0.5
-  '@vscode/web-custom-data': ^0.6.3
   '@types/node': ^24.13.6
   '@typescript-eslint/parser': ^8.52.0
   '@vitejs/plugin-vue': ^6.0.9
   '@vitest/browser': ^5.0.1
   '@vitest/browser-playwright': ^5.0.1
+  '@vscode/web-custom-data': ^0.6.3
   '@vue/devtools-api': ^7.7.10
   '@vue/repl': ^4.7.2
   '@vue/shared': ^3.5.28
@@ -45,8 +41,8 @@ catalog:
   isomorphic-dompurify: ^3.19.0
   lint-staged: ^16.2.7
   nypm: ^0.6.10
-  playwright: ^1.51.1
   oxfmt: ^0.70.0
+  playwright: ^1.51.1
   primeicons: ^7.0.0
   primevue: ^4.5.5
   publint: ^0.3.25
@@ -58,6 +54,7 @@ catalog:
   stylelint-config-recess-order: ^7.7.0
   stylelint-config-standard-scss: ^17.0.0
   stylelint-order: ^8.1.1
+  taze: ^21.3.0
   terser: ^5.51.2
   tsdown: ^0.23.0
   tsx: ^4.23.15
@@ -69,8 +66,8 @@ catalog:
   vitepress-plugin-group-icons: ^1.7.3
   vitest: 5.0.1
   vue: ^3.5.42
-  vue-eslint-parser: ^10.2.0
   vue-compiler-sfc-vapor: npm:@vue/compiler-sfc@3.6.0-rc.5
+  vue-eslint-parser: ^10.2.0
   vue-tsc: ^2.2.12
   vue-vapor: npm:vue@3.6.0-rc.5
   zod: ^4.6.5

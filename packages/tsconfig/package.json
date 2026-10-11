@@ -1,4 +1,29 @@
 {
   "name": "@vueform/tsconfig",
-  "version": "2.0.0-alpha.1"
+  "version": "2.0.0-alpha.1",
+  "description": "Shared TypeScript configurations for Vueform packages and projects.",
+  "keywords": [
+    "tsconfig",
+    "typescript",
+    "vueform"
+  ],
+  "homepage": "https://github.com/vueform/core",
+  "bugs": "https://github.com/vueform/core/issues",
+  "license": "MIT",
+  "author": "Adam Berecz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueform/core.git",
+    "directory": "packages/tsconfig"
+  },
+  "files": [
+    "tsconfig.json",
+    "tsconfig.*.json"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
 }

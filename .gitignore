@@ -24,6 +24,9 @@ cache
 # Custom files
 .temp
 
+# Local registry override for release rehearsals (Verdaccio)
+.npmrc
+
 # Tests
 .attest
 test-results

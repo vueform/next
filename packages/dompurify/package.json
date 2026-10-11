@@ -1,10 +1,27 @@
 {
   "name": "@vueform/dompurify",
   "version": "2.0.0-alpha.1",
+  "description": "Isomorphic DOMPurify wrapper used by Vueform for HTML sanitization.",
+  "keywords": [
+    "dompurify",
+    "html",
+    "sanitize",
+    "vueform"
+  ],
+  "homepage": "https://github.com/vueform/core",
+  "bugs": "https://github.com/vueform/core/issues",
+  "license": "MIT",
+  "author": "Adam Berecz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueform/core.git",
+    "directory": "packages/dompurify"
+  },
   "files": [
     "dist"
   ],
   "type": "module",
+  "sideEffects": false,
   "main": "./dist/index.mjs",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -22,6 +39,9 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",
@@ -47,6 +67,9 @@
     "@vueform/core": "workspace:^",
     "vue": "catalog:peer"
   },
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "vueform": {
     "group": "plugins",
     "size": {
@@ -54,8 +77,5 @@
       "depImport": "import DOMPurify from 'isomorphic-dompurify'",
       "depRetain": "console.log(DOMPurify.sanitize('<b>vueform</b>'))"
     }
-  },
-  "engines": {
-    "node": ">=22.12.0"
   }
 }

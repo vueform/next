@@ -1,6 +1,24 @@
 {
   "name": "@vueform/nuxt",
   "version": "2.0.0-alpha.1",
+  "description": "Nuxt module for Vueform.",
+  "keywords": [
+    "form",
+    "forms",
+    "nuxt",
+    "nuxt-module",
+    "vue",
+    "vueform"
+  ],
+  "homepage": "https://github.com/vueform/core",
+  "bugs": "https://github.com/vueform/core/issues",
+  "license": "MIT",
+  "author": "Adam Berecz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueform/core.git",
+    "directory": "packages/nuxt"
+  },
   "files": [
     "dist"
   ],
@@ -10,6 +28,9 @@
       "types": "./dist/module.d.mts",
       "import": "./dist/module.mjs"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "nuxt-module-build build",

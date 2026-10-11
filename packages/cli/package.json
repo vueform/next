@@ -1,6 +1,23 @@
 {
   "name": "@vueform/cli",
   "version": "2.0.0-alpha.1",
+  "description": "Command-line tooling for Vueform projects.",
+  "keywords": [
+    "cli",
+    "form",
+    "forms",
+    "vue",
+    "vueform"
+  ],
+  "homepage": "https://github.com/vueform/core",
+  "bugs": "https://github.com/vueform/core/issues",
+  "license": "MIT",
+  "author": "Adam Berecz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueform/core.git",
+    "directory": "packages/cli"
+  },
   "bin": {
     "vueform": "./bin/vueform.js"
   },
@@ -10,11 +27,15 @@
     "schema.json"
   ],
   "type": "module",
+  "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "tsdown",

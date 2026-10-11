@@ -1,6 +1,26 @@
 {
   "name": "@vueform/core",
   "version": "2.0.0-alpha.1",
+  "description": "Headless, schema-driven form framework core for Vue 3 — elements, validation, conditions and form state.",
+  "keywords": [
+    "form",
+    "forms",
+    "headless",
+    "schema",
+    "validation",
+    "vue",
+    "vue3",
+    "vueform"
+  ],
+  "homepage": "https://github.com/vueform/core",
+  "bugs": "https://github.com/vueform/core/issues",
+  "license": "MIT",
+  "author": "Adam Berecz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueform/core.git",
+    "directory": "packages/core"
+  },
   "files": [
     "dist"
   ],
@@ -92,6 +112,9 @@
       "types": "./dist/tokens/index.d.ts",
       "import": "./dist/tokens/index.mjs"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "scripts": {
     "build": "rm -rf dist && vue-tsc -p tsconfig.build.json && tsdown && tsdown -c tsdown.vapor.config.ts",
