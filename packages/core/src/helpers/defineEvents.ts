@@ -41,14 +41,13 @@ export type EventListener<TEvents extends Record<string, any[]>> =
 export type FeatureFire<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
     {
-      [K in keyof TEvents & string]:
-        /**
-         * Fires the event with its typed arguments.
-         *
-         * @param e The event name.
-         * @param args The event arguments forwarded to each callback.
-         */
-        (e: K, ...args: TEvents[K]) => any
+      [K in keyof TEvents & string]: /**
+       * Fires the event with its typed arguments.
+       *
+       * @param e The event name.
+       * @param args The event arguments forwarded to each callback.
+       */
+      (e: K, ...args: TEvents[K]) => any
     }[keyof TEvents & string]
   > &
     ((e: keyof TEvents & string, ...args: any[]) => any)
@@ -62,17 +61,13 @@ export type FeatureFire<TEvents extends Record<string, any[]>> =
 export type FeatureListener<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
     {
-      [K in keyof TEvents & string]:
-        /**
-         * Registers or removes a callback for the event.
-         *
-         * @param e The event name.
-         * @param callback The handler to register or remove.
-         */
-        (
-          e: K,
-          callback: (...args: TEvents[K]) => any
-        ) => void
+      [K in keyof TEvents & string]: /**
+       * Registers or removes a callback for the event.
+       *
+       * @param e The event name.
+       * @param callback The handler to register or remove.
+       */
+      (e: K, callback: (...args: TEvents[K]) => any) => void
     }[keyof TEvents & string]
   > &
     ((e: keyof TEvents & string, callback: (...args: any[]) => any) => void)

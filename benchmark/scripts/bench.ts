@@ -178,8 +178,7 @@ class BenchProgress {
     const row = this.byId.get(id)
     if (!row) return
     row.status = ok ? 'pass' : 'fail'
-    row.detail =
-      detail ?? (ok ? `done in ${this.elapsed(row)}` : 'failed')
+    row.detail = detail ?? (ok ? `done in ${this.elapsed(row)}` : 'failed')
     if (isTTY) this.repaint()
     else if (!ok) console.log(`[bench] ${row.label}: ${row.detail}`)
   }
