@@ -57,7 +57,7 @@ const SHARED_COMPONENTS = new Set<string>(DOCS_CONFIG.coreComponents)
 
 function loadJSON(name: string): any {
   // Scraped structural jsons live at the monorepo root, docs-own ones
-  // (types.json, keywords.json) under docs/.generated; both use core/ for
+  // (types.json, keywords.json) under .vueform/docs; both use core/ for
   // the shared data and one folder per adapter.
   const scrapedPath = path.join(SCRAPED_DIR, 'core', name)
   if (fs.existsSync(scrapedPath)) {

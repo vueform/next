@@ -107,9 +107,11 @@ function buildPackageJson(
     Object.assign(deps, assets.meta.vaporDeps)
     deps.vue = vaporVueVersion(repoRoot)
     pkg.scripts['dev:dist'] = 'DIST=1 vite'
-    // Standalone installs run their own build scripts.
-    pkg.pnpm = { onlyBuiltDependencies: ['esbuild'] }
   }
+
+  // Playgrounds install standalone (--ignore-workspace), so the root's
+  // build-script approvals don't apply; approve their own here.
+  pkg.pnpm = { onlyBuiltDependencies: ['esbuild'] }
 
   pkg.dependencies = sortObject(deps)
   return JSON.stringify(pkg, null, 2) + '\n'
@@ -213,6 +215,15 @@ function buildViteConfigTs(combo: Combo, assets: AdapterAssets): string {
       `    dedupe: ['vue'],`,
       `  },`
     )
+  } else {
+    lines.push(
+      `  resolve: {`,
+      `    // The playground installs standalone with its own physical vue copy,`,
+      `    // while served package sources resolve the workspace root's — dedupe`,
+      `    // forces every \`vue\` import to this playground's copy.`,
+      `    dedupe: ['vue'],`,
+      `  },`
+    )
   }
 
   lines.push(`})`, ``)
@@ -240,6 +251,11 @@ function buildNuxtConfigTs(combo: Combo): string {
     `  },`,
     `  vite: {`,
     `    plugins: [dev('${combo.adapter}')],`,
+    `    resolve: {`,
+    `      // Standalone install: dedupe forces served package sources onto`,
+    `      // this playground's own physical vue copy.`,
+    `      dedupe: ['vue'],`,
+    `    },`,
     `  },`,
     `})`,
     ``,

@@ -267,6 +267,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 | Name | Description |
 | --- | --- |
+| [`isStatic`](!code#context.isStatic "true") | Whether the element is a static (non-data) element. |
 | [`description`](!code#context.description "string \| (string & {}) \| undefined") | The resolved description text for the element. |
 | [`descriptionId`](!code#context.descriptionId "string") | The DOM id for the element's description text region. |
 | [`content`](!code#context.content "UnwrapDynamicProp<LooseRequired<TProps>[\"content\"]> \| undefined") | The resolved text content for the element — sanitized in the resolution pipeline after localization and expressions, and only when the resolved string actually contains markup, so plain text never enters the engine. |

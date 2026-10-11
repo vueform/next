@@ -3,6 +3,7 @@
     "VoidZero.vite-plus-extension-pack",
     "dbaeumer.vscode-eslint",
     "stylelint.vscode-stylelint",
-    "Vue.volar"
+    "Vue.volar",
+    "emeraldwalk.RunOnSave"
   ]
 }

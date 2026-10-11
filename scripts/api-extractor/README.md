@@ -98,5 +98,5 @@ validation flow and returns with the extractor rework.
 
 The docs (`docs/scripts/generators`) consume these jsons and keep their own
 docs-specific generators (`keywords`, `types`), which write the same
-`core/` / `ui/` / `primevue/` folder layout to `docs/.generated`
+`core/` / `ui/` / `primevue/` folder layout to `.vueform/docs`
 (git-ignored as well).

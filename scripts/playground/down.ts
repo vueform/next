@@ -6,7 +6,7 @@ ensureUtilsDist()
 // the warm-up above — dynamically, inside an async main (this file is
 // CJS-compiled; top-level await is not available without type: module).
 async function main(): Promise<void> {
-  const { down, existingCombos, parseArgs, repoRoot, resolveCombos, run } =
+  const { down, existingCombos, parseArgs, resolveCombos } =
     await import('./lib')
 
   const tag = 'pg:down'
@@ -24,24 +24,13 @@ async function main(): Promise<void> {
   }
 
   let removed = 0
-  let workspaceRemoved = false
 
   for (const combo of combos) {
-    if (down(tag, combo)) {
-      removed++
-      if (!combo.standalone) workspaceRemoved = true
-    }
+    if (down(tag, combo)) removed++
   }
 
   if (!removed) {
     console.log(`[${tag}] Nothing was removed.`)
-  }
-
-  // Workspace playgrounds are importers in the root lockfile; re-sync it so
-  // their entries don't linger after removal.
-  if (workspaceRemoved) {
-    console.log(`[${tag}] Syncing root lockfile...`)
-    run('pnpm', ['install'], repoRoot)
   }
 }
 

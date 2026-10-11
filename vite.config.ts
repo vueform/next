@@ -103,7 +103,7 @@ const checkedPackages = [...packageManifests].flatMap(([dir, pkg]) =>
 
 /**
  * Core, the adapters and the plugins check in the src world (the
- * `vueform-source` exports condition, enabled by the @vueform/tsconfig
+ * `dev` exports condition, enabled by the @vueform/tsconfig
  * presets), so their legs resolve workspace deps to SOURCE; the node
  * packages resolve deps through the workspace links to their BUILT dists.
  * The cache inputs mirror that split — narrowed to the leg's transitive
@@ -416,6 +416,32 @@ export default defineConfig({
           output: [],
         },
       },
+      ':manifests': {
+        command: 'tsx scripts/manifests.ts',
+        cache: {
+          input: [
+            'package.json',
+            'packages/*/package.json',
+            'docs/package.json',
+            'benchmark/package.json',
+            'scripts/manifests.ts',
+          ],
+          output: [],
+        },
+      },
+      ':manifests:check': {
+        command: 'tsx scripts/manifests.ts --check',
+        cache: {
+          input: [
+            'package.json',
+            'packages/*/package.json',
+            'docs/package.json',
+            'benchmark/package.json',
+            'scripts/manifests.ts',
+          ],
+          output: [],
+        },
+      },
       ':typecheck': {
         command: "node -e ''",
         dependsOn: [
@@ -481,7 +507,7 @@ export default defineConfig({
       },
       ':check': {
         command: 'vp fmt --check',
-        dependsOn: [':lint', ':typecheck'],
+        dependsOn: [':lint', ':typecheck', ':manifests:check'],
       },
       ':quick': {
         command: "node -e ''",
@@ -491,7 +517,7 @@ export default defineConfig({
       },
       ':fix': {
         command:
-          'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt',
+          'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt && tsx scripts/manifests.ts',
       },
       ':test': {
         command: 'tsx scripts/test.ts',

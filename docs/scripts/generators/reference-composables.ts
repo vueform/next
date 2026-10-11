@@ -8,7 +8,7 @@ import { requireData, SCRAPE_HINT } from './ensureData'
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
-const GENERATED_DIR = path.join(DOCS_ROOT, '.generated')
+const GENERATED_DIR = path.join(DOCS_ROOT, '..', '.vueform', 'docs')
 const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
 
 requireData(
@@ -104,7 +104,7 @@ function replaceRegion(content: string, name: string, value: string): string {
 
 function loadJSON<T>(name: string): Record<string, T> {
   // Scraped structural jsons live at the monorepo root, docs-own ones
-  // (types.json, keywords.json) under docs/.generated; both use core/ for
+  // (types.json, keywords.json) under .vueform/docs; both use core/ for
   // the shared data and one folder per adapter.
   const scrapedPath = path.join(SCRAPED_DIR, 'core', name)
   const filePath = fs.existsSync(scrapedPath)

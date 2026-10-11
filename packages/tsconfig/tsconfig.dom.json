@@ -1,5 +1,5 @@
 {
-  // The src world: DOM env + the `vueform-source` exports condition, so
+  // The src world: DOM env + the `dev` exports condition, so
   // `@vueform/*` imports resolve through the packages' exports maps to
   // SOURCE (edit core, every dependent sees it, no rebuild). Dist
   // resolution belongs to the builds (tsconfig.build.json clears the
@@ -15,6 +15,6 @@
     // node types (NOT vitest/globals — that is test.json's): src code
     // legitimately touches process.env for environment detection.
     "types": ["node"],
-    "customConditions": ["vueform-source"]
+    "customConditions": ["dev"]
   }
 }

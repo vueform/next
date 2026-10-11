@@ -10,7 +10,7 @@ import * as ts from 'typescript'
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
-const GENERATED_DIR = path.join(DOCS_ROOT, '.generated')
+const GENERATED_DIR = path.join(ROOT, '.vueform', 'docs')
 
 interface AdapterDef {
   path: string

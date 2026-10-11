@@ -6,7 +6,7 @@ Official `expr-eval` plugin for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-09T08:34:46.559Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
+Generated at 2026-10-11T15:27:36.239Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
 
 Measured with:
 
@@ -37,7 +37,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.22&nbsp;kB | 6.59&nbsp;kB | 8.81&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
+| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.22&nbsp;kB | 6.60&nbsp;kB | 8.82&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
 
 </details>
 

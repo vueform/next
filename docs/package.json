@@ -2,11 +2,11 @@
   "name": "@vueform/docs",
   "scripts": {
     "build": "tsx scripts/run.ts build",
-    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "dev": "tsx scripts/run.ts dev",
     "gen": "tsx scripts/gen.ts",
     "pre": "tsx scripts/run.ts pre",
-    "preview": "tsx scripts/run.ts preview"
+    "preview": "tsx scripts/run.ts preview",
+    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {
     "@primeuix/themes": "catalog:",

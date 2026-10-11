@@ -1,22 +1,23 @@
 {
   "private": true,
   "scripts": {
+    "api": "tsx scripts/api.ts",
+    "api:missing": "tsx scripts/api-missing.ts",
+    "bench": "pnpm --filter @vueform/benchmark run bench",
+    "bench:charts": "pnpm --filter @vueform/benchmark run charts",
     "build": "vpr :build",
     "check": "vpr :check",
     "clean": "tsx scripts/clean.ts",
-    "docs:dev": "pnpm --filter @vueform/docs run dev",
+    "dev": "pnpm pg",
     "docs:build": "pnpm --filter @vueform/docs run build",
+    "docs:dev": "pnpm --filter @vueform/docs run dev",
     "docs:gen": "pnpm --filter @vueform/docs run gen",
     "docs:pre": "pnpm --filter @vueform/docs run pre",
     "docs:preview": "pnpm --filter @vueform/docs run preview",
-    "api": "tsx scripts/api.ts",
-    "bench": "pnpm --filter @vueform/benchmark run bench",
-    "bench:charts": "pnpm --filter @vueform/benchmark run charts",
-    "api:missing": "tsx scripts/api-missing.ts",
     "fix": "vpr :fix",
-    "fmt": "vp fmt",
+    "fmt": "vp fmt && pnpm manifests",
     "lint": "vpr :lint",
-    "quick": "vpr :quick",
+    "manifests": "vpr :manifests",
     "pack": "vpr :pack",
     "pg": "tsx scripts/playground/dev.ts",
     "pg:build": "tsx scripts/playground/build.ts",
@@ -25,6 +26,7 @@
     "pg:preview": "tsx scripts/playground/preview.ts",
     "pg:re": "tsx scripts/playground/re.ts",
     "pg:up": "tsx scripts/playground/up.ts",
+    "quick": "vpr :quick",
     "registry": "vpr :registry",
     "size": "vpr :size",
     "size:report": "vpr :size:report",
@@ -85,7 +87,8 @@
       "pnpm vp fmt"
     ],
     "*.{json,yml,yaml}": [
-      "pnpm vp fmt"
+      "pnpm vp fmt",
+      "pnpm manifests"
     ]
   },
   "engines": {

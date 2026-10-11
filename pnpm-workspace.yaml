@@ -1,7 +1,5 @@
 packages:
   - packages/*
-  - .playgrounds/*
-  - '!.playgrounds/*-vapor'
   - benchmark
   - '!benchmark/app'
   - docs

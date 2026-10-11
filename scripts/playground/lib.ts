@@ -18,10 +18,13 @@
  * real dependency versions), then rewired to the monorepo (workspace/link deps,
  * exports-derived tsconfig source paths).
  *
- * Vite/Nuxt playgrounds are pnpm workspace members (`.playgrounds/*`); vapor
- * playgrounds are standalone (excluded via `!.playgrounds/*-vapor`) because
- * they pin their own Vue 3.6 (Vapor) build, and are installed with `pnpm
- * install --ignore-workspace` inside their directory.
+ * Every playground is standalone: installed with `pnpm install
+ * --ignore-workspace` inside its directory, with its own lockfile and
+ * node_modules living under the gitignored `.playgrounds/`. Playgrounds are
+ * deliberately NOT pnpm workspace members — a workspace playground becomes an
+ * importer in the committed root lockfile, which breaks
+ * `pnpm install --frozen-lockfile` on clones (where `.playgrounds` doesn't
+ * exist) and dirties the lockfile whenever a playground is up.
  */
 import { spawnSync } from 'node:child_process'
 import fs from 'node:fs'
@@ -67,10 +70,6 @@ export interface Combo {
    * Instance/directory name under .playgrounds.
    */
   name: string
-  /**
-   * Own lockfile + node_modules, outside the pnpm workspace.
-   */
-  standalone: boolean
   templateDir: string
   dir: string
 }
@@ -134,7 +133,6 @@ export function comboFor(adapter: string, mode: Mode): Combo {
     adapter,
     mode,
     name,
-    standalone: mode === 'vapor',
     templateDir: path.join(templatesDir, engine),
     dir: path.join(outputDir, name),
   }
@@ -289,9 +287,9 @@ function workspacePackageDirs(): Map<string, string> {
 
 /**
  * Templates ship standalone-installable (real versions, no mappings); the copy
- * is rewired to the monorepo: deps on workspace packages become `workspace:*`
- * links (or `link:` for standalone playgrounds, which install with their own
- * lockfile outside the workspace).
+ * is rewired to the monorepo: deps on workspace packages become `link:`
+ * entries, since playgrounds install with their own lockfile outside the
+ * workspace.
  */
 function patchPackageManifest(combo: Combo) {
   const pkgPath = path.join(combo.dir, 'package.json')
@@ -306,9 +304,7 @@ function patchPackageManifest(combo: Combo) {
     for (const name of Object.keys(pkg[field] ?? {})) {
       const dir = workspace.get(name)
       if (!dir) continue
-      pkg[field][name] = combo.standalone
-        ? `link:../../packages/${dir}`
-        : 'workspace:*'
+      pkg[field][name] = `link:../../packages/${dir}`
     }
   }
 
@@ -318,7 +314,7 @@ function patchPackageManifest(combo: Combo) {
 /**
  * Applies the monorepo type-check adjustments to the copied playground's
  * tsconfig. Source resolution itself needs no patching: the template extends
- * `@vueform/tsconfig/tsconfig.dom.json`, whose `vueform-source` exports
+ * `@vueform/tsconfig/tsconfig.dom.json`, whose `dev` exports
  * condition resolves `@vueform/*` to `packages/*\/src` (the build config
  * clears the condition and checks against installed packages).
  */
@@ -417,12 +413,13 @@ function patchTsconfig(combo: Combo) {
   // template poses as a real consumer), and @vueform/utils' declarations
   // type against the root's copy — vite's class types carry private
   // members, so two declaration copies are never mutually assignable. Pin
-  // `vite` to the playground's copy everywhere; standalone playgrounds
-  // (own lockfile, own physical vue) additionally pin `vue` (the tsconfig
-  // twin of the vite config's `dedupe: ['vue']`).
+  // `vite` to the playground's copy everywhere, and `vue` too: the
+  // playground has its own lockfile and physical vue copy, so without the
+  // pin the packages' sources and the playground resolve different copies
+  // (the tsconfig twin of the vite config's `dedupe: ['vue']`).
   co.paths = {
     vite: ['./node_modules/vite'],
-    ...(combo.standalone ? { vue: ['./node_modules/vue'] } : {}),
+    vue: ['./node_modules/vue'],
     ...co.paths,
   }
   // Package sources are pulled into the project through the source
@@ -433,23 +430,21 @@ function patchTsconfig(combo: Combo) {
   writeTsconfig(tsconfigPath, tsconfig)
 
   // `tsconfig.build.json` resets `paths` to `{}` so the build type-checks
-  // against installed packages, but a standalone playground's vite/vue pin
-  // must survive: without it the dist `.d.ts` files resolve the workspace
-  // root's vue while playground sources resolve the playground's own, and the
-  // dists' `declare module 'vue'` augmentations (global components, the
-  // `App.use` workaround) land on the wrong copy.
-  if (combo.standalone) {
-    const buildTsconfigPath = path.join(combo.dir, 'tsconfig.build.json')
-    if (exists(buildTsconfigPath)) {
-      const buildTsconfig = readJsonc(buildTsconfigPath)
-      const buildCo = (buildTsconfig.compilerOptions ??= {})
-      buildCo.paths = {
-        vite: ['./node_modules/vite'],
-        vue: ['./node_modules/vue'],
-        ...buildCo.paths,
-      }
-      writeTsconfig(buildTsconfigPath, buildTsconfig)
+  // against installed packages, but the vite/vue pin must survive: without it
+  // the dist `.d.ts` files resolve the workspace root's vue while playground
+  // sources resolve the playground's own, and the dists' `declare module
+  // 'vue'` augmentations (global components, the `App.use` workaround) land
+  // on the wrong copy.
+  const buildTsconfigPath = path.join(combo.dir, 'tsconfig.build.json')
+  if (exists(buildTsconfigPath)) {
+    const buildTsconfig = readJsonc(buildTsconfigPath)
+    const buildCo = (buildTsconfig.compilerOptions ??= {})
+    buildCo.paths = {
+      vite: ['./node_modules/vite'],
+      vue: ['./node_modules/vue'],
+      ...buildCo.paths,
     }
+    writeTsconfig(buildTsconfigPath, buildTsconfig)
   }
 
   patchRootTsconfig(combo, tsconfig.include)
@@ -471,12 +466,17 @@ function patchNuxtTsconfig(combo: Combo) {
   const co = (tsconfig.compilerOptions ??= {})
   // Source resolution via the exports condition (as in the vite template's
   // preset) — Nuxt generates its own tsconfig, so it is set here instead.
-  co.customConditions = ['vueform-source']
+  co.customConditions = ['dev']
   co.paths = {
     // The ambient `declare module '#shorthands'` marker — mapped instead of
     // included, since overriding `include` would replace Nuxt's generated
     // one wholesale.
     '#shorthands': ['../../packages/global.d.ts'],
+    // Same single-copy pins as the vite template (see patchTsconfig): the
+    // playground owns a physical vite/vue, the package sources sit next to
+    // the workspace root's.
+    vite: ['./node_modules/vite'],
+    vue: ['./node_modules/vue'],
     ...co.paths,
   }
 
@@ -508,9 +508,9 @@ function patchRootTsconfig(combo: Combo, appInclude: string[]) {
 /**
  * Pins `vite` (and through it, rollup) to the playground's own copy for the
  * config-file project. `@vueform/utils`'s declarations otherwise type against
- * the workspace root's vite install; standalone playgrounds have their own
- * physical copy, and vite's classes carry private members, so two declaration
- * copies are never mutually assignable no matter the version.
+ * the workspace root's vite install; playgrounds have their own physical
+ * copy, and vite's classes carry private members, so two declaration copies
+ * are never mutually assignable no matter the version.
  */
 function patchNodeTsconfig(combo: Combo) {
   const tsconfigPath = path.join(combo.dir, 'tsconfig.node.json')
@@ -525,12 +525,7 @@ function patchNodeTsconfig(combo: Combo) {
 
 export function install(tag: string, combo: Combo) {
   console.log(`[${tag}] Installing deps for "${combo.name}"...`)
-
-  if (combo.standalone) {
-    run('pnpm', ['install', '--ignore-workspace'], combo.dir)
-  } else {
-    run('pnpm', ['install'], repoRoot)
-  }
+  run('pnpm', ['install', '--ignore-workspace'], combo.dir)
 }
 
 export interface UpOptions {
@@ -585,12 +580,9 @@ export function ensureReady(tag: string, combo: Combo) {
   if (!exists(combo.dir)) {
     console.log(`[${tag}] Playground "${combo.name}" not found, creating...`)
     up(tag, combo)
-  } else if (
-    combo.standalone &&
-    !exists(path.join(combo.dir, 'node_modules'))
-  ) {
-    // Standalone playgrounds have their own lockfile/node_modules; root
-    // installs don't cover them, so restore deps here when missing.
+  } else if (!exists(path.join(combo.dir, 'node_modules'))) {
+    // Playgrounds have their own lockfile/node_modules; root installs don't
+    // cover them, so restore deps here when missing.
     install(tag, combo)
   }
 }

@@ -802,6 +802,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 | Name | Description |
 | --- | --- |
+| [`isStatic`](!code#context.isStatic "true") | Whether the element is a static (non-data) element. |
 | [`description`](!code#context.description "string \| (string & {}) \| undefined") | The resolved description text for the element. |
 | [`descriptionId`](!code#context.descriptionId "string") | The DOM id for the element's description text region. |
 | [`icon`](!code#context.icon "string \| undefined") | The resolved icon CSS class string. `$`-prefixed names are mapped through the config-level semantic `icons` map. |

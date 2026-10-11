@@ -1,6 +1,6 @@
 {
   // The src-world preset: `@vueform/*` resolves through the exports maps'
-  // `vueform-source` condition straight to packages/*/src — live testing
+  // `dev` condition straight to packages/*/src — live testing
   // against sources, no rebuilds, no generated path mappings.
   "extends": "@vueform/tsconfig/tsconfig.dom.json",
   "compilerOptions": {

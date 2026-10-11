@@ -55,5 +55,18 @@
 
   "oxc.disableNestedConfig": true,
   "oxc.fmt.disableNestedConfig": true,
-  "editor.formatOnSaveMode": "file"
+  "editor.formatOnSaveMode": "file",
+
+  // Keep manifests normalized on save (sorted scripts, publishConfig.exports
+  // sync — see scripts/manifests.ts). Needs the emeraldwalk.runonsave
+  // extension; the script is idempotent, so the re-save it triggers is a
+  // no-op and the buffer just reloads.
+  "emeraldwalk.runonsave": {
+    "commands": [
+      {
+        "match": "(^|[/\\\\])package\\.json$",
+        "cmd": "pnpm -C \"${workspaceFolder}\" manifests"
+      }
+    ]
+  }
 }

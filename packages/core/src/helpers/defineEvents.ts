@@ -32,6 +32,15 @@ export type EventListener<TEvents extends Record<string, any[]>> =
     callback: (...args: TEvents[E]) => any
   ) => void
 
+type FireSignature<K extends string, TArgs extends any[]> =
+  /**
+   * Fires the event with its typed arguments.
+   *
+   * @param e The event name.
+   * @param args The event arguments forwarded to each callback.
+   */
+  (e: K, ...args: TArgs) => any
+
 /**
  * Builds a `fire` signature from an event-name-to-argument-tuple map. Combines
  * per-event overloads (for typed arguments and autocomplete) with a union-name
@@ -41,16 +50,19 @@ export type EventListener<TEvents extends Record<string, any[]>> =
 export type FeatureFire<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
     {
-      [K in keyof TEvents & string]: /**
-       * Fires the event with its typed arguments.
-       *
-       * @param e The event name.
-       * @param args The event arguments forwarded to each callback.
-       */
-      (e: K, ...args: TEvents[K]) => any
+      [K in keyof TEvents & string]: FireSignature<K, TEvents[K]>
     }[keyof TEvents & string]
   > &
     ((e: keyof TEvents & string, ...args: any[]) => any)
+
+type ListenerSignature<K extends string, TArgs extends any[]> =
+  /**
+   * Registers or removes a callback for the event.
+   *
+   * @param e The event name.
+   * @param callback The handler to register or remove.
+   */
+  (e: K, callback: (...args: TArgs) => any) => void
 
 /**
  * Builds a listener registration signature (`on`, `off`, `onBefore`, `onAfter`)
@@ -61,13 +73,7 @@ export type FeatureFire<TEvents extends Record<string, any[]>> =
 export type FeatureListener<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
     {
-      [K in keyof TEvents & string]: /**
-       * Registers or removes a callback for the event.
-       *
-       * @param e The event name.
-       * @param callback The handler to register or remove.
-       */
-      (e: K, callback: (...args: TEvents[K]) => any) => void
+      [K in keyof TEvents & string]: ListenerSignature<K, TEvents[K]>
     }[keyof TEvents & string]
   > &
     ((e: keyof TEvents & string, callback: (...args: any[]) => any) => void)

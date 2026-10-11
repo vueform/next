@@ -35,20 +35,26 @@
   },
   "exports": {
     ".": {
-      "vueform-source": "./src/index.ts",
+      "dev": "./src/index.ts",
       "types": "./dist/index.d.ts",
       "import": "./dist/index.mjs"
     }
   },
   "publishConfig": {
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "import": "./dist/index.mjs"
+      }
+    },
     "access": "public"
   },
   "scripts": {
     "build": "tsdown",
     "publint": "publint",
-    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit",
     "size": "vf-size",
-    "size:report": "vf-size --report"
+    "size:report": "vf-size --report",
+    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {
     "expr-eval-fork": "catalog:"

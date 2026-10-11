@@ -108,7 +108,7 @@ export function createPluginTsdownConfig(
     },
     // `tsconfig.app.json` explicitly: the package's default tsconfig.json is
     // a solution file (files: [] + references) the dts plugin cannot use.
-    // Clearing `customConditions` drops the `vueform-source` src resolution
+    // Clearing `customConditions` drops the `dev` src resolution
     // (see factory docblock): `@vueform/core` resolves to BUILT dist types.
     dts: {
       tsconfig: 'tsconfig.app.json',
