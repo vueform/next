@@ -3,7 +3,7 @@ import { basename, join, resolve } from 'node:path'
 
 import type { Plugin, UserConfig } from 'vite'
 
-import { SRC_ALIAS } from './shared'
+import { legalBanner, SRC_ALIAS } from './shared'
 
 /**
  * Options for the `adapter` config factory.
@@ -158,6 +158,9 @@ export function cdnBuild(
               treeshake: false,
               output: {
                 globals: { vue: 'Vue' },
+                // The `/*!` banner survives the terser pass (legal comments),
+                // and CDN bundles travel furthest from the package tarball.
+                banner: legalBanner(options.name, root),
                 // No `inlineDynamicImports`: Rolldown's iife output disables
                 // code splitting already and warns that the option is ignored.
                 assetFileNames: `${label}.[ext]`,

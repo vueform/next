@@ -708,3 +708,30 @@ export function componentNames(componentsDistAbs: string): Plugin {
     },
   }
 }
+
+/**
+ * The `/*!`-marked legal banner for a package's primary dist artifacts, with
+ * the version read from the package's manifest at build time. The `/*!` and
+ * `@license` markers make consumers' minifiers (terser, esbuild, swc) preserve
+ * it, so attribution survives into application bundles.
+ */
+export function legalBanner(name: string, root: string): string {
+  const { version } = JSON.parse(
+    readFileSync(join(root, 'package.json'), 'utf8')
+  ) as { version: string }
+  return `/*!\n * ${name} v${version}\n * (c) 2020-present Adam Berecz\n * @license MIT\n */\n`
+}
+
+/**
+ * {@link legalBanner} as a rolldown `output.banner` function applied to the
+ * root `index` chunk ONLY: the dists are unbundled file-per-module trees, and
+ * a preserved legal comment on every module would be duplicated hundreds of
+ * times into consumers' bundles — the primary entry alone carries it.
+ */
+export function indexBanner(
+  name: string,
+  root: string
+): (chunk: { name: string }) => string {
+  const banner = legalBanner(name, root)
+  return (chunk) => (chunk.name === 'index' ? banner : '')
+}

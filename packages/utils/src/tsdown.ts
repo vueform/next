@@ -18,6 +18,7 @@ import { dtsEsmExtensionFix } from './dtsEsm'
 import {
   componentNames,
   escapeRegExp,
+  indexBanner,
   mirrorEntries,
   namespaceExports,
   pruneModules,
@@ -114,6 +115,9 @@ export function createPluginTsdownConfig(
       compilerOptions: {
         customConditions: [],
       },
+    },
+    outputOptions: {
+      banner: indexBanner(options.name, process.cwd()),
     },
     // The marker/prune plugins are not strictly needed for single-entry
     // plugins; they run here to prove the Rollup-hook ports (virtual module
@@ -283,6 +287,9 @@ export async function createCoreTsdownConfig(
     // the script starts with its own `rm -rf dist`.
     dts: false,
     clean: false,
+    outputOptions: {
+      banner: indexBanner(options.name, root),
+    },
     plugins: [
       pruneModules(),
       namespaceExports(),
@@ -449,6 +456,9 @@ export async function createAdapterTsdownConfig(
     },
     deps: { neverBundle: adapterTsdownExternal(options) },
     treeshake: { moduleSideEffects: CSS_SIDE_EFFECT_RULES },
+    outputOptions: {
+      banner: indexBanner(options.name, root),
+    },
     plugins: [
       pruneModules(),
       namespaceExports(),

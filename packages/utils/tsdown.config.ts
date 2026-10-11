@@ -1,4 +1,10 @@
+import { readFileSync } from 'node:fs'
+
 import { defineConfig } from 'tsdown'
+
+// Inline twin of shared.ts' indexBanner — see the self-contained note below.
+const { name, version } = JSON.parse(readFileSync('./package.json', 'utf8'))
+const banner = `/*!\n * ${name} v${version}\n * (c) 2020-present Adam Berecz\n * @license MIT\n */\n`
 
 /**
  * utils builds itself with tsdown (CJS, 1:1 src mirror — the layout the
@@ -16,4 +22,7 @@ export default defineConfig({
   target: false,
   outExtensions: () => ({ js: '.js', dts: '.d.ts' }),
   deps: { neverBundle: true },
+  outputOptions: {
+    banner: (chunk: { name: string }) => (chunk.name === 'index' ? banner : ''),
+  },
 })

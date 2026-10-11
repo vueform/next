@@ -1,4 +1,11 @@
+import { readFileSync } from 'node:fs'
+
 import { defineConfig } from 'tsdown'
+
+// Inline twin of @vueform/utils' legalBanner — self-contained like the utils
+// config: a single bundled output, so a plain string banner suffices.
+const { name, version } = JSON.parse(readFileSync('./package.json', 'utf8'))
+const banner = `/*!\n * ${name} v${version}\n * (c) 2020-present Adam Berecz\n * @license MIT\n */\n`
 
 /**
  * cli builds itself with tsdown (bundled ESM + d.ts): bundling inlines
@@ -17,4 +24,5 @@ export default defineConfig({
   tsconfig: 'tsconfig.app.json',
   dts: true,
   outExtensions: () => ({ js: '.js', dts: '.d.ts' }),
+  outputOptions: { banner },
 })
