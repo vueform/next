@@ -30,6 +30,7 @@
     "pg:re": "tsx scripts/playground/re.ts",
     "pg:up": "tsx scripts/playground/up.ts",
     "quick": "vpr :quick",
+    "re": "pnpm clean && pnpm install",
     "registry": "tsx scripts/registry.ts",
     "release": "tsx scripts/release.ts",
     "size": "tsx scripts/size.ts",

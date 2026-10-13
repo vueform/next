@@ -243,8 +243,16 @@ export async function runGui(opts: GuiOptions): Promise<boolean> {
   }
   process.on('exit', restoreCursor)
 
-  const isCached = (output: string) =>
-    /cache hit/.test(output) && !/cache miss/.test(output)
+  // vp prints one summary per invocation: `vp run: cache hit, …` for a fully
+  // replayed single task, `vp run: N/M cache hit (P%)` when the graph had
+  // several tasks. A row is cached only when nothing in it was rebuilt — a
+  // partial hit means the row's own task ran fresh while a dependency
+  // replayed, and per-task `◉ cache hit, replaying` lines must not count.
+  const isCached = (output: string) => {
+    if (/vp run: cache hit,/.test(output)) return true
+    const hits = /vp run: (\d+)\/(\d+) cache hit/.exec(output)
+    return hits !== null && hits[1] === hits[2]
+  }
 
   const finishRow = (row: GuiRow, code: number) => {
     const state = states.get(row.name)!
