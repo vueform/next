@@ -10,7 +10,7 @@
       "path": "VfForm.vue",
       "target": "{componentsDir}/VfForm.vue",
       "kind": "component",
-      "hash": "sha256:27753253e84bcd6936f4ca3a6e35590a03d5a459aa2cdc1099bb3b973d1b31a5"
+      "hash": "sha256:102f9970cc8fa061354c343a8974f12f72e8dc6128333e2487dea31e132f303c"
     },
     {
       "path": "FormNav.vue",

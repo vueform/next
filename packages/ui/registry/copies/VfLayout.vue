@@ -4,11 +4,12 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import VfPassthrough, {
+import {
   useBlueprint,
   useLayoutClasses,
   useLocale,
   defineEvents,
+  VfPassthrough,
   type HeadingProp,
   type UnknownElementParts,
   mergeClass,
@@ -29,11 +30,6 @@ import '@vueform/ui/animation.css'
 import '@vueform/ui/utils.css'
 import '@vueform/ui/hr.css'
 import '@vueform/ui/blockquote.css'
-
-// Imported by direct SFC path, not via a barrel: the vapor build externalizes
-// .ts modules to the main (vdom) dist and only vapor-compiles .vue files it
-// resolves directly — a barrel import would smuggle in the vdom-compiled
-// VfPassthrough, which renders nothing inside a vapor tree.
 
 defineOptions({
   name: 'VfLayout',

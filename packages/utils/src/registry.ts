@@ -180,7 +180,7 @@ function rewriteSpecifier(
       return `${target.package}/components/${componentTypes[1]}`
     }
     if (
-      /^(composables|helpers|types|features|utils|contexts|directives)(\/.+)?$/.test(
+      /^(composables|helpers|tools|types|features|utils|contexts|directives)(\/.+)?$/.test(
         sub
       )
     ) {
@@ -190,6 +190,11 @@ function rewriteSpecifier(
   // Adapters re-export core's root API; user projects only depend on the
   // adapter, so bare core imports rewrite to it.
   if (spec === '@vueform/core' && target.package !== '@vueform/core') {
+    return target.package
+  }
+  // Same for the tools barrel (its named exports, VfPassthrough included,
+  // are part of core's root API that adapters re-export).
+  if (spec === '@vueform/core/tools' && target.package !== '@vueform/core') {
     return target.package
   }
   if (/^(~\/|@\/|#|\.)/.test(spec)) {

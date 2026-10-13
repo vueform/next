@@ -44,7 +44,19 @@
     ".": {
       "dev": "./src/index.ts",
       "types": "./dist/index.d.ts",
+      "vapor": "./dist/vapor/index.mjs",
       "import": "./dist/index.mjs"
+    },
+    "./tools": {
+      "dev": "./src/tools/index.ts",
+      "types": "./dist/tools/index.d.ts",
+      "vapor": "./dist/vapor/tools/index.mjs",
+      "import": "./dist/tools/index.mjs"
+    },
+    "./vapor/tools": {
+      "dev": "./src/tools/index.ts",
+      "types": "./dist/tools/index.d.ts",
+      "import": "./dist/vapor/tools/index.mjs"
     },
     "./*.css": {
       "node": "./dist/css/*.css.mjs",

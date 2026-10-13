@@ -9,8 +9,8 @@ import {
   mergeClass,
   useBlueprint,
   useLayoutClasses,
-  VfPassthrough,
   type HeadingProp,
+  VfPassthrough,
   vTooltip,
   vdomPrime,
 } from '@vueform/primevue'

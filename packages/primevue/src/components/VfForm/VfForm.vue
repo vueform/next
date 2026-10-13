@@ -7,10 +7,10 @@ import {
   useConfig,
   useBlueprint,
   defineEvents,
-  VfPassthrough,
   type FormSchema,
   type ResolvedPage,
 } from '@vueform/core'
+import { VfPassthrough } from '@vueform/core/tools'
 import PrimeStepItem from 'primevue/stepitem'
 import PrimeStepList from 'primevue/steplist'
 import PrimeStepPanel from 'primevue/steppanel'

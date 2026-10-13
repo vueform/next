@@ -68,10 +68,6 @@ one case can be refreshed without rerunning the suite.
 modeled on published numbers) for exercising the chart generator and the
 docs pipeline without a multi-minute sweep. Never run it over real results.
 
-## Vapor note
-
-`app/vite.config.ts` carries a temporary shim (`bench:vapor-passthrough-shim`): the packaged vapor dist rebuilds `src/components` only, so `helpers/VfPassthrough.vue` ships vdom-compiled and vapor element trees fail to render without it. The shim substitutes a vapor-compiled copy of the same trivial component — exactly what a fixed dist would contain. Drop it (and `app/src/shims/`) once the vapor dist ships its own VfPassthrough.
-
 ## Internal regression benches
 
 Separate from this suite: `packages/core/tests/bench/*.bench.ts` are plain [Vitest bench](https://vitest.dev/guide/features.html#benchmarking) files over core's hot paths (mount, model writes, conditions, expressions, validation, pure utils) in happy-dom — seconds to run, local-only, for catching regressions while developing:

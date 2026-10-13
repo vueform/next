@@ -23,6 +23,8 @@ import {
   namespaceExports,
   pruneModules,
   scssExternals,
+  sfcMirrorEntries,
+  sfcReexportClosure,
   sourceSideEffects,
   SRC_ALIAS,
   srcAlias,
@@ -261,11 +263,19 @@ export async function createCoreTsdownConfig(
 
   const root = process.cwd()
   const srcAbs = resolve(root, 'src')
+  const componentsAbs = resolve(srcAbs, 'components')
   const outDir = 'dist'
   const outAbs = resolve(root, outDir)
 
   return {
-    entry: mirrorEntries(srcAbs),
+    // Out-of-components SFCs (e.g. helpers/VfPassthrough.vue) are explicit
+    // entries: they are published at their own vapor-conditioned subpaths and
+    // must be emitted whether or not a barrel imports them. Components SFCs
+    // already arrive through their per-component entry modules.
+    entry: {
+      ...mirrorEntries(srcAbs),
+      ...sfcMirrorEntries(srcAbs, [componentsAbs]),
+    },
     unbundle: true,
     format: ['es'],
     outDir,
@@ -313,13 +323,14 @@ export async function createCoreTsdownConfig(
 
 /**
  * tsdown config factory for the core package's VAPOR component build — the
- * counterpart of the vite factory's nested `vf:vapor-build`: the
- * `src/components` tree emitted into `dist/vapor/components`, every SFC
- * compiled by Vue 3.6's vapor compiler (the `vue-compiler-sfc-vapor` npm alias,
- * a devDependency of the consuming package), and everything outside the
- * components tree imported from the MAIN dist via relative paths. Requires the
- * main build's dist to exist — the build script runs it as a second `tsdown -c
- * tsdown.vapor.config.ts` step.
+ * counterpart of the vite factory's nested `vf:vapor-build`: the dual-compiled
+ * trees (`src/components` and `src/tools`) plus any stray SFC and every barrel
+ * re-exporting one (SFCs are mode-specific wherever they live) emitted into
+ * `dist/vapor` at their src-relative paths, every SFC compiled by Vue 3.6's
+ * vapor compiler (the `vue-compiler-sfc-vapor` npm alias, a devDependency of
+ * the consuming package), and every shared `.ts` module imported from the MAIN
+ * dist via relative paths. Requires the main build's dist to exist — the build
+ * script runs it as a second `tsdown -c tsdown.vapor.config.ts` step.
  */
 export async function createCoreVaporTsdownConfig(
   options: CoreTsdownOptions
@@ -329,7 +340,9 @@ export async function createCoreVaporTsdownConfig(
   const root = process.cwd()
   const srcAbs = resolve(root, 'src')
   const componentsAbs = resolve(srcAbs, 'components')
-  const outDir = 'dist/vapor/components'
+  const toolsAbs = resolve(srcAbs, 'tools')
+  const dualTrees = [componentsAbs, toolsAbs].filter(existsSync)
+  const outDir = 'dist/vapor'
 
   const consumerRequire = createRequire(join(root, 'package.json'))
   const VaporCompiler = consumerRequire('vue-compiler-sfc-vapor')
@@ -338,8 +351,26 @@ export async function createCoreVaporTsdownConfig(
   // @vue/compiler-sfc package, we register it ourselves.
   VaporCompiler.registerTS(() => consumerRequire('typescript'))
 
+  const entries: Record<string, string> = {}
+  for (const tree of dualTrees) {
+    const prefix = relative(srcAbs, tree)
+    for (const [name, file] of Object.entries(mirrorEntries(tree))) {
+      entries[`${prefix}/${name}`] = file
+    }
+  }
+  // Any stray SFC outside the dual trees at its src-relative path, plus every
+  // barrel that re-exports an SFC or the tools tree (e.g. the root barrel
+  // star-re-exporting `./tools`) — those barrels' main-dist copies carry the
+  // vdom compile, so the vapor-conditioned `./tools` / `.` exports point at
+  // these copies instead.
+  Object.assign(entries, sfcMirrorEntries(srcAbs, [componentsAbs]))
+  const sfcBarrels = sfcReexportClosure(srcAbs, dualTrees, [toolsAbs])
+  for (const file of sfcBarrels) {
+    entries[relative(srcAbs, file).replace(/\.ts$/, '')] = file
+  }
+
   return {
-    entry: mirrorEntries(componentsAbs),
+    entry: entries,
     unbundle: true,
     format: ['es'],
     outDir,
@@ -360,7 +391,13 @@ export async function createCoreVaporTsdownConfig(
       pruneModules(),
       namespaceExports(),
       srcAlias(SRC_ALIAS, srcAbs),
-      vaporExternals(root, srcAbs, resolve(root, outDir), [componentsAbs]),
+      vaporExternals(
+        root,
+        srcAbs,
+        resolve(root, outDir),
+        dualTrees,
+        sfcBarrels
+      ),
       Vue({
         isProduction: true,
         compiler: VaporCompiler,
@@ -505,6 +542,8 @@ export async function createAdapterVaporTsdownConfig(
   const root = process.cwd()
   const srcAbs = resolve(root, 'src')
   const componentsAbs = resolve(srcAbs, 'components')
+  const toolsAbs = resolve(srcAbs, 'tools')
+  const dualTrees = [componentsAbs, toolsAbs].filter(existsSync)
   const outDir = 'dist/vapor'
 
   const consumerRequire = createRequire(join(root, 'package.json'))
@@ -512,14 +551,25 @@ export async function createAdapterVaporTsdownConfig(
   VaporCompiler.registerTS(() => consumerRequire('typescript'))
 
   const entries: Record<string, string> = {}
-  for (const [name, file] of Object.entries(mirrorEntries(componentsAbs))) {
-    entries[`components/${name}`] = file
+  for (const tree of dualTrees) {
+    const prefix = relative(srcAbs, tree)
+    for (const [name, file] of Object.entries(mirrorEntries(tree))) {
+      entries[`${prefix}/${name}`] = file
+    }
   }
   for (const theme of themeNames(srcAbs)) {
     entries[theme] = resolve(srcAbs, `${theme}.ts`)
   }
   for (const name of exportedVaporEntries(root, srcAbs)) {
     entries[name] = resolve(srcAbs, `${name}.ts`)
+  }
+  // Stray SFCs and the barrels re-exporting them or the tools tree — see the
+  // core vapor factory. Adapters have none today; kept uniform so one
+  // appearing tomorrow builds correctly without factory changes.
+  Object.assign(entries, sfcMirrorEntries(srcAbs, [componentsAbs]))
+  const sfcBarrels = sfcReexportClosure(srcAbs, dualTrees, [toolsAbs])
+  for (const file of sfcBarrels) {
+    entries[relative(srcAbs, file).replace(/\.ts$/, '')] = file
   }
 
   return {
@@ -545,14 +595,17 @@ export async function createAdapterVaporTsdownConfig(
     deps: { neverBundle: adapterTsdownExternal(options) },
     treeshake: { moduleSideEffects: CSS_SIDE_EFFECT_RULES },
     outputOptions: {
-      // Point external core component imports at core's vapor tree.
+      // Point external imports of core's dual-compiled trees (components,
+      // tools) at core's vapor copies.
       paths: (id: string) =>
         id.startsWith('@vueform/core/components/')
           ? id.replace(
               '@vueform/core/components/',
               '@vueform/core/vapor/components/'
             )
-          : id,
+          : id === '@vueform/core/tools'
+            ? '@vueform/core/vapor/tools'
+            : id,
     },
     plugins: [
       pruneModules(),
@@ -560,7 +613,13 @@ export async function createAdapterVaporTsdownConfig(
       sourceSideEffects(STYLES_SIDECARS),
       scssExternals(options.name, resolve(srcAbs, 'scss'), SRC_ALIAS),
       srcAlias(SRC_ALIAS, srcAbs),
-      vaporExternals(root, srcAbs, resolve(root, outDir), [componentsAbs]),
+      vaporExternals(
+        root,
+        srcAbs,
+        resolve(root, outDir),
+        dualTrees,
+        sfcBarrels
+      ),
       Vue({
         isProduction: true,
         compiler: VaporCompiler,

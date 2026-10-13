@@ -4,9 +4,9 @@ import {
   mergeClass,
   useBlueprint,
   useLayoutClasses,
-  VfPassthrough,
   type HeadingProp,
 } from '@vueform/core'
+import { VfPassthrough } from '@vueform/core/tools'
 import PrimeFloatLabel from 'primevue/floatlabel'
 import PrimeIconField from 'primevue/iconfield'
 import PrimeIftaLabel from 'primevue/iftalabel'

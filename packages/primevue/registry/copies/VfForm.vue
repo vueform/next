@@ -12,9 +12,9 @@ import {
   useConfig,
   useBlueprint,
   defineEvents,
-  VfPassthrough,
   type FormSchema,
   type ResolvedPage,
+  VfPassthrough,
   vdomPrime,
 } from '@vueform/primevue'
 import {

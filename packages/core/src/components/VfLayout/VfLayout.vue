@@ -4,11 +4,7 @@ import { computed } from 'vue'
 import { defaults, blueprint } from '#src/blueprints/layout'
 import { useBlueprint, useLayoutClasses, useLocale } from '#src/composables'
 import { defineEvents } from '#src/helpers'
-// Imported by direct SFC path, not via a barrel: the vapor build externalizes
-// .ts modules to the main (vdom) dist and only vapor-compiles .vue files it
-// resolves directly — a barrel import would smuggle in the vdom-compiled
-// VfPassthrough, which renders nothing inside a vapor tree.
-import VfPassthrough from '#src/helpers/VfPassthrough.vue'
+import { VfPassthrough } from '#src/tools'
 import type { HeadingProp, UnknownElementParts } from '#src/types'
 import { mergeClass } from '#src/utils'
 

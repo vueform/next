@@ -158,6 +158,70 @@ function dualModeClosure(srcAbs: string): Set<string> {
 }
 
 /**
+ * The `.ts` modules outside the `keep` trees that RE-EXPORT something
+ * mode-specific — an SFC, or any module under one of the `seedTrees` (the
+ * dual-compiled trees, e.g. `src/tools`) — directly or through a chain of
+ * re-exporting barrels (e.g. `index.ts` star-re-exporting the tools barrel).
+ * SFCs are mode-specific, so these barrels are too: the vapor build must
+ * compile its own copy of each (the main-dist copies carry the vdom-compiled
+ * SFC). Modules that merely `import` values from such a barrel are NOT
+ * included — the mode-neutral functions they pull are identical in the main
+ * dist.
+ */
+export function sfcReexportClosure(
+  srcAbs: string,
+  keep: string[],
+  seedTrees: string[] = []
+): Set<string> {
+  const files: string[] = []
+  ;(function walk(dir: string) {
+    for (const entry of readdirSync(dir, { withFileTypes: true })) {
+      const abs = join(dir, entry.name)
+      if (keep.some((skip) => abs === skip || abs.startsWith(skip + sep))) {
+        continue
+      }
+      if (entry.isDirectory()) walk(abs)
+      else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.d.ts'))
+        files.push(abs)
+    }
+  })(srcAbs)
+
+  const reexports = new Map<string, string[]>()
+  const seedBarrels: string[] = []
+
+  for (const file of files) {
+    const source = readFileSync(file, 'utf8')
+    for (const match of source.matchAll(
+      /export\s+(?:\*|type\s+\{[^}]*\}|\{[^}]*\})\s+from\s+['"]([^'"]+)['"]/g
+    )) {
+      const dep = resolveSourceSpec(match[1], dirname(file), srcAbs)
+      if (!dep) continue
+      if (
+        dep.endsWith('.vue') ||
+        seedTrees.some((tree) => dep.startsWith(tree + sep))
+      ) {
+        seedBarrels.push(file)
+      } else {
+        let list = reexports.get(dep)
+        if (!list) reexports.set(dep, (list = []))
+        list.push(file)
+      }
+    }
+  }
+
+  const closure = new Set<string>()
+  const queue = [...seedBarrels]
+  while (queue.length) {
+    const file = queue.pop()!
+    if (closure.has(file)) continue
+    closure.add(file)
+    queue.push(...(reexports.get(file) ?? []))
+  }
+
+  return closure
+}
+
+/**
  * The pnpm workspace root above `from` — the anchor for cross-package paths
  * (e.g. a tool run in an adapter reading the core package's artifacts).
  */
@@ -613,7 +677,8 @@ export function vaporExternals(
   root: string,
   srcAbs: string,
   outAbs: string,
-  keep: string[]
+  keep: string[],
+  keepFiles: Set<string> = new Set()
 ): Plugin {
   const distAbs = resolve(root, 'dist')
   const dualMode = dualModeClosure(srcAbs)
@@ -641,6 +706,10 @@ export function vaporExternals(
       // directive with an object vdom form and a function vapor form): the
       // main-dist copies were compiled with the define off.
       if (dualMode.has(file)) return
+      // And for barrels that re-export an out-of-tree SFC (sfcReexportClosure
+      // entries, e.g. the helpers barrel carrying VfPassthrough): the main-dist
+      // copy holds the vdom compile.
+      if (keepFiles.has(file)) return
       const rel = relative(srcAbs, file).replace(/\.ts$/, '')
       const distFile = resolve(distAbs, `${rel}.mjs`)
       if (!existsSync(distFile)) return
@@ -678,6 +747,33 @@ export function mirrorEntries(dir: string): Record<string, string> {
         walk(abs)
       } else if (entry.name.endsWith('.ts') && !entry.name.endsWith('.d.ts')) {
         entries[relative(dir, abs).replace(/\.ts$/, '')] = abs
+      }
+    }
+  })(dir)
+  return entries
+}
+
+/**
+ * Entry map mirroring every `.vue` SFC under `dir` at its own path, minus the
+ * excluded subtrees. SFCs are mode-specific artifacts (their compiled output
+ * differs between vdom and vapor), so every build that compiles a mode must
+ * carry all of them as entries — components tree or not.
+ */
+export function sfcMirrorEntries(
+  dir: string,
+  exclude: string[] = []
+): Record<string, string> {
+  const entries: Record<string, string> = {}
+  ;(function walk(current: string) {
+    for (const entry of readdirSync(current, { withFileTypes: true })) {
+      const abs = join(current, entry.name)
+      if (exclude.some((skip) => abs === skip || abs.startsWith(skip + sep))) {
+        continue
+      }
+      if (entry.isDirectory()) {
+        walk(abs)
+      } else if (entry.name.endsWith('.vue')) {
+        entries[relative(dir, abs).replace(/\.vue$/, '')] = abs
       }
     }
   })(dir)
