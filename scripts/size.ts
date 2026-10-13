@@ -10,7 +10,7 @@
  */
 import { spawnSync } from 'node:child_process'
 
-import { runGui } from './gui'
+import { runGui, stripGuiFlags } from './gui'
 import {
   discoverPackageTasks,
   green,
@@ -22,7 +22,7 @@ import {
 
 const args = process.argv.slice(2)
 const report = args.includes('--report')
-const selectors = args.filter((arg) => arg !== '--report')
+const selectors = stripGuiFlags(args).filter((arg) => arg !== '--report')
 
 const script = report ? 'size:report' : 'size'
 const tasks = tierSort(selectTasks(discoverPackageTasks(script), selectors))

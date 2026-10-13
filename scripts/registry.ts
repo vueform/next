@@ -8,12 +8,12 @@
  */
 import { spawnSync } from 'node:child_process'
 
-import { runGui } from './gui'
+import { runGui, stripGuiFlags } from './gui'
 import { discoverPackageTasks, repoRoot, selectTasks } from './runner'
 
 const tasks = selectTasks(
   discoverPackageTasks('registry'),
-  process.argv.slice(2)
+  stripGuiFlags(process.argv.slice(2))
 )
 
 // The generator runs from utils' dist — make sure it is current.

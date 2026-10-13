@@ -6,7 +6,9 @@
  * step), or a single `driver` process feeds many rows (pack). All captured
  * output goes to `.vueform/<scope>/logs/<stamp>.log`, failing rows' output
  * additionally to `<stamp>.errors.log`, and the run ends with a link when
- * there is anything to look at. Non-TTY runs print each row as it finishes.
+ * there is anything to look at. Non-TTY runs print each row as it finishes;
+ * `--ci` forces that mode on a TTY (no spinner, no live counters, a row only
+ * appears once completed).
  *
  * Steps that wrap `vpr`/`vp run` keep full vite-plus caching — a warm row
  * completes instantly.
@@ -26,7 +28,8 @@ const KEPT_LOGS = 20
 const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
 
 const verbose = process.argv.includes('--verbose')
-const live = Boolean(process.stdout.isTTY) && !verbose
+const ci = process.argv.includes('--ci')
+const live = Boolean(process.stdout.isTTY) && !verbose && !ci
 const colors = live && !('NO_COLOR' in process.env)
 const paint = (code: string, text: string) =>
   colors ? `\x1b[${code}m${text}\x1b[0m` : text
@@ -40,6 +43,13 @@ const termLink = (file: string) =>
   live ? `\x1b]8;;file://${file}\x1b\\${file}\x1b]8;;\x1b\\` : file
 
 export const ansiRe = new RegExp(String.raw`\x1b\[[0-9;]*m`, 'g')
+
+/**
+ * Display flags the GUI consumes from `process.argv` itself — callers that
+ * treat their remaining args as task selectors strip these first.
+ */
+export const stripGuiFlags = (args: string[]): string[] =>
+  args.filter((arg) => arg !== '--verbose' && arg !== '--ci')
 
 export interface RowResult {
   /**
