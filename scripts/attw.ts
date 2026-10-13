@@ -9,7 +9,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 
 import { runGui } from './gui'
-import { discoverPackages, repoRoot } from './runner'
+import { discoverPackages } from './runner'
 
 // The same selection as the gate's: every package whose `files` ship a dist.
 const targets = discoverPackages().filter((pkg) => {

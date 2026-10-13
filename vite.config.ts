@@ -572,7 +572,11 @@ export default defineConfig({
         command: 'tsx scripts/attw-task.ts',
         dependsOn: [':pack'],
         cache: {
-          input: ['.vueform/tarballs/**', 'scripts/attw-task.ts', 'pnpm-lock.yaml'],
+          input: [
+            '.vueform/tarballs/**',
+            'scripts/attw-task.ts',
+            'pnpm-lock.yaml',
+          ],
           output: [],
         },
       },

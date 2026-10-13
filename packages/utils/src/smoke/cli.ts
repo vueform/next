@@ -9,13 +9,7 @@ import { writeFileSync } from 'node:fs'
 import path from 'node:path'
 
 import { fixtureDir } from './assemble'
-import {
-  createDisplay,
-  createSmokeLog,
-  green,
-  red,
-  termLink,
-} from './display'
+import { createDisplay, createSmokeLog, green, red, termLink } from './display'
 import { ENVS, PMS, type EnvDef, type Pm } from './envs'
 import {
   exists,

@@ -29,9 +29,8 @@ if (bootstrap.status !== 0) {
 
 async function main(): Promise<void> {
   const { runGui } = await import('./gui')
-  const { discoverPackageTasks, selectTasks, tierSort } = await import(
-    './runner'
-  )
+  const { discoverPackageTasks, selectTasks, tierSort } =
+    await import('./runner')
 
   const tasks = tierSort(
     selectTasks(discoverPackageTasks('build'), process.argv.slice(2))
