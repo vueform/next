@@ -172,8 +172,29 @@ const typecheckTasks = Object.fromEntries(
  * leg running exactly that script — the specialized suites (test-dts,
  * test-smoke, test-visual) stay out of `:test` and are run by their own
  * commands. Tests run source via the vitest factory, so the legs only need
- * utils' dist. Uncached for now.
+ * utils' dist — the cache fingerprints only that surface (the vitest
+ * factory + its sourceAliases require), the package's own files, and the
+ * workspace deps' sources (tests run the src-world graph). Explicit inputs
+ * on purpose: auto-tracking never cached these legs (vitest writes scratch
+ * files into tracked paths).
  */
+const UTILS_TEST_SURFACE = ['vitest', 'sourceAliases'].map(
+  (name) => `packages/utils/dist/${name}.js`
+)
+
+const testLegCache = (dir: string) => ({
+  input: [
+    `packages/${dir}/**`,
+    `!packages/${dir}/dist/**`,
+    `!packages/${dir}/node_modules/**`,
+    ...workspaceDeps(dir).flatMap((dep) =>
+      dep === 'utils' ? UTILS_TEST_SURFACE : [`packages/${dep}/src/**`]
+    ),
+    'packages/tsconfig/**',
+    'pnpm-lock.yaml',
+  ],
+  output: [],
+})
 const testedPackages = [...packageManifests].flatMap(([dir, pkg]) =>
   pkg.scripts?.test ? [{ dir, name: pkg.name as string }] : []
 )
@@ -184,6 +205,7 @@ const testTasks = Object.fromEntries(
     {
       command: `pnpm --filter ${name} run test --run`,
       dependsOn: [':build:utils'],
+      cache: testLegCache(dir),
     },
   ])
 )
@@ -203,8 +225,20 @@ const testDtsTasks = Object.fromEntries(
     {
       command: `pnpm --filter ${name} run test-dts --run`,
       dependsOn: [':build:utils'],
+      cache: testLegCache(dir),
     },
   ])
+)
+
+/**
+ * The slice of utils' dist that downstream BUILDS actually consume: the
+ * tsdown config factory plus its runtime requires (tsdown.js → shared.js
+ * [banners], adapter.js, dtsEsm.js). Fingerprinting only these keeps
+ * utils-internal changes (vitest factory, registry, smoke, size, runner, …)
+ * from invalidating every package build.
+ */
+const UTILS_BUILD_SURFACE = ['tsdown', 'shared', 'adapter', 'dtsEsm'].map(
+  (name) => `packages/utils/dist/${name}.js`
 )
 
 const buildTasks = Object.fromEntries(
@@ -222,7 +256,11 @@ const buildTasks = Object.fromEntries(
           `packages/${dir}/*.json`,
           ...workspaceDeps(dir)
             .filter((dep) => buildableDirs.has(dep))
-            .map((dep) => `packages/${dep}/dist/**`),
+            .flatMap((dep) =>
+              dep === 'utils'
+                ? UTILS_BUILD_SURFACE
+                : [`packages/${dep}/dist/**`]
+            ),
           'packages/tsconfig/**',
           'pnpm-lock.yaml',
         ],
@@ -364,6 +402,7 @@ export default defineConfig({
         command: "node -e ''",
         dependsOn: buildablePackages.map(({ dir }) => `:build:${dir}`),
       },
+      ...buildTasks,
       ':pack': {
         command: 'tsx scripts/pack-task.ts',
         dependsOn: [':build', ':manifests'],
@@ -376,7 +415,6 @@ export default defineConfig({
           output: ['.vueform/tarballs/**'],
         },
       },
-      ...buildTasks,
       ':lint': {
         command: "node -e ''",
         dependsOn: [':oxlint', ':stylelint', ':eslint'],
@@ -529,6 +567,14 @@ export default defineConfig({
       ':test-smoke': {
         command: 'tsx scripts/test-smoke.ts --nopack',
         dependsOn: [':build', ':pack'],
+      },
+      ':attw': {
+        command: 'tsx scripts/attw-task.ts',
+        dependsOn: [':pack'],
+        cache: {
+          input: ['.vueform/tarballs/**', 'scripts/attw-task.ts', 'pnpm-lock.yaml'],
+          output: [],
+        },
       },
       ':test-smoke-types': {
         command: 'tsx scripts/test-smoke-types.ts --nopack',

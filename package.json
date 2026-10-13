@@ -3,6 +3,7 @@
   "scripts": {
     "api": "tsx scripts/api.ts",
     "api:missing": "tsx scripts/api-missing.ts",
+    "attw": "tsx scripts/attw.ts",
     "bench": "pnpm --filter @vueform/benchmark run bench",
     "bench:charts": "pnpm --filter @vueform/benchmark run charts",
     "build": "tsx scripts/build.ts",

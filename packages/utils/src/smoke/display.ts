@@ -140,6 +140,42 @@ export function createDisplay(opts: {
     grid.set(id, new Map(STAGES.map((s) => [s, 'pending'])))
   }
 
+  // Elapsed-time tracking: each row counts
+  // its env from its first active stage until it fails or finishes.
+  const envStarted = new Map<string, number>()
+  const envElapsed = new Map<string, string>()
+  const envVerdict = new Map<string, 'pass' | 'fail'>()
+  // Row counters: one decimal, fixed width sized for `999.9s`.
+  const fmtRowSecs = (ms: number) => `${(ms / 1000).toFixed(1)}s`
+  const TIME_WIDTH = '999.9s'.length
+  const trackTiming = (envId: string, status: StageStatus) => {
+    if (status === 'active' && !envStarted.has(envId)) {
+      envStarted.set(envId, Date.now())
+    }
+    const values = [...grid.get(envId)!.values()]
+    const failed = values.includes('fail')
+    const done =
+      failed || values.every((value) => value === 'pass' || value === 'skip')
+    if (done && envStarted.has(envId) && !envElapsed.has(envId)) {
+      envElapsed.set(envId, fmtRowSecs(Date.now() - envStarted.get(envId)!))
+      envVerdict.set(envId, failed ? 'fail' : 'pass')
+    }
+  }
+  const envTime = (envId: string): string => {
+    const text = (
+      envElapsed.get(envId) ??
+      (envStarted.has(envId)
+        ? fmtRowSecs(Date.now() - envStarted.get(envId)!)
+        : '')
+    ).padStart(TIME_WIDTH)
+    const verdict = envVerdict.get(envId)
+    return verdict === 'pass'
+      ? green(text)
+      : verdict === 'fail'
+        ? red(text)
+        : dim(text)
+  }
+
   let phaseText: string | null = null
 
   if (!opts.live) {
@@ -150,6 +186,7 @@ export function createDisplay(opts: {
       },
       stage(envId, stage, status) {
         grid.get(envId)!.set(stage, status)
+        trackTiming(envId, status)
         if (status === 'pass' || status === 'fail') {
           console.log(
             `[smoke:${opts.adapter}:${envId}] ${stage} ${status === 'pass' ? '✓' : '✗'}`
@@ -192,6 +229,7 @@ export function createDisplay(opts: {
         const pad = Math.floor(stage.length / 2)
         row += ' '.repeat(pad) + colored + ' '.repeat(13 - pad - 1)
       }
+      row += envTime(id)
       lines.push(row)
     }
     if (phaseText)
@@ -230,6 +268,7 @@ export function createDisplay(opts: {
     },
     stage(envId, stage, status) {
       grid.get(envId)!.set(stage, status)
+      trackTiming(envId, status)
       repaint()
     },
     stop() {
@@ -289,6 +328,38 @@ export function createListDisplay(opts: {
     ])
   )
 
+  // Elapsed-time tracking: each row counts from its first active status
+  // until it passes or fails — one decimal, fixed width sized for `999.9s`,
+  // dim while running, green/red by verdict (same treatment as the grid).
+  const fmtRowSecs = (ms: number) => `${(ms / 1000).toFixed(1)}s`
+  const ROW_TIME_WIDTH = '999.9s'.length
+  const rowStarted = new Map<string, number>()
+  const rowElapsed = new Map<string, string>()
+  const rowVerdict = new Map<string, 'pass' | 'fail'>()
+  const trackRowTiming = (id: string, status: ListRowStatus) => {
+    if (status === 'active' && !rowStarted.has(id)) {
+      rowStarted.set(id, Date.now())
+    }
+    if ((status === 'pass' || status === 'fail') && !rowElapsed.has(id)) {
+      if (rowStarted.has(id)) {
+        rowElapsed.set(id, fmtRowSecs(Date.now() - rowStarted.get(id)!))
+      }
+      rowVerdict.set(id, status)
+    }
+  }
+  const rowTime = (id: string): string => {
+    const text = (
+      rowElapsed.get(id) ??
+      (rowStarted.has(id) ? fmtRowSecs(Date.now() - rowStarted.get(id)!) : '')
+    ).padStart(ROW_TIME_WIDTH)
+    const verdict = rowVerdict.get(id)
+    return verdict === 'pass'
+      ? green(text)
+      : verdict === 'fail'
+        ? red(text)
+        : dim(text)
+  }
+
   const glyph = (status: ListRowStatus, spin: string) =>
     status === 'active'
       ? cyan(spin)
@@ -320,6 +391,7 @@ export function createListDisplay(opts: {
       row(id, status, detail = '') {
         rows.get(id)!.status = status
         rows.get(id)!.detail = detail
+        trackRowTiming(id, status)
         if (status === 'pass' || status === 'fail') {
           console.log(
             `[${opts.tag}:${opts.adapter}:${id}] ${status === 'pass' ? '✓' : '✗'}${detail ? ` ${detail}` : ''}`
@@ -340,8 +412,9 @@ export function createListDisplay(opts: {
     const lines: string[] = []
     lines.push(bold(`${opts.title} `) + gray(`(${opts.adapter})`))
     for (const [id, row] of rows) {
+      const detail = detailText(row.status, row.detail)
       lines.push(
-        `  ${glyph(row.status, spin)} ${id.padEnd(idWidth)}${detailText(row.status, row.detail)}`
+        `  ${glyph(row.status, spin)} ${id.padEnd(idWidth)}${detail}${detail ? ' ' : ''}${rowTime(id)}`
       )
     }
     if (phaseText) lines.push(dim(`  ${spin} ${phaseText}`))
@@ -381,6 +454,7 @@ export function createListDisplay(opts: {
       const row = rows.get(id)!
       row.status = status
       row.detail = detail
+      trackRowTiming(id, status)
       repaint()
     },
     stop() {

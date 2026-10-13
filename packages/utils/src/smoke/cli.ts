@@ -10,10 +10,8 @@ import path from 'node:path'
 
 import { fixtureDir } from './assemble'
 import {
-  bold,
   createDisplay,
   createSmokeLog,
-  dim,
   green,
   red,
   termLink,
@@ -185,6 +183,8 @@ async function main(options: SmokeCliOptions) {
   const parsed = parseArgs(process.argv.slice(2), adapter)
   if (!parsed) return
 
+  const runStarted = Date.now()
+
   const selected = parsed.env
     ? ENVS.filter((env) => env.id === parsed.env)
     : ENVS
@@ -219,7 +219,6 @@ async function main(options: SmokeCliOptions) {
     envIds: runnable.map((e) => e.id),
     live: Boolean(process.stdout.isTTY),
   })
-  const durations = new Map<string, number>()
 
   try {
     if (parsed.build) {
@@ -251,7 +250,6 @@ async function main(options: SmokeCliOptions) {
     // completion — parallel envs would otherwise interleave the log file.
     const resultByEnv = new Map<string, EnvResult>()
     const runOne = async (env: EnvDef) => {
-      const started = Date.now()
       let buffer = ''
       const bufLog = (text: string) => {
         buffer += text.endsWith('\n') ? text : text + '\n'
@@ -281,7 +279,6 @@ async function main(options: SmokeCliOptions) {
           logTail: error.logTail,
         })
       }
-      durations.set(env.id, Date.now() - started)
       log.write(buffer)
     }
 
@@ -300,26 +297,11 @@ async function main(options: SmokeCliOptions) {
 
   const failures = results.filter((r) => r.status === 'fail')
 
-  console.log(`\n${bold('[smoke] Summary:')}`)
-  for (const r of results) {
-    const mark =
-      r.status === 'pass'
-        ? green('✓')
-        : r.status === 'fail'
-          ? red('✗')
-          : dim('–')
-    const time = durations.has(r.env.id)
-      ? dim(` (${fmtDuration(durations.get(r.env.id)!)})`)
-      : ''
-    const where = r.status === 'fail' && r.stage ? dim(` — ${r.stage}`) : ''
-    const skip = r.status === 'skip' ? dim(` — ${r.detail}`) : ''
-    console.log(`  ${mark} ${r.env.id}${time}${where}${skip}`)
-  }
-
   const ran = results.length - results.filter((r) => r.status === 'skip').length
+  const totalTime = fmtDuration(Date.now() - runStarted)
   const status = failures.length
-    ? red(`${failures.length} of ${ran} envs failed.`)
-    : green('All envs passed.')
+    ? red(`${failures.length} of ${ran} envs failed in ${totalTime}.`)
+    : green(`All envs passed in ${totalTime}.`)
   console.log(`\n${status}`)
 
   if (failures.length) {

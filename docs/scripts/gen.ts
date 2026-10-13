@@ -57,6 +57,7 @@ interface TaskState {
 }
 
 const ids = [...PARALLEL, ...CLOSERS]
+const runStarted = Date.now()
 const states = new Map<string, TaskState>(
   ids.map((id) => [
     id,
@@ -126,7 +127,7 @@ function runTask(id: string): Promise<boolean> {
     child.on('close', (code) => {
       const ok = code === 0
       state.status = ok ? 'pass' : 'fail'
-      state.detail = ok ? `done in ${elapsed(state)}` : `exited with ${code}`
+      state.detail = ok ? elapsed(state) : `exited with ${code}`
 
       if (live) repaint()
       else console.log(rowText(id, state, ''))
@@ -182,7 +183,9 @@ async function main(): Promise<void> {
     process.exit(1)
   }
 
-  console.log(`\n${green('All docs generated.')}\n`)
+  console.log(
+    `\n${green(`All docs generated in ${((Date.now() - runStarted) / 1000).toFixed(1)}s.`)}\n`
+  )
 }
 
 main().catch((error) => {

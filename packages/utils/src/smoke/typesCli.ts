@@ -186,6 +186,8 @@ async function main(options: SmokeTypesCliOptions) {
   const parsed = parseArgs(process.argv.slice(2), adapter)
   if (!parsed) return
 
+  const runStarted = Date.now()
+
   const selected = parsed.env
     ? TYPE_ENVS.filter((env) => env.id === parsed.env)
     : TYPE_ENVS
@@ -255,7 +257,6 @@ async function main(options: SmokeTypesCliOptions) {
     // completion — parallel envs would otherwise interleave the log file.
     const resultByEnv = new Map<string, TypesEnvResult>()
     const runOne = async (env: TypeEnvDef) => {
-      const started = Date.now()
       let buffer = ''
       const bufLog = (text: string) => {
         buffer += text.endsWith('\n') ? text : text + '\n'
@@ -270,12 +271,12 @@ async function main(options: SmokeTypesCliOptions) {
           pm: parsed.pm,
           runsDir: path.join(stateDir, 'runs'),
           log: bufLog,
-          report: (stage, status) => {
-            if (status === 'active') display.row(env.id, 'active', `${stage}…`)
+          report: (_stage, status) => {
+            if (status === 'active') display.row(env.id, 'active')
           },
         })
         resultByEnv.set(env.id, { adapter, env, status: 'pass' })
-        display.row(env.id, 'pass', `(${fmtDuration(Date.now() - started)})`)
+        display.row(env.id, 'pass')
       } catch (error) {
         if (!(error instanceof SmokeError)) throw error
         bufLog(`FAILED: ${error.message}`)
@@ -290,11 +291,7 @@ async function main(options: SmokeTypesCliOptions) {
           stage,
           logTail: error.logTail,
         })
-        display.row(
-          env.id,
-          'fail',
-          `— ${stage ?? 'failed'} (${fmtDuration(Date.now() - started)})`
-        )
+        display.row(env.id, 'fail', `— ${stage ?? 'failed'}`)
       }
       log.write(buffer)
     }
@@ -315,9 +312,10 @@ async function main(options: SmokeTypesCliOptions) {
   // No summary rows here — the display's row list already is the summary.
   const failures = results.filter((r) => r.status === 'fail')
   const ran = results.length - results.filter((r) => r.status === 'skip').length
+  const totalTime = fmtDuration(Date.now() - runStarted)
   const status = failures.length
-    ? red(`${failures.length} of ${ran} envs failed.`)
-    : green('All envs passed.')
+    ? red(`${failures.length} of ${ran} envs failed in ${totalTime}.`)
+    : green(`All envs passed in ${totalTime}.`)
   console.log(`\n${status}`)
 
   if (failures.length) {

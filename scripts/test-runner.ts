@@ -129,6 +129,8 @@ interface WarnEntry {
 
 interface PkgState {
   status: 'running' | 'pass' | 'fail'
+  startedAt: number
+  elapsed: string
   detail: string
   warns: Map<string, WarnEntry>
   /**
@@ -144,6 +146,7 @@ interface PkgState {
 }
 
 export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
+  const runStarted = Date.now()
   const stateDir = path.join(repoRoot, '.vueform', opts.scope)
   const logsDir = path.join(stateDir, 'logs')
   const resultsDir = path.join(stateDir, 'results')
@@ -246,6 +249,8 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
       name,
       {
         status: 'running',
+        startedAt: Date.now(),
+        elapsed: '',
         detail: '',
         warns: new Map(),
         errors: [],
@@ -275,7 +280,11 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
           : red(state.detail)
     const warns =
       state.warns.size > 0 ? yellow(` · ${state.warns.size} warns`) : ''
-    return `  ${mark} ${name.padEnd(nameWidth)}${detail}${warns}`
+    const time =
+      state.status !== 'running' && state.elapsed
+        ? dim(` · ${state.elapsed}`)
+        : ''
+    return `  ${mark} ${name.padEnd(nameWidth)}${detail}${warns}${time}`
   }
 
   const repaint = () => {
@@ -471,6 +480,7 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
 
       child.on('close', (code) => {
         activeChildren.delete(child)
+        state.elapsed = `${((Date.now() - state.startedAt) / 1000).toFixed(1)}s`
         if (!playwright) state.warns = extractWarns(output, pkg.dir)
 
         let passed = 0
@@ -577,9 +587,12 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
   }
 
   // Summary: status line, then a two-line block per log file.
+  const totalElapsed = `${((Date.now() - runStarted) / 1000).toFixed(1)}s`
   const status = failures.length
-    ? red(`${failures.length} of ${packages.length} packages failed.`)
-    : green('All packages passed.')
+    ? red(
+        `${failures.length} of ${packages.length} packages failed in ${totalElapsed}.`
+      )
+    : green(`All packages passed in ${totalElapsed}.`)
   console.log(`\n${status}`)
 
   if (failures.length) {

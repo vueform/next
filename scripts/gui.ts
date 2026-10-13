@@ -78,7 +78,11 @@ export interface GuiDriver {
    */
   route: (
     line: string,
-    api: { running: (name: string) => void; done: (name: string) => void }
+    api: {
+      running: (name: string) => void
+      done: (name: string) => void
+      fail: (name: string) => void
+    }
   ) => void
 }
 
@@ -105,6 +109,9 @@ export interface GuiOptions {
 
 interface RowState {
   status: 'pending' | 'running' | 'pass' | 'fail'
+  startedAt: number
+  elapsed: string
+  cached: boolean
   progress: string
   detail: string
   issues: number
@@ -129,6 +136,7 @@ for (const signal of ['SIGINT', 'SIGTERM'] as const) {
 }
 
 export async function runGui(opts: GuiOptions): Promise<boolean> {
+  const runStarted = Date.now()
   const logsDir = path.join(repoRoot, '.vueform', opts.scope, 'logs')
   fs.mkdirSync(logsDir, { recursive: true })
 
@@ -160,7 +168,16 @@ export async function runGui(opts: GuiOptions): Promise<boolean> {
   const states = new Map<string, RowState>(
     opts.rows.map(({ name }) => [
       name,
-      { status: 'pending', progress: '', detail: '', issues: 0, output: '' },
+      {
+        status: 'pending',
+        startedAt: 0,
+        elapsed: '',
+        cached: false,
+        progress: '',
+        detail: '',
+        issues: 0,
+        output: '',
+      },
     ])
   )
 
@@ -177,15 +194,24 @@ export async function runGui(opts: GuiOptions): Promise<boolean> {
           : state.status === 'pass'
             ? green('✓')
             : red('✗')
+    const liveSeconds = `${((Date.now() - state.startedAt) / 1000).toFixed(1)}s`
+    // Finished rows append their final time (and cache mark) to any status
+    // text; running rows append the live counter to any progress text.
+    const suffix =
+      (state.detail && state.elapsed ? dim(` · ${state.elapsed}`) : '') +
+      (state.cached ? dim(' (from cache)') : '')
     const detail =
       state.status === 'running'
-        ? dim(state.progress)
+        ? dim(
+            state.progress ? `${state.progress} · ${liveSeconds}` : liveSeconds
+          )
         : state.status === 'pass'
-          ? state.issues > 0
-            ? yellow(state.detail)
-            : green(state.detail)
+          ? (state.issues > 0
+              ? yellow(state.detail)
+              : green(state.detail || state.elapsed)) + suffix
           : state.status === 'fail'
-            ? red(state.detail || 'failed')
+            ? red(state.detail || 'failed') +
+              (state.elapsed ? dim(` · ${state.elapsed}`) : '')
             : ''
     return `  ${mark} ${name.padEnd(nameWidth)}${detail}`
   }
@@ -217,8 +243,14 @@ export async function runGui(opts: GuiOptions): Promise<boolean> {
   }
   process.on('exit', restoreCursor)
 
+  const isCached = (output: string) =>
+    /cache hit/.test(output) && !/cache miss/.test(output)
+
   const finishRow = (row: GuiRow, code: number) => {
     const state = states.get(row.name)!
+    state.cached = isCached(state.output)
+    if (state.startedAt > 0)
+      state.elapsed = `${((Date.now() - state.startedAt) / 1000).toFixed(1)}s`
     const result = row.summarize?.(state.output.replace(ansiRe, ''), code)
     state.detail = result?.detail ?? ''
     state.issues = result?.issues ?? 0
@@ -266,12 +298,27 @@ export async function runGui(opts: GuiOptions): Promise<boolean> {
     const api = {
       running: (name: string) => {
         const state = states.get(name)
-        if (state && state.status === 'pending') state.status = 'running'
+        if (state && state.status === 'pending') {
+          state.status = 'running'
+          state.startedAt = Date.now()
+        }
       },
       done: (name: string) => {
         const state = states.get(name)
         if (state && state.status !== 'pass') {
+          if (state.startedAt > 0)
+            state.elapsed = `${((Date.now() - state.startedAt) / 1000).toFixed(1)}s`
           state.status = 'pass'
+          if (live) repaint()
+          else console.log(rowText(name, state, ''))
+        }
+      },
+      fail: (name: string) => {
+        const state = states.get(name)
+        if (state && state.status !== 'fail') {
+          if (state.startedAt > 0)
+            state.elapsed = `${((Date.now() - state.startedAt) / 1000).toFixed(1)}s`
+          state.status = 'fail'
           if (live) repaint()
           else console.log(rowText(name, state, ''))
         }
@@ -287,8 +334,10 @@ export async function runGui(opts: GuiOptions): Promise<boolean> {
       }
     )
     fs.writeSync(logFd, output)
+    const cached = isCached(output.replace(ansiRe, ''))
     for (const name of pending) {
       const state = states.get(name)!
+      state.cached = cached
       if (code === 0) {
         if (state.status !== 'pass') {
           state.status = 'pass'
@@ -305,6 +354,7 @@ export async function runGui(opts: GuiOptions): Promise<boolean> {
     for (const row of opts.rows) {
       const state = states.get(row.name)!
       state.status = 'running'
+      state.startedAt = Date.now()
       if (live) repaint()
       const code = await runChild(row.cmd!, row.args ?? [], (plain, raw) => {
         state.output += raw + '\n'
@@ -342,12 +392,13 @@ export async function runGui(opts: GuiOptions): Promise<boolean> {
     fs.writeFileSync(errorsFile, sections.join('\n\n') + '\n')
   }
 
+  const totalElapsed = `${((Date.now() - runStarted) / 1000).toFixed(1)}s`
   const status = failures.length
     ? red(
-        `${failures.length} of ${opts.rows.length} steps failed.` +
+        `${failures.length} of ${opts.rows.length} steps failed in ${totalElapsed}.` +
           (skipped.length ? ` ${skipped.length} skipped.` : '')
       )
-    : green('All steps passed.')
+    : green(`All steps passed in ${totalElapsed}.`)
   console.log(`\n${status}`)
 
   if (failures.length) {
