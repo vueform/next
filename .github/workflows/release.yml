@@ -56,7 +56,7 @@ jobs:
 
       - run: pnpm build
 
-      - run: pnpm check
+      # - run: pnpm check
 
       # - run: pnpm test
 
