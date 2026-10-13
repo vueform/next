@@ -7,13 +7,13 @@
     "typescript",
     "vueform"
   ],
-  "homepage": "https://github.com/vueform/core",
-  "bugs": "https://github.com/vueform/core/issues",
+  "homepage": "https://github.com/vueform/next",
+  "bugs": "https://github.com/vueform/next/issues",
   "license": "MIT",
   "author": "Adam Berecz",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/vueform/core.git",
+    "url": "git+https://github.com/vueform/next.git",
     "directory": "packages/tsconfig"
   },
   "files": [

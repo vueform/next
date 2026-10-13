@@ -1,6 +1,6 @@
 # @vueform/tsconfig
 
-Shared TypeScript configurations for [Vueform](https://github.com/vueform/core) packages and projects.
+Shared TypeScript configurations for [Vueform](https://github.com/vueform/next) packages and projects.
 
 > **Alpha**: Vueform 2 is in early alpha. APIs may change between releases without notice.
 

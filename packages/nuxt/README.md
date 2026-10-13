@@ -1,6 +1,6 @@
 # @vueform/nuxt
 
-Nuxt module for [Vueform](https://github.com/vueform/core).
+Nuxt module for [Vueform](https://github.com/vueform/next).
 
 > **Alpha**: Vueform 2 is in early alpha. APIs may change between releases without notice.
 
@@ -19,7 +19,7 @@ export default defineNuxtConfig({
 
 ## Documentation
 
-See the [Vueform repository](https://github.com/vueform/core) for documentation and examples.
+See the [Vueform repository](https://github.com/vueform/next) for documentation and examples.
 
 ## License
 
