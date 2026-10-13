@@ -1,4 +1,4 @@
-# @vueform/nuxt
+# @vueform/nuxt-module
 
 Nuxt module for [Vueform](https://github.com/vueform/next).
 
@@ -7,13 +7,13 @@ Nuxt module for [Vueform](https://github.com/vueform/next).
 ## Installation
 
 ```sh
-npm install @vueform/nuxt@alpha
+npm install @vueform/nuxt-module@alpha
 ```
 
 ```ts
 // nuxt.config.ts
 export default defineNuxtConfig({
-  modules: ['@vueform/nuxt'],
+  modules: ['@vueform/nuxt-module'],
 })
 ```
 

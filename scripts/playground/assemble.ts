@@ -244,7 +244,7 @@ function buildNuxtConfigTs(combo: Combo): string {
     `  devtools: { enabled: true },`,
     `  telemetry: false,`,
     `  ...adapter,`,
-    `  modules: [...(adapter.modules ?? []), '@vueform/nuxt'],`,
+    `  modules: [...(adapter.modules ?? []), '@vueform/nuxt-module'],`,
     `  vueform: {`,
     `    adapter: '${combo.adapter}',`,
     `    locales: ['en_US'],`,

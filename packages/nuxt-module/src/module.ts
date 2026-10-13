@@ -190,7 +190,7 @@ async function ensureInstalled(
   const commands = pkgs
     .map((pkg) => `  ${getInstallCommand(pm, pkg)}`)
     .join('\n')
-  const failure = `[@vueform/nuxt] ${reason}\n\nInstall with:\n\n${commands}\n`
+  const failure = `[@vueform/nuxt-module] ${reason}\n\nInstall with:\n\n${commands}\n`
 
   if (mode === 'never' || !canInstallInteractively(nuxt)) {
     throw new Error(failure)
@@ -198,17 +198,17 @@ async function ensureInstalled(
 
   if (mode === 'prompt') {
     const confirmed = await consola.prompt(
-      `[@vueform/nuxt] ${reason} Install ${pkgs.join(', ')} now?`,
+      `[@vueform/nuxt-module] ${reason} Install ${pkgs.join(', ')} now?`,
       { type: 'confirm', cancel: 'null' }
     )
     if (confirmed !== true) throw new Error(failure)
   }
 
   for (const pkg of pkgs) {
-    consola.start(`[@vueform/nuxt] Installing ${pkg}...`)
+    consola.start(`[@vueform/nuxt-module] Installing ${pkg}...`)
     await addDependency(pkg, { cwd: rootDir })
   }
-  consola.success(`[@vueform/nuxt] Installed ${pkgs.join(', ')}.`)
+  consola.success(`[@vueform/nuxt-module] Installed ${pkgs.join(', ')}.`)
 
   return true
 }
@@ -220,7 +220,7 @@ export type * from './types'
 
 export default defineNuxtModule<ModuleOptions>({
   meta: {
-    name: '@vueform/nuxt',
+    name: '@vueform/nuxt-module',
     configKey: 'vueform',
     compatibility: { nuxt: '>=3.0.0' },
   },
@@ -232,7 +232,7 @@ export default defineNuxtModule<ModuleOptions>({
     const preset = options.adapter && PRESETS[options.adapter]
     if (!preset) {
       throw new Error(
-        `[@vueform/nuxt] Set \`vueform.adapter\` to one of: ${Object.keys(PRESETS).join(', ')}.`
+        `[@vueform/nuxt-module] Set \`vueform.adapter\` to one of: ${Object.keys(PRESETS).join(', ')}.`
       )
     }
     const adapterPkg = preset.pkg
@@ -269,7 +269,7 @@ export default defineNuxtModule<ModuleOptions>({
           installMode,
           `The "${options.adapter}" adapter builds on "${corePkg}", which is not installed.`
         )
-        consola.info(`[@vueform/nuxt] ${preset.companions.hint}`)
+        consola.info(`[@vueform/nuxt-module] ${preset.companions.hint}`)
         await nuxt.callHook('restart', { hard: true })
         return
       }
@@ -278,7 +278,7 @@ export default defineNuxtModule<ModuleOptions>({
     const adapterDir = resolvePackageDir(rootDir, adapterPkg)
     if (!adapterDir) {
       throw new Error(
-        `[@vueform/nuxt] Could not resolve "${adapterPkg}" package directory.`
+        `[@vueform/nuxt-module] Could not resolve "${adapterPkg}" package directory.`
       )
     }
 

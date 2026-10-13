@@ -13,7 +13,7 @@
   "dependencies": {
     "@vueform/dompurify": "^2.0.0-alpha.1",
     "@vueform/expr-eval": "^2.0.0-alpha.1",
-    "@vueform/nuxt": "^2.0.0-alpha.1",
+    "@vueform/nuxt-module": "^2.0.0-alpha.1",
     "nuxt": "^3.17.5"
   },
   "devDependencies": {

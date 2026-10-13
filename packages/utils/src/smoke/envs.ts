@@ -68,7 +68,7 @@ export const ENVS: EnvDef[] = [
     rendering: 'ssr',
     mode: 'vdom',
     fixture: 'nuxt',
-    note: '@vueform/nuxt module, nuxi build + preview (SSR)',
+    note: '@vueform/nuxt-module module, nuxi build + preview (SSR)',
   },
   {
     id: 'nuxt-spa',

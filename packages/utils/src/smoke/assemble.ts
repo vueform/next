@@ -130,7 +130,7 @@ export interface SmokeConfig {
   /**
    * EXTRA workspace packages the fixtures install from tarballs — the
    * universal set (the adapter itself, @vueform/core, @vueform/expr-eval
-   * as the canonical config's plugin, and @vueform/nuxt for nuxt fixtures)
+   * as the canonical config's plugin, and @vueform/nuxt-module for nuxt fixtures)
    * is injected automatically. Any packed package that appears as a PEER
    * anywhere in the closure must be listed — pnpm's auto-installed peers
    * bypass the tarball overrides and would resolve from the registry.
@@ -208,7 +208,7 @@ function readSmokeConfig(adapterDir: string, adapter: string): SmokeConfig {
  * types.vue) that only the smoke-types envs check, plus any override of a
  * generated canonical file (schema.ts, SmokeFormInline.vue). One exception:
  * `vueform.config.ts` goes to the RUN ROOT, where the shells and the
- * @vueform/nuxt module expect a user's config. The canonical files
+ * @vueform/nuxt-module module expect a user's config. The canonical files
  * themselves are generated from config.json afterwards (see generate.ts),
  * skipping whatever was committed here.
  */
@@ -267,7 +267,7 @@ function copySharedSpecs(runDir: string) {
  *
  * In vite envs it also side-effect-imports `<adapter>/components`, which is
  * what activates the registry/GlobalComponents type augmentations. Nuxt envs
- * deliberately get NO such import — there the @vueform/nuxt module's generated
+ * deliberately get NO such import — there the @vueform/nuxt-module module's generated
  * type template has to do it.
  */
 function writeAdapterModule(
@@ -317,7 +317,7 @@ function yarnVersion(): string {
 /**
  * Rewires the fixture manifest to the packed tarballs. The workspace
  * dependency set comes from the adapter's smoke config (plus the adapter
- * itself, plus `@vueform/nuxt` for nuxt fixtures), injected as `file:`
+ * itself, plus `@vueform/nuxt-module` for nuxt fixtures), injected as `file:`
  * paths; the committed fixture shells stay workspace-free. EVERY packed
  * name is additionally overridden so the tarballs' own semver ranges can't
  * fall back to the registry.
@@ -368,7 +368,7 @@ function patchManifest(
       '@vueform/core',
       '@vueform/expr-eval',
       ...(config.dependencies ?? []),
-      ...(input.env.framework === 'nuxt' ? ['@vueform/nuxt'] : []),
+      ...(input.env.framework === 'nuxt' ? ['@vueform/nuxt-module'] : []),
     ]),
   ]
 
@@ -522,7 +522,7 @@ export async function assembleFixture(
   patchManifest(dir, input, config)
 
   // The generated run-metadata module — nuxt.config.ts reads the adapter
-  // name from it. A const literal on purpose: the @vueform/nuxt module's
+  // name from it. A const literal on purpose: the @vueform/nuxt-module module's
   // `adapter` option is a union of known adapters, so a wrong name fails
   // its typecheck instead of widening to string (as a JSON import would).
   fs.writeFileSync(

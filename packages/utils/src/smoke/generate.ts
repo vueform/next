@@ -176,7 +176,7 @@ function nuxtSetupSource(): string {
     `// edit — commit tests/smoke/setup/nuxt.ts to override. Extra Nuxt config`,
     `// the adapter's consumers need (modules, css, library options), merged`,
     `// into the generic nuxt.config.ts; adapter modules load before`,
-    `// @vueform/nuxt.`,
+    `// @vueform/nuxt-module.`,
     `export default {} as Record<string, unknown> & {`,
     `  modules?: string[]`,
     `  css?: string[]`,
