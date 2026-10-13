@@ -11,10 +11,11 @@ on:
       prerelease:
         description: Channel (rehearsal = publish-only test run; none = stable on `latest`)
         type: choice
-        options: [rehearsal, alpha, beta, rc, none]
+        options: [rehearsal]
+        # options: [rehearsal, alpha, beta, rc, none]
         default: alpha
       dry_run:
-        description: Compute and print everything, publish nothing
+        description: Dry-run (compute and print everything, publish nothing)
         type: boolean
         default: false
 
@@ -115,7 +116,6 @@ jobs:
             fi
           done
           exit $failed
-
       - name: GitHub release
         if: ${{ !inputs.dry_run && steps.release.outputs.rehearsal == 'false' }}
         env:
