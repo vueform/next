@@ -154,7 +154,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom header template.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Value of the component.
            */
@@ -169,7 +169,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom footer template.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Value of the component.
            */
@@ -184,7 +184,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom option template.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -204,7 +204,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom option group template.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The raw option group (or raw item when ungrouped).
            */
@@ -219,7 +219,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content template.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * An array of objects to display for virtualscroller.
            */
@@ -232,11 +232,15 @@ export interface VfCloneNameSlots<
 
           /**
            * Reference of the content.
+           *
+           * @param el The element of the content reference.
            */
           contentRef: (el: any) => void
 
           /**
            * Options of the items.
+           *
+           * @param index The rendered index of the item.
            */
           getItemOptions: (index: number) => VirtualScrollerItemOptions
         }) => VNode[]

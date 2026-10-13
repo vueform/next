@@ -159,7 +159,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content for each option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -174,7 +174,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom value template.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Value of the component.
            */
@@ -189,7 +189,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom header template.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Current value.
            */
@@ -204,7 +204,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom footer template.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Current value.
            */

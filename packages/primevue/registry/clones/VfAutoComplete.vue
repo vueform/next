@@ -117,7 +117,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content for each suggestion option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw suggestion item.
            */
@@ -132,7 +132,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content for each suggestion option group.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The option group, or raw suggestion when groups are not used.
            */
@@ -147,7 +147,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom chip template for a selected suggestion in multiple mode.
          */
-        chip: (props: {
+        chip: (scope: {
           /**
            * A selected suggestion value.
            */
@@ -169,7 +169,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom header template of the overlay panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Value of the component.
            */
@@ -184,7 +184,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom footer template of the overlay panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Value of the component.
            */
@@ -199,7 +199,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content template for virtual scrolling.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * Suggestions to display for the virtual scroller.
            */

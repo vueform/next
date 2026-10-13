@@ -64,7 +64,7 @@ export interface VfCloneNameSlots extends ContentSlots<VfCloneNameContext> {
    *
    * @exposes VfCloneName
    */
-  default: (props: { context: VfCloneNameContext }) => VNode[]
+  default: (scope: { context: VfCloneNameContext }) => VNode[]
 }
 
 /**

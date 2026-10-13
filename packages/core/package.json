@@ -114,6 +114,7 @@
     }
   },
   "publishConfig": {
+    "imports": {},
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",

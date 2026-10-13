@@ -1,0 +1,137 @@
+# Release pipeline (workflow_dispatch only). Re-runs the full gates, computes
+# the next lockstep version via scripts/release.ts, rebuilds (dist banners
+# stamp the version at build time), publishes all packages with npm trusted
+# publishing (OIDC — no token secrets) and provenance, and creates the GitHub
+# release with the new changelog section as notes.
+#
+# prerelease=rehearsal is the test channel: publish-only runs that burn only
+# `x.y.z-0.N` versions on the `rehearsal` dist-tag and leave the repository
+# completely untouched — no commit, no tag, no CHANGELOG write, no GitHub
+# release. See the release plan for the full rehearsal procedure.
+name: Release
+
+on:
+  workflow_dispatch:
+    inputs:
+      bump:
+        description: Version bump (auto = from conventional commits)
+        type: choice
+        options: [auto, patch, minor, major]
+        default: auto
+      prerelease:
+        description: Channel (rehearsal = publish-only test run; none = stable on `latest`)
+        type: choice
+        options: [rehearsal, alpha, beta, rc, none]
+        default: alpha
+      dry_run:
+        description: Compute and print everything, publish nothing
+        type: boolean
+        default: false
+
+concurrency:
+  group: release
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  id-token: write # npm trusted publishing (OIDC) + provenance
+
+jobs:
+  release:
+    name: Gates, version & publish
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0 # the changelog and version bump read the full history
+
+      - uses: pnpm/action-setup@v4 # version read from packageManager
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright chromium (smoke gates)
+        run: pnpm exec playwright install --with-deps chromium
+
+      - run: pnpm build
+
+      - run: pnpm check
+
+      - run: pnpm test
+
+      - run: pnpm test-dts
+
+      - run: pnpm test-smoke-types
+
+      - run: pnpm test-smoke
+
+      - name: Git identity (release commit + tag)
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+      # The script also rebuilds with the stamped version and (non-rehearsal)
+      # regenerates registries, size sections and benchmarks into the commit.
+      - name: Compute version, rebuild, regen artifacts, commit & tag
+        id: release
+        run: >
+          pnpm release
+          --bump ${{ inputs.bump }}
+          --pre ${{ inputs.prerelease }}
+          ${{ inputs.dry_run && '--dry' || '' }}
+
+      - name: Job summary
+        run: |
+          {
+            echo "### Release ${{ inputs.dry_run && '(dry run)' || '' }}"
+            echo "- version: \`${{ steps.release.outputs.version }}\`"
+            echo "- dist-tag: \`${{ steps.release.outputs.dist_tag }}\`"
+            echo "- rehearsal: \`${{ steps.release.outputs.rehearsal }}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+        if: always()
+
+      - name: Push release commit and tag
+        if: ${{ !inputs.dry_run && steps.release.outputs.rehearsal == 'false' }}
+        run: git push --follow-tags origin HEAD:main
+
+      - name: Publish to npm (trusted publishing + provenance)
+        if: ${{ !inputs.dry_run }}
+        env:
+          NPM_CONFIG_PROVENANCE: 'true'
+        run: pnpm publish -r --tag ${{ steps.release.outputs.dist_tag }} --no-git-checks
+
+      - name: Assert dist-tags (prerelease must never ride `latest`)
+        if: ${{ !inputs.dry_run && inputs.prerelease != 'none' }}
+        run: |
+          version='${{ steps.release.outputs.version }}'
+          failed=0
+          for dir in packages/*/; do
+            pkg=$(node -p "require('./$dir/package.json').name")
+            latest=$(npm dist-tag ls "$pkg" | awk -F': ' '$1=="latest"{print $2}')
+            echo "$pkg latest=$latest"
+            if [ "$latest" = "$version" ]; then
+              echo "::error::$pkg latest points at the just-published prerelease $version"
+              failed=1
+            fi
+          done
+          exit $failed
+
+      - name: GitHub release
+        if: ${{ !inputs.dry_run && steps.release.outputs.rehearsal == 'false' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >
+          gh release create "v${{ steps.release.outputs.version }}"
+          --title "v${{ steps.release.outputs.version }}"
+          --notes-file "${{ steps.release.outputs.notes_file }}"
+          ${{ inputs.prerelease != 'none' && '--prerelease' || '' }}

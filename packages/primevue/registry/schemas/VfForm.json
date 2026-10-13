@@ -16,7 +16,7 @@
       "path": "FormNav.vue",
       "target": "{componentsDir}/FormNav.vue",
       "kind": "component",
-      "hash": "sha256:87eeb89e7493b515ac6d3f6168e0cc854b74c4ee3cec1201177d37a71d6e28ce"
+      "hash": "sha256:63760a283b0929344c2b1d2fdfa22febb1478cb8af6bc77dcca9b2059e0191fe"
     },
     {
       "path": "FormStep.vue",

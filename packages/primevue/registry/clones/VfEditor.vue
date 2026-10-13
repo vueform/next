@@ -98,11 +98,17 @@ export interface VfCloneNameSlots<
   /**
    * Custom editor toolbar content.
    *
-   * @param props.languages Available language labels keyed by locale code.
-   * @param props.language The currently active language code.
+   * @param scope The toolbar slot's params.
    */
-  toolbar: (props: {
+  toolbar: (scope: {
+    /**
+     * Available language labels keyed by locale code.
+     */
     languages: Record<string, string>
+
+    /**
+     * The currently active language code.
+     */
     language: string
   }) => VNode[]
 }
@@ -141,17 +147,17 @@ export interface VfCloneNameClasses extends EditorClasses {
   input: ClassValue
 
   /**
-   * @write
+   * The placeholder skeleton shown while the editor is loading.
    */
   placeholder: ClassValue
 
   /**
-   * @write
+   * The toolbar area of the loading placeholder.
    */
   placeholderToolbar: ClassValue
 
   /**
-   * @write
+   * The content area of the loading placeholder.
    */
   placeholderContent: ClassValue
 }

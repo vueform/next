@@ -94,31 +94,94 @@ export interface VfCloneNameSlots<TTrueValue = any, TFalseValue = any>
    * Slot that replaces the default checkbox rendering. Receives input-specific
    * props.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The current model value.
+     */
     model: TTrueValue | TFalseValue
+
+    /**
+     * The value used when the checkbox is checked.
+     */
     trueValue: TTrueValue
+
+    /**
+     * The value used when the checkbox is unchecked.
+     */
     falseValue: TFalseValue
+
+    /**
+     * The `name` attribute of the input.
+     */
     inputName: string
+
+    /**
+     * The element's unique ID.
+     */
     id: string
+
+    /**
+     * Whether the input is disabled.
+     */
     disabled: boolean
+
+    /**
+     * Ref to the underlying input element.
+     */
     input: any
+
+    /**
+     * The resolved label text.
+     */
     text: string | undefined
+
+    /**
+     * The aria attributes to bind to the input.
+     */
     aria: AriaProp
+
+    /**
+     * Handles the input's blur event.
+     *
+     * @param e The native blur event.
+     */
     handleBlur: (e: FocusEvent) => void
+
+    /**
+     * Handles the input's focus event.
+     *
+     * @param e The native focus event.
+     */
     handleFocus: (e: FocusEvent) => void
+
+    /**
+     * Handles the input's change event, updating the model.
+     *
+     * @param payload The new input value.
+     * @param e The originating native event.
+     */
     handleInput: (payload: any, e?: Event) => void
   }) => VNode[]
 
   /**
    * Slot that replaces the text/label portion of the checkbox.
    *
-   * @param props.text The resolved label text.
-   * @param props.id The element's unique ID.
-   * @param props.genericName The element's display name for accessibility.
+   * @param scope The text slot's params.
    */
-  text: (props: {
+  text: (scope: {
+    /**
+     * The resolved label text.
+     */
     text: string | undefined
+
+    /**
+     * The element's unique ID.
+     */
     id: string
+
+    /**
+     * The element's display name for accessibility.
+     */
     genericName: string
   }) => VNode[]
 }

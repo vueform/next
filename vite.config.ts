@@ -243,7 +243,7 @@ export default defineConfig({
     jsdocDescriptionWithDot: false,
     jsdocCapitalizeDescription: false,
     jsdocCommentLineStrategy: 'multiline',
-    sortPackageJson: {},
+    sortPackageJson: { sortScripts: true },
     sortImports: {},
     ignorePatterns: [
       '**/dist/**',
@@ -366,7 +366,7 @@ export default defineConfig({
       },
       ':pack': {
         command: 'tsx scripts/pack.ts',
-        dependsOn: [':build'],
+        dependsOn: [':build', ':manifests'],
         cache: {
           input: [
             'packages/*/dist/**',
@@ -429,18 +429,9 @@ export default defineConfig({
           output: [],
         },
       },
-      ':manifests:check': {
-        command: 'tsx scripts/manifests.ts --check',
-        cache: {
-          input: [
-            'package.json',
-            'packages/*/package.json',
-            'docs/package.json',
-            'benchmark/package.json',
-            'scripts/manifests.ts',
-          ],
-          output: [],
-        },
+      ':fix': {
+        command:
+          'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt',
       },
       ':typecheck': {
         command: "node -e ''",
@@ -507,17 +498,13 @@ export default defineConfig({
       },
       ':check': {
         command: 'vp fmt --check',
-        dependsOn: [':lint', ':typecheck', ':manifests:check'],
+        dependsOn: [':lint', ':typecheck'],
       },
       ':quick': {
         command: "node -e ''",
         dependsOn: checkedPackages
           .filter(({ dir }) => aliasedSrcPackages.includes(dir))
           .map(({ dir }) => `:typecheck:${dir}`),
-      },
-      ':fix': {
-        command:
-          'vp lint --fix --fix-suggestions && eslint "**/*.vue" --fix && stylelint "**/*.{scss,css}" --fix && vp fmt && tsx scripts/manifests.ts',
       },
       ':test': {
         command: 'tsx scripts/test.ts',

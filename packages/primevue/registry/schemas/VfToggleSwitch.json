@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfToggleSwitch.vue",
     "blueprint": "toggle-switch",
-    "hash": "sha256:72b7fa515d216ab8c2e4c759ecf84753f6eee5c64b3d2ece0648f89bd6f4b4f2",
+    "hash": "sha256:2c5b8dcaa62abc3db6fc50ce6788f6cdd45a416f63eddb965302537269421e08",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfRadioButtonGroup.vue",
     "blueprint": "radio-button-group",
-    "hash": "sha256:3c03d8e11dcd2c54b5b7efee053caa959b85fe866730ebd0f29a310d9a0a2c11",
+    "hash": "sha256:44b435b6d97140d770e103d0b5416411cc60f25fd9bed29d557269f998935616",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

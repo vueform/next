@@ -83,9 +83,14 @@ export interface VfCloneNameSlots<TMultiple extends boolean = boolean>
   /**
    * Slot that replaces the upload button. Receives the upload handler.
    *
-   * @param props.upload The upload handler function.
+   * @param scope The button slot's params.
    */
-  button: (props: { upload: () => void }) => VNode[]
+  button: (scope: {
+    /**
+     * The upload handler function.
+     */
+    upload: () => void
+  }) => VNode[]
 }
 
 /**
@@ -99,7 +104,7 @@ export interface VfCloneNameSlots<TMultiple extends boolean = boolean>
  */
 export interface VfCloneNameParts extends FileUploadParts {
   /**
-   * @write
+   * The wrapper element surrounding the file upload input.
    */
   wrapper: DomAttrsOf<'div'>
 
@@ -129,7 +134,7 @@ export interface VfCloneNameParts extends FileUploadParts {
  */
 export interface VfCloneNameClasses extends FileUploadClasses {
   /**
-   * @write
+   * The wrapper element surrounding the file upload input.
    */
   wrapper: ClassValue
 

@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfCheckbox.vue",
     "blueprint": "checkbox",
-    "hash": "sha256:332daa1b972dd7b4bb9759989e041ee235b7078acb8c86c438a9d14f7e10b14e",
+    "hash": "sha256:411229be453adb128515aca8f3acb34fa82a3279932d487ae01f4d8d9bfbd1f1",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

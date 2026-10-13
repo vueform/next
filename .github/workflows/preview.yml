@@ -1,0 +1,31 @@
+# PR preview builds: every PR push publishes built tarballs to pkg.pr.new's
+# CDN (never to npm) and the bot comments install URLs on the PR, e.g.
+# `npm i https://pkg.pr.new/@vueform/core@<PR#>`. Workspace cross-deps are
+# rewritten automatically. Requires the pkg.pr.new GitHub App on the repo.
+name: Preview
+
+on: pull_request
+
+concurrency:
+  group: preview-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  preview:
+    name: pkg.pr.new snapshot
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4 # version read from packageManager
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+
+      - run: npx pkg.pr.new publish ./packages/*

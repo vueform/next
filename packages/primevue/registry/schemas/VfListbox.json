@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfListbox.vue",
     "blueprint": "listbox",
-    "hash": "sha256:da5d24fb48e58dabd5bde202700b45019a9ae0f2d47260cecf7d9cb29c1018c8",
+    "hash": "sha256:50c8267e3ad0b1f164af517fd01ed7bfb874c69f1c6b543477e5416453a09fec",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

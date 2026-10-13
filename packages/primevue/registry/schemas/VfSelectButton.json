@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfSelectButton.vue",
     "blueprint": "select-button",
-    "hash": "sha256:927c35a284704fe3c0be75625a1fe949da44f254c0d3467295f1dfe208a6f541",
+    "hash": "sha256:7de20da8630f2d10f05199856eef85724d1e6da4e01ee004e573cb484f3e472c",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

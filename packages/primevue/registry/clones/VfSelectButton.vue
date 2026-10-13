@@ -144,7 +144,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content for each option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */

@@ -67,9 +67,20 @@ export interface VfCloneNameSlots extends GroupSlots<VfCloneNameContext> {
    * Slot that replaces the wrapper element. Receives the wrapper class and
    * resolved schema.
    */
-  wrapper: (props: {
+  wrapper: (scope: {
+    /**
+     * CSS classes for the wrapper element.
+     */
     class: ClassValue
+
+    /**
+     * The resolved schema of the group's child elements.
+     */
     resolvedSchema: ResolvedSchema
+
+    /**
+     * The group's resolved label.
+     */
     label?: string
   }) => VNode[]
 
@@ -77,7 +88,12 @@ export interface VfCloneNameSlots extends GroupSlots<VfCloneNameContext> {
    * Slot that replaces the default content. Receives the resolved schema for
    * rendering children.
    */
-  default: (props: { resolvedSchema: ResolvedSchema }) => VNode[]
+  default: (scope: {
+    /**
+     * The resolved schema of the group's child elements.
+     */
+    resolvedSchema: ResolvedSchema
+  }) => VNode[]
 }
 
 /**

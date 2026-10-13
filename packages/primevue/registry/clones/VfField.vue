@@ -103,9 +103,12 @@ export interface VfCloneNameSlots<
    * Default slot where the user renders their 3rd party component. Receives the
    * full component context.
    *
-   * @param props.context The component's context.
+   * @param scope The default slot's params.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The component's context.
+     */
     context: VfCloneNameContext<
       VfCloneNameProps<TTranslate, TLanguages, TNullValue>
     >

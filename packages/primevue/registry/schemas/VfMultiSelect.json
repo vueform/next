@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfMultiSelect.vue",
     "blueprint": "multi-select",
-    "hash": "sha256:746da5f0f955b433533a8e145b11a83ae73d77d998dece93d01bbf698c0aff43",
+    "hash": "sha256:0238b02cbaa094d5fb86483f55654956ab80c45426924c51c36c442d7f215c00",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

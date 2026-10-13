@@ -159,7 +159,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom selected value display.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Selected values of the component.
            */
@@ -174,7 +174,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom chip template for a selected value.
          */
-        chip: (props: {
+        chip: (scope: {
           /**
            * A value in the selection.
            */
@@ -192,7 +192,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom chip remove icon template.
          */
-        chipicon: (props: {
+        chipicon: (scope: {
           /**
            * Style class of the icon.
            */
@@ -215,7 +215,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom header template of the overlay panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Selected values of the component.
            */
@@ -230,7 +230,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom footer template of the overlay panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Selected values of the component.
            */
@@ -245,7 +245,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content for each option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * The raw option item.
            */
@@ -265,7 +265,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content for each option group.
          */
-        optiongroup: (props: {
+        optiongroup: (scope: {
           /**
            * The option group, or raw item when groups are not used.
            */
@@ -280,7 +280,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content template for virtual scrolling.
          */
-        content: (props: {
+        content: (scope: {
           /**
            * Items to display for the virtual scroller.
            */

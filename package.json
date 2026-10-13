@@ -15,7 +15,7 @@
     "docs:pre": "pnpm --filter @vueform/docs run pre",
     "docs:preview": "pnpm --filter @vueform/docs run preview",
     "fix": "vpr :fix",
-    "fmt": "vp fmt && pnpm manifests",
+    "fmt": "vp fmt",
     "lint": "vpr :lint",
     "manifests": "vpr :manifests",
     "pack": "vpr :pack",
@@ -28,6 +28,7 @@
     "pg:up": "tsx scripts/playground/up.ts",
     "quick": "vpr :quick",
     "registry": "vpr :registry",
+    "release": "tsx scripts/release.ts",
     "size": "vpr :size",
     "size:report": "vpr :size:report",
     "test": "tsx scripts/test.ts",
@@ -42,6 +43,7 @@
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
     "@types/node": "catalog:",
+    "@types/semver": "catalog:",
     "@typescript-eslint/parser": "catalog:",
     "@vscode/web-custom-data": "catalog:",
     "@vue/tsconfig": "catalog:",
@@ -52,12 +54,16 @@
     "@vueform/ui": "workspace:*",
     "@vueform/utils": "workspace:*",
     "ajv": "catalog:",
+    "conventional-changelog-cli": "catalog:",
+    "conventional-changelog-conventionalcommits": "catalog:",
+    "conventional-recommended-bump": "catalog:",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
     "eslint-plugin-vue": "catalog:",
     "husky": "catalog:",
     "lint-staged": "catalog:",
     "publint": "catalog:",
+    "semver": "catalog:",
     "stylelint": "catalog:",
     "stylelint-config-recess-order": "catalog:",
     "stylelint-config-standard-scss": "catalog:",
@@ -87,8 +93,7 @@
       "pnpm vp fmt"
     ],
     "*.{json,yml,yaml}": [
-      "pnpm vp fmt",
-      "pnpm manifests"
+      "pnpm vp fmt"
     ]
   },
   "engines": {

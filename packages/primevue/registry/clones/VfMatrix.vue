@@ -77,24 +77,39 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
   /**
    * Slot that replaces the header row. Receives class and header definitions.
    *
-   * @param props.class CSS classes for the header row.
-   * @param props.headers The resolved column header definitions.
+   * @param scope The header slot's params.
    */
-  header: (props: {
+  header: (scope: {
+    /**
+     * CSS classes for the header row.
+     */
     class: ClassValue
+
+    /**
+     * The resolved column header definitions.
+     */
     headers: (ResolvedMatrixCol | {})[]
   }) => VNode[]
 
   /**
    * Slot that replaces each column header cell.
    *
-   * @param props.class CSS classes for the column header.
-   * @param props.id The column header's unique ID.
-   * @param props.label The column header label text.
+   * @param scope The colHeader slot's params.
    */
-  colHeader: (props: {
+  colHeader: (scope: {
+    /**
+     * CSS classes for the column header.
+     */
     class: ClassValue
+
+    /**
+     * The column header's unique ID.
+     */
     id: string
+
+    /**
+     * The column header label text.
+     */
     label: string
   }) => VNode[]
 
@@ -102,69 +117,155 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
    * Slot that replaces each matrix row. Receives row state, drag handlers,
    * label, remove handler, and columns.
    *
-   * @param props.class CSS classes for the row.
-   * @param props.index The row's item index.
-   * @param props.rowHeader Whether this row has a header.
-   * @param props.beingDragged Whether this row is currently being dragged.
-   * @param props.isDropTarget Whether this row is the current drop target.
-   * @param props.handleDragEnter Handler for the drag enter event.
-   * @param props.handleDragStart Handler for the drag start event.
-   * @param props.handleDragEnd Handler for the drag end event.
-   * @param props.canRemove Whether the row can be removed.
-   * @param props.canSort Whether the row can be sorted via drag-and-drop.
-   * @param props.label The row header label text.
-   * @param props.remove Handler to remove this row.
-   * @param props.cols The column element definitions for this row.
+   * @param scope The row slot's params.
    */
-  row: (props: {
+  row: (scope: {
+    /**
+     * CSS classes for the row.
+     */
     class: ClassValue
+
+    /**
+     * The row's item index.
+     */
     index: number
+
+    /**
+     * Whether this row has a header.
+     */
     rowHeader: boolean
+
+    /**
+     * Whether this row is currently being dragged.
+     */
     beingDragged: boolean
+
+    /**
+     * Whether this row is the current drop target.
+     */
     isDropTarget: boolean
+
+    /**
+     * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
+     */
     handleDragEnter: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
+     */
     handleDragStart: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag end event.
+     */
     handleDragEnd: () => void
+
+    /**
+     * Whether the row can be removed.
+     */
     canRemove: boolean
+
+    /**
+     * Whether the row can be sorted via drag-and-drop.
+     */
     canSort: boolean
+
+    /**
+     * The row header label text.
+     */
     label: string
+
+    /**
+     * Handler to remove this row.
+     */
     remove: () => void
+
+    /**
+     * The column element definitions for this row.
+     */
     cols: { component: string | Component; props: MatrixElementSchema }[]
   }) => VNode[]
 
   /**
    * Slot that replaces each row header cell.
    *
-   * @param props.class CSS classes for the row header.
-   * @param props.label The row header label text.
+   * @param scope The rowHeader slot's params.
    */
-  rowHeader: (props: { class: ClassValue; label: string }) => VNode[]
+  rowHeader: (scope: {
+    /**
+     * CSS classes for the row header.
+     */
+    class: ClassValue
+
+    /**
+     * The row header label text.
+     */
+    label: string
+  }) => VNode[]
 
   /**
    * Slot that replaces the drag sort handle wrapper.
    *
-   * @param props.class CSS classes for the wrapper.
-   * @param props.handleDragStart Handler for the drag start event.
-   * @param props.handleDragEnd Handler for the drag end event.
+   * @param scope The sortWrapper slot's params.
    */
-  sortWrapper: (props: {
+  sortWrapper: (scope: {
+    /**
+     * CSS classes for the wrapper.
+     */
     class: ClassValue
+
+    /**
+     * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
+     */
     handleDragEnter: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
+     */
     handleDragStart: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag end event.
+     */
     handleDragEnd: () => void
   }) => VNode[]
 
   /**
    * Slot that replaces the drag handle. Receives class and drag event handlers.
    *
-   * @param props.class CSS classes for the handle element.
-   * @param props.handleDragStart Handler for the drag start event.
-   * @param props.handleDragEnd Handler for the drag end event.
+   * @param scope The sort slot's params.
    */
-  sort: (props: {
+  sort: (scope: {
+    /**
+     * CSS classes for the handle element.
+     */
     class: ClassValue
+
+    /**
+     * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
+     */
     handleDragEnter: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
+     */
     handleDragStart: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag end event.
+     */
     handleDragEnd: () => void
   }) => VNode[]
 
@@ -172,46 +273,81 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
    * Slot that replaces each matrix cell. Receives the component, props for the
    * cell element, and a drag enter handler for sortable rows.
    *
-   * @param props.component The component name for the cell element.
-   * @param props.props The props passed to the cell element.
-   * @param props.handleDragEnter Handler for the drag enter event on the cell.
+   * @param scope The cell slot's params.
    */
-  cell: (props: {
+  cell: (scope: {
+    /**
+     * The component name for the cell element.
+     */
     component: string | Component
+
+    /**
+     * The props passed to the cell element.
+     */
     props: MatrixElementSchema
+
+    /**
+     * Handler for the drag enter event on the cell.
+     *
+     * @param $event The native drag event.
+     */
     handleDragEnter: ($event: DragEvent) => void
   }) => VNode[]
 
   /**
    * Slot that replaces the row remove button wrapper.
    *
-   * @param props.class CSS classes for the wrapper.
-   * @param props.handleRemove Handler to remove the row.
+   * @param scope The removeWrapper slot's params.
    */
-  removeWrapper: (props: {
+  removeWrapper: (scope: {
+    /**
+     * CSS classes for the wrapper.
+     */
     class: ClassValue
+
+    /**
+     * Handler to remove the row.
+     */
     handleRemove: () => void
   }) => VNode[]
 
   /**
    * Slot that replaces the row remove button.
    *
-   * @param props.class CSS classes for the remove button.
-   * @param props.handleRemove Handler to remove the row.
+   * @param scope The remove slot's params.
    */
-  remove: (props: { class: ClassValue; handleRemove: () => void }) => VNode[]
+  remove: (scope: {
+    /**
+     * CSS classes for the remove button.
+     */
+    class: ClassValue
+
+    /**
+     * Handler to remove the row.
+     */
+    handleRemove: () => void
+  }) => VNode[]
 
   /**
    * Slot that replaces the add row button. Receives class, label, and add
    * handler.
    *
-   * @param props.class CSS classes for the add button.
-   * @param props.label The button label text.
-   * @param props.handleAdd Handler to add a new row.
+   * @param scope The add slot's params.
    */
-  add: (props: {
+  add: (scope: {
+    /**
+     * CSS classes for the add button.
+     */
     class: ClassValue
+
+    /**
+     * The button label text.
+     */
     label: TProp | string
+
+    /**
+     * Handler to add a new row.
+     */
     handleAdd: () => void
   }) => VNode[]
 }

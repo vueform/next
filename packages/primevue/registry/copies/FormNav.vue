@@ -24,9 +24,6 @@ defineProps<{
    * Inline template slots from the parent VfForm (`useSlots()`). Keys are only
    * checked for presence — never invoked for inspection.
    */
-  /**
-   * @write
-   */
   position?: NavPosProp
 }>()
 </script>

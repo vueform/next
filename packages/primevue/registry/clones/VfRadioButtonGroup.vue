@@ -148,22 +148,60 @@ export interface VfCloneNameSlots<
    * Slot that replaces the default radio buttons rendering. Receives resolved
    * items, groups, and shared state.
    */
-  default: (props: {
+  default: (scope: {
+    /**
+     * The shared `name` attribute of the radio inputs.
+     */
     radioName: string
+
+    /**
+     * Whether the group is disabled.
+     */
     disabled: boolean
+
+    /**
+     * The resolved label text.
+     */
     label: string | undefined
+
+    /**
+     * The resolved option items.
+     */
     items: ResolvedOption<TValue, TRaw>[]
+
+    /**
+     * The resolved option groups.
+     */
     groups: ResolvedGroup<TValue, TRaw>[]
+
+    /**
+     * Whether the options are grouped.
+     */
     grouped: boolean
   }) => VNode[]
 
   /**
    * Slot that replaces each option group when items are grouped.
    */
-  group: (props: {
+  group: (scope: {
+    /**
+     * The shared `name` attribute of the radio inputs.
+     */
     radioName: string
+
+    /**
+     * Whether the group is disabled.
+     */
     disabled: boolean
+
+    /**
+     * The resolved label text.
+     */
     label: string | undefined
+
+    /**
+     * The resolved option group.
+     */
     group: ResolvedGroup<TValue, TRaw>
   }) => VNode[]
 
@@ -171,10 +209,25 @@ export interface VfCloneNameSlots<
    * Slot that replaces each entire `VfRadioButton` child. Receives the resolved
    * item and shared state.
    */
-  item: (props: {
+  item: (scope: {
+    /**
+     * The shared `name` attribute of the radio inputs.
+     */
     radioName: string
+
+    /**
+     * Whether the group is disabled.
+     */
     disabled: boolean
+
+    /**
+     * The resolved label text.
+     */
     label: string | undefined
+
+    /**
+     * The resolved option item.
+     */
     item: ResolvedOption<TValue, TRaw>
   }) => VNode[]
 
@@ -187,14 +240,14 @@ export interface VfCloneNameSlots<
    *
    * @inherits VfRadioButton.default
    */
-  radio: (props: Parameters<VfRadioButtonSlots['default']>[0]) => VNode[]
+  radio: (scope: Parameters<VfRadioButtonSlots['default']>[0]) => VNode[]
 
   /**
    * Slot that replaces the text/label of each individual radio button.
    *
    * @inherits VfRadioButton.text
    */
-  text: (props: Parameters<VfRadioButtonSlots['text']>[0]) => VNode[]
+  text: (scope: Parameters<VfRadioButtonSlots['text']>[0]) => VNode[]
 }
 
 /**

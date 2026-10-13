@@ -118,7 +118,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom selected value display.
          */
-        value: (props: {
+        value: (scope: {
           /**
            * Selected tree nodes for display.
            */
@@ -133,7 +133,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom content for each tree node option.
          */
-        option: (props: {
+        option: (scope: {
           /**
            * Current tree node.
            */
@@ -153,7 +153,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom header template of the overlay panel.
          */
-        header: (props: {
+        header: (scope: {
           /**
            * Selected keys map of the component.
            */
@@ -168,7 +168,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom footer template of the overlay panel.
          */
-        footer: (props: {
+        footer: (scope: {
           /**
            * Selected keys map of the component.
            */
@@ -183,7 +183,7 @@ export interface VfCloneNameSlots<
         /**
          * Custom toggle icon for a tree node.
          */
-        itemtoggleicon: (props: {
+        itemtoggleicon: (scope: {
           /**
            * Current tree node.
            */

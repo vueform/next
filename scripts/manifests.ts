@@ -1,17 +1,17 @@
 /**
- * Manifest tidier (`pnpm manifests`): normalizes the workspace package.json
- * files — root, `packages/*`, `docs` and `benchmark`. Sorts each `scripts`
- * block alphabetically, and for every `exports` map that carries the `dev`
- * condition (src-world resolution — see @vueform/tsconfig/tsconfig.dom.json)
- * syncs a `publishConfig.exports` copy with those entries stripped, so the
- * published manifest never points at `src/`. pnpm swaps `publishConfig`
- * fields in at pack time. Idempotent — a file is rewritten only when its
- * normalized content differs. Runs after every fmt (the root `fmt` script,
- * the `:fix` task, lint-staged) and on package.json saves in the editor
- * (see .vscode/settings.json).
- *
- * `--check` writes nothing and exits 1 when any manifest is not normalized —
- * the read-only mode behind the `:manifests:check` task that `:check` runs.
+ * Manifest publish-field sync (`pnpm manifests`): updates the publish-time
+ * fields of the workspace package.json files — root, `packages/*`, `docs`
+ * and `benchmark`. Key sorting is `vp fmt`'s job (`sortPackageJson` in the
+ * root fmt config); this script only owns `publishConfig`: for every
+ * `exports` map that carries the `dev` condition (src-world resolution — see
+ * @vueform/tsconfig/tsconfig.dom.json) it syncs a `publishConfig.exports`
+ * copy with those entries stripped, so the published manifest never points
+ * at `src/`. The `imports` field (`#src` src-world aliases, equally
+ * dev-only) gets a `publishConfig.imports: {}` twin — pnpm can only
+ * overwrite publishConfig fields, not delete them, and an empty imports map
+ * is inert. pnpm swaps `publishConfig` fields in at pack time. Idempotent.
+ * Not run automatically — invoke it after changing an exports/imports map;
+ * the release pipeline (scripts/release.ts) runs it before every publish.
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -38,14 +38,6 @@ const manifestFiles = [
 ]
   .map((dir) => path.join(dir, 'package.json'))
   .filter((file) => fs.existsSync(file))
-
-const sortScripts = (pkg: Manifest) => {
-  const scripts = pkg.scripts as Record<string, string> | undefined
-  if (!scripts) return
-  pkg.scripts = Object.fromEntries(
-    Object.entries(scripts).sort(([a], [b]) => (a < b ? -1 : a > b ? 1 : 0))
-  )
-}
 
 const hasDevCondition = (value: unknown): boolean => {
   if (value === null || typeof value !== 'object' || Array.isArray(value))
@@ -93,31 +85,38 @@ const syncPublishExports = (pkg: Manifest) => {
   if (Object.keys(publishConfig).length === 0) delete pkg.publishConfig
 }
 
-const checkMode = process.argv.includes('--check')
+/**
+ * The workspace `imports` map only aliases `#src` into `src/` (dev-world);
+ * published packages must not carry it. publishConfig cannot remove a field,
+ * so the published manifest gets an empty map instead.
+ */
+const syncPublishImports = (pkg: Manifest) => {
+  const publishConfig = pkg.publishConfig as Manifest | undefined
+  if (pkg.imports) {
+    pkg.publishConfig = { ...publishConfig, imports: {} }
+    return
+  }
+  if (!publishConfig || !('imports' in publishConfig)) return
+  delete publishConfig.imports
+  if (Object.keys(publishConfig).length === 0) delete pkg.publishConfig
+}
+
 const updated: string[] = []
 
 for (const file of manifestFiles) {
   const original = fs.readFileSync(file, 'utf8')
   const pkg = JSON.parse(original) as Manifest
 
-  sortScripts(pkg)
   syncPublishExports(pkg)
+  syncPublishImports(pkg)
 
   const next = JSON.stringify(pkg, null, 2) + '\n'
   if (next === original) continue
-  if (!checkMode) fs.writeFileSync(file, next)
+  fs.writeFileSync(file, next)
   updated.push(path.relative(repoRoot, file))
 }
 
-if (checkMode) {
-  if (updated.length) {
-    for (const item of updated)
-      console.error(`[manifests] not normalized: ${item}`)
-    console.error('[manifests] run `pnpm manifests` (or `pnpm fix`) to fix.')
-    process.exit(1)
-  }
-  console.log('[manifests] all manifests normalized')
-} else if (updated.length) {
+if (updated.length) {
   for (const item of updated) console.log(`[manifests] updated ${item}`)
 } else {
   console.log('[manifests] nothing to change')

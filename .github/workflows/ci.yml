@@ -1,0 +1,103 @@
+# CI gates: every PR and every push to main runs the full verification set
+# (build → check → tests → dts → smoke-types). PRs additionally get their
+# title linted against the repo's commitlint config, because squash merges
+# turn PR titles into the conventional commits that drive version bumps and
+# the changelog. Visual/screenshot suites deliberately never run in CI.
+name: CI
+
+on:
+  push:
+    branches: [main, 'renovate/**'] # renovate/** — branch automerge merges on green checks without a PR
+  pull_request:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  gates:
+    name: Build, check & test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4 # version read from packageManager
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - run: pnpm build
+
+      - run: pnpm check
+
+      - run: pnpm test
+
+      - run: pnpm test-dts
+
+      - run: pnpm test-smoke-types
+
+  visual:
+    name: Visual (screenshot) tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - run: pnpm exec playwright install --with-deps chromium
+
+      - run: pnpm build
+
+      # Baselines are platform-suffixed (…-linux.png). A missing baseline is
+      # auto-written and fails the run once — download the artifact below and
+      # commit the new files to adopt them.
+      - run: pnpm test-visual
+
+      - name: Upload snapshots & diffs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-snapshots
+          path: |
+            packages/*/tests/visual/screenshots/
+            packages/*/tests/visual/test-results/
+          retention-days: 7
+
+  pr-title:
+    name: PR title (conventional commit)
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # The squash commit message is the PR title — lint it with the repo's
+      # own commitlint config (auto-derived package scopes included).
+      - env:
+          TITLE: ${{ github.event.pull_request.title }}
+        run: printf '%s\n' "$TITLE" | pnpm exec commitlint

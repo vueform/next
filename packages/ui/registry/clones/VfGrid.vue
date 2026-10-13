@@ -69,12 +69,22 @@ export interface VfCloneNameSlots extends GridSlots<VfCloneNameContext> {
    * Slot that replaces the default grid content. Receives the resolved grid
    * cells.
    */
-  default: (props: { cells: GridCell[] }) => VNode[]
+  default: (scope: {
+    /**
+     * The resolved grid cells.
+     */
+    cells: GridCell[]
+  }) => VNode[]
 
   /**
    * Slot that replaces each individual grid cell rendering.
    */
-  cell: (props: { cell: GridCell }) => VNode[]
+  cell: (scope: {
+    /**
+     * The resolved grid cell.
+     */
+    cell: GridCell
+  }) => VNode[]
 }
 
 /**
@@ -135,10 +145,29 @@ export interface VfCloneNameClasses extends GridClasses {
    * @param options Alignment, optional schema, and header flags for this cell.
    */
   cell: (options: {
+    /**
+     * The cell's horizontal alignment.
+     */
     align: AlignProp
+
+    /**
+     * The cell's vertical alignment.
+     */
     valign: ValignProp
+
+    /**
+     * The element schema rendered in the cell, if any.
+     */
     schema?: any
+
+    /**
+     * Whether the cell is a column header.
+     */
     colHeader?: boolean
+
+    /**
+     * Whether the cell is a row header.
+     */
     rowHeader?: boolean
   }) => ClassValue
 }
