@@ -1,27 +1,39 @@
 /**
- * Standalone tarball packing (`vpr :pack`): packs every publishable
- * package into `.vueform/tarballs` via the smoke harness's pack step. The
- * vp task caches on the dists and manifests, so `:test-smoke` and
- * `:test-smoke-types` (which run the suites with `--nopack`) only repack
- * when something changed.
+ * Tarball packing (`pnpm run pack`): one live row per publishable package,
+ * fed by a single `vpr :pack` run (scripts/pack-task.ts) — the rows flip as
+ * its `[pack] packing <name>…` lines stream by, and a cache hit completes
+ * them all instantly. vp caching on the dists and manifests is untouched:
+ * the GUI is a display shell around the same `:pack` task the smoke suites
+ * depend on. Output goes to `.vueform/pack/logs`.
  */
-import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { runGui } from './gui'
+import { discoverPackages } from './runner'
 
-import { packWorkspace } from '@vueform/utils/smoke'
+const packages = discoverPackages()
 
-const repoRoot = path.resolve(
-  fileURLToPath(new URL('.', import.meta.url)),
-  '..'
-)
-
-async function main() {
-  const tarballs = await packWorkspace(
-    repoRoot,
-    path.join(repoRoot, '.vueform', 'tarballs'),
-    { onStatus: (text) => console.log(`[pack] ${text}`) }
-  )
-  console.log(`[pack] ${tarballs.byName.size} tarballs in ${tarballs.dir}`)
-}
-
-void main()
+void runGui({
+  title: 'Pack',
+  scope: 'pack',
+  rows: packages.map((pkg) => ({ name: pkg.name })),
+  driver: {
+    cmd: 'pnpm',
+    args: ['exec', 'vpr', ':pack'],
+    route: (line, api) => {
+      const packing = line.match(/\[pack\] packing (\S+?)…?$/)
+      if (packing) {
+        // The previous package finished when the next one starts; the final
+        // one (and full cache hits) resolve on the driver's exit.
+        for (const pkg of packages) {
+          if (pkg.name === packing[1]) api.running(pkg.name)
+        }
+        const index = packages.findIndex((pkg) => pkg.name === packing[1])
+        if (index > 0) api.done(packages[index - 1].name)
+      }
+      if (/\[pack\] \d+ tarballs in /.test(line)) {
+        for (const pkg of packages) api.done(pkg.name)
+      }
+    },
+  },
+}).then((ok) => {
+  if (!ok) process.exit(1)
+})

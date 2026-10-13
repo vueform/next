@@ -1,37 +1,65 @@
 /**
- * Monorepo autofix orchestrator (`pnpm fix`): per target, oxlint `--fix`,
- * stylelint `--fix`, then oxfmt — one task (and bar) per workspace
- * package plus `root`. Selection flags work like the build orchestrator's —
- * `--core`, `--pv`, `--adapters`, `--root`.
- *
- * Every target runs even when earlier ones report problems; done lines show
- * applied fixes plus remaining warn/error counts, and the exit code is non-zero
- * only when unfixable errors remain.
+ * Monorepo autofix (`pnpm fix`): one live row per tool — oxlint `--fix`,
+ * eslint `--fix`, stylelint `--fix`, then oxfmt — run sequentially over the
+ * whole repo (they mutate the same files). Rows show fixed counts when the
+ * tool reports them, otherwise remaining issues; the exit code is non-zero
+ * only when unfixable errors remain. Output goes to `.vueform/fix/logs`.
  */
-import { analyzeLintOutput, lintSummary, lintTotals } from './issues'
-import { runQueue, selectTasks } from './runner'
-import { fixTasks } from './tasks'
+import { countLintIssues, runGui, type GuiRow, type RowResult } from './gui'
 
-const selectors = process.argv.slice(2)
+/**
+ * Remaining errors fail the row; fixed counts (when the tool prints them)
+ * become the status text, falling back to the remaining-issue count.
+ */
+const fixSummary = (output: string, code: number): RowResult => {
+  const fixed = output.match(/(\d+) (?:problems? |issues? )?fixed/i)
+  const issues = countLintIssues(output)
+  if (fixed) {
+    return {
+      detail: `${fixed[1]} issues fixed${issues ? ` · ${issues} remain` : ''}`,
+      issues,
+      fail: code !== 0,
+    }
+  }
+  if (issues)
+    return { detail: `${issues} issues remain`, issues, fail: code !== 0 }
+  return { fail: code !== 0 }
+}
 
-const queue = selectTasks(fixTasks(), selectors).map((task) => ({
-  ...task,
-  keepGoing: true,
-  analyze: analyzeLintOutput,
-  countFixes: true,
-}))
+const rows: GuiRow[] = [
+  {
+    name: 'oxlint',
+    cmd: 'pnpm',
+    args: ['exec', 'vp', 'lint', '.', '--fix', '--fix-suggestions'],
+    summarize: fixSummary,
+  },
+  {
+    name: 'eslint',
+    cmd: 'pnpm',
+    args: ['exec', 'eslint', '**/*.vue', '--fix'],
+    summarize: fixSummary,
+  },
+  {
+    name: 'stylelint',
+    cmd: 'pnpm',
+    args: [
+      'exec',
+      'stylelint',
+      '**/*.{scss,css}',
+      '--fix',
+      '--allow-empty-input',
+    ],
+    summarize: fixSummary,
+  },
+  {
+    name: 'fmt',
+    cmd: 'pnpm',
+    args: ['exec', 'vp', 'fmt', '.'],
+  },
+]
 
-runQueue(queue, {
-  timesScope: 'fix',
-  defaultMs: () => 8_000,
-  verb: 'fixing',
-  doneVerb: 'Fixed',
-  epilogue: () => lintSummary(true, selectors),
-})
-  .then(() => {
-    if (lintTotals().errors > 0) process.exit(1)
-  })
-  .catch((error) => {
-    console.error(error)
-    process.exit(1)
-  })
+void runGui({ title: 'Fix', scope: 'fix', rows, keepGoing: true }).then(
+  (ok) => {
+    if (!ok) process.exit(1)
+  }
+)

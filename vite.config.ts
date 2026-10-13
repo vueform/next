@@ -365,7 +365,7 @@ export default defineConfig({
         dependsOn: buildablePackages.map(({ dir }) => `:build:${dir}`),
       },
       ':pack': {
-        command: 'tsx scripts/pack.ts',
+        command: 'tsx scripts/pack-task.ts',
         dependsOn: [':build', ':manifests'],
         cache: {
           input: [
@@ -378,8 +378,14 @@ export default defineConfig({
       },
       ...buildTasks,
       ':lint': {
+        command: "node -e ''",
+        dependsOn: [':oxlint', ':stylelint', ':eslint'],
+      },
+      ':oxlint': {
         command: 'vp lint',
-        dependsOn: [':stylelint', ':eslint'],
+      },
+      ':fmt:check': {
+        command: 'vp fmt --check',
       },
       ':stylelint': {
         command: 'stylelint "**/*.{scss,css}"',
@@ -497,8 +503,8 @@ export default defineConfig({
         },
       },
       ':check': {
-        command: 'vp fmt --check',
-        dependsOn: [':lint', ':typecheck'],
+        command: "node -e ''",
+        dependsOn: [':lint', ':typecheck', ':fmt:check'],
       },
       ':quick': {
         command: "node -e ''",

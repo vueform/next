@@ -1,45 +1,74 @@
 /**
- * Monorepo typecheck orchestrator (`pnpm check`).
- *
- * Without flags, runs every package's own `check` script (alphabetical), then
- * the two root-level programs:
- *
- * - `root` — `vue-tsc` over the root tsconfig (everything outside packages that
- *   needs the DOM settings; docs later)
- * - `node` — `tsc` over `tsconfig.node.json` (scripts, config files)
- *
- * Selection flags work like the build orchestrator's — `--core`, `--pv`,
- * `--adapters`, plus `--root` and `--node` for the root-level programs.
- * Durations are persisted in `.vueform/times.json`.
+ * Monorepo check (`pnpm check`): one live row per gate — oxlint, stylelint,
+ * eslint, fmt, then every typecheck leg (per package + root/node via
+ * `:typecheck:root`, docs, benchmark) — each row running its vp task, so
+ * vite-plus caching fully applies. Failing rows show their issue count;
+ * output goes to `.vueform/check/logs` with an error-log link at the end.
  */
-import { join } from 'node:path'
+import fs from 'node:fs'
+import path from 'node:path'
 
-import { outputDir, runQueue, selectTasks, type Task } from './runner'
-import { checkTasks } from './tasks'
+import {
+  countFormatIssues,
+  countLintIssues,
+  countTsErrors,
+  issuesDetail,
+  runGui,
+  type GuiRow,
+} from './gui'
+import { discoverPackages, repoRoot } from './runner'
 
-const DEFAULT_MS: Record<string, number> = {
-  adapters: 10_000,
-  plugins: 3_000,
-  default: 5_000,
-}
-
-const args = process.argv.slice(2)
-// --resume: continue a previously failed run from its failed task.
-const resume = args.includes('--resume')
-const selectors = args.filter((arg) => arg !== '--resume')
-
-runQueue(selectTasks(checkTasks(), selectors), {
-  resume: {
-    path: join(outputDir, 'check-state.json'),
-    key: JSON.stringify({ selectors }),
-    use: resume,
-  },
-  timesScope: 'check',
-  defaultMs: (task: Task) =>
-    DEFAULT_MS[task.group ?? 'default'] ?? DEFAULT_MS.default,
-  verb: 'typechecking',
-  doneVerb: 'Typechecked',
-}).catch((error) => {
-  console.error(error)
-  process.exit(1)
+const lintRow = (name: string, task: string): GuiRow => ({
+  name,
+  cmd: 'pnpm',
+  args: ['exec', 'vpr', task],
+  summarize: (output, code) => ({
+    ...issuesDetail(countLintIssues(output)),
+    fail: code !== 0,
+  }),
 })
+
+const typecheckRow = (name: string, task: string): GuiRow => ({
+  name: `typecheck ${name}`,
+  cmd: 'pnpm',
+  args: ['exec', 'vpr', task],
+  summarize: (output, code) => ({
+    ...issuesDetail(countTsErrors(output)),
+    fail: code !== 0,
+  }),
+})
+
+const typecheckPackages = discoverPackages().filter(
+  (pkg) => pkg.scripts.typecheck
+)
+
+const rows: GuiRow[] = [
+  lintRow('oxlint', ':oxlint'),
+  lintRow('stylelint', ':stylelint'),
+  lintRow('eslint', ':eslint'),
+  {
+    name: 'fmt',
+    cmd: 'pnpm',
+    args: ['exec', 'vpr', ':fmt:check'],
+    summarize: (output, code) => ({
+      ...issuesDetail(countFormatIssues(output)),
+      fail: code !== 0,
+    }),
+  },
+  ...typecheckPackages.map((pkg) =>
+    typecheckRow(pkg.id, `:typecheck:${pkg.id}`)
+  ),
+  typecheckRow('root', ':typecheck:root'),
+  ...(fs.existsSync(path.join(repoRoot, 'docs'))
+    ? [typecheckRow('docs', ':typecheck:docs')]
+    : []),
+  ...(fs.existsSync(path.join(repoRoot, 'benchmark'))
+    ? [typecheckRow('benchmark', ':typecheck:benchmark')]
+    : []),
+]
+
+void runGui({ title: 'Check', scope: 'check', rows, keepGoing: true }).then(
+  (ok) => {
+    if (!ok) process.exit(1)
+  }
+)

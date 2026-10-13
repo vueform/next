@@ -1,48 +1,35 @@
 /**
- * Bundle-size orchestrator (`pnpm size`): runs every package's `size` script
- * (or the ones selected by flags) as a task list with per-package progress bars
- * — the same renderer as `pnpm build` / `pnpm check`. Packages run in
- * dependency-tier order (core → adapters → plugins), so adapter reports embed
- * fresh core numbers.
- *
- * Flags:
- *
- * - `--core`, `--ui`, `--primevue` / `--pv`, `--dompurify`, `--expr-eval`,
- *   `--adapters`, `--plugins` run only the selected packages (default: all)
- * - `--report` only regenerate the README size sections from the existing
- *   size.json files instead of measuring (each package's `size:report`; plain
- *   output, no progress bars — it is near-instant)
+ * Bundle-size measurement (`pnpm size`): one live row per package with a
+ * `size` script (tier order, so adapter reports embed fresh core numbers),
+ * each row running `vp run --filter <pkg> size` with live `x/n measurements`
+ * progress from the suite's `[x/n] scenario ...` lines. The workspace is
+ * built upfront via the cached `:build` task. `--report` only regenerates
+ * the README size sections (near-instant, plain output). Selection flags
+ * work as before (`--core`, `--pv`, `--adapters`). Output goes to
+ * `.vueform/size/logs`.
  */
 import { spawnSync } from 'node:child_process'
 
+import { runGui } from './gui'
 import {
   discoverPackageTasks,
   green,
   red,
-  runQueue,
+  repoRoot,
   selectTasks,
   tierSort,
-  type Task,
 } from './runner'
 
 const args = process.argv.slice(2)
 const report = args.includes('--report')
 const selectors = args.filter((arg) => arg !== '--report')
 
-// In report mode only the packages with a markdown report qualify (core has
-// none — its size.json is embedded into the adapter reports).
 const script = report ? 'size:report' : 'size'
-const queue = tierSort(selectTasks(discoverPackageTasks(script), selectors))
-
-const DEFAULT_MS: Record<string, number> = {
-  core: 20_000,
-  ui: 25_000,
-  primevue: 160_000,
-  default: 5_000,
-}
+const tasks = tierSort(selectTasks(discoverPackageTasks(script), selectors))
 
 if (report) {
-  for (const task of queue) {
+  // Near-instant README regeneration — plain output, no rows.
+  for (const task of tasks) {
     console.log(green(`▸ ${task.id}`))
     const result = spawnSync(task.cmd, task.args, {
       cwd: task.cwd,
@@ -54,13 +41,46 @@ if (report) {
     }
   }
 } else {
-  runQueue(queue, {
-    timesScope: 'size',
-    defaultMs: (task: Task) => DEFAULT_MS[task.id] ?? DEFAULT_MS.default,
-    verb: 'measuring',
-    doneVerb: 'Measured',
-  }).catch((error) => {
-    console.error(error)
-    process.exit(1)
+  // Measurements bundle the dists — make sure they are current (vp-cached).
+  const build = spawnSync('pnpm', ['exec', 'vpr', ':build'], {
+    cwd: repoRoot,
+    encoding: 'utf8',
+  })
+  if (build.status !== 0) {
+    console.error(build.stdout + build.stderr)
+    process.exit(build.status ?? 1)
+  }
+
+  void runGui({
+    title: 'Bundle size',
+    scope: 'size',
+    rows: tasks.map((task) => {
+      let measured = 0
+      return {
+        name: task.timeKey,
+        cmd: 'pnpm',
+        args: [
+          'exec',
+          'vp',
+          'run',
+          '--filter',
+          `./packages/${task.id}`,
+          'size',
+        ],
+        onLine: (line: string, setProgress: (text: string) => void) => {
+          const step = line.match(/^\[(\d+)\/(\d+)\]/)
+          if (step) {
+            measured = Number(step[1])
+            setProgress(`${step[1]}/${step[2]} measurements`)
+          }
+        },
+        summarize: (_output: string, code: number) => ({
+          detail: measured ? `${measured} measurements` : '',
+          fail: code !== 0,
+        }),
+      }
+    }),
+  }).then((ok) => {
+    if (!ok) process.exit(1)
   })
 }
