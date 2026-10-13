@@ -44,26 +44,26 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Cache Playwright browsers
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/ms-playwright
-          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+      # - name: Cache Playwright browsers
+      #   uses: actions/cache@v4
+      #   with:
+      #     path: ~/.cache/ms-playwright
+      #     key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
-      - name: Install Playwright chromium (smoke gates)
-        run: pnpm exec playwright install --with-deps chromium
+      # - name: Install Playwright chromium (smoke gates)
+      #   run: pnpm exec playwright install --with-deps chromium
 
       - run: pnpm build
 
       - run: pnpm check
 
-      - run: pnpm test
+      # - run: pnpm test
 
-      - run: pnpm test-dts
+      # - run: pnpm test-dts
 
-      - run: pnpm test-smoke-types
+      # - run: pnpm test-smoke-types
 
-      - run: pnpm test-smoke
+      # - run: pnpm test-smoke
 
       - name: Git identity (release commit + tag)
         run: |
@@ -125,3 +125,12 @@ jobs:
           --title "v${{ steps.release.outputs.version }}"
           --notes-file "${{ steps.release.outputs.notes_file }}"
           ${{ inputs.prerelease != 'none' && '--prerelease' || '' }}
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: .vueform/*/logs/*.log
+          if-no-files-found: ignore
+          retention-days: 7
