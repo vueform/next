@@ -16,46 +16,42 @@ import { ensureUtilsDist } from './ensure-utils'
 
 ensureUtilsDist()
 
-async function main(): Promise<void> {
-  const { collectMissingDescriptions, writeMissingReport } =
-    await import('./api-extractor/lib/missing')
-  const { generatedDir } = await import('./api-extractor/lib/paths')
-  const { createPaint, resolveTerminalMode, termLink } =
-    await import('./terminal')
+const { collectMissingDescriptions, writeMissingReport } =
+  await import('./api-extractor/lib/missing')
+const { generatedDir } = await import('./api-extractor/lib/paths')
+const { createPaint, resolveTerminalMode, termLink } =
+  await import('./terminal')
 
-  const args = process.argv.slice(2)
-  const KNOWN = ['--fullpath']
-  const unknown = args.filter((a) => !KNOWN.includes(a))
-  if (unknown.length) {
-    console.error(
-      `Unknown flag(s): ${unknown.join(', ')} — available: ${KNOWN.join(', ')}`
-    )
-    process.exit(1)
-  }
-
-  if (!fs.existsSync(path.join(generatedDir, 'core'))) {
-    console.error('No assembled api trees found — run `pnpm api` first.')
-    process.exit(1)
-  }
-
-  const mode = resolveTerminalMode()
-  const { green, yellow, dim } = createPaint(mode.colors)
-
-  const report = collectMissingDescriptions({
-    fullPath: args.includes('--fullpath'),
-  })
-  const file = writeMissingReport(report)
-  const total = Object.keys(report).length
-
-  if (total > 0) {
-    console.log(
-      `${yellow(
-        `⚠ ${total} missing description${total > 1 ? 's' : ''}`
-      )}${dim(' — ')}${termLink(file, mode)}`
-    )
-  } else {
-    console.log(`${green('No missing descriptions.')} ${dim(file)}`)
-  }
+const args = process.argv.slice(2)
+const KNOWN = ['--fullpath']
+const unknown = args.filter((a) => !KNOWN.includes(a))
+if (unknown.length) {
+  console.error(
+    `Unknown flag(s): ${unknown.join(', ')} — available: ${KNOWN.join(', ')}`
+  )
+  process.exit(1)
 }
 
-void main()
+if (!fs.existsSync(path.join(generatedDir, 'core'))) {
+  console.error('No assembled api trees found — run `pnpm api` first.')
+  process.exit(1)
+}
+
+const mode = resolveTerminalMode()
+const { green, yellow, dim } = createPaint(mode.colors)
+
+const report = collectMissingDescriptions({
+  fullPath: args.includes('--fullpath'),
+})
+const file = writeMissingReport(report)
+const total = Object.keys(report).length
+
+if (total > 0) {
+  console.log(
+    `${yellow(
+      `⚠ ${total} missing description${total > 1 ? 's' : ''}`
+    )}${dim(' — ')}${termLink(file, mode)}`
+  )
+} else {
+  console.log(`${green('No missing descriptions.')} ${dim(file)}`)
+}

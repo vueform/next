@@ -12,39 +12,35 @@ import { ensureUtilsDist } from './ensure-utils'
 // make sure it is current before anything resolves it.
 ensureUtilsDist()
 
-async function main(): Promise<void> {
-  const { runRows, stripDisplayFlags } = await import('./terminal')
-  const { discoverPackageTasks, selectTasks } = await import('./runner')
+const { runRows, stripDisplayFlags } = await import('./terminal')
+const { discoverPackageTasks, selectTasks } = await import('./runner')
 
-  const tasks = selectTasks(
-    discoverPackageTasks('registry'),
-    stripDisplayFlags(process.argv.slice(2))
-  )
+const tasks = selectTasks(
+  discoverPackageTasks('registry'),
+  stripDisplayFlags(process.argv.slice(2))
+)
 
-  const ok = await runRows({
-    title: 'Registry',
-    scope: 'registry',
-    rows: tasks.map((task) => ({
-      name: task.timeKey,
-      cmd: 'pnpm',
-      args: [
-        'exec',
-        'vp',
-        'run',
-        '--filter',
-        `./packages/${task.id}`,
-        'registry',
-      ],
-      summarize: (output: string, code: number) => {
-        const items = output.match(/\((\d+) items\)/)
-        return {
-          detail: items ? `${items[1]} registry items built` : '',
-          fail: code !== 0,
-        }
-      },
-    })),
-  })
-  if (!ok) process.exit(1)
-}
-
-void main()
+const ok = await runRows({
+  title: 'Registry',
+  scope: 'registry',
+  rows: tasks.map((task) => ({
+    name: task.timeKey,
+    cmd: 'pnpm',
+    args: [
+      'exec',
+      'vp',
+      'run',
+      '--filter',
+      `./packages/${task.id}`,
+      'registry',
+    ],
+    summarize: (output: string, code: number) => {
+      const items = output.match(/\((\d+) items\)/)
+      return {
+        detail: items ? `${items[1]} registry items built` : '',
+        fail: code !== 0,
+      }
+    },
+  })),
+})
+if (!ok) process.exit(1)

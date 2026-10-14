@@ -8,15 +8,11 @@ import { ensureUtilsDist } from './ensure-utils'
 
 ensureUtilsDist()
 
-async function main(): Promise<void> {
-  const { runTestRunner } = await import('./test-runner')
-  await runTestRunner({
-    script: 'test-visual',
-    scope: 'tests-visual',
-    title: 'Visual tests',
-    kind: 'playwright',
-    logs: 'errors-only',
-  })
-}
-
-void main()
+const { runTestRunner } = await import('./test-runner')
+await runTestRunner({
+  script: 'test-visual',
+  scope: 'tests-visual',
+  title: 'Visual tests',
+  kind: 'playwright',
+  logs: 'errors-only',
+})

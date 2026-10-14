@@ -9,13 +9,9 @@ import { ensureUtilsDist } from './ensure-utils'
 // and the runner's display does too. Warm it before the dynamic import.
 ensureUtilsDist()
 
-async function main(): Promise<void> {
-  const { runTestRunner } = await import('./test-runner')
-  await runTestRunner({
-    script: 'test',
-    scope: 'tests',
-    title: 'Integration & invariant tests',
-  })
-}
-
-void main()
+const { runTestRunner } = await import('./test-runner')
+await runTestRunner({
+  script: 'test',
+  scope: 'tests',
+  title: 'Integration & invariant tests',
+})

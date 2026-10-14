@@ -33,153 +33,146 @@ const extractorDir = path.join(repoRoot, 'scripts', 'api-extractor')
 // vp dependsOn, so `pnpm api` keeps the real TTY and the live display works.
 ensureUtilsDist()
 
-async function main(): Promise<void> {
-  const {
-    createPaint,
-    createRows,
-    createRunLog,
-    resolveTerminalMode,
-    termLink,
-    trackChild,
-    untrackChild,
-  } = await import('./terminal')
-  const { collectMissingDescriptions, writeMissingReport } =
-    await import('./api-extractor/lib/missing')
-  const { FILES } = await import('./api-extractor/lib/output')
+const {
+  createPaint,
+  createRows,
+  createRunLog,
+  resolveTerminalMode,
+  termLink,
+  trackChild,
+  untrackChild,
+} = await import('./terminal')
+const { collectMissingDescriptions, writeMissingReport } =
+  await import('./api-extractor/lib/missing')
+const { FILES } = await import('./api-extractor/lib/output')
 
-  interface ExtractTask {
-    id: string
-    script: string
-  }
-
-  const tasks: ExtractTask[] = [
-    ...FILES.map((name) => ({
-      id: name,
-      script: path.join(extractorDir, 'scrapers', `${name}.ts`),
-    })),
-    { id: 'assemble', script: path.join(extractorDir, 'assemble.ts') },
-  ]
-
-  const mode = resolveTerminalMode()
-  const { green, red, yellow, dim } = createPaint(mode.colors)
-
-  // Lives inside the output tree — assemble only removes its own raw files,
-  // never this folder.
-  const log = createRunLog({
-    dir: path.join(repoRoot, '.vueform', 'api', 'logs'),
-  })
-
-  const runStarted = Date.now()
-  const display = createRows({
-    title: 'API extraction',
-    rows: tasks.map(({ id }) => ({ id, detail: 'waiting' })),
-    mode,
-  })
-
-  const outputs = new Map<string, string>(tasks.map(({ id }) => [id, '']))
-  const failed = new Set<string>()
-
-  function runTask(task: ExtractTask): Promise<boolean> {
-    return new Promise((resolve) => {
-      display.start(task.id)
-
-      const child = spawn('pnpm', ['exec', 'tsx', task.script], {
-        cwd: repoRoot,
-        stdio: ['ignore', 'pipe', 'pipe'],
-        detached: process.platform !== 'win32',
-      })
-      trackChild(child)
-      child.stdout.on('data', (chunk: Buffer) => {
-        outputs.set(task.id, outputs.get(task.id)! + chunk.toString())
-      })
-      child.stderr.on('data', (chunk: Buffer) => {
-        outputs.set(task.id, outputs.get(task.id)! + chunk.toString())
-      })
-
-      child.on('close', (code) => {
-        untrackChild(child)
-        const ok = code === 0
-        log.section(task.id)
-        log.write(outputs.get(task.id)!)
-        if (ok) display.pass(task.id)
-        else {
-          failed.add(task.id)
-          display.fail(task.id, `exited with ${code}`)
-        }
-        if (mode.verbose) {
-          console.log(`\n––––– ${task.id} –––––\n`)
-          console.log(outputs.get(task.id)!.trimEnd())
-        }
-        resolve(ok)
-      })
-    })
-  }
-
-  const scraperRuns = new Map<string, Promise<boolean>>()
-  for (const task of tasks) {
-    if (task.id === 'assemble') continue
-    if (task.id === 'features') {
-      // Enriches from the blueprints raw output — wait for that scrape
-      // (run either way: on a blueprints failure the run fails regardless).
-      scraperRuns.set(
-        task.id,
-        scraperRuns.get('blueprints')!.then(() => runTask(task))
-      )
-    } else {
-      scraperRuns.set(task.id, runTask(task))
-    }
-  }
-
-  const scrapersOk = (await Promise.all(scraperRuns.values())).every(Boolean)
-
-  if (scrapersOk) {
-    await runTask(tasks.find(({ id }) => id === 'assemble')!)
-  } else {
-    display.skip('assemble')
-  }
-
-  display.finish()
-  log.close()
-
-  // ---------------------------------------------------------------------------
-  // Summary + distilled error log.
-
-  const errorsFile = log.writeErrors(
-    tasks
-      .filter(({ id }) => failed.has(id))
-      .map(({ id }) => ({
-        name: id,
-        body: outputs.get(id)!.trimEnd() || '(no output)',
-      }))
-  )
-
-  if (errorsFile) {
-    console.log(
-      `\n${red(`${failed.size} of ${tasks.length} extraction tasks failed - see full error log:`)}\n${termLink(errorsFile, mode)}`
-    )
-  } else {
-    console.log(
-      `\n${green(`All targets extracted in ${((Date.now() - runStarted) / 1000).toFixed(1)}s.`)}`
-    )
-
-    const missing = collectMissingDescriptions()
-    const missingFile = writeMissingReport(missing)
-    const total = Object.keys(missing).length
-
-    if (total > 0) {
-      console.log(
-        `\n${yellow(
-          `⚠ ${total} missing description${total > 1 ? 's' : ''}`
-        )}${dim(' — ')}${termLink(missingFile, mode)}`
-      )
-    }
-  }
-  console.log('')
-
-  if (failed.size) process.exit(1)
+interface ExtractTask {
+  id: string
+  script: string
 }
 
-main().catch((error) => {
-  console.error(error)
-  process.exit(1)
+const tasks: ExtractTask[] = [
+  ...FILES.map((name) => ({
+    id: name,
+    script: path.join(extractorDir, 'scrapers', `${name}.ts`),
+  })),
+  { id: 'assemble', script: path.join(extractorDir, 'assemble.ts') },
+]
+
+const mode = resolveTerminalMode()
+const { green, red, yellow, dim } = createPaint(mode.colors)
+
+// Lives inside the output tree — assemble only removes its own raw files,
+// never this folder.
+const log = createRunLog({
+  dir: path.join(repoRoot, '.vueform', 'api', 'logs'),
 })
+
+const runStarted = Date.now()
+const display = createRows({
+  title: 'API extraction',
+  rows: tasks.map(({ id }) => ({ id, detail: 'waiting' })),
+  mode,
+})
+
+const outputs = new Map<string, string>(tasks.map(({ id }) => [id, '']))
+const failed = new Set<string>()
+
+function runTask(task: ExtractTask): Promise<boolean> {
+  return new Promise((resolve) => {
+    display.start(task.id)
+
+    const child = spawn('pnpm', ['exec', 'tsx', task.script], {
+      cwd: repoRoot,
+      stdio: ['ignore', 'pipe', 'pipe'],
+      detached: process.platform !== 'win32',
+    })
+    trackChild(child)
+    child.stdout.on('data', (chunk: Buffer) => {
+      outputs.set(task.id, outputs.get(task.id)! + chunk.toString())
+    })
+    child.stderr.on('data', (chunk: Buffer) => {
+      outputs.set(task.id, outputs.get(task.id)! + chunk.toString())
+    })
+
+    child.on('close', (code) => {
+      untrackChild(child)
+      const ok = code === 0
+      log.section(task.id)
+      log.write(outputs.get(task.id)!)
+      if (ok) display.pass(task.id)
+      else {
+        failed.add(task.id)
+        display.fail(task.id, `exited with ${code}`)
+      }
+      if (mode.verbose) {
+        console.log(`\n––––– ${task.id} –––––\n`)
+        console.log(outputs.get(task.id)!.trimEnd())
+      }
+      resolve(ok)
+    })
+  })
+}
+
+const scraperRuns = new Map<string, Promise<boolean>>()
+for (const task of tasks) {
+  if (task.id === 'assemble') continue
+  if (task.id === 'features') {
+    // Enriches from the blueprints raw output — wait for that scrape
+    // (run either way: on a blueprints failure the run fails regardless).
+    scraperRuns.set(
+      task.id,
+      scraperRuns.get('blueprints')!.then(() => runTask(task))
+    )
+  } else {
+    scraperRuns.set(task.id, runTask(task))
+  }
+}
+
+const scrapersOk = (await Promise.all(scraperRuns.values())).every(Boolean)
+
+if (scrapersOk) {
+  await runTask(tasks.find(({ id }) => id === 'assemble')!)
+} else {
+  display.skip('assemble')
+}
+
+display.finish()
+log.close()
+
+// ---------------------------------------------------------------------------
+// Summary + distilled error log.
+
+const errorsFile = log.writeErrors(
+  tasks
+    .filter(({ id }) => failed.has(id))
+    .map(({ id }) => ({
+      name: id,
+      body: outputs.get(id)!.trimEnd() || '(no output)',
+    }))
+)
+
+if (errorsFile) {
+  console.log(
+    `\n${red(`${failed.size} of ${tasks.length} extraction tasks failed - see full error log:`)}\n${termLink(errorsFile, mode)}`
+  )
+} else {
+  console.log(
+    `\n${green(`All targets extracted in ${((Date.now() - runStarted) / 1000).toFixed(1)}s.`)}`
+  )
+
+  const missing = collectMissingDescriptions()
+  const missingFile = writeMissingReport(missing)
+  const total = Object.keys(missing).length
+
+  if (total > 0) {
+    console.log(
+      `\n${yellow(
+        `⚠ ${total} missing description${total > 1 ? 's' : ''}`
+      )}${dim(' — ')}${termLink(missingFile, mode)}`
+    )
+  }
+}
+console.log('')
+
+if (failed.size) process.exit(1)

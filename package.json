@@ -1,5 +1,6 @@
 {
   "private": true,
+  "type": "module",
   "scripts": {
     "api": "tsx scripts/api.ts",
     "api:missing": "tsx scripts/api-missing.ts",

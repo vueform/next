@@ -2,36 +2,30 @@ import { ensureUtilsDist } from './ensure-utils'
 
 ensureUtilsDist()
 
-// The lib imports @vueform/utils from its dist, so it loads only after
-// the warm-up above — dynamically, inside an async main (this file is
-// CJS-compiled; top-level await is not available without type: module).
-async function main(): Promise<void> {
-  const { down, existingCombos, parseArgs, resolveCombos } =
-    await import('./lib')
+// The lib imports @vueform/utils from its dist, so it loads only after the
+// warm-up above — dynamically: a static import would be hoisted above it.
+const { down, existingCombos, parseArgs, resolveCombos } = await import('./lib')
 
-  const tag = 'pg:down'
-  const argv = process.argv.slice(2)
+const tag = 'pg:down'
+const argv = process.argv.slice(2)
 
-  // No flags: tear down every existing playground across all modes.
-  // With flags: only the selected adapter/mode combos.
-  const combos = argv.length
-    ? resolveCombos(tag, parseArgs(argv, { tag }))
-    : existingCombos()
+// No flags: tear down every existing playground across all modes.
+// With flags: only the selected adapter/mode combos.
+const combos = argv.length
+  ? resolveCombos(tag, parseArgs(argv, { tag }))
+  : existingCombos()
 
-  if (!combos.length) {
-    console.log(`[${tag}] No playgrounds found in .playgrounds.`)
-    process.exit(0)
-  }
-
-  let removed = 0
-
-  for (const combo of combos) {
-    if (down(tag, combo)) removed++
-  }
-
-  if (!removed) {
-    console.log(`[${tag}] Nothing was removed.`)
-  }
+if (!combos.length) {
+  console.log(`[${tag}] No playgrounds found in .playgrounds.`)
+  process.exit(0)
 }
 
-void main()
+let removed = 0
+
+for (const combo of combos) {
+  if (down(tag, combo)) removed++
+}
+
+if (!removed) {
+  console.log(`[${tag}] Nothing was removed.`)
+}

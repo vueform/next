@@ -1034,10 +1034,6 @@ let cachedFormatOptions: Promise<EmbeddedFormatOptions> | undefined
  */
 function embeddedFormatOptions(): Promise<EmbeddedFormatOptions> {
   cachedFormatOptions ??= (async () => {
-    // The config bundles to CJS (no root `"type": "module"`); vite warns that
-    // its future native loader won't support that. We always use the bundle
-    // loader, so the warning is noise in every vf-registry run.
-    process.env.VITE_CONFIG_NATIVE_IGNORE_WARNING ??= 'true'
     // Dynamic import: defer loading vite until a format is actually requested.
     const { loadConfigFromFile } = await import('vite')
     const root = findWorkspaceRoot(process.cwd())

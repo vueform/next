@@ -15,13 +15,9 @@ const repoRoot = path.resolve(
   '..'
 )
 
-async function main() {
-  const tarballs = await packWorkspace(
-    repoRoot,
-    path.join(repoRoot, '.vueform', 'tarballs'),
-    { onStatus: (text) => console.log(`[pack] ${text}`) }
-  )
-  console.log(`[pack] ${tarballs.byName.size} tarballs in ${tarballs.dir}`)
-}
-
-void main()
+const tarballs = await packWorkspace(
+  repoRoot,
+  path.join(repoRoot, '.vueform', 'tarballs'),
+  { onStatus: (text) => console.log(`[pack] ${text}`) }
+)
+console.log(`[pack] ${tarballs.byName.size} tarballs in ${tarballs.dir}`)

@@ -13,28 +13,23 @@ import { ensureUtilsDist } from './ensure-utils'
 // dynamic imports below; the GUI's own utils row then replays from cache.
 ensureUtilsDist()
 
-async function main(): Promise<void> {
-  const { runRows, stripDisplayFlags } = await import('./terminal')
-  const { discoverPackageTasks, selectTasks, tierSort } =
-    await import('./runner')
+const { runRows, stripDisplayFlags } = await import('./terminal')
+const { discoverPackageTasks, selectTasks, tierSort } = await import('./runner')
 
-  const tasks = tierSort(
-    selectTasks(
-      discoverPackageTasks('build'),
-      stripDisplayFlags(process.argv.slice(2))
-    )
+const tasks = tierSort(
+  selectTasks(
+    discoverPackageTasks('build'),
+    stripDisplayFlags(process.argv.slice(2))
   )
+)
 
-  const ok = await runRows({
-    title: 'Build',
-    scope: 'build',
-    rows: tasks.map((task) => ({
-      name: task.timeKey,
-      cmd: 'pnpm',
-      args: ['exec', 'vpr', `:build:${task.id}`],
-    })),
-  })
-  if (!ok) process.exit(1)
-}
-
-void main()
+const ok = await runRows({
+  title: 'Build',
+  scope: 'build',
+  rows: tasks.map((task) => ({
+    name: task.timeKey,
+    cmd: 'pnpm',
+    args: ['exec', 'vpr', `:build:${task.id}`],
+  })),
+})
+if (!ok) process.exit(1)
