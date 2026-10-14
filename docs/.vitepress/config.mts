@@ -11,8 +11,8 @@ import {
 
 import docsConfig from '../config.json'
 import * as adapterConfigs from './adapters/configs'
-import { resolveAdapterLayer } from './build/adapterLayer'
-import { vitepressCssLayerPostcss } from './build/cssLayer'
+import { resolveAdapterLayer } from './build/adapter-layer'
+import { vitepressCssLayerPostcss } from './build/css-layer'
 import { slugifyHeading } from './build/slugify'
 import {
   adapterContent,

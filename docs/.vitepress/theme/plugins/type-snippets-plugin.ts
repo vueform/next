@@ -8,7 +8,7 @@ import {
 } from 'shiki'
 import type { Plugin } from 'vite'
 
-import { keywordLink } from './keywordLink'
+import { keywordLink } from './keyword-link'
 
 const ROUTE_PREFIX = '/type-snippets/'
 

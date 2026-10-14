@@ -20,7 +20,7 @@ import { leakCheck } from './leak'
 import { readJson, run, SmokeError, writeJson } from './lib'
 import type { PackedTarballs } from './pack'
 import { execArgs, installArgs, withInstallLock } from './pm'
-import { DEFAULT_TYPESCRIPT, type TypeEnvDef } from './typesEnvs'
+import { DEFAULT_TYPESCRIPT, type TypeEnvDef } from './types-envs'
 
 const TSCONFIG = 'tsconfig.smoke-types.json'
 

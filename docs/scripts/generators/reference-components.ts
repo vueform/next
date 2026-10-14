@@ -9,7 +9,7 @@ import {
   type TokenJsonEntry,
 } from '@vueform/utils'
 
-import { requireData, SCRAPE_HINT } from './ensureData'
+import { requireData, SCRAPE_HINT } from './ensure-data'
 
 // =============== PATHS ================
 

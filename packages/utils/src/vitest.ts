@@ -3,7 +3,7 @@ import { join, resolve } from 'node:path'
 
 import type { Alias, UserConfig } from 'vite'
 
-import { workspaceSourceAliases } from './sourceAliases'
+import { workspaceSourceAliases } from './source-aliases'
 
 /**
  * Options for the `vitest` config factory.

@@ -1,7 +1,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs'
 import { resolve } from 'node:path'
 
-import { pvDeps } from './pvDeps'
+import { pvDeps } from './pv-deps'
 import type { Scenario, SizeConfig } from './types'
 
 /**

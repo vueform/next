@@ -15,7 +15,7 @@ import { dirname, resolve } from 'node:path'
 
 import type { Alias, Plugin } from 'vite'
 
-import { workspaceSourceAliases } from './sourceAliases'
+import { workspaceSourceAliases } from './source-aliases'
 
 function findMonorepoRoot(startDir: string): string | null {
   let dir = startDir

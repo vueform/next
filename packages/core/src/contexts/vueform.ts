@@ -1,6 +1,6 @@
 import type { App } from 'vue'
 
-// Leaf module: reached (via `#core/helpers/resolveVueform`) from every module
+// Leaf module: reached (via `#core/helpers/resolve-vueform`) from every module
 // doorway, so it must never import `#core/contexts` or `#core/composables` — that
 // would close the cycle modules → contexts → composables → modules.
 import type { VueformInstance } from '#src/helpers'

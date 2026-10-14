@@ -29,8 +29,8 @@ import {
   tarballsDir,
 } from './lib'
 import { packWorkspace } from './pack'
-import { TYPE_ENVS, type TypeEnvDef } from './typesEnvs'
-import { runTypesEnv, type TypesEnvResult } from './typesRunner'
+import { TYPE_ENVS, type TypeEnvDef } from './types-envs'
+import { runTypesEnv, type TypesEnvResult } from './types-runner'
 
 interface ParsedArgs {
   /**

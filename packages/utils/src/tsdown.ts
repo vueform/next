@@ -14,7 +14,7 @@ import type { UserConfig } from 'tsdown'
 import type { Plugin } from 'vite'
 
 import { cdnBuild, exportedVaporEntries, themeNames } from './adapter'
-import { dtsEsmExtensionFix } from './dtsEsm'
+import { dtsEsmExtensionFix } from './dts-esm'
 import {
   componentNames,
   escapeRegExp,

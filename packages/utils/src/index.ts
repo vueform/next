@@ -1,10 +1,10 @@
 export * from './runner'
 export type { AdapterOptions } from './adapter'
 export { dev } from './dev'
-export { workspaceSourcePaths } from './sourcePaths'
-export { camelToKebab, discoverTokenGroups, tokenToCssVar } from './tokenUtils'
-export type { TokenJsonEntry } from './tokenUtils'
-export type { SourcePathsOptions } from './sourcePaths'
+export { workspaceSourcePaths } from './source-paths'
+export { camelToKebab, discoverTokenGroups, tokenToCssVar } from './token-utils'
+export type { TokenJsonEntry } from './token-utils'
+export type { SourcePathsOptions } from './source-paths'
 export {
   createAdapterTsdownConfig,
   createAdapterVaporTsdownConfig,
@@ -17,19 +17,19 @@ export type {
   CoreTsdownOptions,
   PluginTsdownOptions,
 } from './tsdown'
-export { packageSourceAliases, workspaceSourceAliases } from './sourceAliases'
-export type { SourceAliasOptions } from './sourceAliases'
+export { packageSourceAliases, workspaceSourceAliases } from './source-aliases'
+export type { SourceAliasOptions } from './source-aliases'
 export { createVitestConfig } from './vitest'
 export type { VitestConfig, VitestOptions } from './vitest'
 export { formatEmittedSource, generateRegistry } from './registry'
 export type { RegistryOptions } from './registry'
 export { runSize } from './size/run'
 export type { RunSizeOptions } from './size/run'
-export { verifyCssImports } from './verifyCssImports'
+export { verifyCssImports } from './verify-css-imports'
 export type {
   VerifyCssImportsConfig,
   VerifyCssImportsOptions,
-} from './verifyCssImports'
+} from './verify-css-imports'
 export type {
   MeasurementType,
   Results as SizeResults,

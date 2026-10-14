@@ -1,3 +1,5 @@
+// Not re-exported from the utils barrel: this helper imports composables
+// and helpers, which import '#src/utils' back — a barrel export would cycle.
 import { useDate } from '#src/composables'
 import type { VueformInstance } from '#src/helpers'
 import type { DateInstance } from '#src/modules/date'

@@ -4,7 +4,7 @@
  * bin against their canonical `tests/smoke/` content (config.json + the
  * fixtures/ dir of schema, forms and type assertions); see cli.ts for the
  * flag model and envs.ts for the env matrix. The sibling smoke-types suite (`vf-smoke-types` →
- * typesCli.ts/typesEnvs.ts) typechecks the same fixtures and tarballs as a
+ * types-cli.ts/types-envs.ts) typechecks the same fixtures and tarballs as a
  * consumer would, in a separate, smaller env matrix.
  */
 export { runSmokeCli, type SmokeCliOptions } from './cli'
@@ -18,16 +18,16 @@ export {
 } from './envs'
 export { packWorkspace, type PackedTarballs, type PackOptions } from './pack'
 export { runEnv, type EnvResult, type EnvRunInput } from './runner'
-export { runSmokeTypesCli, type SmokeTypesCliOptions } from './typesCli'
+export { runSmokeTypesCli, type SmokeTypesCliOptions } from './types-cli'
 export {
   MIN_TYPESCRIPT,
   TYPE_ENVS,
   type TypeEnvDef,
   type TypesCheck,
-} from './typesEnvs'
+} from './types-envs'
 export {
   runTypesEnv,
   type TypesEnvResult,
   type TypesEnvRunInput,
-} from './typesRunner'
+} from './types-runner'
 export { SmokeError } from './lib'

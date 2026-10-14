@@ -1,6 +1,5 @@
 import { createRule } from '#src/helpers'
-
-import { checkDates } from './checkDates'
+import { checkDates } from '#src/utils/dates'
 
 /**
  * Validates that the date is after or equal to a given date.
