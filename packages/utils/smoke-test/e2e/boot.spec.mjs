@@ -33,6 +33,7 @@ test('boots with a clean console and renders every element', async ({
     'group',
     'list',
     'grid',
+    'matrix',
     'submit',
   ]) {
     expect(

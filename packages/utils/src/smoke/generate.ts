@@ -47,9 +47,7 @@ const FAMILY_DEFAULTS: Record<string, Required<SchemaKnob>> = {
   group: { type: 'group', component: '', itemsProp: '' },
   list: { type: 'list', component: '', itemsProp: '' },
   grid: { type: 'grid', component: '', itemsProp: '' },
-  // TODO matrix is temporarily out of the canon: its cells remount-loop
-  // under vapor (register without unregister until the page hangs) — put it
-  // back here, in schemaSource and in boot.spec's find loop once fixed.
+  matrix: { type: 'matrix', component: '', itemsProp: '' },
   submit: { type: 'button', component: '', itemsProp: '' },
 }
 
@@ -107,6 +105,12 @@ function schemaSource(k: Record<string, Required<SchemaKnob>>): string {
     `    type: '${k.grid.type}',`,
     `    cols: 2,`,
     `    grid: [['Grid', { type: '${k.text.type}', name: 'cell' }]],`,
+    `  },`,
+    `  matrix: {`,
+    `    type: '${k.matrix.type}',`,
+    `    label: 'Matrix',`,
+    `    rows: [{ value: 'r0', label: 'R0' }, { value: 'r1', label: 'R1' }],`,
+    `    cols: [{ value: 'c0', label: 'C0' }, { value: 'c1', label: 'C1' }],`,
     `  },`,
     `  submit: { type: '${k.submit.type}', action: 'submit', text: 'Submit' },`,
     `})`,
