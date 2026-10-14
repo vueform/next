@@ -966,8 +966,33 @@ declare module 'vue' {
               classes.row(dragIndex === row.dataIndex, dropTarget === row.key)
             "
           >
+            <!--
+              TEMPORARY deviation from the standard `slot > outlet > default`
+              pattern, forced by a Vue Vapor bug (present in 3.6.0-rc.5 and
+              still in rc.11): an outlet inside slot content handed to another
+              component compiles as FORWARDED, and rendering a forwarded
+              outlet's fallback notifies the enclosing slot's resolution
+              boundary, which re-renders that fallback from scratch — the
+              cells register themselves on the form in setup, so this
+              revalidation becomes an infinite cell remount loop that hangs
+              the page. The outlets below therefore gate on slot presence
+              (`v-if="slots.x"`) with the default markup as sibling `v-else`
+              branches, so no outlet (and no fallback machinery) exists unless
+              its slot is actually given. Known edge vs the standard pattern:
+              a slot that is provided but renders nothing shows nothing here
+              instead of the default markup.
+
+              Revert to the standard pattern (fold each chain back into slot
+              fallback content, like every other component) once vapor no
+              longer loops: bump the vue-vapor / vue-compiler-sfc-vapor
+              catalog pins, restore the pattern, and run
+              `pnpm --filter @vueform/ui test-smoke --env vapor` — the matrix
+              is part of the smoke canon exactly so that a premature revert
+              fails there instead of regressing silently.
+            -->
             <template #[row.slot]="{ label }">
               <slot
+                v-if="slots.row"
                 name="row"
                 :index="row.dataIndex"
                 :row-header="showRowHeaders"
@@ -992,39 +1017,73 @@ declare module 'vue' {
                   )
                 "
                 v-bind="parts.row"
-              >
-                <component
-                  v-if="outlets?.row"
-                  :is="outlets.row"
-                  :index="row.dataIndex"
-                  :row-header="showRowHeaders"
-                  :being-dragged="dragIndex === row.dataIndex"
-                  :is-drop-target="dropTarget === row.key"
-                  :handle-drag-enter="
-                    ($event: DragEvent) => handleDragEnter($event, rowIndex)
-                  "
-                  :handle-drag-start="
-                    ($event: DragEvent) =>
-                      handleDragStart($event, row.dataIndex)
-                  "
-                  :handle-drag-end
-                  :label
-                  :cols="resolvedRows[rowIndex].cols"
-                  :remove="row.remove"
-                  :can-remove
-                  :can-sort
-                  :class="
-                    classes.row(
-                      dragIndex === row.dataIndex,
-                      dropTarget === row.key
-                    )
-                  "
-                  v-bind="parts.row"
-                />
-                <template v-else>
-                  <template v-if="canSort">
+              />
+              <component
+                v-else-if="outlets?.row"
+                :is="outlets.row"
+                :index="row.dataIndex"
+                :row-header="showRowHeaders"
+                :being-dragged="dragIndex === row.dataIndex"
+                :is-drop-target="dropTarget === row.key"
+                :handle-drag-enter="
+                  ($event: DragEvent) => handleDragEnter($event, rowIndex)
+                "
+                :handle-drag-start="
+                  ($event: DragEvent) => handleDragStart($event, row.dataIndex)
+                "
+                :handle-drag-end
+                :label
+                :cols="resolvedRows[rowIndex].cols"
+                :remove="row.remove"
+                :can-remove
+                :can-sort
+                :class="
+                  classes.row(
+                    dragIndex === row.dataIndex,
+                    dropTarget === row.key
+                  )
+                "
+                v-bind="parts.row"
+              />
+              <template v-else>
+                <template v-if="canSort">
+                  <slot
+                    v-if="slots.sortWrapper"
+                    name="sortWrapper"
+                    :handle-drag-start="
+                      ($event: DragEvent) =>
+                        handleDragStart($event, row.dataIndex)
+                    "
+                    :handle-drag-end
+                    :handle-drag-enter="
+                      ($event: DragEvent) => handleDragEnter($event, rowIndex)
+                    "
+                    :class="classes.sortWrapper"
+                    v-bind="parts.sortWrapper"
+                  />
+                  <component
+                    v-else-if="outlets?.sortWrapper"
+                    :is="outlets.sortWrapper"
+                    :handle-drag-start="
+                      ($event: DragEvent) =>
+                        handleDragStart($event, row.dataIndex)
+                    "
+                    :handle-drag-end
+                    :handle-drag-enter="
+                      ($event: DragEvent) => handleDragEnter($event, rowIndex)
+                    "
+                    :class="classes.sortWrapper"
+                    v-bind="parts.sortWrapper"
+                  />
+                  <div
+                    v-else
+                    :class="classes.sortWrapper"
+                    v-bind="parts.sortWrapper"
+                  >
                     <slot
-                      name="sortWrapper"
+                      v-if="slots.sort"
+                      name="sort"
+                      :class="classes.sort"
                       :handle-drag-start="
                         ($event: DragEvent) =>
                           handleDragStart($event, row.dataIndex)
@@ -1033,198 +1092,156 @@ declare module 'vue' {
                       :handle-drag-enter="
                         ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
-                      :class="classes.sortWrapper"
-                      v-bind="parts.sortWrapper"
-                    >
-                      <component
-                        v-if="outlets?.sortWrapper"
-                        :is="outlets.sortWrapper"
-                        :handle-drag-start="
-                          ($event: DragEvent) =>
-                            handleDragStart($event, row.dataIndex)
-                        "
-                        :handle-drag-end
-                        :handle-drag-enter="
-                          ($event: DragEvent) =>
-                            handleDragEnter($event, rowIndex)
-                        "
-                        :class="classes.sortWrapper"
-                        v-bind="parts.sortWrapper"
-                      />
-                      <div
-                        v-else
-                        :class="classes.sortWrapper"
-                        v-bind="parts.sortWrapper"
-                      >
-                        <slot
-                          name="sort"
-                          :class="classes.sort"
-                          :handle-drag-start="
-                            ($event: DragEvent) =>
-                              handleDragStart($event, row.dataIndex)
-                          "
-                          :handle-drag-end
-                          :handle-drag-enter="
-                            ($event: DragEvent) =>
-                              handleDragEnter($event, rowIndex)
-                          "
-                          v-bind="parts.sort"
-                        >
-                          <component
-                            v-if="outlets?.sort"
-                            :is="outlets.sort"
-                            :class="classes.sort"
-                            :handle-drag-start="
-                              ($event: DragEvent) =>
-                                handleDragStart($event, row.dataIndex)
-                            "
-                            :handle-drag-end
-                            :handle-drag-enter="
-                              ($event: DragEvent) =>
-                                handleDragEnter($event, rowIndex)
-                            "
-                            v-bind="parts.sort"
-                          />
-                          <VfButton
-                            v-else
-                            :name="`${id}__sort_${rowIndex}`"
-                            :icon="sortIcon"
-                            :class="classes.sort"
-                            v-bind="parts.sort"
-                            :draggable="true"
-                            :layout="false"
-                            detached
-                            @dragstart="handleDragStart($event, row.dataIndex)"
-                            @dragend="handleDragEnd"
-                            @dragenter="
-                              ($event: DragEvent) =>
-                                handleDragEnter($event, rowIndex)
-                            "
-                          />
-                        </slot>
-                      </div>
-                    </slot>
-                  </template>
-
-                  <template v-if="showRowHeaders">
-                    <slot
-                      name="rowHeader"
-                      :label
-                      :class="classes.rowHeader"
-                      v-bind="parts.rowHeader"
-                    >
-                      <component
-                        v-if="outlets?.rowHeader"
-                        :is="outlets.rowHeader"
-                        :label
-                        :class="classes.rowHeader"
-                        v-bind="parts.rowHeader"
-                      />
-                      <div
-                        v-else
-                        :class="classes.rowHeader"
-                        :id="row.id"
-                        v-bind="parts.rowHeader"
-                      >
-                        {{ label }}
-                      </div>
-                    </slot>
-                  </template>
-                  <div v-else class="sr-only" :id="row.id">{{ label }}</div>
-
-                  <!--
-                    Cells iterate `resolvedRows` through the reactive computed
-                    (not the v-for destructured `cols`) so the row component's
-                    slot content tracks it and re-renders when columns change
-                    after the row has mounted (e.g. async-loaded cols).
-                  -->
-                  <template
-                    v-for="r in resolvedRows[rowIndex].cols"
-                    :key="r.props.name"
-                  >
-                    <slot
-                      name="cell"
-                      :component="r.component"
+                      v-bind="parts.sort"
+                    />
+                    <component
+                      v-else-if="outlets?.sort"
+                      :is="outlets.sort"
+                      :class="classes.sort"
+                      :handle-drag-start="
+                        ($event: DragEvent) =>
+                          handleDragStart($event, row.dataIndex)
+                      "
+                      :handle-drag-end
                       :handle-drag-enter="
                         ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
-                      :props="r.props"
-                      v-bind="parts.cell"
-                    >
-                      <component
-                        v-if="outlets?.cell"
-                        :is="outlets.cell"
-                        :component="r.component"
-                        :handle-drag-enter="
-                          ($event: DragEvent) =>
-                            handleDragEnter($event, rowIndex)
-                        "
-                        :props="r.props"
-                        v-bind="parts.cell"
-                      />
-                      <div
-                        v-else
-                        :class="classes.cell"
-                        v-bind="parts.cell"
-                        @dragenter="
-                          ($event: DragEvent) =>
-                            handleDragEnter($event, rowIndex)
-                        "
-                      >
-                        <component :is="r.component" v-bind="r.props" />
-                      </div>
-                    </slot>
-                  </template>
-
-                  <template v-if="canRemove">
-                    <slot
-                      name="removeWrapper"
-                      :handle-remove="row.remove"
-                      :class="classes.removeWrapper"
-                      v-bind="parts.removeWrapper"
-                    >
-                      <component
-                        v-if="outlets?.removeWrapper"
-                        :is="outlets.removeWrapper"
-                        :handle-remove="row.remove"
-                        :class="classes.removeWrapper"
-                        v-bind="parts.removeWrapper"
-                      />
-                      <div
-                        v-else
-                        :class="classes.removeWrapper"
-                        v-bind="parts.removeWrapper"
-                      >
-                        <slot
-                          name="remove"
-                          :handle-remove="row.remove"
-                          :class="classes.remove"
-                          v-bind="parts.remove"
-                        >
-                          <component
-                            v-if="outlets?.remove"
-                            :is="outlets.remove"
-                            :handle-remove="row.remove"
-                            :class="classes.remove"
-                            v-bind="parts.remove"
-                          />
-                          <VfButton
-                            v-else
-                            :class="classes.remove"
-                            :name="`${id}__remove_${rowIndex}`"
-                            :text="removeLabel"
-                            :icon="removeIcon"
-                            :layout="false"
-                            detached
-                            v-bind="parts.remove"
-                            @click.prevent="row.remove"
-                          />
-                        </slot>
-                      </div>
-                    </slot>
-                  </template>
+                      v-bind="parts.sort"
+                    />
+                    <VfButton
+                      v-else
+                      :name="`${id}__sort_${rowIndex}`"
+                      :icon="sortIcon"
+                      :class="classes.sort"
+                      v-bind="parts.sort"
+                      :draggable="true"
+                      :layout="false"
+                      detached
+                      @dragstart="handleDragStart($event, row.dataIndex)"
+                      @dragend="handleDragEnd"
+                      @dragenter="
+                        ($event: DragEvent) => handleDragEnter($event, rowIndex)
+                      "
+                    />
+                  </div>
                 </template>
-              </slot>
+
+                <template v-if="showRowHeaders">
+                  <slot
+                    v-if="slots.rowHeader"
+                    name="rowHeader"
+                    :label
+                    :class="classes.rowHeader"
+                    v-bind="parts.rowHeader"
+                  />
+                  <component
+                    v-else-if="outlets?.rowHeader"
+                    :is="outlets.rowHeader"
+                    :label
+                    :class="classes.rowHeader"
+                    v-bind="parts.rowHeader"
+                  />
+                  <div
+                    v-else
+                    :class="classes.rowHeader"
+                    :id="row.id"
+                    v-bind="parts.rowHeader"
+                  >
+                    {{ label }}
+                  </div>
+                </template>
+                <div v-else class="sr-only" :id="row.id">{{ label }}</div>
+
+                <!--
+                  Cells iterate `resolvedRows` through the reactive computed
+                  (not the v-for destructured `cols`) so the row component's
+                  slot content tracks it and re-renders when columns change
+                  after the row has mounted (e.g. async-loaded cols).
+                -->
+                <template
+                  v-for="r in resolvedRows[rowIndex].cols"
+                  :key="r.props.name"
+                >
+                  <slot
+                    v-if="slots.cell"
+                    name="cell"
+                    :component="r.component"
+                    :handle-drag-enter="
+                      ($event: DragEvent) => handleDragEnter($event, rowIndex)
+                    "
+                    :props="r.props"
+                    v-bind="parts.cell"
+                  />
+                  <component
+                    v-else-if="outlets?.cell"
+                    :is="outlets.cell"
+                    :component="r.component"
+                    :handle-drag-enter="
+                      ($event: DragEvent) => handleDragEnter($event, rowIndex)
+                    "
+                    :props="r.props"
+                    v-bind="parts.cell"
+                  />
+                  <div
+                    v-else
+                    :class="classes.cell"
+                    v-bind="parts.cell"
+                    @dragenter="
+                      ($event: DragEvent) => handleDragEnter($event, rowIndex)
+                    "
+                  >
+                    <component :is="r.component" v-bind="r.props" />
+                  </div>
+                </template>
+
+                <template v-if="canRemove">
+                  <slot
+                    v-if="slots.removeWrapper"
+                    name="removeWrapper"
+                    :handle-remove="row.remove"
+                    :class="classes.removeWrapper"
+                    v-bind="parts.removeWrapper"
+                  />
+                  <component
+                    v-else-if="outlets?.removeWrapper"
+                    :is="outlets.removeWrapper"
+                    :handle-remove="row.remove"
+                    :class="classes.removeWrapper"
+                    v-bind="parts.removeWrapper"
+                  />
+                  <div
+                    v-else
+                    :class="classes.removeWrapper"
+                    v-bind="parts.removeWrapper"
+                  >
+                    <slot
+                      v-if="slots.remove"
+                      name="remove"
+                      :handle-remove="row.remove"
+                      :class="classes.remove"
+                      v-bind="parts.remove"
+                    />
+                    <component
+                      v-else-if="outlets?.remove"
+                      :is="outlets.remove"
+                      :handle-remove="row.remove"
+                      :class="classes.remove"
+                      v-bind="parts.remove"
+                    />
+                    <VfButton
+                      v-else
+                      :class="classes.remove"
+                      :name="`${id}__remove_${rowIndex}`"
+                      :text="removeLabel"
+                      :icon="removeIcon"
+                      :layout="false"
+                      detached
+                      v-bind="parts.remove"
+                      @click.prevent="row.remove"
+                    />
+                  </div>
+                </template>
+              </template>
             </template>
           </component>
         </div>
