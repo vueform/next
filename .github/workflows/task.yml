@@ -21,7 +21,7 @@ on:
       tasks:
         description: >-
           Tasks: build check test test-dts test-smoke test-smoke-types
-          test-visual registry size bench api docs:gen docs:build
+          test-visual registry size bench api docs:gen
         type: string
         required: true
         default: check
