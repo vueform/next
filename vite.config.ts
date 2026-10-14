@@ -472,10 +472,18 @@ export default defineConfig({
       },
       ':lint': {
         command: "node -e ''",
-        dependsOn: [':oxlint', ':stylelint', ':eslint'],
+        dependsOn: [':oxlint', ':stylelint', ':eslint', ':ls-lint'],
       },
       ':oxlint': {
         command: 'vp lint',
+      },
+      // Uncached (explicitly — auto-tracking would trace the binary statting
+      // the whole repo and spin for minutes): ls-lint checks file/directory
+      // names, so its result depends on the file set, not content vp could
+      // hash.
+      ':ls-lint': {
+        command: 'ls-lint',
+        cache: false,
       },
       ':fmt:check': {
         command: 'vp fmt --check',
@@ -668,6 +676,19 @@ export default defineConfig({
         // The generators read the api jsons and the size measurements
         // (guide-code-splitting embeds size.json numbers).
         dependsOn: [':api', ':size'],
+        // Docs tasks stay uncached (see the caching rules above).
+        cache: false,
+      },
+      ':docs:build': {
+        // Adapter flags pass through (`vpr :docs:build --primevue`): vp
+        // appends extra args to this task's command only, never to its deps.
+        command: 'pnpm --filter @vueform/docs run build',
+        // The vitepress build consumes the workspace dists (docs are
+        // dist-view) plus the generated pages.
+        dependsOn: [
+          ':docs:gen',
+          ...docsBuildDeps.map((dep) => `:build:${dep}`),
+        ],
         // Docs tasks stay uncached (see the caching rules above).
         cache: false,
       },

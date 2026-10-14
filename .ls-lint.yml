@@ -1,0 +1,137 @@
+# Filename conventions (ls-lint — https://ls-lint.org)
+#
+# Default: kebab-case for everything. Exceptions exist only where a name
+# mirrors something with its own casing: a component (PascalCase), an
+# exported symbol (camelCase: useX/defineX/makeX/createX), a locale code,
+# a Laravel-style rule name, or a framework-reserved filename.
+#
+# Gotchas (verified against ls-lint 2.3):
+# - `.ts` only matches single-dot names; `foo.test.ts` needs a `.test.ts` key.
+# - A nested path key REPLACES all inherited rules for its subtree, so
+#   scoped blocks redeclare every extension they still want checked.
+# - `PascalCase` rejects consecutive capitals (VPLayout), hence the regexes.
+
+ls:
+  # dot-prefixed tool dirs (.vitepress) are allowed; junk ones are ignored below
+  .dir: kebab-case | regex:\.[a-z0-9]+(-[a-z0-9]+)*
+  .js: kebab-case
+  .mjs: kebab-case
+  .cjs: kebab-case
+  # camelCase is allowed for files named after their exported symbol
+  .ts: kebab-case | camelCase
+  .d.ts: kebab-case
+  .test.ts: kebab-case | camelCase
+  .test-d.ts: kebab-case | camelCase
+  .node.test.ts: kebab-case
+  .spec.ts: kebab-case
+  .spec.mjs: kebab-case
+  .config.ts: kebab-case
+  .config.mjs: kebab-case
+  .vapor.config.ts: kebab-case
+  # SFCs are named after their component; regex admits acronym prefixes (VPTabs)
+  .vue: PascalCase | regex:[A-Z]{2}[a-zA-Z0-9]*
+  .json: kebab-case
+  .yaml: kebab-case
+  .yml: kebab-case
+  .css: kebab-case
+  # regex admits _-prefixed partials (_vars.scss)
+  .scss: kebab-case | regex:_[a-z0-9]+(-[a-z0-9]+)*
+  .md: kebab-case | SCREAMING_SNAKE_CASE
+  .svg: kebab-case
+  .png: kebab-case
+  .webp: kebab-case
+
+  # composables/features are always symbol-named — kebab-case is not allowed
+  packages/*/src/composables:
+    .dir: kebab-case
+    .ts: camelCase
+  packages/*/src/features:
+    .dir: kebab-case
+    .ts: camelCase
+
+  # component dirs and their SFCs are named after the component
+  packages/*/src/components/*:
+    .dir: PascalCase
+    .vue: PascalCase
+    .ts: kebab-case | camelCase
+    .scss: kebab-case
+
+  # registry schemas are named after the component
+  packages/*/registry/schemas:
+    .json: PascalCase
+
+  # locales are ll_CC codes
+  packages/core/src/locales:
+    .ts: regex:([a-z]{2}(_[A-Z]{2})?|index)
+
+  # validation rules keep their Laravel-style snake_case names
+  packages/core/src/rules:
+    .ts: snake_case | camelCase
+
+  # tests and fixtures may be named after the component they cover;
+  # dts/smoke .vue fixtures are kebab-case scenarios, not components
+  packages/*/tests:
+    .dir: kebab-case
+    .ts: kebab-case | camelCase | PascalCase
+    .test.ts: kebab-case | camelCase | PascalCase
+    .test-d.ts: kebab-case | camelCase
+    .node.test.ts: kebab-case
+    .spec.ts: kebab-case
+    .vue: PascalCase | kebab-case
+    .json: kebab-case
+    .css: kebab-case
+    .scss: kebab-case
+
+  # rule tests mirror the snake_case rule names
+  packages/core/tests/integration/rules:
+    .test.ts: snake_case | camelCase
+
+  # VP* theme components are .ts files named like components
+  docs/.vitepress/theme/components:
+    .ts: PascalCase | regex:[A-Z]{2}[a-zA-Z0-9]*
+
+  # doc pages are named after what they document (VfSelect.md, useClasses.md);
+  # _-prefixed dirs/templates are vitepress route-excluded;
+  # public data names embed runtime values (/data/users-${department}.json)
+  docs/src:
+    .dir: kebab-case | regex:_[a-z0-9]+(-[a-z0-9]+)*
+    .md: kebab-case | camelCase | PascalCase | regex:_[a-z0-9]+(-[a-z0-9]+)*
+    .json: kebab-case | regex:users-[A-Za-z]+
+    .vue: PascalCase | regex:[A-Z]{2}[a-zA-Z0-9]*
+    .js: kebab-case
+    .css: kebab-case
+    .svg: kebab-case
+    .png: kebab-case
+    .webp: kebab-case
+
+# Performance: entries are root-relative path prefixes. Literal paths and
+# single-star globs PRUNE the walk; `**` patterns do not — ls-lint still
+# descends the whole subtree and only suppresses matches (leading `**/`
+# makes a full node_modules walk: ~70s instead of <0.1s).
+ignore:
+  - .git
+  - .claude
+  - .github
+  - .husky
+  - .playgrounds
+  - .temp
+  - .vscode
+  - .vueform
+  - node_modules
+  - benchmark/node_modules
+  - benchmark/app/node_modules
+  - benchmark/app/dist
+  - docs/node_modules
+  - docs/.vitepress/dist
+  - docs/.vitepress/.temp
+  - docs/.vitepress/cache
+  - packages/*/node_modules
+  - packages/*/dist
+  - packages/*/coverage
+  - packages/*/tests/visual/fixtures/node_modules
+  - packages/*/tests/visual/screenshots
+  - packages/*/tests/visual/test-results
+  - packages/*/tests/visual/playwright-report
+  # consumer-app scaffolding follows framework conventions (app.vue), not ours
+  - packages/utils/smoke-test/envs
+  - scripts/playground/templates
