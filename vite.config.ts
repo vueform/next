@@ -241,6 +241,61 @@ const UTILS_BUILD_SURFACE = ['tsdown', 'shared', 'adapter', 'dtsEsm'].map(
   (name) => `packages/utils/dist/${name}.js`
 )
 
+/**
+ * Size graph: every package with a `size` script (core + adapters + plugins)
+ * gets a `:size:<dir>` leg; the aggregate `:size` runs them all. The
+ * measurement bundles the BUILT dists of the package and its workspace deps
+ * (a plugin's scenarios bundle the ui adapter's full entry), reads the
+ * measured package's `vueform.size` config from its manifest, and — for
+ * adapters and plugins — embeds core's building-block numbers from
+ * `.vueform/size/core.json`, so non-core legs order after core's. The legs
+ * cache on exactly that surface: untouched dists mean an instant replay.
+ *
+ * `vf-size` writes `.vueform/size/<dir>.json` AND injects the README's size
+ * section. Only the json is declared as output: a cache replay restoring a
+ * whole README could clobber unrelated manual edits, and on a hit the
+ * section is already current (same inputs, same numbers).
+ */
+const UTILS_SIZE_SURFACE = [
+  'packages/utils/dist/size/**',
+  'packages/utils/dist/size-cli.js',
+  'packages/utils/dist/shared.js',
+]
+
+const sizedPackages = [...packageManifests].flatMap(([dir, pkg]) =>
+  pkg.scripts?.size ? [{ dir, name: pkg.name as string }] : []
+)
+
+const sizeTasks = Object.fromEntries(
+  sizedPackages.map(({ dir, name }) => [
+    `:size:${dir}`,
+    {
+      command: `pnpm --filter ${name} run size`,
+      dependsOn: [
+        `:build:${dir}`,
+        ':build:utils',
+        ...(dir === 'core' ? [] : [':size:core']),
+      ],
+      cache: {
+        input: [
+          `packages/${dir}/dist/**`,
+          `packages/${dir}/package.json`,
+          ...workspaceDeps(dir)
+            .filter((dep) => buildableDirs.has(dep))
+            .flatMap((dep) =>
+              dep === 'utils'
+                ? UTILS_SIZE_SURFACE
+                : [`packages/${dep}/dist/**`, `packages/${dep}/package.json`]
+            ),
+          ...(dir === 'core' ? [] : ['.vueform/size/core.json']),
+          'pnpm-lock.yaml',
+        ],
+        output: [`.vueform/size/${dir}.json`],
+      },
+    },
+  ])
+)
+
 const buildTasks = Object.fromEntries(
   buildablePackages.map(({ dir, name }) => [
     `:build:${dir}`,
@@ -592,9 +647,10 @@ export default defineConfig({
         dependsOn: [':build:utils'],
       },
       ':size': {
-        command: "vp run --filter './packages/*' size",
-        dependsOn: [':build'],
+        command: "node -e ''",
+        dependsOn: sizedPackages.map(({ dir }) => `:size:${dir}`),
       },
+      ...sizeTasks,
       ':size:report': {
         command: "vp run --filter './packages/*' size:report",
         dependsOn: [':build:utils'],
@@ -605,6 +661,14 @@ export default defineConfig({
       },
       ':api:missing': {
         command: 'tsx scripts/api-missing.ts',
+        cache: false,
+      },
+      ':docs:gen': {
+        command: 'pnpm --filter @vueform/docs run gen',
+        // The generators read the api jsons and the size measurements
+        // (guide-code-splitting embeds size.json numbers).
+        dependsOn: [':api', ':size'],
+        // Docs tasks stay uncached (see the caching rules above).
         cache: false,
       },
     },

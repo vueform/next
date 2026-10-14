@@ -5,4 +5,14 @@
  * present, so the link is created; the real CLI loads from dist at run time
  * (i.e. after `pnpm build`).
  */
+
+// The suite's cost is gzip/brotli-max compression, run async on the libuv
+// threadpool — size it to the machine before anything can initialize the pool
+// (it defaults to 4 threads).
+if (!process.env.UV_THREADPOOL_SIZE) {
+  process.env.UV_THREADPOOL_SIZE = String(
+    require('node:os').availableParallelism()
+  )
+}
+
 require('../dist/size-cli.js')

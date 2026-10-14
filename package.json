@@ -12,7 +12,7 @@
     "dev": "pnpm pg",
     "docs:build": "pnpm --filter @vueform/docs run build",
     "docs:dev": "pnpm --filter @vueform/docs run dev",
-    "docs:gen": "pnpm --filter @vueform/docs run gen",
+    "docs:gen": "vpr :docs:gen",
     "docs:pre": "pnpm --filter @vueform/docs run pre",
     "docs:preview": "pnpm --filter @vueform/docs run preview",
     "eslint": "vpr :eslint",

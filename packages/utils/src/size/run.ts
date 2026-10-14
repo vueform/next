@@ -15,7 +15,13 @@ import { coreScenarios } from './core'
 import { measureDir } from './measure'
 import { pluginScenarios } from './plugin'
 import { injectReport } from './report'
-import type { MeasurementType, Results, Scenario, SizeConfig } from './types'
+import type {
+  MeasurementType,
+  Results,
+  Scenario,
+  Size,
+  SizeConfig,
+} from './types'
 
 interface Manifest {
   name: string
@@ -113,27 +119,31 @@ const schema = {
  * scenario that pulls the package in, skewing all deltas measured against it.
  */
 function duplicateGuard(scenarioName: string): Plugin {
-  const instances = new Map<string, Set<string>>()
-
   return {
     name: 'vf-size:duplicate-guard',
-    moduleParsed({ id }) {
-      // Only store-installed packages can be duplicated; workspace packages
-      // are linked from a single location.
-      const instance = id.match(/\/node_modules\/\.pnpm\/([^/]+)\//)?.[1]
-      if (!instance) return
-
-      const segments = id.split('/node_modules/')
-      const tail = segments[segments.length - 1]
-      const name = tail.startsWith('@')
-        ? tail.split('/').slice(0, 2).join('/')
-        : tail.split('/')[0]
-
-      let set = instances.get(name)
-      if (!set) instances.set(name, (set = new Set()))
-      set.add(instance)
-    },
+    // A single buildEnd pass over getModuleIds() instead of a moduleParsed
+    // hook: per-module JS hooks cost a native→JS roundtrip for every bundled
+    // module under rolldown-based Vite.
     buildEnd() {
+      const instances = new Map<string, Set<string>>()
+
+      for (const id of this.getModuleIds()) {
+        // Only store-installed packages can be duplicated; workspace packages
+        // are linked from a single location.
+        const instance = id.match(/\/node_modules\/\.pnpm\/([^/]+)\//)?.[1]
+        if (!instance) continue
+
+        const segments = id.split('/node_modules/')
+        const tail = segments[segments.length - 1]
+        const name = tail.startsWith('@')
+          ? tail.split('/').slice(0, 2).join('/')
+          : tail.split('/')[0]
+
+        let set = instances.get(name)
+        if (!set) instances.set(name, (set = new Set()))
+        set.add(instance)
+      }
+
       const duplicates = [...instances].filter(([, set]) => set.size > 1)
       if (duplicates.length) {
         throw new Error(
@@ -380,16 +390,48 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
 
   const started = Date.now()
 
+  // Builds run sequentially (they share the fixture's main.ts and Vite
+  // parallelizes internally), while the expensive part — gzip/brotli-max
+  // compression of each scenario's output — runs async on the libuv
+  // threadpool, overlapping the following builds. Identical files across
+  // scenarios (shared vendor chunks, CSS) are deduplicated via the content
+  // cache. In-flight measurements are bounded to cap buffered file contents.
+  const sizeCache = new Map<string, Size>()
+  const measuredByIndex: Awaited<ReturnType<typeof measureDir>>[] = []
+  const tasks: Promise<void>[] = []
+  const inFlight = new Set<Promise<void>>()
+  let completed = 0
+
   try {
     for (const [index, scenario] of selected.entries()) {
-      process.stdout.write(
-        `[${index + 1}/${selected.length}] ${scenario.name} ... `
-      )
-
-      const scenarioStart = Date.now()
       await buildScenario(scenario)
-      const measured = measureDir(resolve(fixtureDir, 'dist', scenario.name))
 
+      const task = measureDir(
+        resolve(fixtureDir, 'dist', scenario.name),
+        sizeCache
+      ).then((measured) => {
+        measuredByIndex[index] = measured
+        completed += 1
+        const gzipKb = (measured.total.gzip / 1024).toFixed(2)
+        console.log(
+          `[${completed}/${selected.length}] ${scenario.name} ... ${gzipKb} kB gzip`
+        )
+      })
+      tasks.push(task)
+
+      // The slot settles (never rejects) when its task does; a failed
+      // measurement surfaces from the Promise.all below.
+      const slot: Promise<void> = task.then(
+        () => void inFlight.delete(slot),
+        () => void inFlight.delete(slot)
+      )
+      inFlight.add(slot)
+      if (inFlight.size >= 16) await Promise.race(inFlight)
+    }
+
+    await Promise.all(tasks)
+
+    for (const [index, scenario] of selected.entries()) {
       results.scenarios[scenario.name] = {
         group: scenario.group,
         component: scenario.component,
@@ -400,15 +442,14 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
         pv: scenario.pv,
         description: scenario.description,
         themed: scenario.themed,
-        ...measured,
+        ...measuredByIndex[index],
       }
-
-      const gzipKb = (measured.total.gzip / 1024).toFixed(2)
-      console.log(
-        `${gzipKb} kB gzip (${((Date.now() - scenarioStart) / 1000).toFixed(1)}s)`
-      )
     }
   } finally {
+    // Quiesce in-flight measurements (a build failure can leave some pending)
+    // before deleting the output files they read.
+    await Promise.allSettled(tasks)
+
     // The fixture is scratch either way; only the stats treemaps (when
     // requested) stay in the cache for inspection.
     rmSync(options.stats ? fixtureDir : cacheDir, {
