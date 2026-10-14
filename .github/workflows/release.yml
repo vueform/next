@@ -52,7 +52,7 @@ jobs:
       #     key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       # - name: Install Playwright chromium (smoke gates)
-      #   run: pnpm exec playwright install --with-deps chromium
+      #   run: pnpm --filter @vueform/ui exec playwright install --with-deps chromium
 
       - run: pnpm build
 

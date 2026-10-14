@@ -112,9 +112,11 @@ jobs:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
+      # playwright is not a root dependency — run its CLI from a package that
+      # has it (the browser install itself is machine-wide).
       - name: Install Playwright chromium
         if: contains(fromJSON('["test-smoke","test-visual","bench"]'), matrix.task)
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm --filter @vueform/ui exec playwright install --with-deps chromium
 
       # A replay of the warmed cache (seconds); gates and generators consume
       # the materialized dists.
