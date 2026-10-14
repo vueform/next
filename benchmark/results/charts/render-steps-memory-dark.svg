@@ -21,17 +21,17 @@
 <line x1="80" y1="96" x2="80" y2="388" stroke="#484f58" stroke-width="1"/>
 <text x="384" y="430" font-size="12" fill="#8b949e" text-anchor="middle">N (number of elements)</text>
 <text x="28" y="242" font-size="12" fill="#8b949e" text-anchor="middle" transform="rotate(-90 28 242)">Avg heap delta (MB)</text>
-<text x="360" y="450" font-size="10" fill="#484f58" text-anchor="middle">2026-10-14T07:57:28Z • AMD EPYC 9V74 80-Core Processor • 16 GB RAM • Linux 6.17.0-1022-azure • Chromium 153.0.8010.12 • vue@3.6.0-rc.5</text>
-<polyline points="140.8,360.7 232.0,335.6 384.0,300.2 536.0,266.5 688.0,235.1" fill="none" stroke="#6366f1" stroke-width="2"/>
-<circle cx="140.8" cy="360.7" r="3.5" fill="#6366f1"/>
-<circle cx="232.0" cy="335.6" r="3.5" fill="#6366f1"/>
-<circle cx="384.0" cy="300.2" r="3.5" fill="#6366f1"/>
-<circle cx="536.0" cy="266.5" r="3.5" fill="#6366f1"/>
-<circle cx="688.0" cy="235.1" r="3.5" fill="#6366f1"/>
-<polyline points="140.8,359.1 232.0,335.2 384.0,306.6 536.0,276.0 688.0,245.5" fill="none" stroke="#10b981" stroke-width="2"/>
-<circle cx="140.8" cy="359.1" r="3.5" fill="#10b981"/>
-<circle cx="232.0" cy="335.2" r="3.5" fill="#10b981"/>
-<circle cx="384.0" cy="306.6" r="3.5" fill="#10b981"/>
-<circle cx="536.0" cy="276.0" r="3.5" fill="#10b981"/>
-<circle cx="688.0" cy="245.5" r="3.5" fill="#10b981"/>
+<text x="360" y="450" font-size="10" fill="#484f58" text-anchor="middle">2026-10-14T13:18:38Z • AMD EPYC 9V45 96-Core Processor • 16 GB RAM • Linux 6.17.0-1022-azure • Chromium 153.0.8010.12 • vue@3.6.0-rc.5</text>
+<polyline points="140.8,360.5 232.0,327.3 384.0,294.7 536.0,260.8 688.0,226.0" fill="none" stroke="#6366f1" stroke-width="2"/>
+<circle cx="140.8" cy="360.5" r="3.5" fill="#6366f1"/>
+<circle cx="232.0" cy="327.3" r="3.5" fill="#6366f1"/>
+<circle cx="384.0" cy="294.7" r="3.5" fill="#6366f1"/>
+<circle cx="536.0" cy="260.8" r="3.5" fill="#6366f1"/>
+<circle cx="688.0" cy="226.0" r="3.5" fill="#6366f1"/>
+<polyline points="140.8,359.3 232.0,331.3 384.0,297.3 536.0,268.4 688.0,236.1" fill="none" stroke="#10b981" stroke-width="2"/>
+<circle cx="140.8" cy="359.3" r="3.5" fill="#10b981"/>
+<circle cx="232.0" cy="331.3" r="3.5" fill="#10b981"/>
+<circle cx="384.0" cy="297.3" r="3.5" fill="#10b981"/>
+<circle cx="536.0" cy="268.4" r="3.5" fill="#10b981"/>
+<circle cx="688.0" cy="236.1" r="3.5" fill="#10b981"/>
 </svg>
