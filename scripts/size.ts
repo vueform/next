@@ -17,9 +17,14 @@ import { ensureUtilsDist } from './ensure-utils'
 ensureUtilsDist()
 
 async function main(): Promise<void> {
-  const { runRows, stripDisplayFlags } = await import('./terminal')
-  const { discoverPackageTasks, green, red, selectTasks, tierSort } =
+  const { createPaint, resolveTerminalMode, runRows, stripDisplayFlags } =
+    await import('./terminal')
+  const { discoverPackageTasks, repoRoot, selectTasks, tierSort } =
     await import('./runner')
+  const path = await import('node:path')
+
+  const mode = resolveTerminalMode()
+  const { green, red } = createPaint(mode.colors)
 
   const args = process.argv.slice(2)
   const report = args.includes('--report')
@@ -28,23 +33,34 @@ async function main(): Promise<void> {
   const script = report ? 'size:report' : 'size'
   const tasks = tierSort(selectTasks(discoverPackageTasks(script), selectors))
 
-  // Near-instant README regeneration — plain output, no rows. Runs on its own
-  // with `--report`, and after every successful measurement run, so the README
-  // sections always reflect the latest numbers.
+  // Near-instant README regeneration — output captured, then one `Updated
+  // files:` summary with the written paths. Runs on its own with `--report`,
+  // and after every successful measurement run, so the README sections always
+  // reflect the latest numbers.
   const runReport = () => {
     const reportTasks = report
       ? tasks
       : tierSort(selectTasks(discoverPackageTasks('size:report'), selectors))
+    const updated: string[] = []
     for (const task of reportTasks) {
-      console.log(green(`▸ ${task.id}`))
       const result = spawnSync(task.cmd, task.args, {
         cwd: task.cwd,
-        stdio: 'inherit',
+        encoding: 'utf8',
       })
       if (result.status !== 0) {
+        console.error(result.stdout + result.stderr)
         console.error(red(`${task.id} failed.`))
         process.exit(result.status ?? 1)
       }
+      // vf-size lists every file it wrote as a `- /abs/path` line.
+      for (const match of (result.stdout ?? '').matchAll(/^- (\/\S+)$/gm)) {
+        updated.push(path.relative(repoRoot, match[1]))
+      }
+    }
+    if (updated.length) {
+      console.log('Updated files:')
+      for (const file of updated) console.log(`${green('✓')} ${file}`)
+      console.log('')
     }
   }
 
