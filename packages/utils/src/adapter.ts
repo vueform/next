@@ -36,7 +36,7 @@ export interface AdapterOptions {
   cdn?: boolean
   /**
    * Also emit the vapor-mode build after the main bundle: the `src/components`
-   * tree into `dist/vapor/components` plus a `dist/vapor/<theme>.mjs` entry per
+   * tree into `dist/vapor/components` plus a `dist/vapor/<theme>.js` entry per
    * theme, with every SFC compiled by Vue 3.6's vapor compiler. Shared logic is
    * not duplicated — vapor modules import it from the main dist via relative
    * paths, and `@vueform/core` component subpaths are rewritten to their
@@ -68,7 +68,7 @@ export function themeNames(srcAbs: string): string[] {
 
 /**
  * Root-level vapor build entries derived from the package's exports map: every
- * `vapor` condition of the form `./dist/vapor/<name>.mjs` whose `src/<name>.ts`
+ * `vapor` condition of the form `./dist/vapor/<name>.js` whose `src/<name>.ts`
  * exists.
  */
 export function exportedVaporEntries(root: string, srcAbs: string): string[] {
@@ -78,7 +78,7 @@ export function exportedVaporEntries(root: string, srcAbs: string): string[] {
   for (const value of Object.values(pkg.exports ?? {})) {
     const vapor = (value as Record<string, unknown> | null)?.vapor
     if (typeof vapor !== 'string') continue
-    const match = vapor.match(/^\.\/dist\/vapor\/([\w-]+)\.mjs$/)
+    const match = vapor.match(/^\.\/dist\/vapor\/([\w-]+)\.js$/)
     if (match && existsSync(resolve(srcAbs, `${match[1]}.ts`))) {
       names.add(match[1])
     }

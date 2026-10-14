@@ -2,7 +2,7 @@
  * Source aliases derived from the workspace packages' `exports` maps, so dev
  * servers and tests resolve published specifiers (`@vueform/core/locales`,
  * `#ui/components/VfText`, …) to their source equivalents instead of dist. The
- * mirror build makes the mapping mechanical (`./dist/x.mjs` ↔ `src/x.ts`), so
+ * mirror build makes the mapping mechanical (`./dist/x.js` ↔ `src/x.ts`), so
  * the exports map stays the single source of truth: a package that changes an
  * entry (say, its default component tier) changes what these aliases serve.
  *
@@ -96,7 +96,8 @@ function exportsAliases(
     if (key.startsWith('./*.')) return []
 
     const conditions = value as Record<string, string> | null
-    // Adapters expose `import` (`.mjs`), utils exposes `default` (ESM `.js`).
+    // Library packages expose `import`, utils exposes `default` (both ESM
+    // `.js`; `.mjs` is still accepted for robustness).
     const target = conditions?.import ?? conditions?.default
     if (
       typeof target !== 'string' ||

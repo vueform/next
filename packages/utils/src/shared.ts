@@ -245,12 +245,12 @@ export function escapeRegExp(value: string): string {
  * Drops two kinds of dead chunks that `preserveModules` keeps around:
  *
  * - Empty chunks: type-only source modules (interfaces, type aliases) compile to
- *   empty `.mjs` files — their `.d.ts` is the real output. Nothing imports
+ *   empty `.js` files — their `.d.ts` is the real output. Nothing imports
  *   them, since Rollup already tree-shakes imports of empty side-effect-free
  *   modules.
- * - Orphaned SFC facades (`VfButton2.vue.mjs`): plugin-vue splits an SFC into a
+ * - Orphaned SFC facades (`VfButton2.vue.js`): plugin-vue splits an SFC into a
  *   facade module and a script sub-module. Rollup traces re-exports to the
- *   script sub-module (which claims the `.vue.mjs` chunk name), leaving the
+ *   script sub-module (which claims the `.vue.js` chunk name), leaving the
  *   facade as a pure default re-export chunk that nothing imports.
  */
 /**
@@ -537,7 +537,7 @@ export function themeScss(
         const name = basename(file, '.scss')
 
         copyFileSync(resolve(srcScss, file), resolve(outScss, file))
-        writeFileSync(resolve(outScss, `${file}.mjs`), CSS_NODE_SHIM)
+        writeFileSync(resolve(outScss, `${file}.js`), CSS_NODE_SHIM)
 
         const result = sass.compile(resolve(srcScss, file), {
           style: 'expanded',
@@ -546,7 +546,7 @@ export function themeScss(
         // Mixin-only partials compile to nothing but their doc comments.
         if (!result.css.replace(/\/\*[\s\S]*?\*\//g, '').trim()) continue
         writeFileSync(resolve(outCss, `${name}.css`), result.css)
-        writeFileSync(resolve(outCss, `${name}.css.mjs`), CSS_NODE_SHIM)
+        writeFileSync(resolve(outCss, `${name}.css.js`), CSS_NODE_SHIM)
       }
     },
   }
@@ -595,10 +595,10 @@ export function themeCss(
       mkdirSync(dirname(out), { recursive: true })
       writeFileSync(out, `${flattened}\n`)
       // Node exports-condition shim, same as the per-chunk ones.
-      writeFileSync(`${out}.mjs`, CSS_NODE_SHIM)
+      writeFileSync(`${out}.js`, CSS_NODE_SHIM)
       mkdirSync(dirname(recipeOut), { recursive: true })
       copyFileSync(recipe, recipeOut)
-      writeFileSync(`${recipeOut}.mjs`, CSS_NODE_SHIM)
+      writeFileSync(`${recipeOut}.js`, CSS_NODE_SHIM)
     },
   }
 }
@@ -623,7 +623,7 @@ export function loadSassCompiler(root: string): SassCompiler {
 
 /**
  * The shared library build shape: an ES-modules mirror of the entry tree via
- * `preserveModules`, one `.mjs` per source module, no minification, expected
+ * `preserveModules`, one `.js` per source module, no minification, expected
  * `EMPTY_BUNDLE` warnings silenced (their chunks are pruned).
  */
 export function createLibBuild(options: LibBuildOptions): BuildOptions {
@@ -632,7 +632,7 @@ export function createLibBuild(options: LibBuildOptions): BuildOptions {
     lib: {
       formats: ['es'],
       name: options.name,
-      fileName: (_, name) => `${name}.mjs`,
+      fileName: (_, name) => `${name}.js`,
       entry: options.entries,
     },
     outDir: options.outDir,
@@ -664,7 +664,7 @@ export function createLibBuild(options: LibBuildOptions): BuildOptions {
       output: {
         preserveModules: true,
         preserveModulesRoot: options.preserveRoot,
-        entryFileNames: '[name].mjs',
+        entryFileNames: '[name].js',
         ...(options.noHoistTransitiveImports
           ? { hoistTransitiveImports: false }
           : {}),
@@ -711,7 +711,7 @@ export function vaporExternals(
       // copy holds the vdom compile.
       if (keepFiles.has(file)) return
       const rel = relative(srcAbs, file).replace(/\.ts$/, '')
-      const distFile = resolve(distAbs, `${rel}.mjs`)
+      const distFile = resolve(distAbs, `${rel}.js`)
       if (!existsSync(distFile)) return
       return { id: distFile, external: true }
     },

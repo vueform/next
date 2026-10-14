@@ -141,7 +141,7 @@ export function resolveAdapterComponents(pkgDir: string): string[] {
 export function resolveAdapterRules(pkgDir: string): string[] {
   const candidates = [
     resolve(pkgDir, 'dist/rules.d.ts'),
-    resolve(pkgDir, 'dist/rules.mjs'),
+    resolve(pkgDir, 'dist/rules.js'),
     resolve(pkgDir, 'src/rules.ts'),
   ]
 

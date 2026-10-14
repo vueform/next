@@ -29,8 +29,8 @@
     "**/*.css",
     "**/*.scss"
   ],
-  "main": "./dist/index.mjs",
-  "module": "./dist/index.mjs",
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "imports": {
     "#src": "./src/index.ts",
@@ -44,85 +44,85 @@
     ".": {
       "dev": "./src/index.ts",
       "types": "./dist/index.d.ts",
-      "vapor": "./dist/vapor/index.mjs",
-      "import": "./dist/index.mjs"
+      "vapor": "./dist/vapor/index.js",
+      "import": "./dist/index.js"
     },
     "./tools": {
       "dev": "./src/tools/index.ts",
       "types": "./dist/tools/index.d.ts",
-      "vapor": "./dist/vapor/tools/index.mjs",
-      "import": "./dist/tools/index.mjs"
+      "vapor": "./dist/vapor/tools/index.js",
+      "import": "./dist/tools/index.js"
     },
     "./vapor/tools": {
       "dev": "./src/tools/index.ts",
       "types": "./dist/tools/index.d.ts",
-      "import": "./dist/vapor/tools/index.mjs"
+      "import": "./dist/vapor/tools/index.js"
     },
     "./*.css": {
-      "node": "./dist/css/*.css.mjs",
+      "node": "./dist/css/*.css.js",
       "default": "./dist/css/*.css"
     },
     "./*.scss": {
-      "node": "./dist/scss/*.scss.mjs",
+      "node": "./dist/scss/*.scss.js",
       "default": "./dist/scss/*.scss"
     },
     "./blueprints/*": {
       "dev": "./src/blueprints/*.ts",
       "types": "./dist/blueprints/*.d.ts",
-      "import": "./dist/blueprints/*.mjs"
+      "import": "./dist/blueprints/*.js"
     },
     "./components": {
       "dev": "./src/components/index.ts",
       "types": "./dist/components/index.d.ts",
-      "vapor": "./dist/vapor/components/index.mjs",
-      "import": "./dist/components/index.mjs"
+      "vapor": "./dist/vapor/components/index.js",
+      "import": "./dist/components/index.js"
     },
     "./components/*/raw": {
       "dev": "./src/components/*/index.ts",
       "types": "./dist/components/*/index.d.ts",
-      "vapor": "./dist/vapor/components/*/index.mjs",
-      "import": "./dist/components/*/index.mjs"
+      "vapor": "./dist/vapor/components/*/index.js",
+      "import": "./dist/components/*/index.js"
     },
     "./components/*": {
       "dev": "./src/components/*/unstyled.ts",
       "types": "./dist/components/*/unstyled.d.ts",
-      "vapor": "./dist/vapor/components/*/unstyled.mjs",
-      "import": "./dist/components/*/unstyled.mjs"
+      "vapor": "./dist/vapor/components/*/unstyled.js",
+      "import": "./dist/components/*/unstyled.js"
     },
     "./vapor/components": {
       "dev": "./src/components/index.ts",
       "types": "./dist/components/index.d.ts",
-      "import": "./dist/vapor/components/index.mjs"
+      "import": "./dist/vapor/components/index.js"
     },
     "./vapor/components/*/raw": {
       "dev": "./src/components/*/index.ts",
       "types": "./dist/components/*/index.d.ts",
-      "import": "./dist/vapor/components/*/index.mjs"
+      "import": "./dist/vapor/components/*/index.js"
     },
     "./vapor/components/*": {
       "dev": "./src/components/*/unstyled.ts",
       "types": "./dist/components/*/unstyled.d.ts",
-      "import": "./dist/vapor/components/*/unstyled.mjs"
+      "import": "./dist/vapor/components/*/unstyled.js"
     },
     "./locales": {
       "dev": "./src/locales/index.ts",
       "types": "./dist/locales/index.d.ts",
-      "import": "./dist/locales/index.mjs"
+      "import": "./dist/locales/index.js"
     },
     "./modules": {
       "dev": "./src/modules/modules.ts",
       "types": "./dist/modules/modules.d.ts",
-      "import": "./dist/modules/modules.mjs"
+      "import": "./dist/modules/modules.js"
     },
     "./rules": {
       "dev": "./src/rules/index.ts",
       "types": "./dist/rules/index.d.ts",
-      "import": "./dist/rules/index.mjs"
+      "import": "./dist/rules/index.js"
     },
     "./tokens": {
       "dev": "./src/tokens/index.ts",
       "types": "./dist/tokens/index.d.ts",
-      "import": "./dist/tokens/index.mjs"
+      "import": "./dist/tokens/index.js"
     }
   },
   "publishConfig": {
@@ -130,72 +130,72 @@
     "exports": {
       ".": {
         "types": "./dist/index.d.ts",
-        "vapor": "./dist/vapor/index.mjs",
-        "import": "./dist/index.mjs"
+        "vapor": "./dist/vapor/index.js",
+        "import": "./dist/index.js"
       },
       "./tools": {
         "types": "./dist/tools/index.d.ts",
-        "vapor": "./dist/vapor/tools/index.mjs",
-        "import": "./dist/tools/index.mjs"
+        "vapor": "./dist/vapor/tools/index.js",
+        "import": "./dist/tools/index.js"
       },
       "./vapor/tools": {
         "types": "./dist/tools/index.d.ts",
-        "import": "./dist/vapor/tools/index.mjs"
+        "import": "./dist/vapor/tools/index.js"
       },
       "./*.css": {
-        "node": "./dist/css/*.css.mjs",
+        "node": "./dist/css/*.css.js",
         "default": "./dist/css/*.css"
       },
       "./*.scss": {
-        "node": "./dist/scss/*.scss.mjs",
+        "node": "./dist/scss/*.scss.js",
         "default": "./dist/scss/*.scss"
       },
       "./blueprints/*": {
         "types": "./dist/blueprints/*.d.ts",
-        "import": "./dist/blueprints/*.mjs"
+        "import": "./dist/blueprints/*.js"
       },
       "./components": {
         "types": "./dist/components/index.d.ts",
-        "vapor": "./dist/vapor/components/index.mjs",
-        "import": "./dist/components/index.mjs"
+        "vapor": "./dist/vapor/components/index.js",
+        "import": "./dist/components/index.js"
       },
       "./components/*/raw": {
         "types": "./dist/components/*/index.d.ts",
-        "vapor": "./dist/vapor/components/*/index.mjs",
-        "import": "./dist/components/*/index.mjs"
+        "vapor": "./dist/vapor/components/*/index.js",
+        "import": "./dist/components/*/index.js"
       },
       "./components/*": {
         "types": "./dist/components/*/unstyled.d.ts",
-        "vapor": "./dist/vapor/components/*/unstyled.mjs",
-        "import": "./dist/components/*/unstyled.mjs"
+        "vapor": "./dist/vapor/components/*/unstyled.js",
+        "import": "./dist/components/*/unstyled.js"
       },
       "./vapor/components": {
         "types": "./dist/components/index.d.ts",
-        "import": "./dist/vapor/components/index.mjs"
+        "import": "./dist/vapor/components/index.js"
       },
       "./vapor/components/*/raw": {
         "types": "./dist/components/*/index.d.ts",
-        "import": "./dist/vapor/components/*/index.mjs"
+        "import": "./dist/vapor/components/*/index.js"
       },
       "./vapor/components/*": {
         "types": "./dist/components/*/unstyled.d.ts",
-        "import": "./dist/vapor/components/*/unstyled.mjs"
+        "import": "./dist/vapor/components/*/unstyled.js"
       },
       "./locales": {
         "types": "./dist/locales/index.d.ts",
-        "import": "./dist/locales/index.mjs"
+        "import": "./dist/locales/index.js"
       },
       "./modules": {
         "types": "./dist/modules/modules.d.ts",
-        "import": "./dist/modules/modules.mjs"
+        "import": "./dist/modules/modules.js"
       },
       "./rules": {
         "types": "./dist/rules/index.d.ts",
-        "import": "./dist/rules/index.mjs"
+        "import": "./dist/rules/index.js"
       },
       "./tokens": {
         "types": "./dist/tokens/index.d.ts",
-        "import": "./dist/tokens/index.mjs"
+        "import": "./dist/tokens/index.js"
       }
     },
     "access": "public"

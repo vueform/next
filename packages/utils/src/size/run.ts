@@ -237,7 +237,7 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
     ...(type === 'plugin' ? [uiDir] : []),
   ]
   for (const dir of needed) {
-    if (!existsSync(resolve(dir, 'dist/index.mjs'))) {
+    if (!existsSync(resolve(dir, 'dist/index.js'))) {
       throw new Error(
         `${readManifest(dir).name} has no dist — run its build (or \`pnpm build\` at the monorepo root) first: bundle sizes are measured against the built dist artifacts.`
       )

@@ -2,7 +2,7 @@
  * TypeScript `paths` mappings derived from the workspace packages' `exports`
  * maps — the tsconfig twin of `sourceAliases.ts`, sharing its philosophy: the
  * published entry points are the single source of truth, and the mirror build
- * makes the mapping mechanical (`./dist/x.mjs` ↔ `src/x.ts`).
+ * makes the mapping mechanical (`./dist/x.js` ↔ `src/x.ts`).
  *
  * The playground generator (`pg:up`) injects these into a copied playground's
  * tsconfig so its type-check resolves published specifiers to sources. The
@@ -119,18 +119,19 @@ function packagePaths(
     // TS path patterns allow at most one `*` per pattern.
     if ((key.match(/\*/g) ?? []).length > 1) continue
 
-    const target = (value as Record<string, string> | null)?.import
+    const conditions = value as Record<string, string> | null
+    const target = conditions?.import ?? conditions?.default
     if (
       typeof target !== 'string' ||
       !target.startsWith('./dist/') ||
-      !target.endsWith('.mjs')
+      !/\.(mjs|js)$/.test(target)
     ) {
       continue
     }
 
     const replacement = target
       .replace('./dist/', `${srcAbs}/`)
-      .replace(/\.mjs$/, '.ts')
+      .replace(/\.(mjs|js)$/, '.ts')
 
     // Not yet following the mirror-dist shape — leave it to the catch-all.
     if (!key.includes('*') && !existsSync(replacement)) continue

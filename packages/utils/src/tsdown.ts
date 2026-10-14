@@ -82,7 +82,7 @@ export interface CoreTsdownOptions {
  * ```
  *
  * Mirrors `createPluginConfig` (the vite factory): single-entry ES library,
- * `dist/index.mjs` + `index.d.ts`, everything external. The d.ts is checked
+ * `dist/index.js` + `index.d.ts`, everything external. The d.ts is checked
  * with the root tsconfig minus its source `paths`, so `@vueform/core` resolves
  * to its BUILT dist types — the same types consumers get (requires core to be
  * built first).
@@ -94,8 +94,8 @@ export function createPluginTsdownConfig(
     entry: ['src/index.ts'],
     format: ['es'],
     outDir: 'dist',
-    // `.mjs` beside plain `.d.ts` — the exports maps point at `.d.ts`.
-    outExtensions: () => ({ js: '.mjs', dts: '.d.ts' }),
+    // `.js` beside plain `.d.ts` — the exports maps point at `.d.ts`.
+    outExtensions: () => ({ js: '.js', dts: '.d.ts' }),
     platform: 'neutral',
     minify: false,
     // No down-leveling: ship the source's syntax level, like the vite build.
@@ -222,7 +222,7 @@ const coreExternal = (options: CoreTsdownOptions) => [
   ...(options.external ?? []),
 ]
 
-const MJS_DTS = () => ({ js: '.mjs' as const, dts: '.d.ts' as const })
+const JS_DTS = () => ({ js: '.js' as const, dts: '.d.ts' as const })
 
 /**
  * Options for the adapter tsdown factories.
@@ -249,7 +249,7 @@ export interface AdapterTsdownOptions {
 /**
  * tsdown config factory for the core package's MAIN build — the counterpart of
  * `createCoreConfig` (the vite factory): every source module mirrors into
- * `dist` at its own path (`.mjs` beside its `.d.ts`), scss compiles through the
+ * `dist` at its own path (`.js` beside its `.d.ts`), scss compiles through the
  * theme pipeline, SFCs are vdom-compiled, and the d.ts self-augmentation
  * rewrites run as a post-write pass. The vapor component tree is a separate
  * config (`createCoreVaporTsdownConfig`) that the build script runs AFTER this
@@ -279,7 +279,7 @@ export async function createCoreTsdownConfig(
     unbundle: true,
     format: ['es'],
     outDir,
-    outExtensions: MJS_DTS,
+    outExtensions: JS_DTS,
     platform: 'neutral',
     minify: false,
     target: false,
@@ -374,7 +374,7 @@ export async function createCoreVaporTsdownConfig(
     unbundle: true,
     format: ['es'],
     outDir,
-    outExtensions: MJS_DTS,
+    outExtensions: JS_DTS,
     platform: 'neutral',
     minify: false,
     target: false,
@@ -476,7 +476,7 @@ export async function createAdapterTsdownConfig(
     unbundle: true,
     format: ['es'],
     outDir: 'dist',
-    outExtensions: MJS_DTS,
+    outExtensions: JS_DTS,
     platform: 'neutral',
     minify: false,
     target: false,
@@ -577,7 +577,7 @@ export async function createAdapterVaporTsdownConfig(
     unbundle: true,
     format: ['es'],
     outDir,
-    outExtensions: MJS_DTS,
+    outExtensions: JS_DTS,
     platform: 'neutral',
     minify: false,
     target: false,
