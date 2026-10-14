@@ -1,9 +1,9 @@
 /**
  * Docs generator runner (`pnpm gen` in docs/, `pnpm docs:gen` at the root):
- * every docs generator with the live per-task display of the api runner —
- * one row per generator, spinner and elapsed time while working, green/red
- * status when done. No logs are kept; a failed generator's captured output
- * is dumped after the run.
+ * every docs generator with the shared live per-task display — one row per
+ * generator, spinner and elapsed time while working, green/red status when
+ * done. No logs are kept; a failed generator's captured output is dumped
+ * after the run.
  *
  * Structural json extraction lives in scripts/api-extractor and writes to
  * `.vueform/api/` at the monorepo root — run `pnpm api` there first when
@@ -14,7 +14,7 @@
  * `json-keywords`, which read pages the earlier generators write — they run
  * after the parallel group, in that order.
  */
-import { spawn } from 'node:child_process'
+import { spawn, spawnSync } from 'node:child_process'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -22,18 +22,18 @@ const DOCS_DIR = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   '..'
 )
+const REPO_ROOT = path.resolve(DOCS_DIR, '..')
 
-const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
-
-const live = Boolean(process.stdout.isTTY)
-const colors = live && !('NO_COLOR' in process.env)
-const paint = (code: string, text: string) =>
-  colors ? `\x1b[${code}m${text}\x1b[0m` : text
-const green = (t: string) => paint('32', t)
-const red = (t: string) => paint('31', t)
-const cyan = (t: string) => paint('36', t)
-const dim = (t: string) => paint('2', t)
-const bold = (t: string) => paint('1', t)
+// The display lives in @vueform/utils' DIST — absent on a fresh checkout.
+// Warm it (vp-cached, instant on a warm hit) before the dynamic import.
+const bootstrap = spawnSync('pnpm', ['exec', 'vpr', ':build:utils'], {
+  cwd: REPO_ROOT,
+  encoding: 'utf8',
+})
+if (bootstrap.status !== 0) {
+  console.error(bootstrap.stdout + bootstrap.stderr)
+  process.exit(bootstrap.status ?? 1)
+}
 
 /**
  * The parallel group, then the page-reading closers in order.
@@ -49,108 +49,66 @@ const PARALLEL = [
 ]
 const CLOSERS = ['json-types', 'json-keywords']
 
-interface TaskState {
-  status: 'pending' | 'running' | 'pass' | 'fail' | 'skipped'
-  detail: string
-  output: string
-  startedAt: number
-}
-
-const ids = [...PARALLEL, ...CLOSERS]
-const runStarted = Date.now()
-const states = new Map<string, TaskState>(
-  ids.map((id) => [
-    id,
-    { status: 'pending', detail: '', output: '', startedAt: 0 },
-  ])
-)
-
-const idWidth = Math.max(...ids.map((id) => id.length)) + 2
-let tick = 0
-let printedLines = 0
-
-const elapsed = (state: TaskState) =>
-  `${((Date.now() - state.startedAt) / 1000).toFixed(1)}s`
-
-const rowText = (id: string, state: TaskState, spin: string): string => {
-  const mark =
-    state.status === 'running'
-      ? cyan(spin)
-      : state.status === 'pass'
-        ? green('✓')
-        : state.status === 'fail'
-          ? red('✗')
-          : dim('·')
-  const detail =
-    state.status === 'running'
-      ? dim(elapsed(state))
-      : state.status === 'pass'
-        ? green(state.detail)
-        : state.status === 'fail'
-          ? red(state.detail)
-          : dim(state.status === 'skipped' ? 'skipped' : 'waiting')
-  return `  ${mark} ${id.padEnd(idWidth)}${detail}`
-}
-
-const repaint = () => {
-  const spin = SPINNER[tick % SPINNER.length]
-  const lines = [
-    bold('Docs generators'),
-    ...ids.map((id) => rowText(id, states.get(id)!, spin)),
-  ]
-  let out = ''
-  if (printedLines > 0) out += `\x1b[${printedLines}A`
-  for (const line of lines) out += `\x1b[2K${line}\n`
-  process.stdout.write(out)
-  printedLines = lines.length
-}
-
-function runTask(id: string): Promise<boolean> {
-  return new Promise((resolve) => {
-    const state = states.get(id)!
-    state.status = 'running'
-    state.startedAt = Date.now()
-    if (live) repaint()
-
-    const child = spawn(
-      'pnpm',
-      ['exec', 'tsx', path.join(DOCS_DIR, 'scripts', 'generators', `${id}.ts`)],
-      { cwd: DOCS_DIR, stdio: ['ignore', 'pipe', 'pipe'] }
-    )
-    child.stdout.on('data', (chunk: Buffer) => {
-      state.output += chunk.toString()
-    })
-    child.stderr.on('data', (chunk: Buffer) => {
-      state.output += chunk.toString()
-    })
-
-    child.on('close', (code) => {
-      const ok = code === 0
-      state.status = ok ? 'pass' : 'fail'
-      state.detail = ok ? elapsed(state) : `exited with ${code}`
-
-      if (live) repaint()
-      else console.log(rowText(id, state, ''))
-
-      resolve(ok)
-    })
-  })
-}
-
 async function main(): Promise<void> {
-  let timer: ReturnType<typeof setInterval> | undefined
-  if (live) {
-    process.stdout.write('\x1b[?25l')
-    timer = setInterval(() => {
-      tick++
-      repaint()
-    }, 100)
-    repaint()
+  const {
+    createPaint,
+    createRows,
+    resolveTerminalMode,
+    trackChild,
+    untrackChild,
+  } = await import('@vueform/utils/terminal')
+
+  const ids = [...PARALLEL, ...CLOSERS]
+  const runStarted = Date.now()
+  const mode = resolveTerminalMode()
+  const { green, red, dim } = createPaint(mode.colors)
+
+  const display = createRows({
+    title: 'Docs generators',
+    rows: ids.map((id) => ({ id, detail: 'waiting' })),
+    mode,
+  })
+
+  const outputs = new Map<string, string>(ids.map((id) => [id, '']))
+  const failed = new Set<string>()
+
+  function runTask(id: string): Promise<boolean> {
+    return new Promise((resolve) => {
+      display.start(id)
+
+      const child = spawn(
+        'pnpm',
+        [
+          'exec',
+          'tsx',
+          path.join(DOCS_DIR, 'scripts', 'generators', `${id}.ts`),
+        ],
+        {
+          cwd: DOCS_DIR,
+          stdio: ['ignore', 'pipe', 'pipe'],
+          detached: process.platform !== 'win32',
+        }
+      )
+      trackChild(child)
+      child.stdout.on('data', (chunk: Buffer) => {
+        outputs.set(id, outputs.get(id)! + chunk.toString())
+      })
+      child.stderr.on('data', (chunk: Buffer) => {
+        outputs.set(id, outputs.get(id)! + chunk.toString())
+      })
+
+      child.on('close', (code) => {
+        untrackChild(child)
+        const ok = code === 0
+        if (ok) display.pass(id)
+        else {
+          failed.add(id)
+          display.fail(id, `exited with ${code}`)
+        }
+        resolve(ok)
+      })
+    })
   }
-  const restoreCursor = () => {
-    if (live) process.stdout.write('\x1b[?25h')
-  }
-  process.on('exit', restoreCursor)
 
   let ok = (await Promise.all(PARALLEL.map(runTask))).every(Boolean)
 
@@ -158,27 +116,20 @@ async function main(): Promise<void> {
     if (ok) {
       ok = await runTask(id)
     } else {
-      const state = states.get(id)!
-      state.status = 'skipped'
-      if (live) repaint()
-      else console.log(rowText(id, state, ''))
+      display.skip(id)
     }
   }
 
-  if (timer) clearInterval(timer)
-  if (live) repaint()
-  restoreCursor()
-  process.removeListener('exit', restoreCursor)
+  display.finish()
 
-  const failures = ids.filter((id) => states.get(id)!.status === 'fail')
-
-  if (failures.length) {
-    for (const id of failures) {
+  if (failed.size) {
+    for (const id of ids) {
+      if (!failed.has(id)) continue
       console.log(`\n${dim(`––––– ${id} –––––`)}\n`)
-      console.log(states.get(id)!.output.trimEnd())
+      console.log(outputs.get(id)!.trimEnd())
     }
     console.log(
-      `\n${red(`${failures.length} of ${ids.length} docs generators failed.`)}\n`
+      `\n${red(`${failed.size} of ${ids.length} docs generators failed.`)}\n`
     )
     process.exit(1)
   }

@@ -8,34 +8,41 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { runGui } from './gui'
-import { discoverPackages } from './runner'
+import { ensureUtilsDist } from './ensure-utils'
 
-// The same selection as the gate's: every package whose `files` ship a dist.
-const targets = discoverPackages().filter((pkg) => {
-  const manifest = JSON.parse(
-    fs.readFileSync(path.join(pkg.dir, 'package.json'), 'utf8')
-  )
-  return ((manifest.files ?? []) as string[]).includes('dist')
-})
+ensureUtilsDist()
 
-void runGui({
-  title: 'attw (Are The Types Wrong)',
-  scope: 'attw',
-  rows: targets.map((pkg) => ({ name: pkg.name })),
-  driver: {
-    cmd: 'pnpm',
-    args: ['exec', 'vpr', ':attw'],
-    route: (line, api) => {
-      const started = line.match(/attw \((\d+) tarballs\)/)
-      if (started) for (const pkg of targets) api.running(pkg.name)
-      const result = line.match(/^\s*([✓✗]) (@vueform\/\S+)$/)
-      if (result) {
-        if (result[1] === '✓') api.done(result[2])
-        else api.fail(result[2])
-      }
+async function main(): Promise<void> {
+  const { runRows } = await import('./terminal')
+  const { discoverPackages } = await import('./runner')
+
+  // The same selection as the gate's: every package whose `files` ship a dist.
+  const targets = discoverPackages().filter((pkg) => {
+    const manifest = JSON.parse(
+      fs.readFileSync(path.join(pkg.dir, 'package.json'), 'utf8')
+    )
+    return ((manifest.files ?? []) as string[]).includes('dist')
+  })
+
+  const ok = await runRows({
+    title: 'attw (Are The Types Wrong)',
+    scope: 'attw',
+    rows: targets.map((pkg) => ({ name: pkg.name })),
+    driver: {
+      cmd: 'pnpm',
+      args: ['exec', 'vpr', ':attw'],
+      route: (line, api) => {
+        const started = line.match(/attw \((\d+) tarballs\)/)
+        if (started) for (const pkg of targets) api.running(pkg.name)
+        const result = line.match(/^\s*([✓✗]) (@vueform\/\S+)$/)
+        if (result) {
+          if (result[1] === '✓') api.done(result[2])
+          else api.fail(result[2])
+        }
+      },
     },
-  },
-}).then((ok) => {
+  })
   if (!ok) process.exit(1)
-})
+}
+
+void main()

@@ -76,6 +76,9 @@ export async function createVitestConfig(
     test: {
       globals: true,
       environment: 'happy-dom',
+      // A file's first mount can stretch past the 5s default on wall-clock
+      // when the full suite saturates the CPU (parallel workers + vue-tsc).
+      testTimeout: 15000,
       projects: [
         ...(existsSync(join(root, 'tests/integration'))
           ? [integrationProject]

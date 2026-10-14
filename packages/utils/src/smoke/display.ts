@@ -1,14 +1,23 @@
 /**
- * Terminal UI + log capture for the smoke harness. Child-process output goes
- * to a per-invocation log file under the invoking suite's state dir
- * (`.vueform/smoke/logs/`, `.vueform/smoke-types/logs/`); the terminal
- * shows a live env × stage matrix instead (spinner while a stage runs,
- * green ✓ / red ✗ / dim – per result), with a plain-line fallback when stdout
- * is not a TTY (CI).
+ * Terminal UI + log capture for the smoke harness, as thin adapters over the
+ * shared terminal toolkit (`../terminal`): the env × stage matrix
+ * (`createDisplay`), the flat rows variant (`createListDisplay`, the
+ * smoke-types suite's choice), and the per-invocation session log under the
+ * invoking suite's state dir (`.vueform/smoke/logs/`,
+ * `.vueform/smoke-types/logs/`). Live repaint on a TTY, plain `[tag]` lines
+ * otherwise (CI).
  */
-import fs from 'node:fs'
 import path from 'node:path'
 
+import {
+  createMatrix,
+  createPaint,
+  createRows,
+  createRunLog,
+  resolveTerminalMode,
+  termLink as sharedTermLink,
+  type Paint,
+} from '../terminal'
 import { smokeStateDir } from './lib'
 
 export const STAGES = ['install', 'build', 'boot', 'interaction'] as const
@@ -17,28 +26,24 @@ export const TYPES_STAGES = ['install', 'typecheck'] as const
 export type TypesStageName = (typeof TYPES_STAGES)[number]
 export type StageStatus = 'pending' | 'active' | 'pass' | 'fail' | 'skip'
 
-const KEPT_LOGS = 20
-const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
+// The smoke CLIs color their own summary lines after the display stops, so
+// these helpers decide per call from the TTY (not from a display's mode).
+const paint = (): Paint =>
+  createPaint(Boolean(process.stdout.isTTY) && !('NO_COLOR' in process.env))
 
-const colorsEnabled = () => process.stdout.isTTY && !('NO_COLOR' in process.env)
-
-const paint = (code: string, text: string) =>
-  colorsEnabled() ? `\x1b[${code}m${text}\x1b[0m` : text
-
-export const green = (t: string) => paint('32', t)
-export const red = (t: string) => paint('31', t)
-export const cyan = (t: string) => paint('36', t)
-export const dim = (t: string) => paint('2', t)
-export const gray = (t: string) => paint('90', t)
-export const bold = (t: string) => paint('1', t)
+export const green = (t: string): string => paint().green(t)
+export const red = (t: string): string => paint().red(t)
+export const cyan = (t: string): string => paint().cyan(t)
+export const dim = (t: string): string => paint().dim(t)
+export const gray = (t: string): string => paint().gray(t)
+export const bold = (t: string): string => paint().bold(t)
 
 /**
  * An OSC 8 hyperlink wrapping the path itself, so terminals without OSC 8
  * support still show (and usually linkify) the plain absolute path.
  */
 export function termLink(file: string): string {
-  if (!process.stdout.isTTY) return file
-  return `\x1b]8;;file://${file}\x1b\\${file}\x1b]8;;\x1b\\`
+  return sharedTermLink(file, { live: Boolean(process.stdout.isTTY) })
 }
 
 export interface SmokeLog {
@@ -55,67 +60,27 @@ export interface SmokeLog {
   close(): void
 }
 
+/**
+ * The adapter-prefixed session log (`<adapter>-<stamp>.log`): parallel
+ * adapter invocations share one logs dir, and the shared run log prunes by
+ * session age so one adapter's fresh logs survive another's run.
+ */
 export function createSmokeLog(
   root: string,
   adapter: string,
   stateDir = smokeStateDir(root)
 ): SmokeLog {
-  const dir = path.join(stateDir, 'logs')
-  fs.mkdirSync(dir, { recursive: true })
-
-  // Keep the directory from growing without bound — prune by session AGE
-  // (newest file mtime per `<name>-<stamp>` prefix), never by name: names
-  // sort adapter-first, and a name-sorted prune deleted one adapter's fresh
-  // logs while another adapter's run was still printing links to them.
-  const sessions = new Map<string, number>()
-  for (const f of fs.readdirSync(dir)) {
-    if (!f.endsWith('.log')) continue
-    try {
-      const mtime = fs.statSync(path.join(dir, f)).mtimeMs
-      const prefix = f.split('.')[0]
-      sessions.set(prefix, Math.max(sessions.get(prefix) ?? 0, mtime))
-    } catch {
-      // Pruned by a parallel invocation.
-    }
-  }
-  const byAge = [...sessions.entries()]
-    .sort((a, b) => a[1] - b[1])
-    .map(([prefix]) => prefix)
-  for (const old of byAge.slice(0, -KEPT_LOGS + 1)) {
-    for (const f of fs.readdirSync(dir)) {
-      if (f.startsWith(`${old}.`)) fs.rmSync(path.join(dir, f), { force: true })
-    }
-  }
-
-  const stamp = new Date()
-    .toISOString()
-    .replace(/[-:]/g, '')
-    .replace(/\..+/, '')
-    .replace('T', '-')
-  const file = path.join(dir, `${adapter}-${stamp}.log`)
-  const errorsFile = path.join(dir, `${adapter}-${stamp}.errors.log`)
-  // Synchronous writes: the harness itself is synchronous (spawnSync), and a
-  // buffered stream would lose its tail to the process.exit(1) after the
-  // summary.
-  const fd = fs.openSync(file, 'w')
-
+  const log = createRunLog({
+    dir: path.join(stateDir, 'logs'),
+    prefix: adapter,
+  })
   return {
-    file,
-    errorsFile,
-    write: (text) => {
-      if (text) fs.writeSync(fd, text.endsWith('\n') ? text : text + '\n')
-    },
-    section: (title) => fs.writeSync(fd, `\n––––– ${title} –––––\n`),
-    close: () => fs.closeSync(fd),
+    file: log.file,
+    errorsFile: log.errorsFile,
+    write: log.write,
+    section: log.section,
+    close: log.close,
   }
-}
-
-const GLYPH: Record<StageStatus, string> = {
-  pending: '·',
-  active: '', // spinner frame, filled in at render time
-  pass: '✓',
-  fail: '✗',
-  skip: '–',
 }
 
 export interface Display {
@@ -135,149 +100,19 @@ export function createDisplay(opts: {
   envIds: string[]
   live: boolean
 }): Display {
-  const grid = new Map<string, Map<StageName, StageStatus>>()
-  for (const id of opts.envIds) {
-    grid.set(id, new Map(STAGES.map((s) => [s, 'pending'])))
-  }
-
-  // Elapsed-time tracking: each row counts
-  // its env from its first active stage until it fails or finishes.
-  const envStarted = new Map<string, number>()
-  const envElapsed = new Map<string, string>()
-  const envVerdict = new Map<string, 'pass' | 'fail'>()
-  // Row counters: one decimal, fixed width sized for `999.9s`.
-  const fmtRowSecs = (ms: number) => `${(ms / 1000).toFixed(1)}s`
-  const TIME_WIDTH = '999.9s'.length
-  const trackTiming = (envId: string, status: StageStatus) => {
-    if (status === 'active' && !envStarted.has(envId)) {
-      envStarted.set(envId, Date.now())
-    }
-    const values = [...grid.get(envId)!.values()]
-    const failed = values.includes('fail')
-    const done =
-      failed || values.every((value) => value === 'pass' || value === 'skip')
-    if (done && envStarted.has(envId) && !envElapsed.has(envId)) {
-      envElapsed.set(envId, fmtRowSecs(Date.now() - envStarted.get(envId)!))
-      envVerdict.set(envId, failed ? 'fail' : 'pass')
-    }
-  }
-  const envTime = (envId: string): string => {
-    const text = (
-      envElapsed.get(envId) ??
-      (envStarted.has(envId)
-        ? fmtRowSecs(Date.now() - envStarted.get(envId)!)
-        : '')
-    ).padStart(TIME_WIDTH)
-    const verdict = envVerdict.get(envId)
-    return verdict === 'pass'
-      ? green(text)
-      : verdict === 'fail'
-        ? red(text)
-        : dim(text)
-  }
-
-  let phaseText: string | null = null
-
-  if (!opts.live) {
-    return {
-      phase(text) {
-        phaseText = text
-        if (text) console.log(`[smoke] ${text}`)
-      },
-      stage(envId, stage, status) {
-        grid.get(envId)!.set(stage, status)
-        trackTiming(envId, status)
-        if (status === 'pass' || status === 'fail') {
-          console.log(
-            `[smoke:${opts.adapter}:${envId}] ${stage} ${status === 'pass' ? '✓' : '✗'}`
-          )
-        }
-      },
-      stop() {},
-    }
-  }
-
-  const envWidth = Math.max(...opts.envIds.map((id) => id.length), 4) + 2
-  let tick = 0
-  let printedLines = 0
-
-  const renderLines = (): string[] => {
-    const spin = SPINNER[tick % SPINNER.length]
-    const lines: string[] = []
-    lines.push(bold('Smoke tests ') + gray(`(${opts.adapter})`))
-    lines.push(
-      dim(
-        '  ' +
-          'env'.padEnd(envWidth) +
-          STAGES.map((s) => s.padStart(s.length).padEnd(13)).join('')
-      )
-    )
-    for (const [id, stages] of grid) {
-      let row = '  ' + id.padEnd(envWidth)
-      for (const stage of STAGES) {
-        const status = stages.get(stage)!
-        const glyph = status === 'active' ? cyan(spin) : GLYPH[status]
-        const colored =
-          status === 'pass'
-            ? green(glyph)
-            : status === 'fail'
-              ? red(glyph)
-              : status === 'active'
-                ? glyph
-                : dim(glyph)
-        // Center-ish under the header label.
-        const pad = Math.floor(stage.length / 2)
-        row += ' '.repeat(pad) + colored + ' '.repeat(13 - pad - 1)
-      }
-      row += envTime(id)
-      lines.push(row)
-    }
-    if (phaseText)
-      lines.push(dim(`  ${SPINNER[tick % SPINNER.length]} ${phaseText}`))
-    return lines
-  }
-
-  const repaint = () => {
-    const lines = renderLines()
-    let out = ''
-    if (printedLines > 0) out += `\x1b[${printedLines}A`
-    for (const line of lines) out += `\x1b[2K${line}\n`
-    // A shrinking frame (phase line disappearing) leaves stale lines behind.
-    for (let i = lines.length; i < printedLines; i++) out += '\x1b[2K\n'
-    if (printedLines > lines.length) {
-      out += `\x1b[${printedLines - lines.length}A`
-    }
-    process.stdout.write(out)
-    printedLines = lines.length
-  }
-
-  process.stdout.write('\x1b[?25l')
-  const timer = setInterval(() => {
-    tick++
-    repaint()
-  }, 100)
-  repaint()
-
-  const restoreCursor = () => process.stdout.write('\x1b[?25h')
-  process.on('exit', restoreCursor)
-
+  const matrix = createMatrix({
+    title: 'Smoke tests',
+    subtitle: opts.adapter,
+    rows: opts.envIds,
+    columns: STAGES,
+    mode: resolveTerminalMode({ argv: [], live: opts.live }),
+    tag: `smoke:${opts.adapter}`,
+    phaseTag: 'smoke',
+  })
   return {
-    phase(text) {
-      phaseText = text
-      repaint()
-    },
-    stage(envId, stage, status) {
-      grid.get(envId)!.set(stage, status)
-      trackTiming(envId, status)
-      repaint()
-    },
-    stop() {
-      clearInterval(timer)
-      phaseText = null
-      repaint()
-      restoreCursor()
-      process.removeListener('exit', restoreCursor)
-    },
+    phase: matrix.phase,
+    stage: matrix.cell,
+    stop: matrix.finish,
   }
 }
 
@@ -318,151 +153,29 @@ export function createListDisplay(opts: {
   rows: { id: string; status?: ListRowStatus; detail?: string }[]
   live: boolean
 }): ListDisplay {
-  const rows = new Map(
-    opts.rows.map((row) => [
-      row.id,
-      {
-        status: row.status ?? ('pending' as ListRowStatus),
-        detail: row.detail ?? '',
-      },
-    ])
-  )
-
-  // Elapsed-time tracking: each row counts from its first active status
-  // until it passes or fails — one decimal, fixed width sized for `999.9s`,
-  // dim while running, green/red by verdict (same treatment as the grid).
-  const fmtRowSecs = (ms: number) => `${(ms / 1000).toFixed(1)}s`
-  const ROW_TIME_WIDTH = '999.9s'.length
-  const rowStarted = new Map<string, number>()
-  const rowElapsed = new Map<string, string>()
-  const rowVerdict = new Map<string, 'pass' | 'fail'>()
-  const trackRowTiming = (id: string, status: ListRowStatus) => {
-    if (status === 'active' && !rowStarted.has(id)) {
-      rowStarted.set(id, Date.now())
-    }
-    if ((status === 'pass' || status === 'fail') && !rowElapsed.has(id)) {
-      if (rowStarted.has(id)) {
-        rowElapsed.set(id, fmtRowSecs(Date.now() - rowStarted.get(id)!))
-      }
-      rowVerdict.set(id, status)
-    }
-  }
-  const rowTime = (id: string): string => {
-    const text = (
-      rowElapsed.get(id) ??
-      (rowStarted.has(id) ? fmtRowSecs(Date.now() - rowStarted.get(id)!) : '')
-    ).padStart(ROW_TIME_WIDTH)
-    const verdict = rowVerdict.get(id)
-    return verdict === 'pass'
-      ? green(text)
-      : verdict === 'fail'
-        ? red(text)
-        : dim(text)
-  }
-
-  const glyph = (status: ListRowStatus, spin: string) =>
-    status === 'active'
-      ? cyan(spin)
-      : status === 'pass'
-        ? green('✓')
-        : status === 'fail'
-          ? red('✗')
-          : dim(status === 'skip' ? '–' : '·')
-
-  const detailText = (status: ListRowStatus, detail: string) =>
-    !detail
-      ? ''
-      : status === 'fail'
-        ? red(detail)
-        : status === 'pass'
-          ? green(detail)
-          : dim(detail)
-
-  if (!opts.live) {
-    for (const [id, row] of rows) {
-      if (row.status === 'skip') {
-        console.log(`[${opts.tag}:${opts.adapter}:${id}] – ${row.detail}`)
-      }
-    }
-    return {
-      phase(text) {
-        if (text) console.log(`[${opts.tag}] ${text}`)
-      },
-      row(id, status, detail = '') {
-        rows.get(id)!.status = status
-        rows.get(id)!.detail = detail
-        trackRowTiming(id, status)
-        if (status === 'pass' || status === 'fail') {
-          console.log(
-            `[${opts.tag}:${opts.adapter}:${id}] ${status === 'pass' ? '✓' : '✗'}${detail ? ` ${detail}` : ''}`
-          )
-        }
-      },
-      stop() {},
-    }
-  }
-
-  const idWidth = Math.max(...[...rows.keys()].map((id) => id.length), 4) + 2
-  let phaseText: string | null = null
-  let tick = 0
-  let printedLines = 0
-
-  const renderLines = (): string[] => {
-    const spin = SPINNER[tick % SPINNER.length]
-    const lines: string[] = []
-    lines.push(bold(`${opts.title} `) + gray(`(${opts.adapter})`))
-    for (const [id, row] of rows) {
-      const detail = detailText(row.status, row.detail)
-      lines.push(
-        `  ${glyph(row.status, spin)} ${id.padEnd(idWidth)}${detail}${detail ? ' ' : ''}${rowTime(id)}`
-      )
-    }
-    if (phaseText) lines.push(dim(`  ${spin} ${phaseText}`))
-    return lines
-  }
-
-  const repaint = () => {
-    const lines = renderLines()
-    let out = ''
-    if (printedLines > 0) out += `\x1b[${printedLines}A`
-    for (const line of lines) out += `\x1b[2K${line}\n`
-    // A shrinking frame (phase line disappearing) leaves stale lines behind.
-    for (let i = lines.length; i < printedLines; i++) out += '\x1b[2K\n'
-    if (printedLines > lines.length) {
-      out += `\x1b[${printedLines - lines.length}A`
-    }
-    process.stdout.write(out)
-    printedLines = lines.length
-  }
-
-  process.stdout.write('\x1b[?25l')
-  const timer = setInterval(() => {
-    tick++
-    repaint()
-  }, 100)
-  repaint()
-
-  const restoreCursor = () => process.stdout.write('\x1b[?25h')
-  process.on('exit', restoreCursor)
-
+  const rows = createRows({
+    title: opts.title,
+    subtitle: opts.adapter,
+    rows: opts.rows,
+    mode: resolveTerminalMode({ argv: [], live: opts.live }),
+    tag: `${opts.tag}:${opts.adapter}`,
+    phaseTag: opts.tag,
+    timers: 'column',
+  })
   return {
-    phase(text) {
-      phaseText = text
-      repaint()
-    },
+    phase: rows.phase,
     row(id, status, detail = '') {
-      const row = rows.get(id)!
-      row.status = status
-      row.detail = detail
-      trackRowTiming(id, status)
-      repaint()
+      if (status === 'active') {
+        rows.start(id)
+        rows.progress(id, detail)
+      } else if (status === 'pass') {
+        rows.pass(id, detail)
+      } else if (status === 'fail') {
+        rows.fail(id, detail)
+      } else if (status === 'skip') {
+        rows.skip(id, detail)
+      }
     },
-    stop() {
-      clearInterval(timer)
-      phaseText = null
-      repaint()
-      restoreCursor()
-      process.removeListener('exit', restoreCursor)
-    },
+    stop: rows.finish,
   }
 }
