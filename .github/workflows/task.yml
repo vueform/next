@@ -149,13 +149,19 @@ jobs:
       # the rebase never conflicts).
       - name: Commit regenerated artifacts
         run: |
-          git add -A -- \
+          # `git add` fails on a pathspec that matches nothing (e.g. no
+          # baselines generated on this run) — add each path on its own and
+          # tolerate the misses.
+          for p in \
             'packages/*/tests/visual/screenshots' \
             'packages/*/registry' \
             'packages/*/README.md' \
             'README.md' \
             'benchmark/results' \
             'docs/src'
+          do
+            git add -A -- "$p" 2>/dev/null || true
+          done
           if git diff --cached --quiet; then
             echo 'No regenerated artifacts to commit.'
             exit 0
