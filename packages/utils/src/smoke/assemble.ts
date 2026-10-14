@@ -1,6 +1,6 @@
 /**
  * Assembles a smoke run: a disposable copy of the generic fixture shell
- * (`packages/utils/smoke-test/envs/<fixture>`) in the ephemeral
+ * (`packages/utils/fixtures/smoke-test/envs/<fixture>`) in the ephemeral
  * runs dir, with
  * the shared fixture content injected and the manifest rewired to the packed
  * tarballs. Fixture sources are never touched in place, so variant and
@@ -12,7 +12,7 @@
  * - `build`: tier 0 production build (vite build / nuxi build)
  * - `serve`: serves the built app on the port in `SMOKE_PORT`
  *
- * Shared content is copied from `@vueform/utils`' smoke-test:
+ * Shared content is copied from `@vueform/utils`' fixtures/smoke-test:
  *
  * - `app/*` → `<run>/smoke/` — canonical schema, inline-components form,
  *   window.__smoke exposure. A `<name>.nuxt.<ext>` variant replaces
@@ -74,10 +74,17 @@ export interface SmokeRun {
   baseUrl: string
 }
 
-const templatesDir = path.resolve(__dirname, '..', '..', 'smoke-test')
+// Same depth from `src/smoke/` (vitest) and `dist/smoke/` (built output).
+const templatesDir = path.resolve(
+  import.meta.dirname,
+  '..',
+  '..',
+  'fixtures',
+  'smoke-test'
+)
 
 /**
- * Copies `smoke-test/app` into `<run>/smoke`, honoring per-env variant
+ * Copies `fixtures/smoke-test/app` into `<run>/smoke`, honoring per-env variant
  * files: `foo.nuxt.ts` overrides `foo.ts` in nuxt envs and is never copied
  * verbatim.
  */
@@ -476,7 +483,7 @@ export function runName(input: Pick<AssembleInput, 'adapter' | 'env'>) {
 
 /**
  * The generic fixture shells live with the other shared templates in utils
- * (`smoke-test/envs/<name>`), adapter-free by construction: their
+ * (`fixtures/smoke-test/envs/<name>`), adapter-free by construction: their
  * workspace deps come from the adapter's config.json, `createVueform` from
  * the generated adapter module, and the nuxt adapter name from the generated
  * run metadata.

@@ -5,4 +5,4 @@
  * present, so the link is created; the real CLI loads from dist at run time
  * (i.e. after `pnpm build`).
  */
-require('../dist/registry-cli.js')
+await import('../dist/registry-cli.js')

@@ -301,8 +301,7 @@ defineExpose(expose)
                   ($event: DragEvent) => handleDragEnter($event, rowIndex)
                 "
                 :handle-drag-start="
-                  ($event: DragEvent) =>
-                    handleDragStart($event, row.dataIndex)
+                  ($event: DragEvent) => handleDragStart($event, row.dataIndex)
                 "
                 :handle-drag-end
                 :label
@@ -343,8 +342,7 @@ defineExpose(expose)
                     "
                     :handle-drag-end
                     :handle-drag-enter="
-                      ($event: DragEvent) =>
-                        handleDragEnter($event, rowIndex)
+                      ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
                     :class="classes.sortWrapper"
                     v-bind="parts.sortWrapper"
@@ -364,8 +362,7 @@ defineExpose(expose)
                       "
                       :handle-drag-end
                       :handle-drag-enter="
-                        ($event: DragEvent) =>
-                          handleDragEnter($event, rowIndex)
+                        ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
                       v-bind="parts.sort"
                     />
@@ -379,8 +376,7 @@ defineExpose(expose)
                       "
                       :handle-drag-end
                       :handle-drag-enter="
-                        ($event: DragEvent) =>
-                          handleDragEnter($event, rowIndex)
+                        ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
                       v-bind="parts.sort"
                     />
@@ -396,8 +392,7 @@ defineExpose(expose)
                       @dragstart="handleDragStart($event, row.dataIndex)"
                       @dragend="handleDragEnd"
                       @dragenter="
-                        ($event: DragEvent) =>
-                          handleDragEnter($event, rowIndex)
+                        ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
                     />
                   </div>
@@ -454,8 +449,7 @@ defineExpose(expose)
                     :is="outlets.cell"
                     :component="r.component"
                     :handle-drag-enter="
-                      ($event: DragEvent) =>
-                        handleDragEnter($event, rowIndex)
+                      ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
                     :props="r.props"
                     v-bind="parts.cell"
@@ -465,8 +459,7 @@ defineExpose(expose)
                     :class="classes.cell"
                     v-bind="parts.cell"
                     @dragenter="
-                      ($event: DragEvent) =>
-                        handleDragEnter($event, rowIndex)
+                      ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
                   >
                     <component :is="r.component" v-bind="r.props" />

@@ -155,5 +155,5 @@ ignore:
   - packages/*/tests/visual/test-results
   - packages/*/tests/visual/playwright-report
   # consumer-app scaffolding follows framework conventions (app.vue), not ours
-  - packages/utils/smoke-test/envs
+  - packages/utils/fixtures/smoke-test/envs
   - scripts/playground/templates

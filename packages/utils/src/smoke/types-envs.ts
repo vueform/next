@@ -48,7 +48,7 @@ export interface TypeEnvDef {
   id: string
   framework: Framework
   /**
-   * Fixture shell under `smoke-test/envs/` (in @vueform/utils),
+   * Fixture shell under `fixtures/smoke-test/envs/` (in @vueform/utils),
    * shared with the smoke envs.
    */
   fixture: string

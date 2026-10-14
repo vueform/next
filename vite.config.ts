@@ -173,12 +173,13 @@ const typecheckTasks = Object.fromEntries(
  * test-smoke, test-visual) stay out of `:test` and are run by their own
  * commands. Tests run source via the vitest factory, so the legs only need
  * utils' dist — the cache fingerprints only that surface (the vitest
- * factory + its sourceAliases require), the package's own files, and the
+ * factory + its source-aliases import, plus the type-test runner the
+ * test-dts legs resolve through dist), the package's own files, and the
  * workspace deps' sources (tests run the src-world graph). Explicit inputs
  * on purpose: auto-tracking never cached these legs (vitest writes scratch
  * files into tracked paths).
  */
-const UTILS_TEST_SURFACE = ['vitest', 'sourceAliases'].map(
+const UTILS_TEST_SURFACE = ['vitest', 'source-aliases', 'type-test'].map(
   (name) => `packages/utils/dist/${name}.js`
 )
 
@@ -232,12 +233,12 @@ const testDtsTasks = Object.fromEntries(
 
 /**
  * The slice of utils' dist that downstream BUILDS actually consume: the
- * tsdown config factory plus its runtime requires (tsdown.js → shared.js
- * [banners], adapter.js, dtsEsm.js). Fingerprinting only these keeps
+ * tsdown config factory plus its runtime imports (tsdown.js → shared.js
+ * [banners], adapter.js, dts-esm.js). Fingerprinting only these keeps
  * utils-internal changes (vitest factory, registry, smoke, size, runner, …)
  * from invalidating every package build.
  */
-const UTILS_BUILD_SURFACE = ['tsdown', 'shared', 'adapter', 'dtsEsm'].map(
+const UTILS_BUILD_SURFACE = ['tsdown', 'shared', 'adapter', 'dts-esm'].map(
   (name) => `packages/utils/dist/${name}.js`
 )
 
@@ -465,6 +466,10 @@ export default defineConfig({
           input: [
             'packages/*/dist/**',
             'packages/*/package.json',
+            // utils ships raw assets alongside dist — they land in the
+            // tarball, so they must invalidate it.
+            'packages/utils/bin/**',
+            'packages/utils/fixtures/**',
             'pnpm-lock.yaml',
           ],
           output: ['.vueform/tarballs/**'],

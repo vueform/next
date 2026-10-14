@@ -38,12 +38,15 @@
  * Returns per-component findings; the adapters' `tests/invariants` suites
  * assert them (one test per component). `suggest` prints inferred styles.ts
  * content instead — run it programmatically, e.g.
- * `node -e "require('@vueform/utils').verifyCssImports({ packageDir: '.', suggest: true })"`.
+ * `node -e "import('@vueform/utils').then((u) => u.verifyCssImports({ packageDir: '.', suggest: true }))"`.
  */
 import fs from 'node:fs'
 import path from 'node:path'
 import { pathToFileURL } from 'node:url'
 
+// Burned into dist at build time — the published package never reads
+// config.json at runtime (it is not shipped).
+import utilsConfig from '../config.json' with { type: 'json' }
 import { findWorkspaceRoot, loadSassCompiler } from './shared'
 
 interface Occurrence {
@@ -154,9 +157,7 @@ export function verifyCssImports(
   // any component emitting them: exact names or `prefix-*` patterns, from the
   // `global` list plus the adapter's own.
   const whitelistConfig: Record<string, string[]> =
-    JSON.parse(
-      fs.readFileSync(path.join(__dirname, '..', 'config.json'), 'utf8')
-    ).classWhitelist ?? {}
+    utilsConfig.classWhitelist ?? {}
   const whitelist = [
     ...(whitelistConfig.global ?? []),
     ...(whitelistConfig[adapterName] ?? []),

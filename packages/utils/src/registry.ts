@@ -1038,7 +1038,7 @@ function embeddedFormatOptions(): Promise<EmbeddedFormatOptions> {
     // its future native loader won't support that. We always use the bundle
     // loader, so the warning is noise in every vf-registry run.
     process.env.VITE_CONFIG_NATIVE_IGNORE_WARNING ??= 'true'
-    // Dynamic import: vite ships ESM only, while this package compiles to CJS.
+    // Dynamic import: defer loading vite until a format is actually requested.
     const { loadConfigFromFile } = await import('vite')
     const root = findWorkspaceRoot(process.cwd())
     const loaded = await loadConfigFromFile(

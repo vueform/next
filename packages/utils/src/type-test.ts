@@ -1,10 +1,8 @@
 /**
  * Shared runner for SFC template type tests — named-test reporting for the
- * `*.vue` files in a package's `tests/dts` directory. A raw-source asset
- * directory (like `visual-test`), outside `src` on purpose: it imports `vitest`
- * (ESM-only), which this package's CJS build can't compile or require — the
- * `./type-test` export serves it as-is, the consuming test run compiles it
- * through Vite, and the consumer's type-test gate typechecks it.
+ * `*.vue` files in a package's `tests/dts` directory. Built like the rest of
+ * utils; the `vitest` import resolves in the consuming test run (vitest is an
+ * optional peer — only this entry needs it).
  *
  * Usage, from a `tests/dts/vue-sfc.test.ts` (picked up by the vitest factory's
  * `test-dts` project):

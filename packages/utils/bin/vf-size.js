@@ -8,11 +8,12 @@
 
 // The suite's cost is gzip/brotli-max compression, run async on the libuv
 // threadpool — size it to the machine before anything can initialize the pool
-// (it defaults to 4 threads).
+// (it defaults to 4 threads). The CLI is loaded with a dynamic import so this
+// assignment runs first (a static import would be hoisted above it).
+import { availableParallelism } from 'node:os'
+
 if (!process.env.UV_THREADPOOL_SIZE) {
-  process.env.UV_THREADPOOL_SIZE = String(
-    require('node:os').availableParallelism()
-  )
+  process.env.UV_THREADPOOL_SIZE = String(availableParallelism())
 }
 
-require('../dist/size-cli.js')
+await import('../dist/size-cli.js')

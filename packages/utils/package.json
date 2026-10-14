@@ -23,31 +23,29 @@
   },
   "files": [
     "bin",
-    "config.json",
     "dist",
-    "smoke-test",
-    "type-test",
-    "visual-test"
+    "fixtures"
   ],
+  "type": "module",
   "sideEffects": false,
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "require": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./smoke": {
       "types": "./dist/smoke/index.d.ts",
-      "require": "./dist/smoke/index.js",
       "default": "./dist/smoke/index.js"
     },
     "./terminal": {
       "types": "./dist/terminal/index.d.ts",
-      "require": "./dist/terminal/index.js",
       "default": "./dist/terminal/index.js"
     },
-    "./type-test": "./type-test/index.ts",
-    "./visual-test": "./visual-test/index.ts"
+    "./type-test": {
+      "types": "./dist/type-test.d.ts",
+      "default": "./dist/type-test.js"
+    },
+    "./visual-test": "./fixtures/visual-test/index.ts"
   },
   "publishConfig": {
     "access": "public"
@@ -74,7 +72,13 @@
     "vitest": "catalog:"
   },
   "peerDependencies": {
-    "vite": "catalog:peer"
+    "vite": "catalog:peer",
+    "vitest": "catalog:peer"
+  },
+  "peerDependenciesMeta": {
+    "vitest": {
+      "optional": true
+    }
   },
   "engines": {
     "node": ">=22.12.0"

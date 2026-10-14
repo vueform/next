@@ -51,8 +51,8 @@ function readManifest(dir: string): PackageManifest | undefined {
  * yet, which falls through to the package's `/*` catch-all.
  *
  * A plain-string target outside `dist` (e.g. utils' `./visual-test` →
- * `./visual-test/index.ts`) is a raw-source asset export: it is aliased to that
- * file as-is, since the `src` catch-all cannot reach it.
+ * `./fixtures/visual-test/index.ts`) is a raw-source asset export: it is
+ * aliased to that file as-is, since the `src` catch-all cannot reach it.
  */
 function exportsAliases(
   short: string,
@@ -95,11 +95,13 @@ function exportsAliases(
     }
     if (key.startsWith('./*.')) return []
 
-    const target = (value as Record<string, string> | null)?.import
+    const conditions = value as Record<string, string> | null
+    // Adapters expose `import` (`.mjs`), utils exposes `default` (ESM `.js`).
+    const target = conditions?.import ?? conditions?.default
     if (
       typeof target !== 'string' ||
       !target.startsWith('./dist/') ||
-      !target.endsWith('.mjs')
+      !/\.(mjs|js)$/.test(target)
     ) {
       return []
     }
@@ -107,7 +109,7 @@ function exportsAliases(
     let group = 0
     const replacement = target
       .replace('./dist/', `${srcAbs}/`)
-      .replace(/\.mjs$/, '.ts')
+      .replace(/\.(mjs|js)$/, '.ts')
       .replace(/\*/g, () => `$${++group}`)
 
     // Not yet following the mirror-dist shape — leave it to the catch-all.

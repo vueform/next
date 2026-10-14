@@ -202,7 +202,7 @@ async function main(options: SmokeTypesCliOptions) {
       runnable.push(env)
     } else if (parsed.env) {
       throw new SmokeError(
-        `Env "${env.id}" has no fixture shell at smoke-test/envs/${env.fixture} (in @vueform/utils).`
+        `Env "${env.id}" has no fixture shell at fixtures/smoke-test/envs/${env.fixture} (in @vueform/utils).`
       )
     } else {
       results.push({ adapter, env, status: 'skip', detail: 'no fixture yet' })
@@ -211,7 +211,7 @@ async function main(options: SmokeTypesCliOptions) {
 
   if (!runnable.length) {
     throw new SmokeError(
-      `No fixture shells exist under smoke-test/envs/ (in @vueform/utils).`
+      `No fixture shells exist under fixtures/smoke-test/envs/ (in @vueform/utils).`
     )
   }
 

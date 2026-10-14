@@ -26,7 +26,7 @@ export interface EnvDef {
   rendering: Rendering
   mode: SfcMode
   /**
-   * Fixture shell under `smoke-test/envs/` (in @vueform/utils).
+   * Fixture shell under `fixtures/smoke-test/envs/` (in @vueform/utils).
    * Variants (nuxt-spa) share the fixture of their base env.
    */
   fixture: string

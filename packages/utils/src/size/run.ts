@@ -348,8 +348,7 @@ export async function runSize(options: RunSizeOptions): Promise<void> {
     scenarios: filters?.length && previous ? { ...previous.scenarios } : {},
   }
 
-  // The Vite Node API and the plugins are ESM-only; this module compiles to
-  // CJS, so they are pulled in dynamically.
+  // Dynamic imports: defer loading vite and the plugins until a run starts.
   const { build } = await import('vite')
   const { default: vue } = await import('@vitejs/plugin-vue')
   const visualizer = options.stats

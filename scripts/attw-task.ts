@@ -22,12 +22,12 @@ interface AttwTarget {
 }
 
 /**
- * Per-package attw exceptions. utils' type-test/visual-test exports point at
- * shipped .ts sources on purpose (in-repo test helpers, consumed through the
- * workspace, meaningless to npm consumers) — attw internal-errors on them.
+ * Per-package attw exceptions. utils' visual-test export points at shipped
+ * raw sources on purpose (in-repo `.vue` test helpers, consumed through the
+ * workspace, meaningless to npm consumers) — attw internal-errors on it.
  */
 const EXCLUDED_ENTRYPOINTS: Record<string, string[]> = {
-  '@vueform/utils': ['type-test', 'visual-test'],
+  '@vueform/utils': ['visual-test'],
 }
 
 /**

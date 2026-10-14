@@ -258,7 +258,7 @@ export interface AdapterTsdownOptions {
 export async function createCoreTsdownConfig(
   options: CoreTsdownOptions
 ): Promise<UserConfig> {
-  // unplugin-vue ships ESM only, while this package compiles to CJS.
+  // Dynamic import: defer loading unplugin-vue until a config is built.
   const { default: Vue } = await import('unplugin-vue/rolldown')
 
   const root = process.cwd()
