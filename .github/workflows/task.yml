@@ -18,7 +18,9 @@ name: Task
 # `test-visual` run on a runner OS has no `-linux` baselines, so it writes and
 # commits them (next to the darwin ones, platform-suffixed) and later runs
 # compare strictly; re-baseline deliberately with the `update_baselines`
-# input.
+# input, or anytime without a task dispatch via the Visual baselines
+# workflow (which is also the move after a runner OS bump — re-pin
+# `runs-on` everywhere first, re-baseline there, then dispatch tasks here).
 
 on:
   workflow_dispatch:
@@ -45,7 +47,7 @@ permissions:
 jobs:
   plan:
     name: Plan
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     outputs:
       tasks: ${{ steps.plan.outputs.tasks }}
     steps:
@@ -59,7 +61,7 @@ jobs:
 
   build:
     name: Warm build cache
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v5
 
@@ -85,7 +87,7 @@ jobs:
   task:
     name: ${{ matrix.task }}
     needs: [plan, build]
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     strategy:
       fail-fast: false
       matrix:
@@ -213,7 +215,7 @@ jobs:
     name: Commit regenerated artifacts
     needs: [plan, task]
     if: ${{ !cancelled() && needs.task.result != 'skipped' }}
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     permissions:
       contents: write
     steps:

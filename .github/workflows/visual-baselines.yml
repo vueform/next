@@ -1,0 +1,112 @@
+name: Visual baselines
+
+# On-demand full re-baselining (Actions → Visual baselines → Run workflow):
+# runs every visual suite with --update-snapshots and commits the refreshed
+# `-linux` screenshots back to the dispatched branch. Run it after anything
+# that legitimately changes pixels on CI — a runner OS bump (re-pin
+# `runs-on` in every workflow FIRST, then run this, then the task workflow
+# compares cleanly), a Chromium update, an intentional visual change.
+# task.yml's `update_baselines` input does the same inside a task run; this
+# workflow exists so re-baselining needs no task dispatch. It shares the
+# task workflow's concurrency group, so it never races task.yml's artifact
+# commits on the same ref.
+
+on:
+  workflow_dispatch:
+
+concurrency:
+  group: task-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write # the baselines commit
+
+jobs:
+  update:
+    name: Regenerate baselines
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # playwright is not a root dependency — run its CLI from a package that
+      # has it (the browser install itself is machine-wide).
+      - name: Install Playwright chromium
+        run: pnpm --filter @vueform/ui exec playwright install --with-deps chromium
+
+      - run: pnpm build
+
+      - name: Regenerate baselines
+        run: pnpm test-visual --update-snapshots
+
+      - name: Commit baselines
+        env:
+          BRANCH: ${{ github.ref_name }}
+          BASE_SHA: ${{ github.sha }}
+        run: |
+          git add -A -- 'packages/*/tests/visual/screenshots/*' 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo 'Baselines unchanged.'
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m 'chore(ci): regenerate visual baselines'
+          # Same push discipline as task.yml's commit job (keep the path list
+          # in sync with it): a rejected push means an outside commit landed
+          # mid-run — artifact-only remote changes rebase cleanly, a source
+          # change may have changed pixels, so fail loudly and re-dispatch.
+          paths=(
+            'packages/*/tests/visual/screenshots/*'
+            'packages/*/registry/*'
+            'packages/*/README.md'
+            'README.md'
+            'benchmark/results/*'
+            'docs/src/*'
+          )
+          for attempt in 1 2 3 4 5; do
+            if git push origin "HEAD:$BRANCH"; then
+              exit 0
+            fi
+            git fetch origin "$BRANCH"
+            while IFS= read -r f; do
+              artifact=false
+              for p in "${paths[@]}"; do
+                if [[ $f == $p ]]; then
+                  artifact=true
+                  break
+                fi
+              done
+              if [ "$artifact" = false ]; then
+                echo "::error::The branch gained source commits mid-run ($f changed); the regenerated baselines may be stale. Dispatch a fresh run."
+                exit 1
+              fi
+            done < <(git diff --name-only "$BASE_SHA" "origin/$BRANCH")
+            git pull --rebase --autostash -X theirs origin "$BRANCH" \
+              || { git rebase --abort 2>/dev/null || true; sleep $((RANDOM % 5 + 1)); }
+          done
+          echo 'Failed to push after 5 attempts.'
+          exit 1
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: .vueform/*/logs/*.log
+          if-no-files-found: ignore
+          retention-days: 7

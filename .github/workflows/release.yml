@@ -30,7 +30,7 @@ permissions:
 jobs:
   release:
     name: Gates, version & publish
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v5
         with:
