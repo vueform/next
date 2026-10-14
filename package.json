@@ -49,6 +49,7 @@
     "@arethetypeswrong/cli": "catalog:",
     "@commitlint/cli": "catalog:",
     "@commitlint/config-conventional": "catalog:",
+    "@commitlint/types": "catalog:",
     "@ls-lint/ls-lint": "catalog:",
     "@types/node": "catalog:",
     "@types/semver": "catalog:",

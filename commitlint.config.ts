@@ -1,5 +1,7 @@
 import { readdirSync, readFileSync } from 'node:fs'
 
+import type { UserConfig } from '@commitlint/types'
+
 // Scopes mirror workspace packages and their groups, derived at lint time so
 // new packages and groups are picked up automatically, plus a few repo-level
 // areas. A package joins a group by declaring `"vueform": { "group": "…" }`
@@ -10,12 +12,15 @@ const packageScopes = readdirSync(packagesUrl, { withFileTypes: true })
   .filter((entry) => entry.isDirectory())
   .map((entry) => entry.name)
 
-const groupScopes = new Set()
+const groupScopes = new Set<string>()
 
 for (const name of packageScopes) {
   try {
     const pkg = JSON.parse(
-      readFileSync(new URL(`./packages/${name}/package.json`, import.meta.url))
+      readFileSync(
+        new URL(`./packages/${name}/package.json`, import.meta.url),
+        'utf8'
+      )
     )
     if (pkg.vueform?.group) groupScopes.add(pkg.vueform.group)
   } catch {
@@ -41,4 +46,4 @@ export default {
       ],
     ],
   },
-}
+} satisfies UserConfig

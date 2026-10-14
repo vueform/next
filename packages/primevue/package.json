@@ -21,7 +21,7 @@
     "directory": "packages/primevue"
   },
   "bin": {
-    "vueform": "./bin/vueform.mjs"
+    "vueform": "./bin/vueform.js"
   },
   "files": [
     "bin",

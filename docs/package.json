@@ -1,5 +1,6 @@
 {
   "name": "@vueform/docs",
+  "type": "module",
   "scripts": {
     "build": "tsx scripts/run.ts build",
     "dev": "tsx scripts/run.ts dev",

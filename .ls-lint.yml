@@ -25,7 +25,6 @@ ls:
   .spec.ts: kebab-case
   .spec.mjs: kebab-case
   .config.ts: kebab-case
-  .config.mjs: kebab-case
   .vapor.config.ts: kebab-case
   # SFCs are named after their component; regex admits acronym prefixes (VPTabs)
   .vue: PascalCase | regex:[A-Z]{2}[a-zA-Z0-9]*

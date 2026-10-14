@@ -1,6 +1,7 @@
 import tsParser from '@typescript-eslint/parser'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import vue from 'eslint-plugin-vue'
+import { defineConfig } from 'eslint/config'
 import vueParser from 'vue-eslint-parser'
 
 /**
@@ -14,7 +15,7 @@ import vueParser from 'vue-eslint-parser'
  * Everything else — .ts/.js files, script-block correctness, import hygiene,
  * restricted imports — is oxlint's job (the `lint` block of vite.config.ts).
  */
-export default [
+export default defineConfig([
   {
     ignores: [
       '**/dist/**',
@@ -72,4 +73,4 @@ export default [
 
   // Last: disable formatting rules — oxfmt owns .vue formatting.
   eslintConfigPrettier,
-]
+])

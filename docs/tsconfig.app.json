@@ -7,7 +7,7 @@
   "exclude": [
     ".vitepress/cache",
     ".vitepress/dist",
-    ".vitepress/config.mts",
+    ".vitepress/config.ts",
     ".vitepress/build"
   ]
 }

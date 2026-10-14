@@ -43,7 +43,7 @@ Breaking changes: append `!` after the type/scope (`feat(core)!: …`) or add a 
 
 ### Scopes
 
-Scopes mirror workspace packages — the directory names under `packages/` (e.g. `core`, `ui`, `primevue`) — plus `docs`, `playground`, `deps`, `ci`, and `repo` for repo-level work. Group scopes cover a whole category of packages: a package declares its group via `"vueform": { "group": "adapters" }` in its `package.json` (currently `adapters` and `plugins`), and a change touching several packages of one group can use the group as its scope: `fix(adapters): …`. Both lists are derived automatically at lint time (see `commitlint.config.mjs`), so new packages and groups need no config change. Omit the scope when a change genuinely spans everything. Unknown scopes produce a warning, not an error.
+Scopes mirror workspace packages — the directory names under `packages/` (e.g. `core`, `ui`, `primevue`) — plus `docs`, `playground`, `deps`, `ci`, and `repo` for repo-level work. Group scopes cover a whole category of packages: a package declares its group via `"vueform": { "group": "adapters" }` in its `package.json` (currently `adapters` and `plugins`), and a change touching several packages of one group can use the group as its scope: `fix(adapters): …`. Both lists are derived automatically at lint time (see `commitlint.config.ts`), so new packages and groups need no config change. Omit the scope when a change genuinely spans everything. Unknown scopes produce a warning, not an error.
 
 ### Cross-package changes
 

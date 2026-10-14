@@ -7,7 +7,7 @@ declare module '*.vue' {
   export default component
 }
 
-// Vite aliases (config.mts) pointing at generated JSON: components/classes
+// Vite aliases (config.ts) pointing at generated JSON: components/classes
 // come from the api-extractor tree at the repo root (.api/<adapter>),
 // keywords/types from the docs generator (docs/.generated/<adapter>).
 declare module 'virtual:vf-generated/components' {

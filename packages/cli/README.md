@@ -11,7 +11,7 @@ pnpm vueform <command>   # or: npx vueform <command>
 
 (The bin must come from a direct dependency to land in the project's
 `node_modules/.bin` — that's why the adapters carry a one-line shim,
-`bin/vueform.mjs`, importing `@vueform/cli/bin`, instead of merely depending
+`bin/vueform.js`, importing `@vueform/cli/bin`, instead of merely depending
 on this package.)
 
 ## Commands
