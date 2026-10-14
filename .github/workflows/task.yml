@@ -149,12 +149,13 @@ jobs:
       # the rebase never conflicts).
       - name: Commit regenerated artifacts
         run: |
-          # `git add` fails on a pathspec that matches nothing (e.g. no
-          # baselines generated on this run) — add each path on its own and
+          # Wildcard pathspecs match FULL file paths (a wildcard directory
+          # pathspec needs the trailing `/*`), and `git add` fails on a
+          # pathspec that matches nothing — add each path on its own and
           # tolerate the misses.
           for p in \
-            'packages/*/tests/visual/screenshots' \
-            'packages/*/registry' \
+            'packages/*/tests/visual/screenshots/*' \
+            'packages/*/registry/*' \
             'packages/*/README.md' \
             'README.md' \
             'benchmark/results' \
