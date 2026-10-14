@@ -1,0 +1,113 @@
+name: Task
+
+# On-demand single-task runs (Actions → Task → Run workflow): any root gate or
+# generator, one per dispatch. Visual baselines: the first `test-visual` run on
+# a runner OS has no `-linux` baselines, so it writes them and uploads a
+# `visual-baselines` artifact — commit its contents (they sit next to the
+# darwin ones, platform-suffixed) and later runs compare strictly. Re-baseline
+# deliberately with the `update_baselines` input. `bench` uploads its results
+# (git-tracked locally) as a `bench-results` artifact.
+
+on:
+  workflow_dispatch:
+    inputs:
+      task:
+        description: Task to run
+        type: choice
+        options:
+          - build
+          - check
+          - test
+          - test-dts
+          - test-smoke
+          - test-smoke-types
+          - test-visual
+          - registry
+          - size
+          - bench
+          - api
+          - 'docs:gen'
+          - 'docs:build'
+      update_baselines:
+        description: 'test-visual: regenerate ALL baselines for this OS and upload them'
+        type: boolean
+        default: false
+
+concurrency:
+  group: task-${{ inputs.task }}-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  task:
+    name: ${{ inputs.task }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache Playwright browsers
+        if: contains(fromJSON('["test-smoke","test-visual","bench"]'), inputs.task)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      - name: Install Playwright chromium
+        if: contains(fromJSON('["test-smoke","test-visual","bench"]'), inputs.task)
+        run: pnpm exec playwright install --with-deps chromium
+
+      # Gates and generators consume package dists; the build is vp-cached, so
+      # this is the honest cold-start cost once per runner.
+      - name: Build workspace
+        if: inputs.task != 'build'
+        run: pnpm build
+
+      # No `-linux` baselines committed yet → this run bootstraps them (and
+      # the artifact below hands them over to be committed).
+      - name: Detect missing Linux baselines
+        id: baselines
+        if: inputs.task == 'test-visual'
+        run: |
+          if find packages/*/tests/visual/screenshots -name '*-linux*' 2>/dev/null | grep -q .; then
+            echo "missing=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "missing=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Run ${{ inputs.task }}
+        run: >
+          pnpm ${{ inputs.task }}
+          ${{ inputs.task == 'test-visual' && (inputs.update_baselines || steps.baselines.outputs.missing == 'true') && '--update-snapshots' || '' }}
+
+      - name: Upload visual baselines
+        if: inputs.task == 'test-visual' && (inputs.update_baselines || steps.baselines.outputs.missing == 'true')
+        uses: actions/upload-artifact@v4
+        with:
+          name: visual-baselines
+          path: packages/*/tests/visual/screenshots/
+          retention-days: 7
+
+      - name: Upload bench results
+        if: inputs.task == 'bench'
+        uses: actions/upload-artifact@v4
+        with:
+          name: bench-results
+          path: benchmark/results/
+          retention-days: 30
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: .vueform/*/logs/*.log
+          if-no-files-found: ignore
+          retention-days: 7

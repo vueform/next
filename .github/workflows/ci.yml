@@ -1,8 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches: [main, 'renovate/**']
+  # push:
+  #   branches: [main, 'renovate/**']
   pull_request:
 
 concurrency:

@@ -57,6 +57,12 @@ for (const signal of ['SIGINT', 'SIGTERM'] as const) {
 const verbose = process.argv.includes('--verbose')
 const live = Boolean(process.stdout.isTTY) && !verbose
 
+// --update-snapshots[=mode]: forwarded to Playwright suites only (visual
+// re-baselining); vitest children never receive it.
+const updateSnapshots = process.argv.find((arg) =>
+  /^--update-snapshots(=.+)?$/.test(arg)
+)
+
 // --filter <pkg> / -F / -f: run only that one package (by package name, dir
 // name, or bare name without the @vueform/ scope).
 function parseFilter(): string | undefined {
@@ -438,7 +444,14 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
       const jsonFile = path.join(resultsDir, `${pkg.dir}.json`)
       const playwright = opts.kind === 'playwright'
       const args = playwright
-        ? ['--filter', pkg.name, 'run', opts.script, '--reporter=list,json']
+        ? [
+            '--filter',
+            pkg.name,
+            'run',
+            opts.script,
+            '--reporter=list,json',
+            ...(updateSnapshots ? [updateSnapshots] : []),
+          ]
         : [
             '--filter',
             pkg.name,
