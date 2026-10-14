@@ -6,11 +6,11 @@ Official `expr-eval` plugin for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-11T15:27:36.239Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
+Generated at 2026-10-14T06:04:10.766Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
 
 Measured with:
 
-- Node v26.8.2
+- Node v24.21.0
 - `pnpm@10.20.0`
 - `vue@3.5.43`
 - `vite@8.3.2`
@@ -28,7 +28,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.85&nbsp;kB | 7.66&nbsp;kB | 10.51&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
+| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.86&nbsp;kB | 7.65&nbsp;kB | 10.51&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
 
 </details>
 
@@ -37,7 +37,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.22&nbsp;kB | 6.60&nbsp;kB | 8.82&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
+| [`@vueform/expr-eval@2.0.0-alpha.1`](https://github.com/vueform/expr-eval) | 2.17&nbsp;kB | 6.68&nbsp;kB | 8.86&nbsp;kB | [`expr-eval-fork@3.0.3`](https://www.npmjs.com/package/expr-eval-fork) |
 
 </details>
 
