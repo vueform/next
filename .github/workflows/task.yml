@@ -8,8 +8,13 @@ name: Task
 # each task job's own `pnpm build` then replays from cache in seconds.
 # Regenerated git-tracked artifacts (visual baselines, benchmark results,
 # adapter registries, README size sections, docs content) are committed back
-# to the dispatched branch; parallel jobs serialize their pushes with a
-# rebase-and-retry loop over disjoint paths. Visual baselines: the first
+# to the dispatched branch: each task job uploads its changed files as a
+# workflow artifact and the final `commit` job commits them all at once, so
+# only one job ever pushes per run. A rejected push therefore means an
+# outside commit landed mid-run: artifact-only remote changes rebase cleanly
+# (retried up to 5 times), while a source change invalidates what the
+# generators produced, so the commit job fails loudly instead of pushing
+# stale artifacts — dispatch a fresh run. Visual baselines: the first
 # `test-visual` run on a runner OS has no `-linux` baselines, so it writes and
 # commits them (next to the darwin ones, platform-suffixed) and later runs
 # compare strictly; re-baseline deliberately with the `update_baselines`
@@ -35,7 +40,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write # the regenerated-artifacts commits
+  contents: read # the `commit` job alone escalates to write
 
 jobs:
   plan:
@@ -146,40 +151,49 @@ jobs:
             pnpm "${{ matrix.task }}"
           fi
 
-      # Parallel task jobs may finish together; the rebase-and-retry loop
-      # serializes their pushes (the staged paths are disjoint per task, so
-      # the rebase never conflicts).
-      - name: Commit regenerated artifacts
+      # Task jobs never push: each uploads its regenerated files and the
+      # single `commit` job below commits everything at once, so parallel
+      # jobs can't race each other on the ref.
+      - name: Collect regenerated artifacts
         run: |
+          set -o pipefail
           # Wildcard pathspecs match FULL file paths (a wildcard directory
           # pathspec needs the trailing `/*`), and `git add` fails on a
           # pathspec that matches nothing — add each path on its own and
-          # tolerate the misses.
-          for p in \
-            'packages/*/tests/visual/screenshots/*' \
-            'packages/*/registry/*' \
-            'packages/*/README.md' \
-            'README.md' \
-            'benchmark/results' \
-            'docs/src'
-          do
+          # tolerate the misses. Keep this list in sync with the `commit`
+          # job's copy.
+          paths=(
+            'packages/*/tests/visual/screenshots/*'
+            'packages/*/registry/*'
+            'packages/*/README.md'
+            'README.md'
+            'benchmark/results/*'
+            'docs/src/*'
+          )
+          for p in "${paths[@]}"; do
             git add -A -- "$p" 2>/dev/null || true
           done
           if git diff --cached --quiet; then
-            echo 'No regenerated artifacts to commit.'
+            echo 'No regenerated artifacts.'
             exit 0
           fi
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m 'chore(ci): regenerate artifacts (${{ matrix.task }})'
-          for attempt in 1 2 3 4 5; do
-            if git push origin 'HEAD:${{ github.ref_name }}'; then
-              exit 0
-            fi
-            git pull --rebase origin '${{ github.ref_name }}'
-          done
-          echo 'Failed to push after 5 attempts.'
-          exit 1
+          # Changed/added files travel as a tarball, deletions as a list.
+          # Whole-file last-writer-wins in the commit job keeps overlapping
+          # outputs conflict-free (several tasks run `:size` and rewrite the
+          # same README sections from the same sources).
+          mkdir -p "$RUNNER_TEMP/regen"
+          git diff --cached --name-only --diff-filter=d -z \
+            | tar --null --files-from=- -czf "$RUNNER_TEMP/regen/files.tgz"
+          git diff --cached --name-only --diff-filter=D > "$RUNNER_TEMP/regen/deleted.txt"
+
+      - name: Upload regenerated artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: regen-${{ matrix.slug }}
+          path: ${{ runner.temp }}/regen
+          if-no-files-found: ignore
+          retention-days: 7
+          overwrite: true # "Re-run failed jobs" may re-upload
 
       - name: Upload logs
         if: failure()
@@ -189,3 +203,94 @@ jobs:
           path: .vueform/*/logs/*.log
           if-no-files-found: ignore
           retention-days: 7
+
+  # The sole pusher: collects every task's regenerated files and commits them
+  # in one go. Runs even when some tasks failed so the successful tasks'
+  # artifacts still land ("Re-run failed jobs" re-runs this job too, and
+  # reuses the run's original SHA — after a mid-run source push, dispatch a
+  # fresh run instead).
+  commit:
+    name: Commit regenerated artifacts
+    needs: [plan, task]
+    if: ${{ !cancelled() && needs.task.result != 'skipped' }}
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      # A pattern with zero matches is not an error — a run whose tasks
+      # regenerated nothing just commits nothing below.
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: regen-*
+          path: ${{ runner.temp }}/regen
+
+      - name: Commit regenerated artifacts
+        env:
+          TASKS: ${{ inputs.tasks }}
+          BRANCH: ${{ github.ref_name }}
+          BASE_SHA: ${{ github.sha }}
+        run: |
+          shopt -s nullglob
+          for d in "$RUNNER_TEMP"/regen/*/; do
+            if [ -f "$d/files.tgz" ]; then
+              tar -xzf "$d/files.tgz"
+            fi
+            if [ -s "$d/deleted.txt" ]; then
+              while IFS= read -r f; do
+                rm -f -- "$f"
+              done < "$d/deleted.txt"
+            fi
+          done
+          # Keep this list in sync with the task job's copy; it both scopes
+          # the staging and classifies mid-run remote commits below.
+          paths=(
+            'packages/*/tests/visual/screenshots/*'
+            'packages/*/registry/*'
+            'packages/*/README.md'
+            'README.md'
+            'benchmark/results/*'
+            'docs/src/*'
+          )
+          for p in "${paths[@]}"; do
+            git add -A -- "$p" 2>/dev/null || true
+          done
+          if git diff --cached --quiet; then
+            echo 'No regenerated artifacts to commit.'
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(ci): regenerate artifacts ($TASKS)"
+          # This job is the only pusher per run and the concurrency group
+          # serializes runs, so a rejected push means an outside commit
+          # landed mid-run. Artifact-only remote changes rebase cleanly
+          # (`-X theirs` keeps the freshly regenerated side of any
+          # overlapping hunk — both sides derive from the same sources, so
+          # neither is more right). A source change invalidates what the
+          # generators produced: fail loudly instead of pushing stale
+          # artifacts, and dispatch a fresh run.
+          for attempt in 1 2 3 4 5; do
+            if git push origin "HEAD:$BRANCH"; then
+              exit 0
+            fi
+            git fetch origin "$BRANCH"
+            while IFS= read -r f; do
+              artifact=false
+              for p in "${paths[@]}"; do
+                if [[ $f == $p ]]; then
+                  artifact=true
+                  break
+                fi
+              done
+              if [ "$artifact" = false ]; then
+                echo "::error::The branch gained source commits mid-run ($f changed); the regenerated artifacts are stale. Dispatch a fresh run."
+                exit 1
+              fi
+            done < <(git diff --name-only "$BASE_SHA" "origin/$BRANCH")
+            git pull --rebase --autostash -X theirs origin "$BRANCH" \
+              || { git rebase --abort 2>/dev/null || true; sleep $((RANDOM % 5 + 1)); }
+          done
+          echo 'Failed to push after 5 attempts.'
+          exit 1
