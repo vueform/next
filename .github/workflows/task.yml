@@ -1,11 +1,15 @@
 name: Task
 
 # On-demand task runs (Actions → Task → Run workflow): one or more root gates
-# or generators, space- or comma-separated (`check test`, `registry,size`),
-# executed sequentially on one runner so they share the install and the
-# vp-cached build. Regenerated git-tracked artifacts (visual baselines,
-# benchmark results, adapter registries, README size sections, docs content)
-# are committed back to the dispatched branch. Visual baselines: the first
+# or generators, space- or comma-separated (`check test`, `registry,size`).
+# Each task runs as its own matrix job, so a single failed task can be
+# re-run alone (Re-run failed jobs). The `build` job warms the vp task cache
+# once and shares it run-scoped (keyed on the run id, so re-runs restore it);
+# each task job's own `pnpm build` then replays from cache in seconds.
+# Regenerated git-tracked artifacts (visual baselines, benchmark results,
+# adapter registries, README size sections, docs content) are committed back
+# to the dispatched branch; parallel jobs serialize their pushes with a
+# rebase-and-retry loop over disjoint paths. Visual baselines: the first
 # `test-visual` run on a runner OS has no `-linux` baselines, so it writes and
 # commits them (next to the darwin ones, platform-suffixed) and later runs
 # compare strictly; re-baseline deliberately with the `update_baselines`
@@ -31,11 +35,25 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write # the regenerated-artifacts commit
+  contents: write # the regenerated-artifacts commits
 
 jobs:
-  task:
-    name: ${{ inputs.tasks }}
+  plan:
+    name: Plan
+    runs-on: ubuntu-latest
+    outputs:
+      tasks: ${{ steps.plan.outputs.tasks }}
+    steps:
+      # `slug` is the task name made artifact-safe (`docs:gen` → `docs-gen`);
+      # artifact names cannot contain `:`.
+      - id: plan
+        env:
+          TASKS: ${{ inputs.tasks }}
+        run: |
+          echo "tasks=$(printf '%s\n' ${TASKS//,/ } | jq -R '{task: ., slug: (. | gsub(":"; "-"))}' | jq -sc 'unique')" >> "$GITHUB_OUTPUT"
+
+  build:
+    name: Warm build cache
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -49,30 +67,66 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # `test-smoke-types` matches the `test-smoke` substring; the extra
-      # browser install it gets is harmless.
+      - name: Cache vp tasks (run-scoped)
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.vite/task-cache
+            packages/*/dist
+          key: vp-tasks-${{ github.run_id }}
+
+      - run: pnpm build
+
+  task:
+    name: ${{ matrix.task }}
+    needs: [plan, build]
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.tasks) }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Restore vp tasks
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules/.vite/task-cache
+            packages/*/dist
+          key: vp-tasks-${{ github.run_id }}
+
       - name: Cache Playwright browsers
-        if: contains(inputs.tasks, 'test-smoke') || contains(inputs.tasks, 'test-visual') || contains(inputs.tasks, 'bench')
+        if: contains(fromJSON('["test-smoke","test-visual","bench"]'), matrix.task)
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install Playwright chromium
-        if: contains(inputs.tasks, 'test-smoke') || contains(inputs.tasks, 'test-visual') || contains(inputs.tasks, 'bench')
+        if: contains(fromJSON('["test-smoke","test-visual","bench"]'), matrix.task)
         run: pnpm exec playwright install --with-deps chromium
 
-      # Gates and generators consume package dists; the build is vp-cached, so
-      # this is the honest cold-start cost once per runner.
+      # A replay of the warmed cache (seconds); gates and generators consume
+      # the materialized dists.
       - name: Build workspace
-        if: inputs.tasks != 'build'
+        if: matrix.task != 'build'
         run: pnpm build
 
       # No `-linux` baselines committed yet → this run bootstraps and commits
       # them.
       - name: Detect missing Linux baselines
         id: baselines
-        if: contains(inputs.tasks, 'test-visual')
+        if: matrix.task == 'test-visual'
         run: |
           if find packages/*/tests/visual/screenshots -name '*-linux*' 2>/dev/null | grep -q .; then
             echo "missing=false" >> "$GITHUB_OUTPUT"
@@ -80,29 +134,19 @@ jobs:
             echo "missing=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Run tasks
+      - name: Run ${{ matrix.task }}
         env:
-          TASKS: ${{ inputs.tasks }}
           UPDATE_BASELINES: ${{ (inputs.update_baselines || steps.baselines.outputs.missing == 'true') && 'true' || 'false' }}
         run: |
-          set -e
-          for task in ${TASKS//,/ }; do
-            echo "::group::$task"
-            case "$task" in
-              test-visual)
-                if [ "$UPDATE_BASELINES" = "true" ]; then
-                  pnpm test-visual --update-snapshots
-                else
-                  pnpm test-visual
-                fi
-                ;;
-              *)
-                pnpm "$task"
-                ;;
-            esac
-            echo "::endgroup::"
-          done
+          if [ "${{ matrix.task }}" = "test-visual" ] && [ "$UPDATE_BASELINES" = "true" ]; then
+            pnpm test-visual --update-snapshots
+          else
+            pnpm "${{ matrix.task }}"
+          fi
 
+      # Parallel task jobs may finish together; the rebase-and-retry loop
+      # serializes their pushes (the staged paths are disjoint per task, so
+      # the rebase never conflicts).
       - name: Commit regenerated artifacts
         run: |
           git add -A -- \
@@ -118,14 +162,21 @@ jobs:
           fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git commit -m 'chore(ci): regenerate artifacts (${{ inputs.tasks }})'
-          git push origin HEAD:${{ github.ref_name }}
+          git commit -m 'chore(ci): regenerate artifacts (${{ matrix.task }})'
+          for attempt in 1 2 3 4 5; do
+            if git push origin 'HEAD:${{ github.ref_name }}'; then
+              exit 0
+            fi
+            git pull --rebase origin '${{ github.ref_name }}'
+          done
+          echo 'Failed to push after 5 attempts.'
+          exit 1
 
       - name: Upload logs
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: logs
+          name: logs-${{ matrix.slug }}
           path: .vueform/*/logs/*.log
           if-no-files-found: ignore
           retention-days: 7
