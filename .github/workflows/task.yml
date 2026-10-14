@@ -1,45 +1,41 @@
 name: Task
 
-# On-demand single-task runs (Actions → Task → Run workflow): any root gate or
-# generator, one per dispatch. Visual baselines: the first `test-visual` run on
-# a runner OS has no `-linux` baselines, so it writes them and uploads a
-# `visual-baselines` artifact — commit its contents (they sit next to the
-# darwin ones, platform-suffixed) and later runs compare strictly. Re-baseline
-# deliberately with the `update_baselines` input. `bench` uploads its results
-# (git-tracked locally) as a `bench-results` artifact.
+# On-demand task runs (Actions → Task → Run workflow): one or more root gates
+# or generators, space- or comma-separated (`check test`, `registry,size`),
+# executed sequentially on one runner so they share the install and the
+# vp-cached build. Regenerated git-tracked artifacts (visual baselines,
+# benchmark results, adapter registries, README size sections, docs content)
+# are committed back to the dispatched branch. Visual baselines: the first
+# `test-visual` run on a runner OS has no `-linux` baselines, so it writes and
+# commits them (next to the darwin ones, platform-suffixed) and later runs
+# compare strictly; re-baseline deliberately with the `update_baselines`
+# input.
 
 on:
   workflow_dispatch:
     inputs:
-      task:
-        description: Task to run
-        type: choice
-        options:
-          - build
-          - check
-          - test
-          - test-dts
-          - test-smoke
-          - test-smoke-types
-          - test-visual
-          - registry
-          - size
-          - bench
-          - api
-          - 'docs:gen'
-          - 'docs:build'
+      tasks:
+        description: >-
+          Tasks: build check test test-dts test-smoke test-smoke-types
+          test-visual registry size bench api docs:gen docs:build
+        type: string
+        required: true
+        default: check
       update_baselines:
-        description: 'test-visual: regenerate ALL baselines for this OS and upload them'
+        description: 'test-visual: regenerate ALL baselines for this OS and commit them'
         type: boolean
         default: false
 
 concurrency:
-  group: task-${{ inputs.task }}-${{ github.ref }}
+  group: task-${{ github.ref }}
   cancel-in-progress: false
+
+permissions:
+  contents: write # the regenerated-artifacts commit
 
 jobs:
   task:
-    name: ${{ inputs.task }}
+    name: ${{ inputs.tasks }}
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
@@ -53,28 +49,30 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
+      # `test-smoke-types` matches the `test-smoke` substring; the extra
+      # browser install it gets is harmless.
       - name: Cache Playwright browsers
-        if: contains(fromJSON('["test-smoke","test-visual","bench"]'), inputs.task)
+        if: contains(inputs.tasks, 'test-smoke') || contains(inputs.tasks, 'test-visual') || contains(inputs.tasks, 'bench')
         uses: actions/cache@v4
         with:
           path: ~/.cache/ms-playwright
           key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
 
       - name: Install Playwright chromium
-        if: contains(fromJSON('["test-smoke","test-visual","bench"]'), inputs.task)
+        if: contains(inputs.tasks, 'test-smoke') || contains(inputs.tasks, 'test-visual') || contains(inputs.tasks, 'bench')
         run: pnpm exec playwright install --with-deps chromium
 
       # Gates and generators consume package dists; the build is vp-cached, so
       # this is the honest cold-start cost once per runner.
       - name: Build workspace
-        if: inputs.task != 'build'
+        if: inputs.tasks != 'build'
         run: pnpm build
 
-      # No `-linux` baselines committed yet → this run bootstraps them (and
-      # the artifact below hands them over to be committed).
+      # No `-linux` baselines committed yet → this run bootstraps and commits
+      # them.
       - name: Detect missing Linux baselines
         id: baselines
-        if: inputs.task == 'test-visual'
+        if: contains(inputs.tasks, 'test-visual')
         run: |
           if find packages/*/tests/visual/screenshots -name '*-linux*' 2>/dev/null | grep -q .; then
             echo "missing=false" >> "$GITHUB_OUTPUT"
@@ -82,26 +80,46 @@ jobs:
             echo "missing=true" >> "$GITHUB_OUTPUT"
           fi
 
-      - name: Run ${{ inputs.task }}
-        run: >
-          pnpm ${{ inputs.task }}
-          ${{ inputs.task == 'test-visual' && (inputs.update_baselines || steps.baselines.outputs.missing == 'true') && '--update-snapshots' || '' }}
+      - name: Run tasks
+        env:
+          TASKS: ${{ inputs.tasks }}
+          UPDATE_BASELINES: ${{ (inputs.update_baselines || steps.baselines.outputs.missing == 'true') && 'true' || 'false' }}
+        run: |
+          set -e
+          for task in ${TASKS//,/ }; do
+            echo "::group::$task"
+            case "$task" in
+              test-visual)
+                if [ "$UPDATE_BASELINES" = "true" ]; then
+                  pnpm test-visual --update-snapshots
+                else
+                  pnpm test-visual
+                fi
+                ;;
+              *)
+                pnpm "$task"
+                ;;
+            esac
+            echo "::endgroup::"
+          done
 
-      - name: Upload visual baselines
-        if: inputs.task == 'test-visual' && (inputs.update_baselines || steps.baselines.outputs.missing == 'true')
-        uses: actions/upload-artifact@v4
-        with:
-          name: visual-baselines
-          path: packages/*/tests/visual/screenshots/
-          retention-days: 7
-
-      - name: Upload bench results
-        if: inputs.task == 'bench'
-        uses: actions/upload-artifact@v4
-        with:
-          name: bench-results
-          path: benchmark/results/
-          retention-days: 30
+      - name: Commit regenerated artifacts
+        run: |
+          git add -A -- \
+            'packages/*/tests/visual/screenshots' \
+            'packages/*/registry' \
+            'packages/*/README.md' \
+            'README.md' \
+            'benchmark/results' \
+            'docs/src'
+          if git diff --cached --quiet; then
+            echo 'No regenerated artifacts to commit.'
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m 'chore(ci): regenerate artifacts (${{ inputs.tasks }})'
+          git push origin HEAD:${{ github.ref_name }}
 
       - name: Upload logs
         if: failure()
