@@ -6,7 +6,7 @@ Official adapter for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-14T07:14:51.429Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform).
+Generated at 2026-10-14T07:21:43.719Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform).
 
 Measured with:
 

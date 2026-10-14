@@ -6,7 +6,7 @@ PrimeVue adapter for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-14T07:13:32.369Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform, no PrimeVue).
+Generated at 2026-10-14T07:21:50.592Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform, no PrimeVue).
 
 All numbers show only what Vueform adds **on top of PrimeVue** — matched builds importing the same raw `primevue/*` modules without Vueform are subtracted.
 
