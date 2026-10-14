@@ -6,48 +6,45 @@
  * upfront (vp-cached, instant when warm). Selection flags work as before
  * (`--pv`, `--ui`). Output goes to `.vueform/registry/logs`.
  */
-import { spawnSync } from 'node:child_process'
+import { ensureUtilsDist } from './ensure-utils'
 
-import { runGui, stripGuiFlags } from './gui'
-import { discoverPackageTasks, repoRoot, selectTasks } from './runner'
+// The generator (and the orchestrator import below) runs from utils' dist —
+// make sure it is current before anything resolves it.
+ensureUtilsDist()
 
-const tasks = selectTasks(
-  discoverPackageTasks('registry'),
-  stripGuiFlags(process.argv.slice(2))
-)
+async function main(): Promise<void> {
+  const { runRows, stripDisplayFlags } = await import('./terminal')
+  const { discoverPackageTasks, selectTasks } = await import('./runner')
 
-// The generator runs from utils' dist — make sure it is current.
-const build = spawnSync('pnpm', ['exec', 'vpr', ':build:utils'], {
-  cwd: repoRoot,
-  encoding: 'utf8',
-})
-if (build.status !== 0) {
-  console.error(build.stdout + build.stderr)
-  process.exit(build.status ?? 1)
+  const tasks = selectTasks(
+    discoverPackageTasks('registry'),
+    stripDisplayFlags(process.argv.slice(2))
+  )
+
+  const ok = await runRows({
+    title: 'Registry',
+    scope: 'registry',
+    rows: tasks.map((task) => ({
+      name: task.timeKey,
+      cmd: 'pnpm',
+      args: [
+        'exec',
+        'vp',
+        'run',
+        '--filter',
+        `./packages/${task.id}`,
+        'registry',
+      ],
+      summarize: (output: string, code: number) => {
+        const items = output.match(/\((\d+) items\)/)
+        return {
+          detail: items ? `${items[1]} registry items built` : '',
+          fail: code !== 0,
+        }
+      },
+    })),
+  })
+  if (!ok) process.exit(1)
 }
 
-void runGui({
-  title: 'Registry',
-  scope: 'registry',
-  rows: tasks.map((task) => ({
-    name: task.timeKey,
-    cmd: 'pnpm',
-    args: [
-      'exec',
-      'vp',
-      'run',
-      '--filter',
-      `./packages/${task.id}`,
-      'registry',
-    ],
-    summarize: (output, code) => {
-      const items = output.match(/\((\d+) items\)/)
-      return {
-        detail: items ? `${items[1]} registry items built` : '',
-        fail: code !== 0,
-      }
-    },
-  })),
-}).then((ok) => {
-  if (!ok) process.exit(1)
-})
+void main()

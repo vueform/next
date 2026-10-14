@@ -6,34 +6,41 @@
  * the GUI is a display shell around the same `:pack` task the smoke suites
  * depend on. Output goes to `.vueform/pack/logs`.
  */
-import { runGui } from './gui'
-import { discoverPackages } from './runner'
+import { ensureUtilsDist } from './ensure-utils'
 
-const packages = discoverPackages()
+ensureUtilsDist()
 
-void runGui({
-  title: 'Pack',
-  scope: 'pack',
-  rows: packages.map((pkg) => ({ name: pkg.name })),
-  driver: {
-    cmd: 'pnpm',
-    args: ['exec', 'vpr', ':pack'],
-    route: (line, api) => {
-      const packing = line.match(/\[pack\] packing (\S+?)…?$/)
-      if (packing) {
-        // The previous package finished when the next one starts; the final
-        // one (and full cache hits) resolve on the driver's exit.
-        for (const pkg of packages) {
-          if (pkg.name === packing[1]) api.running(pkg.name)
+async function main(): Promise<void> {
+  const { runRows } = await import('./terminal')
+  const { discoverPackages } = await import('./runner')
+
+  const packages = discoverPackages()
+
+  const ok = await runRows({
+    title: 'Pack',
+    scope: 'pack',
+    rows: packages.map((pkg) => ({ name: pkg.name })),
+    driver: {
+      cmd: 'pnpm',
+      args: ['exec', 'vpr', ':pack'],
+      route: (line, api) => {
+        const packing = line.match(/\[pack\] packing (\S+?)…?$/)
+        if (packing) {
+          // The previous package finished when the next one starts; the final
+          // one (and full cache hits) resolve on the driver's exit.
+          for (const pkg of packages) {
+            if (pkg.name === packing[1]) api.running(pkg.name)
+          }
+          const index = packages.findIndex((pkg) => pkg.name === packing[1])
+          if (index > 0) api.done(packages[index - 1].name)
         }
-        const index = packages.findIndex((pkg) => pkg.name === packing[1])
-        if (index > 0) api.done(packages[index - 1].name)
-      }
-      if (/\[pack\] \d+ tarballs in /.test(line)) {
-        for (const pkg of packages) api.done(pkg.name)
-      }
+        if (/\[pack\] \d+ tarballs in /.test(line)) {
+          for (const pkg of packages) api.done(pkg.name)
+        }
+      },
     },
-  },
-}).then((ok) => {
+  })
   if (!ok) process.exit(1)
-})
+}
+
+void main()

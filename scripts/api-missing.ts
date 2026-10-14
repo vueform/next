@@ -12,49 +12,50 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-import {
-  collectMissingDescriptions,
-  writeMissingReport,
-} from './api-extractor/lib/missing'
-import { generatedDir } from './api-extractor/lib/paths'
+import { ensureUtilsDist } from './ensure-utils'
 
-const args = process.argv.slice(2)
-const KNOWN = ['--fullpath']
-const unknown = args.filter((a) => !KNOWN.includes(a))
-if (unknown.length) {
-  console.error(
-    `Unknown flag(s): ${unknown.join(', ')} — available: ${KNOWN.join(', ')}`
-  )
-  process.exit(1)
+ensureUtilsDist()
+
+async function main(): Promise<void> {
+  const { collectMissingDescriptions, writeMissingReport } =
+    await import('./api-extractor/lib/missing')
+  const { generatedDir } = await import('./api-extractor/lib/paths')
+  const { createPaint, resolveTerminalMode, termLink } =
+    await import('./terminal')
+
+  const args = process.argv.slice(2)
+  const KNOWN = ['--fullpath']
+  const unknown = args.filter((a) => !KNOWN.includes(a))
+  if (unknown.length) {
+    console.error(
+      `Unknown flag(s): ${unknown.join(', ')} — available: ${KNOWN.join(', ')}`
+    )
+    process.exit(1)
+  }
+
+  if (!fs.existsSync(path.join(generatedDir, 'core'))) {
+    console.error('No assembled api trees found — run `pnpm api` first.')
+    process.exit(1)
+  }
+
+  const mode = resolveTerminalMode()
+  const { green, yellow, dim } = createPaint(mode.colors)
+
+  const report = collectMissingDescriptions({
+    fullPath: args.includes('--fullpath'),
+  })
+  const file = writeMissingReport(report)
+  const total = Object.keys(report).length
+
+  if (total > 0) {
+    console.log(
+      `${yellow(
+        `⚠ ${total} missing description${total > 1 ? 's' : ''}`
+      )}${dim(' — ')}${termLink(file, mode)}`
+    )
+  } else {
+    console.log(`${green('No missing descriptions.')} ${dim(file)}`)
+  }
 }
 
-if (!fs.existsSync(path.join(generatedDir, 'core'))) {
-  console.error('No assembled api trees found — run `pnpm api` first.')
-  process.exit(1)
-}
-
-const live = Boolean(process.stdout.isTTY)
-const colors = live && !('NO_COLOR' in process.env)
-const paint = (code: string, text: string) =>
-  colors ? `\x1b[${code}m${text}\x1b[0m` : text
-const green = (t: string) => paint('32', t)
-const yellow = (t: string) => paint('33', t)
-const dim = (t: string) => paint('2', t)
-const termLink = (file: string) =>
-  live ? `\x1b]8;;file://${file}\x1b\\${file}\x1b]8;;\x1b\\` : file
-
-const report = collectMissingDescriptions({
-  fullPath: args.includes('--fullpath'),
-})
-const file = writeMissingReport(report)
-const total = Object.keys(report).length
-
-if (total > 0) {
-  console.log(
-    `${yellow(
-      `⚠ ${total} missing description${total > 1 ? 's' : ''}`
-    )}${dim(' — ')}${termLink(file)}`
-  )
-} else {
-  console.log(`${green('No missing descriptions.')} ${dim(file)}`)
-}
+void main()

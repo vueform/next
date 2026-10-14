@@ -11,46 +11,47 @@
  */
 import { spawnSync } from 'node:child_process'
 
-import { runGui, stripGuiFlags } from './gui'
-import {
-  discoverPackageTasks,
-  green,
-  red,
-  repoRoot,
-  selectTasks,
-  tierSort,
-} from './runner'
+import { ensureUtilsDist } from './ensure-utils'
 
-const args = process.argv.slice(2)
-const report = args.includes('--report')
-const selectors = stripGuiFlags(args).filter((arg) => arg !== '--report')
+ensureUtilsDist()
 
-const script = report ? 'size:report' : 'size'
-const tasks = tierSort(selectTasks(discoverPackageTasks(script), selectors))
+async function main(): Promise<void> {
+  const { runRows, stripDisplayFlags } = await import('./terminal')
+  const { discoverPackageTasks, green, red, repoRoot, selectTasks, tierSort } =
+    await import('./runner')
 
-// Near-instant README regeneration — plain output, no rows. Runs on its own
-// with `--report`, and after every successful measurement run, so the README
-// sections always reflect the latest numbers.
-const runReport = () => {
-  const reportTasks = report
-    ? tasks
-    : tierSort(selectTasks(discoverPackageTasks('size:report'), selectors))
-  for (const task of reportTasks) {
-    console.log(green(`▸ ${task.id}`))
-    const result = spawnSync(task.cmd, task.args, {
-      cwd: task.cwd,
-      stdio: 'inherit',
-    })
-    if (result.status !== 0) {
-      console.error(red(`${task.id} failed.`))
-      process.exit(result.status ?? 1)
+  const args = process.argv.slice(2)
+  const report = args.includes('--report')
+  const selectors = stripDisplayFlags(args).filter((arg) => arg !== '--report')
+
+  const script = report ? 'size:report' : 'size'
+  const tasks = tierSort(selectTasks(discoverPackageTasks(script), selectors))
+
+  // Near-instant README regeneration — plain output, no rows. Runs on its own
+  // with `--report`, and after every successful measurement run, so the README
+  // sections always reflect the latest numbers.
+  const runReport = () => {
+    const reportTasks = report
+      ? tasks
+      : tierSort(selectTasks(discoverPackageTasks('size:report'), selectors))
+    for (const task of reportTasks) {
+      console.log(green(`▸ ${task.id}`))
+      const result = spawnSync(task.cmd, task.args, {
+        cwd: task.cwd,
+        stdio: 'inherit',
+      })
+      if (result.status !== 0) {
+        console.error(red(`${task.id} failed.`))
+        process.exit(result.status ?? 1)
+      }
     }
   }
-}
 
-if (report) {
-  runReport()
-} else {
+  if (report) {
+    runReport()
+    return
+  }
+
   // Measurements bundle the dists — make sure they are current (vp-cached).
   const build = spawnSync('pnpm', ['exec', 'vpr', ':build'], {
     cwd: repoRoot,
@@ -61,7 +62,7 @@ if (report) {
     process.exit(build.status ?? 1)
   }
 
-  void runGui({
+  const ok = await runRows({
     title: 'Bundle size',
     scope: 'size',
     rows: tasks.map((task) => {
@@ -90,8 +91,9 @@ if (report) {
         }),
       }
     }),
-  }).then((ok) => {
-    if (!ok) process.exit(1)
-    runReport()
   })
+  if (!ok) process.exit(1)
+  runReport()
 }
+
+void main()

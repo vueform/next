@@ -4,12 +4,19 @@
  * live per-package display — see test-runner.ts. Only the errors log is
  * written, and only when something fails.
  */
-import { runTestRunner } from './test-runner'
+import { ensureUtilsDist } from './ensure-utils'
 
-void runTestRunner({
-  script: 'test-visual',
-  scope: 'tests-visual',
-  title: 'Visual tests',
-  kind: 'playwright',
-  logs: 'errors-only',
-})
+ensureUtilsDist()
+
+async function main(): Promise<void> {
+  const { runTestRunner } = await import('./test-runner')
+  await runTestRunner({
+    script: 'test-visual',
+    scope: 'tests-visual',
+    title: 'Visual tests',
+    kind: 'playwright',
+    logs: 'errors-only',
+  })
+}
+
+void main()

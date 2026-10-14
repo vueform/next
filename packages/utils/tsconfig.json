@@ -4,5 +4,5 @@
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/typecheck.tsbuildinfo"
   },
-  "include": ["src", "type-test", "*.config.ts"]
+  "include": ["src", "tests", "type-test", "*.config.ts"]
 }

@@ -41,6 +41,11 @@
       "require": "./dist/smoke/index.js",
       "default": "./dist/smoke/index.js"
     },
+    "./terminal": {
+      "types": "./dist/terminal/index.d.ts",
+      "require": "./dist/terminal/index.js",
+      "default": "./dist/terminal/index.js"
+    },
     "./type-test": "./type-test/index.ts",
     "./visual-test": "./visual-test/index.ts"
   },
@@ -49,6 +54,7 @@
   },
   "scripts": {
     "build": "tsdown",
+    "test": "vitest",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
@@ -64,7 +70,8 @@
   "devDependencies": {
     "@vueform/tsconfig": "workspace:*",
     "tsdown": "catalog:",
-    "vite": "catalog:"
+    "vite": "catalog:",
+    "vitest": "catalog:"
   },
   "peerDependencies": {
     "vite": "catalog:peer"

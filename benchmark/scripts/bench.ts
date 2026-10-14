@@ -20,7 +20,7 @@
  * Partial runs merge into the existing results file, so a single case can be
  * refreshed without rerunning the suite.
  */
-import { execFileSync } from 'node:child_process'
+import { execFileSync, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
 import path from 'node:path'
 
@@ -33,6 +33,7 @@ import {
   APP_DIR,
   BENCH_DIR,
   RESULTS_JSON,
+  ROOT,
   buildApp,
   checkAppVueVersion,
   checkDistBuilt,
@@ -42,166 +43,109 @@ import {
 import { measurePoint, type Sample } from './measure'
 import { serve } from './serve'
 
-const isTTY = process.stdout.isTTY === true
-const paint = (code: string, text: string) =>
-  isTTY ? `\x1b[${code}m${text}\x1b[0m` : text
-const green = (text: string) => paint('32', text)
-const red = (text: string) => paint('31', text)
-const dim = (text: string) => paint('2', text)
-
-const SPINNER = ['⠋', '⠙', '⠹', '⠸', '⠼', '⠴', '⠦', '⠧', '⠇', '⠏']
-
-/**
- * Row-based progress renderer in the style of the root api/docs runners: one
- * row per prep step and per case, stacked under a heading — spinner and
- * elapsed (plus the case's point counter) while working, ✓/✗ when done.
- * Cases run SEQUENTIALLY on purpose: timings and heap deltas are only
- * meaningful without CPU contention, so the rows advance one at a time.
- * Child output stays captured (see lib.ts `run`) and only surfaces on
- * failure. Non-TTY logs plain lines instead.
- */
-interface RowState {
-  label: string
-  status: 'pending' | 'running' | 'pass' | 'fail'
-  detail: string
-  startedAt: number
-  /**
-   * Sweep rows: completed / total points within the case.
-   */
-  done?: number
-  points?: number
-  current?: string
+// The shared display lives in @vueform/utils' DIST — absent on a fresh
+// checkout. Warm it (vp-cached, instant on a warm hit) before the dynamic
+// import below.
+const bootstrap = spawnSync('pnpm', ['exec', 'vpr', ':build:utils'], {
+  cwd: ROOT,
+  encoding: 'utf8',
+})
+if (bootstrap.status !== 0) {
+  console.error(bootstrap.stdout + bootstrap.stderr)
+  process.exit(bootstrap.status ?? 1)
 }
 
-class BenchProgress {
-  private rows: RowState[] = []
-  private byId = new Map<string, RowState>()
-  private tick = 0
-  private printedLines = 0
-  private timer: NodeJS.Timeout | undefined
-  private active: RowState | undefined
+// `parseArgs` rejects unknown flags, so the display never reads argv here —
+// liveness comes from the TTY alone.
+const terminal = await import('@vueform/utils/terminal')
+const mode = terminal.resolveTerminalMode({ argv: [] })
+const { green, dim } = terminal.createPaint(mode.colors)
 
-  constructor(rowDefs: { id: string; label: string }[]) {
-    for (const { id, label } of rowDefs) {
-      const row: RowState = {
-        label,
-        status: 'pending',
-        detail: '',
-        startedAt: 0,
-      }
-      this.rows.push(row)
-      this.byId.set(id, row)
-    }
-    if (!isTTY) return
-    process.stdout.write('\x1b[?25l')
-    this.repaint()
-    this.timer = setInterval(() => {
-      this.tick++
-      this.repaint()
-    }, 100)
-  }
-
-  private elapsed(row: RowState) {
-    return `${((Date.now() - row.startedAt) / 1000).toFixed(1)}s`
-  }
-
-  private rowText(row: RowState, spin: string, width: number) {
-    const mark =
-      row.status === 'running'
-        ? paint('36', spin)
-        : row.status === 'pass'
-          ? green('✓')
-          : row.status === 'fail'
-            ? red('✗')
-            : dim('·')
-    const sweep =
-      row.points !== undefined
-        ? `${row.done}/${row.points}${row.current ? dim(` · ${row.current}`) : ''} `
-        : ''
-    const detail =
-      row.status === 'running'
-        ? `${sweep}${dim(this.elapsed(row))}`
-        : row.status === 'pass'
-          ? green(row.detail)
-          : row.status === 'fail'
-            ? red(row.detail)
-            : dim('waiting')
-    return `  ${mark} ${row.label.padEnd(width)}${detail}`
-  }
-
-  private repaint() {
-    const width = Math.max(...this.rows.map((r) => r.label.length)) + 2
-    const spin = SPINNER[this.tick % SPINNER.length]
-    const lines = [
-      paint('1', 'Benchmark'),
-      ...this.rows.map((row) => this.rowText(row, spin, width)),
-    ]
-    let out = ''
-    if (this.printedLines > 0) out += `\x1b[${this.printedLines}A`
-    for (const line of lines) out += `\x1b[2K${line}\n`
-    process.stdout.write(out)
-    this.printedLines = lines.length
-  }
-
-  start(id: string, points?: number) {
-    const row = this.byId.get(id)
-    if (!row) return
-    this.active = row
-    row.status = 'running'
-    row.startedAt = Date.now()
-    if (points !== undefined) {
-      row.done = 0
-      row.points = points
-    }
-    if (isTTY) this.repaint()
-    else console.log(`[bench] ${row.label}`)
-  }
-
-  measuring(label: string) {
-    if (this.active) this.active.current = label
-    if (isTTY) this.repaint()
-  }
-
+/**
+ * Row-based progress over the shared rows display: one row per prep step and
+ * per case, stacked under a heading — spinner and elapsed (plus the case's
+ * point counter) while working, ✓/✗ when done. Cases run SEQUENTIALLY on
+ * purpose: timings and heap deltas are only meaningful without CPU
+ * contention, so the rows advance one at a time. Child output stays captured
+ * (see lib.ts `run`) and only surfaces on failure. Non-TTY keeps the plain
+ * `[bench]` lines (the display's own plain mode is off).
+ */
+interface BenchProgress {
+  start(id: string, points?: number): void
+  measuring(label: string): void
   /**
    * TTY: the active row's counter advances; non-TTY logs the result line.
    */
-  result(line: string) {
-    if (this.active && this.active.done !== undefined) {
-      this.active.done++
-      this.active.current = ''
-    }
-    if (isTTY) this.repaint()
-    else console.log(line)
-  }
-
-  end(id: string, ok = true, detail?: string) {
-    const row = this.byId.get(id)
-    if (!row) return
-    row.status = ok ? 'pass' : 'fail'
-    row.detail = detail ?? (ok ? `done in ${this.elapsed(row)}` : 'failed')
-    if (isTTY) this.repaint()
-    else if (!ok) console.log(`[bench] ${row.label}: ${row.detail}`)
-  }
-
+  result(line: string): void
+  end(id: string, ok?: boolean, detail?: string): void
   /**
    * Marks whatever is still running as failed and closes the display so the
    * error prints below the rows. Idempotent.
    */
-  finish(ok: boolean) {
-    if (this.timer) clearInterval(this.timer)
-    this.timer = undefined
-    if (!ok) {
-      for (const row of this.rows) {
-        if (row.status === 'running') {
-          row.status = 'fail'
-          row.detail = 'failed'
+  finish(ok: boolean): void
+}
+
+function createBenchProgress(
+  rowDefs: { id: string; label: string }[]
+): BenchProgress {
+  const labels = new Map(rowDefs.map(({ id, label }) => [id, label]))
+  const rows = terminal.createRows({
+    title: 'Benchmark',
+    rows: rowDefs.map(({ id, label }) => ({ id, label, detail: 'waiting' })),
+    mode,
+    plain: 'none',
+  })
+
+  // Sweep state of the active case: completed / total points, current point.
+  let active: string | undefined
+  let done = 0
+  let points: number | undefined
+  let current = ''
+
+  const sweepProgress = () => {
+    if (active === undefined || points === undefined) return
+    rows.progress(active, `${done}/${points}${current ? ` · ${current}` : ''}`)
+  }
+
+  return {
+    start(id, sweepPoints?) {
+      active = id
+      done = 0
+      points = sweepPoints
+      current = ''
+      rows.start(id)
+      sweepProgress()
+      if (!mode.live) console.log(`[bench] ${labels.get(id) ?? id}`)
+    },
+    measuring(label) {
+      current = label
+      sweepProgress()
+    },
+    result(line) {
+      if (points !== undefined) {
+        done++
+        current = ''
+        sweepProgress()
+      }
+      if (!mode.live) console.log(line)
+    },
+    end(id, ok = true, detail?) {
+      if (ok) rows.pass(id, detail)
+      else {
+        rows.fail(id, detail ?? 'failed')
+        if (!mode.live) {
+          console.log(`[bench] ${labels.get(id) ?? id}: ${detail ?? 'failed'}`)
         }
       }
-    }
-    if (isTTY) {
-      this.repaint()
-      process.stdout.write('\x1b[?25h')
-    }
+    },
+    finish(ok) {
+      if (!ok) {
+        for (const { id } of rowDefs) {
+          if (rows.status(id) === 'active') rows.fail(id, 'failed')
+        }
+      }
+      rows.finish()
+    },
   }
 }
 
@@ -326,7 +270,7 @@ async function main(): Promise<void> {
     })),
     ...(options.charts ? [{ id: 'charts', label: 'charts' }] : []),
   ]
-  const progress = new BenchProgress(rowDefs)
+  const progress = createBenchProgress(rowDefs)
 
   try {
     if (options.pack) {
