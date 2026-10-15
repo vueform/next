@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://vueform.com/schemas/scraper/composables.json",
-  "title": "Vueform scraped composables",
-  "description": "Composables keyed by composable name (.generated/<source>/composables.json). Entries are recursive member nodes — see common.json#/definitions/member.",
+  "$id": "https://vueform.com/schemas/api-extractor/composables.json",
+  "title": "Vueform extracted composables",
+  "description": "Composables keyed by composable name (.vueform/api/<source>/composables.json). Entries are recursive member nodes — see common.json#/definitions/member.",
   "type": "object",
   "additionalProperties": {
     "allOf": [

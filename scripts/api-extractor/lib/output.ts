@@ -3,10 +3,10 @@ import * as path from 'node:path'
 
 import { adapters } from './adapters'
 import { generatedDir } from './paths'
-import type { ScrapeScope } from './scope'
+import type { ExtractScope } from './scope'
 
 /**
- * Files whose adapter scrape is already a complete, curated set (own entries
+ * Files whose adapter extraction is already a complete, curated set (own entries
  * plus core fallbacks, minus core entries the adapter renames away). Merging
  * core back in would resurrect renamed-away entries (e.g. primevue has
  * input-text instead of text), so the adapter file replaces core wholesale.
@@ -14,7 +14,7 @@ import type { ScrapeScope } from './scope'
 const ADAPTER_REPLACES_CORE = new Set(['blueprints', 'components'])
 
 /**
- * Every scraped file (scraper name = file basename).
+ * Every extracted file (extractor name = file basename).
  */
 export const FILES = [
   'blueprints',
@@ -55,7 +55,7 @@ function sortRoot(value: unknown): unknown {
 const MEMBER_NODE_FILES = new Set(['composables', 'features', 'helpers'])
 
 /**
- * Normalizes a member node so `type` is always a string: a node whose scraped
+ * Normalizes a member node so `type` is always a string: a node whose extracted
  * `type` is a member map becomes `type: 'object'` with the map under `members`
  * (in place, right after `type`, to keep key order stable). The walk is
  * structure-aware — only known node fields recurse, so maps with an entry named
@@ -228,14 +228,14 @@ function applyMissingDescriptions(
 
 /**
  * Assembles the final `core/` and per-adapter (`ui/`, `primevue/`, …) trees
- * from the scrapers' raw output (core-level files plus `_<adapter>` deltas),
+ * from the extractors' raw output (core-level files plus `_<adapter>` deltas),
  * then removes the raw files. Only the folders in scope are written; an
  * adapter-scoped run without core in scope merges against the EXISTING `core/`
  * files instead of fresh raw output. Every folder holds every file: an adapter
  * file is core merged with the adapter's own entries — the adapter wins on
  * conflicts — and every file gets alphabetic root key order.
  */
-export function assemble(names: readonly string[], scope: ScrapeScope): void {
+export function assemble(names: readonly string[], scope: ExtractScope): void {
   const assembled: string[] = []
   // Per adapter: each missingDescriptions entry's outcome across the files.
   const fixStatus = new Map<string, Map<string, 'applied' | 'documented'>>()
@@ -245,7 +245,7 @@ export function assemble(names: readonly string[], scope: ScrapeScope): void {
 
     let rawCore: unknown
     if (scope.core) {
-      // blueprints/components scrape their core data under _ui, the rest at
+      // blueprints/components extract their core data under _ui, the rest at
       // the top level — either way it comes from packages/core.
       const raw =
         readJson(path.join(generatedDir, file)) ??

@@ -1,11 +1,16 @@
 name: Deploy docs
 
-# Manual docs deploy (Actions → Deploy docs → Run workflow). Builds the
-# workspace (docs consume the packages' dists), builds the vitepress site for
-# the selected adapter(s) and deploys each one to its Cloudflare Worker via
+# Manual docs deploy (Actions → Deploy docs → Run workflow). `pnpm docs:build`
+# is the vp task `:docs:build`, whose graph pulls in everything the vitepress
+# build needs — `:docs:gen` (which depends on `:api` and `:size`) plus the
+# docs deps' `:build:*` legs — so this workflow runs no build/generation steps
+# of its own. The cached legs replay from the restored vp task cache (the
+# docs tasks themselves are deliberately uncached); the cache is keyed per
+# commit with a prefix fallback, and vp revalidates inputs on a stale hit.
+# Then each selected adapter's site deploys to its Cloudflare Worker via
 # wrangler (config in wrangler.jsonc: env `ui` → vueform-ui-docs, env
-# `primevue` → vueform-primevue-docs). Needs the CLOUDFLARE_API_TOKEN (Workers
-# Scripts:Edit) and CLOUDFLARE_ACCOUNT_ID repo secrets.
+# `primevue` → vueform-primevue-docs). Needs the CLOUDFLARE_API_TOKEN
+# (Workers Scripts:Edit) and CLOUDFLARE_ACCOUNT_ID repo secrets.
 
 on:
   workflow_dispatch:
@@ -39,11 +44,21 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      - name: Build workspace
-        run: pnpm build
+      - name: Restore vp task cache
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.vite/task-cache
+            packages/*/dist
+            .vueform/api
+            .vueform/size
+          key: vp-tasks-docs-${{ github.sha }}
+          restore-keys: vp-tasks-docs-
 
+      # Adapter flags pass through vpr to the docs runner; the task's deps
+      # (gen, api, size, package builds) run or replay as needed.
       - name: Build docs
-        run: pnpm --filter @vueform/docs run build --adapter=${{ inputs.target == 'all' && 'ui,primevue' || inputs.target }}
+        run: pnpm docs:build ${{ inputs.target == 'all' && '--ui --primevue' || format('--{0}', inputs.target) }}
 
       - name: Deploy ui docs
         if: contains(fromJSON('["all","ui"]'), inputs.target)

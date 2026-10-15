@@ -9,7 +9,7 @@ import {
   type TokenJsonEntry,
 } from '@vueform/utils'
 
-import { requireData, SCRAPE_HINT } from './ensure-data'
+import { requireData, API_EXTRACTOR_HINT } from './ensure-data'
 
 // =============== PATHS ================
 
@@ -17,12 +17,12 @@ const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
 const GENERATED_DIR = path.join(DOCS_ROOT, '..', '.vueform', 'docs')
-const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
+const API_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
 
 requireData(
   'reference',
-  path.join(SCRAPED_DIR, 'core', 'components.json'),
-  SCRAPE_HINT
+  path.join(API_DIR, 'core', 'components.json'),
+  API_EXTRACTOR_HINT
 )
 const COMPONENTS_DIR = path.join(DOCS_ROOT, 'src/components')
 const TEMPLATE_PATH = path.join(COMPONENTS_DIR, '_template.md')
@@ -56,12 +56,12 @@ const SHARED_COMPONENTS = new Set<string>(DOCS_CONFIG.coreComponents)
 // ============ JSON LOADING ============
 
 function loadJSON(name: string): any {
-  // Scraped structural jsons live at the monorepo root, docs-own ones
+  // Extracted structural jsons live at the monorepo root, docs-own ones
   // (types.json, keywords.json) under .vueform/docs; both use core/ for
   // the shared data and one folder per adapter.
-  const scrapedPath = path.join(SCRAPED_DIR, 'core', name)
-  if (fs.existsSync(scrapedPath)) {
-    return JSON.parse(fs.readFileSync(scrapedPath, 'utf-8'))
+  const apiPath = path.join(API_DIR, 'core', name)
+  if (fs.existsSync(apiPath)) {
+    return JSON.parse(fs.readFileSync(apiPath, 'utf-8'))
   }
   return JSON.parse(
     fs.readFileSync(path.join(GENERATED_DIR, 'core', name), 'utf-8')
@@ -69,9 +69,9 @@ function loadJSON(name: string): any {
 }
 
 function loadAdapterJSON(adapterName: string, name: string): any {
-  const scrapedPath = path.join(SCRAPED_DIR, adapterName, name)
-  const filePath = fs.existsSync(scrapedPath)
-    ? scrapedPath
+  const apiPath = path.join(API_DIR, adapterName, name)
+  const filePath = fs.existsSync(apiPath)
+    ? apiPath
     : path.join(GENERATED_DIR, adapterName, name)
   if (!fs.existsSync(filePath)) return {}
   return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
@@ -1823,11 +1823,11 @@ function main() {
   const blueprints = loadJSON('blueprints.json')
   const features = loadJSON('features.json')
   const composables = JSON.parse(
-    fs.readFileSync(path.join(SCRAPED_DIR, 'core', 'composables.json'), 'utf-8')
+    fs.readFileSync(path.join(API_DIR, 'core', 'composables.json'), 'utf-8')
   )
 
   // Load tokens.json and build SCSS class→vars map once
-  const tokensJsonPath = path.join(SCRAPED_DIR, 'core', 'tokens.json')
+  const tokensJsonPath = path.join(API_DIR, 'core', 'tokens.json')
   const tokensJson: Record<string, TokenJsonEntry> = fs.existsSync(
     tokensJsonPath
   )
@@ -1872,7 +1872,7 @@ function main() {
   const coreComponents = loadJSON('components.json')
 
   const classesJson = JSON.parse(
-    fs.readFileSync(path.join(SCRAPED_DIR, 'core', 'classes.json'), 'utf-8')
+    fs.readFileSync(path.join(API_DIR, 'core', 'classes.json'), 'utf-8')
   )
   const elementTokenVars = buildSharedElementTokenVars(
     uiElementClasses,
@@ -1925,7 +1925,7 @@ function main() {
     const outputDir = path.join(DOCS_ROOT, 'src/components', `_${adapterName}`)
 
     // Load adapter-specific tokens if available
-    const adapterTokensPath = path.join(SCRAPED_DIR, adapterName, 'tokens.json')
+    const adapterTokensPath = path.join(API_DIR, adapterName, 'tokens.json')
     const adapterTokensJson: Record<string, TokenJsonEntry> | undefined =
       fs.existsSync(adapterTokensPath)
         ? JSON.parse(fs.readFileSync(adapterTokensPath, 'utf-8'))

@@ -12,7 +12,7 @@ export const pkgRoot = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 export const monorepoRoot = resolve(pkgRoot, '../..')
 
 /**
- * Output tree: one json per scraper, with per-adapter `_<adapter>` subtrees.
+ * Output tree: one json per extractor, with per-adapter `_<adapter>` subtrees.
  * Git-ignored — regenerate with `pnpm api` at the monorepo root.
  */
 export const generatedDir = resolve(monorepoRoot, '.vueform/api')

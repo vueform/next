@@ -2,19 +2,19 @@ import * as fs from 'node:fs'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { requireData, SCRAPE_HINT } from './ensure-data'
+import { requireData, API_EXTRACTOR_HINT } from './ensure-data'
 
 // =============== PATHS ================
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const GENERATED_DIR = path.join(DOCS_ROOT, '..', '.vueform', 'docs')
-const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
+const API_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
 
 requireData(
   'composables-reference',
-  path.join(SCRAPED_DIR, 'core', 'composables.json'),
-  SCRAPE_HINT
+  path.join(API_DIR, 'core', 'composables.json'),
+  API_EXTRACTOR_HINT
 )
 const COMPOSABLES_DIR = path.join(DOCS_ROOT, 'src/api/composables')
 
@@ -103,12 +103,12 @@ function replaceRegion(content: string, name: string, value: string): string {
 }
 
 function loadJSON<T>(name: string): Record<string, T> {
-  // Scraped structural jsons live at the monorepo root, docs-own ones
+  // Extracted structural jsons live at the monorepo root, docs-own ones
   // (types.json, keywords.json) under .vueform/docs; both use core/ for
   // the shared data and one folder per adapter.
-  const scrapedPath = path.join(SCRAPED_DIR, 'core', name)
-  const filePath = fs.existsSync(scrapedPath)
-    ? scrapedPath
+  const apiPath = path.join(API_DIR, 'core', name)
+  const filePath = fs.existsSync(apiPath)
+    ? apiPath
     : path.join(GENERATED_DIR, 'core', name)
   if (!fs.existsSync(filePath)) return {}
   return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
@@ -790,7 +790,7 @@ function main() {
   const indent = '            '
 
   for (const [adapterName, adapterDef] of Object.entries(adapters)) {
-    const adapterPath = path.join(SCRAPED_DIR, adapterName, 'composables.json')
+    const adapterPath = path.join(API_DIR, adapterName, 'composables.json')
     const adapterComposables: Record<string, ComposableEntry> = fs.existsSync(
       adapterPath
     )

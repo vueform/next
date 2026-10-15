@@ -52,7 +52,7 @@ The bare entry registers nothing on its own. Its floor is <!-- @size:entry-core 
 Note that only what's **registered through the config** — components, modules, rules, locales — needs these explicit choices. Everything you import by name in code — `defineSchema`, `useForm`, composables, helpers — tree-shakes like any ES module.
 
 ::: info How sizes are measured
-Every size in this chapter is the **gzipped** amount the item adds to a production Vite build (default settings, esbuild minification), measured by the repository's [bundle-size suite](https://github.com/vueform/next/tree/main/bundle-size) with <!-- @size:measured-with -->`@vueform/ui@2.0.0-alpha.1`<!-- /@size -->. In tables with a **Total** row, each individual row shows what removing that item saves, while the Total is measured directly with everything registered — items share code, so the Total can exceed the sum of the rows. Values near zero (even slightly negative) are compression noise.
+Every size in this chapter is the **gzipped** amount the item adds to a production Vite build (default settings, esbuild minification), measured by the repository's [bundle-size suite](https://github.com/vueform/next/tree/main/bundle-size) with <!-- @size:measured-with -->`@vueform/ui@2.0.0-0.7`<!-- /@size -->. In tables with a **Total** row, each individual row shows what removing that item saves, while the Total is measured directly with everything registered — items share code, so the Total can exceed the sum of the rows. Values near zero (even slightly negative) are compression noise.
 :::
 
 ## Modules
@@ -85,7 +85,7 @@ createVueform({
 | [`locale`](/guide/locales) | 0.28&nbsp;kB |
 | [`security`](/guide/security) | 1.60&nbsp;kB |
 | [`date`](/guide/date) | 0.14&nbsp;kB |
-| **Total** | 44.02&nbsp;kB |
+| **Total** | 23.64&nbsp;kB |
 
 <!-- @bundle-sizes:modules end -->
 
@@ -136,7 +136,7 @@ A component that's rendered but not registered surfaces as Vue's "Failed to reso
 
 ### Component Sizes
 
-All components together add <!-- @size:components-total-js -->`49.38 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`0.00 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
+All components together add <!-- @size:components-total-js -->`49.21 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`6.48 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
 
 <!-- @bundle-sizes:components start -->
 
@@ -144,48 +144,48 @@ All components together add <!-- @size:components-total-js -->`49.38 kB`<!-- /@s
 
 | Component                          | JS           | CSS           |
 | ---------------------------------- | ------------ | ------------- |
-| [`VfButton`](/ui/VfButton) | 0.99&nbsp;kB | 0.00&nbsp;kB |
-| [`VfCheckbox`](/ui/VfCheckbox) | 0.69&nbsp;kB | 0.00&nbsp;kB |
-| [`VfCheckboxes`](/ui/VfCheckboxes) | 0.74&nbsp;kB | 0.00&nbsp;kB |
-| [`VfContent`](/ui/VfContent) | 0.32&nbsp;kB | 0.00&nbsp;kB |
-| [`VfField`](/ui/VfField) | 0.37&nbsp;kB | 0.00&nbsp;kB |
-| [`VfFile`](/ui/VfFile) | 1.60&nbsp;kB | 0.00&nbsp;kB |
+| [`VfButton`](/ui/VfButton) | 1.02&nbsp;kB | 0.99&nbsp;kB |
+| [`VfCheckbox`](/ui/VfCheckbox) | 0.75&nbsp;kB | 0.00&nbsp;kB |
+| [`VfCheckboxes`](/ui/VfCheckboxes) | 0.79&nbsp;kB | -0.01&nbsp;kB |
+| [`VfContent`](/ui/VfContent) | 0.32&nbsp;kB | 0.04&nbsp;kB |
+| [`VfField`](/ui/VfField) | 0.39&nbsp;kB | 0.00&nbsp;kB |
+| [`VfFile`](/ui/VfFile) | 1.61&nbsp;kB | 0.04&nbsp;kB |
 | [`VfHidden`](/ui/VfHidden) | 0.27&nbsp;kB | 0.00&nbsp;kB |
 | [`VfRadio`](/ui/VfRadio) | 0.66&nbsp;kB | 0.00&nbsp;kB |
 | [`VfRadios`](/ui/VfRadios) | 0.60&nbsp;kB | 0.00&nbsp;kB |
-| [`VfSelect`](/ui/VfSelect) | 0.42&nbsp;kB | 0.00&nbsp;kB |
-| [`VfText`](/ui/VfText) | 0.40&nbsp;kB | 0.00&nbsp;kB |
-| [`VfTextarea`](/ui/VfTextarea) | 0.48&nbsp;kB | 0.00&nbsp;kB |
+| [`VfSelect`](/ui/VfSelect) | 0.44&nbsp;kB | 0.12&nbsp;kB |
+| [`VfText`](/ui/VfText) | 0.43&nbsp;kB | 0.09&nbsp;kB |
+| [`VfTextarea`](/ui/VfTextarea) | 0.48&nbsp;kB | 0.04&nbsp;kB |
 
 **Containers**
 
 | Component                  | JS           | CSS          |
 | -------------------------- | ------------ | ------------ |
-| [`VfForm`](/ui/VfForm) | 5.65&nbsp;kB | 0.00&nbsp;kB |
-| [`VfGrid`](/ui/VfGrid) | 2.36&nbsp;kB | 0.00&nbsp;kB |
-| [`VfGroup`](/ui/VfGroup) | 0.44&nbsp;kB | 0.00&nbsp;kB |
-| [`VfList`](/ui/VfList) | 1.55&nbsp;kB | 0.00&nbsp;kB |
-| [`VfMatrix`](/ui/VfMatrix) | 4.09&nbsp;kB | 0.00&nbsp;kB |
+| [`VfForm`](/ui/VfForm) | 5.72&nbsp;kB | 0.00&nbsp;kB |
+| [`VfGrid`](/ui/VfGrid) | 2.37&nbsp;kB | 0.00&nbsp;kB |
+| [`VfGroup`](/ui/VfGroup) | 0.44&nbsp;kB | 0.08&nbsp;kB |
+| [`VfList`](/ui/VfList) | 1.54&nbsp;kB | 0.17&nbsp;kB |
+| [`VfMatrix`](/ui/VfMatrix) | 4.08&nbsp;kB | 0.18&nbsp;kB |
 
 **Form components**
 
 | Component                        | JS           | CSS          |
 | -------------------------------- | ------------ | ------------ |
 | [`VfElements`](/ui/VfElements) | 0.11&nbsp;kB | 0.00&nbsp;kB |
-| [`VfLanguages`](/ui/VfLanguages) | 0.36&nbsp;kB | 0.00&nbsp;kB |
-| [`VfNav`](/ui/VfNav) | 1.05&nbsp;kB | 0.00&nbsp;kB |
-| [`VfSteps`](/ui/VfSteps) | 0.16&nbsp;kB | 0.00&nbsp;kB |
-| [`VfTabs`](/ui/VfTabs) | 0.12&nbsp;kB | 0.00&nbsp;kB |
+| [`VfLanguages`](/ui/VfLanguages) | 0.37&nbsp;kB | 0.13&nbsp;kB |
+| [`VfNav`](/ui/VfNav) | 1.05&nbsp;kB | 0.07&nbsp;kB |
+| [`VfSteps`](/ui/VfSteps) | 0.17&nbsp;kB | 0.63&nbsp;kB |
+| [`VfTabs`](/ui/VfTabs) | 0.13&nbsp;kB | 0.12&nbsp;kB |
 
 **Layout & internals**
 
 | Component                  | JS           | CSS           |
 | -------------------------- | ------------ | ------------- |
-| [`VfAddon`](/ui/VfAddon) | 0.30&nbsp;kB | 0.00&nbsp;kB |
-| [`VfCol`](/ui/VfCol) | 0.71&nbsp;kB | 0.00&nbsp;kB |
+| [`VfAddon`](/ui/VfAddon) | 0.29&nbsp;kB | 0.47&nbsp;kB |
+| [`VfCol`](/ui/VfCol) | 0.73&nbsp;kB | 0.00&nbsp;kB |
 | [`VfIcon`](/ui/VfIcon) | 0.14&nbsp;kB | 0.00&nbsp;kB |
-| [`VfLayout`](/ui/VfLayout) | 2.99&nbsp;kB | 0.00&nbsp;kB |
-| [`VfRow`](/ui/VfRow) | 0.23&nbsp;kB | 0.00&nbsp;kB |
+| [`VfLayout`](/ui/VfLayout) | 2.97&nbsp;kB | 0.55&nbsp;kB |
+| [`VfRow`](/ui/VfRow) | 0.25&nbsp;kB | 0.00&nbsp;kB |
 
 <!-- @bundle-sizes:components end -->
 
@@ -336,4 +336,4 @@ app.use(createVueform())
 app.mount('#app')
 ```
 
-Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`106.13 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`106.13 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`0.00 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.
+Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`92.06 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`85.58 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.48 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.

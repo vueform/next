@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://vueform.com/schemas/scraper/modules.json",
-  "title": "Vueform scraped modules",
-  "description": "Modules keyed by module name (.generated/<source>/modules.json).",
+  "$id": "https://vueform.com/schemas/api-extractor/modules.json",
+  "title": "Vueform extracted modules",
+  "description": "Modules keyed by module name (.vueform/api/<source>/modules.json).",
   "type": "object",
   "additionalProperties": {
     "type": "object",

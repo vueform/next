@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://vueform.com/schemas/scraper/classes.json",
-  "title": "Vueform scraped classes",
-  "description": "Documented CSS classes (.vf-* plus virtual classes such as sr-only) keyed by class name without the leading dot (.generated/<source>/classes.json).",
+  "$id": "https://vueform.com/schemas/api-extractor/classes.json",
+  "title": "Vueform extracted classes",
+  "description": "Documented CSS classes (.vf-* plus virtual classes such as sr-only) keyed by class name without the leading dot (.vueform/api/<source>/classes.json).",
   "type": "object",
   "propertyNames": {
     "pattern": "^[a-z][a-z0-9-]*$"

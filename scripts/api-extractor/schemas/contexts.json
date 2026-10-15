@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://vueform.com/schemas/scraper/contexts.json",
-  "title": "Vueform scraped contexts",
-  "description": "Contexts keyed by context name (.generated/<source>/contexts.json): the creation params (`create<Name>Context` arguments) and what consuming the context returns (`use<Name>Context`).",
+  "$id": "https://vueform.com/schemas/api-extractor/contexts.json",
+  "title": "Vueform extracted contexts",
+  "description": "Contexts keyed by context name (.vueform/api/<source>/contexts.json): the creation params (`create<Name>Context` arguments) and what consuming the context returns (`use<Name>Context`).",
   "type": "object",
   "additionalProperties": {
     "type": "object",

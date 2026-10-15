@@ -14,7 +14,7 @@
 
 Where a `source: "<repo-relative path>:<line>"` field could be attached to
 the nodes of the generated `.vueform/api/` jsons, per emission site. Status
-is grounded in the current scrapers (function + line anchors verified
+is grounded in the current extractors (function + line anchors verified
 2026-10-09).
 
 **Status legend**
@@ -96,7 +96,7 @@ is grounded in the current scrapers (function + line anchors verified
   `stripSymbolKeys`, `sortRoot`) passes unknown keys through verbatim —
   embed `source` at extraction time and copied entries automatically keep
   the semantically correct (core vs adapter) location. A `__@`-prefixed key
-  is the one thing `stripSymbolKeys` drops — usable for scrape-only
+  is the one thing `stripSymbolKeys` drops — usable for extraction-only
   metadata that should NOT reach the output.
 - **`from` references** (→ origin rows): recommend storing nothing — the
   `from` path already identifies the origin entry, whose own `source`

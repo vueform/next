@@ -4,13 +4,13 @@ import { fileURLToPath } from 'node:url'
 
 import type { TokenJsonEntry } from '@vueform/utils'
 
-import { requireData, SCRAPE_HINT } from './ensure-data'
+import { requireData, API_EXTRACTOR_HINT } from './ensure-data'
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
 const TOKENS_JSON = path.resolve(DOCS_ROOT, '../.vueform/api/core/tokens.json')
-requireData('tokens', TOKENS_JSON, SCRAPE_HINT)
+requireData('tokens', TOKENS_JSON, API_EXTRACTOR_HINT)
 const TOKENS_GUIDE = path.join(DOCS_ROOT, 'src/guide/themes-tokens.md')
 
 const PRIMITIVES_START = '<!-- @token-table:primitives start -->'
@@ -19,7 +19,7 @@ const SEMANTIC_START = '<!-- @token-table:semantic start -->'
 const SEMANTIC_END = '<!-- @token-table:semantic end -->'
 
 /**
- * A token entry as scraped: the declaration's repo-relative `path:line` lives
+ * A token entry as extracted: the declaration's repo-relative `path:line` lives
  * in a single `loc` string (replaces the former `file` + `line` pair).
  */
 type TokenEntry = Omit<TokenJsonEntry, 'file' | 'line'> & { loc?: string }

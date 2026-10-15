@@ -1,7 +1,7 @@
 /**
  * Missing-descriptions report (`pnpm api:missing`): regenerates
  * `.vueform/api/missing.json` from the EXISTING assembled trees — no
- * scraping; run `pnpm api` first when the trees are stale or absent. Every
+ * extraction; run `pnpm api` first when the trees are stale or absent. Every
  * `loc` is listed once (first occurrence wins).
  *
  * Flags:

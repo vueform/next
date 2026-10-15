@@ -1,8 +1,8 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="720" height="470" viewBox="0 0 720 470" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">
 <rect width="720" height="470" fill="#0f0f11"/>
 <text x="360" y="34" font-size="16" font-weight="600" fill="#e6edf3" text-anchor="middle">Input into One of N Text Elements (v-model) — time</text>
-<rect x="143.4" y="52" width="12" height="12" rx="2" fill="#6366f1"/><text x="160.4" y="62" font-size="12" fill="#8b949e">Vueform 2.0.0-alpha.1 (vdom)</text>
-<rect x="376.9" y="52" width="12" height="12" rx="2" fill="#10b981"/><text x="393.9" y="62" font-size="12" fill="#8b949e">Vueform 2.0.0-alpha.1 (vapor)</text>
+<rect x="168.7" y="52" width="12" height="12" rx="2" fill="#6366f1"/><text x="185.7" y="62" font-size="12" fill="#8b949e">Vueform 2.0.0-0.7 (vdom)</text>
+<rect x="376.9" y="52" width="12" height="12" rx="2" fill="#10b981"/><text x="393.9" y="62" font-size="12" fill="#8b949e">Vueform 2.0.0-0.7 (vapor)</text>
 <line x1="80" y1="388" x2="688" y2="388" stroke="#21262d" stroke-width="1"/>
 <text x="72" y="392" font-size="11" fill="#8b949e" text-anchor="end">0</text>
 <line x1="80" y1="290.6666666666667" x2="688" y2="290.6666666666667" stroke="#21262d" stroke-width="1"/>
@@ -21,17 +21,17 @@
 <line x1="80" y1="96" x2="80" y2="388" stroke="#484f58" stroke-width="1"/>
 <text x="384" y="430" font-size="12" fill="#8b949e" text-anchor="middle">N (number of elements)</text>
 <text x="28" y="242" font-size="12" fill="#8b949e" text-anchor="middle" transform="rotate(-90 28 242)">Mean time (ms)</text>
-<text x="360" y="450" font-size="10" fill="#484f58" text-anchor="middle">2026-10-14T07:57:28Z • AMD EPYC 9V74 80-Core Processor • 16 GB RAM • Linux 6.17.0-1022-azure • Chromium 153.0.8010.12 • vue@3.6.0-rc.5</text>
-<polyline points="140.8,346.3 232.0,306.8 384.0,249.2 536.0,196.7 688.0,146.8" fill="none" stroke="#6366f1" stroke-width="2"/>
-<circle cx="140.8" cy="346.3" r="3.5" fill="#6366f1"/>
-<circle cx="232.0" cy="306.8" r="3.5" fill="#6366f1"/>
-<circle cx="384.0" cy="249.2" r="3.5" fill="#6366f1"/>
-<circle cx="536.0" cy="196.7" r="3.5" fill="#6366f1"/>
-<circle cx="688.0" cy="146.8" r="3.5" fill="#6366f1"/>
-<polyline points="140.8,361.4 232.0,324.3 384.0,209.9 536.0,180.3 688.0,125.8" fill="none" stroke="#10b981" stroke-width="2"/>
-<circle cx="140.8" cy="361.4" r="3.5" fill="#10b981"/>
-<circle cx="232.0" cy="324.3" r="3.5" fill="#10b981"/>
-<circle cx="384.0" cy="209.9" r="3.5" fill="#10b981"/>
-<circle cx="536.0" cy="180.3" r="3.5" fill="#10b981"/>
-<circle cx="688.0" cy="125.8" r="3.5" fill="#10b981"/>
+<text x="360" y="450" font-size="10" fill="#484f58" text-anchor="middle">2026-10-15T09:41:27Z • AMD EPYC 7763 64-Core Processor • 16 GB RAM • Linux 7.0.0-1017-azure • Chromium 153.0.8010.12 • vue@3.6.0-rc.5</text>
+<polyline points="140.8,351.3 232.0,306.1 384.0,260.0 536.0,201.7 688.0,154.4" fill="none" stroke="#6366f1" stroke-width="2"/>
+<circle cx="140.8" cy="351.3" r="3.5" fill="#6366f1"/>
+<circle cx="232.0" cy="306.1" r="3.5" fill="#6366f1"/>
+<circle cx="384.0" cy="260.0" r="3.5" fill="#6366f1"/>
+<circle cx="536.0" cy="201.7" r="3.5" fill="#6366f1"/>
+<circle cx="688.0" cy="154.4" r="3.5" fill="#6366f1"/>
+<polyline points="140.8,360.4 232.0,332.2 384.0,199.3 536.0,189.5 688.0,136.9" fill="none" stroke="#10b981" stroke-width="2"/>
+<circle cx="140.8" cy="360.4" r="3.5" fill="#10b981"/>
+<circle cx="232.0" cy="332.2" r="3.5" fill="#10b981"/>
+<circle cx="384.0" cy="199.3" r="3.5" fill="#10b981"/>
+<circle cx="536.0" cy="189.5" r="3.5" fill="#10b981"/>
+<circle cx="688.0" cy="136.9" r="3.5" fill="#10b981"/>
 </svg>

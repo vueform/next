@@ -8,11 +8,11 @@ Development-only by design: production builds resolve the package's `production`
 
 <!--@size-start-->
 
-Generated at 2026-10-15T09:40:58.187Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
+Generated at 2026-10-15T14:38:39.007Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
 
 Measured with:
 
-- Node v24.21.0
+- Node v26.8.2
 - `pnpm@10.20.0`
 - `vue@3.5.43`
 - `vite@8.3.2`

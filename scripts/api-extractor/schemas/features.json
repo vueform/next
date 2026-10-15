@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://vueform.com/schemas/scraper/features.json",
-  "title": "Vueform scraped features",
-  "description": "Features (make* factories from src/features) keyed by factory name (.generated/<source>/features.json). Each section is a plain map of member nodes (common.json#/definitions/member): `props` / `deps` / `events` from the options type, `config` from the outer defineFeature parameter, and `returns`.",
+  "$id": "https://vueform.com/schemas/api-extractor/features.json",
+  "title": "Vueform extracted features",
+  "description": "Features (make* factories from src/features) keyed by factory name (.vueform/api/<source>/features.json). Each section is a plain map of member nodes (common.json#/definitions/member): `props` / `deps` / `events` from the options type, `config` from the outer defineFeature parameter, and `returns`.",
   "type": "object",
   "propertyNames": {
     "pattern": "^make[A-Za-z0-9]+$"

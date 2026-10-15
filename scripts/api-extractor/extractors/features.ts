@@ -787,7 +787,7 @@ function traceSpreadSource(
       if (!decl.initializer) continue
 
       if (ts.isCallExpression(decl.initializer)) {
-        // Only reference callees that are separately scraped entries —
+        // Only reference callees that are separately extracted entries —
         // imported from another module. A local closure that matches the
         // make*/use* naming has no entry a `from` ref could point at.
         let calleeName: string | undefined
@@ -896,7 +896,7 @@ function traceBindingElementSource(
       : undefined
   if (!calleeIdent) return undefined
 
-  // Only reference callees that are separately scraped entries (see
+  // Only reference callees that are separately extracted entries (see
   // traceSpreadSource).
   const calleeName = importedCalleeName(calleeIdent, checker)
   if (!calleeName) return undefined
@@ -933,7 +933,7 @@ function extractReturnMembersFromCall(
   const callExpr = unwrapExpr(ret.expression)
   if (!ts.isCallExpression(callExpr)) return undefined
 
-  // Only reference callees that are separately scraped entries (see
+  // Only reference callees that are separately extracted entries (see
   // traceSpreadSource).
   let calleeName: string | undefined
 
@@ -1779,7 +1779,7 @@ function extractConfig(
 
 function main() {
   const coreFactoriesDir = path.join(CORE_DIR, 'src/features')
-  // Raw output of the blueprints scraper when running under the
+  // Raw output of the blueprints extractor when running under the
   // orchestrator, the assembled tree when running standalone afterwards.
   const coreBlueprintsPath = [
     path.join(GENERATED_DIR, '_ui/blueprints.json'),

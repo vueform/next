@@ -44,7 +44,7 @@ const clientKeywordMap = ref<Record<string, KeywordEntry>>({})
 async function loadGeneratedData() {
   const [compMod, classesMod, kwMod, typesMod] = await Promise.all([
     // The active adapter's generated data: components/classes come from the
-    // scraped tree at the monorepo root (packages/scraper); keywords/types
+    // api extractor tree at the monorepo root (.vueform/api); keywords/types
     // are docs-generated. The `virtual:vf-generated/*` ids are aliased in
     // config.mts to the active adapter's files, so each build lazily bundles
     // exactly one chunk per file.

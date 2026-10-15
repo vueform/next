@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://vueform.com/schemas/scraper/locales.json",
-  "title": "Vueform scraped locales",
-  "description": "Available locales keyed by locale code (.generated/<source>/locales.json). Each entry's key prop repeats its object key.",
+  "$id": "https://vueform.com/schemas/api-extractor/locales.json",
+  "title": "Vueform extracted locales",
+  "description": "Available locales keyed by locale code (.vueform/api/<source>/locales.json). Each entry's key prop repeats its object key.",
   "type": "object",
   "propertyNames": {
     "pattern": "^[a-z]{2,3}(_[A-Z]{2})?$"

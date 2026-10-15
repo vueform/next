@@ -12,7 +12,7 @@ export function requireData(tag: string, file: string, hint: string): void {
   process.exit(1)
 }
 
-export const SCRAPE_HINT =
+export const API_EXTRACTOR_HINT =
   'Run `pnpm api` at the monorepo root first (writes <root>/.vueform/api).'
 
 export const JSON_TYPES_HINT =

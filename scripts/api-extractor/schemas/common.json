@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://vueform.com/schemas/scraper/common.json",
-  "title": "Vueform scraped shared definitions",
-  "description": "Definitions shared by the scraped-file schemas. Not a document schema of its own.",
+  "$id": "https://vueform.com/schemas/api-extractor/common.json",
+  "title": "Vueform extracted shared definitions",
+  "description": "Definitions shared by the extracted-file schemas. Not a document schema of its own.",
   "definitions": {
     "param": {
       "type": "object",

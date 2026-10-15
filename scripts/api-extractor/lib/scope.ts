@@ -8,13 +8,13 @@ import { adapters } from './adapters'
  *
  * Without flags everything is in scope (core + every adapter).
  */
-export interface ScrapeScope {
+export interface ExtractScope {
   core: boolean
   adapters: string[]
 }
 
 export function parseScope(argv: string[]): {
-  scope: ScrapeScope
+  scope: ExtractScope
   rest: string[]
 } {
   const names = Object.keys(adapters)
@@ -48,7 +48,7 @@ export function parseScope(argv: string[]): {
     )
   }
 
-  const scope: ScrapeScope = scoped
+  const scope: ExtractScope = scoped
     ? { core: false, adapters: [...new Set(requested)] }
     : { core: true, adapters: names }
 

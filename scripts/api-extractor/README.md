@@ -8,7 +8,7 @@ source of truth for anything that needs to know what Vueform is made of
 
 ```sh
 # at the monorepo root
-pnpm api                     # run every scraper for every source + assemble
+pnpm api                     # run every extractor for every source + assemble
 pnpm api:missing             # regenerate missing.json from the existing trees
 pnpm api:missing --fullpath  # …locs as clickable file://…#L links
 ```
@@ -24,7 +24,7 @@ value; nodes without the key — like blueprint entries — and inheriting
 listed once (first occurrence wins; `--fullpath` on `pnpm api:missing`
 writes clickable `file://…#L<line>` URLs instead) — and prints a yellow
 summary line. Validation and issue tracking were removed
-pending the extractor rework. A scraper run standalone accepts
+pending the extractor rework. An extractor run standalone accepts
 `--adapter=x,y` / `-a=x,y` / `-A=x,y` to scope to the listed adapters
 (default: core + every adapter).
 
@@ -33,7 +33,7 @@ folder per source, each holding **every** file:
 
 ```
 .vueform/api/
-  core/                  # scraped straight from @vueform/core
+  core/                  # extracted straight from @vueform/core
   ui/                    # the core-based default adapter
   primevue/
     blueprints.json      # per-element blueprints (props, events)
@@ -56,12 +56,12 @@ scss-internal css variables are not tokens and are excluded.
 
 An adapter folder's file is core merged with the adapter's own entries — the
 adapter wins on conflicts — except `blueprints.json` and `components.json`,
-where the adapter's scrape is already a complete curated set (own entries
+where the adapter's extraction is already a complete curated set (own entries
 plus core fallbacks, minus core entries the adapter renames away, e.g.
 primevue's `text` → `input-text`) and therefore replaces core wholesale.
 Every file has alphabetic root key order.
 
-The `features` scraper reads the blueprints output to enrich descriptions,
+The `features` extractor reads the blueprints output to enrich descriptions,
 so `blueprints` must run before it — the orchestrator's order already
 guarantees that.
 
@@ -72,7 +72,7 @@ prints it (`blueprints.date-picker.…`, `components.VfInputMask.…`).
 Assemble applies them onto empty descriptions and warns when an entry goes
 stale (a lib update moved or documented the node).
 
-Not scraped yet (no scrapers exist for these): `rules.json`, `styles.json`.
+Not extracted yet (no extractors exist for these): `rules.json`, `styles.json`.
 
 ## Schemas
 
@@ -86,11 +86,11 @@ validation flow and returns with the extractor rework.
 
 ## Layout
 
-- `scrapers/` — one standalone script per output file
+- `extractors/` — one standalone script per output file
 - `../api.ts` — the orchestrator behind `pnpm api`: the live per-task
-  display of the root test runner (one row per scraper, session logs under
+  display of the root test runner (one row per extractor, session logs under
   `.vueform/api/logs/`), closing with an `assemble.ts` task that builds the
-  `core/` + adapter folders from the scrapers' raw output (`lib/output.ts`)
+  `core/` + adapter folders from the extractors' raw output (`lib/output.ts`)
 - `schemas/` — one JSON Schema per generated file (reference only for now)
 - `lib/adapters.ts` — which packages are scanned (and per-adapter type renames)
 - `lib/extract.ts` — shared TS-compiler plumbing

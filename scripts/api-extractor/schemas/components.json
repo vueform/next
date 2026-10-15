@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://vueform.com/schemas/scraper/components.json",
-  "title": "Vueform scraped components",
-  "description": "Components keyed by component name (.generated/<source>/components.json).",
+  "$id": "https://vueform.com/schemas/api-extractor/components.json",
+  "title": "Vueform extracted components",
+  "description": "Components keyed by component name (.vueform/api/<source>/components.json).",
   "type": "object",
   "propertyNames": {
     "pattern": "^Vf[A-Za-z0-9]+$"

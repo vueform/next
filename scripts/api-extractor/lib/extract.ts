@@ -185,7 +185,7 @@ let htmlAttributeDocs: {
 /**
  * The dataset's descriptions are strings or `{ kind, value }` markup
  * contents, in multi-line markdown — normalized to the single-line-paragraph
- * form of every other scraped description.
+ * form of every other extracted description.
  */
 function markupText(description: unknown): string | undefined {
   const raw =
@@ -546,7 +546,7 @@ export function getJSDocTag(
 /**
  * The name a call refers to across module boundaries: the aliased export's name
  * for imports, the identifier's own name for declarations in other files, and
- * undefined for locals of the same file — locals have no scraped entry a `from`
+ * undefined for locals of the same file — locals have no extracted entry a `from`
  * reference could point at.
  */
 export function importedCalleeName(

@@ -3,16 +3,16 @@ import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import uiConfig from '../../.vitepress/adapters/ui/config'
-import { requireData, SCRAPE_HINT } from './ensure-data'
+import { requireData, API_EXTRACTOR_HINT } from './ensure-data'
 
 // =============== PATHS ================
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
 const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const GENERATED_DIR = path.join(DOCS_ROOT, '..', '.vueform', 'docs')
-const SCRAPED_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
+const API_DIR = path.resolve(DOCS_ROOT, '..', '.vueform/api')
 
-requireData('keywords', path.join(SCRAPED_DIR, 'core'), SCRAPE_HINT)
+requireData('keywords', path.join(API_DIR, 'core'), API_EXTRACTOR_HINT)
 
 interface AdapterDef {
   path: string
@@ -266,7 +266,7 @@ function writeKeywords(dir: string, keywords: Record<string, any>): void {
 }
 
 /**
- * Keywords built from one folder of the scraped tree (core/ or an adapter's):
+ * Keywords built from one folder of the extracted tree (core/ or an adapter's):
  * composables, features, helpers, classes and tokens — everything except
  * components, which only exist per adapter.
  */
@@ -332,10 +332,7 @@ function applyManualKeywords(
 
 function main() {
   // --- core/keywords.json (core data comes from the ui adapter's repo) ---
-  const core = collectShared(
-    path.join(SCRAPED_DIR, 'core'),
-    sourceBaseUrl('ui')
-  )
+  const core = collectShared(path.join(API_DIR, 'core'), sourceBaseUrl('ui'))
   applyManualKeywords(core.keywords, DOCS_CONFIG.keywords)
   writeKeywords(path.join(GENERATED_DIR, 'core'), core.keywords)
 
@@ -349,13 +346,10 @@ function main() {
   // --- Per-adapter keywords: the adapter folder's (already merged) data
   // plus its components ---
   for (const [adapterName] of Object.entries(adapters)) {
-    const scrapedDir = path.join(SCRAPED_DIR, adapterName)
+    const apiDir = path.join(API_DIR, adapterName)
 
-    const { keywords } = collectShared(scrapedDir, sourceBaseUrl(adapterName))
-    mergeInto(
-      keywords,
-      collectComponents(path.join(scrapedDir, 'components.json'))
-    )
+    const { keywords } = collectShared(apiDir, sourceBaseUrl(adapterName))
+    mergeInto(keywords, collectComponents(path.join(apiDir, 'components.json')))
 
     applyManualKeywords(keywords, DOCS_CONFIG.keywords)
     applyManualKeywords(keywords, adapters[adapterName]?.keywords)

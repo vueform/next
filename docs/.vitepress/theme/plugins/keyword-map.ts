@@ -14,7 +14,7 @@ export interface KeywordEntry {
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const GENERATED_DIR = path.resolve(__dirname, '../../../.generated')
+const GENERATED_DIR = path.resolve(__dirname, '../../../../.vueform/docs')
 const ADAPTER = process.env.VF_ADAPTER ?? 'ui'
 
 function readJSONSafe<T>(filePath: string, fallback: T): T {
@@ -36,7 +36,7 @@ const keywordsFile = path.join(GENERATED_DIR, `${ADAPTER}/keywords.json`)
 if (!fs.existsSync(keywordsFile)) {
   console.warn(
     `[keywordMap] ${keywordsFile} not found — keyword links/popovers will be ` +
-      'missing. Run `pnpm scrape` at the monorepo root, then `pnpm gen` in ' +
+      'missing. Run `pnpm api` at the monorepo root, then `pnpm gen` in ' +
       'docs/ ("Regenerate JSON data") first.'
   )
 }

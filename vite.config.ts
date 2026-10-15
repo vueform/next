@@ -670,6 +670,13 @@ export default defineConfig({
       ':api': {
         command: 'tsx scripts/api.ts',
         dependsOn: [':build:utils'],
+        cache: {
+          // The pipeline re-reads its own tree mid-run (features ← the
+          // blueprints raw output, assemble ← every extractor's raw
+          // output), which auto tracking refuses as a self-modified
+          // input. The tree is this task's output, never its input.
+          input: [{ auto: true }, '!.vueform/api/**'],
+        },
       },
       ':api:missing': {
         command: 'tsx scripts/api-missing.ts',

@@ -1,5 +1,5 @@
 /**
- * API extraction runner (`pnpm api`): every scraper of
+ * API extraction runner (`pnpm api`): every extractor of
  * scripts/api-extractor plus the closing `assemble` step, with the shared
  * live per-task display — one row per target, spinner and elapsed time while
  * working, green/red status when done. All captured output is written to
@@ -11,9 +11,9 @@
  * contract for now: the `.vueform/api/` jsons are generated, and any error
  * along the way is surfaced loudly.
  *
- * Ordering: scrapers run in parallel, except `features`, which waits for
+ * Ordering: extractors run in parallel, except `features`, which waits for
  * `blueprints` (it enriches from its raw output); `assemble` runs last and
- * is skipped when any scraper failed (its inputs would be incomplete).
+ * is skipped when any extractor failed (its inputs would be incomplete).
  */
 import { spawn } from 'node:child_process'
 import path from 'node:path'
@@ -27,7 +27,7 @@ const repoRoot = path.resolve(
 )
 const extractorDir = path.join(repoRoot, 'scripts', 'api-extractor')
 
-// The scrapers import @vueform/utils, which resolves to its DIST (and so
+// The extractors import @vueform/utils, which resolves to its DIST (and so
 // does `./terminal` below) — make sure it is current before the dynamic
 // imports. Invoked here (vp-cached, instant on a warm hit) rather than as a
 // vp dependsOn, so `pnpm api` keeps the real TTY and the live display works.
@@ -54,7 +54,7 @@ interface ExtractTask {
 const tasks: ExtractTask[] = [
   ...FILES.map((name) => ({
     id: name,
-    script: path.join(extractorDir, 'scrapers', `${name}.ts`),
+    script: path.join(extractorDir, 'extractors', `${name}.ts`),
   })),
   { id: 'assemble', script: path.join(extractorDir, 'assemble.ts') },
 ]
@@ -114,24 +114,24 @@ function runTask(task: ExtractTask): Promise<boolean> {
   })
 }
 
-const scraperRuns = new Map<string, Promise<boolean>>()
+const extractorRuns = new Map<string, Promise<boolean>>()
 for (const task of tasks) {
   if (task.id === 'assemble') continue
   if (task.id === 'features') {
-    // Enriches from the blueprints raw output — wait for that scrape
+    // Enriches from the blueprints raw output — wait for that extraction
     // (run either way: on a blueprints failure the run fails regardless).
-    scraperRuns.set(
+    extractorRuns.set(
       task.id,
-      scraperRuns.get('blueprints')!.then(() => runTask(task))
+      extractorRuns.get('blueprints')!.then(() => runTask(task))
     )
   } else {
-    scraperRuns.set(task.id, runTask(task))
+    extractorRuns.set(task.id, runTask(task))
   }
 }
 
-const scrapersOk = (await Promise.all(scraperRuns.values())).every(Boolean)
+const extractorsOk = (await Promise.all(extractorRuns.values())).every(Boolean)
 
-if (scrapersOk) {
+if (extractorsOk) {
   await runTask(tasks.find(({ id }) => id === 'assemble')!)
 } else {
   display.skip('assemble')
