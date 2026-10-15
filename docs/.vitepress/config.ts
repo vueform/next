@@ -259,7 +259,16 @@ export default mergeConfig(
                 '../src/assets/mingcute--parentheses-fill.svg'
               ),
             },
-            vueform: localIconLoader(import.meta.url, '../src/assets/logo.svg'),
+            vueform: {
+              light: localIconLoader(
+                import.meta.url,
+                '../src/assets/logo-symbol.svg'
+              ),
+              dark: localIconLoader(
+                import.meta.url,
+                '../src/assets/logo-symbol-dark.svg'
+              ),
+            },
           },
           defaultLabels: [
             'npm',
