@@ -1,9 +1,5 @@
-import { ensureUtilsDist } from './ensure-utils'
-
-ensureUtilsDist()
-
-// The lib imports @vueform/utils from its dist, so it loads only after the
-// warm-up above — dynamically: a static import would be hoisted above it.
+// The lib imports @vueform/utils from its dist (pre-built: vp dependsOn in
+// tasks, `vpr :build:utils` on a fresh checkout).
 const { down, existingCombos, parseArgs, resolveCombos } = await import('./lib')
 
 const tag = 'pg:down'

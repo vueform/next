@@ -14,7 +14,7 @@
  * `json-keywords`, which read pages the earlier generators write — they run
  * after the parallel group, in that order.
  */
-import { spawn, spawnSync } from 'node:child_process'
+import { spawn } from 'node:child_process'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -22,18 +22,6 @@ const DOCS_DIR = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   '..'
 )
-const REPO_ROOT = path.resolve(DOCS_DIR, '..')
-
-// The display lives in @vueform/utils' DIST — absent on a fresh checkout.
-// Warm it (vp-cached, instant on a warm hit) before the dynamic import.
-const bootstrap = spawnSync('pnpm', ['exec', 'vpr', ':build:utils'], {
-  cwd: REPO_ROOT,
-  encoding: 'utf8',
-})
-if (bootstrap.status !== 0) {
-  console.error(bootstrap.stdout + bootstrap.stderr)
-  process.exit(bootstrap.status ?? 1)
-}
 
 /**
  * The parallel group, then the page-reading closers in order.

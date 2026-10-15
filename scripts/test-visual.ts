@@ -4,9 +4,6 @@
  * live per-package display — see test-runner.ts. Only the errors log is
  * written, and only when something fails.
  */
-import { ensureUtilsDist } from './ensure-utils'
-
-ensureUtilsDist()
 
 const { runTestRunner } = await import('./test-runner')
 await runTestRunner({

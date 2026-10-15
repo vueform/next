@@ -66,6 +66,9 @@ jobs:
       - name: Install Playwright chromium
         run: pnpm --filter @vueform/benchmark exec playwright install --with-deps chromium
 
+      # Root runners import @vueform/utils' dist — build it before any runs.
+      - run: pnpm exec vpr :build:utils
+
       # The suite measures dist: it packs tarballs of the built packages and
       # installs them into the standalone app.
       - run: pnpm build

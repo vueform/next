@@ -8,10 +8,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { ensureUtilsDist } from './ensure-utils'
 import type { RunRow } from './terminal'
-
-ensureUtilsDist()
 
 const {
   countFormatIssues,

@@ -138,6 +138,9 @@ jobs:
             packages/*/dist
           key: vp-tasks-${{ github.run_id }}
 
+      # Root runners import @vueform/utils' dist — build it before any runs.
+      - run: pnpm exec vpr :build:utils
+
       - run: pnpm build
 
   gate:
@@ -181,6 +184,9 @@ jobs:
       - name: Install Playwright chromium
         if: contains(fromJSON('["test-smoke","test-visual"]'), matrix.task)
         run: pnpm --filter @vueform/ui exec playwright install --with-deps chromium
+
+      # Root runners import @vueform/utils' dist — build it before any runs.
+      - run: pnpm exec vpr :build:utils
 
       # A replay of the warmed cache (seconds); gates and generators consume
       # the materialized dists.
@@ -343,6 +349,9 @@ jobs:
             packages/*/dist
           key: vp-tasks-${{ github.run_id }}
 
+      # Root runners import @vueform/utils' dist — build it before any runs.
+      - run: pnpm exec vpr :build:utils
+
       - run: pnpm build
 
       - name: Git identity (release commit + tag)
@@ -471,6 +480,9 @@ jobs:
         run: tar -xzf "$RUNNER_TEMP/meta/meta.tgz"
 
       # Dist banners stamp the version from the manifests at build time.
+      # Root runners import @vueform/utils' dist — build it before any runs.
+      - run: pnpm exec vpr :build:utils
+
       - run: pnpm build
 
       - name: Publish to npm (trusted publishing + provenance)

@@ -6,11 +6,9 @@
  * upfront (vp-cached, instant when warm). Selection flags work as before
  * (`--pv`, `--ui`). Output goes to `.vueform/registry/logs`.
  */
-import { ensureUtilsDist } from './ensure-utils'
 
 // The generator (and the orchestrator import below) runs from utils' dist —
-// make sure it is current before anything resolves it.
-ensureUtilsDist()
+// on a fresh checkout run `pnpm exec vpr :build:utils` first.
 
 const { runRows, stripDisplayFlags } = await import('./terminal')
 const { discoverPackageTasks, selectTasks } = await import('./runner')

@@ -12,10 +12,6 @@
  */
 import { spawnSync } from 'node:child_process'
 
-import { ensureUtilsDist } from './ensure-utils'
-
-ensureUtilsDist()
-
 const { createPaint, resolveTerminalMode, runRows, stripDisplayFlags } =
   await import('./terminal')
 const { discoverPackageTasks, repoRoot, selectTasks, tierSort } =

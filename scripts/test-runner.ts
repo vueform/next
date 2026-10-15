@@ -18,8 +18,8 @@
  * warn with its component stack, occurrence count and origins, per package)
  * and `<stamp>.errors.log` (every failed test with its failure messages).
  *
- * Imports `./terminal` (utils' dist) statically — the entry points call
- * `ensureUtilsDist()` and only then import this module dynamically.
+ * Imports `./terminal` (utils' dist) statically — the entry points import
+ * this module dynamically against a pre-built utils dist.
  */
 import { spawn } from 'node:child_process'
 import fs from 'node:fs'

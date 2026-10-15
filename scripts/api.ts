@@ -19,8 +19,6 @@ import { spawn } from 'node:child_process'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
-import { ensureUtilsDist } from './ensure-utils'
-
 const repoRoot = path.resolve(
   fileURLToPath(new URL('.', import.meta.url)),
   '..'
@@ -28,10 +26,8 @@ const repoRoot = path.resolve(
 const extractorDir = path.join(repoRoot, 'scripts', 'api-extractor')
 
 // The extractors import @vueform/utils, which resolves to its DIST (and so
-// does `./terminal` below) — make sure it is current before the dynamic
-// imports. Invoked here (vp-cached, instant on a warm hit) rather than as a
-// vp dependsOn, so `pnpm api` keeps the real TTY and the live display works.
-ensureUtilsDist()
+// does `./terminal` below). Under vp the `:api` task's dependsOn builds it;
+// on a fresh checkout run `pnpm exec vpr :build:utils` first.
 
 const {
   createPaint,

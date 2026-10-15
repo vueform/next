@@ -8,10 +8,6 @@
 import fs from 'node:fs'
 import path from 'node:path'
 
-import { ensureUtilsDist } from './ensure-utils'
-
-ensureUtilsDist()
-
 const { runRows } = await import('./terminal')
 const { discoverPackages } = await import('./runner')
 

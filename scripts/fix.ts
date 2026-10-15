@@ -5,10 +5,7 @@
  * tool reports them, otherwise remaining issues; the exit code is non-zero
  * only when unfixable errors remain. Output goes to `.vueform/fix/logs`.
  */
-import { ensureUtilsDist } from './ensure-utils'
 import type { RowResult, RunRow } from './terminal'
-
-ensureUtilsDist()
 
 const { countLintIssues, runRows } = await import('./terminal')
 

@@ -82,6 +82,9 @@ jobs:
             packages/*/dist
           key: vp-tasks-${{ github.run_id }}
 
+      # Root runners import @vueform/utils' dist — build it before any runs.
+      - run: pnpm exec vpr :build:utils
+
       - run: pnpm build
 
   task:
@@ -124,6 +127,9 @@ jobs:
       - name: Install Playwright chromium
         if: contains(fromJSON('["test-smoke","test-visual","bench"]'), matrix.task)
         run: pnpm --filter @vueform/ui exec playwright install --with-deps chromium
+
+      # Root runners import @vueform/utils' dist — build it before any runs.
+      - run: pnpm exec vpr :build:utils
 
       # A replay of the warmed cache (seconds); gates and generators consume
       # the materialized dists.

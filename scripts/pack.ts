@@ -6,9 +6,6 @@
  * the GUI is a display shell around the same `:pack` task the smoke suites
  * depend on. Output goes to `.vueform/pack/logs`.
  */
-import { ensureUtilsDist } from './ensure-utils'
-
-ensureUtilsDist()
 
 const { runRows } = await import('./terminal')
 const { discoverPackages } = await import('./runner')

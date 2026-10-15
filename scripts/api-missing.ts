@@ -12,10 +12,6 @@
 import * as fs from 'node:fs'
 import * as path from 'node:path'
 
-import { ensureUtilsDist } from './ensure-utils'
-
-ensureUtilsDist()
-
 const { collectMissingDescriptions, writeMissingReport } =
   await import('./api-extractor/lib/missing')
 const { generatedDir } = await import('./api-extractor/lib/paths')

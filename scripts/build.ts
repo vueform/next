@@ -6,12 +6,10 @@
  * `--adapters`). Output goes to `.vueform/build/logs`; failures end with an
  * error-log link.
  */
-import { ensureUtilsDist } from './ensure-utils'
 
 // `./terminal` and `./runner` re-export from @vueform/utils, which resolves
-// to its DIST — absent on a fresh checkout (CI). Warm it here before the
-// dynamic imports below; the GUI's own utils row then replays from cache.
-ensureUtilsDist()
+// to its DIST — absent on a fresh checkout. Build it first there:
+// `pnpm exec vpr :build:utils` (CI runs it before any root runner).
 
 const { runRows, stripDisplayFlags } = await import('./terminal')
 const { discoverPackageTasks, selectTasks, tierSort } = await import('./runner')
