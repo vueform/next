@@ -11,6 +11,14 @@
   > .vf-input {
     flex: 1;
     width: 100%;
+
+    /**
+     * The group centers its items, so flexbox won't stretch the input; when
+     * the group is taller (addon rows, tabular cells) the input must still
+     * fill it, since border and background live on the input itself. Floor,
+     * not height: autogrow textareas write an inline height that may not win.
+     */
+    min-height: 100%;
   }
 }
 
