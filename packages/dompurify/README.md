@@ -6,7 +6,7 @@ Official `dompurify` plugin for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-14T13:20:03.295Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
+Generated at 2026-10-15T09:41:01.106Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
 
 Measured with:
 
@@ -14,8 +14,8 @@ Measured with:
 - `pnpm@10.20.0`
 - `vue@3.5.43`
 - `vite@8.3.2`
-- `@vueform/core@2.0.0-alpha.1`
-- `@vueform/ui@2.0.0-alpha.1`
+- `@vueform/core@2.0.0-0.7`
+- `@vueform/ui@2.0.0-0.7`
 
 ## How to interpret results
 
@@ -28,7 +28,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/dompurify@2.0.0-alpha.1`](https://github.com/vueform/dompurify) | 0.13&nbsp;kB | 10.24&nbsp;kB | 10.37&nbsp;kB | [`isomorphic-dompurify@3.23.0`](https://www.npmjs.com/package/isomorphic-dompurify) |
+| [`@vueform/dompurify@2.0.0-0.7`](https://github.com/vueform/dompurify) | 0.13&nbsp;kB | 10.23&nbsp;kB | 10.35&nbsp;kB | [`isomorphic-dompurify@3.23.0`](https://www.npmjs.com/package/isomorphic-dompurify) |
 
 </details>
 
@@ -37,7 +37,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/dompurify@2.0.0-alpha.1`](https://github.com/vueform/dompurify) | 0.04&nbsp;kB | 8.79&nbsp;kB | 8.84&nbsp;kB | [`isomorphic-dompurify@3.23.0`](https://www.npmjs.com/package/isomorphic-dompurify) |
+| [`@vueform/dompurify@2.0.0-0.7`](https://github.com/vueform/dompurify) | 0.24&nbsp;kB | 8.73&nbsp;kB | 8.96&nbsp;kB | [`isomorphic-dompurify@3.23.0`](https://www.npmjs.com/package/isomorphic-dompurify) |
 
 </details>
 
@@ -46,7 +46,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/dompurify@2.0.0-alpha.1`](https://github.com/vueform/dompurify) | 0.36&nbsp;kB | 26.96&nbsp;kB | 27.32&nbsp;kB | [`isomorphic-dompurify@3.23.0`](https://www.npmjs.com/package/isomorphic-dompurify) |
+| [`@vueform/dompurify@2.0.0-0.7`](https://github.com/vueform/dompurify) | 0.36&nbsp;kB | 26.95&nbsp;kB | 27.32&nbsp;kB | [`isomorphic-dompurify@3.23.0`](https://www.npmjs.com/package/isomorphic-dompurify) |
 
 </details>
 

@@ -3,7 +3,7 @@
   "name": "VfTextarea",
   "type": "component",
   "package": "@vueform/primevue",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-0.7",
   "description": "VfTextarea component",
   "files": [
     {

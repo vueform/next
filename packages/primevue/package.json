@@ -1,6 +1,6 @@
 {
   "name": "@vueform/primevue",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-0.7",
   "description": "PrimeVue adapter for Vueform — build Vueform forms from PrimeVue components.",
   "keywords": [
     "components",

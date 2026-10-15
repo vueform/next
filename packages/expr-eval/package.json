@@ -1,6 +1,6 @@
 {
   "name": "@vueform/expr-eval",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-0.7",
   "description": "Expression evaluator used by Vueform for conditions and computed values.",
   "keywords": [
     "evaluator",

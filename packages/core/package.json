@@ -1,6 +1,6 @@
 {
   "name": "@vueform/core",
-  "version": "2.0.0-alpha.1",
+  "version": "2.0.0-0.7",
   "description": "Headless, schema-driven form framework core for Vue 3 — elements, validation, conditions and form state.",
   "keywords": [
     "form",
