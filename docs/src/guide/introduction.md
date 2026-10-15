@@ -167,3 +167,5 @@ See the [Roadmap](/guide/roadmap) for what's done, what's in progress, and what'
 ## New
 
 Install only the core and you have useModel and useForm out of the box, without any components but fully typed headless data and validation. Add expressions module and you can reference other fields in data. And you are only at xyKB gzipped. Add the framework agnostic component library and have native html elements or add an actual adapter for an existing ui library like primevue and you have outofthebox relationship between them.
+
+Foo
