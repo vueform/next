@@ -402,12 +402,18 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-  # Publishing is isolated and idempotent: recursive `pnpm publish` skips
-  # versions already in the registry, so when npm dies halfway through the
-  # packages, the retries below — or "Re-run failed jobs" on THIS job — only
-  # publish what is still missing. The version commit and tag are already
-  # pushed by then, so a re-run reconstructs the exact release state from the
-  # tag (or from the uploaded manifests for a rehearsal, which tags nothing).
+  # Publishing is isolated and idempotent: every pass skips packages already
+  # VISIBLE at the release version and publishes the rest one by one, so a
+  # single rejection (typically a package without npm trusted-publisher
+  # access for this workflow) cannot block the others the way a recursive
+  # publish does. The registry stages publishes asynchronously: an attempt
+  # that dies mid-processing leaves the version "staged" — invisible to
+  # `npm view` yet rejecting re-PUTs with E409 "previously staged version" —
+  # until it is promoted on its own, which is what the pauses between passes
+  # wait out. When passes run out, "Re-run failed jobs" on THIS job continues
+  # where things stopped: the version commit and tag are already pushed, so a
+  # re-run reconstructs the exact release state from the tag (or from the
+  # uploaded manifests for a rehearsal, which tags nothing).
   publish:
     name: Publish
     needs: release
@@ -455,13 +461,45 @@ jobs:
         env:
           NPM_CONFIG_PROVENANCE: 'true'
           DIST_TAG: ${{ needs.release.outputs.dist_tag }}
+          VERSION: ${{ needs.release.outputs.version }}
         run: |
-          for attempt in 1 2 3; do
-            pnpm publish -r --tag "$DIST_TAG" --no-git-checks && exit 0
-            echo "Publish attempt $attempt failed — retrying; already-published versions are skipped."
-            [ "$attempt" -lt 3 ] && sleep $((attempt * 15))
+          # One pass publishes every public package not yet visible at
+          # $VERSION, each on its own. A version the registry is still
+          # staging fails its re-PUT with E409 here but goes visible by a
+          # later pass, hence the sleep between passes.
+          pass() {
+            FAILED=()
+            local dir private pkg
+            for dir in packages/*/; do
+              private=$(node -p "require('./$dir/package.json').private ?? false")
+              if [ "$private" = "true" ]; then
+                continue
+              fi
+              pkg=$(node -p "require('./$dir/package.json').name")
+              if npm view "$pkg@$VERSION" version >/dev/null 2>&1; then
+                echo "visible:   $pkg@$VERSION"
+                continue
+              fi
+              if pnpm --filter "$pkg" publish --tag "$DIST_TAG" --no-git-checks; then
+                echo "published: $pkg@$VERSION"
+              else
+                echo "failed:    $pkg"
+                FAILED+=("$pkg")
+              fi
+            done
+          }
+          for attempt in 1 2 3 4 5; do
+            if [ "$attempt" -gt 1 ]; then
+              echo "Waiting for staged publishes to settle before pass $attempt..."
+              sleep 60
+            fi
+            pass
+            if [ "${#FAILED[@]}" -eq 0 ]; then
+              exit 0
+            fi
+            echo "Pass $attempt left unpublished: ${FAILED[*]}"
           done
-          echo '::error::Publish failed after 3 attempts with npm possibly half-published. Re-run THIS job (never the release job) — it publishes only the packages still missing from the registry.'
+          echo "::error::Still unpublished after 5 passes: ${FAILED[*]}. A package failing every pass usually has no npm trusted publisher configured for this workflow — fix that, then re-run THIS job (never the release job); visible versions are skipped."
           exit 1
 
       - name: Assert dist-tags (prerelease must never ride `latest`)
