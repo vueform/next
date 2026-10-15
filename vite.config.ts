@@ -466,8 +466,7 @@ export default defineConfig({
           input: [
             'packages/*/dist/**',
             'packages/*/package.json',
-            // utils ships raw assets alongside dist — they land in the
-            // tarball, so they must invalidate it.
+            'packages/cli/bin/**',
             'packages/utils/bin/**',
             'packages/utils/fixtures/**',
             'pnpm-lock.yaml',
@@ -636,6 +635,13 @@ export default defineConfig({
         command: 'tsx scripts/test-smoke.ts --nopack',
         dependsOn: [':build', ':pack'],
       },
+      ':test-smoke-types': {
+        command: 'tsx scripts/test-smoke-types.ts --nopack',
+        dependsOn: [':build', ':pack'],
+        // Never cached: the envs install from the registry (checker versions
+        // float on purpose — a consumer's `latest` does too).
+        cache: false,
+      },
       ':attw': {
         command: 'tsx scripts/attw-task.ts',
         dependsOn: [':pack'],
@@ -647,13 +653,6 @@ export default defineConfig({
           ],
           output: [],
         },
-      },
-      ':test-smoke-types': {
-        command: 'tsx scripts/test-smoke-types.ts --nopack',
-        dependsOn: [':build', ':pack'],
-        // Never cached: the envs install from the registry (checker versions
-        // float on purpose — a consumer's `latest` does too).
-        cache: false,
       },
       ':registry': {
         command: "vp run --filter './packages/*' registry",
