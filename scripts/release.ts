@@ -305,11 +305,15 @@ if (latestTag === null) {
     process.exit(1)
   }
 } else {
+  // The config (scripts/changelog-preset.json) is the conventionalcommits
+  // preset with emoji section titles and EVERY commit type visible —
+  // including chores, so release/regen commits show up; flip a type to
+  // "hidden": true there to drop its section.
   run('pnpm', [
     'exec',
     'conventional-changelog',
-    '-p',
-    'conventionalcommits',
+    '-n',
+    path.join(repoRoot, 'scripts', 'changelog-preset.json'),
     '-i',
     changelogFile,
     '-s',
