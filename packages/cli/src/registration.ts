@@ -59,7 +59,7 @@ export async function concludeRegistration({
       out.log(
         [
           '',
-          `vueform can register your copies automatically by updating ${registration.rel}:`,
+          `vf can register your copies automatically by updating ${registration.rel}:`,
           '',
           ...registration.preview.map((line: string) => `  ${line}`),
           '',

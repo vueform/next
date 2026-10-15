@@ -17,10 +17,7 @@ export const register: Command = {
       `Barrel directory (default: componentsDir from ${CONFIG_FILENAME})`,
     ],
   ],
-  examples: [
-    'vueform register',
-    'vueform register --dir src/vueform/components',
-  ],
+  examples: ['vf register', 'vf register --dir src/vueform/components'],
   async run({ flags, out }) {
     const cwd = process.cwd()
     const dir =
@@ -31,7 +28,7 @@ export const register: Command = {
     if (!dir) {
       out.fail(
         'No components directory is configured.',
-        'Run `vueform copy <component>` first, or pass --dir <path>.'
+        'Run `vf copy <component>` first, or pass --dir <path>.'
       )
       return
     }
@@ -43,7 +40,7 @@ export const register: Command = {
     if (!barrel) {
       out.fail(
         `No copies found in ${dir} (missing barrel).`,
-        'Run `vueform copy <component>` first.'
+        'Run `vf copy <component>` first.'
       )
       return
     }

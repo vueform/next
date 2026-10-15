@@ -429,6 +429,9 @@ importers:
       '@vue/devtools-api':
         specifier: 'catalog:'
         version: 7.7.10
+      '@vueform/cli':
+        specifier: workspace:^
+        version: link:../cli
       vue:
         specifier: ^3.5.42
         version: 3.5.43(typescript@5.9.3)
@@ -586,9 +589,6 @@ importers:
 
   packages/primevue:
     dependencies:
-      '@vueform/cli':
-        specifier: workspace:^
-        version: link:../cli
       '@vueform/core':
         specifier: workspace:^
         version: link:../core
@@ -658,9 +658,6 @@ importers:
 
   packages/ui:
     dependencies:
-      '@vueform/cli':
-        specifier: workspace:^
-        version: link:../cli
       '@vueform/core':
         specifier: workspace:^
         version: link:../core

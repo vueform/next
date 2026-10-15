@@ -68,12 +68,12 @@ export const copy: Command = {
     ['--dry-run', 'Show what would be written without writing'],
   ],
   examples: [
-    'vueform copy VfText',
-    'vueform copy all',
-    'vueform copy',
-    'vueform copy VfText --dir src/vueform/components',
-    'vueform copy VfText --yes',
-    'vueform copy all --overwrite',
+    'vf copy VfText',
+    'vf copy all',
+    'vf copy',
+    'vf copy VfText --dir src/vueform/components',
+    'vf copy VfText --yes',
+    'vf copy all --overwrite',
   ],
   async run({ positionals, flags, out }) {
     const [component, ...extra] = positionals
@@ -81,7 +81,7 @@ export const copy: Command = {
     if (extra.length) {
       out.fail(
         'Expected at most one component name (or `all`).',
-        'Usage: vueform copy [component|all] — see `vueform help copy`.'
+        'Usage: vf copy [component|all] — see `vf help copy`.'
       )
       return
     }
@@ -105,7 +105,7 @@ export const copy: Command = {
       if (!canSelect()) {
         out.fail(
           'No component given and this is not an interactive terminal.',
-          'Usage: vueform copy <component|all> — see `vueform help copy`.'
+          'Usage: vf copy <component|all> — see `vf help copy`.'
         )
         return
       }
@@ -147,8 +147,8 @@ export const copy: Command = {
         out.fail(
           `${component} is not in ${registry.package}'s registry.`,
           suggestions.length
-            ? `Did you mean: ${suggestions.join(', ')}? See \`vueform list\`.`
-            : 'See `vueform list` for available components.'
+            ? `Did you mean: ${suggestions.join(', ')}? See \`vf list\`.`
+            : 'See `vf list` for available components.'
         )
         return
       }

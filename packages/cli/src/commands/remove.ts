@@ -40,17 +40,17 @@ export const remove: Command = {
     ['--force', 'Remove copies even when they were modified'],
   ],
   examples: [
-    'vueform remove VfText',
-    'vueform remove VfText VfSelect',
-    'vueform remove all',
-    'vueform remove all --force --yes',
-    'vueform remove',
+    'vf remove VfText',
+    'vf remove VfText VfSelect',
+    'vf remove all',
+    'vf remove all --force --yes',
+    'vf remove',
   ],
   async run({ positionals, flags, out }) {
     if (!positionals.length && !canSelect()) {
       out.fail(
         'Expected one or more component names (or `all`).',
-        'Usage: vueform remove <component...|all> — see `vueform help remove`.'
+        'Usage: vf remove <component...|all> — see `vf help remove`.'
       )
       return
     }
@@ -65,7 +65,7 @@ export const remove: Command = {
     if (!dir) {
       out.fail(
         'No components directory is configured.',
-        'Pass --dir <path>, or run `vueform copy` first.'
+        'Pass --dir <path>, or run `vf copy` first.'
       )
       return
     }
@@ -265,7 +265,7 @@ export const remove: Command = {
           out.log(`Updated ${plan.rel} — registration removed.`)
         } else if (accept === null) {
           out.log(
-            `\nNote: ${plan.rel} still registers the removed barrel — remove the import and spread manually, or run \`vueform remove all --yes\`.`
+            `\nNote: ${plan.rel} still registers the removed barrel — remove the import and spread manually, or run \`vf remove all --yes\`.`
           )
         }
       } else if (plan.status === 'impossible' && noneLeft) {

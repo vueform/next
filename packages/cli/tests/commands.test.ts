@@ -1,6 +1,6 @@
 /**
  * Black-box functional tests: every test executes the shipped bin
- * (bin/vueform.js, which loads the built dist/) in a throwaway project —
+ * (bin/vf.js, which loads the built dist/) in a throwaway project —
  * exactly what a user runs.
  */
 import { existsSync, mkdtempSync, readFileSync, writeFileSync } from 'node:fs'
@@ -17,7 +17,7 @@ afterEach(() => {
   if (tmp) cleanup(tmp)
 })
 
-describe('vueform --version / --help', () => {
+describe('vf --version / --help', () => {
   it('prints the package version', () => {
     tmp = scaffoldProject()
     const { stdout, status } = runCli(tmp, ['--version'])
@@ -28,14 +28,14 @@ describe('vueform --version / --help', () => {
   it('prints usage with the command catalog', () => {
     tmp = scaffoldProject()
     const { stdout } = runCli(tmp, ['--help'])
-    expect(stdout).toContain('Usage: vueform <command>')
+    expect(stdout).toContain('Usage: vf <command>')
     for (const cmd of ['copy', 'clone', 'remove', 'view', 'list', 'info']) {
       expect(stdout).toContain(cmd)
     }
   })
 })
 
-describe('vueform list', () => {
+describe('vf list', () => {
   it('lists the adapter registry components', () => {
     tmp = scaffoldProject()
     const { stdout, status } = runCli(tmp, ['list'])
@@ -53,7 +53,7 @@ describe('vueform list', () => {
   })
 })
 
-describe('vueform copy', () => {
+describe('vf copy', () => {
   it('copies a component, generates the barrel, and is idempotent', () => {
     tmp = scaffoldProject()
 
@@ -121,7 +121,7 @@ describe('vueform copy', () => {
   })
 })
 
-describe('vueform clone', () => {
+describe('vf clone', () => {
   it('creates a renamed element from a blueprint template', () => {
     tmp = scaffoldProject()
 
@@ -160,7 +160,7 @@ describe('vueform clone', () => {
   })
 })
 
-describe('vueform view', () => {
+describe('vf view', () => {
   it('shows a component manifest', () => {
     tmp = scaffoldProject()
     const { stdout, status } = runCli(tmp, ['view', 'VfText'])

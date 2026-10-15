@@ -443,18 +443,18 @@ A clone is built from an existing element's [blueprint](#blueprint-useblueprint)
 Vueform ships a small CLI for managing local components. The everyday commands:
 
 ```sh
-npx vueform list                # what the installed adapter offers
-npx vueform view VfText         # inspect a component's source
-npx vueform copy VfText         # replace: copy it under its own name
-npx vueform clone VfText range  # extend: a new `range` element on VfText's blueprint
-npx vueform remove VfText       # delete local components and their wiring
+npx vf list                # what the installed adapter offers
+npx vf view VfText         # inspect a component's source
+npx vf copy VfText         # replace: copy it under its own name
+npx vf clone VfText range  # extend: a new `range` element on VfText's blueprint
+npx vf remove VfText       # delete local components and their wiring
 ```
 
 Run any of them without a name and you get an interactive picker instead — multi-select for `copy` and `remove`, so one run can handle several components (`copy all` takes everything); `clone` picks one base element and asks for the new type.
 
 `copy` takes the component's source from the installed package's registry and writes it into your components directory (asked once on first run, remembered in `vueform.config.json`). `clone` writes a ready template of a new element there instead: the type is a lowercase kebab-case name and doubles as the component's — `range` becomes `VfRange.vue` — and a type that collides with a built-in's is rejected. Either way the file compiles as-is — its imports point at the package's public API — and the app's theme styles it through the same `vf-*` classes.
 
-Alongside them the CLI maintains a barrel (`index.ts`) that exports them as a single `components` map, and on the first copy it offers to register that barrel in your entry file automatically. Declined, or copying by hand? The registration is one line (`npx vueform register` applies the same edit later):
+Alongside them the CLI maintains a barrel (`index.ts`) that exports them as a single `components` map, and on the first copy it offers to register that barrel in your entry file automatically. Declined, or copying by hand? The registration is one line (`npx vf register` applies the same edit later):
 
 ```ts
 import { createVueform } from '@vueform/ui/origin'
@@ -474,7 +474,7 @@ Everything the CLI writes comes from the installed adapter's `registry/` directo
 - [`registry/copies`](https://github.com/vueform/next/tree/main/packages/ui/registry/copies) — the copy-ready component sources
 - [`registry/clones`](https://github.com/vueform/next/tree/main/packages/ui/registry/clones) — the clone templates
 
-`npx vueform view` prints the same sources right in your terminal — and opens them as editor tabs when run from an editor's terminal.
+`npx vf view` prints the same sources right in your terminal — and opens them as editor tabs when run from an editor's terminal.
 
 The registry doubles as the manual path: nothing requires the CLI. Grab a file, drop it into your project, and register it in `createVueform`'s [`components`](/guide/configuration#components) as shown [above](#the-cli) — a copy works verbatim; in a clone template, replace the `VfCloneName` and `__TYPE__` placeholders with your component's name and type first. The CLI adds conveniences on top — the barrel, the registration edit, provenance tracking in `vueform.config.json` — not requirements.
 

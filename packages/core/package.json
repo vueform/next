@@ -21,7 +21,11 @@
     "url": "git+https://github.com/vueform/next.git",
     "directory": "packages/core"
   },
+  "bin": {
+    "vf": "./bin/vf.js"
+  },
   "files": [
+    "bin",
     "dist"
   ],
   "type": "module",
@@ -41,6 +45,7 @@
     ]
   },
   "exports": {
+    "./bin": "./bin/vf.js",
     ".": {
       "dev": "./src/index.ts",
       "types": "./dist/index.d.ts",
@@ -128,6 +133,7 @@
   "publishConfig": {
     "imports": {},
     "exports": {
+      "./bin": "./bin/vf.js",
       ".": {
         "types": "./dist/index.d.ts",
         "vapor": "./dist/vapor/index.js",
@@ -209,7 +215,8 @@
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {
-    "@vue/devtools-api": "catalog:"
+    "@vue/devtools-api": "catalog:",
+    "@vueform/cli": "workspace:^"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:",

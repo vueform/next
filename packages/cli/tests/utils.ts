@@ -12,7 +12,7 @@ import { fileURLToPath } from 'node:url'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 export const repoRoot = path.resolve(here, '../../..')
-export const bin = path.resolve(here, '../bin/vueform.js')
+export const bin = path.resolve(here, '../bin/vf.js')
 
 export interface RunResult {
   stdout: string
@@ -23,7 +23,7 @@ export interface RunResult {
  * Runs the built CLI in `cwd`, capturing output; never throws on exit 1.
  *
  * The VS Code markers are stripped from the child env: commands adapt to
- * running inside an editor terminal (`vueform view` opens files via `code`
+ * running inside an editor terminal (`vf view` opens files via `code`
  * instead of dumping them), and a test run must behave the same from any
  * terminal — not pop editor tabs for its temp projects.
  */

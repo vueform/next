@@ -18,14 +18,14 @@ export const view: Command = {
   name: 'view',
   usage: 'view [component]',
   description: "View a copyable component's source before copying it",
-  examples: ['vueform view VfText', 'vueform view'],
+  examples: ['vf view VfText', 'vf view'],
   async run({ positionals, flags, out }) {
     const [component, ...extra] = positionals
 
     if (extra.length) {
       out.fail(
         'Expected at most one component name.',
-        'Usage: vueform view [component] — see `vueform help view`.'
+        'Usage: vf view [component] — see `vf help view`.'
       )
       return
     }
@@ -49,7 +49,7 @@ export const view: Command = {
       if (!canSelect()) {
         out.fail(
           'No component given and this is not an interactive terminal.',
-          'Usage: vueform view <component> — see `vueform list`.'
+          'Usage: vf view <component> — see `vf list`.'
         )
         return
       }
@@ -75,8 +75,8 @@ export const view: Command = {
       out.fail(
         `${name} is not in ${registry.package}'s registry.`,
         suggestions.length
-          ? `Did you mean: ${suggestions.join(', ')}? See \`vueform list\`.`
-          : 'See `vueform list` for available components.'
+          ? `Did you mean: ${suggestions.join(', ')}? See \`vf list\`.`
+          : 'See `vf list` for available components.'
       )
       return
     }

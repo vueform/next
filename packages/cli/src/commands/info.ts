@@ -17,7 +17,7 @@ export const info: Command = {
   usage: 'info',
   description: 'Print environment, project, and Vueform package details',
   flags: [['--json', 'Output as JSON']],
-  examples: ['vueform info', 'vueform info --json'],
+  examples: ['vf info', 'vf info --json'],
   async run({ flags, out }) {
     const cwd = process.cwd()
     const configPath = path.join(cwd, CONFIG_FILENAME)

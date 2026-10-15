@@ -19,7 +19,7 @@
     "directory": "packages/cli"
   },
   "bin": {
-    "vueform": "./bin/vueform.js"
+    "vf": "./bin/vf.js"
   },
   "files": [
     "bin",
@@ -32,7 +32,8 @@
     ".": {
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
-    }
+    },
+    "./bin": "./bin/vf.js"
   },
   "publishConfig": {
     "access": "public"

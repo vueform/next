@@ -116,7 +116,7 @@
     },
     "element": {
       "type": "boolean",
-      "description": "True when the component is an element (defineOptions element: true) \u2014 clonable via `vueform clone`."
+      "description": "True when the component is an element (defineOptions element: true) \u2014 clonable via `vf clone`."
     },
     "clone": {
       "type": "object",

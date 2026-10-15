@@ -33,9 +33,9 @@ export function printHelp() {
 
   console.log(
     [
-      `vueform v${version()}`,
+      `vf v${version()}`,
       '',
-      'Usage: vueform <command> [options]',
+      'Usage: vf <command> [options]',
       '',
       'Commands:',
       ...rows.map((c) => `  ${c.usage.padEnd(pad)}${c.description}`),
@@ -46,17 +46,13 @@ export function printHelp() {
         ...COMMON_FLAGS,
       ]),
       '',
-      'Run `vueform help <command>` for details on a command.',
+      'Run `vf help <command>` for details on a command.',
     ].join('\n')
   )
 }
 
 export function printCommandHelp(command: Command) {
-  const lines = [
-    `Usage: vueform ${command.usage}`,
-    '',
-    `${command.description}`,
-  ]
+  const lines = [`Usage: vf ${command.usage}`, '', `${command.description}`]
 
   const flags = [...(command.flags ?? []), ...COMMON_FLAGS]
 

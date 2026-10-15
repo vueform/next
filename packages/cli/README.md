@@ -1,30 +1,31 @@
 # @vueform/cli
 
-Command line tools for Vueform. Every adapter package (`@vueform/ui`,
-`@vueform/primevue`) depends on this package and re-exposes its `vueform`
-binary, so projects get the CLI with the adapter install — no separate
-install step:
+Command line tools for Vueform. `@vueform/core` depends on this package and
+re-exposes its `vf` binary, and every adapter package (`@vueform/ui`,
+`@vueform/primevue`) re-exposes it again through core, so projects get the
+CLI with the adapter install — no separate install step:
 
 ```sh
-pnpm vueform <command>   # or: npx vueform <command>
+pnpm vf <command>   # or: npx vf <command>
 ```
 
 (The bin must come from a direct dependency to land in the project's
-`node_modules/.bin` — that's why the adapters carry a one-line shim,
-`bin/vueform.js`, importing `@vueform/cli/bin`, instead of merely depending
-on this package.)
+`node_modules/.bin` — that's why core and the adapters each carry a one-line
+shim, `bin/vf.js`: core's imports `@vueform/cli/bin`, the adapters'
+import `@vueform/core/bin`, and each hop crosses only a direct dependency,
+so the chain resolves even under pnpm's isolated node_modules.)
 
 ## Commands
 
-- `vueform copy [component|all]` — copy one Vueform component (or all of them with `all`) into your project for customization; without a name, an interactive multi-select picker
-- `vueform clone [element] [type]` — create a NEW element from an existing element's blueprint (e.g. a `password` element built on `VfText`); interactive picker + prompt when arguments are omitted
-- `vueform remove [component...|all]` — remove copied components (files, provenance, barrel — and the registration when nothing is left); without names, a picker over the copies
-- `vueform view [component]` — inspect a component's registry source before copying it (interactive picker when run without a name)
-- `vueform register` — register the copies' barrel in your entry file (or explain why it can't)
-- `vueform list` — list the components available for copying (from the installed package's registry)
-- `vueform info` — print environment, project, and Vueform package details
-- `vueform help [command]` — global help, or detailed help for one command (also `<command> --help`)
-- `vueform --version` — print the CLI version
+- `vf copy [component|all]` — copy one Vueform component (or all of them with `all`) into your project for customization; without a name, an interactive multi-select picker
+- `vf clone [element] [type]` — create a NEW element from an existing element's blueprint (e.g. a `password` element built on `VfText`); interactive picker + prompt when arguments are omitted
+- `vf remove [component...|all]` — remove copied components (files, provenance, barrel — and the registration when nothing is left); without names, a picker over the copies
+- `vf view [component]` — inspect a component's registry source before copying it (interactive picker when run without a name)
+- `vf register` — register the copies' barrel in your entry file (or explain why it can't)
+- `vf list` — list the components available for copying (from the installed package's registry)
+- `vf info` — print environment, project, and Vueform package details
+- `vf help [command]` — global help, or detailed help for one command (also `<command> --help`)
+- `vf --version` — print the CLI version
 
 Common flags on every command: `--cwd <path>`, `--silent`, `-h/--help`. Informational commands (`info`, `list`) support `--json`. Every prompt has a flag equivalent, so all commands can run non-interactively (CI, scripts, agents).
 
@@ -36,7 +37,7 @@ Run without a name in an interactive terminal, `copy` presents a multi-select pi
 
 **Settling**: after writing, the new files (copies + barrel) are brought in line with the project's own formatting, so format-on-save won't change them later and trip the modified/conflict checks. With `postCopy` set in `vueform.config.json`, that command runs once per copy run (see Configuration); otherwise the CLI runs the project's **own** prettier over the written files — only when prettier is installed and an explicit project config resolves (no config → nothing happens; factory defaults are never applied), and only ever on the files it just wrote. Provenance hashes are recorded from the settled result, so a file counts as up to date when it matches either the registry source or its settled baseline.
 
-**Registration**: on the very first copy run, if the entry file can be edited safely (exactly one `createVueform(...)` call with an inline object argument, `localComponents` unused — verified via the project's own `typescript` install), the CLI shows the two-line diff and asks to apply it; declining is remembered (`autoRegister: false`). In every other case it prints the manual snippet. `vueform register` performs the same safe edit on demand (it ignores `autoRegister: false` — running it _is_ the consent), or tells you why it can't: no copies yet, already registered, or a safety gate failed (with the manual snippet). The barrel spread is inserted _before_ existing `components` entries, so explicit registrations keep precedence.
+**Registration**: on the very first copy run, if the entry file can be edited safely (exactly one `createVueform(...)` call with an inline object argument, `localComponents` unused — verified via the project's own `typescript` install), the CLI shows the two-line diff and asks to apply it; declining is remembered (`autoRegister: false`). In every other case it prints the manual snippet. `vf register` performs the same safe edit on demand (it ignores `autoRegister: false` — running it _is_ the consent), or tells you why it can't: no copies yet, already registered, or a safety gate failed (with the manual snippet). The barrel spread is inserted _before_ existing `components` entries, so explicit registrations keep precedence.
 
 Flags:
 
@@ -47,7 +48,7 @@ Flags:
 
 ### `clone`
 
-Creates a **new element** based on an existing element's blueprint — `vueform clone VfText password` produces `VfPassword.vue` next to your copies, registered under `type: 'password'` for schemas. Run bare, it presents a picker over the registry's **elements** (only components with `element: true` carry a clone template) and then asks for the new element's type (lowercase kebab-case; the component name becomes `Vf<PascalCase>`).
+Creates a **new element** based on an existing element's blueprint — `vf clone VfText password` produces `VfPassword.vue` next to your copies, registered under `type: 'password'` for schemas. Run bare, it presents a picker over the registry's **elements** (only components with `element: true` carry a clone template) and then asks for the new element's type (lowercase kebab-case; the component name becomes `Vf<PascalCase>`).
 
 The generated SFC is a ready-to-edit standalone element: the base component's Props/Emits/Slots/Context interfaces are inlined into `<script setup>` under the clone's name (extending the blueprint's types), Parts/Classes/Expose extend the original's, and a plain `<script>` block augments the ControlRegistry + GlobalComponents — so the clone is a first-class element with its own augmentable types. Templates ship pre-verified in the registry (`registry/clones/`); the CLI only substitutes the name and type.
 
@@ -112,4 +113,4 @@ Component descriptions shown to users (`list`, the pickers) come from `src/compo
 
 ## Adding a command
 
-Create a module in `src/commands/` exporting `{ name, usage, description, valueFlags?, flags?, examples?, run({ positionals, flags, out }) }` and register it in `src/commands/index.ts`. Use `out.log`/`out.fail` for output so `--silent` and the shared error format apply. The package is built with tsc (`src/` → `dist/`); `bin/vueform.js` is a stable plain-JS launcher that imports the built `dist/index.js`, so run `pnpm build --cli` after changing sources.
+Create a module in `src/commands/` exporting `{ name, usage, description, valueFlags?, flags?, examples?, run({ positionals, flags, out }) }` and register it in `src/commands/index.ts`. Use `out.log`/`out.fail` for output so `--silent` and the shared error format apply. The package is built with tsc (`src/` → `dist/`); `bin/vf.js` is a stable plain-JS launcher that imports the built `dist/index.js`, so run `pnpm build --cli` after changing sources.

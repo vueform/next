@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "Vueform CLI configuration",
-  "description": "Configuration for the Vueform CLI (npx vueform).",
+  "description": "Configuration for the Vueform CLI (npx vf).",
   "type": "object",
   "properties": {
     "$schema": {
@@ -9,19 +9,19 @@
     },
     "componentsDir": {
       "type": "string",
-      "description": "The directory where `vueform copy` places local component copies, relative to the project root."
+      "description": "The directory where `vf copy` places local component copies, relative to the project root."
     },
     "autoRegister": {
       "type": "boolean",
-      "description": "Set to false by `vueform copy` when automatic registration was declined \u2014 the CLI won't offer to edit your entry file again. Delete or set to true to re-enable the offer."
+      "description": "Set to false by `vf copy` when automatic registration was declined \u2014 the CLI won't offer to edit your entry file again. Delete or set to true to re-enable the offer."
     },
     "postCopy": {
       "type": "string",
-      "description": "Shell command run once after `vueform copy` writes files, from the project root \u2014 use it to format/lint the new copies with your own tooling before their hashes are recorded. `{files}` is replaced with the shell-quoted list of written files; without it the command runs as-is. When unset, the CLI runs your project's prettier over the written files instead (only if prettier is installed and a project config resolves)."
+      "description": "Shell command run once after `vf copy` writes files, from the project root \u2014 use it to format/lint the new copies with your own tooling before their hashes are recorded. `{files}` is replaced with the shell-quoted list of written files; without it the command runs as-is. When unset, the CLI runs your project's prettier over the written files instead (only if prettier is installed and a project config resolves)."
     },
     "copies": {
       "type": "object",
-      "description": "Provenance of copied components, written by `vueform copy` \u2014 the source package, its version, and per-file hashes.",
+      "description": "Provenance of copied components, written by `vf copy` \u2014 the source package, its version, and per-file hashes.",
       "additionalProperties": {
         "type": "object",
         "required": ["package", "version", "files"],
@@ -56,7 +56,7 @@
     },
     "clones": {
       "type": "object",
-      "description": "Elements created with `vueform clone` \u2014 the base component and blueprint provenance. Clones are your own code: they are never updated or diffed against the registry.",
+      "description": "Elements created with `vf clone` \u2014 the base component and blueprint provenance. Clones are your own code: they are never updated or diffed against the registry.",
       "additionalProperties": {
         "type": "object",
         "required": ["base", "type", "package", "version", "files"],

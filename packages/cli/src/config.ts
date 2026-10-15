@@ -19,7 +19,7 @@ const OWN_SCHEMA = fileURLToPath(new URL('../schema.json', import.meta.url))
 /**
  * The `$schema` value for a project's config file. Hoisting installs (npm,
  * yarn) expose @vueform/cli at the project's root node_modules even when it
- * arrives as an adapter dependency; isolated installs (pnpm) don't, so the
+ * arrives transitively (adapter → core → cli); isolated installs (pnpm) don't, so the
  * schema shipped with this very package is referenced by relative path instead.
  * Both resolve locally in editors — no network needed.
  */

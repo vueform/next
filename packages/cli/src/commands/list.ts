@@ -7,7 +7,7 @@ export const list: Command = {
   usage: 'list',
   description: 'List the Vueform components available for copying',
   flags: [['--json', 'Output as JSON']],
-  examples: ['vueform list', 'vueform list --json'],
+  examples: ['vf list', 'vf list --json'],
   async run({ flags, out }) {
     const registry = loadRegistry(process.cwd())
     let result

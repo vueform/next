@@ -478,7 +478,7 @@ function emitComponent(target: Target, name: string) {
 // ============ CLONE TEMPLATES ============
 //
 // A clone template is a ready-to-instantiate NEW element built on an existing
-// element's blueprint (`vueform clone`): the component's public interfaces are
+// element's blueprint (`vf clone`): the component's public interfaces are
 // inlined into <script setup> under the clone's own name (extending the
 // blueprint types and the original's Parts/Classes/Expose), and a plain
 // <script> block registers the clone in the ControlRegistry + GlobalComponents.

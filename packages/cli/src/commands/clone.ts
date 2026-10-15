@@ -42,18 +42,14 @@ export const clone: Command = {
     ['--dir <path>', 'Target directory for this run (skips prompts + config)'],
     ['--yes', 'Accept the recommended directory, no prompts'],
   ],
-  examples: [
-    'vueform clone',
-    'vueform clone VfText',
-    'vueform clone VfText password',
-  ],
+  examples: ['vf clone', 'vf clone VfText', 'vf clone VfText password'],
   async run({ positionals, flags, out }) {
     const [element, type, ...extra] = positionals
 
     if (extra.length) {
       out.fail(
         'Expected at most an element name and a type.',
-        'Usage: vueform clone [element] [type] — see `vueform help clone`.'
+        'Usage: vf clone [element] [type] — see `vf help clone`.'
       )
       return
     }
@@ -92,8 +88,8 @@ export const clone: Command = {
         out.fail(
           `${element} is not in ${registry.package}'s registry.`,
           suggestions.length
-            ? `Did you mean: ${suggestions.join(', ')}? See \`vueform list\`.`
-            : 'See `vueform list` for available components.'
+            ? `Did you mean: ${suggestions.join(', ')}? See \`vf list\`.`
+            : 'See `vf list` for available components.'
         )
         return
       }
@@ -111,7 +107,7 @@ export const clone: Command = {
       if (!canSelect()) {
         out.fail(
           'No element given and this is not an interactive terminal.',
-          'Usage: vueform clone <element> <type> — see `vueform help clone`.'
+          'Usage: vf clone <element> <type> — see `vf help clone`.'
         )
         return
       }
@@ -151,7 +147,7 @@ export const clone: Command = {
       if (!canPrompt()) {
         out.fail(
           'No type given and this is not an interactive terminal.',
-          'Usage: vueform clone <element> <type> — see `vueform help clone`.'
+          'Usage: vf clone <element> <type> — see `vf help clone`.'
         )
         return
       }
@@ -174,7 +170,7 @@ export const clone: Command = {
     if (registry.index.items.some((item) => item.name === name)) {
       out.fail(
         `${name} already exists in ${registry.package}.`,
-        'Pick another type, or use `vueform copy` to customize the built-in component.'
+        'Pick another type, or use `vf copy` to customize the built-in component.'
       )
       return
     }

@@ -22,7 +22,7 @@
     "directory": "packages/ui"
   },
   "bin": {
-    "vueform": "./bin/vueform.js"
+    "vf": "./bin/vf.js"
   },
   "files": [
     "bin",
@@ -262,7 +262,6 @@
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {
-    "@vueform/cli": "workspace:^",
     "@vueform/core": "workspace:^"
   },
   "devDependencies": {
