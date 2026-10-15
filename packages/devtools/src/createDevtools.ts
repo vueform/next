@@ -1,12 +1,12 @@
+import {
+  isDev,
+  noopDevtools,
+  type DevtoolsModule,
+  type VueformInstance,
+} from '@vueform/core'
 import { onUnmounted, unref, watch, type App } from 'vue'
 
-import type { VueformInstance } from '#src/helpers'
-import { isDev } from '#src/utils'
-
-import { refreshInspector, setupInspector } from './inspector'
-import { noopDevtools } from './noop'
 import { registerForm, unregisterForm } from './registry'
-import type { DevtoolsModule } from './types'
 
 /**
  * Form context properties watched (deeply) so the inspector panels refresh when
@@ -35,6 +35,24 @@ const WATCHED_FORM_STATE = [
 ] as const
 
 /**
+ * The inspector implementation, loaded lazily by the first `setupInspector`
+ * call. The heavy part of the package — the tree/state panel builders and
+ * `@vue/devtools-api` — stays in its own chunk, loaded only when the module is
+ * active (development, `devtools` not opted out), and is dropped entirely from
+ * production builds together with its only call site.
+ */
+let inspector: typeof import('./inspector') | undefined
+
+/**
+ * Signals a loaded inspector to re-query the tree and state panel — a no-op
+ * until the lazy inspector chunk arrives (DevTools queries fresh state when it
+ * does, so nothing is missed).
+ */
+function refreshInspector() {
+  inspector?.refreshInspector()
+}
+
+/**
  * Creates a devtools instance from the given app config (`$devtools` is
  * currently reserved; the top-level `devtools: false` option opts out).
  * Development-only by design: in production builds, and when opted out, the
@@ -58,7 +76,7 @@ export function createDevtools(vueform: VueformInstance): DevtoolsModule {
   // Created at `createVueform()`, before install — the plugin is in place
   // before any form can mount.
   vueform.config.plugins.push({
-    name: 'devtools',
+    name: 'devtools:tracker',
     apply: 'VfForm',
     extend(_props: any, api: any) {
       const uid = String(unref(api.uid))
@@ -89,7 +107,10 @@ export function createDevtools(vueform: VueformInstance): DevtoolsModule {
       if (setupApps.has(app)) return
       setupApps.add(app)
 
-      setupInspector(app)
+      void import('./inspector').then((loaded) => {
+        inspector = loaded
+        loaded.setupInspector(app)
+      })
     },
   }
 }

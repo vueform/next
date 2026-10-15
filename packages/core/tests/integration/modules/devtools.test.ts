@@ -1,8 +1,8 @@
 import { setupDevtoolsPlugin } from '@vue/devtools-api'
 import { defineSchema } from '@vueform/core'
+import devtoolsPlugin, { createDevtools } from '@vueform/devtools'
 import { nextTick } from 'vue'
 
-import { createDevtools } from '../../../src/modules/devtools/createDevtools'
 import { createForm, flushPromises } from '../../helpers'
 
 vi.mock('@vue/devtools-api', () => ({
@@ -41,13 +41,18 @@ describe('Devtools module', () => {
   })
 
   it('should set up the inspector on install and track mounted forms', async () => {
-    const { form } = createForm({
-      name: 'my_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-    })
+    const { form } = createForm(
+      {
+        name: 'my_form',
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+      },
+      { plugins: [devtoolsPlugin()] }
+    )
 
+    // the inspector arrives through a lazy dynamic import
+    await vi.dynamicImportSettled()
     await flushPromises()
 
     expect(setupMock).toHaveBeenCalledTimes(1)
@@ -55,7 +60,7 @@ describe('Devtools module', () => {
     const [descriptor, setup] = setupMock.mock.calls[0] as any
 
     expect(descriptor.id).toBe('dev.vueform.devtools')
-    expect(descriptor.packageName).toBe('@vueform/core')
+    expect(descriptor.packageName).toBe('@vueform/devtools')
 
     const { api, handlers } = makeInspectorApi()
     setup(api)
@@ -104,13 +109,17 @@ describe('Devtools module', () => {
   })
 
   it('should refresh the inspector when form state changes', async () => {
-    const { form, name } = createForm({
-      name: 'refresh_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-    })
+    const { form, name } = createForm(
+      {
+        name: 'refresh_form',
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+      },
+      { plugins: [devtoolsPlugin()] }
+    )
 
+    await vi.dynamicImportSettled()
     await flushPromises()
 
     const [, setup] = setupMock.mock.calls[
@@ -140,14 +149,14 @@ describe('Devtools module', () => {
           name: { type: 'text', default: 'John' },
         }),
       },
-      { devtools: false }
+      { plugins: [devtoolsPlugin()], devtools: false }
     )
 
     await flushPromises()
 
     expect(setupMock).not.toHaveBeenCalled()
     expect(
-      vueform.config.plugins.filter((p: any) => p.name === 'devtools')
+      vueform.config.plugins.filter((p: any) => p.name === 'devtools:tracker')
     ).toHaveLength(0)
 
     form.unmount()
@@ -166,6 +175,21 @@ describe('Devtools module', () => {
       module.setupInspector({} as any)
       expect(module.refreshInspector()).toBeUndefined()
       expect(setupMock).not.toHaveBeenCalled()
+    } finally {
+      vi.unstubAllEnvs()
+    }
+  })
+
+  it('should not register the module from the plugin in production', () => {
+    vi.stubEnv('NODE_ENV', 'production')
+
+    try {
+      const plugin = devtoolsPlugin() as any
+      const config = { modules: {} } as any
+
+      plugin.config(config)
+
+      expect(config.modules.devtools).toBeUndefined()
     } finally {
       vi.unstubAllEnvs()
     }

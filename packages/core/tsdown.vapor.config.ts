@@ -4,5 +4,4 @@ import { createCoreVaporTsdownConfig } from '@vueform/utils'
 // — the vapor components import shared modules from it by relative path.
 export default createCoreVaporTsdownConfig({
   name: '@vueform/core',
-  external: ['@vue/devtools-api'],
 })

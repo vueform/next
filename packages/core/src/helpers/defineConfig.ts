@@ -79,6 +79,8 @@ export interface VueformModules {
 
   /**
    * The devtools module for Vue DevTools form inspection (development-only).
+   * Provided by the `@vueform/devtools` package — its default-export plugin
+   * registers it, or pass its `devtools` definition here directly.
    */
   devtools?: VueformModule<DevtoolsModule>
 

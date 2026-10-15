@@ -1,3 +1,3 @@
-export { devtools } from './definition'
 export * from './module'
+export * from './noop'
 export * from './types'

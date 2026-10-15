@@ -483,6 +483,10 @@ export default mergeConfig(
             ],
           },
           {
+            text: 'Debugging',
+            items: [{ text: 'DevTools', link: '/plugins/devtools' }],
+          },
+          {
             text: 'Expression',
             items: [
               { text: 'ExprEval', link: '/plugins/expr-eval' },

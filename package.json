@@ -57,6 +57,7 @@
     "@vscode/web-custom-data": "catalog:",
     "@vue/tsconfig": "catalog:",
     "@vueform/core": "workspace:*",
+    "@vueform/devtools": "workspace:*",
     "@vueform/dompurify": "workspace:*",
     "@vueform/expr-eval": "workspace:*",
     "@vueform/tsconfig": "workspace:*",

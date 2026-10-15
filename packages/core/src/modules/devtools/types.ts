@@ -9,7 +9,8 @@ export interface DevtoolsModuleOptions {}
  * The devtools module: registers a Vueform custom inspector with Vue DevTools
  * and tracks mounted forms in it. Development-only by design — in production
  * builds, and when the top-level `devtools` config option is `false`, the
- * module's surface is inert.
+ * module's surface is inert. Core only defines the contract and the inert
+ * `noopDevtools` surface; the implementation ships in `@vueform/devtools`.
  */
 export interface DevtoolsModule {
   /**

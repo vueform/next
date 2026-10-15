@@ -11,6 +11,7 @@
     "preview": "nuxt preview"
   },
   "dependencies": {
+    "@vueform/devtools": "^2.0.0-alpha.1",
     "@vueform/dompurify": "^2.0.0-alpha.1",
     "@vueform/expr-eval": "^2.0.0-alpha.1",
     "@vueform/nuxt-module": "^2.0.0-alpha.1",

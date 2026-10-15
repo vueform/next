@@ -264,11 +264,12 @@ function buildNuxtConfigTs(combo: Combo): string {
 
 function buildVueformConfigTs(assets: AdapterAssets): string {
   return [
+    `import devtools from '@vueform/devtools'`,
     `import exprEval from '@vueform/expr-eval'`,
     `import { defineConfig } from '${assets.pkgName}'`,
     ``,
     `export default defineConfig({`,
-    `  plugins: [exprEval()],`,
+    `  plugins: [exprEval(), devtools()],`,
     `  darkMode: '.dark',`,
     `})`,
     ``,

@@ -1,0 +1,90 @@
+{
+  "name": "@vueform/devtools",
+  "version": "2.0.0-alpha.1",
+  "description": "Vue DevTools form inspector plugin for Vueform (development-only).",
+  "keywords": [
+    "devtools",
+    "inspector",
+    "vue-devtools",
+    "vueform"
+  ],
+  "homepage": "https://github.com/vueform/next",
+  "bugs": "https://github.com/vueform/next/issues",
+  "license": "MIT",
+  "author": "Adam Berecz",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vueform/next.git",
+    "directory": "packages/devtools"
+  },
+  "files": [
+    "dist"
+  ],
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "imports": {
+    "#src": "./src/index.ts",
+    "#src/*": [
+      "./src/*",
+      "./src/*.ts",
+      "./src/*/index.ts"
+    ]
+  },
+  "exports": {
+    ".": {
+      "dev": "./src/index.ts",
+      "types": "./dist/index.d.ts",
+      "production": "./dist/prod.js",
+      "import": "./dist/index.js"
+    }
+  },
+  "publishConfig": {
+    "imports": {},
+    "exports": {
+      ".": {
+        "types": "./dist/index.d.ts",
+        "production": "./dist/prod.js",
+        "import": "./dist/index.js"
+      }
+    },
+    "access": "public"
+  },
+  "scripts": {
+    "build": "tsdown",
+    "publint": "publint",
+    "size": "vf-size",
+    "size:report": "vf-size --report",
+    "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit"
+  },
+  "dependencies": {
+    "@vue/devtools-api": "catalog:"
+  },
+  "devDependencies": {
+    "@vueform/tsconfig": "workspace:*",
+    "@vueform/ui": "workspace:^",
+    "@vueform/utils": "workspace:^",
+    "happy-dom": "catalog:",
+    "tsdown": "catalog:",
+    "vite": "catalog:",
+    "vitest": "catalog:",
+    "vue-tsc": "catalog:"
+  },
+  "peerDependencies": {
+    "@vueform/core": "workspace:^",
+    "vue": "catalog:peer"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  },
+  "vueform": {
+    "group": "plugins",
+    "size": {
+      "dep": "@vue/devtools-api",
+      "depImport": "import { setupDevtoolsPlugin } from '@vue/devtools-api'",
+      "depRetain": "setupDevtoolsPlugin({ id: 'vueform', label: 'Vueform', app: null }, () => {})"
+    }
+  }
+}

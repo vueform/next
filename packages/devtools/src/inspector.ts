@@ -181,7 +181,7 @@ export function setupInspector(app: App) {
     {
       id: PLUGIN_ID,
       label: 'Vueform',
-      packageName: '@vueform/core',
+      packageName: '@vueform/devtools',
       app,
       logo: 'https://vueform.com/images/logo.svg',
     },

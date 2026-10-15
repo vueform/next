@@ -248,6 +248,9 @@ importers:
       '@vueform/core':
         specifier: workspace:*
         version: link:packages/core
+      '@vueform/devtools':
+        specifier: workspace:*
+        version: link:packages/devtools
       '@vueform/dompurify':
         specifier: workspace:*
         version: link:packages/dompurify
@@ -426,9 +429,6 @@ importers:
 
   packages/core:
     dependencies:
-      '@vue/devtools-api':
-        specifier: 'catalog:'
-        version: 7.7.10
       '@vueform/cli':
         specifier: workspace:^
         version: link:../cli
@@ -439,6 +439,9 @@ importers:
       '@vitejs/plugin-vue':
         specifier: 'catalog:'
         version: 6.0.9(vite@8.3.2(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))(vue@3.5.43(typescript@5.9.3))
+      '@vue/devtools-api':
+        specifier: 'catalog:'
+        version: 7.7.10
       '@vue/shared':
         specifier: 'catalog:'
         version: 3.5.43
@@ -481,6 +484,43 @@ importers:
       zod:
         specifier: 'catalog:'
         version: 4.6.5
+
+  packages/devtools:
+    dependencies:
+      '@vue/devtools-api':
+        specifier: 'catalog:'
+        version: 7.7.10
+      '@vueform/core':
+        specifier: workspace:^
+        version: link:../core
+      vue:
+        specifier: ^3.5.42
+        version: 3.5.43(typescript@5.9.3)
+    devDependencies:
+      '@vueform/tsconfig':
+        specifier: workspace:*
+        version: link:../tsconfig
+      '@vueform/ui':
+        specifier: workspace:^
+        version: link:../ui
+      '@vueform/utils':
+        specifier: workspace:^
+        version: link:../utils
+      happy-dom:
+        specifier: 'catalog:'
+        version: 20.14.5
+      tsdown:
+        specifier: 'catalog:'
+        version: 0.23.0(@arethetypeswrong/core@0.18.5)(@volar/typescript@2.4.28)(@vue/language-core@3.3.12)(publint@0.3.25)(tsx@4.23.15)(typescript@5.9.3)(vue-tsc@2.2.12(typescript@5.9.3))
+      vite:
+        specifier: 'catalog:'
+        version: 8.3.2(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1)
+      vitest:
+        specifier: 'catalog:'
+        version: 5.0.1(@types/node@24.13.6)(@vitest/browser-preview@5.0.1)(@vitest/ui@5.0.1)(happy-dom@20.14.5)(jsdom@30.1.1)(vite@8.3.2(@types/node@24.13.6)(esbuild@0.28.2)(jiti@2.7.0)(sass-embedded@1.104.1)(sass@1.104.1)(terser@5.51.2)(tsx@4.23.15)(yaml@2.9.1))
+      vue-tsc:
+        specifier: 'catalog:'
+        version: 2.2.12(typescript@5.9.3)
 
   packages/dompurify:
     dependencies:

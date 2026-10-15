@@ -1,0 +1,6 @@
+{
+  // ALL of core's src: its components augment core's global registries, so a
+  // partial (import-reachable) set leaves them incomplete and core errors.
+  "extends": "@vueform/tsconfig/tsconfig.plugin.json",
+  "include": ["../core/src", "src"]
+}

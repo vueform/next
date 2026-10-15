@@ -364,7 +364,18 @@ formReady((form$) => {
 
 ## DevTools
 
-Everything above is available for inspection without writing a single `console.log`. Vueform registers a **Vueform** inspector in [Vue DevTools](https://devtools.vuejs.org/) that shows every mounted form, its elements, and their live data and state:
+Everything above is available for inspection without writing a single `console.log`. The `@vueform/devtools` plugin registers a **Vueform** inspector in [Vue DevTools](https://devtools.vuejs.org/) that shows every mounted form, its elements, and their live data and state. Install the package and register its plugin:
+
+```ts
+import { createVueform } from '@vueform/ui'
+import devtools from '@vueform/devtools'
+
+createVueform({
+  plugins: [devtools()], // [!code highlight]
+})
+```
+
+That's the whole setup — with Vue DevTools installed, the inspector is active whenever `NODE_ENV` is not `production`:
 
 <img class="light-only" src="/images/devtools-light.webp" alt="The Vueform inspector in Vue DevTools, with a form tree on the left and the selected element's data and state on the right." />
 <img class="dark-only" src="/images/devtools-dark.webp" alt="The Vueform inspector in Vue DevTools, with a form tree on the left and the selected element's data and state on the right." />
@@ -383,7 +394,7 @@ The left pane lists each form by its `name` (`VfForm` when unnamed) with its ele
 
 These are the same members you read from the [Context](/guide/context) — the panel is a live window onto `form$` and `el$`. Type into a field and `model` updates in the panel, fail a rule and the `invalid` tag appears on the element, call `form$.load()` from the console and `dirty` flips — `model` versus `payload` is a particularly handy pair to compare when debugging `submit: false` elements or unmet [Conditions](/guide/conditions).
 
-The inspector is active whenever `NODE_ENV` is not `production` — no setup beyond `createVueform` and having Vue DevTools installed. It lives in a separate package, `@vueform/devtools`, which is loaded lazily and excluded from production builds, so it adds nothing to your bundle.
+The plugin is development-only by design: it registers its module behind a `NODE_ENV` guard and loads the inspector lazily, so production builds exclude the package entirely and it adds nothing to your bundle. Registering it unconditionally is safe; the top-level `devtools: false` config option opts out in development too.
 
 ::: info
 A `!useModel` instance that hasn't been adopted by a form has no component to attach to and doesn't appear in the inspector. Once a form adopts it, the form node reflects its data — there is one store, so what you see is the instance's store.

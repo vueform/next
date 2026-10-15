@@ -215,11 +215,11 @@
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {
-    "@vue/devtools-api": "catalog:",
     "@vueform/cli": "workspace:^"
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "catalog:",
+    "@vue/devtools-api": "catalog:",
     "@vue/shared": "catalog:",
     "@vue/test-utils": "catalog:",
     "@vueform/tsconfig": "workspace:*",
