@@ -9,6 +9,11 @@
  *
  *   tsx scripts/release.ts [--bump auto|patch|minor|major]
  *                          [--pre rehearsal|alpha|beta|rc|none] [--dry]
+ *                          [--skip registry,size,bench]
+ *
+ * `--skip` leaves the named regen steps out (the workflow forwards its skip
+ * checkboxes here); skipped artifacts ship in the release commit as they
+ * already are on the branch.
  *
  * `--pre rehearsal` is a full dress run: the next `x.y.z-0.N` is resolved
  * from the npm registry (never from git), and regen, changelog, notes and
@@ -59,6 +64,21 @@ const readFlag = (name: string, allowed: readonly string[]): string => {
 const bump = readFlag('bump', ['auto', 'patch', 'minor', 'major']) as Bump
 const pre = readFlag('pre', ['alpha', 'rehearsal', 'beta', 'rc', 'none']) as Pre
 const dry = args.includes('--dry')
+
+const SKIPPABLE = ['registry', 'size', 'bench'] as const
+type Skippable = (typeof SKIPPABLE)[number]
+const skip = ((): Set<Skippable> => {
+  const index = args.indexOf('--skip')
+  if (index === -1) return new Set()
+  const entries = (args[index + 1] ?? '').split(',').filter(Boolean)
+  for (const entry of entries) {
+    if (!(SKIPPABLE as readonly string[]).includes(entry)) {
+      console.error(`--skip entries must be of: ${SKIPPABLE.join(', ')}`)
+      process.exit(1)
+    }
+  }
+  return new Set(entries as Skippable[])
+})()
 
 const distTag = pre === 'none' ? 'latest' : pre
 
@@ -262,10 +282,14 @@ runLive('pnpm', ['build'])
 
 // Regenerate the git-tracked release artifacts so the release commit ships
 // them at the release version: adapter registries, README size sections,
-// benchmark results + charts.
-runLive('pnpm', ['registry'])
-runLive('pnpm', ['size'])
-runLive('pnpm', ['bench'])
+// benchmark results + charts — minus the --skip'd generators.
+for (const task of SKIPPABLE) {
+  if (skip.has(task)) {
+    console.log(`skipped:  ${task} (--skip)`)
+  } else {
+    runLive('pnpm', [task])
+  }
+}
 
 const changelogFile = path.join(repoRoot, 'CHANGELOG.md')
 const pkgFlag = ['--pkg', path.join(packageDirs[0], 'package.json')]

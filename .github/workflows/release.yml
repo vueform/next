@@ -7,7 +7,10 @@ name: Release
 # as its own matrix job whose `pnpm build` replays from cache in seconds.
 # Each gate except `build` has its own skip checkbox — `test`/`test-dts` and
 # `test-smoke`/`test-smoke-types` each share one (workflow_dispatch allows at
-# most 10 inputs; the pairs always travel together anyway). The
+# most 10 inputs; the pairs always travel together anyway). The `registry`,
+# `size` and `bench` checkboxes also skip the release script's own regen of
+# those artifacts (bench exists only there), so a skipped generator is
+# skipped everywhere in the run. The
 # `registry` and `size` generators' regenerated git-tracked artifacts
 # (adapter registries, README size sections) are uploaded per job and committed +
 # pushed once by the `commit` job BEFORE the release, so the release commit's
@@ -67,6 +70,10 @@ on:
         default: false
       skip_size:
         description: Skip size
+        type: boolean
+        default: false
+      skip_bench:
+        description: Skip bench
         type: boolean
         default: false
 
@@ -348,10 +355,16 @@ jobs:
       # (every channel; rehearsals just never tag).
       - name: Compute version, rebuild, regen artifacts, commit & tag
         id: release
+        env:
+          # The skip checkboxes carry into the script's regen, so a skipped
+          # generator is skipped everywhere in the run (bench only exists
+          # here — it is not a gate).
+          SKIP: "${{ inputs.skip_registry && 'registry,' || '' }}${{ inputs.skip_size && 'size,' || '' }}${{ inputs.skip_bench && 'bench' || '' }}"
         run: >
           pnpm release
           --bump ${{ inputs.bump }}
           --pre ${{ inputs.prerelease }}
+          --skip "$SKIP"
           ${{ inputs.dry_run && '--dry' || '' }}
 
       - name: Job summary
