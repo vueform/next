@@ -33,7 +33,9 @@
     "**/*.css",
     "**/*.scss",
     "./dist/components/*/styles.js",
+    "./dist/components/*/styled.js",
     "./dist/vapor/components/*/styles.js",
+    "./dist/vapor/components/*/styled.js",
     "./dist/vapor/full.js",
     "./dist/full.js"
   ],
