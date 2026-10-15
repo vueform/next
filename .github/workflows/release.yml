@@ -14,8 +14,9 @@ name: Release
 # own regen (scripts/release.ts re-runs registry/size/bench at the stamped
 # version) ships no surprise diffs. The `release` job then checks out the
 # branch tip (including that regen commit), versions, commits and tags via
-# `pnpm release`, and pushes the version commit + tag BEFORE anything reaches
-# npm. Publishing is the separate `publish` job on purpose: npm can fail
+# `pnpm release` (a rehearsal produces the same regen + changelog + release
+# commit and later a DRAFT GitHub release, just never a git tag), and pushes
+# the version commit + tag BEFORE anything reaches npm. Publishing is the separate `publish` job on purpose: npm can fail
 # halfway through the 9 packages, and recursive `pnpm publish` skips versions
 # already in the registry, so the in-step retries — and, failing those,
 # "Re-run failed jobs" on `publish` alone — finish the remaining packages
@@ -342,8 +343,9 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
-      # The script also rebuilds with the stamped version and (non-rehearsal)
-      # regenerates registries, size sections and benchmarks into the commit.
+      # The script also rebuilds with the stamped version and regenerates
+      # registries, size sections and benchmarks into the release commit
+      # (every channel; rehearsals just never tag).
       - name: Compute version, rebuild, regen artifacts, commit & tag
         id: release
         run: >
@@ -385,12 +387,13 @@ jobs:
           retention-days: 7
           overwrite: true
 
-      # Versions reach git BEFORE npm: once this push lands, the tag is the
-      # durable record the `publish` job (and any of its re-runs) works from.
-      # This is deliberately the last step — if anything above failed, the
-      # repo is untouched and a fresh dispatch is safe.
+      # Versions reach git BEFORE npm: once this push lands, the tag (or the
+      # tagless rehearsal release commit) is the durable record the `publish`
+      # job (and any of its re-runs) works from. This is deliberately the
+      # last step — if anything above failed, the repo is untouched and a
+      # fresh dispatch is safe.
       - name: Push version commit and tag
-        if: ${{ !inputs.dry_run && steps.release.outputs.rehearsal == 'false' }}
+        if: ${{ !inputs.dry_run }}
         run: git push --follow-tags origin HEAD:main
 
       - name: Upload logs
@@ -518,21 +521,29 @@ jobs:
           done
           exit $failed
 
-      # `view || create` keeps re-runs idempotent after a mid-job failure.
+      # A rehearsal gets a DRAFT release: gh only creates the git tag when a
+      # draft is published, so this exercises the notes + release path
+      # without minting a v2.0.0-0.N tag that would seed real version math.
+      # The list lookup (drafts included) keeps re-runs idempotent.
       - name: GitHub release
-        if: ${{ needs.release.outputs.rehearsal == 'false' }}
         env:
           GH_TOKEN: ${{ github.token }}
           VERSION: ${{ needs.release.outputs.version }}
+          REHEARSAL: ${{ needs.release.outputs.rehearsal }}
         run: |
-          gh release view "v$VERSION" >/dev/null 2>&1 && {
+          if gh release list --limit 100 --json tagName --jq '.[].tagName' | grep -qx "v$VERSION"; then
             echo "Release v$VERSION already exists."
             exit 0
-          }
+          fi
+          draft_flag=''
+          if [ "$REHEARSAL" = "true" ]; then
+            draft_flag='--draft'
+          fi
           gh release create "v$VERSION" \
             --title "v$VERSION" \
             --notes-file .vueform/release-notes.md \
-            ${{ inputs.prerelease != 'none' && '--prerelease' || '' }}
+            ${{ inputs.prerelease != 'none' && '--prerelease' || '' }} \
+            $draft_flag
 
       - name: Upload logs
         if: failure()

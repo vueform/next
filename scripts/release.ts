@@ -10,10 +10,12 @@
  *   tsx scripts/release.ts [--bump auto|patch|minor|major]
  *                          [--pre rehearsal|alpha|beta|rc|none] [--dry]
  *
- * `--pre rehearsal` is publish-only: the next `x.y.z-0.N` is resolved from
- * the npm registry (never from git), manifests are written in place for the
- * follow-up build + publish, and NO changelog/commit/tag is produced — a
- * rehearsal run must leave the repo untouched. `--pre none` promotes to a
+ * `--pre rehearsal` is a full dress run: the next `x.y.z-0.N` is resolved
+ * from the npm registry (never from git), and regen, changelog, notes and
+ * the release commit all run exactly like a real release — EXCEPT the git
+ * tag, which rehearsals never create (v-tags seed the next real version
+ * computation; CI publishes a draft GitHub release instead, which mints no
+ * tag either). `--pre none` promotes to a
  * stable version on the `latest` dist-tag. Switching prerelease ids always
  * restarts at `.1` of the new id, so rehearsal versions never leak into the
  * alpha line.
@@ -205,7 +207,7 @@ if (semver.prerelease(version) !== null && distTag === 'latest') {
 console.log(`version:  ${version}`)
 console.log(`dist-tag: ${distTag}`)
 console.log(
-  `mode:     ${pre === 'rehearsal' ? 'rehearsal (publish-only)' : 'release'}${dry ? ' [dry]' : ''}`
+  `mode:     ${pre === 'rehearsal' ? 'rehearsal (tagless dress run)' : 'release'}${dry ? ' [dry]' : ''}`
 )
 
 const notesFile = path.join(repoRoot, '.vueform', 'release-notes.md')
@@ -258,50 +260,55 @@ runLive('pnpm', ['manifests'])
 // Rebuild with the bumped version — dist banners stamp it at build time.
 runLive('pnpm', ['build'])
 
-if (pre !== 'rehearsal') {
-  // Regenerate the git-tracked release artifacts so the release commit ships
-  // them at the release version: adapter registries, README size sections,
-  // benchmark results + charts.
-  runLive('pnpm', ['registry'])
-  runLive('pnpm', ['size'])
-  runLive('pnpm', ['bench'])
-  const changelogFile = path.join(repoRoot, 'CHANGELOG.md')
-  const pkgFlag = ['--pkg', path.join(packageDirs[0], 'package.json')]
+// Regenerate the git-tracked release artifacts so the release commit ships
+// them at the release version: adapter registries, README size sections,
+// benchmark results + charts.
+runLive('pnpm', ['registry'])
+runLive('pnpm', ['size'])
+runLive('pnpm', ['bench'])
 
-  if (latestTag === null) {
-    // First release: the CHANGELOG entry is handwritten (see the release
-    // plan) — generation starts from the second release, anchored on this
-    // run's tag. Only the notes are extracted here.
-    if (!fs.existsSync(changelogFile)) {
-      console.error(
-        'CHANGELOG.md is missing. The first release ships a handwritten entry — add it before releasing.'
-      )
-      process.exit(1)
-    }
-  } else {
-    run('pnpm', [
-      'exec',
-      'conventional-changelog',
-      '-p',
-      'conventionalcommits',
-      '-i',
-      changelogFile,
-      '-s',
-      ...pkgFlag,
-    ])
-    console.log('changelog: CHANGELOG.md updated')
+const changelogFile = path.join(repoRoot, 'CHANGELOG.md')
+const pkgFlag = ['--pkg', path.join(packageDirs[0], 'package.json')]
+
+if (latestTag === null) {
+  // First release: the CHANGELOG entry is handwritten (see the release
+  // plan) — generation starts from the second release, anchored on this
+  // run's tag. Only the notes are extracted here.
+  if (!fs.existsSync(changelogFile)) {
+    console.error(
+      'CHANGELOG.md is missing. The first release ships a handwritten entry — add it before releasing.'
+    )
+    process.exit(1)
   }
+} else {
+  run('pnpm', [
+    'exec',
+    'conventional-changelog',
+    '-p',
+    'conventionalcommits',
+    '-i',
+    changelogFile,
+    '-s',
+    ...pkgFlag,
+  ])
+  console.log('changelog: CHANGELOG.md updated')
+}
 
-  fs.mkdirSync(path.dirname(notesFile), { recursive: true })
-  fs.writeFileSync(
-    notesFile,
-    extractFirstSection(fs.readFileSync(changelogFile, 'utf8')) + '\n'
-  )
-  console.log(`notes:    ${path.relative(repoRoot, notesFile)}`)
+fs.mkdirSync(path.dirname(notesFile), { recursive: true })
+fs.writeFileSync(
+  notesFile,
+  extractFirstSection(fs.readFileSync(changelogFile, 'utf8')) + '\n'
+)
+console.log(`notes:    ${path.relative(repoRoot, notesFile)}`)
 
-  // Manifests, CHANGELOG, registries, README size sections, bench results.
-  run('git', ['add', '-A'])
-  run('git', ['commit', '-m', `chore(release): ${tag}`])
+// Manifests, CHANGELOG, registries, README size sections, bench results.
+run('git', ['add', '-A'])
+run('git', ['commit', '-m', `chore(release): ${tag}`])
+
+// A rehearsal is tagless on purpose: v-tags seed the next real version
+// computation, so a v`x.y.z-0.N` tag could mis-order the real release line.
+// CI creates a DRAFT GitHub release for rehearsals, which also mints no tag.
+if (pre !== 'rehearsal') {
   run('git', ['tag', '-a', tag, '-m', tag])
   console.log(`tagged:   ${tag}`)
 }
