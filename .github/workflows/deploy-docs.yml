@@ -1,0 +1,62 @@
+name: Deploy docs
+
+# Manual docs deploy (Actions → Deploy docs → Run workflow). Builds the
+# workspace (docs consume the packages' dists), builds the vitepress site for
+# the selected adapter(s) and deploys each one to its Cloudflare Worker via
+# wrangler (config in wrangler.jsonc: env `ui` → vueform-ui-docs, env
+# `primevue` → vueform-primevue-docs). Needs the CLOUDFLARE_API_TOKEN (Workers
+# Scripts:Edit) and CLOUDFLARE_ACCOUNT_ID repo secrets.
+
+on:
+  workflow_dispatch:
+    inputs:
+      target:
+        description: Which docs to deploy
+        type: choice
+        options: [all, ui, primevue]
+        default: all
+
+concurrency:
+  group: deploy-docs
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  deploy:
+    name: Build & deploy (${{ inputs.target }})
+    runs-on: ubuntu-26.04
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4 # version read from packageManager
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Build workspace
+        run: pnpm build
+
+      - name: Build docs
+        run: pnpm --filter @vueform/docs run build --adapter=${{ inputs.target == 'all' && 'ui,primevue' || inputs.target }}
+
+      - name: Deploy ui docs
+        if: contains(fromJSON('["all","ui"]'), inputs.target)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --env ui
+
+      - name: Deploy primevue docs
+        if: contains(fromJSON('["all","primevue"]'), inputs.target)
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: deploy --env primevue

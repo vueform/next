@@ -3,6 +3,7 @@
   "env": {
     "ui": {
       "name": "vueform-ui-docs",
+      "routes": [{ "pattern": "ui.vueform.com", "custom_domain": true }],
       "assets": {
         "directory": "./docs/.vitepress/dist/ui",
         "not_found_handling": "404-page",
