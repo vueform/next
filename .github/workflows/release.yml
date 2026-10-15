@@ -1,5 +1,23 @@
 name: Release
 
+# Release pipeline (Actions → Release → Run workflow). Gates run before
+# anything is versioned or published, with the same parallelism as task.yml:
+# the `build` job warms the vp task cache once and shares it run-scoped
+# (keyed on the run id, so re-runs restore it), then every selected gate runs
+# as its own matrix job whose `pnpm build` replays from cache in seconds.
+# Each gate except `build` has its own skip checkbox — `test`/`test-dts` and
+# `test-smoke`/`test-smoke-types` each share one (workflow_dispatch allows at
+# most 10 inputs; the pairs always travel together anyway). The
+# `registry` and `size` generators' regenerated git-tracked artifacts
+# (adapter registries, README size sections) are uploaded per job and committed +
+# pushed once by the `commit` job BEFORE the release, so the release commit's
+# own regen (scripts/release.ts re-runs registry/size/bench at the stamped
+# version) ships no surprise diffs. The `release` job then checks out the
+# branch tip (including that regen commit) and versions/publishes as before.
+# A dry run still runs the selected gates but commits and publishes nothing.
+# A failed gate can be retried with "Re-run failed jobs" — the run-scoped
+# cache and the commit/release jobs pick up from there.
+
 on:
   workflow_dispatch:
     inputs:
@@ -18,23 +36,74 @@ on:
         description: Dry-run (compute and print everything, publish nothing)
         type: boolean
         default: false
+      skip_check:
+        description: Skip check
+        type: boolean
+        default: false
+      skip_test:
+        description: Skip tests
+        type: boolean
+        default: false
+      skip_test_smoke:
+        description: Skip smoke tests
+        type: boolean
+        default: false
+      skip_test_visual:
+        description: Skip visual tests
+        type: boolean
+        default: false
+      skip_registry:
+        description: Skip registry
+        type: boolean
+        default: false
+      skip_size:
+        description: Skip size
+        type: boolean
+        default: false
 
 concurrency:
   group: release
   cancel-in-progress: false
 
 permissions:
-  contents: write
-  id-token: write # npm trusted publishing (OIDC) + provenance
+  contents: read # the `commit` and `release` jobs alone escalate
 
 jobs:
-  release:
-    name: Gates, version & publish
+  plan:
+    name: Plan
+    runs-on: ubuntu-26.04
+    outputs:
+      gates: ${{ steps.plan.outputs.gates }}
+    steps:
+      - id: plan
+        env:
+          # task=skipped pairs; order here is only cosmetic — gates run in
+          # parallel.
+          SKIPS: >-
+            check=${{ inputs.skip_check }}
+            test=${{ inputs.skip_test }}
+            test-dts=${{ inputs.skip_test }}
+            test-smoke=${{ inputs.skip_test_smoke }}
+            test-smoke-types=${{ inputs.skip_test_smoke }}
+            test-visual=${{ inputs.skip_test_visual }}
+            registry=${{ inputs.skip_registry }}
+            size=${{ inputs.skip_size }}
+        run: |
+          gates=()
+          for pair in $SKIPS; do
+            [ "${pair#*=}" = "true" ] || gates+=("${pair%%=*}")
+          done
+          if [ ${#gates[@]} -eq 0 ]; then
+            echo 'gates=[]' >> "$GITHUB_OUTPUT"
+          else
+            echo "gates=$(printf '%s\n' "${gates[@]}" | jq -R '{task: .}' | jq -sc .)" >> "$GITHUB_OUTPUT"
+          fi
+
+  build:
+    name: Warm build cache
     runs-on: ubuntu-26.04
     steps:
       - uses: actions/checkout@v5
-        with:
-          fetch-depth: 0 # the changelog and version bump read the full history
 
       - uses: pnpm/action-setup@v4 # version read from packageManager
 
@@ -45,26 +114,217 @@ jobs:
 
       - run: pnpm install --frozen-lockfile
 
-      # - name: Cache Playwright browsers
-      #   uses: actions/cache@v4
-      #   with:
-      #     path: ~/.cache/ms-playwright
-      #     key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
-
-      # - name: Install Playwright chromium (smoke gates)
-      #   run: pnpm --filter @vueform/ui exec playwright install --with-deps chromium
+      - name: Cache vp tasks (run-scoped)
+        uses: actions/cache@v4
+        with:
+          path: |
+            node_modules/.vite/task-cache
+            packages/*/dist
+          key: vp-tasks-${{ github.run_id }}
 
       - run: pnpm build
 
-      # - run: pnpm check
+  gate:
+    name: ${{ matrix.task }}
+    needs: [plan, build]
+    if: needs.plan.outputs.gates != '[]'
+    runs-on: ubuntu-26.04
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJSON(needs.plan.outputs.gates) }}
+    steps:
+      - uses: actions/checkout@v5
 
-      # - run: pnpm test
+      - uses: pnpm/action-setup@v4
 
-      # - run: pnpm test-dts
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
 
-      # - run: pnpm test-smoke-types
+      - run: pnpm install --frozen-lockfile
 
-      # - run: pnpm test-smoke
+      - name: Restore vp tasks
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules/.vite/task-cache
+            packages/*/dist
+          key: vp-tasks-${{ github.run_id }}
+
+      - name: Cache Playwright browsers
+        if: contains(fromJSON('["test-smoke","test-visual"]'), matrix.task)
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # playwright is not a root dependency — run its CLI from a package that
+      # has it (the browser install itself is machine-wide).
+      - name: Install Playwright chromium
+        if: contains(fromJSON('["test-smoke","test-visual"]'), matrix.task)
+        run: pnpm --filter @vueform/ui exec playwright install --with-deps chromium
+
+      # A replay of the warmed cache (seconds); gates and generators consume
+      # the materialized dists.
+      - name: Build workspace
+        run: pnpm build
+
+      # No baseline bootstrapping here: a release gate compares strictly, so
+      # missing `-linux` baselines fail — create them via the Task or Visual
+      # baselines workflow first.
+      - name: Run ${{ matrix.task }}
+        run: pnpm "${{ matrix.task }}"
+
+      # Gate jobs never push: the generators upload their regenerated files
+      # and the single `commit` job below commits them at once, before the
+      # release. Keep the path list in sync with the `commit` job's copy.
+      - name: Collect regenerated artifacts
+        if: contains(fromJSON('["registry","size"]'), matrix.task)
+        run: |
+          set -o pipefail
+          paths=(
+            'packages/*/registry/*'
+            'packages/*/README.md'
+            'README.md'
+          )
+          for p in "${paths[@]}"; do
+            git add -A -- "$p" 2>/dev/null || true
+          done
+          if git diff --cached --quiet; then
+            echo 'No regenerated artifacts.'
+            exit 0
+          fi
+          # Whole-file last-writer-wins in the commit job keeps overlapping
+          # outputs conflict-free (both generators derive from the same
+          # sources).
+          mkdir -p "$RUNNER_TEMP/regen"
+          git diff --cached --name-only --diff-filter=d -z \
+            | tar --null --files-from=- -czf "$RUNNER_TEMP/regen/files.tgz"
+          git diff --cached --name-only --diff-filter=D > "$RUNNER_TEMP/regen/deleted.txt"
+
+      - name: Upload regenerated artifacts
+        if: contains(fromJSON('["registry","size"]'), matrix.task)
+        uses: actions/upload-artifact@v4
+        with:
+          name: regen-${{ matrix.task }}
+          path: ${{ runner.temp }}/regen
+          if-no-files-found: ignore
+          retention-days: 7
+          overwrite: true # "Re-run failed jobs" may re-upload
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-${{ matrix.task }}
+          path: .vueform/*/logs/*.log
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # The sole pre-release pusher: collects the generators' regenerated files
+  # and commits them in one go, so the release starts from a branch tip whose
+  # artifacts are already current. Runs only when every gate passed (a
+  # release must not ship on red) and never on a dry run.
+  commit:
+    name: Commit regenerated artifacts
+    needs: gate
+    if: ${{ !cancelled() && needs.gate.result == 'success' && !inputs.dry_run }}
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v5
+
+      # A pattern with zero matches is not an error — a run whose generators
+      # regenerated nothing (or were skipped) just commits nothing below.
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: regen-*
+          path: ${{ runner.temp }}/regen
+
+      - name: Commit regenerated artifacts
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          shopt -s nullglob
+          for d in "$RUNNER_TEMP"/regen/*/; do
+            if [ -f "$d/files.tgz" ]; then
+              tar -xzf "$d/files.tgz"
+            fi
+            if [ -s "$d/deleted.txt" ]; then
+              while IFS= read -r f; do
+                rm -f -- "$f"
+              done < "$d/deleted.txt"
+            fi
+          done
+          # Keep this list in sync with the gate job's copy.
+          paths=(
+            'packages/*/registry/*'
+            'packages/*/README.md'
+            'README.md'
+          )
+          for p in "${paths[@]}"; do
+            git add -A -- "$p" 2>/dev/null || true
+          done
+          if git diff --cached --quiet; then
+            echo 'No regenerated artifacts to commit.'
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m 'chore(ci): regenerate artifacts (registry size)'
+          # The `release` concurrency group serializes release runs, so a
+          # rejected push means an outside commit landed mid-run — the gates
+          # no longer vouch for the tip. Fail loudly instead of releasing
+          # from a moved branch; dispatch a fresh run.
+          git push origin "HEAD:$BRANCH" || {
+            echo '::error::The branch moved mid-run; the gate results are stale. Dispatch a fresh release.'
+            exit 1
+          }
+
+  release:
+    name: Version & publish
+    needs: [build, gate, commit]
+    # `gate` is skipped when every checkbox is ticked and `commit` on a dry
+    # run — both still allow releasing; any failure does not.
+    if: >-
+      ${{ !cancelled() &&
+          needs.build.result == 'success' &&
+          contains(fromJSON('["success","skipped"]'), needs.gate.result) &&
+          contains(fromJSON('["success","skipped"]'), needs.commit.result) }}
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write
+      id-token: write # npm trusted publishing (OIDC) + provenance
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # The branch TIP, not the dispatched SHA — the `commit` job may
+          # have pushed regenerated artifacts above. Full history for the
+          # changelog and version bump.
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Restore vp tasks
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules/.vite/task-cache
+            packages/*/dist
+          key: vp-tasks-${{ github.run_id }}
+
+      - run: pnpm build
 
       - name: Git identity (release commit + tag)
         run: |
