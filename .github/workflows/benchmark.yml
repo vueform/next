@@ -1,0 +1,141 @@
+name: Benchmark
+
+# On-demand benchmark regeneration (Actions → Benchmark → Run workflow):
+# runs the real-browser benchmark suite (benchmark/) for the selected case —
+# or all of them — and commits the refreshed `results/json/benchmarks.json`
+# and `results/charts/*.svg` back to the dispatched branch. A partial run
+# merges into the existing results file, so one case can be refreshed alone;
+# charts always regenerate from the merged file. Results record the runner's
+# CPU in `environment.cpu`, so regenerate ALL cases when switching between
+# machines (local vs CI) — a results file mixing hardware is misleading.
+# Wall-clock numbers from shared CI runners are noisier than a quiet local
+# machine; treat small deltas accordingly. Publishing into the docs stays a
+# separate local step (`pnpm docs:gen -- --benchmark`). Shares the task
+# workflow's concurrency group, so it never races task.yml's or the visual
+# baselines workflow's artifact commits on the same ref.
+
+on:
+  workflow_dispatch:
+    inputs:
+      benchmark:
+        description: Benchmark to regenerate (time + memory where measured)
+        type: choice
+        # Keep in sync with CASES in benchmark/scripts/cases.ts.
+        options:
+          - All
+          - render-text
+          - render-steps
+          - input-text
+          - input-text-vmodel
+          - update-all
+        default: All
+
+concurrency:
+  group: task-${{ github.ref }}
+  cancel-in-progress: false
+
+permissions:
+  contents: write # the results commit
+
+jobs:
+  bench:
+    name: Regenerate ${{ inputs.benchmark == 'All' && 'all benchmarks' || inputs.benchmark }}
+    runs-on: ubuntu-26.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # playwright is not a root dependency — run its CLI from a package that
+      # has it (the browser install itself is machine-wide). bench.ts would
+      # self-install chromium, but not the system deps.
+      - name: Install Playwright chromium
+        run: pnpm --filter @vueform/benchmark exec playwright install --with-deps chromium
+
+      # The suite measures dist: it packs tarballs of the built packages and
+      # installs them into the standalone app.
+      - run: pnpm build
+
+      - name: Run benchmarks
+        env:
+          SELECTED: ${{ inputs.benchmark }}
+        run: |
+          if [ "$SELECTED" = "All" ]; then
+            pnpm bench
+          else
+            pnpm bench --case="$SELECTED"
+          fi
+
+      - name: Commit results
+        env:
+          BRANCH: ${{ github.ref_name }}
+          BASE_SHA: ${{ github.sha }}
+          SELECTED: ${{ inputs.benchmark }}
+        run: |
+          git add -A -- 'benchmark/results/*' 2>/dev/null || true
+          if git diff --cached --quiet; then
+            echo 'Results unchanged.'
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m "chore(ci): regenerate benchmarks ($SELECTED)"
+          # Same push discipline as task.yml's commit job (keep the path list
+          # in sync with it): a rejected push means an outside commit landed
+          # mid-run — artifact-only remote changes rebase cleanly, a source
+          # change may have changed what the suite measures, so fail loudly
+          # and re-dispatch.
+          paths=(
+            'packages/*/tests/visual/screenshots/*'
+            'packages/*/registry/*'
+            'packages/*/README.md'
+            'README.md'
+            'benchmark/results/*'
+            'docs/src/*'
+          )
+          for attempt in 1 2 3 4 5; do
+            if git push origin "HEAD:$BRANCH"; then
+              exit 0
+            fi
+            git fetch origin "$BRANCH"
+            while IFS= read -r f; do
+              artifact=false
+              for p in "${paths[@]}"; do
+                if [[ $f == $p ]]; then
+                  artifact=true
+                  break
+                fi
+              done
+              if [ "$artifact" = false ]; then
+                echo "::error::The branch gained source commits mid-run ($f changed); the regenerated results may be stale. Dispatch a fresh run."
+                exit 1
+              fi
+            done < <(git diff --name-only "$BASE_SHA" "origin/$BRANCH")
+            git pull --rebase --autostash -X theirs origin "$BRANCH" \
+              || { git rebase --abort 2>/dev/null || true; sleep $((RANDOM % 5 + 1)); }
+          done
+          echo 'Failed to push after 5 attempts.'
+          exit 1
+
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs
+          path: .vueform/*/logs/*.log
+          if-no-files-found: ignore
+          retention-days: 7
