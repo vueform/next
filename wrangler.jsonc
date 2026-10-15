@@ -1,0 +1,19 @@
+{
+  "compatibility_date": "2026-10-15",
+  "env": {
+    "ui": {
+      "name": "vueform-ui-docs",
+      "assets": {
+        "directory": "./docs/.vitepress/dist/ui",
+        "not_found_handling": "404-page",
+      },
+    },
+    "primevue": {
+      "name": "vueform-primevue-docs",
+      "assets": {
+        "directory": "./docs/.vitepress/dist/primevue",
+        "not_found_handling": "404-page",
+      },
+    },
+  },
+}
