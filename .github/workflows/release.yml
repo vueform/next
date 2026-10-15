@@ -13,10 +13,18 @@ name: Release
 # pushed once by the `commit` job BEFORE the release, so the release commit's
 # own regen (scripts/release.ts re-runs registry/size/bench at the stamped
 # version) ships no surprise diffs. The `release` job then checks out the
-# branch tip (including that regen commit) and versions/publishes as before.
-# A dry run still runs the selected gates but commits and publishes nothing.
-# A failed gate can be retried with "Re-run failed jobs" — the run-scoped
-# cache and the commit/release jobs pick up from there.
+# branch tip (including that regen commit), versions, commits and tags via
+# `pnpm release`, and pushes the version commit + tag BEFORE anything reaches
+# npm. Publishing is the separate `publish` job on purpose: npm can fail
+# halfway through the 9 packages, and recursive `pnpm publish` skips versions
+# already in the registry, so the in-step retries — and, failing those,
+# "Re-run failed jobs" on `publish` alone — finish the remaining packages
+# idempotently. NEVER re-run the `release` job after its push succeeded: it
+# would compute the NEXT version on top of the fresh tag and double-release;
+# re-run `publish`, or dispatch a fresh run if `release` failed before
+# pushing. A dry run still runs the selected gates but commits and publishes
+# nothing. A failed gate can be retried with "Re-run failed jobs" — the
+# run-scoped cache and the downstream jobs pick up from there.
 
 on:
   workflow_dispatch:
@@ -31,7 +39,7 @@ on:
         type: choice
         options: [rehearsal]
         # options: [rehearsal, alpha, beta, rc, none]
-        default: alpha
+        default: rehearsal
       dry_run:
         description: Dry-run (compute and print everything, publish nothing)
         type: boolean
@@ -285,7 +293,7 @@ jobs:
           }
 
   release:
-    name: Version & publish
+    name: Version, commit & tag
     needs: [build, gate, commit]
     # `gate` is skipped when every checkbox is ticked and `commit` on a dry
     # run — both still allow releasing; any failure does not.
@@ -296,8 +304,11 @@ jobs:
           contains(fromJSON('["success","skipped"]'), needs.commit.result) }}
     runs-on: ubuntu-26.04
     permissions:
-      contents: write
-      id-token: write # npm trusted publishing (OIDC) + provenance
+      contents: write # version commit + tag push
+    outputs:
+      version: ${{ steps.release.outputs.version }}
+      dist_tag: ${{ steps.release.outputs.dist_tag }}
+      rehearsal: ${{ steps.release.outputs.rehearsal }}
     steps:
       - uses: actions/checkout@v5
         with:
@@ -351,20 +362,112 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
         if: always()
 
-      - name: Push release commit and tag
+      # What the `publish` job needs beyond git: the version-stamped
+      # manifests (identical to the tag's for a real release, the ONLY copy
+      # for a rehearsal, which deliberately commits nothing) and the release
+      # notes (.vueform/ is git-ignored, so they only travel as an artifact).
+      # Tarred so the artifact keeps repo-root-relative paths regardless of
+      # which files exist.
+      - name: Collect release meta
+        if: ${{ !inputs.dry_run }}
+        run: |
+          mkdir -p "$RUNNER_TEMP/meta"
+          files=(packages/*/package.json)
+          [ -f .vueform/release-notes.md ] && files+=(.vueform/release-notes.md)
+          tar -czf "$RUNNER_TEMP/meta/meta.tgz" "${files[@]}"
+
+      - name: Upload release meta
+        if: ${{ !inputs.dry_run }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: release-meta
+          path: ${{ runner.temp }}/meta
+          retention-days: 7
+          overwrite: true
+
+      # Versions reach git BEFORE npm: once this push lands, the tag is the
+      # durable record the `publish` job (and any of its re-runs) works from.
+      # This is deliberately the last step — if anything above failed, the
+      # repo is untouched and a fresh dispatch is safe.
+      - name: Push version commit and tag
         if: ${{ !inputs.dry_run && steps.release.outputs.rehearsal == 'false' }}
         run: git push --follow-tags origin HEAD:main
 
+      - name: Upload logs
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: logs-release
+          path: .vueform/*/logs/*.log
+          if-no-files-found: ignore
+          retention-days: 7
+
+  # Publishing is isolated and idempotent: recursive `pnpm publish` skips
+  # versions already in the registry, so when npm dies halfway through the
+  # packages, the retries below — or "Re-run failed jobs" on THIS job — only
+  # publish what is still missing. The version commit and tag are already
+  # pushed by then, so a re-run reconstructs the exact release state from the
+  # tag (or from the uploaded manifests for a rehearsal, which tags nothing).
+  publish:
+    name: Publish
+    needs: release
+    if: ${{ !cancelled() && needs.release.result == 'success' && !inputs.dry_run }}
+    runs-on: ubuntu-26.04
+    permissions:
+      contents: write # the GitHub release
+      id-token: write # npm trusted publishing (OIDC) + provenance
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          # Publish exactly what was tagged; a rehearsal has no tag, so it
+          # publishes the dispatched SHA plus the uploaded manifests.
+          ref: ${{ needs.release.outputs.rehearsal == 'true' && github.sha || format('v{0}', needs.release.outputs.version) }}
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version-file: .node-version
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      - name: Restore vp tasks
+        uses: actions/cache/restore@v4
+        with:
+          path: |
+            node_modules/.vite/task-cache
+            packages/*/dist
+          key: vp-tasks-${{ github.run_id }}
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: release-meta
+          path: ${{ runner.temp }}/meta
+
+      - name: Apply release meta
+        run: tar -xzf "$RUNNER_TEMP/meta/meta.tgz"
+
+      # Dist banners stamp the version from the manifests at build time.
+      - run: pnpm build
+
       - name: Publish to npm (trusted publishing + provenance)
-        if: ${{ !inputs.dry_run }}
         env:
           NPM_CONFIG_PROVENANCE: 'true'
-        run: pnpm publish -r --tag ${{ steps.release.outputs.dist_tag }} --no-git-checks
+          DIST_TAG: ${{ needs.release.outputs.dist_tag }}
+        run: |
+          for attempt in 1 2 3; do
+            pnpm publish -r --tag "$DIST_TAG" --no-git-checks && exit 0
+            echo "Publish attempt $attempt failed — retrying; already-published versions are skipped."
+            [ "$attempt" -lt 3 ] && sleep $((attempt * 15))
+          done
+          echo '::error::Publish failed after 3 attempts with npm possibly half-published. Re-run THIS job (never the release job) — it publishes only the packages still missing from the registry.'
+          exit 1
 
       - name: Assert dist-tags (prerelease must never ride `latest`)
-        if: ${{ !inputs.dry_run && inputs.prerelease != 'none' }}
+        if: ${{ inputs.prerelease != 'none' }}
         run: |
-          version='${{ steps.release.outputs.version }}'
+          version='${{ needs.release.outputs.version }}'
           failed=0
           for dir in packages/*/; do
             pkg=$(node -p "require('./$dir/package.json').name")
@@ -376,21 +479,28 @@ jobs:
             fi
           done
           exit $failed
+
+      # `view || create` keeps re-runs idempotent after a mid-job failure.
       - name: GitHub release
-        if: ${{ !inputs.dry_run && steps.release.outputs.rehearsal == 'false' }}
+        if: ${{ needs.release.outputs.rehearsal == 'false' }}
         env:
           GH_TOKEN: ${{ github.token }}
-        run: >
-          gh release create "v${{ steps.release.outputs.version }}"
-          --title "v${{ steps.release.outputs.version }}"
-          --notes-file "${{ steps.release.outputs.notes_file }}"
-          ${{ inputs.prerelease != 'none' && '--prerelease' || '' }}
+          VERSION: ${{ needs.release.outputs.version }}
+        run: |
+          gh release view "v$VERSION" >/dev/null 2>&1 && {
+            echo "Release v$VERSION already exists."
+            exit 0
+          }
+          gh release create "v$VERSION" \
+            --title "v$VERSION" \
+            --notes-file .vueform/release-notes.md \
+            ${{ inputs.prerelease != 'none' && '--prerelease' || '' }}
 
       - name: Upload logs
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: logs
+          name: logs-publish
           path: .vueform/*/logs/*.log
           if-no-files-found: ignore
           retention-days: 7
