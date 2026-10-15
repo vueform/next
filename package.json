@@ -9,6 +9,7 @@
     "bench:charts": "pnpm --filter @vueform/benchmark run charts",
     "build": "tsx scripts/build.ts",
     "check": "tsx scripts/check.ts",
+    "claim": "tsx scripts/claim.ts",
     "clean": "tsx scripts/clean.ts",
     "dev": "pnpm pg",
     "docs:build": "vpr :docs:build",
