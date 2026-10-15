@@ -229,13 +229,13 @@
   "scripts": {
     "build": "rm -rf dist && vue-tsc -p tsconfig.build.json && tsdown && tsdown -c tsdown.vapor.config.ts",
     "publint": "publint",
-    "registry": "vf-registry",
-    "size": "vf-size",
-    "size:report": "vf-size --report",
+    "registry": "vfd registry",
+    "size": "vfd size",
+    "size:report": "vfd size --report",
     "test": "vitest --project integration --project invariants --maxWorkers=16",
     "test-dts": "vitest run --project test-dts",
-    "test-smoke": "vf-smoke",
-    "test-smoke-types": "vf-smoke-types",
+    "test-smoke": "vfd smoke",
+    "test-smoke-types": "vfd smoke-types",
     "test-visual": "playwright test --config tests/visual/playwright.config.ts",
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },

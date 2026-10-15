@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * `vf-size`: measures the invoking package's bundle sizes (see `size/run.ts`).
+ * `vfd size`: measures the invoking package's bundle sizes (see `size/run.ts`).
  * Runs from the package's own directory, typically as its `size` script. The
  * suite — core building blocks, adapter components/themes or plugin cost — is
  * derived from the package's manifest.

@@ -53,8 +53,8 @@
   "scripts": {
     "build": "tsdown",
     "publint": "publint",
-    "size": "vf-size",
-    "size:report": "vf-size --report",
+    "size": "vfd size",
+    "size:report": "vfd size --report",
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
   "dependencies": {

@@ -1,4 +1,4 @@
-import { readdirSync, readFileSync, statSync } from 'node:fs'
+import { readdirSync, readFileSync } from 'node:fs'
 import { resolve } from 'node:path'
 
 import type { Scenario } from './types'
@@ -12,15 +12,16 @@ import type { Scenario } from './types'
  */
 
 /**
- * Lists every module directory of the core package except the always-required
- * `model`.
+ * Reads the registrable module names from modules/modules.ts (the source of
+ * the `/modules` subpath) except the always-required `model`. Directories
+ * under `src/modules/` are not the public list: some hold helper-only
+ * surfaces with no module export (devtools).
  */
 function moduleNames(pkgDir: string): string[] {
-  const dir = resolve(pkgDir, 'src/modules')
-  return readdirSync(dir)
-    .filter(
-      (name) => name !== 'model' && statSync(resolve(dir, name)).isDirectory()
-    )
+  const source = readFileSync(resolve(pkgDir, 'src/modules/modules.ts'), 'utf8')
+  return [...source.matchAll(/export \{ (\w+) \} from/g)]
+    .map((m) => m[1])
+    .filter((name) => name !== 'model')
     .sort()
 }
 

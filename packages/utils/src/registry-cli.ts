@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 /**
- * `vf-registry`: regenerates the invoking adapter package's `registry` folder
+ * `vfd registry`: regenerates the invoking adapter package's `registry` folder
  * (see `registry.ts`). Runs from the adapter's own directory, typically as its
  * `registry` script:
  *

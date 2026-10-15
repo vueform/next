@@ -1,9 +1,9 @@
 /**
  * The smoke harness (`@vueform/utils/smoke`): proves the packed tarballs of the
- * adapters work in real project setups. Adapters run it through the `vf-smoke`
+ * adapters work in real project setups. Adapters run it through the `vfd smoke`
  * bin against their canonical `tests/smoke/` content (config.json + the
  * fixtures/ dir of schema, forms and type assertions); see cli.ts for the
- * flag model and envs.ts for the env matrix. The sibling smoke-types suite (`vf-smoke-types` →
+ * flag model and envs.ts for the env matrix. The sibling smoke-types suite (`vfd smoke-types` →
  * types-cli.ts/types-envs.ts) typechecks the same fixtures and tarballs as a
  * consumer would, in a separate, smaller env matrix.
  */

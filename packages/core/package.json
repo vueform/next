@@ -209,7 +209,7 @@
   "scripts": {
     "build": "rm -rf dist && vue-tsc -p tsconfig.build.json && tsdown && tsdown -c tsdown.vapor.config.ts",
     "publint": "publint",
-    "size": "vf-size",
+    "size": "vfd size",
     "test": "vitest --project integration --maxWorkers=16",
     "test-dts": "vitest run --project test-dts",
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit"

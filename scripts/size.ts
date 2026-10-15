@@ -51,7 +51,7 @@ const runReport = () => {
       console.error(red(`${task.id} failed.`))
       process.exit(result.status ?? 1)
     }
-    // vf-size lists every file it wrote as a `- /abs/path` line.
+    // `vfd size` lists every file it wrote as a `- /abs/path` line.
     for (const match of (result.stdout ?? '').matchAll(/^- (\/\S+)$/gm)) {
       updated.push(path.relative(repoRoot, match[1]))
     }

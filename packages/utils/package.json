@@ -16,10 +16,7 @@
     "directory": "packages/utils"
   },
   "bin": {
-    "vf-registry": "./bin/vf-registry.js",
-    "vf-size": "./bin/vf-size.js",
-    "vf-smoke": "./bin/vf-smoke.js",
-    "vf-smoke-types": "./bin/vf-smoke-types.js"
+    "vfd": "./bin/vfd.js"
   },
   "files": [
     "bin",

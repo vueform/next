@@ -10,7 +10,7 @@
  * purpose — they resolve through global registration like the packaged
  * originals, so locally copied collaborators override everywhere.
  *
- * Exposed as `generateRegistry` (and the `vf-registry` bin) — run from an
+ * Exposed as `generateRegistry` (and the `vfd registry` command) — run from an
  * adapter package's own directory, typically via its `registry` script.
  */
 import { spawnSync } from 'node:child_process'
@@ -1056,7 +1056,7 @@ function embeddedFormatOptions(): Promise<EmbeddedFormatOptions> {
 }
 
 /**
- * Formats generator-emitted source (vf-registry clones, the docs json-types
+ * Formats generator-emitted source (`vfd registry` clones, the docs json-types
  * snippets) with oxfmt — the repo's one formatter — so generated output is
  * consistent with the codebase by construction. The parser is inferred from
  * `fileName`'s extension. A formatting error returns the input unchanged,

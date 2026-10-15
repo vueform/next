@@ -252,7 +252,7 @@ const UTILS_BUILD_SURFACE = ['tsdown', 'shared', 'adapter', 'dts-esm'].map(
  * `.vueform/size/core.json`, so non-core legs order after core's. The legs
  * cache on exactly that surface: untouched dists mean an instant replay.
  *
- * `vf-size` writes `.vueform/size/<dir>.json` AND injects the README's size
+ * `vfd size` writes `.vueform/size/<dir>.json` AND injects the README's size
  * section. Only the json is declared as output: a cache replay restoring a
  * whole README could clobber unrelated manual edits, and on a hit the
  * section is already current (same inputs, same numbers).
