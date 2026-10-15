@@ -33,9 +33,6 @@ catalog:
   ajv: ^8.20.0
   consola: ^3.4.2
   conventional-changelog-cli: ^5.0.0
-  # v8 on purpose: the preset must pair with conventional-changelog-cli@5's
-  # bundled writer v8 — the preset-loader resolves this hoisted root copy,
-  # and v10 of the preset requires writer v9 and fails at generation time.
   conventional-changelog-conventionalcommits: ^8.0.0
   conventional-recommended-bump: ^12.1.0
   eslint: ^9.39.2
@@ -78,6 +75,7 @@ catalog:
   vue-eslint-parser: ^10.2.0
   vue-tsc: ^2.2.12
   vue-vapor: npm:vue@3.6.0-rc.5
+  wrangler: ^4.151.0
   zod: ^4.6.5
 
 catalogMode: strict

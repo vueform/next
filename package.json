@@ -87,7 +87,8 @@
     "vitest": "catalog:",
     "vue": "catalog:",
     "vue-eslint-parser": "catalog:",
-    "vue-tsc": "catalog:"
+    "vue-tsc": "catalog:",
+    "wrangler": "catalog:"
   },
   "lint-staged": {
     "*.{js,mjs,cjs,ts,mts,cts}": [

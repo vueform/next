@@ -60,18 +60,18 @@ jobs:
       - name: Build docs
         run: pnpm docs:build ${{ inputs.target == 'all' && '--ui --primevue' || format('--{0}', inputs.target) }}
 
+      # wrangler is a root devDependency (wrangler-action's self-install
+      # trips over pnpm workspaces); it reads the CLOUDFLARE_* env vars.
       - name: Deploy ui docs
         if: contains(fromJSON('["all","ui"]'), inputs.target)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --env ui
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy --env ui
 
       - name: Deploy primevue docs
         if: contains(fromJSON('["all","primevue"]'), inputs.target)
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: deploy --env primevue
+        env:
+          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+        run: pnpm exec wrangler deploy --env primevue
