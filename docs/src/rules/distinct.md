@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Array](/rules/#array)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.21 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[array](/rules/array) · [in_array](/rules/in_array)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->220 B<!-- /@size --> |
 
 </div>
 
@@ -50,14 +51,6 @@ Validates that all items in the array are unique. Items are compared by value, s
 | Key | Default Message |
 | --- | --- |
 | `rule_distinct_error` | The {attribute} field has a duplicate value. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[array](/rules/array) · [in_array](/rules/in_array)
-
-<!-- @rule:related end -->
 
 ## Source
 

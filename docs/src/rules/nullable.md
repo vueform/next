@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Presence](/rules/#presence)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.17 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[filled](/rules/filled) · [required](/rules/required)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->176 B<!-- /@size --> |
 
 </div>
 
@@ -41,14 +42,6 @@ Combining `nullable` with [`required`](/rules/required) is a no-op. `nullable` c
 ## Error Messages
 
 `nullable` never fails validation, so it has no error message.
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[filled](/rules/filled) · [required](/rules/required)
-
-<!-- @rule:related end -->
 
 ## Source
 

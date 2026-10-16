@@ -1,0 +1,39 @@
+/**
+ * Docs theme components & features
+ * -------------------------------------------------------------------------- */
+
+:root {
+  // Tag chips (tag plugin)
+  --vp-tag-blue-text: var(--vp-c-white);
+  --vp-tag-blue-bg: #005cc5;
+  --vp-tag-indigo-text: var(--vp-c-white);
+  --vp-tag-indigo-bg: #5c73e7;
+
+  // Type hint completion icons
+  --vp-type-hint-kind-color: #4fc1ff;
+  --vp-type-hint-string-color: #ce9178;
+
+  // Example / usage preview cards
+  --vp-example-shadow: 0px 0px 10px 0 rgba(0, 0, 0, 0.1);
+
+  // Usage code toolbar
+  --vp-usage-toolbar-bg: rgba(255, 255, 255, 0.1);
+  --vp-usage-btn-group-border: rgba(0, 0, 0, 0.1);
+  --vp-usage-btn-hover-bg: rgba(0, 0, 0, 0.1);
+  --vp-usage-close-hover-bg: rgba(0, 0, 0, 0.08);
+
+  // Parts explorer HTML view
+  --vp-parts-html-bg: var(--vp-c-white);
+}
+
+.dark {
+  --vp-tag-indigo-text: #101758;
+  --vp-tag-indigo-bg: var(--vp-c-indigo-1);
+
+  --vp-usage-toolbar-bg: rgba(0, 0, 0, 0.1);
+  --vp-usage-btn-group-border: rgba(255, 255, 255, 0.1);
+  --vp-usage-btn-hover-bg: rgba(255, 255, 255, 0.03);
+  --vp-usage-close-hover-bg: rgba(255, 255, 255, 0.08);
+
+  --vp-parts-html-bg: var(--vp-c-bg);
+}

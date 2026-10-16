@@ -4,7 +4,7 @@ A Vueform form can be assembled in a handful of different ways. They all share t
 
 ## Inline Components
 
-The most familiar way to start is to drop Vueform components into a single-file component and wrap them in `VfForm`:
+The most familiar way to start is to drop Vueform components into a single-file component and wrap them in `!VfForm`:
 
 ```vue
 <template>
@@ -20,7 +20,7 @@ Every element with a `name` registers itself with the form. The form's structure
 
 ## Splitting Across Files
 
-Because elements register themselves no matter how deep they sit inside `VfForm`, you can break a form into multiple components without any special wiring:
+Because elements register themselves no matter how deep they sit inside `!VfForm`, you can break a form into multiple components without any special wiring:
 
 ::: code-group
 
@@ -58,7 +58,7 @@ Each child contributes its elements to the same form instance.
 
 ## Standalone Elements
 
-Elements also work **without** a wrapping `VfForm`:
+Elements also work **without** a wrapping `!VfForm`:
 
 ```vue
 <template>
@@ -66,7 +66,7 @@ Elements also work **without** a wrapping `VfForm`:
 </template>
 ```
 
-A standalone element manages its own state. Features that need a form — cross-field conditions, validators that reference other elements, expressions, submission — require wrapping the element in `VfForm`.
+A standalone element manages its own state. Features that need a form — cross-field conditions, validators that reference other elements, expressions, submission — require wrapping the element in `!VfForm`.
 
 ## Generics
 
@@ -91,7 +91,7 @@ When an element's props carry type information, TypeScript narrows that element'
 
 ## The `schema` Prop
 
-You can pass the form as data to `VfForm`'s `schema` prop instead. Keys are element names; `type` picks the registered element and completes to those types:
+You can pass the form as data to `!VfForm`'s `schema` prop instead. Keys are element names; `type` picks the registered element and completes to those types:
 
 ```vue
 <template>
@@ -169,7 +169,7 @@ defineSchema({
 })
 ```
 
-Each entry is checked against the registered element's props. You can pass the result to `VfForm` as usual:
+Each entry is checked against the registered element's props. You can pass the result to `!VfForm` as usual:
 
 ```vue
 <script setup lang="ts">
@@ -204,7 +204,7 @@ const schema = defineComputedSchema(() => ({
 }))
 ```
 
-`!defineComputedSchema` returns a computed ref and it can be passed to `VfForm`'s `schema` prop just like a `!defineSchema` result.
+`!defineComputedSchema` returns a computed ref and it can be passed to `!VfForm`'s `schema` prop just like a `!defineSchema` result.
 
 ## `!useForm`
 
@@ -231,7 +231,7 @@ const [MyForm] = useForm({
 </template>
 ```
 
-`MyForm` is `VfForm` with those options pre-bound. The two are equivalent:
+`MyForm` is `!VfForm` with those options pre-bound. The two are equivalent:
 
 ```vue
 <MyForm />

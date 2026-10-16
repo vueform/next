@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Size](/rules/#size)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.21 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[min](/rules/min) · [between](/rules/between) · [size](/rules/size)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->213 B<!-- /@size --> |
 
 </div>
 
@@ -58,14 +59,6 @@ How size is measured depends on the element type:
 | `rule_max_numeric_error` | The {attribute} may not be greater than {max}. |
 | `rule_max_array_error` | The {attribute} may not have more than {max} items. |
 | `rule_max_file_error` | The {attribute} may not be greater than {max} kilobytes. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[min](/rules/min) · [between](/rules/between) · [size](/rules/size)
-
-<!-- @rule:related end -->
 
 ## Source
 

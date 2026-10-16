@@ -43,16 +43,16 @@ function onAdapterChange(event: Event) {
 </script>
 
 <template>
-  <div class="adapter-selector">
-    <label class="adapter-selector-label">Adapter</label>
-    <div class="adapter-selector-control">
+  <div class="vp-adapter-selector">
+    <label class="vp-adapter-selector-label">Adapter</label>
+    <div class="vp-adapter-selector-control">
       <select :value="currentAdapter" @change="onAdapterChange">
         <option v-for="a in adapters" :key="a.key" :value="a.key">
           {{ a.label }}
         </option>
       </select>
       <svg
-        class="adapter-selector-chevron"
+        class="vp-adapter-selector-chevron"
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 24 24"
         fill="none"

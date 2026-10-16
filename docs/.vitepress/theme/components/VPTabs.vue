@@ -132,39 +132,3 @@ onUnmounted(() => {
     </div>
   </div>
 </template>
-
-<style>
-.vp-tabs {
-  display: flex;
-  flex-direction: column;
-  margin-top: 1rem;
-}
-
-.vp-tabs-header {
-  order: -1;
-  display: flex;
-  border-bottom: 1px solid var(--vp-c-divider);
-  overflow-x: auto;
-}
-
-@media (max-width: 639px) {
-  .vp-tabs-header {
-    flex-direction: column;
-    border-bottom: none;
-    border-left: 1px solid var(--vp-c-divider);
-    overflow-x: visible;
-  }
-
-  .vp-tab-button {
-    text-align: left;
-    border-bottom: none !important;
-    border-left: 2px solid transparent;
-    margin-left: -1px;
-  }
-
-  .vp-tab-button.active {
-    border-left-color: var(--vp-c-brand-1);
-    border-bottom-color: transparent;
-  }
-}
-</style>

@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.29 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[url](/rules/url) · [regex](/rules/regex)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->295 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a valid email address.
 | Key | Default Message |
 | --- | --- |
 | `rule_email_error` | The {attribute} must be a valid email address. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[url](/rules/url) · [regex](/rules/regex)
-
-<!-- @rule:related end -->
 
 ## Source
 

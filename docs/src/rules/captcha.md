@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Other](/rules/#other)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.19 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->—<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->199 B<!-- /@size --> |
 
 </div>
 
@@ -19,9 +20,6 @@ Validates that the captcha has been verified. The rule is asynchronous — it ca
 | Key | Default Message |
 | --- | --- |
 | `rule_captcha_error` | Please verify that you are not a robot. |
-
-<!-- @rule:related start -->
-<!-- @rule:related end -->
 
 ## Source
 

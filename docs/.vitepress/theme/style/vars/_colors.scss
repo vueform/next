@@ -6,7 +6,7 @@
   --vp-c-white: #ffffff;
   --vp-c-black: #000000;
 
-  --vp-c-neutral: #142920;
+  --vp-c-neutral: var(--vp-c-black);
   --vp-c-neutral-inverse: var(--vp-c-white);
 
   --vf-gray-50: #f9fafb;
@@ -130,6 +130,11 @@
   --vp-c-text-1: #3c3c43;
   --vp-c-text-2: #67676c;
   --vp-c-text-3: #929295;
+
+  --vp-c-shiki: #24292e;
+  --vp-c-bg-shiki: var(--vp-c-white);
+
+  --vp-c-bg-popover: var(--vp-c-white);
 }
 
 .dark {
@@ -201,4 +206,9 @@
   --vp-c-text-1: #dfdfd6;
   --vp-c-text-2: #98989f;
   --vp-c-text-3: #6a6a71;
+
+  --vp-c-shiki: #e1e4e8;
+  --vp-c-bg-shiki: #24292e;
+
+  --vp-c-bg-popover: var(--vp-c-bg-shiki);
 }

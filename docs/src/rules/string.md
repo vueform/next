@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Type](/rules/#type)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.17 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[numeric](/rules/numeric) · [alpha](/rules/alpha)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->175 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a string.
 | Key | Default Message |
 | --- | --- |
 | `rule_string_error` | The {attribute} must be a string. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[numeric](/rules/numeric) · [alpha](/rules/alpha)
-
-<!-- @rule:related end -->
 
 ## Source
 

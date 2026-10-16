@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.20 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[string](/rules/string)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->200 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a valid JSON string.
 | Key | Default Message |
 | --- | --- |
 | `rule_json_error` | The {attribute} must be a valid JSON string. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[string](/rules/string)
-
-<!-- @rule:related end -->
 
 ## Source
 

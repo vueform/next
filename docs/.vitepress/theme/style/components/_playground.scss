@@ -1,0 +1,39 @@
+// VPPlayground — full-page Vue REPL with a share toolbar.
+
+.vp-playground {
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - var(--vp-nav-height) - 32px);
+
+  .vue-repl {
+    flex: 1;
+    height: 100% !important;
+  }
+}
+
+.vp-playground-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 8px 16px;
+  background: var(--vp-c-bg);
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.vp-playground-share {
+  padding: 4px 12px;
+  font-size: 13px;
+  color: var(--vp-c-text-1);
+  cursor: pointer;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  transition:
+    border-color 0.2s,
+    color 0.2s;
+
+  &:hover {
+    color: var(--vp-c-brand-1);
+    border-color: var(--vp-c-brand-1);
+  }
+}

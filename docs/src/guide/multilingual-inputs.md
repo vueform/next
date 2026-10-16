@@ -61,7 +61,7 @@ Languages are a record of codes (the model keys) to display labels (what the swi
 | Level   | Where                               | Use when                           |
 | ------- | ----------------------------------- | ---------------------------------- |
 | Global  | `createVueform({ languages })`      | All forms share one set.           |
-| Form    | `languages` on `VfForm` / `useForm` | A specific form differs.           |
+| Form    | `languages` on `!VfForm` / `useForm` | A specific form differs.           |
 | Element | `languages` on the element          | One element differs from its form. |
 
 ```ts

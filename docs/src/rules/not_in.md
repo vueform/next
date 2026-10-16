@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Membership](/rules/#membership)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.19 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[in](/rules/in)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->191 B<!-- /@size --> |
 
 </div>
 
@@ -46,14 +47,6 @@ Validates that the value is not any of the listed values.
 | Key | Default Message |
 | --- | --- |
 | `rule_not_in_error` | The selected {attribute} is invalid. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[in](/rules/in)
-
-<!-- @rule:related end -->
 
 ## Source
 

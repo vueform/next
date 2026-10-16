@@ -1,0 +1,3 @@
+.custom-block a:not([data-popover]):has(code) {
+  color: revert-layer;
+}

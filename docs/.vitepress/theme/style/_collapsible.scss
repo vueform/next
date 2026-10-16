@@ -1,0 +1,159 @@
+// Collapsible doc content: <details> blocks and collapsible sections.
+
+.vp-doc {
+  details {
+    summary {
+      font-weight: 500;
+      color: var(--vp-c-brand);
+      cursor: pointer;
+      user-select: none;
+      list-style: none;
+      transition: color 0.25s;
+
+      &::before {
+        position: relative;
+        top: -1px;
+        display: inline-block;
+        width: 0;
+        height: 0;
+        margin-right: 8px;
+        content: '';
+        border-top: 4px solid transparent;
+        border-bottom: 4px solid transparent;
+        border-left: 5px solid currentcolor;
+        transition: transform 0.2s;
+      }
+
+      &::-webkit-details-marker {
+        display: none;
+      }
+
+      &:hover {
+        color: var(--vp-c-text-1);
+      }
+
+      & + * {
+        margin-top: 6px;
+      }
+    }
+
+    &[open] {
+      margin-bottom: 24px;
+
+      summary::before {
+        transform: rotate(90deg);
+      }
+    }
+
+    & + table {
+      margin-top: 8px;
+    }
+  }
+
+  .custom-block details {
+    margin: 8px 0 0;
+
+    &[open] {
+      margin-bottom: 8px;
+    }
+
+    summary {
+      color: inherit;
+
+      &:hover {
+        color: inherit;
+        opacity: 0.75;
+      }
+    }
+  }
+
+  .collapsible-sections {
+    .collapsible-section {
+      border-bottom: 1px solid var(--vp-c-gray-soft);
+
+      &.is-open,
+      &:last-child {
+        border-bottom: none;
+      }
+    }
+
+    .collapsible-section-header {
+      cursor: pointer;
+      user-select: none;
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        padding: 16px 0;
+        margin: 0;
+        letter-spacing: normal;
+        border-top: none;
+
+        &::before {
+          position: relative;
+          top: -1px;
+          display: inline-block;
+          width: 0;
+          height: 0;
+          margin-right: 10px;
+          content: '';
+          border-top: 5px solid transparent;
+          border-bottom: 5px solid transparent;
+          border-left: 6px solid var(--vp-c-text-3);
+          transition: transform 0.2s;
+        }
+      }
+
+      .header-anchor {
+        top: 16px;
+        left: -4px;
+      }
+
+      &:hover h1,
+      &:hover h2,
+      &:hover h3,
+      &:hover h4,
+      &:hover h5,
+      &:hover h6 {
+        color: var(--vp-c-brand);
+
+        &::before {
+          border-left-color: var(--vp-c-brand);
+        }
+      }
+    }
+
+    .collapsible-section.is-open .collapsible-section-header {
+      border-bottom: 0;
+
+      h1,
+      h2,
+      h3,
+      h4,
+      h5,
+      h6 {
+        &::before {
+          transform: rotate(90deg);
+        }
+      }
+    }
+
+    .collapsible-section:not(.is-open) .collapsible-section-body {
+      display: none;
+    }
+
+    .collapsible-section-body {
+      table {
+        width: 100%;
+        margin-top: 0;
+      }
+
+      & > p:first-of-type {
+        margin-top: 0;
+      }
+    }
+  }
+}

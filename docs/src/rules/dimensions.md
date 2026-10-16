@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[File](/rules/#file)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.60 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[image](/rules/image) · [file](/rules/file)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->616 B<!-- /@size --> |
 
 </div>
 
@@ -56,14 +57,6 @@ All parameters are optional and can be combined — the rule only checks the con
 | Key | Default Message |
 | --- | --- |
 | `rule_dimensions_error` | The {attribute} has invalid image dimensions. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[image](/rules/image) · [file](/rules/file)
-
-<!-- @rule:related end -->
 
 ## Source
 

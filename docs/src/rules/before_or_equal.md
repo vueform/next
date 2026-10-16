@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Date](/rules/#date)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.42 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[before](/rules/before) · [after](/rules/after) · [after_or_equal](/rules/after_or_equal)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->431 B<!-- /@size --> |
 
 </div>
 
@@ -46,14 +47,6 @@ Validates that the date is before or equal to a given date or another element's 
 | Key | Default Message |
 | --- | --- |
 | `rule_before_or_equal_error` | The {attribute} must be a date before or equal to {date}. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[before](/rules/before) · [after](/rules/after) · [after_or_equal](/rules/after_or_equal)
-
-<!-- @rule:related end -->
 
 ## Source
 

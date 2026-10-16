@@ -54,7 +54,7 @@ The component inherits every prop the preset declares. Presets stack — they ap
 
 By default a preset applies to the component carrying the `presets` prop — the **host** — and nothing else. The `$apply` directive widens the target: the preset then applies to every component matching it, both the host (if it matches) and every matching **descendant** in the host's subtree.
 
-That's what makes presets practical to hang on a wrapper. Define one with `$apply`, attach it to a `VfForm` or `VfGroup`, and every match below picks it up:
+That's what makes presets practical to hang on a wrapper. Define one with `$apply`, attach it to a `!VfForm` or `VfGroup`, and every match below picks it up:
 
 ```ts
 createVueform({
@@ -104,7 +104,7 @@ Vueform tests every component in the subtree against `$apply: 'VfText'`: the for
 | `'VfText'`               | Every component of that type.                                                      |
 | `['VfText', 'VfSelect']` | Any of the listed types.                                                           |
 | `'*'`                    | Every component.                                                                   |
-| `'*element'`             | Every element — structural components (`VfForm`, `VfTabs`, `VfSteps`) are skipped. |
+| `'*element'`             | Every element — structural components (`!VfForm`, `VfTabs`, `VfSteps`) are skipped. |
 | `(component) => boolean` | Custom predicate.                                                                  |
 
 Mixing `'this'` into an array also works — `$apply: ['this', 'VfText']` reaches the host plus every text element below it.

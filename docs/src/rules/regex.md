@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Pattern](/rules/#pattern)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.41 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[not_regex](/rules/not_regex)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->421 B<!-- /@size --> |
 
 </div>
 
@@ -56,14 +57,6 @@ The rule fails closed: when the pattern is missing or malformed, no value passes
 | Key | Default Message |
 | --- | --- |
 | `rule_regex_error` | The {attribute} format is invalid. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[not_regex](/rules/not_regex)
-
-<!-- @rule:related end -->
 
 ## Source
 

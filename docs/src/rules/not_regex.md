@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Pattern](/rules/#pattern)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.44 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[regex](/rules/regex)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->435 B<!-- /@size --> |
 
 </div>
 
@@ -50,14 +51,6 @@ A `pattern=` prefix is also supported and is optional. The rule fails closed: wh
 | Key | Default Message |
 | --- | --- |
 | `rule_not_regex_error` | The {attribute} format is invalid. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[regex](/rules/regex)
-
-<!-- @rule:related end -->
 
 ## Source
 

@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.20 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[regex](/rules/regex)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->203 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a valid UUID.
 | Key | Default Message |
 | --- | --- |
 | `rule_uuid_error` | The {attribute} must be a valid UUID. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[regex](/rules/regex)
-
-<!-- @rule:related end -->
 
 ## Source
 

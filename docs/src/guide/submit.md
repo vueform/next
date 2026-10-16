@@ -263,7 +263,7 @@ app.use(
 )
 ```
 
-Note that form submissions always set their request format explicitly, so the [`$http.requestType`](/guide/http#configuring-defaults) global applies to your own `useHttp()` calls, not to submissions — for forms, the `VfForm` default above is the one that counts.
+Note that form submissions always set their request format explicitly, so the [`$http.requestType`](/guide/http#configuring-defaults) global applies to your own `useHttp()` calls, not to submissions — for forms, the `!VfForm` default above is the one that counts.
 
 ::: info
 [Autosave](/guide/autosave) requests reuse the form's `headers`, `json`, and `base64` configuration, but run outside the submission lifecycle — no result events, no post-success actions.

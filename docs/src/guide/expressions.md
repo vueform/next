@@ -735,7 +735,7 @@ label: 'Hello \\{literal} from {user}'
 Sometimes a string should stay literal without escaping every brace — user-generated content, or a label that documents the syntax itself. Resolution can be restricted at three levels; the most specific wins:
 
 1. **Element** — the `expressions` prop: `false` disables the element's expression resolution entirely, an array of prop keys (`['label', 'help']`) allows only those.
-2. **Form** — the same `expressions` prop on `VfForm` / `useForm` applies to every child element.
+2. **Form** — the same `expressions` prop on `!VfForm` / `useForm` applies to every child element.
 3. **Global** — `$expression.trigger` in the config takes the same array of allowed prop keys for the whole app.
 
 ::: usage

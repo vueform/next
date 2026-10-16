@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Type](/rules/#type)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.19 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[numeric](/rules/numeric) · [digits](/rules/digits)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->196 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is an integer.
 | Key | Default Message |
 | --- | --- |
 | `rule_integer_error` | The {attribute} must be an integer. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[numeric](/rules/numeric) · [digits](/rules/digits)
-
-<!-- @rule:related end -->
 
 ## Source
 

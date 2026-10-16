@@ -205,7 +205,7 @@ function renderHint(hint: Hint): Element {
       : hint.items.map((item) => {
           const selected = item.selected
           const kindClass = item.kind
-            ? ` type-hint-kind--${safeKind(item.kind)}`
+            ? ` type-hint-kind-${safeKind(item.kind)}`
             : ''
           const children: ElementContent[] = [
             {
@@ -246,7 +246,7 @@ function renderHint(hint: Hint): Element {
     type: 'element',
     tagName: 'span',
     properties: {
-      class: `type-hint type-hint--${hint.kind} vp-copy-ignore`,
+      class: 'type-hint vp-copy-ignore',
     },
     children: [
       {
@@ -260,8 +260,8 @@ function renderHint(hint: Hint): Element {
         tagName: 'span',
         properties: {
           class:
-            `type-hint-panel type-hint-panel--${hint.kind}` +
-            (hint.placement === 'right' ? ' type-hint-panel--right' : ''),
+            `type-hint-panel type-hint-panel-${hint.kind}` +
+            (hint.placement === 'right' ? ' type-hint-panel-right' : ''),
           ...(hint.gap !== undefined && {
             style: `--type-hint-gap: ${hint.gap}px`,
           }),

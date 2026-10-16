@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Presence](/rules/#presence)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.20 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[required](/rules/required) · [boolean](/rules/boolean) · [in](/rules/in)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->200 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is accepted: `'yes'`, `'on'`, `'1'`, `1`, `true`, or `'
 | Key | Default Message |
 | --- | --- |
 | `rule_accepted_error` | The {attribute} must be accepted. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[required](/rules/required) · [boolean](/rules/boolean) · [in](/rules/in)
-
-<!-- @rule:related end -->
 
 ## Source
 

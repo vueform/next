@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Cross-field](/rules/#cross-field)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.24 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[different](/rules/different) · [confirmed](/rules/confirmed)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->247 B<!-- /@size --> |
 
 </div>
 
@@ -56,14 +57,6 @@ While the referenced element is empty and not yet validated, the rule passes —
 | Key | Default Message |
 | --- | --- |
 | `rule_same_error` | The {attribute} and {other} must match. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[different](/rules/different) · [confirmed](/rules/confirmed)
-
-<!-- @rule:related end -->
 
 ## Source
 

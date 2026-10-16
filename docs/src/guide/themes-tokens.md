@@ -296,7 +296,7 @@ createVueform({
 
 ### Component Tokens
 
-Component tokens are scoped to a single Vueform component — `VfForm`, `VfList`, `VfGroup`, and so on. They reference semantic and primitive tokens (never other components' tokens), which lets you customize a single component without rippling through the rest of the form.
+Component tokens are scoped to a single Vueform component — `!VfForm`, `VfList`, `VfGroup`, and so on. They reference semantic and primitive tokens (never other components' tokens), which lets you customize a single component without rippling through the rest of the form.
 
 Component tokens are listed on each component's reference page under its **Tokens** tab. For the form-level layout tokens (errors box, messages box, elements gutter, etc.) see [VfForm Tokens](/components/VfForm#tokens). For the gap and dragging behavior of repeaters see [VfList Tokens](/components/VfList#tokens). The same pattern applies to every component.
 
@@ -342,7 +342,7 @@ Nothing enforces this — references resolve at any tier, and overriding a token
 
 ## Per-Form and Per-Element Tokens
 
-The same shape can be set on `VfForm` and on individual elements via the `tokens` prop. Tokens applied this way affect the component they are set on and everything rendered inside it — for input elements that's just the element itself, while for `VfForm` and container elements (groups, lists, grids) the override cascades to every nested element. A nested element's own `tokens` still wins over an inherited override:
+The same shape can be set on `!VfForm` and on individual elements via the `tokens` prop. Tokens applied this way affect the component they are set on and everything rendered inside it — for input elements that's just the element itself, while for `!VfForm` and container elements (groups, lists, grids) the override cascades to every nested element. A nested element's own `tokens` still wins over an inherited override:
 
 ::: code-group
 

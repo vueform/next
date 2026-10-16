@@ -15,7 +15,7 @@ The chapter walks through them in that order, from the everyday to the specializ
 
 ## The 12-Column Grid
 
-Elements inside a `VfForm` (or any container element) sit on a grid that divides the available width into **12 columns**. An element with no `columns` prop takes all 12 — that's where the one-per-row default comes from:
+Elements inside a `!VfForm` (or any container element) sit on a grid that divides the available width into **12 columns**. An element with no `columns` prop takes all 12 — that's where the one-per-row default comes from:
 
 ::: usage
 
@@ -837,7 +837,7 @@ const [Form] = useForm({ schema })
 
 :::
 
-The same layout works for any children with an intrinsic width — buttons, checkbox and radio controls. `VfForm` also accepts `stacked`, applying the same flow to the form's direct children.
+The same layout works for any children with an intrinsic width — buttons, checkbox and radio controls. `!VfForm` also accepts `stacked`, applying the same flow to the form's direct children.
 
 ### Tabbed Groups
 

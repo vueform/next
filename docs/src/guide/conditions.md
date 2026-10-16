@@ -550,7 +550,7 @@ const isPremiumUser = async (el$) => {
 
 :::
 
-Both props cover **all** of the element's conditional props — `conditions`, `disabled`, `readonly`, and conditional validation rules. `VfForm` accepts the same pair for its own conditional props.
+Both props cover **all** of the element's conditional props — `conditions`, `disabled`, `readonly`, and conditional validation rules. `!VfForm` accepts the same pair for its own conditional props.
 
 ## Boolean Conditions
 
@@ -736,7 +736,7 @@ const [Form] = useForm({ schema })
 
 :::
 
-The difference from `conditions`: a disabled or readonly element stays **visible** and its value stays in the payload — only interaction is blocked. `VfForm` itself takes conditional `disabled` and `readonly` too, affecting the whole form at once.
+The difference from `conditions`: a disabled or readonly element stays **visible** and its value stays in the payload — only interaction is blocked. `!VfForm` itself takes conditional `disabled` and `readonly` too, affecting the whole form at once.
 
 Other elements reuse the same conditional machinery for their own props — for example `VfList`'s `disabled` prop, or per-item `disabled` below.
 

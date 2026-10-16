@@ -30,14 +30,3 @@ const isActive = computed(() => activeIndex.value === index)
     <slot />
   </div>
 </template>
-
-<style>
-.vp-subtab-panel > :first-child {
-  margin-top: 16px;
-  border-top: 0;
-}
-
-.vp-subtab-panel > :last-child {
-  margin-bottom: 16px;
-}
-</style>

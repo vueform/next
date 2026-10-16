@@ -1,0 +1,28 @@
+// Inline tag chips rendered by the tag plugin (`<!-- [#color text] -->`).
+
+.vp-tag {
+  position: relative;
+  padding: 1px 5px;
+  margin-bottom: 8px;
+  margin-left: 2px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: lowercase;
+  letter-spacing: 0.15px;
+  background: var(--vp-c-gray-2);
+  border-radius: 4px;
+
+  h1 & {
+    top: -5px;
+  }
+
+  &.vp-tag-blue {
+    color: var(--vp-tag-blue-text);
+    background: var(--vp-tag-blue-bg);
+  }
+
+  &.vp-tag-indigo {
+    color: var(--vp-tag-indigo-text);
+    background: var(--vp-tag-indigo-bg);
+  }
+}

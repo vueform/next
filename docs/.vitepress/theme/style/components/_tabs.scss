@@ -1,0 +1,88 @@
+// VPTabs / VPTab and VPSubtabs / VPSubtab — hash-synced tab groups.
+
+.vp-tabs {
+  display: flex;
+  flex-direction: column;
+  margin-top: 1rem;
+}
+
+.vp-subtabs {
+  display: flex;
+  flex-direction: column;
+}
+
+.vp-tabs-header,
+.vp-subtabs-header {
+  display: flex;
+  order: -1;
+  overflow-x: auto;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.vp-tab-button,
+.vp-subtab-button {
+  padding: 8px 16px;
+  font-family: var(--vp-font-family-base);
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--vp-c-text-2);
+  white-space: nowrap;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-bottom: 2px solid transparent;
+  transition:
+    color 0.25s,
+    border-color 0.25s;
+
+  &:hover {
+    color: var(--vp-c-text-1);
+  }
+
+  &.active {
+    color: var(--vp-c-brand-1);
+    border-bottom-color: var(--vp-c-brand-1);
+  }
+}
+
+.vp-tab-panel,
+.vp-subtab-panel {
+  & > :first-child {
+    margin-top: 16px;
+    border-top: 0;
+  }
+
+  & > :last-child {
+    margin-bottom: 16px;
+  }
+}
+
+.vp-tab-panel table {
+  width: 100%;
+
+  td:first-child {
+    width: 1%;
+  }
+}
+
+// Stack the main tab bar vertically on narrow screens
+@media (width <= 639px) {
+  .vp-tabs-header {
+    flex-direction: column;
+    overflow-x: visible;
+    border-bottom: none;
+    border-left: 1px solid var(--vp-c-divider);
+  }
+
+  .vp-tab-button {
+    margin-left: -1px;
+    text-align: left;
+    border-bottom: none !important;
+    border-left: 2px solid transparent;
+
+    &.active {
+      border-bottom-color: transparent;
+      border-left-color: var(--vp-c-brand-1);
+    }
+  }
+}

@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.20 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[alpha](/rules/alpha) · [alpha_num](/rules/alpha_num)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->203 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value contains only Unicode letters, digits, dashes, and unde
 | Key | Default Message |
 | --- | --- |
 | `rule_alpha_dash_error` | The {attribute} may only contain letters, numbers, dashes and underscores. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[alpha](/rules/alpha) · [alpha_num](/rules/alpha_num)
-
-<!-- @rule:related end -->
 
 ## Source
 

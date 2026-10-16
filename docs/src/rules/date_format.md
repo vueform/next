@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Date](/rules/#date)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.25 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[date](/rules/date) · [date_equals](/rules/date_equals)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->257 B<!-- /@size --> |
 
 </div>
 
@@ -46,14 +47,6 @@ Validates that the value matches a given date format. Requires the [Date](/api/m
 | Key | Default Message |
 | --- | --- |
 | `rule_date_format_error` | The {attribute} does not match the format {format}. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[date](/rules/date) · [date_equals](/rules/date_equals)
-
-<!-- @rule:related end -->
 
 ## Source
 

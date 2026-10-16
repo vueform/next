@@ -10,7 +10,7 @@ This chapter walks through defining row content, shaping the data model, control
 
 ## Basic Usage
 
-A list needs a `schema` describing the elements of each row — the same element definitions you'd use inside a `VfGroup` or a `VfForm`:
+A list needs a `schema` describing the elements of each row — the same element definitions you'd use inside a `VfGroup` or a `!VfForm`:
 
 ::: usage model
 

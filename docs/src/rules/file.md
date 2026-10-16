@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[File](/rules/#file)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.23 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[image](/rules/image) · [mimes](/rules/mimes) · [mimetypes](/rules/mimetypes)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->232 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a file.
 | Key | Default Message |
 | --- | --- |
 | `rule_file_error` | The {attribute} must be a file. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[image](/rules/image) · [mimes](/rules/mimes) · [mimetypes](/rules/mimetypes)
-
-<!-- @rule:related end -->
 
 ## Source
 

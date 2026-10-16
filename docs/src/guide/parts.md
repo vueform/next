@@ -4,7 +4,7 @@ outline: [2,3]
 
 # Parts
 
-A **part** is a named internal piece of a Vueform component — usually a DOM element (the `<input>` of a text field, the `<label>` tag), sometimes a nested component (the `VfTabs` a tabbed `VfForm` renders). The `parts` prop reaches into that internal markup and merges attributes onto a specific part — or props onto a nested component — without replacing any slots or templates.
+A **part** is a named internal piece of a Vueform component — usually a DOM element (the `<input>` of a text field, the `<label>` tag), sometimes a nested component (the `VfTabs` a tabbed `!VfForm` renders). The `parts` prop reaches into that internal markup and merges attributes onto a specific part — or props onto a nested component — without replacing any slots or templates.
 
 Reach for parts when you need to touch one spot in a component's rendering — an ARIA attribute, a test ID, a listener on the raw input, a prop on an internal component — and everything else should stay exactly as it is. If you instead want to _replace_ what renders there, that's [Slots](/guide/slots) and [Templates](/guide/templates).
 
@@ -89,7 +89,7 @@ The prefix is singular (`part:input`) while the object prop is plural (`parts`) 
 
 ## The Root Part
 
-Every component has a `root` part: the outermost element it renders. For form elements that's the [layout](/guide/element-layout) wrapper — a `<div>`, or a `<fieldset>` for containers with a label; for `VfForm` it's the `<form>` tag, and for `VfTabs`, `VfRow`, and the rest their outer `<div>`.
+Every component has a `root` part: the outermost element it renders. For form elements that's the [layout](/guide/element-layout) wrapper — a `<div>`, or a `<fieldset>` for containers with a label; for `!VfForm` it's the `<form>` tag, and for `VfTabs`, `VfRow`, and the rest their outer `<div>`.
 
 `root` matters because attributes written directly on the component tag **do not** reach the DOM — Vueform components render through slots, so there is no single element for Vue to forward them to, and they're dropped silently. To put an attribute on the wrapper, target `root`:
 
@@ -213,7 +213,7 @@ Each callable part's runtime arguments are documented next to the part in the co
 
 ## Forwarding to Nested Components
 
-When a part is itself a component — `VfForm`'s nested `VfTabs`, `VfSteps`, or `VfNav` — the value is forwarded as **props** instead of attributes. Anything the target accepts works: its `classes`, its slots, its event handlers, and, most usefully, its own `parts`:
+When a part is itself a component — `!VfForm`'s nested `VfTabs`, `VfSteps`, or `VfNav` — the value is forwarded as **props** instead of attributes. Anything the target accepts works: its `classes`, its slots, its event handlers, and, most usefully, its own `parts`:
 
 ::: code-group
 

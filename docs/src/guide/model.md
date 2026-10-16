@@ -380,7 +380,7 @@ That's the whole setup — with Vue DevTools installed, the inspector is active 
 <img class="light-only" src="/images/devtools-light.webp" alt="The Vueform inspector in Vue DevTools, with a form tree on the left and the selected element's data and state on the right." />
 <img class="dark-only" src="/images/devtools-dark.webp" alt="The Vueform inspector in Vue DevTools, with a form tree on the left and the selected element's data and state on the right." />
 
-The left pane lists each form by its `name` (`VfForm` when unnamed) with its elements underneath, nested the same way the model is — `nested` and `flattened` containers are tagged, and so is any element that is currently `invalid`. Select a node and the right pane shows its state, grouped:
+The left pane lists each form by its `name` (`!VfForm` when unnamed) with its elements underneath, nested the same way the model is — `nested` and `flattened` containers are tagged, and so is any element that is currently `invalid`. Select a node and the right pane shows its state, grouped:
 
 | Section          | Form                                                                                                 | Element                                                                                                                                         |
 | ---------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |

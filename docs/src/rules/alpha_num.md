@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.19 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[alpha](/rules/alpha) · [alpha_dash](/rules/alpha_dash)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->199 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value contains only Unicode letters and digits.
 | Key | Default Message |
 | --- | --- |
 | `rule_alpha_num_error` | The {attribute} may only contain letters and numbers. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[alpha](/rules/alpha) · [alpha_dash](/rules/alpha_dash)
-
-<!-- @rule:related end -->
 
 ## Source
 

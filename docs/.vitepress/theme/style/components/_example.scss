@@ -1,0 +1,195 @@
+// VPExample — live form example (`::: example`) with payload panel.
+
+.vp-example-wrapper {
+  position: relative;
+  padding: 2rem;
+  margin-top: 16px;
+  background-color: var(--vp-c-bg-example-wrapper);
+  border-radius: 8px 8px 0 0;
+
+  &:hover .vp-example-toggle {
+    opacity: 1;
+  }
+
+  & + div[class*='language-'],
+  & + .vp-code-group {
+    margin-top: 0;
+    border-radius: 0 0 8px 8px;
+  }
+
+  & + div[class*='language-'] {
+    margin-bottom: 0;
+  }
+
+  & + .vp-code-group .tabs {
+    border-radius: 0;
+  }
+
+  // Closed-code state: hide the code blocks, keep the tab bar as a footer
+  &.is-closed-code {
+    & + .vp-code-group .blocks,
+    & + .vp-example-model-container + .vp-code-group .blocks {
+      display: none;
+    }
+
+    & + .vp-code-group .tabs,
+    & + .vp-example-model-container + .vp-code-group .tabs {
+      border-radius: 0 0 8px 8px;
+      box-shadow: none;
+    }
+  }
+}
+
+.vp-example {
+  max-width: 410px;
+  padding: 1.5rem;
+  margin: 0 auto;
+  background-color: var(--vp-c-bg-example);
+  border-radius: 8px;
+  box-shadow: var(--vp-example-shadow);
+
+  &.w-xs {
+    max-width: 240px;
+  }
+
+  &.w-sm {
+    max-width: 320px;
+  }
+
+  &.w-md {
+    max-width: 460px;
+  }
+
+  &.w-lg {
+    max-width: 540px;
+  }
+
+  &.w-full {
+    max-width: 100%;
+  }
+
+  &.w-fit {
+    max-width: fit-content;
+  }
+}
+
+.vp-example-centered {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  justify-content: center;
+
+  .vf-group-elements {
+    justify-content: center;
+  }
+
+  .vf-tabs {
+    grid-column: span 12 / span 12;
+  }
+
+  ul.vf-tabs-wrapper {
+    justify-content: center;
+  }
+}
+
+.w-full > .vp-example-centered > .vf-form {
+  width: 100%;
+
+  .vf-group-elements.vf-stacked {
+    justify-content: center;
+  }
+}
+
+.vp-example-toggle {
+  position: absolute;
+  bottom: 8px;
+  left: 10px;
+  display: inline-flex;
+  gap: 4px;
+  align-items: center;
+  padding: 0;
+  margin-top: 12px;
+  font-family: inherit;
+  font-size: 13px;
+  color: var(--vp-c-text-3);
+  cursor: pointer;
+  background: none;
+  border: none;
+  opacity: 0;
+  transition:
+    color 0.2s,
+    opacity 0.2s;
+
+  &:hover {
+    color: var(--vp-c-text-2);
+  }
+
+  &.is-open {
+    opacity: 1;
+  }
+}
+
+.vp-example-toggle-chevron {
+  transition: transform 0.25s ease;
+
+  &.is-open {
+    transform: rotate(90deg);
+  }
+}
+
+.vp-example-model-container {
+  display: grid;
+  grid-template-rows: 0fr;
+  border-top: 0px solid var(--vp-c-gray-soft);
+  transition:
+    grid-template-rows 0.25s ease,
+    border-top 0.25s ease;
+
+  &.is-open {
+    grid-template-rows: 1fr;
+    border-top: 1px solid var(--vp-c-gray-1);
+
+    .dark & {
+      border-top-color: var(--vp-c-gray-soft);
+    }
+  }
+
+  & + div[class*='language-'],
+  & + .vp-code-group {
+    margin-top: 0;
+    border-radius: 0 0 8px 8px;
+  }
+
+  & + .vp-code-group .tabs {
+    border-radius: 0;
+  }
+}
+
+.vp-example-model {
+  min-height: 0;
+  padding: 0 1.25rem;
+  margin: 0;
+  overflow: hidden;
+  font-size: 13px;
+  line-height: 1.5;
+  color: var(--vp-c-text-1);
+  background-color: var(--vp-c-bg-example-wrapper);
+  transition: padding 0.25s ease;
+
+  .is-open > & {
+    padding: 1.5rem 1.25rem;
+  }
+}
+
+// Font Awesome icons inside Vueform buttons keep the button's line-height
+.fa,
+.fa-brands,
+.fa-regular,
+.fa-solid,
+.fab,
+.far,
+.fas {
+  &.vf-btn-icon {
+    line-height: inherit;
+  }
+}

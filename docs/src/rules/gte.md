@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Comparison](/rules/#comparison)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.29 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[gt](/rules/gt) · [lt](/rules/lt) · [lte](/rules/lte)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->293 B<!-- /@size --> |
 
 </div>
 
@@ -66,14 +67,6 @@ While the referenced element is empty and not yet validated, the rule passes —
 | `rule_gte_numeric_error` | The {attribute} must be greater than or equal {value}. |
 | `rule_gte_array_error` | The {attribute} must have {value} items or more. |
 | `rule_gte_file_error` | The {attribute} must be greater than or equal {value} kilobytes. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[gt](/rules/gt) · [lt](/rules/lt) · [lte](/rules/lte)
-
-<!-- @rule:related end -->
 
 ## Source
 

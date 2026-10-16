@@ -8,7 +8,7 @@ A long form doesn't have to be one long page. Vueform can split a form into mult
 
 ## Tabbed Forms
 
-Add the `tabbed` prop to `VfForm` and its direct children become tabs. Each child's `page` prop sets the tab label:
+Add the `tabbed` prop to `!VfForm` and its direct children become tabs. Each child's `page` prop sets the tab label:
 
 ::: usage
 

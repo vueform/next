@@ -109,7 +109,7 @@ The error region's `id` is referenced by the input's `aria-describedby`, so a sc
 
 ### Form Errors
 
-`VfForm` renders a form-level error summary with `role="alert"`, `aria-live="assertive"`, and `aria-atomic="true"`. When `showErrors` is enabled and validation fails, the summary is announced as a whole. When no errors are present, the container collapses to `sr-only` — it stays in the DOM so the live region is registered, but nothing is visible or announced.
+`!VfForm` renders a form-level error summary with `role="alert"`, `aria-live="assertive"`, and `aria-atomic="true"`. When `showErrors` is enabled and validation fails, the summary is announced as a whole. When no errors are present, the container collapses to `sr-only` — it stays in the DOM so the live region is registered, but nothing is visible or announced.
 
 Form-level messages (success confirmations, informational notices) use a separate container with `role="status"` and `aria-live="polite"`, so they're announced at the next convenient pause rather than interrupting the user.
 

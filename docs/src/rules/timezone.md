@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.21 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[in](/rules/in)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->216 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a valid IANA timezone identifier (e.g. `America/New_
 | Key | Default Message |
 | --- | --- |
 | `rule_timezone_error` | The {attribute} must be a valid zone. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[in](/rules/in)
-
-<!-- @rule:related end -->
 
 ## Source
 

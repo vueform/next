@@ -5,10 +5,15 @@
 :root {
   --vp-code-line-height: 1.7;
   --vp-code-font-size: 0.875em;
-  --vp-code-color: var(--vp-c-brand-1);
-  --vp-code-link-color: var(--vp-c-brand-1);
-  --vp-code-link-hover-color: var(--vp-c-brand-2);
-  --vp-code-bg: var(--vp-c-default-soft);
+
+  // --vp-code-color: #6f42c1;
+  // --vp-code-bg: #6f42c114;
+
+  --vp-code-color: #171818;
+  --vp-code-bg: #91b2d229;
+
+  --vp-code-link-color: var(--vp-code-color);
+  --vp-code-link-hover-color: var(--vp-code-color);
 
   --vp-code-block-color: var(--vp-c-text-2);
   --vp-code-block-bg: var(--vp-c-bg-alt);
@@ -62,4 +67,15 @@
 
 :lang(zh) {
   --vp-code-copy-copied-text-content: '已复制';
+}
+
+.dark {
+  // --vp-code-color: #b392f0;
+  // --vp-code-bg: #b392f01a;
+
+  --vp-code-color: var(--vp-c-neutral);
+  --vp-code-bg: #91b2d229;
+
+  --vp-code-color-alt: var(--vf-gray-2);
+  --vp-code-bg-alt: #6b8dae29;
 }

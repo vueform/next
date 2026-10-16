@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.40 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[ip](/rules/ip) · [ipv4](/rules/ipv4)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->405 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a valid IPv6 address.
 | Key | Default Message |
 | --- | --- |
 | `rule_ipv6_error` | The {attribute} must be a valid IPv6 address. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[ip](/rules/ip) · [ipv4](/rules/ipv4)
-
-<!-- @rule:related end -->
 
 ## Source
 

@@ -93,7 +93,7 @@ With a [modular setup](/guide/code-splitting#modular-setup), all components are 
 - Type: `Record<ComponentName | '*' | '*element', Partial<Props>>`
 - Default: `{}`
 
-[Default](/guide/defaults) prop values applied to every instance of a component. Keys are component names (`VfText`, `VfForm`, …) or the wildcards `'*'` (every component) and `'*element'` (every element):
+[Default](/guide/defaults) prop values applied to every instance of a component. Keys are component names (`VfText`, `!VfForm`, …) or the wildcards `'*'` (every component) and `'*element'` (every element):
 
 ```ts
 createVueform({
@@ -405,7 +405,7 @@ Options controlling how Vueform emits its CSS:
 | Option           | Default           | Description                                                                                                                                                                                       |
 | ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | `styleId`        | `'vueform-theme'` | The `id` of the injected `<style>` tag.                                                                                                                                                           |
-| `scopedDarkMode` | `false`           | Generates extra scoped CSS re-declaring all theme tokens under `darkClass` / `lightClass`, so the `dark` prop on `VfForm` can toggle dark mode per form in any environment. Adds ~5–10 KB of CSS. |
+| `scopedDarkMode` | `false`           | Generates extra scoped CSS re-declaring all theme tokens under `darkClass` / `lightClass`, so the `dark` prop on `!VfForm` can toggle dark mode per form in any environment. Adds ~5–10 KB of CSS. |
 | `darkClass`      | `'vf-dark'`       | Class applied to forms with `:dark="true"` when `scopedDarkMode` is on.                                                                                                                           |
 | `lightClass`     | `'vf-light'`      | Class applied to forms with `:dark="false"` when `scopedDarkMode` is on.                                                                                                                          |
 

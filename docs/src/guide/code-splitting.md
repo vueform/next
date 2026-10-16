@@ -126,7 +126,7 @@ No CSS imports are needed: each component's entry carries exactly the stylesheet
 
 Vueform components render each other through the registry too, so a trimmed set must include the internals your forms reach, not just the element types you write:
 
-- **Always**: `VfForm` renders its schema through `VfElements`, and every element wraps itself in `VfLayout`, which renders `VfAddon` and `VfIcon`. These five are the fixed companions of any form.
+- **Always**: `!VfForm` renders its schema through `VfElements`, and every element wraps itself in `VfLayout`, which renders `VfAddon` and `VfIcon`. These five are the fixed companions of any form.
 - `VfCheckboxes` and `VfRadios` render a `VfCheckbox` / `VfRadio` per item.
 - `VfFile`, `VfList`, `VfMatrix`, and `VfNav` render `VfButton`.
 - [Multi-page forms](/guide/multi-page-forms) need `VfSteps` or `VfTabs`, plus `VfNav`.
@@ -161,7 +161,7 @@ All components together add <!-- @size:components-total-js -->`49.21 kB`<!-- /@s
 
 | Component                  | JS           | CSS          |
 | -------------------------- | ------------ | ------------ |
-| [`VfForm`](/ui/VfForm) | 5.72&nbsp;kB | 0.00&nbsp;kB |
+| [`!VfForm`](/ui/VfForm) | 5.72&nbsp;kB | 0.00&nbsp;kB |
 | [`VfGrid`](/ui/VfGrid) | 2.37&nbsp;kB | 0.00&nbsp;kB |
 | [`VfGroup`](/ui/VfGroup) | 0.44&nbsp;kB | 0.08&nbsp;kB |
 | [`VfList`](/ui/VfList) | 1.54&nbsp;kB | 0.17&nbsp;kB |

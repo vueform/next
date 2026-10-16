@@ -125,7 +125,7 @@ Form-level `validateOn` applies to every element in the form unless overridden p
 </VfForm>
 ```
 
-The built-in default is `['blur', 'next']` — elements validate on first blur and when the user moves between steps. Submission is not in the list because it isn't an opt-in trigger: submit always validates whatever lacks a current passing result, and adding `'submit'` only upgrades that to a forced full re-run — see [Submission](#submission). Override the default globally as a [Default](/guide/defaults) for `VfForm`:
+The built-in default is `['blur', 'next']` — elements validate on first blur and when the user moves between steps. Submission is not in the list because it isn't an opt-in trigger: submit always validates whatever lacks a current passing result, and adding `'submit'` only upgrades that to a forced full re-run — see [Submission](#submission). Override the default globally as a [Default](/guide/defaults) for `!VfForm`:
 
 ```ts
 app.use(
@@ -1183,7 +1183,7 @@ The `hideErrors` prop on an element suppresses its error display while validatio
 <VfText name="email" rules="required|email" hide-errors />
 ```
 
-The same prop on `VfForm` hides only the form-level error block.
+The same prop on `!VfForm` hides only the form-level error block.
 
 ### Hoisting Errors
 
@@ -1219,7 +1219,7 @@ The `maxErrors` prop limits how many errors are displayed per element (default `
 
 ## Global Configuration
 
-Validation-related props can be configured globally as [Defaults](/guide/defaults) for `VfForm` or for all elements:
+Validation-related props can be configured globally as [Defaults](/guide/defaults) for `!VfForm` or for all elements:
 
 ```ts
 import { createVueform } from '@vueform/ui'

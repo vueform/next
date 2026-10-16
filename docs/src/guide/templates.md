@@ -31,7 +31,7 @@ Like any other slot, `template` can be filled inline with [`#template`](/guide/s
 </VfText>
 ```
 
-The slot replaces the component's **entire** markup, and it works the same on every Vueform component — `VfForm`, `VfGroup`, `VfTabs`, not just elements. For an element like the `VfText` above, "entire" includes the standard element layout — label, errors, and the rest — so these examples render nothing but a bare input (the `label` never shows). Wrapping an element template's markup in `<VfLayout>` keeps the layout; that's the norm and covered in [The Standard Layout](#the-standard-layout).
+The slot replaces the component's **entire** markup, and it works the same on every Vueform component — `!VfForm`, `VfGroup`, `VfTabs`, not just elements. For an element like the `VfText` above, "entire" includes the standard element layout — label, errors, and the rest — so these examples render nothing but a bare input (the `label` never shows). Wrapping an element template's markup in `<VfLayout>` keeps the layout; that's the norm and covered in [The Standard Layout](#the-standard-layout).
 
 From a schema, the same content goes through the [`slots`](/guide/slots#the-slots-prop) prop as a `template` entry. The entry renders as a component, and `context` arrives as its **prop** — [`defineSlot`](/guide/slots#defineslot) declares and types it:
 
@@ -407,7 +407,7 @@ A template is a regular SFC, so you're free to write logic in it — computeds, 
 
 ## Element Templates
 
-Everything so far applies to a template for **any** component — `VfForm`, `VfText`, `VfTabs`, and the rest. An element's template carries two extra responsibilities: the layout around the control, and the wiring that turns DOM events into the element's value and interaction state. Templates for non-element components can skip this whole section.
+Everything so far applies to a template for **any** component — `!VfForm`, `VfText`, `VfTabs`, and the rest. An element's template carries two extra responsibilities: the layout around the control, and the wiring that turns DOM events into the element's value and interaction state. Templates for non-element components can skip this whole section.
 
 ### The Standard Layout
 
@@ -626,7 +626,7 @@ createVueform({
 })
 ```
 
-Every `VfText` in the app now renders `MyTextTemplate`. The same works for any component — `VfForm`, `VfLayout`, `VfTabs`, `VfNav`, and the rest — and everything `defaults` offers applies: the `'*'` / `'*element'` wildcards, and [Presets](/guide/presets) for templates that only some instances opt into. A per-instance `template` prop still wins, and `:template="null"` opts a single instance back to the built-in markup:
+Every `VfText` in the app now renders `MyTextTemplate`. The same works for any component — `!VfForm`, `VfLayout`, `VfTabs`, `VfNav`, and the rest — and everything `defaults` offers applies: the `'*'` / `'*element'` wildcards, and [Presets](/guide/presets) for templates that only some instances opt into. A per-instance `template` prop still wins, and `:template="null"` opts a single instance back to the built-in markup:
 
 ```vue
 <VfText name="email" :template="null" />
@@ -686,7 +686,7 @@ When a component decides what to render, the first match wins:
 3. A `slots.template` entry from the `slots` prop.
 4. The component's built-in markup.
 
-The mechanism is identical for every Vueform component — what you learn on `VfText` applies to `VfForm`, `VfLayout`, `VfTabs`, and the rest.
+The mechanism is identical for every Vueform component — what you learn on `VfText` applies to `!VfForm`, `VfLayout`, `VfTabs`, and the rest.
 
 ## Beyond Templates
 

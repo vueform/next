@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Date](/rules/#date)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.41 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[after_or_equal](/rules/after_or_equal) · [before](/rules/before) · [before_or_equal](/rules/before_or_equal)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->415 B<!-- /@size --> |
 
 </div>
 
@@ -52,14 +53,6 @@ Validates that the date is after a given date or another element's date. Require
 | Key | Default Message |
 | --- | --- |
 | `rule_after_error` | The {attribute} must be a date after {date}. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[after_or_equal](/rules/after_or_equal) · [before](/rules/before) · [before_or_equal](/rules/before_or_equal)
-
-<!-- @rule:related end -->
 
 ## Source
 

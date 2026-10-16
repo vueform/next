@@ -1,0 +1,54 @@
+// VPAdapterSelector — adapter dropdown at the top of the sidebar.
+
+.vp-adapter-selector {
+  padding: 8px 0 16px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid var(--vp-c-divider);
+}
+
+.vp-adapter-selector-label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--vp-c-text-2);
+}
+
+.vp-adapter-selector-control {
+  position: relative;
+  display: flex;
+  align-items: center;
+
+  select {
+    width: 100%;
+    padding: 6px 28px 6px 10px;
+    font-family: var(--vp-font-family-base);
+    font-size: 13px;
+    line-height: 20px;
+    color: var(--vp-c-text-1);
+    appearance: none;
+    cursor: pointer;
+    background: var(--vp-c-bg);
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 6px;
+    transition: border-color 0.2s;
+
+    &:hover {
+      border-color: var(--vp-c-brand-1);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--vp-c-brand-1);
+      outline-offset: -1px;
+    }
+  }
+}
+
+.vp-adapter-selector-chevron {
+  position: absolute;
+  right: 8px;
+  width: 14px;
+  height: 14px;
+  color: var(--vp-c-text-3);
+  pointer-events: none;
+}

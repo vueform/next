@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Size](/rules/#size)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.20 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[digits_between](/rules/digits_between) · [numeric](/rules/numeric) · [integer](/rules/integer)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->205 B<!-- /@size --> |
 
 </div>
 
@@ -46,14 +47,6 @@ Validates that the value is numeric and has an exact number of digits.
 | Key | Default Message |
 | --- | --- |
 | `rule_digits_error` | The {attribute} must be {digits} digits. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[digits_between](/rules/digits_between) · [numeric](/rules/numeric) · [integer](/rules/integer)
-
-<!-- @rule:related end -->
 
 ## Source
 

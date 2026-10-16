@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Date](/rules/#date)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.19 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[date_format](/rules/date_format) · [after](/rules/after) · [before](/rules/before)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->195 B<!-- /@size --> |
 
 </div>
 
@@ -46,14 +47,6 @@ Validates that the value equals the given date. The comparison is a strict strin
 | Key | Default Message |
 | --- | --- |
 | `rule_date_equals_error` | The {attribute} must be equal to {date}. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[date_format](/rules/date_format) · [after](/rules/after) · [before](/rules/before)
-
-<!-- @rule:related end -->
 
 ## Source
 

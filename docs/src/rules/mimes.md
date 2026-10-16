@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[File](/rules/#file)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.27 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[mimetypes](/rules/mimetypes) · [file](/rules/file) · [image](/rules/image)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->274 B<!-- /@size --> |
 
 </div>
 
@@ -46,14 +47,6 @@ Validates that the file's extension is one of the listed types.
 | Key | Default Message |
 | --- | --- |
 | `rule_mimes_error` | The {attribute} must be a file of type: {values}. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[mimetypes](/rules/mimetypes) · [file](/rules/file) · [image](/rules/image)
-
-<!-- @rule:related end -->
 
 ## Source
 

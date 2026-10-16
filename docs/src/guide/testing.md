@@ -38,7 +38,7 @@ export default defineConfig({
 
 ## Mounting a Form
 
-The simplest way to render a Vueform form in a test is to mount `VfForm` directly with the schema as a prop and install `createVueform` as a global plugin:
+The simplest way to render a Vueform form in a test is to mount `!VfForm` directly with the schema as a prop and install `createVueform` as a global plugin:
 
 ```ts
 import { mount } from '@vue/test-utils'

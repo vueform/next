@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.19 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[alpha_num](/rules/alpha_num) · [alpha_dash](/rules/alpha_dash)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->191 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value contains only Unicode letters.
 | Key | Default Message |
 | --- | --- |
 | `rule_alpha_error` | The {attribute} may only contain letters. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[alpha_num](/rules/alpha_num) · [alpha_dash](/rules/alpha_dash)
-
-<!-- @rule:related end -->
 
 ## Source
 

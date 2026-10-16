@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Presence](/rules/#presence)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.18 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[filled](/rules/filled) · [nullable](/rules/nullable) · [accepted](/rules/accepted)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->183 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the element has a non-empty value. What counts as empty depends o
 | Key | Default Message |
 | --- | --- |
 | `rule_required_error` | The {attribute} field is required. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[filled](/rules/filled) · [nullable](/rules/nullable) · [accepted](/rules/accepted)
-
-<!-- @rule:related end -->
 
 ## Source
 

@@ -28,7 +28,7 @@ app.use(createVueform({
 app.mount('#app')
 ```
 
-Every `VfForm` now validates on change and submit — unless an individual form says otherwise. The keys of `defaults` autocomplete to the registered components, and each value is typed as a partial of that component's props.
+Every `!VfForm` now validates on change and submit — unless an individual form says otherwise. The keys of `defaults` autocomplete to the registered components, and each value is typed as a partial of that component's props.
 
 ## Wildcard Targets
 
@@ -46,7 +46,7 @@ createVueform({
 
 A wildcard default is read per component — components without the prop simply ignore it. The `disabled` above affects everything that has a `disabled` prop and is a no-op on the rest.
 
-`'*element'` targets only **elements** — components flagged `element: true` in their definition. Structural and form-level components (`VfForm`, `VfTabs`, `VfNav`) are left untouched:
+`'*element'` targets only **elements** — components flagged `element: true` in their definition. Structural and form-level components (`!VfForm`, `VfTabs`, `VfNav`) are left untouched:
 
 ```ts
 createVueform({
@@ -76,7 +76,7 @@ createVueform({
 })
 ```
 
-A `VfText` instance ends up with all three; a `VfForm` only sees the `class`.
+A `VfText` instance ends up with all three; a `!VfForm` only sees the `class`.
 
 ## Merging Behavior
 
@@ -170,7 +170,7 @@ For any component instance, props resolve from lowest to highest priority:
 1. **Built-in component defaults** — what the component itself declares.
 2. **Global `'*'`** — every component.
 3. **Global `'*element'`** — every element (skipped for non-elements).
-4. **Component-specific** — `VfForm`, `VfText`, ….
+4. **Component-specific** — `!VfForm`, `VfText`, ….
 5. **[Presets](/guide/presets)** — from the component's `presets` prop or inherited from an ancestor.
 6. **Local props** — what you write on the component.
 

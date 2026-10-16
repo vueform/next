@@ -8,7 +8,7 @@ By convention, variables that hold a context use the **`$` suffix**: `form$` for
 
 ## Template Refs
 
-The Vue-native way in is a template ref. Put one on `VfForm` to get the form context, or on an element to get that element's context:
+The Vue-native way in is a template ref. Put one on `!VfForm` to get the form context, or on an element to get that element's context:
 
 ```vue
 <script setup lang="ts">
@@ -115,7 +115,7 @@ onMounted(() => {
 })
 ```
 
-That typing is available in every way you reach the form — `form$` from `useForm`, the `formReady` callback, or a template ref on `VfForm`.
+That typing is available in every way you reach the form — `form$` from `useForm`, the `formReady` callback, or a template ref on `!VfForm`.
 
 Unknown paths are still accepted and return an untyped element (or `undefined` if nothing is registered there).
 

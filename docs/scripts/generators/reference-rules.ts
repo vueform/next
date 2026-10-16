@@ -10,11 +10,10 @@ import type { ScenarioResult, SizeResults as Results } from '@vueform/utils'
  *
  * - **Category, parameters, and related rules** come from the rule's own
  *   docblock in `packages/core/src/rules/<rule>.ts` (`@category`, `@param`,
- *   `@related` tags). They are written into the page's
- *   `<!-- @rule:category -->` inline marker and the
- *   `<!-- @rule:params start/end -->` / `<!-- @rule:related start/end -->`
- *   regions — a page with parameters or related rules but no matching
- *   markers fails the run.
+ *   `@related` tags). Category and related rules are written into the meta
+ *   table's `<!-- @rule:category -->` / `<!-- @rule:related -->` inline
+ *   markers, parameters into the `<!-- @rule:params start/end -->` region —
+ *   a page without the matching markers fails the run.
  * - **Bundle size** comes from the core package's size suite results
  *   (`packages/core/size.json`, see `pnpm size --core`): the gzipped delta
  *   of the `rule+<name>` scenario against its base, the same way the
@@ -219,8 +218,8 @@ function paramsTable(params: RuleMeta['params']): string {
 }
 
 function relatedLinks(related: string[]): string {
-  const links = related.map((name) => `[${name}](/rules/${name})`)
-  return `## Related Rules\n\n${links.join(' · ')}`
+  if (!related.length) return '—'
+  return related.map((name) => `[${name}](/rules/${name})`).join(' · ')
 }
 
 // ---------------------------------------------------------------------------
@@ -264,13 +263,7 @@ function main(): void {
     const file = path.join(PAGES_DIR, entry)
     const content = fs.readFileSync(file, 'utf-8')
 
-    let next = updateInline(
-      content,
-      'size:rule',
-      'size',
-      `\`${(bytes / 1024).toFixed(2)} kB\``,
-      page
-    )
+    let next = updateInline(content, 'size:rule', 'size', `${bytes} B`, page)
     next = updateInline(
       next,
       'rule:category',
@@ -278,16 +271,17 @@ function main(): void {
       categoryLink(meta.category),
       page
     )
-    next = updateRegion(
+    next = updateInline(
       next,
-      'rule:params',
-      meta.params.length ? paramsTable(meta.params) : '',
+      'rule:related',
+      'rule:related',
+      relatedLinks(meta.related),
       page
     )
     next = updateRegion(
       next,
-      'rule:related',
-      meta.related.length ? relatedLinks(meta.related) : '',
+      'rule:params',
+      meta.params.length ? paramsTable(meta.params) : '',
       page
     )
 

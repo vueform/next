@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Size](/rules/#size)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.22 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[digits](/rules/digits) · [between](/rules/between)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->228 B<!-- /@size --> |
 
 </div>
 
@@ -47,14 +48,6 @@ Validates that the value is numeric with a digit count between a minimum and max
 | Key | Default Message |
 | --- | --- |
 | `rule_digits_between_error` | The {attribute} must be between {min} and {max} digits. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[digits](/rules/digits) · [between](/rules/between)
-
-<!-- @rule:related end -->
 
 ## Source
 

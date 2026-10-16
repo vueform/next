@@ -160,17 +160,17 @@ async function renderPopoverBlocks(
         try {
           const data = JSON.parse(raw)
           parts.push(
-            `<div class="popover-block popover-block--type">${data.codeHtml}</div>`
+            `<div class="popover-block popover-block-type">${data.codeHtml}</div>`
           )
           if (data.description) {
             const descHtml = inlineCodeToHtml(data.description.trim())
             parts.push(
-              `<div class="popover-block popover-block--desc">${descHtml}</div>`
+              `<div class="popover-block popover-block-desc">${descHtml}</div>`
             )
           }
           for (const tag of data.tags || []) {
             parts.push(
-              `<div class="popover-block popover-block--tag">` +
+              `<div class="popover-block popover-block-tag">` +
                 `<span class="popover-tag-label">@${tag.tag}</span>` +
                 (tag.name
                   ? ` <code class="popover-tag-name">${tag.name}</code>`
@@ -183,7 +183,7 @@ async function renderPopoverBlocks(
           }
         } catch {
           parts.push(
-            `<div class="popover-block popover-block--type">${raw}</div>`
+            `<div class="popover-block popover-block-type">${raw}</div>`
           )
         }
       }
@@ -209,7 +209,7 @@ async function renderPopoverBlocks(
             })
             .join('')
           parts.push(
-            `<div class="popover-block popover-block--tokens">` +
+            `<div class="popover-block popover-block-tokens">` +
               `<div class="popover-tokens-label">Tokens</div>` +
               `<div class="popover-tokens-list">${tokenItems}</div>` +
               `</div>`
@@ -240,7 +240,7 @@ async function renderPopoverBlocks(
             })
             .join('')
           parts.push(
-            `<div class="popover-block popover-block--classes">` +
+            `<div class="popover-block popover-block-classes">` +
               `<div class="popover-classes-label">Used by</div>` +
               `<div class="popover-classes-list">${classItems}</div>` +
               `</div>`
@@ -271,7 +271,7 @@ async function renderPopoverBlocks(
             })
             .join('')
           parts.push(
-            `<div class="popover-block popover-block--variants">` +
+            `<div class="popover-block popover-block-variants">` +
               `<div class="popover-variants-label">Variants</div>` +
               `<div class="popover-variants-list">${variantItems}</div>` +
               `</div>`
@@ -289,7 +289,7 @@ async function renderPopoverBlocks(
           ? urlWithoutHash.slice(packagesIdx + 'packages/'.length)
           : (urlWithoutHash.split('/').pop() ?? urlWithoutHash)
       parts.push(
-        `<div class="popover-block popover-block--github">` +
+        `<div class="popover-block popover-block-github">` +
           `Source: ` +
           `<svg class="popover-github-icon" viewBox="0 0 16 16" width="14" height="14" fill="currentColor"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0016 8c0-4.42-3.58-8-8-8z"/></svg> ` +
           `<a class="popover-github-link" href="${url}" target="_blank" rel="noopener noreferrer">${displayPath}</a>` +
@@ -305,12 +305,12 @@ async function renderPopoverBlocks(
       const html = await fetchSnippet(`${prefix}${encoded}`)
       if (html)
         parts.push(
-          `<div class="popover-block popover-block--type">${html}</div>`
+          `<div class="popover-block popover-block-type">${html}</div>`
         )
     } else {
       const textHtml = inlineCodeToHtml(block.content)
       parts.push(
-        `<div class="popover-block popover-block--text">${textHtml}</div>`
+        `<div class="popover-block popover-block-text">${textHtml}</div>`
       )
     }
   }

@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.45 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[email](/rules/email) · [ip](/rules/ip)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->460 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a valid URL (http, https, or ftp).
 | Key | Default Message |
 | --- | --- |
 | `rule_url_error` | The {attribute} format is invalid. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[email](/rules/email) · [ip](/rules/ip)
-
-<!-- @rule:related end -->
 
 ## Source
 

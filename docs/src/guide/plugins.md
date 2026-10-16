@@ -104,7 +104,7 @@ The `apply` option decides where `props`, `emits`, and `extend` attach:
 | `'VfText'`                 | A single component by name.                                                                        |
 | `['VfText', 'VfTextarea']` | Any of the listed names.                                                                           |
 | `'*'`                      | Every registered component.                                                                        |
-| `'*element'`               | Every component flagged as an element — excludes structural components like `VfForm` and `VfTabs`. |
+| `'*element'`               | Every component flagged as an element — excludes structural components like `!VfForm` and `VfTabs`. |
 | `/pattern/`                | Any component whose name matches the regex.                                                        |
 | `(component) => boolean`   | A predicate over the component definition.                                                         |
 

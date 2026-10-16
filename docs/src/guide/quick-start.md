@@ -605,7 +605,7 @@ onMounted(() => {
 The `$` suffix is a Vueform convention for variables that hold a component's context.
 :::
 
-For the complete list of state flags, props and methods available on the form context, see [`VfForm`'s context reference](/ui/VfForm#context).
+For the complete list of state flags, props and methods available on the form context, see [`!VfForm`'s context reference](/ui/VfForm#context).
 
 ### Element Contexts
 

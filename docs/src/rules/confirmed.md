@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Cross-field](/rules/#cross-field)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.20 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[same](/rules/same)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->202 B<!-- /@size --> |
 
 </div>
 
@@ -48,14 +49,6 @@ The confirmation element is looked up automatically by appending `_confirmed` to
 | Key | Default Message |
 | --- | --- |
 | `rule_confirmed_error` | The {attribute} confirmation does not match. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[same](/rules/same)
-
-<!-- @rule:related end -->
 
 ## Source
 

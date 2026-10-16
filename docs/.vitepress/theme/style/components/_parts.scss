@@ -1,0 +1,502 @@
+// VPParts / VPPartTree — component anatomy explorer: part tree, preview,
+// HTML view, and the locked-part info panel.
+// Formerly scoped SFC styles; everything is nested under `.vp-parts` to keep
+// the specificity bump the scope attribute used to provide.
+
+.vp-parts {
+  position: relative;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+
+  // ---- Example tabs ------------------------------------------------------
+
+  .vp-parts-tabs {
+    display: flex;
+    gap: 0;
+    background: var(--vp-c-bg-soft);
+    border-bottom: 1px solid var(--vp-c-divider);
+  }
+
+  .vp-parts-tab {
+    padding: 8px 16px;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--vp-c-text-2);
+    text-transform: capitalize;
+    cursor: pointer;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    transition:
+      color 0.2s,
+      border-color 0.2s;
+
+    &:hover {
+      color: var(--vp-c-text-1);
+    }
+
+    &.active {
+      color: var(--vp-c-brand-1);
+      border-bottom-color: var(--vp-c-brand-1);
+    }
+  }
+
+  // ---- Layout ------------------------------------------------------------
+
+  .vp-parts-body {
+    display: flex;
+  }
+
+  .vp-parts-outline {
+    flex-shrink: 0;
+    padding: 12px 24px 24px 18px;
+    overflow-x: auto;
+    white-space: nowrap;
+    background: var(--vp-c-bg-soft);
+    border-right: 1px solid var(--vp-c-divider);
+    border-bottom-left-radius: 8px;
+  }
+
+  &.has-info .vp-parts-outline {
+    border-bottom-left-radius: 0;
+  }
+
+  .vp-parts-outline-label {
+    margin-bottom: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--vp-c-text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .vp-parts-outline-tree {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .vp-parts-main {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-width: 0;
+    border-bottom-right-radius: 8px;
+  }
+
+  &.has-info .vp-parts-main {
+    border-bottom-right-radius: 0;
+  }
+
+  // ---- Toolbar -----------------------------------------------------------
+
+  .vp-parts-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 36px;
+    padding: 6px 12px;
+    background: var(--vp-c-bg-soft);
+    border-bottom: 1px solid var(--vp-c-divider);
+  }
+
+  .vp-parts-view-toggle {
+    display: flex;
+    gap: 0;
+    overflow: hidden;
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 6px;
+  }
+
+  .vp-parts-view-btn {
+    padding: 3px 10px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--vp-c-text-2);
+    cursor: pointer;
+    background: var(--vp-c-bg);
+    border: none;
+    transition:
+      color 0.15s,
+      background 0.15s;
+
+    &:not(:last-child) {
+      border-right: 1px solid var(--vp-c-divider);
+    }
+
+    &:hover {
+      color: var(--vp-c-text-1);
+    }
+
+    &.active {
+      color: var(--vp-c-brand-1);
+      background: var(--vp-c-brand-soft);
+    }
+  }
+
+  .vp-parts-conditional {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--vp-c-text-2);
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .vp-parts-conditional-input {
+    margin: 0;
+    cursor: pointer;
+  }
+
+  // ---- Preview -----------------------------------------------------------
+
+  .vp-parts-preview {
+    position: relative;
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: stretch;
+    min-width: 0;
+    padding: 16px 56px;
+    margin: 0;
+    border-radius: 0;
+
+    .vp-example {
+      width: 100%;
+      max-width: 100%;
+    }
+  }
+
+  .vp-part-tag {
+    position: absolute;
+    z-index: 20;
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+    height: 18px;
+    padding: 0 6px;
+    font-size: 10px;
+    font-weight: 500;
+    line-height: 18px;
+    color: var(--vp-c-white);
+    white-space: nowrap;
+    pointer-events: none;
+    background: var(--vp-c-brand-2);
+    border-radius: 3px 3px 0 0;
+  }
+
+  .vp-part-tag-lock {
+    flex-shrink: 0;
+  }
+
+  // ---- HTML view ---------------------------------------------------------
+
+  .vp-parts-html {
+    margin: 0;
+    border-radius: 0;
+
+    pre {
+      padding: 16px 0;
+      margin: 0;
+      overflow-x: auto;
+      background: var(--vp-parts-html-bg);
+      border-radius: 0;
+    }
+
+    code {
+      display: block;
+      width: fit-content;
+      min-width: 100%;
+      padding: 0;
+      font-size: 13px;
+      color: var(--html-fg);
+    }
+
+    .line {
+      position: relative;
+      display: block;
+      padding: 0 24px;
+      cursor: pointer;
+
+      &:hover,
+      &.is-highlighted {
+        background: color-mix(in srgb, var(--vp-c-brand-1) 10%, transparent);
+      }
+    }
+  }
+
+  .vp-html-bracket {
+    color: var(--html-fg);
+  }
+
+  .vp-html-tag {
+    color: var(--html-tag);
+  }
+
+  .vp-html-attr {
+    color: var(--html-attr);
+  }
+
+  .vp-html-punct {
+    color: var(--html-string);
+  }
+
+  .vp-html-text {
+    color: var(--html-fg);
+  }
+
+  .vp-html-classes {
+    color: var(--html-string);
+
+    code {
+      all: unset;
+      font: inherit;
+      color: inherit;
+    }
+
+    .keyword-link {
+      color: inherit;
+      text-decoration: underline dotted
+        color-mix(in srgb, currentcolor 50%, transparent);
+      text-decoration-thickness: 1px;
+      text-decoration-color: color-mix(in srgb, currentcolor 35%, transparent);
+      text-underline-offset: 3px;
+    }
+  }
+
+  .vp-html-lock {
+    position: absolute;
+    top: 50%;
+    left: 6px;
+    color: var(--vp-c-brand-1);
+    transform: translateY(-50%);
+  }
+
+  // ---- Part tree (VPPartTree) --------------------------------------------
+
+  .vp-tree-item {
+    position: relative;
+    padding-left: 12px;
+    margin: 0;
+    list-style: none;
+
+    &:not(.is-root)::before {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 9px;
+      height: 14px;
+      content: '';
+      border-bottom: 1px solid var(--vp-c-divider);
+      border-left: 1px solid var(--vp-c-divider);
+    }
+
+    &:not(.is-root, .is-last)::after {
+      position: absolute;
+      top: 11px;
+      bottom: 0;
+      left: 0;
+      content: '';
+      border-left: 1px solid var(--vp-c-divider);
+    }
+
+    &.is-root {
+      padding-left: 6px;
+    }
+  }
+
+  .vp-tree-key {
+    position: relative;
+    display: inline-flex;
+    gap: 3px;
+    align-items: center;
+    padding: 0px 6px;
+    font-family: var(--vp-font-family-mono);
+    font-size: 0.7em;
+    font-weight: 600;
+    line-height: 1.6;
+    color: var(--vp-c-black);
+    cursor: pointer;
+    background-color: var(--vp-code-bg);
+    border-radius: 4px;
+    opacity: 0.7;
+    transition:
+      color 0.25s,
+      background-color 0.5s;
+
+    &:hover,
+    &.is-highlighted,
+    &.is-locked {
+      color: var(--vp-c-brand-1);
+      opacity: 1;
+    }
+
+    .dark & {
+      color: var(--vp-c-text-1);
+
+      &:hover,
+      &.is-highlighted,
+      &.is-locked {
+        color: var(--vp-c-brand-1);
+        opacity: 1;
+      }
+    }
+  }
+
+  .vp-lock-icon {
+    position: absolute;
+    top: 3px;
+    left: -17px;
+    z-index: 1;
+    flex-shrink: 0;
+  }
+
+  .vp-tree-children {
+    padding: 0;
+    margin: 0;
+  }
+
+  // ---- Info panel --------------------------------------------------------
+
+  .vp-parts-info {
+    display: grid;
+    padding: 1rem 1rem 0rem 1rem;
+    font-size: 12px;
+    border-top: 1px solid var(--vp-c-divider);
+    border-bottom-right-radius: 8px;
+    border-bottom-left-radius: 8px;
+  }
+
+  .vp-parts-info-title {
+    display: flex;
+    align-items: center;
+    width: min-content;
+    padding: 0px 4px;
+    margin-bottom: 3px;
+    font-family: var(--vp-font-family-mono);
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    color: var(--vp-c-text-1);
+    background-color: var(--vp-code-bg);
+    border-radius: 4px;
+  }
+
+  .vp-parts-info-lock {
+    display: none;
+    flex-shrink: 0;
+    margin-right: 4px;
+    color: var(--vp-c-brand-1);
+  }
+
+  .vp-parts-info-param {
+    color: var(--vp-c-text-1);
+    text-decoration: underline dotted
+      color-mix(in srgb, currentcolor 40%, transparent);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 3px;
+    cursor: help;
+  }
+
+  .vp-parts-info-description {
+    margin-top: 0.5rem;
+    margin-bottom: 0;
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--vp-c-text-1);
+  }
+
+  .vp-parts-info-table {
+    width: 100%;
+
+    td:first-child {
+      white-space: nowrap;
+    }
+  }
+
+  .vp-parts-info-label {
+    gap: 3px;
+    align-items: baseline;
+    color: var(--vp-c-text-3);
+    white-space: nowrap;
+
+    strong {
+      color: var(--vp-c-text-1);
+    }
+  }
+
+  .vp-parts-info-hint {
+    display: inline-flex;
+    margin-left: 3px;
+    color: var(--vp-c-text-3);
+    cursor: help !important;
+    opacity: 0.5;
+    transition: opacity 0.15s;
+
+    &:hover {
+      opacity: 1;
+    }
+  }
+
+  .vp-parts-info-value {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    align-items: center;
+
+    code {
+      padding: 3px 6px;
+      font-family: var(--vp-font-family-mono);
+      font-size: 12px;
+      font-weight: 500;
+      line-height: 14px;
+      color: var(--vp-code-color);
+      white-space: nowrap;
+      background: var(--vp-code-bg);
+      border-radius: 4px;
+    }
+  }
+
+  .vp-parts-info-none {
+    font-size: 12px;
+    font-style: italic;
+    color: var(--vp-c-text-2);
+  }
+
+  // ---- Tooltip -----------------------------------------------------------
+
+  .vp-parts-tooltip {
+    position: absolute;
+    z-index: 50;
+    max-width: 320px;
+    padding: 6px 10px;
+    font-size: 12px;
+    line-height: 1.4;
+    color: var(--vp-c-text-1);
+    white-space: normal;
+    pointer-events: none;
+    background: var(--vp-c-bg);
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 6px;
+    box-shadow: var(--vp-shadow-3);
+  }
+
+  .vp-parts-tooltip-arrow {
+    position: absolute;
+    top: -5px;
+    width: 8px;
+    height: 8px;
+    background: var(--vp-c-bg);
+    border-top: 1px solid var(--vp-c-divider);
+    border-left: 1px solid var(--vp-c-divider);
+  }
+}
+
+// Vueform passthrough wrappers tagged by the parts proxy keep their layout
+.vf-passthrough.vp-no-passthrough {
+  display: revert;
+}

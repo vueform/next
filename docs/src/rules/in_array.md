@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Cross-field](/rules/#cross-field)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.24 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[in](/rules/in) · [distinct](/rules/distinct)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->242 B<!-- /@size --> |
 
 </div>
 
@@ -60,14 +61,6 @@ A trailing `.*` wildcard on the referenced path is accepted and stripped — `in
 | Key | Default Message |
 | --- | --- |
 | `rule_in_array_error` | The {attribute} field does not exist in {other}. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[in](/rules/in) · [distinct](/rules/distinct)
-
-<!-- @rule:related end -->
 
 ## Source
 

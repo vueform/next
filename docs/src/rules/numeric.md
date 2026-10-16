@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Type](/rules/#type)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.22 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[integer](/rules/integer) · [digits](/rules/digits)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->227 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is numeric.
 | Key | Default Message |
 | --- | --- |
 | `rule_numeric_error` | The {attribute} must be a number. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[integer](/rules/integer) · [digits](/rules/digits)
-
-<!-- @rule:related end -->
 
 ## Source
 

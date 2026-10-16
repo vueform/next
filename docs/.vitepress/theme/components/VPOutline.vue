@@ -256,13 +256,13 @@ const VPOutlineItems = defineComponent({
     return () =>
       h(
         'ul',
-        { class: props.root ? 'root' : 'nested' },
+        { class: props.root ? 'vp-outline-root' : 'vp-outline-nested' },
         props.headers.map((header) =>
           h('li', { class: { 'current-tab': header.isCurrentTab } }, [
             h(
               'a',
               {
-                class: 'outline-link',
+                class: 'vp-outline-link',
                 href: header.link,
                 title: header.title,
                 onClick: header.isTab
@@ -291,11 +291,11 @@ const VPOutlineItems = defineComponent({
   <div
     v-if="activeTabSlug && filteredHeaders.length"
     ref="container"
-    class="VPOutlineCustom has-outline"
+    class="vp-outline has-outline"
   >
-    <div class="content">
-      <div ref="marker" class="outline-marker" />
-      <div class="outline-title" role="heading" aria-level="2">
+    <div class="vp-outline-content">
+      <div ref="marker" class="vp-outline-marker" />
+      <div class="vp-outline-title" role="heading" aria-level="2">
         {{ outlineTitle }}
       </div>
       <nav aria-labelledby="doc-outline-aria-label">
@@ -307,82 +307,3 @@ const VPOutlineItems = defineComponent({
     </div>
   </div>
 </template>
-
-<style>
-.VPOutlineCustom {
-  display: block;
-}
-
-.VPOutlineCustom .content {
-  position: relative;
-  border-left: 1px solid var(--vp-c-divider);
-  padding-left: 16px;
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.VPOutlineCustom .outline-marker {
-  position: absolute;
-  top: 32px;
-  left: -1px;
-  z-index: 0;
-  opacity: 0;
-  width: 2px;
-  border-radius: 2px;
-  height: 18px;
-  background-color: var(--vp-c-brand-1);
-  transition:
-    top 0.25s cubic-bezier(0, 1, 0.5, 1),
-    background-color 0.5s,
-    opacity 0.25s;
-}
-
-.VPOutlineCustom .outline-title {
-  line-height: 32px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.VPOutlineCustom ul.root {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.VPOutlineCustom ul.nested {
-  list-style: none;
-  padding: 0 0 0 13px;
-  margin: 0;
-}
-
-.VPOutlineCustom .outline-link {
-  display: block;
-  line-height: 32px;
-  font-size: 14px;
-  font-weight: 400;
-  color: var(--vp-c-text-2);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: color 0.5s;
-  text-decoration: none;
-}
-
-.VPOutlineCustom .outline-link:hover,
-.VPOutlineCustom .outline-link.active {
-  color: var(--vp-c-text-1);
-  transition: color 0.25s;
-}
-
-.VPOutlineCustom .visually-hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0, 0, 0, 0);
-  white-space: nowrap;
-  border-width: 0;
-}
-</style>

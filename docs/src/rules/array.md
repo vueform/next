@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Type](/rules/#type)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.17 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[distinct](/rules/distinct) · [in_array](/rules/in_array)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->176 B<!-- /@size --> |
 
 </div>
 
@@ -45,14 +46,6 @@ Validates that the value is an array.
 | Key | Default Message |
 | --- | --- |
 | `rule_array_error` | The {attribute} must be an array. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[distinct](/rules/distinct) · [in_array](/rules/in_array)
-
-<!-- @rule:related end -->
 
 ## Source
 

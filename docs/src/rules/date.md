@@ -5,7 +5,8 @@
 | | |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Type](/rules/#type)<!-- /@rule:category --> |
-| **Bundle size** | <!-- @size:rule -->`0.23 kB`<!-- /@size --> |
+| **Related** | <!-- @rule:related -->[date_format](/rules/date_format) · [after](/rules/after) · [before](/rules/before)<!-- /@rule:related --> |
+| **Bundle size** | <!-- @size:rule -->232 B<!-- /@size --> |
 
 </div>
 
@@ -39,14 +40,6 @@ Validates that the value is a valid date, parsed with the configured date adapte
 | Key | Default Message |
 | --- | --- |
 | `rule_date_error` | The {attribute} is not a valid date. |
-
-<!-- @rule:related start -->
-
-## Related Rules
-
-[date_format](/rules/date_format) · [after](/rules/after) · [before](/rules/before)
-
-<!-- @rule:related end -->
 
 ## Source
 
