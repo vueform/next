@@ -1,4 +1,4 @@
-@use 'vars';
+@use 'vars/index';
 @use 'code';
 
 :root {
@@ -388,6 +388,23 @@ table:has(thead th:empty) {
 
   td:first-child {
     width: 1%;
+  }
+}
+
+.vp-doc .rule-meta {
+  table {
+    margin: 8px 0 16px;
+  }
+
+  tr {
+    background-color: transparent;
+    border: none;
+  }
+
+  td {
+    padding: 2px 32px 2px 0;
+    white-space: nowrap;
+    border: none;
   }
 }
 

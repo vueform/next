@@ -215,8 +215,8 @@ pre code a[data-popover] {
     padding: 2px 5px;
     font-family: var(--vp-font-family-mono);
     font-size: 11px;
-    color: var(--vp-c-text-1);
-    background-color: var(--vp-c-gray-soft);
+    color: #6f42c1;
+    background-color: #6f42c114;
     border-radius: 4px;
   }
 }
@@ -231,9 +231,19 @@ pre code a[data-popover] {
     padding: 2px 5px;
     font-family: var(--vp-font-family-mono);
     font-size: 11px;
-    color: var(--vp-c-text-1);
-    background-color: var(--vp-c-gray-soft);
+    color: #6f42c1;
+    background-color: #6f42c114;
     border-radius: 4px;
+  }
+}
+
+.dark {
+  .popover-block--desc,
+  .popover-block--tag {
+    code {
+      color: #b392f0;
+      background-color: #b392f01a;
+    }
   }
 }
 

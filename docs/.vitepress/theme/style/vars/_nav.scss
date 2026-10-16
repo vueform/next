@@ -1,0 +1,35 @@
+/**
+ * Component: Nav
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-nav-height: 64px;
+  --vp-nav-bg-color: var(--vp-c-bg);
+  --vp-nav-screen-bg-color: var(--vp-c-bg);
+  --vp-nav-logo-height: 24px;
+}
+
+.hide-nav {
+  --vp-nav-height: 0px;
+}
+
+.hide-nav .VPSidebar {
+  --vp-nav-height: 22px;
+}
+
+/**
+ * Component: Local Nav
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-local-nav-bg-color: var(--vp-c-bg);
+}
+
+/**
+ * Component: Sidebar
+ * -------------------------------------------------------------------------- */
+
+:root {
+  --vp-sidebar-width: 272px;
+  --vp-sidebar-bg-color: var(--vp-c-bg-alt);
+}
