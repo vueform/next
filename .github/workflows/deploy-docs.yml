@@ -1,27 +1,46 @@
 name: Deploy docs
 
-# Manual docs deploy (Actions → Deploy docs → Run workflow). `pnpm docs:build`
-# is the vp task `:docs:build`, whose graph pulls in everything the vitepress
-# build needs — `:docs:gen` (which depends on `:api` and `:size:ensure`) plus
-# the docs deps' `:build:*` legs — so this workflow runs no build/generation
-# steps of its own. Bundle sizes come from the packages' committed size.json
-# files; the `regen_sizes` checkbox re-measures them first (`pnpm size`),
-# otherwise `:size:ensure` only measures a package whose size.json is missing.
-# Benchmark numbers likewise come from the committed `benchmark/results/`;
-# the `regen_bench` checkbox re-runs the real-browser suite first (slow, and
-# CI-runner numbers are noisier than a quiet local machine — see
-# benchmark.yml). Neither checkbox commits anything back: regenerated numbers
-# reach the deployed site only, and committing refreshed benchmark results
-# stays the Benchmark workflow's job.
-# The cached legs replay from the restored vp task cache (the
-# docs tasks themselves are deliberately uncached); the cache is keyed per
-# commit with a prefix fallback, and vp revalidates inputs on a stale hit.
-# Then each selected adapter's site deploys to its Cloudflare Worker via
-# wrangler (config in wrangler.jsonc: env `ui` → vueform-ui-docs, env
-# `primevue` → vueform-primevue-docs). Needs the CLOUDFLARE_API_TOKEN
-# (Workers Scripts:Edit) and CLOUDFLARE_ACCOUNT_ID repo secrets.
+# Docs deploy: manual (Actions → Deploy docs → Run workflow, any target with
+# optional regen checkboxes) and automatic on a push to main that touches
+# docs content. The push path filter only gates whether the workflow runs —
+# WHICH sites deploy is computed by the `plan` job from the changed files:
+# a file under an adapter's own tree (`docs/src/_<adapter>/`,
+# `docs/.vitepress/adapters/<adapter>/`) affects that adapter alone, any
+# other docs/src or .vitepress file is shared content affecting every
+# adapter. Affected adapters are then intersected with AUTO_DEPLOY below —
+# add an adapter key there to opt its site into push deploys. Adapter keys
+# come from docs/config.json and name everything: the `_<key>` tree, the
+# `.vitepress/adapters/<key>` dir, the `--<key>` docs:build flag and the
+# wrangler env.
+#
+# `pnpm docs:build` is the vp task `:docs:build`, whose graph pulls in
+# everything the vitepress build needs — `:docs:gen` (which depends on
+# `:api` and `:size:ensure`) plus the docs deps' `:build:*` legs — so this
+# workflow runs no build/generation steps of its own. Bundle sizes come from
+# the packages' committed size.json files; the `regen_sizes` checkbox
+# re-measures them first (`pnpm size`), otherwise `:size:ensure` only
+# measures a package whose size.json is missing. Benchmark numbers likewise
+# come from the committed `benchmark/results/`; the `regen_bench` checkbox
+# re-runs the real-browser suite first (slow, and CI-runner numbers are
+# noisier than a quiet local machine — see benchmark.yml). Neither checkbox
+# commits anything back: regenerated numbers reach the deployed site only,
+# and committing refreshed benchmark results stays the Benchmark workflow's
+# job. The cached legs replay from the restored vp task cache (the docs
+# tasks themselves are deliberately uncached); the cache is keyed per commit
+# with a prefix fallback, and vp revalidates inputs on a stale hit. Then
+# each selected adapter's site deploys to its Cloudflare Worker via wrangler
+# (config in wrangler.jsonc: env `ui` → vueform-ui-docs, env `primevue` →
+# vueform-primevue-docs). Needs the CLOUDFLARE_API_TOKEN (Workers
+# Scripts:Edit) and CLOUDFLARE_ACCOUNT_ID repo secrets.
 
 on:
+  push:
+    branches: [main]
+    paths:
+      - docs/src/**
+      - docs/.vitepress/**
+      - '!docs/.vitepress/cache/**'
+      - '!docs/.vitepress/dist/**'
   workflow_dispatch:
     inputs:
       target:
@@ -38,6 +57,11 @@ on:
         type: boolean
         default: false
 
+env:
+  # Adapters whose sites deploy automatically on a push (space-separated
+  # adapter keys). Manual dispatch ignores this list.
+  AUTO_DEPLOY: ui
+
 concurrency:
   group: deploy-docs
   cancel-in-progress: false
@@ -46,9 +70,71 @@ permissions:
   contents: read
 
 jobs:
-  deploy:
-    name: Build & deploy (${{ inputs.target }})
+  # Which sites this run deploys. Cheap on purpose (no pnpm install): a push
+  # whose docs changes only touch adapters that haven't opted into
+  # AUTO_DEPLOY ends here.
+  plan:
+    name: Plan
     runs-on: ubuntu-26.04
+    outputs:
+      targets: ${{ steps.plan.outputs.targets }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Compute targets
+        id: plan
+        env:
+          EVENT: ${{ github.event_name }}
+          DISPATCH_TARGET: ${{ inputs.target }}
+          BEFORE: ${{ github.event.before }}
+          SHA: ${{ github.sha }}
+        run: |
+          adapters=$(node -p "Object.keys(require('./docs/config.json').adapters).join(' ')")
+
+          if [ "$EVENT" = 'workflow_dispatch' ]; then
+            if [ "$DISPATCH_TARGET" = 'all' ]; then
+              targets="$adapters"
+            else
+              targets="$DISPATCH_TARGET"
+            fi
+          else
+            # The changed files of the push decide which sites are affected;
+            # an unknown base (first push, force push) counts as shared.
+            affected=''
+            if ! git fetch --quiet --depth=1 origin "$BEFORE" 2>/dev/null; then
+              affected="$adapters"
+            else
+              while IFS= read -r f; do
+                case "$f" in
+                  docs/.vitepress/cache/*|docs/.vitepress/dist/*) ;;
+                  docs/src/_*/*|docs/.vitepress/adapters/*/*)
+                    a=${f#docs/src/_}
+                    a=${a#docs/.vitepress/adapters/}
+                    affected="$affected ${a%%/*}";;
+                  docs/src/*|docs/.vitepress/*)
+                    affected="$adapters";;
+                esac
+              done < <(git diff --name-only "$BEFORE" "$SHA")
+            fi
+            # Affected ∩ opted-in, in the adapters list's order.
+            targets=''
+            for a in $adapters; do
+              case " $affected " in *" $a "*) ;; *) continue;; esac
+              case " $AUTO_DEPLOY " in *" $a "*) targets="$targets $a";; esac
+            done
+          fi
+
+          targets=$(echo $targets)
+          echo "targets=$targets" >> "$GITHUB_OUTPUT"
+          echo "Deploying: ${targets:-nothing}"
+
+  deploy:
+    name: Build & deploy (${{ needs.plan.outputs.targets }})
+    needs: plan
+    if: needs.plan.outputs.targets != ''
+    runs-on: ubuntu-26.04
+    env:
+      TARGETS: ${{ needs.plan.outputs.targets }}
     steps:
       - uses: actions/checkout@v5
 
@@ -112,20 +198,15 @@ jobs:
       # Adapter flags pass through vpr to the docs runner; the task's deps
       # (gen, api, size-ensure, package builds) run or replay as needed.
       - name: Build docs
-        run: pnpm docs:build ${{ inputs.target == 'all' && '--ui --primevue' || format('--{0}', inputs.target) }}
+        run: pnpm docs:build $(printf -- '--%s ' $TARGETS)
 
       # wrangler is a root devDependency (wrangler-action's self-install
       # trips over pnpm workspaces); it reads the CLOUDFLARE_* env vars.
-      - name: Deploy ui docs
-        if: contains(fromJSON('["all","ui"]'), inputs.target)
+      - name: Deploy
         env:
           CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm exec wrangler deploy --env ui
-
-      - name: Deploy primevue docs
-        if: contains(fromJSON('["all","primevue"]'), inputs.target)
-        env:
-          CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-        run: pnpm exec wrangler deploy --env primevue
+        run: |
+          for t in $TARGETS; do
+            pnpm exec wrangler deploy --env "$t"
+          done
