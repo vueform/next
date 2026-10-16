@@ -12,7 +12,8 @@ name: Release
 # those artifacts (bench exists only there), so a skipped generator is
 # skipped everywhere in the run. The
 # `registry` and `size` generators' regenerated git-tracked artifacts
-# (adapter registries, README size sections) are uploaded per job and committed +
+# (adapter registries, the packages' size.json files, README size sections)
+# are uploaded per job and committed +
 # pushed once by the `commit` job BEFORE the release, so the release commit's
 # own regen (scripts/release.ts re-runs registry/size/bench at the stamped
 # version) ships no surprise diffs. The `release` job then checks out the
@@ -208,6 +209,7 @@ jobs:
           set -o pipefail
           paths=(
             'packages/*/registry/*'
+            'packages/*/size.json'
             'packages/*/README.md'
             'README.md'
           )
@@ -284,6 +286,7 @@ jobs:
           # Keep this list in sync with the gate job's copy.
           paths=(
             'packages/*/registry/*'
+            'packages/*/size.json'
             'packages/*/README.md'
             'README.md'
           )

@@ -2,9 +2,18 @@ name: Deploy docs
 
 # Manual docs deploy (Actions → Deploy docs → Run workflow). `pnpm docs:build`
 # is the vp task `:docs:build`, whose graph pulls in everything the vitepress
-# build needs — `:docs:gen` (which depends on `:api` and `:size`) plus the
-# docs deps' `:build:*` legs — so this workflow runs no build/generation steps
-# of its own. The cached legs replay from the restored vp task cache (the
+# build needs — `:docs:gen` (which depends on `:api` and `:size:ensure`) plus
+# the docs deps' `:build:*` legs — so this workflow runs no build/generation
+# steps of its own. Bundle sizes come from the packages' committed size.json
+# files; the `regen_sizes` checkbox re-measures them first (`pnpm size`),
+# otherwise `:size:ensure` only measures a package whose size.json is missing.
+# Benchmark numbers likewise come from the committed `benchmark/results/`;
+# the `regen_bench` checkbox re-runs the real-browser suite first (slow, and
+# CI-runner numbers are noisier than a quiet local machine — see
+# benchmark.yml). Neither checkbox commits anything back: regenerated numbers
+# reach the deployed site only, and committing refreshed benchmark results
+# stays the Benchmark workflow's job.
+# The cached legs replay from the restored vp task cache (the
 # docs tasks themselves are deliberately uncached); the cache is keyed per
 # commit with a prefix fallback, and vp revalidates inputs on a stale hit.
 # Then each selected adapter's site deploys to its Cloudflare Worker via
@@ -20,6 +29,14 @@ on:
         type: choice
         options: [all, ui, primevue]
         default: all
+      regen_sizes:
+        description: Re-measure bundle sizes (otherwise the committed size.json files are used)
+        type: boolean
+        default: false
+      regen_bench:
+        description: Re-run benchmarks (slow; otherwise the committed benchmark results are used)
+        type: boolean
+        default: false
 
 concurrency:
   group: deploy-docs
@@ -51,12 +68,49 @@ jobs:
             node_modules/.vite/task-cache
             packages/*/dist
             .vueform/api
-            .vueform/size
           key: vp-tasks-docs-${{ github.sha }}
           restore-keys: vp-tasks-docs-
 
+      # Root runners (`pnpm size`, `pnpm bench`) import @vueform/utils' dist —
+      # build it before any of the optional regen steps below.
+      - name: Build utils dist
+        if: inputs.regen_sizes || inputs.regen_bench
+        run: pnpm exec vpr :build:utils
+
+      - name: Cache Playwright browsers
+        if: inputs.regen_bench
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('pnpm-lock.yaml') }}
+
+      # playwright is not a root dependency — run its CLI from a package that
+      # has it (the browser install itself is machine-wide). bench.ts would
+      # self-install chromium, but not the system deps.
+      - name: Install Playwright chromium
+        if: inputs.regen_bench
+        run: pnpm --filter @vueform/benchmark exec playwright install --with-deps chromium
+
+      # The suite measures dist: it packs tarballs of the built packages and
+      # installs them into the standalone app.
+      - name: Build workspace (bench measures dist)
+        if: inputs.regen_bench
+        run: pnpm build
+
+      - name: Re-run benchmarks
+        if: inputs.regen_bench
+        run: pnpm bench
+
+      # Fresh measurements on demand only — the deployed numbers otherwise
+      # come from the committed size.json files. Runs through the cached
+      # `:size:<pkg>` legs, so only packages whose sources changed since the
+      # cached measurement are re-measured.
+      - name: Re-measure bundle sizes
+        if: inputs.regen_sizes
+        run: pnpm size
+
       # Adapter flags pass through vpr to the docs runner; the task's deps
-      # (gen, api, size, package builds) run or replay as needed.
+      # (gen, api, size-ensure, package builds) run or replay as needed.
       - name: Build docs
         run: pnpm docs:build ${{ inputs.target == 'all' && '--ui --primevue' || format('--{0}', inputs.target) }}
 

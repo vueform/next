@@ -1,0 +1,1229 @@
+{
+  "pkg": "@vueform/ui",
+  "type": "adapter",
+  "generatedAt": "2026-10-16T05:16:20.718Z",
+  "environment": {
+    "node": "v26.8.2",
+    "packageManager": "pnpm@10.20.0",
+    "packages": {
+      "@vueform/ui": "2.0.0-0.7",
+      "@vueform/core": "2.0.0-0.7",
+      "vue": "3.5.43",
+      "vite": "8.3.2"
+    }
+  },
+  "scenarios": {
+    "baseline": {
+      "group": "fixed",
+      "description": "Vite app only, no Vueform",
+      "files": [
+        {
+          "file": "assets/index-BQ8cBwIS.js",
+          "type": "js",
+          "raw": 60881,
+          "gzip": 23752,
+          "brotli": 21598
+        }
+      ],
+      "js": {
+        "raw": 60881,
+        "gzip": 23752,
+        "brotli": 21598
+      },
+      "css": {
+        "raw": 0,
+        "gzip": 0,
+        "brotli": 0
+      },
+      "total": {
+        "raw": 60881,
+        "gzip": 23752,
+        "brotli": 21598
+      }
+    },
+    "core": {
+      "group": "fixed",
+      "description": "bare createVueform with no modules — the smallest possible import (not functional on its own: the model module is required at runtime)",
+      "files": [
+        {
+          "file": "assets/index-DeN9eQVZ.js",
+          "type": "js",
+          "raw": 72506,
+          "gzip": 28119,
+          "brotli": 25512
+        }
+      ],
+      "js": {
+        "raw": 72506,
+        "gzip": 28119,
+        "brotli": 25512
+      },
+      "css": {
+        "raw": 0,
+        "gzip": 0,
+        "brotli": 0
+      },
+      "total": {
+        "raw": 72506,
+        "gzip": 28119,
+        "brotli": 25512
+      }
+    },
+    "model": {
+      "group": "fixed",
+      "description": "core plus the required model module — the smallest build that actually works",
+      "files": [
+        {
+          "file": "assets/index-DPuvf76I.js",
+          "type": "js",
+          "raw": 96846,
+          "gzip": 35796,
+          "brotli": 32599
+        }
+      ],
+      "js": {
+        "raw": 96846,
+        "gzip": 35796,
+        "brotli": 32599
+      },
+      "css": {
+        "raw": 0,
+        "gzip": 0,
+        "brotli": 0
+      },
+      "total": {
+        "raw": 96846,
+        "gzip": 35796,
+        "brotli": 32599
+      }
+    },
+    "full": {
+      "group": "fixed",
+      "description": "the full modular build — theme (tokens + CSS), en_US locale, every module, rule and component",
+      "themed": true,
+      "files": [
+        {
+          "file": "assets/index-CQ_gOP0C.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6635,
+          "brotli": 5765
+        },
+        {
+          "file": "assets/index-DKYY4qBs.js",
+          "type": "js",
+          "raw": 381529,
+          "gzip": 111387,
+          "brotli": 95907
+        }
+      ],
+      "js": {
+        "raw": 381529,
+        "gzip": 111387,
+        "brotli": 95907
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6635,
+        "brotli": 5765
+      },
+      "total": {
+        "raw": 431580,
+        "gzip": 118022,
+        "brotli": 101672
+      }
+    },
+    "components-base": {
+      "group": "ref",
+      "description": "per-component reference: theme + en_US locale + modules + rules, with no components at all",
+      "themed": true,
+      "files": [
+        {
+          "file": "assets/index-Dv9zhVNd.js",
+          "type": "js",
+          "raw": 182977,
+          "gzip": 60992,
+          "brotli": 54582
+        }
+      ],
+      "js": {
+        "raw": 182977,
+        "gzip": 60992,
+        "brotli": 54582
+      },
+      "css": {
+        "raw": 0,
+        "gzip": 0,
+        "brotli": 0
+      },
+      "total": {
+        "raw": 182977,
+        "gzip": 60992,
+        "brotli": 54582
+      }
+    },
+    "themes-base": {
+      "group": "ref",
+      "description": "per-theme reference: model + theme modules, no theme registered",
+      "themed": true,
+      "files": [
+        {
+          "file": "assets/index-Dququt2y.js",
+          "type": "js",
+          "raw": 102834,
+          "gzip": 37908,
+          "brotli": 34451
+        }
+      ],
+      "js": {
+        "raw": 102834,
+        "gzip": 37908,
+        "brotli": 34451
+      },
+      "css": {
+        "raw": 0,
+        "gzip": 0,
+        "brotli": 0
+      },
+      "total": {
+        "raw": 102834,
+        "gzip": 37908,
+        "brotli": 34451
+      }
+    },
+    "theme+material": {
+      "group": "theme",
+      "item": "material",
+      "base": "themes-base",
+      "description": "themes-base plus the material theme tokens",
+      "themed": true,
+      "files": [
+        {
+          "file": "assets/index-BEWv3mec.js",
+          "type": "js",
+          "raw": 120652,
+          "gzip": 41954,
+          "brotli": 37913
+        }
+      ],
+      "js": {
+        "raw": 120652,
+        "gzip": 41954,
+        "brotli": 37913
+      },
+      "css": {
+        "raw": 0,
+        "gzip": 0,
+        "brotli": 0
+      },
+      "total": {
+        "raw": 120652,
+        "gzip": 41954,
+        "brotli": 37913
+      }
+    },
+    "theme+origin": {
+      "group": "theme",
+      "item": "origin",
+      "base": "themes-base",
+      "description": "themes-base plus the origin theme tokens",
+      "themed": true,
+      "files": [
+        {
+          "file": "assets/index-BtRfcp5-.js",
+          "type": "js",
+          "raw": 120638,
+          "gzip": 41949,
+          "brotli": 37896
+        }
+      ],
+      "js": {
+        "raw": 120638,
+        "gzip": 41949,
+        "brotli": 37896
+      },
+      "css": {
+        "raw": 0,
+        "gzip": 0,
+        "brotli": 0
+      },
+      "total": {
+        "raw": 120638,
+        "gzip": 41949,
+        "brotli": 37896
+      }
+    },
+    "all-minus-VfAddon": {
+      "group": "component-remove",
+      "component": "VfAddon",
+      "description": "full scenario without VfAddon",
+      "files": [
+        {
+          "file": "assets/index-BAJBHVm2.css",
+          "type": "css",
+          "raw": 46034,
+          "gzip": 6155,
+          "brotli": 5306
+        },
+        {
+          "file": "assets/index-U3_62D-v.js",
+          "type": "js",
+          "raw": 380098,
+          "gzip": 111089,
+          "brotli": 95609
+        }
+      ],
+      "js": {
+        "raw": 380098,
+        "gzip": 111089,
+        "brotli": 95609
+      },
+      "css": {
+        "raw": 46034,
+        "gzip": 6155,
+        "brotli": 5306
+      },
+      "total": {
+        "raw": 426132,
+        "gzip": 117244,
+        "brotli": 100915
+      }
+    },
+    "all-minus-VfButton": {
+      "group": "component-remove",
+      "component": "VfButton",
+      "description": "full scenario without VfButton",
+      "files": [
+        {
+          "file": "assets/index-dwkehCVq.js",
+          "type": "js",
+          "raw": 376682,
+          "gzip": 110339,
+          "brotli": 95035
+        },
+        {
+          "file": "assets/index-R__IHL9G.css",
+          "type": "css",
+          "raw": 42195,
+          "gzip": 5625,
+          "brotli": 4959
+        }
+      ],
+      "js": {
+        "raw": 376682,
+        "gzip": 110339,
+        "brotli": 95035
+      },
+      "css": {
+        "raw": 42195,
+        "gzip": 5625,
+        "brotli": 4959
+      },
+      "total": {
+        "raw": 418877,
+        "gzip": 115964,
+        "brotli": 99994
+      }
+    },
+    "all-minus-VfCheckbox": {
+      "group": "component-remove",
+      "component": "VfCheckbox",
+      "description": "full scenario without VfCheckbox",
+      "files": [
+        {
+          "file": "assets/index-B2lk9XQg.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6640,
+          "brotli": 5753
+        },
+        {
+          "file": "assets/index-BzS9StRt.js",
+          "type": "js",
+          "raw": 376793,
+          "gzip": 110620,
+          "brotli": 95576
+        }
+      ],
+      "js": {
+        "raw": 376793,
+        "gzip": 110620,
+        "brotli": 95576
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6640,
+        "brotli": 5753
+      },
+      "total": {
+        "raw": 426844,
+        "gzip": 117260,
+        "brotli": 101329
+      }
+    },
+    "all-minus-VfCheckboxes": {
+      "group": "component-remove",
+      "component": "VfCheckboxes",
+      "description": "full scenario without VfCheckboxes",
+      "files": [
+        {
+          "file": "assets/index-6DtjdyR0.js",
+          "type": "js",
+          "raw": 376230,
+          "gzip": 110575,
+          "brotli": 95666
+        },
+        {
+          "file": "assets/index-BFYkYSja.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6647,
+          "brotli": 5748
+        }
+      ],
+      "js": {
+        "raw": 376230,
+        "gzip": 110575,
+        "brotli": 95666
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6647,
+        "brotli": 5748
+      },
+      "total": {
+        "raw": 426281,
+        "gzip": 117222,
+        "brotli": 101414
+      }
+    },
+    "all-minus-VfCol": {
+      "group": "component-remove",
+      "component": "VfCol",
+      "description": "full scenario without VfCol",
+      "files": [
+        {
+          "file": "assets/index-DzcBQ_U_.js",
+          "type": "js",
+          "raw": 378891,
+          "gzip": 110644,
+          "brotli": 95385
+        },
+        {
+          "file": "assets/index-OnDmLqkO.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6632,
+          "brotli": 5754
+        }
+      ],
+      "js": {
+        "raw": 378891,
+        "gzip": 110644,
+        "brotli": 95385
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6632,
+        "brotli": 5754
+      },
+      "total": {
+        "raw": 428942,
+        "gzip": 117276,
+        "brotli": 101139
+      }
+    },
+    "all-minus-VfContent": {
+      "group": "component-remove",
+      "component": "VfContent",
+      "description": "full scenario without VfContent",
+      "files": [
+        {
+          "file": "assets/index-Bguq5xmn.js",
+          "type": "js",
+          "raw": 379378,
+          "gzip": 111055,
+          "brotli": 95610
+        },
+        {
+          "file": "assets/index-DYBc6zU0.css",
+          "type": "css",
+          "raw": 49812,
+          "gzip": 6590,
+          "brotli": 5730
+        }
+      ],
+      "js": {
+        "raw": 379378,
+        "gzip": 111055,
+        "brotli": 95610
+      },
+      "css": {
+        "raw": 49812,
+        "gzip": 6590,
+        "brotli": 5730
+      },
+      "total": {
+        "raw": 429190,
+        "gzip": 117645,
+        "brotli": 101340
+      }
+    },
+    "all-minus-VfElements": {
+      "group": "component-remove",
+      "component": "VfElements",
+      "description": "full scenario without VfElements",
+      "files": [
+        {
+          "file": "assets/index-C89exu9J.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6634,
+          "brotli": 5748
+        },
+        {
+          "file": "assets/index-CbUblxca.js",
+          "type": "js",
+          "raw": 380775,
+          "gzip": 111273,
+          "brotli": 95861
+        }
+      ],
+      "js": {
+        "raw": 380775,
+        "gzip": 111273,
+        "brotli": 95861
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6634,
+        "brotli": 5748
+      },
+      "total": {
+        "raw": 430826,
+        "gzip": 117907,
+        "brotli": 101609
+      }
+    },
+    "all-minus-VfField": {
+      "group": "component-remove",
+      "component": "VfField",
+      "description": "full scenario without VfField",
+      "files": [
+        {
+          "file": "assets/index-CcX4k-L-.js",
+          "type": "js",
+          "raw": 378763,
+          "gzip": 110987,
+          "brotli": 95662
+        },
+        {
+          "file": "assets/index-D7nlGGCs.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6638,
+          "brotli": 5762
+        }
+      ],
+      "js": {
+        "raw": 378763,
+        "gzip": 110987,
+        "brotli": 95662
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6638,
+        "brotli": 5762
+      },
+      "total": {
+        "raw": 428814,
+        "gzip": 117625,
+        "brotli": 101424
+      }
+    },
+    "all-minus-VfFile": {
+      "group": "component-remove",
+      "component": "VfFile",
+      "description": "full scenario without VfFile",
+      "files": [
+        {
+          "file": "assets/index-BCW4yUsn.js",
+          "type": "js",
+          "raw": 375210,
+          "gzip": 109738,
+          "brotli": 94764
+        },
+        {
+          "file": "assets/index-MVWLqPvF.css",
+          "type": "css",
+          "raw": 49783,
+          "gzip": 6592,
+          "brotli": 5725
+        }
+      ],
+      "js": {
+        "raw": 375210,
+        "gzip": 109738,
+        "brotli": 94764
+      },
+      "css": {
+        "raw": 49783,
+        "gzip": 6592,
+        "brotli": 5725
+      },
+      "total": {
+        "raw": 424993,
+        "gzip": 116330,
+        "brotli": 100489
+      }
+    },
+    "all-minus-VfForm": {
+      "group": "component-remove",
+      "component": "VfForm",
+      "description": "full scenario without VfForm",
+      "files": [
+        {
+          "file": "assets/index-CQ_gOP0C.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6635,
+          "brotli": 5765
+        },
+        {
+          "file": "assets/index-VX4ct5GR.js",
+          "type": "js",
+          "raw": 363049,
+          "gzip": 105528,
+          "brotli": 91571
+        }
+      ],
+      "js": {
+        "raw": 363049,
+        "gzip": 105528,
+        "brotli": 91571
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6635,
+        "brotli": 5765
+      },
+      "total": {
+        "raw": 413100,
+        "gzip": 112163,
+        "brotli": 97336
+      }
+    },
+    "all-minus-VfGrid": {
+      "group": "component-remove",
+      "component": "VfGrid",
+      "description": "full scenario without VfGrid",
+      "files": [
+        {
+          "file": "assets/index-BOD6gd1A.js",
+          "type": "js",
+          "raw": 373579,
+          "gzip": 108959,
+          "brotli": 94124
+        },
+        {
+          "file": "assets/index-n5pq9nui.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6632,
+          "brotli": 5749
+        }
+      ],
+      "js": {
+        "raw": 373579,
+        "gzip": 108959,
+        "brotli": 94124
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6632,
+        "brotli": 5749
+      },
+      "total": {
+        "raw": 423630,
+        "gzip": 115591,
+        "brotli": 99873
+      }
+    },
+    "all-minus-VfGroup": {
+      "group": "component-remove",
+      "component": "VfGroup",
+      "description": "full scenario without VfGroup",
+      "files": [
+        {
+          "file": "assets/index-Bgc_rzIm.js",
+          "type": "js",
+          "raw": 378200,
+          "gzip": 110935,
+          "brotli": 95580
+        },
+        {
+          "file": "assets/index-BxlsSB2K.css",
+          "type": "css",
+          "raw": 49058,
+          "gzip": 6554,
+          "brotli": 5685
+        }
+      ],
+      "js": {
+        "raw": 378200,
+        "gzip": 110935,
+        "brotli": 95580
+      },
+      "css": {
+        "raw": 49058,
+        "gzip": 6554,
+        "brotli": 5685
+      },
+      "total": {
+        "raw": 427258,
+        "gzip": 117489,
+        "brotli": 101265
+      }
+    },
+    "all-minus-VfHidden": {
+      "group": "component-remove",
+      "component": "VfHidden",
+      "description": "full scenario without VfHidden",
+      "files": [
+        {
+          "file": "assets/index-CQ_gOP0C.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6635,
+          "brotli": 5765
+        },
+        {
+          "file": "assets/index-DE6aPCLO.js",
+          "type": "js",
+          "raw": 379904,
+          "gzip": 111107,
+          "brotli": 95716
+        }
+      ],
+      "js": {
+        "raw": 379904,
+        "gzip": 111107,
+        "brotli": 95716
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6635,
+        "brotli": 5765
+      },
+      "total": {
+        "raw": 429955,
+        "gzip": 117742,
+        "brotli": 101481
+      }
+    },
+    "all-minus-VfIcon": {
+      "group": "component-remove",
+      "component": "VfIcon",
+      "description": "full scenario without VfIcon",
+      "files": [
+        {
+          "file": "assets/index-Cn1B0OFM.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6640,
+          "brotli": 5755
+        },
+        {
+          "file": "assets/index-p2PBWq6M.js",
+          "type": "js",
+          "raw": 380790,
+          "gzip": 111240,
+          "brotli": 95730
+        }
+      ],
+      "js": {
+        "raw": 380790,
+        "gzip": 111240,
+        "brotli": 95730
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6640,
+        "brotli": 5755
+      },
+      "total": {
+        "raw": 430841,
+        "gzip": 117880,
+        "brotli": 101485
+      }
+    },
+    "all-minus-VfLanguages": {
+      "group": "component-remove",
+      "component": "VfLanguages",
+      "description": "full scenario without VfLanguages",
+      "files": [
+        {
+          "file": "assets/index-BuTmzv13.js",
+          "type": "js",
+          "raw": 379790,
+          "gzip": 111011,
+          "brotli": 95608
+        },
+        {
+          "file": "assets/index-CMZV4ns8.css",
+          "type": "css",
+          "raw": 48978,
+          "gzip": 6505,
+          "brotli": 5636
+        }
+      ],
+      "js": {
+        "raw": 379790,
+        "gzip": 111011,
+        "brotli": 95608
+      },
+      "css": {
+        "raw": 48978,
+        "gzip": 6505,
+        "brotli": 5636
+      },
+      "total": {
+        "raw": 428768,
+        "gzip": 117516,
+        "brotli": 101244
+      }
+    },
+    "all-minus-VfLayout": {
+      "group": "component-remove",
+      "component": "VfLayout",
+      "description": "full scenario without VfLayout",
+      "files": [
+        {
+          "file": "assets/index-Cf7gQKEC.css",
+          "type": "css",
+          "raw": 46795,
+          "gzip": 6068,
+          "brotli": 5279
+        },
+        {
+          "file": "assets/index-PDC4KKDm.js",
+          "type": "js",
+          "raw": 369374,
+          "gzip": 108347,
+          "brotli": 93381
+        }
+      ],
+      "js": {
+        "raw": 369374,
+        "gzip": 108347,
+        "brotli": 93381
+      },
+      "css": {
+        "raw": 46795,
+        "gzip": 6068,
+        "brotli": 5279
+      },
+      "total": {
+        "raw": 416169,
+        "gzip": 114415,
+        "brotli": 98660
+      }
+    },
+    "all-minus-VfList": {
+      "group": "component-remove",
+      "component": "VfList",
+      "description": "full scenario without VfList",
+      "files": [
+        {
+          "file": "assets/index-DwT5ywzk.css",
+          "type": "css",
+          "raw": 48641,
+          "gzip": 6464,
+          "brotli": 5599
+        },
+        {
+          "file": "assets/index-ORnXAce_.js",
+          "type": "js",
+          "raw": 373382,
+          "gzip": 109811,
+          "brotli": 94779
+        }
+      ],
+      "js": {
+        "raw": 373382,
+        "gzip": 109811,
+        "brotli": 94779
+      },
+      "css": {
+        "raw": 48641,
+        "gzip": 6464,
+        "brotli": 5599
+      },
+      "total": {
+        "raw": 422023,
+        "gzip": 116275,
+        "brotli": 100378
+      }
+    },
+    "all-minus-VfMatrix": {
+      "group": "component-remove",
+      "component": "VfMatrix",
+      "description": "full scenario without VfMatrix",
+      "files": [
+        {
+          "file": "assets/index-CuqTYmdC.js",
+          "type": "js",
+          "raw": 363480,
+          "gzip": 107206,
+          "brotli": 92613
+        },
+        {
+          "file": "assets/index-n8z5Lt7V.css",
+          "type": "css",
+          "raw": 48865,
+          "gzip": 6455,
+          "brotli": 5598
+        }
+      ],
+      "js": {
+        "raw": 363480,
+        "gzip": 107206,
+        "brotli": 92613
+      },
+      "css": {
+        "raw": 48865,
+        "gzip": 6455,
+        "brotli": 5598
+      },
+      "total": {
+        "raw": 412345,
+        "gzip": 113661,
+        "brotli": 98211
+      }
+    },
+    "all-minus-VfNav": {
+      "group": "component-remove",
+      "component": "VfNav",
+      "description": "full scenario without VfNav",
+      "files": [
+        {
+          "file": "assets/index-Cu9Rcg5w.css",
+          "type": "css",
+          "raw": 49745,
+          "gzip": 6565,
+          "brotli": 5687
+        },
+        {
+          "file": "assets/index-CyBrEp9A.js",
+          "type": "js",
+          "raw": 376181,
+          "gzip": 110312,
+          "brotli": 94963
+        }
+      ],
+      "js": {
+        "raw": 376181,
+        "gzip": 110312,
+        "brotli": 94963
+      },
+      "css": {
+        "raw": 49745,
+        "gzip": 6565,
+        "brotli": 5687
+      },
+      "total": {
+        "raw": 425926,
+        "gzip": 116877,
+        "brotli": 100650
+      }
+    },
+    "all-minus-VfRadio": {
+      "group": "component-remove",
+      "component": "VfRadio",
+      "description": "full scenario without VfRadio",
+      "files": [
+        {
+          "file": "assets/index-CLxqTuBT.js",
+          "type": "js",
+          "raw": 376855,
+          "gzip": 110708,
+          "brotli": 95525
+        },
+        {
+          "file": "assets/index-CQ_gOP0C.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6635,
+          "brotli": 5765
+        }
+      ],
+      "js": {
+        "raw": 376855,
+        "gzip": 110708,
+        "brotli": 95525
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6635,
+        "brotli": 5765
+      },
+      "total": {
+        "raw": 426906,
+        "gzip": 117343,
+        "brotli": 101290
+      }
+    },
+    "all-minus-VfRadios": {
+      "group": "component-remove",
+      "component": "VfRadios",
+      "description": "full scenario without VfRadios",
+      "files": [
+        {
+          "file": "assets/index-CGiyM4EV.js",
+          "type": "js",
+          "raw": 376403,
+          "gzip": 110770,
+          "brotli": 95743
+        },
+        {
+          "file": "assets/index-CQ_gOP0C.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6635,
+          "brotli": 5765
+        }
+      ],
+      "js": {
+        "raw": 376403,
+        "gzip": 110770,
+        "brotli": 95743
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6635,
+        "brotli": 5765
+      },
+      "total": {
+        "raw": 426454,
+        "gzip": 117405,
+        "brotli": 101508
+      }
+    },
+    "all-minus-VfRow": {
+      "group": "component-remove",
+      "component": "VfRow",
+      "description": "full scenario without VfRow",
+      "files": [
+        {
+          "file": "assets/index-C4Gcbvrb.js",
+          "type": "js",
+          "raw": 380360,
+          "gzip": 111130,
+          "brotli": 95777
+        },
+        {
+          "file": "assets/index-CQ_gOP0C.css",
+          "type": "css",
+          "raw": 50051,
+          "gzip": 6635,
+          "brotli": 5765
+        }
+      ],
+      "js": {
+        "raw": 380360,
+        "gzip": 111130,
+        "brotli": 95777
+      },
+      "css": {
+        "raw": 50051,
+        "gzip": 6635,
+        "brotli": 5765
+      },
+      "total": {
+        "raw": 430411,
+        "gzip": 117765,
+        "brotli": 101542
+      }
+    },
+    "all-minus-VfSelect": {
+      "group": "component-remove",
+      "component": "VfSelect",
+      "description": "full scenario without VfSelect",
+      "files": [
+        {
+          "file": "assets/index-bf-41llV.js",
+          "type": "js",
+          "raw": 377285,
+          "gzip": 110934,
+          "brotli": 95540
+        },
+        {
+          "file": "assets/index-eec0VwrY.css",
+          "type": "css",
+          "raw": 49276,
+          "gzip": 6510,
+          "brotli": 5644
+        }
+      ],
+      "js": {
+        "raw": 377285,
+        "gzip": 110934,
+        "brotli": 95540
+      },
+      "css": {
+        "raw": 49276,
+        "gzip": 6510,
+        "brotli": 5644
+      },
+      "total": {
+        "raw": 426561,
+        "gzip": 117444,
+        "brotli": 101184
+      }
+    },
+    "all-minus-VfSteps": {
+      "group": "component-remove",
+      "component": "VfSteps",
+      "description": "full scenario without VfSteps",
+      "files": [
+        {
+          "file": "assets/index-BM8o4VjL.css",
+          "type": "css",
+          "raw": 45634,
+          "gzip": 5994,
+          "brotli": 5182
+        },
+        {
+          "file": "assets/index-DRovedB-.js",
+          "type": "js",
+          "raw": 379840,
+          "gzip": 111216,
+          "brotli": 95646
+        }
+      ],
+      "js": {
+        "raw": 379840,
+        "gzip": 111216,
+        "brotli": 95646
+      },
+      "css": {
+        "raw": 45634,
+        "gzip": 5994,
+        "brotli": 5182
+      },
+      "total": {
+        "raw": 425474,
+        "gzip": 117210,
+        "brotli": 100828
+      }
+    },
+    "all-minus-VfTabs": {
+      "group": "component-remove",
+      "component": "VfTabs",
+      "description": "full scenario without VfTabs",
+      "files": [
+        {
+          "file": "assets/index-CJr6NgBD.js",
+          "type": "js",
+          "raw": 379978,
+          "gzip": 111255,
+          "brotli": 95841
+        },
+        {
+          "file": "assets/index-tFBSJ74J.css",
+          "type": "css",
+          "raw": 49033,
+          "gzip": 6512,
+          "brotli": 5662
+        }
+      ],
+      "js": {
+        "raw": 379978,
+        "gzip": 111255,
+        "brotli": 95841
+      },
+      "css": {
+        "raw": 49033,
+        "gzip": 6512,
+        "brotli": 5662
+      },
+      "total": {
+        "raw": 429011,
+        "gzip": 117767,
+        "brotli": 101503
+      }
+    },
+    "all-minus-VfText": {
+      "group": "component-remove",
+      "component": "VfText",
+      "description": "full scenario without VfText",
+      "files": [
+        {
+          "file": "assets/index-B8gWNu7Q.js",
+          "type": "js",
+          "raw": 377538,
+          "gzip": 110943,
+          "brotli": 95485
+        },
+        {
+          "file": "assets/index-jRjW7DJI.css",
+          "type": "css",
+          "raw": 49203,
+          "gzip": 6545,
+          "brotli": 5673
+        }
+      ],
+      "js": {
+        "raw": 377538,
+        "gzip": 110943,
+        "brotli": 95485
+      },
+      "css": {
+        "raw": 49203,
+        "gzip": 6545,
+        "brotli": 5673
+      },
+      "total": {
+        "raw": 426741,
+        "gzip": 117488,
+        "brotli": 101158
+      }
+    },
+    "all-minus-VfTextarea": {
+      "group": "component-remove",
+      "component": "VfTextarea",
+      "description": "full scenario without VfTextarea",
+      "files": [
+        {
+          "file": "assets/index-BzWw2Y6y.css",
+          "type": "css",
+          "raw": 49792,
+          "gzip": 6596,
+          "brotli": 5721
+        },
+        {
+          "file": "assets/index-DYGeQOcP.js",
+          "type": "js",
+          "raw": 377434,
+          "gzip": 110896,
+          "brotli": 95446
+        }
+      ],
+      "js": {
+        "raw": 377434,
+        "gzip": 110896,
+        "brotli": 95446
+      },
+      "css": {
+        "raw": 49792,
+        "gzip": 6596,
+        "brotli": 5721
+      },
+      "total": {
+        "raw": 427226,
+        "gzip": 117492,
+        "brotli": 101167
+      }
+    }
+  }
+}

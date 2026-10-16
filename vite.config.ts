@@ -153,6 +153,9 @@ const typecheckTasks = Object.fromEntries(
             `packages/${dir}/tests/**`,
             `packages/${dir}/*.ts`,
             `packages/${dir}/*.json`,
+            // The size suite's results are not a typecheck input — without
+            // the exclusion every `pnpm size` run would invalidate the leg.
+            `!packages/${dir}/size.json`,
             ...workspaceDeps(dir).flatMap((dep) => [
               srcLinked ? `packages/${dep}/src/**` : `packages/${dep}/dist/**`,
               `packages/${dep}/package.json`,
@@ -188,6 +191,9 @@ const testLegCache = (dir: string) => ({
     `packages/${dir}/**`,
     `!packages/${dir}/dist/**`,
     `!packages/${dir}/node_modules/**`,
+    // The size suite's results are not a test input — without the exclusion
+    // every `pnpm size` run would invalidate the leg.
+    `!packages/${dir}/size.json`,
     ...workspaceDeps(dir).flatMap((dep) =>
       dep === 'utils' ? UTILS_TEST_SURFACE : [`packages/${dep}/src/**`]
     ),
@@ -249,26 +255,27 @@ const UTILS_BUILD_SURFACE = ['tsdown', 'shared', 'adapter', 'dts-esm'].map(
  * (a plugin's scenarios bundle the ui adapter's full entry), reads the
  * measured package's `vueform.size` config from its manifest, and — for
  * adapters and plugins — embeds core's building-block numbers from
- * `.vueform/size/core.json`, so non-core legs order after core's. The legs
- * cache on exactly that surface: untouched dists mean an instant replay.
+ * `packages/core/size.json`, so non-core legs order after core's. The legs
+ * cache on exactly the sources the measured dists derive from: the package's
+ * own src, core's src for adapters and plugins, ui's src for plugins (their
+ * scenarios bundle the ui entry), the manifests carrying the `vueform.size`
+ * configs, and the lockfile (dependency bumps shift every number). The built
+ * dists themselves are reached through `dependsOn`, not the fingerprint, so
+ * a rebuild of unchanged sources stays an instant replay.
  *
- * `vfd size` writes `.vueform/size/<dir>.json` AND injects the README's size
- * section. Only the json is declared as output: a cache replay restoring a
- * whole README could clobber unrelated manual edits, and on a hit the
- * section is already current (same inputs, same numbers).
+ * `vfd size` writes the package's git-tracked `size.json` AND injects the
+ * README's size section. Only the json is declared as output: a cache replay
+ * restoring a whole README could clobber unrelated manual edits, and on a
+ * hit the section is already current (same inputs, same numbers).
  */
-const UTILS_SIZE_SURFACE = [
-  'packages/utils/dist/size/**',
-  'packages/utils/dist/size-cli.js',
-  'packages/utils/dist/shared.js',
-]
-
 const sizedPackages = [...packageManifests].flatMap(([dir, pkg]) =>
-  pkg.scripts?.size ? [{ dir, name: pkg.name as string }] : []
+  pkg.scripts?.size
+    ? [{ dir, name: pkg.name as string, group: pkg.vueform?.group }]
+    : []
 )
 
 const sizeTasks = Object.fromEntries(
-  sizedPackages.map(({ dir, name }) => [
+  sizedPackages.map(({ dir, name, group }) => [
     `:size:${dir}`,
     {
       command: `pnpm --filter ${name} run size`,
@@ -279,19 +286,17 @@ const sizeTasks = Object.fromEntries(
       ],
       cache: {
         input: [
-          `packages/${dir}/dist/**`,
+          `packages/${dir}/src/**`,
           `packages/${dir}/package.json`,
-          ...workspaceDeps(dir)
-            .filter((dep) => buildableDirs.has(dep))
-            .flatMap((dep) =>
-              dep === 'utils'
-                ? UTILS_SIZE_SURFACE
-                : [`packages/${dep}/dist/**`, `packages/${dep}/package.json`]
-            ),
-          ...(dir === 'core' ? [] : ['.vueform/size/core.json']),
+          ...(dir === 'core'
+            ? []
+            : ['packages/core/src/**', 'packages/core/package.json']),
+          ...(group === 'plugins'
+            ? ['packages/ui/src/**', 'packages/ui/package.json']
+            : []),
           'pnpm-lock.yaml',
         ],
-        output: [`.vueform/size/${dir}.json`],
+        output: [`packages/${dir}/size.json`],
       },
     },
   ])
@@ -310,6 +315,9 @@ const buildTasks = Object.fromEntries(
           `packages/${dir}/src/**`,
           `packages/${dir}/*.ts`,
           `packages/${dir}/*.json`,
+          // The size suite's results are not a build input — without the
+          // exclusion every `pnpm size` run would invalidate the build.
+          `!packages/${dir}/size.json`,
           ...workspaceDeps(dir)
             .filter((dep) => buildableDirs.has(dep))
             .flatMap((dep) =>
@@ -663,6 +671,19 @@ export default defineConfig({
         dependsOn: sizedPackages.map(({ dir }) => `:size:${dir}`),
       },
       ...sizeTasks,
+      // Measures ONLY the sized packages whose git-tracked size.json is
+      // missing (fresh package, deleted file) — the normal path is a no-op
+      // that trusts the committed jsons. The script runs the measurements
+      // directly (never through a nested vp invocation), so the dists it
+      // bundles must be materialized by this graph beforehand.
+      ':size:ensure': {
+        command: 'tsx scripts/size-ensure.ts',
+        dependsOn: [
+          ':build:utils',
+          ...sizedPackages.map(({ dir }) => `:build:${dir}`),
+        ],
+        cache: false,
+      },
       ':size:report': {
         command: "vp run --filter './packages/*' size:report",
         dependsOn: [':build:utils'],
@@ -684,9 +705,11 @@ export default defineConfig({
       },
       ':docs:gen': {
         command: 'pnpm --filter @vueform/docs run gen',
-        // The generators read the api jsons and the size measurements
-        // (guide-code-splitting embeds size.json numbers).
-        dependsOn: [':api', ':size'],
+        // The generators read the api jsons and the packages' committed
+        // size.json files (guide-code-splitting embeds their numbers) —
+        // `:size:ensure` only measures packages whose size.json is missing,
+        // never re-measures existing ones (that's `pnpm size`).
+        dependsOn: [':api', ':size:ensure'],
         // Docs tasks stay uncached (see the caching rules above).
         cache: false,
       },

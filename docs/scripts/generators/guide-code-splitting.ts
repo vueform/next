@@ -23,11 +23,11 @@ import type {
  *   measured all-included delta). A region may contain several tables; every
  *   other cell and the row order are left untouched.
  *
- * Sizes come from each measured package's own
- * the root `.vueform/size/<name>.json`, and — for the
- * adapter-independent building blocks (modules, rules, locales) — from the core
- * package's, the same way the suite's own report does. All values are gzipped
- * deltas.
+ * Sizes come from each measured package's own git-tracked
+ * `packages/<name>/size.json`, and — for the adapter-independent building
+ * blocks (modules, rules, locales) — from the core package's, the same way
+ * the suite's own report does. No measurement runs here: a missing size.json
+ * fails with a pointer to `pnpm size`. All values are gzipped deltas.
  */
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
@@ -60,7 +60,7 @@ interface KindSizes {
 // ---------------------------------------------------------------------------
 
 function readResults(name: string): Results | undefined {
-  const file = path.join(ROOT, '.vueform', 'size', `${name}.json`)
+  const file = path.join(ROOT, 'packages', name, 'size.json')
   return fs.existsSync(file)
     ? (JSON.parse(fs.readFileSync(file, 'utf-8')) as Results)
     : undefined

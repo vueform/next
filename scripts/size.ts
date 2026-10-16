@@ -4,10 +4,11 @@
  * each row running its cached vp leg (`vpr :size:<pkg>`) with live
  * `x/n measurements` progress from the suite's `[x/n] scenario ...` lines.
  * The legs build the measured dists as dependencies and cache on them — an
- * untouched package replays instantly. The README size sections
- * are regenerated from the fresh measurements afterwards. `--report` only
- * regenerates the README sections (near-instant, plain output). Selection flags
- * work as before (`--core`, `--pv`, `--adapters`). Output goes to
+ * untouched package replays instantly. Results land in each package's
+ * git-tracked `size.json`; the README size sections are regenerated from the
+ * fresh measurements afterwards. `--report` only regenerates the README
+ * sections from the existing size.json files (near-instant, plain output).
+ * Selection flags work as before (`--core`, `--pv`, `--adapters`). Logs go to
  * `.vueform/size/logs`.
  */
 import { spawnSync } from 'node:child_process'

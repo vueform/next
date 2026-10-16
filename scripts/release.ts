@@ -3,7 +3,8 @@
  * locally runnable). Computes the next lockstep version, writes it to every
  * `packages/*` manifest, rebuilds (dist banners stamp the version at build
  * time), regenerates the git-tracked release artifacts (adapter registries,
- * README size sections, benchmark results), regenerates CHANGELOG.md and
+ * the packages' size.json files + README size sections, benchmark results),
+ * regenerates CHANGELOG.md and
  * emits the new section for the GitHub release notes, then commits
  * `chore(release): v<version>` and tags `v<version>`.
  *
@@ -281,8 +282,10 @@ runLive('pnpm', ['manifests'])
 runLive('pnpm', ['build'])
 
 // Regenerate the git-tracked release artifacts so the release commit ships
-// them at the release version: adapter registries, README size sections,
-// benchmark results + charts — minus the --skip'd generators.
+// them at the release version: adapter registries, size.json files + README
+// size sections, benchmark results + charts — minus the --skip'd generators.
+// The bumped manifests invalidate the size legs' caches (package.json is an
+// input), so an unskipped `pnpm size` always re-measures here.
 for (const task of SKIPPABLE) {
   if (skip.has(task)) {
     console.log(`skipped:  ${task} (--skip)`)
@@ -329,7 +332,8 @@ fs.writeFileSync(
 )
 console.log(`notes:    ${path.relative(repoRoot, notesFile)}`)
 
-// Manifests, CHANGELOG, registries, README size sections, bench results.
+// Manifests, CHANGELOG, registries, size.json files + README size sections,
+// bench results.
 run('git', ['add', '-A'])
 run('git', ['commit', '-m', `chore(release): ${tag}`])
 
