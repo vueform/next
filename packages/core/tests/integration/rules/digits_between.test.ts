@@ -13,6 +13,36 @@ describe('digits_between', () => {
     expect(field.invalid).toBe(false)
   })
 
+  it('should pass for digits with length between min and max', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: { type: 'text', rules: 'digits_between:2,5', default: '1234' },
+      }),
+    })
+    await field.validate()
+    expect(field.invalid).toBe(false)
+  })
+
+  it('should pass for digits with length at maximum', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: { type: 'text', rules: 'digits_between:2,5', default: '12345' },
+      }),
+    })
+    await field.validate()
+    expect(field.invalid).toBe(false)
+  })
+
+  it('should fail for digits longer than max', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: { type: 'text', rules: 'digits_between:2,5', default: '123456' },
+      }),
+    })
+    await field.validate()
+    expect(field.invalid).toBe(true)
+  })
+
   it('should fail for digits shorter than min', async () => {
     const { field } = createForm({
       schema: defineSchema({

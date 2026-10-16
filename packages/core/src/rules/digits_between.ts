@@ -14,7 +14,7 @@ export const digits_between = createRule(
   (value, { params }) =>
     /^\d+$/.test(value) &&
     String(value).length >= Number(params.min) &&
-    String(value).length <= Number(params.min),
+    String(value).length <= Number(params.max),
   {
     params: ['min', 'max'],
   }

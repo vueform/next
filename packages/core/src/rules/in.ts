@@ -12,6 +12,6 @@ export const in_ = createRule(
   (value, { params }) => params.includes(value),
   {
     params: true,
-    message: 'rule_not_in_error',
+    message: 'rule_in_error',
   }
 )

@@ -17,6 +17,5 @@ export const not_regex = createRule(
   },
   {
     params: ['pattern'],
-    message: 'rule_regex_error',
   }
 )
