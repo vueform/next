@@ -45,7 +45,7 @@ Validates that the value is one of the listed values.
 
 | Key | Default Message |
 | --- | --- |
-| `rule_not_in_error` | The selected {attribute} is invalid. |
+| `rule_in_error` | The selected {attribute} is invalid. |
 
 <!-- @rule:related start -->
 

@@ -49,7 +49,7 @@ A `pattern=` prefix is also supported and is optional. The rule fails closed: wh
 
 | Key | Default Message |
 | --- | --- |
-| `rule_regex_error` | The {attribute} format is invalid. |
+| `rule_not_regex_error` | The {attribute} format is invalid. |
 
 <!-- @rule:related start -->
 

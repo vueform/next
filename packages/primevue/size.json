@@ -1,7 +1,7 @@
 {
   "pkg": "@vueform/primevue",
   "type": "adapter",
-  "generatedAt": "2026-10-16T05:16:29.155Z",
+  "generatedAt": "2026-10-16T07:41:31.685Z",
   "environment": {
     "node": "v26.8.2",
     "packageManager": "pnpm@10.20.0",
@@ -123,13 +123,6 @@
       "themed": true,
       "files": [
         {
-          "file": "assets/index-C-reeINF.js",
-          "type": "js",
-          "raw": 1407888,
-          "gzip": 331763,
-          "brotli": 230999
-        },
-        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -137,17 +130,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-dsXXXPiB.js",
+          "file": "assets/index-DJaQVjmk.js",
+          "type": "js",
+          "raw": 1407857,
+          "gzip": 331757,
+          "brotli": 231127
+        },
+        {
+          "file": "assets/quill-DgEnF8da.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49105
+          "gzip": 57916,
+          "brotli": 49204
         }
       ],
       "js": {
-        "raw": 1607784,
-        "gzip": 389678,
-        "brotli": 280104
+        "raw": 1607753,
+        "gzip": 389673,
+        "brotli": 280331
       },
       "css": {
         "raw": 61446,
@@ -155,9 +155,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1669230,
-        "gzip": 398226,
-        "brotli": 287415
+        "raw": 1669199,
+        "gzip": 398221,
+        "brotli": 287642
       }
     },
     "components-base": {
@@ -167,11 +167,11 @@
       "themed": true,
       "files": [
         {
-          "file": "assets/index-BdIZHo5C.js",
+          "file": "assets/index-Db5BGj57.js",
           "type": "js",
-          "raw": 346583,
-          "gzip": 90904,
-          "brotli": 78166
+          "raw": 346552,
+          "gzip": 90900,
+          "brotli": 78268
         },
         {
           "file": "assets/index-DwwBztWV.css",
@@ -182,9 +182,9 @@
         }
       ],
       "js": {
-        "raw": 346583,
-        "gzip": 90904,
-        "brotli": 78166
+        "raw": 346552,
+        "gzip": 90900,
+        "brotli": 78268
       },
       "css": {
         "raw": 12148,
@@ -192,9 +192,9 @@
         "brotli": 2369
       },
       "total": {
-        "raw": 358731,
-        "gzip": 93799,
-        "brotli": 80535
+        "raw": 358700,
+        "gzip": 93795,
+        "brotli": 80637
       }
     },
     "themes-base": {
@@ -278,11 +278,11 @@
       "description": "full scenario without VfAddon",
       "files": [
         {
-          "file": "assets/index-_wofTjSS.js",
+          "file": "assets/index-DYs7y2Vj.js",
           "type": "js",
-          "raw": 1406433,
-          "gzip": 331222,
-          "brotli": 230786
+          "raw": 1406402,
+          "gzip": 331216,
+          "brotli": 230769
         },
         {
           "file": "assets/index-XzZ3LUZz.css",
@@ -292,17 +292,17 @@
           "brotli": 6829
         },
         {
-          "file": "assets/quill-CdYzoZEU.js",
+          "file": "assets/quill-Do8OdFMc.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49188
+          "gzip": 57916,
+          "brotli": 49147
         }
       ],
       "js": {
-        "raw": 1606329,
-        "gzip": 389137,
-        "brotli": 279974
+        "raw": 1606298,
+        "gzip": 389132,
+        "brotli": 279916
       },
       "css": {
         "raw": 56419,
@@ -310,9 +310,9 @@
         "brotli": 6829
       },
       "total": {
-        "raw": 1662748,
-        "gzip": 397109,
-        "brotli": 286803
+        "raw": 1662717,
+        "gzip": 397104,
+        "brotli": 286745
       }
     },
     "all-minus-VfAutoComplete": {
@@ -322,11 +322,11 @@
       "description": "full scenario without VfAutoComplete",
       "files": [
         {
-          "file": "assets/index-CdtljZIB.js",
+          "file": "assets/index-BwNZ33OY.js",
           "type": "js",
-          "raw": 1357348,
-          "gzip": 321578,
-          "brotli": 227186
+          "raw": 1357317,
+          "gzip": 321573,
+          "brotli": 227140
         },
         {
           "file": "assets/index-CYqj4uFM.css",
@@ -336,17 +336,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-Cp3D9XO3.js",
+          "file": "assets/quill-DIO5I_kA.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49202
+          "gzip": 57917,
+          "brotli": 49193
         }
       ],
       "js": {
-        "raw": 1557244,
-        "gzip": 379494,
-        "brotli": 276388
+        "raw": 1557213,
+        "gzip": 379490,
+        "brotli": 276333
       },
       "css": {
         "raw": 61446,
@@ -354,9 +354,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1618690,
-        "gzip": 388042,
-        "brotli": 283699
+        "raw": 1618659,
+        "gzip": 388038,
+        "brotli": 283644
       }
     },
     "all-minus-VfButton": {
@@ -366,13 +366,6 @@
       "description": "full scenario without VfButton",
       "files": [
         {
-          "file": "assets/index-BnFzLD1W.js",
-          "type": "js",
-          "raw": 1403630,
-          "gzip": 330287,
-          "brotli": 230237
-        },
-        {
           "file": "assets/index-DbQabAw8.css",
           "type": "css",
           "raw": 61280,
@@ -380,17 +373,24 @@
           "brotli": 7283
         },
         {
-          "file": "assets/quill-BwS8KAdH.js",
+          "file": "assets/index-DUXzpyLE.js",
+          "type": "js",
+          "raw": 1403599,
+          "gzip": 330281,
+          "brotli": 230182
+        },
+        {
+          "file": "assets/quill-DGXjulKi.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49115
+          "brotli": 49188
         }
       ],
       "js": {
-        "raw": 1603526,
-        "gzip": 388203,
-        "brotli": 279352
+        "raw": 1603495,
+        "gzip": 388197,
+        "brotli": 279370
       },
       "css": {
         "raw": 61280,
@@ -398,9 +398,9 @@
         "brotli": 7283
       },
       "total": {
-        "raw": 1664806,
-        "gzip": 396726,
-        "brotli": 286635
+        "raw": 1664775,
+        "gzip": 396720,
+        "brotli": 286653
       }
     },
     "all-minus-VfCascadeSelect": {
@@ -410,13 +410,6 @@
       "description": "full scenario without VfCascadeSelect",
       "files": [
         {
-          "file": "assets/index-C_MJlYNc.js",
-          "type": "js",
-          "raw": 1360948,
-          "gzip": 321708,
-          "brotli": 227141
-        },
-        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -424,17 +417,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-CDMqb_ps.js",
+          "file": "assets/index-qLOk2wv1.js",
+          "type": "js",
+          "raw": 1360917,
+          "gzip": 321702,
+          "brotli": 227382
+        },
+        {
+          "file": "assets/quill-B9RsIgkb.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49104
+          "brotli": 49154
         }
       ],
       "js": {
-        "raw": 1560844,
-        "gzip": 379624,
-        "brotli": 276245
+        "raw": 1560813,
+        "gzip": 379618,
+        "brotli": 276536
       },
       "css": {
         "raw": 61446,
@@ -442,9 +442,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1622290,
-        "gzip": 388172,
-        "brotli": 283556
+        "raw": 1622259,
+        "gzip": 388166,
+        "brotli": 283847
       }
     },
     "all-minus-VfCheckbox": {
@@ -454,13 +454,6 @@
       "description": "full scenario without VfCheckbox",
       "files": [
         {
-          "file": "assets/index-CEy0-Z5S.js",
-          "type": "js",
-          "raw": 1402775,
-          "gzip": 330338,
-          "brotli": 230600
-        },
-        {
           "file": "assets/index-REUzNlK2.css",
           "type": "css",
           "raw": 61446,
@@ -468,17 +461,24 @@
           "brotli": 7340
         },
         {
-          "file": "assets/quill-Dk6xS4aT.js",
+          "file": "assets/index-tplEgnRI.js",
+          "type": "js",
+          "raw": 1402744,
+          "gzip": 330331,
+          "brotli": 230731
+        },
+        {
+          "file": "assets/quill-BOnDsF2d.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49228
+          "gzip": 57915,
+          "brotli": 49196
         }
       ],
       "js": {
-        "raw": 1602671,
-        "gzip": 388254,
-        "brotli": 279828
+        "raw": 1602640,
+        "gzip": 388246,
+        "brotli": 279927
       },
       "css": {
         "raw": 61446,
@@ -486,9 +486,9 @@
         "brotli": 7340
       },
       "total": {
-        "raw": 1664117,
-        "gzip": 396807,
-        "brotli": 287168
+        "raw": 1664086,
+        "gzip": 396799,
+        "brotli": 287267
       }
     },
     "all-minus-VfCheckboxGroup": {
@@ -505,24 +505,24 @@
           "brotli": 7314
         },
         {
-          "file": "assets/index-BWZYzoYw.js",
+          "file": "assets/index-BrhsUiV_.js",
           "type": "js",
-          "raw": 1402586,
-          "gzip": 331083,
-          "brotli": 230969
+          "raw": 1402555,
+          "gzip": 331078,
+          "brotli": 231109
         },
         {
-          "file": "assets/quill-BFA77qxA.js",
+          "file": "assets/quill-CK_XRPxV.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49236
+          "gzip": 57915,
+          "brotli": 49169
         }
       ],
       "js": {
-        "raw": 1602482,
-        "gzip": 388999,
-        "brotli": 280205
+        "raw": 1602451,
+        "gzip": 388993,
+        "brotli": 280278
       },
       "css": {
         "raw": 61446,
@@ -530,9 +530,9 @@
         "brotli": 7314
       },
       "total": {
-        "raw": 1663928,
-        "gzip": 397562,
-        "brotli": 287519
+        "raw": 1663897,
+        "gzip": 397556,
+        "brotli": 287592
       }
     },
     "all-minus-VfCol": {
@@ -549,24 +549,24 @@
           "brotli": 7330
         },
         {
-          "file": "assets/index-CxbQmGhz.js",
+          "file": "assets/index-MNRARBbG.js",
           "type": "js",
-          "raw": 1405250,
-          "gzip": 330986,
-          "brotli": 230755
+          "raw": 1405219,
+          "gzip": 330979,
+          "brotli": 230742
         },
         {
-          "file": "assets/quill-DOUg5MRx.js",
+          "file": "assets/quill-Bfs7n0M5.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49152
+          "brotli": 49104
         }
       ],
       "js": {
-        "raw": 1605146,
-        "gzip": 388902,
-        "brotli": 279907
+        "raw": 1605115,
+        "gzip": 388895,
+        "brotli": 279846
       },
       "css": {
         "raw": 61446,
@@ -574,9 +574,9 @@
         "brotli": 7330
       },
       "total": {
-        "raw": 1666592,
-        "gzip": 397446,
-        "brotli": 287237
+        "raw": 1666561,
+        "gzip": 397439,
+        "brotli": 287176
       }
     },
     "all-minus-VfColorPicker": {
@@ -593,24 +593,24 @@
           "brotli": 7305
         },
         {
-          "file": "assets/index-DkCYfRUv.js",
+          "file": "assets/index-StW-9A1q.js",
           "type": "js",
-          "raw": 1387239,
-          "gzip": 326941,
-          "brotli": 228325
+          "raw": 1387208,
+          "gzip": 326935,
+          "brotli": 228103
         },
         {
-          "file": "assets/quill-B8KGciTs.js",
+          "file": "assets/quill-B1nQRTMG.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49184
+          "brotli": 49187
         }
       ],
       "js": {
-        "raw": 1587135,
-        "gzip": 384857,
-        "brotli": 277509
+        "raw": 1587104,
+        "gzip": 384851,
+        "brotli": 277290
       },
       "css": {
         "raw": 61358,
@@ -618,9 +618,9 @@
         "brotli": 7305
       },
       "total": {
-        "raw": 1648493,
-        "gzip": 393386,
-        "brotli": 284814
+        "raw": 1648462,
+        "gzip": 393380,
+        "brotli": 284595
       }
     },
     "all-minus-VfContent": {
@@ -630,11 +630,11 @@
       "description": "full scenario without VfContent",
       "files": [
         {
-          "file": "assets/index-BIDbjmjj.js",
+          "file": "assets/index-CeddI-Ns.js",
           "type": "js",
-          "raw": 1405738,
-          "gzip": 331416,
-          "brotli": 231019
+          "raw": 1405707,
+          "gzip": 331409,
+          "brotli": 230827
         },
         {
           "file": "assets/index-Do0KQqIt.css",
@@ -644,17 +644,17 @@
           "brotli": 7284
         },
         {
-          "file": "assets/quill-Cd6skAk2.js",
+          "file": "assets/quill-BcowMrV6.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49145
+          "gzip": 57915,
+          "brotli": 49086
         }
       ],
       "js": {
-        "raw": 1605634,
-        "gzip": 389332,
-        "brotli": 280164
+        "raw": 1605603,
+        "gzip": 389324,
+        "brotli": 279913
       },
       "css": {
         "raw": 61207,
@@ -662,9 +662,9 @@
         "brotli": 7284
       },
       "total": {
-        "raw": 1666841,
-        "gzip": 397844,
-        "brotli": 287448
+        "raw": 1666810,
+        "gzip": 397836,
+        "brotli": 287197
       }
     },
     "all-minus-VfDatePicker": {
@@ -681,24 +681,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-QRbP6D-0.js",
+          "file": "assets/index-kt5CmzG2.js",
           "type": "js",
-          "raw": 1303572,
-          "gzip": 311269,
-          "brotli": 217146
+          "raw": 1303541,
+          "gzip": 311264,
+          "brotli": 217076
         },
         {
-          "file": "assets/quill-D3aijUIM.js",
+          "file": "assets/quill-9LOj4QcH.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49211
+          "brotli": 49163
         }
       ],
       "js": {
-        "raw": 1503468,
-        "gzip": 369185,
-        "brotli": 266357
+        "raw": 1503437,
+        "gzip": 369180,
+        "brotli": 266239
       },
       "css": {
         "raw": 61446,
@@ -706,9 +706,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1564914,
-        "gzip": 377733,
-        "brotli": 273668
+        "raw": 1564883,
+        "gzip": 377728,
+        "brotli": 273550
       }
     },
     "all-minus-VfEditor": {
@@ -725,17 +725,17 @@
           "brotli": 6972
         },
         {
-          "file": "assets/index-DmzcA_5X.js",
+          "file": "assets/index-OvvheWit.js",
           "type": "js",
-          "raw": 1361137,
-          "gzip": 323082,
-          "brotli": 224793
+          "raw": 1361106,
+          "gzip": 323076,
+          "brotli": 224797
         }
       ],
       "js": {
-        "raw": 1361137,
-        "gzip": 323082,
-        "brotli": 224793
+        "raw": 1361106,
+        "gzip": 323076,
+        "brotli": 224797
       },
       "css": {
         "raw": 59449,
@@ -743,9 +743,9 @@
         "brotli": 6972
       },
       "total": {
-        "raw": 1420586,
-        "gzip": 331253,
-        "brotli": 231765
+        "raw": 1420555,
+        "gzip": 331247,
+        "brotli": 231769
       }
     },
     "all-minus-VfElements": {
@@ -762,24 +762,24 @@
           "brotli": 7295
         },
         {
-          "file": "assets/index-Cci2rE-E.js",
+          "file": "assets/index-D-5YVlYx.js",
           "type": "js",
-          "raw": 1407134,
-          "gzip": 331613,
-          "brotli": 231235
+          "raw": 1407103,
+          "gzip": 331605,
+          "brotli": 230980
         },
         {
-          "file": "assets/quill-CSyYS5rI.js",
+          "file": "assets/quill-ietR1SY6.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49181
+          "gzip": 57916,
+          "brotli": 49173
         }
       ],
       "js": {
-        "raw": 1607030,
-        "gzip": 389528,
-        "brotli": 280416
+        "raw": 1606999,
+        "gzip": 389521,
+        "brotli": 280153
       },
       "css": {
         "raw": 61429,
@@ -787,9 +787,9 @@
         "brotli": 7295
       },
       "total": {
-        "raw": 1668459,
-        "gzip": 398074,
-        "brotli": 287711
+        "raw": 1668428,
+        "gzip": 398067,
+        "brotli": 287448
       }
     },
     "all-minus-VfField": {
@@ -799,11 +799,11 @@
       "description": "full scenario without VfField",
       "files": [
         {
-          "file": "assets/index-Csw84unT.js",
+          "file": "assets/index-CbqbI6Ut.js",
           "type": "js",
-          "raw": 1404756,
-          "gzip": 331406,
-          "brotli": 231032
+          "raw": 1404725,
+          "gzip": 331398,
+          "brotli": 230865
         },
         {
           "file": "assets/index-CYqj4uFM.css",
@@ -813,17 +813,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-CKAmLy7c.js",
+          "file": "assets/quill-CryOKdky.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49105
+          "brotli": 49199
         }
       ],
       "js": {
-        "raw": 1604652,
-        "gzip": 389322,
-        "brotli": 280137
+        "raw": 1604621,
+        "gzip": 389314,
+        "brotli": 280064
       },
       "css": {
         "raw": 61446,
@@ -831,9 +831,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1666098,
-        "gzip": 397870,
-        "brotli": 287448
+        "raw": 1666067,
+        "gzip": 397862,
+        "brotli": 287375
       }
     },
     "all-minus-VfFileUpload": {
@@ -843,11 +843,11 @@
       "description": "full scenario without VfFileUpload",
       "files": [
         {
-          "file": "assets/index-CRH9TdRM.js",
+          "file": "assets/index-CppaegPn.js",
           "type": "js",
-          "raw": 1372896,
-          "gzip": 322582,
-          "brotli": 225596
+          "raw": 1372865,
+          "gzip": 322576,
+          "brotli": 225381
         },
         {
           "file": "assets/index-xNu59rKK.css",
@@ -857,17 +857,17 @@
           "brotli": 7275
         },
         {
-          "file": "assets/quill-BSa8aXRC.js",
+          "file": "assets/quill-DJjoQNDe.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49176
+          "gzip": 57914,
+          "brotli": 49126
         }
       ],
       "js": {
-        "raw": 1572792,
-        "gzip": 380498,
-        "brotli": 274772
+        "raw": 1572761,
+        "gzip": 380490,
+        "brotli": 274507
       },
       "css": {
         "raw": 61213,
@@ -875,9 +875,9 @@
         "brotli": 7275
       },
       "total": {
-        "raw": 1634005,
-        "gzip": 388999,
-        "brotli": 282047
+        "raw": 1633974,
+        "gzip": 388991,
+        "brotli": 281782
       }
     },
     "all-minus-VfForm": {
@@ -887,6 +887,13 @@
       "description": "full scenario without VfForm",
       "files": [
         {
+          "file": "assets/index-Co78H9fN.js",
+          "type": "js",
+          "raw": 1367472,
+          "gzip": 320871,
+          "brotli": 223463
+        },
+        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -894,24 +901,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-Dxejjf83.js",
-          "type": "js",
-          "raw": 1367503,
-          "gzip": 320878,
-          "brotli": 223534
-        },
-        {
-          "file": "assets/quill-zWqIN1m9.js",
+          "file": "assets/quill-0q4S3cSC.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49095
+          "gzip": 57917,
+          "brotli": 49185
         }
       ],
       "js": {
-        "raw": 1567399,
-        "gzip": 378794,
-        "brotli": 272629
+        "raw": 1567368,
+        "gzip": 378788,
+        "brotli": 272648
       },
       "css": {
         "raw": 61446,
@@ -919,9 +919,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1628845,
-        "gzip": 387342,
-        "brotli": 279940
+        "raw": 1628814,
+        "gzip": 387336,
+        "brotli": 279959
       }
     },
     "all-minus-VfGrid": {
@@ -931,6 +931,13 @@
       "description": "full scenario without VfGrid",
       "files": [
         {
+          "file": "assets/index-B1W0wXma.js",
+          "type": "js",
+          "raw": 1399907,
+          "gzip": 329429,
+          "brotli": 229473
+        },
+        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -938,24 +945,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-L6I4QFj2.js",
-          "type": "js",
-          "raw": 1399938,
-          "gzip": 329436,
-          "brotli": 229401
-        },
-        {
-          "file": "assets/quill-D3AcT3v0.js",
+          "file": "assets/quill-BneqlyAT.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57917,
-          "brotli": 49169
+          "gzip": 57915,
+          "brotli": 49174
         }
       ],
       "js": {
-        "raw": 1599834,
-        "gzip": 387353,
-        "brotli": 278570
+        "raw": 1599803,
+        "gzip": 387344,
+        "brotli": 278647
       },
       "css": {
         "raw": 61446,
@@ -963,9 +963,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1661280,
-        "gzip": 395901,
-        "brotli": 285881
+        "raw": 1661249,
+        "gzip": 395892,
+        "brotli": 285958
       }
     },
     "all-minus-VfGroup": {
@@ -975,11 +975,11 @@
       "description": "full scenario without VfGroup",
       "files": [
         {
-          "file": "assets/index-BJSF3kt0.js",
+          "file": "assets/index-BHM6ob5D.js",
           "type": "js",
-          "raw": 1404561,
-          "gzip": 331304,
-          "brotli": 230915
+          "raw": 1404530,
+          "gzip": 331298,
+          "brotli": 230886
         },
         {
           "file": "assets/index-mAzr22QK.css",
@@ -989,17 +989,17 @@
           "brotli": 7258
         },
         {
-          "file": "assets/quill-Bn4ic9Xa.js",
+          "file": "assets/quill-ja3wcXBS.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49181
+          "gzip": 57917,
+          "brotli": 49120
         }
       ],
       "js": {
-        "raw": 1604457,
-        "gzip": 389220,
-        "brotli": 280096
+        "raw": 1604426,
+        "gzip": 389215,
+        "brotli": 280006
       },
       "css": {
         "raw": 60453,
@@ -1007,9 +1007,9 @@
         "brotli": 7258
       },
       "total": {
-        "raw": 1664910,
-        "gzip": 397698,
-        "brotli": 287354
+        "raw": 1664879,
+        "gzip": 397693,
+        "brotli": 287264
       }
     },
     "all-minus-VfHidden": {
@@ -1019,13 +1019,6 @@
       "description": "full scenario without VfHidden",
       "files": [
         {
-          "file": "assets/index-BCLQkHRS.js",
-          "type": "js",
-          "raw": 1406263,
-          "gzip": 331537,
-          "brotli": 230939
-        },
-        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -1033,17 +1026,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-BjN4l7M7.js",
+          "file": "assets/index-DKnq74ko.js",
+          "type": "js",
+          "raw": 1406232,
+          "gzip": 331530,
+          "brotli": 230981
+        },
+        {
+          "file": "assets/quill-CUKPUXZ2.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49100
+          "brotli": 49143
         }
       ],
       "js": {
-        "raw": 1606159,
-        "gzip": 389453,
-        "brotli": 280039
+        "raw": 1606128,
+        "gzip": 389446,
+        "brotli": 280124
       },
       "css": {
         "raw": 61446,
@@ -1051,9 +1051,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1667605,
-        "gzip": 398001,
-        "brotli": 287350
+        "raw": 1667574,
+        "gzip": 397994,
+        "brotli": 287435
       }
     },
     "all-minus-VfInputMask": {
@@ -1063,13 +1063,6 @@
       "description": "full scenario without VfInputMask",
       "files": [
         {
-          "file": "assets/index-BegiPJDK.js",
-          "type": "js",
-          "raw": 1395176,
-          "gzip": 328614,
-          "brotli": 229049
-        },
-        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -1077,17 +1070,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-CRNEkhxl.js",
+          "file": "assets/index-Dm56tnbu.js",
+          "type": "js",
+          "raw": 1395145,
+          "gzip": 328609,
+          "brotli": 228936
+        },
+        {
+          "file": "assets/quill-K9O_50_1.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49137
+          "gzip": 57916,
+          "brotli": 49202
         }
       ],
       "js": {
-        "raw": 1595072,
-        "gzip": 386529,
-        "brotli": 278186
+        "raw": 1595041,
+        "gzip": 386525,
+        "brotli": 278138
       },
       "css": {
         "raw": 61446,
@@ -1095,9 +1095,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1656518,
-        "gzip": 395077,
-        "brotli": 285497
+        "raw": 1656487,
+        "gzip": 395073,
+        "brotli": 285449
       }
     },
     "all-minus-VfInputNumber": {
@@ -1107,11 +1107,11 @@
       "description": "full scenario without VfInputNumber",
       "files": [
         {
-          "file": "assets/index-B8X8Bsg9.js",
+          "file": "assets/index-B59ZnqOU.js",
           "type": "js",
-          "raw": 1367646,
-          "gzip": 322162,
-          "brotli": 225558
+          "raw": 1367615,
+          "gzip": 322155,
+          "brotli": 225317
         },
         {
           "file": "assets/index-CYqj4uFM.css",
@@ -1121,17 +1121,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-YrHEhR9u.js",
+          "file": "assets/quill-ewwgohRS.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57917,
-          "brotli": 49190
+          "brotli": 49137
         }
       ],
       "js": {
-        "raw": 1567542,
-        "gzip": 380079,
-        "brotli": 274748
+        "raw": 1567511,
+        "gzip": 380072,
+        "brotli": 274454
       },
       "css": {
         "raw": 61446,
@@ -1139,9 +1139,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1628988,
-        "gzip": 388627,
-        "brotli": 282059
+        "raw": 1628957,
+        "gzip": 388620,
+        "brotli": 281765
       }
     },
     "all-minus-VfInputOtp": {
@@ -1151,11 +1151,11 @@
       "description": "full scenario without VfInputOtp",
       "files": [
         {
-          "file": "assets/index-CGKeqFA4.js",
+          "file": "assets/index-BhCpX4eE.js",
           "type": "js",
-          "raw": 1400494,
-          "gzip": 330546,
-          "brotli": 230305
+          "raw": 1400463,
+          "gzip": 330539,
+          "brotli": 230202
         },
         {
           "file": "assets/index-CYqj4uFM.css",
@@ -1165,17 +1165,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-C6VEqAOh.js",
+          "file": "assets/quill-9AaO2Aj5.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49183
+          "gzip": 57915,
+          "brotli": 49180
         }
       ],
       "js": {
-        "raw": 1600390,
-        "gzip": 388462,
-        "brotli": 279488
+        "raw": 1600359,
+        "gzip": 388454,
+        "brotli": 279382
       },
       "css": {
         "raw": 61446,
@@ -1183,9 +1183,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1661836,
-        "gzip": 397010,
-        "brotli": 286799
+        "raw": 1661805,
+        "gzip": 397002,
+        "brotli": 286693
       }
     },
     "all-minus-VfInputText": {
@@ -1195,6 +1195,13 @@
       "description": "full scenario without VfInputText",
       "files": [
         {
+          "file": "assets/index-CtQJKSxK.js",
+          "type": "js",
+          "raw": 1404040,
+          "gzip": 331331,
+          "brotli": 230872
+        },
+        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -1202,24 +1209,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-Dnj1z-dh.js",
-          "type": "js",
-          "raw": 1404071,
-          "gzip": 331337,
-          "brotli": 230725
-        },
-        {
-          "file": "assets/quill-CBHz44-V.js",
+          "file": "assets/quill-CwYU6wCD.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49179
+          "gzip": 57916,
+          "brotli": 49067
         }
       ],
       "js": {
-        "raw": 1603967,
-        "gzip": 389252,
-        "brotli": 279904
+        "raw": 1603936,
+        "gzip": 389247,
+        "brotli": 279939
       },
       "css": {
         "raw": 61446,
@@ -1227,9 +1227,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1665413,
-        "gzip": 397800,
-        "brotli": 287215
+        "raw": 1665382,
+        "gzip": 397795,
+        "brotli": 287250
       }
     },
     "all-minus-VfKnob": {
@@ -1246,24 +1246,24 @@
           "brotli": 7272
         },
         {
-          "file": "assets/index-D8gS7EIZ.js",
+          "file": "assets/index-CiUxLFhz.js",
           "type": "js",
-          "raw": 1397289,
-          "gzip": 329831,
-          "brotli": 229564
+          "raw": 1397258,
+          "gzip": 329825,
+          "brotli": 229738
         },
         {
-          "file": "assets/quill-qZm3fHKt.js",
+          "file": "assets/quill-BSXcUGLr.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57917,
-          "brotli": 49169
+          "gzip": 57915,
+          "brotli": 49216
         }
       ],
       "js": {
-        "raw": 1597185,
-        "gzip": 387748,
-        "brotli": 278733
+        "raw": 1597154,
+        "gzip": 387740,
+        "brotli": 278954
       },
       "css": {
         "raw": 61222,
@@ -1271,9 +1271,9 @@
         "brotli": 7272
       },
       "total": {
-        "raw": 1658407,
-        "gzip": 396259,
-        "brotli": 286005
+        "raw": 1658376,
+        "gzip": 396251,
+        "brotli": 286226
       }
     },
     "all-minus-VfLayout": {
@@ -1290,24 +1290,24 @@
           "brotli": 6710
         },
         {
-          "file": "assets/index-C7gMyeLn.js",
+          "file": "assets/index-BuOEnsez.js",
           "type": "js",
-          "raw": 1380241,
-          "gzip": 326546,
-          "brotli": 226599
+          "raw": 1380210,
+          "gzip": 326540,
+          "brotli": 226577
         },
         {
-          "file": "assets/quill-BLqV8-6N.js",
+          "file": "assets/quill-NK5PuQ1F.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57915,
-          "brotli": 49228
+          "brotli": 49172
         }
       ],
       "js": {
-        "raw": 1580137,
-        "gzip": 384461,
-        "brotli": 275827
+        "raw": 1580106,
+        "gzip": 384455,
+        "brotli": 275749
       },
       "css": {
         "raw": 57268,
@@ -1315,9 +1315,9 @@
         "brotli": 6710
       },
       "total": {
-        "raw": 1637405,
-        "gzip": 392286,
-        "brotli": 282537
+        "raw": 1637374,
+        "gzip": 392280,
+        "brotli": 282459
       }
     },
     "all-minus-VfList": {
@@ -1327,6 +1327,13 @@
       "description": "full scenario without VfList",
       "files": [
         {
+          "file": "assets/index-CYtmxNhQ.js",
+          "type": "js",
+          "raw": 1399745,
+          "gzip": 329590,
+          "brotli": 229825
+        },
+        {
           "file": "assets/index-DZiNPtzK.css",
           "type": "css",
           "raw": 60036,
@@ -1334,24 +1341,17 @@
           "brotli": 7184
         },
         {
-          "file": "assets/index-kxNALo24.js",
-          "type": "js",
-          "raw": 1399776,
-          "gzip": 329595,
-          "brotli": 229910
-        },
-        {
-          "file": "assets/quill-C13iKhj0.js",
+          "file": "assets/quill-CujV9xVD.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49177
+          "gzip": 57915,
+          "brotli": 49216
         }
       ],
       "js": {
-        "raw": 1599672,
-        "gzip": 387511,
-        "brotli": 279087
+        "raw": 1599641,
+        "gzip": 387505,
+        "brotli": 279041
       },
       "css": {
         "raw": 60036,
@@ -1359,9 +1359,9 @@
         "brotli": 7184
       },
       "total": {
-        "raw": 1659708,
-        "gzip": 395889,
-        "brotli": 286271
+        "raw": 1659677,
+        "gzip": 395883,
+        "brotli": 286225
       }
     },
     "all-minus-VfListbox": {
@@ -1371,6 +1371,13 @@
       "description": "full scenario without VfListbox",
       "files": [
         {
+          "file": "assets/index-BEkv3ZUy.js",
+          "type": "js",
+          "raw": 1376268,
+          "gzip": 323951,
+          "brotli": 229183
+        },
+        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -1378,24 +1385,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-DeE9Mh9V.js",
-          "type": "js",
-          "raw": 1376299,
-          "gzip": 323958,
-          "brotli": 229091
-        },
-        {
-          "file": "assets/quill-BuAFj0C0.js",
+          "file": "assets/quill-BVjaqaop.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49177
+          "gzip": 57917,
+          "brotli": 49176
         }
       ],
       "js": {
-        "raw": 1576195,
-        "gzip": 381874,
-        "brotli": 278268
+        "raw": 1576164,
+        "gzip": 381868,
+        "brotli": 278359
       },
       "css": {
         "raw": 61446,
@@ -1403,9 +1403,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1637641,
-        "gzip": 390422,
-        "brotli": 285579
+        "raw": 1637610,
+        "gzip": 390416,
+        "brotli": 285670
       }
     },
     "all-minus-VfMatrix": {
@@ -1415,13 +1415,6 @@
       "description": "full scenario without VfMatrix",
       "files": [
         {
-          "file": "assets/index-BTy7WlRx.js",
-          "type": "js",
-          "raw": 1389835,
-          "gzip": 326866,
-          "brotli": 227772
-        },
-        {
           "file": "assets/index-Cga85y1k.css",
           "type": "css",
           "raw": 43738,
@@ -1429,17 +1422,24 @@
           "brotli": 6385
         },
         {
-          "file": "assets/quill-CyxYpKKf.js",
+          "file": "assets/index-DzcmGlKK.js",
+          "type": "js",
+          "raw": 1389804,
+          "gzip": 326860,
+          "brotli": 227948
+        },
+        {
+          "file": "assets/quill-DOZDeY7G.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49101
+          "brotli": 49188
         }
       ],
       "js": {
-        "raw": 1589731,
-        "gzip": 384782,
-        "brotli": 276873
+        "raw": 1589700,
+        "gzip": 384776,
+        "brotli": 277136
       },
       "css": {
         "raw": 43738,
@@ -1447,9 +1447,9 @@
         "brotli": 6385
       },
       "total": {
-        "raw": 1633469,
-        "gzip": 392219,
-        "brotli": 283258
+        "raw": 1633438,
+        "gzip": 392213,
+        "brotli": 283521
       }
     },
     "all-minus-VfMultiSelect": {
@@ -1459,6 +1459,13 @@
       "description": "full scenario without VfMultiSelect",
       "files": [
         {
+          "file": "assets/index-Bu3qzApR.js",
+          "type": "js",
+          "raw": 1356671,
+          "gzip": 320889,
+          "brotli": 228367
+        },
+        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -1466,24 +1473,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-D2NIXz2Q.js",
-          "type": "js",
-          "raw": 1356702,
-          "gzip": 320894,
-          "brotli": 228622
-        },
-        {
-          "file": "assets/quill-CyQiZzLR.js",
+          "file": "assets/quill-BSqGRJhN.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57917,
-          "brotli": 49208
+          "gzip": 57916,
+          "brotli": 49176
         }
       ],
       "js": {
-        "raw": 1556598,
-        "gzip": 378811,
-        "brotli": 277830
+        "raw": 1556567,
+        "gzip": 378805,
+        "brotli": 277543
       },
       "css": {
         "raw": 61446,
@@ -1491,9 +1491,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1618044,
-        "gzip": 387359,
-        "brotli": 285141
+        "raw": 1618013,
+        "gzip": 387353,
+        "brotli": 284854
       }
     },
     "all-minus-VfNav": {
@@ -1503,11 +1503,11 @@
       "description": "full scenario without VfNav",
       "files": [
         {
-          "file": "assets/index-B26IJkjQ.js",
+          "file": "assets/index-BEamzo1B.js",
           "type": "js",
-          "raw": 1402541,
-          "gzip": 330377,
-          "brotli": 230233
+          "raw": 1402510,
+          "gzip": 330372,
+          "brotli": 230273
         },
         {
           "file": "assets/index-FxNtt6U9.css",
@@ -1517,17 +1517,17 @@
           "brotli": 7201
         },
         {
-          "file": "assets/quill-GipDvE_d.js",
+          "file": "assets/quill-BBX3UJRQ.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57917,
-          "brotli": 49138
+          "gzip": 57915,
+          "brotli": 49179
         }
       ],
       "js": {
-        "raw": 1602437,
-        "gzip": 388294,
-        "brotli": 279371
+        "raw": 1602406,
+        "gzip": 388287,
+        "brotli": 279452
       },
       "css": {
         "raw": 60945,
@@ -1535,9 +1535,9 @@
         "brotli": 7201
       },
       "total": {
-        "raw": 1663382,
-        "gzip": 396724,
-        "brotli": 286572
+        "raw": 1663351,
+        "gzip": 396717,
+        "brotli": 286653
       }
     },
     "all-minus-VfPassword": {
@@ -1547,11 +1547,11 @@
       "description": "full scenario without VfPassword",
       "files": [
         {
-          "file": "assets/index-Bnl74wAW.js",
+          "file": "assets/index-Ch1n2vU1.js",
           "type": "js",
-          "raw": 1383458,
-          "gzip": 325504,
-          "brotli": 227782
+          "raw": 1383427,
+          "gzip": 325498,
+          "brotli": 227633
         },
         {
           "file": "assets/index-CYqj4uFM.css",
@@ -1561,17 +1561,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-DPPnE64X.js",
+          "file": "assets/quill-CJwFofK6.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49266
+          "gzip": 57915,
+          "brotli": 49197
         }
       ],
       "js": {
-        "raw": 1583354,
-        "gzip": 383420,
-        "brotli": 277048
+        "raw": 1583323,
+        "gzip": 383413,
+        "brotli": 276830
       },
       "css": {
         "raw": 61446,
@@ -1579,9 +1579,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1644800,
-        "gzip": 391968,
-        "brotli": 284359
+        "raw": 1644769,
+        "gzip": 391961,
+        "brotli": 284141
       }
     },
     "all-minus-VfRadioButton": {
@@ -1591,13 +1591,6 @@
       "description": "full scenario without VfRadioButton",
       "files": [
         {
-          "file": "assets/index-Be2cwsRh.js",
-          "type": "js",
-          "raw": 1394019,
-          "gzip": 329178,
-          "brotli": 230019
-        },
-        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -1605,17 +1598,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-w4TBSi5w.js",
+          "file": "assets/index-Db45KgLd.js",
+          "type": "js",
+          "raw": 1393988,
+          "gzip": 329172,
+          "brotli": 230243
+        },
+        {
+          "file": "assets/quill-pchICFMD.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49197
+          "gzip": 57916,
+          "brotli": 49162
         }
       ],
       "js": {
-        "raw": 1593915,
-        "gzip": 387093,
-        "brotli": 279216
+        "raw": 1593884,
+        "gzip": 387088,
+        "brotli": 279405
       },
       "css": {
         "raw": 61446,
@@ -1623,9 +1623,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1655361,
-        "gzip": 395641,
-        "brotli": 286527
+        "raw": 1655330,
+        "gzip": 395636,
+        "brotli": 286716
       }
     },
     "all-minus-VfRadioButtonGroup": {
@@ -1635,13 +1635,6 @@
       "description": "full scenario without VfRadioButtonGroup",
       "files": [
         {
-          "file": "assets/index-CoWCfel1.js",
-          "type": "js",
-          "raw": 1402672,
-          "gzip": 330990,
-          "brotli": 230972
-        },
-        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -1649,17 +1642,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-C_3QO5bJ.js",
+          "file": "assets/index-Lfl7eAFZ.js",
+          "type": "js",
+          "raw": 1402641,
+          "gzip": 330983,
+          "brotli": 231017
+        },
+        {
+          "file": "assets/quill-BBHRMwqe.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49133
+          "gzip": 57916,
+          "brotli": 49209
         }
       ],
       "js": {
-        "raw": 1602568,
-        "gzip": 388905,
-        "brotli": 280105
+        "raw": 1602537,
+        "gzip": 388899,
+        "brotli": 280226
       },
       "css": {
         "raw": 61446,
@@ -1667,9 +1667,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1664014,
-        "gzip": 397453,
-        "brotli": 287416
+        "raw": 1663983,
+        "gzip": 397447,
+        "brotli": 287537
       }
     },
     "all-minus-VfRating": {
@@ -1686,24 +1686,24 @@
           "brotli": 7318
         },
         {
-          "file": "assets/index-L9pDfTSq.js",
+          "file": "assets/index-DqozXBin.js",
           "type": "js",
-          "raw": 1392367,
-          "gzip": 327539,
-          "brotli": 228514
+          "raw": 1392336,
+          "gzip": 327534,
+          "brotli": 228561
         },
         {
-          "file": "assets/quill-CSc1U5XZ.js",
+          "file": "assets/quill-DH6c2J5q.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57916,
-          "brotli": 49222
+          "brotli": 49190
         }
       ],
       "js": {
-        "raw": 1592263,
-        "gzip": 385455,
-        "brotli": 277736
+        "raw": 1592232,
+        "gzip": 385450,
+        "brotli": 277751
       },
       "css": {
         "raw": 61375,
@@ -1711,9 +1711,9 @@
         "brotli": 7318
       },
       "total": {
-        "raw": 1653638,
-        "gzip": 393989,
-        "brotli": 285054
+        "raw": 1653607,
+        "gzip": 393984,
+        "brotli": 285069
       }
     },
     "all-minus-VfRow": {
@@ -1730,24 +1730,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-DLyFLj1S.js",
+          "file": "assets/index-DrGM-Rfe.js",
           "type": "js",
-          "raw": 1406719,
-          "gzip": 331459,
-          "brotli": 230920
+          "raw": 1406688,
+          "gzip": 331453,
+          "brotli": 230983
         },
         {
-          "file": "assets/quill-DBGNFXXA.js",
+          "file": "assets/quill-CRgX81KR.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49155
+          "gzip": 57915,
+          "brotli": 49166
         }
       ],
       "js": {
-        "raw": 1606615,
-        "gzip": 389375,
-        "brotli": 280075
+        "raw": 1606584,
+        "gzip": 389368,
+        "brotli": 280149
       },
       "css": {
         "raw": 61446,
@@ -1755,9 +1755,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1668061,
-        "gzip": 397923,
-        "brotli": 287386
+        "raw": 1668030,
+        "gzip": 397916,
+        "brotli": 287460
       }
     },
     "all-minus-VfSelect": {
@@ -1774,24 +1774,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-PmpgLv36.js",
+          "file": "assets/index-D168DqW_.js",
           "type": "js",
-          "raw": 1403677,
-          "gzip": 331295,
-          "brotli": 230983
+          "raw": 1403646,
+          "gzip": 331288,
+          "brotli": 231019
         },
         {
-          "file": "assets/quill-DVgvlWyP.js",
+          "file": "assets/quill-T3wpMSkE.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49196
+          "gzip": 57917,
+          "brotli": 49111
         }
       ],
       "js": {
-        "raw": 1603573,
-        "gzip": 389211,
-        "brotli": 280179
+        "raw": 1603542,
+        "gzip": 389205,
+        "brotli": 280130
       },
       "css": {
         "raw": 61446,
@@ -1799,9 +1799,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1665019,
-        "gzip": 397759,
-        "brotli": 287490
+        "raw": 1664988,
+        "gzip": 397753,
+        "brotli": 287441
       }
     },
     "all-minus-VfSelectButton": {
@@ -1811,11 +1811,11 @@
       "description": "full scenario without VfSelectButton",
       "files": [
         {
-          "file": "assets/index-C_SD8y6P.js",
+          "file": "assets/index-CBEt3qU_.js",
           "type": "js",
-          "raw": 1399095,
-          "gzip": 330249,
-          "brotli": 230264
+          "raw": 1399064,
+          "gzip": 330245,
+          "brotli": 230316
         },
         {
           "file": "assets/index-CYqj4uFM.css",
@@ -1825,17 +1825,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/quill-D5yaktIn.js",
+          "file": "assets/quill-ClB4_-jg.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57917,
-          "brotli": 49190
+          "gzip": 57916,
+          "brotli": 49175
         }
       ],
       "js": {
-        "raw": 1598991,
-        "gzip": 388166,
-        "brotli": 279454
+        "raw": 1598960,
+        "gzip": 388161,
+        "brotli": 279491
       },
       "css": {
         "raw": 61446,
@@ -1843,9 +1843,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1660437,
-        "gzip": 396714,
-        "brotli": 286765
+        "raw": 1660406,
+        "gzip": 396709,
+        "brotli": 286802
       }
     },
     "all-minus-VfSlider": {
@@ -1855,11 +1855,11 @@
       "description": "full scenario without VfSlider",
       "files": [
         {
-          "file": "assets/index-aAGFDEar.js",
+          "file": "assets/index-nbM-wNt7.js",
           "type": "js",
-          "raw": 1391847,
-          "gzip": 329005,
-          "brotli": 229152
+          "raw": 1391816,
+          "gzip": 329000,
+          "brotli": 229117
         },
         {
           "file": "assets/index-NWvQ-gyk.css",
@@ -1869,17 +1869,17 @@
           "brotli": 7309
         },
         {
-          "file": "assets/quill-CM7PaRpv.js",
+          "file": "assets/quill-4MJWD-Vk.js",
           "type": "js",
           "raw": 199896,
           "gzip": 57915,
-          "brotli": 49192
+          "brotli": 49162
         }
       ],
       "js": {
-        "raw": 1591743,
-        "gzip": 386920,
-        "brotli": 278344
+        "raw": 1591712,
+        "gzip": 386915,
+        "brotli": 278279
       },
       "css": {
         "raw": 61256,
@@ -1887,9 +1887,9 @@
         "brotli": 7309
       },
       "total": {
-        "raw": 1652999,
-        "gzip": 395431,
-        "brotli": 285653
+        "raw": 1652968,
+        "gzip": 395426,
+        "brotli": 285588
       }
     },
     "all-minus-VfTextarea": {
@@ -1899,6 +1899,13 @@
       "description": "full scenario without VfTextarea",
       "files": [
         {
+          "file": "assets/index-BpN-_CoA.js",
+          "type": "js",
+          "raw": 1399173,
+          "gzip": 330715,
+          "brotli": 230625
+        },
+        {
           "file": "assets/index-CYqj4uFM.css",
           "type": "css",
           "raw": 61446,
@@ -1906,24 +1913,17 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-D2kgqUYv.js",
-          "type": "js",
-          "raw": 1399204,
-          "gzip": 330720,
-          "brotli": 230618
-        },
-        {
-          "file": "assets/quill-DIHb9h83.js",
+          "file": "assets/quill-C-2mYFfY.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57916,
-          "brotli": 49285
+          "gzip": 57915,
+          "brotli": 49152
         }
       ],
       "js": {
-        "raw": 1599100,
-        "gzip": 388636,
-        "brotli": 279903
+        "raw": 1599069,
+        "gzip": 388630,
+        "brotli": 279777
       },
       "css": {
         "raw": 61446,
@@ -1931,9 +1931,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1660546,
-        "gzip": 397184,
-        "brotli": 287214
+        "raw": 1660515,
+        "gzip": 397178,
+        "brotli": 287088
       }
     },
     "all-minus-VfToggleButton": {
@@ -1950,24 +1950,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-DLzov0dg.js",
+          "file": "assets/index-dIWVkMLx.js",
           "type": "js",
-          "raw": 1404599,
-          "gzip": 331486,
-          "brotli": 230806
+          "raw": 1404568,
+          "gzip": 331477,
+          "brotli": 231123
         },
         {
-          "file": "assets/quill-DMRgHLDs.js",
+          "file": "assets/quill-DvZ1_sYr.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49221
+          "gzip": 57916,
+          "brotli": 49137
         }
       ],
       "js": {
-        "raw": 1604495,
-        "gzip": 389401,
-        "brotli": 280027
+        "raw": 1604464,
+        "gzip": 389393,
+        "brotli": 280260
       },
       "css": {
         "raw": 61446,
@@ -1975,9 +1975,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1665941,
-        "gzip": 397949,
-        "brotli": 287338
+        "raw": 1665910,
+        "gzip": 397941,
+        "brotli": 287571
       }
     },
     "all-minus-VfToggleSwitch": {
@@ -1994,24 +1994,24 @@
           "brotli": 7285
         },
         {
-          "file": "assets/index-DytfoUMb.js",
+          "file": "assets/index-DO18MTFy.js",
           "type": "js",
-          "raw": 1397181,
-          "gzip": 330289,
-          "brotli": 230198
+          "raw": 1397150,
+          "gzip": 330283,
+          "brotli": 230367
         },
         {
-          "file": "assets/quill-D1mZ_Ebg.js",
+          "file": "assets/quill-BcxzKy-Y.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57915,
-          "brotli": 49127
+          "gzip": 57916,
+          "brotli": 49134
         }
       ],
       "js": {
-        "raw": 1597077,
-        "gzip": 388204,
-        "brotli": 279325
+        "raw": 1597046,
+        "gzip": 388199,
+        "brotli": 279501
       },
       "css": {
         "raw": 61283,
@@ -2019,9 +2019,9 @@
         "brotli": 7285
       },
       "total": {
-        "raw": 1658360,
-        "gzip": 396718,
-        "brotli": 286610
+        "raw": 1658329,
+        "gzip": 396713,
+        "brotli": 286786
       }
     },
     "all-minus-VfTreeSelect": {
@@ -2038,24 +2038,24 @@
           "brotli": 7311
         },
         {
-          "file": "assets/index-FQvFK7E3.js",
+          "file": "assets/index-u5U4yFrM.js",
           "type": "js",
-          "raw": 1333175,
-          "gzip": 315758,
-          "brotli": 222256
+          "raw": 1333144,
+          "gzip": 315751,
+          "brotli": 222106
         },
         {
-          "file": "assets/quill-DD5Rr118.js",
+          "file": "assets/quill-BrTd0lPd.js",
           "type": "js",
           "raw": 199896,
-          "gzip": 57917,
-          "brotli": 49154
+          "gzip": 57916,
+          "brotli": 49207
         }
       ],
       "js": {
-        "raw": 1533071,
-        "gzip": 373675,
-        "brotli": 271410
+        "raw": 1533040,
+        "gzip": 373667,
+        "brotli": 271313
       },
       "css": {
         "raw": 61446,
@@ -2063,9 +2063,9 @@
         "brotli": 7311
       },
       "total": {
-        "raw": 1594517,
-        "gzip": 382223,
-        "brotli": 278721
+        "raw": 1594486,
+        "gzip": 382215,
+        "brotli": 278624
       }
     },
     "pv-shell": {

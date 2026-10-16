@@ -6,7 +6,7 @@ Official adapter for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-16T05:16:20.718Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform).
+Generated at 2026-10-16T07:41:53.887Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform).
 
 Measured with:
 
@@ -118,7 +118,7 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 | `VfCheckboxes` | 0.79&nbsp;kB | -0.01&nbsp;kB |
 | `VfAddon` | 0.29&nbsp;kB | 0.47&nbsp;kB |
 | `VfCheckbox` | 0.75&nbsp;kB | 0.00&nbsp;kB |
-| `VfCol` | 0.73&nbsp;kB | 0.00&nbsp;kB |
+| `VfCol` | 0.72&nbsp;kB | 0.00&nbsp;kB |
 | `VfRadio` | 0.66&nbsp;kB | 0.00&nbsp;kB |
 | `VfRadios` | 0.60&nbsp;kB | 0.00&nbsp;kB |
 | `VfSelect` | 0.44&nbsp;kB | 0.12&nbsp;kB |
@@ -142,34 +142,34 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| `VfForm` | 4.23&nbsp;kB | 0.00&nbsp;kB |
-| `VfMatrix` | 3.22&nbsp;kB | 0.16&nbsp;kB |
-| `VfLayout` | 2.47&nbsp;kB | 0.47&nbsp;kB |
-| `VfGrid` | 1.74&nbsp;kB | 0.02&nbsp;kB |
-| `VfButton` | 0.85&nbsp;kB | 0.79&nbsp;kB |
-| `VfList` | 1.10&nbsp;kB | 0.16&nbsp;kB |
-| `VfFile` | 1.12&nbsp;kB | 0.04&nbsp;kB |
+| `VfForm` | 4.32&nbsp;kB | 0.00&nbsp;kB |
+| `VfMatrix` | 3.23&nbsp;kB | 0.16&nbsp;kB |
+| `VfLayout` | 2.44&nbsp;kB | 0.47&nbsp;kB |
+| `VfGrid` | 1.70&nbsp;kB | 0.02&nbsp;kB |
+| `VfButton` | 0.87&nbsp;kB | 0.79&nbsp;kB |
+| `VfList` | 1.16&nbsp;kB | 0.16&nbsp;kB |
+| `VfFile` | 1.03&nbsp;kB | 0.04&nbsp;kB |
 | `VfNav` | 0.92&nbsp;kB | 0.08&nbsp;kB |
-| `VfSteps` | 0.25&nbsp;kB | 0.57&nbsp;kB |
+| `VfSteps` | 0.14&nbsp;kB | 0.57&nbsp;kB |
 | `VfCheckboxes` | 0.24&nbsp;kB | 0.02&nbsp;kB |
-| `VfAddon` | 0.29&nbsp;kB | 0.45&nbsp;kB |
+| `VfAddon` | 0.24&nbsp;kB | 0.45&nbsp;kB |
 | `VfCheckbox` | 0.32&nbsp;kB | 0.01&nbsp;kB |
-| `VfCol` | 0.51&nbsp;kB | 0.01&nbsp;kB |
-| `VfRadio` | 0.37&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadios` | 0.16&nbsp;kB | 0.00&nbsp;kB |
-| `VfSelect` | 0.36&nbsp;kB | 0.12&nbsp;kB |
-| `VfText` | 0.41&nbsp;kB | 0.09&nbsp;kB |
+| `VfCol` | 0.42&nbsp;kB | 0.01&nbsp;kB |
+| `VfRadio` | 0.41&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadios` | 0.13&nbsp;kB | 0.00&nbsp;kB |
+| `VfSelect` | 0.39&nbsp;kB | 0.12&nbsp;kB |
+| `VfText` | 0.31&nbsp;kB | 0.09&nbsp;kB |
 | `VfGroup` | 0.32&nbsp;kB | 0.08&nbsp;kB |
-| `VfTextarea` | 0.45&nbsp;kB | 0.04&nbsp;kB |
+| `VfTextarea` | 0.46&nbsp;kB | 0.04&nbsp;kB |
 | `VfLanguages` | 0.29&nbsp;kB | 0.13&nbsp;kB |
-| `VfField` | 0.24&nbsp;kB | 0.00&nbsp;kB |
-| `VfContent` | 0.29&nbsp;kB | 0.03&nbsp;kB |
-| `VfHidden` | 0.19&nbsp;kB | 0.00&nbsp;kB |
-| `VfRow` | 0.13&nbsp;kB | 0.00&nbsp;kB |
-| `VfTabs` | 0.06&nbsp;kB | 0.10&nbsp;kB |
-| `VfIcon` | 0.17&nbsp;kB | 0.01&nbsp;kB |
-| `VfElements` | 0.04&nbsp;kB | 0.02&nbsp;kB |
-| **Total** | 40.36&nbsp;kB | 5.63&nbsp;kB |
+| `VfField` | 0.22&nbsp;kB | 0.00&nbsp;kB |
+| `VfContent` | 0.30&nbsp;kB | 0.03&nbsp;kB |
+| `VfHidden` | 0.14&nbsp;kB | 0.00&nbsp;kB |
+| `VfRow` | 0.19&nbsp;kB | 0.00&nbsp;kB |
+| `VfTabs` | 0.12&nbsp;kB | 0.10&nbsp;kB |
+| `VfIcon` | 0.24&nbsp;kB | 0.01&nbsp;kB |
+| `VfElements` | 0.05&nbsp;kB | 0.02&nbsp;kB |
+| **Total** | 40.42&nbsp;kB | 5.63&nbsp;kB |
 
 </details>
 
@@ -221,7 +221,7 @@ What each rule adds to the bundle when registered.
 | `dimensions` | 0.60&nbsp;kB |
 | `ip` | 0.46&nbsp;kB |
 | `url` | 0.45&nbsp;kB |
-| `not_regex` | 0.44&nbsp;kB |
+| `not_regex` | 0.42&nbsp;kB |
 | `before_or_equal` | 0.42&nbsp;kB |
 | `after_or_equal` | 0.42&nbsp;kB |
 | `regex` | 0.41&nbsp;kB |
@@ -244,8 +244,8 @@ What each rule adds to the bundle when registered.
 | `date` | 0.23&nbsp;kB |
 | `file` | 0.23&nbsp;kB |
 | `between` | 0.22&nbsp;kB |
-| `numeric` | 0.22&nbsp;kB |
 | `digits_between` | 0.22&nbsp;kB |
+| `numeric` | 0.22&nbsp;kB |
 | `distinct` | 0.21&nbsp;kB |
 | `timezone` | 0.21&nbsp;kB |
 | `max` | 0.21&nbsp;kB |
@@ -255,11 +255,11 @@ What each rule adds to the bundle when registered.
 | `alpha_dash` | 0.20&nbsp;kB |
 | `uuid` | 0.20&nbsp;kB |
 | `confirmed` | 0.20&nbsp;kB |
-| `in` | 0.20&nbsp;kB |
 | `accepted` | 0.20&nbsp;kB |
 | `json` | 0.20&nbsp;kB |
 | `alpha_num` | 0.19&nbsp;kB |
 | `captcha` | 0.19&nbsp;kB |
+| `in` | 0.19&nbsp;kB |
 | `integer` | 0.19&nbsp;kB |
 | `date_equals` | 0.19&nbsp;kB |
 | `boolean` | 0.19&nbsp;kB |
@@ -282,7 +282,7 @@ What each rule adds to the bundle when registered.
 | `dimensions` | 0.46&nbsp;kB |
 | `ip` | 0.39&nbsp;kB |
 | `url` | 0.33&nbsp;kB |
-| `not_regex` | 0.41&nbsp;kB |
+| `not_regex` | 0.32&nbsp;kB |
 | `before_or_equal` | 0.37&nbsp;kB |
 | `after_or_equal` | 0.34&nbsp;kB |
 | `regex` | 0.31&nbsp;kB |
@@ -305,8 +305,8 @@ What each rule adds to the bundle when registered.
 | `date` | 0.19&nbsp;kB |
 | `file` | 0.19&nbsp;kB |
 | `between` | 0.15&nbsp;kB |
+| `digits_between` | 0.18&nbsp;kB |
 | `numeric` | 0.16&nbsp;kB |
-| `digits_between` | 0.20&nbsp;kB |
 | `distinct` | 0.11&nbsp;kB |
 | `timezone` | 0.15&nbsp;kB |
 | `max` | 0.14&nbsp;kB |
@@ -316,11 +316,11 @@ What each rule adds to the bundle when registered.
 | `alpha_dash` | 0.14&nbsp;kB |
 | `uuid` | 0.19&nbsp;kB |
 | `confirmed` | 0.18&nbsp;kB |
-| `in` | 0.16&nbsp;kB |
 | `accepted` | 0.17&nbsp;kB |
 | `json` | 0.11&nbsp;kB |
 | `alpha_num` | 0.15&nbsp;kB |
 | `captcha` | 0.15&nbsp;kB |
+| `in` | 0.18&nbsp;kB |
 | `integer` | 0.14&nbsp;kB |
 | `date_equals` | 0.11&nbsp;kB |
 | `boolean` | 0.15&nbsp;kB |
@@ -331,7 +331,7 @@ What each rule adds to the bundle when registered.
 | `array` | 0.09&nbsp;kB |
 | `nullable` | 0.17&nbsp;kB |
 | `string` | 0.13&nbsp;kB |
-| **Total** | 2.83&nbsp;kB |
+| **Total** | 2.84&nbsp;kB |
 
 </details>
 
@@ -343,7 +343,7 @@ What each rule adds to the bundle when registered.
 | `dimensions` | 1.83&nbsp;kB |
 | `ip` | 1.90&nbsp;kB |
 | `url` | 1.08&nbsp;kB |
-| `not_regex` | 1.22&nbsp;kB |
+| `not_regex` | 1.20&nbsp;kB |
 | `before_or_equal` | 1.39&nbsp;kB |
 | `after_or_equal` | 1.39&nbsp;kB |
 | `regex` | 1.09&nbsp;kB |
@@ -366,8 +366,8 @@ What each rule adds to the bundle when registered.
 | `date` | 0.80&nbsp;kB |
 | `file` | 0.76&nbsp;kB |
 | `between` | 0.70&nbsp;kB |
-| `numeric` | 0.67&nbsp;kB |
 | `digits_between` | 0.71&nbsp;kB |
+| `numeric` | 0.67&nbsp;kB |
 | `distinct` | 0.70&nbsp;kB |
 | `timezone` | 0.65&nbsp;kB |
 | `max` | 0.67&nbsp;kB |
@@ -377,11 +377,11 @@ What each rule adds to the bundle when registered.
 | `alpha_dash` | 0.61&nbsp;kB |
 | `uuid` | 0.64&nbsp;kB |
 | `confirmed` | 0.63&nbsp;kB |
-| `in` | 0.64&nbsp;kB |
 | `accepted` | 0.62&nbsp;kB |
 | `json` | 0.64&nbsp;kB |
 | `alpha_num` | 0.61&nbsp;kB |
 | `captcha` | 0.62&nbsp;kB |
+| `in` | 0.63&nbsp;kB |
 | `integer` | 0.63&nbsp;kB |
 | `date_equals` | 0.63&nbsp;kB |
 | `boolean` | 0.61&nbsp;kB |
@@ -392,7 +392,7 @@ What each rule adds to the bundle when registered.
 | `array` | 0.59&nbsp;kB |
 | `nullable` | 0.59&nbsp;kB |
 | `string` | 0.60&nbsp;kB |
-| **Total** | 10.98&nbsp;kB |
+| **Total** | 10.95&nbsp;kB |
 
 </details>
 

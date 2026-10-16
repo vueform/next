@@ -1,7 +1,7 @@
 {
   "pkg": "@vueform/core",
   "type": "core",
-  "generatedAt": "2026-10-16T05:31:02.734Z",
+  "generatedAt": "2026-10-16T07:41:26.478Z",
   "environment": {
     "node": "v26.8.2",
     "packageManager": "pnpm@10.20.0",
@@ -472,17 +472,17 @@
       "description": "model plus every rule — the Total row of Per-rule cost",
       "files": [
         {
-          "file": "assets/index-CAjOztLW.js",
+          "file": "assets/index-D-_YO7VU.js",
           "type": "js",
-          "raw": 108088,
-          "gzip": 39068,
-          "brotli": 35520
+          "raw": 108057,
+          "gzip": 39063,
+          "brotli": 35534
         }
       ],
       "js": {
-        "raw": 108088,
-        "gzip": 39068,
-        "brotli": 35520
+        "raw": 108057,
+        "gzip": 39063,
+        "brotli": 35534
       },
       "css": {
         "raw": 0,
@@ -490,9 +490,9 @@
         "brotli": 0
       },
       "total": {
-        "raw": 108088,
-        "gzip": 39068,
-        "brotli": 35520
+        "raw": 108057,
+        "gzip": 39063,
+        "brotli": 35534
       }
     },
     "rule+accepted": {
@@ -1042,17 +1042,17 @@
       "description": "model plus the digits_between rule",
       "files": [
         {
-          "file": "assets/index-ZAe7NrjU.js",
+          "file": "assets/index-Dz5OylXL.js",
           "type": "js",
           "raw": 97573,
-          "gzip": 36022,
-          "brotli": 32827
+          "gzip": 36025,
+          "brotli": 32806
         }
       ],
       "js": {
         "raw": 97573,
-        "gzip": 36022,
-        "brotli": 32827
+        "gzip": 36025,
+        "brotli": 32806
       },
       "css": {
         "raw": 0,
@@ -1061,8 +1061,8 @@
       },
       "total": {
         "raw": 97573,
-        "gzip": 36022,
-        "brotli": 32827
+        "gzip": 36025,
+        "brotli": 32806
       }
     },
     "rule+dimensions": {
@@ -1312,17 +1312,17 @@
       "description": "model plus the in rule",
       "files": [
         {
-          "file": "assets/index-eOngQ5lz.js",
+          "file": "assets/index-CMAmZv25.js",
           "type": "js",
-          "raw": 97499,
-          "gzip": 35999,
-          "brotli": 32780
+          "raw": 97495,
+          "gzip": 35995,
+          "brotli": 32804
         }
       ],
       "js": {
-        "raw": 97499,
-        "gzip": 35999,
-        "brotli": 32780
+        "raw": 97495,
+        "gzip": 35995,
+        "brotli": 32804
       },
       "css": {
         "raw": 0,
@@ -1330,9 +1330,9 @@
         "brotli": 0
       },
       "total": {
-        "raw": 97499,
-        "gzip": 35999,
-        "brotli": 32780
+        "raw": 97495,
+        "gzip": 35995,
+        "brotli": 32804
       }
     },
     "rule+in_array": {
@@ -1732,17 +1732,17 @@
       "description": "model plus the not_regex rule",
       "files": [
         {
-          "file": "assets/index-6-ULV1Lf.js",
+          "file": "assets/index-CSQ1bAWb.js",
           "type": "js",
-          "raw": 98099,
-          "gzip": 36243,
-          "brotli": 33037
+          "raw": 98072,
+          "gzip": 36232,
+          "brotli": 32949
         }
       ],
       "js": {
-        "raw": 98099,
-        "gzip": 36243,
-        "brotli": 33037
+        "raw": 98072,
+        "gzip": 36232,
+        "brotli": 32949
       },
       "css": {
         "raw": 0,
@@ -1750,9 +1750,9 @@
         "brotli": 0
       },
       "total": {
-        "raw": 98099,
-        "gzip": 36243,
-        "brotli": 33037
+        "raw": 98072,
+        "gzip": 36232,
+        "brotli": 32949
       }
     },
     "rule+nullable": {

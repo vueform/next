@@ -1,7 +1,7 @@
 {
   "pkg": "@vueform/expr-eval",
   "type": "plugin",
-  "generatedAt": "2026-10-16T05:16:20.852Z",
+  "generatedAt": "2026-10-16T07:42:03.410Z",
   "environment": {
     "node": "v26.8.2",
     "packageManager": "pnpm@10.20.0",
@@ -27,17 +27,17 @@
           "brotli": 5765
         },
         {
-          "file": "assets/index-DKYY4qBs.js",
+          "file": "assets/index-DAV0Sopn.js",
           "type": "js",
-          "raw": 381529,
-          "gzip": 111387,
-          "brotli": 95907
+          "raw": 381498,
+          "gzip": 111377,
+          "brotli": 95886
         }
       ],
       "js": {
-        "raw": 381529,
-        "gzip": 111387,
-        "brotli": 95907
+        "raw": 381498,
+        "gzip": 111377,
+        "brotli": 95886
       },
       "css": {
         "raw": 50051,
@@ -45,9 +45,9 @@
         "brotli": 5765
       },
       "total": {
-        "raw": 431580,
-        "gzip": 118022,
-        "brotli": 101672
+        "raw": 431549,
+        "gzip": 118012,
+        "brotli": 101651
       }
     },
     "with-expr-eval": {
@@ -58,11 +58,11 @@
       "description": "baseline + the @vueform/expr-eval plugin (bundles expr-eval-fork)",
       "files": [
         {
-          "file": "assets/index-CbrNN_xH.js",
+          "file": "assets/index-BkVHEs_u.js",
           "type": "js",
-          "raw": 416321,
-          "gzip": 122146,
-          "brotli": 105025
+          "raw": 416290,
+          "gzip": 122141,
+          "brotli": 104908
         },
         {
           "file": "assets/index-CQ_gOP0C.css",
@@ -73,9 +73,9 @@
         }
       ],
       "js": {
-        "raw": 416321,
-        "gzip": 122146,
-        "brotli": 105025
+        "raw": 416290,
+        "gzip": 122141,
+        "brotli": 104908
       },
       "css": {
         "raw": 50051,
@@ -83,9 +83,9 @@
         "brotli": 5765
       },
       "total": {
-        "raw": 466372,
-        "gzip": 128781,
-        "brotli": 110790
+        "raw": 466341,
+        "gzip": 128776,
+        "brotli": 110673
       }
     },
     "dep-expr-eval": {
@@ -93,11 +93,11 @@
       "description": "baseline + raw expr-eval-fork only, no Vueform plugin",
       "files": [
         {
-          "file": "assets/index-7hl-62x-.js",
+          "file": "assets/index-CkQw-hcw.js",
           "type": "js",
-          "raw": 408347,
-          "gzip": 119201,
-          "brotli": 102576
+          "raw": 408316,
+          "gzip": 119195,
+          "brotli": 102537
         },
         {
           "file": "assets/index-CQ_gOP0C.css",
@@ -108,9 +108,9 @@
         }
       ],
       "js": {
-        "raw": 408347,
-        "gzip": 119201,
-        "brotli": 102576
+        "raw": 408316,
+        "gzip": 119195,
+        "brotli": 102537
       },
       "css": {
         "raw": 50051,
@@ -118,9 +118,9 @@
         "brotli": 5765
       },
       "total": {
-        "raw": 458398,
-        "gzip": 125836,
-        "brotli": 108341
+        "raw": 458367,
+        "gzip": 125830,
+        "brotli": 108302
       }
     }
   }

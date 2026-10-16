@@ -1,7 +1,7 @@
 {
   "pkg": "@vueform/devtools",
   "type": "plugin",
-  "generatedAt": "2026-10-16T05:16:21.065Z",
+  "generatedAt": "2026-10-16T07:41:59.143Z",
   "environment": {
     "node": "v26.8.2",
     "packageManager": "pnpm@10.20.0",
@@ -27,17 +27,17 @@
           "brotli": 5765
         },
         {
-          "file": "assets/index-DKYY4qBs.js",
+          "file": "assets/index-DAV0Sopn.js",
           "type": "js",
-          "raw": 381529,
-          "gzip": 111387,
-          "brotli": 95907
+          "raw": 381498,
+          "gzip": 111377,
+          "brotli": 95886
         }
       ],
       "js": {
-        "raw": 381529,
-        "gzip": 111387,
-        "brotli": 95907
+        "raw": 381498,
+        "gzip": 111377,
+        "brotli": 95886
       },
       "css": {
         "raw": 50051,
@@ -45,9 +45,9 @@
         "brotli": 5765
       },
       "total": {
-        "raw": 431580,
-        "gzip": 118022,
-        "brotli": 101672
+        "raw": 431549,
+        "gzip": 118012,
+        "brotli": 101651
       }
     },
     "with-devtools": {
@@ -58,24 +58,24 @@
       "description": "baseline + the @vueform/devtools plugin (bundles @vue/devtools-api)",
       "files": [
         {
-          "file": "assets/index-B17xTyCk.js",
-          "type": "js",
-          "raw": 381751,
-          "gzip": 111469,
-          "brotli": 95810
-        },
-        {
           "file": "assets/index-CQ_gOP0C.css",
           "type": "css",
           "raw": 50051,
           "gzip": 6635,
           "brotli": 5765
+        },
+        {
+          "file": "assets/index-DnJG_Rqx.js",
+          "type": "js",
+          "raw": 381720,
+          "gzip": 111463,
+          "brotli": 95894
         }
       ],
       "js": {
-        "raw": 381751,
-        "gzip": 111469,
-        "brotli": 95810
+        "raw": 381720,
+        "gzip": 111463,
+        "brotli": 95894
       },
       "css": {
         "raw": 50051,
@@ -83,9 +83,9 @@
         "brotli": 5765
       },
       "total": {
-        "raw": 431802,
-        "gzip": 118104,
-        "brotli": 101575
+        "raw": 431771,
+        "gzip": 118098,
+        "brotli": 101659
       }
     },
     "dep-devtools": {
@@ -100,17 +100,17 @@
           "brotli": 5765
         },
         {
-          "file": "assets/index-DVd0TkMx.js",
+          "file": "assets/index-DC-NIxsb.js",
           "type": "js",
-          "raw": 438008,
-          "gzip": 131146,
-          "brotli": 111288
+          "raw": 437977,
+          "gzip": 131139,
+          "brotli": 111259
         }
       ],
       "js": {
-        "raw": 438008,
-        "gzip": 131146,
-        "brotli": 111288
+        "raw": 437977,
+        "gzip": 131139,
+        "brotli": 111259
       },
       "css": {
         "raw": 50051,
@@ -118,9 +118,9 @@
         "brotli": 5765
       },
       "total": {
-        "raw": 488059,
-        "gzip": 137781,
-        "brotli": 117053
+        "raw": 488028,
+        "gzip": 137774,
+        "brotli": 117024
       }
     }
   }
