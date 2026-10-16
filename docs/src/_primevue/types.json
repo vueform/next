@@ -1523,6 +1523,7 @@
   "defineComputedSchema",
   "defineConfig",
   "defineDefaults",
+  "defineEvents",
   "defineFeature",
   "defineModule",
   "definePlugin",

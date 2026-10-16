@@ -1,0 +1,79 @@
+```ts
+/**
+ * Creates a typed event system with synchronous and async firing, listener
+ * registration, and before/after hooks.
+ */
+function defineEvents<
+  T extends Record<string, any>,
+  TEvents extends TypeEmitsToOptions<T> = TypeEmitsToOptions<T>,
+>(): {
+  /**
+   * Fires an event synchronously, invoking before, listener, and after
+   * callbacks in order and emitting a native Vue event.
+   *
+   * @param e The event name.
+   * @param args The event arguments forwarded to each callback.
+   */
+  fire: <E extends keyof TEvents>(e: E, ...args: TEvents[E]) => void
+
+  /**
+   * Fires an event asynchronously, awaiting each callback and short-circuiting
+   * when any returns `false`.
+   *
+   * @param e The event name.
+   * @param args The event arguments forwarded to each callback.
+   */
+  fireAsync: <E extends keyof TEvents>(
+    e: E,
+    ...args: TEvents[E]
+  ) => Promise<any>
+
+  /**
+   * Subscribes a callback to a specific event.
+   *
+   * @param e The event name.
+   * @param callback The handler to invoke when the event fires.
+   */
+  on: EventListener<TEvents>
+
+  /**
+   * Removes a previously registered event callback.
+   *
+   * @param e The event name.
+   * @param callback The handler to remove. Omit to remove all listeners for the
+   *   event.
+   */
+  off: EventListener<TEvents>
+
+  /**
+   * Registers a callback that runs before the main event listeners.
+   *
+   * @param e The event name.
+   * @param callback The handler to invoke before the event fires.
+   */
+  onBefore: EventListener<TEvents>
+
+  /**
+   * Registers a callback that runs after the main event listeners.
+   *
+   * @param e The event name.
+   * @param callback The handler to invoke after the event fires.
+   */
+  onAfter: EventListener<TEvents>
+
+  /**
+   * Whether any callback is currently registered for the given event, either
+   * via `on` / `onBefore` / `onAfter` or as a component prop listener (`@event`
+   * in the template). Lets producers skip expensive payload preparation when
+   * nothing would receive it.
+   *
+   * @param e The event name.
+   */
+  hasListeners: (e: keyof TEvents & string) => boolean
+
+  /**
+   * Whether an async event is currently being processed.
+   */
+  eventInProgress: Ref<boolean, boolean>
+}
+```
