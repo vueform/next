@@ -484,17 +484,17 @@ export default defineConfig({
       },
       ':lint': {
         command: "node -e ''",
-        dependsOn: [':oxlint', ':stylelint', ':eslint', ':ls-lint'],
+        dependsOn: [':oxlint', ':stylelint', ':eslint', ':lslint'],
       },
       ':oxlint': {
         command: 'vp lint',
       },
       // Uncached (explicitly — auto-tracking would trace the binary statting
-      // the whole repo and spin for minutes): ls-lint checks file/directory
+      // the whole repo and spin for minutes): lslint checks file/directory
       // names, so its result depends on the file set, not content vp could
       // hash.
-      ':ls-lint': {
-        command: 'ls-lint',
+      ':lslint': {
+        command: 'lslint',
         cache: false,
       },
       ':fmt:check': {

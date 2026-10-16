@@ -34,7 +34,6 @@ ls:
   .css: kebab-case
   # regex admits _-prefixed partials (_vars.scss)
   .scss: kebab-case | regex:_[a-z0-9]+(-[a-z0-9]+)*
-  .md: kebab-case | SCREAMING_SNAKE_CASE
   .svg: kebab-case
   .png: kebab-case
   .webp: kebab-case
@@ -111,12 +110,12 @@ ls:
   docs/.vitepress/theme/components:
     .ts: PascalCase | regex:[A-Z]{2}[a-zA-Z0-9]*
 
-  # doc pages are named after what they document (VfSelect.md, useClasses.md);
-  # _-prefixed dirs/templates are vitepress route-excluded;
-  # public data names embed runtime values (/data/users-${department}.json)
+  # doc pages are named after what they document (VfSelect.md, useClasses.md,
+  # the snake_case rule pages); _-prefixed dirs/templates are vitepress
+  # route-excluded; public data names embed runtime values
+  # (/data/users-${department}.json)
   docs/src:
     .dir: kebab-case | regex:_[a-z0-9]+(-[a-z0-9]+)*
-    .md: kebab-case | camelCase | PascalCase | regex:_[a-z0-9]+(-[a-z0-9]+)*
     .json: kebab-case | regex:users-[A-Za-z]+
     .vue: PascalCase | regex:[A-Z]{2}[a-zA-Z0-9]*
     .js: kebab-case

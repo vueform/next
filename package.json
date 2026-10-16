@@ -21,7 +21,7 @@
     "fix": "tsx scripts/fix.ts",
     "fmt": "vp fmt",
     "lint": "vpr :lint",
-    "ls-lint": "vpr :ls-lint",
+    "lslint": "vpr :lslint",
     "manifests": "vpr :manifests",
     "oxlint": "vpr :oxlint",
     "pack": "tsx scripts/pack.ts",
