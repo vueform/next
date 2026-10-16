@@ -318,38 +318,41 @@ export default mergeConfig(
             template: {
               light: localIconLoader(
                 import.meta.url,
-                '../src/assets/mingcute--code-line.svg'
+                '../src/public/assets/mingcute--code-line.svg'
               ),
               dark: localIconLoader(
                 import.meta.url,
-                '../src/assets/mingcute--code-line.svg'
+                '../src/public/assets/mingcute--code-line.svg'
               ),
             },
             schema: {
               light: localIconLoader(
                 import.meta.url,
-                '../src/assets/mingcute--braces-line.svg'
+                '../src/public/assets/mingcute--braces-line.svg'
               ),
               dark: localIconLoader(
                 import.meta.url,
-                '../src/assets/mingcute--braces-line.svg'
+                '../src/public/assets/mingcute--braces-line.svg'
               ),
             },
             'on()': {
               light: localIconLoader(
                 import.meta.url,
-                '../src/assets/mingcute--parentheses-fill.svg'
+                '../src/public/assets/mingcute--parentheses-fill.svg'
               ),
               dark: localIconLoader(
                 import.meta.url,
-                '../src/assets/mingcute--parentheses-fill.svg'
+                '../src/public/assets/mingcute--parentheses-fill.svg'
               ),
             },
             vueform: {
-              light: localIconLoader(import.meta.url, '../src/assets/logo.svg'),
+              light: localIconLoader(
+                import.meta.url,
+                '../src/public/assets/logo.svg'
+              ),
               dark: localIconLoader(
                 import.meta.url,
-                '../src/assets/logo-dark.svg'
+                '../src/public/assets/logo-dark.svg'
               ),
             },
           },
