@@ -71,10 +71,30 @@ const canonicalHost = adapterHosts[ADAPTER] ?? adapterHosts.ui
 // https://vitepress.dev/reference/site-config
 export default mergeConfig(
   {
-    title: '',
-    description: '',
+    title: 'Vueform',
+    description:
+      'Build anything from simple inputs to complex workflows with a declarative form framework for developers and AI agents, using any UI library.',
     head: [
-      ['link', { rel: 'icon', href: '/favicon.ico' }],
+      [
+        'link',
+        {
+          rel: 'icon',
+          type: 'image/png',
+          href: '/favicon-96x96.png',
+          sizes: '96x96',
+        },
+      ],
+      ['link', { rel: 'icon', type: 'image/svg+xml', href: '/favicon.svg' }],
+      ['link', { rel: 'shortcut icon', href: '/favicon.ico' }],
+      [
+        'link',
+        {
+          rel: 'apple-touch-icon',
+          sizes: '180x180',
+          href: '/apple-touch-icon.png',
+        },
+      ],
+      ['link', { rel: 'manifest', href: '/site.webmanifest' }],
       [
         'link',
         {
@@ -89,34 +109,70 @@ export default mergeConfig(
     srcDir: './src',
     rewrites,
     srcExclude,
-    transformHead({ pageData }) {
-      const head: Array<[string, Record<string, string>]> = []
-      const pagePath = pageData.relativePath
-        .replace(/\.md$/, '')
-        .replace(/\/index$/, '/')
-      const normalizedPath = pagePath.startsWith('/')
-        ? pagePath
-        : `/${pagePath}`
-
-      head.push([
-        'link',
-        { rel: 'canonical', href: `${canonicalHost}${normalizedPath}` },
-      ])
-
-      for (const [key, host] of Object.entries(adapterHosts)) {
-        if (key !== ADAPTER) {
-          head.push([
-            'link',
+    themeConfig: {
+      logo: {
+        light: '/assets/logo-h.svg',
+        dark: '/assets/logo-h-dark.svg',
+      },
+      siteTitle: false,
+      nav: [
+        {
+          text: 'Guide',
+          link: '/guide/introduction',
+        },
+        {
+          text: 'Reference',
+          items: [
             {
-              rel: 'alternate',
-              hreflang: 'en',
-              href: `${host}${normalizedPath}`,
+              items: [
+                { text: 'Components', link: '/components' },
+                { text: 'Plugins', link: '/plugins' },
+                { text: 'API', link: '/api' },
+              ],
             },
-          ])
-        }
-      }
-
-      return head
+          ],
+        },
+        {
+          text: 'Tools',
+          items: [
+            { text: 'Playground', link: '/playground' },
+            { text: 'Examples', link: '/examples/example-1' },
+            { text: 'DevTools', link: '/tools/dev-tools' },
+            { text: 'CLI', link: '/tools/cli' },
+          ],
+        },
+        {
+          text: 'About',
+          items: [
+            { text: 'FAQ', link: '/about/faq' },
+            { text: 'Roadmap', link: '/guide/roadmap' },
+            { text: 'Releases', link: '/about/releases' },
+            { text: 'Privacy Policy', link: '/about/privacy-policy' },
+          ],
+        },
+        {
+          text: 'Community',
+          items: [
+            { text: 'Community Guide', link: '/guide/community-guide' },
+            { text: 'Code of Conduct', link: '/about/code-of-conduct' },
+          ],
+        },
+      ],
+      socialLinks: [
+        { icon: 'github', link: 'https://github.com/vueform/next' },
+      ],
+      sidebar,
+      footer: {
+        message: 'Released under the MIT License.',
+        copyright: 'Copyright © 2022-present Adam Berecz',
+      },
+      lastUpdated: {
+        text: 'Updated at',
+        formatOptions: {
+          dateStyle: 'medium',
+          timeStyle: 'medium',
+        },
+      },
     },
     markdown: {
       theme: {
@@ -156,6 +212,35 @@ export default mergeConfig(
         // hints insert a caret widget and must run last.
         typeHint(),
       ],
+    },
+    transformHead({ pageData }) {
+      const head: Array<[string, Record<string, string>]> = []
+      const pagePath = pageData.relativePath
+        .replace(/\.md$/, '')
+        .replace(/\/index$/, '/')
+      const normalizedPath = pagePath.startsWith('/')
+        ? pagePath
+        : `/${pagePath}`
+
+      head.push([
+        'link',
+        { rel: 'canonical', href: `${canonicalHost}${normalizedPath}` },
+      ])
+
+      for (const [key, host] of Object.entries(adapterHosts)) {
+        if (key !== ADAPTER) {
+          head.push([
+            'link',
+            {
+              rel: 'alternate',
+              hreflang: 'en',
+              href: `${host}${normalizedPath}`,
+            },
+          ])
+        }
+      }
+
+      return head
     },
     vite: {
       ssr: {
@@ -261,13 +346,10 @@ export default mergeConfig(
               ),
             },
             vueform: {
-              light: localIconLoader(
-                import.meta.url,
-                '../src/assets/logo-symbol.svg'
-              ),
+              light: localIconLoader(import.meta.url, '../src/assets/logo.svg'),
               dark: localIconLoader(
                 import.meta.url,
-                '../src/assets/logo-symbol-dark.svg'
+                '../src/assets/logo-dark.svg'
               ),
             },
           },
@@ -284,63 +366,6 @@ export default mergeConfig(
           ],
         }),
       ],
-    },
-    themeConfig: {
-      nav: [
-        {
-          text: 'Guide',
-          link: '/guide/introduction',
-        },
-        {
-          text: 'Reference',
-          items: [
-            {
-              items: [
-                { text: 'Components', link: '/components' },
-                { text: 'Plugins', link: '/plugins' },
-                { text: 'API', link: '/api' },
-              ],
-            },
-          ],
-        },
-        {
-          text: 'Tools',
-          items: [
-            { text: 'Playground', link: '/playground' },
-            { text: 'Examples', link: '/examples/example-1' },
-            { text: 'DevTools', link: '/tools/dev-tools' },
-            { text: 'CLI', link: '/tools/cli' },
-          ],
-        },
-        {
-          text: 'About',
-          items: [
-            { text: 'FAQ', link: '/about/faq' },
-            { text: 'Roadmap', link: '/guide/roadmap' },
-            { text: 'Releases', link: '/about/releases' },
-            { text: 'Privacy Policy', link: '/about/privacy-policy' },
-          ],
-        },
-        {
-          text: 'Community',
-          items: [
-            { text: 'Community Guide', link: '/guide/community-guide' },
-            { text: 'Code of Conduct', link: '/about/code-of-conduct' },
-          ],
-        },
-      ],
-      sidebar,
-      footer: {
-        message: 'Released under the MIT License.',
-        copyright: 'Copyright © 2022-present Adam Berecz',
-      },
-      lastUpdated: {
-        text: 'Updated at',
-        formatOptions: {
-          dateStyle: 'medium',
-          timeStyle: 'medium',
-        },
-      },
     },
   },
   adapterConfig

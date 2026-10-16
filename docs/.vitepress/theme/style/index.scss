@@ -220,9 +220,9 @@ html.dark .light-only {
 // Caption under a benchmark chart (guide/performance).
 .vp-doc p.chart-caption {
   margin: 4px 0 0;
-  text-align: center;
   font-size: 13px;
   color: var(--vp-c-text-2);
+  text-align: center;
 }
 
 html:not(.dark) .dark-only {
@@ -398,8 +398,8 @@ table:has(thead th:empty) {
   h4,
   h5,
   h6 {
-    border: 0;
     padding: 0;
+    border: 0;
   }
 
   h1 {
@@ -431,9 +431,28 @@ table:has(thead th:empty) {
   display: none;
 
   & + h3 {
-    margin-top: 0;
-    border: 0;
     padding-top: 0;
+    margin-top: 0;
     margin-bottom: 1rem;
+    border: 0;
+  }
+}
+
+.VPHomeHero .VPImage {
+  max-width: 144px;
+  max-height: 144px;
+}
+
+@media (width >= 640px) {
+  .VPHomeHero .VPImage {
+    max-width: 196px;
+    max-height: 196px;
+  }
+}
+
+@media (width >= 960px) {
+  .VPHomeHero .VPImage {
+    max-width: 224px;
+    max-height: 224px;
   }
 }

@@ -2,9 +2,12 @@
 layout: home
 
 hero:
-  name: Vueform
-  text: Open Source Form Framework
-  tagline: Build production-ready Vue.js forms in minutes with a powerful, headless component library.
+  name: Complex forms. 
+  text: Predictable code.
+  tagline: Build anything from simple inputs to complex workflows with a declarative form framework for developers and AI agents, using any UI library.
+  image:
+    src: /assets/logo-dark.svg
+    alt: Vueform
   actions:
     - theme: brand
       text: Get Started
@@ -14,10 +17,13 @@ hero:
       link: https://github.com/vueform/next
 
 features:
-  - title: Headless & Themeable
-    details: Ship any look you want — Vueform gives you full control over templates and styles.
-  - title: Batteries Included
-    details: Validation, conditions, multi-step forms, repeaters, expressions, file uploads — all built in.
-  - title: Type-Safe
-    details: End-to-end TypeScript support with inferred schemas and fully typed component contexts.
+  - title: Batteries included
+    details: From validation and conditions to multi-step forms, nested fields, async data, and more. No need to reinvent the basics.
+    # icon: 🔋
+  - title: AI-ready by design
+    details: Give AI agents established patterns to follow instead of generating custom solutions for every form requirement.
+    # icon: 🤖
+  - title: Your UI, your choice
+    details: Use Vueform's default components or your favorite UI library, without changing how your forms work.
+    # icon: 🎨
 ---
