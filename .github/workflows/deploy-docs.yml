@@ -22,10 +22,14 @@ name: Deploy docs
 # measures a package whose size.json is missing. Benchmark numbers likewise
 # come from the committed `benchmark/results/`; the `regen_bench` checkbox
 # re-runs the real-browser suite first (slow, and CI-runner numbers are
-# noisier than a quiet local machine — see benchmark.yml). Neither checkbox
-# commits anything back: regenerated numbers reach the deployed site only,
-# and committing refreshed benchmark results stays the Benchmark workflow's
-# job. The cached legs replay from the restored vp task cache (the docs
+# noisier than a quiet local machine — see benchmark.yml).
+#
+# Whatever the run regenerated in git-tracked content is committed and
+# pushed back BEFORE deploying, so the repo never drifts from the deployed
+# site: `:docs:gen` rewrites pages under docs/src (types/, guide tables,
+# charts), and the regen checkboxes refresh size.json, README size sections
+# and benchmark results that those pages embed.
+# The cached legs replay from the restored vp task cache (the docs
 # tasks themselves are deliberately uncached); the cache is keyed per commit
 # with a prefix fallback, and vp revalidates inputs on a stale hit. Then
 # each selected adapter's site deploys to its Cloudflare Worker via wrangler
@@ -67,7 +71,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: read
+  contents: read # the deploy job alone escalates (push-back of regen output)
 
 jobs:
   # Which sites this run deploys. Cheap on purpose (no pnpm install): a push
@@ -133,6 +137,8 @@ jobs:
     needs: plan
     if: needs.plan.outputs.targets != ''
     runs-on: ubuntu-26.04
+    permissions:
+      contents: write # push-back of regenerated content
     env:
       TARGETS: ${{ needs.plan.outputs.targets }}
     steps:
@@ -199,6 +205,40 @@ jobs:
       # (gen, api, size-ensure, package builds) run or replay as needed.
       - name: Build docs
         run: pnpm docs:build $(printf -- '--%s ' $TARGETS)
+
+      # Push regenerated git-tracked content back so the repo matches the
+      # deployed site: `:docs:gen` output under docs/src (types/, guide
+      # tables, charts) plus, when the regen checkboxes ran, the size.json /
+      # README / benchmark results those pages embed. Runs BEFORE the deploy
+      # so a rejected push never leaves the site ahead of the repo. Pushes
+      # made with GITHUB_TOKEN trigger no workflows, so this cannot
+      # re-trigger the push deploy.
+      - name: Commit regenerated content
+        env:
+          BRANCH: ${{ github.ref_name }}
+        run: |
+          paths=(
+            'docs/src/*'
+            'packages/*/size.json'
+            'packages/*/README.md'
+            'benchmark/results/*'
+          )
+          for p in "${paths[@]}"; do
+            git add -A -- "$p" 2>/dev/null || true
+          done
+          if git diff --cached --quiet; then
+            echo 'No regenerated content to push back.'
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git commit -m 'chore(ci): regenerate docs content'
+          # A rejected push means an outside commit landed mid-run — stop
+          # before deploying (the next push or a re-dispatch deploys both).
+          git push origin "HEAD:$BRANCH" || {
+            echo '::error::The branch moved mid-run; nothing was deployed. Re-run the deploy to sync the site and the repo.'
+            exit 1
+          }
 
       # wrangler is a root devDependency (wrangler-action's self-install
       # trips over pnpm workspaces); it reads the CLOUDFLARE_* env vars.
