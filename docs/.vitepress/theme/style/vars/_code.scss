@@ -10,10 +10,13 @@
   // --vp-code-bg: #6f42c114;
 
   --vp-code-color: #171818;
-  --vp-code-bg: #91b2d229;
+  --vp-code-bg: #7a7f851a;
 
   --vp-code-link-color: var(--vp-c-brand-1);
   --vp-code-link-hover-color: var(--vp-c-brand-2);
+
+  --vp-code-color-alt: var(--vp-code-color); // eg. in popovers
+  --vp-code-bg-alt: var(--vp-code-bg);
 
   --vp-code-block-color: var(--vp-c-text-2);
   --vp-code-block-bg: var(--vp-c-bg-alt);
@@ -76,8 +79,8 @@
   --vp-code-color: var(--vp-c-neutral);
   --vp-code-bg: #7b7d7e29;
 
-  --vp-code-color-alt: var(--vf-gray-2); // eg. in popovers
-  --vp-code-bg-alt: #6b8dae29;
+  --vp-code-color-alt: var(--vp-c-text-1); // eg. in popovers
+  --vp-code-bg-alt: #4d50546b;
 
   --vp-code-link-color: var(--vp-c-brand-1);
   --vp-code-link-hover-color: var(--vp-c-brand-2);

@@ -101,10 +101,10 @@
 .popover-block-desc,
 .popover-block-tag {
   code {
-    padding: 2px 5px;
+    padding: 1px 5px;
     font-family: var(--vp-font-family-mono);
-    font-size: 11px;
-    color: var(--vp-c-text-2);
+    font-size: 10px;
+    color: var(--vp-code-color-alt);
     background-color: var(--vp-code-bg-alt);
     border-radius: 4px;
   }
@@ -148,7 +148,7 @@
 }
 
 .popover-tag-text {
-  color: var(--vp-c-text-1);
+  color: var(--vp-c-text-2);
 }
 
 .popover-github-icon {
