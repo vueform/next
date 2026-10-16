@@ -34,6 +34,7 @@ const PARALLEL = [
   'reference-composables',
   'reference-helpers',
   'reference-components',
+  'reference-rules',
 ]
 const CLOSERS = ['json-types', 'json-keywords']
 

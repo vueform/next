@@ -5,6 +5,9 @@ export const ipv6regex =
 
 /**
  * Validates that the value is a valid IPv6 address.
+ *
+ * @category String Format
+ * @related ip, ipv4
  */
 export const ipv6 = createRule('ipv6', (value) => {
   if (typeof value === 'string' && value.length > 64) return false

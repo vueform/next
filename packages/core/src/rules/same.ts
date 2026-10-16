@@ -2,6 +2,11 @@ import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value is the same as another field's value.
+ *
+ * @category Cross-field
+ * @param other The path of the element to compare against — see
+ *   [Element Reference Parameters](/guide/validation#element-reference-parameters).
+ * @related different, confirmed
  */
 export const same = createRule(
   'same',

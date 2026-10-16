@@ -3,6 +3,10 @@ import { isFile } from '#src/utils'
 
 /**
  * Validates that the file has an allowed MIME type.
+ *
+ * @category File
+ * @param ...types The allowed MIME types, as a comma-separated list.
+ * @related mimes, file, image
  */
 export const mimetypes = createRule(
   'mimetypes',

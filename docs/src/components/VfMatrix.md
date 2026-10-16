@@ -1311,7 +1311,7 @@ const [Form] = useForm({ schema })
 
 ## Validation
 
-Setting [`required`](/guide/validation#presence) rule on the matrix ensures that:
+Setting [`required`](/rules/required) rule on the matrix ensures that:
 
 - In `'auto'` mode — all columns in every row must have a non-null value.
 - In `'single'` and `'multiple'` modes — at least one column must be selected per row.
@@ -1418,7 +1418,7 @@ const [Form] = useForm({ schema })
 
 #### Row Rules
 
-To apply additional rules to individual rows, define them via the `rules` property on each row object (customizable via `rowRules`). Per-row rules like [`required`](/guide/validation#presence), [`min`](/guide/validation#size), [`max`](/guide/validation#size), [`between`](/guide/validation#size), [`size`](/guide/validation#size), [`gt`](/guide/validation#comparison), [`lt`](/guide/validation#comparison), [`gte`](/guide/validation#comparison), and [`lte`](/guide/validation#comparison) control the selection count for that specific row.
+To apply additional rules to individual rows, define them via the `rules` property on each row object (customizable via `rowRules`). Per-row rules like [`required`](/rules/required), [`min`](/rules/min), [`max`](/rules/max), [`between`](/rules/between), [`size`](/rules/size), [`gt`](/rules/gt), [`lt`](/rules/lt), [`gte`](/rules/gte), and [`lte`](/rules/lte) control the selection count for that specific row.
 
 ::: usage
 

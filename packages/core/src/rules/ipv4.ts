@@ -5,5 +5,8 @@ export const ipv4regex =
 
 /**
  * Validates that the value is a valid IPv4 address.
+ *
+ * @category String Format
+ * @related ip, ipv6
  */
 export const ipv4 = createRule('ipv4', (value) => ipv4regex.test(value))

@@ -32,6 +32,10 @@ export function compileRulePattern(pattern: unknown): RegExp | undefined {
 
 /**
  * Validates that the value matches a given regular expression.
+ *
+ * @category Pattern
+ * @param pattern The regular expression in `/pattern/flags` form.
+ * @related not_regex
  */
 export const regex = createRule(
   'regex',

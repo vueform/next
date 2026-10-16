@@ -115,6 +115,7 @@ export default mergeConfig(
         dark: '/assets/logo-h-dark.svg',
       },
       siteTitle: false,
+      externalLinkIcon: true,
       nav: [
         {
           text: 'Guide',
@@ -126,6 +127,7 @@ export default mergeConfig(
             {
               items: [
                 { text: 'Components', link: '/components' },
+                { text: 'Rules', link: '/rules' },
                 { text: 'Plugins', link: '/plugins' },
                 { text: 'API', link: '/api' },
               ],

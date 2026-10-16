@@ -1,6 +1,6 @@
 /**
  * Monorepo check (`pnpm check`): one live row per gate — oxlint, stylelint,
- * eslint, ls-lint, fmt, then every typecheck leg (per package + root/node via
+ * eslint, lslint, fmt, then every typecheck leg (per package + root/node via
  * `:typecheck:root`, docs, benchmark) — each row running its vp task, so
  * vite-plus caching fully applies. Failing rows show their issue count;
  * output goes to `.vueform/check/logs` with an error-log link at the end.
@@ -47,7 +47,7 @@ const rows: RunRow[] = [
   lintRow('oxlint', ':oxlint'),
   lintRow('stylelint', ':stylelint'),
   lintRow('eslint', ':eslint'),
-  lintRow('ls-lint', ':ls-lint'),
+  lintRow('lslint', ':lslint'),
   {
     name: 'fmt',
     cmd: 'pnpm',

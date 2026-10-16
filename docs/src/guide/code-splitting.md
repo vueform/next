@@ -43,7 +43,7 @@ Each subpath maps to one config option:
 | ------------------------ | --------------------------------------------------------------------------- | ----------------------------------------------- |
 | `@vueform/ui/modules`    | The built-in [Modules](/guide/modules)                                      | [`modules`](/guide/configuration#modules)       |
 | `@vueform/ui/components` | All [components](/components), also available as individual entries         | [`components`](/guide/configuration#components) |
-| `@vueform/ui/rules`      | The built-in [validation rules](/guide/validation#built-in-rules-reference) | [`rules`](/guide/configuration#rules)           |
+| `@vueform/ui/rules`      | The built-in [validation rules](/rules/) | [`rules`](/guide/configuration#rules)           |
 | `@vueform/ui/themes`     | The built-in [Themes](/guide/themes-tokens) and theme helpers               | [`theme`](/guide/configuration#theme)           |
 | `@vueform/ui/locales`    | The shipped [Locales](/guide/locales)                                       | [`locales`](/guide/configuration#locales)       |
 

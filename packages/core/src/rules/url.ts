@@ -2,6 +2,9 @@ import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value is a valid URL.
+ *
+ * @category String Format
+ * @related email, ip
  */
 export const url = createRule('url', (value) => {
   // Length cap before the regex: the userinfo group backtracks quadratically

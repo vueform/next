@@ -3,6 +3,9 @@ import { equals } from '#src/utils'
 
 /**
  * Validates that all items in an array are unique.
+ *
+ * @category Array
+ * @related array, in_array
  */
 export const distinct = createRule('distinct', (value) => {
   if (!Array.isArray(value)) return true

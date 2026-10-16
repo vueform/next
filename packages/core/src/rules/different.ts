@@ -2,6 +2,11 @@ import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value is different from another field's value.
+ *
+ * @category Cross-field
+ * @param other The path of the element to compare against — see
+ *   [Element Reference Parameters](/guide/validation#element-reference-parameters).
+ * @related same
  */
 export const different = createRule(
   'different',

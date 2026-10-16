@@ -3,6 +3,9 @@ import { normalize } from '#src/utils'
 
 /**
  * Validates that the value is an integer.
+ *
+ * @category Type
+ * @related numeric, digits
  */
 export const integer = createRule('integer', (value) => {
   const normalized = normalize(String(value).trim())

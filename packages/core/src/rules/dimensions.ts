@@ -37,6 +37,17 @@ function loadImage(source: string): Promise<HTMLImageElement> {
 /**
  * Validates that an image file matches specified dimension constraints (width,
  * height, ratio, etc.).
+ *
+ * @category File
+ * @param width The exact width in pixels.
+ * @param height The exact height in pixels.
+ * @param min_width The minimum width in pixels.
+ * @param min_height The minimum height in pixels.
+ * @param max_width The maximum width in pixels.
+ * @param max_height The maximum height in pixels.
+ * @param ratio The width/height ratio, as a fraction (`ratio=3/2`) or a number
+ *   (`ratio=1.5`).
+ * @related image, file
  */
 export const dimensions = createRule(
   'dimensions',

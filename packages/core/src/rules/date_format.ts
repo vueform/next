@@ -3,6 +3,10 @@ import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value matches a specific date format.
+ *
+ * @category Date
+ * @param format The date format the value must match.
+ * @related date, date_equals
  */
 export const date_format = createRule(
   'date_format',

@@ -2,6 +2,9 @@ import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value is a valid email address.
+ *
+ * @category String Format
+ * @related url, regex
  */
 export const email = createRule('email', (value) => {
   if (typeof value === 'string' && value.length > 320) return false

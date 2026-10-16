@@ -2,6 +2,11 @@ import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value's size is less than another field's size.
+ *
+ * @category Comparison
+ * @param other The path of the element to compare against — see
+ *   [Element Reference Parameters](/guide/validation#element-reference-parameters).
+ * @related lte, gt, gte
  */
 export const lt = createRule(
   'lt',

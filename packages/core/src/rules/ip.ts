@@ -5,6 +5,9 @@ import { ipv6regex } from './ipv6'
 
 /**
  * Validates that the value is a valid IPv4 or IPv6 address.
+ *
+ * @category String Format
+ * @related ipv4, ipv6
  */
 export const ip = createRule(
   'ip',

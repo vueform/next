@@ -4,6 +4,9 @@ import { createRule } from '#src/helpers'
  * Validates that the value is accepted (truthy: yes, on, 1, true).
  *
  * @skipTypeExport
+ *
+ * @category Presence
+ * @related required, boolean, in
  */
 export const accepted = createRule('accepted', (value) =>
   ['yes', 'on', '1', 1, true, 'true'].includes(value)

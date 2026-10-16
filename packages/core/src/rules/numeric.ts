@@ -2,6 +2,9 @@ import { createRule } from '#src/helpers'
 
 /**
  * Validates that the value is numeric.
+ *
+ * @category Type
+ * @related integer, digits
  */
 export const numeric = createRule(
   'numeric',
