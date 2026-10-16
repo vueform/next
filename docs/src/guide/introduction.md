@@ -169,3 +169,21 @@ See the [Roadmap](/guide/roadmap) for what's done, what's in progress, and what'
 Install only the core and you have useModel and useForm out of the box, without any components but fully typed headless data and validation. Add expressions module and you can reference other fields in data. And you are only at xyKB gzipped. Add the framework agnostic component library and have native html elements or add an actual adapter for an existing ui library like primevue and you have outofthebox relationship between them.
 
 Foo
+
+`createContext` <br>
+`createRule` <br>
+`createVueform` <br>
+`defineComputedSchema` <br>
+`defineConfig` <br>
+`defineDefaults` <br>
+`defineEvents` <br>
+`defineFeature` <br>
+`defineModule` <br>
+`definePlugin` <br>
+`definePreset` <br>
+`defineSchema` <br>
+`defineTheme` <br>
+`extendTheme` <br>
+`resolveAddon` <br>
+`resolveModules` <br>
+`resolveVueform` <br>

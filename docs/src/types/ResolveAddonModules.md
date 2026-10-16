@@ -1,7 +1,6 @@
 ```ts
 /**
- * Modules `resolveAddon` needs from the caller's setup context — gather them
- * via `useLocale()`, `useSecurity()`, and `useExpression()`.
+ * Modules `resolveAddon` needs from the caller's setup context.
  */
 interface ResolveAddonModules {
   localize: (value: any) => any

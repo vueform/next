@@ -1,7 +1,6 @@
 ```ts
 /**
- * Defines a Vueform module. A typed identity helper — it does not transform the
- * definition at runtime.
+ * Defines a Vueform module.
  *
  * @param module The module definition.
  */

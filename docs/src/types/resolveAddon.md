@@ -1,9 +1,7 @@
 ```ts
 /**
- * Resolves a raw `AddonItem` into a text string (localized and
- * expression-resolved; rendered escaped downstream) or a dynamic component
- * descriptor — the resolution the addon blueprint performs, exposed for layout
- * components that render addons without a dedicated addon component.
+ * Resolves a raw `AddonItem` into a localized text string or a dynamic
+ * component descriptor.
  *
  * @param addon The raw addon value to resolve.
  * @param options The `$security` module slice used to allowlist and sanitize

@@ -10,8 +10,7 @@ type ModuleInstallContext = {
   app: App
 
   /**
-   * The Vueform instance being installed — its resolved configuration is
-   * `vueform.config`.
+   * The Vueform instance being installed.
    */
   vueform: VueformInstance
 }

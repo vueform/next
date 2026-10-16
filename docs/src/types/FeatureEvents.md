@@ -1,8 +1,7 @@
 ```ts
 /**
  * The events object a factory receives, typed from an event-name-to-argument
- * map. Each member is name-guarded so that referencing an event absent from the
- * blueprint's events fails to compile.
+ * map.
  */
 type FeatureEvents<TEvents extends Record<string, any[]>> = {
   /**
@@ -37,8 +36,7 @@ type FeatureEvents<TEvents extends Record<string, any[]>> = {
   onAfter: FeatureListener<TEvents>
 
   /**
-   * Whether any callback is currently registered for the given event, either
-   * via `on` / `onBefore` / `onAfter` or as a component prop listener.
+   * Whether any callback is currently registered for the given event.
    *
    * @param e The event name.
    */

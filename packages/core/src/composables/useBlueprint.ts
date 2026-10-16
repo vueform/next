@@ -88,16 +88,14 @@ type DefineClassesReturn<
   TPropRefs = Record<string, any>,
 > = {
   /**
-   * Resolved CSS classes for the component. Keys are created lazily on first
-   * access so factories registered via `useClasses` may close over later
-   * bindings.
+   * Resolved CSS classes for the component, with keys created lazily on first
+   * access.
    */
   classes: C & Record<string, any>
 
   /**
-   * Registers one or more class definition objects or factories. Factories are
-   * not invoked until a class key is first read (typically during render) and
-   * receive `(api, propRefs)`. Definitions for the same key are merged.
+   * Registers one or more class definition objects or factories. Definitions
+   * for the same key are merged.
    *
    * @param defs Class definition objects or factories.
    */
@@ -106,16 +104,14 @@ type DefineClassesReturn<
   /**
    * Registers override definitions from outside the component (templates /
    * slots). Per key, the last override that sets the key replaces the
-   * component-defined value; keys no override sets keep it.
+   * component-defined value.
    *
    * @param defs Class definition objects or factories.
    */
   useClassOverrides: (...defs: ClassDefsArg<C, TApi, TPropRefs>[]) => void
 
   /**
-   * Installs the shared base class map at the bottom of the chain (below
-   * `reclass`). Single writer — the element layout; a later call replaces the
-   * previous map, so a remounting layout stays idempotent.
+   * Installs the shared base class map at the bottom of the class chain.
    *
    * @param defs The base class map.
    */
@@ -129,9 +125,8 @@ type DefineClassesReturn<
 type ApiOf<T> = T extends (...args: any) => infer R ? R : T
 
 /**
- * Resolves event helpers: emit maps (`SelectEmits`) are wrapped with
- * `DefineEvents`; already-built `defineEvents()` returns (with `fire`) pass
- * through unchanged (e.g. from `useBlueprint`).
+ * Resolves event helpers: emit maps are wrapped with `DefineEvents`;
+ * already-built `defineEvents()` returns pass through unchanged.
  */
 type EventsOf<T extends Record<string, any>> = T extends {
   fire: (...args: any) => any
@@ -141,12 +136,7 @@ type EventsOf<T extends Record<string, any>> = T extends {
 
 /**
  * The public `props` shape on the context: resolved props minus type-only brand
- * keys (symbol keys such as the items generics brand). The brand varies with
- * each component instance's inferred type parameters, so keeping it would make
- * generic instances unassignable to a component's canonical context (e.g.
- * `VfSelectContext` built from bare `VfSelectProps`). The brand is type-only
- * (never set at runtime) and its consumers (`ItemsGenericsOf`) read blueprint
- * setup props, not context props.
+ * keys.
  */
 type ContextProps<TProps> = {
   [K in keyof TProps as K extends symbol ? never : K]: TProps[K]
@@ -160,9 +150,7 @@ type PropRefsOf<TProps> = { [K in keyof TProps]-?: Ref<TProps[K]> }
 
 /**
  * First argument to `useClasses` factories: the factory API plus event helpers
- * and the resolved (non-ref) `props` object. Kept as a pick of assembled fields
- * rather than the full `Blueprint2Api` to avoid a circular type through
- * `useClasses`.
+ * and the resolved (non-ref) `props` object.
  */
 type ClassFactoryApi<
   TApi extends Record<string, any>,
@@ -174,8 +162,7 @@ type ClassFactoryApi<
   }
 
 /**
- * Extracts the component's class map from its props' `classes` prop, mirroring
- * how `useParts` recovers the parts map from `parts`.
+ * Extracts the component's class map from its props' `classes` prop.
  */
 type ClassesOfProps<TProps> = TProps extends {
   classes?: ClassesProp<infer C>
@@ -198,20 +185,23 @@ type BlueprintExtension<
 > = (api: TApi, props: TProps, events: TEvents) => TExt
 
 /**
- * Normalizes an extension return: `void` / non-objects become `{}` so
- * `SpreadMerge` does not collapse the API when the callback only runs hooks.
+ * Normalizes an extension return: `void` / non-objects become `{}`.
  */
 type ResolvedExtension<T> = T extends Record<string, any> ? T : {}
 
 /**
  * Adds `ForwardsApi` to the api type when the blueprint carries a
- * `makeForwards` declaration — the type-level counterpart of `useBlueprint`
- * noticing `api.forwards` and assigning the built computeds.
+ * `makeForwards` declaration.
  */
 type ForwardsOf<TApi> = TApi extends { forwards: ForwardsConfig }
   ? ForwardsApi
   : {}
 
+/**
+ * Assembled blueprint return. Factory members live under `api` for internal
+ * destructuring; `context` is the flat public shape used by `defineExpose` and
+ * the `#template` slot.
+ */
 type Blueprint2Api<
   TApi extends Record<string, any>,
   TProps extends Record<string, any>,
@@ -237,10 +227,8 @@ type Blueprint2Api<
   classes: TClasses
 
   /**
-   * Merged named outlets: inline template slots (`useSlots`) combined with
-   * prop-based slot component overrides. Uses the blueprint's own merged
-   * `outlets` (e.g. from `makeElement`) when available, otherwise the raw
-   * `defineSlots` map.
+   * Merged named outlets: inline template slots combined with prop-based slot
+   * component overrides.
    */
   outlets: ComputedRef<TSlots>
 
@@ -250,19 +238,14 @@ type Blueprint2Api<
   propRefs: PropRefsOf<TProps>
 
   /**
-   * The component's single public context: the context proxy over the exposed
-   * object — ref members read unwrapped and are assignable, `toRefs` / `toRaw`
-   * work. Bind it to the `#template` slot and the template outlet as
-   * `:context`; it is also what event handlers receive as `context$`, what
-   * `find()` returns, and what `useContext()` returns.
+   * The component's single public context — what the `#template` slot, event
+   * handlers (`context$`), `find()`, and `useContext()` receive.
    */
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 
   /**
-   * The object to hand to `defineExpose`: `toRaw(context)` — the raw API (refs
-   * intact) plus the resolved `props`, `parts`, `classes`, and `outlets`. Every
-   * public view of the component — `context`, template refs — reads through
-   * it.
+   * The object to hand to `defineExpose`: the raw API plus the resolved
+   * `props`, `parts`, `classes`, and `outlets`.
    */
   expose: ClassFactoryApi<TApi, ContextProps<TProps>, TEvents> & {
     props: ContextProps<TProps>
@@ -272,8 +255,7 @@ type Blueprint2Api<
   }
 
   /**
-   * Registers component-level class definitions. Factories are deferred until
-   * first class-key access and receive `(api, propRefs)`.
+   * Registers component-level class definitions.
    *
    * @param defs Class definition objects or factories.
    */
@@ -288,7 +270,7 @@ type Blueprint2Api<
 
 /**
  * A class definition factory that receives the component API and prop refs when
- * invoked (lazily, on first class-key access).
+ * invoked.
  */
 type ClassDefsFactory<
   C,
@@ -297,9 +279,7 @@ type ClassDefsFactory<
 > = (api: TApi, propRefs: TPropRefs) => LooseClasses<C>
 
 /**
- * A class definition object or a factory that returns one. Factories are
- * deferred until first key access and receive `(api, propRefs)` so they need
- * not close over setup bindings.
+ * A class definition object or a factory that returns one.
  */
 type ClassDefsArg<
   C,
@@ -308,13 +288,8 @@ type ClassDefsArg<
 > = LooseClasses<C> | ClassDefsFactory<C, TApi, TPropRefs>
 
 /**
- * Assembled blueprint return. Factory members live under `api` for internal
- * destructuring; `context` is the flat public shape used by `defineExpose` and
- * the `#template` slot.
- */
-/**
  * The members `useBlueprint` builds for a `makeForwards` declaration and
- * assigns onto the api (see `buildForwards`).
+ * assigns onto the api.
  */
 export type ForwardsApi = {
   /**
@@ -332,22 +307,8 @@ export type ForwardsApi = {
 
 /**
  * Unified public component context: factory API and event helpers at the root,
- * plus resolved `props` / `parts` / `classes` / `outlets`.
- *
- * This is the single shape shared by:
- *
- * - event-handler `context$` (proxy over `instance.exposed`)
- * - `defineExpose` / `#template` slot payload
- *
- * `$config`, `$locale`, and `$globals` are always present — injected by
- * `createComponentContext` for every component, not only those that expose them
- * from a factory.
- *
- * `TApi` may be a factory (`typeof setup<…>`) or an already-built API object
- * type — factories are resolved via `ReturnType`. `TEvents` may be an emit map
- * (`SelectEmits`) or a `defineEvents()` return — emit maps are wrapped with
- * `DefineEvents`. `TParts` is always exposed as `Partial<TParts>`. Top-level
- * refs are unwrapped via `UnwrapApiRefs`.
+ * plus resolved `props` / `parts` / `classes` / `outlets`. `$config`,
+ * `$locale`, and `$globals` are always present.
  */
 export type BlueprintContext<
   TApi,
@@ -390,23 +351,18 @@ export type BlueprintContext<
 >
 
 /**
- * Resolved props objects created by `useProps`, keyed by component instance. A
- * module-level WeakMap keeps the association off the instance object itself and
- * lets it be garbage-collected together with the instance.
+ * Resolved props objects created by `useProps`, keyed by component instance.
  */
 const resolvedProps = new WeakMap<GenericInstance, Record<string, any>>()
 
 /**
- * Module-level memo for kebab-cased prop names. Prop names form a small,
- * bounded vocabulary, so the cache stays tiny while saving repeated regex work
- * on every component instance.
+ * Module-level memo for kebab-cased prop names.
  */
 const kebabCache = new Map<string, string>()
 
 /**
  * The events and slots an adapter component forwards to the underlying
- * third-party component. Declared on the api as `forwards` by `makeForwards`;
- * `useBlueprint` notices it and builds `forwardProps` / `forwardSlots`.
+ * third-party component.
  */
 export type ForwardsConfig = {
   /**
@@ -447,8 +403,7 @@ function toKebabCached(prop: string) {
 
 /**
  * Removes the `'this'` marker from a preset's `$apply` list before the preset
- * is forwarded to descendants, so `'this'` only ever matches the component the
- * preset was attached to.
+ * is forwarded to descendants.
  *
  * @param preset The normalized preset definition to forward.
  */
@@ -465,13 +420,6 @@ function stripThis(preset: NormalizedPresetDefinition) {
 /**
  * Resolves component props by merging global config defaults, presets, and
  * user-provided values in priority order.
- *
- * Component-level defaults are not passed in — they come from Vue's
- * `withDefaults` on the SFC and are already present on `props`. This composable
- * only layers global config defaults and presets on top. Consequently, when the
- * user passes a prop, its `withDefaults` default is replaced wholesale
- * (standard Vue semantics) — only config defaults and presets participate in
- * object merging with user values.
  *
  * @param props The raw component props from `defineProps` / `withDefaults`.
  */
@@ -808,13 +756,7 @@ function useProps<T extends Record<string, any>>(props: Readonly<T>): T {
 
 /**
  * Wraps a function-valued part so it is both directly spreadable by `v-bind`
- * (resolving via the Proxy traps for non-callable parts that use the `(context)
- * => obj` pattern) and callable as a function (for callable parts that forward
- * runtime args).
- *
- * Static-object values are NOT routed through here — they are returned by
- * `useParts` as-is, since callable parts always receive functions in the
- * current design and object-typed parts are only ever spread.
+ * and callable as a function.
  *
  * @param value The user-provided function part value.
  * @param context The current component context, exposed to context-aware parts.
@@ -871,16 +813,8 @@ function createFunctionPart(
 
 /**
  * Resolves part overrides for a component. Each part sources from, in priority
- * order: the resolved `part:<key>` prop (config defaults, presets, and user
- * values merged by `useProps`), the raw `part:<key>` attr, then the `parts`
- * prop. Static-object values are returned as-is (zero allocation overhead).
- * Function values are wrapped in a Proxy that is both spreadable and callable,
- * so the same wrapper supports both consumption patterns: `v-bind="parts.X"`
- * for non-callable parts using the `(context) => obj` pattern, and
- * `parts.X(args)` for callable parts.
- *
- * Accepts the resolved props object directly (any `Record` with an optional
- * `parts` field) so blueprint generics flow without an `as any` cast.
+ * order: the resolved `part:<key>` prop, the raw `part:<key>` attr, then the
+ * `parts` prop.
  *
  * @param props Resolved props from `useProps`.
  */
@@ -991,10 +925,7 @@ function withClassHelpers(
 
 /**
  * Resolves CSS class definitions for a component by merging theme defaults,
- * config overrides, presets, and user props. The component name is inferred
- * from the current instance and class keys are resolved lazily so factories may
- * be registered after `api` / `propRefs` exist. Factories receive those as
- * `(api, propRefs)`.
+ * config overrides, presets, and user props.
  *
  * @param api The component API passed to class factories.
  * @param propRefs Lazy `toRef` proxy over resolved props.
@@ -1013,11 +944,8 @@ function defineClasses<
   const isElement = !!config.components[name]?.element
 
   /**
-   * The shared base class map installed by the element layout (`VfLayout`) at
-   * mount, forming the foundational layer beneath the component's own classes.
-   * A shallow ref: keys resolved before the layout mounts recompute once it
-   * registers. Single writer — a later call replaces the map, so a remounting
-   * layout stays idempotent.
+   * The shared base class map installed by the element layout, forming the
+   * foundational layer beneath the component's own classes.
    */
   const baseClassDefs = shallowRef<Record<string, any> | null>(null)
 
@@ -1026,14 +954,12 @@ function defineClasses<
   }
 
   /**
-   * Component-level class definitions registered via `useClasses`. Stored as a
-   * shallow ref so appending defs after setup still invalidates dependents.
+   * Component-level class definitions registered via `useClasses`.
    */
   const classDefs = shallowRef<ClassDefsArg<C, TApi, TPropRefs>[]>([])
 
   /**
-   * Registers one or more class definition objects or factories. Factories are
-   * not invoked until a class key is first read (typically during render).
+   * Registers one or more class definition objects or factories.
    *
    * @param defs Class definition objects or factories.
    */
@@ -1052,10 +978,8 @@ function defineClasses<
 
   /**
    * Override definitions registered from outside the component (custom
-   * templates / slots via `useClasses()`). Unlike `classDefs`, these are not
-   * merged with the component's own values: per key, the last override that
-   * sets the key replaces the component-defined value, and keys no override
-   * sets keep it.
+   * templates / slots). Per key, the last override that sets the key replaces
+   * the component-defined value.
    */
   const overrideDefs = shallowRef<ClassDefsArg<C, TApi, TPropRefs>[]>([])
 
@@ -1258,9 +1182,7 @@ function defineClasses<
 
 /**
  * Builds the `forwardProps` / `forwardSlots` computeds for a `makeForwards`
- * declaration: attrs with forwarded event listeners routed through the Vueform
- * event system, and the resolved outlets filtered to the names designated for
- * the underlying adapter component.
+ * declaration.
  *
  * @param config The forwarded event / slot names from `api.forwards`.
  * @param outlets The resolved outlets computed.
@@ -1333,39 +1255,15 @@ export function getResolvedProps(instance: GenericInstance) {
 }
 
 /**
- * Universal SFC-side blueprint consumer for prop-generic blueprints:
- *
- * ```ts
- * const { api, context } = useBlueprint(
- *   setup,
- *   props,
- *   events,
- *   slots,
- *   extension
- * )
- * ```
- *
- * Takes the blueprint's generic `setup` as a value so `TApi` is instantiated
- * from the SFC's concrete props at the call site. Call-site generic-argument
- * instantiation is the one TypeScript mechanism (besides `typeof setup<TProps>`
- * instantiation expressions) that preserves prop-generic narrowing, and it
- * works with deferred SFC generics (`TItems` etc.), so no per-blueprint
- * `useBlueprint` wrapper is needed.
- *
- * Prop validation flows through the `setup` argument: if the SFC's props don't
- * satisfy the blueprint's loose-props constraint, the error surfaces on `setup`
- * rather than on `rawProps`.
- *
- * Component-level defaults come from Vue's `withDefaults` on the SFC;
- * `useProps` only merges global config defaults and presets.
+ * Universal SFC-side blueprint consumer: runs the blueprint's `setup` with
+ * resolved props and events, and assembles the component's api, parts, classes,
+ * outlets, context, and expose object.
  *
  * @private
  * @param setup Blueprint setup receiving resolved props and events.
  * @param rawProps Raw props from `defineProps` / `withDefaults`.
  * @param events Event emitter from `defineEvents`.
- * @param slots Slot map from `defineSlots`. Type-only: it instantiates the
- *   outlets' `TSlots`; the runtime outlets come from `useOutlets` (which reads
- *   the same slots via `useSlots()`).
+ * @param slots Slot map from `defineSlots` (type-only).
  * @param extension Optional callback to add or overwrite API members.
  */
 export function useBlueprint<

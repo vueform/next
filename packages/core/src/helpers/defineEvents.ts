@@ -11,7 +11,7 @@ import {
 
 /**
  * Converts a Vue emit declaration record into a map of event names to their
- * argument tuples, extracting rest-parameter types where available.
+ * argument tuples.
  */
 export type TypeEmitsToOptions<T extends Record<string, any>> = {
   [K in keyof T & string]: T[K] extends [...args: infer Args] ? Args : any[]
@@ -42,10 +42,7 @@ type FireSignature<K extends string, TArgs extends any[]> =
   (e: K, ...args: TArgs) => any
 
 /**
- * Builds a `fire` signature from an event-name-to-argument-tuple map. Combines
- * per-event overloads (for typed arguments and autocomplete) with a union-name
- * guard signature so that a factory declaring an event name absent from the
- * blueprint's events is caught at compile time.
+ * Builds a typed `fire` signature from an event-name-to-argument-tuple map.
  */
 export type FeatureFire<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
@@ -65,10 +62,8 @@ type ListenerSignature<K extends string, TArgs extends any[]> =
   (e: K, callback: (...args: TArgs) => any) => void
 
 /**
- * Builds a listener registration signature (`on`, `off`, `onBefore`, `onAfter`)
- * from an event-name-to-argument-tuple map. Like `FeatureFire`, it combines
- * per-event overloads with a union-name guard so that a factory referencing an
- * event absent from the blueprint's events is caught at compile time.
+ * Builds a typed listener registration signature (`on`, `off`, `onBefore`,
+ * `onAfter`) from an event-name-to-argument-tuple map.
  */
 export type FeatureListener<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
@@ -80,8 +75,7 @@ export type FeatureListener<TEvents extends Record<string, any[]>> =
 
 /**
  * The events object a factory receives, typed from an event-name-to-argument
- * map. Each member is name-guarded so that referencing an event absent from the
- * blueprint's events fails to compile.
+ * map.
  */
 export type FeatureEvents<TEvents extends Record<string, any[]>> = {
   /**
@@ -116,8 +110,7 @@ export type FeatureEvents<TEvents extends Record<string, any[]>> = {
   onAfter: FeatureListener<TEvents>
 
   /**
-   * Whether any callback is currently registered for the given event, either
-   * via `on` / `onBefore` / `onAfter` or as a component prop listener.
+   * Whether any callback is currently registered for the given event.
    *
    * @param e The event name.
    */
@@ -327,10 +320,7 @@ export function defineEvents<
   }
 
   /**
-   * Whether any callback is currently registered for the given event, either
-   * via `on` / `onBefore` / `onAfter` or as a component prop listener (`@event`
-   * in the template). Lets producers skip expensive payload preparation when
-   * nothing would receive it.
+   * Whether any callback is currently registered for the given event.
    *
    * @param e The event name.
    */

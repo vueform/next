@@ -20,8 +20,7 @@ type VueformPlugin = {
     globals: Readonly<Partial<VueformGlobals>>
   }) => Partial<VueformGlobals> | void
   /**
-   * App-side effects run once when the instance is installed into a Vue app
-   * (after components are registered) — e.g. registering a directive.
+   * App-side effects run once when the instance is installed into a Vue app.
    */
   install?: (context: PluginInstallContext) => void
 }

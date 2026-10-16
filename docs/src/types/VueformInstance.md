@@ -1,4 +1,4 @@
-````ts
+```ts
 /**
  * The object returned by `createVueform()`. Acts as a Vue plugin and exposes
  * helpers for registering modules/plugins and extracting CSS for SSR.
@@ -6,61 +6,43 @@
 interface VueformInstance {
   /**
    * The instance's resolved configuration — the user's config merged with
-   * defaults, same shape (`config.modules` holds the registered module
-   * definitions).
+   * defaults.
    */
   readonly config: VueformConfig
 
   /**
-   * The modules created from `config.modules` at `createVueform()` — what
-   * doorways and composables read. Module doorways and composables accept the
-   * instance itself to resolve them outside a component context (e.g.
-   * `getLocaleModule(vueform)`).
+   * The modules created from `config.modules` at `createVueform()`.
    */
   readonly modules: VueformInstanceModules
 
   /**
-   * The merged component defaults (`config.defaults` layered per component),
-   * built lazily on first access.
+   * The merged component defaults, built lazily on first access.
    */
   readonly defaults: VueformDefaults
 
   /**
-   * The layout globals, extended by the config's and plugins' `globals` hooks,
-   * built lazily on first access.
+   * The layout globals, extended by the config's and plugins' `globals` hooks.
    */
   readonly globals: VueformGlobals
 
   /**
-   * The locale module (or its inert surface when not registered) — for code
-   * outside components: `vueform.$locale.t('tag')`. Mirrors the component
-   * context's `$locale`.
+   * The locale module bound to this instance — for code outside components.
    */
   readonly $locale: LocaleModule
 
   /**
-   * An http instance bound to this Vueform instance (one per instance, own
-   * interceptor scope) — for code outside components. Mirrors the component
-   * context's `$http`; without the http module its requests reject.
+   * An http instance bound to this Vueform instance — for code outside
+   * components.
    */
   readonly $http: HttpInstance
 
   /**
-   * `useModel` bound to this instance — for code with no component context:
-   * stores, utilities, server code, module scope. Same signature and typing as
-   * the `useModel` composable, which resolves the calling component's instance
-   * instead.
-   *
-   * ```ts
-   * import { vueform } from '@/vueform'
-   * const model$ = vueform.useModel(schema, saved)
-   * ```
+   * `useModel` bound to this instance — for code with no component context.
    */
   readonly useModel: typeof useModel
 
   /**
-   * `useForm` bound to this instance — for code with no component context. Same
-   * signature and typing as the `useForm` composable.
+   * `useForm` bound to this instance — for code with no component context.
    */
   readonly useForm: typeof useForm
 
@@ -92,15 +74,14 @@ interface VueformInstance {
   readonly use: (plugin: VueformPlugin) => void
 
   /**
-   * Returns all generated CSS (grid + theme variables) for SSR or manual
+   * Returns all generated CSS (grid and theme variables) for SSR or manual
    * injection.
    */
   readonly getCSS: () => string
 
   /**
-   * Returns a `<style>` tag for SSR injection covering both the grid layout and
-   * theme variable declarations.
+   * Returns a `<style>` tag with all generated CSS for SSR injection.
    */
   readonly getStyleTag: () => string
 }
-````
+```

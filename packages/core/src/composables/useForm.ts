@@ -53,8 +53,8 @@ type UseFormModelArg<M extends Record<string, any>> =
   | (DeepPartial<M> & Record<string, any>)
 
 /**
- * Widens each form option to also accept a ref or computed — `useForm` unwraps
- * them at render time, so any option can be reactive.
+ * Widens each form option to also accept a ref or computed, so any option can
+ * be reactive.
  */
 type MaybeRefProps<T> = {
   [K in keyof T]: MaybeRef<T[K]>
@@ -71,9 +71,7 @@ export type UseFormReturn<TSchema = FormSchema> = [
 ]
 
 /**
- * Unwraps ref/computed option values. Called inside the render function, so the
- * refs are tracked as render dependencies — changing one re-renders the form
- * with the fresh prop value.
+ * Unwraps ref/computed option values.
  *
  * @param props The raw `useForm` options.
  */
@@ -114,7 +112,7 @@ const sharedModelMembers = new Set([
 
 /**
  * Writes `data`'s keys into a reactive target and removes keys the data no
- * longer holds, so external references to the reactive object stay live.
+ * longer holds.
  *
  * @param target The reactive object to sync into.
  * @param data The emitted model snapshot.
@@ -130,36 +128,11 @@ function syncReactive(target: Record<string, any>, data: Record<string, any>) {
 
 /**
  * Creates a form component preconfigured with the given props and model,
- * returning it alongside the (not yet mounted) form context and a ready
- * registrar:
- *
- * ```ts
- * const [MyForm, form$, formReady] = useForm({ schema }, model)
- *
- * formReady((form$) => {
- *   form$.find('email')
- * })
- * ```
- *
- * The component renders VfForm with the merged props, forwards extra attrs and
- * slots, and binds the model according to its shape: `useModel` instances are
- * adopted (shared store), refs are two-way synced, reactive objects get their
- * keys synced back on update, and plain objects seed the initial value.
- *
- * Any option may be a ref or computed — unwrapped reactively at render time, so
- * changing it re-renders the form with the new value (e.g. a computed
- * `autosave` config, a `disabled` ref).
- *
- * `form$` is a live proxy to the mounted form's full context (`undefined`
- * members before mount) — use `formReady` for work that needs the mounted form.
- * When the model is a `useModel` instance, the members shared with the instance
- * (`model`, `get` / `set` / `update`, `validate`, …) already answer before
- * mount, backed by the instance's store.
- *
- * Setup-only when called without `vueform` — it resolves the calling
- * component's instance. Outside a component — plain modules, stores, tests —
- * pass your instance, or use its bound method, which does the same:
- * `vueform.useForm({ schema }, model)`.
+ * returning it alongside the form context and a ready registrar. The model is
+ * bound according to its shape: `useModel` instances are adopted, refs are
+ * two-way synced, reactive objects are synced back on update, and plain objects
+ * seed the initial value. Any option may be a ref or computed. Setup-only when
+ * called without `vueform`.
  *
  * @private
  * @param formProps Props forwarded to VfForm (e.g. `schema`).
@@ -208,8 +181,7 @@ export function useForm(
   const formRef = shallowRef<any>(null)
 
   /**
-   * The bound `useModel` instance, when the model argument is one. While the
-   * form isn't mounted, `form$` answers the shared model members from it.
+   * The bound `useModel` instance, when the model argument is one.
    */
   const modelInstance: ModelInstance<any> | null =
     model !== undefined && instance.modules.model.hasModelStore(model)
@@ -222,9 +194,7 @@ export function useForm(
   const readyCallbacks: ((form$: any) => void)[] = []
 
   /**
-   * Live facade over the mounted form's context. Members read through to the
-   * current context, so a single destructure-free reference stays valid across
-   * remounts.
+   * Live facade over the mounted form's context.
    */
   const form$: any = new Proxy(Object.create(null), {
     get(_, key) {
@@ -260,8 +230,7 @@ export function useForm(
   }) as FormReady<any>
 
   /**
-   * Template-ref callback capturing the form's exposed context and flushing
-   * pending ready callbacks on mount.
+   * Template-ref callback capturing the form's exposed context.
    *
    * @param exposed The form's exposed context (or `null` on unmount).
    */

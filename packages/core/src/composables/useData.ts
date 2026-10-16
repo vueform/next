@@ -293,16 +293,12 @@ type UseDataOptions = {
 export type CastOption = MaybeRef<'string' | 'number' | undefined>
 
 /**
- * Monotonic counter backing `nextListItemId`. Module-scoped so every dynamic
- * list item receives a process-unique key, which is all the template's `v-for`
- * needs to keep instances stable across reorders.
+ * Monotonic counter backing `nextListItemId`.
  */
 let listItemIdCounter = 0
 
 /**
  * Generates a stable, unique id for a dynamic list item (e.g. `i0`, `i1`).
- * These ids key the list's `v-for` so component instances follow their data
- * item across reorders instead of staying pinned to an array slot.
  */
 function nextListItemId() {
   return `i${listItemIdCounter++}`
@@ -311,14 +307,6 @@ function nextListItemId() {
 /**
  * Manages element-level data, validation state, error handling, and lifecycle
  * for all stateful form elements — leaf inputs, containers, and the form root.
- *
- * Behavior is configured via options:
- *
- * - `nested` activates children aggregation (groups, lists, grids, matrices)
- * - `flat` skips data path registration and payload wrapping
- * - `items` enables dynamic list operations (add/remove/sort)
- * - `translatable` enables per-language validation
- * - `root` designates the form root
  *
  * @private
  * @param options Element data configuration object.
@@ -343,17 +331,15 @@ export function useData(options: UseDataOptions) {
   const validateOn = useFallbackProp<ValidateOnProp>('validateOn')
 
   /**
-   * Whether the component has an active `v-model` binding, detected via the raw
-   * `onUpdate:modelValue` prop on the instance.
+   * Whether the component has an active `v-model` binding.
    */
   const hasVModel = computed(() =>
     hasInstanceRawPropLoose(instance, 'onUpdate:modelValue')
   )
 
   /**
-   * The root model backing the form when this element operates as the form root
-   * (adopting a `useModel` instance from `modelValue` or creating an internal
-   * store), `undefined` for every other element.
+   * The root model backing the form when this element operates as the form
+   * root, `undefined` for every other element.
    */
   const rootModel = options.root
     ? modelModule.makeRootModel({
@@ -392,8 +378,7 @@ export function useData(options: UseDataOptions) {
   }
 
   /**
-   * Casts a value to the configured type. Returns the value unchanged when it
-   * is `null`, `undefined`, or no `cast` option is set.
+   * Casts a value to the configured `cast` type.
    */
   const castValue = (value: any): any => {
     const cast = unref(options.cast)
@@ -408,8 +393,7 @@ export function useData(options: UseDataOptions) {
   }
 
   /**
-   * The element's message bag for managing custom errors, messages, and
-   * prepended/appended messages.
+   * The element's message bag for custom errors and messages.
    */
   const messageBag = useMessageBag()
 
@@ -438,8 +422,8 @@ export function useData(options: UseDataOptions) {
   })
 
   /**
-   * The element's model provider: the pre-built root model when this element is
-   * the form root, otherwise a child model bound to its parent container.
+   * The element's model provider: the root model when this element is the form
+   * root, otherwise a child model bound to its parent container.
    */
   const dataModel =
     rootModel ??
@@ -465,9 +449,8 @@ export function useData(options: UseDataOptions) {
 
   /**
    * The model ref the element provides to its children via the container
-   * context. For flat containers this is the parent's model — children's data
-   * lives merged at the parent level, while the public `model` is a scoped
-   * projection. For every other element it is the element's own `model`.
+   * context: the parent's model for flat containers, the element's own `model`
+   * otherwise.
    */
   const containerModel = computed<unknown>(() =>
     !rootModel && isFlatContainer.value
@@ -494,8 +477,7 @@ export function useData(options: UseDataOptions) {
   const language = options.language ?? ref('default')
 
   /**
-   * The element's own rules. Form-level Standard Schema issues are projected
-   * onto this owner by the validator (no merge into `rules`).
+   * The element's own validation rules.
    */
   const rules = computed(() => (rootModel ? undefined : options.rules?.value))
 
@@ -520,24 +502,18 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Stable per-item ids for a dynamic container (list or matrix), kept the same
-   * length and order as the data. These key the container's `v-for` so
-   * component instances (and the validation / message-bag state stored on them)
-   * follow their data item across reorders instead of being pinned to an array
-   * slot.
+   * length and order as the data.
    */
   const ids = ref<string[]>([])
 
   /**
-   * Suppresses the fallback length-reconciliation watcher while `add` is
-   * extending the id list ahead of the model growing through child
-   * registration, so a transient length mismatch does not truncate fresh ids.
+   * Suppresses the length-reconciliation watcher while `add` is extending the
+   * id list ahead of the model growing.
    */
   let suppressIdLengthSync = false
 
   /**
-   * The index of the item currently being dragged in a sortable list. This is a
-   * data index (position in the canonical order), so it stays stable during a
-   * drag preview and only the display order changes.
+   * The data index of the item currently being dragged in a sortable list.
    */
   const dragIndex = ref()
 
@@ -570,10 +546,8 @@ export function useData(options: UseDataOptions) {
   })
 
   /**
-   * The value the element holds when it is considered empty. Determined by
-   * `nullValue` / `falseValue` props, element type (container, multiple), and
-   * translatable state. For translatable elements a per-language object is
-   * returned.
+   * The value the element holds when it is considered empty. For translatable
+   * elements a per-language object is returned.
    */
   const nullValue = toRef(() => {
     let nv: any
@@ -670,9 +644,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * The element's validation view-model: owner identity, validator adoption,
-   * rule compilation, per-language views, and validation policy (see
-   * `makeElementValidation`). `invalid` / `validate` are lazy because the
-   * children-aggregated versions below derive from this view-model.
+   * rule compilation, per-language views, and validation policy.
    */
   const dataValidation = makeElementValidation({
     form$,
@@ -714,9 +686,7 @@ export function useData(options: UseDataOptions) {
   // ============== COMPUTED ==============
 
   /**
-   * Lookup from stable item id to its canonical data index. Recomputes only
-   * when the id list changes, so a drag (which only changes the display order)
-   * doesn't rebuild it on every `dragenter`.
+   * Lookup from stable item id to its canonical data index.
    *
    * @private
    */
@@ -726,9 +696,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * The resolved, display-ordered items for dynamic container elements. Each
-   * entry pairs the stable item `id` (the `v-for` key) with its canonical
-   * `index` (its position in the data model). Only created when `rows` is
-   * passed.
+   * entry pairs the stable item `id` with its canonical data `index`.
    */
   const items = repeatable
     ? computed(() => {
@@ -809,9 +777,8 @@ export function useData(options: UseDataOptions) {
   )
 
   /**
-   * Whether the element's current value is empty. For isContainer.value
-   * containers, checks whether all children are empty. For leaf elements,
-   * checks whether the value is blank or equals the falseValue.
+   * Whether the element's current value is empty. Container elements check
+   * whether all children are empty.
    */
   const empty = computed(() => {
     if (isContainer.value) {
@@ -855,8 +822,8 @@ export function useData(options: UseDataOptions) {
   ])
 
   /**
-   * The element's own error messages across all languages (validation rules
-   * plus custom message bag entries).
+   * The element's own error messages (validation rules plus custom message bag
+   * entries).
    */
   const ownErrors = computed(() => [
     ...messageBag.prepends.errors,
@@ -920,8 +887,8 @@ export function useData(options: UseDataOptions) {
   })
 
   /**
-   * The element's submission payload. For isContainer.value containers,
-   * aggregates from children. For leaf elements, returns own value.
+   * The element's submission payload. Container elements aggregate from
+   * children; leaf elements return their own value.
    */
   const payload = computed<Record<ElementName, any>>(() => {
     if (!available.value || options.submit?.value === false) return {}
@@ -952,9 +919,7 @@ export function useData(options: UseDataOptions) {
   })
 
   /**
-   * The root data paths of the model subtree this element's data occupies: its
-   * own `dataPath`, or — for flat containers, whose data lives merged at the
-   * parent level — each child's subtree paths.
+   * The root data paths of the model subtree this element's data occupies.
    *
    * @private
    */
@@ -972,10 +937,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Data paths holding sensitive data (`sensitive: true`) within this element's
-   * subtree — excluded from locally stored autosave drafts. A sensitive element
-   * marks its whole subtree; containers otherwise aggregate from children.
-   * Unavailable elements are included: their data may still linger in the
-   * model, and stripping an absent path is harmless.
+   * subtree — excluded from locally stored autosave drafts.
    */
   const sensitivePaths = computed<string[]>(() => {
     if (options.sensitive?.value) return ownDataPaths.value
@@ -994,9 +956,8 @@ export function useData(options: UseDataOptions) {
   // ============== METHODS ===============
 
   /**
-   * Updates the element's model value. For isContainer.value containers,
-   * performs a deep merge. For leaf elements, sets the value directly and
-   * invalidates validation.
+   * Updates the element's model value. Container elements perform a deep merge;
+   * leaf elements set the value directly.
    *
    * @param data The new value or data to merge.
    */
@@ -1059,8 +1020,6 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Handles a native input event and updates the model from the event target.
-   * Text and select inputs use `target.value`. Checkboxes and radios use the
-   * `checked` state with `trueValue` / `falseValue` when available.
    *
    * @param data The native DOM event from the input.
    */
@@ -1096,8 +1055,6 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Resets the element to its initial model state and fires the `reset` event.
-   * For isContainer.value containers, delegates to children or resets the model
-   * directly for dynamic lists.
    */
   const reset = () => {
     if (isContainer.value) {
@@ -1114,9 +1071,7 @@ export function useData(options: UseDataOptions) {
   }
 
   /**
-   * Clears the element to its null value and fires the `clear` event. For
-   * isContainer.value containers, delegates to children or clears the model for
-   * dynamic lists.
+   * Clears the element to its null value and fires the `clear` event.
    */
   const clear = () => {
     if (isContainer.value) {
@@ -1134,7 +1089,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Loads data into the element and fires the `load` event, cascading to all
-   * children so expression tracking can be stopped per-element.
+   * children.
    *
    * @param data The new value or data to load.
    */
@@ -1150,9 +1105,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Validates stateful children, returning whether all are valid. By default
-   * only incomplete children run — never-validated, stale, or invalid ones;
-   * children validated without errors against their current value keep their
-   * result. `force: true` runs every child regardless of prior results.
+   * only incomplete children run.
    *
    * @param options Pass `force: true` to re-validate all children, ignoring
    *   current results.
@@ -1170,10 +1123,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Runs validation on the element's own rules and all children, returning
-   * whether everything is valid. Elements already validated without errors
-   * against their current value are skipped unless `force: true` re-runs
-   * everything — for rules whose outcome can change without the value changing
-   * (async server checks, date boundaries).
+   * whether everything is valid.
    *
    * @param options Pass `force: true` to re-validate every element, ignoring
    *   current results.
@@ -1186,8 +1136,7 @@ export function useData(options: UseDataOptions) {
   }
 
   /**
-   * Resets all validation state. For isContainer.value containers, also
-   * delegates to children.
+   * Resets all validation state, including children's.
    */
   const unvalidate = () => {
     dataValidation.unvalidateSelf()
@@ -1198,8 +1147,7 @@ export function useData(options: UseDataOptions) {
   }
 
   /**
-   * Marks all validation instances as invalidated, requiring revalidation. For
-   * isContainer.value containers, also delegates to children.
+   * Marks all validation instances as invalidated, requiring revalidation.
    */
   const invalidate = () => {
     dataValidation.invalidateSelf()
@@ -1210,9 +1158,7 @@ export function useData(options: UseDataOptions) {
   }
 
   /**
-   * Checks whether a value is considered filled. For isContainer.value
-   * containers, delegates to children. For leaf elements, checks the scalar
-   * value.
+   * Checks whether a value is considered filled.
    *
    * @param value The value to check.
    */
@@ -1237,8 +1183,7 @@ export function useData(options: UseDataOptions) {
       }
 
   /**
-   * Marks the element as clean by updating the initial model snapshot. For
-   * isContainer.value containers, delegates to children.
+   * Marks the element as clean by updating the initial model snapshot.
    */
   const clean = () => {
     if (isContainer.value) {
@@ -1322,12 +1267,6 @@ export function useData(options: UseDataOptions) {
   /**
    * Sorts a dynamic list by moving an item from one data index to another.
    *
-   * The stable ids move in lockstep with the model, so the item's component
-   * instance follows it: its validation state and message bag (stored on the
-   * instance) travel automatically. No snapshot/restore of per-child state is
-   * needed — the child re-points to its new slot via a non-destructive
-   * re-path.
-   *
    * @param fromIndex The source data index of the item to move.
    * @param toIndex The destination data index for the item.
    */
@@ -1402,11 +1341,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Re-points the element's model binding to a new data path without touching
-   * the registered data. Used when the path changes because the element (or an
-   * ancestor) was reordered within a dynamic list: the list already moved the
-   * data, so the element only needs to re-subscribe to its new slice. Going
-   * through `reinitModel` here would `unregister` the old path and splice the
-   * model array, corrupting the just-reordered data.
+   * the registered data.
    *
    * @private
    */
@@ -1416,10 +1351,8 @@ export function useData(options: UseDataOptions) {
   }
 
   /**
-   * Whether a data-path change is a reorder (the slice value moved with the
-   * element) rather than a rename to a different field. On a reorder the value
-   * at the new path equals the value the element already held, so the binding
-   * can be re-pointed non-destructively.
+   * Whether a data-path change is a reorder rather than a rename to a different
+   * field.
    *
    * @private
    */
@@ -1467,8 +1400,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Claims this element's schema-index node, making the mounted state the
-   * single authority the headless model engine reads for adopted `useModel`
-   * instances (availability, validation, errors).
+   * authority the headless model engine reads.
    *
    * @private
    */
@@ -1497,12 +1429,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Wires `default`-value expression tracking for this element's claimed index
-   * node when its component opted in (`defineOptions({ expressionable: true
-   * })`). Registration-created nodes (plain forms, template-driven elements,
-   * list rows beyond the initial count) first receive the element facts the
-   * schema walk would have provided. Idempotent per node — an adopted
-   * instance's walk nodes are typically already tracked by the headless engine
-   * and are left untouched.
+   * node when its component opted in.
    *
    * @private
    */

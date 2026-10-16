@@ -30,7 +30,7 @@ type PluginApplyName =
 
 /**
  * The context passed to a plugin's `install` hook when Vueform is installed
- * into a Vue app — the same shape a module's `install` hook receives.
+ * into a Vue app.
  */
 export type PluginInstallContext = {
   /**
@@ -39,8 +39,7 @@ export type PluginInstallContext = {
   app: App
 
   /**
-   * The Vueform instance being installed — its resolved configuration is
-   * `vueform.config`.
+   * The Vueform instance being installed.
    */
   vueform: VueformInstance
 }
@@ -66,8 +65,7 @@ export type VueformPlugin = {
     globals: Readonly<Partial<VueformGlobals>>
   }) => Partial<VueformGlobals> | void
   /**
-   * App-side effects run once when the instance is installed into a Vue app
-   * (after components are registered) — e.g. registering a directive.
+   * App-side effects run once when the instance is installed into a Vue app.
    */
   install?: (context: PluginInstallContext) => void
 }
@@ -123,8 +121,7 @@ export type VueformPluginOptionsWithApplyFn = {
 }
 
 /**
- * A plugin factory returned by `definePlugin()`. Every plugin is a function:
- * calling it — with options when the plugin takes any — produces the plugin
+ * A plugin factory returned by `definePlugin()`. Calling it produces the plugin
  * object passed to the `plugins` config option or `vueform.use()`.
  */
 export type VueformPluginFactory<Args extends unknown[] = []> = (
@@ -133,14 +130,11 @@ export type VueformPluginFactory<Args extends unknown[] = []> = (
 
 /**
  * Defines a Vueform plugin that can extend components, config, and globals.
+ * Takes a factory producing the plugin's definition and returns the plugin as a
+ * callable factory.
  *
- * Takes a factory producing the plugin's definition — its parameters become the
- * plugin's options — and returns the plugin as a callable factory, so
- * registration is uniform whether or not the plugin takes options: `plugins:
- * [myPlugin()]` or `plugins: [myPlugin({ ... })]`.
- *
- * @param definition A factory producing the plugin's definition — target
- *   components, props, emits, and lifecycle hooks — from the plugin's options.
+ * @param definition A factory producing the plugin's definition from the
+ *   plugin's options.
  */
 export function definePlugin<Args extends unknown[], T extends PluginApplyName>(
   definition: (...args: Args) => VueformPluginOptions<T>

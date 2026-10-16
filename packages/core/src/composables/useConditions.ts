@@ -18,8 +18,7 @@ export interface UseConditionsOptions {
 
   /**
    * The debounce delay in milliseconds applied before re-evaluating async
-   * conditions when the trigger source changes. Overrides the global
-   * `$conditions.debounce` config (default `300`).
+   * conditions when the trigger source changes.
    */
   debounce?: MaybeRef<number | undefined>
 
@@ -37,22 +36,21 @@ export interface UseConditionsOptions {
 
   /**
    * The model conditions are checked against. Defaults to the current form's
-   * model (`useFormContext().model`).
+   * model.
    */
   model?: MaybeRef<Record<string, any> | undefined>
 
   /**
    * The component context passed to function conditions. Defaults to the
-   * current component's context (`useComponentContext()`).
+   * current component's context.
    */
   context$?: any
 }
 
 /**
  * Resolves a conditional prop into a boolean ref evaluated against the current
- * form's model (or a custom one). Setup-only: throws when called outside a
- * component setup context. When the `conditions` module is not registered,
- * returns a ref that always treats conditions as met.
+ * form's model. Setup-only: throws when called outside a component setup
+ * context.
  *
  * @private
  * @param conditions The raw conditional value (or a ref/getter to it).

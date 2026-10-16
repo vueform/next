@@ -1,7 +1,7 @@
 ```ts
 /**
- * Provides a context to all descendant components and records it as local state
- * so the providing component can inject it itself.
+ * Provides a context to all descendant components and to the providing
+ * component itself.
  *
  * @param key The key of the context to provide.
  * @param context The context to provide.

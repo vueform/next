@@ -86,11 +86,9 @@ type UseItemsSourceOptions = {
 }
 
 /**
- * Resolves a raw items source into loaded data. Plain arrays and objects are
- * passed through, endpoint URL strings are fetched via HTTP (with expression
- * resolution and automatic refetching when referenced paths change), and
- * (async) functions are invoked with the component context. Re-resolution can
- * be driven by an optional trigger source with debouncing.
+ * Resolves a raw items source into loaded data: plain arrays and objects are
+ * passed through, endpoint URL strings are fetched via HTTP, and (async)
+ * functions are invoked with the component context.
  *
  * @private
  * @param options Items source configuration object.

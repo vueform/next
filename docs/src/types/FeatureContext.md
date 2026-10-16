@@ -1,8 +1,6 @@
 ```ts
 /**
- * Options object passed to a feature's inner function. Prefer a concrete
- * `MakeXOptions` (or this type with concrete type args) unless the return type
- * depends on props/deps generics (e.g. `MakeItemsReturn<P>`).
+ * Options object passed to a feature's inner function.
  */
 type FeatureContext<
   Props extends Record<string, any> = Record<string, any>,

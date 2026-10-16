@@ -3,9 +3,8 @@ import type { AddonItem } from '#src/types'
 import { kebabToPascal } from '#src/utils'
 
 /**
- * A resolved addon value: display text (rendered escaped by the addon
- * component, so it needs no sanitization), or a dynamic component descriptor
- * (`{ component, props }`) for schema addons.
+ * A resolved addon value: display text, or a dynamic component descriptor for
+ * schema addons.
  */
 export type ResolvedAddon =
   | string
@@ -13,8 +12,7 @@ export type ResolvedAddon =
   | undefined
 
 /**
- * Modules `resolveAddon` needs from the caller's setup context — gather them
- * via `useLocale()`, `useSecurity()`, and `useExpression()`.
+ * Modules `resolveAddon` needs from the caller's setup context.
  */
 export interface ResolveAddonModules {
   localize: (value: any) => any
@@ -25,10 +23,8 @@ export interface ResolveAddonModules {
 }
 
 /**
- * Resolves a raw `AddonItem` into a text string (localized and
- * expression-resolved; rendered escaped downstream) or a dynamic component
- * descriptor — the resolution the addon blueprint performs, exposed for layout
- * components that render addons without a dedicated addon component.
+ * Resolves a raw `AddonItem` into a localized text string or a dynamic
+ * component descriptor.
  *
  * @private
  * @param addon The raw addon value to resolve.

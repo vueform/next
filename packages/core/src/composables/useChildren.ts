@@ -89,8 +89,7 @@ export type VueformChildren = {
    *
    * @param path The full path of the child element to remove.
    * @param instance When provided, the entry is only removed if it still
-   *   belongs to this instance (prevents deleting a sibling's registration
-   *   after paths were re-keyed by a reorder).
+   *   belongs to this instance.
    */
   unregister: (path: string, instance?: any) => void
 
@@ -141,8 +140,7 @@ export type VueformChildren = {
 
 /**
  * Manages a registry of child element instances within a container or form,
- * providing reactive lists and event hooks. Derived child lists are lazy
- * computeds — they are not allocated until first read.
+ * providing reactive lists and event hooks.
  *
  * @private
  * @param namespace Optional base path used to compute relative child paths.
@@ -217,8 +215,7 @@ export function useChildren(
    *
    * @param path The full path of the child element to remove.
    * @param instance When provided, the entry is only removed if it still
-   *   belongs to this instance (prevents deleting a sibling's registration
-   *   after paths were re-keyed by a reorder).
+   *   belongs to this instance.
    */
   const unregister = (path: string, instance?: any) => {
     const { relativePath, furtherNested } = getRelativePath(path)

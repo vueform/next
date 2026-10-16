@@ -46,8 +46,7 @@ declare module 'vue' {
 
 /**
  * The merged component defaults of an instance: prop values keyed by component
- * name, layered from the config's `*`, `*element`, and per-component
- * `defaults`.
+ * name.
  */
 export type VueformDefaults = Record<ComponentNames, Record<string, any>>
 
@@ -58,61 +57,43 @@ export type VueformDefaults = Record<ComponentNames, Record<string, any>>
 export interface VueformInstance {
   /**
    * The instance's resolved configuration — the user's config merged with
-   * defaults, same shape (`config.modules` holds the registered module
-   * definitions).
+   * defaults.
    */
   readonly config: VueformConfig
 
   /**
-   * The modules created from `config.modules` at `createVueform()` — what
-   * doorways and composables read. Module doorways and composables accept the
-   * instance itself to resolve them outside a component context (e.g.
-   * `getLocaleModule(vueform)`).
+   * The modules created from `config.modules` at `createVueform()`.
    */
   readonly modules: VueformInstanceModules
 
   /**
-   * The merged component defaults (`config.defaults` layered per component),
-   * built lazily on first access.
+   * The merged component defaults, built lazily on first access.
    */
   readonly defaults: VueformDefaults
 
   /**
-   * The layout globals, extended by the config's and plugins' `globals` hooks,
-   * built lazily on first access.
+   * The layout globals, extended by the config's and plugins' `globals` hooks.
    */
   readonly globals: VueformGlobals
 
   /**
-   * The locale module (or its inert surface when not registered) — for code
-   * outside components: `vueform.$locale.t('tag')`. Mirrors the component
-   * context's `$locale`.
+   * The locale module bound to this instance — for code outside components.
    */
   readonly $locale: LocaleModule
 
   /**
-   * An http instance bound to this Vueform instance (one per instance, own
-   * interceptor scope) — for code outside components. Mirrors the component
-   * context's `$http`; without the http module its requests reject.
+   * An http instance bound to this Vueform instance — for code outside
+   * components.
    */
   readonly $http: HttpInstance
 
   /**
-   * `useModel` bound to this instance — for code with no component context:
-   * stores, utilities, server code, module scope. Same signature and typing as
-   * the `useModel` composable, which resolves the calling component's instance
-   * instead.
-   *
-   * ```ts
-   * import { vueform } from '@/vueform'
-   * const model$ = vueform.useModel(schema, saved)
-   * ```
+   * `useModel` bound to this instance — for code with no component context.
    */
   readonly useModel: typeof useModel
 
   /**
-   * `useForm` bound to this instance — for code with no component context. Same
-   * signature and typing as the `useForm` composable.
+   * `useForm` bound to this instance — for code with no component context.
    */
   readonly useForm: typeof useForm
 
@@ -144,35 +125,21 @@ export interface VueformInstance {
   readonly use: (plugin: VueformPlugin) => void
 
   /**
-   * Returns all generated CSS (grid + theme variables) for SSR or manual
+   * Returns all generated CSS (grid and theme variables) for SSR or manual
    * injection.
    */
   readonly getCSS: () => string
 
   /**
-   * Returns a `<style>` tag for SSR injection covering both the grid layout and
-   * theme variable declarations.
+   * Returns a `<style>` tag with all generated CSS for SSR injection.
    */
   readonly getStyleTag: () => string
 }
 
 /**
- * Builds an instance's merged component defaults from its configuration. Held
- * on the instance (`vueform.defaults`) and built lazily on first access.
- *
- * @param config The resolved Vueform configuration.
- */
-/**
- * Dev-only deep freeze of the resolved config after install completes, so an
- * accidental post-install mutation (`config.$security.sanitize = false` from
- * app code) throws loudly in development instead of silently changing policy.
- * Not a security boundary — code that can mutate the config can already do
- * anything — purely a footgun guard, so production is untouched.
- *
- * Branches Vue or Vueform legitimately mutate at runtime are skipped:
- * `components` (Vue caches compiled render functions on definition objects),
- * `plugins` and `modules` (registration arrays/maps), and any ref/reactive
- * member (`locale` switching must keep working).
+ * Dev-only deep freeze of the resolved config after install, so accidental
+ * post-install mutations throw in development. Skips branches that are
+ * legitimately mutated at runtime.
  */
 function freezeConfigDev(config: VueformConfig) {
   const skip = new Set(['components', 'plugins', 'modules', 'globals', 'rules'])
@@ -203,6 +170,11 @@ function freezeConfigDev(config: VueformConfig) {
   Object.freeze(config)
 }
 
+/**
+ * Builds an instance's merged component defaults from its configuration.
+ *
+ * @param config The resolved Vueform configuration.
+ */
 function createDefaults(config: VueformConfig): VueformDefaults {
   const configDefaults = config.defaults || {}
   const components = Object.keys(config.components).filter(
@@ -258,9 +230,8 @@ function applyPluginConfigs(
 }
 
 /**
- * Merges a `globals` hook's returned members into the accumulated globals.
- * Overriding an existing member warns in development unless the config opts out
- * (`globalWarns: false`); the later value wins either way.
+ * Merges a `globals` hook's returned members into the accumulated globals,
+ * warning in development when an existing member is overridden.
  *
  * @param target The accumulated globals.
  * @param source A hook's returned members.
@@ -307,10 +278,7 @@ function applyPluginGlobals(
 }
 
 /**
- * Chains the entry's and the user's `globals` hooks so both returns merge — a
- * plain config merge would let the user's hook replace the entry's (and with it
- * the base values the default config contributes). Overrides between the two
- * warn via `assignGlobals`.
+ * Chains the entry's and the user's `globals` hooks so both returns merge.
  *
  * @param base The entry default config's hook.
  * @param user The user config's hook.
@@ -334,8 +302,8 @@ function composeGlobalsHooks(
 }
 
 /**
- * Recursively runs plugin install hooks (app-side effects such as directive
- * registration) when the instance is installed into an app.
+ * Recursively runs plugin install hooks when the instance is installed into an
+ * app.
  *
  * @param plugin The plugin whose install hook should run.
  * @param app The Vue application instance.
@@ -352,12 +320,8 @@ function applyPluginInstall(
 }
 
 /**
- * Recursively extends component props and emits from plugin definitions.
- *
- * Component definitions are shared module objects (the same `VfText` is
- * imported by every instance), so they are never mutated: the first plugin that
- * touches a component replaces the instance's entry with a shallow clone
- * (copy-on-write, tracked in `cloned`) and later plugins extend that clone.
+ * Recursively extends component props and emits from plugin definitions,
+ * without mutating the shared component definitions.
  *
  * @param plugin The plugin providing additional props and emits.
  * @param components The instance's component map to extend.
@@ -436,10 +400,7 @@ function mergeConfig(conf: VueformConfig): VueformConfig {
 
 /**
  * Collects and joins the CSS contributed by every registered module that
- * defines a `getCSS` hook (e.g. the theme module's grid and token variable
- * declarations).
- *
- * @param config The resolved Vueform configuration.
+ * defines a `getCSS` hook.
  */
 function collectModuleCSS(
   definitions: VueformModules,
@@ -453,17 +414,8 @@ function collectModuleCSS(
 
 /**
  * Creates a `createVueform` entry function around a set of default options.
- *
- * `TRequired` lists the modules the produced `createVueform` demands from its
- * caller. Bare entries that bundle nothing pass `<'model'>` — `model` has no
- * noop and must be registered. Theme entries that already register every module
- * pass none and get a fully optional argument.
- *
- * Structural CSS (the visual layer that consumes the token variables) is
- * expected to be loaded as a side effect by the adapter -- typically by the
- * adapter's theme file importing its SCSS entry. The factory itself only
- * injects the dynamic `:root { --vf-*: ... }` declarations derived from
- * `config.tokens`.
+ * `TRequired` lists the modules the produced `createVueform` requires from its
+ * caller.
  *
  * @param defaultOptions The entry's default configuration.
  */
@@ -484,20 +436,18 @@ export function createVueformFactory<
     const userConfig = (args[0] ?? {}) as UserConfig
 
     /**
-     * Whether the instance has been installed into at least one app — after
-     * that, `module()` / `use()` are rejected.
+     * Whether the instance has been installed into at least one app.
      */
     let $installed = false
 
     /**
-     * The apps this instance is installed into: an instance may serve several
-     * apps, each getting its own provide/registration pass exactly once.
+     * The apps this instance is installed into.
      */
     const installedApps = new WeakSet<App>()
 
     /**
      * Component names whose definitions were cloned for this instance by plugin
-     * props/emits extension (copy-on-write over the shared imports).
+     * props/emits extension.
      */
     const clonedComponents = new Set<string>()
 
@@ -613,16 +563,12 @@ export function createVueformFactory<
     )
 
     /**
-     * The modules created from `config.modules`. Filled after the instance
-     * object exists so `create` hooks can capture it; cross-module access
-     * happens lazily at call time, so creation order is irrelevant.
+     * The modules created from `config.modules`.
      */
     const modules = {} as VueformInstanceModules
 
     /**
-     * Creates a module from its definition onto `modules`. Misconfiguration
-     * (something that isn't a `defineModule()` definition) fails here, at
-     * `createVueform()`, with the module's name.
+     * Creates a module from its definition onto `modules`.
      */
     const instantiate = (name: string, definition: VueformModule<unknown>) => {
       if (typeof definition.create !== 'function') {
@@ -679,9 +625,7 @@ export function createVueformFactory<
         useForm(formProps, model, vueform)) as typeof useForm,
 
       /**
-       * Vue plugin install hook that registers components, injects global
-       * contexts, and applies plugin extensions. Called automatically by
-       * `app.use()`.
+       * Vue plugin install hook. Called automatically by `app.use()`.
        *
        * @param app The Vue application instance to install into.
        */
@@ -755,15 +699,13 @@ export function createVueformFactory<
       },
 
       /**
-       * Returns all generated CSS (grid + theme variables) for SSR or manual
-       * injection, collected from every registered module that defines
-       * `getCSS`.
+       * Returns all generated CSS (grid and theme variables) for SSR or manual
+       * injection.
        */
       getCSS: () => collectModuleCSS(config.modules, vueform),
 
       /**
-       * Returns a `<style>` tag for SSR injection covering both the grid layout
-       * and theme variable declarations.
+       * Returns a `<style>` tag with all generated CSS for SSR injection.
        */
       getStyleTag: () => {
         const css = collectModuleCSS(config.modules, vueform)
@@ -815,8 +757,7 @@ export function createVueformFactory<
 
 /**
  * Creates a Vueform Vue plugin instance from user-provided configuration merged
- * with the core defaults. Core bundles no modules or locales, so the `model`
- * module must be registered (everything else is optional and tree-shaken when
- * omitted).
+ * with the core defaults. The `model` module must be registered; everything
+ * else is optional.
  */
 export const createVueform = createVueformFactory<'model'>(defaultConfig)

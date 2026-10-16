@@ -1,7 +1,5 @@
 /**
- * Options object passed to a feature's inner function. Prefer a concrete
- * `MakeXOptions` (or this type with concrete type args) unless the return type
- * depends on props/deps generics (e.g. `MakeItemsReturn<P>`).
+ * Options object passed to a feature's inner function.
  */
 export type FeatureContext<
   Props extends Record<string, any> = Record<string, any>,
@@ -42,9 +40,7 @@ export function defineFeature<
 >(factory: (config: C) => (options: T) => R): typeof factory
 
 /**
- * Defines a feature factory (make*) with an explicit output type. Use when the
- * feature needs a generic or overloaded call signature that can't be inferred
- * automatically.
+ * Defines a feature factory (make*) with an explicit output type.
  *
  * @private
  * @param factory The feature factory implementation, cast to the explicit

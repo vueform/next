@@ -10,17 +10,14 @@ import {
 import { getGenericInstance, type GenericInstance } from '#src/utils'
 
 /**
- * Key used to provide or inject typed context, as a Vue `InjectionKey` or
+ * Key used to provide or inject a typed context, as a Vue `InjectionKey` or
  * string.
  */
 type ContextKey<T> = InjectionKey<T> | string
 
 /**
- * Locally provided state per component instance. Vue's `inject()` only sees
- * ancestor provides, so this map makes a same-instance provide-then-inject
- * resolve (mirroring vueuse's `provideLocal`/`injectLocal`, but keyed by the
- * generic instance so it also works inside Vapor components, which have no
- * `proxy`).
+ * Locally provided state per component instance, so a context provided during
+ * setup can be injected by the same component.
  */
 const localProvidedStateMap = new WeakMap<
   GenericInstance,
@@ -29,10 +26,8 @@ const localProvidedStateMap = new WeakMap<
 
 /**
  * Injects a context provided by an ancestor component or by the current
- * component itself earlier in setup. Falls back to Vue's built-in inject when
- * an injection context exists (component setup or `app.runWithContext`).
- * Returns `undefined` without calling `inject()` when there isn't one, so
- * out-of-setup consumers can fall back to a global without a Vue warning.
+ * component itself. Returns `undefined` when no injection context is
+ * available.
  *
  * @param key The key of the context to inject.
  */
@@ -54,8 +49,8 @@ function useContext<T>(key: ContextKey<T>): T | undefined {
 }
 
 /**
- * Provides a context to all descendant components and records it as local state
- * so the providing component can inject it itself.
+ * Provides a context to all descendant components and to the providing
+ * component itself.
  *
  * @private
  * @param key The key of the context to provide.

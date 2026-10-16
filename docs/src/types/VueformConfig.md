@@ -1,9 +1,11 @@
 ```ts
+/**
+ * The resolved Vueform configuration object used internally after merging user
+ * config with defaults.
+ */
 interface VueformConfig {
   /**
-   * The registered module definitions keyed by module name — the same shape the
-   * user passes. `createVueform()` creates the modules from them onto
-   * `vueform.modules`.
+   * The registered module definitions keyed by module name.
    */
   modules: VueformModules
 
@@ -14,8 +16,7 @@ interface VueformConfig {
 
   /**
    * Global conditions options controlling structured condition strictness and
-   * async condition re-evaluation (e.g. the debounce delay applied before
-   * re-running async conditional props when their trigger source changes).
+   * async condition re-evaluation.
    */
   $conditions: ConditionsModuleOptions
 
@@ -78,9 +79,8 @@ interface VueformConfig {
   router?: VueformRouter | false
 
   /**
-   * Whether the registered `devtools` module is active. `false` turns Vue
-   * DevTools integration off entirely. Defaults to `true` — note the module
-   * only ever works in development; production builds stay inert regardless.
+   * Whether the registered `devtools` module is active. Pass `false` to turn
+   * Vue DevTools integration off entirely. Defaults to `true`.
    */
   devtools: boolean
 
@@ -130,10 +130,8 @@ interface VueformConfig {
   nativeEmit: boolean
 
   /**
-   * The element types `VfMatrix` renders per selection mode. Each value is a
-   * tuple: the element type rendered for a single cell, and the
-   * holder/container type wrapping a row's cells (e.g. a `radio` inside a
-   * `radios` holder for `single` mode).
+   * The element types `VfMatrix` renders per selection mode, as tuples of cell
+   * element type and row holder type.
    */
   matrixTypes: {
     single: [string, string]
@@ -172,37 +170,27 @@ interface VueformConfig {
   classHelper: (key: string) => string
 
   /**
-   * The base theme: a complete token map (e.g. `origin` or `material` from
-   * `@vueform/ui/themes`, or one produced by `extendTheme`). Replaces the
-   * entry's baked-in theme wholesale — its `dark` block included — so passing a
-   * theme to a pre-configured entry switches themes. `tokens` overrides are
-   * then merged on top.
+   * The base theme: a complete token map. Replaces the entry's baked-in theme
+   * wholesale; `tokens` overrides are then merged on top.
    */
   theme?: ThemeTokens
 
   /**
-   * Token overrides merged onto the base theme (the `theme` option, or the
-   * entry's baked-in theme): top-level keys replace same-named tokens, and
-   * `dark` blocks are shallow-merged (the `extendTheme` semantics). At runtime
-   * this holds the fully resolved map — base theme plus overrides.
+   * Token overrides merged onto the base theme: top-level keys replace
+   * same-named tokens, and `dark` blocks are shallow-merged.
    */
   tokens: ThemeTokens
 
   /**
-   * Controls how dark mode is detected globally.
-   *
-   * - `'system'` (default) — follows OS preference via `prefers-color-scheme`.
-   *   The CSS dark block is emitted inside a `@media` query.
-   * - A CSS subselector string (e.g. `'.dark'`, `'[data-theme="dark"]'`) —
-   *   watches `<html>` for that class or attribute. The CSS dark block is
-   *   emitted as `:root<subselector> { ... }`.
+   * Controls how dark mode is detected globally: `'system'` (default) follows
+   * the OS preference, or a CSS subselector string (e.g. `'.dark'`) watches
+   * `<html>` for that class or attribute.
    */
   darkMode?: DarkModeConfig
 
   /**
-   * Whether to lazily mount element slot content after idle callback. When
-   * `false`, elements render their full template immediately without waiting
-   * for `requestIdleCallback` or visibility. Default: `true`.
+   * Whether to lazily mount element slot content after idle callback. Defaults
+   * to `true`.
    */
   lazy: boolean
 
@@ -222,11 +210,8 @@ interface VueformConfig {
     styleId: string
 
     /**
-     * When `true`, generates additional scoped CSS blocks that re-declare all
-     * theme tokens under `darkClass` and `lightClass`. This enables the `dark`
-     * prop on `<VfForm>` to reliably toggle dark mode per-form regardless of
-     * the environment. Disabled by default to avoid the extra CSS weight (~5–10
-     * KB).
+     * When `true`, generates additional scoped CSS blocks so the `dark` prop on
+     * `<VfForm>` can toggle dark mode per-form. Disabled by default.
      */
     scopedDarkMode: boolean
 
@@ -245,10 +230,8 @@ interface VueformConfig {
 
   /**
    * Whether plain-object prop values provided by the user are merged into
-   * object values coming from blueprint defaults, config defaults, and presets.
-   * When `false`, user-provided objects replace them entirely. Arrays always
-   * replace regardless of this setting, and `classes`/`presets` keep their
-   * dedicated merge semantics. Defaults to `true`.
+   * object values coming from defaults and presets. When `false`, user-provided
+   * objects replace them entirely. Defaults to `true`.
    */
   mergeObjectProps?: boolean
 
@@ -260,11 +243,7 @@ interface VueformConfig {
 
   /**
    * Per-key overrides for the shared element classes the element layout
-   * installs (`root`, `label`, `errors`, …). A key you set replaces that key's
-   * layout-provided value at the very bottom of the class chain — every other
-   * key keeps the layout's default, and downstream overrides (presets, the
-   * `classes`/`reclass` props) still apply on top. Static values given for
-   * functional keys (e.g. `root`) are wrapped back into functions.
+   * installs (`root`, `label`, `errors`, …).
    */
   layoutClasses?: LayoutClassesMap
 
@@ -276,11 +255,8 @@ interface VueformConfig {
   reclass: ComponentClassesMap
 
   /**
-   * Callback for custom globals initialization. Receives the same context as
-   * plugins' `globals` hooks — the resolved `config` and a read-only view of
-   * the `globals` accumulated so far. The returned members are merged into the
-   * app's globals; returning a key that already exists overrides it with a dev
-   * warning (silence with `globalWarns: false`).
+   * Callback for custom globals initialization. The returned members are merged
+   * into the app's globals.
    *
    * @param context The resolved configuration and the accumulated globals.
    */
@@ -321,18 +297,14 @@ interface VueformConfig {
   icon: (name: string) => string
 
   /**
-   * Semantic icon names mapped to adapter-specific icon identifiers. Used to
-   * resolve `$`-prefixed icon names (e.g. `$add`, `$remove`, `$sort`) so
-   * built-in controls render the adapter's canonical icons. Mapped values are
-   * passed through the `icon` resolver.
+   * Semantic icon names (e.g. `$add`, `$remove`) mapped to adapter-specific
+   * icon identifiers.
    */
   icons: Record<string, string>
 
   /**
    * Regex pattern used to identify parameter placeholders in locale tag
-   * strings. The pattern must contain a single capturing group that extracts
-   * the parameter name. Defaults to `{(\w+)}` which matches `{param}` style
-   * placeholders.
+   * strings, with a single capturing group extracting the parameter name.
    */
   localeParamPattern: RegExp
 

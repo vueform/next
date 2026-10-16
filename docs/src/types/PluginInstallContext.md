@@ -1,7 +1,7 @@
 ```ts
 /**
  * The context passed to a plugin's `install` hook when Vueform is installed
- * into a Vue app — the same shape a module's `install` hook receives.
+ * into a Vue app.
  */
 type PluginInstallContext = {
   /**
@@ -10,8 +10,7 @@ type PluginInstallContext = {
   app: App
 
   /**
-   * The Vueform instance being installed — its resolved configuration is
-   * `vueform.config`.
+   * The Vueform instance being installed.
    */
   vueform: VueformInstance
 }

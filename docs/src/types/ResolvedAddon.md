@@ -1,8 +1,7 @@
 ```ts
 /**
- * A resolved addon value: display text (rendered escaped by the addon
- * component, so it needs no sanitization), or a dynamic component descriptor
- * (`{ component, props }`) for schema addons.
+ * A resolved addon value: display text, or a dynamic component descriptor for
+ * schema addons.
  */
 type ResolvedAddon =
   | string

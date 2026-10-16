@@ -2,13 +2,10 @@ import type { InferThemeTokens } from '#src/types'
 
 /**
  * Produces a new theme object by layering overrides on top of an existing
- * theme. Non-`dark` keys replace same-named tokens at the top level. The `dark`
- * override is shallow-merged with the base's `dark`.
+ * theme: top-level keys replace same-named tokens, `dark` blocks are
+ * shallow-merged. The base object is not mutated.
  *
- * The base object is not mutated.
- *
- * @param base The token map to extend (typically `origin` or another
- *   `defineTheme` result).
+ * @param base The token map to extend.
  * @param overrides Token overrides — keyed by the base theme's tokens, custom
  *   keys accepted.
  */

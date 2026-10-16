@@ -21,9 +21,8 @@ type TemplateClassKeys<D> = D extends (...args: any[]) => infer R
   : keyof D
 
 /**
- * Class definitions accepted by `useClasses` from outside a component's own
- * setup: the host's declared keys stay typed, and any extra key is allowed so a
- * template can introduce class keys of its own.
+ * Class definitions accepted by `useClasses`: the host's declared keys stay
+ * typed, and any extra key is allowed.
  */
 export type TemplateClasses<T extends ComponentNames> = LooseClasses<
   ComponentRegistry[T]['classes']
@@ -52,9 +51,7 @@ export type TemplateClassDefs<T extends ComponentNames> =
 
 /**
  * The classes object `useClasses` returns: the host component's declared keys
- * plus every key the passed definitions introduce. At runtime it is the host's
- * own `context.classes` proxy — the type just widens it with the template's
- * keys, so they read as `ClassValue` without a module augmentation.
+ * plus every key the passed definitions introduce.
  */
 export type TemplateClassesOf<
   T extends ComponentNames,
@@ -67,16 +64,10 @@ export type TemplateClassesOf<
 
 /**
  * Registers class definitions on the nearest Vueform component from a custom
- * template or slot. A key you set **replaces** the component's own value for
- * that key (the last definition wins per key); keys you leave out keep the
- * component's value. The result still resolves through the regular chain, so
- * user `classes` / `reclass` props, defaults, and presets apply on top. Keys
- * the component doesn't define (e.g. an `icon` node only the template renders)
- * are accepted and resolve the same way.
- *
- * Returns the host's `context.classes` proxy, typed with the built-in keys plus
- * the keys the definitions introduce — so the template can bind its own keys
- * type-safely without augmenting the component's `Classes` interface.
+ * template or slot. A key you set replaces the component's own value for that
+ * key; keys you leave out keep the component's value. Returns the host's
+ * classes object, typed with the built-in keys plus the keys the definitions
+ * introduce.
  *
  * @param name The host component name, used for type inference.
  * @param defs Class definition objects or factories over the host context.

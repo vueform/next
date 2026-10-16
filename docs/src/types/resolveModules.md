@@ -1,9 +1,6 @@
 ```ts
 /**
- * Resolves the modules of the instance a call should read from — the shared
- * first step of every module doorway (`getXModule(vueform?)` reads
- * `resolveModules(vueform).x ?? noopX`). See `resolveVueform` for the
- * resolution order and failure mode.
+ * Resolves the modules of the instance a call should read from.
  *
  * @param vueform Explicit instance, when the caller passed one.
  */

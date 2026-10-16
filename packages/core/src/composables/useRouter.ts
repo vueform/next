@@ -4,14 +4,9 @@ import type { VueformInstance } from '#src/helpers'
 import { getRouterModule, type RouterHistory } from '#src/modules/router'
 
 /**
- * Creates a history handler over the router module (the module's `make()`):
- * push/back navigation for multi-step forms plus a listener for external
- * navigation (browser back, route change). Without the `router` module it is
- * the inert surface — records nothing, navigates nowhere.
- *
- * Setup-only when called without `vueform` — it resolves the calling
- * component's instance. Pass your `createVueform()` instance to use it anywhere
- * else.
+ * Creates a history handler over the router module: push/back navigation for
+ * multi-step forms plus a listener for external navigation. Setup-only when
+ * called without `vueform`.
  *
  * @private
  * @param active Whether history tracking is enabled.

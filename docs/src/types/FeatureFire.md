@@ -1,9 +1,6 @@
 ```ts
 /**
- * Builds a `fire` signature from an event-name-to-argument-tuple map. Combines
- * per-event overloads (for typed arguments and autocomplete) with a union-name
- * guard signature so that a factory declaring an event name absent from the
- * blueprint's events is caught at compile time.
+ * Builds a typed `fire` signature from an event-name-to-argument-tuple map.
  */
 type FeatureFire<TEvents extends Record<string, any[]>> = UnionToIntersection<
   {

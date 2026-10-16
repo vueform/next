@@ -26,9 +26,7 @@ function defineFeature<
 >(factory: (config: C) => (options: T) => R): typeof factory
 
 /**
- * Defines a feature factory (make*) with an explicit output type. Use when the
- * feature needs a generic or overloaded call signature that can't be inferred
- * automatically.
+ * Defines a feature factory (make*) with an explicit output type.
  *
  * @param factory The feature factory implementation, cast to the explicit
  *   signature `F`.

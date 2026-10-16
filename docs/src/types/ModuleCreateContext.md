@@ -5,11 +5,7 @@
  */
 type ModuleCreateContext = {
   /**
-   * The Vueform instance the module belongs to. Its resolved configuration is
-   * `vueform.config` — the module's own options live under its `$key` (e.g.
-   * `vueform.config.$http`). Modules that depend on other modules resolve them
-   * through it lazily, at call time (`getLocaleModule(vueform)`) — never at
-   * creation, so creation order is irrelevant.
+   * The Vueform instance the module belongs to.
    */
   vueform: VueformInstance
 }

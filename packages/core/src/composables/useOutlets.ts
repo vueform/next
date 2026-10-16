@@ -49,25 +49,19 @@ type UseOutletsReturn = {
 
 /**
  * Normalized copies of object slot components (`inheritAttrs` patched to
- * `false`), keyed by the raw original. Reusing the copy keeps the vnode type
- * stable across outlet re-evaluations — a fresh copy per evaluation (e.g. a
- * computed schema recomputing) would remount the slot content.
+ * `false`), keyed by the raw original.
  */
 const normalizedSlotComponents = new WeakMap<object, Component>()
 
 /**
  * Cached camelizing shims for prop-based slot components, keyed by the raw
- * entry — reusing the shim keeps the vnode type stable across outlet
- * re-evaluations (a fresh wrapper per evaluation would remount the slot).
+ * entry.
  */
 const camelizedSlotComponents = new WeakMap<object, Component>()
 
 /**
- * Camelizes hyphenated payload keys (`checkbox-name` → `checkboxName`) so
- * prop-based slot components receive the same key spelling as inline template
- * slots (whose payload the compiler camelizes) and as the declared slot payload
- * types. `data-*` / `aria-*` stay verbatim — they are DOM attribute names,
- * never payload members.
+ * Camelizes hyphenated payload keys (`checkbox-name` → `checkboxName`), leaving
+ * `data-*` / `aria-*` keys verbatim.
  */
 function camelizePayloadAttrs(attrs: Record<string, unknown>) {
   const out: Record<string, unknown> = {}
@@ -85,11 +79,7 @@ function camelizePayloadAttrs(attrs: Record<string, unknown>) {
 
 /**
  * Wraps a prop-based slot component in a cached functional shim that camelizes
- * the outlet's payload keys before they reach it. Without the shim, components
- * that don't declare props (functional ones in particular) receive the keys
- * exactly as the host template spells them (kebab-case), while declared props
- * are camelize-matched by Vue — the shim makes both consumer classes see the
- * camelCase keys the slot payload types declare.
+ * the outlet's payload keys before they reach it.
  */
 function toCamelizedSlotComponent(raw: object, target: Component): Component {
   let shim = camelizedSlotComponents.get(raw)
@@ -107,9 +97,7 @@ function toCamelizedSlotComponent(raw: object, target: Component): Component {
 
 /**
  * Whether a slot string is shaped like a component name — PascalCase
- * (`MyBadge`) or kebab-case (`my-badge`). Only shaped strings consult the
- * `allowsComponent` gate at all: everything else is content by construction, so
- * it can never trigger the gate's unlisted-name warning.
+ * (`MyBadge`) or kebab-case (`my-badge`).
  */
 const COMPONENT_NAME_RE =
   /^(?:[A-Z][A-Za-z0-9]*|[a-z][a-z0-9]*(?:-[a-z0-9]+)+)$/
@@ -118,34 +106,7 @@ const COMPONENT_NAME_RE =
  * Builds the standard outlets map every Vueform component exposes as
  * `context.outlets`: inline Vue template slots merged with normalized
  * prop-based slot overrides, plus the component template resolved into
- * `outlets.template`.
- *
- * Inline slots are included as-is (wrapped into VDOM-renderable slot functions
- * on vapor, where compiled slots return DOM blocks that VDOM consumers like
- * `<component :is>` can't render). Kebab-case slot names are normalized to
- * camelCase. Inline slots take priority over prop-based ones — the same order
- * the components' render pattern produces (`<slot name="x">` renders the inline
- * content and only falls back to the prop-based outlet), so `outlets.x` always
- * holds what actually renders.
- *
- * Slot overrides are normalized: a string entry listed in
- * `$security.allowComponents` is passed through for Vue to resolve as that
- * component; every other string is content — plain text renders escaped, and
- * HTML renders only through `$security.allowHtml` with the sanitizer applied
- * after expression resolution; object components are unwrapped via `toRaw` and
- * marked raw (so schemas held in refs or stores work without user-side
- * `markRaw`), and ones without an explicit `inheritAttrs: true` are patched to
- * `false` — through a per-original cache so the patched copy keeps its identity
- * across re-evaluations.
- *
- * Template resolution order (mirroring the documented component resolution):
- * inline `#template` slot, then the `template` prop (which config `defaults`
- * and presets feed like any other prop), then `slots.template`. A string
- * `template` prop goes through the same component allowlist.
- *
- * Called by `useBlueprint` for every component; blueprints only call it
- * directly to post-process the result (e.g. the layout blueprint resolving the
- * element's `layout` prop into `template`).
+ * `outlets.template`. Inline slots take priority over prop-based ones.
  *
  * @private
  * @param options Outlet resolution options.
@@ -160,11 +121,7 @@ export function useOutlets(options: UseOutletsOptions): UseOutletsReturn {
 
   /**
    * Whether a name resolves to an app-registered component (exact, camelized,
-   * or capitalized — Vue's own resolution order). Shaped slot strings only pass
-   * through as components when the name actually exists: without this, a
-   * permissive gate (the module-less surface, or a listed-but-unregistered
-   * name) would turn one-word text slots like `'Hello'` into unresolvable
-   * elements and swallow the text.
+   * or capitalized).
    */
   const isRegisteredComponent = (name: string): boolean => {
     const components = (instance as any)?.appContext?.components ?? {}

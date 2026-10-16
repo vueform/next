@@ -6,9 +6,8 @@ import { warn, isDev } from '#src/utils'
 import { useConfig } from './useConfig'
 
 /**
- * Wraps static values back into functions for keys the layout's own map defines
- * as functional (e.g. `root`), so templates that call the key keep working when
- * an override supplies a plain value.
+ * Wraps static override values back into functions for keys the layout's own
+ * map defines as functional.
  *
  * @param overrides The `layoutClasses` config overrides.
  * @param reference The layout's own map, whose functional keys set the
@@ -35,14 +34,8 @@ const normalizeLayoutClasses = (
 
 /**
  * Installs the shared element classes a layout component stands for (`root`,
- * `label`, `errors`, …) at the bottom of the HOST ELEMENT's class chain — the
- * element's `reclass` replaces them, its `classes` merges on top. Called from
- * the layout's setup with its class map inline.
- *
- * The `layoutClasses` config option overrides the map per key: a key it sets
- * replaces that key's layout-provided value, every other key keeps the layout's
- * default. Static values for keys the layout's map defines as functions (e.g.
- * `root`) are wrapped back into functions.
+ * `label`, `errors`, …) at the bottom of the host element's class chain,
+ * applying `layoutClasses` config overrides per key.
  *
  * @private
  * @param defs The layout's shared class map.
