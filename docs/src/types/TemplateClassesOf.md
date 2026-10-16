@@ -1,9 +1,7 @@
 ```ts
 /**
  * The classes object `useClasses` returns: the host component's declared keys
- * plus every key the passed definitions introduce. At runtime it is the host's
- * own `context.classes` proxy — the type just widens it with the template's
- * keys, so they read as `ClassValue` without a module augmentation.
+ * plus every key the passed definitions introduce.
  */
 type TemplateClassesOf<
   T extends ComponentNames,

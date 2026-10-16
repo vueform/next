@@ -1,8 +1,7 @@
 ```ts
 /**
  * Resolves the narrowed element `type` literal from the props, falling back to
- * the factory result's own `type` (or `string`) when the props don't carry a
- * usable string literal.
+ * the factory result's own `type`.
  */
 type ResolveElementTypeValue<Result, Props> = Props extends { type: infer T }
   ? [Extract<NonNullable<T>, string>] extends [never]

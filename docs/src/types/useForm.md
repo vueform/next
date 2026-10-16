@@ -1,36 +1,11 @@
-````ts
+```ts
 /**
  * Creates a form component preconfigured with the given props and model,
- * returning it alongside the (not yet mounted) form context and a ready
- * registrar:
- *
- * ```ts
- * const [MyForm, form$, formReady] = useForm({ schema }, model)
- *
- * formReady((form$) => {
- *   form$.find('email')
- * })
- * ```
- *
- * The component renders VfForm with the merged props, forwards extra attrs and
- * slots, and binds the model according to its shape: `useModel` instances are
- * adopted (shared store), refs are two-way synced, reactive objects get their
- * keys synced back on update, and plain objects seed the initial value.
- *
- * Any option may be a ref or computed — unwrapped reactively at render time, so
- * changing it re-renders the form with the new value (e.g. a computed
- * `autosave` config, a `disabled` ref).
- *
- * `form$` is a live proxy to the mounted form's full context (`undefined`
- * members before mount) — use `formReady` for work that needs the mounted form.
- * When the model is a `useModel` instance, the members shared with the instance
- * (`model`, `get` / `set` / `update`, `validate`, …) already answer before
- * mount, backed by the instance's store.
- *
- * Setup-only when called without `vueform` — it resolves the calling
- * component's instance. Outside a component — plain modules, stores, tests —
- * pass your instance, or use its bound method, which does the same:
- * `vueform.useForm({ schema }, model)`.
+ * returning it alongside the form context and a ready registrar. The model is
+ * bound according to its shape: `useModel` instances are adopted, refs are
+ * two-way synced, reactive objects are synced back on update, and plain objects
+ * seed the initial value. Any option may be a ref or computed. Setup-only when
+ * called without `vueform`.
  *
  * @param formProps Props forwarded to VfForm (e.g. `schema`).
  * @param model The form data: `useModel` instance, ref, reactive, or plain
@@ -59,4 +34,4 @@ function useForm(
   model?: UseFormModelArg<Record<string, any>>,
   vueform?: VueformInstance
 ): UseFormReturn
-````
+```

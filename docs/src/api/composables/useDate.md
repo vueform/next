@@ -1,9 +1,7 @@
 # `useDate`
 
 <!-- #region description -->
-Parses a value into a `DateInstance` using the configured date adapter (`config.$date.adapter`). Returns the current date when called without arguments.
-
-Setup-only when called without `vueform` — it resolves the calling component's instance. Pass your `createVueform()` instance to use it anywhere else, e.g. `useDate(value, format, vueform)`. Throws when the `date` module is not registered.
+Parses a value into a `DateInstance` using the configured date adapter. Returns the current date when called without arguments. Setup-only when called without `vueform`.
 <!-- #endregion description -->
 
 <!--@include: ../../types/useDate.md-->

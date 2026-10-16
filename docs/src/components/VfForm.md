@@ -779,12 +779,12 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | --- | --- |
 | [`model`](!code#context.model "object") | The reactive model object holding all element values. |
 | [`data`](!code#context.data "object") | The full model data — an alias of `model`. |
-| [`payload`](!code#context.payload "object") | The element's submission payload. For isContainer.value containers, aggregates from children. For leaf elements, returns own value. |
+| [`payload`](!code#context.payload "object") | The element's submission payload. Container elements aggregate from children; leaf elements return their own value. |
 | [`initialModel`](!code#context.initialModel "object") | A snapshot of the model at creation time (re-snapshotted by `clean()`), used for dirty checking and reset. |
-| [`update()`](!code#context.update "(data: any) => void") | Updates the element's model value. For isContainer.value containers, performs a deep merge. For leaf elements, sets the value directly and invalidates validation. |
-| [`load()`](!code#context.load "(data: any) => void") | Loads data into the element and fires the `load` event, cascading to all children so expression tracking can be stopped per-element. |
-| [`reset()`](!code#context.reset "() => void") | Resets the element to its initial model state and fires the `reset` event. For isContainer.value containers, delegates to children or resets the model directly for dynamic lists. |
-| [`clear()`](!code#context.clear "() => void") | Clears the element to its null value and fires the `clear` event. For isContainer.value containers, delegates to children or clears the model for dynamic lists. |
+| [`update()`](!code#context.update "(data: any) => void") | Updates the element's model value. Container elements perform a deep merge; leaf elements set the value directly. |
+| [`load()`](!code#context.load "(data: any) => void") | Loads data into the element and fires the `load` event, cascading to all children. |
+| [`reset()`](!code#context.reset "() => void") | Resets the element to its initial model state and fires the `reset` event. |
+| [`clear()`](!code#context.clear "() => void") | Clears the element to its null value and fires the `clear` event. |
 
 ### State {#section-state}
 
@@ -795,7 +795,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`dirty`](!code#context.dirty "boolean") | Whether the current model value differs from the initial model value. |
 | [`submitting`](!code#context.submitting "boolean") | Whether the form is currently being submitted. |
 | [`loading`](!code#context.loading "boolean") | Whether the form is in a loading state (explicit prop or busy children). |
-| [`empty`](!code#context.empty "boolean") | Whether the element's current value is empty. For isContainer.value containers, checks whether all children are empty. For leaf elements, checks whether the value is blank or equals the falseValue. |
+| [`empty`](!code#context.empty "boolean") | Whether the element's current value is empty. Container elements check whether all children are empty. |
 | [`busy`](!code#context.busy "boolean") | Whether the element is busy, meaning it is either debouncing or has pending async validation. |
 
 ### Validation {#section-validation}
@@ -813,11 +813,11 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`hasError`](!code#context.hasError "boolean") | Whether the element has any active error messages. |
 | [`ruleMessages`](!code#context.ruleMessages "RuleMessagesProp \| undefined") | Custom validation error messages keyed by rule name. |
 | [`messages`](!code#context.messages "string[]") | The list of custom messages from the message bag, including messages from hoisted children. |
-| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for managing custom errors, messages, and prepended/appended messages. |
-| [`validate()`](!code#context.validate "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Runs validation on the element's own rules and all children, returning whether everything is valid. Elements already validated without errors against their current value are skipped unless `force: true` re-runs everything — for rules whose outcome can change without the value changing (async server checks, date boundaries). |
-| [`invalidate()`](!code#context.invalidate "() => void") | Marks all validation instances as invalidated, requiring revalidation. For isContainer.value containers, also delegates to children. |
-| [`unvalidate()`](!code#context.unvalidate "() => void") | Resets all validation state. For isContainer.value containers, also delegates to children. |
-| [`clean()`](!code#context.clean "() => void") | Marks the element as clean by updating the initial model snapshot. For isContainer.value containers, delegates to children. |
+| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for custom errors and messages. |
+| [`validate()`](!code#context.validate "(options: { force?: boolean \| undefined; } \| undefined) => Promise<boolean>") | Runs validation on the element's own rules and all children, returning whether everything is valid. |
+| [`invalidate()`](!code#context.invalidate "() => void") | Marks all validation instances as invalidated, requiring revalidation. |
+| [`unvalidate()`](!code#context.unvalidate "() => void") | Resets all validation state, including children's. |
+| [`clean()`](!code#context.clean "() => void") | Marks the element as clean by updating the initial model snapshot. |
 | [`clearErrors()`](!code#context.clearErrors "() => void") | Clears all error messages from the message bag. |
 | [`clearMessages()`](!code#context.clearMessages "() => void") | Clears all custom messages from the message bag. |
 | [`clearMessageBag()`](!code#context.clearMessageBag "() => void") | Clears the entire message bag, removing both errors and messages. |
@@ -829,8 +829,8 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
 | [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 | [`tokens`](!code#context.tokens "CSSProperties") | Reactive inline style object with resolved theme token CSS custom properties. |
-| [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this button instance, used to target the injected token style rule. |
-| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this button instance. |
+| [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this component instance, used to target the injected token style rule. |
+| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this component instance. |
 | [`nonce`](!code#context.nonce "string \| undefined") | Unique security nonce for injecting scoped styles. |
 | [`showErrors`](!code#context.showErrors "boolean") | Whether form-level validation errors should be displayed. |
 

@@ -2,8 +2,7 @@
 /**
  * Provides expression resolution utilities for evaluating dynamic string
  * expressions within form element props. Setup-only: throws when called outside
- * a component setup context. When the `expression` module is not registered,
- * uses the inert passthrough surface (`installed: false`).
+ * a component setup context.
  */
 function useExpression(): {
   /**

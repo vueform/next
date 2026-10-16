@@ -9,9 +9,8 @@ type FromStringOptions = {
   htmlArea: SecurityHtmlArea
 
   /**
-   * The expression allow-list key this string may resolve under — `{...}`
-   * templates resolve when the key is allowed by the expression module (e.g.
-   * `'slots'`). Omitted: the string never resolves expressions.
+   * The expression allow-list key this string may resolve under. Omitted: the
+   * string never resolves expressions.
    */
   exprKey?: string
 }

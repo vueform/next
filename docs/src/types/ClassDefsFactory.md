@@ -1,7 +1,7 @@
 ```ts
 /**
  * A class definition factory that receives the component API and prop refs when
- * invoked (lazily, on first class-key access).
+ * invoked.
  */
 type ClassDefsFactory<
   C,

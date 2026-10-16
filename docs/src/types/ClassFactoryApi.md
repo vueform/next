@@ -1,9 +1,7 @@
 ```ts
 /**
  * First argument to `useClasses` factories: the factory API plus event helpers
- * and the resolved (non-ref) `props` object. Kept as a pick of assembled fields
- * rather than the full `Blueprint2Api` to avoid a circular type through
- * `useClasses`.
+ * and the resolved (non-ref) `props` object.
  */
 type ClassFactoryApi<
   TApi extends Record<string, any>,

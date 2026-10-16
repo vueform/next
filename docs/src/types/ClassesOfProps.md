@@ -1,7 +1,6 @@
 ```ts
 /**
- * Extracts the component's class map from its props' `classes` prop, mirroring
- * how `useParts` recovers the parts map from `parts`.
+ * Extracts the component's class map from its props' `classes` prop.
  */
 type ClassesOfProps<TProps> = TProps extends {
   classes?: ClassesProp<infer C>

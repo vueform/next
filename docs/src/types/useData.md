@@ -3,14 +3,6 @@
  * Manages element-level data, validation state, error handling, and lifecycle
  * for all stateful form elements — leaf inputs, containers, and the form root.
  *
- * Behavior is configured via options:
- *
- * - `nested` activates children aggregation (groups, lists, grids, matrices)
- * - `flat` skips data path registration and payload wrapping
- * - `items` enables dynamic list operations (add/remove/sort)
- * - `translatable` enables per-language validation
- * - `root` designates the form root
- *
  * @param options Element data configuration object.
  */
 function useData(options: UseDataOptions): {
@@ -39,16 +31,14 @@ function useData(options: UseDataOptions): {
 
   /**
    * The model ref the element provides to its children via the container
-   * context. For flat containers this is the parent's model — children's data
-   * lives merged at the parent level, while the public `model` is a scoped
-   * projection. For every other element it is the element's own `model`.
+   * context: the parent's model for flat containers, the element's own `model`
+   * otherwise.
    */
   containerModel: ComputedRef<unknown>
 
   /**
-   * Updates the element's model value. For isContainer.value containers,
-   * performs a deep merge. For leaf elements, sets the value directly and
-   * invalidates validation.
+   * Updates the element's model value. Container elements perform a deep merge;
+   * leaf elements set the value directly.
    *
    * @param data The new value or data to merge.
    */
@@ -56,8 +46,6 @@ function useData(options: UseDataOptions): {
 
   /**
    * Handles a native input event and updates the model from the event target.
-   * Text and select inputs use `target.value`. Checkboxes and radios use the
-   * `checked` state with `trueValue` / `falseValue` when available.
    *
    * @param data The native DOM event from the input.
    */
@@ -65,21 +53,17 @@ function useData(options: UseDataOptions): {
 
   /**
    * Resets the element to its initial model state and fires the `reset` event.
-   * For isContainer.value containers, delegates to children or resets the model
-   * directly for dynamic lists.
    */
   reset: () => void
 
   /**
-   * Clears the element to its null value and fires the `clear` event. For
-   * isContainer.value containers, delegates to children or clears the model for
-   * dynamic lists.
+   * Clears the element to its null value and fires the `clear` event.
    */
   clear: () => void
 
   /**
    * Loads data into the element and fires the `load` event, cascading to all
-   * children so expression tracking can be stopped per-element.
+   * children.
    *
    * @param data The new value or data to load.
    */
@@ -87,10 +71,7 @@ function useData(options: UseDataOptions): {
 
   /**
    * Runs validation on the element's own rules and all children, returning
-   * whether everything is valid. Elements already validated without errors
-   * against their current value are skipped unless `force: true` re-runs
-   * everything — for rules whose outcome can change without the value changing
-   * (async server checks, date boundaries).
+   * whether everything is valid.
    *
    * @param options Pass `force: true` to re-validate every element, ignoring
    *   current results.
@@ -101,9 +82,7 @@ function useData(options: UseDataOptions): {
 
   /**
    * Validates stateful children, returning whether all are valid. By default
-   * only incomplete children run — never-validated, stale, or invalid ones;
-   * children validated without errors against their current value keep their
-   * result. `force: true` runs every child regardless of prior results.
+   * only incomplete children run.
    *
    * @param options Pass `force: true` to re-validate all children, ignoring
    *   current results.
@@ -113,20 +92,17 @@ function useData(options: UseDataOptions): {
   validateCurrent: () => Promise<boolean>
 
   /**
-   * Resets all validation state. For isContainer.value containers, also
-   * delegates to children.
+   * Resets all validation state, including children's.
    */
   unvalidate: () => void
 
   /**
-   * Marks all validation instances as invalidated, requiring revalidation. For
-   * isContainer.value containers, also delegates to children.
+   * Marks all validation instances as invalidated, requiring revalidation.
    */
   invalidate: () => void
 
   /**
-   * Marks the element as clean by updating the initial model snapshot. For
-   * isContainer.value containers, delegates to children.
+   * Marks the element as clean by updating the initial model snapshot.
    */
   clean: () => void
 
@@ -162,21 +138,13 @@ function useData(options: UseDataOptions): {
   /**
    * Sorts a dynamic list by moving an item from one data index to another.
    *
-   * The stable ids move in lockstep with the model, so the item's component
-   * instance follows it: its validation state and message bag (stored on the
-   * instance) travel automatically. No snapshot/restore of per-child state is
-   * needed — the child re-points to its new slot via a non-destructive
-   * re-path.
-   *
    * @param fromIndex The source data index of the item to move.
    * @param toIndex The destination data index for the item.
    */
   sort: (fromIndex: number, toIndex: number) => Promise<void>
 
   /**
-   * Checks whether a value is considered filled. For isContainer.value
-   * containers, delegates to children. For leaf elements, checks the scalar
-   * value.
+   * Checks whether a value is considered filled.
    *
    * @param value The value to check.
    */
@@ -253,9 +221,7 @@ function useData(options: UseDataOptions): {
   invalidLanguages: ComputedRef<Set<string>> | undefined
 
   /**
-   * The index of the item currently being dragged in a sortable list. This is a
-   * data index (position in the canonical order), so it stays stable during a
-   * drag preview and only the display order changes.
+   * The data index of the item currently being dragged in a sortable list.
    */
   dragIndex: Ref<any, any>
 
@@ -266,9 +232,7 @@ function useData(options: UseDataOptions): {
 
   /**
    * The resolved, display-ordered items for dynamic container elements. Each
-   * entry pairs the stable item `id` (the `v-for` key) with its canonical
-   * `index` (its position in the data model). Only created when `rows` is
-   * passed.
+   * entry pairs the stable item `id` with its canonical data `index`.
    */
   items: ComputedRef<any[]> | undefined
 
@@ -290,15 +254,14 @@ function useData(options: UseDataOptions): {
   initialModel: Ref<any, any> | Ref<Record<string, any>, Record<string, any>>
 
   /**
-   * The root model backing the form when this element operates as the form root
-   * (adopting a `useModel` instance from `modelValue` or creating an internal
-   * store), `undefined` for every other element.
+   * The root model backing the form when this element operates as the form
+   * root, `undefined` for every other element.
    */
   rootModel: RootModel | undefined
 
   /**
-   * The element's submission payload. For isContainer.value containers,
-   * aggregates from children. For leaf elements, returns own value.
+   * The element's submission payload. Container elements aggregate from
+   * children; leaf elements return their own value.
    */
   payload: ComputedRef<Record<ElementName, any>>
 
@@ -310,26 +273,19 @@ function useData(options: UseDataOptions): {
   dataPath: Readonly<Ref<string, string>>
 
   /**
-   * The root data paths of the model subtree this element's data occupies: its
-   * own `dataPath`, or — for flat containers, whose data lives merged at the
-   * parent level — each child's subtree paths.
+   * The root data paths of the model subtree this element's data occupies.
    */
   ownDataPaths: ComputedRef<string[]>
 
   /**
    * Data paths holding sensitive data (`sensitive: true`) within this element's
-   * subtree — excluded from locally stored autosave drafts. A sensitive element
-   * marks its whole subtree; containers otherwise aggregate from children.
-   * Unavailable elements are included: their data may still linger in the
-   * model, and stripping an absent path is harmless.
+   * subtree — excluded from locally stored autosave drafts.
    */
   sensitivePaths: ComputedRef<string[]>
 
   /**
-   * The value the element holds when it is considered empty. Determined by
-   * `nullValue` / `falseValue` props, element type (container, multiple), and
-   * translatable state. For translatable elements a per-language object is
-   * returned.
+   * The value the element holds when it is considered empty. For translatable
+   * elements a per-language object is returned.
    */
   nullValue: Readonly<Ref<any, any>>
 
@@ -379,9 +335,8 @@ function useData(options: UseDataOptions): {
   success: ComputedRef<boolean>
 
   /**
-   * Whether the element's current value is empty. For isContainer.value
-   * containers, checks whether all children are empty. For leaf elements,
-   * checks whether the value is blank or equals the falseValue.
+   * Whether the element's current value is empty. Container elements check
+   * whether all children are empty.
    */
   empty: ComputedRef<boolean>
 
@@ -409,8 +364,8 @@ function useData(options: UseDataOptions): {
   displayErrors: ComputedRef<any[]>
 
   /**
-   * The element's own error messages across all languages (validation rules
-   * plus custom message bag entries).
+   * The element's own error messages (validation rules plus custom message bag
+   * entries).
    */
   ownErrors: ComputedRef<string[]>
 
@@ -427,8 +382,7 @@ function useData(options: UseDataOptions): {
   messages: ComputedRef<string[]>
 
   /**
-   * The element's message bag for managing custom errors, messages, and
-   * prepended/appended messages.
+   * The element's message bag for custom errors and messages.
    */
   messageBag: MessageBagInstance
 

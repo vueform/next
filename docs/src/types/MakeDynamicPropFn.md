@@ -1,8 +1,7 @@
 ```ts
 /**
  * Factory function signature for resolving raw dynamic prop values into
- * computeds. Helpers are pre-bound so the maker can be called after setup —
- * including inside other computeds.
+ * computeds.
  */
 type MakeDynamicPropFn = {
   /**

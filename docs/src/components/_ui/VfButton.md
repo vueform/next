@@ -1090,7 +1090,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`errors`](!code#context.errors "string[]") | The reactive list of validation error messages. |
 | [`displayErrors`](!code#context.displayErrors "string[]") | The reactive list of validation error messages. |
 | [`messages`](!code#context.messages "string[]") | The reactive list of informational messages. |
-| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for managing custom errors, messages, and prepended/appended messages. |
+| [`messageBag`](!code#context.messageBag "MessageBagInstance") | The element's message bag for custom errors and messages. |
 | [`genericName`](!code#context.genericName "string") | A human-readable name resolved from displayName, label, floating, placeholder, or the element's name prop. |
 
 ### Layout {#section-layout}
@@ -1105,8 +1105,8 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
 | [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 | [`tokens`](!code#context.tokens "CSSProperties") | Reactive inline style object with resolved theme token CSS custom properties. |
-| [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this button instance, used to target the injected token style rule. |
-| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this button instance. |
+| [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this component instance, used to target the injected token style rule. |
+| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this component instance. |
 | [`nonce`](!code#context.nonce "string \| undefined") | Unique security nonce for injecting scoped styles. |
 | [`viewLoaded`](!code#context.viewLoaded "boolean") | Whether the element's view has been loaded (used for lazy rendering optimization). |
 | [`$el`](!code#context.$el "HTMLElement \| null") | Reference to the component's root DOM element. |

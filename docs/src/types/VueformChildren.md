@@ -46,8 +46,7 @@ type VueformChildren = {
    *
    * @param path The full path of the child element to remove.
    * @param instance When provided, the entry is only removed if it still
-   *   belongs to this instance (prevents deleting a sibling's registration
-   *   after paths were re-keyed by a reorder).
+   *   belongs to this instance.
    */
   unregister: (path: string, instance?: any) => void
 

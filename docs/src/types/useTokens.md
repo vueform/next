@@ -1,13 +1,8 @@
 ```ts
 /**
- * Returns a reactive inline style object from a `tokens` prop. Token keys are
- * normalized to `--vf-*` CSS custom properties and `$ref` values are resolved
- * to `var(--vf-*)`. When dark mode is active, `tokens.dark` overrides are
- * merged in.
- *
- * An optional `dark` parameter explicitly forces dark (`true`) or light
- * (`false`) mode for this component's `tokens.dark` inline overrides. Omit to
- * follow the global dark-mode detection.
+ * Returns reactive theme token styling from a `tokens` prop: token keys are
+ * normalized to `--vf-*` CSS custom properties, with `tokens.dark` overrides
+ * merged in when dark mode is active.
  *
  * @param source The `tokens` prop value: a map of theme token overrides,
  *   optionally with a `dark` section.
@@ -30,13 +25,13 @@ function useTokens(
   nonce: Readonly<Ref<string | undefined, string | undefined>>
 
   /**
-   * A unique CSS class scoped to this button instance, used to target the
+   * A unique CSS class scoped to this component instance, used to target the
    * injected token style rule.
    */
   tokenClass: string
 
   /**
-   * The CSS text for scoped token custom properties on this button instance.
+   * The CSS text for scoped token custom properties on this component instance.
    */
   tokenCss: ComputedRef<string>
 }

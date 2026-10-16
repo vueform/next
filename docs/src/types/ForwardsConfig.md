@@ -1,8 +1,7 @@
 ```ts
 /**
  * The events and slots an adapter component forwards to the underlying
- * third-party component. Declared on the api as `forwards` by `makeForwards`;
- * `useBlueprint` notices it and builds `forwardProps` / `forwardSlots`.
+ * third-party component.
  */
 type ForwardsConfig = {
   /**

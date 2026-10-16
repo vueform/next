@@ -1,4 +1,9 @@
 ```ts
+/**
+ * Assembled blueprint return. Factory members live under `api` for internal
+ * destructuring; `context` is the flat public shape used by `defineExpose` and
+ * the `#template` slot.
+ */
 type Blueprint2Api<
   TApi extends Record<string, any>,
   TProps extends Record<string, any>,
@@ -24,10 +29,8 @@ type Blueprint2Api<
   classes: TClasses
 
   /**
-   * Merged named outlets: inline template slots (`useSlots`) combined with
-   * prop-based slot component overrides. Uses the blueprint's own merged
-   * `outlets` (e.g. from `makeElement`) when available, otherwise the raw
-   * `defineSlots` map.
+   * Merged named outlets: inline template slots combined with prop-based slot
+   * component overrides.
    */
   outlets: ComputedRef<TSlots>
 
@@ -37,19 +40,14 @@ type Blueprint2Api<
   propRefs: PropRefsOf<TProps>
 
   /**
-   * The component's single public context: the context proxy over the exposed
-   * object — ref members read unwrapped and are assignable, `toRefs` / `toRaw`
-   * work. Bind it to the `#template` slot and the template outlet as
-   * `:context`; it is also what event handlers receive as `context$`, what
-   * `find()` returns, and what `useContext()` returns.
+   * The component's single public context — what the `#template` slot, event
+   * handlers (`context$`), `find()`, and `useContext()` receive.
    */
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 
   /**
-   * The object to hand to `defineExpose`: `toRaw(context)` — the raw API (refs
-   * intact) plus the resolved `props`, `parts`, `classes`, and `outlets`. Every
-   * public view of the component — `context`, template refs — reads through
-   * it.
+   * The object to hand to `defineExpose`: the raw API plus the resolved
+   * `props`, `parts`, `classes`, and `outlets`.
    */
   expose: ClassFactoryApi<TApi, ContextProps<TProps>, TEvents> & {
     props: ContextProps<TProps>
@@ -59,8 +57,7 @@ type Blueprint2Api<
   }
 
   /**
-   * Registers component-level class definitions. Factories are deferred until
-   * first class-key access and receive `(api, propRefs)`.
+   * Registers component-level class definitions.
    *
    * @param defs Class definition objects or factories.
    */

@@ -78,8 +78,8 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
 | [`parts`](!code#context.parts "any") | Blueprint-provided parts: VfLayout has no structural parts of its own, it forwards the parent element's resolved parts so the layout renders with that element's part overrides. |
 | [`tokens`](!code#context.tokens "CSSProperties") | Reactive inline style object with resolved theme token CSS custom properties. |
-| [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this button instance, used to target the injected token style rule. |
-| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this button instance. |
+| [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this component instance, used to target the injected token style rule. |
+| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this component instance. |
 | [`nonce`](!code#context.nonce "string \| undefined") | Unique security nonce for injecting scoped styles. |
 | [`showErrors`](!code#context.showErrors "boolean") | Whether to display validation error messages for this element. |
 | [`el$`](!code#context.el$ "any") | The parent element's component context. |

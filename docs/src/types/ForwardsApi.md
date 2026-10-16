@@ -1,12 +1,7 @@
 ```ts
 /**
- * Assembled blueprint return. Factory members live under `api` for internal
- * destructuring; `context` is the flat public shape used by `defineExpose` and
- * the `#template` slot.
- */
-/**
  * The members `useBlueprint` builds for a `makeForwards` declaration and
- * assigns onto the api (see `buildForwards`).
+ * assigns onto the api.
  */
 type ForwardsApi = {
   /**
