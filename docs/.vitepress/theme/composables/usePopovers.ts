@@ -1,6 +1,8 @@
 import { onContentUpdated } from 'vitepress'
 import { onMounted } from 'vue'
 
+import { typeFileBase } from '../plugins/type-file-name'
+
 // ---------------------------------------------------------------------------
 // Keyword popovers: hover cards for keyword links, nesting up to one popover
 // level per hovered link, fed by pre-rendered /type-snippets payloads.
@@ -94,7 +96,7 @@ function fetchSnippet(name: string): Promise<string> {
   if (!snippetCache.has(name)) {
     snippetCache.set(
       name,
-      fetch(`/type-snippets/${name}.html`)
+      fetch(`/type-snippets/${typeFileBase(name)}.html`)
         .then((r) => (r.ok ? r.text() : ''))
         .catch(() => '')
     )

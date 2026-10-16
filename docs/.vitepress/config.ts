@@ -25,6 +25,7 @@ import {
   detailsPlugin,
   examplePlugin,
   includeNolink,
+  includeTypePages,
   includeParams,
   inlineKeywordLink,
   keywordLink,
@@ -309,6 +310,7 @@ export default mergeConfig(
         },
       },
       plugins: [
+        includeTypePages(),
         includeNolink(),
         lineTypeDirective(),
         tagPlugin(),

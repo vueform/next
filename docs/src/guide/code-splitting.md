@@ -182,7 +182,7 @@ All components together add <!-- @size:components-total-js -->`49.21 kB`<!-- /@s
 | Component                  | JS           | CSS           |
 | -------------------------- | ------------ | ------------- |
 | [`VfAddon`](/ui/VfAddon) | 0.29&nbsp;kB | 0.47&nbsp;kB |
-| [`VfCol`](/ui/VfCol) | 0.73&nbsp;kB | 0.00&nbsp;kB |
+| [`VfCol`](/ui/VfCol) | 0.72&nbsp;kB | 0.00&nbsp;kB |
 | [`VfIcon`](/ui/VfIcon) | 0.14&nbsp;kB | 0.00&nbsp;kB |
 | [`VfLayout`](/ui/VfLayout) | 2.97&nbsp;kB | 0.55&nbsp;kB |
 | [`VfRow`](/ui/VfRow) | 0.25&nbsp;kB | 0.00&nbsp;kB |
@@ -238,7 +238,7 @@ Rules are the cheapest part of the framework: the complete built-in set adds <!-
 | `gt` | 0.28&nbsp;kB |
 | `gte` | 0.29&nbsp;kB |
 | `image` | 0.29&nbsp;kB |
-| `in` | 0.20&nbsp;kB |
+| `in` | 0.19&nbsp;kB |
 | `in_array` | 0.24&nbsp;kB |
 | `integer` | 0.19&nbsp;kB |
 | `ip` | 0.46&nbsp;kB |
@@ -252,7 +252,7 @@ Rules are the cheapest part of the framework: the complete built-in set adds <!-
 | `mimetypes` | 0.26&nbsp;kB |
 | `min` | 0.21&nbsp;kB |
 | `not_in` | 0.19&nbsp;kB |
-| `not_regex` | 0.44&nbsp;kB |
+| `not_regex` | 0.42&nbsp;kB |
 | `nullable` | 0.17&nbsp;kB |
 | `numeric` | 0.22&nbsp;kB |
 | `regex` | 0.41&nbsp;kB |
@@ -336,4 +336,4 @@ app.use(createVueform())
 app.mount('#app')
 ```
 
-Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`92.06 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`85.58 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.48 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.
+Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`92.05 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`85.57 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.48 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.

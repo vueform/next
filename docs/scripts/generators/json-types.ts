@@ -5,6 +5,11 @@ import { fileURLToPath } from 'node:url'
 import { formatEmittedSource } from '@vueform/utils'
 import * as ts from 'typescript'
 
+import {
+  canonicalTypeName,
+  typeFileBase,
+} from '../../.vitepress/theme/plugins/type-file-name'
+
 // =============== PATHS ================
 
 const SCRIPT_DIR = path.dirname(fileURLToPath(import.meta.url))
@@ -900,7 +905,7 @@ async function phase1(): Promise<Set<string>> {
 
       const formatted = await formatTS(stripInternalTags(declText))
       const content = fenceTs(stripUnderscorePrefix(formatted))
-      const outPath = path.join(CORE_OUTPUT_DIR, `${name}.md`)
+      const outPath = path.join(CORE_OUTPUT_DIR, `${typeFileBase(name)}.md`)
 
       fs.writeFileSync(outPath, content)
       written++
@@ -955,7 +960,7 @@ async function phase1(): Promise<Set<string>> {
 
       const formatted = await formatTS(stripInternalTags(entry))
       const content = fenceTs(stripUnderscorePrefix(formatted))
-      const outPath = path.join(CORE_OUTPUT_DIR, `${name}.md`)
+      const outPath = path.join(CORE_OUTPUT_DIR, `${typeFileBase(name)}.md`)
 
       fs.writeFileSync(outPath, content)
       written++
@@ -996,7 +1001,7 @@ async function phase1(): Promise<Set<string>> {
     for (const { name, entry } of varEntries) {
       const formatted = await formatTS(stripInternalTags(entry))
       const content = fenceTs(stripUnderscorePrefix(formatted))
-      const outPath = path.join(CORE_OUTPUT_DIR, `${name}.md`)
+      const outPath = path.join(CORE_OUTPUT_DIR, `${typeFileBase(name)}.md`)
 
       fs.writeFileSync(outPath, content)
       written++
@@ -1059,7 +1064,7 @@ async function phase2(
 
       const formatted = await formatTS(stripInternalTags(declText))
       const content = fenceTs(stripUnderscorePrefix(formatted))
-      const outPath = path.join(outputDir, `${name}.md`)
+      const outPath = path.join(outputDir, `${typeFileBase(name)}.md`)
 
       fs.writeFileSync(outPath, content)
       written++
@@ -1109,7 +1114,7 @@ async function phase2(
 
       const formatted = await formatTS(stripInternalTags(entry))
       const content = fenceTs(stripUnderscorePrefix(formatted))
-      const outPath = path.join(outputDir, `${name}.md`)
+      const outPath = path.join(outputDir, `${typeFileBase(name)}.md`)
 
       fs.writeFileSync(outPath, content)
       written++
@@ -1141,7 +1146,7 @@ async function phase2(
         void (async () => {
           const formatted = await formatTS(stripInternalTags(entry))
           const content = fenceTs(stripUnderscorePrefix(formatted))
-          const outPath = path.join(outputDir, `${name}.md`)
+          const outPath = path.join(outputDir, `${typeFileBase(name)}.md`)
           fs.writeFileSync(outPath, content)
         })()
 
@@ -1162,9 +1167,23 @@ async function phase2(
 function collectMdNames(dir: string): string[] {
   const names: string[] = []
   if (fs.existsSync(dir)) {
+    // Checkouts on case-insensitive filesystems (macOS/Windows) collapse
+    // case-colliding paths into one permanently-dirty file, so a collision
+    // must fail the generation instead of reaching git.
+    const byLowercase = new Map<string, string>()
+
     for (const file of fs.readdirSync(dir)) {
       if (file.endsWith('.md')) {
-        const name = file.replace(/\.md$/, '')
+        const clash = byLowercase.get(file.toLowerCase())
+        if (clash) {
+          throw new Error(
+            `Case-insensitive filename collision in ${dir}: ` +
+              `"${clash}" vs "${file}"`
+          )
+        }
+        byLowercase.set(file.toLowerCase(), file)
+
+        const name = canonicalTypeName(file.replace(/\.md$/, ''))
         if (TYPE_KEYWORD_BLACKLIST.has(name)) continue
         names.push(name)
       }

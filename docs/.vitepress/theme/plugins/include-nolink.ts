@@ -1,5 +1,7 @@
 import type { Plugin } from 'vite'
 
+import { canonicalTypeName } from './type-file-name'
+
 const INCLUDE_RE = /<!--\s*@include:\s*(\S+?\.md)(?:\?\S+?)?\s*-->/g
 
 /**
@@ -22,7 +24,9 @@ export function includeNolink(): Plugin {
 
       INCLUDE_RE.lastIndex = 0
       return code.replace(INCLUDE_RE, (match, path) => {
-        const basename = path.replace(/^.*\//, '').replace(/\.md$/, '')
+        const basename = canonicalTypeName(
+          path.replace(/^.*\//, '').replace(/\.md$/, '')
+        )
         return `<!-- @nolink-scope: ${basename} -->\n${match}\n<!-- @nolink-scope-end -->`
       })
     },

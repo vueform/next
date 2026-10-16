@@ -9,6 +9,7 @@ import {
 import type { Plugin } from 'vite'
 
 import { keywordLink } from './keyword-link'
+import { canonicalTypeName, typeFileBase } from './type-file-name'
 
 const ROUTE_PREFIX = '/type-snippets/'
 
@@ -131,15 +132,17 @@ export function typeSnippetsPlugin(): Plugin {
   }
 
   function resolveTypeFile(name: string): string | null {
+    const fileName = `${typeFileBase(name)}.md`
+
     for (const dir of typesDirs) {
       if (!fs.existsSync(dir)) continue
 
-      const flat = path.join(dir, `${name}.md`)
+      const flat = path.join(dir, fileName)
       if (fs.existsSync(flat)) return flat
 
       for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
         if (!entry.isDirectory()) continue
-        const sub = path.join(dir, entry.name, `${name}.md`)
+        const sub = path.join(dir, entry.name, fileName)
         if (fs.existsSync(sub)) return sub
       }
     }
@@ -361,7 +364,7 @@ export function typeSnippetsPlugin(): Plugin {
           return
         }
 
-        const name = fileName.replace(/\.html$/, '')
+        const name = canonicalTypeName(fileName.replace(/\.html$/, ''))
         const html = await renderSnippet(name)
         if (html === null) {
           res.statusCode = 404
@@ -397,13 +400,13 @@ export function typeSnippetsPlugin(): Plugin {
       }
 
       for (const file of allFiles) {
-        const name = file.replace(/\.md$/, '')
-        const html = await renderSnippet(name)
+        const base = file.replace(/\.md$/, '')
+        const html = await renderSnippet(canonicalTypeName(base))
         if (!html) continue
 
         this.emitFile({
           type: 'asset',
-          fileName: `type-snippets/${name}.html`,
+          fileName: `type-snippets/${base}.html`,
           source: html,
         })
       }
