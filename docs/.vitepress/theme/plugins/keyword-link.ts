@@ -35,9 +35,13 @@ const otherNonWordKeywords = sortedKeywords.filter(
 
 // `$` is an identifier character in JS/TS, but not a `\w` character, so `\b`
 // alone would let `http` match inside `$http` and `model` inside `model$`.
-// Every keyword boundary therefore also refuses an adjacent `$`.
-const NOT_AFTER_IDENT = '(?<![\\w$])'
-const NOT_BEFORE_IDENT = '\\b(?!\\$)'
+// `-` joins kebab-case identifiers (`v-model`, `model-value`, CSS vars), so a
+// keyword must not sit inside one either. Hyphenated keywords themselves
+// (`vf-element`, `--vf-btn-bg`) are unaffected: they match as whole
+// alternatives and the boundaries only inspect the characters outside the
+// full match.
+const NOT_AFTER_IDENT = '(?<![\\w$-])'
+const NOT_BEFORE_IDENT = '\\b(?![$-])'
 
 const globalPattern = (() => {
   const parts: string[] = []

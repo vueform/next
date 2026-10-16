@@ -104,8 +104,8 @@ function replaceRegion(content: string, name: string, value: string): string {
 
 function loadJSON<T>(name: string): Record<string, T> {
   // Extracted structural jsons live at the monorepo root, docs-own ones
-  // (types.json, keywords.json) under .vueform/docs; both use core/ for
-  // the shared data and one folder per adapter.
+  // (types.json, keywords.json) under .vueform/docs/core for the shared
+  // data (adapters' live in docs/src/_<adapter>).
   const apiPath = path.join(API_DIR, 'core', name)
   const filePath = fs.existsSync(apiPath)
     ? apiPath

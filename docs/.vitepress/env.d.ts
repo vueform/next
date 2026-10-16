@@ -9,7 +9,7 @@ declare module '*.vue' {
 
 // Vite aliases (config.ts) pointing at generated JSON: components/classes
 // come from the api-extractor tree at the repo root (.vueform/api/<adapter>),
-// keywords/types from the docs generator (.vueform/docs/<adapter>).
+// keywords/types from the docs generator (git-tracked docs/src/_<adapter>).
 declare module 'virtual:vf-generated/components' {
   const data: Record<string, any>
   export default data

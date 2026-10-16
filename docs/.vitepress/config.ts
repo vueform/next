@@ -293,11 +293,11 @@ export default mergeConfig(
           ),
           'virtual:vf-generated/keywords': path.resolve(
             __dirname,
-            `../../.vueform/docs/${ADAPTER}/keywords.json`
+            `../src/_${ADAPTER}/keywords.json`
           ),
           'virtual:vf-generated/types': path.resolve(
             __dirname,
-            `../../.vueform/docs/${ADAPTER}/types.json`
+            `../src/_${ADAPTER}/types.json`
           ),
         },
       },

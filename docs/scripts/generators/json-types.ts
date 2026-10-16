@@ -40,6 +40,12 @@ const EXCLUDED_DIRS: string[] = (
   (DOCS_CONFIG.skipTypeExportFolders ?? []) as string[]
 ).map((rel) => path.join(CORE_SRC, rel))
 
+// Names left out of the types.json manifests (the pages themselves are still
+// generated — these just never become keyword popovers/links).
+const TYPE_KEYWORD_BLACKLIST = new Set<string>(
+  (DOCS_CONFIG.typeKeywordBlacklist ?? []) as string[]
+)
+
 /**
  * Runtime exports whose docblock carries `@skipTypeExport` are left out of the
  * generated type pages.
@@ -1158,7 +1164,9 @@ function collectMdNames(dir: string): string[] {
   if (fs.existsSync(dir)) {
     for (const file of fs.readdirSync(dir)) {
       if (file.endsWith('.md')) {
-        names.push(file.replace(/\.md$/, ''))
+        const name = file.replace(/\.md$/, '')
+        if (TYPE_KEYWORD_BLACKLIST.has(name)) continue
+        names.push(name)
       }
     }
   }
@@ -1180,9 +1188,11 @@ function phase3(): void {
   const logs = [`core/types.json (${coreNames.length})`]
 
   // Adapter manifests merge the core names with the adapter's own type pages.
+  // They live git-tracked under docs/src/_<adapter>/ (the core manifest stays
+  // in .vueform/docs/core).
   for (const [name, def] of Object.entries(adapters)) {
     const adapterOutputDir = path.join(DOCS_ROOT, def.typesOutputDir)
-    const adapterDir = path.join(GENERATED_DIR, name)
+    const adapterDir = path.join(DOCS_ROOT, 'src', `_${name}`)
     fs.mkdirSync(adapterDir, { recursive: true })
 
     const adapterNames = collectMdNames(adapterOutputDir)
@@ -1192,7 +1202,7 @@ function phase3(): void {
       JSON.stringify(merged, null, 2) + '\n'
     )
 
-    logs.push(`${name}/types.json (${merged.length})`)
+    logs.push(`src/_${name}/types.json (${merged.length})`)
   }
 
   console.log(`  Phase 3: ${logs.join(', ')}`)

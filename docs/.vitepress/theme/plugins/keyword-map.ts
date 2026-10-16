@@ -14,8 +14,9 @@ export interface KeywordEntry {
 }
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url))
-const GENERATED_DIR = path.resolve(__dirname, '../../../../.vueform/docs')
 const ADAPTER = process.env.VF_ADAPTER ?? 'ui'
+// Adapter manifests are generated git-tracked into docs/src/_<adapter>/.
+const GENERATED_DIR = path.resolve(__dirname, `../../../src/_${ADAPTER}`)
 
 function readJSONSafe<T>(filePath: string, fallback: T): T {
   try {
@@ -28,11 +29,11 @@ function readJSONSafe<T>(filePath: string, fallback: T): T {
 // The adapter's manifests already merge core with the adapter's own
 // additions (adapter wins), so each is a single read.
 const adapterTypes: string[] = readJSONSafe(
-  path.join(GENERATED_DIR, `${ADAPTER}/types.json`),
+  path.join(GENERATED_DIR, 'types.json'),
   []
 )
 
-const keywordsFile = path.join(GENERATED_DIR, `${ADAPTER}/keywords.json`)
+const keywordsFile = path.join(GENERATED_DIR, 'keywords.json')
 if (!fs.existsSync(keywordsFile)) {
   console.warn(
     `[keywordMap] ${keywordsFile} not found — keyword links/popovers will be ` +

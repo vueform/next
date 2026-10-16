@@ -6,6 +6,22 @@
     }
   },
   "skipTypeExportFolders": ["rules", "theme", "utils"],
+  "typeKeywordBlacklist": [
+    "model",
+    "opaque",
+    "router",
+    "security",
+    "theme",
+    "validation",
+    "locale",
+    "forwards",
+    "date",
+    "autosave",
+    "blueprint",
+    "conditions",
+    "http",
+    "expression"
+  ],
   "coreComponents": [
     "VfCol",
     "VfContent",

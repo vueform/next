@@ -57,8 +57,8 @@ const SHARED_COMPONENTS = new Set<string>(DOCS_CONFIG.coreComponents)
 
 function loadJSON(name: string): any {
   // Extracted structural jsons live at the monorepo root, docs-own ones
-  // (types.json, keywords.json) under .vueform/docs; both use core/ for
-  // the shared data and one folder per adapter.
+  // (types.json, keywords.json) under .vueform/docs/core for the shared
+  // data (adapters' live in docs/src/_<adapter>).
   const apiPath = path.join(API_DIR, 'core', name)
   if (fs.existsSync(apiPath)) {
     return JSON.parse(fs.readFileSync(apiPath, 'utf-8'))
@@ -72,7 +72,7 @@ function loadAdapterJSON(adapterName: string, name: string): any {
   const apiPath = path.join(API_DIR, adapterName, name)
   const filePath = fs.existsSync(apiPath)
     ? apiPath
-    : path.join(GENERATED_DIR, adapterName, name)
+    : path.join(DOCS_ROOT, 'src', `_${adapterName}`, name)
   if (!fs.existsSync(filePath)) return {}
   return JSON.parse(fs.readFileSync(filePath, 'utf-8'))
 }

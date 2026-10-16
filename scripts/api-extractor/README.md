@@ -97,6 +97,6 @@ validation flow and returns with the extractor rework.
 - `data/` — hand-maintained inputs (e.g. virtual classes)
 
 The docs (`docs/scripts/generators`) consume these jsons and keep their own
-docs-specific generators (`keywords`, `types`), which write the same
-`core/` / `ui/` / `primevue/` folder layout to `.vueform/docs`
-(git-ignored as well).
+docs-specific generators (`keywords`, `types`): the shared data goes to
+`.vueform/docs/core` (git-ignored as well), the per-adapter manifests to the
+git-tracked `docs/src/_<adapter>/` folders.

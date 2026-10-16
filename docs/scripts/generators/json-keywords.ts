@@ -354,10 +354,12 @@ function main() {
     applyManualKeywords(keywords, DOCS_CONFIG.keywords)
     applyManualKeywords(keywords, adapters[adapterName]?.keywords)
 
-    writeKeywords(path.join(GENERATED_DIR, adapterName), keywords)
+    // Adapter keywords live git-tracked under docs/src/_<adapter>/ (the core
+    // file stays in .vueform/docs/core).
+    writeKeywords(path.join(DOCS_ROOT, 'src', `_${adapterName}`), keywords)
 
     console.log(
-      `${adapterName}/keywords.json: ${Object.keys(keywords).length} total`
+      `src/_${adapterName}/keywords.json: ${Object.keys(keywords).length} total`
     )
   }
 }
