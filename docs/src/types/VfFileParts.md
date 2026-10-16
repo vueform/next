@@ -1,0 +1,54 @@
+```ts
+/**
+ * Structural parts of the VfFile component.
+ */
+interface VfFileParts extends FileParts {
+  /**
+   * The container for the list of uploaded files.
+   *
+   * @tag div
+   */
+  list: DomAttrsOf<'div'>
+
+  /**
+   * An individual file entry in the file list.
+   *
+   * @param file The file entry data.
+   * @param index The file's index in the list.
+   * @tag div
+   */
+  item: (file: FileListItem, index: number) => DomAttrsOf<'div'>
+
+  /**
+   * The file name text or link.
+   *
+   * @param file The file entry data.
+   * @param index The file's index in the list.
+   * @tag a | span
+   */
+  name: (file: FileListItem, index: number) => DomAttrsOf<'a' | 'span'>
+
+  /**
+   * The remove button for a file entry.
+   *
+   * @param file The file entry data.
+   * @param index The file's index in the list.
+   * @tag VfButton
+   */
+  remove: (file: FileListItem, index: number) => PartOf<'VfButton'>
+
+  /**
+   * The add button.
+   *
+   * @tag VfButton
+   */
+  add: PartOf<'VfButton'>
+
+  /**
+   * The file input element.
+   *
+   * @tag input
+   */
+  input: DomAttrsOf<'input'>
+}
+```

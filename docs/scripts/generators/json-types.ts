@@ -53,7 +53,10 @@ function hasSkipTypeExportTag(node: ts.Node): boolean {
 // ============= TS PROGRAM =============
 
 function createProgram(pkgDir: string) {
-  const configPath = path.join(pkgDir, 'tsconfig.json')
+  // tsconfig.json is a solution file (`files: []` + `references`), which
+  // parseJsonConfigFileContent reads literally — it yields zero fileNames.
+  // tsconfig.app.json is the project that actually includes `src`.
+  const configPath = path.join(pkgDir, 'tsconfig.app.json')
   const raw = ts.readConfigFile(configPath, ts.sys.readFile)
 
   if (raw.error) {

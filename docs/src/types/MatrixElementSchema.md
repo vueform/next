@@ -1,0 +1,3 @@
+```ts
+type MatrixElementSchema = any
+```
