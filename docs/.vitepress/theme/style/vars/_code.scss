@@ -12,8 +12,8 @@
   --vp-code-color: #171818;
   --vp-code-bg: #91b2d229;
 
-  --vp-code-link-color: var(--vp-code-color);
-  --vp-code-link-hover-color: var(--vp-code-color);
+  --vp-code-link-color: var(--vp-c-brand-1);
+  --vp-code-link-hover-color: var(--vp-c-brand-2);
 
   --vp-code-block-color: var(--vp-c-text-2);
   --vp-code-block-bg: var(--vp-c-bg-alt);
@@ -78,4 +78,7 @@
 
   --vp-code-color-alt: var(--vf-gray-2);
   --vp-code-bg-alt: #6b8dae29;
+
+  --vp-code-link-color: var(--vp-c-brand-1);
+  --vp-code-link-hover-color: var(--vp-c-brand-2);
 }

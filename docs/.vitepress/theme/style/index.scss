@@ -67,6 +67,10 @@ h6 {
     text-transform: uppercase;
   }
 
+  a {
+    text-decoration: none;
+  }
+
   a:not(.p-button) {
     font-weight: 400;
     text-decoration-thickness: 1px;
@@ -209,5 +213,15 @@ li:has(strong + span):has(span > code + code) {
   @media (width >= 960px) {
     max-width: 224px;
     max-height: 224px;
+  }
+}
+
+.VPMenuLink .VPLink.link:hover {
+  background-color: var(--vp-c-bg-alt);
+}
+
+.dark {
+  .VPMenuLink .VPLink.link:hover {
+    background-color: var(--vp-c-default-soft);
   }
 }

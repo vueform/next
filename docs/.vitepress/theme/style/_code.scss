@@ -45,7 +45,17 @@
 }
 
 a:not([data-popover]):has(code) {
-  color: var(--vp-code-color);
+  // color: var(--vp-code-color);
+  text-decoration: none;
+
+  code {
+    color: var(--vp-code-link-color);
+    background-color: var(--vp-c-brand-soft);
+  }
+
+  &:hover code {
+    color: var(--vp-code-link-hover-color);
+  }
 }
 
 a[data-popover] {
