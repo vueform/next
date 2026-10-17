@@ -22,13 +22,17 @@ const { parts, classes, context, expose, outlets, useClasses } = useBlueprint(
 useClasses(() => ({
   root: 'vf-tabs',
   list: 'vf-tabs-wrapper',
-  wrapper: ({ selected, invalid }: { selected: boolean; invalid: boolean }) => [
-    'vf-tab-wrapper',
-    {
-      'vf-selected': selected,
-      'vf-invalid': invalid,
-    },
-  ],
+  wrapper: ({
+    selected,
+    invalid,
+  }: {
+    selected: boolean
+    invalid: boolean
+  }) => ({
+    'vf-tab-wrapper': true,
+    'vf-selected': selected,
+    'vf-invalid': invalid,
+  }),
   tab: 'vf-tab',
 }))
 

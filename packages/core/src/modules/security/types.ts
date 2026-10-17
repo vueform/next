@@ -1,31 +1,4 @@
 /**
- * The engine behind the security module's _sanitize_ capability — a function
- * taking raw HTML and returning the safe output (e.g. the DOMPurify wrapper).
- * Engine slots are per-capability, never module-wide: a sanitizer knows nothing
- * about the module's other capabilities (like the encryption ciphers), and a
- * future externally-backed capability would get its own slot.
- */
-export type SecuritySanitizer = (html: string) => string
-
-/**
- * An app-provided encryption or decryption function. Receives the value and a
- * purpose tag identifying the call site (e.g. `'autosave:local'`), so one
- * implementation can serve every feature that encrypts — branching per purpose
- * if it ever needs to. May be async (Web Crypto).
- */
-export type SecurityCipher = (
-  value: string,
-  purpose: string
-) => string | Promise<string>
-
-/**
- * The areas where a schema string may render as HTML: `content` is
- * `VfContent`'s `content` prop, `slots` are string `slots` entries, and `grid`
- * covers grid string cells.
- */
-export type SecurityHtmlArea = 'content' | 'grid' | 'slots'
-
-/**
  * Configuration options for the security module (`config.$security`).
  */
 export interface SecurityModuleOptions {
@@ -117,6 +90,33 @@ export interface SecurityModuleOptions {
    */
   banProps?: (string | RegExp)[]
 }
+
+/**
+ * The engine behind the security module's _sanitize_ capability — a function
+ * taking raw HTML and returning the safe output (e.g. the DOMPurify wrapper).
+ * Engine slots are per-capability, never module-wide: a sanitizer knows nothing
+ * about the module's other capabilities (like the encryption ciphers), and a
+ * future externally-backed capability would get its own slot.
+ */
+export type SecuritySanitizer = (html: string) => string
+
+/**
+ * An app-provided encryption or decryption function. Receives the value and a
+ * purpose tag identifying the call site (e.g. `'autosave:local'`), so one
+ * implementation can serve every feature that encrypts — branching per purpose
+ * if it ever needs to. May be async (Web Crypto).
+ */
+export type SecurityCipher = (
+  value: string,
+  purpose: string
+) => string | Promise<string>
+
+/**
+ * The areas where a schema string may render as HTML: `content` is
+ * `VfContent`'s `content` prop, `slots` are string `slots` entries, and `grid`
+ * covers grid string cells.
+ */
+export type SecurityHtmlArea = 'content' | 'grid' | 'slots'
 
 /**
  * The security module instance providing HTML sanitization, schema gating,

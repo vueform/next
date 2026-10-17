@@ -1,6 +1,28 @@
 import type { MaybeRef, Ref } from 'vue'
 
 /**
+ * Configuration options for the router module (`config.$router`).
+ */
+export interface RouterModuleOptions {
+  /**
+   * Query parameter name used for step navigation when a vue-router instance is
+   * provided.
+   */
+  queryParam?: string
+
+  /**
+   * Vue-router instance (or `false` to disable auto-detection).
+   */
+  router?: VueformRouter | false
+
+  /**
+   * Custom router integration replacing the built-in vue-router / pushState
+   * implementation.
+   */
+  adapter?: RouterAdapter
+}
+
+/**
  * Minimal router interface that vue-router's `Router` satisfies. Allows
  * integration without depending on the `vue-router` package at compile time.
  */
@@ -54,25 +76,3 @@ export interface RouterModule {
  * A factory that produces a `RouterModule` instance.
  */
 export type RouterAdapter = (options: RouterModuleOptions) => RouterModule
-
-/**
- * Configuration options for the router module (`config.$router`).
- */
-export interface RouterModuleOptions {
-  /**
-   * Query parameter name used for step navigation when a vue-router instance is
-   * provided.
-   */
-  queryParam?: string
-
-  /**
-   * Vue-router instance (or `false` to disable auto-detection).
-   */
-  router?: VueformRouter | false
-
-  /**
-   * Custom router integration replacing the built-in vue-router / pushState
-   * implementation.
-   */
-  adapter?: RouterAdapter
-}

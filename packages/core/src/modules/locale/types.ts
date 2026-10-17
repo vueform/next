@@ -5,6 +5,36 @@ import type { LocalesProp } from '#src/types'
 import type { LocaleTag } from './createLocale'
 
 /**
+ * Configuration options for the locale module (`config.$locale`).
+ */
+export interface LocaleModuleOptions {
+  /**
+   * Registered locale definitions keyed by locale name.
+   */
+  locales?: LocalesProp
+
+  /**
+   * Fallback locale key used when a translation is missing.
+   */
+  fallbackLocale?: string
+
+  /**
+   * Active locale key (or a ref to one).
+   */
+  locale?: MaybeRef<string>
+
+  /**
+   * Pattern used to interpolate `{param}` placeholders in messages.
+   */
+  localeParamPattern?: RegExp
+
+  /**
+   * Custom locale implementation replacing the built-in translator.
+   */
+  adapter?: LocaleAdapter
+}
+
+/**
  * The locale module instance providing translation, localization, and locale
  * switching.
  */
@@ -91,33 +121,3 @@ export interface LocaleModule {
  * A factory that produces a `LocaleModule` instance.
  */
 export type LocaleAdapter = (options: LocaleModuleOptions) => LocaleModule
-
-/**
- * Configuration options for the locale module (`config.$locale`).
- */
-export interface LocaleModuleOptions {
-  /**
-   * Registered locale definitions keyed by locale name.
-   */
-  locales?: LocalesProp
-
-  /**
-   * Fallback locale key used when a translation is missing.
-   */
-  fallbackLocale?: string
-
-  /**
-   * Active locale key (or a ref to one).
-   */
-  locale?: MaybeRef<string>
-
-  /**
-   * Pattern used to interpolate `{param}` placeholders in messages.
-   */
-  localeParamPattern?: RegExp
-
-  /**
-   * Custom locale implementation replacing the built-in translator.
-   */
-  adapter?: LocaleAdapter
-}

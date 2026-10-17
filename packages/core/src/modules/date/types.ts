@@ -1,4 +1,17 @@
 /**
+ * Configuration options for the date module (`config.$date`).
+ */
+export interface DateModuleOptions {
+  /**
+   * The date adapter — `nativeDateAdapter` (from `@vueform/core`), a date
+   * library adapter (`@vueform/date-dayjs`, `@vueform/date-fns`,
+   * `@vueform/date-luxon`), or a custom one. Required: `make` throws when
+   * unset, so unused adapters are never bundled.
+   */
+  adapter?: DateAdapter
+}
+
+/**
  * Supported date unit identifiers (singular and plural forms).
  */
 export type DateUnit =
@@ -231,16 +244,3 @@ export interface DateModule {
  * options (`config.$date`).
  */
 export type DateAdapter = (options?: DateModuleOptions) => DateModule['make']
-
-/**
- * Configuration options for the date module (`config.$date`).
- */
-export interface DateModuleOptions {
-  /**
-   * The date adapter — `nativeDateAdapter` (from `@vueform/core`), a date
-   * library adapter (`@vueform/date-dayjs`, `@vueform/date-fns`,
-   * `@vueform/date-luxon`), or a custom one. Required: `make` throws when
-   * unset, so unused adapters are never bundled.
-   */
-  adapter?: DateAdapter
-}

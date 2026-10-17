@@ -1,6 +1,11 @@
 import type { CSSProperties, ComputedRef, MaybeRefOrGetter } from 'vue'
 
 /**
+ * Configuration options for the theme module (`config.$theme`).
+ */
+export interface ThemeModuleOptions {}
+
+/**
  * Dark-mode configuration accepted by `createVueform` and the form-level
  * `darkMode` prop.
  *
@@ -35,8 +40,3 @@ export interface ThemeModule {
     dark?: MaybeRefOrGetter<boolean | undefined>
   ) => ComputedRef<CSSProperties>
 }
-
-/**
- * Configuration options for the theme module (`config.$theme`).
- */
-export interface ThemeModuleOptions {}

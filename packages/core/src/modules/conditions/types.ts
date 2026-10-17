@@ -7,6 +7,23 @@ import type {
 } from './createConditions'
 
 /**
+ * Global options for the conditions module (the `$conditions` config object).
+ */
+export interface ConditionsModuleOptions {
+  /**
+   * Whether to use strict comparisons when evaluating structured conditions.
+   * Defaults to `false`.
+   */
+  strict?: boolean
+
+  /**
+   * The debounce delay in milliseconds applied before re-evaluating async
+   * conditional props when their trigger source changes. Defaults to `300`.
+   */
+  debounce?: number
+}
+
+/**
  * The full conditions prop type accepted by component props, supporting raw or
  * negated conditions.
  *
@@ -40,23 +57,6 @@ export type ConditionsTriggerProp<TContext = any> =
   | string[]
   | Ref<any>
   | ((context$: TContext) => any)
-
-/**
- * Global options for the conditions module (the `$conditions` config object).
- */
-export interface ConditionsModuleOptions {
-  /**
-   * Whether to use strict comparisons when evaluating structured conditions.
-   * Defaults to `false`.
-   */
-  strict?: boolean
-
-  /**
-   * The debounce delay in milliseconds applied before re-evaluating async
-   * conditional props when their trigger source changes. Defaults to `300`.
-   */
-  debounce?: number
-}
 
 /**
  * The conditions module type providing model-bound condition evaluation.

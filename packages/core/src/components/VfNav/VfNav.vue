@@ -25,9 +25,7 @@ useClasses(() => ({
     'vf-right': props.position === 'right',
     'vf-fluid': props.position === 'fluid',
   },
-  back: {
-    'vf-nav-back': true,
-  },
+  back: 'vf-nav-back',
   next: {
     'vf-nav-next': true,
     'vf-loading': api.loading.value,

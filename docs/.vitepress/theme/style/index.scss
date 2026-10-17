@@ -201,18 +201,28 @@ li:has(strong + span):has(span > code + code) {
 // VitePress components
 // ---------------------------------------------------------------------------
 
-.VPHomeHero .VPImage {
-  max-width: 144px;
-  max-height: 144px;
+.VPHomeHero {
+  .VPImage {
+    max-width: 144px;
+    max-height: 144px;
 
-  @media (width >= 640px) {
-    max-width: 196px;
-    max-height: 196px;
+    @media (width >= 640px) {
+      max-width: 196px;
+      max-height: 196px;
+    }
+
+    @media (width >= 960px) {
+      max-width: 224px;
+      max-height: 224px;
+    }
   }
+}
 
-  @media (width >= 960px) {
-    max-width: 224px;
-    max-height: 224px;
+@media (width >= 960px) {
+  .VPHomeHero.VPHero {
+    --vp-hero-v-padding: 96px;
+    padding: calc(var(--vp-nav-height) + var(--vp-hero-v-padding)) 64px
+      var(--vp-hero-v-padding);
   }
 }
 

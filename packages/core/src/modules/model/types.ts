@@ -31,6 +31,11 @@ import type {
 } from './modelStore'
 
 /**
+ * Configuration options for the model module (`config.$model`).
+ */
+export interface ModelModuleOptions {}
+
+/**
  * The model module instance: a stateless factory capturing the app config.
  * `make` builds a standalone form model from a schema — per-form state lives in
  * the returned `ModelInstance`, not the module. The model kit (root / child
@@ -93,11 +98,6 @@ export interface ModelModule {
     validationSchema?: StandardSchemaV1
   ): ModelInstance
 }
-
-/**
- * Configuration options for the model module (`config.$model`).
- */
-export interface ModelModuleOptions {}
 
 /**
  * A node in the schema index: one data-carrying element (leaf or container)

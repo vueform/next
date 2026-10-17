@@ -30,12 +30,10 @@ useClasses(({ props, tokenClass, tokenCss, showErrors, errors }) => ({
     [config.build.darkClass]: props.dark === true,
     [config.build.lightClass]: props.dark === false,
   },
-  errorsWrapper: [
-    'vf-form-errors-wrapper',
-    {
-      'sr-only': !showErrors.value || Object.keys(errors.value).length === 0,
-    },
-  ],
+  errorsWrapper: {
+    'vf-form-errors-wrapper': true,
+    'sr-only': !showErrors.value || Object.keys(errors.value).length === 0,
+  },
   errors: 'vf-form-errors',
   error: 'vf-form-error',
   messagesWrapper: 'vf-form-messages-wrapper',

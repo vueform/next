@@ -62,6 +62,11 @@ type OptionalElementParamKeys<T extends readonly string[]> = {
   string
 
 /**
+ * Configuration options for the validation module (`config.$validation`).
+ */
+export interface ValidationModuleOptions {}
+
+/**
  * Union of all built-in validation rule names shipped with Vueform.
  */
 export type BuiltInRules =
@@ -707,8 +712,3 @@ export type Validator = {
 export type ValidationModule = ReturnType<
   typeof import('./createValidation').createValidation
 >
-
-/**
- * Configuration options for the validation module (`config.$validation`).
- */
-export interface ValidationModuleOptions {}

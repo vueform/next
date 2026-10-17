@@ -37,56 +37,6 @@ type HttpMethodWithoutData =
   ) => Promise<HttpResponse<T>>
 
 /**
- * An interceptor that can inspect or modify the request config before the
- * request is sent. May be async.
- */
-export type RequestInterceptor = (
-  config: HttpRequestConfig
-) => HttpRequestConfig | Promise<HttpRequestConfig>
-
-/**
- * An interceptor that can inspect or modify the response before it is returned
- * to the caller. May be async.
- */
-export type ResponseInterceptor = (
-  response: HttpResponse
-) => HttpResponse | Promise<HttpResponse>
-
-/**
- * HTTP request method.
- */
-export type RequestMethod =
-  | (
-      | 'GET'
-      | 'HEAD'
-      | 'OPTIONS'
-      | 'TRACE'
-      | 'PUT'
-      | 'DELETE'
-      | 'POST'
-      | 'PATCH'
-      | 'CONNECT'
-    )
-  | (string & {})
-
-/**
- * Content encoding type for the request body.
- */
-export type RequestType = 'json' | 'form' | 'multipart' | 'text' | 'urlencoded'
-
-/**
- * The reason category for an HTTP error.
- */
-export type HttpErrorReason =
-  | 'timeout'
-  | 'network'
-  | 'abort'
-  | 'http'
-  | 'blocked'
-  | 'ssr'
-  | 'unknown'
-
-/**
  * Global configuration options for the http module (`config.$http`).
  */
 export interface HttpModuleOptions {
@@ -150,6 +100,56 @@ export interface HttpModuleOptions {
    */
   adapter?: HttpAdapter
 }
+
+/**
+ * An interceptor that can inspect or modify the request config before the
+ * request is sent. May be async.
+ */
+export type RequestInterceptor = (
+  config: HttpRequestConfig
+) => HttpRequestConfig | Promise<HttpRequestConfig>
+
+/**
+ * An interceptor that can inspect or modify the response before it is returned
+ * to the caller. May be async.
+ */
+export type ResponseInterceptor = (
+  response: HttpResponse
+) => HttpResponse | Promise<HttpResponse>
+
+/**
+ * HTTP request method.
+ */
+export type RequestMethod =
+  | (
+      | 'GET'
+      | 'HEAD'
+      | 'OPTIONS'
+      | 'TRACE'
+      | 'PUT'
+      | 'DELETE'
+      | 'POST'
+      | 'PATCH'
+      | 'CONNECT'
+    )
+  | (string & {})
+
+/**
+ * Content encoding type for the request body.
+ */
+export type RequestType = 'json' | 'form' | 'multipart' | 'text' | 'urlencoded'
+
+/**
+ * The reason category for an HTTP error.
+ */
+export type HttpErrorReason =
+  | 'timeout'
+  | 'network'
+  | 'abort'
+  | 'http'
+  | 'blocked'
+  | 'ssr'
+  | 'unknown'
 
 /**
  * Per-request configuration passed to the HTTP adapter.
