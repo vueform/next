@@ -14,10 +14,12 @@ import type {
 import type { VNode } from 'vue'
 
 import type {
+  FileUploadA11y,
   FileUploadApi,
   FileUploadClasses,
   FileUploadEmits,
   FileUploadExpose,
+  FileUploadModifiers,
   FileUploadParts,
   FileUploadProps,
   FileUploadSlots,
@@ -123,6 +125,31 @@ export interface VfFileUploadClasses extends FileUploadClasses {
 }
 
 /**
+ * Accessibility bindings of the VfFileUpload component.
+ */
+export interface VfFileUploadA11y extends FileUploadA11y {}
+
+/**
+ * Styling modifiers of the VfFileUpload component.
+ */
+export interface VfFileUploadModifiers extends FileUploadModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The file-upload control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfFileUpload.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -148,6 +175,8 @@ export interface VfFileUploadContext<
   VfFileUploadSlots,
   VfFileUploadParts,
   VfFileUploadClasses,
+  VfFileUploadModifiers,
+  VfFileUploadA11y,
   VfFileUploadExpose,
   FileUploadApi<TProps>
 > {}

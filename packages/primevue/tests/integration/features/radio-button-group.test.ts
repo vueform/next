@@ -193,7 +193,7 @@ describe('Disabled', () => {
 // STACKED
 // =============================================================================
 describe('Stacked', () => {
-  it('should apply stacked class when stacked prop is true', () => {
+  it('should apply stacked attribute when stacked prop is true', () => {
     const { form } = createForm({
       schema: defineSchema({
         el: {
@@ -205,10 +205,10 @@ describe('Stacked', () => {
     })
 
     const group = form.find('.vf-choices-group')
-    expect(group.classes()).toContain('vf-stacked')
+    expect(group.attributes('data-stacked')).toBe('')
   })
 
-  it('should not apply stacked class when stacked prop is false', () => {
+  it('should not apply stacked attribute when stacked prop is false', () => {
     const { form } = createForm({
       schema: defineSchema({
         el: {
@@ -219,7 +219,7 @@ describe('Stacked', () => {
     })
 
     const group = form.find('.vf-choices-group')
-    expect(group.classes()).not.toContain('vf-stacked')
+    expect(group.attributes('data-stacked')).toBeUndefined()
   })
 })
 

@@ -6,20 +6,22 @@ import {
   makeText,
   makeData,
   makeInput,
-  makeRadioAria,
+  makeAria,
   makeRadioName,
   makeProvider,
   makeLayout,
-  type AriaProps,
   type DisabledProps,
   type ModelPropsWithDefault,
   type BaseElementEmits,
   type BaseElementProps,
   type ValidationProps,
   type ExpressionProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type AriaA11y,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type AddonableProps,
   type LayoutProps,
@@ -69,7 +71,6 @@ export interface RadioProps<
     ModelPropsWithDefault<RadioModelProp<TRadioValue>, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     AlignedProps {
   /**
@@ -120,12 +121,22 @@ export interface RadioSlots<
 /**
  * Structural parts of the radio element blueprint.
  */
-export interface RadioParts extends BaseElementParts {}
+export interface RadioParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the radio element blueprint.
  */
 export interface RadioClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the radio element blueprint.
+ */
+export interface RadioModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the radio element blueprint.
+ */
+export interface RadioA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for radio-based components.
@@ -158,7 +169,7 @@ export function blueprint<TProps extends RadioProps<string>>(
     .use(makeDisabled())
     .use(makeData())
     .use(makeInput())
-    .use(makeRadioAria())
+    .use(makeAria())
     .use(makeRadioName())
     .use(makeProvider())
     .build()

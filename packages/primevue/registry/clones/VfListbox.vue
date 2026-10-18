@@ -396,18 +396,15 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ help }) => ({
-  root: {
-    'vf-listbox': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-listbox',
 }))
 
 const {
   value,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   invalid,
   rawItems,
@@ -490,7 +487,7 @@ declare module 'vue' {
         :multiple
         fluid
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

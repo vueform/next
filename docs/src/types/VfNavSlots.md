@@ -12,11 +12,6 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
    */
   back: (scope: {
     /**
-     * CSS classes for the back button.
-     */
-    class: ClassValue
-
-    /**
      * The button label text.
      */
     label: TProp | string | undefined
@@ -43,9 +38,20 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
+     * CSS classes for the back button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:back` attribute overrides for the back button element;
+     * apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
      * Ready-to-spread ARIA attribute bindings for the rendered control.
      */
-    a11yBindings: NavBackAriaBindings
+    a11yBindings: VfNavA11y['back']
 
     /**
      * Handler to navigate back.
@@ -84,11 +90,6 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
    */
   next: (scope: {
     /**
-     * CSS classes for the next button.
-     */
-    class: ClassValue
-
-    /**
      * The button label text.
      */
     label: TProp | string | undefined
@@ -120,9 +121,25 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
+     * CSS classes for the next button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:next` attribute overrides for the next button element;
+     * apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
      * Ready-to-spread ARIA attribute bindings for the rendered control.
      */
-    a11yBindings: NavForwardAriaBindings
+    a11yBindings: VfNavA11y['next']
+
+    /**
+     * Ready-to-spread styling modifier attributes for the rendered control.
+     */
+    modifiers: VfNavModifiers['next']
 
     /**
      * Handler to navigate to the next step.
@@ -161,11 +178,6 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
    */
   finish: (scope: {
     /**
-     * CSS classes for the finish button.
-     */
-    class: ClassValue
-
-    /**
      * The button label text.
      */
     label: TProp | string | undefined
@@ -197,9 +209,25 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
+     * CSS classes for the finish button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:finish` attribute overrides for the finish button
+     * element; apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
      * Ready-to-spread ARIA attribute bindings for the rendered control.
      */
-    a11yBindings: NavForwardAriaBindings
+    a11yBindings: VfNavA11y['finish']
+
+    /**
+     * Ready-to-spread styling modifier attributes for the rendered control.
+     */
+    modifiers: VfNavModifiers['finish']
 
     /**
      * Handler to finish/submit the form.

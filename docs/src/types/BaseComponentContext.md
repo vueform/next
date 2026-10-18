@@ -22,12 +22,16 @@ type BaseComponentContext<
   TSlots extends Record<string, any> = Record<string, any>,
   TParts extends Record<string, any> = Record<string, any>,
   TClasses extends Record<string, any> = Record<string, any>,
+  TModifiers = DefaultContextModifiers<TApi, TSlots>,
+  TA11y = DefaultContextA11y<TApi, TSlots>,
 > = BlueprintContext<
   TApi,
   TProps,
   DefineEvents<TEvents>,
   TSlots,
   TParts,
-  TClasses
+  TClasses,
+  TModifiers,
+  TA11y
 >
 ```

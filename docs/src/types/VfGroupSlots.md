@@ -4,15 +4,10 @@
  */
 interface VfGroupSlots extends GroupSlots<VfGroupContext> {
   /**
-   * Slot that replaces the wrapper element. Receives the wrapper class and
-   * resolved schema.
+   * Slot that replaces the wrapper element. Receives the component's classes
+   * and parts proxies and the resolved schema.
    */
   wrapper: (scope: {
-    /**
-     * CSS classes for the wrapper element.
-     */
-    class: ClassValue
-
     /**
      * The resolved schema of the group's child elements.
      */
@@ -22,6 +17,23 @@ interface VfGroupSlots extends GroupSlots<VfGroupContext> {
      * The group's resolved label.
      */
     label?: string
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfGroupParts>
+
+    /**
+     * The component's part-keyed styling modifiers; apply the `wrapper` bag to
+     * the replacement container with `v-bind` so the stacked / wrapped styling
+     * keeps working.
+     */
+    modifiers: VfGroupModifiers
   }) => VNode[]
 
   /**

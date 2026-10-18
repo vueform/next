@@ -10,10 +10,12 @@ import type {
 import type { VNode } from 'vue'
 
 import type {
+  RadioButtonGroupA11y,
   RadioButtonGroupApi,
   RadioButtonGroupClasses,
   RadioButtonGroupEmits,
   RadioButtonGroupExpose,
+  RadioButtonGroupModifiers,
   RadioButtonGroupParts,
   RadioButtonGroupProps,
   RadioButtonGroupSlots,
@@ -172,6 +174,27 @@ export interface VfRadioButtonGroupSlots<
      * Whether the options are grouped.
      */
     grouped: boolean
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioButtonGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioButtonGroupParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadioButtonGroupModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfRadioButtonGroupA11y
   }) => VNode[]
 
   /**
@@ -197,6 +220,27 @@ export interface VfRadioButtonGroupSlots<
      * The resolved option group.
      */
     group: ResolvedGroup<TValue, TRaw>
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioButtonGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioButtonGroupParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadioButtonGroupModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfRadioButtonGroupA11y
   }) => VNode[]
 
   /**
@@ -223,6 +267,16 @@ export interface VfRadioButtonGroupSlots<
      * The resolved option item.
      */
     item: ResolvedOption<TValue, TRaw>
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioButtonGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioButtonGroupParts>
   }) => VNode[]
 
   /**
@@ -292,6 +346,34 @@ export interface VfRadioButtonGroupClasses extends RadioButtonGroupClasses {
 }
 
 /**
+ * Accessibility bindings of the VfRadioButtonGroup component.
+ */
+export interface VfRadioButtonGroupA11y extends RadioButtonGroupA11y {}
+
+/**
+ * Styling modifiers of the VfRadioButtonGroup component.
+ */
+export interface VfRadioButtonGroupModifiers extends RadioButtonGroupModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The group container's layout markers (stacked row layout, vertical
+   * alignment with adjacent form controls) and validation state.
+   */
+  group: {
+    'data-stacked'?: ''
+    'data-aligned'?: ''
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfRadioButtonGroup.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -326,6 +408,8 @@ export interface VfRadioButtonGroupContext<
   VfRadioButtonGroupSlots,
   VfRadioButtonGroupParts,
   VfRadioButtonGroupClasses,
+  VfRadioButtonGroupModifiers,
+  VfRadioButtonGroupA11y,
   VfRadioButtonGroupExpose,
   RadioButtonGroupApi<TProps>
 > {}

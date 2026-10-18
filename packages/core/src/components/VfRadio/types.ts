@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type RadioA11y,
   type RadioApi,
   type RadioClasses,
   type RadioEmits,
   type RadioExpose,
+  type RadioModifiers,
   type RadioParts,
   type RadioProps,
   type RadioSlots,
@@ -13,7 +15,6 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
-  AriaProp,
   ClassValue,
   DomAttrsOf,
   EntryPropOr,
@@ -76,11 +77,6 @@ export interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
     model: TRadioValue | null
 
     /**
-     * ARIA attributes for the input.
-     */
-    aria: AriaProp
-
-    /**
      * The input's `name` attribute.
      */
     inputName: string
@@ -104,6 +100,28 @@ export interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
      * The radio label text.
      */
     text: string | undefined
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadioModifiers
+
+    /**
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
+     */
+    a11yBindings: VfRadioA11y
 
     /**
      * Handler for the input's blur event.
@@ -145,6 +163,17 @@ export interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
      * The element's generic name, used as screen-reader-only fallback text.
      */
     genericName: string
+
+    /**
+     * CSS classes for the text element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:text` attribute overrides for the text element; apply
+     * with `v-bind`.
+     */
+    part: DomAttrsOf<'label'> | undefined
   }) => VNode[]
 }
 
@@ -202,6 +231,40 @@ export interface VfRadioClasses extends RadioClasses {
 }
 
 /**
+ * Accessibility bindings of the VfRadio component.
+ */
+export interface VfRadioA11y extends RadioA11y {}
+
+/**
+ * Styling modifiers of the VfRadio component.
+ */
+export interface VfRadioModifiers extends RadioModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The choice wrapper's label alignment variant and the marker set while the
+   * element vertically aligns with adjacent form controls.
+   */
+  wrapper: {
+    'data-align'?: VfRadioProps['align']
+    'data-aligned'?: ''
+  }
+
+  /**
+   * The radio input's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfRadio.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -226,6 +289,8 @@ export interface VfRadioContext<
   VfRadioSlots,
   VfRadioParts,
   VfRadioClasses,
+  VfRadioModifiers,
+  VfRadioA11y,
   VfRadioExpose,
   RadioApi<TProps>
 > {}

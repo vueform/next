@@ -39,6 +39,31 @@ export interface PartInfo {
   params?: Record<string, ParamInfo>
 }
 
+export interface BindingAttrInfo {
+  /**
+   * The attribute's declared type text (literal unions kept verbatim).
+   */
+  type: string
+  optional?: boolean
+}
+
+export interface BindingInfo {
+  description: string
+  loc?: string
+
+  /**
+   * Present on per-item bags — functions of the item's position/state whose
+   * returned bag the `attrs` describe.
+   */
+  callable?: boolean
+
+  /**
+   * The bag's individual attributes (for callable bags, the returned bag's
+   * attributes), keyed by attribute name.
+   */
+  attrs?: Record<string, BindingAttrInfo>
+}
+
 export interface SlotParamInfo {
   type: string
   description: string
@@ -102,6 +127,8 @@ export interface ComponentEntry {
   parts: Record<string, PartInfo>
   slots: Record<string, SlotInfo>
   classes: Record<string, ClassInfo>
+  a11y?: Record<string, BindingInfo>
+  modifiers?: Record<string, BindingInfo>
   api?: Record<string, ApiMemberInfo>
   adapterFeatures?: string[]
   adapterTypeInfo?: AdapterTypeInfo
@@ -1278,6 +1305,116 @@ export function extractParts(
   return result
 }
 
+/**
+ * Extracts a part-keyed binding surface (`VfXA11y` / `VfXModifiers`): one
+ * entry per part, carrying the bag's declared type verbatim (inherited
+ * members included — closed interfaces, so the source text is the exact
+ * attribute contract).
+ */
+export function extractBindings(
+  checker: ts.TypeChecker,
+  interfaceDecl: ts.InterfaceDeclaration
+): Record<string, BindingInfo> {
+  const result: Record<string, BindingInfo> = {}
+  const sym = checker.getSymbolAtLocation(interfaceDecl.name)
+  if (!sym) return result
+
+  const type = checker.getDeclaredTypeOfSymbol(sym)
+
+  for (const propSym of type.getProperties()) {
+    const decl = propSym.getDeclarations()?.[0]
+    if (!decl) continue
+
+    const description = getSymbolDescription(propSym, checker)
+
+    const info: BindingInfo = {
+      description,
+      loc: loc(decl),
+    }
+
+    const resolved = checker
+      .getTypeOfSymbolAtLocation(propSym, decl)
+      .getNonNullableType()
+    if (resolved.getCallSignatures().length) info.callable = true
+
+    const attrs = extractBindingAttrs(checker, propSym, decl)
+    if (Object.keys(attrs).length) info.attrs = attrs
+
+    result[propSym.name] = info
+  }
+
+  return result
+}
+
+/**
+ * Resolves a binding bag member into its individual attributes: the bag's
+ * properties (for functional bags, the returned bag's properties), each with
+ * its declared type text and optionality.
+ */
+function extractBindingAttrs(
+  checker: ts.TypeChecker,
+  propSym: ts.Symbol,
+  decl: ts.Declaration
+): Record<string, BindingAttrInfo> {
+  const attrs: Record<string, BindingAttrInfo> = {}
+
+  const resolved = checker
+    .getTypeOfSymbolAtLocation(propSym, decl)
+    .getNonNullableType()
+  const callSignatures = resolved.getCallSignatures()
+  const bagType = callSignatures.length
+    ? callSignatures[0].getReturnType()
+    : resolved
+
+  // Whether a type node is self-describing as written (literals, literal
+  // unions, keywords). Anything else — indexed accesses like
+  // `VfButtonProps['variant']`, references, helpers — is resolved through the
+  // checker so the extracted type shows the actual value union.
+  const isTextualType = (node: ts.TypeNode): boolean => {
+    if (ts.isLiteralTypeNode(node)) return true
+    if (ts.isUnionTypeNode(node)) return node.types.every(isTextualType)
+    return (
+      node.kind === ts.SyntaxKind.StringKeyword ||
+      node.kind === ts.SyntaxKind.NumberKeyword ||
+      node.kind === ts.SyntaxKind.BooleanKeyword ||
+      node.kind === ts.SyntaxKind.UndefinedKeyword
+    )
+  }
+
+  for (const attrSym of bagType.getProperties()) {
+    const attrDecl = attrSym.getDeclarations()?.[0]
+
+    let typeText: string
+    if (
+      attrDecl &&
+      ts.isPropertySignature(attrDecl) &&
+      attrDecl.type &&
+      isTextualType(attrDecl.type)
+    ) {
+      typeText = attrDecl.type
+        .getText(attrDecl.getSourceFile())
+        .replace(/\s+/g, ' ')
+        .replace(/^\|\s*/, '')
+    } else {
+      typeText = checker
+        .typeToString(
+          checker
+            .getTypeOfSymbolAtLocation(attrSym, attrDecl ?? decl)
+            .getNonNullableType(),
+          attrDecl ?? decl,
+          TYPE_FORMAT_FLAGS
+        )
+        .replace(/"/g, "'")
+    }
+
+    const info: BindingAttrInfo = { type: typeText }
+    if (attrSym.flags & ts.SymbolFlags.Optional) info.optional = true
+    attrs[attrSym.name] = info
+  }
+
+  return attrs
+}
+
 // =============== SLOTS ================
 
 export function extractSlots(
@@ -2146,19 +2283,36 @@ function findDeclareModuleInterface(
 export interface BaseAugmentations {
   slots: Record<string, SlotInfo>
   parts: Record<string, PartInfo>
+
+  /**
+   * Parts whose contract differs by element kind, declared on
+   * `BaseFieldElementParts` — merged only into field-kind elements.
+   */
+  fieldParts: Record<string, PartInfo>
+
+  /**
+   * Parts whose contract differs by element kind, declared on
+   * `BaseContainerElementParts` — merged only into container-kind elements.
+   */
+  containerParts: Record<string, PartInfo>
   classes: Record<string, ClassInfo>
 }
 
 /**
- * Parses an adapter's `src/features/augment.ts` and extracts the augmented
- * `BaseElementSlots`, `BaseElementParts`, and `BaseElementClasses` members.
- * Returns `null` if the file doesn't exist.
+ * Parses an adapter's `src/features/base.ts` and extracts the augmented
+ * `BaseElementSlots`, `BaseElementParts` (plus the field/container kind
+ * splits), and `BaseElementClasses` members. Returns `null` if the file
+ * doesn't exist.
  */
 export function extractBaseAugmentations(
   adapterPackageDir: string
 ): BaseAugmentations | null {
-  const augmentPath = path.join(adapterPackageDir, 'src/features/augment.ts')
-  if (!fs.existsSync(augmentPath)) return null
+  // The adapters' base augmentations (`declare module '@vueform/core'`) live
+  // in features/base.ts; the older augment.ts name is kept as a fallback.
+  const augmentPath = ['src/features/base.ts', 'src/features/augment.ts']
+    .map((candidate) => path.join(adapterPackageDir, candidate))
+    .find((candidate) => fs.existsSync(candidate))
+  if (!augmentPath) return null
 
   const { program, checker } = createProgram(adapterPackageDir)
   const sourceFile = program.getSourceFile(augmentPath)
@@ -2174,6 +2328,16 @@ export function extractBaseAugmentations(
     '@vueform/core',
     'BaseElementParts'
   )
+  const fieldPartsDecl = findDeclareModuleInterface(
+    sourceFile,
+    '@vueform/core',
+    'BaseFieldElementParts'
+  )
+  const containerPartsDecl = findDeclareModuleInterface(
+    sourceFile,
+    '@vueform/core',
+    'BaseContainerElementParts'
+  )
   const classesDecl = findDeclareModuleInterface(
     sourceFile,
     '@vueform/core',
@@ -2183,6 +2347,10 @@ export function extractBaseAugmentations(
   return {
     slots: slotsDecl ? extractSlots(checker, slotsDecl) : {},
     parts: partsDecl ? extractParts(checker, partsDecl) : {},
+    fieldParts: fieldPartsDecl ? extractParts(checker, fieldPartsDecl) : {},
+    containerParts: containerPartsDecl
+      ? extractParts(checker, containerPartsDecl)
+      : {},
     classes: classesDecl ? extractClassTypes(checker, classesDecl) : {},
   }
 }

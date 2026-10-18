@@ -12,7 +12,7 @@
 import {
   useBlueprint,
   defineEvents,
-  type AriaProp,
+  type A11yBindings,
   type ClassValue,
   type DefineElementContext,
   type DomAttrsOf,
@@ -127,9 +127,10 @@ export interface VfCloneNameSlots<
     text: string | undefined
 
     /**
-     * ARIA attributes for the input.
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
      */
-    aria: AriaProp
+    a11yBindings: A11yBindings
 
     /**
      * Handler for the input's blur event.
@@ -307,7 +308,7 @@ const {
   id,
   disabled,
   viewLoaded,
-  aria,
+  a11yBindings,
   inputName,
   text,
   input,
@@ -325,18 +326,10 @@ const {
  *
  * @see https://ui.vueform.com/guide/classes
  */
-useClasses(({ props, hasError }) => ({
+useClasses(() => ({
   root: 'vf-checkbox',
-  wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
-  },
-  input: {
-    'vf-choice-input': true,
-    'vf-danger': hasError.value,
-  },
+  wrapper: 'vf-choice-wrapper',
+  input: 'vf-choice-input',
   text: 'vf-choice-text',
 }))
 
@@ -380,7 +373,6 @@ declare module 'vue' {
     <VfLayout v-else :label="false">
       <slot
         :model
-        :aria
         :input-name
         :id
         :true-value
@@ -388,6 +380,7 @@ declare module 'vue' {
         :disabled
         :input
         :text
+        :a11y-bindings
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -396,7 +389,7 @@ declare module 'vue' {
           v-if="outlets?.default"
           :is="outlets.default"
           :model
-          :aria
+          :a11y-bindings
           :input-name
           :id
           :true-value
@@ -408,7 +401,13 @@ declare module 'vue' {
           :handle-focus
           :handle-model-update
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          :data-align="props.align || undefined"
+          :data-aligned="props.aligned ? '' : undefined"
+          v-bind="parts.wrapper"
+        >
           <input
             type="checkbox"
             v-model="value"
@@ -420,7 +419,7 @@ declare module 'vue' {
             :disabled
             :class="classes.input"
             v-bind="{
-              ...aria,
+              ...a11yBindings.input,
               ...parts.input,
             }"
             @blur="handleBlur"

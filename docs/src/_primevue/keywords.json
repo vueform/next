@@ -1,54 +1,27 @@
 {
   "--vf-addon-after-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1491",
-    "popover": [
-      "Margin for the after (right) addon.",
-      "$github"
-    ]
+    "popover": ["Margin for the after (right) addon.", "$github"]
   },
   "--vf-addon-after-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1486",
-    "popover": [
-      "Padding for the after (right) addon.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Padding for the after (right) addon.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-addon-before-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1481",
-    "popover": [
-      "Margin for the before (left) addon.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Margin for the before (left) addon.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-addon-before-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1476",
-    "popover": [
-      "Padding for the before (left) addon.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Padding for the before (left) addon.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-addon-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1498",
-    "popover": [
-      "Background color of addons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Background color of addons.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-addon-bg-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1503",
@@ -57,20 +30,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "classes": [".vf-addon"]
   },
   "--vf-addon-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1522",
-    "popover": [
-      "Border color of addons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Border color of addons.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-addon-border-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1527",
@@ -79,42 +44,22 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "classes": [".vf-addon"]
   },
   "--vf-addon-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1532",
-    "popover": [
-      "Border style of addons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Border style of addons.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-addon-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1537",
-    "popover": [
-      "Border width of addons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Border width of addons.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-addon-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1510",
-    "popover": [
-      "Text color of addons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Text color of addons.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-addon-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1515",
@@ -123,20 +68,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "classes": [".vf-addon"]
   },
   "--vf-addon-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1542",
-    "popover": [
-      "Border radius of addons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-addon"
-    ]
+    "popover": ["Border radius of addons.", "$classes", "$github"],
+    "classes": [".vf-addon"]
   },
   "--vf-bg-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L216",
@@ -147,10 +84,7 @@
   },
   "--vf-black": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L48",
-    "popover": [
-      "Black.",
-      "$github"
-    ]
+    "popover": ["Black.", "$github"]
   },
   "--vf-blockquote-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2439",
@@ -159,426 +93,244 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-blockquote"
-    ]
+    "classes": [".vf-blockquote"]
   },
   "--vf-border-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L221",
-    "popover": [
-      "Border color of disabled inputs and choices.",
-      "$github"
-    ]
+    "popover": ["Border color of disabled inputs and choices.", "$github"]
   },
   "--vf-border-width-b": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L157",
-    "popover": [
-      "Bottom border width.",
-      "$github"
-    ]
+    "popover": ["Bottom border width.", "$github"]
   },
   "--vf-border-width-l": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L162",
-    "popover": [
-      "Left border width.",
-      "$github"
-    ]
+    "popover": ["Left border width.", "$github"]
   },
   "--vf-border-width-r": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L152",
-    "popover": [
-      "Right border width.",
-      "$github"
-    ]
+    "popover": ["Right border width.", "$github"]
   },
   "--vf-border-width-t": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L147",
-    "popover": [
-      "Top border width.",
-      "$github"
-    ]
+    "popover": ["Top border width.", "$github"]
   },
   "--vf-brand": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L28",
-    "popover": [
-      "Brand primary color.",
-      "$github"
-    ]
+    "popover": ["Brand primary color.", "$github"]
   },
   "--vf-btn-bg-contrast": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1393",
-    "popover": [
-      "Background color of contrast buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of contrast buttons.", "$github"]
   },
   "--vf-btn-bg-contrast-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1413",
-    "popover": [
-      "Background color of contrast buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of contrast buttons on hover.", "$github"]
   },
   "--vf-btn-bg-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1341",
-    "popover": [
-      "Background color of danger buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of danger buttons.", "$github"]
   },
   "--vf-btn-bg-danger-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1361",
-    "popover": [
-      "Background color of danger buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of danger buttons on hover.", "$github"]
   },
   "--vf-btn-bg-help": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1289",
-    "popover": [
-      "Background color of help buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of help buttons.", "$github"]
   },
   "--vf-btn-bg-help-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1309",
-    "popover": [
-      "Background color of help buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of help buttons on hover.", "$github"]
   },
   "--vf-btn-bg-info": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1185",
-    "popover": [
-      "Background color of info buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of info buttons.", "$github"]
   },
   "--vf-btn-bg-info-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1205",
-    "popover": [
-      "Background color of info buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of info buttons on hover.", "$github"]
   },
   "--vf-btn-bg-primary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1029",
-    "popover": [
-      "Background color of primary buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of primary buttons.", "$github"]
   },
   "--vf-btn-bg-primary-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1049",
-    "popover": [
-      "Background color of primary buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of primary buttons on hover.", "$github"]
   },
   "--vf-btn-bg-secondary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1081",
-    "popover": [
-      "Background color of secondary buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of secondary buttons.", "$github"]
   },
   "--vf-btn-bg-secondary-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1101",
-    "popover": [
-      "Background color of secondary buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of secondary buttons on hover.", "$github"]
   },
   "--vf-btn-bg-success": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1133",
-    "popover": [
-      "Background color of success buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of success buttons.", "$github"]
   },
   "--vf-btn-bg-success-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1153",
-    "popover": [
-      "Background color of success buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of success buttons on hover.", "$github"]
   },
   "--vf-btn-bg-warn": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1237",
-    "popover": [
-      "Background color of warning buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of warning buttons.", "$github"]
   },
   "--vf-btn-bg-warn-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1257",
-    "popover": [
-      "Background color of warning buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of warning buttons on hover.", "$github"]
   },
   "--vf-btn-border-color-contrast": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1403",
-    "popover": [
-      "Border color of contrast buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of contrast buttons.", "$github"]
   },
   "--vf-btn-border-color-contrast-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1423",
-    "popover": [
-      "Border color of contrast buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of contrast buttons on hover.", "$github"]
   },
   "--vf-btn-border-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1351",
-    "popover": [
-      "Border color of danger buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of danger buttons.", "$github"]
   },
   "--vf-btn-border-color-danger-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1371",
-    "popover": [
-      "Border color of danger buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of danger buttons on hover.", "$github"]
   },
   "--vf-btn-border-color-help": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1299",
-    "popover": [
-      "Border color of help buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of help buttons.", "$github"]
   },
   "--vf-btn-border-color-help-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1319",
-    "popover": [
-      "Border color of help buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of help buttons on hover.", "$github"]
   },
   "--vf-btn-border-color-info": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1195",
-    "popover": [
-      "Border color of info buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of info buttons.", "$github"]
   },
   "--vf-btn-border-color-info-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1215",
-    "popover": [
-      "Border color of info buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of info buttons on hover.", "$github"]
   },
   "--vf-btn-border-color-primary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1039",
-    "popover": [
-      "Border color of primary buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of primary buttons.", "$github"]
   },
   "--vf-btn-border-color-primary-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1059",
-    "popover": [
-      "Border color of primary buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of primary buttons on hover.", "$github"]
   },
   "--vf-btn-border-color-secondary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1091",
-    "popover": [
-      "Border color of secondary buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of secondary buttons.", "$github"]
   },
   "--vf-btn-border-color-secondary-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1111",
-    "popover": [
-      "Border color of secondary buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of secondary buttons on hover.", "$github"]
   },
   "--vf-btn-border-color-success": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1143",
-    "popover": [
-      "Border color of success buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of success buttons.", "$github"]
   },
   "--vf-btn-border-color-success-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1163",
-    "popover": [
-      "Border color of success buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of success buttons on hover.", "$github"]
   },
   "--vf-btn-border-color-warn": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1247",
-    "popover": [
-      "Border color of warning buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of warning buttons.", "$github"]
   },
   "--vf-btn-border-color-warn-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1267",
-    "popover": [
-      "Border color of warning buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of warning buttons on hover.", "$github"]
   },
   "--vf-btn-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1450",
-    "popover": [
-      "Border style of buttons.",
-      "$github"
-    ]
+    "popover": ["Border style of buttons.", "$github"]
   },
   "--vf-btn-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1445",
-    "popover": [
-      "Border width of buttons.",
-      "$github"
-    ]
+    "popover": ["Border width of buttons.", "$github"]
   },
   "--vf-btn-color-contrast": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1398",
-    "popover": [
-      "Text color of contrast buttons.",
-      "$github"
-    ]
+    "popover": ["Text color of contrast buttons.", "$github"]
   },
   "--vf-btn-color-contrast-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1418",
-    "popover": [
-      "Text color of contrast buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Text color of contrast buttons on hover.", "$github"]
   },
   "--vf-btn-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1346",
-    "popover": [
-      "Text color of danger buttons.",
-      "$github"
-    ]
+    "popover": ["Text color of danger buttons.", "$github"]
   },
   "--vf-btn-color-danger-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1366",
-    "popover": [
-      "Text color of danger buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Text color of danger buttons on hover.", "$github"]
   },
   "--vf-btn-color-help": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1294",
-    "popover": [
-      "Text color of help buttons.",
-      "$github"
-    ]
+    "popover": ["Text color of help buttons.", "$github"]
   },
   "--vf-btn-color-help-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1314",
-    "popover": [
-      "Text color of help buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Text color of help buttons on hover.", "$github"]
   },
   "--vf-btn-color-info": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1190",
-    "popover": [
-      "Text color of info buttons.",
-      "$github"
-    ]
+    "popover": ["Text color of info buttons.", "$github"]
   },
   "--vf-btn-color-info-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1210",
-    "popover": [
-      "Text color of info buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Text color of info buttons on hover.", "$github"]
   },
   "--vf-btn-color-primary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1034",
-    "popover": [
-      "Text color of primary buttons.",
-      "$github"
-    ]
+    "popover": ["Text color of primary buttons.", "$github"]
   },
   "--vf-btn-color-primary-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1054",
-    "popover": [
-      "Text color of primary buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Text color of primary buttons on hover.", "$github"]
   },
   "--vf-btn-color-secondary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1086",
-    "popover": [
-      "Text color of secondary buttons.",
-      "$github"
-    ]
+    "popover": ["Text color of secondary buttons.", "$github"]
   },
   "--vf-btn-color-secondary-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1106",
-    "popover": [
-      "Text color of secondary buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Text color of secondary buttons on hover.", "$github"]
   },
   "--vf-btn-color-success": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1138",
-    "popover": [
-      "Text color of success buttons.",
-      "$github"
-    ]
+    "popover": ["Text color of success buttons.", "$github"]
   },
   "--vf-btn-color-success-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1158",
-    "popover": [
-      "Text color of success buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Text color of success buttons on hover.", "$github"]
   },
   "--vf-btn-color-warn": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1242",
-    "popover": [
-      "Text color of warning buttons.",
-      "$github"
-    ]
+    "popover": ["Text color of warning buttons.", "$github"]
   },
   "--vf-btn-color-warn-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1262",
-    "popover": [
-      "Text color of warning buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Text color of warning buttons on hover.", "$github"]
   },
   "--vf-btn-disabled-opacity": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1012",
-    "popover": [
-      "Opacity applied to disabled buttons.",
-      "$github"
-    ]
+    "popover": ["Opacity applied to disabled buttons.", "$github"]
   },
   "--vf-btn-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L934",
-    "popover": [
-      "Font size of buttons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-btn-icon"
-    ]
+    "popover": ["Font size of buttons.", "$classes", "$github"],
+    "classes": [".vf-btn-icon"]
   },
   "--vf-btn-font-size-sm": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L939",
-    "popover": [
-      "Font size of buttons.",
-      "$github"
-    ]
+    "popover": ["Font size of buttons.", "$github"]
   },
   "--vf-btn-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L953",
@@ -617,101 +369,59 @@
   },
   "--vf-btn-outline-contrast": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1408",
-    "popover": [
-      "Outline color of contrast buttons.",
-      "$github"
-    ]
+    "popover": ["Outline color of contrast buttons.", "$github"]
   },
   "--vf-btn-outline-contrast-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1428",
-    "popover": [
-      "Outline color of contrast buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Outline color of contrast buttons on hover.", "$github"]
   },
   "--vf-btn-outline-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1356",
-    "popover": [
-      "Outline color of danger buttons.",
-      "$github"
-    ]
+    "popover": ["Outline color of danger buttons.", "$github"]
   },
   "--vf-btn-outline-danger-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1376",
-    "popover": [
-      "Outline color of danger buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Outline color of danger buttons on hover.", "$github"]
   },
   "--vf-btn-outline-help": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1304",
-    "popover": [
-      "Outline color of help buttons.",
-      "$github"
-    ]
+    "popover": ["Outline color of help buttons.", "$github"]
   },
   "--vf-btn-outline-help-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1324",
-    "popover": [
-      "Outline color of help buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Outline color of help buttons on hover.", "$github"]
   },
   "--vf-btn-outline-info": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1200",
-    "popover": [
-      "Outline color of info buttons.",
-      "$github"
-    ]
+    "popover": ["Outline color of info buttons.", "$github"]
   },
   "--vf-btn-outline-info-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1220",
-    "popover": [
-      "Outline color of info buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Outline color of info buttons on hover.", "$github"]
   },
   "--vf-btn-outline-primary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1044",
-    "popover": [
-      "Outline color of primary buttons.",
-      "$github"
-    ]
+    "popover": ["Outline color of primary buttons.", "$github"]
   },
   "--vf-btn-outline-primary-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1064",
-    "popover": [
-      "Outline color of primary buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Outline color of primary buttons on hover.", "$github"]
   },
   "--vf-btn-outline-secondary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1096",
-    "popover": [
-      "Outline color of secondary buttons.",
-      "$github"
-    ]
+    "popover": ["Outline color of secondary buttons.", "$github"]
   },
   "--vf-btn-outline-secondary-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1116",
-    "popover": [
-      "Outline color of secondary buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Outline color of secondary buttons on hover.", "$github"]
   },
   "--vf-btn-outline-success": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1148",
-    "popover": [
-      "Outline color of success buttons.",
-      "$github"
-    ]
+    "popover": ["Outline color of success buttons.", "$github"]
   },
   "--vf-btn-outline-success-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1168",
-    "popover": [
-      "Outline color of success buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Outline color of success buttons on hover.", "$github"]
   },
   "--vf-btn-outline-transparent-percent": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1022",
@@ -722,206 +432,119 @@
   },
   "--vf-btn-outline-warn": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1252",
-    "popover": [
-      "Outline color of warning buttons.",
-      "$github"
-    ]
+    "popover": ["Outline color of warning buttons.", "$github"]
   },
   "--vf-btn-outline-warn-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1272",
-    "popover": [
-      "Outline color of warning buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Outline color of warning buttons on hover.", "$github"]
   },
   "--vf-btn-padding-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L978",
-    "popover": [
-      "Horizontal padding of the button.",
-      "$github"
-    ]
+    "popover": ["Horizontal padding of the button.", "$github"]
   },
   "--vf-btn-padding-x-sm": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L988",
-    "popover": [
-      "Horizontal padding of small buttons.",
-      "$github"
-    ]
+    "popover": ["Horizontal padding of small buttons.", "$github"]
   },
   "--vf-btn-padding-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L973",
-    "popover": [
-      "Vertical padding of the button.",
-      "$github"
-    ]
+    "popover": ["Vertical padding of the button.", "$github"]
   },
   "--vf-btn-padding-y-sm": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L983",
-    "popover": [
-      "Vertical padding of small buttons.",
-      "$github"
-    ]
+    "popover": ["Vertical padding of small buttons.", "$github"]
   },
   "--vf-btn-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1455",
-    "popover": [
-      "Border radius of buttons.",
-      "$github"
-    ]
+    "popover": ["Border radius of buttons.", "$github"]
   },
   "--vf-btn-radius-sm": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1460",
-    "popover": [
-      "Border radius of small buttons.",
-      "$github"
-    ]
+    "popover": ["Border radius of small buttons.", "$github"]
   },
   "--vf-btn-ring-color-contrast": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1433",
-    "popover": [
-      "Focus ring color of contrast buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring color of contrast buttons.", "$github"]
   },
   "--vf-btn-ring-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1381",
-    "popover": [
-      "Focus ring color of danger buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring color of danger buttons.", "$github"]
   },
   "--vf-btn-ring-color-help": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1329",
-    "popover": [
-      "Focus ring color of help buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring color of help buttons.", "$github"]
   },
   "--vf-btn-ring-color-info": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1225",
-    "popover": [
-      "Focus ring color of info buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring color of info buttons.", "$github"]
   },
   "--vf-btn-ring-color-primary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1069",
-    "popover": [
-      "Focus ring color of primary buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring color of primary buttons.", "$github"]
   },
   "--vf-btn-ring-color-secondary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1121",
-    "popover": [
-      "Focus ring color of secondary buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring color of secondary buttons.", "$github"]
   },
   "--vf-btn-ring-color-success": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1173",
-    "popover": [
-      "Focus ring color of success buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring color of success buttons.", "$github"]
   },
   "--vf-btn-ring-color-warn": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1277",
-    "popover": [
-      "Focus ring color of warning buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring color of warning buttons.", "$github"]
   },
   "--vf-btn-ring-offset": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1005",
-    "popover": [
-      "Offset of the focus ring from the button edge.",
-      "$github"
-    ]
+    "popover": ["Offset of the focus ring from the button edge.", "$github"]
   },
   "--vf-btn-ring-shadow-contrast": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1438",
-    "popover": [
-      "Focus ring shadow of contrast buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring shadow of contrast buttons.", "$github"]
   },
   "--vf-btn-ring-shadow-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1386",
-    "popover": [
-      "Focus ring shadow of danger buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring shadow of danger buttons.", "$github"]
   },
   "--vf-btn-ring-shadow-help": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1334",
-    "popover": [
-      "Focus ring shadow of help buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring shadow of help buttons.", "$github"]
   },
   "--vf-btn-ring-shadow-info": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1230",
-    "popover": [
-      "Focus ring shadow of info buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring shadow of info buttons.", "$github"]
   },
   "--vf-btn-ring-shadow-primary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1074",
-    "popover": [
-      "Focus ring shadow of primary buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring shadow of primary buttons.", "$github"]
   },
   "--vf-btn-ring-shadow-secondary": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1126",
-    "popover": [
-      "Focus ring shadow of secondary buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring shadow of secondary buttons.", "$github"]
   },
   "--vf-btn-ring-shadow-success": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1178",
-    "popover": [
-      "Focus ring shadow of success buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring shadow of success buttons.", "$github"]
   },
   "--vf-btn-ring-shadow-warn": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1282",
-    "popover": [
-      "Focus ring shadow of warning buttons.",
-      "$github"
-    ]
+    "popover": ["Focus ring shadow of warning buttons.", "$github"]
   },
   "--vf-btn-ring-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1000",
-    "popover": [
-      "Border style of the focus ring around buttons.",
-      "$github"
-    ]
+    "popover": ["Border style of the focus ring around buttons.", "$github"]
   },
   "--vf-btn-ring-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L995",
-    "popover": [
-      "Width of the focus ring around buttons.",
-      "$github"
-    ]
+    "popover": ["Width of the focus ring around buttons.", "$github"]
   },
   "--vf-btn-shadow": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1467",
-    "popover": [
-      "Box shadow of buttons.",
-      "$github"
-    ]
+    "popover": ["Box shadow of buttons.", "$github"]
   },
   "--vf-btn-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L946",
-    "popover": [
-      "Width of the button.",
-      "$github"
-    ]
+    "popover": ["Width of the button.", "$github"]
   },
   "--vf-choice-aligned-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L192",
@@ -930,21 +553,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-wrapper",
-      ".vf-choices-group"
-    ]
+    "classes": [".vf-choice-wrapper", ".vf-choices-group"]
   },
   "--vf-choice-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L744",
-    "popover": [
-      "Background color of the choice input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "popover": ["Background color of the choice input.", "$classes", "$github"],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-bg-checked": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L759",
@@ -953,16 +567,16 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-bg-checked-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L764",
     "popover": [
       "Background color of the choice input when checked in an error state.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-bg-checked-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L769",
@@ -971,16 +585,16 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-bg-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L749",
     "popover": [
       "Background color of the choice input in an error state.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-bg-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L754",
@@ -989,20 +603,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L798",
-    "popover": [
-      "Border color of the choice input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "popover": ["Border color of the choice input.", "$classes", "$github"],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-color-checked": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L813",
@@ -1011,16 +617,16 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-color-checked-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L818",
     "popover": [
       "Border color of the choice input when checked in an error state.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-color-checked-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L823",
@@ -1029,16 +635,16 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L803",
     "popover": [
       "Border color of the choice input in an error state.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-color-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L808",
@@ -1047,9 +653,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-width-b": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L838",
@@ -1058,9 +662,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-width-l": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L843",
@@ -1069,9 +671,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-width-r": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L833",
@@ -1080,31 +680,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-border-width-t": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L828",
-    "popover": [
-      "Top border width of the choice input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "popover": ["Top border width of the choice input.", "$classes", "$github"],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L776",
-    "popover": [
-      "Text color of the choice label.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choice-text"
-    ]
+    "popover": ["Text color of the choice label.", "$classes", "$github"],
+    "classes": [".vf-choice-text"]
   },
   "--vf-choice-gutter": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L186",
@@ -1113,9 +699,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-wrapper"
-    ]
+    "classes": [".vf-choice-wrapper"]
   },
   "--vf-choice-height": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L686",
@@ -1124,9 +708,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-icon-checked": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L862",
@@ -1135,9 +717,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-icon-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L781",
@@ -1146,16 +726,16 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-icon-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L791",
     "popover": [
       "Icon color inside the checked choice input in an error state.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-icon-color-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L786",
@@ -1164,9 +744,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-icon-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L868",
@@ -1175,20 +753,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L848",
-    "popover": [
-      "Border radius of the choice input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "popover": ["Border radius of the choice input.", "$classes", "$github"],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-ring-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L722",
@@ -1197,16 +767,16 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-ring-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L732",
     "popover": [
       "Color of the focus ring around the choice input in an error state.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-ring-offset": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L717",
@@ -1215,9 +785,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-ring-shadow": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L727",
@@ -1226,16 +794,16 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-ring-shadow-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L737",
     "popover": [
       "Box shadow of the focus ring around the choice input in an error state.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-ring-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L712",
@@ -1244,9 +812,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-ring-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L707",
@@ -1255,31 +821,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-shadow": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L855",
-    "popover": [
-      "Box shadow of the choice input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "popover": ["Box shadow of the choice input.", "$classes", "$github"],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choice-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L681",
-    "popover": [
-      "Width of the checkbox or radio input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choice-input"
-    ]
+    "popover": ["Width of the checkbox or radio input.", "$classes", "$github"],
+    "classes": [".vf-choice-input"]
   },
   "--vf-choices-direction": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L888",
@@ -1288,31 +840,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-choices-group"
-    ]
+    "classes": [".vf-choices-group"]
   },
   "--vf-choices-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L878",
-    "popover": [
-      "Horizontal gap between choice items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choices-group"
-    ]
+    "popover": ["Horizontal gap between choice items.", "$classes", "$github"],
+    "classes": [".vf-choices-group"]
   },
   "--vf-choices-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L883",
-    "popover": [
-      "Vertical gap between choice items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-choices-group"
-    ]
+    "popover": ["Vertical gap between choice items.", "$classes", "$github"],
+    "classes": [".vf-choices-group"]
   },
   "--vf-color-picker-aligned-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L201",
@@ -1330,115 +868,67 @@
   },
   "--vf-control-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1955",
-    "popover": [
-      "Background color of control buttons.",
-      "$github"
-    ]
+    "popover": ["Background color of control buttons.", "$github"]
   },
   "--vf-control-bg-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1960",
-    "popover": [
-      "Background color of control buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Background color of control buttons on hover.", "$github"]
   },
   "--vf-control-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1979",
-    "popover": [
-      "Border color of control buttons.",
-      "$github"
-    ]
+    "popover": ["Border color of control buttons.", "$github"]
   },
   "--vf-control-border-color-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1984",
-    "popover": [
-      "Border color of control buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Border color of control buttons on hover.", "$github"]
   },
   "--vf-control-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1994",
-    "popover": [
-      "Border style of control buttons.",
-      "$github"
-    ]
+    "popover": ["Border style of control buttons.", "$github"]
   },
   "--vf-control-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1989",
-    "popover": [
-      "Border width of control buttons.",
-      "$github"
-    ]
+    "popover": ["Border width of control buttons.", "$github"]
   },
   "--vf-control-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1967",
-    "popover": [
-      "Icon color of control buttons.",
-      "$github"
-    ]
+    "popover": ["Icon color of control buttons.", "$github"]
   },
   "--vf-control-color-hover": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1972",
-    "popover": [
-      "Icon color of control buttons on hover.",
-      "$github"
-    ]
+    "popover": ["Icon color of control buttons on hover.", "$github"]
   },
   "--vf-control-icon-height": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1929",
-    "popover": [
-      "Height of the icon inside control buttons.",
-      "$github"
-    ]
+    "popover": ["Height of the icon inside control buttons.", "$github"]
   },
   "--vf-control-icon-remove": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1936",
-    "popover": [
-      "SVG icon for the remove control.",
-      "$github"
-    ]
+    "popover": ["SVG icon for the remove control.", "$github"]
   },
   "--vf-control-icon-sort": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1941",
-    "popover": [
-      "SVG icon for the sort control.",
-      "$github"
-    ]
+    "popover": ["SVG icon for the sort control.", "$github"]
   },
   "--vf-control-icon-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1924",
-    "popover": [
-      "Width of the icon inside control buttons.",
-      "$github"
-    ]
+    "popover": ["Width of the icon inside control buttons.", "$github"]
   },
   "--vf-control-min-height": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1919",
-    "popover": [
-      "Minimum height of control buttons.",
-      "$github"
-    ]
+    "popover": ["Minimum height of control buttons.", "$github"]
   },
   "--vf-control-min-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1914",
-    "popover": [
-      "Minimum width of control buttons (remove, sort).",
-      "$github"
-    ]
+    "popover": ["Minimum width of control buttons (remove, sort).", "$github"]
   },
   "--vf-control-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1999",
-    "popover": [
-      "Border radius of control buttons.",
-      "$github"
-    ]
+    "popover": ["Border radius of control buttons.", "$github"]
   },
   "--vf-control-shadow": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1948",
-    "popover": [
-      "Box shadow of control buttons.",
-      "$github"
-    ]
+    "popover": ["Box shadow of control buttons.", "$github"]
   },
   "--vf-description-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L368",
@@ -1447,9 +937,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-description"
-    ]
+    "classes": [".vf-description"]
   },
   "--vf-description-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L378",
@@ -1458,9 +946,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-description"
-    ]
+    "classes": [".vf-description"]
   },
   "--vf-description-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L383",
@@ -1469,9 +955,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-description"
-    ]
+    "classes": [".vf-description"]
   },
   "--vf-description-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L388",
@@ -1480,20 +964,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-description"
-    ]
+    "classes": [".vf-description"]
   },
   "--vf-description-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L373",
-    "popover": [
-      "Text color of description text.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-description"
-    ]
+    "popover": ["Text color of description text.", "$classes", "$github"],
+    "classes": [".vf-description"]
   },
   "--vf-description-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L358",
@@ -1502,9 +978,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-description"
-    ]
+    "classes": [".vf-description"]
   },
   "--vf-description-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L363",
@@ -1513,9 +987,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-description"
-    ]
+    "classes": [".vf-description"]
   },
   "--vf-description-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L393",
@@ -1524,9 +996,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-description"
-    ]
+    "classes": [".vf-description"]
   },
   "--vf-editor-loading-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L218",
@@ -1542,9 +1012,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-element-group"
-    ]
+    "classes": [".vf-element-group"]
   },
   "--vf-element-group-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2117",
@@ -1553,9 +1021,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-element-group"
-    ]
+    "classes": [".vf-element-group"]
   },
   "--vf-element-line-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L484",
@@ -1564,21 +1030,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-line-bottom",
-      ".vf-line-top"
-    ]
+    "classes": [".vf-line-bottom", ".vf-line-top"]
   },
   "--vf-element-wrapper-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2122",
-    "popover": [
-      "Padding around the element wrapper.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-element-wrapper"
-    ]
+    "popover": ["Padding around the element wrapper.", "$classes", "$github"],
+    "classes": [".vf-element-wrapper"]
   },
   "--vf-elements-gutter-stacked-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2102",
@@ -1587,9 +1044,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-elements"
-    ]
+    "classes": [".vf-elements"]
   },
   "--vf-elements-gutter-stacked-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2107",
@@ -1598,31 +1053,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-elements"
-    ]
+    "classes": [".vf-elements"]
   },
   "--vf-elements-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2092",
-    "popover": [
-      "Horizontal gap between form elements.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-elements"
-    ]
+    "popover": ["Horizontal gap between form elements.", "$classes", "$github"],
+    "classes": [".vf-elements"]
   },
   "--vf-elements-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2097",
-    "popover": [
-      "Vertical gap between form elements.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-elements"
-    ]
+    "popover": ["Vertical gap between form elements.", "$classes", "$github"],
+    "classes": [".vf-elements"]
   },
   "--vf-errors-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L410",
@@ -1631,9 +1072,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-errors"
-    ]
+    "classes": [".vf-errors"]
   },
   "--vf-errors-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L420",
@@ -1642,9 +1081,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-errors"
-    ]
+    "classes": [".vf-errors"]
   },
   "--vf-errors-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L425",
@@ -1653,9 +1090,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-errors"
-    ]
+    "classes": [".vf-errors"]
   },
   "--vf-errors-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L430",
@@ -1664,20 +1099,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-errors"
-    ]
+    "classes": [".vf-errors"]
   },
   "--vf-errors-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L415",
-    "popover": [
-      "Text color of error messages.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-errors"
-    ]
+    "popover": ["Text color of error messages.", "$classes", "$github"],
+    "classes": [".vf-errors"]
   },
   "--vf-errors-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L400",
@@ -1686,9 +1113,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-errors"
-    ]
+    "classes": [".vf-errors"]
   },
   "--vf-errors-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L405",
@@ -1697,9 +1122,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-errors"
-    ]
+    "classes": [".vf-errors"]
   },
   "--vf-errors-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L435",
@@ -1708,9 +1131,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-errors"
-    ]
+    "classes": [".vf-errors"]
   },
   "--vf-file-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L897",
@@ -1719,9 +1140,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-file-list"
-    ]
+    "classes": [".vf-file-list"]
   },
   "--vf-file-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L902",
@@ -1730,9 +1149,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-file-list"
-    ]
+    "classes": [".vf-file-list"]
   },
   "--vf-file-item-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L912",
@@ -1741,9 +1158,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-file-item"
-    ]
+    "classes": [".vf-file-item"]
   },
   "--vf-file-item-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L917",
@@ -1752,20 +1167,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-file-item"
-    ]
+    "classes": [".vf-file-item"]
   },
   "--vf-file-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L907",
-    "popover": [
-      "Margin below the file list container.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-file-list"
-    ]
+    "popover": ["Margin below the file list container.", "$classes", "$github"],
+    "classes": [".vf-file-list"]
   },
   "--vf-form-errors-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2018",
@@ -1774,9 +1181,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-errors"
-    ]
+    "classes": [".vf-form-errors"]
   },
   "--vf-form-errors-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2028",
@@ -1785,9 +1190,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-errors"
-    ]
+    "classes": [".vf-form-errors"]
   },
   "--vf-form-errors-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2033",
@@ -1796,9 +1199,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-errors"
-    ]
+    "classes": [".vf-form-errors"]
   },
   "--vf-form-errors-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2038",
@@ -1807,9 +1208,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-errors"
-    ]
+    "classes": [".vf-form-errors"]
   },
   "--vf-form-errors-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2023",
@@ -1818,9 +1217,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-errors"
-    ]
+    "classes": [".vf-form-errors"]
   },
   "--vf-form-errors-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2008",
@@ -1829,9 +1226,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-errors"
-    ]
+    "classes": [".vf-form-errors"]
   },
   "--vf-form-errors-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2013",
@@ -1840,9 +1235,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-errors"
-    ]
+    "classes": [".vf-form-errors"]
   },
   "--vf-form-errors-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2043",
@@ -1851,9 +1244,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-errors"
-    ]
+    "classes": [".vf-form-errors"]
   },
   "--vf-form-messages-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2060",
@@ -1862,9 +1253,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-messages"
-    ]
+    "classes": [".vf-form-messages"]
   },
   "--vf-form-messages-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2070",
@@ -1873,9 +1262,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-messages"
-    ]
+    "classes": [".vf-form-messages"]
   },
   "--vf-form-messages-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2075",
@@ -1884,9 +1271,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-messages"
-    ]
+    "classes": [".vf-form-messages"]
   },
   "--vf-form-messages-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2080",
@@ -1895,9 +1280,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-messages"
-    ]
+    "classes": [".vf-form-messages"]
   },
   "--vf-form-messages-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2065",
@@ -1906,9 +1289,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-messages"
-    ]
+    "classes": [".vf-form-messages"]
   },
   "--vf-form-messages-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2050",
@@ -1917,9 +1298,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-messages"
-    ]
+    "classes": [".vf-form-messages"]
   },
   "--vf-form-messages-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2055",
@@ -1928,9 +1307,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-messages"
-    ]
+    "classes": [".vf-form-messages"]
   },
   "--vf-form-messages-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2085",
@@ -1939,155 +1316,84 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-form-messages"
-    ]
+    "classes": [".vf-form-messages"]
   },
   "--vf-gray-100": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L58",
-    "popover": [
-      "Neutral gray, 10% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 10% dark.", "$github"]
   },
   "--vf-gray-200": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L63",
-    "popover": [
-      "Neutral gray, 20% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 20% dark.", "$github"]
   },
   "--vf-gray-300": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L68",
-    "popover": [
-      "Neutral gray, 30% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 30% dark.", "$github"]
   },
   "--vf-gray-400": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L73",
-    "popover": [
-      "Neutral gray, 40% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 40% dark.", "$github"]
   },
   "--vf-gray-50": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L53",
-    "popover": [
-      "Neutral gray, 5% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 5% dark.", "$github"]
   },
   "--vf-gray-500": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L78",
-    "popover": [
-      "Neutral gray, 50% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 50% dark.", "$github"]
   },
   "--vf-gray-600": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L83",
-    "popover": [
-      "Neutral gray, 60% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 60% dark.", "$github"]
   },
   "--vf-gray-700": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L88",
-    "popover": [
-      "Neutral gray, 70% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 70% dark.", "$github"]
   },
   "--vf-gray-800": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L93",
-    "popover": [
-      "Neutral gray, 80% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 80% dark.", "$github"]
   },
   "--vf-gray-900": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L98",
-    "popover": [
-      "Neutral gray, 90% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 90% dark.", "$github"]
   },
   "--vf-gray-950": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L103",
-    "popover": [
-      "Neutral gray, 95% dark.",
-      "$github"
-    ]
+    "popover": ["Neutral gray, 95% dark.", "$github"]
   },
   "--vf-green": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L38",
-    "popover": [
-      "Green accent color used for success states.",
-      "$github"
-    ]
+    "popover": ["Green accent color used for success states.", "$github"]
   },
   "--vf-grid-col-header-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1746",
-    "popover": [
-      "Text color of column header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-grid-col-header"
-    ]
+    "popover": ["Text color of column header cells.", "$classes", "$github"],
+    "classes": [".vf-grid-col-header"]
   },
   "--vf-grid-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1724",
-    "popover": [
-      "Horizontal gap between grid cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-grid-grid"
-    ]
+    "popover": ["Horizontal gap between grid cells.", "$classes", "$github"],
+    "classes": [".vf-grid-grid"]
   },
   "--vf-grid-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1729",
-    "popover": [
-      "Vertical gap between grid rows.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-grid-grid"
-    ]
+    "popover": ["Vertical gap between grid rows.", "$classes", "$github"],
+    "classes": [".vf-grid-grid"]
   },
   "--vf-grid-header-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1736",
-    "popover": [
-      "Font size of grid header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-grid-row-header"
-    ]
+    "popover": ["Font size of grid header cells.", "$classes", "$github"],
+    "classes": [".vf-grid-row-header"]
   },
   "--vf-grid-header-font-weight": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1741",
-    "popover": [
-      "Font weight of grid header cells.",
-      "$github"
-    ]
+    "popover": ["Font weight of grid header cells.", "$github"]
   },
   "--vf-grid-row-header-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1751",
-    "popover": [
-      "Text color of row header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-grid-row-header"
-    ]
+    "popover": ["Text color of row header cells.", "$classes", "$github"],
+    "classes": [".vf-grid-row-header"]
   },
   "--vf-group-grid-template-columns": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1583",
@@ -2096,23 +1402,25 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-group-elements"
-    ]
+    "classes": [".vf-group-elements"]
   },
   "--vf-group-gutter-stacked-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1588",
     "popover": [
       "Horizontal gap between elements in a stacked group.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-group-elements"]
   },
   "--vf-group-gutter-stacked-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1593",
     "popover": [
       "Vertical gap between elements in a stacked group.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-group-elements"]
   },
   "--vf-group-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1573",
@@ -2121,9 +1429,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-group-elements"
-    ]
+    "classes": [".vf-group-elements"]
   },
   "--vf-group-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1578",
@@ -2132,9 +1438,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-group-elements"
-    ]
+    "classes": [".vf-group-elements"]
   },
   "--vf-group-wrapped-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1625",
@@ -2143,9 +1447,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-element"
-    ]
+    "classes": [".vf-group", ".vf-group-elements", ".vf-list-element"]
   },
   "--vf-group-wrapped-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1610",
@@ -2154,9 +1456,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-element"
-    ]
+    "classes": [".vf-group", ".vf-group-elements", ".vf-list-element"]
   },
   "--vf-group-wrapped-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1615",
@@ -2165,9 +1465,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-element"
-    ]
+    "classes": [".vf-group", ".vf-group-elements", ".vf-list-element"]
   },
   "--vf-group-wrapped-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1605",
@@ -2176,9 +1474,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-element"
-    ]
+    "classes": [".vf-group", ".vf-group-elements", ".vf-list-element"]
   },
   "--vf-group-wrapped-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1600",
@@ -2187,9 +1483,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-element"
-    ]
+    "classes": [".vf-group", ".vf-group-elements", ".vf-list-element"]
   },
   "--vf-group-wrapped-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1620",
@@ -2198,9 +1492,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-element"
-    ]
+    "classes": [".vf-group", ".vf-group-elements", ".vf-list-element"]
   },
   "--vf-gutter": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L110",
@@ -2216,53 +1508,27 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-help"
-    ]
+    "classes": [".vf-help"]
   },
   "--vf-help-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L336",
-    "popover": [
-      "Border color of the help text block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-help"
-    ]
+    "popover": ["Border color of the help text block.", "$classes", "$github"],
+    "classes": [".vf-help"]
   },
   "--vf-help-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L341",
-    "popover": [
-      "Border style of the help text block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-help"
-    ]
+    "popover": ["Border style of the help text block.", "$classes", "$github"],
+    "classes": [".vf-help"]
   },
   "--vf-help-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L346",
-    "popover": [
-      "Border width of the help text block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-help"
-    ]
+    "popover": ["Border width of the help text block.", "$classes", "$github"],
+    "classes": [".vf-help"]
   },
   "--vf-help-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L331",
-    "popover": [
-      "Text color of help text.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-help"
-    ]
+    "popover": ["Text color of help text.", "$classes", "$github"],
+    "classes": [".vf-help"]
   },
   "--vf-help-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L316",
@@ -2271,31 +1537,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-help"
-    ]
+    "classes": [".vf-help"]
   },
   "--vf-help-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L321",
-    "popover": [
-      "Padding around the help text block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-help"
-    ]
+    "popover": ["Padding around the help text block.", "$classes", "$github"],
+    "classes": [".vf-help"]
   },
   "--vf-help-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L351",
-    "popover": [
-      "Border radius of the help text block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-help"
-    ]
+    "popover": ["Border radius of the help text block.", "$classes", "$github"],
+    "classes": [".vf-help"]
   },
   "--vf-hr-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2448",
@@ -2304,9 +1556,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-hr"
-    ]
+    "classes": [".vf-hr"]
   },
   "--vf-icon-add": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L178",
@@ -2315,31 +1565,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-icon-add"
-    ]
+    "classes": [".vf-icon-add"]
   },
   "--vf-icon-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1549",
-    "popover": [
-      "The font size of the icons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-icon-group"
-    ]
+    "popover": ["The font size of the icons.", "$classes", "$github"],
+    "classes": [".vf-icon-group"]
   },
   "--vf-icon-group-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1559",
-    "popover": [
-      "Color of icons inside the icon group.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-icon-group"
-    ]
+    "popover": ["Color of icons inside the icon group.", "$classes", "$github"],
+    "classes": [".vf-icon-group"]
   },
   "--vf-icon-group-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1564",
@@ -2348,9 +1584,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-icon-group"
-    ]
+    "classes": [".vf-icon-group"]
   },
   "--vf-icon-group-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1554",
@@ -2359,86 +1593,43 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-icon-group",
-      ".vf-select-input"
-    ]
+    "classes": [".vf-icon-group", ".vf-select-input"]
   },
   "--vf-icon-height": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L245",
-    "popover": [
-      "Default height for inline icons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-icon-add",
-      ".vf-icon-remove",
-      ".vf-icon-sort"
-    ]
+    "popover": ["Default height for inline icons.", "$classes", "$github"],
+    "classes": [".vf-icon-add", ".vf-icon-remove", ".vf-icon-sort"]
   },
   "--vf-icon-loading": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L196",
-    "popover": [
-      "SVG used for the loading spinner.",
-      "$github"
-    ]
+    "popover": ["SVG used for the loading spinner.", "$github"]
   },
   "--vf-icon-remove": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L184",
-    "popover": [
-      "SVG used for \"remove\" affordances.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-icon-remove"
-    ]
+    "popover": ["SVG used for \"remove\" affordances.", "$classes", "$github"],
+    "classes": [".vf-icon-remove"]
   },
   "--vf-icon-sort": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L190",
-    "popover": [
-      "SVG used for the list sort handle.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-icon-sort"
-    ]
+    "popover": ["SVG used for the list sort handle.", "$classes", "$github"],
+    "classes": [".vf-icon-sort"]
   },
   "--vf-icon-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L240",
-    "popover": [
-      "Default width for inline icons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-icon-add",
-      ".vf-icon-remove",
-      ".vf-icon-sort"
-    ]
+    "popover": ["Default width for inline icons.", "$classes", "$github"],
+    "classes": [".vf-icon-add", ".vf-icon-remove", ".vf-icon-sort"]
   },
   "--vf-info-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L250",
-    "popover": [
-      "Font size of the info icon next to labels.",
-      "$github"
-    ]
+    "popover": ["Font size of the info icon next to labels.", "$github"]
   },
   "--vf-info-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L255",
-    "popover": [
-      "Margin between the label text and the info icon.",
-      "$github"
-    ]
+    "popover": ["Margin between the label text and the info icon.", "$github"]
   },
   "--vf-input-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L552",
-    "popover": [
-      "Background color of the input.",
-      "$github"
-    ]
+    "popover": ["Background color of the input.", "$github"]
   },
   "--vf-input-bg-autofill": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L557",
@@ -2447,90 +1638,52 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-text-input"
-    ]
+    "classes": [".vf-text-input"]
   },
   "--vf-input-bg-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L562",
-    "popover": [
-      "Background color of the input in an error state.",
-      "$github"
-    ]
+    "popover": ["Background color of the input in an error state.", "$github"]
   },
   "--vf-input-bg-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L567",
-    "popover": [
-      "Background color of the input when disabled.",
-      "$github"
-    ]
+    "popover": ["Background color of the input when disabled.", "$github"]
   },
   "--vf-input-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L596",
-    "popover": [
-      "Border color of the input.",
-      "$github"
-    ]
+    "popover": ["Border color of the input.", "$github"]
   },
   "--vf-input-border-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L601",
-    "popover": [
-      "Border color of the input in an error state.",
-      "$github"
-    ]
+    "popover": ["Border color of the input in an error state.", "$github"]
   },
   "--vf-input-border-color-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L606",
-    "popover": [
-      "Border color of the input when disabled.",
-      "$github"
-    ]
+    "popover": ["Border color of the input when disabled.", "$github"]
   },
   "--vf-input-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L611",
-    "popover": [
-      "Border style of the input.",
-      "$github"
-    ]
+    "popover": ["Border style of the input.", "$github"]
   },
   "--vf-input-border-width-b": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L626",
-    "popover": [
-      "Bottom border width of the input.",
-      "$github"
-    ]
+    "popover": ["Bottom border width of the input.", "$github"]
   },
   "--vf-input-border-width-l": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L631",
-    "popover": [
-      "Left border width of the input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-icon-group"
-    ]
+    "popover": ["Left border width of the input.", "$classes", "$github"],
+    "classes": [".vf-icon-group"]
   },
   "--vf-input-border-width-r": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L621",
-    "popover": [
-      "Right border width of the input.",
-      "$github"
-    ]
+    "popover": ["Right border width of the input.", "$github"]
   },
   "--vf-input-border-width-t": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L616",
-    "popover": [
-      "Top border width of the input.",
-      "$github"
-    ]
+    "popover": ["Top border width of the input.", "$github"]
   },
   "--vf-input-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L574",
-    "popover": [
-      "Text color of the input.",
-      "$github"
-    ]
+    "popover": ["Text color of the input.", "$github"]
   },
   "--vf-input-color-autofill": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L579",
@@ -2539,89 +1692,43 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-text-input"
-    ]
+    "classes": [".vf-text-input"]
   },
   "--vf-input-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L584",
-    "popover": [
-      "Text color of the input in an error state.",
-      "$github"
-    ]
+    "popover": ["Text color of the input in an error state.", "$github"]
   },
   "--vf-input-color-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L589",
-    "popover": [
-      "Text color of the input when disabled.",
-      "$github"
-    ]
+    "popover": ["Text color of the input when disabled.", "$github"]
   },
   "--vf-input-pb": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L503",
-    "popover": [
-      "Bottom padding of the input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-select-input",
-      ".vf-text-input",
-      ".vf-textarea-input"
-    ]
+    "popover": ["Bottom padding of the input.", "$classes", "$github"],
+    "classes": [".vf-select-input", ".vf-text-input", ".vf-textarea-input"]
   },
   "--vf-input-pl": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L508",
-    "popover": [
-      "Left padding of the input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-select-input",
-      ".vf-text-input",
-      ".vf-textarea-input"
-    ]
+    "popover": ["Left padding of the input.", "$classes", "$github"],
+    "classes": [".vf-select-input", ".vf-text-input", ".vf-textarea-input"]
   },
   "--vf-input-pr": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L498",
-    "popover": [
-      "Right padding of the input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-select-input",
-      ".vf-text-input",
-      ".vf-textarea-input"
-    ]
+    "popover": ["Right padding of the input.", "$classes", "$github"],
+    "classes": [".vf-select-input", ".vf-text-input", ".vf-textarea-input"]
   },
   "--vf-input-pt": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L493",
-    "popover": [
-      "Top padding of the input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-select-input",
-      ".vf-text-input",
-      ".vf-textarea-input"
-    ]
+    "popover": ["Top padding of the input.", "$classes", "$github"],
+    "classes": [".vf-select-input", ".vf-text-input", ".vf-textarea-input"]
   },
   "--vf-input-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L636",
-    "popover": [
-      "Border radius of the input.",
-      "$github"
-    ]
+    "popover": ["Border radius of the input.", "$github"]
   },
   "--vf-input-ring-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L530",
-    "popover": [
-      "Color of the focus ring around the input.",
-      "$github"
-    ]
+    "popover": ["Color of the focus ring around the input.", "$github"]
   },
   "--vf-input-ring-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L540",
@@ -2632,17 +1739,11 @@
   },
   "--vf-input-ring-offset": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L525",
-    "popover": [
-      "Offset of the focus ring from the input edge.",
-      "$github"
-    ]
+    "popover": ["Offset of the focus ring from the input edge.", "$github"]
   },
   "--vf-input-ring-shadow": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L535",
-    "popover": [
-      "Box shadow of the focus ring around the input.",
-      "$github"
-    ]
+    "popover": ["Box shadow of the focus ring around the input.", "$github"]
   },
   "--vf-input-ring-shadow-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L545",
@@ -2653,50 +1754,26 @@
   },
   "--vf-input-ring-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L520",
-    "popover": [
-      "Border style of the focus ring around the input.",
-      "$github"
-    ]
+    "popover": ["Border style of the focus ring around the input.", "$github"]
   },
   "--vf-input-ring-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L515",
-    "popover": [
-      "Width of the focus ring around the input.",
-      "$github"
-    ]
+    "popover": ["Width of the focus ring around the input.", "$github"]
   },
   "--vf-input-shadow": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L643",
-    "popover": [
-      "Box shadow of the input.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-text-input"
-    ]
+    "popover": ["Box shadow of the input.", "$classes", "$github"],
+    "classes": [".vf-text-input"]
   },
   "--vf-label-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L262",
-    "popover": [
-      "Font size of element labels.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-label"
-    ]
+    "popover": ["Font size of element labels.", "$classes", "$github"],
+    "classes": [".vf-label"]
   },
   "--vf-label-font-weight": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L267",
-    "popover": [
-      "Font weight of element labels.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-label"
-    ]
+    "popover": ["Font weight of element labels.", "$classes", "$github"],
+    "classes": [".vf-label"]
   },
   "--vf-label-group-h-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L277",
@@ -2705,9 +1782,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-label"
-    ]
+    "classes": [".vf-label"]
   },
   "--vf-label-group-v-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L272",
@@ -2716,20 +1791,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-label-group"
-    ]
+    "classes": [".vf-label-group"]
   },
   "--vf-language-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2155",
-    "popover": [
-      "Background color of language tabs.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-language"
-    ]
+    "popover": ["Background color of language tabs.", "$classes", "$github"],
+    "classes": [".vf-language"]
   },
   "--vf-language-bg-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2165",
@@ -2738,9 +1805,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-bg-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2160",
@@ -2749,9 +1814,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-bg-selected-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2170",
@@ -2760,20 +1823,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2199",
-    "popover": [
-      "Border color of language tabs.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-language"
-    ]
+    "popover": ["Border color of language tabs.", "$classes", "$github"],
+    "classes": [".vf-language"]
   },
   "--vf-language-border-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2209",
@@ -2782,9 +1837,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-border-color-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2204",
@@ -2793,9 +1846,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-border-color-selected-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2214",
@@ -2804,31 +1855,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2219",
-    "popover": [
-      "Border width of language tabs.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-language"
-    ]
+    "popover": ["Border width of language tabs.", "$classes", "$github"],
+    "classes": [".vf-language"]
   },
   "--vf-language-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2177",
-    "popover": [
-      "Text color of language tabs.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-language"
-    ]
+    "popover": ["Text color of language tabs.", "$classes", "$github"],
+    "classes": [".vf-language"]
   },
   "--vf-language-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2187",
@@ -2837,9 +1874,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-color-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2182",
@@ -2848,9 +1883,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-color-selected-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2192",
@@ -2859,42 +1892,22 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-language"
-    ]
+    "classes": [".vf-language"]
   },
   "--vf-language-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2148",
-    "popover": [
-      "Padding inside each language tab.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-language"
-    ]
+    "popover": ["Padding inside each language tab.", "$classes", "$github"],
+    "classes": [".vf-language"]
   },
   "--vf-language-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2224",
-    "popover": [
-      "Border radius of language tabs.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-language"
-    ]
+    "popover": ["Border radius of language tabs.", "$classes", "$github"],
+    "classes": [".vf-language"]
   },
   "--vf-languages-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2131",
-    "popover": [
-      "Font size of language tabs.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-language"
-    ]
+    "popover": ["Font size of language tabs.", "$classes", "$github"],
+    "classes": [".vf-language"]
   },
   "--vf-languages-gutter": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2138",
@@ -2903,9 +1916,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-languages-wrapper"
-    ]
+    "classes": [".vf-languages-wrapper"]
   },
   "--vf-languages-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L379",
@@ -2914,16 +1925,11 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-languages"
-    ]
+    "classes": [".vf-languages"]
   },
   "--vf-link-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L233",
-    "popover": [
-      "Color used for links inside form text.",
-      "$github"
-    ]
+    "popover": ["Color used for links inside form text.", "$github"]
   },
   "--vf-list-add-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1708",
@@ -2932,38 +1938,26 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-add"
-    ]
+    "classes": [".vf-list-add"]
   },
   "--vf-list-dragging-opacity": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1715",
     "popover": [
       "Opacity of dragged element while dragging.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-list-item"]
   },
   "--vf-list-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1634",
-    "popover": [
-      "Horizontal gap between list rows.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-list-items"
-    ]
+    "popover": ["Horizontal gap between list rows.", "$classes", "$github"],
+    "classes": [".vf-list-items"]
   },
   "--vf-list-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1639",
-    "popover": [
-      "Vertical gap between list rows.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-list-items"
-    ]
+    "popover": ["Vertical gap between list rows.", "$classes", "$github"],
+    "classes": [".vf-list-items"]
   },
   "--vf-list-item-align": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1654",
@@ -2972,9 +1966,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-item"
-    ]
+    "classes": [".vf-list-item"]
   },
   "--vf-list-item-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1644",
@@ -2983,20 +1975,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-item"
-    ]
+    "classes": [".vf-list-item"]
   },
   "--vf-list-item-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1649",
-    "popover": [
-      "Vertical gap within a list item row.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-list-item"
-    ]
+    "popover": ["Vertical gap within a list item row.", "$classes", "$github"],
+    "classes": [".vf-list-item"]
   },
   "--vf-list-placeholder-align": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1696",
@@ -3005,9 +1989,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-list-placeholder-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1661",
@@ -3016,9 +1998,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-list-placeholder-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1671",
@@ -3027,9 +2007,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-list-placeholder-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1676",
@@ -3038,9 +2016,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-list-placeholder-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1666",
@@ -3049,9 +2025,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-list-placeholder-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1691",
@@ -3060,9 +2034,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-list-placeholder-font-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1686",
@@ -3071,9 +2043,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-list-placeholder-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1701",
@@ -3082,9 +2052,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-list-placeholder-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1681",
@@ -3093,9 +2061,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-list-placeholder"
-    ]
+    "classes": [".vf-list-placeholder"]
   },
   "--vf-matrix-add-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1794",
@@ -3104,82 +2070,46 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-matrix-add"
-    ]
+    "classes": [".vf-matrix-add"]
   },
   "--vf-matrix-col-header-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1782",
-    "popover": [
-      "Text color of matrix column headers.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-matrix-col-header"
-    ]
+    "popover": ["Text color of matrix column headers.", "$classes", "$github"],
+    "classes": [".vf-matrix-col-header"]
   },
   "--vf-matrix-dragging-opacity": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1801",
     "popover": [
       "Opacity of dragged row while dragging.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-matrix-row"]
   },
   "--vf-matrix-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1760",
-    "popover": [
-      "Horizontal gap between matrix cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-matrix-grid"
-    ]
+    "popover": ["Horizontal gap between matrix cells.", "$classes", "$github"],
+    "classes": [".vf-matrix-grid"]
   },
   "--vf-matrix-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1765",
-    "popover": [
-      "Vertical gap between matrix rows.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-matrix-grid"
-    ]
+    "popover": ["Vertical gap between matrix rows.", "$classes", "$github"],
+    "classes": [".vf-matrix-grid"]
   },
   "--vf-matrix-header-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1772",
-    "popover": [
-      "Font size of matrix header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-matrix-row-header"
-    ]
+    "popover": ["Font size of matrix header cells.", "$classes", "$github"],
+    "classes": [".vf-matrix-row-header"]
   },
   "--vf-matrix-header-font-weight": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1777",
-    "popover": [
-      "Font weight of matrix header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-matrix-row-header"
-    ]
+    "popover": ["Font weight of matrix header cells.", "$classes", "$github"],
+    "classes": [".vf-matrix-row-header"]
   },
   "--vf-matrix-row-header-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L1787",
-    "popover": [
-      "Text color of matrix row headers.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-matrix-row-header"
-    ]
+    "popover": ["Text color of matrix row headers.", "$classes", "$github"],
+    "classes": [".vf-matrix-row-header"]
   },
   "--vf-messages-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L452",
@@ -3188,53 +2118,27 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-messages"
-    ]
+    "classes": [".vf-messages"]
   },
   "--vf-messages-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L462",
-    "popover": [
-      "Border color of the messages block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-messages"
-    ]
+    "popover": ["Border color of the messages block.", "$classes", "$github"],
+    "classes": [".vf-messages"]
   },
   "--vf-messages-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L467",
-    "popover": [
-      "Border style of the messages block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-messages"
-    ]
+    "popover": ["Border style of the messages block.", "$classes", "$github"],
+    "classes": [".vf-messages"]
   },
   "--vf-messages-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L472",
-    "popover": [
-      "Border width of the messages block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-messages"
-    ]
+    "popover": ["Border width of the messages block.", "$classes", "$github"],
+    "classes": [".vf-messages"]
   },
   "--vf-messages-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L457",
-    "popover": [
-      "Text color of informational messages.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-messages"
-    ]
+    "popover": ["Text color of informational messages.", "$classes", "$github"],
+    "classes": [".vf-messages"]
   },
   "--vf-messages-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L442",
@@ -3243,42 +2147,22 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-messages"
-    ]
+    "classes": [".vf-messages"]
   },
   "--vf-messages-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L447",
-    "popover": [
-      "Padding around the messages block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-messages"
-    ]
+    "popover": ["Padding around the messages block.", "$classes", "$github"],
+    "classes": [".vf-messages"]
   },
   "--vf-messages-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L477",
-    "popover": [
-      "Border radius of the messages block.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-messages"
-    ]
+    "popover": ["Border radius of the messages block.", "$classes", "$github"],
+    "classes": [".vf-messages"]
   },
   "--vf-nav-gutter": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2420",
-    "popover": [
-      "Gap between navigation buttons.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-nav"
-    ]
+    "popover": ["Gap between navigation buttons.", "$classes", "$github"],
+    "classes": [".vf-nav"]
   },
   "--vf-nav-justify": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2430",
@@ -3287,69 +2171,40 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-nav"
-    ]
+    "classes": [".vf-nav"]
   },
   "--vf-nav-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2425",
-    "popover": [
-      "Margin around the navigation bar.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-nav"
-    ]
+    "popover": ["Margin around the navigation bar.", "$classes", "$github"],
+    "classes": [".vf-nav"]
   },
   "--vf-orange": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L32",
-    "popover": [
-      "Orange accent color used for warning states.",
-      "$github"
-    ]
+    "popover": ["Orange accent color used for warning states.", "$github"]
   },
   "--vf-purple": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L37",
-    "popover": [
-      "Purple accent color used for help states.",
-      "$github"
-    ]
+    "popover": ["Purple accent color used for help states.", "$github"]
   },
   "--vf-px": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L135",
-    "popover": [
-      "Default horizontal padding for inputs and buttons.",
-      "$github"
-    ]
+    "popover": ["Default horizontal padding for inputs and buttons.", "$github"]
   },
   "--vf-py": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L140",
-    "popover": [
-      "Default vertical padding for inputs and buttons.",
-      "$github"
-    ]
+    "popover": ["Default vertical padding for inputs and buttons.", "$github"]
   },
   "--vf-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L167",
-    "popover": [
-      "Default border radius.",
-      "$github"
-    ]
+    "popover": ["Default border radius.", "$github"]
   },
   "--vf-radius-lg": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L177",
-    "popover": [
-      "Larger border radius for loose elements.",
-      "$github"
-    ]
+    "popover": ["Larger border radius for loose elements.", "$github"]
   },
   "--vf-radius-sm": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L172",
-    "popover": [
-      "Smaller border radius for tight elements.",
-      "$github"
-    ]
+    "popover": ["Smaller border radius for tight elements.", "$github"]
   },
   "--vf-rating-aligned-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L210",
@@ -3360,10 +2215,7 @@
   },
   "--vf-red": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L33",
-    "popover": [
-      "Red accent color used for danger and error states.",
-      "$github"
-    ]
+    "popover": ["Red accent color used for danger and error states.", "$github"]
   },
   "--vf-required-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L299",
@@ -3372,20 +2224,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-required"
-    ]
+    "classes": [".vf-required"]
   },
   "--vf-required-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L304",
-    "popover": [
-      "Text color of the required indicator.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-required"
-    ]
+    "popover": ["Text color of the required indicator.", "$classes", "$github"],
+    "classes": [".vf-required"]
   },
   "--vf-required-content": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L284",
@@ -3394,20 +2238,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-required"
-    ]
+    "classes": [".vf-required"]
   },
   "--vf-required-h": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L294",
-    "popover": [
-      "Height of the required indicator.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-required"
-    ]
+    "popover": ["Height of the required indicator.", "$classes", "$github"],
+    "classes": [".vf-required"]
   },
   "--vf-required-icon": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L309",
@@ -3416,20 +2252,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-required"
-    ]
+    "classes": [".vf-required"]
   },
   "--vf-required-w": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L289",
-    "popover": [
-      "Width of the required indicator.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-required"
-    ]
+    "popover": ["Width of the required indicator.", "$classes", "$github"],
+    "classes": [".vf-required"]
   },
   "--vf-select-icon-caret": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L671",
@@ -3438,45 +2266,26 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-select-input"
-    ]
+    "classes": [".vf-select-input"]
   },
   "--vf-select-icon-height": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L657",
-    "popover": [
-      "Height of the select caret icon.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-select-input"
-    ]
+    "popover": ["Height of the select caret icon.", "$classes", "$github"],
+    "classes": [".vf-select-input"]
   },
   "--vf-select-icon-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L652",
-    "popover": [
-      "Width of the select caret icon.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-select-input"
-    ]
+    "popover": ["Width of the select caret icon.", "$classes", "$github"],
+    "classes": [".vf-select-input"]
   },
   "--vf-select-placeholder-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L664",
-    "popover": [
-      "Placeholder text color in the select.",
-      "$github"
-    ]
+    "popover": ["Placeholder text color in the select.", "$classes", "$github"],
+    "classes": [".vf-select-input"]
   },
   "--vf-sky": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L27",
-    "popover": [
-      "Sky blue accent color used for info states.",
-      "$github"
-    ]
+    "popover": ["Sky blue accent color used for info states.", "$github"]
   },
   "--vf-slider-label-group-v-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L226",
@@ -3487,53 +2296,31 @@
   },
   "--vf-space-1": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L115",
-    "popover": [
-      "Small spacing unit.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-space-bottom-1",
-      ".vf-space-top-1"
-    ]
+    "popover": ["Small spacing unit.", "$classes", "$github"],
+    "classes": [".vf-space-bottom-1", ".vf-space-top-1"]
   },
   "--vf-space-2": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L120",
-    "popover": [
-      "Medium spacing unit.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-space-bottom-2",
-      ".vf-space-top-2"
-    ]
+    "popover": ["Medium spacing unit.", "$classes", "$github"],
+    "classes": [".vf-space-bottom-2", ".vf-space-top-2"]
   },
   "--vf-space-3": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L125",
-    "popover": [
-      "Large spacing unit.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-space-bottom-3",
-      ".vf-space-top-3"
-    ]
+    "popover": ["Large spacing unit.", "$classes", "$github"],
+    "classes": [".vf-space-bottom-3", ".vf-space-top-3"]
   },
   "--vf-space-hr": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L130",
-    "popover": [
-      "Vertical spacing around horizontal rules.",
-      "$github"
-    ]
+    "popover": ["Vertical spacing around horizontal rules.", "$github"]
   },
   "--vf-steps-bg-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2364",
     "popover": [
       "Background color of the progress bar for steps with errors.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-step-wrapper"]
   },
   "--vf-steps-bg-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2359",
@@ -3542,61 +2329,49 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-step",
-      ".vf-step-wrapper",
-      ".vf-steps"
-    ]
+    "classes": [".vf-step", ".vf-step-wrapper", ".vf-steps"]
   },
   "--vf-steps-bg-enabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2354",
     "popover": [
       "Background color of the progress bar for enabled (completed) steps.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-step-wrapper"]
   },
   "--vf-steps-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2381",
     "popover": [
       "Text color of step labels with errors.",
-      "$github"
-    ]
-  },
-  "--vf-steps-color-disabled": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2376",
-    "popover": [
-      "Text color of disabled step labels.",
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-step-wrapper"
-    ]
+    "classes": [".vf-step-wrapper"]
+  },
+  "--vf-steps-color-disabled": {
+    "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2376",
+    "popover": ["Text color of disabled step labels.", "$classes", "$github"],
+    "classes": [".vf-step-wrapper"]
   },
   "--vf-steps-color-enabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2371",
-    "popover": [
-      "Text color of enabled step labels.",
-      "$github"
-    ]
+    "popover": ["Text color of enabled step labels.", "$classes", "$github"],
+    "classes": [".vf-step-wrapper"]
   },
   "--vf-steps-color-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2386",
     "popover": [
       "Text color of the currently selected step label.",
-      "$github"
-    ]
-  },
-  "--vf-steps-font-size": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2340",
-    "popover": [
-      "Font size of steps.",
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-step"
-    ]
+    "classes": [".vf-step-wrapper"]
+  },
+  "--vf-steps-font-size": {
+    "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2340",
+    "popover": ["Font size of steps.", "$classes", "$github"],
+    "classes": [".vf-step"]
   },
   "--vf-steps-icon-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2391",
@@ -3605,9 +2380,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-step"
-    ]
+    "classes": [".vf-step"]
   },
   "--vf-steps-icon-completed": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2404",
@@ -3616,16 +2389,16 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-step"
-    ]
+    "classes": [".vf-step"]
   },
   "--vf-steps-icon-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2410",
     "popover": [
       "SVG icon for a step indicator in an error state.",
+      "$classes",
       "$github"
-    ]
+    ],
+    "classes": [".vf-step-wrapper"]
   },
   "--vf-steps-icon-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2398",
@@ -3634,31 +2407,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-step"
-    ]
+    "classes": [".vf-step"]
   },
   "--vf-steps-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2347",
-    "popover": [
-      "Margin around the steps container.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-steps"
-    ]
+    "popover": ["Margin around the steps container.", "$classes", "$github"],
+    "classes": [".vf-steps"]
   },
   "--vf-tab-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2262",
-    "popover": [
-      "Background color of tab items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Background color of tab items.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tab-bg-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2272",
@@ -3667,20 +2426,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "classes": [".vf-tab"]
   },
   "--vf-tab-bg-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2267",
-    "popover": [
-      "Background color of the selected tab.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Background color of the selected tab.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tab-bg-selected-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2277",
@@ -3689,20 +2440,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "classes": [".vf-tab"]
   },
   "--vf-tab-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2306",
-    "popover": [
-      "Border color of tab items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Border color of tab items.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tab-border-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2316",
@@ -3711,20 +2454,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "classes": [".vf-tab"]
   },
   "--vf-tab-border-color-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2311",
-    "popover": [
-      "Border color of the selected tab.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Border color of the selected tab.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tab-border-color-selected-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2321",
@@ -3733,31 +2468,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "classes": [".vf-tab"]
   },
   "--vf-tab-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2326",
-    "popover": [
-      "Border width of tab items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Border width of tab items.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tab-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2284",
-    "popover": [
-      "Text color of tab items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Text color of tab items.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tab-color-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2294",
@@ -3766,20 +2487,12 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "classes": [".vf-tab"]
   },
   "--vf-tab-color-selected": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2289",
-    "popover": [
-      "Text color of the selected tab.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Text color of the selected tab.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tab-color-selected-danger": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2299",
@@ -3788,75 +2501,37 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "classes": [".vf-tab"]
   },
   "--vf-tab-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2255",
-    "popover": [
-      "Padding inside each tab item.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Padding inside each tab item.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tab-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2331",
-    "popover": [
-      "Border radius of tab items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Border radius of tab items.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tabs-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2233",
-    "popover": [
-      "Font size of tabs.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tab"
-    ]
+    "popover": ["Font size of tabs.", "$classes", "$github"],
+    "classes": [".vf-tab"]
   },
   "--vf-tabs-gutter-x": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2240",
-    "popover": [
-      "Horizontal gap between tab items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabs-wrapper"
-    ]
+    "popover": ["Horizontal gap between tab items.", "$classes", "$github"],
+    "classes": [".vf-tabs-wrapper"]
   },
   "--vf-tabs-gutter-y": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2245",
-    "popover": [
-      "Vertical gap between tab items.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabs-wrapper"
-    ]
+    "popover": ["Vertical gap between tab items.", "$classes", "$github"],
+    "classes": [".vf-tabs-wrapper"]
   },
   "--vf-tabs-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L2250",
-    "popover": [
-      "Margin around the tabs container.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabs"
-    ]
+    "popover": ["Margin around the tabs container.", "$classes", "$github"],
+    "classes": [".vf-tabs"]
   },
   "--vf-tabular-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L271",
@@ -3865,9 +2540,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L285",
@@ -3876,9 +2549,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-border-style": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L295",
@@ -3887,9 +2558,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-border-width": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L290",
@@ -3898,9 +2567,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-boxed-cell-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L360",
@@ -3916,9 +2583,7 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-col-header-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L323",
@@ -3927,31 +2592,17 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-col-header-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L333",
-    "popover": [
-      "Border color of column header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Border color of column header cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-col-header-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L328",
-    "popover": [
-      "Text color of column header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Text color of column header cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L278",
@@ -3960,42 +2611,22 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-header-font-size": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L307",
-    "popover": [
-      "Font size of tabular header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Font size of tabular header cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-header-font-weight": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L312",
-    "popover": [
-      "Font weight of tabular header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Font weight of tabular header cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-header-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L317",
-    "popover": [
-      "Padding inside tabular header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Padding inside tabular header cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-radius": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L300",
@@ -4004,67 +2635,35 @@
       "$classes",
       "$github"
     ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-row-header-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L338",
-    "popover": [
-      "Background color of row header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Background color of row header cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-row-header-border-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L348",
-    "popover": [
-      "Border color of row header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Border color of row header cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-row-header-color": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L343",
-    "popover": [
-      "Text color of row header cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Text color of row header cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-tabular-text-cell-padding": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L365",
-    "popover": [
-      "Padding inside tabular text cells.",
-      "$classes",
-      "$github"
-    ],
-    "classes": [
-      ".vf-tabular"
-    ]
+    "popover": ["Padding inside tabular text cells.", "$classes", "$github"],
+    "classes": [".vf-tabular"]
   },
   "--vf-text-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L211",
-    "popover": [
-      "Text color of disabled controls.",
-      "$github"
-    ]
+    "popover": ["Text color of disabled controls.", "$github"]
   },
   "--vf-text-soft": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L228",
-    "popover": [
-      "Muted text color used by help and description.",
-      "$github"
-    ]
+    "popover": ["Muted text color used by help and description.", "$github"]
   },
   "--vf-toggle-switch-aligned-margin": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L238",
@@ -4089,17 +2688,11 @@
   },
   "--vf-v-step-bg": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L372",
-    "popover": [
-      "Background of a step in vertical steps layout.",
-      "$github"
-    ]
+    "popover": ["Background of a step in vertical steps layout.", "$github"]
   },
   "--vf-white": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/themes/tokens.ts#L43",
-    "popover": [
-      "White.",
-      "$github"
-    ]
+    "popover": ["White.", "$github"]
   },
   ".sr-only": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/utils.scss#L1",
@@ -4137,27 +2730,6 @@
       "$github"
     ]
   },
-  ".vf-align-label": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L42",
-    "popover": [
-      "Aligns the label padding for horizontal labels.",
-      "$github"
-    ]
-  },
-  ".vf-autogrow": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/textarea.scss#L20",
-    "popover": [
-      "Height is script-driven (the `autogrow` prop), so never scroll.",
-      "$github"
-    ]
-  },
-  ".vf-baseline": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L77",
-    "popover": [
-      "Stretches cell content to fill the cell height.",
-      "$github"
-    ]
-  },
   ".vf-blockquote": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/blockquote.scss#L1",
     "popover": [
@@ -4165,69 +2737,36 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-blockquote-padding"
-    ]
-  },
-  ".vf-bottom": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L72",
-    "popover": [
-      "Aligns cell content to the bottom.",
-      "$github"
-    ]
+    "tokens": ["--vf-blockquote-padding"]
   },
   ".vf-btn": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/tabular-cell.scss#L65",
-    "popover": [
-      "/** Make buttons fill cell space.",
-      "$github"
-    ]
+    "popover": ["/** Make buttons fill cell space.", "$github"]
   },
   ".vf-btn-icon": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/button.scss#L277",
+    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/button.scss#L278",
     "popover": [
       "Icon element rendered inside a button via the `icon` prop.",
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-btn-font-size"
-    ]
+    "tokens": ["--vf-btn-font-size"]
   },
   ".vf-btn-text": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L28",
-    "popover": [
-      "Text label inside a button.",
-      "$github"
-    ]
+    "popover": ["Text label inside a button.", "$github"]
   },
   ".vf-button": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L2",
-    "popover": [
-      "Component wrapper for a button element.",
-      "$github"
-    ]
-  },
-  ".vf-center": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L52",
-    "popover": [
-      "Centers cell content horizontally.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a button element.", "$github"]
   },
   ".vf-checkbox": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L3",
-    "popover": [
-      "Component wrapper for a single checkbox element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a single checkbox element.", "$github"]
   },
   ".vf-checkboxes": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L4",
-    "popover": [
-      "Component wrapper for a checkbox group element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a checkbox group element.", "$github"]
   },
   ".vf-choice-input": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/choice.scss#L25",
@@ -4239,11 +2778,15 @@
     "tokens": [
       "--vf-choice-bg",
       "--vf-choice-bg-checked",
+      "--vf-choice-bg-checked-danger",
       "--vf-choice-bg-checked-disabled",
+      "--vf-choice-bg-danger",
       "--vf-choice-bg-disabled",
       "--vf-choice-border-color",
       "--vf-choice-border-color-checked",
+      "--vf-choice-border-color-checked-danger",
       "--vf-choice-border-color-checked-disabled",
+      "--vf-choice-border-color-danger",
       "--vf-choice-border-color-disabled",
       "--vf-choice-border-width-b",
       "--vf-choice-border-width-l",
@@ -4252,12 +2795,15 @@
       "--vf-choice-height",
       "--vf-choice-icon-checked",
       "--vf-choice-icon-color",
+      "--vf-choice-icon-color-danger",
       "--vf-choice-icon-color-disabled",
       "--vf-choice-icon-selected",
       "--vf-choice-radius",
       "--vf-choice-ring-color",
+      "--vf-choice-ring-color-danger",
       "--vf-choice-ring-offset",
       "--vf-choice-ring-shadow",
+      "--vf-choice-ring-shadow-danger",
       "--vf-choice-ring-style",
       "--vf-choice-ring-width",
       "--vf-choice-shadow",
@@ -4271,9 +2817,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-choice-color"
-    ]
+    "tokens": ["--vf-choice-color"]
   },
   ".vf-choice-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/scss/choice.scss#L1",
@@ -4282,10 +2826,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-choice-aligned-margin",
-      "--vf-choice-gutter"
-    ]
+    "tokens": ["--vf-choice-aligned-margin", "--vf-choice-gutter"]
   },
   ".vf-choices": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/choices.scss#L1",
@@ -4308,36 +2849,9 @@
       "--vf-choices-gutter-y"
     ]
   },
-  ".vf-completed": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/steps.scss#L162",
-    "popover": [
-      "Step that has been completed successfully.",
-      "$github"
-    ]
-  },
   ".vf-content": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L5",
-    "popover": [
-      "Content area within a static or container element.",
-      "$github"
-    ]
-  },
-  ".vf-danger": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/choice.scss#L90",
-    "popover": [
-      "Danger/error state with highlighted colors.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-choice-bg-checked-danger",
-      "--vf-choice-bg-danger",
-      "--vf-choice-border-color-checked-danger",
-      "--vf-choice-border-color-danger",
-      "--vf-choice-icon-color-danger",
-      "--vf-choice-ring-color-danger",
-      "--vf-choice-ring-shadow-danger"
-    ]
+    "popover": ["Content area within a static or container element.", "$github"]
   },
   ".vf-description": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L100",
@@ -4357,41 +2871,9 @@
       "--vf-description-radius"
     ]
   },
-  ".vf-dragging": {
-    "popover": [
-      "$variants"
-    ],
-    "variants": {
-      "vf-list-item": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/list.scss#L20",
-        "popover": [
-          "Visual state while being dragged.",
-          "$tokens",
-          "$github"
-        ],
-        "tokens": [
-          "--vf-list-dragging-opacity"
-        ]
-      },
-      "vf-matrix-row": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L63",
-        "popover": [
-          "Visual state while the row is being dragged.",
-          "$tokens",
-          "$github"
-        ],
-        "tokens": [
-          "--vf-matrix-dragging-opacity"
-        ]
-      }
-    }
-  },
   ".vf-drop-target": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L6",
-    "popover": [
-      "Drop target area for file drag-and-drop uploads.",
-      "$github"
-    ]
+    "popover": ["Drop target area for file drag-and-drop uploads.", "$github"]
   },
   ".vf-element": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L1",
@@ -4407,10 +2889,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-element-group-gutter-x",
-      "--vf-element-group-gutter-y"
-    ]
+    "tokens": ["--vf-element-group-gutter-x", "--vf-element-group-gutter-y"]
   },
   ".vf-element-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L80",
@@ -4419,9 +2898,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-element-wrapper-padding"
-    ]
+    "tokens": ["--vf-element-wrapper-padding"]
   },
   ".vf-elements": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/form.scss#L39",
@@ -4437,24 +2914,9 @@
       "--vf-elements-gutter-y"
     ]
   },
-  ".vf-enabled": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/steps.scss#L124",
-    "popover": [
-      "Step that has been visited/enabled.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-steps-bg-enabled",
-      "--vf-steps-color-enabled"
-    ]
-  },
   ".vf-error": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L7",
-    "popover": [
-      "Single validation error message item.",
-      "$github"
-    ]
+    "popover": ["Single validation error message item.", "$github"]
   },
   ".vf-errors": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L114",
@@ -4476,17 +2938,11 @@
   },
   ".vf-field": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L8",
-    "popover": [
-      "Wrapper around the input field area of an element.",
-      "$github"
-    ]
+    "popover": ["Wrapper around the input field area of an element.", "$github"]
   },
   ".vf-file": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L9",
-    "popover": [
-      "Component wrapper for a file upload element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a file upload element.", "$github"]
   },
   ".vf-file-item": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/file.scss#L12",
@@ -4495,10 +2951,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-file-item-gutter-x",
-      "--vf-file-item-gutter-y"
-    ]
+    "tokens": ["--vf-file-item-gutter-x", "--vf-file-item-gutter-y"]
   },
   ".vf-file-list": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/file.scss#L1",
@@ -4507,39 +2960,19 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-file-gutter-x",
-      "--vf-file-gutter-y",
-      "--vf-file-margin"
-    ]
+    "tokens": ["--vf-file-gutter-x", "--vf-file-gutter-y", "--vf-file-margin"]
   },
   ".vf-file-name": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L10",
-    "popover": [
-      "File name display text inside a file item.",
-      "$github"
-    ]
+    "popover": ["File name display text inside a file item.", "$github"]
   },
   ".vf-file-remove": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L11",
-    "popover": [
-      "Remove button for a single uploaded file.",
-      "$github"
-    ]
+    "popover": ["Remove button for a single uploaded file.", "$github"]
   },
   ".vf-file-upload-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/scss/tabular-cell.scss#L168",
-    "popover": [
-      "/** File upload specific styles.",
-      "$github"
-    ]
-  },
-  ".vf-fit": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L28",
-    "popover": [
-      "Shrinks the grid width to fit its content.",
-      "$github"
-    ]
+    "popover": ["/** File upload specific styles.", "$github"]
   },
   ".vf-form": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/form.scss#L50",
@@ -4575,10 +3008,7 @@
   },
   ".vf-form-errors-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L13",
-    "popover": [
-      "Wrapper around the form-level error message list.",
-      "$github"
-    ]
+    "popover": ["Wrapper around the form-level error message list.", "$github"]
   },
   ".vf-form-message": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L14",
@@ -4589,11 +3019,7 @@
   },
   ".vf-form-messages": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/form.scss#L24",
-    "popover": [
-      "Form-level informational message list.",
-      "$tokens",
-      "$github"
-    ],
+    "popover": ["Form-level informational message list.", "$tokens", "$github"],
     "tokens": [
       "--vf-form-messages-bg",
       "--vf-form-messages-border-color",
@@ -4607,35 +3033,20 @@
   },
   ".vf-form-messages-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L15",
-    "popover": [
-      "Wrapper around the form-level message list.",
-      "$github"
-    ]
+    "popover": ["Wrapper around the form-level message list.", "$github"]
   },
   ".vf-grid": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L1",
-    "popover": [
-      "Root container for a grid-based layout element.",
-      "$github"
-    ]
+    "popover": ["Root container for a grid-based layout element.", "$github"]
   },
   ".vf-grid-cell": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L41",
-    "popover": [
-      "Individual cell within a grid row.",
-      "$github"
-    ]
+    "popover": ["Individual cell within a grid row.", "$github"]
   },
   ".vf-grid-col-header": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L83",
-    "popover": [
-      "Column header cell in a grid layout.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-grid-col-header-color"
-    ]
+    "popover": ["Column header cell in a grid layout.", "$tokens", "$github"],
+    "tokens": ["--vf-grid-col-header-color"]
   },
   ".vf-grid-grid": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L20",
@@ -4644,10 +3055,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-grid-gutter-x",
-      "--vf-grid-gutter-y"
-    ]
+    "tokens": ["--vf-grid-gutter-x", "--vf-grid-gutter-y"]
   },
   ".vf-grid-row": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L34",
@@ -4658,15 +3066,8 @@
   },
   ".vf-grid-row-header": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L96",
-    "popover": [
-      "Row header cell in a grid layout.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-grid-header-font-size",
-      "--vf-grid-row-header-color"
-    ]
+    "popover": ["Row header cell in a grid layout.", "$tokens", "$github"],
+    "tokens": ["--vf-grid-header-font-size", "--vf-grid-row-header-color"]
   },
   ".vf-grid-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L10",
@@ -4679,7 +3080,16 @@
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/group.scss#L1",
     "popover": [
       "Fieldset container for grouping form elements together.",
+      "$tokens",
       "$github"
+    ],
+    "tokens": [
+      "--vf-group-wrapped-bg",
+      "--vf-group-wrapped-border-color",
+      "--vf-group-wrapped-border-style",
+      "--vf-group-wrapped-border-width",
+      "--vf-group-wrapped-padding",
+      "--vf-group-wrapped-radius"
     ]
   },
   ".vf-group-elements": {
@@ -4691,8 +3101,16 @@
     ],
     "tokens": [
       "--vf-group-grid-template-columns",
+      "--vf-group-gutter-stacked-x",
+      "--vf-group-gutter-stacked-y",
       "--vf-group-gutter-x",
-      "--vf-group-gutter-y"
+      "--vf-group-gutter-y",
+      "--vf-group-wrapped-bg",
+      "--vf-group-wrapped-border-color",
+      "--vf-group-wrapped-border-style",
+      "--vf-group-wrapped-border-width",
+      "--vf-group-wrapped-padding",
+      "--vf-group-wrapped-radius"
     ]
   },
   ".vf-help": {
@@ -4713,6 +3131,13 @@
       "--vf-help-radius"
     ]
   },
+  ".vf-horizontal": {
+    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L42",
+    "popover": [
+      "Aligns the label padding for horizontal labels (elements without help text).",
+      "$github"
+    ]
+  },
   ".vf-hr": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/hr.scss#L1",
     "popover": [
@@ -4720,16 +3145,11 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-hr-padding"
-    ]
+    "tokens": ["--vf-hr-padding"]
   },
   ".vf-icon": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L16",
-    "popover": [
-      "Inline icon container element.",
-      "$github"
-    ]
+    "popover": ["Inline icon container element.", "$github"]
   },
   ".vf-icon-add": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/icon.scss#L59",
@@ -4738,11 +3158,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-icon-add",
-      "--vf-icon-height",
-      "--vf-icon-width"
-    ]
+    "tokens": ["--vf-icon-add", "--vf-icon-height", "--vf-icon-width"]
   },
   ".vf-icon-group": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/icon.scss#L1",
@@ -4766,11 +3182,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-icon-height",
-      "--vf-icon-loading",
-      "--vf-icon-width"
-    ]
+    "tokens": ["--vf-icon-height", "--vf-icon-loading", "--vf-icon-width"]
   },
   ".vf-icon-remove": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/icon.scss#L78",
@@ -4779,11 +3191,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-icon-height",
-      "--vf-icon-remove",
-      "--vf-icon-width"
-    ]
+    "tokens": ["--vf-icon-height", "--vf-icon-remove", "--vf-icon-width"]
   },
   ".vf-icon-sort": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/icon.scss#L97",
@@ -4792,39 +3200,15 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-icon-height",
-      "--vf-icon-sort",
-      "--vf-icon-width"
-    ]
+    "tokens": ["--vf-icon-height", "--vf-icon-sort", "--vf-icon-width"]
   },
   ".vf-input": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/tabular-cell.scss#L75",
-    "popover": [
-      "/** Make inputs fill cell space inside icon group.",
-      "$github"
-    ]
-  },
-  ".vf-invalid": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/steps.scss#L176",
-    "popover": [
-      "Step with validation errors.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-steps-bg-danger",
-      "--vf-steps-color-danger",
-      "--vf-steps-icon-danger"
-    ]
+    "popover": ["/** Make inputs fill cell space inside icon group.", "$github"]
   },
   ".vf-label": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L19",
-    "popover": [
-      "Text label for a form element.",
-      "$tokens",
-      "$github"
-    ],
+    "popover": ["Text label for a form element.", "$tokens", "$github"],
     "tokens": [
       "--vf-label-font-size",
       "--vf-label-font-weight",
@@ -4838,17 +3222,11 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-label-group-v-padding"
-    ]
+    "tokens": ["--vf-label-group-v-padding"]
   },
   ".vf-language": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/languages.scss#L44",
-    "popover": [
-      "Individual language tab button.",
-      "$tokens",
-      "$github"
-    ],
+    "popover": ["Individual language tab button.", "$tokens", "$github"],
     "tokens": [
       "--vf-language-bg",
       "--vf-language-bg-danger",
@@ -4882,9 +3260,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-languages-margin"
-    ]
+    "tokens": ["--vf-languages-margin"]
   },
   ".vf-languages-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/languages.scss#L8",
@@ -4893,16 +3269,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-languages-gutter"
-    ]
-  },
-  ".vf-left": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L47",
-    "popover": [
-      "Aligns cell content to the left.",
-      "$github"
-    ]
+    "tokens": ["--vf-languages-gutter"]
   },
   ".vf-line-bottom": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L198",
@@ -4911,27 +3278,16 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-element-line-color"
-    ]
+    "tokens": ["--vf-element-line-color"]
   },
   ".vf-line-top": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L190",
-    "popover": [
-      "Adds a top border line to an element.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-element-line-color"
-    ]
+    "popover": ["Adds a top border line to an element.", "$tokens", "$github"],
+    "tokens": ["--vf-element-line-color"]
   },
   ".vf-list": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L17",
-    "popover": [
-      "Component wrapper for a repeatable list element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a repeatable list element.", "$github"]
   },
   ".vf-list-add": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/list.scss#L51",
@@ -4940,9 +3296,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-list-add-margin"
-    ]
+    "tokens": ["--vf-list-add-margin"]
   },
   ".vf-list-element": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/list.scss#L27",
@@ -4968,6 +3322,7 @@
       "$github"
     ],
     "tokens": [
+      "--vf-list-dragging-opacity",
       "--vf-list-item-align",
       "--vf-list-item-gutter-x",
       "--vf-list-item-gutter-y"
@@ -4980,10 +3335,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-list-gutter-x",
-      "--vf-list-gutter-y"
-    ]
+    "tokens": ["--vf-list-gutter-x", "--vf-list-gutter-y"]
   },
   ".vf-list-placeholder": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/list.scss#L36",
@@ -5004,19 +3356,9 @@
       "--vf-list-placeholder-radius"
     ]
   },
-  ".vf-loading": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/steps.scss#L210",
-    "popover": [
-      "Step that is currently loading/processing.",
-      "$github"
-    ]
-  },
   ".vf-matrix": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L18",
-    "popover": [
-      "Component wrapper for a matrix element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a matrix element.", "$github"]
   },
   ".vf-matrix-add": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L115",
@@ -5025,27 +3367,16 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-matrix-add-margin"
-    ]
+    "tokens": ["--vf-matrix-add-margin"]
   },
   ".vf-matrix-cell": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L83",
-    "popover": [
-      "Individual data cell in the matrix.",
-      "$github"
-    ]
+    "popover": ["Individual data cell in the matrix.", "$github"]
   },
   ".vf-matrix-col-header": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L24",
-    "popover": [
-      "Column header cell in the matrix.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-matrix-col-header-color"
-    ]
+    "popover": ["Column header cell in the matrix.", "$tokens", "$github"],
+    "tokens": ["--vf-matrix-col-header-color"]
   },
   ".vf-matrix-grid": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L1",
@@ -5054,32 +3385,24 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-matrix-gutter-x",
-      "--vf-matrix-gutter-y"
-    ]
+    "tokens": ["--vf-matrix-gutter-x", "--vf-matrix-gutter-y"]
   },
   ".vf-matrix-header": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L17",
-    "popover": [
-      "Header row container using display:contents.",
-      "$github"
-    ]
+    "popover": ["Header row container using display:contents.", "$github"]
   },
   ".vf-matrix-row": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L57",
     "popover": [
       "A single data row in the matrix using display:contents.",
-      "$github"
-    ]
-  },
-  ".vf-matrix-row-header": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L70",
-    "popover": [
-      "Row header cell in the matrix.",
       "$tokens",
       "$github"
     ],
+    "tokens": ["--vf-matrix-dragging-opacity"]
+  },
+  ".vf-matrix-row-header": {
+    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L70",
+    "popover": ["Row header cell in the matrix.", "$tokens", "$github"],
     "tokens": [
       "--vf-matrix-header-font-size",
       "--vf-matrix-header-font-weight",
@@ -5095,10 +3418,7 @@
   },
   ".vf-matrix-row-sort": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L97",
-    "popover": [
-      "Container for the sort handle within a matrix row.",
-      "$github"
-    ]
+    "popover": ["Container for the sort handle within a matrix row.", "$github"]
   },
   ".vf-message": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L19",
@@ -5125,13 +3445,6 @@
       "--vf-messages-radius"
     ]
   },
-  ".vf-middle": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L67",
-    "popover": [
-      "Vertically centers cell content.",
-      "$github"
-    ]
-  },
   ".vf-nav": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/nav.scss#L1",
     "popover": [
@@ -5139,39 +3452,19 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-nav-gutter",
-      "--vf-nav-justify",
-      "--vf-nav-margin"
-    ]
+    "tokens": ["--vf-nav-gutter", "--vf-nav-justify", "--vf-nav-margin"]
   },
   ".vf-nav-back": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L20",
-    "popover": [
-      "Back/previous button in step navigation.",
-      "$github"
-    ]
+    "popover": ["Back/previous button in step navigation.", "$github"]
   },
   ".vf-nav-finish": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L21",
-    "popover": [
-      "Finish/submit button in step navigation.",
-      "$github"
-    ]
+    "popover": ["Finish/submit button in step navigation.", "$github"]
   },
   ".vf-nav-next": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L22",
-    "popover": [
-      "Next/continue button in step navigation.",
-      "$github"
-    ]
-  },
-  ".vf-no-back": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/nav.scss#L23",
-    "popover": [
-      "Aligns content to the end when there is no back button.",
-      "$github"
-    ]
+    "popover": ["Next/continue button in step navigation.", "$github"]
   },
   ".vf-panel": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L12",
@@ -5187,30 +3480,13 @@
       "$github"
     ]
   },
-  ".vf-placeholder": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/select.scss#L33",
-    "popover": [
-      "Placeholder color when no option is selected.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-select-placeholder-color"
-    ]
-  },
   ".vf-radio": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L23",
-    "popover": [
-      "Component wrapper for a single radio element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a single radio element.", "$github"]
   },
   ".vf-radios": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L24",
-    "popover": [
-      "Component wrapper for a radio group element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a radio group element.", "$github"]
   },
   ".vf-required": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L51",
@@ -5228,61 +3504,9 @@
       "--vf-required-w"
     ]
   },
-  ".vf-resizable": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/textarea.scss#L15",
-    "popover": [
-      "Restores the native resize handle (the `resize` prop).",
-      "$github"
-    ]
-  },
-  ".vf-right": {
-    "popover": [
-      "$variants"
-    ],
-    "variants": {
-      "vf-choice-wrapper": {
-        "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/scss/choice.scss#L10",
-        "popover": [
-          "Reverses layout so the input appears on the right.",
-          "$github"
-        ]
-      },
-      "vf-grid-cell": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L57",
-        "popover": [
-          "Aligns cell content to the right.",
-          "$github"
-        ]
-      }
-    }
-  },
-  ".vf-scrollable": {
-    "popover": [
-      "$variants"
-    ],
-    "variants": {
-      "vf-grid-wrapper": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L14",
-        "popover": [
-          "Enables horizontal scroll when grid overflows.",
-          "$github"
-        ]
-      },
-      "vf-matrix-grid": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L11",
-        "popover": [
-          "Enables scrolling when the matrix overflows.",
-          "$github"
-        ]
-      }
-    }
-  },
   ".vf-select": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L25",
-    "popover": [
-      "Component wrapper for a select element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a select element.", "$github"]
   },
   ".vf-select-input": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/select.scss#L1",
@@ -5299,18 +3523,8 @@
       "--vf-input-pt",
       "--vf-select-icon-caret",
       "--vf-select-icon-height",
-      "--vf-select-icon-width"
-    ]
-  },
-  ".vf-selected": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/steps.scss#L167",
-    "popover": [
-      "Currently active/selected step.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-steps-color-selected"
+      "--vf-select-icon-width",
+      "--vf-select-placeholder-color"
     ]
   },
   ".vf-space-bottom-1": {
@@ -5320,9 +3534,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-space-1"
-    ]
+    "tokens": ["--vf-space-1"]
   },
   ".vf-space-bottom-2": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L174",
@@ -5331,9 +3543,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-space-2"
-    ]
+    "tokens": ["--vf-space-2"]
   },
   ".vf-space-bottom-3": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L182",
@@ -5342,68 +3552,22 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-space-3"
-    ]
+    "tokens": ["--vf-space-3"]
   },
   ".vf-space-top-1": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L142",
-    "popover": [
-      "Adds small top padding to an element.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-space-1"
-    ]
+    "popover": ["Adds small top padding to an element.", "$tokens", "$github"],
+    "tokens": ["--vf-space-1"]
   },
   ".vf-space-top-2": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L150",
-    "popover": [
-      "Adds medium top padding to an element.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-space-2"
-    ]
+    "popover": ["Adds medium top padding to an element.", "$tokens", "$github"],
+    "tokens": ["--vf-space-2"]
   },
   ".vf-space-top-3": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/element.scss#L158",
-    "popover": [
-      "Adds large top padding to an element.",
-      "$tokens",
-      "$github"
-    ],
-    "tokens": [
-      "--vf-space-3"
-    ]
-  },
-  ".vf-stacked": {
-    "popover": [
-      "$variants"
-    ],
-    "variants": {
-      "vf-choices-group": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/choices.scss#L20",
-        "popover": [
-          "Arranges choices in a horizontal row layout.",
-          "$github"
-        ]
-      },
-      "vf-group-elements": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/group.scss#L29",
-        "popover": [
-          "Uses horizontal flex-wrap layout instead of grid.",
-          "$tokens",
-          "$github"
-        ],
-        "tokens": [
-          "--vf-group-gutter-stacked-x",
-          "--vf-group-gutter-stacked-y"
-        ]
-      }
-    }
+    "popover": ["Adds large top padding to an element.", "$tokens", "$github"],
+    "tokens": ["--vf-space-3"]
   },
   ".vf-step": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/steps.scss#L218",
@@ -5428,8 +3592,14 @@
       "$github"
     ],
     "tokens": [
+      "--vf-steps-bg-danger",
       "--vf-steps-bg-disabled",
-      "--vf-steps-color-disabled"
+      "--vf-steps-bg-enabled",
+      "--vf-steps-color-danger",
+      "--vf-steps-color-disabled",
+      "--vf-steps-color-enabled",
+      "--vf-steps-color-selected",
+      "--vf-steps-icon-danger"
     ]
   },
   ".vf-steps": {
@@ -5439,32 +3609,15 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-steps-bg-disabled",
-      "--vf-steps-margin"
-    ]
+    "tokens": ["--vf-steps-bg-disabled", "--vf-steps-margin"]
   },
   ".vf-steps-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/steps.scss#L29",
-    "popover": [
-      "Flex container holding individual step items.",
-      "$github"
-    ]
-  },
-  ".vf-sticky": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/matrix.scss#L33",
-    "popover": [
-      "Makes the header stick to the viewport edge on scroll.",
-      "$github"
-    ]
+    "popover": ["Flex container holding individual step items.", "$github"]
   },
   ".vf-tab": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/tabs.scss#L45",
-    "popover": [
-      "Individual tab button element.",
-      "$tokens",
-      "$github"
-    ],
+    "popover": ["Individual tab button element.", "$tokens", "$github"],
     "tokens": [
       "--vf-tab-bg",
       "--vf-tab-bg-danger",
@@ -5498,9 +3651,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-tabs-margin"
-    ]
+    "tokens": ["--vf-tabs-margin"]
   },
   ".vf-tabs-wrapper": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/tabs.scss#L8",
@@ -5509,10 +3660,7 @@
       "$tokens",
       "$github"
     ],
-    "tokens": [
-      "--vf-tabs-gutter-x",
-      "--vf-tabs-gutter-y"
-    ]
+    "tokens": ["--vf-tabs-gutter-x", "--vf-tabs-gutter-y"]
   },
   ".vf-tabular": {
     "github": "https://github.com/vueform/next/blob/main/packages/primevue/src/scss/grid.scss#L11",
@@ -5551,10 +3699,7 @@
   },
   ".vf-text": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L26",
-    "popover": [
-      "Component wrapper for a text input element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a text input element.", "$github"]
   },
   ".vf-text-input": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/text.scss#L1",
@@ -5575,10 +3720,7 @@
   },
   ".vf-textarea": {
     "github": "https://github.com/vueform/next/blob/main/scripts/api-extractor/data/virtual-classes.json#L27",
-    "popover": [
-      "Component wrapper for a textarea element.",
-      "$github"
-    ]
+    "popover": ["Component wrapper for a textarea element.", "$github"]
   },
   ".vf-textarea-input": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/textarea.scss#L1",
@@ -5592,13 +3734,6 @@
       "--vf-input-pl",
       "--vf-input-pr",
       "--vf-input-pt"
-    ]
-  },
-  ".vf-top": {
-    "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/grid.scss#L62",
-    "popover": [
-      "Aligns cell content to the top.",
-      "$github"
     ]
   },
   ".vf-wrap-col-headers": {
@@ -5615,50 +3750,9 @@
       "$github"
     ]
   },
-  ".vf-wrapped": {
-    "popover": [
-      "$variants"
-    ],
-    "variants": {
-      "vf-group": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/group.scss#L9",
-        "popover": [
-          "Applies visual wrapping with background, border and padding.",
-          "$tokens",
-          "$github"
-        ],
-        "tokens": [
-          "--vf-group-wrapped-bg",
-          "--vf-group-wrapped-border-color",
-          "--vf-group-wrapped-border-style",
-          "--vf-group-wrapped-border-width",
-          "--vf-group-wrapped-padding",
-          "--vf-group-wrapped-radius"
-        ]
-      },
-      "vf-group-elements": {
-        "github": "https://github.com/vueform/next/blob/main/packages/core/src/scss/group.scss#L38",
-        "popover": [
-          "Applies visual wrapping with background, border and padding.",
-          "$tokens",
-          "$github"
-        ],
-        "tokens": [
-          "--vf-group-wrapped-bg",
-          "--vf-group-wrapped-border-color",
-          "--vf-group-wrapped-border-style",
-          "--vf-group-wrapped-border-width",
-          "--vf-group-wrapped-padding",
-          "--vf-group-wrapped-radius"
-        ]
-      }
-    }
-  },
   "ScrollIntoViewOptions": {
     "link": "https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView#options",
-    "popover": [
-      "Go to MDN docs"
-    ]
+    "popover": ["Go to MDN docs"]
   },
   "VfAddon": {
     "link": "/components/VfAddon"

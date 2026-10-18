@@ -18,7 +18,6 @@ interface InputOtpProps<
     ExpressionProps,
     ModelPropsWithDefaultValue<OtpModel, TContext>,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,

@@ -14,12 +14,10 @@ interface VfListClasses extends ListClasses {
   items: ClassValue
 
   /**
-   * Each list item wrapper. Receives drag state.
-   *
-   * @param beingDragged Whether this item is currently being dragged.
-   * @param isDropTarget Whether this item is the current drop target.
+   * Each list item wrapper. Drag state is exposed via `data-dragging` and
+   * `data-drop-target` attributes (and `data-wrapped` for the `wrap` prop).
    */
-  item: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
+  item: ClassValue
 
   /**
    * The element wrapper within each list item.

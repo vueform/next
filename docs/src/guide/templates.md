@@ -82,7 +82,11 @@ defineProps<{ context: ContextOf<'VfText'> }>()
       :id="context.id"
       :class="context.classes.input"
       :value="context.value"
-      v-bind="{ ...context.aria, ...context.parts.input }"
+      v-bind="{
+        ...context.modifiers.input,
+        ...context.a11yBindings.input,
+        ...context.parts.input,
+      }"
       :ref="context.setInputRef"
       @input="context.handleInput"
     />

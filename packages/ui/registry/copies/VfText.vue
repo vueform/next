@@ -11,7 +11,12 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { useBlueprint, defineEvents, type LanguagesProp } from '@vueform/ui'
+import {
+  useBlueprint,
+  defineEvents,
+  type LanguagesProp,
+  autocompleteTokenOf,
+} from '@vueform/ui'
 import {
   defaults,
   blueprint,
@@ -42,16 +47,9 @@ const slots = defineSlots<VfTextSlots<TTranslate, TLanguages>>()
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help, hasError }) => ({
-  root: {
-    'vf-text': true,
-    'vf-align-label': !help.value,
-  },
-  input: {
-    'vf-input': true,
-    'vf-text-input': true,
-    'vf-danger': hasError.value,
-  },
+useClasses(() => ({
+  root: 'vf-text',
+  input: 'vf-input vf-text-input',
 }))
 
 const {
@@ -62,7 +60,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   name,
   handleKeydown,
@@ -73,7 +71,7 @@ const {
   handleInput,
 } = api
 
-const { inputType, autocomplete } = propRefs
+const { inputType, autocomplete, inputmode } = propRefs
 
 defineExpose(expose)
 </script>
@@ -89,11 +87,12 @@ defineExpose(expose)
         :class="classes.input"
         v-model="value"
         :placeholder
-        :autocomplete
+        :autocomplete="autocomplete ?? autocompleteTokenOf(name)"
+        :inputmode
         :disabled
         :readonly="readonly || undefined"
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...parts.input,
         }"
         :ref="(el) => (input = el)"

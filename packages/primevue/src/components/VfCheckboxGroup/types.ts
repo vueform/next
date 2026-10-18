@@ -10,10 +10,12 @@ import type {
 import type { VNode } from 'vue'
 
 import type {
+  CheckboxGroupA11y,
   CheckboxGroupApi,
   CheckboxGroupClasses,
   CheckboxGroupEmits,
   CheckboxGroupExpose,
+  CheckboxGroupModifiers,
   CheckboxGroupParts,
   CheckboxGroupProps,
   CheckboxGroupSlots,
@@ -181,6 +183,27 @@ export interface VfCheckboxGroupSlots<
      * Whether items are rendered as groups.
      */
     grouped: boolean
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxGroupParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfCheckboxGroupModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfCheckboxGroupA11y
   }) => VNode[]
 
   /**
@@ -216,6 +239,27 @@ export interface VfCheckboxGroupSlots<
       >,
       RawOptionOf<TOptions, TGroupChildren>
     >
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxGroupParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfCheckboxGroupModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfCheckboxGroupA11y
   }) => VNode[]
 
   /**
@@ -251,6 +295,16 @@ export interface VfCheckboxGroupSlots<
       >,
       RawOptionOf<TOptions, TGroupChildren>
     >
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxGroupParts>
   }) => VNode[]
 
   /**
@@ -318,6 +372,34 @@ export interface VfCheckboxGroupClasses extends CheckboxGroupClasses {
 }
 
 /**
+ * Accessibility bindings of the VfCheckboxGroup component.
+ */
+export interface VfCheckboxGroupA11y extends CheckboxGroupA11y {}
+
+/**
+ * Styling modifiers of the VfCheckboxGroup component.
+ */
+export interface VfCheckboxGroupModifiers extends CheckboxGroupModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The group container's layout markers (stacked row layout, vertical
+   * alignment with adjacent form controls) and validation state.
+   */
+  group: {
+    'data-stacked'?: ''
+    'data-aligned'?: ''
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfCheckboxGroup.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -352,6 +434,8 @@ export interface VfCheckboxGroupContext<
   VfCheckboxGroupSlots,
   VfCheckboxGroupParts,
   VfCheckboxGroupClasses,
+  VfCheckboxGroupModifiers,
+  VfCheckboxGroupA11y,
   VfCheckboxGroupExpose,
   CheckboxGroupApi<TProps>
 > {}

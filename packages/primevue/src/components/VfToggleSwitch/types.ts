@@ -10,10 +10,12 @@ import type { ToggleSwitchSlots as AToggleSwitchSlots } from 'primevue/toggleswi
 import type { VNode } from 'vue'
 
 import type {
+  ToggleSwitchA11y,
   ToggleSwitchApi,
   ToggleSwitchClasses,
   ToggleSwitchEmits,
   ToggleSwitchExpose,
+  ToggleSwitchModifiers,
   ToggleSwitchParts,
   ToggleSwitchProps,
   ToggleSwitchSlots,
@@ -117,6 +119,31 @@ export interface VfToggleSwitchClasses extends ToggleSwitchClasses {
 }
 
 /**
+ * Accessibility bindings of the VfToggleSwitch component.
+ */
+export interface VfToggleSwitchA11y extends ToggleSwitchA11y {}
+
+/**
+ * Styling modifiers of the VfToggleSwitch component.
+ */
+export interface VfToggleSwitchModifiers extends ToggleSwitchModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The toggle-switch control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfToggleSwitch.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -143,6 +170,8 @@ export interface VfToggleSwitchContext<
   VfToggleSwitchSlots,
   VfToggleSwitchParts,
   VfToggleSwitchClasses,
+  VfToggleSwitchModifiers,
+  VfToggleSwitchA11y,
   VfToggleSwitchExpose,
   ToggleSwitchApi<TProps>
 > {}

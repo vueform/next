@@ -33,11 +33,8 @@ const slots = defineSlots<VfColorPickerSlots>()
 const { api, parts, classes, context, expose, outlets, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ props }) => ({
-  root: {
-    'vf-color-picker': true,
-    'vf-aligned': !!props.aligned,
-  },
+useClasses(() => ({
+  root: 'vf-color-picker',
 }))
 
 const {
@@ -51,6 +48,7 @@ const {
   format,
   forwardProps,
   handleInput,
+  a11yBindings,
 } = api
 
 defineExpose(expose)
@@ -69,6 +67,7 @@ defineExpose(expose)
         :disabled
         :invalid
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

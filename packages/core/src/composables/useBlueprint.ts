@@ -10,6 +10,7 @@ import {
   ref,
   shallowRef,
   toRaw,
+  unref,
   useAttrs,
   type ComputedRef,
   type Ref,
@@ -51,6 +52,7 @@ import {
   type PresetsProp,
   type SpreadMerge,
   type UnwrapApiRefs,
+  type UnwrapTopLevelRef,
 } from '#src/types'
 import {
   createPropRefs,
@@ -71,6 +73,47 @@ import {
   warn,
   isDev,
 } from '#src/utils'
+
+/**
+ * Attribute bindings for a single DOM part: ARIA attributes, ids, and roles
+ * meant to be applied with a single `v-bind`.
+ */
+export type A11yBindingBag = Record<
+  string,
+  string | number | boolean | undefined
+>
+
+/**
+ * Part-keyed accessibility bindings of a component — the loose shape the
+ * context machinery falls back to when no component-level `VfXA11y` is in
+ * scope. Each key names a DOM part (using the same vocabulary as
+ * `parts`/`classes`) and holds the attributes that part must carry — a plain
+ * bag, or for per-item parts a function of the item's position returning the
+ * bag (resolved at the call site like functional parts).
+ */
+export type A11yBindings<TPart extends string = string> = Partial<
+  Record<TPart, A11yBindingBag | ((...args: any[]) => A11yBindingBag)>
+>
+
+/**
+ * Styling attributes for a single DOM part: `data-*` state and variant
+ * attributes meant to be applied with a single `v-bind`. Presence attributes
+ * carry `''` when active and `undefined` when not (so Vue removes them instead
+ * of rendering `"false"`).
+ */
+export type ModifierBag = Record<string, string | number | undefined>
+
+/**
+ * Part-keyed styling modifiers of a component — the loose shape the context
+ * machinery falls back to when no component-level `VfXModifiers` is in scope.
+ * Each key names a DOM part (using the same vocabulary as `parts`/`classes`)
+ * and holds the `data-*` attributes that part must carry — a plain bag, or
+ * for per-item parts a function of the item's position/state returning the
+ * bag (resolved at the call site like functional parts).
+ */
+export type Modifiers<TPart extends string = string> = Partial<
+  Record<TPart, ModifierBag | ((...args: any[]) => ModifierBag)>
+>
 
 /**
  * The shape returned by `useParts`: the original part type (callable parts
@@ -244,6 +287,18 @@ type Blueprint2Api<
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 
   /**
+   * Merged part-keyed accessibility bindings: the blueprint's semantic base
+   * with component-registered bags (`useA11yBindings`) layered on top.
+   */
+  a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
+
+  /**
+   * Merged part-keyed styling modifiers registered by the component via
+   * `useModifiers` (`data-*` state and variant attributes).
+   */
+  modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
+
+  /**
    * The object to hand to `defineExpose`: the raw API plus the resolved
    * `props`, `parts`, `classes`, and `outlets`.
    */
@@ -252,6 +307,8 @@ type Blueprint2Api<
     parts: TParts
     classes: TClasses
     outlets: ComputedRef<TSlots>
+    a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
+    modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
   }
 
   /**
@@ -262,6 +319,34 @@ type Blueprint2Api<
   useClasses: (
     ...defs: ClassDefsArg<
       TClasses,
+      ClassFactoryApi<TApi, TProps, TEvents>,
+      PropRefsOf<TProps>
+    >[]
+  ) => void
+
+  /**
+   * Registers component-level accessibility binding definitions, layered on
+   * top of the blueprint's base bags. Bags for the same part shallow-merge;
+   * functional entries replace the whole entry.
+   *
+   * @param defs Binding definition objects or factories.
+   */
+  useA11yBindings: (
+    ...defs: BindingDefsArg<
+      ClassFactoryApi<TApi, TProps, TEvents>,
+      PropRefsOf<TProps>
+    >[]
+  ) => void
+
+  /**
+   * Registers component-level styling modifier definitions (part-keyed
+   * `data-*` bags). Bags for the same part shallow-merge; functional entries
+   * replace the whole entry.
+   *
+   * @param defs Modifier definition objects or factories.
+   */
+  useModifiers: (
+    ...defs: BindingDefsArg<
       ClassFactoryApi<TApi, TProps, TEvents>,
       PropRefsOf<TProps>
     >[]
@@ -286,6 +371,118 @@ type ClassDefsArg<
   TApi = Record<string, any>,
   TPropRefs = Record<string, any>,
 > = LooseClasses<C> | ClassDefsFactory<C, TApi, TPropRefs>
+
+/**
+ * A bindings definition factory that receives the component API and prop refs
+ * when invoked — same calling convention as `useClasses` factories.
+ */
+type BindingDefsFactory<
+  TApi = Record<string, any>,
+  TPropRefs = Record<string, any>,
+> = (api: TApi, propRefs: TPropRefs) => Record<string, any>
+
+/**
+ * A bindings definition object or a factory that returns one: part-keyed bags
+ * of attributes, or functions returning a bag for per-item parts.
+ */
+type BindingDefsArg<
+  TApi = Record<string, any>,
+  TPropRefs = Record<string, any>,
+> = Record<string, any> | BindingDefsFactory<TApi, TPropRefs>
+
+/**
+ * Return type of `defineBindings`: the merged part-keyed bags computed plus
+ * the registrar for component-level definitions.
+ */
+type DefineBindingsReturn<
+  TApi = Record<string, any>,
+  TPropRefs = Record<string, any>,
+> = {
+  /**
+   * Merged part-keyed binding bags: the blueprint-provided base with
+   * component-registered definitions layered on top.
+   */
+  bindings: ComputedRef<Record<string, any>>
+
+  /**
+   * Registers one or more binding definition objects or factories. Bags for
+   * the same part shallow-merge on top of earlier layers; functional entries
+   * replace the whole entry.
+   *
+   * @param defs Binding definition objects or factories.
+   */
+  useBindings: (...defs: BindingDefsArg<TApi, TPropRefs>[]) => void
+}
+
+/**
+ * The component-level public context carried by the slots' `template` scope.
+ * Component slot interfaces always pass their concrete `VfXContext` there, so
+ * it is the one place the SFC's own types already reference the
+ * Expose-declared binding surfaces (`a11yBindings: VfXA11y` / `modifiers:
+ * VfXModifiers`). Resolves to `{}` when no template slot is typed.
+ */
+type SlotContextOf<TSlots> = TSlots extends {
+  template: (scope: { context: infer C }) => any
+}
+  ? C
+  : {}
+
+/**
+ * The merged surface `useBlueprint` returns for one binding system
+ * (`a11yBindings` / `modifiers`): the component context's Expose-declared type
+ * when the slots carry one (precise per component), otherwise the
+ * blueprint-provided base type (when the api carries one) intersected with
+ * the loose part-keyed shape so component-registered bags stay readable.
+ */
+type MergedBindings<TApi, TSlots, K extends string, TLoose> = ComputedRef<
+  [SlotContextOf<TSlots>] extends [Record<K, infer M>]
+    ? M
+    : K extends keyof TApi
+      ? UnwrapTopLevelRef<TApi[K]> & TLoose
+      : TLoose
+>
+
+/**
+ * Default context member type for a binding surface (`a11yBindings` /
+ * `modifiers`) when the context is not instantiated with an explicit
+ * component-level type: the component context's type when the slots carry
+ * one (the SFC side, where `TSlots` is the raw slots interface and the
+ * template scope's `context` is the canonical `VfXContext`), otherwise the
+ * api-provided member when the blueprint carries one, the loose part-keyed
+ * shape as the last resort. Canonical component contexts never resolve
+ * through this: they pass `VfXA11y` / `VfXModifiers` explicitly (and their
+ * `ContextOutlets<TSlots>` blanks the template scope's `context` to
+ * `unknown`, so no self-recursion is possible).
+ */
+type BindingMemberOf<TSlots, TApi, K extends string, TLoose> = [
+  SlotContextOf<TSlots>,
+] extends [Record<K, infer M>]
+  ? M
+  : K extends keyof TApi
+    ? UnwrapTopLevelRef<TApi[K]>
+    : TLoose
+
+/**
+ * Default `a11yBindings` context member type — see `BindingMemberOf`. Used
+ * as the `TA11y` default by `BlueprintContext` and the `*Context` builders.
+ */
+export type DefaultContextA11y<TApi, TSlots> = BindingMemberOf<
+  TSlots,
+  ApiOf<TApi>,
+  'a11yBindings',
+  A11yBindings
+>
+
+/**
+ * Default `modifiers` context member type — see `BindingMemberOf`. Used as
+ * the `TModifiers` default by `BlueprintContext` and the `*Context` builders.
+ */
+export type DefaultContextModifiers<TApi, TSlots> = BindingMemberOf<
+  TSlots,
+  ApiOf<TApi>,
+  'modifiers',
+  Modifiers
+>
 
 /**
  * The members `useBlueprint` builds for a `makeForwards` declaration and
@@ -317,6 +514,8 @@ export type BlueprintContext<
   TSlots extends Record<string, any> = Record<string, any>,
   TParts extends Record<string, any> = Record<string, any>,
   TClasses extends Record<string, any> = Record<string, any>,
+  TModifiers = DefaultContextModifiers<TApi, TSlots>,
+  TA11y = DefaultContextA11y<TApi, TSlots>,
 > = UnwrapApiRefs<
   // `outlets` is omitted from the api side: blueprints type it wide
   // (`ComputedRef<Record<string, any>>` from `useOutlets`), and intersecting
@@ -331,6 +530,18 @@ export type BlueprintContext<
       // registered via `useClasses` or that users supply through `classes`.
       classes: TClasses & Record<string, any>
       outlets: ComputedRef<TSlots>
+
+      /**
+       * Part-keyed accessibility bindings: the blueprint's semantic base
+       * merged with component-registered bags (`useA11yBindings`).
+       */
+      a11yBindings: TA11y
+
+      /**
+       * Part-keyed styling modifiers (`data-*` state and variant attributes)
+       * registered by the component via `useModifiers`.
+       */
+      modifiers: TModifiers
 
       /**
        * The resolved Vueform configuration for the injecting app.
@@ -812,6 +1023,54 @@ function createFunctionPart(
 }
 
 /**
+ * Wraps an object-valued part so it mirrors a function part's dual surface:
+ * directly spreadable by `v-bind`, and callable like a functional part —
+ * returning the same bag regardless of arguments. Call sites that resolve
+ * per-item parts (`parts.item?.(item, index)`) therefore never need to care
+ * which form the user chose.
+ *
+ * @param value The user-provided object part value.
+ * @param $security The security surface whose prop filter guards results.
+ */
+function createObjectPart(
+  value: Record<string, any>,
+  { $security }: { $security: Pick<SecurityModule, 'sanitizeProps'> }
+): any {
+  // Arrow function target: avoids `prototype` (non-configurable on regular
+  // functions), keeping the Proxy `ownKeys` invariant satisfied.
+  const target = () => $security.sanitizeProps(value)
+
+  // `parts` is a schema-reachable attribute bag: strip HTML sinks
+  // (`innerHTML`/`outerHTML`), prototype keys, and entries matching
+  // `$security.banProps` before the object hits a `v-bind` spread. Clean bags
+  // (the common case) return the same reference, keeping identity and
+  // reactivity.
+  return new Proxy(target, {
+    get(_, key) {
+      if (key === 'call' || key === 'apply' || key === 'bind') {
+        return Reflect.get(target, key)
+      }
+      return $security.sanitizeProps(value)[key as any]
+    },
+    ownKeys() {
+      return Reflect.ownKeys($security.sanitizeProps(value))
+    },
+    getOwnPropertyDescriptor(_, key) {
+      const r = $security.sanitizeProps(value)
+      if (key in r) {
+        return {
+          value: r[key as any],
+          enumerable: true,
+          configurable: true,
+          writable: true,
+        }
+      }
+      return undefined
+    },
+  })
+}
+
+/**
  * Resolves part overrides for a component. Each part sources from, in priority
  * order: the resolved `part:<key>` prop, the raw `part:<key>` attr, then the
  * `parts` prop.
@@ -835,9 +1094,9 @@ function useParts<TProps extends Record<string, any>>(
   // `part:*` attr.
   const resolvedProps = getResolvedProps(instance)
 
-  // Cache function-valued parts so the same proxy is reused across renders for
-  // a stable function reference. Lives at the top level of `useParts` so it
-  // persists for the component's entire lifetime, not per reactive evaluation.
+  // Cache part wrappers so the same proxy is reused across renders for a
+  // stable reference. Lives at the top level of `useParts` so it persists for
+  // the component's entire lifetime, not per reactive evaluation.
   const cache = new Map<string, { source: any; proxy: any }>()
 
   const resolveSource = (key: string) =>
@@ -850,23 +1109,22 @@ function useParts<TProps extends Record<string, any>>(
       if (key === '__v_skip') return true
       if (typeof key !== 'string') return undefined
       const source = resolveSource(key)
-      if (typeof source !== 'function') {
-        // `parts` is a schema-reachable attribute bag: strip HTML sinks
-        // (`innerHTML`/`outerHTML`), prototype keys, and entries matching
-        // `$security.banProps` before the object hits a `v-bind` spread.
-        // Clean bags (the common case) return the same reference, keeping
-        // identity and reactivity.
-        return source != null && typeof source === 'object'
-          ? $security.sanitizeProps(source)
-          : source
+      if (
+        source == null ||
+        (typeof source !== 'function' && typeof source !== 'object')
+      ) {
+        return source
       }
       const entry = cache.get(key)
       if (entry && entry.source === source) return entry.proxy
-      const proxy = createFunctionPart(
-        source as (...args: any[]) => any,
-        context,
-        { $security }
-      )
+      // Both forms resolve to the same dual surface — spreadable by `v-bind`
+      // and callable — so call sites never depend on which one the user chose.
+      const proxy =
+        typeof source === 'function'
+          ? createFunctionPart(source as (...args: any[]) => any, context, {
+              $security,
+            })
+          : createObjectPart(source, { $security })
       cache.set(key, { source, proxy })
       return proxy
     },
@@ -1181,6 +1439,66 @@ function defineClasses<
 }
 
 /**
+ * Resolves one part-keyed bindings surface (`a11yBindings` / `modifiers`) by
+ * merging component-registered definitions on top of an optional
+ * blueprint-provided base.
+ *
+ * Far simpler than the classes pipeline on purpose: one defs array and one
+ * merged computed — no overrides, config layers, or lazy per-key proxies.
+ * User-side per-part overrides keep flowing through `parts`.
+ *
+ * @param base Getter for the blueprint's base bags (e.g. the merged
+ *   `api.a11yBindings` computed), or `null` when the surface is
+ *   component-only (modifiers).
+ * @param api The component API passed to definition factories.
+ * @param propRefs Lazy `toRef` proxy over resolved props.
+ */
+function defineBindings<
+  TApi = Record<string, any>,
+  TPropRefs = Record<string, any>,
+>(
+  base: (() => Record<string, any> | undefined) | null,
+  api: TApi,
+  propRefs: TPropRefs
+): DefineBindingsReturn<TApi, TPropRefs> {
+  const defs = shallowRef<BindingDefsArg<TApi, TPropRefs>[]>([])
+
+  const useBindings = (...newDefs: BindingDefsArg<TApi, TPropRefs>[]) => {
+    if (newDefs.length === 0) return
+    defs.value = [...defs.value, ...newDefs]
+  }
+
+  // One merged computed: factories are resolved inside so their reads stay
+  // tracked. Per part key, object bags shallow-merge onto earlier layers
+  // (last write wins per attribute); functional entries replace whole-entry.
+  const bindings = computed(() => {
+    const merged: Record<string, any> = { ...(base?.() ?? {}) }
+
+    for (const def of defs.value) {
+      const resolved =
+        typeof def === 'function' ? def(api, propRefs) : (def as any)
+      if (!resolved) continue
+
+      for (const key of typedKeys(resolved as Record<string, any>)) {
+        if (typeof key !== 'string') continue
+        const value = (resolved as any)[key]
+        if (value === undefined) continue
+        const prev = merged[key]
+
+        merged[key] =
+          typeof value === 'function' || typeof prev !== 'object' || !prev
+            ? value
+            : { ...prev, ...value }
+      }
+    }
+
+    return merged
+  })
+
+  return { bindings, useBindings }
+}
+
+/**
  * Builds the `forwardProps` / `forwardSlots` computeds for a `makeForwards`
  * declaration.
  *
@@ -1347,6 +1665,19 @@ export function useBlueprint<
   const { classes, useClasses, useClassOverrides, setBaseClasses } =
     defineClasses(api, propRefs)
 
+  // The two part-keyed binding surfaces. A11y merges component-registered
+  // bags on top of the blueprint's semantic base (the features' / blueprint's
+  // `a11yBindings` computed); modifiers are a pure view concern, so they have
+  // no blueprint base — every definition comes from the component layer.
+  const { bindings: a11yBindings, useBindings: useA11yBindings } =
+    defineBindings(() => unref((api as any).a11yBindings), api, propRefs)
+
+  const { bindings: modifiers, useBindings: useModifiers } = defineBindings(
+    null,
+    api,
+    propRefs
+  )
+
   // The single public context: the `reactive()` proxy created at the top of
   // setup (see `createComponentContext`). It is what event handlers receive as
   // `context$`, what `find()` returns, what `useContext()` returns, and what
@@ -1365,6 +1696,10 @@ export function useBlueprint<
     parts: resolvedParts,
     classes,
     outlets,
+    // The merged binding surfaces shadow the blueprint's raw `a11yBindings`
+    // member, so the context always serves component-layer results.
+    a11yBindings,
+    modifiers,
   }
 
   // These land on the context's raw object, so the placement rule applies
@@ -1424,6 +1759,10 @@ export function useBlueprint<
     propRefs,
     context,
     expose,
+    a11yBindings,
+    modifiers,
     useClasses,
+    useA11yBindings,
+    useModifiers,
   } as any
 }

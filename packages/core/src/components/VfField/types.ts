@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type FieldA11y,
   type FieldApi,
   type FieldClasses,
   type FieldEmits,
   type FieldExpose,
+  type FieldModifiers,
   type FieldParts,
   type FieldProps,
   type FieldSlots,
@@ -140,7 +142,29 @@ export interface VfFieldClasses
   extends FieldClasses, AddonGroupClasses, IconsClasses {}
 
 /**
+ * Accessibility bindings of the VfField component.
+ */
+export interface VfFieldA11y extends FieldA11y {}
+
+/**
+ * Styling modifiers of the VfField component.
+ */
+export interface VfFieldModifiers extends FieldModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfField.
+ *
+ * Plugins that add runtime API members should declaration-merge the same
+ * members here (or on `FieldExpose` for all field-based components) so they
+ * appear on `ContextOf<'VfField'>` / `context$` / `defineExpose`.
  */
 export interface VfFieldExpose extends FieldExpose {}
 
@@ -160,6 +184,8 @@ export interface VfFieldContext<
   VfFieldSlots,
   VfFieldParts,
   VfFieldClasses,
+  VfFieldModifiers,
+  VfFieldA11y,
   VfFieldExpose,
   FieldApi<TProps>
 > {}

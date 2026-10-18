@@ -65,15 +65,10 @@ const slots = defineSlots<VfListSlots>()
 const { api, parts, classes, context, expose, outlets, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ props }) => ({
+useClasses(() => ({
   container: 'vf-list',
   items: 'vf-list-items',
-  item: (beingDragged: boolean, isDropTarget: boolean) => ({
-    'vf-list-item': true,
-    'vf-wrapped': props.wrap,
-    'vf-dragging': beingDragged,
-    'vf-drop-target': isDropTarget,
-  }),
+  item: 'vf-list-item',
   element: 'vf-list-element',
   sort: 'vf-list-sort',
   remove: 'vf-list-remove',
@@ -144,6 +139,7 @@ defineExpose(expose)
         v-else
         ref="list"
         :class="classes.items"
+        role="list"
         v-bind="parts.items"
         @dragover="handleWrapperDragOver"
         @drop="handleDrop"
@@ -162,7 +158,7 @@ defineExpose(expose)
             "
             :handle-drag-end
             :handle-remove="() => handleRemove(index)"
-            :class="classes.item(dragIndex === index, dropTarget === id)"
+            :class="classes.item"
             v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
           >
             <component
@@ -179,12 +175,16 @@ defineExpose(expose)
               "
               :handle-drag-end
               :handle-remove="() => handleRemove(index)"
-              :class="classes.item(dragIndex === index, dropTarget === id)"
+              :class="classes.item"
               v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
             />
             <div
               v-else
-              :class="classes.item(dragIndex === index, dropTarget === id)"
+              :class="classes.item"
+              :data-wrapped="props.wrap ? '' : undefined"
+              :data-dragging="dragIndex === index ? '' : undefined"
+              :data-drop-target="dropTarget === id ? '' : undefined"
+              role="listitem"
               v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
               @dragenter="handleDragEnter($event, position)"
             >
@@ -216,6 +216,7 @@ defineExpose(expose)
                   :layout="false"
                   :draggable="true"
                   detached
+                  :aria-label="t('sr_list_sort', { index: index + 1 })"
                   v-bind="parts.sort"
                   @dragstart="handleDragStart($event, index)"
                   @dragend="handleDragEnd"
@@ -263,6 +264,11 @@ defineExpose(expose)
                   :name="`${id}__remove_${index}`"
                   :text="removeLabel"
                   :icon="removeIcon"
+                  :aria-label="
+                    removeLabel
+                      ? undefined
+                      : t('sr_list_remove', { index: index + 1 })
+                  "
                   :class="classes.remove"
                   v-bind="parts.remove"
                   @click.prevent="handleRemove(index)"

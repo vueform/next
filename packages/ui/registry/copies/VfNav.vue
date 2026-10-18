@@ -31,25 +31,10 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
-  root: {
-    'vf-nav': true,
-    'vf-no-back': !props.pager.previousPage && !!props.hideBack,
-    'vf-left': props.position === 'left',
-    'vf-center': props.position === 'center',
-    'vf-right': props.position === 'right',
-    'vf-fluid': props.position === 'fluid',
-  },
-  back: {
-    'vf-nav-back': true,
-  },
-  next: {
-    'vf-nav-next': true,
-    'vf-loading': api.loading.value,
-  },
-  finish: {
-    'vf-nav-finish': true,
-    'vf-loading': api.loading.value,
-  },
+  root: 'vf-nav',
+  back: 'vf-nav-back',
+  next: 'vf-nav-next',
+  finish: 'vf-nav-finish',
 }))
 
 const form$ = useFormContext()
@@ -72,7 +57,15 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else :class="classes.root" v-bind="parts.root">
+    <div
+      v-else
+      :class="classes.root"
+      :data-position="props.position || undefined"
+      :data-no-back="
+        !props.pager.previousPage && !!props.hideBack ? '' : undefined
+      "
+      v-bind="parts.root"
+    >
       <template v-if="pager.previousPage || !hideBack">
         <slot
           name="back"
@@ -252,7 +245,7 @@ defineExpose(expose)
         v-bind="parts.srOnlyLoading"
       >
         <template v-if="pager.loading">
-          {{ t('sr_step_error') }}
+          {{ t('sr_step_loading') }}
         </template>
         <template v-else-if="pager.invalid">
           {{ t('sr_step_error') }}

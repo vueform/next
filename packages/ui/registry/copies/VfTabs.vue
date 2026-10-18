@@ -32,13 +32,7 @@ const { parts, classes, context, expose, outlets, useClasses } = useBlueprint(
 useClasses(() => ({
   root: 'vf-tabs',
   list: 'vf-tabs-wrapper',
-  wrapper: ({ selected, invalid }: { selected: boolean; invalid: boolean }) => [
-    'vf-tab-wrapper',
-    {
-      'vf-selected': selected,
-      'vf-invalid': invalid,
-    },
-  ],
+  wrapper: 'vf-tab-wrapper',
   tab: 'vf-tab',
 }))
 
@@ -53,7 +47,9 @@ defineExpose(expose)
         <template v-for="page in pager.pages" :key="page.pageId">
           <li
             v-if="page.available"
-            :class="classes.wrapper(page)"
+            :class="classes.wrapper"
+            :data-selected="page.selected ? '' : undefined"
+            :data-invalid="page.invalid ? '' : undefined"
             role="none"
             v-bind="parts.wrapper?.(page)"
           >
@@ -63,7 +59,6 @@ defineExpose(expose)
               :id="page.pageId"
               role="tab"
               :aria-selected="page.selected"
-              :aria-current="page.selected"
               :aria-controls="page.panelId"
               :tabindex="page.tabindex"
               v-bind="parts.tab"

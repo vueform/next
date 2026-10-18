@@ -95,12 +95,20 @@ interface PartParam {
   description?: string
 }
 
+interface BindingAttr {
+  name: string
+  type: string
+  optional?: boolean
+}
+
 interface PartInfo {
   tag?: string
   description?: string
   classList: ClassItem[]
   tokens: string[]
   params?: PartParam[]
+  modifiers?: BindingAttr[]
+  a11y?: BindingAttr[]
 }
 
 const props = defineProps<{
@@ -128,7 +136,12 @@ const lockedTagStyle = ref<Record<string, string>>({})
 const tree = ref<TreeNode[]>([])
 const activeExample = ref(Object.keys(props.examples)[0])
 const viewMode = ref<'preview' | 'html'>('preview')
-const showConditional = ref(false)
+
+// HTML view attribute toggles: classes render by default; the binding
+// surfaces (modifier / a11y attribute keys) are opt-in.
+const showClasses = ref(true)
+const showModifiers = ref(false)
+const showA11y = ref(false)
 
 const partsCache = new Map<string, (...args: any[]) => Record<string, any>>()
 const parts = new Proxy({} as Record<string, any>, {
@@ -340,6 +353,22 @@ const componentData = computed(() => {
   return componentsData.value[props.component] ?? null
 })
 
+/**
+ * The VfLayout entry: shared layout parts (root, label, help, errors, …) are
+ * rendered by the element layout, so their part/class data lives on VfLayout
+ * rather than on the concrete element — used as the lookup fallback.
+ */
+const layoutData = computed(() => componentsData.value['VfLayout'] ?? null)
+
+/**
+ * The tag a part actually renders with, read from the live preview — the
+ * fallback for parts without a declared `@tag` (the shared layout parts).
+ */
+function getDomTag(key: string): string | undefined {
+  const el = previewRef.value?.querySelector(`[data-section="${key}"]`)
+  return el ? el.tagName.toLowerCase() : undefined
+}
+
 watch(componentData, () => {
   scheduleRebuild()
 })
@@ -348,8 +377,8 @@ function getPartInfo(key: string | null): PartInfo | null {
   const data = componentData.value
   if (!key || !data) return null
 
-  const part = data.parts?.[key]
-  const cls = data.classes?.[key]
+  const part = data.parts?.[key] ?? layoutData.value?.parts?.[key]
+  const cls = data.classes?.[key] ?? layoutData.value?.classes?.[key]
 
   const rawClasses = cls?.default as string | undefined
   const allClasses = rawClasses ? rawClasses.split(' ') : []
@@ -404,19 +433,47 @@ function getPartInfo(key: string | null): PartInfo | null {
     }))
   }
 
+  // The part's binding surfaces: `data-*` modifier attributes and ARIA
+  // attributes, each shown with its type in a popover.
+  const bindingAttrs = (
+    entry: { attrs?: Record<string, BindingAttr> } | undefined
+  ): BindingAttr[] | undefined => {
+    if (!entry?.attrs) return undefined
+    const list = Object.entries(entry.attrs).map(([name, info]) => ({
+      ...info,
+      name,
+    }))
+    return list.length ? list : undefined
+  }
+
   return {
-    tag: part?.tag,
-    description: part?.description,
+    tag: part?.tag ?? getDomTag(key),
+    // Shared layout parts have no part declaration; their class entry
+    // describes the same element.
+    description: part?.description ?? cls?.description,
     classList,
     tokens: [...tokenSet].sort(),
     params,
+    modifiers: bindingAttrs(data.modifiers?.[key]),
+    a11y: bindingAttrs(data.a11y?.[key]),
   }
+}
+
+function attrPopover(attr: BindingAttr): string {
+  // Kebab-case keys render camelCased in the popover code — quoting breaks
+  // the code styling.
+  const name = attr.name.replace(/-([a-z0-9])/g, (_, c) => c.toUpperCase())
+  return JSON.stringify([{ type: 'code', content: `${name}: ${attr.type}` }])
 }
 
 function getPartDescription(key: string | null): string | undefined {
   const data = componentData.value
   if (!key || !data) return undefined
-  return data.parts?.[key]?.description as string | undefined
+  return (data.parts?.[key]?.description ??
+    layoutData.value?.parts?.[key]?.description ??
+    (data.classes?.[key] ?? layoutData.value?.classes?.[key])?.description) as
+    | string
+    | undefined
 }
 
 const tooltipText = computed(() => getPartDescription(highlightedKey.value))
@@ -498,10 +555,36 @@ interface HtmlLine {
   key: string
   tag: string
   classes: string[]
+
+  /**
+   * Modifier / a11y attributes shown on the opening tag — keys, plus the
+   * value when the attribute has a single fixed one (`role="alert"`); no
+   * conditional markers.
+   */
+  attrs: { name: string; value?: string }[]
   text?: string
   selfClosing: boolean
   isClosing: boolean
   depth: number
+}
+
+/**
+ * The attribute's fixed value, when its type is a single required literal
+ * (`role: 'alert'`, `'aria-live': 'assertive'`, `tabindex: -1`). Unions, open
+ * types (`string`), presence attributes (`''`), and conditional (optional)
+ * attributes stay key-only.
+ */
+function attrFixedValue(info: {
+  type: string
+  optional?: boolean
+}): string | undefined {
+  if (info.optional) return undefined
+  const t = info.type.trim()
+  const quoted = t.match(/^'([^']*)'$/)
+  if (quoted) return quoted[1] || undefined
+  if (/^-?\d+(\.\d+)?$/.test(t)) return t
+  if (t === 'true' || t === 'false') return t
+  return undefined
 }
 
 function getTextContent(key: string): string {
@@ -520,9 +603,9 @@ const htmlLines = computed<HtmlLine[]>(() => {
   const lines: HtmlLine[] = []
 
   function walk(node: TreeNode, depth: number) {
-    const part = data.parts?.[node.key]
-    const cls = data.classes?.[node.key]
-    const tag = part?.tag?.split(' | ')[0] ?? 'div'
+    const part = data.parts?.[node.key] ?? layoutData.value?.parts?.[node.key]
+    const cls = data.classes?.[node.key] ?? layoutData.value?.classes?.[node.key]
+    const tag = part?.tag?.split(' | ')[0] ?? getDomTag(node.key) ?? 'div'
 
     if (node.repeatable) {
       const count = node.count ?? 1
@@ -531,6 +614,7 @@ const htmlLines = computed<HtmlLine[]>(() => {
           key: node.key,
           tag,
           classes: [],
+          attrs: [],
           selfClosing: true,
           isClosing: false,
           depth,
@@ -540,14 +624,25 @@ const htmlLines = computed<HtmlLine[]>(() => {
     }
 
     const rawClasses = (cls?.default as string) ?? ''
-    const classes = rawClasses
-      .split(' ')
-      .filter((c: string) => {
-        if (!c) return false
-        if (c.endsWith('?') && !showConditional.value) return false
-        return true
-      })
-      .map((c: string) => c.replace(/[?!]+$/, ''))
+    const classes = showClasses.value
+      ? rawClasses.trim().split(/\s+/).filter(Boolean)
+      : []
+
+    const attrsByName = new Map<string, { name: string; value?: string }>()
+    const collectAttrs = (
+      entry:
+        | { attrs?: Record<string, { type: string; optional?: boolean }> }
+        | undefined
+    ) => {
+      for (const [name, info] of Object.entries(entry?.attrs ?? {})) {
+        if (attrsByName.has(name)) continue
+        const value = attrFixedValue(info)
+        attrsByName.set(name, value !== undefined ? { name, value } : { name })
+      }
+    }
+    if (showModifiers.value) collectAttrs(data.modifiers?.[node.key])
+    if (showA11y.value) collectAttrs(data.a11y?.[node.key])
+    const attrs = [...attrsByName.values()]
 
     const hasChildren = !!node.children?.length
     const text = hasChildren ? undefined : getTextContent(node.key)
@@ -557,6 +652,7 @@ const htmlLines = computed<HtmlLine[]>(() => {
       key: node.key,
       tag,
       classes,
+      attrs,
       text,
       selfClosing,
       isClosing: false,
@@ -571,6 +667,7 @@ const htmlLines = computed<HtmlLine[]>(() => {
         key: node.key,
         tag,
         classes: [],
+        attrs: [],
         selfClosing: false,
         isClosing: true,
         depth,
@@ -650,14 +747,32 @@ function onHtmlLineClick(key: string) {
               HTML
             </button>
           </div>
-          <label v-if="viewMode === 'html'" class="vp-parts-conditional">
-            <input
-              v-model="showConditional"
-              type="checkbox"
-              class="vp-parts-conditional-input"
-            />
-            Conditional classes
-          </label>
+          <div v-if="viewMode === 'html'" class="vp-parts-attr-toggles">
+            <label class="vp-parts-conditional">
+              <input
+                v-model="showClasses"
+                type="checkbox"
+                class="vp-parts-conditional-input"
+              />
+              Classes
+            </label>
+            <label class="vp-parts-conditional">
+              <input
+                v-model="showModifiers"
+                type="checkbox"
+                class="vp-parts-conditional-input"
+              />
+              Modifiers
+            </label>
+            <label class="vp-parts-conditional">
+              <input
+                v-model="showA11y"
+                type="checkbox"
+                class="vp-parts-conditional-input"
+              />
+              A11y
+            </label>
+          </div>
         </div>
         <div
           v-show="viewMode === 'preview'"
@@ -754,6 +869,13 @@ function onHtmlLineClick(key: string) {
                     ci < line.classes.length - 1 ? ' ' : ''
                   }}</template></span
                 ><span class="vp-html-punct">"</span></template
+              ><template v-for="attr in line.attrs" :key="attr.name"
+                ><span class="vp-html-attr"> {{ attr.name }}</span
+                ><template v-if="attr.value !== undefined"
+                  ><span class="vp-html-punct">="</span
+                  ><span class="vp-html-string">{{ attr.value }}</span
+                  ><span class="vp-html-punct">"</span></template
+                ></template
               ><span class="vp-html-bracket"> /&gt;</span></template
             ><template v-else
               ><span class="vp-html-bracket">&lt;</span
@@ -768,6 +890,13 @@ function onHtmlLineClick(key: string) {
                     ci < line.classes.length - 1 ? ' ' : ''
                   }}</template></span
                 ><span class="vp-html-punct">"</span></template
+              ><template v-for="attr in line.attrs" :key="attr.name"
+                ><span class="vp-html-attr"> {{ attr.name }}</span
+                ><template v-if="attr.value !== undefined"
+                  ><span class="vp-html-punct">="</span
+                  ><span class="vp-html-string">{{ attr.value }}</span
+                  ><span class="vp-html-punct">"</span></template
+                ></template
               ><span class="vp-html-bracket">&gt;</span
               ><template v-if="line.text"
                 ><span class="vp-html-text">{{
@@ -906,6 +1035,80 @@ function onHtmlLineClick(key: string) {
                 />
               </div>
               <span v-else class="vp-parts-info-none">No classes</span>
+            </td>
+          </tr>
+          <tr v-if="lockedPartInfo.modifiers">
+            <td width="1" class="vp-parts-info-label">
+              <strong>Modifiers</strong>
+              <a
+                class="vp-parts-info-hint"
+                :data-popover="
+                  JSON.stringify([
+                    {
+                      type: 'text',
+                      content:
+                        'The <code>data-*</code> state and variant attributes this part carries.',
+                    },
+                  ])
+                "
+              >
+                <svg
+                  viewBox="0 0 16 16"
+                  width="11"
+                  height="11"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M8 0a8 8 0 100 16A8 8 0 008 0zm1 12H7V7h2v5zM8 6a1 1 0 110-2 1 1 0 010 2z"
+                  />
+                </svg>
+              </a>
+            </td>
+            <td>
+              <div class="vp-parts-info-value">
+                <code v-for="attr in lockedPartInfo.modifiers" :key="attr.name"
+                  ><a class="code-popover" :data-popover="attrPopover(attr)">{{
+                    attr.name
+                  }}</a></code
+                >
+              </div>
+            </td>
+          </tr>
+          <tr v-if="lockedPartInfo.a11y">
+            <td width="1" class="vp-parts-info-label">
+              <strong>A11y</strong>
+              <a
+                class="vp-parts-info-hint"
+                :data-popover="
+                  JSON.stringify([
+                    {
+                      type: 'text',
+                      content:
+                        'The accessibility attributes this part carries.',
+                    },
+                  ])
+                "
+              >
+                <svg
+                  viewBox="0 0 16 16"
+                  width="11"
+                  height="11"
+                  fill="currentColor"
+                >
+                  <path
+                    d="M8 0a8 8 0 100 16A8 8 0 008 0zm1 12H7V7h2v5zM8 6a1 1 0 110-2 1 1 0 010 2z"
+                  />
+                </svg>
+              </a>
+            </td>
+            <td>
+              <div class="vp-parts-info-value">
+                <code v-for="attr in lockedPartInfo.a11y" :key="attr.name"
+                  ><a class="code-popover" :data-popover="attrPopover(attr)">{{
+                    attr.name
+                  }}</a></code
+                >
+              </div>
             </td>
           </tr>
         </tbody>

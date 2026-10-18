@@ -35,7 +35,6 @@ interface MultiSelectProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     PlaceholderProps<TContext>,

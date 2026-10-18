@@ -205,43 +205,17 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  * @see https://ui.vueform.com/guide/classes
  */
 useClasses(() => ({
-  root: {
-    'vf-button': true,
-    'vf-align-label': !api.help.value,
-  },
+  root: 'vf-button',
   button: [
     {
       'vf-btn': true,
       [api.tokenClass]: !!api.tokenCss.value,
-      'vf-filled': props.variant === 'filled',
-      'vf-outlined': props.variant === 'outlined',
-      'vf-text': props.variant === 'text',
-      'vf-link': props.variant === 'link',
-      'vf-primary': api.severity.value === 'primary',
-      'vf-secondary': api.severity.value === 'secondary',
-      'vf-success': api.severity.value === 'success',
-      'vf-info': api.severity.value === 'info',
-      'vf-warn': api.severity.value === 'warn',
-      'vf-help': api.severity.value === 'help',
-      'vf-danger': api.severity.value === 'danger',
-      'vf-contrast': api.severity.value === 'contrast',
-      'vf-sm': props.size === 'small',
-      'vf-fluid': props.fluid,
-      'vf-disabled': api.disabled.value,
-      'vf-loading': api.loading.value,
-      'vf-left': props.align === 'left',
-      'vf-right': props.align === 'right',
-      'vf-center': props.align === 'center',
-      'vf-icon-only': !!api.icon.value && !api.text.value,
     },
     props.layout === false ? props.class : undefined,
   ],
   icon: {
     'vf-btn-icon': true,
     [api.icon.value!]: !!api.icon.value,
-    'vf-right': props.iconPos === 'right',
-    'vf-top': props.iconPos === 'top',
-    'vf-bottom': props.iconPos === 'bottom',
   },
   text: 'vf-btn-text',
 }))
@@ -251,10 +225,12 @@ const {
   text,
   href,
   to,
-  disabled,
+  id,
+  severity,
   tokenCss,
   icon,
   nonce,
+  a11yBindings,
   handleClick,
 } = api
 
@@ -293,16 +269,28 @@ declare module 'vue' {
       <component
         :is="href || to ? 'a' : 'button'"
         :type="href || to ? undefined : 'button'"
+        :id
         :href="href || to"
         :target
         :rel
         :download
-        :disabled
+        :data-variant="props.variant"
+        :data-severity="severity"
+        :data-size="props.size"
+        :data-align="props.align || undefined"
+        :data-fluid="props.fluid ? '' : undefined"
+        :data-icon-only="!!icon && !text ? '' : undefined"
         :class="classes.button"
-        v-bind="{ ...parts.button, ...attrs }"
+        v-bind="{ ...a11yBindings.button, ...parts.button, ...attrs }"
         @click="handleClick"
       >
-        <i v-if="icon" :class="classes.icon" v-bind="parts.icon" />
+        <i
+          v-if="icon"
+          :class="classes.icon"
+          :data-pos="props.iconPos"
+          aria-hidden="true"
+          v-bind="parts.icon"
+        />
         <slot name="before">
           <component v-if="outlets?.before" :is="outlets.before" />
         </slot>

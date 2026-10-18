@@ -176,11 +176,8 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ props }) => ({
-  root: {
-    'vf-rating': true,
-    'vf-aligned': !!props.aligned,
-  },
+useClasses(() => ({
+  root: 'vf-rating',
 }))
 
 const {
@@ -196,6 +193,7 @@ const {
   handleInput,
   handleBlur,
   handleFocus,
+  a11yBindings,
 } = api
 
 /**
@@ -243,6 +241,7 @@ declare module 'vue' {
         :readonly
         :invalid
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

@@ -31,6 +31,7 @@ catalog:
   '@vue/test-utils': ^2.4.6
   '@vue/tsconfig': 0.7.0
   ajv: ^8.20.0
+  axe-core: ^4.14.0
   consola: ^3.4.2
   conventional-changelog-cli: ^5.0.0
   conventional-changelog-conventionalcommits: ^8.0.0
@@ -38,6 +39,7 @@ catalog:
   eslint: ^9.39.2
   eslint-config-prettier: ^10.1.8
   eslint-plugin-vue: ^10.6.2
+  eslint-plugin-vuejs-accessibility: ^2.6.2
   expr-eval-fork: ^3.0.3
   fast-glob: ^3.3.3
   happy-dom: ^20.14.5

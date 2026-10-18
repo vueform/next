@@ -9,19 +9,21 @@ import {
   makeText,
   makeData,
   makeInput,
-  makeCheckboxAria,
+  makeAria,
   makeCheckboxName,
   makeProvider,
   makeForwards,
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type AddonableProps,
   type ValidationProps,
@@ -93,7 +95,6 @@ export interface CheckboxProps<
     >,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,
@@ -175,12 +176,22 @@ export interface CheckboxSlots<
 /**
  * Structural parts of the checkbox element blueprint.
  */
-export interface CheckboxParts extends BaseElementParts {}
+export interface CheckboxParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the checkbox element blueprint.
  */
 export interface CheckboxClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the checkbox element blueprint.
+ */
+export interface CheckboxModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the checkbox element blueprint.
+ */
+export interface CheckboxA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for checkbox-based components.
@@ -229,7 +240,7 @@ export function blueprint<TProps extends CheckboxProps<string>>(
     .use(makeText())
     .use(makeData())
     .use(makeInput())
-    .use(makeCheckboxAria())
+    .use(makeAria())
     .use(makeCheckboxName())
     .use(makeInfo())
     .use(makeForwards(forwards))

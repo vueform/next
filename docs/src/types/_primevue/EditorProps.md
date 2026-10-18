@@ -23,7 +23,6 @@ interface EditorProps<
     >,
     TValidationProps<TContext>,
     TranslateProps<TTranslate, TLanguages>,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     PlaceholderProps<TContext>,

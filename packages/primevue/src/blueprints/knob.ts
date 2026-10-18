@@ -13,12 +13,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type ValidationProps,
   type DisabledProps,
@@ -65,7 +67,6 @@ export interface KnobProps<
     ExpressionProps,
     ModelPropsWithDefaultValue<TextishModel, TContext>,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,
@@ -113,12 +114,22 @@ export interface KnobSlots<TContext = any> extends BaseElementSlots<TContext> {}
 /**
  * Structural parts of the knob element blueprint.
  */
-export interface KnobParts extends BaseElementParts {}
+export interface KnobParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the knob element blueprint.
  */
 export interface KnobClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the knob element blueprint.
+ */
+export interface KnobModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the knob element blueprint.
+ */
+export interface KnobA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for knob-based components.

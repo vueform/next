@@ -9,6 +9,8 @@ import type {
   BaseComponentSlots,
   BaseComponentClasses,
   BaseComponentExpose,
+  BaseComponentA11y,
+  BaseComponentModifiers,
   AddonItem,
   LooseRequired,
 } from '#src/types'
@@ -53,6 +55,16 @@ export interface AddonParts extends BaseComponentParts {}
 export interface AddonClasses extends BaseComponentClasses {}
 
 /**
+ * Styling modifiers of the addon component.
+ */
+export interface AddonModifiers extends BaseComponentModifiers {}
+
+/**
+ * Accessibility bindings of the addon component.
+ */
+export interface AddonA11y extends BaseComponentA11y {}
+
+/**
  * Augmentable public API surface for addon-based components.
  */
 export interface AddonExpose extends BaseComponentExpose, AddonApi {}
@@ -79,8 +91,6 @@ export function blueprint<TProps extends AddonProps>(
   const $security = useSecurity()
   const { localize } = useLocale()
   const expression = useExpression()
-
-  // ============== RESOLVE ===============
 
   /**
    * Resolves the addon prop into a sanitized text string or a dynamic component

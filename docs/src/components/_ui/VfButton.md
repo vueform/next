@@ -971,6 +971,24 @@ Configure the component's behavior and appearance with these props.
 | [`type`](!code#props.type "string") | `'button'` | The element type identifier. |
 | [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
+### Layout {#props-layout}
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
+| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
+| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
+| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
+| [`loading`](!code#props.loading "ConditionalProp<TContext>") | `false` | Whether the element is in loading state. |
+| [`align`](!code#props.align "'left' \| 'center' \| 'right'") | — | Horizontal alignment of the button within its container. |
+| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
+| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
+| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
+| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
+
 ### Element {#props-button}
 
 | Prop | Default | Description |
@@ -1004,24 +1022,6 @@ Configure the component's behavior and appearance with these props.
 | [`conditions`](!code#props.conditions "ConditionalProp<TContext>") | — | Conditions that control the element's visibility and availability. |
 | [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp<TContext>") | — | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
 | [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
-
-### Layout {#props-layout}
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
-| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
-| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
-| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
-| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
-| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
-| [`loading`](!code#props.loading "ConditionalProp<TContext>") | `false` | Whether the element is in loading state. |
-| [`align`](!code#props.align "'left' \| 'center' \| 'right'") | — | Horizontal alignment of the button within its container. |
-| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
-| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
-| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
-| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -1130,6 +1130,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
+| [`a11yBindings`](!code#context.a11yBindings "ButtonAriaA11y") | Part-keyed accessibility bindings: native/ARIA state for the button control plus ids/roles for the layout-rendered label, help, description, and error parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -1167,9 +1168,15 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
+| `required` | — | Slot for customizing the required indicator. |
+| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `before` | — | Slot for content rendered before the label. |
 | `default` | [`text`](!code#slot.default.text "string \| undefined") | Default slot that replaces the button label content. |
 | `after` | — | Slot for content rendered after the label. |
+| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
+| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -1210,14 +1217,91 @@ messageBag.append('Form submitted successfully', 'message')
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
+### `panel`
+
+The wrapper around `root` with `display: contents` when the element is a step or a tab.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-panel` |
+
+### `root`
+
+The element's root wrapper.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-button` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+
+### `labelGroup`
+
+The container holding the label and required indicator.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label-group` |
+
+### `label`
+
+The label element, associated with the control via `for`.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
+
+### `required`
+
+The required indicator.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-required` |
+
+### `elementGroup`
+
+The container wrapping the input and related UI.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-group` |
+
+### `elementWrapper`
+
+The wrapper directly around the input control.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-wrapper` |
+
+### `help`
+
+The help text area.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
+
 ### `button`
 
 The root button or anchor element.
 
 | | |
 | --- | --- |
-| **Element** | `<button>` `<a>` |
-| **Classes** | `.vf-btn` `.vf-filled?` `.vf-outlined?` `.vf-text?` `.vf-link?` `.vf-primary?` `.vf-secondary?` `.vf-success?` `.vf-info?` `.vf-warn?` `.vf-help?` `.vf-danger?` `.vf-contrast?` `.vf-sm?` `.vf-fluid?` `.vf-disabled?` `.vf-loading?` `.vf-left?` `.vf-right?` `.vf-center?` `.vf-icon-only?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<button>` `<a>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-btn` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-variant`](!code#parts.button.modifiers.data-variant "'text' \| 'link' \| 'filled' \| 'outlined'") [`data-severity`](!code#parts.button.modifiers.data-severity "'help' \| (string & {}) \| 'warn' \| 'success' \| 'primary' \| 'secondary' \| 'info' \| 'danger' \| 'contrast'") [`data-size`](!code#parts.button.modifiers.data-size "'small' \| 'medium'") [`data-align`](!code#parts.button.modifiers.data-align "'left' \| 'center' \| 'right'") [`data-fluid`](!code#parts.button.modifiers.data-fluid "''") [`data-icon-only`](!code#parts.button.modifiers.data-icon-only "''") [`data-loading`](!code#parts.button.modifiers.data-loading "''") [`data-disabled`](!code#parts.button.modifiers.data-disabled "''") |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`disabled`](!code#parts.button.a11y.disabled "true") [`aria-disabled`](!code#parts.button.a11y.aria-disabled "true") [`aria-busy`](!code#parts.button.a11y.aria-busy "true") [`aria-label`](!code#parts.button.a11y.aria-label "string") [`aria-describedby`](!code#parts.button.a11y.aria-describedby "string") |
 
 ### `icon`
 
@@ -1225,8 +1309,9 @@ The icon of the button.
 
 | | |
 | --- | --- |
-| **Element** | `<i>` |
-| **Classes** | `.vf-btn-icon` `.vf-right?` `.vf-top?` `.vf-bottom?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<i>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-btn-icon` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-pos`](!code#parts.icon.modifiers.data-pos "'left' \| 'right' \| 'bottom' \| 'top'") |
 
 ### `text`
 
@@ -1234,11 +1319,57 @@ The text of the button.
 
 | | |
 | --- | --- |
-| **Element** | `<span>` |
-| **Classes** | `.vf-btn-text` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-btn-text` |
+
+### `description`
+
+The description text area.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
+
+### `errors`
+
+The validation errors container.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+
+### `error`
+
+An individual validation error.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.error.a11y.id "string") [`role`](!code#parts.error.a11y.role "'alert'") |
+
+### `messages`
+
+The info messages container.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-messages` |
+
+### `message`
+
+An individual info message.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-message` |
 <!-- @parts-end -->
 <!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens
@@ -1366,20 +1497,8 @@ All the CSS variables that control this component's appearance with default valu
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
-  --vf-help-bg: transparent;
-  --vf-help-border-color: transparent;
-  --vf-help-border-style: solid;
-  --vf-help-border-width: 0;
-  --vf-help-color: var(--vf-text-soft);
-  --vf-help-font-size: 0.875rem;
-  --vf-help-padding: 0;
-  --vf-help-radius: var(--vf-radius);
-
   --vf-element-line-color: var(--vf-gray-300);
 
-  --vf-label-font-size: 1rem;
-  --vf-label-font-weight: 600;
-  --vf-label-group-h-padding: calc(var(--vf-py) + var(--vf-border-width-t)) 0 0 0;
   --vf-label-group-v-padding: 0 0 0.375rem 0;
 
   --vf-required-bg: transparent;
@@ -1388,6 +1507,15 @@ All the CSS variables that control this component's appearance with default valu
   --vf-required-h: auto;
   --vf-required-icon: none;
   --vf-required-w: auto;
+
+  --vf-help-bg: transparent;
+  --vf-help-border-color: transparent;
+  --vf-help-border-style: solid;
+  --vf-help-border-width: 0;
+  --vf-help-color: var(--vf-text-soft);
+  --vf-help-font-size: 0.875rem;
+  --vf-help-padding: 0;
+  --vf-help-radius: var(--vf-radius);
 
   --vf-description-bg: transparent;
   --vf-description-border-color: transparent;
@@ -1557,20 +1685,8 @@ All the CSS variables that control this component's appearance with default valu
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
-  helpBg: 'transparent',
-  helpBorderColor: 'transparent',
-  helpBorderStyle: 'solid',
-  helpBorderWidth: '0',
-  helpColor: '$textSoft',
-  helpFontSize: '0.875rem',
-  helpPadding: '0',
-  helpRadius: '$radius',
-
   elementLineColor: '$gray300',
 
-  labelFontSize: '1rem',
-  labelFontWeight: '600',
-  labelGroupHPadding: 'calc($py + $borderWidthT) 0 0 0',
   labelGroupVPadding: '0 0 0.375rem 0',
 
   requiredBg: 'transparent',
@@ -1579,6 +1695,15 @@ All the CSS variables that control this component's appearance with default valu
   requiredH: 'auto',
   requiredIcon: 'none',
   requiredW: 'auto',
+
+  helpBg: 'transparent',
+  helpBorderColor: 'transparent',
+  helpBorderStyle: 'solid',
+  helpBorderWidth: '0',
+  helpColor: '$textSoft',
+  helpFontSize: '0.875rem',
+  helpPadding: '0',
+  helpRadius: '$radius',
 
   descriptionBg: 'transparent',
   descriptionBorderColor: 'transparent',
@@ -1633,5 +1758,4 @@ All the CSS variables that control this component's appearance with default valu
 <!-- @tokens-end -->
 
 <!-- @endtab -->
-
 <!-- @endtabs -->

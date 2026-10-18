@@ -2,5 +2,5 @@
 /**
  * Structural parts of the input-otp element blueprint.
  */
-interface InputOtpParts extends BaseElementParts {}
+interface InputOtpParts extends BaseFieldElementParts {}
 ```

@@ -15,6 +15,8 @@ export const en_US = {
   sr_list_sort: 'Reorder item {index}',
   sr_matrix_add: 'Add row',
   sr_matrix_remove: 'Remove row {index}',
+  sr_matrix_sort: 'Reorder row {index}',
+  sr_file_remove: 'Remove file {index}',
   steps_back: 'Back',
   steps_next: 'Next',
   steps_finish: 'Finish',

@@ -212,7 +212,7 @@ async function renderPopoverBlocks(
             .join('')
           parts.push(
             `<div class="popover-block popover-block-tokens">` +
-              `<div class="popover-tokens-label">Tokens</div>` +
+              `<div class="popover-tokens-label">Tokens Used</div>` +
               `<div class="popover-tokens-list">${tokenItems}</div>` +
               `</div>`
           )

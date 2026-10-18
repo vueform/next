@@ -252,6 +252,35 @@ const [Form] = useForm({
 
 This reaches through the form into the `VfTabs` it renders and stamps every tab `<button>` with the test ID. Because parts forward as props, the nesting goes as deep as the component tree does — the simplest way to configure a deeply internal component without custom templates.
 
+## Modifiers
+
+Components express their visual states and variants as `data-*` **modifier attributes** on their parts — `data-invalid` on an errored input, `data-selected` on the active tab, `data-variant="outlined"` on a button. Enumerated variants carry a value (`data-align="right"`); boolean states render as bare presence attributes (`data-loading`, never `data-loading="false"`), so CSS keys on `[data-loading]` and attribute absence means the state is off.
+
+Modifiers are the styling aspect of component state. Assistive state is carried separately by ARIA attributes, and when one state matters to both worlds the component emits both from the same source (`aria-invalid` alongside `data-invalid`) — see [Accessibility](/guide/accessibility#aria-vs-styling-attributes). Styling always targets the `data-*` side. Native `disabled` is the exception serving both aspects, so CSS keys on `:disabled` (with `data-disabled` only where no native attribute exists, like a button rendered as an anchor).
+
+Like `a11yBindings`, the resolved modifiers are available part-keyed on the [Context](/guide/context) as `modifiers`, and slots that replace a part receive its bag as a `modifiers` prop (per-item parts receive the already-resolved bag). When you [rewire a template](/guide/templates) or replace a part through a slot, spread the bag so your markup keeps the component's styling states:
+
+```vue
+<VfList name="tags">
+  <template #item="{ modifiers, a11yBindings, parts, classes, index }">
+    <div
+      :class="classes.item"
+      v-bind="{
+        ...modifiers.item(false, false),
+        ...a11yBindings.item(false, false),
+        ...parts.item(false, false),
+      }"
+    >
+      …
+    </div>
+  </template>
+</VfList>
+```
+
+A part's attributes merge in a fixed order — modifiers first, then `a11yBindings`, then your `parts` overrides — so a user-supplied part attribute always wins over the computed ones.
+
+Every component's reference page lists its modifier contract under a **Modifiers** tab, typed exactly (each attribute with its literal values). Plugins can extend a component's contract by declaration-merging its `VfXModifiers` interface.
+
 ## Discovering Available Parts
 
 Every component's reference page lists its parts under a **Parts** section — the tag each renders, its position in the layout, and the runtime arguments of callable ones. Pick the component in the top navigation's **Components** tab — e.g. [VfText](/components/VfText#parts), [VfList](/components/VfList#parts), or [VfForm](/components/VfForm#parts) — and scroll to **Parts**.

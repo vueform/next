@@ -79,16 +79,18 @@ function loadAdapterJSON(adapterName: string, name: string): any {
 
 // ============ STATIC DATA ============
 
+interface PropGroup {
+  id: string
+  label: string
+  common?: boolean
+  members: string[]
+}
+
 const ORDERS: {
   events: string[]
   slots: string[]
   parts: string[]
-  props: {
-    id: string
-    label: string
-    common?: boolean
-    members: string[]
-  }[]
+  props: (PropGroup | '---')[]
   contexts: {
     id: string
     label: string
@@ -138,14 +140,19 @@ for (const group of CONTEXT_GROUPS) {
   }
 }
 
+// May contain a `---` divider marking where component-specific props go.
 const PROP_GROUPS = ORDERS.props
 
+const PROP_GROUP_DEFS = PROP_GROUPS.filter(
+  (g): g is PropGroup => typeof g !== 'string'
+)
+
 const COMMON_PROP_GROUPS_SET = new Set(
-  PROP_GROUPS.filter((g) => g.common).map((g) => g.id)
+  PROP_GROUP_DEFS.filter((g) => g.common).map((g) => g.id)
 )
 
 const PROP_MEMBER_TO_GROUP = new Map<string, string>()
-for (const group of PROP_GROUPS) {
+for (const group of PROP_GROUP_DEFS) {
   for (const member of group.members) {
     if (group.id === 'html' && PROP_MEMBER_TO_GROUP.has(member)) continue
     PROP_MEMBER_TO_GROUP.set(member, group.id)
@@ -829,7 +836,7 @@ function generatePropsSections(
   }
 
   const propMemberOrder = new Map<string, number>()
-  for (const group of PROP_GROUPS) {
+  for (const group of PROP_GROUP_DEFS) {
     for (let i = 0; i < group.members.length; i++) {
       if (group.id === 'html' && propMemberOrder.has(group.members[i])) continue
       propMemberOrder.set(group.members[i], i)
@@ -852,7 +859,7 @@ function generatePropsSections(
   }
 
   const groupLabels = new Map<string, string>()
-  for (const g of PROP_GROUPS) groupLabels.set(g.id, g.label)
+  for (const g of PROP_GROUP_DEFS) groupLabels.set(g.id, g.label)
   if (adapterName) groupLabels.set(adapterGroupId, adapterGroupLabel)
   if (!groupLabels.has(componentGroupId)) {
     groupLabels.set(componentGroupId, componentGroupLabel)
@@ -879,14 +886,8 @@ function generatePropsSections(
 
   const rendered = new Set<string>()
 
-  for (const group of PROP_GROUPS) {
-    if (group.id !== 'general') continue
-    if (!grouped.has(group.id)) continue
-    appendSection(group.id, group.label, grouped.get(group.id)!)
-    rendered.add(group.id)
-  }
-
-  if (grouped.has(componentGroupId) && !rendered.has(componentGroupId)) {
+  function renderComponentSection() {
+    if (!grouped.has(componentGroupId) || rendered.has(componentGroupId)) return
     appendSection(
       componentGroupId,
       groupLabels.get(componentGroupId)!,
@@ -895,11 +896,22 @@ function generatePropsSections(
     rendered.add(componentGroupId)
   }
 
+  // Config groups render in order; the `---` divider marks where the
+  // component-specific group goes (after General if no divider exists).
+  const hasDivider = PROP_GROUPS.includes('---')
+
   for (const group of PROP_GROUPS) {
+    if (group === '---') {
+      renderComponentSection()
+      continue
+    }
     if (rendered.has(group.id) || !grouped.has(group.id)) continue
     appendSection(group.id, group.label, grouped.get(group.id)!)
     rendered.add(group.id)
+    if (!hasDivider && group.id === 'general') renderComponentSection()
   }
+
+  renderComponentSection()
 
   lines.push('<!-- @endcollapsible -->', '')
 
@@ -1004,9 +1016,53 @@ function formatPartClasses(classDefault: string): string {
     .join(' ')
 }
 
+/**
+ * Renders a binding bag's attribute names as inline-code popover links (same
+ * `!code` popover the Props column uses, showing each attribute's type).
+ */
+function formatBindingAttrs(
+  partName: string,
+  kind: 'modifiers' | 'a11y',
+  entry: Record<string, any> | undefined
+): string | undefined {
+  const attrs = entry?.attrs as
+    | Record<string, { type: string; optional?: boolean }>
+    | undefined
+  if (!attrs || !Object.keys(attrs).length) return undefined
+
+  return Object.entries(attrs)
+    .map(
+      ([attr, info]) =>
+        `[\`${attr}\`](!code#parts.${partName}.${kind}.${attr} "${escTitle(info.type)}")`
+    )
+    .join(' ')
+}
+
+/**
+ * A small info icon carrying a text popover, rendered next to a Parts-table
+ * row label (same icon/popover the VPParts info panel uses).
+ */
+function partRowHint(text: string): string {
+  const popover = JSON.stringify([{ type: 'text', content: text }])
+  return `<a class="vp-info-hint" data-popover='${popover}'></a>`
+}
+
+const PART_ROW_HINTS = {
+  element: partRowHint('The HTML tag or Vue component rendered by this part.'),
+  classes: partRowHint(
+    'CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied.'
+  ),
+  modifiers: partRowHint(
+    'The <code>data-*</code> state and variant attributes this part carries.'
+  ),
+  a11y: partRowHint('The accessibility attributes this part carries.'),
+}
+
 function generatePartsSection(
   parts: Record<string, any>,
   classes: Record<string, any>,
+  a11y: Record<string, any>,
+  modifiers: Record<string, any>,
   adapterName: string
 ): string {
   const sections: string[] = ['']
@@ -1020,9 +1076,19 @@ function generatePartsSection(
       : undefined
 
     const rows: string[] = []
-    rows.push(`| **Element** | ${element} |`)
+    rows.push(`| **Element** ${PART_ROW_HINTS.element} | ${element} |`)
     if (classesFormatted) {
-      rows.push(`| **Classes** | ${classesFormatted} |`)
+      rows.push(`| **Classes** ${PART_ROW_HINTS.classes} | ${classesFormatted} |`)
+    }
+
+    const modifiersFormatted = formatBindingAttrs(name, 'modifiers', modifiers[name])
+    if (modifiersFormatted) {
+      rows.push(`| **Modifiers** ${PART_ROW_HINTS.modifiers} | ${modifiersFormatted} |`)
+    }
+
+    const a11yFormatted = formatBindingAttrs(name, 'a11y', a11y[name])
+    if (a11yFormatted) {
+      rows.push(`| **A11y** ${PART_ROW_HINTS.a11y} | ${a11yFormatted} |`)
     }
 
     sections.push(`### \`${name}\``)
@@ -1561,10 +1627,19 @@ function replaceSection(
   )
 }
 
-function removeTab(content: string, tabName: string): string {
+/**
+ * Marker regex for a named tab. The name may carry a `...` suffix in the
+ * markup (`<!-- @tab Tokens... -->`), which sends the tab into the header's
+ * overflow dropdown — the marker matches either form.
+ */
+function tabMarker(tabName: string): RegExp {
   const escapedName = tabName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
+  return new RegExp(`<!-- @tab ${escapedName}(?:\\.\\.\\.)? -->`)
+}
+
+function removeTab(content: string, tabName: string): string {
   const regex = new RegExp(
-    `\\n*<!-- @tab ${escapedName} -->[\\s\\S]*?<!-- @endtab -->\\n?`
+    `\\n*${tabMarker(tabName).source}[\\s\\S]*?<!-- @endtab -->\\n?`
   )
   return content.replace(regex, '\n')
 }
@@ -1581,9 +1656,8 @@ const DOC_TABS = [
 
 function extractTabFromTemplate(tabName: string): string {
   const template = fs.readFileSync(TEMPLATE_PATH, 'utf-8')
-  const escapedName = tabName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
   const match = template.match(
-    new RegExp(`<!-- @tab ${escapedName} -->[\\s\\S]*?<!-- @endtab -->`)
+    new RegExp(`${tabMarker(tabName).source}[\\s\\S]*?<!-- @endtab -->`)
   )
   if (!match) {
     throw new Error(`Tab "${tabName}" not found in ${TEMPLATE_PATH}`)
@@ -1596,7 +1670,7 @@ function ensureTab(
   tabName: string,
   componentName: string
 ): string {
-  if (content.includes(`<!-- @tab ${tabName} -->`)) return content
+  if (tabMarker(tabName).test(content)) return content
 
   const tab = extractTabFromTemplate(tabName).replace(
     /ComponentName/g,
@@ -1605,9 +1679,9 @@ function ensureTab(
   const idx = DOC_TABS.indexOf(tabName as (typeof DOC_TABS)[number])
 
   for (let i = idx + 1; i < DOC_TABS.length; i++) {
-    const next = content.indexOf(`<!-- @tab ${DOC_TABS[i]} -->`)
-    if (next !== -1) {
-      return content.slice(0, next) + tab + '\n' + content.slice(next)
+    const next = content.match(tabMarker(DOC_TABS[i]))
+    if (next?.index !== undefined) {
+      return content.slice(0, next.index) + tab + '\n' + content.slice(next.index)
     }
   }
 
@@ -1733,11 +1807,24 @@ function processComponents(
     content = ensureTab(content, 'Tokens', componentName)
     const partsContent = comp.parts || {}
     const classesContent = comp.classes || {}
+    const a11yContent = comp.a11y || {}
+    const modifiersContent = comp.modifiers || {}
     content = replaceSection(
       content,
       'parts',
-      generatePartsSection(partsContent, classesContent, adapterName)
+      generatePartsSection(
+        partsContent,
+        classesContent,
+        a11yContent,
+        modifiersContent,
+        adapterName
+      )
     )
+
+    // Stale tabs from earlier layouts: the binding surfaces now render as
+    // rows inside each part's section on the Parts tab.
+    content = removeTab(content, 'Modifiers')
+    content = removeTab(content, 'A11y')
 
     const tokensContent = generateTokensSection(
       componentName,

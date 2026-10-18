@@ -623,6 +623,14 @@ Configure the component's behavior and appearance with these props.
 | [`name`](!code#props.name "string") | — | Optional name identifying this form instance in DevTools and debugging. |
 | [`schema`](!code#props.schema "MaybeRef<TSchema>") | — | The schema defining the form's elements and structure. |
 
+### Layout {#props-layout}
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`loading`](!code#props.loading "boolean") | `false` | Whether the form is in a loading state. |
+| [`stacked`](!code#props.stacked "boolean") | `false` | Whether to render child elements in a stacked (wrapped row) layout. |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
+
 ### Component {#props-form}
 
 | Prop | Default | Description |
@@ -696,14 +704,6 @@ Configure the component's behavior and appearance with these props.
 | --- | --- | --- |
 | [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp") | — | The source that triggers re-evaluation of the form's async conditional props. Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
 | [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating the form's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
-
-### Layout {#props-layout}
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| [`stacked`](!code#props.stacked "boolean") | `false` | Whether to render child elements in a stacked (wrapped row) layout. |
-| [`loading`](!code#props.loading "boolean") | `false` | Whether the form is in a loading state. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -879,6 +879,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | Unique identifier for this form instance, used for accessibility attributes. |
+| [`a11yBindings`](!code#context.a11yBindings "FormA11y") | Part-keyed accessibility bindings: ready-to-spread attribute bags for the form-level error (assertive alert) and message (polite status) live regions — applied to the built-in containers and passed to the `errors` / `messages` slots. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -940,7 +941,7 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `tab` | [`index`](!code#slot.tab.index "number") [`label`](!code#slot.tab.label "string") [`meta`](!code#slot.tab.meta "Record<string, any>") [`selected`](!code#slot.tab.selected "boolean") [`invalid`](!code#slot.tab.invalid "boolean") [`loading`](!code#slot.tab.loading "boolean") [`el$`](!code#slot.tab.el$ "UnknownElement") | Slot that replaces each individual tab. |
 | `content` | [`Context`](#context "Full context available. Click to see") | Slot that replaces the entire form content area. Receives the form's context as a single `context` prop, like the `template` slot. |
 | `languages` | [`invalidLanguages`](!code#slot.languages.invalidLanguages "Set<string>") [`languages`](!code#slot.languages.languages "LanguagesProp") [`language`](!code#slot.languages.language "string") [`select`](!code#slot.languages.select "(language: string) => void") | Slot that replaces the language selector. Receives available languages and select handler. |
-| `language` | [`parts`](!code#slot.language.parts "Partial<VfLanguagesParts>") [`classes`](!code#slot.language.classes "VfLanguagesClasses") [`language`](!code#slot.language.language "string") [`languages`](!code#slot.language.languages "ResolvedLanguagesProp") [`value`](!code#slot.language.value "string") [`label`](!code#slot.language.label "string") | Slot that replaces each individual language option. |
+| `language` | [`language`](!code#slot.language.language "string") [`languages`](!code#slot.language.languages "ResolvedLanguagesProp") [`value`](!code#slot.language.value "string") [`label`](!code#slot.language.label "string") [`classes`](!code#slot.language.classes "VfLanguagesClasses") [`parts`](!code#slot.language.parts "Partial<VfLanguagesParts>") [`modifiers`](!code#slot.language.modifiers "VfLanguagesModifiers") | Slot that replaces each individual language option. |
 | `steps` | [`pager`](!code#slot.steps.pager "Pager") | Slot that replaces the steps navigation bar. Receives the pager instance. |
 | `step` | [`index`](!code#slot.step.index "number") [`label`](!code#slot.step.label "string") [`meta`](!code#slot.step.meta "Record<string, any>") [`selected`](!code#slot.step.selected "boolean") [`invalid`](!code#slot.step.invalid "boolean") [`loading`](!code#slot.step.loading "boolean") [`enabled`](!code#slot.step.enabled "boolean") [`completed`](!code#slot.step.completed "boolean") [`el$`](!code#slot.step.el$ "UnknownElement") | Slot that replaces each individual step indicator. |
 | `error` | [`error`](!code#slot.error.error "string") [`path`](!code#slot.error.path "string") | Slot that replaces each individual error message. |
@@ -948,14 +949,14 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `elements` | [`resolvedSchema`](!code#slot.elements.resolvedSchema "ResolvedSchema") | Slot that replaces the form elements area. Receives the resolved schema. |
 | `default` | [`resolvedSchema`](!code#slot.default.resolvedSchema "ResolvedSchema") | Slot for the default form body content. Receives the resolved schema. |
 | `nav` | [`pager`](!code#slot.nav.pager "Pager") [`next`](!code#slot.nav.next "TProp") [`back`](!code#slot.nav.back "TProp") [`finish`](!code#slot.nav.finish "TProp") [`hideBack`](!code#slot.nav.hideBack "boolean") [`position`](!code#slot.nav.position "NavPosProp") | Slot that replaces the navigation bar. Receives pager, button labels, and visibility. |
-| `back` | [`class`](!code#slot.back.class "ClassValue") [`label`](!code#slot.back.label "TProp \| string \| undefined") [`pager`](!code#slot.back.pager "Pager") [`form$`](!code#slot.back.form$ "any") [`disabled`](!code#slot.back.disabled "boolean \| string \| ConditionalProp") [`fluid`](!code#slot.back.fluid "boolean") [`a11yBindings`](!code#slot.back.a11yBindings "NavBackAriaBindings") [`back`](!code#slot.back.back "() => Promise<void>") | Slot that replaces the back button in the navigation bar. |
+| `back` | [`label`](!code#slot.back.label "TProp \| string \| undefined") [`pager`](!code#slot.back.pager "Pager") [`form$`](!code#slot.back.form$ "any") [`disabled`](!code#slot.back.disabled "boolean \| string \| ConditionalProp") [`fluid`](!code#slot.back.fluid "boolean") [`classes`](!code#slot.back.classes "ClassValue") [`part`](!code#slot.back.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.back.a11yBindings "VfNavA11y['back']") [`back`](!code#slot.back.back "() => Promise<void>") | Slot that replaces the back button in the navigation bar. |
 | `backText` | [`label`](!code#slot.backText.label "string \| undefined") [`pager`](!code#slot.backText.pager "Pager") [`form$`](!code#slot.backText.form$ "any") | Slot that replaces the back button's text label. |
-| `next` | [`class`](!code#slot.next.class "ClassValue") [`label`](!code#slot.next.label "TProp \| string \| undefined") [`pager`](!code#slot.next.pager "Pager") [`form$`](!code#slot.next.form$ "any") [`disabled`](!code#slot.next.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.next.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.next.fluid "boolean") [`a11yBindings`](!code#slot.next.a11yBindings "NavForwardAriaBindings") [`next`](!code#slot.next.next "() => Promise<void>") | Slot that replaces the next button in the navigation bar. |
+| `next` | [`label`](!code#slot.next.label "TProp \| string \| undefined") [`pager`](!code#slot.next.pager "Pager") [`form$`](!code#slot.next.form$ "any") [`disabled`](!code#slot.next.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.next.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.next.fluid "boolean") [`classes`](!code#slot.next.classes "ClassValue") [`part`](!code#slot.next.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.next.a11yBindings "VfNavA11y['next']") [`modifiers`](!code#slot.next.modifiers "VfNavModifiers['next']") [`next`](!code#slot.next.next "() => Promise<void>") | Slot that replaces the next button in the navigation bar. |
 | `nextText` | [`label`](!code#slot.nextText.label "string \| undefined") [`pager`](!code#slot.nextText.pager "Pager") [`form$`](!code#slot.nextText.form$ "any") | Slot that replaces the next button's text label. |
-| `finish` | [`class`](!code#slot.finish.class "ClassValue") [`label`](!code#slot.finish.label "TProp \| string \| undefined") [`pager`](!code#slot.finish.pager "Pager") [`form$`](!code#slot.finish.form$ "any") [`disabled`](!code#slot.finish.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.finish.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.finish.fluid "boolean") [`a11yBindings`](!code#slot.finish.a11yBindings "NavForwardAriaBindings") [`finish`](!code#slot.finish.finish "() => Promise<void>") | Slot that replaces the finish button in the navigation bar. |
+| `finish` | [`label`](!code#slot.finish.label "TProp \| string \| undefined") [`pager`](!code#slot.finish.pager "Pager") [`form$`](!code#slot.finish.form$ "any") [`disabled`](!code#slot.finish.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.finish.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.finish.fluid "boolean") [`classes`](!code#slot.finish.classes "ClassValue") [`part`](!code#slot.finish.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.finish.a11yBindings "VfNavA11y['finish']") [`modifiers`](!code#slot.finish.modifiers "VfNavModifiers['finish']") [`finish`](!code#slot.finish.finish "() => Promise<void>") | Slot that replaces the finish button in the navigation bar. |
 | `finishText` | [`label`](!code#slot.finishText.label "string \| undefined") [`pager`](!code#slot.finishText.pager "Pager") [`form$`](!code#slot.finishText.form$ "any") | Slot that replaces the finish button's text label. |
-| `errors` | [`errors`](!code#slot.errors.errors "Record<string, string[]>") [`id`](!code#slot.errors.id "string") | Slot that replaces the form-level errors container. |
-| `messages` | [`messages`](!code#slot.messages.messages "string[]") [`id`](!code#slot.messages.id "string") | Slot that replaces the form-level messages container. |
+| `errors` | [`errors`](!code#slot.errors.errors "Record<string, string[]>") [`id`](!code#slot.errors.id "string") [`classes`](!code#slot.errors.classes "VfFormClasses") [`parts`](!code#slot.errors.parts "Partial<VfFormParts>") [`a11yBindings`](!code#slot.errors.a11yBindings "VfFormA11y") | Slot that replaces the form-level errors container. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") [`id`](!code#slot.messages.id "string") [`classes`](!code#slot.messages.classes "VfFormClasses") [`parts`](!code#slot.messages.parts "Partial<VfFormParts>") [`a11yBindings`](!code#slot.messages.a11yBindings "VfFormA11y") | Slot that replaces the form-level messages container. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -972,8 +973,9 @@ The root form element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-form` `.vf-stacked?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-form` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.root.modifiers.data-stacked "''") |
 
 ### `languages`
 
@@ -981,7 +983,7 @@ Props forwarded to the nested VfLanguages component.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfLanguages>`](./VfLanguages.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfLanguages>`](./VfLanguages.md) |
 
 ### `tabs`
 
@@ -989,7 +991,7 @@ Props forwarded to the nested VfTabs component.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfTabs>`](./VfTabs.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfTabs>`](./VfTabs.md) |
 
 ### `steps`
 
@@ -997,7 +999,7 @@ Props forwarded to the nested VfSteps component.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfSteps>`](./VfSteps.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfSteps>`](./VfSteps.md) |
 
 ### `elements`
 
@@ -1005,7 +1007,7 @@ Props forwarded to the nested VfElements component.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfElements>`](./VfElements.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfElements>`](./VfElements.md) |
 
 ### `errorsWrapper`
 
@@ -1013,8 +1015,8 @@ The errors container element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-form-errors-wrapper` `.sr-only?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-form-errors-wrapper` `.sr-only?` |
 
 ### `messagesWrapper`
 
@@ -1022,8 +1024,8 @@ The messages container element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-form-messages-wrapper` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-form-messages-wrapper` |
 
 ### `nav`
 
@@ -1031,7 +1033,7 @@ Props forwarded to the nested VfNav component.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfNav>`](./VfNav.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfNav>`](./VfNav.md) |
 
 ### `errors`
 
@@ -1039,8 +1041,9 @@ The error list element.
 
 | | |
 | --- | --- |
-| **Element** | `<ul>` |
-| **Classes** | `.vf-form-errors` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-form-errors` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") [`aria-live`](!code#parts.errors.a11y.aria-live "'assertive'") [`aria-atomic`](!code#parts.errors.a11y.aria-atomic "'true'") [`tabindex`](!code#parts.errors.a11y.tabindex "-1") |
 
 ### `error`
 
@@ -1048,8 +1051,8 @@ Each error item element.
 
 | | |
 | --- | --- |
-| **Element** | `<li>` |
-| **Classes** | `.vf-form-error` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-form-error` |
 
 ### `messages`
 
@@ -1057,8 +1060,9 @@ The message list element.
 
 | | |
 | --- | --- |
-| **Element** | `<ul>` |
-| **Classes** | `.vf-form-messages` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-form-messages` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.messages.a11y.id "string") [`role`](!code#parts.messages.a11y.role "'status'") [`aria-live`](!code#parts.messages.a11y.aria-live "'polite'") [`aria-atomic`](!code#parts.messages.a11y.aria-atomic "'true'") [`tabindex`](!code#parts.messages.a11y.tabindex "-1") |
 
 ### `message`
 
@@ -1066,11 +1070,10 @@ Each message item element.
 
 | | |
 | --- | --- |
-| **Element** | `<li>` |
-| **Classes** | `.vf-form-message` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-form-message` |
 <!-- @parts-end -->
 <!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens

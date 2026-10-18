@@ -184,11 +184,8 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ help }) => ({
-  root: {
-    'vf-input-otp': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-input-otp',
 }))
 
 const { length } = propRefs
@@ -198,7 +195,7 @@ const {
   viewLoaded,
   disabled,
   readonly,
-  aria,
+  a11yBindings,
   input,
   tooltipModifiers,
   tooltipValue,
@@ -256,7 +253,7 @@ declare module 'vue' {
         :length
         v-tooltip:[tooltipModifiers]="tooltipValue"
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

@@ -2,5 +2,5 @@
 /**
  * Structural parts of the select-button element blueprint.
  */
-interface SelectButtonParts extends BaseElementParts {}
+interface SelectButtonParts extends BaseFieldElementParts {}
 ```

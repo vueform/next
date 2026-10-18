@@ -18,7 +18,7 @@ function getMediaWidths(css: string, type: 'min' | 'max') {
 
 function getContainerColClass(form: any, nth = 0) {
   return getClass(form, { name: 'VfText' }, nth).replace(
-    'vf-element vf-text vf-align-label ',
+    'vf-element vf-text ',
     ''
   )
 }

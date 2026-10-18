@@ -15,16 +15,18 @@ import {
   makeKeyHandlers,
   makeProvider,
   makeLayout,
-  type AriaProps,
   type DisabledProps,
   type ModelPropsWithDefault,
   type AddonsProps,
   type IconsProps,
   type BaseElementEmits,
   type BaseElementProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type AriaA11y,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type ExpressionProps,
   type TranslateProps,
@@ -156,7 +158,6 @@ export interface FieldProps<
     TranslateProps<TTranslate, TLanguages>,
     AddonsProps<TContext>,
     IconsProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext> {
   /**
@@ -204,12 +205,22 @@ export interface FieldSlots<
 /**
  * Structural parts of the field element blueprint.
  */
-export interface FieldParts extends BaseElementParts {}
+export interface FieldParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the field element blueprint.
  */
 export interface FieldClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the field element blueprint.
+ */
+export interface FieldModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the field element blueprint.
+ */
+export interface FieldA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for field-based components.

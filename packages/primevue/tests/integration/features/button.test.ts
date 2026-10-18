@@ -475,7 +475,7 @@ describe('Default slot override', () => {
 // ALIGNMENT
 // =============================================================================
 describe('Alignment', () => {
-  test('applies left alignment class to root', () => {
+  test('applies left alignment attribute to button', () => {
     const { form } = createForm({
       schema: defineSchema({
         el: { type: 'button', align: 'left' },
@@ -483,10 +483,10 @@ describe('Alignment', () => {
     })
 
     const vfButton = form.findComponent({ name: 'VfButton' })
-    expect(vfButton.find('.vf-left').exists()).toBe(true)
+    expect(vfButton.find('button').attributes('data-align')).toBe('left')
   })
 
-  test('applies center alignment class to root', () => {
+  test('applies center alignment attribute to button', () => {
     const { form } = createForm({
       schema: defineSchema({
         el: { type: 'button', align: 'center' },
@@ -494,10 +494,10 @@ describe('Alignment', () => {
     })
 
     const vfButton = form.findComponent({ name: 'VfButton' })
-    expect(vfButton.find('.vf-center').exists()).toBe(true)
+    expect(vfButton.find('button').attributes('data-align')).toBe('center')
   })
 
-  test('applies right alignment class to root', () => {
+  test('applies right alignment attribute to button', () => {
     const { form } = createForm({
       schema: defineSchema({
         el: { type: 'button', align: 'right' },
@@ -505,6 +505,6 @@ describe('Alignment', () => {
     })
 
     const vfButton = form.findComponent({ name: 'VfButton' })
-    expect(vfButton.find('.vf-right').exists()).toBe(true)
+    expect(vfButton.find('button').attributes('data-align')).toBe('right')
   })
 })

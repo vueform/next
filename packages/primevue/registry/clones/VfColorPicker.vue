@@ -164,11 +164,8 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ props }) => ({
-  root: {
-    'vf-color-picker': true,
-    'vf-aligned': !!props.aligned,
-  },
+useClasses(() => ({
+  root: 'vf-color-picker',
 }))
 
 const {
@@ -182,6 +179,7 @@ const {
   format,
   forwardProps,
   handleInput,
+  a11yBindings,
 } = api
 
 defineExpose(expose)
@@ -223,6 +221,7 @@ declare module 'vue' {
         :disabled
         :invalid
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

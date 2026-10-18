@@ -7,7 +7,7 @@
   border: 0;
 
   /** Applies visual wrapping with background, border and padding. */
-  &.vf-wrapped {
+  &[data-wrapped] {
     padding: var(--vf-group-wrapped-padding);
     background-color: var(--vf-group-wrapped-bg);
     border-color: var(--vf-group-wrapped-border-color);
@@ -27,7 +27,7 @@
   column-gap: min(calc(100% / 12), var(--vf-group-gutter-x, 0));
 
   /** Uses horizontal flex-wrap layout instead of grid. */
-  &.vf-stacked {
+  &[data-stacked] {
     display: flex;
     flex-wrap: wrap;
     row-gap: var(--vf-group-gutter-stacked-y, 0);
@@ -36,7 +36,7 @@
   }
 
   /** Applies visual wrapping with background, border and padding. */
-  &.vf-wrapped {
+  &[data-wrapped] {
     padding: var(--vf-group-wrapped-padding);
     background-color: var(--vf-group-wrapped-bg);
     border-color: var(--vf-group-wrapped-border-color);

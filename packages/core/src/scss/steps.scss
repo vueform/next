@@ -122,23 +122,23 @@
   }
 
   /** Step that has been visited/enabled. */
-  &.vf-enabled {
+  &[data-enabled] {
     color: var(--vf-steps-color-enabled);
 
-    &:has(+ .vf-enabled):after {
+    &:has(+ [data-enabled]):after {
       right: 0%;
       background: var(--vf-steps-bg-enabled);
     }
 
-    & + .vf-enabled:before {
+    & + [data-enabled]:before {
       background: var(--vf-steps-bg-enabled);
     }
 
-    & + .vf-enabled:not(:last-of-type):before {
+    & + [data-enabled]:not(:last-of-type):before {
       right: 50%;
     }
 
-    & + .vf-enabled:last-of-type:before {
+    & + [data-enabled]:last-of-type:before {
       right: 0%;
     }
 
@@ -146,7 +146,7 @@
       background: var(--vf-steps-bg-enabled);
     }
 
-    &:has(+ .vf-enabled) {
+    &:has(+ [data-enabled]) {
       .vf-step {
         &:before {
           transition: none;
@@ -160,26 +160,26 @@
   }
 
   /** Step that has been completed successfully. */
-  &.vf-completed .vf-step:after {
+  &[data-completed] .vf-step:after {
     @include step-icon-mask(var(--vf-steps-icon-completed));
   }
 
   /** Currently active/selected step. */
-  &.vf-selected {
+  &[data-selected] {
     color: var(--vf-steps-color-selected);
   }
 
-  &.vf-selected .vf-step:after {
+  &[data-selected] .vf-step:after {
     @include step-icon-mask(var(--vf-steps-icon-selected));
   }
 
   /** Step with validation errors. */
-  &.vf-invalid {
-    &:has(+ .vf-invalid):after {
+  &[data-invalid] {
+    &:has(+ [data-invalid]):after {
       background-color: var(--vf-steps-bg-danger);
     }
 
-    & + .vf-invalid:before {
+    & + [data-invalid]:before {
       background-color: var(--vf-steps-bg-danger);
     }
 
@@ -200,7 +200,7 @@
       }
     }
 
-    &.vf-selected .vf-step:after {
+    &[data-selected] .vf-step:after {
       border-radius: 50%;
       mask-image: none;
       transform: scale(1);
@@ -208,7 +208,7 @@
   }
 
   /** Step that is currently loading/processing. */
-  &.vf-loading .vf-step:after {
+  &[data-loading] .vf-step:after {
     top: 0.25rem;
     border-radius: 50%;
     animation: 1s linear infinite vf-pulse;

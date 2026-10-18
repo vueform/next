@@ -1,6 +1,6 @@
 import {
   defineDefaults,
-  makeRadiosAria,
+  makeGroupAria,
   makeData,
   makeDisabled,
   makeElement,
@@ -11,7 +11,10 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type GroupAriaA11y,
+  type BaseContainerElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type ContainerProps,
@@ -126,12 +129,24 @@ export interface RadioButtonGroupSlots<
 /**
  * Structural parts of the radio-button-group element blueprint.
  */
-export interface RadioButtonGroupParts extends BaseElementParts {}
+export interface RadioButtonGroupParts extends BaseContainerElementParts {}
 
 /**
  * CSS classes for the radio-button-group element blueprint.
  */
 export interface RadioButtonGroupClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the radio-button-group element blueprint. Empty at
+ * the blueprint layer — modifiers are a view concern, defined by the
+ * consuming component via `useModifiers`.
+ */
+export interface RadioButtonGroupModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the radio-button-group element blueprint.
+ */
+export interface RadioButtonGroupA11y extends BaseElementA11y, GroupAriaA11y {}
 
 /**
  * Augmentable public API surface for radio-button-group-based components.
@@ -177,7 +192,7 @@ export function blueprint<TProps extends LooseRadioButtonGroupProps>(
     .use(makeDisabled())
     .use(makeData())
     .use(makeItems({ multiple: false }))
-    .use(makeRadiosAria())
+    .use(makeGroupAria({ role: 'radiogroup' }))
     .use(makeInfo())
     .use(
       makeHolderProvider({

@@ -10,6 +10,8 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
+  BaseComponentA11y,
+  BaseComponentModifiers,
   LooseRequired,
   TProp,
 } from '#src/types'
@@ -86,6 +88,11 @@ export interface NavParts extends BaseComponentParts {}
 export interface NavClasses extends BaseComponentClasses {}
 
 /**
+ * Styling modifiers of the nav component.
+ */
+export interface NavModifiers extends BaseComponentModifiers {}
+
+/**
  * Augmentable public API surface for nav-based components.
  */
 export interface NavExpose extends BaseComponentExpose, NavApi {}
@@ -100,19 +107,41 @@ export type NavApi<TProps extends NavProps = NavProps> = ReturnType<
 >
 
 /**
- * ARIA attribute bindings for the back navigation control.
+ * Accessibility bindings of the nav component.
  */
-export interface NavBackAriaBindings {
-  'aria-disabled': boolean
-}
+export interface NavA11y extends BaseComponentA11y {
+  /**
+   * ARIA state for the back navigation control.
+   */
+  back: {
+    'aria-disabled'?: true
+  }
 
-/**
- * ARIA attribute bindings for the next/finish navigation controls.
- */
-export interface NavForwardAriaBindings {
-  'aria-busy': boolean
-  'aria-disabled': boolean
-  'aria-describedby': string | undefined
+  /**
+   * ARIA state for the next navigation control.
+   */
+  next: {
+    'aria-busy'?: true
+    'aria-disabled'?: true
+    'aria-describedby'?: string
+  }
+
+  /**
+   * ARIA state for the finish navigation control.
+   */
+  finish: {
+    'aria-busy'?: true
+    'aria-disabled'?: true
+    'aria-describedby'?: string
+  }
+
+  /**
+   * The screen-reader status region's id and role.
+   */
+  status: {
+    id: string
+    role: 'status'
+  }
 }
 
 /**
@@ -203,31 +232,36 @@ export function blueprint<TProps extends NavProps>(
   )
 
   /**
-   * Ready-to-spread ARIA attribute bindings for the back control — applied to
-   * the built-in button and passed to the `back` slot as `a11yBindings`.
+   * Part-keyed accessibility bindings: ready-to-spread attribute bags for the
+   * back, next, and finish controls (also passed to their slots) and for the
+   * screen-reader status region.
    */
-  const backAriaBindings = computed<NavBackAriaBindings>(() => ({
-    'aria-disabled': !props.pager.previousPage,
-  }))
+  const a11yBindings = computed<NavA11y>(() => {
+    const forward = {
+      'aria-busy': loading.value || undefined,
+      'aria-disabled': loading.value || undefined,
+      'aria-describedby': describedby.value,
+    }
 
-  /**
-   * Ready-to-spread ARIA attribute bindings for the next/finish controls —
-   * applied to the built-in buttons and passed to the `next` / `finish` slots
-   * as `a11yBindings`.
-   */
-  const forwardAriaBindings = computed<NavForwardAriaBindings>(() => ({
-    'aria-busy': loading.value,
-    'aria-disabled': loading.value,
-    'aria-describedby': describedby.value,
-  }))
+    return {
+      back: {
+        'aria-disabled': !props.pager.previousPage || undefined,
+      },
+      next: forward,
+      finish: forward,
+      status: {
+        id: statusId.value,
+        role: 'status',
+      },
+    }
+  })
 
   return {
     backLabel,
     loading,
     fluid,
     describedby,
-    backAriaBindings,
-    forwardAriaBindings,
+    a11yBindings,
     nextLabel,
     finishLabel,
     statusId,

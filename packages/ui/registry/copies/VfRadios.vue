@@ -69,7 +69,7 @@ const {
   grouped,
   viewLoaded,
   path,
-  radioAria,
+  a11yBindings,
   disabled,
   label,
   handleFocus,
@@ -78,14 +78,7 @@ const {
 
 useClasses(({ props }) => ({
   root: 'vf-radios vf-choices',
-  group: [
-    props.layout === false ? props.class : null,
-    {
-      'vf-choices-group': true,
-      'vf-stacked': props.stacked,
-      'vf-aligned': !!props.aligned,
-    },
-  ],
+  group: [props.layout === false ? props.class : null, 'vf-choices-group'],
 }))
 
 defineExpose(expose)
@@ -94,12 +87,17 @@ defineExpose(expose)
 <template>
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <VfLayout v-else>
+    <VfLayout v-else :label="false">
       <div
         :class="classes.group"
+        :data-stacked="props.stacked ? '' : undefined"
+        :data-aligned="props.aligned ? '' : undefined"
         @focusin="handleFocus"
         @focusout="handleBlur"
-        v-bind="parts.group"
+        v-bind="{
+          ...a11yBindings.group,
+          ...parts.group,
+        }"
       >
         <slot :items :groups :grouped :disabled :label :radio-name="path">
           <component
@@ -143,7 +141,6 @@ defineExpose(expose)
                         :text="item.label"
                         :radio-name="path"
                         :disabled="disabled || item.disabled"
-                        :aria="radioAria"
                         :layout="false"
                         v-bind="parts.item?.(item)"
                         :radio-value="true"
@@ -182,7 +179,6 @@ defineExpose(expose)
                   :text="item.label"
                   :radio-name="path"
                   :disabled="disabled || item.disabled"
-                  :aria="radioAria"
                   :layout="false"
                   v-bind="parts.item?.(item)"
                   :radio-value="true"

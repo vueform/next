@@ -32,11 +32,8 @@ const slots = defineSlots<VfInputOtpSlots>()
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-input-otp': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-input-otp',
 }))
 
 const { length } = propRefs
@@ -46,7 +43,7 @@ const {
   viewLoaded,
   disabled,
   readonly,
-  aria,
+  a11yBindings,
   input,
   tooltipModifiers,
   tooltipValue,
@@ -81,7 +78,7 @@ defineExpose(expose)
         :length
         v-tooltip:[tooltipModifiers]="tooltipValue"
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

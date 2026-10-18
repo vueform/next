@@ -436,6 +436,24 @@ Configure the component's behavior and appearance with these props.
 | [`schema`](!code#props.schema "FormSchema") | — | The form schema definition for each row in the list. |
 | [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
+### Layout {#props-layout}
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
+| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
+| [`heading`](!code#props.heading "HeadingProp") | — | The heading level to render for the container's title. |
+| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
+| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
+| [`placeholder`](!code#props.placeholder "TProp<string, TContext>") | — | The placeholder text displayed when the list has no items. |
+| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
+| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
+| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
+| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
+
 ### Input {#props-list}
 
 | Prop | Default | Description |
@@ -488,24 +506,6 @@ Configure the component's behavior and appearance with these props.
 | [`conditions`](!code#props.conditions "ConditionalProp<TContext>") | — | Conditions that control the element's visibility and availability. |
 | [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp<TContext>") | — | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
 | [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
-
-### Layout {#props-layout}
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
-| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
-| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
-| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
-| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
-| [`heading`](!code#props.heading "HeadingProp") | — | The heading level to render for the container's title. |
-| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
-| [`placeholder`](!code#props.placeholder "TProp<string, TContext>") | — | The placeholder text displayed when the list has no items. |
-| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
-| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
-| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
-| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -685,6 +685,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
+| [`a11yBindings`](!code#context.a11yBindings "ListA11y") | Part-keyed accessibility bindings: ready-to-spread attribute bags for the list structure (items container, item wrappers), the empty-state placeholder status region, and the add/sort/remove controls — applied to the built-in markup and passed to the matching slots. Per-item bags (`sort`, `remove`) are functions of the item index, resolved at the call site like functional parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -726,12 +727,18 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `item` | [`class`](!code#slot.item.class "ClassValue") [`index`](!code#slot.item.index "number") [`beingDragged`](!code#slot.item.beingDragged "boolean") [`isDropTarget`](!code#slot.item.isDropTarget "boolean") [`handleDragEnter`](!code#slot.item.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.item.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.item.handleDragEnd "() => void") [`handleRemove`](!code#slot.item.handleRemove "() => void") | Slot that replaces each list item wrapper. Receives drag state and event handlers. |
-| `sort` | [`class`](!code#slot.sort.class "ClassValue") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives class and drag event handlers. |
+| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
+| `required` | — | Slot for customizing the required indicator. |
+| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
+| `item` | [`index`](!code#slot.item.index "number") [`beingDragged`](!code#slot.item.beingDragged "boolean") [`isDropTarget`](!code#slot.item.isDropTarget "boolean") [`classes`](!code#slot.item.classes "VfListClasses") [`parts`](!code#slot.item.parts "Partial<VfListParts>") [`a11yBindings`](!code#slot.item.a11yBindings "VfListA11y") [`modifiers`](!code#slot.item.modifiers "VfListModifiers") [`handleDragEnter`](!code#slot.item.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.item.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.item.handleDragEnd "() => void") [`handleRemove`](!code#slot.item.handleRemove "() => void") | Slot that replaces each list item wrapper. Receives drag state and event handlers. |
+| `sort` | [`classes`](!code#slot.sort.classes "ClassValue") [`part`](!code#slot.sort.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.sort.a11yBindings "ReturnType<VfListA11y['sort']>") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives classes, part, and drag event handlers. |
 | `default` | [`component`](!code#slot.default.component "string \| Component") [`props`](!code#slot.default.props "Record<string, any>") [`index`](!code#slot.default.index "ElementName") | Slot that replaces the default element content within each list item. |
-| `remove` | [`class`](!code#slot.remove.class "ClassValue") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the remove button. Receives class and remove handler. |
-| `placeholder` | [`class`](!code#slot.placeholder.class "ClassValue") | Slot that replaces the placeholder element when the list is empty. |
-| `add` | [`class`](!code#slot.add.class "ClassValue") [`handleAdd`](!code#slot.add.handleAdd "() => void") [`label`](!code#slot.add.label "any") | Slot that replaces the add button. Receives class, add handler, and label. |
+| `remove` | [`classes`](!code#slot.remove.classes "ClassValue") [`part`](!code#slot.remove.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.remove.a11yBindings "ReturnType<VfListA11y['remove']>") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the remove button. Receives classes, part, and remove handler. |
+| `placeholder` | [`classes`](!code#slot.placeholder.classes "ClassValue") [`part`](!code#slot.placeholder.part "DomAttrsOf<'div'> \| undefined") [`a11yBindings`](!code#slot.placeholder.a11yBindings "VfListA11y['placeholder']") | Slot that replaces the placeholder element when the list is empty. |
+| `add` | [`label`](!code#slot.add.label "any") [`classes`](!code#slot.add.classes "ClassValue") [`part`](!code#slot.add.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.add.a11yBindings "VfListA11y['add']") [`handleAdd`](!code#slot.add.handleAdd "() => void") | Slot that replaces the add button. Receives classes, part, add handler, and label. |
+| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
+| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -792,14 +799,88 @@ messageBag.append('2 invitations will be sent', 'message')
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
+### `panel`
+
+The wrapper around `root` with `display: contents` when the element is a step or a tab.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-panel` |
+
+### `root`
+
+The element's root wrapper.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+
+### `labelGroup`
+
+The container holding the label and required indicator.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label-group` |
+
+### `label`
+
+The label element; renders as the corresponding heading when the container's `heading` prop is set.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
+
+### `required`
+
+The required indicator.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-required` |
+
+### `elementGroup`
+
+The container wrapping the input and related UI.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-group` |
+
+### `elementWrapper`
+
+The wrapper directly around the input control.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-wrapper` |
+
+### `help`
+
+The help text area.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
+
 ### `items`
 
 The items container element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-list-items` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-items` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.items.a11y.role "'list'") |
 
 ### `item`
 
@@ -807,8 +888,10 @@ Each list item wrapper. Receives drag state.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-list-item` `.vf-wrapped?` `.vf-dragging?` `.vf-drop-target?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-item` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-wrapped`](!code#parts.item.modifiers.data-wrapped "''") [`data-dragging`](!code#parts.item.modifiers.data-dragging "''") [`data-drop-target`](!code#parts.item.modifiers.data-drop-target "''") |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.item.a11y.role "'listitem'") |
 
 ### `element`
 
@@ -816,8 +899,8 @@ The element wrapper within each list item.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-list-element` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-element` |
 
 ### `sort`
 
@@ -825,8 +908,9 @@ The drag handle element.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-list-sort` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-sort` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.sort.a11y.aria-label "string") |
 
 ### `remove`
 
@@ -834,8 +918,9 @@ The remove action element.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-list-remove` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-remove` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.remove.a11y.aria-label "string") |
 
 ### `placeholder`
 
@@ -843,8 +928,9 @@ The placeholder element displayed when the list is empty.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-list-placeholder` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-placeholder` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.placeholder.a11y.id "string") [`role`](!code#parts.placeholder.a11y.role "'status'") |
 
 ### `add`
 
@@ -852,11 +938,56 @@ The add action element.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-list-add` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-add` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.add.a11y.aria-label "string") [`aria-describedby`](!code#parts.add.a11y.aria-describedby "string") |
+
+### `description`
+
+The description text area.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
+
+### `errors`
+
+The validation errors container.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+
+### `error`
+
+An individual validation error.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
+
+### `messages`
+
+The info messages container.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-messages` |
+
+### `message`
+
+An individual info message.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-message` |
 <!-- @parts-end -->
 <!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens
@@ -904,9 +1035,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   --vf-element-line-color: var(--vf-gray-300);
 
-  --vf-label-font-size: 1rem;
-  --vf-label-font-weight: 600;
-  --vf-label-group-h-padding: calc(var(--vf-py) + var(--vf-border-width-t)) 0 0 0;
   --vf-label-group-v-padding: 0 0 0.375rem 0;
 
   --vf-required-bg: transparent;
@@ -1005,9 +1133,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   elementLineColor: '$gray300',
 
-  labelFontSize: '1rem',
-  labelFontWeight: '600',
-  labelGroupHPadding: 'calc($py + $borderWidthT) 0 0 0',
   labelGroupVPadding: '0 0 0.375rem 0',
 
   requiredBg: 'transparent',
@@ -1071,5 +1196,4 @@ All the CSS variables that control this component's appearance with default valu
 <!-- @tokens-end -->
 
 <!-- @endtab -->
-
 <!-- @endtabs -->

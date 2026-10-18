@@ -1,6 +1,7 @@
 import type { VNode } from 'vue'
 
 import type {
+  TabsA11y,
   TabsApi,
   TabsProps,
   TabsEmits,
@@ -8,6 +9,7 @@ import type {
   TabbedSlots,
   TabsExpose,
   TabsClasses,
+  TabsModifiers,
 } from '#src/blueprints/tabs'
 import type { ResolvedPage } from '#src/composables'
 import type {
@@ -48,11 +50,6 @@ export interface VfTabsSlots extends TabbedSlots<VfTabsContext> {
    * info.
    */
   wrapper: (scope: {
-    /**
-     * CSS classes for the tab wrapper.
-     */
-    class: ClassValue
-
     /**
      * The zero-based index of the tab's page.
      */
@@ -184,16 +181,35 @@ export interface VfTabsClasses extends TabsClasses {
   list: ClassValue
 
   /**
-   * Each tab wrapper. Receives the resolved page data.
-   *
-   * @param page The resolved page data for this tab.
+   * Each tab wrapper. State is exposed via `data-selected` and `data-invalid`
+   * attributes.
    */
-  wrapper: (page: ResolvedPage) => ClassValue
+  wrapper: ClassValue
 
   /**
    * The tab button element.
    */
   tab: ClassValue
+}
+
+/**
+ * Accessibility bindings of the VfTabs component.
+ */
+export interface VfTabsA11y extends TabsA11y {}
+
+/**
+ * Styling modifiers of the VfTabs component.
+ */
+export interface VfTabsModifiers extends TabsModifiers {
+  /**
+   * Each tab wrapper's selection and validity state.
+   *
+   * @param page The resolved page data for this tab.
+   */
+  wrapper: (page: ResolvedPage) => {
+    'data-selected'?: ''
+    'data-invalid'?: ''
+  }
 }
 
 /**
@@ -217,6 +233,8 @@ export interface VfTabsContext extends DefineElementContext<
   VfTabsSlots,
   VfTabsParts,
   VfTabsClasses,
+  VfTabsModifiers,
+  VfTabsA11y,
   VfTabsExpose,
   TabsApi
 > {}

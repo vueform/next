@@ -15,12 +15,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -109,7 +111,6 @@ export interface AutoCompleteProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     PlaceholderProps<TContext>,
@@ -171,12 +172,22 @@ export interface AutoCompleteSlots<
 /**
  * Structural parts of the auto-complete element blueprint.
  */
-export interface AutoCompleteParts extends BaseElementParts {}
+export interface AutoCompleteParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the auto-complete element blueprint.
  */
 export interface AutoCompleteClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the auto-complete element blueprint.
+ */
+export interface AutoCompleteModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the auto-complete element blueprint.
+ */
+export interface AutoCompleteA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for auto-complete-based components.

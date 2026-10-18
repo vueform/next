@@ -9,19 +9,21 @@ import {
   makeText,
   makeData,
   makeInput,
-  makeRadioAria,
+  makeAria,
   makeRadioName,
   makeProvider,
   makeForwards,
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type AddonableProps,
   type ValidationProps,
@@ -89,7 +91,6 @@ export interface RadioButtonProps<
     ModelPropsWithDefaultValue<RadioButtonModelProp<TRadioValue>, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,
@@ -160,12 +161,22 @@ export interface RadioButtonSlots<
 /**
  * Structural parts of the radio-button element blueprint.
  */
-export interface RadioButtonParts extends BaseElementParts {}
+export interface RadioButtonParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the radio-button element blueprint.
  */
 export interface RadioButtonClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the radio-button element blueprint.
+ */
+export interface RadioButtonModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the radio-button element blueprint.
+ */
+export interface RadioButtonA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for radio-button-based components.
@@ -214,7 +225,7 @@ export function blueprint<TProps extends RadioButtonProps<string>>(
     .use(makeText())
     .use(makeData())
     .use(makeInput())
-    .use(makeRadioAria())
+    .use(makeAria())
     .use(makeRadioName())
     .use(makeInfo())
     .use(makeForwards(forwards))

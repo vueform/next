@@ -19,12 +19,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -87,7 +89,6 @@ export interface InputNumberProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -170,12 +171,22 @@ export interface InputNumberSlots<
 /**
  * Structural parts of the input-number element blueprint.
  */
-export interface InputNumberParts extends BaseElementParts {}
+export interface InputNumberParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the input-number element blueprint.
  */
 export interface InputNumberClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the input-number element blueprint.
+ */
+export interface InputNumberModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the input-number element blueprint.
+ */
+export interface InputNumberA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for input-number-based components.

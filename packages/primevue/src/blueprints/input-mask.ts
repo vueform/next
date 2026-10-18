@@ -19,12 +19,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type TAriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -100,7 +102,6 @@ export interface InputMaskProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -159,12 +160,22 @@ export interface InputMaskSlots<
 /**
  * Structural parts of the input-mask element blueprint.
  */
-export interface InputMaskParts extends BaseElementParts {}
+export interface InputMaskParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the input-mask element blueprint.
  */
 export interface InputMaskClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the input-mask element blueprint.
+ */
+export interface InputMaskModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the input-mask element blueprint.
+ */
+export interface InputMaskA11y extends BaseElementA11y, TAriaA11y {}
 
 /**
  * Augmentable public API surface for input-mask-based components.

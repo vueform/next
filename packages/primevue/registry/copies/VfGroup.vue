@@ -34,18 +34,8 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
 useClasses(({ props }) => ({
-  root: {
-    'vf-group': true,
-    'vf-wrapped': props.wrap,
-  },
-  wrapper: [
-    props.layout === false ? props.class : null,
-    {
-      'vf-group-elements': true,
-      'vf-stacked': props.stacked,
-      'vf-wrapped': props.innerWrap,
-    },
-  ],
+  root: 'vf-group',
+  wrapper: [props.layout === false ? props.class : null, 'vf-group-elements'],
 }))
 
 const { resolvedSchema, label } = api
@@ -73,7 +63,13 @@ defineExpose(expose)
           :class="classes.wrapper"
           v-bind="parts.wrapper"
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          :data-stacked="props.stacked ? '' : undefined"
+          :data-wrapped="props.innerWrap ? '' : undefined"
+          v-bind="parts.wrapper"
+        >
           <slot :resolved-schema>
             <component
               v-if="outlets?.default"

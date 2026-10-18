@@ -16,6 +16,7 @@ import {
   useBlueprint,
   defineEvents,
   type LanguagesProp,
+  autocompleteTokenOf,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,
@@ -213,20 +214,11 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
  *
  * @see https://ui.vueform.com/guide/classes
  */
-useClasses(({ hasError }) => ({
-  root: {
-    'vf-textarea': true,
-    'vf-align-label': !api.help.value,
-  },
+useClasses(() => ({
+  root: 'vf-textarea',
   addonGroup: 'vf-addon-group',
   iconGroup: 'vf-icon-group',
-  input: {
-    'vf-input': true,
-    'vf-textarea-input': true,
-    'vf-resizable': props.resize,
-    'vf-autogrow': props.autogrow,
-    'vf-danger': hasError.value,
-  },
+  input: 'vf-input vf-textarea-input',
 }))
 
 const {
@@ -236,7 +228,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   name,
   handleKeydown,
@@ -297,11 +289,15 @@ declare module 'vue' {
         :class="classes.input"
         v-model="value"
         :placeholder
+        :autocomplete="props.autocomplete ?? autocompleteTokenOf(name)"
+        :inputmode="props.inputmode"
+        :data-resizable="props.resize ? '' : undefined"
+        :data-autogrow="props.autogrow ? '' : undefined"
         :disabled
         :readonly="readonly || undefined"
         :rows="props.rows"
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...parts.input,
         }"
         :ref="(el) => (input = el)"

@@ -1,6 +1,7 @@
 import { useFeatures } from '#src/composables'
 import {
   makeButton,
+  makeButtonAria,
   makeDisabled,
   makeLayout,
   makeElement,
@@ -8,9 +9,12 @@ import {
   type DisabledProps,
   type BaseElementEmits,
   type BaseElementProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type ButtonAriaA11y,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type AddonableProps,
   type LoadingProps,
@@ -84,12 +88,22 @@ export interface ButtonSlots<
 /**
  * Structural parts of the button element blueprint.
  */
-export interface ButtonParts extends BaseElementParts {}
+export interface ButtonParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the button element blueprint.
  */
 export interface ButtonClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the button element blueprint.
+ */
+export interface ButtonModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the button element blueprint.
+ */
+export interface ButtonA11y extends BaseElementA11y, ButtonAriaA11y {}
 
 /**
  * Augmentable public API surface for button-based components.
@@ -121,6 +135,7 @@ export function blueprint<TProps extends ButtonProps<string>>(
     .use(makeLayout())
     .use(makeDisabled())
     .use(makeButton())
+    .use(makeButtonAria())
     .build()
 }
 

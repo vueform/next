@@ -7,12 +7,13 @@ import type {
   InputOtpProps as PvInputOtpProps,
   InputOtpSlots as AInputOtpSlots,
 } from 'primevue'
-
 import type {
+  InputOtpA11y,
   InputOtpApi,
   InputOtpClasses,
   InputOtpEmits,
   InputOtpExpose,
+  InputOtpModifiers,
   InputOtpParts,
   InputOtpProps,
   InputOtpSlots,
@@ -88,6 +89,31 @@ export interface VfInputOtpClasses
 }
 
 /**
+ * Accessibility bindings of the VfInputOtp component.
+ */
+export interface VfInputOtpA11y extends InputOtpA11y {}
+
+/**
+ * Styling modifiers of the VfInputOtp component.
+ */
+export interface VfInputOtpModifiers extends InputOtpModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfInputOtp.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -112,6 +138,8 @@ export interface VfInputOtpContext extends DefineElementContext<
   VfInputOtpSlots,
   VfInputOtpParts,
   VfInputOtpClasses,
+  VfInputOtpModifiers,
+  VfInputOtpA11y,
   VfInputOtpExpose,
   InputOtpApi
 > {}

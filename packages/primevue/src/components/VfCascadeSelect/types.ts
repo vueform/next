@@ -14,10 +14,12 @@ import type { CascadeSelectSlots as ACascadeSelectSlots } from 'primevue/cascade
 import type { VNode } from 'vue'
 
 import type {
+  CascadeSelectA11y,
   CascadeSelectApi,
   CascadeSelectClasses,
   CascadeSelectEmits,
   CascadeSelectExpose,
+  CascadeSelectModifiers,
   CascadeSelectParts,
   CascadeSelectProps,
   CascadeSelectSlots,
@@ -245,6 +247,31 @@ export interface VfCascadeSelectClasses
 }
 
 /**
+ * Accessibility bindings of the VfCascadeSelect component.
+ */
+export interface VfCascadeSelectA11y extends CascadeSelectA11y {}
+
+/**
+ * Styling modifiers of the VfCascadeSelect component.
+ */
+export interface VfCascadeSelectModifiers extends CascadeSelectModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfCascadeSelect.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -279,6 +306,8 @@ export interface VfCascadeSelectContext<
   VfCascadeSelectSlots,
   VfCascadeSelectParts,
   VfCascadeSelectClasses,
+  VfCascadeSelectModifiers,
+  VfCascadeSelectA11y,
   VfCascadeSelectExpose,
   CascadeSelectApi<TProps>
 > {}

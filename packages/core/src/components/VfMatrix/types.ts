@@ -1,11 +1,13 @@
 import type { Component, VNode } from 'vue'
 
 import type {
+  MatrixA11y,
   MatrixApi,
   MatrixClasses,
   MatrixEmits,
   MatrixElementSchema,
   MatrixExpose,
+  MatrixModifiers,
   MatrixParts,
   MatrixProps,
   MatrixSlots,
@@ -251,20 +253,38 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   default: () => VNode[]
 
   /**
-   * Slot that replaces the header row. Receives class and header definitions.
+   * Slot that replaces the header row. Receives the component's classes and
+   * parts proxies and the header definitions.
    *
    * @param scope The header slot's params.
    */
   header: (scope: {
     /**
-     * CSS classes for the header row.
-     */
-    class: ClassValue
-
-    /**
      * The resolved column header definitions.
      */
     headers: (ResolvedMatrixCol | {})[]
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfMatrixClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfMatrixParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind` (the `row` bag is a function of the drag state).
+     */
+    modifiers: VfMatrixModifiers
+
+    /**
+     * The component's accessibility bindings, keyed by part name; apply each
+     * bag with `v-bind`.
+     */
+    a11yBindings: VfMatrixA11y
   }) => VNode[]
 
   /**
@@ -274,11 +294,6 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    */
   colHeader: (scope: {
     /**
-     * CSS classes for the column header.
-     */
-    class: ClassValue
-
-    /**
      * The column header's unique ID.
      */
     id: string
@@ -287,6 +302,23 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
      * The column header label text.
      */
     label: string
+
+    /**
+     * CSS classes for the column header element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:colHeader` attribute overrides for the column header
+     * element; apply with `v-bind`.
+     */
+    part: DomAttrsOf<'div'> | undefined
+
+    /**
+     * Ready-to-spread styling modifier attributes for the column header
+     * element.
+     */
+    modifiers: VfMatrixModifiers['colHeader']
   }) => VNode[]
 
   /**
@@ -296,11 +328,6 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    * @param scope The row slot's params.
    */
   row: (scope: {
-    /**
-     * CSS classes for the row.
-     */
-    class: ClassValue
-
     /**
      * The row's item index.
      */
@@ -322,25 +349,6 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
     isDropTarget: boolean
 
     /**
-     * Handler for the drag enter event.
-     *
-     * @param $event The native drag event.
-     */
-    handleDragEnter: ($event: DragEvent) => void
-
-    /**
-     * Handler for the drag start event.
-     *
-     * @param $event The native drag event.
-     */
-    handleDragStart: ($event: DragEvent) => void
-
-    /**
-     * Handler for the drag end event.
-     */
-    handleDragEnd: () => void
-
-    /**
      * Whether the row can be removed.
      */
     canRemove: boolean
@@ -356,14 +364,55 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
     label: string
 
     /**
-     * Handler to remove this row.
-     */
-    remove: () => void
-
-    /**
      * The column element definitions for this row.
      */
     cols: { component: string | Component; props: MatrixElementSchema }[]
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfMatrixClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfMatrixParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind` (the `row` bag is a function of the drag state).
+     */
+    modifiers: VfMatrixModifiers
+
+    /**
+     * The component's accessibility bindings, keyed by part name; apply each
+     * bag with `v-bind`.
+     */
+    a11yBindings: VfMatrixA11y
+
+    /**
+     * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
+     */
+    handleDragEnter: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
+     */
+    handleDragStart: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag end event.
+     */
+    handleDragEnd: () => void
+
+    /**
+     * Handler to remove this row.
+     */
+    remove: () => void
   }) => VNode[]
 
   /**
@@ -373,14 +422,25 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    */
   rowHeader: (scope: {
     /**
-     * CSS classes for the row header.
-     */
-    class: ClassValue
-
-    /**
      * The row header label text.
      */
     label: string
+
+    /**
+     * CSS classes for the row header element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:rowHeader` attribute overrides for the row header
+     * element; apply with `v-bind`.
+     */
+    part: DomAttrsOf<'div'> | undefined
+
+    /**
+     * Ready-to-spread styling modifier attributes for the row header element.
+     */
+    modifiers: VfMatrixModifiers['rowHeader']
   }) => VNode[]
 
   /**
@@ -390,9 +450,26 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    */
   sortWrapper: (scope: {
     /**
-     * CSS classes for the wrapper.
+     * The component's resolved classes, keyed by part name.
      */
-    class: ClassValue
+    classes: VfMatrixClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfMatrixParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind` (the `row` bag is a function of the drag state).
+     */
+    modifiers: VfMatrixModifiers
+
+    /**
+     * The component's accessibility bindings, keyed by part name; apply each
+     * bag with `v-bind`.
+     */
+    a11yBindings: VfMatrixA11y
 
     /**
      * Handler for the drag enter event.
@@ -415,15 +492,28 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the drag handle. Receives class and drag event handlers.
+   * Slot that replaces the drag handle. Receives classes, part, and drag
+   * event handlers.
    *
    * @param scope The sort slot's params.
    */
   sort: (scope: {
     /**
-     * CSS classes for the handle element.
+     * CSS classes for the drag handle element.
      */
-    class: ClassValue
+    classes: ClassValue
+
+    /**
+     * Resolved `part:sort` attribute overrides for the drag handle element;
+     * apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Resolved accessibility bindings for this row's drag handle (localized
+     * aria-label); apply with `v-bind`.
+     */
+    a11yBindings: ReturnType<VfMatrixA11y['sort']>
 
     /**
      * Handler for the drag enter event.
@@ -463,6 +553,17 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
     props: MatrixElementSchema
 
     /**
+     * CSS classes for the cell element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:cell` attribute overrides for the cell element; apply
+     * with `v-bind`.
+     */
+    part: DomAttrsOf<'div'> | undefined
+
+    /**
      * Handler for the drag enter event on the cell.
      *
      * @param $event The native drag event.
@@ -477,9 +578,26 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    */
   removeWrapper: (scope: {
     /**
-     * CSS classes for the wrapper.
+     * The component's resolved classes, keyed by part name.
      */
-    class: ClassValue
+    classes: VfMatrixClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfMatrixParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind` (the `row` bag is a function of the drag state).
+     */
+    modifiers: VfMatrixModifiers
+
+    /**
+     * The component's accessibility bindings, keyed by part name; apply each
+     * bag with `v-bind`.
+     */
+    a11yBindings: VfMatrixA11y
 
     /**
      * Handler to remove the row.
@@ -494,9 +612,21 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    */
   remove: (scope: {
     /**
-     * CSS classes for the remove button.
+     * CSS classes for the remove button element.
      */
-    class: ClassValue
+    classes: ClassValue
+
+    /**
+     * Resolved `part:remove` attribute overrides for the remove button
+     * element; apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Resolved accessibility bindings for this row's remove button (localized
+     * aria-label fallback); apply with `v-bind`.
+     */
+    a11yBindings: ReturnType<VfMatrixA11y['remove']>
 
     /**
      * Handler to remove the row.
@@ -505,21 +635,33 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the add row button. Receives class, label, and add
-   * handler.
+   * Slot that replaces the add row button. Receives classes, part, label, and
+   * add handler.
    *
    * @param scope The add slot's params.
    */
   add: (scope: {
     /**
-     * CSS classes for the add button.
-     */
-    class: ClassValue
-
-    /**
      * The button label text.
      */
     label: TProp | string
+
+    /**
+     * CSS classes for the add button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:add` attribute overrides for the add button element;
+     * apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Accessibility bindings for the add control (fallback aria-label); apply
+     * with `v-bind`.
+     */
+    a11yBindings: VfMatrixA11y['add']
 
     /**
      * Handler to add a new row.
@@ -598,16 +740,18 @@ export interface VfMatrixParts extends MatrixParts {
   /**
    * The drag sort handle element.
    *
+   * @param index The row's zero-based index.
    * @tag VfButton
    */
-  sort: PartOf<'VfButton'>
+  sort: (index: number) => PartOf<'VfButton'>
 
   /**
    * The remove action element.
    *
+   * @param index The row's zero-based index.
    * @tag VfButton
    */
-  remove: PartOf<'VfButton'>
+  remove: (index: number) => PartOf<'VfButton'>
 
   /**
    * The add action element.
@@ -637,12 +781,10 @@ export interface VfMatrixClasses extends MatrixClasses {
   colHeader: ClassValue
 
   /**
-   * Each row element. Receives drag state.
-   *
-   * @param beingDragged Whether this row is currently being dragged.
-   * @param isDropTarget Whether this row is the current drop target.
+   * Each row element. Drag state is exposed via `data-dragging` and
+   * `data-drop-target` attributes.
    */
-  row: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
+  row: ClassValue
 
   /**
    * Each row header element.
@@ -681,6 +823,59 @@ export interface VfMatrixClasses extends MatrixClasses {
 }
 
 /**
+ * Accessibility bindings of the VfMatrix component.
+ */
+export interface VfMatrixA11y extends MatrixA11y {}
+
+/**
+ * Styling modifiers of the VfMatrix component.
+ */
+export interface VfMatrixModifiers extends MatrixModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The matrix grid's scroll-mode marker, set while `scrollable` is enabled.
+   */
+  grid: {
+    'data-scrollable'?: ''
+  }
+
+  /**
+   * Each column header's sticky marker, set while `stickyCols` is enabled.
+   */
+  colHeader: {
+    'data-sticky'?: ''
+  }
+
+  /**
+   * Each row header's sticky marker, set while `stickyRows` is enabled.
+   */
+  rowHeader: {
+    'data-sticky'?: ''
+  }
+
+  /**
+   * Each row element's drag state.
+   *
+   * @param beingDragged Whether this row is currently being dragged.
+   * @param isDropTarget Whether this row is the current drop target.
+   */
+  row: (
+    beingDragged: boolean,
+    isDropTarget: boolean
+  ) => {
+    'data-dragging'?: ''
+    'data-drop-target'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfMatrix.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -705,6 +900,8 @@ export interface VfMatrixContext<
   VfMatrixSlots,
   VfMatrixParts,
   VfMatrixClasses,
+  VfMatrixModifiers,
+  VfMatrixA11y,
   VfMatrixExpose,
   MatrixApi<TProps>
 > {}

@@ -15,6 +15,8 @@ interface VfRadioContext<
   VfRadioSlots,
   VfRadioParts,
   VfRadioClasses,
+  VfRadioModifiers,
+  VfRadioA11y,
   VfRadioExpose,
   RadioApi<TProps>
 > {}

@@ -40,11 +40,11 @@ label.vf-label {
 }
 
 /**
- * Aligns the label padding for horizontal labels.
+ * Aligns the label padding for horizontal labels (elements without help text).
  *
- * @class .vf-align-label
+ * @class [data-align-label]
  */
-.vf-align-label .vf-horizontal .vf-label {
+[data-align-label] .vf-horizontal .vf-label {
   padding: var(--vf-label-group-h-padding);
 }
 

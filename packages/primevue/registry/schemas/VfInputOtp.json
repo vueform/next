@@ -10,7 +10,7 @@
       "path": "VfInputOtp.vue",
       "target": "{componentsDir}/VfInputOtp.vue",
       "kind": "component",
-      "hash": "sha256:a33d2b6281a12987fb46f85c59b41c481e29189e3053c40f2286ac5d6e8cd50a"
+      "hash": "sha256:78337f49ba346641cd0ed7b9354e2352be27d1cf523cf5560feedc4a8bd695ac"
     }
   ],
   "imports": [
@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfInputOtp.vue",
     "blueprint": "input-otp",
-    "hash": "sha256:959ee836ef87a516c505c36353c780dda518ba54ebab3332ddd8d40cf303e87c",
+    "hash": "sha256:75bc7f739505fce620912badfcccd28dd774dc072d0314b98f6976372ccf31e9",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

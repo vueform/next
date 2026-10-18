@@ -85,14 +85,6 @@ declare module '@vueform/core' {
      */
     labelGroup?: DomAttrsOf<'div'>
     /**
-     * The label element.
-     *
-     * @tag label | span | h1 | h2 | h3 | h4 | h5 | h6
-     */
-    label?: DomAttrsOf<
-      'label' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'
-    >
-    /**
      * The required indicator.
      *
      * @tag div
@@ -146,6 +138,25 @@ declare module '@vueform/core' {
      * @tag div
      */
     message?: DomAttrsOf<'div'>
+  }
+
+  interface BaseFieldElementParts {
+    /**
+     * The label element, associated with the control via `for`.
+     *
+     * @tag label | span
+     */
+    label?: DomAttrsOf<'label' | 'span'>
+  }
+
+  interface BaseContainerElementParts {
+    /**
+     * The label element; renders as the corresponding heading when the
+     * container's `heading` prop is set.
+     *
+     * @tag span | h1 | h2 | h3 | h4 | h5 | h6
+     */
+    label?: DomAttrsOf<'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'>
   }
 
   interface BaseElementClasses {

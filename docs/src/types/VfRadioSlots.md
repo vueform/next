@@ -21,11 +21,6 @@ interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
     model: TRadioValue | null
 
     /**
-     * ARIA attributes for the input.
-     */
-    aria: AriaProp
-
-    /**
      * The input's `name` attribute.
      */
     inputName: string
@@ -49,6 +44,28 @@ interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
      * The radio label text.
      */
     text: string | undefined
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioParts>
+
+    /**
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
+     */
+    a11yBindings: VfRadioA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadioModifiers
 
     /**
      * Handler for the input's blur event.
@@ -90,6 +107,17 @@ interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
      * The element's generic name, used as screen-reader-only fallback text.
      */
     genericName: string
+
+    /**
+     * CSS classes for the text element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:text` attribute overrides for the text element; apply
+     * with `v-bind`.
+     */
+    part: DomAttrsOf<'label'> | undefined
   }) => VNode[]
 }
 ```

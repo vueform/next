@@ -41,14 +41,9 @@ const slots = defineSlots<VfCheckboxSlots<TTrueValue, TFalseValue>>()
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ props }) => ({
+useClasses(() => ({
   root: 'vf-checkbox',
-  wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
-  },
+  wrapper: 'vf-choice-wrapper',
   text: 'vf-choice-text',
 }))
 
@@ -63,7 +58,7 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  aria,
+  a11yBindings,
   inputName,
   text,
   input,
@@ -85,7 +80,7 @@ defineExpose(expose)
     <VfLayout v-else :label="false">
       <slot
         :model
-        :aria
+        :a11y-bindings="a11yBindings"
         :input-name
         :id
         :true-value
@@ -101,7 +96,7 @@ defineExpose(expose)
           v-if="outlets?.default"
           :is="outlets.default"
           :model
-          :aria
+          :a11y-bindings="a11yBindings"
           :input-name
           :id
           :true-value
@@ -114,7 +109,13 @@ defineExpose(expose)
           :handle-input
           :handle-model-update
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          :data-align="props.align || undefined"
+          :data-aligned="props.aligned ? '' : undefined"
+          v-bind="parts.wrapper"
+        >
           <Checkbox
             :name="inputName"
             :input-id="id"
@@ -127,7 +128,7 @@ defineExpose(expose)
             :invalid
             binary
             v-bind="{
-              ...aria,
+              ...a11yBindings.input,
               ...forwardProps,
               ...parts.input,
             }"

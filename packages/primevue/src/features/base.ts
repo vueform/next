@@ -29,13 +29,6 @@ declare module '@vueform/core' {
     labelGroup?: DOMAttrs['div' | 'legend']
 
     /**
-     * The label element.
-     *
-     * @tag label | span | h1 | h2 | h3 | h4 | h5 | h6
-     */
-    label?: DOMAttrs['label' | 'span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6']
-
-    /**
      * The required indicator.
      *
      * @tag div
@@ -111,6 +104,25 @@ declare module '@vueform/core' {
      * @tag div
      */
     message?: DOMAttrs['div']
+  }
+
+  interface BaseFieldElementParts {
+    /**
+     * The label element, associated with the control via `for`.
+     *
+     * @tag label | span
+     */
+    label?: DOMAttrs['label' | 'span']
+  }
+
+  interface BaseContainerElementParts {
+    /**
+     * The label element; renders as the corresponding heading when the
+     * container's `heading` prop is set.
+     *
+     * @tag span | h1 | h2 | h3 | h4 | h5 | h6
+     */
+    label?: DOMAttrs['span' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6']
   }
 
   interface BaseElementSlots {

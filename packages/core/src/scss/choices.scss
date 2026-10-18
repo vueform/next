@@ -18,11 +18,11 @@
   column-gap: var(--vf-choices-gutter-x);
 
   /** Arranges choices in a horizontal row layout. */
-  &.vf-stacked {
+  &[data-stacked] {
     --vf-choices-direction: row;
   }
 
-  &.vf-aligned {
+  &[data-aligned] {
     margin: var(--vf-choice-aligned-margin);
   }
 }

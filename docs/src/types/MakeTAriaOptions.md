@@ -1,18 +1,37 @@
 ```ts
 /**
- * Configuration for the text ARIA factory resolving language-aware describedby
- * and lang attributes.
+ * Configuration for the translatable-text ARIA factory resolving
+ * language-aware describedby and lang attributes.
  */
 type MakeTAriaOptions = {
   props: {
-    aria: AriaProp | undefined
-    help: TProp | undefined
-    description: TProp | undefined
-  }
+    /**
+     * When `false`, the element renders without its layout (no label, help,
+     * description, or error regions), so no describedby relationship can be
+     * established.
+     */
+    layout?: unknown
 
+    /**
+     * When `true`, the label group (which also hosts the help region) is not
+     * rendered.
+     */
+    hideLabel?: boolean
+  }
   deps: ReturnsOf<
     [
-      [typeof makeLayout, ['helpId', 'descriptionId', 'errorId']],
+      [
+        typeof makeLayout,
+        [
+          'label',
+          'labelId',
+          'helpId',
+          'descriptionId',
+          'errorId',
+          'help',
+          'description',
+        ],
+      ],
       [typeof makeMultilingual, ['language', 'languageId', 'translatable']],
       [typeof makeData, ['hasError', 'busy', 'required']],
     ]

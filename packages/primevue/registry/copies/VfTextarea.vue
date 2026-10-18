@@ -49,11 +49,8 @@ const slots = defineSlots<VfTextareaSlots<TTranslate, TLanguages>>()
 const { api, parts, classes, context, expose, outlets, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-textarea': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-textarea',
 }))
 
 const {
@@ -63,7 +60,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   name,
   tooltipModifiers,
@@ -105,7 +102,7 @@ defineExpose(expose)
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

@@ -3,9 +3,11 @@ import type {
   ConditionsTriggerProp,
 } from '#src/modules/conditions'
 import type {
+  BaseComponentA11y,
   BaseComponentClasses,
   BaseComponentEmits,
   BaseComponentExpose,
+  BaseComponentModifiers,
   BaseComponentParts,
   BaseComponentProps,
   BaseComponentSlots,
@@ -92,5 +94,22 @@ export interface BaseElementSlots<
 > extends BaseComponentSlots<TContext> {}
 
 export interface BaseElementParts extends BaseComponentParts {}
+
+/**
+ * Parts base for field-kind elements — elements whose accessible name is the
+ * native `<label for>` association. Adapters augment it with the parts whose
+ * contract differs by element kind (the label).
+ */
+export interface BaseFieldElementParts extends BaseElementParts {}
+
+/**
+ * Parts base for container-kind elements — elements named via
+ * `aria-labelledby` that can render their label as a heading (`heading`
+ * prop). Adapters augment it with the parts whose contract differs by
+ * element kind (the label).
+ */
+export interface BaseContainerElementParts extends BaseElementParts {}
 export interface BaseElementClasses extends BaseComponentClasses {}
+export interface BaseElementModifiers extends BaseComponentModifiers {}
+export interface BaseElementA11y extends BaseComponentA11y {}
 export interface BaseElementExpose extends BaseComponentExpose {}

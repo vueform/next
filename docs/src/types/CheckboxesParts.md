@@ -2,5 +2,5 @@
 /**
  * Structural parts of the checkboxes element blueprint.
  */
-interface CheckboxesParts extends BaseElementParts {}
+interface CheckboxesParts extends BaseContainerElementParts {}
 ```

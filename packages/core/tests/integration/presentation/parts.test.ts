@@ -23,7 +23,7 @@ describe('useParts', () => {
       expect(input.attributes('data-foo')).toBe('bar')
     })
 
-    it('should return static value without wrapping in a function Proxy', () => {
+    it('should expose static values as spreadable AND callable parts', () => {
       const inputPart = { 'data-foo': 'bar' }
 
       const { text } = createForm({
@@ -32,9 +32,10 @@ describe('useParts', () => {
         }),
       })
 
-      expect(text.parts.input).toStrictEqual(inputPart)
-      expect(typeof text.parts.input).toBe('object')
-      expect(typeof text.parts.input).not.toBe('function')
+      // Object parts share the function parts' dual surface, so per-item call
+      // sites (`parts.x?.(item, index)`) work regardless of the user's form.
+      expect({ ...text.parts.input }).toStrictEqual(inputPart)
+      expect(text.parts.input('anything', 0)).toStrictEqual(inputPart)
     })
   })
 
@@ -305,7 +306,7 @@ describe('useParts', () => {
       })
 
       const spread = { ...text.parts }
-      expect(spread.input).toStrictEqual(inputPart)
+      expect({ ...spread.input }).toStrictEqual(inputPart)
     })
   })
 

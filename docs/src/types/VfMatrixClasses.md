@@ -19,12 +19,10 @@ interface VfMatrixClasses extends MatrixClasses {
   colHeader: ClassValue
 
   /**
-   * Each row element. Receives drag state.
-   *
-   * @param beingDragged Whether this row is currently being dragged.
-   * @param isDropTarget Whether this row is the current drop target.
+   * Each row element. Drag state is exposed via `data-dragging` and
+   * `data-drop-target` attributes.
    */
-  row: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
+  row: ClassValue
 
   /**
    * Each row header element.

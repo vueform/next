@@ -20,7 +20,6 @@ interface FileUploadProps<
     LayoutProps<TContext>,
     ModelPropsWithDefaultValue<FileModelProp<TMultiple>, TContext>,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     MultipleProps<TMultiple>,
     InfoProps,

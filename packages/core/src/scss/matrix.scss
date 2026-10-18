@@ -9,7 +9,7 @@
   overflow: visible;
 
   /** Enables scrolling when the matrix overflows. */
-  &.vf-scrollable {
+  &[data-scrollable] {
     overflow: auto;
   }
 }
@@ -31,7 +31,7 @@
   white-space: nowrap;
 
   /** Makes the header stick to the viewport edge on scroll. */
-  &.vf-sticky {
+  &[data-sticky] {
     position: sticky;
   }
 }
@@ -48,7 +48,7 @@
   color: var(--vf-matrix-col-header-color);
   text-align: center;
 
-  &.vf-sticky {
+  &[data-sticky] {
     top: 0;
     z-index: 1;
   }
@@ -61,7 +61,7 @@
   display: contents;
 
   /** Visual state while the row is being dragged. */
-  &.vf-dragging > * {
+  &[data-dragging] > * {
     cursor: grabbing;
     opacity: var(--vf-matrix-dragging-opacity);
   }
@@ -74,7 +74,7 @@
   margin: auto 0;
   color: var(--vf-matrix-row-header-color);
 
-  &.vf-sticky {
+  &[data-sticky] {
     left: 0;
     z-index: 2;
   }

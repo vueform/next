@@ -22,6 +22,7 @@ const DOCS_DIR = path.resolve(
   path.dirname(fileURLToPath(import.meta.url)),
   '..'
 )
+const ROOT_DIR = path.resolve(DOCS_DIR, '..')
 
 /**
  * The parallel group, then the page-reading closers in order.
@@ -38,6 +39,13 @@ const PARALLEL = [
 ]
 const CLOSERS = ['json-types', 'json-keywords']
 
+/**
+ * Final step: the repo formatter over everything the generators write, so
+ * generated output always lands in `vp fmt` style (its config applies — e.g.
+ * `*.md` stays excluded; the formatted files are the json outputs).
+ */
+const FMT_ID = 'fmt'
+
 async function main(): Promise<void> {
   const {
     createPaint,
@@ -47,7 +55,7 @@ async function main(): Promise<void> {
     untrackChild,
   } = await import('@vueform/utils/terminal')
 
-  const ids = [...PARALLEL, ...CLOSERS]
+  const ids = [...PARALLEL, ...CLOSERS, FMT_ID]
   const runStarted = Date.now()
   const mode = resolveTerminalMode()
   const { green, red, dim } = createPaint(mode.colors)
@@ -61,19 +69,23 @@ async function main(): Promise<void> {
   const outputs = new Map<string, string>(ids.map((id) => [id, '']))
   const failed = new Set<string>()
 
-  function runTask(id: string): Promise<boolean> {
+  function runTask(
+    id: string,
+    args?: string[],
+    cwd: string = DOCS_DIR
+  ): Promise<boolean> {
     return new Promise((resolve) => {
       display.start(id)
 
       const child = spawn(
         'pnpm',
-        [
+        args ?? [
           'exec',
           'tsx',
           path.join(DOCS_DIR, 'scripts', 'generators', `${id}.ts`),
         ],
         {
-          cwd: DOCS_DIR,
+          cwd,
           stdio: ['ignore', 'pipe', 'pipe'],
           detached: process.platform !== 'win32',
         }
@@ -99,7 +111,9 @@ async function main(): Promise<void> {
     })
   }
 
-  let ok = (await Promise.all(PARALLEL.map(runTask))).every(Boolean)
+  let ok = (await Promise.all(PARALLEL.map((id) => runTask(id)))).every(
+    Boolean
+  )
 
   for (const id of CLOSERS) {
     if (ok) {
@@ -107,6 +121,16 @@ async function main(): Promise<void> {
     } else {
       display.skip(id)
     }
+  }
+
+  if (ok) {
+    ok = await runTask(
+      FMT_ID,
+      ['exec', 'vp', 'fmt', 'docs/src', 'docs/config.json'],
+      ROOT_DIR
+    )
+  } else {
+    display.skip(FMT_ID)
   }
 
   display.finish()

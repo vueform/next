@@ -220,9 +220,7 @@ li:has(strong + span):has(span > code + code) {
 
 @media (width >= 960px) {
   .VPHomeHero.VPHero {
-    --vp-hero-v-padding: 96px;
-    padding: calc(var(--vp-nav-height) + var(--vp-hero-v-padding)) 64px
-      var(--vp-hero-v-padding);
+    padding: calc(var(--vp-nav-height) + 108px) 64px 60px;
   }
 }
 

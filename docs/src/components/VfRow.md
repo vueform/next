@@ -187,8 +187,8 @@ The root row element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-grid-row` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-grid-row` |
 <!-- @parts-end -->
 <!-- @endtab -->
 <!-- @endtabs -->

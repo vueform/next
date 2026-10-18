@@ -8,9 +8,11 @@ import {
   type ModelPropsWithDefault,
   type BaseElementEmits,
   type BaseElementProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type ValidationProps,
   type ModelEmits,
@@ -59,12 +61,22 @@ export interface HiddenSlots<
 /**
  * Parts for the hidden element.
  */
-export interface HiddenParts extends BaseElementParts {}
+export interface HiddenParts extends BaseFieldElementParts {}
 
 /**
  * Classes for the hidden element.
  */
 export interface HiddenClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the hidden element blueprint.
+ */
+export interface HiddenModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the hidden element blueprint.
+ */
+export interface HiddenA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for hidden-based components.

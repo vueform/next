@@ -2,5 +2,5 @@
 /**
  * Structural parts of the button element blueprint.
  */
-interface ButtonParts extends BaseElementParts {}
+interface ButtonParts extends BaseFieldElementParts {}
 ```

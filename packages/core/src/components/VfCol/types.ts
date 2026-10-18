@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type ColA11y,
   type ColApi,
   type ColClasses,
   type ColEmits,
   type ColExpose,
+  type ColModifiers,
   type ColParts,
   type ColProps,
   type ColSlots,
@@ -96,6 +98,24 @@ export interface VfColClasses extends ColClasses {
 }
 
 /**
+ * Accessibility bindings of the VfCol component.
+ */
+export interface VfColA11y extends ColA11y {}
+
+/**
+ * Styling modifiers of the VfCol component.
+ */
+export interface VfColModifiers extends ColModifiers {
+  /**
+   * The root column element's horizontal and vertical alignment attributes.
+   */
+  root: {
+    'data-align'?: AlignProp
+    'data-valign'?: ValignProp
+  }
+}
+
+/**
  * Augmentable public API surface for VfCol.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -120,6 +140,8 @@ export interface VfColContext extends DefineElementContext<
   VfColSlots,
   VfColParts,
   VfColClasses,
+  VfColModifiers,
+  VfColA11y,
   VfColExpose,
   ColApi
 > {}

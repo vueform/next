@@ -2,5 +2,5 @@
 /**
  * Structural parts of the radio element blueprint.
  */
-interface RadioParts extends BaseElementParts {}
+interface RadioParts extends BaseFieldElementParts {}
 ```

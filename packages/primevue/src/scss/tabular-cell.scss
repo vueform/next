@@ -284,7 +284,7 @@
   &:has(.p-knob),
   &:has(.p-inputotp),
   &:has(.vf-file-upload-wrapper.vf-basic),
-  &:has(.vf-choices-group:not(.vf-stacked)) {
+  &:has(.vf-choices-group:not([data-stacked])) {
     padding: var(--vf-tabular-boxed-cell-padding);
   }
 

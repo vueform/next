@@ -13,12 +13,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type ValidationProps,
   type DisabledProps,
@@ -71,7 +73,6 @@ export interface InputOtpProps<
     ExpressionProps,
     ModelPropsWithDefaultValue<OtpModel, TContext>,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,
@@ -115,12 +116,22 @@ export interface InputOtpSlots<
 /**
  * Structural parts of the input-otp element blueprint.
  */
-export interface InputOtpParts extends BaseElementParts {}
+export interface InputOtpParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the input-otp element blueprint.
  */
 export interface InputOtpClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the input-otp element blueprint.
+ */
+export interface InputOtpModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the input-otp element blueprint.
+ */
+export interface InputOtpA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for input-otp-based components.

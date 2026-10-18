@@ -30,13 +30,7 @@ const { api, parts, classes, context, expose, outlets, useClasses, propRefs } =
 useClasses(() => ({
   root: 'vf-languages',
   list: 'vf-languages-wrapper',
-  wrapper: (selected: boolean, invalid: boolean) => [
-    'vf-language-wrapper',
-    {
-      'vf-selected': selected,
-      'vf-invalid': invalid,
-    },
-  ],
+  wrapper: 'vf-language-wrapper',
   language: 'vf-language',
 }))
 
@@ -50,17 +44,19 @@ defineExpose(expose)
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <div v-else :class="classes.root" v-bind="parts.root">
-      <ul :class="classes.list" role="tablist" v-bind="parts.list">
+      <!-- Plain buttons on purpose: tablist roles are a keyboard contract
+        (roving tabindex, arrow keys) this component does not implement yet.
+        aria-current marks the active language without promising tab
+        semantics. -->
+      <ul :class="classes.list" v-bind="parts.list">
         <li
           v-for="(label, value) in languages"
           :key="value"
-          :class="
-            classes.wrapper(
-              language === value,
-              !!invalidLanguages?.has(value as string)
-            )
+          :class="classes.wrapper"
+          :data-selected="language === value ? '' : undefined"
+          :data-invalid="
+            invalidLanguages?.has(value as string) ? '' : undefined
           "
-          role="none"
           v-bind="
             parts.wrapper?.(
               language === value,
@@ -71,9 +67,7 @@ defineExpose(expose)
           <button
             type="button"
             :class="classes.language"
-            role="tab"
-            :aria-selected="language === value"
-            :aria-current="language === value"
+            :aria-current="language === value || undefined"
             :aria-invalid="invalidLanguages?.has(value as string) || undefined"
             v-bind="parts.language"
             @click="handleSelect(value as string)"

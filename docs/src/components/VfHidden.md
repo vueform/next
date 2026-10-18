@@ -106,6 +106,12 @@ Configure the component's behavior and appearance with these props.
 | [`type`](!code#props.type "string") | `'hidden'` | The element type identifier. |
 | [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
+### Layout {#props-layout}
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
+
 ### Input {#props-hidden}
 
 | Prop | Default | Description |
@@ -143,12 +149,6 @@ Configure the component's behavior and appearance with these props.
 | [`conditions`](!code#props.conditions "ConditionalProp<TContext>") | — | Conditions that control the element's visibility and availability. |
 | [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp<TContext>") | — | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
 | [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
-
-### Layout {#props-layout}
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 

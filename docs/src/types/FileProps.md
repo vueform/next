@@ -20,7 +20,6 @@ interface FileProps<
     LayoutProps<TContext>,
     ModelPropsWithDefault<FileModelProp<TMultiple>, TContext>,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     MultipleProps<TMultiple> {
   /**

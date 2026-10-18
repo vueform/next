@@ -51,11 +51,8 @@ const slots = defineSlots<VfEditorSlots<TTranslate, TLanguages>>()
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-editor': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-editor',
   input: {
     'vf-editor-input': true,
     'vf-editor-loading': !api.ready.value,
@@ -90,6 +87,7 @@ const {
   translatable,
   handleInput,
   handleLoad,
+  a11yBindings,
 } = api
 
 /**
@@ -131,6 +129,7 @@ defineExpose(expose)
         :invalid
         :modules
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"
@@ -159,6 +158,7 @@ defineExpose(expose)
                 <select
                   v-if="translatable"
                   class="ql-vflanguage"
+                  aria-label="Editing language"
                   v-model="language"
                 >
                   <option
@@ -169,12 +169,16 @@ defineExpose(expose)
                     {{ label }}
                   </option>
                 </select>
-                <select class="ql-header" defaultValue="0">
+                <select
+                  class="ql-header"
+                  defaultValue="0"
+                  aria-label="Heading level"
+                >
                   <option value="1">Heading</option>
                   <option value="2">Subheading</option>
                   <option value="0">Normal</option>
                 </select>
-                <select class="ql-font">
+                <select class="ql-font" aria-label="Font">
                   <option />
                   <option value="serif" />
                   <option value="monospace" />
@@ -186,13 +190,13 @@ defineExpose(expose)
                 <button class="ql-underline" type="button" />
               </span>
               <span class="ql-formats">
-                <select class="ql-color" />
-                <select class="ql-background" />
+                <select class="ql-color" aria-label="Text color" />
+                <select class="ql-background" aria-label="Background color" />
               </span>
               <span class="ql-formats">
                 <button class="ql-list" value="ordered" type="button" />
                 <button class="ql-list" value="bullet" type="button" />
-                <select class="ql-align">
+                <select class="ql-align" aria-label="Text alignment">
                   <option defaultValue />
                   <option value="center" />
                   <option value="right" />

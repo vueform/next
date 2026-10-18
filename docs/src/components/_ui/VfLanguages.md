@@ -182,7 +182,7 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `default` | [`parts`](!code#slot.default.parts "Partial<VfLanguagesParts>") [`classes`](!code#slot.default.classes "VfLanguagesClasses") [`language`](!code#slot.default.language "string") [`languages`](!code#slot.default.languages "ResolvedLanguagesProp") [`value`](!code#slot.default.value "string") [`label`](!code#slot.default.label "string") | Slot that replaces each individual language option rendering. |
+| `default` | [`language`](!code#slot.default.language "string") [`languages`](!code#slot.default.languages "ResolvedLanguagesProp") [`value`](!code#slot.default.value "string") [`label`](!code#slot.default.label "string") [`classes`](!code#slot.default.classes "VfLanguagesClasses") [`parts`](!code#slot.default.parts "Partial<VfLanguagesParts>") [`modifiers`](!code#slot.default.modifiers "VfLanguagesModifiers") | Slot that replaces each individual language option rendering. |
 <!-- @slots-end -->
 <!-- @endtab -->
 
@@ -207,8 +207,8 @@ The root language selector element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-languages` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-languages` |
 
 ### `list`
 
@@ -216,8 +216,8 @@ The language list element.
 
 | | |
 | --- | --- |
-| **Element** | `<ul>` |
-| **Classes** | `.vf-languages-wrapper` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-languages-wrapper` |
 
 ### `wrapper`
 
@@ -225,8 +225,9 @@ Each language wrapper. Receives whether this option is currently selected and wh
 
 | | |
 | --- | --- |
-| **Element** | `<li>` |
-| **Classes** | `.vf-language-wrapper` `.vf-selected?` `.vf-invalid?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-language-wrapper` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-selected`](!code#parts.wrapper.modifiers.data-selected "''") [`data-invalid`](!code#parts.wrapper.modifiers.data-invalid "''") |
 
 ### `language`
 
@@ -234,11 +235,10 @@ The language button element.
 
 | | |
 | --- | --- |
-| **Element** | `<button>` |
-| **Classes** | `.vf-language` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<button>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-language` |
 <!-- @parts-end -->
 <!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens

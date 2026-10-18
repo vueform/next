@@ -29,16 +29,18 @@ interface VfListParts extends ListParts {
   /**
    * The drag handle element.
    *
+   * @param index The item's zero-based index.
    * @tag VfButton
    */
-  sort: PartOf<'VfButton'>
+  sort: (index: number) => PartOf<'VfButton'>
 
   /**
    * The remove action element.
    *
+   * @param index The item's zero-based index.
    * @tag VfButton
    */
-  remove: PartOf<'VfButton'>
+  remove: (index: number) => PartOf<'VfButton'>
 
   /**
    * The placeholder element displayed when the list is empty.

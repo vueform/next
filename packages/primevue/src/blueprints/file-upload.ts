@@ -13,12 +13,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ValidationProps,
   type DisabledProps,
   type MultipleProps,
@@ -78,7 +80,6 @@ export interface FileUploadProps<
     LayoutProps<TContext>,
     ModelPropsWithDefaultValue<FileModelProp<TMultiple>, TContext>,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     MultipleProps<TMultiple>,
     InfoProps,
@@ -157,12 +158,22 @@ export interface FileUploadSlots<
 /**
  * Structural parts of the file-upload element blueprint.
  */
-export interface FileUploadParts extends BaseElementParts {}
+export interface FileUploadParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the file-upload element blueprint.
  */
 export interface FileUploadClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the file-upload element blueprint.
+ */
+export interface FileUploadModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the file-upload element blueprint.
+ */
+export interface FileUploadA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for file-upload-based components.

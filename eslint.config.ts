@@ -1,6 +1,7 @@
 import tsParser from '@typescript-eslint/parser'
 import eslintConfigPrettier from 'eslint-config-prettier'
 import vue from 'eslint-plugin-vue'
+import vueA11y from 'eslint-plugin-vuejs-accessibility'
 import { defineConfig } from 'eslint/config'
 import vueParser from 'vue-eslint-parser'
 
@@ -30,6 +31,30 @@ export default defineConfig([
 
   ...vue.configs['flat/essential'],
 
+  // A11y template rules, scoped to library component sources only — docs,
+  // playgrounds and test fixtures are not part of the shipped a11y contract.
+  ...vueA11y.configs['flat/recommended'].map((config) => ({
+    ...config,
+    files: ['packages/*/src/**/*.vue'],
+  })),
+
+  {
+    files: ['packages/*/src/**/*.vue'],
+    rules: {
+      // The default demands nesting AND a for/id pair; `<label :for>` next to
+      // the input is this library's (valid) association pattern.
+      'vuejs-accessibility/label-has-for': [
+        'error',
+        { required: { some: ['nesting', 'id'] }, allowChildren: true },
+      ],
+
+      // Flags the drag-and-drop handlers on list/matrix containers. The
+      // keyboard alternative for drag interactions is a planned separate
+      // pass (WCAG 2.5.7); until then the rule only reports known debt.
+      'vuejs-accessibility/no-static-element-interactions': 'off',
+    },
+  },
+
   {
     files: ['**/*.vue'],
     languageOptions: {
@@ -57,6 +82,10 @@ export default defineConfig([
       // convention; the rule also false-positives on same-name shorthand
       // (`:form$`).
       'vue/valid-attribute-name': 'off',
+
+      // Props on components must be written kebab-case in templates
+      // (`:initial-value`, never `:initialValue`).
+      'vue/attribute-hyphenation': ['error', 'always'],
     },
   },
 

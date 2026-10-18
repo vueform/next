@@ -17,6 +17,7 @@ import {
   useBlueprint,
   defineEvents,
   type LanguagesProp,
+  type A11yBindings,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,
@@ -114,6 +115,13 @@ export interface VfCloneNameSlots<
     context: VfCloneNameContext<
       VfCloneNameProps<TTranslate, TLanguages, TNullValue>
     >
+
+    /**
+     * Part-keyed accessibility bindings; apply the `input` bag to the rendered
+     * control with `v-bind` so label/help/description/error relationships and
+     * ARIA state stay intact (e.g. `v-bind="a11yBindings.input"`).
+     */
+    a11yBindings: A11yBindings
   }) => VNode[]
 }
 
@@ -228,15 +236,12 @@ const { api, context, expose, outlets, useClasses } = useBlueprint(
  * @see https://ui.vueform.com/guide/classes
  */
 useClasses(() => ({
-  root: {
-    'vf-field': true,
-    'vf-align-label': !api.help.value,
-  },
+  root: 'vf-field',
   addonGroup: 'vf-addon-group',
   iconGroup: 'vf-icon-group',
 }))
 
-const { viewLoaded } = api
+const { viewLoaded, a11yBindings } = api
 
 defineExpose(expose)
 </script>
@@ -289,8 +294,13 @@ declare module 'vue' {
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <slot :context>
-        <component v-if="outlets?.default" :is="outlets.default" :context />
+      <slot :context :a11y-bindings>
+        <component
+          v-if="outlets?.default"
+          :is="outlets.default"
+          :context
+          :a11y-bindings
+        />
       </slot>
     </VfLayout>
   </slot>

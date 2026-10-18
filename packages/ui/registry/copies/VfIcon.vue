@@ -43,6 +43,7 @@ defineExpose(expose)
     <i
       v-else-if="icon"
       :class="[classes.root, icon]"
+      aria-hidden="true"
       v-bind="{ ...parts.root, ...attrs }"
     />
   </slot>

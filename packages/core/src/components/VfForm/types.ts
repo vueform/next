@@ -6,8 +6,10 @@ import type {
   FormEmits,
   FormParts,
   FormSlots,
+  FormA11y,
   FormExpose,
   FormClasses,
+  FormModifiers,
 } from '#src/blueprints/form'
 import type { NavPosProp } from '#src/blueprints/nav'
 import type { Pager } from '#src/composables'
@@ -163,6 +165,23 @@ export interface VfFormSlots<TSchema = FormSchema>
      * The errors container's element id.
      */
     id: string
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfFormClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfFormParts>
+
+    /**
+     * The form's part-keyed accessibility bindings; apply the `errors` bag
+     * (id, alert role, live region attributes) to the replacement container
+     * with `v-bind` so error announcements keep working.
+     */
+    a11yBindings: VfFormA11y
   }) => VNode[]
 
   /**
@@ -193,6 +212,23 @@ export interface VfFormSlots<TSchema = FormSchema>
      * The messages container's element id.
      */
     id: string
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfFormClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfFormParts>
+
+    /**
+     * The form's part-keyed accessibility bindings; apply the `messages` bag
+     * (id, status role, live region attributes) to the replacement container
+     * with `v-bind` so message announcements keep working.
+     */
+    a11yBindings: VfFormA11y
   }) => VNode[]
 
   /**
@@ -434,6 +470,23 @@ export interface VfFormClasses extends FormClasses {
 }
 
 /**
+ * Accessibility bindings of the VfForm component.
+ */
+export interface VfFormA11y extends FormA11y {}
+
+/**
+ * Styling modifiers of the VfForm component.
+ */
+export interface VfFormModifiers extends FormModifiers {
+  /**
+   * The root form element's stacked layout marker.
+   */
+  root: {
+    'data-stacked'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfForm.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -465,6 +518,8 @@ export interface VfFormContext<
   VfFormSlots,
   VfFormParts,
   VfFormClasses,
+  VfFormModifiers,
+  VfFormA11y,
   VfFormExpose,
   FormApi<TProps>
 > {}

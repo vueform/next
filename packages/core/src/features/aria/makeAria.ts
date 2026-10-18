@@ -2,21 +2,43 @@ import { computed } from 'vue'
 
 import { type makeLayout, type makeData } from '#src/features'
 import { defineFeature } from '#src/helpers'
-import type { AriaProp, ReturnsOf } from '#src/types'
+import type { ReturnsOf } from '#src/types'
+
+import { buildDescribedBy, buildLayoutBags } from './helpers'
+import type { AriaA11y } from './types'
 
 /**
- * Configuration for the ARIA factory wiring ARIA attributes and described-by
- * relationships.
+ * Configuration for the ARIA factory wiring the input's ARIA state and the
+ * layout parts' id relationships.
  */
 type MakeAriaOptions = {
   props: {
-    aria: AriaProp | undefined
+    /**
+     * When `false`, the element renders without its layout (no label, help,
+     * description, or error regions), so no describedby relationship can be
+     * established.
+     */
+    layout?: unknown
+
+    /**
+     * When `true`, the label group (which also hosts the help region) is not
+     * rendered.
+     */
+    hideLabel?: boolean
   }
   deps: ReturnsOf<
     [
       [
         typeof makeLayout,
-        ['helpId', 'descriptionId', 'errorId', 'help', 'description'],
+        [
+          'label',
+          'labelId',
+          'helpId',
+          'descriptionId',
+          'errorId',
+          'help',
+          'description',
+        ],
       ],
       [typeof makeData, ['hasError', 'busy', 'required']],
     ]
@@ -24,18 +46,21 @@ type MakeAriaOptions = {
 }
 
 /**
- * Provides default computed ARIA attributes for elements that rely on generic
- * layout features (help, description, error regions) and have no
- * element-specific ARIA needs.
+ * Provides the part-keyed accessibility bindings for a single-input element:
+ * the `input` bag carries ARIA state (describedby, invalid, required, busy),
+ * and the layout bags (label, help, description, error) carry the ids and
+ * roles their regions must render with.
  *
  * @param options Factory options containing element props and dependencies.
  */
 export const makeAria = defineFeature(
   () =>
-    ({ deps, props }: MakeAriaOptions) => {
+    ({ props, deps }: MakeAriaOptions) => {
       const {
+        label,
         help,
         description,
+        labelId,
         helpId,
         descriptionId,
         errorId,
@@ -45,28 +70,42 @@ export const makeAria = defineFeature(
       } = deps
 
       /**
-       * Computed ARIA attributes (describedby, labelledby, invalid, required,
-       * busy) derived from element state and props, keyed by aria attr names.
+       * Part-keyed accessibility bindings: ARIA attributes for the input and
+       * ids/roles for the layout-rendered label, help, description, and error
+       * parts.
        */
-      const aria = computed(() => {
+      const a11yBindings = computed<AriaA11y>(() => {
+        const hasLayout = props.layout !== false
+
+        // The help region renders inside the label group, so it only exists
+        // when the label does.
+        const showsHelp =
+          !!help.value && label.value !== undefined && !props.hideLabel
+
         return {
-          'aria-describedby':
-            [
-              help.value ? helpId.value : null,
-              description.value ? descriptionId.value : null,
-              hasError.value ? errorId.value : null,
-            ]
-              .filter((d) => !!d)
-              .join(' ') || undefined,
-          'aria-invalid': hasError.value || undefined,
-          'aria-required': required.value || undefined,
-          'aria-busy': busy.value || undefined,
-          ...props.aria,
+          input: {
+            'aria-describedby': hasLayout
+              ? buildDescribedBy([
+                  showsHelp ? helpId.value : null,
+                  description.value ? descriptionId.value : null,
+                  hasError.value ? errorId.value : null,
+                ])
+              : undefined,
+            'aria-invalid': hasError.value || undefined,
+            'aria-required': required.value || undefined,
+            'aria-busy': busy.value || undefined,
+          },
+          ...buildLayoutBags({
+            labelId: labelId.value,
+            helpId: helpId.value,
+            descriptionId: descriptionId.value,
+            errorId: errorId.value,
+          }),
         }
       })
 
       return {
-        aria,
+        a11yBindings,
       }
     }
 )

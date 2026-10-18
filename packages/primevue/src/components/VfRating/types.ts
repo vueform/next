@@ -7,12 +7,13 @@ import type {
   RatingProps as PvRatingProps,
   RatingSlots as ARatingSlots,
 } from 'primevue'
-
 import type {
+  RatingA11y,
   RatingApi,
   RatingClasses,
   RatingEmits,
   RatingExpose,
+  RatingModifiers,
   RatingParts,
   RatingProps,
   RatingSlots,
@@ -76,6 +77,31 @@ export interface VfRatingClasses extends RatingClasses {
 }
 
 /**
+ * Accessibility bindings of the VfRating component.
+ */
+export interface VfRatingA11y extends RatingA11y {}
+
+/**
+ * Styling modifiers of the VfRating component.
+ */
+export interface VfRatingModifiers extends RatingModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The rating control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfRating.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -100,6 +126,8 @@ export interface VfRatingContext extends DefineElementContext<
   VfRatingSlots,
   VfRatingParts,
   VfRatingClasses,
+  VfRatingModifiers,
+  VfRatingA11y,
   VfRatingExpose,
   RatingApi
 > {}

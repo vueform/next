@@ -15,7 +15,7 @@ interface TabsSlots {
     /**
      * CSS classes to apply to the tab list.
      */
-    class: ClassValue
+    classes: ClassValue
   }) => VNode[]
 
   /**
@@ -30,7 +30,7 @@ interface TabsSlots {
     /**
      * CSS classes to apply to the tab.
      */
-    class: ClassValue
+    classes: ClassValue
   }) => VNode[]
 }
 ```

@@ -1,7 +1,9 @@
 import type { VNode } from 'vue'
 
 import {
+  type AddonA11y,
   type AddonApi,
+  type AddonModifiers,
   type AddonProps,
   type AddonEmits,
   type AddonParts,
@@ -67,6 +69,16 @@ export interface VfAddonClasses extends AddonClasses {
 }
 
 /**
+ * Accessibility bindings of the VfAddon component.
+ */
+export interface VfAddonA11y extends AddonA11y {}
+
+/**
+ * Styling modifiers of the VfAddon component.
+ */
+export interface VfAddonModifiers extends AddonModifiers {}
+
+/**
  * Augmentable public API surface for VfAddon.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -91,6 +103,8 @@ export interface VfAddonContext extends DefineElementContext<
   VfAddonSlots,
   VfAddonParts,
   VfAddonClasses,
+  VfAddonModifiers,
+  VfAddonA11y,
   VfAddonExpose,
   AddonApi
 > {}

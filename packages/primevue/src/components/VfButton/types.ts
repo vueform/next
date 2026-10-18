@@ -2,17 +2,19 @@ import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
+  DPropValue,
 } from '@vueform/core'
 import type {
   ButtonProps as PvButtonProps,
   ButtonSlots as AButtonSlots,
 } from 'primevue'
-
 import type {
+  ButtonA11y,
   ButtonApi,
   ButtonClasses,
   ButtonEmits,
   ButtonExpose,
+  ButtonModifiers,
   ButtonParts,
   ButtonProps,
   ButtonSlots,
@@ -76,6 +78,38 @@ export interface VfButtonClasses extends ButtonClasses {
 }
 
 /**
+ * Accessibility bindings of the VfButton component.
+ */
+export interface VfButtonA11y extends ButtonA11y {}
+
+/**
+ * Styling modifiers of the VfButton component.
+ */
+export interface VfButtonModifiers extends ButtonModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The button control's variant, state, and layout attributes. `data-disabled`
+   * is set only in anchor mode (`href`), where no native `disabled` attribute
+   * exists.
+   */
+  button: {
+    'data-severity'?: DPropValue<VfButtonProps['severity']>
+    'data-align'?: VfButtonProps['align']
+    'data-fluid'?: ''
+    'data-loading'?: ''
+    'data-icon-only'?: ''
+    'data-disabled'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfButton.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -100,6 +134,8 @@ export interface VfButtonContext extends DefineElementContext<
   VfButtonSlots,
   VfButtonParts,
   VfButtonClasses,
+  VfButtonModifiers,
+  VfButtonA11y,
   VfButtonExpose,
   ButtonApi
 > {}

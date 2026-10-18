@@ -47,6 +47,27 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfFileClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfFileParts>
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfFileA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfFileModifiers
+
+    /**
      * Callback to remove a file by index.
      *
      * @param index The index to remove.
@@ -69,6 +90,23 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
      * Whether the element is disabled.
      */
     disabled: boolean
+
+    /**
+     * CSS classes for the remove button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:remove` attribute overrides for the remove button
+     * element; apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Resolved accessibility bindings for this file's remove button
+     * (localized aria-label); apply with `v-bind`.
+     */
+    a11yBindings: ReturnType<VfFileA11y['remove']>
 
     /**
      * Callback to remove a file by index.
@@ -103,6 +141,17 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
      * The kind of value: `'file'`, `'string'`, or `'object'`.
      */
     type: 'file' | 'string' | 'object'
+
+    /**
+     * CSS classes for the file name element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:name` attribute overrides for the file name element;
+     * apply with `v-bind`.
+     */
+    part: DomAttrsOf<'a' | 'span'> | undefined
   }) => VNode[]
 
   /**
@@ -112,11 +161,6 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
    */
   add: (scope: {
     /**
-     * Callback to open the native file picker.
-     */
-    triggerFileInput: () => void
-
-    /**
      * Whether the element is disabled.
      */
     disabled: boolean
@@ -125,6 +169,17 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
      * The resolved button label text.
      */
     text?: string
+
+    /**
+     * Resolved `part:add` attribute overrides for the add button element;
+     * apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Callback to open the native file picker.
+     */
+    triggerFileInput: () => void
   }) => VNode[]
 }
 ```

@@ -2,5 +2,5 @@
 /**
  * Structural parts of the input-number element blueprint.
  */
-interface InputNumberParts extends BaseElementParts {}
+interface InputNumberParts extends BaseFieldElementParts {}
 ```

@@ -15,6 +15,8 @@ interface VfFieldContext<
   VfFieldSlots,
   VfFieldParts,
   VfFieldClasses,
+  VfFieldModifiers,
+  VfFieldA11y,
   VfFieldExpose,
   FieldApi<TProps>
 > {}

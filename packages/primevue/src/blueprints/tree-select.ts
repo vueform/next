@@ -15,12 +15,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -104,7 +106,6 @@ export interface TreeSelectProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     PlaceholderProps<TContext>,
@@ -161,12 +162,22 @@ export interface TreeSelectSlots<
 /**
  * Structural parts of the tree-select element blueprint.
  */
-export interface TreeSelectParts extends BaseElementParts {}
+export interface TreeSelectParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the tree-select element blueprint.
  */
 export interface TreeSelectClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the tree-select element blueprint.
+ */
+export interface TreeSelectModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the tree-select element blueprint.
+ */
+export interface TreeSelectA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for tree-select-based components.

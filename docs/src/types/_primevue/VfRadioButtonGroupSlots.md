@@ -60,6 +60,27 @@ interface VfRadioButtonGroupSlots<
      * Whether the options are grouped.
      */
     grouped: boolean
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioButtonGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioButtonGroupParts>
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfRadioButtonGroupA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadioButtonGroupModifiers
   }) => VNode[]
 
   /**
@@ -85,6 +106,27 @@ interface VfRadioButtonGroupSlots<
      * The resolved option group.
      */
     group: ResolvedGroup<TValue, TRaw>
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioButtonGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioButtonGroupParts>
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfRadioButtonGroupA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadioButtonGroupModifiers
   }) => VNode[]
 
   /**
@@ -111,6 +153,16 @@ interface VfRadioButtonGroupSlots<
      * The resolved option item.
      */
     item: ResolvedOption<TValue, TRaw>
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioButtonGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioButtonGroupParts>
   }) => VNode[]
 
   /**

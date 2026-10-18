@@ -14,11 +14,10 @@ interface VfTabsClasses extends TabsClasses {
   list: ClassValue
 
   /**
-   * Each tab wrapper. Receives the resolved page data.
-   *
-   * @param page The resolved page data for this tab.
+   * Each tab wrapper. State is exposed via `data-selected` and `data-invalid`
+   * attributes.
    */
-  wrapper: (page: ResolvedPage) => ClassValue
+  wrapper: ClassValue
 
   /**
    * The tab button element.

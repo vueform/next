@@ -13,7 +13,9 @@ import {
   type LayoutEmits,
   type LayoutParts,
   type LayoutSlots,
+  type LayoutA11y,
   type LayoutClasses,
+  type LayoutModifiers,
 } from '@vueform/core/blueprints/layout'
 import { computed, toRef, unref } from 'vue'
 
@@ -23,7 +25,9 @@ export type {
   LayoutEmits,
   LayoutParts,
   LayoutSlots,
+  LayoutA11y,
   LayoutClasses,
+  LayoutModifiers,
 }
 
 /**
@@ -206,17 +210,6 @@ export function blueprint<TProps extends LayoutProps>(
   // ============== METHODS ===============
 
   /**
-   * Resolves per-addon parts that may be defined as a function of the addon and
-   * its index.
-   *
-   * @param part The part definition or resolver function.
-   * @param addon The addon value being rendered.
-   * @param i The addon index.
-   */
-  const resolveAddonParts = (part: unknown, addon: any, i: number | string) =>
-    typeof part === 'function' ? part(addon, i) : part
-
-  /**
    * Updates the element's active language.
    *
    * @param val The language code to select.
@@ -241,7 +234,6 @@ export function blueprint<TProps extends LayoutProps>(
     hasLabelWrapper,
     rootProps,
     languageOptions,
-    resolveAddonParts,
     setLanguage,
   }
 }

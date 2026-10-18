@@ -49,11 +49,8 @@ const slots = defineSlots<VfTreeSelectSlots<TOptions, TSelectionMode, TModel>>()
 const { api, parts, classes, context, expose, outlets, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-tree-select': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-tree-select',
 }))
 
 const {
@@ -64,7 +61,7 @@ const {
   disabled,
   loading,
   resolving,
-  aria,
+  a11yBindings,
   input,
   name,
   invalid,
@@ -95,7 +92,7 @@ defineExpose(expose)
         :invalid
         fluid
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

@@ -4,12 +4,13 @@ import type {
   DefineRegistryEntry,
 } from '@vueform/core'
 import type { ColorPickerProps as PvColorPickerProps } from 'primevue'
-
 import type {
+  ColorPickerA11y,
   ColorPickerApi,
   ColorPickerClasses,
   ColorPickerEmits,
   ColorPickerExpose,
+  ColorPickerModifiers,
   ColorPickerParts,
   ColorPickerProps,
   ColorPickerSlots,
@@ -65,6 +66,31 @@ export interface VfColorPickerClasses extends ColorPickerClasses {
 }
 
 /**
+ * Accessibility bindings of the VfColorPicker component.
+ */
+export interface VfColorPickerA11y extends ColorPickerA11y {}
+
+/**
+ * Styling modifiers of the VfColorPicker component.
+ */
+export interface VfColorPickerModifiers extends ColorPickerModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfColorPicker.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -90,6 +116,8 @@ export interface VfColorPickerContext extends DefineElementContext<
   VfColorPickerSlots,
   VfColorPickerParts,
   VfColorPickerClasses,
+  VfColorPickerModifiers,
+  VfColorPickerA11y,
   VfColorPickerExpose,
   ColorPickerApi
 > {}

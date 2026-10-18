@@ -14,12 +14,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type ValidationProps,
   type DisabledProps,
@@ -69,7 +71,6 @@ export interface ToggleButtonProps<
     ModelPropsWithDefaultValue<any, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,
@@ -134,12 +135,22 @@ export interface ToggleButtonSlots<
 /**
  * Structural parts of the toggle-button element blueprint.
  */
-export interface ToggleButtonParts extends BaseElementParts {}
+export interface ToggleButtonParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the toggle-button element blueprint.
  */
 export interface ToggleButtonClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the toggle-button element blueprint.
+ */
+export interface ToggleButtonModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the toggle-button element blueprint.
+ */
+export interface ToggleButtonA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for toggle-button-based components.

@@ -14,12 +14,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type DisabledProps,
   type ReadonlyProps,
@@ -84,7 +86,6 @@ export interface EditorProps<
     >,
     TValidationProps<TContext>,
     TranslateProps<TTranslate, TLanguages>,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     PlaceholderProps<TContext>,
@@ -146,12 +147,22 @@ export interface EditorSlots<
 /**
  * Structural parts of the editor element blueprint.
  */
-export interface EditorParts extends BaseElementParts {}
+export interface EditorParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the editor element blueprint.
  */
 export interface EditorClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the editor element blueprint.
+ */
+export interface EditorModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the editor element blueprint.
+ */
+export interface EditorA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for editor-based components.

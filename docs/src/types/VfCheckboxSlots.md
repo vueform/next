@@ -54,9 +54,26 @@ interface VfCheckboxSlots<
     text: string | undefined
 
     /**
-     * ARIA attributes for the input.
+     * The component's resolved classes, keyed by part name.
      */
-    aria: AriaProp
+    classes: VfCheckboxClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxParts>
+
+    /**
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
+     */
+    a11yBindings: VfCheckboxA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfCheckboxModifiers
 
     /**
      * Handler for the input's blur event.
@@ -98,6 +115,17 @@ interface VfCheckboxSlots<
      * The element's generic name, used as screen-reader-only fallback text.
      */
     genericName: string
+
+    /**
+     * CSS classes for the text element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:text` attribute overrides for the text element; apply
+     * with `v-bind`.
+     */
+    part: DomAttrsOf<'label'> | undefined
   }) => VNode[]
 }
 ```

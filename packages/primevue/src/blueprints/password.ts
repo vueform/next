@@ -19,12 +19,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type TAriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -97,7 +99,6 @@ export interface PasswordProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -150,12 +151,22 @@ export interface PasswordSlots<
 /**
  * Structural parts of the password element blueprint.
  */
-export interface PasswordParts extends BaseElementParts {}
+export interface PasswordParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the password element blueprint.
  */
 export interface PasswordClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the password element blueprint.
+ */
+export interface PasswordModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the password element blueprint.
+ */
+export interface PasswordA11y extends BaseElementA11y, TAriaA11y {}
 
 /**
  * Augmentable public API surface for password-based components.

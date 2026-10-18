@@ -15,6 +15,8 @@ interface VfContentContext extends DefineElementContext<
   VfContentSlots,
   VfContentParts,
   VfContentClasses,
+  VfContentModifiers,
+  VfContentA11y,
   VfContentExpose,
   ContentApi
 > {}

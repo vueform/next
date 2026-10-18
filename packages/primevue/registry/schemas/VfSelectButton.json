@@ -10,7 +10,7 @@
       "path": "VfSelectButton.vue",
       "target": "{componentsDir}/VfSelectButton.vue",
       "kind": "component",
-      "hash": "sha256:56a6b24bc97b39bb2e532e414fdf62cf98d9032b8d5ce5e51543f50f0683ae13"
+      "hash": "sha256:187700d8fa0e9378c8778d7b2e2bc12338c0a8040fec4e7fe08f7c4f48871f3e"
     }
   ],
   "imports": [
@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfSelectButton.vue",
     "blueprint": "select-button",
-    "hash": "sha256:7de20da8630f2d10f05199856eef85724d1e6da4e01ee004e573cb484f3e472c",
+    "hash": "sha256:49ab2620d6c71d045c907e41ebf01f10a0c0e058751e89a80997c8ac0caf0c6b",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

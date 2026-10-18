@@ -15,6 +15,8 @@ interface VfSliderContext<
   VfSliderSlots,
   VfSliderParts,
   VfSliderClasses,
+  VfSliderModifiers,
+  VfSliderA11y,
   VfSliderExpose,
   SliderApi<TProps>
 > {}

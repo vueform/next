@@ -3,6 +3,7 @@ import { reactive, ref } from 'vue'
 export type OutlineTab = {
   title: string
   slug: string
+  dropdown?: boolean
 }
 
 const activeTabSlug = ref<string | null>(null)

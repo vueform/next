@@ -24,7 +24,6 @@ interface ToggleSwitchProps<
     >,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,

@@ -12,12 +12,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type ValidationProps,
   type DisabledProps,
@@ -100,7 +102,6 @@ export interface SelectButtonProps<
     >,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     MultipleProps<TMultiple>,
@@ -157,12 +158,22 @@ export interface SelectButtonSlots<
 /**
  * Structural parts of the select-button element blueprint.
  */
-export interface SelectButtonParts extends BaseElementParts {}
+export interface SelectButtonParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the select-button element blueprint.
  */
 export interface SelectButtonClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the select-button element blueprint.
+ */
+export interface SelectButtonModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the select-button element blueprint.
+ */
+export interface SelectButtonA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for select-button-based components.

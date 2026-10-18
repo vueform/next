@@ -15,12 +15,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -117,7 +119,6 @@ export interface CascadeSelectProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     PlaceholderProps<TContext>,
@@ -201,12 +202,22 @@ export interface CascadeSelectSlots<
 /**
  * Structural parts of the cascade-select element blueprint.
  */
-export interface CascadeSelectParts extends BaseElementParts {}
+export interface CascadeSelectParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the cascade-select element blueprint.
  */
 export interface CascadeSelectClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the cascade-select element blueprint.
+ */
+export interface CascadeSelectModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the cascade-select element blueprint.
+ */
+export interface CascadeSelectA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for cascade-select-based components.

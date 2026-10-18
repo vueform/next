@@ -4,7 +4,7 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { useBlueprint, defineEvents } from '@vueform/ui'
+import { useBlueprint, useLocale, defineEvents } from '@vueform/ui'
 import {
   defaults,
   blueprint,
@@ -31,10 +31,7 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
-  root: {
-    'vf-file': true,
-    'vf-align-label': !api.help.value,
-  },
+  root: 'vf-file',
   input: 'sr-only',
   list: 'vf-file-list',
   item: 'vf-file-item',
@@ -48,7 +45,7 @@ const {
   id,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   name,
   fileList,
@@ -62,6 +59,8 @@ const {
   handleBlur,
   handleInput,
 } = api
+
+const { t } = useLocale()
 
 defineExpose(expose)
 </script>
@@ -113,6 +112,7 @@ defineExpose(expose)
                     v-else
                     :name="`${id}__remove_${index}`"
                     :icon="removeIcon"
+                    :aria-label="t('sr_file_remove', { index: index + 1 })"
                     :class="classes.remove"
                     :disabled
                     :layout="false"
@@ -182,8 +182,8 @@ defineExpose(expose)
           :accept
           :capture
           v-bind="{
+            ...a11yBindings.input,
             ...parts.input,
-            ...aria,
           }"
           :ref="(el) => (input = el)"
           @blur="handleBlur"

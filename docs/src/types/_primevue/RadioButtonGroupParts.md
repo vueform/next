@@ -2,5 +2,5 @@
 /**
  * Structural parts of the radio-button-group element blueprint.
  */
-interface RadioButtonGroupParts extends BaseElementParts {}
+interface RadioButtonGroupParts extends BaseContainerElementParts {}
 ```

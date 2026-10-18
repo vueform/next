@@ -426,7 +426,7 @@ const {
   grouped,
   viewLoaded,
   path,
-  checkboxAria,
+  a11yBindings,
   disabled,
   label,
   handleFocus,
@@ -441,14 +441,7 @@ const {
  */
 useClasses(({ props }) => ({
   root: 'vf-checkboxes vf-choices',
-  group: [
-    props.layout === false ? props.class : null,
-    {
-      'vf-choices-group': true,
-      'vf-stacked': props.stacked,
-      'vf-aligned': !!props.aligned,
-    },
-  ],
+  group: [props.layout === false ? props.class : null, 'vf-choices-group'],
 }))
 
 defineExpose(expose)
@@ -500,12 +493,17 @@ declare module 'vue' {
 <template>
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <VfLayout v-else>
+    <VfLayout v-else :label="false">
       <div
         :class="classes.group"
+        :data-stacked="props.stacked ? '' : undefined"
+        :data-aligned="props.aligned ? '' : undefined"
         @focusin="handleFocus"
         @focusout="handleBlur"
-        v-bind="parts.group"
+        v-bind="{
+          ...a11yBindings.group,
+          ...parts.group,
+        }"
       >
         <slot :items :groups :grouped :disabled :label :checkbox-name="path">
           <component
@@ -555,7 +553,6 @@ declare module 'vue' {
                         :text="item.label"
                         :checkbox-name="path"
                         :disabled="disabled || item.disabled"
-                        :aria="checkboxAria"
                         :layout="false"
                         v-bind="parts.item?.(item)"
                         :true-value="true"
@@ -598,7 +595,6 @@ declare module 'vue' {
                   :text="item.label"
                   :checkbox-name="path"
                   :disabled="disabled || item.disabled"
-                  :aria="checkboxAria"
                   :layout="false"
                   v-bind="parts.item?.(item)"
                   :true-value="true"

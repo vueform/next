@@ -15,6 +15,8 @@ interface VfRowContext extends DefineElementContext<
   VfRowSlots,
   VfRowParts,
   VfRowClasses,
+  VfRowModifiers,
+  VfRowA11y,
   VfRowExpose,
   RowApi
 > {}

@@ -16,6 +16,8 @@ export const de_DE = {
   sr_list_sort: 'Element {index} neu anordnen',
   sr_matrix_add: 'Zeile hinzufügen',
   sr_matrix_remove: 'Zeile {index} entfernen',
+  sr_matrix_sort: 'Zeile {index} neu anordnen',
+  sr_file_remove: 'Datei {index} entfernen',
   steps_back: 'Zurück',
   steps_next: 'Weiter',
   steps_finish: 'Abschließen',

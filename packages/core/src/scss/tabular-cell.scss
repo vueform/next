@@ -117,7 +117,7 @@
   }
 
   &:has(> .vf-choice-wrapper),
-  &:has(.vf-choices-group:not(.vf-stacked)) {
+  &:has(.vf-choices-group:not([data-stacked])) {
     padding: var(--vf-tabular-boxed-cell-padding);
   }
 }

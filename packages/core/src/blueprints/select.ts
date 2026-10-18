@@ -13,7 +13,6 @@ import {
   makeProvider,
   makeLayout,
   makeLoading,
-  type AriaProps,
   type DisabledProps,
   type ModelPropsWithDefault,
   type AddonsProps,
@@ -22,8 +21,11 @@ import {
   type BaseElementProps,
   type ExpressionProps,
   type ValidationProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
+  type AriaA11y,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type AddonableProps,
   type ItemsProps,
@@ -96,7 +98,6 @@ export interface SelectProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     PlaceholderProps<TContext>,
@@ -130,12 +131,22 @@ export interface SelectSlots<
 /**
  * Structural parts of the select element blueprint.
  */
-export interface SelectParts extends BaseElementParts {}
+export interface SelectParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the select element blueprint.
  */
 export interface SelectClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the select element blueprint.
+ */
+export interface SelectModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the select element blueprint.
+ */
+export interface SelectA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for select-based components.

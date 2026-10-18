@@ -15,7 +15,6 @@ import {
   makeInput,
   makeProvider,
   makeLayout,
-  type AriaProps,
   type ModelPropsWithDefault,
   type AddonsProps,
   type IconsProps,
@@ -23,8 +22,11 @@ import {
   type BaseElementProps,
   type ExpressionProps,
   type TranslateProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
+  type TAriaA11y,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type BaseElementExpose,
   type AddonableProps,
@@ -43,7 +45,12 @@ import {
   type TranslatableModelApi,
 } from '#src/features'
 import { defineDefaults, type DefineEvents } from '#src/helpers'
-import type { InputTypeProp, LanguagesProp, LooseRequired } from '#src/types'
+import type {
+  InputModeProp,
+  InputTypeProp,
+  LanguagesProp,
+  LooseRequired,
+} from '#src/types'
 
 /**
  * The model value type carried by the text element's wide props.
@@ -74,7 +81,6 @@ export interface TextProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -85,7 +91,15 @@ export interface TextProps<
   inputType?: InputTypeProp
 
   /**
-   * The HTML `autocomplete` attribute value for the input.
+   * The HTML `inputmode` attribute hinting which virtual keyboard mobile
+   * browsers should show.
+   */
+  inputmode?: InputModeProp
+
+  /**
+   * The HTML `autocomplete` attribute value for the input. When omitted, the
+   * element's name is used if it is a valid autofill token (e.g. `email`,
+   * `tel`, `postal-code`).
    */
   autocomplete?: string
 }
@@ -110,12 +124,22 @@ export interface TextSlots<TContext = any> extends BaseElementSlots<TContext> {}
 /**
  * Structural parts of the text element blueprint.
  */
-export interface TextParts extends BaseElementParts {}
+export interface TextParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the text element blueprint.
  */
 export interface TextClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the text element blueprint.
+ */
+export interface TextModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the text element blueprint.
+ */
+export interface TextA11y extends BaseElementA11y, TAriaA11y {}
 
 /**
  * Augmentable public API surface for text-based components.

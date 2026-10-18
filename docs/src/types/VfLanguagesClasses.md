@@ -14,12 +14,10 @@ interface VfLanguagesClasses extends LanguagesClasses {
   list: ClassValue
 
   /**
-   * Each language wrapper.
-   *
-   * @param selected Whether this language option is currently selected.
-   * @param invalid Whether this language has validation errors.
+   * Each language wrapper. State is exposed via `data-selected` and
+   * `data-invalid` attributes.
    */
-  wrapper: (selected: boolean, invalid: boolean) => ClassValue
+  wrapper: ClassValue
 
   /**
    * The language button element.

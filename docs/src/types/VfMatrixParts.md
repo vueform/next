@@ -69,16 +69,18 @@ interface VfMatrixParts extends MatrixParts {
   /**
    * The drag sort handle element.
    *
+   * @param index The row's zero-based index.
    * @tag VfButton
    */
-  sort: PartOf<'VfButton'>
+  sort: (index: number) => PartOf<'VfButton'>
 
   /**
    * The remove action element.
    *
+   * @param index The row's zero-based index.
    * @tag VfButton
    */
-  remove: PartOf<'VfButton'>
+  remove: (index: number) => PartOf<'VfButton'>
 
   /**
    * The add action element.

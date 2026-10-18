@@ -10,7 +10,7 @@
       "path": "VfRadio.vue",
       "target": "{componentsDir}/VfRadio.vue",
       "kind": "component",
-      "hash": "sha256:7ed9f9b962fcde55af5a444bbb4f602887810f62721a167ce9106d8cbb8c5aef"
+      "hash": "sha256:bcea0a21ea6a0957b1be82f5bec98ada5c37a17c4c290dab344ab3aa7385427d"
     }
   ],
   "imports": [
@@ -26,7 +26,7 @@
   "clone": {
     "path": "VfRadio.vue",
     "blueprint": "radio",
-    "hash": "sha256:f5ca28d57d2aac8e3a3278962f2629fd546e98d93a39383c36848bd961c336f9",
+    "hash": "sha256:abf81a3ed1d42dd7b198cf29b869bfa90267e79a49d9603f319c4936b2a7682d",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

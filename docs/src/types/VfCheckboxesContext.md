@@ -18,6 +18,8 @@ interface VfCheckboxesContext<
   VfCheckboxesSlots,
   VfCheckboxesParts,
   VfCheckboxesClasses,
+  VfCheckboxesModifiers,
+  VfCheckboxesA11y,
   VfCheckboxesExpose,
   CheckboxesApi<TProps>
 > {}

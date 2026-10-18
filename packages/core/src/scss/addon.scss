@@ -45,12 +45,12 @@
   display: none;
 }
 
-.vf-addon:has(.vf-danger) {
+.vf-addon:has([data-invalid]) {
   color: var(--vf-addon-color-danger);
   background: var(--vf-addon-bg-danger);
 }
 
-.vf-addon-group:has(.vf-input.vf-danger) .vf-addon {
+.vf-addon-group:has(.vf-input[data-invalid]) .vf-addon {
   --vf-addon-border-color: var(--vf-addon-border-color-danger);
 }
 

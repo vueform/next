@@ -8,7 +8,7 @@ Development-only by design: production builds resolve the package's `production`
 
 <!--@size-start-->
 
-Generated at 2026-10-16T07:41:59.143Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
+Generated at 2026-10-18T05:35:13.775Z. Sizes are the emitted JS assets of a production Vite build with default settings (esbuild minification, no custom config), measured as deltas against a baseline (full @vueform/ui build with every element, no plugins).
 
 Measured with:
 
@@ -30,7 +30,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/devtools@2.0.0-0.7`](https://github.com/vueform/devtools) | -19.21&nbsp;kB | 19.30&nbsp;kB | 0.08&nbsp;kB | [`@vue/devtools-api@7.7.10`](https://www.npmjs.com/package/@vue/devtools-api) |
+| [`@vueform/devtools@2.0.0-0.7`](https://github.com/vueform/devtools) | -19.24&nbsp;kB | 19.33&nbsp;kB | 0.08&nbsp;kB | [`@vue/devtools-api@7.7.10`](https://www.npmjs.com/package/@vue/devtools-api) |
 
 </details>
 
@@ -39,7 +39,7 @@ Measured with:
 
 | Plugin | Vueform | Third-party | Total | Deps |
 | --- | --- | --- | --- | --- |
-| [`@vueform/devtools@2.0.0-0.7`](https://github.com/vueform/devtools) | -15.00&nbsp;kB | 15.01&nbsp;kB | 0.01&nbsp;kB | [`@vue/devtools-api@7.7.10`](https://www.npmjs.com/package/@vue/devtools-api) |
+| [`@vueform/devtools@2.0.0-0.7`](https://github.com/vueform/devtools) | -14.97&nbsp;kB | 15.04&nbsp;kB | 0.07&nbsp;kB | [`@vue/devtools-api@7.7.10`](https://www.npmjs.com/package/@vue/devtools-api) |
 
 </details>
 

@@ -16,7 +16,7 @@ export interface LanguagesSlots {
     language: string
     invalidLanguages: Set<string>
     select: (language: string) => void
-    class: ClassValue
+    classes: ClassValue
   }) => VNode[]
 
   /**
@@ -27,7 +27,7 @@ export interface LanguagesSlots {
     label: string
     selected: boolean
     invalid: boolean
-    class: ClassValue
+    classes: ClassValue
   }) => VNode[]
 }
 

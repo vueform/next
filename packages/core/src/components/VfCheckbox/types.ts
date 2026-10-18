@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type CheckboxA11y,
   type CheckboxApi,
   type CheckboxClasses,
   type CheckboxEmits,
   type CheckboxExpose,
+  type CheckboxModifiers,
   type CheckboxParts,
   type CheckboxProps,
   type CheckboxSlots,
@@ -13,7 +15,6 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
-  AriaProp,
   ClassValue,
   DomAttrsOf,
   EntryPropOr,
@@ -117,9 +118,26 @@ export interface VfCheckboxSlots<
     text: string | undefined
 
     /**
-     * ARIA attributes for the input.
+     * The component's resolved classes, keyed by part name.
      */
-    aria: AriaProp
+    classes: VfCheckboxClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfCheckboxModifiers
+
+    /**
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
+     */
+    a11yBindings: VfCheckboxA11y
 
     /**
      * Handler for the input's blur event.
@@ -161,6 +179,17 @@ export interface VfCheckboxSlots<
      * The element's generic name, used as screen-reader-only fallback text.
      */
     genericName: string
+
+    /**
+     * CSS classes for the text element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:text` attribute overrides for the text element; apply
+     * with `v-bind`.
+     */
+    part: DomAttrsOf<'label'> | undefined
   }) => VNode[]
 }
 
@@ -211,7 +240,45 @@ export interface VfCheckboxClasses extends CheckboxClasses {
 }
 
 /**
+ * Accessibility bindings of the VfCheckbox component.
+ */
+export interface VfCheckboxA11y extends CheckboxA11y {}
+
+/**
+ * Styling modifiers of the VfCheckbox component.
+ */
+export interface VfCheckboxModifiers extends CheckboxModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The choice wrapper's label alignment variant and the marker set while the
+   * element vertically aligns with adjacent form controls.
+   */
+  wrapper: {
+    'data-align'?: VfCheckboxProps['align']
+    'data-aligned'?: ''
+  }
+
+  /**
+   * The checkbox input's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfCheckbox.
+ *
+ * Plugins that add runtime API members should declaration-merge the same
+ * members here (or on `CheckboxExpose` for all checkbox-based components) so
+ * they appear on `ContextOf<'VfCheckbox'>` / `context$` / `defineExpose`.
  */
 export interface VfCheckboxExpose extends CheckboxExpose {}
 
@@ -231,6 +298,8 @@ export interface VfCheckboxContext<
   VfCheckboxSlots,
   VfCheckboxParts,
   VfCheckboxClasses,
+  VfCheckboxModifiers,
+  VfCheckboxA11y,
   VfCheckboxExpose,
   CheckboxApi<TProps>
 > {}

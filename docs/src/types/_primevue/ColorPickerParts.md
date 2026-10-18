@@ -2,5 +2,5 @@
 /**
  * Structural parts of the color-picker element blueprint.
  */
-interface ColorPickerParts extends BaseElementParts {}
+interface ColorPickerParts extends BaseFieldElementParts {}
 ```

@@ -188,7 +188,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   name,
   handleKeydown,
@@ -219,7 +219,7 @@ defineExpose(expose)
         :disabled
         :readonly="readonly || undefined"
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...parts.input,
         }"
         :ref="(el) => (input = el)"

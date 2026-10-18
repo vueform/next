@@ -16,12 +16,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -137,7 +139,6 @@ export interface DatePickerProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     LoadingProps<TContext>,
@@ -210,12 +211,22 @@ export interface DatePickerSlots<
 /**
  * Structural parts of the date picker element blueprint.
  */
-export interface DatePickerParts extends BaseElementParts {}
+export interface DatePickerParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the date picker element blueprint.
  */
 export interface DatePickerClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the date picker element blueprint.
+ */
+export interface DatePickerModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the date-picker element blueprint.
+ */
+export interface DatePickerA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for date-picker-based components.

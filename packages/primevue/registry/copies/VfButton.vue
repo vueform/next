@@ -31,18 +31,12 @@ const PvButton = vdomPrime(PrimeButton)
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-button': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-button',
   button: [
     props.layout === false ? props.class : null,
     {
       [api.tokenClass]: !!api.tokenCss.value,
-      'vf-left': props.align === 'left',
-      'vf-right': props.align === 'right',
-      'vf-center': props.align === 'center',
     },
   ],
 }))
@@ -90,6 +84,7 @@ defineExpose(expose)
         :badge
         :badge-severity="badgeSeverity"
         :class="classes.button"
+        :data-align="props.align || undefined"
         v-tooltip:[tooltipModifiers]="tooltipValue"
         v-bind="{
           ...parts.button,

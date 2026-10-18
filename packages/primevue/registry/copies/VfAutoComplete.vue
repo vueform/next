@@ -50,11 +50,8 @@ const slots =
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-auto-complete': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-auto-complete',
 }))
 
 const {
@@ -65,7 +62,7 @@ const {
   disabled,
   loading,
   resolving,
-  aria,
+  a11yBindings,
   input,
   name,
   invalid,
@@ -104,7 +101,7 @@ defineExpose(expose)
         :min-length
         fluid
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

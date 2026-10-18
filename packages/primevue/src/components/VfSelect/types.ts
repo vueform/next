@@ -16,10 +16,12 @@ import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
 import type { VNode } from 'vue'
 
 import type {
+  SelectA11y,
   SelectApi,
   SelectClasses,
   SelectEmits,
   SelectExpose,
+  SelectModifiers,
   SelectParts,
   SelectProps,
   SelectSlots,
@@ -303,6 +305,33 @@ export interface VfSelectClasses
 }
 
 /**
+ * Accessibility bindings of the VfSelect component.
+ */
+export interface VfSelectA11y extends SelectA11y {}
+
+/**
+ * Styling modifiers of the VfSelect component.
+ */
+export interface VfSelectModifiers extends SelectModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The select control's validation state and placeholder marker, set while
+   * the value is empty and a placeholder is shown.
+   */
+  input: {
+    'data-invalid'?: ''
+    'data-placeholder'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfSelect.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -330,6 +359,8 @@ export interface VfSelectContext<
   VfSelectSlots,
   VfSelectParts,
   VfSelectClasses,
+  VfSelectModifiers,
+  VfSelectA11y,
   VfSelectExpose,
   SelectApi<TProps>
 > {}

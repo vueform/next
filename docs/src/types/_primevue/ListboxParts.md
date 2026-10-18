@@ -2,5 +2,5 @@
 /**
  * Structural parts of the listbox element blueprint.
  */
-interface ListboxParts extends BaseElementParts {}
+interface ListboxParts extends BaseFieldElementParts {}
 ```

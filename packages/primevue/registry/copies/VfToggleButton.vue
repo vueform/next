@@ -31,11 +31,8 @@ const slots = defineSlots<VfToggleButtonSlots>()
 const { api, parts, classes, context, expose, outlets, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-toggle-button': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-toggle-button',
 }))
 
 const {
@@ -55,6 +52,7 @@ const {
   handleInput,
   handleBlur,
   handleFocus,
+  a11yBindings,
 } = api
 
 defineExpose(expose)
@@ -76,6 +74,7 @@ defineExpose(expose)
         :on-icon
         :off-icon
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

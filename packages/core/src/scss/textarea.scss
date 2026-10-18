@@ -13,12 +13,12 @@
   resize: none;
 
   /** Restores the native resize handle (the `resize` prop). */
-  &.vf-resizable {
+  &[data-resizable] {
     resize: both;
   }
 
   /** Height is script-driven (the `autogrow` prop), so never scroll. */
-  &.vf-autogrow {
+  &[data-autogrow] {
     overflow: hidden;
   }
 }

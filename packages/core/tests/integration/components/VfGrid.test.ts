@@ -112,7 +112,7 @@ describe('VfGrid props', () => {
 
       const grid = form.findComponent({ name: 'VfGrid' })
       const cell = grid.find('[data-row="0"][data-col="0"]')
-      expect(cell.classes()).toContain('vf-center')
+      expect(cell.attributes('data-align')).toBe('center')
     })
 
     it('should apply top vertical alignment class', () => {
@@ -127,7 +127,7 @@ describe('VfGrid props', () => {
 
       const grid = form.findComponent({ name: 'VfGrid' })
       const cell = grid.find('[data-row="0"][data-col="0"]')
-      expect(cell.classes()).toContain('vf-top')
+      expect(cell.attributes('data-valign')).toBe('top')
     })
 
     it('should render text content with colspan', () => {
@@ -166,7 +166,7 @@ describe('VfGrid props', () => {
       const grid = form.findComponent({ name: 'VfGrid' })
       const cell = grid.find('[data-row="0"][data-col="0"]')
       expect(cell.text()).toBe('Right')
-      expect(cell.classes()).toContain('vf-right')
+      expect(cell.attributes('data-align')).toBe('right')
     })
 
     it('should render empty cell with colspan', () => {
@@ -217,7 +217,7 @@ describe('VfGrid props', () => {
 
       const header0 = grid.find('[data-row="0"][data-col="0"]')
       expect(header0.text()).toBe('Name')
-      expect(header0.classes()).toContain('vf-center')
+      expect(header0.attributes('data-align')).toBe('center')
 
       const header1 = grid.find('[data-row="0"][data-col="1"]')
       expect(header1.text()).toBe('Email')
@@ -227,7 +227,7 @@ describe('VfGrid props', () => {
 
       const bioCell = grid.find('[data-row="2"][data-col="0"]')
       expect(bioCell.attributes('data-col-end')).toBe('1')
-      expect(bioCell.classes()).toContain('vf-top')
+      expect(bioCell.attributes('data-valign')).toBe('top')
 
       const emptyCell = grid.find('[data-row="3"][data-col="0"]')
       expect(emptyCell.text()).toBe('')
@@ -248,8 +248,8 @@ describe('VfGrid props', () => {
 
       const grid = form.findComponent({ name: 'VfGrid' })
       const cell = grid.find('[data-row="0"][data-col="0"]')
-      expect(cell.classes()).toContain('vf-left')
-      expect(cell.classes()).toContain('vf-baseline')
+      expect(cell.attributes('data-align')).toBe('left')
+      expect(cell.attributes('data-valign')).toBe('baseline')
     })
   })
 })

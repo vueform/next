@@ -474,12 +474,10 @@ export interface VfCloneNameClasses extends MatrixClasses {
   colHeader: ClassValue
 
   /**
-   * Each row element. Receives drag state.
-   *
-   * @param beingDragged Whether this row is currently being dragged.
-   * @param isDropTarget Whether this row is the current drop target.
+   * Each row element. Drag state is exposed via `data-dragging` and
+   * `data-drop-target` attributes.
    */
-  row: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
+  row: ClassValue
 
   /**
    * Each row header element.
@@ -675,11 +673,7 @@ useClasses(({ props, gridClass }) => ({
     'vf-matrix-col-header': true,
     'vf-sticky': !!props.stickyCols,
   },
-  row: (beingDragged: boolean, isDropTarget: boolean) => ({
-    'vf-matrix-row': true,
-    'vf-dragging': beingDragged,
-    'vf-drop-target': isDropTarget,
-  }),
+  row: 'vf-matrix-row',
   rowHeader: {
     'vf-matrix-row-header': true,
     'vf-sticky': !!props.stickyRows,
@@ -955,17 +949,17 @@ declare module 'vue' {
           v-for="(row, rowIndex) in resolvedRows"
           :key="row.key"
           v-show="row.available.value"
-          :class="
-            classes.row(dragIndex === row.dataIndex, dropTarget === row.key)
-          "
+          :class="classes.row"
+          :data-dragging="dragIndex === row.dataIndex ? '' : undefined"
+          :data-drop-target="dropTarget === row.key ? '' : undefined"
           v-bind="parts.row"
         >
           <component
             :is="row.component"
             v-bind="row.props"
-            :class="
-              classes.row(dragIndex === row.dataIndex, dropTarget === row.key)
-            "
+            :class="classes.row"
+            :data-dragging="dragIndex === row.dataIndex ? '' : undefined"
+            :data-drop-target="dropTarget === row.key ? '' : undefined"
           >
             <!--
               TEMPORARY deviation from the standard `slot > outlet > default`
@@ -1011,12 +1005,7 @@ declare module 'vue' {
                 :remove="row.remove"
                 :can-remove
                 :can-sort
-                :class="
-                  classes.row(
-                    dragIndex === row.dataIndex,
-                    dropTarget === row.key
-                  )
-                "
+                :class="classes.row"
                 v-bind="parts.row"
               />
               <component
@@ -1038,12 +1027,7 @@ declare module 'vue' {
                 :remove="row.remove"
                 :can-remove
                 :can-sort
-                :class="
-                  classes.row(
-                    dragIndex === row.dataIndex,
-                    dropTarget === row.key
-                  )
-                "
+                :class="classes.row"
                 v-bind="parts.row"
               />
               <template v-else>
@@ -1235,6 +1219,11 @@ declare module 'vue' {
                       :name="`${id}__remove_${rowIndex}`"
                       :text="removeLabel"
                       :icon="removeIcon"
+                      :aria-label="
+                        removeLabel
+                          ? undefined
+                          : t('sr_matrix_remove', { index: rowIndex + 1 })
+                      "
                       :layout="false"
                       detached
                       v-bind="parts.remove"

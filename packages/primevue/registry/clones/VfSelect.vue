@@ -432,11 +432,8 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ help }) => ({
-  root: {
-    'vf-select': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-select',
 }))
 
 const {
@@ -446,7 +443,7 @@ const {
   disabled,
   loading,
   resolving,
-  aria,
+  a11yBindings,
   input,
   name,
   invalid,
@@ -534,7 +531,7 @@ declare module 'vue' {
         :invalid
         fluid
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

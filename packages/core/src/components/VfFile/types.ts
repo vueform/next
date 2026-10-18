@@ -1,11 +1,13 @@
 import type { VNode } from 'vue'
 
 import {
+  type FileA11y,
   type FileApi,
   type FileClasses,
   type FileEmits,
   type FileExpose,
   type FileListItem,
+  type FileModifiers,
   type FileParts,
   type FileProps,
   type FileSlots,
@@ -104,6 +106,27 @@ export interface VfFileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfFileClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfFileParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfFileModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfFileA11y
+
+    /**
      * Callback to remove a file by index.
      *
      * @param index The index to remove.
@@ -126,6 +149,23 @@ export interface VfFileSlots<
      * Whether the element is disabled.
      */
     disabled: boolean
+
+    /**
+     * CSS classes for the remove button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:remove` attribute overrides for the remove button
+     * element; apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Resolved accessibility bindings for this file's remove button
+     * (localized aria-label); apply with `v-bind`.
+     */
+    a11yBindings: ReturnType<VfFileA11y['remove']>
 
     /**
      * Callback to remove a file by index.
@@ -160,6 +200,17 @@ export interface VfFileSlots<
      * The kind of value: `'file'`, `'string'`, or `'object'`.
      */
     type: 'file' | 'string' | 'object'
+
+    /**
+     * CSS classes for the file name element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:name` attribute overrides for the file name element;
+     * apply with `v-bind`.
+     */
+    part: DomAttrsOf<'a' | 'span'> | undefined
   }) => VNode[]
 
   /**
@@ -169,11 +220,6 @@ export interface VfFileSlots<
    */
   add: (scope: {
     /**
-     * Callback to open the native file picker.
-     */
-    triggerFileInput: () => void
-
-    /**
      * Whether the element is disabled.
      */
     disabled: boolean
@@ -182,6 +228,17 @@ export interface VfFileSlots<
      * The resolved button label text.
      */
     text?: string
+
+    /**
+     * Resolved `part:add` attribute overrides for the add button element;
+     * apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Callback to open the native file picker.
+     */
+    triggerFileInput: () => void
   }) => VNode[]
 }
 
@@ -264,6 +321,31 @@ export interface VfFileClasses extends FileClasses {
 }
 
 /**
+ * Accessibility bindings of the VfFile component.
+ */
+export interface VfFileA11y extends FileA11y {}
+
+/**
+ * Styling modifiers of the VfFile component.
+ */
+export interface VfFileModifiers extends FileModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The file input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfFile.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -288,6 +370,8 @@ export interface VfFileContext<
   VfFileSlots,
   VfFileParts,
   VfFileClasses,
+  VfFileModifiers,
+  VfFileA11y,
   VfFileExpose,
   FileApi<TProps>
 > {}

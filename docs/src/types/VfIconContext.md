@@ -15,6 +15,8 @@ interface VfIconContext extends DefineElementContext<
   VfIconSlots,
   VfIconParts,
   VfIconClasses,
+  VfIconModifiers,
+  VfIconA11y,
   VfIconExpose,
   IconApi
 > {}

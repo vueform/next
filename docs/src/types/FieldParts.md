@@ -2,5 +2,5 @@
 /**
  * Structural parts of the field element blueprint.
  */
-interface FieldParts extends BaseElementParts {}
+interface FieldParts extends BaseFieldElementParts {}
 ```

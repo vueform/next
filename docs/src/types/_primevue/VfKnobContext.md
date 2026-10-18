@@ -15,6 +15,8 @@ interface VfKnobContext extends DefineElementContext<
   VfKnobSlots,
   VfKnobParts,
   VfKnobClasses,
+  VfKnobModifiers,
+  VfKnobA11y,
   VfKnobExpose,
   KnobApi
 > {}

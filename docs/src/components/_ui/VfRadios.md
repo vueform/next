@@ -947,6 +947,24 @@ Configure the component's behavior and appearance with these props.
 | [`type`](!code#props.type "string") | `'radios'` | The element type identifier. |
 | [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
+### Layout {#props-layout}
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
+| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
+| [`heading`](!code#props.heading "HeadingProp") | — | The heading level to render for the container's title. |
+| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
+| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
+| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
+| [`stacked`](!code#props.stacked "boolean") | `false` | Whether to render child elements in a stacked (wrapped row) layout. |
+| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
+| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
+| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
+
 ### Input {#props-radios}
 
 | Prop | Default | Description |
@@ -1001,24 +1019,6 @@ Configure the component's behavior and appearance with these props.
 | [`conditions`](!code#props.conditions "ConditionalProp<TContext>") | — | Conditions that control the element's visibility and availability. |
 | [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp<TContext>") | — | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
 | [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
-
-### Layout {#props-layout}
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
-| [`stacked`](!code#props.stacked "boolean") | `false` | Whether to render child elements in a stacked (wrapped row) layout. |
-| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
-| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
-| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
-| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
-| [`heading`](!code#props.heading "HeadingProp") | — | The heading level to render for the container's title. |
-| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
-| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
-| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
-| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
-| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -1192,7 +1192,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
-| [`radioAria`](!code#context.radioAria "object") | ARIA attributes for the radio group, including invalid, required, and describedby states. |
+| [`a11yBindings`](!code#context.a11yBindings "GroupAriaA11y") | Part-keyed accessibility bindings: role, labelling, and ARIA state for the group container plus ids/roles for the layout-rendered parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -1236,11 +1236,17 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `default` | [`radioName`](!code#slot.default.radioName "string") [`disabled`](!code#slot.default.disabled "boolean") [`label`](!code#slot.default.label "string \| undefined") [`items`](!code#slot.default.items "ResolvedItem<TValue, TRaw>[]") [`groups`](!code#slot.default.groups "ResolvedGroup<TValue, TRaw>[]") [`grouped`](!code#slot.default.grouped "boolean") | Slot that replaces the default radios rendering. Receives resolved items, groups, and shared state. |
-| `group` | [`radioName`](!code#slot.group.radioName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<TValue, TRaw>") | Slot that replaces each option group when items are grouped. |
-| `item` | [`radioName`](!code#slot.item.radioName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedItem<TValue, TRaw>") | Slot that replaces each entire `VfRadio` child. Receives the resolved item and shared state. |
-| `radio` | [`value`](!code#slot.radio.value "TRadioValue") [`model`](!code#slot.radio.model "TRadioValue \| null") [`aria`](!code#slot.radio.aria "AriaProp") [`inputName`](!code#slot.radio.inputName "string") [`id`](!code#slot.radio.id "string") [`disabled`](!code#slot.radio.disabled "boolean") [`input`](!code#slot.radio.input "any") [`text`](!code#slot.radio.text "string \| undefined") [`handleBlur`](!code#slot.radio.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.radio.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.radio.handleModelUpdate "(e: Event) => void") | Slot that replaces each individual radio input rendering inside the default `VfRadio` child.<br><br>Child radios always use the default `true` radio value; the holder's item value is resolved by name, not passed as `radioValue`. |
-| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") | Slot that replaces the text/label of each individual radio. |
+| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
+| `required` | — | Slot for customizing the required indicator. |
+| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
+| `default` | [`radioName`](!code#slot.default.radioName "string") [`disabled`](!code#slot.default.disabled "boolean") [`label`](!code#slot.default.label "string \| undefined") [`items`](!code#slot.default.items "ResolvedItem<TValue, TRaw>[]") [`groups`](!code#slot.default.groups "ResolvedGroup<TValue, TRaw>[]") [`grouped`](!code#slot.default.grouped "boolean") [`classes`](!code#slot.default.classes "VfRadiosClasses") [`parts`](!code#slot.default.parts "Partial<VfRadiosParts>") [`a11yBindings`](!code#slot.default.a11yBindings "VfRadiosA11y") [`modifiers`](!code#slot.default.modifiers "VfRadiosModifiers") | Slot that replaces the default radios rendering. Receives resolved items, groups, and shared state. |
+| `group` | [`radioName`](!code#slot.group.radioName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<TValue, TRaw>") [`classes`](!code#slot.group.classes "VfRadiosClasses") [`parts`](!code#slot.group.parts "Partial<VfRadiosParts>") [`a11yBindings`](!code#slot.group.a11yBindings "VfRadiosA11y") [`modifiers`](!code#slot.group.modifiers "VfRadiosModifiers") | Slot that replaces each option group when items are grouped. |
+| `item` | [`radioName`](!code#slot.item.radioName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedItem<TValue, TRaw>") [`classes`](!code#slot.item.classes "VfRadiosClasses") [`parts`](!code#slot.item.parts "Partial<VfRadiosParts>") | Slot that replaces each entire `VfRadio` child. Receives the resolved item and shared state. |
+| `radio` | [`value`](!code#slot.radio.value "TRadioValue") [`model`](!code#slot.radio.model "TRadioValue \| null") [`inputName`](!code#slot.radio.inputName "string") [`id`](!code#slot.radio.id "string") [`disabled`](!code#slot.radio.disabled "boolean") [`input`](!code#slot.radio.input "any") [`text`](!code#slot.radio.text "string \| undefined") [`classes`](!code#slot.radio.classes "VfRadioClasses") [`parts`](!code#slot.radio.parts "Partial<VfRadioParts>") [`a11yBindings`](!code#slot.radio.a11yBindings "VfRadioA11y") [`modifiers`](!code#slot.radio.modifiers "VfRadioModifiers") [`handleBlur`](!code#slot.radio.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.radio.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.radio.handleModelUpdate "(e: Event) => void") | Slot that replaces each individual radio input rendering inside the default `VfRadio` child.<br><br>Child radios always use the default `true` radio value; the holder's item value is resolved by name, not passed as `radioValue`. |
+| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`classes`](!code#slot.text.classes "ClassValue") [`part`](!code#slot.text.part "DomAttrsOf<'label'> \| undefined") | Slot that replaces the text/label of each individual radio. |
+| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
+| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -1281,14 +1287,91 @@ messageBag.append('Plan updated', 'message')
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
+### `panel`
+
+The wrapper around `root` with `display: contents` when the element is a step or a tab.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-panel` |
+
+### `root`
+
+The element's root wrapper.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-radios` `.vf-choices` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+
+### `labelGroup`
+
+The container holding the label and required indicator.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label-group` |
+
+### `label`
+
+The label element; renders as the corresponding heading when the container's `heading` prop is set.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
+
+### `required`
+
+The required indicator.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-required` |
+
+### `elementGroup`
+
+The container wrapping the input and related UI.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-group` |
+
+### `elementWrapper`
+
+The wrapper directly around the input control.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-wrapper` |
+
+### `help`
+
+The help text area.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
+
 ### `group`
 
 The wrapper element containing all radio items.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-choices-group` `.vf-stacked?` `.vf-aligned?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choices-group` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.group.modifiers.data-stacked "''") [`data-aligned`](!code#parts.group.modifiers.data-aligned "''") [`data-invalid`](!code#parts.group.modifiers.data-invalid "''") |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.group.a11y.role "'group' \| 'radiogroup'") [`aria-labelledby`](!code#parts.group.a11y.aria-labelledby "string") [`aria-label`](!code#parts.group.a11y.aria-label "string") [`aria-describedby`](!code#parts.group.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.group.a11y.aria-invalid "true") [`aria-required`](!code#parts.group.a11y.aria-required "true") |
 
 ### `fieldset`
 
@@ -1296,7 +1379,7 @@ The fieldset element wrapping each group when items are grouped.
 
 | | |
 | --- | --- |
-| **Element** | `<fieldset>` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<fieldset>` |
 
 ### `legend`
 
@@ -1304,7 +1387,7 @@ The legend element displaying the group label.
 
 | | |
 | --- | --- |
-| **Element** | `<legend>` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<legend>` |
 
 ### `item`
 
@@ -1312,10 +1395,56 @@ Props factory for each VfRadio child component, receiving the item data.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfRadio>`](./VfRadio.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfRadio>`](./VfRadio.md) |
+
+### `description`
+
+The description text area.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
+
+### `errors`
+
+The validation errors container.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+
+### `error`
+
+An individual validation error.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.error.a11y.id "string") [`role`](!code#parts.error.a11y.role "'alert'") |
+
+### `messages`
+
+The info messages container.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-messages` |
+
+### `message`
+
+An individual info message.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-message` |
 <!-- @parts-end -->
 <!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens
@@ -1342,9 +1471,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   --vf-element-line-color: var(--vf-gray-300);
 
-  --vf-label-font-size: 1rem;
-  --vf-label-font-weight: 600;
-  --vf-label-group-h-padding: calc(var(--vf-py) + var(--vf-border-width-t)) 0 0 0;
   --vf-label-group-v-padding: 0 0 0.375rem 0;
 
   --vf-required-bg: transparent;
@@ -1422,9 +1548,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   elementLineColor: '$gray300',
 
-  labelFontSize: '1rem',
-  labelFontWeight: '600',
-  labelGroupHPadding: 'calc($py + $borderWidthT) 0 0 0',
   labelGroupVPadding: '0 0 0.375rem 0',
 
   requiredBg: 'transparent',
@@ -1488,5 +1611,4 @@ All the CSS variables that control this component's appearance with default valu
 <!-- @tokens-end -->
 
 <!-- @endtab -->
-
 <!-- @endtabs -->

@@ -9,11 +9,6 @@ interface VfTabsSlots extends TabbedSlots<VfTabsContext> {
    */
   wrapper: (scope: {
     /**
-     * CSS classes for the tab wrapper.
-     */
-    class: ClassValue
-
-    /**
      * The zero-based index of the tab's page.
      */
     index: number

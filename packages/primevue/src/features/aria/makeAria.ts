@@ -1,6 +1,8 @@
 import {
+  buildDescribedBy,
+  buildLayoutBags,
   defineFeature,
-  type AriaProp,
+  type AriaA11y,
   type ReturnsOf,
   type makeData,
   type makeLayout,
@@ -14,9 +16,6 @@ import { type makeFloatLabel, type makeIfta } from '#src/features'
  * label and IFTA awareness.
  */
 type MakeAriaOptions = {
-  props: {
-    aria: AriaProp | undefined
-  }
   deps: ReturnsOf<
     [
       [
@@ -38,55 +37,60 @@ type MakeAriaOptions = {
 }
 
 /**
- * Provides computed ARIA attributes for PrimeVue adapter elements, including
- * float-label and IFTA-aware describedby that references the label region when
- * the input uses a floating or in-field label.
+ * Provides the part-keyed accessibility bindings for PrimeVue adapter
+ * elements: the `input` bag carries ARIA state (describedby, invalid,
+ * required, busy) with a float-label/IFTA-aware describedby that references
+ * the label region when the input uses a floating or in-field label, and the
+ * layout bags (label, help, description, error) carry the ids and roles their
+ * regions must render with.
  *
- * @param options Factory options containing element props and dependencies.
+ * @param options Factory options containing element dependencies.
  */
-export const makeAria = defineFeature(
-  () =>
-    ({ props, deps }: MakeAriaOptions) => {
-      const {
-        label,
-        help,
-        description,
-        labelId,
-        helpId,
-        descriptionId,
-        errorId,
-        hasError,
-        busy,
-        required,
-        floatLabel,
-        ifta,
-      } = deps
+export const makeAria = defineFeature(() => ({ deps }: MakeAriaOptions) => {
+  const {
+    label,
+    help,
+    description,
+    labelId,
+    helpId,
+    descriptionId,
+    errorId,
+    hasError,
+    busy,
+    required,
+    floatLabel,
+    ifta,
+  } = deps
 
-      /**
-       * Computed ARIA attributes (describedby, labelledby, invalid, required,
-       * busy) derived from element state and props.
-       */
-      const aria = computed(() => ({
-        'aria-describedby':
-          [
-            (ifta?.value !== undefined || floatLabel?.value !== undefined) &&
-            !!label.value
-              ? labelId.value
-              : null,
-            help.value ? helpId.value : null,
-            description.value ? descriptionId.value : null,
-            hasError.value ? errorId.value : null,
-          ]
-            .filter((d) => !!d)
-            .join(' ') || undefined,
-        'aria-invalid': hasError.value || undefined,
-        'aria-required': required.value || undefined,
-        'aria-busy': busy.value || undefined,
-        ...props.aria,
-      }))
+  /**
+   * Part-keyed accessibility bindings: ARIA attributes for the input and
+   * ids/roles for the layout-rendered label, help, description, and error
+   * parts.
+   */
+  const a11yBindings = computed<AriaA11y>(() => ({
+    input: {
+      'aria-describedby': buildDescribedBy([
+        (ifta?.value !== undefined || floatLabel?.value !== undefined) &&
+        !!label.value
+          ? labelId.value
+          : null,
+        help.value ? helpId.value : null,
+        description.value ? descriptionId.value : null,
+        hasError.value ? errorId.value : null,
+      ]),
+      'aria-invalid': hasError.value || undefined,
+      'aria-required': required.value || undefined,
+      'aria-busy': busy.value || undefined,
+    },
+    ...buildLayoutBags({
+      labelId: labelId.value,
+      helpId: helpId.value,
+      descriptionId: descriptionId.value,
+      errorId: errorId.value,
+    }),
+  }))
 
-      return {
-        aria,
-      }
-    }
-)
+  return {
+    a11yBindings,
+  }
+})

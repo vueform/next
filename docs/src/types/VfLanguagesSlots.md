@@ -8,16 +8,6 @@ interface VfLanguagesSlots extends LanguagesSlots<VfLanguagesContext> {
    */
   default: (scope: {
     /**
-     * The component's structural part bindings.
-     */
-    parts: Partial<VfLanguagesParts>
-
-    /**
-     * The component's resolved CSS classes.
-     */
-    classes: VfLanguagesClasses
-
-    /**
      * The currently selected language code.
      */
     language: string
@@ -36,6 +26,22 @@ interface VfLanguagesSlots extends LanguagesSlots<VfLanguagesContext> {
      * This option's display label.
      */
     label: string
+
+    /**
+     * The component's resolved CSS classes.
+     */
+    classes: VfLanguagesClasses
+
+    /**
+     * The component's structural part bindings.
+     */
+    parts: Partial<VfLanguagesParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind` (the `wrapper` bag is a function of the option state).
+     */
+    modifiers: VfLanguagesModifiers
   }) => VNode[]
 }
 ```

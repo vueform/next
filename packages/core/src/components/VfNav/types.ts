@@ -2,8 +2,9 @@ import type { VNode } from 'vue'
 
 import type {
   NavApi,
-  NavBackAriaBindings,
-  NavForwardAriaBindings,
+  NavA11y,
+  NavModifiers,
+  NavPosProp,
   NavProps,
   NavEmits,
   NavParts,
@@ -53,11 +54,6 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
    */
   back: (scope: {
     /**
-     * CSS classes for the back button.
-     */
-    class: ClassValue
-
-    /**
      * The button label text.
      */
     label: TProp | string | undefined
@@ -84,9 +80,20 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
+     * CSS classes for the back button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:back` attribute overrides for the back button element;
+     * apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
      * Ready-to-spread ARIA attribute bindings for the rendered control.
      */
-    a11yBindings: NavBackAriaBindings
+    a11yBindings: VfNavA11y['back']
 
     /**
      * Handler to navigate back.
@@ -125,11 +132,6 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
    */
   next: (scope: {
     /**
-     * CSS classes for the next button.
-     */
-    class: ClassValue
-
-    /**
      * The button label text.
      */
     label: TProp | string | undefined
@@ -161,9 +163,25 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
+     * CSS classes for the next button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:next` attribute overrides for the next button element;
+     * apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Ready-to-spread styling modifier attributes for the rendered control.
+     */
+    modifiers: VfNavModifiers['next']
+
+    /**
      * Ready-to-spread ARIA attribute bindings for the rendered control.
      */
-    a11yBindings: NavForwardAriaBindings
+    a11yBindings: VfNavA11y['next']
 
     /**
      * Handler to navigate to the next step.
@@ -202,11 +220,6 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
    */
   finish: (scope: {
     /**
-     * CSS classes for the finish button.
-     */
-    class: ClassValue
-
-    /**
      * The button label text.
      */
     label: TProp | string | undefined
@@ -238,9 +251,25 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
+     * CSS classes for the finish button element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:finish` attribute overrides for the finish button
+     * element; apply with `v-bind`.
+     */
+    part: PartOf<'VfButton'> | undefined
+
+    /**
+     * Ready-to-spread styling modifier attributes for the rendered control.
+     */
+    modifiers: VfNavModifiers['finish']
+
+    /**
      * Ready-to-spread ARIA attribute bindings for the rendered control.
      */
-    a11yBindings: NavForwardAriaBindings
+    a11yBindings: VfNavA11y['finish']
 
     /**
      * Handler to finish/submit the form.
@@ -336,6 +365,39 @@ export interface VfNavClasses extends NavClasses {
 }
 
 /**
+ * Accessibility bindings of the VfNav component.
+ */
+export interface VfNavA11y extends NavA11y {}
+
+/**
+ * Styling modifiers of the VfNav component.
+ */
+export interface VfNavModifiers extends NavModifiers {
+  /**
+   * The root navigation element's position variant and the marker set while
+   * the back button is hidden on the first page.
+   */
+  root: {
+    'data-position'?: NavPosProp
+    'data-no-back'?: ''
+  }
+
+  /**
+   * The next button's loading state.
+   */
+  next: {
+    'data-loading'?: ''
+  }
+
+  /**
+   * The finish button's loading state.
+   */
+  finish: {
+    'data-loading'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfNav.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -360,6 +422,8 @@ export interface VfNavContext extends DefineElementContext<
   VfNavSlots,
   VfNavParts,
   VfNavClasses,
+  VfNavModifiers,
+  VfNavA11y,
   VfNavExpose,
   NavApi
 > {}

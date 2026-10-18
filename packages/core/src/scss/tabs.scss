@@ -24,19 +24,19 @@
  *
  * @class .vf-tab-wrapper
  */
-.vf-tab-wrapper.vf-selected .vf-tab {
+.vf-tab-wrapper[data-selected] .vf-tab {
   color: var(--vf-tab-color-selected);
   background: var(--vf-tab-bg-selected);
   border-color: var(--vf-tab-border-color-selected);
 }
 
-.vf-tab-wrapper.vf-invalid .vf-tab {
+.vf-tab-wrapper[data-invalid] .vf-tab {
   color: var(--vf-tab-color-danger);
   background: var(--vf-tab-bg-danger);
   border-color: var(--vf-tab-border-color-danger);
 }
 
-.vf-tab-wrapper.vf-selected.vf-invalid .vf-tab {
+.vf-tab-wrapper[data-selected][data-invalid] .vf-tab {
   color: var(--vf-tab-color-selected-danger);
   background: var(--vf-tab-bg-selected-danger);
   border-color: var(--vf-tab-border-color-selected-danger);

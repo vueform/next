@@ -9,11 +9,6 @@ interface VfStepsSlots extends StepsSlots<VfStepsContext> {
    */
   wrapper: (scope: {
     /**
-     * CSS classes for the step wrapper.
-     */
-    class: ClassValue
-
-    /**
      * The zero-based index of the step's page.
      */
     index: number

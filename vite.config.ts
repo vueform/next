@@ -494,7 +494,7 @@ export default defineConfig({
       // names, so its result depends on the file set, not content vp could
       // hash.
       ':lslint': {
-        command: 'lslint',
+        command: 'ls-lint',
         cache: false,
       },
       ':fmt:check': {

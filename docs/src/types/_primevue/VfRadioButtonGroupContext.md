@@ -24,6 +24,8 @@ interface VfRadioButtonGroupContext<
   VfRadioButtonGroupSlots,
   VfRadioButtonGroupParts,
   VfRadioButtonGroupClasses,
+  VfRadioButtonGroupModifiers,
+  VfRadioButtonGroupA11y,
   VfRadioButtonGroupExpose,
   RadioButtonGroupApi<TProps>
 > {}

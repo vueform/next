@@ -1,6 +1,7 @@
 import type { VNode } from 'vue'
 
 import {
+  type LanguagesA11y,
   type LanguagesApi,
   type LanguagesProps,
   type LanguagesEmits,
@@ -8,6 +9,7 @@ import {
   type LanguagesSlots,
   type LanguagesExpose,
   type LanguagesClasses,
+  type LanguagesModifiers,
 } from '#src/blueprints/languages'
 import type {
   DefineElementContext,
@@ -44,16 +46,6 @@ export interface VfLanguagesSlots extends LanguagesSlots<VfLanguagesContext> {
    */
   default: (scope: {
     /**
-     * The component's structural part bindings.
-     */
-    parts: Partial<VfLanguagesParts>
-
-    /**
-     * The component's resolved CSS classes.
-     */
-    classes: VfLanguagesClasses
-
-    /**
      * The currently selected language code.
      */
     language: string
@@ -72,8 +64,25 @@ export interface VfLanguagesSlots extends LanguagesSlots<VfLanguagesContext> {
      * This option's display label.
      */
     label: string
+
+    /**
+     * The component's resolved CSS classes.
+     */
+    classes: VfLanguagesClasses
+
+    /**
+     * The component's structural part bindings.
+     */
+    parts: Partial<VfLanguagesParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind` (the `wrapper` bag is a function of the option state).
+     */
+    modifiers: VfLanguagesModifiers
   }) => VNode[]
 }
+
 /**
  * Structural parts of the VfLanguages component.
  */
@@ -125,17 +134,39 @@ export interface VfLanguagesClasses extends LanguagesClasses {
   list: ClassValue
 
   /**
-   * Each language wrapper.
-   *
-   * @param selected Whether this language option is currently selected.
-   * @param invalid Whether this language has validation errors.
+   * Each language wrapper. State is exposed via `data-selected` and
+   * `data-invalid` attributes.
    */
-  wrapper: (selected: boolean, invalid: boolean) => ClassValue
+  wrapper: ClassValue
 
   /**
    * The language button element.
    */
   language: ClassValue
+}
+
+/**
+ * Accessibility bindings of the VfLanguages component.
+ */
+export interface VfLanguagesA11y extends LanguagesA11y {}
+
+/**
+ * Styling modifiers of the VfLanguages component.
+ */
+export interface VfLanguagesModifiers extends LanguagesModifiers {
+  /**
+   * Each language wrapper's selection and validity state.
+   *
+   * @param selected Whether this language option is currently selected.
+   * @param invalid Whether this language has validation errors.
+   */
+  wrapper: (
+    selected: boolean,
+    invalid: boolean
+  ) => {
+    'data-selected'?: ''
+    'data-invalid'?: ''
+  }
 }
 
 /**
@@ -159,6 +190,8 @@ export interface VfLanguagesContext extends DefineElementContext<
   VfLanguagesSlots,
   VfLanguagesParts,
   VfLanguagesClasses,
+  VfLanguagesModifiers,
+  VfLanguagesA11y,
   VfLanguagesExpose,
   LanguagesApi
 > {}

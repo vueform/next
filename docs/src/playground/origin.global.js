@@ -19253,7 +19253,7 @@ var Vueform = (function (e, r) {
     ),
     Vo = {
       ...{
-        primary: '#07bf9b',
+        primary: '#1db75f',
         danger: '#ef4444',
         success: '#10b981',
         white: '#ffffff',
@@ -19699,6 +19699,7 @@ var Vueform = (function (e, r) {
         controlRadius: '$radiusSm',
       },
       dark: {
+        brand: '#28cd6f',
         gray50: '#efefef',
         gray100: '#dcdcdc',
         gray200: '#bdbdbd',

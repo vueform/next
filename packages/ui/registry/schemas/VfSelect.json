@@ -10,7 +10,7 @@
       "path": "VfSelect.vue",
       "target": "{componentsDir}/VfSelect.vue",
       "kind": "component",
-      "hash": "sha256:242196c731c5f1b2a9daa44702886ec21fc657ed6a6f32d848c520c1e9ac2de1"
+      "hash": "sha256:ab146bf8421fa5e085321b4aee2bd0a32a53aab6d19ddab54dda9c83dfdee4cd"
     }
   ],
   "imports": [
@@ -26,7 +26,7 @@
   "clone": {
     "path": "VfSelect.vue",
     "blueprint": "select",
-    "hash": "sha256:125f6aa59b9d3725ec1708a9658135059a488e90336fdd6056d190a31aec243f",
+    "hash": "sha256:6fe72467359f0e1097659ec4a671298cf0349a3a4fbcc984fc942c9ad9a405e3",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

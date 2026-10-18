@@ -10,7 +10,7 @@
       "path": "VfEditor.vue",
       "target": "{componentsDir}/VfEditor.vue",
       "kind": "component",
-      "hash": "sha256:d2f27cd217c36f006ce065d9a41fb325b6daf0bd6fe790ab1d3180e0997a640d"
+      "hash": "sha256:56dac61f5e40a5205f62264eb8a1b661b2c63ff1446f97f329d5f37a08d4becd"
     }
   ],
   "imports": [
@@ -28,7 +28,7 @@
   "clone": {
     "path": "VfEditor.vue",
     "blueprint": "editor",
-    "hash": "sha256:5263cdd7d532997cc32c010fc2c55da4533743da349ed657980286b17b1c3bba",
+    "hash": "sha256:5e3f2d751063b1731a321fdce07e84db1d40ad9118bd2eb7fc6b2d9527b55bf9",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -19,12 +19,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type TAriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -99,7 +101,6 @@ export interface InputTextProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -164,12 +165,22 @@ export interface InputTextSlots<
 /**
  * Structural parts of the input-text element blueprint.
  */
-export interface InputTextParts extends BaseElementParts {}
+export interface InputTextParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the input-text element blueprint.
  */
 export interface InputTextClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the input-text element blueprint.
+ */
+export interface InputTextModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the input-text element blueprint.
+ */
+export interface InputTextA11y extends BaseElementA11y, TAriaA11y {}
 
 /**
  * Augmentable public API surface for input-text-based components.

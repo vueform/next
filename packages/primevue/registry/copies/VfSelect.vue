@@ -91,11 +91,8 @@ const slots =
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-select': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-select',
 }))
 
 const {
@@ -105,7 +102,7 @@ const {
   disabled,
   loading,
   resolving,
-  aria,
+  a11yBindings,
   input,
   name,
   invalid,
@@ -147,7 +144,7 @@ defineExpose(expose)
         :invalid
         fluid
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

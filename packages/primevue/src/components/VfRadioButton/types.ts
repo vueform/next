@@ -1,7 +1,6 @@
 import type {
   ClassValue,
   DomAttrsOf,
-  AriaProp,
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
@@ -11,10 +10,12 @@ import type { RadioButtonProps as PvRadioButtonProps } from 'primevue/radiobutto
 import type { VNode } from 'vue'
 
 import type {
+  RadioButtonA11y,
   RadioButtonApi,
   RadioButtonClasses,
   RadioButtonEmits,
   RadioButtonExpose,
+  RadioButtonModifiers,
   RadioButtonParts,
   RadioButtonProps,
   RadioButtonSlots,
@@ -77,11 +78,6 @@ export interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
     model: TRadioValue | null
 
     /**
-     * The aria attributes to bind to the input.
-     */
-    aria: AriaProp
-
-    /**
      * The `name` attribute of the input.
      */
     inputName: string
@@ -105,6 +101,28 @@ export interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
      * The resolved label text.
      */
     text: string | undefined
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadioButtonClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadioButtonParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadioButtonModifiers
+
+    /**
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
+     */
+    a11yBindings: VfRadioButtonA11y
 
     /**
      * Handles the input's blur event.
@@ -156,6 +174,17 @@ export interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
      * The element's display name for accessibility.
      */
     genericName: string
+
+    /**
+     * CSS classes for the text/label element.
+     */
+    classes: ClassValue
+
+    /**
+     * Resolved `part:text` attribute overrides for the text/label element;
+     * apply with `v-bind`.
+     */
+    part: DomAttrsOf<'label'> | undefined
   }) => VNode[]
 }
 
@@ -206,6 +235,40 @@ export interface VfRadioButtonClasses extends RadioButtonClasses {
 }
 
 /**
+ * Accessibility bindings of the VfRadioButton component.
+ */
+export interface VfRadioButtonA11y extends RadioButtonA11y {}
+
+/**
+ * Styling modifiers of the VfRadioButton component.
+ */
+export interface VfRadioButtonModifiers extends RadioButtonModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The choice wrapper's label alignment variant and the marker set while the
+   * element vertically aligns with adjacent form controls.
+   */
+  wrapper: {
+    'data-align'?: VfRadioButtonProps['align']
+    'data-aligned'?: ''
+  }
+
+  /**
+   * The radio input's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfRadioButton.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -232,6 +295,8 @@ export interface VfRadioButtonContext<
   VfRadioButtonSlots,
   VfRadioButtonParts,
   VfRadioButtonClasses,
+  VfRadioButtonModifiers,
+  VfRadioButtonA11y,
   VfRadioButtonExpose,
   RadioButtonApi<TProps>
 > {}

@@ -15,6 +15,8 @@ export const hu_HU = {
   sr_list_sort: '{index}. elem átrendezése',
   sr_matrix_add: 'Sor hozzáadása',
   sr_matrix_remove: '{index}. sor eltávolítása',
+  sr_matrix_sort: '{index}. sor átrendezése',
+  sr_file_remove: '{index}. fájl eltávolítása',
   steps_back: 'Vissza',
   steps_next: 'Tovább',
   steps_finish: 'Befejezés',

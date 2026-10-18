@@ -12,5 +12,16 @@ type BaseElementContext<
   TSlots extends Record<string, any> = Record<string, any>,
   TParts extends Record<string, any> = Record<string, any>,
   TClasses extends Record<string, any> = Record<string, any>,
-> = BaseComponentContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
+  TModifiers = DefaultContextModifiers<TApi, TSlots>,
+  TA11y = DefaultContextA11y<TApi, TSlots>,
+> = BaseComponentContext<
+  TApi,
+  TProps,
+  TEvents,
+  TSlots,
+  TParts,
+  TClasses,
+  TModifiers,
+  TA11y
+>
 ```

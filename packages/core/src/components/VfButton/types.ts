@@ -1,16 +1,19 @@
 import type { VNode } from 'vue'
 
 import {
+  type ButtonA11y,
   type ButtonApi,
   type ButtonClasses,
   type ButtonEmits,
   type ButtonExpose,
+  type ButtonModifiers,
   type ButtonParts,
   type ButtonProps,
   type ButtonSlots,
 } from '#src/blueprints/button'
 import type {
   DefineElementContext,
+  DPropValue,
   DomAttrsOf,
   ClassValue,
   DefineRegistryEntry,
@@ -57,6 +60,16 @@ export interface VfButtonSlots extends ButtonSlots<VfButtonContext> {
      * The resolved button label text.
      */
     text: string | undefined
+
+    /**
+     * The component's resolved CSS classes.
+     */
+    classes: VfButtonClasses
+
+    /**
+     * The component's structural part bindings.
+     */
+    parts: Partial<VfButtonParts>
   }) => VNode[]
 
   /**
@@ -112,6 +125,47 @@ export interface VfButtonClasses extends ButtonClasses {
 }
 
 /**
+ * Accessibility bindings of the VfButton component.
+ */
+export interface VfButtonA11y extends ButtonA11y {}
+
+/**
+ * Styling modifiers of the VfButton component.
+ */
+export interface VfButtonModifiers extends ButtonModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The button control's variant, state, and layout attributes. `data-disabled`
+   * is set only in anchor mode (`href`/`to`), where no native `disabled`
+   * attribute exists.
+   */
+  button: {
+    'data-variant'?: VfButtonProps['variant']
+    'data-severity'?: DPropValue<VfButtonProps['severity']>
+    'data-size'?: VfButtonProps['size']
+    'data-align'?: VfButtonProps['align']
+    'data-fluid'?: ''
+    'data-icon-only'?: ''
+    'data-loading'?: ''
+    'data-disabled'?: ''
+  }
+
+  /**
+   * The icon's position relative to the label.
+   */
+  icon: {
+    'data-pos'?: VfButtonProps['iconPos']
+  }
+}
+
+/**
  * Augmentable public API surface for VfButton.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -136,6 +190,8 @@ export interface VfButtonContext extends DefineElementContext<
   VfButtonSlots,
   VfButtonParts,
   VfButtonClasses,
+  VfButtonModifiers,
+  VfButtonA11y,
   VfButtonExpose,
   ButtonApi
 > {}

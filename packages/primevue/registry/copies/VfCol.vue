@@ -27,25 +27,13 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
 
 useClasses(() => ({
   root: ({
-    align,
-    valign,
     colHeader,
     rowHeader,
   }: {
-    align: string
-    valign: string
     colHeader: boolean
     rowHeader: boolean
   }) => ({
     'vf-grid-cell': true,
-    'vf-left': align === 'left',
-    'vf-center': align === 'center',
-    'vf-right': align === 'right',
-    'vf-justify': align === 'justify',
-    'vf-top': valign === 'top',
-    'vf-middle': valign === 'middle',
-    'vf-bottom': valign === 'bottom',
-    'vf-baseline': valign === 'baseline',
     'vf-grid-col-header': colHeader,
     'vf-grid-row-header': rowHeader,
   }),
@@ -73,6 +61,8 @@ defineExpose(expose)
     <div
       v-if="!template"
       :class="classes.root({ align, valign, colHeader, rowHeader })"
+      :data-align="align || undefined"
+      :data-valign="valign || undefined"
       :data-col-id="uid"
       :data-col="cell?.col"
       :data-row="cell?.row"

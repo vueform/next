@@ -24,6 +24,8 @@ interface VfCascadeSelectContext<
   VfCascadeSelectSlots,
   VfCascadeSelectParts,
   VfCascadeSelectClasses,
+  VfCascadeSelectModifiers,
+  VfCascadeSelectA11y,
   VfCascadeSelectExpose,
   CascadeSelectApi<TProps>
 > {}

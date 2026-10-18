@@ -12,12 +12,13 @@ import type {
   InputNumberProps as PvInputNumberProps,
   InputNumberSlots as AInputNumberSlots,
 } from 'primevue'
-
 import type {
+  InputNumberA11y,
   InputNumberApi,
   InputNumberClasses,
   InputNumberEmits,
   InputNumberExpose,
+  InputNumberModifiers,
   InputNumberParts,
   InputNumberProps,
   InputNumberSlots,
@@ -101,6 +102,31 @@ export interface VfInputNumberClasses
 }
 
 /**
+ * Accessibility bindings of the VfInputNumber component.
+ */
+export interface VfInputNumberA11y extends InputNumberA11y {}
+
+/**
+ * Styling modifiers of the VfInputNumber component.
+ */
+export interface VfInputNumberModifiers extends InputNumberModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfInputNumber.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -126,6 +152,8 @@ export interface VfInputNumberContext extends DefineElementContext<
   VfInputNumberSlots,
   VfInputNumberParts,
   VfInputNumberClasses,
+  VfInputNumberModifiers,
+  VfInputNumberA11y,
   VfInputNumberExpose,
   InputNumberApi
 > {}

@@ -15,6 +15,8 @@ interface VfNavContext extends DefineElementContext<
   VfNavSlots,
   VfNavParts,
   VfNavClasses,
+  VfNavModifiers,
+  VfNavA11y,
   VfNavExpose,
   NavApi
 > {}

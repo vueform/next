@@ -6,12 +6,13 @@ import type {
   WidenProps,
 } from '@vueform/core'
 import type { SliderProps as PvSliderProps } from 'primevue'
-
 import type {
+  SliderA11y,
   SliderApi,
   SliderClasses,
   SliderEmits,
   SliderExpose,
+  SliderModifiers,
   SliderParts,
   SliderProps,
   SliderSlots,
@@ -93,6 +94,31 @@ export interface VfSliderClasses extends SliderClasses {
 }
 
 /**
+ * Accessibility bindings of the VfSlider component.
+ */
+export interface VfSliderA11y extends SliderA11y {}
+
+/**
+ * Styling modifiers of the VfSlider component.
+ */
+export interface VfSliderModifiers extends SliderModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The slider control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfSlider.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -117,6 +143,8 @@ export interface VfSliderContext<
   VfSliderSlots,
   VfSliderParts,
   VfSliderClasses,
+  VfSliderModifiers,
+  VfSliderA11y,
   VfSliderExpose,
   SliderApi<TProps>
 > {}

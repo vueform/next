@@ -39,17 +39,14 @@ const config = useConfig()
 useClasses(({ props, tokenClass, tokenCss, showErrors, errors }) => ({
   root: {
     'vf-form': true,
-    'vf-stacked': props.stacked,
     [tokenClass]: !!tokenCss.value,
     [config.build.darkClass]: props.dark === true,
     [config.build.lightClass]: props.dark === false,
   },
-  errorsWrapper: [
-    'vf-form-errors-wrapper',
-    {
-      'sr-only': !showErrors.value || Object.keys(errors.value).length === 0,
-    },
-  ],
+  errorsWrapper: {
+    'vf-form-errors-wrapper': true,
+    'sr-only': !showErrors.value || Object.keys(errors.value).length === 0,
+  },
   errors: 'vf-form-errors',
   error: 'vf-form-error',
   messagesWrapper: 'vf-form-messages-wrapper',
@@ -97,7 +94,13 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <form v-else :class="classes.root" v-bind="parts.root" @submit.prevent>
+    <form
+      v-else
+      :class="classes.root"
+      :data-stacked="props.stacked ? '' : undefined"
+      v-bind="parts.root"
+      @submit.prevent
+    >
       <slot name="content" :context>
         <component v-if="outlets?.content" :is="outlets.content" :context />
         <template v-else>
@@ -203,7 +206,9 @@ defineExpose(expose)
               v-bind="parts.languages"
               @select="handleLanguageSelect"
             >
-              <template #default="slotProps">
+              <!-- Presence-gated: an unconditional #default would replace
+                VfLanguages' own fallback (the language label) with nothing. -->
+              <template v-if="slots.language" #default="slotProps">
                 <slot name="language" v-bind="slotProps" />
               </template>
             </component>
@@ -215,7 +220,9 @@ defineExpose(expose)
               :pager="tabs"
               v-bind="parts.tabs"
             >
-              <template #default="slotProps">
+              <!-- Presence-gated: an unconditional #default would replace
+                VfTabs' own fallback (the tab label) with nothing. -->
+              <template v-if="slots.tab || outlets?.tab" #default="slotProps">
                 <slot name="tab" v-bind="slotProps">
                   <component
                     v-if="outlets?.tab"
@@ -233,7 +240,9 @@ defineExpose(expose)
               :pager="steps"
               v-bind="parts.steps"
             >
-              <template #default="slotProps">
+              <!-- Presence-gated: an unconditional #default would replace
+                VfSteps' own fallback (the step label) with nothing. -->
+              <template v-if="slots.step || outlets?.step" #default="slotProps">
                 <slot name="step" v-bind="slotProps">
                   <component
                     v-if="outlets?.step"

@@ -8,7 +8,7 @@
 import {
   useBlueprint,
   defineEvents,
-  type AriaProp,
+  type A11yBindings,
   type ClassValue,
   type DefineElementContext,
   type DomAttrsOf,
@@ -83,9 +83,10 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioSlots<
     model: TRadioValue | null
 
     /**
-     * ARIA attributes for the input.
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
      */
-    aria: AriaProp
+    a11yBindings: A11yBindings
 
     /**
      * The input's `name` attribute.
@@ -290,7 +291,7 @@ const {
   id,
   disabled,
   viewLoaded,
-  aria,
+  a11yBindings,
   inputName,
   text,
   input,
@@ -308,18 +309,10 @@ const {
  *
  * @see https://ui.vueform.com/guide/classes
  */
-useClasses(({ props, hasError }) => ({
+useClasses(() => ({
   root: 'vf-radio',
-  wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
-  },
-  input: {
-    'vf-choice-input': true,
-    'vf-danger': hasError.value,
-  },
+  wrapper: 'vf-choice-wrapper',
+  input: 'vf-choice-input',
   text: 'vf-choice-text',
 }))
 
@@ -360,7 +353,7 @@ declare module 'vue' {
       <slot
         :model
         :value="radioValue"
-        :aria
+        :a11y-bindings
         :input-name
         :id
         :disabled
@@ -375,7 +368,7 @@ declare module 'vue' {
           :is="outlets.default"
           :model
           :value="radioValue"
-          :aria
+          :a11y-bindings
           :input-name
           :id
           :disabled
@@ -385,7 +378,13 @@ declare module 'vue' {
           :handle-focus
           :handle-model-update
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          :data-align="props.align || undefined"
+          :data-aligned="props.aligned ? '' : undefined"
+          v-bind="parts.wrapper"
+        >
           <input
             type="radio"
             v-model="value"
@@ -395,7 +394,7 @@ declare module 'vue' {
             :id
             :disabled
             v-bind="{
-              ...aria,
+              ...a11yBindings.input,
               ...parts.input,
             }"
             :ref="(el) => (input = el)"

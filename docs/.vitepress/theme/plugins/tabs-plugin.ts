@@ -52,9 +52,11 @@ export function tabsPlugin(md: any) {
   md.renderer.rules.tabs_open = () => '<VPTabs>\n'
   md.renderer.rules.tabs_close = () => '</VPTabs>\n'
   md.renderer.rules.tab_open = (tokens: any[], idx: number) => {
-    const title = md.utils.escapeHtml(tokens[idx].info)
-    const slug = slugify(tokens[idx].info)
-    return `<VPTab title="${title}" slug="${slug}">\n`
+    const token = tokens[idx]
+    const title = md.utils.escapeHtml(token.info)
+    const slug = slugify(token.info)
+    const dropdown = token.meta?.dropdown ? ' dropdown' : ''
+    return `<VPTab title="${title}" slug="${slug}"${dropdown}>\n`
   }
   md.renderer.rules.tab_close = () => '</VPTab>\n'
 }
@@ -113,6 +115,7 @@ function tabsRule(
 
   interface TabInfo {
     title: string
+    dropdown: boolean
     startLine: number
     endLine: number
   }
@@ -131,7 +134,17 @@ function tabsRule(
         currentTab.endLine = line
         tabs.push(currentTab)
       }
-      currentTab = { title: tabMatch[1], startLine: line + 1, endLine: -1 }
+      // A `...` suffix after the name (`<!-- @tab Tokens... -->`) sends the
+      // tab into the header's overflow dropdown regardless of available
+      // space; the dots are not part of the display title.
+      const rawTitle = tabMatch[1]
+      const dropdown = rawTitle.endsWith('...')
+      currentTab = {
+        title: dropdown ? rawTitle.slice(0, -3).trim() : rawTitle,
+        dropdown,
+        startLine: line + 1,
+        endLine: -1,
+      }
     } else if (isEndTab && currentTab) {
       currentTab.endLine = line
       tabs.push(currentTab)
@@ -153,6 +166,7 @@ function tabsRule(
   for (const tab of tabs) {
     const tabOpen = state.push('tab_open', 'div', 1)
     tabOpen.info = tab.title
+    tabOpen.meta = { dropdown: tab.dropdown }
     tabOpen.block = true
     tabOpen.map = [tab.startLine, tab.endLine]
 

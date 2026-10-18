@@ -10,10 +10,12 @@ import type { SelectButtonSlots as ASelectButtonSlots } from 'primevue/selectbut
 import type { VNode } from 'vue'
 
 import type {
+  SelectButtonA11y,
   SelectButtonApi,
   SelectButtonClasses,
   SelectButtonEmits,
   SelectButtonExpose,
+  SelectButtonModifiers,
   SelectButtonParts,
   SelectButtonProps,
   SelectButtonSlots,
@@ -178,6 +180,31 @@ export interface VfSelectButtonClasses extends SelectButtonClasses {
 }
 
 /**
+ * Accessibility bindings of the VfSelectButton component.
+ */
+export interface VfSelectButtonA11y extends SelectButtonA11y {}
+
+/**
+ * Styling modifiers of the VfSelectButton component.
+ */
+export interface VfSelectButtonModifiers extends SelectButtonModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The select-button control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfSelectButton.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -206,6 +233,8 @@ export interface VfSelectButtonContext<
   VfSelectButtonSlots,
   VfSelectButtonParts,
   VfSelectButtonClasses,
+  VfSelectButtonModifiers,
+  VfSelectButtonA11y,
   VfSelectButtonExpose,
   SelectButtonApi<TProps>
 > {}

@@ -33,6 +33,10 @@ To control what screen readers announce for a labelless input, set `displayName`
 
 Container elements (`VfGroup`, `VfList`, `VfGrid`, `VfMatrix`) behave differently. When a container has a `label`, `VfLayout` renders it as a `<fieldset>` instead of a `<div>`. The label text is linked via `aria-labelledby` to group the children under a common heading. When no label is set, the fieldset gets an `aria-label` with the container's `genericName`, so the group boundary is still announced.
 
+### Choice Group Labels
+
+`VfRadios` and `VfCheckboxes` mark their options container with `role="radiogroup"` / `role="group"`. With a `label`, the group is linked to it via `aria-labelledby` (the label renders as a `<span>` — a `<label for>` would have nothing to point at, since the group has many inputs); without one, the group carries an `aria-label` with the element's `genericName`. Group-level state (`aria-required`, `aria-invalid`, `aria-describedby` to the error region) lives on the group container, while each option keeps its own `<label for>` association.
+
 ## ARIA Attributes
 
 Every input element computes a set of ARIA attributes automatically based on its current state. These are bound to the native control (`<input>`, `<select>`, `<textarea>`) and kept in sync as the element's state changes:
@@ -43,15 +47,18 @@ Every input element computes a set of ARIA attributes automatically based on its
 | `aria-invalid`     | Whether the element has a validation error.                       | `true`                             |
 | `aria-required`    | Whether the element has a `required` rule.                        | `true`                             |
 | `aria-busy`        | Whether the element is running an async validation check.         | `true`                             |
-| `aria-labelledby`  | Unset by default; available for override.                         | `"custom-label-id"`                |
 
 The `aria-describedby` chain is the key piece. It dynamically points to whichever support regions exist at any given moment. When an element has help text, a hint, **and** a validation error, the input's `aria-describedby` references all three IDs. When only a hint is shown, it references just the hint. When nothing is rendered, the attribute is omitted entirely. This means a screen reader always announces exactly the context that's visible to sighted users — no more, no less.
 
 For translatable elements, the active language indicator is included in the `aria-describedby` chain as well, so screen readers announce which language variant the user is editing.
 
+### ARIA vs. Styling Attributes
+
+ARIA attributes serve assistive technology; styling hooks are a separate aspect served by `data-*` [modifier attributes](/guide/parts#modifiers). When one state projects into both worlds, both attributes are emitted from the same source: an invalid input carries `aria-invalid` **and** `data-invalid`, a loading button carries `aria-busy` **and** `data-loading`. The duplication is deliberate — CSS keys on the `data-*` side, so removing or customizing a styling hook never silently changes what screen readers announce, and vice versa. The one exception is the native `disabled` attribute, which serves both aspects at once wherever the element supports it natively; only controls without a native attribute (a `VfButton` rendering an anchor via `href`/`to`) split it into `aria-disabled` plus `data-disabled`.
+
 ### Overriding ARIA Attributes
 
-Every input element accepts an `aria` prop that lets you override any of the computed defaults:
+Computed ARIA attributes are regular attributes on the element's DOM parts, so overrides go through [Parts](/guide/parts) — the parts bindings are applied after the computed bindings, so your value wins:
 
 ::: code-group
 
@@ -60,8 +67,8 @@ defineSchema({
   email: {
     type: 'text',
     label: 'Email',
-    aria: {
-      describedby: 'my-custom-description',
+    'part:input': {
+      'aria-describedby': 'my-custom-description',
     },
   },
 })
@@ -71,23 +78,17 @@ defineSchema({
 <VfText
   name="email"
   label="Email"
-  :aria="{ describedby: 'my-custom-description' }"
+  :part:input="{ 'aria-describedby': 'my-custom-description' }"
 />
 ```
 
 :::
 
-When a key is set in the `aria` prop, it takes precedence over the computed value. Keys you don't set still resolve automatically.
+Attributes you don't override still resolve automatically.
 
-The full shape of the `aria` prop:
+### Autofill and Input Modes
 
-| Key           | Type      | What it overrides                 |
-| ------------- | --------- | --------------------------------- |
-| `labelledby`  | `string`  | The `aria-labelledby` attribute.  |
-| `describedby` | `string`  | The `aria-describedby` attribute. |
-| `required`    | `boolean` | The `aria-required` attribute.    |
-| `invalid`     | `boolean` | The `aria-invalid` attribute.     |
-| `busy`        | `boolean` | The `aria-busy` attribute.        |
+Text-like elements support the `autocomplete` and `inputmode` attributes. When `autocomplete` isn't set and the element's `name` is a valid HTML autofill token (`email`, `tel`, `postal-code`, …), the name is used automatically — fields collecting user data get autofill and WCAG 1.3.5 (Identify Input Purpose) support out of the box. Any other name renders no `autocomplete` at all, since browsers ignore invalid tokens.
 
 ## Error Announcements
 
@@ -119,12 +120,12 @@ Form-level messages (success confirmations, informational notices) use a separat
 
 Tabbed and stepped forms implement the [WAI-ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). The rendered markup uses the correct roles and states:
 
-| Part                | Role / attribute                                               |
-| ------------------- | -------------------------------------------------------------- |
-| Tab/step list       | `role="tablist"`                                               |
-| Individual tab/step | `role="tab"`, `aria-selected`, `aria-current`, `aria-controls` |
-| List item wrapper   | `role="none"` (strips semantics from the `<li>`)               |
-| Page panel          | `role="tabpanel"`, `aria-labelledby` pointing back to the tab  |
+| Part                | Role / attribute                                              |
+| ------------------- | ------------------------------------------------------------- |
+| Tab/step list       | `role="tablist"`                                              |
+| Individual tab/step | `role="tab"`, `aria-selected`, `aria-controls`                |
+| List item wrapper   | `role="none"` (strips semantics from the `<li>`)              |
+| Page panel          | `role="tabpanel"`, `aria-labelledby` pointing back to the tab |
 
 Keyboard behavior follows the roving-tabindex pattern:
 
@@ -181,7 +182,7 @@ A few elements produce content that isn't meaningful to assistive technologies:
 
 ## Custom Templates
 
-When you [rewire a template](/guide/templates), you take on responsibility for the ARIA attributes that template previously rendered. The element's `aria` computed is available on the [context](/guide/context), so binding the attributes is straightforward:
+When you [rewire a template](/guide/templates), you take on responsibility for the ARIA attributes that template previously rendered. The element's `a11yBindings` computed is available on the [context](/guide/context) (and is passed to replacement slots directly). It is always keyed by part — each key holds a ready-to-spread bag of attributes for that DOM part, so one `v-bind` carries everything:
 
 ```vue
 <!-- MyTextTemplate.vue -->
@@ -197,16 +198,11 @@ defineProps<{ context: ContextOf<'VfText'> }>()
       :name="context.name"
       :id="context.id"
       :value="context.value"
-      :aria-labelledby="context.aria.labelledby"
-      :aria-describedby="context.aria.describedby"
-      :aria-invalid="context.aria.invalid"
-      :aria-required="context.aria.required"
-      :aria-busy="context.aria.busy"
-      v-bind="context.parts.input"
+      v-bind="{ ...context.a11yBindings.input, ...context.parts.input }"
       @input="context.handleInput"
     />
   </VfLayout>
 </template>
 ```
 
-The surrounding `VfLayout` still handles the label, error region, help, hint, and their IDs — you only need to carry the `aria-*` bindings on the control itself. If you skip them, the input loses its connection to those regions and screen readers won't announce errors, help text, or the required state.
+Besides `input`, the bags cover the layout-rendered parts too — `label`, `help`, `description`, and `error` each carry the `id` (and `role` for the error region) that the input's `aria-describedby` points at. If your template replaces one of those regions, spread the matching bag onto your replacement so the id relationships stay intact. If you skip the bindings, the input loses its connection to those regions and screen readers won't announce errors, help text, or the required state.

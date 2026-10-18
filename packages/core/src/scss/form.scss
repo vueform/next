@@ -50,7 +50,7 @@
 /**
  * Uses horizontal flex-wrap layout instead of grid when form is stacked.
  */
-.vf-form.vf-stacked > .vf-elements {
+.vf-form[data-stacked] > .vf-elements {
   display: flex;
   flex-wrap: wrap;
   row-gap: var(--vf-elements-gutter-stacked-y, 0);

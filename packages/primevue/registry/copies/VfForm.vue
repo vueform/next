@@ -67,7 +67,6 @@ useClasses(
   ({ props, tokenClass, tokenCss, showErrors, errors, messages, pager }) => ({
     root: {
       'vf-form': true,
-      'vf-stacked': props.stacked,
       [tokenClass]: !!tokenCss.value,
       [config.build.darkClass]: props.dark === true,
       [config.build.lightClass]: props.dark === false,
@@ -277,7 +276,13 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <form v-else :class="classes.root" v-bind="parts.root" @submit.prevent>
+    <form
+      v-else
+      :class="classes.root"
+      :data-stacked="props.stacked ? '' : undefined"
+      v-bind="parts.root"
+      @submit.prevent
+    >
       <slot name="content" :context>
         <div
           :id="`${uid}-head`"

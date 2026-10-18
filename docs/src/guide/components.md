@@ -503,19 +503,32 @@ const props = withDefaults(defineProps<VfTextProps>(), defaults)
 const events = defineEvents<VfTextEmits>()
 const slots = defineSlots<VfTextSlots>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  parts,
+  classes,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  a11yBindings,
+  modifiers,
+  useClasses,
+  useModifiers,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ hasError }) => ({
+useClasses(() => ({
   root: 'vf-text',
+  input: 'vf-input vf-text-input',
+}))
+
+useModifiers(({ hasError }) => ({
   input: {
-    'vf-input': true,
-    'vf-text-input': true,
-    'vf-danger': hasError.value,
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
 
-const { value, id, name, viewLoaded, aria, input, handleInput, handleFocus, handleBlur } = api
+const { value, id, name, viewLoaded, input, handleInput, handleFocus, handleBlur } = api
 
 const { inputType } = propRefs
 
@@ -532,7 +545,7 @@ defineExpose(expose)
         :id
         :class="classes.input"
         v-model="value"
-        v-bind="{ ...aria, ...parts.input }"
+        v-bind="{ ...modifiers.input, ...a11yBindings.input, ...parts.input }"
         :ref="(el) => (input = el)"
         @input="handleInput"
         @focus="handleFocus"
@@ -679,7 +692,7 @@ A lazy `toRef` proxy over the resolved props, for reactive destructuring: `const
 
 #### `useClasses`
 
-Registers the component's class definitions: a static object, or a factory over `(api, propRefs)` that re-runs as state changes — the `hasError`-driven `vf-danger` above.
+Registers the component's class definitions: a static object, or a factory over `(api, propRefs)` that re-runs as state changes. Built-in components keep classes to part names — state and variants are expressed as attributes (`aria-invalid`, `data-*`) instead.
 
 ### Extending the Logic
 

@@ -10,6 +10,8 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
+  BaseComponentA11y,
+  BaseComponentModifiers,
   AlignProp,
   ValignProp,
   LooseRequired,
@@ -68,6 +70,16 @@ export interface RowParts extends BaseComponentParts {}
  * CSS classes of the row component.
  */
 export interface RowClasses extends BaseComponentClasses {}
+
+/**
+ * Styling modifiers of the row component.
+ */
+export interface RowModifiers extends BaseComponentModifiers {}
+
+/**
+ * Accessibility bindings of the row component.
+ */
+export interface RowA11y extends BaseComponentA11y {}
 
 /**
  * Augmentable public API surface for row-based components.

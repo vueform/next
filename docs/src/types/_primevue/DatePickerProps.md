@@ -23,7 +23,6 @@ interface DatePickerProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     LoadingProps<TContext>,

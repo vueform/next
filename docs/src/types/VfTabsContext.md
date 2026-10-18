@@ -15,6 +15,8 @@ interface VfTabsContext extends DefineElementContext<
   VfTabsSlots,
   VfTabsParts,
   VfTabsClasses,
+  VfTabsModifiers,
+  VfTabsA11y,
   VfTabsExpose,
   TabsApi
 > {}

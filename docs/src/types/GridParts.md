@@ -2,5 +2,5 @@
 /**
  * Parts for the grid element.
  */
-interface GridParts extends BaseElementParts {}
+interface GridParts extends BaseContainerElementParts {}
 ```

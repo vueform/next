@@ -164,6 +164,14 @@ export type DProp<T = string, TContext = any> =
   | undefined
 
 /**
+ * The resolved value union of a `DProp`-typed prop — what the dynamic prop
+ * yields once refs/functions are unwrapped. Lets other surfaces (e.g.
+ * modifier attribute types) reuse the prop's enum without restating it:
+ * `DPropValue<VfButtonProps['severity']>`.
+ */
+export type DPropValue<P> = P extends DProp<infer T, any> ? T : never
+
+/**
  * Converts selected keys of a record type into `DProp` variants. Keys listed in
  * `K` become `DProp<T[K]>`, all others are excluded.
  */
@@ -252,36 +260,19 @@ export type PageProp<TContext = any> =
     ) => string | Record<string, string> | [PageMeta<TContext>])
 
 /**
- * ARIA attribute overrides for accessibility on form elements.
+ * Allowed values for the HTML `inputmode` attribute, hinting which virtual
+ * keyboard mobile browsers should show.
  */
-export type AriaProp = {
-  /**
-   * The ID of the element that labels this component.
-   */
-  'aria-labelledby'?: string
-
-  /**
-   * The ID of the element that describes this component.
-   */
-  'aria-describedby'?: string
-
-  /**
-   * Whether the field is required for form submission.
-   */
-  'aria-required'?: boolean
-
-  /**
-   * Whether the field is currently in an invalid state.
-   */
-  'aria-invalid'?: boolean
-
-  /**
-   * Whether the field is currently processing or loading.
-   */
-  'aria-busy'?: boolean
-
-  [key: string]: any
-}
+export type InputModeProp =
+  | 'none'
+  | 'text'
+  | 'decimal'
+  | 'numeric'
+  | 'tel'
+  | 'search'
+  | 'email'
+  | 'url'
+  | (string & {})
 
 /**
  * Allowed values for the HTML `<input>` element's `type` attribute.

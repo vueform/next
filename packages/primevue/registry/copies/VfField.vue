@@ -49,15 +49,12 @@ const { api, context, expose, outlets, useClasses } = useBlueprint(
 )
 
 useClasses(() => ({
-  root: {
-    'vf-field': true,
-    'vf-align-label': !api.help.value,
-  },
+  root: 'vf-field',
   addonGroup: 'vf-addon-group',
   iconGroup: 'vf-icon-group',
 }))
 
-const { viewLoaded } = api
+const { viewLoaded, a11yBindings } = api
 
 defineExpose(expose)
 </script>
@@ -66,8 +63,13 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <slot :context>
-        <component v-if="outlets?.default" :is="outlets.default" :context />
+      <slot :context :a11y-bindings="a11yBindings">
+        <component
+          v-if="outlets?.default"
+          :is="outlets.default"
+          :context
+          :a11y-bindings="a11yBindings"
+        />
       </slot>
     </VfLayout>
   </slot>

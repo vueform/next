@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type RowA11y,
   type RowApi,
   type RowClasses,
   type RowEmits,
   type RowExpose,
+  type RowModifiers,
   type RowParts,
   type RowProps,
   type RowSlots,
@@ -70,6 +72,16 @@ export interface VfRowClasses extends RowClasses {
 }
 
 /**
+ * Accessibility bindings of the VfRow component.
+ */
+export interface VfRowA11y extends RowA11y {}
+
+/**
+ * Styling modifiers of the VfRow component.
+ */
+export interface VfRowModifiers extends RowModifiers {}
+
+/**
  * Augmentable public API surface for VfRow.
  */
 export interface VfRowExpose extends RowExpose {}
@@ -90,6 +102,8 @@ export interface VfRowContext extends DefineElementContext<
   VfRowSlots,
   VfRowParts,
   VfRowClasses,
+  VfRowModifiers,
+  VfRowA11y,
   VfRowExpose,
   RowApi
 > {}

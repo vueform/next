@@ -19,9 +19,11 @@ import {
   type ModelProps,
   type BaseElementEmits,
   type BaseElementProps,
-  type BaseElementParts,
+  type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type ContainerProps,
   type ValidationProps,
@@ -158,12 +160,22 @@ export interface GridSlots<TContext = any> extends BaseElementSlots<TContext> {}
 /**
  * Parts for the grid element.
  */
-export interface GridParts extends BaseElementParts {}
+export interface GridParts extends BaseContainerElementParts {}
 
 /**
  * Classes for the grid element.
  */
 export interface GridClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the grid element blueprint.
+ */
+export interface GridModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the grid element blueprint.
+ */
+export interface GridA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for grid-based components.

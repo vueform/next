@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type GroupA11y,
   type GroupApi,
   type GroupClasses,
   type GroupEmits,
   type GroupExpose,
+  type GroupModifiers,
   type GroupParts,
   type GroupProps,
   type GroupSlots,
@@ -69,15 +71,10 @@ export interface VfGroupEmits extends GroupEmits<VfGroupContext> {}
  */
 export interface VfGroupSlots extends GroupSlots<VfGroupContext> {
   /**
-   * Slot that replaces the wrapper element. Receives the wrapper class and
-   * resolved schema.
+   * Slot that replaces the wrapper element. Receives the component's classes
+   * and parts proxies and the resolved schema.
    */
   wrapper: (scope: {
-    /**
-     * CSS classes for the wrapper element.
-     */
-    class: ClassValue
-
     /**
      * The resolved schema of the group's child elements.
      */
@@ -87,6 +84,23 @@ export interface VfGroupSlots extends GroupSlots<VfGroupContext> {
      * The group's resolved label.
      */
     label?: string
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfGroupClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfGroupParts>
+
+    /**
+     * The component's part-keyed styling modifiers; apply the `wrapper` bag to
+     * the replacement container with `v-bind` so the stacked / wrapped styling
+     * keeps working.
+     */
+    modifiers: VfGroupModifiers
   }) => VNode[]
 
   /**
@@ -124,6 +138,35 @@ export interface VfGroupClasses extends GroupClasses {
 }
 
 /**
+ * Accessibility bindings of the VfGroup component.
+ */
+export interface VfGroupA11y extends GroupA11y {}
+
+/**
+ * Styling modifiers of the VfGroup component.
+ */
+export interface VfGroupModifiers extends GroupModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text, and the wrap marker applying the wrapped visual
+   * treatment to the group itself.
+   */
+  root: {
+    'data-align-label'?: ''
+    'data-wrapped'?: ''
+  }
+
+  /**
+   * The wrapper element's stacked layout marker and the wrap marker applying
+   * the wrapped visual treatment to the group's children.
+   */
+  wrapper: {
+    'data-stacked'?: ''
+    'data-wrapped'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfGroup.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -148,6 +191,8 @@ export interface VfGroupContext<
   VfGroupSlots,
   VfGroupParts,
   VfGroupClasses,
+  VfGroupModifiers,
+  VfGroupA11y,
   VfGroupExpose,
   GroupApi<TProps>
 > {}

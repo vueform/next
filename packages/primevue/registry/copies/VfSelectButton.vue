@@ -85,11 +85,8 @@ const slots =
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help, props }) => ({
-  root: {
-    'vf-select-button': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(({ props }) => ({
+  root: 'vf-select-button',
   input: props.layout === false ? props.class : null,
 }))
 
@@ -108,6 +105,7 @@ const {
   handleInput,
   handleFocus,
   handleBlur,
+  a11yBindings,
 } = api
 
 const { multiple } = propRefs
@@ -131,6 +129,7 @@ defineExpose(expose)
         :multiple
         fluid
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

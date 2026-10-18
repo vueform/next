@@ -11,6 +11,8 @@
  *   VfSelectSlots,
  *   VfSelectParts,
  *   VfSelectClasses,
+ *   VfSelectModifiers,
+ *   VfSelectA11y,
  *   VfSelectExpose,
  *   SelectApi<TProps>
  * > {}
@@ -47,6 +49,8 @@ type DefineElementContext<
   TSlots extends Record<string, any>,
   TParts extends Record<string, any>,
   TClasses extends Record<string, any>,
+  TModifiers,
+  TA11y,
   TExpose,
   TApi extends Record<string, any>,
 > = BaseElementContext<
@@ -55,6 +59,8 @@ type DefineElementContext<
   TEmits,
   ContextOutlets<TSlots>,
   TParts,
-  TClasses
+  TClasses,
+  TModifiers,
+  TA11y
 >
 ````

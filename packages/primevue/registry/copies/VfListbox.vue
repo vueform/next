@@ -91,18 +91,15 @@ const slots =
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-listbox': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-listbox',
 }))
 
 const {
   value,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   invalid,
   rawItems,
@@ -139,7 +136,7 @@ defineExpose(expose)
         :multiple
         fluid
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

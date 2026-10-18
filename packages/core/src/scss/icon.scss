@@ -52,7 +52,7 @@
   padding-right: var(--vf-icon-group-width);
 }
 
-.vf-icon-group:has(.vf-input.vf-danger) > .vf-icon {
+.vf-icon-group:has(.vf-input[data-invalid]) > .vf-icon {
   color: var(--vf-icon-group-color-danger);
 }
 

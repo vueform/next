@@ -4,12 +4,13 @@ import type {
   DefineRegistryEntry,
 } from '@vueform/core'
 import type { KnobProps as PvKnobProps } from 'primevue'
-
 import type {
+  KnobA11y,
   KnobApi,
   KnobClasses,
   KnobEmits,
   KnobExpose,
+  KnobModifiers,
   KnobParts,
   KnobProps,
   KnobSlots,
@@ -65,6 +66,31 @@ export interface VfKnobClasses extends KnobClasses {
 }
 
 /**
+ * Accessibility bindings of the VfKnob component.
+ */
+export interface VfKnobA11y extends KnobA11y {}
+
+/**
+ * Styling modifiers of the VfKnob component.
+ */
+export interface VfKnobModifiers extends KnobModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfKnob.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -89,6 +115,8 @@ export interface VfKnobContext extends DefineElementContext<
   VfKnobSlots,
   VfKnobParts,
   VfKnobClasses,
+  VfKnobModifiers,
+  VfKnobA11y,
   VfKnobExpose,
   KnobApi
 > {}

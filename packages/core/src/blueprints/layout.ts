@@ -14,6 +14,8 @@ import {
   type BaseElementParts,
   type BaseElementSlots,
   type BaseElementClasses,
+  type BaseElementA11y,
+  type BaseElementModifiers,
 } from '#src/features'
 import { defineDefaults, type DefineEvents } from '#src/helpers'
 import type {
@@ -91,6 +93,16 @@ export interface LayoutParts extends BaseElementParts {}
  * CSS classes of the element layout component.
  */
 export interface LayoutClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the element layout component.
+ */
+export interface LayoutModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the element layout component.
+ */
+export interface LayoutA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for element-layout-based components.

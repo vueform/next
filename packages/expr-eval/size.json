@@ -1,7 +1,7 @@
 {
   "pkg": "@vueform/expr-eval",
   "type": "plugin",
-  "generatedAt": "2026-10-16T07:42:03.410Z",
+  "generatedAt": "2026-10-18T05:35:17.148Z",
   "environment": {
     "node": "v26.8.2",
     "packageManager": "pnpm@10.20.0",
@@ -20,34 +20,34 @@
       "description": "full @vueform/ui build with every element, no plugins",
       "files": [
         {
-          "file": "assets/index-CQ_gOP0C.css",
+          "file": "assets/index-B_VviKS1.css",
           "type": "css",
-          "raw": 50051,
-          "gzip": 6635,
-          "brotli": 5765
+          "raw": 51037,
+          "gzip": 6737,
+          "brotli": 5843
         },
         {
-          "file": "assets/index-DAV0Sopn.js",
+          "file": "assets/index-DhC9sjY-.js",
           "type": "js",
-          "raw": 381498,
-          "gzip": 111377,
-          "brotli": 95886
+          "raw": 382933,
+          "gzip": 112077,
+          "brotli": 96501
         }
       ],
       "js": {
-        "raw": 381498,
-        "gzip": 111377,
-        "brotli": 95886
+        "raw": 382933,
+        "gzip": 112077,
+        "brotli": 96501
       },
       "css": {
-        "raw": 50051,
-        "gzip": 6635,
-        "brotli": 5765
+        "raw": 51037,
+        "gzip": 6737,
+        "brotli": 5843
       },
       "total": {
-        "raw": 431549,
-        "gzip": 118012,
-        "brotli": 101651
+        "raw": 433970,
+        "gzip": 118814,
+        "brotli": 102344
       }
     },
     "with-expr-eval": {
@@ -58,34 +58,34 @@
       "description": "baseline + the @vueform/expr-eval plugin (bundles expr-eval-fork)",
       "files": [
         {
-          "file": "assets/index-BkVHEs_u.js",
-          "type": "js",
-          "raw": 416290,
-          "gzip": 122141,
-          "brotli": 104908
+          "file": "assets/index-B_VviKS1.css",
+          "type": "css",
+          "raw": 51037,
+          "gzip": 6737,
+          "brotli": 5843
         },
         {
-          "file": "assets/index-CQ_gOP0C.css",
-          "type": "css",
-          "raw": 50051,
-          "gzip": 6635,
-          "brotli": 5765
+          "file": "assets/index-D3rKgSEc.js",
+          "type": "js",
+          "raw": 417725,
+          "gzip": 122830,
+          "brotli": 105537
         }
       ],
       "js": {
-        "raw": 416290,
-        "gzip": 122141,
-        "brotli": 104908
+        "raw": 417725,
+        "gzip": 122830,
+        "brotli": 105537
       },
       "css": {
-        "raw": 50051,
-        "gzip": 6635,
-        "brotli": 5765
+        "raw": 51037,
+        "gzip": 6737,
+        "brotli": 5843
       },
       "total": {
-        "raw": 466341,
-        "gzip": 128776,
-        "brotli": 110673
+        "raw": 468762,
+        "gzip": 129567,
+        "brotli": 111380
       }
     },
     "dep-expr-eval": {
@@ -93,34 +93,34 @@
       "description": "baseline + raw expr-eval-fork only, no Vueform plugin",
       "files": [
         {
-          "file": "assets/index-CkQw-hcw.js",
-          "type": "js",
-          "raw": 408316,
-          "gzip": 119195,
-          "brotli": 102537
+          "file": "assets/index-B_VviKS1.css",
+          "type": "css",
+          "raw": 51037,
+          "gzip": 6737,
+          "brotli": 5843
         },
         {
-          "file": "assets/index-CQ_gOP0C.css",
-          "type": "css",
-          "raw": 50051,
-          "gzip": 6635,
-          "brotli": 5765
+          "file": "assets/index-fU93FCSN.js",
+          "type": "js",
+          "raw": 409751,
+          "gzip": 119921,
+          "brotli": 103251
         }
       ],
       "js": {
-        "raw": 408316,
-        "gzip": 119195,
-        "brotli": 102537
+        "raw": 409751,
+        "gzip": 119921,
+        "brotli": 103251
       },
       "css": {
-        "raw": 50051,
-        "gzip": 6635,
-        "brotli": 5765
+        "raw": 51037,
+        "gzip": 6737,
+        "brotli": 5843
       },
       "total": {
-        "raw": 458367,
-        "gzip": 125830,
-        "brotli": 108302
+        "raw": 460788,
+        "gzip": 126658,
+        "brotli": 109094
       }
     }
   }

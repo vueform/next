@@ -18,6 +18,8 @@ interface VfAutoCompleteContext<
   VfAutoCompleteSlots,
   VfAutoCompleteParts,
   VfAutoCompleteClasses,
+  VfAutoCompleteModifiers,
+  VfAutoCompleteA11y,
   VfAutoCompleteExpose,
   AutoCompleteApi<TProps>
 > {}

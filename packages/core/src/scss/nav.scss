@@ -7,21 +7,21 @@
   justify-content: var(--vf-nav-justify);
   margin: var(--vf-nav-margin);
 
-  &.vf-left {
+  &[data-position='left'] {
     justify-content: flex-start;
   }
 
-  &.vf-right {
+  &[data-position='right'] {
     justify-content: flex-end;
   }
 
-  &.vf-center,
-  &.vf-fluid {
+  &[data-position='center'],
+  &[data-position='fluid'] {
     justify-content: center;
   }
 
   /** Aligns content to the end when there is no back button. */
-  &.vf-no-back {
+  &[data-no-back] {
     justify-content: flex-end;
   }
 }

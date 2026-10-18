@@ -85,11 +85,11 @@ const copied = ref(false)
       :store="store"
       :editor="CodeMirror"
       :theme="isDark ? 'dark' : 'light'"
-      :showCompileOutput="false"
-      :showImportMap="false"
-      :showTsConfig="false"
-      :clearConsole="false"
-      :previewOptions="previewOptions"
+      :show-compile-output="false"
+      :show-import-map="false"
+      :show-ts-config="false"
+      :clear-console="false"
+      :preview-options="previewOptions"
     />
   </div>
 </template>

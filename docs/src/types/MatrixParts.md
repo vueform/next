@@ -2,5 +2,5 @@
 /**
  * Parts for the matrix element.
  */
-interface MatrixParts extends BaseElementParts {}
+interface MatrixParts extends BaseContainerElementParts {}
 ```

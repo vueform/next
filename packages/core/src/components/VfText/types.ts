@@ -1,8 +1,10 @@
 import {
+  type TextA11y,
   type TextApi,
   type TextClasses,
   type TextEmits,
   type TextExpose,
+  type TextModifiers,
   type TextParts,
   type TextProps,
   type TextSlots,
@@ -109,7 +111,36 @@ export interface VfTextClasses
 }
 
 /**
+ * Accessibility bindings of the VfText component.
+ */
+export interface VfTextA11y extends TextA11y {}
+
+/**
+ * Styling modifiers of the VfText component.
+ */
+export interface VfTextModifiers extends TextModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfText.
+ *
+ * Plugins that add runtime API members should declaration-merge the same
+ * members here (or on `TextExpose` for all text-based components) so they
+ * appear on `ContextOf<'VfText'>` / `context$` / `defineExpose`.
  */
 export interface VfTextExpose extends TextExpose {}
 
@@ -129,6 +160,8 @@ export interface VfTextContext<
   VfTextSlots,
   VfTextParts,
   VfTextClasses,
+  VfTextModifiers,
+  VfTextA11y,
   VfTextExpose,
   TextApi<TProps>
 > {}

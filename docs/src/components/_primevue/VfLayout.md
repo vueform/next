@@ -91,7 +91,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`hasLabelWrapper`](!code#context.hasLabelWrapper "boolean") | Whether either a FloatLabel or IftaLabel wrapper is rendered. |
 | [`rootProps`](!code#context.rootProps "any") | Props for the passthrough root `<div>` rendered when the element has `layout: false`, or `undefined` when no root wrapper is needed. |
 | [`languageOptions`](!code#context.languageOptions "object") | Options for the language Select rendered in the translate addon. |
-| [`resolveAddonParts()`](!code#context.resolveAddonParts "(part: unknown, addon: any, i: string \| number) => any") | Resolves per-addon parts that may be defined as a function of the addon and its index. |
 | [`setLanguage()`](!code#context.setLanguage "(val: string) => void") | Updates the element's active language. |
 <!-- @context-end -->
 
@@ -129,8 +128,8 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `required` | — | Slot for customizing the required indicator. |
 | `info` | [`info`](!code#slot.info.info "string") | Slot for customizing the info tooltip or helper content. |
 | `ifta` | [`ifta`](!code#slot.ifta.ifta "string") | Slot for customizing the IFTA label content. |
-| `tabs` | [`pager`](!code#slot.tabs.pager "Pager") [`class`](!code#slot.tabs.class "ClassValue") | Slot that replaces the tabs navigation bar. Receives the pager instance. |
-| `tab` | [`page`](!code#slot.tab.page "ResolvedPage") [`class`](!code#slot.tab.class "ClassValue") | Slot that replaces each individual tab. |
+| `tabs` | [`pager`](!code#slot.tabs.pager "Pager") [`classes`](!code#slot.tabs.classes "ClassValue") | Slot that replaces the tabs navigation bar. Receives the pager instance. |
+| `tab` | [`page`](!code#slot.tab.page "ResolvedPage") [`classes`](!code#slot.tab.classes "ClassValue") | Slot that replaces each individual tab. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `default` | — | Slot for the element's default content. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
@@ -166,8 +165,8 @@ The wrapper around `root` with `display: contents` when the element is a step or
 
 | | |
 | --- | --- |
-| **Element** | [`<TabPanel>`](https://primevue.org/tabpanel/) |
-| **Classes** | `.vf-panel` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<TabPanel>`](https://primevue.org/tabpanel/) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-panel` |
 
 ### `root`
 
@@ -175,8 +174,8 @@ The element's root wrapper.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` `<fieldset>` |
-| **Classes** | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -184,17 +183,8 @@ The container holding the label and required indicator.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` `<legend>` |
-| **Classes** | `.vf-label-group` `.vf-h1?` `.vf-h2?` `.vf-h3?` `.vf-h4?` `.vf-h5?` `.vf-h6?` |
-
-### `label`
-
-The label element.
-
-| | |
-| --- | --- |
-| **Element** | `<label>` `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
-| **Classes** | `.vf-label` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<legend>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label-group` |
 
 ### `required`
 
@@ -202,8 +192,8 @@ The required indicator.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-required` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-required` |
 
 ### `elementGroup`
 
@@ -211,8 +201,8 @@ The container wrapping the input and related UI.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` [`<TabsProps>`](https://primevue.org/tabsprops/) |
-| **Classes** | `.vf-element-group` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` [`<TabsProps>`](https://primevue.org/tabsprops/) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-group` |
 
 ### `elementWrapper`
 
@@ -220,8 +210,8 @@ The wrapper directly around the input control.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-element-wrapper` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-wrapper` |
 
 ### `help`
 
@@ -229,8 +219,8 @@ The help text area.
 
 | | |
 | --- | --- |
-| **Element** | [`<Message>`](https://primevue.org/message/) |
-| **Classes** | `.vf-help` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
 
 ### `addonGroup`
 
@@ -238,7 +228,7 @@ The PrimeVue InputGroup wrapping addons and the input.
 
 | | |
 | --- | --- |
-| **Element** | [`<InputGroup>`](https://primevue.org/inputgroup/) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<InputGroup>`](https://primevue.org/inputgroup/) |
 
 ### `languageAddon`
 
@@ -246,7 +236,7 @@ The PrimeVue InputGroupAddon wrapping the language selector.
 
 | | |
 | --- | --- |
-| **Element** | [`<InputGroupAddon>`](https://primevue.org/inputgroupaddon/) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<InputGroupAddon>`](https://primevue.org/inputgroupaddon/) |
 
 ### `info`
 
@@ -254,8 +244,8 @@ Info container.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-info` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-info` |
 
 ### `infoIcon`
 
@@ -263,8 +253,8 @@ Icon for displaying info tooltip.
 
 | | |
 | --- | --- |
-| **Element** | `<span>` |
-| **Classes** | `.vf-info-icon` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-info-icon` |
 
 ### `description`
 
@@ -272,8 +262,8 @@ The description text area.
 
 | | |
 | --- | --- |
-| **Element** | [`<Message>`](https://primevue.org/message/) |
-| **Classes** | `.vf-description` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
 
 ### `floatWrapper`
 
@@ -281,7 +271,7 @@ The PrimeVue FloatLabel wrapper around the input.
 
 | | |
 | --- | --- |
-| **Element** | [`<FloatLabel>`](https://primevue.org/floatlabel/) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<FloatLabel>`](https://primevue.org/floatlabel/) |
 
 ### `float`
 
@@ -289,7 +279,7 @@ The label tag inside PrimeVue FloatLabel.
 
 | | |
 | --- | --- |
-| **Element** | `<label>` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` |
 
 ### `iftaWrapper`
 
@@ -297,7 +287,7 @@ The PrimeVue IftaLabel wrapper around the input.
 
 | | |
 | --- | --- |
-| **Element** | [`<IftaLabel>`](https://primevue.org/iftalabel/) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<IftaLabel>`](https://primevue.org/iftalabel/) |
 
 ### `ifta`
 
@@ -305,7 +295,7 @@ The label tag inside PrimeVue IftaLabel.
 
 | | |
 | --- | --- |
-| **Element** | `<label>` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` |
 
 ### `addonBefore`
 
@@ -313,7 +303,7 @@ An individual addon rendered before the input.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfAddon>`](./VfAddon.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfAddon>`](./VfAddon.md) |
 
 ### `addonAfter`
 
@@ -321,7 +311,7 @@ An individual addon rendered after the input.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfAddon>`](./VfAddon.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfAddon>`](./VfAddon.md) |
 
 ### `iconBefore`
 
@@ -329,7 +319,7 @@ The icon rendered before the input.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfIcon>`](./VfIcon.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfIcon>`](./VfIcon.md) |
 
 ### `iconAfter`
 
@@ -337,7 +327,7 @@ The icon rendered after the input.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfIcon>`](./VfIcon.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfIcon>`](./VfIcon.md) |
 
 ### `iconGroup`
 
@@ -345,7 +335,7 @@ The wrapper element grouping icons and the input.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
 ### `language`
 
@@ -353,7 +343,7 @@ The language selector addon rendered alongside the input.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfAddon>`](./VfAddon.md) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfAddon>`](./VfAddon.md) |
 
 ### `tabs`
 
@@ -361,7 +351,7 @@ Props forwarded to the nested TabList component.
 
 | | |
 | --- | --- |
-| **Element** | [`<TabList>`](https://primevue.org/tablist/) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<TabList>`](https://primevue.org/tablist/) |
 
 ### `tab`
 
@@ -369,7 +359,7 @@ Props forwarded to each nested Tab component.
 
 | | |
 | --- | --- |
-| **Element** | [`<Tab>`](https://primevue.org/tab/) |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Tab>`](https://primevue.org/tab/) |
 
 ### `errors`
 
@@ -377,8 +367,8 @@ The validation errors container.
 
 | | |
 | --- | --- |
-| **Element** | [`<Message>`](https://primevue.org/message/) |
-| **Classes** | `.vf-errors` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
 
 ### `error`
 
@@ -386,8 +376,8 @@ An individual validation error.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-error` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
 
 ### `messages`
 
@@ -395,8 +385,8 @@ The info messages container.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-messages` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-messages` |
 
 ### `message`
 
@@ -404,11 +394,10 @@ An individual info message.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-message` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-message` |
 <!-- @parts-end -->
 <!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens
@@ -426,9 +415,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   --vf-element-line-color: var(--vf-gray-300);
 
-  --vf-label-font-size: 1rem;
-  --vf-label-font-weight: 600;
-  --vf-label-group-h-padding: calc(var(--vf-py) + var(--vf-border-width-t)) 0 0 0;
   --vf-label-group-v-padding: 0 0 0.375rem 0;
 
   --vf-required-bg: transparent;
@@ -497,9 +483,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   elementLineColor: '$gray300',
 
-  labelFontSize: '1rem',
-  labelFontWeight: '600',
-  labelGroupHPadding: 'calc($py + $borderWidthT) 0 0 0',
   labelGroupVPadding: '0 0 0.375rem 0',
 
   requiredBg: 'transparent',
@@ -562,5 +545,4 @@ All the CSS variables that control this component's appearance with default valu
 <!-- @endsubtabs -->
 <!-- @tokens-end -->
 <!-- @endtab -->
-
 <!-- @endtabs -->

@@ -1,7 +1,7 @@
 {
   "pkg": "@vueform/dompurify",
   "type": "plugin",
-  "generatedAt": "2026-10-16T07:42:01.284Z",
+  "generatedAt": "2026-10-18T05:35:15.438Z",
   "environment": {
     "node": "v26.8.2",
     "packageManager": "pnpm@10.20.0",
@@ -20,34 +20,34 @@
       "description": "full @vueform/ui build with every element, no plugins",
       "files": [
         {
-          "file": "assets/index-CQ_gOP0C.css",
+          "file": "assets/index-B_VviKS1.css",
           "type": "css",
-          "raw": 50051,
-          "gzip": 6635,
-          "brotli": 5765
+          "raw": 51037,
+          "gzip": 6737,
+          "brotli": 5843
         },
         {
-          "file": "assets/index-DAV0Sopn.js",
+          "file": "assets/index-DhC9sjY-.js",
           "type": "js",
-          "raw": 381498,
-          "gzip": 111377,
-          "brotli": 95886
+          "raw": 382933,
+          "gzip": 112077,
+          "brotli": 96501
         }
       ],
       "js": {
-        "raw": 381498,
-        "gzip": 111377,
-        "brotli": 95886
+        "raw": 382933,
+        "gzip": 112077,
+        "brotli": 96501
       },
       "css": {
-        "raw": 50051,
-        "gzip": 6635,
-        "brotli": 5765
+        "raw": 51037,
+        "gzip": 6737,
+        "brotli": 5843
       },
       "total": {
-        "raw": 431549,
-        "gzip": 118012,
-        "brotli": 101651
+        "raw": 433970,
+        "gzip": 118814,
+        "brotli": 102344
       }
     },
     "with-dompurify": {
@@ -58,34 +58,34 @@
       "description": "baseline + the @vueform/dompurify plugin (bundles isomorphic-dompurify)",
       "files": [
         {
-          "file": "assets/index-CQ_gOP0C.css",
+          "file": "assets/index-B_VviKS1.css",
           "type": "css",
-          "raw": 50051,
-          "gzip": 6635,
-          "brotli": 5765
+          "raw": 51037,
+          "gzip": 6737,
+          "brotli": 5843
         },
         {
-          "file": "assets/index-kxZooiBx.js",
+          "file": "assets/index-ncK8ssan.js",
           "type": "js",
-          "raw": 409469,
-          "gzip": 121981,
-          "brotli": 104973
+          "raw": 410902,
+          "gzip": 122684,
+          "brotli": 105775
         }
       ],
       "js": {
-        "raw": 409469,
-        "gzip": 121981,
-        "brotli": 104973
+        "raw": 410902,
+        "gzip": 122684,
+        "brotli": 105775
       },
       "css": {
-        "raw": 50051,
-        "gzip": 6635,
-        "brotli": 5765
+        "raw": 51037,
+        "gzip": 6737,
+        "brotli": 5843
       },
       "total": {
-        "raw": 459520,
-        "gzip": 128616,
-        "brotli": 110738
+        "raw": 461939,
+        "gzip": 129421,
+        "brotli": 111618
       }
     },
     "dep-dompurify": {
@@ -93,34 +93,34 @@
       "description": "baseline + raw isomorphic-dompurify only, no Vueform plugin",
       "files": [
         {
-          "file": "assets/index-CQ_gOP0C.css",
+          "file": "assets/index-B_VviKS1.css",
           "type": "css",
-          "raw": 50051,
-          "gzip": 6635,
-          "brotli": 5765
+          "raw": 51037,
+          "gzip": 6737,
+          "brotli": 5843
         },
         {
-          "file": "assets/index-CWWHHI2E.js",
+          "file": "assets/index-BBhtYMHb.js",
           "type": "js",
-          "raw": 409098,
-          "gzip": 121855,
-          "brotli": 104957
+          "raw": 410531,
+          "gzip": 122557,
+          "brotli": 105512
         }
       ],
       "js": {
-        "raw": 409098,
-        "gzip": 121855,
-        "brotli": 104957
+        "raw": 410531,
+        "gzip": 122557,
+        "brotli": 105512
       },
       "css": {
-        "raw": 50051,
-        "gzip": 6635,
-        "brotli": 5765
+        "raw": 51037,
+        "gzip": 6737,
+        "brotli": 5843
       },
       "total": {
-        "raw": 459149,
-        "gzip": 128490,
-        "brotli": 110722
+        "raw": 461568,
+        "gzip": 129294,
+        "brotli": 111355
       }
     }
   }

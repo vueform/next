@@ -12,12 +12,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type ValidationProps,
   type DisabledProps,
@@ -100,7 +102,6 @@ export interface ListboxProps<
       TContext
     >,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     MultipleProps<TMultiple>,
@@ -156,12 +157,22 @@ export interface ListboxSlots<
 /**
  * Structural parts of the listbox element blueprint.
  */
-export interface ListboxParts extends BaseElementParts {}
+export interface ListboxParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the listbox element blueprint.
  */
 export interface ListboxClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the listbox element blueprint.
+ */
+export interface ListboxModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the listbox element blueprint.
+ */
+export interface ListboxA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for listbox-based components.

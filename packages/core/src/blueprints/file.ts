@@ -9,6 +9,7 @@ import {
 import { useComponentContext } from '#src/contexts'
 import {
   makeAria,
+  makeFileAria,
   makeData,
   makeElement,
   makeInteraction,
@@ -16,15 +17,17 @@ import {
   makeInput,
   makeProvider,
   makeLayout,
-  type AriaProps,
   type DisabledProps,
   type ModelPropsWithDefault,
   type BaseElementEmits,
   type BaseElementProps,
   type ValidationProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type FileAriaA11y,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type MultipleProps,
   type LayoutProps,
@@ -66,7 +69,6 @@ export interface FileProps<
     LayoutProps<TContext>,
     ModelPropsWithDefault<FileModelProp<TMultiple>, TContext>,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     MultipleProps<TMultiple> {
   /**
@@ -142,12 +144,22 @@ export interface FileSlots<TContext = any> extends BaseElementSlots<TContext> {}
 /**
  * Structural parts of the file element blueprint.
  */
-export interface FileParts extends BaseElementParts {}
+export interface FileParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the file element blueprint.
  */
 export interface FileClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the file element blueprint.
+ */
+export interface FileModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the file element blueprint.
+ */
+export interface FileA11y extends BaseElementA11y, FileAriaA11y {}
 
 /**
  * Augmentable public API surface for file-based components.
@@ -277,6 +289,7 @@ export function blueprint<TProps extends FileProps<string>>(
     .use(makeInteraction())
     .use(makeData())
     .use(makeAria())
+    .use(makeFileAria())
     .use(makeInput())
     .use(makeProvider())
     .build()
@@ -293,6 +306,8 @@ export function blueprint<TProps extends FileProps<string>>(
   // `update` follows `ModelOfProps<TProps>`, which stays deferred while
   // `TProps` is unbound — the file model is known to be `FileModelOf` here.
   const update = api.update as (data: FileModelOf) => void
+
+  // ============== COMPUTED ==============
 
   /**
    * The resolved button label text for the file input.
@@ -350,6 +365,8 @@ export function blueprint<TProps extends FileProps<string>>(
    * Whether the file list contains at least one entry.
    */
   const hasFiles = computed(() => fileList.value.length > 0)
+
+  // ============== METHODS ===============
 
   /**
    * Handles a new selection as a user initiated input — from the native file

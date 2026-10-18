@@ -102,6 +102,23 @@ interface VfFormSlots<TSchema = FormSchema>
      * The errors container's element id.
      */
     id: string
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfFormClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfFormParts>
+
+    /**
+     * The form's part-keyed accessibility bindings; apply the `errors` bag
+     * (id, alert role, live region attributes) to the replacement container
+     * with `v-bind` so error announcements keep working.
+     */
+    a11yBindings: VfFormA11y
   }) => VNode[]
 
   /**
@@ -132,6 +149,23 @@ interface VfFormSlots<TSchema = FormSchema>
      * The messages container's element id.
      */
     id: string
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfFormClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfFormParts>
+
+    /**
+     * The form's part-keyed accessibility bindings; apply the `messages` bag
+     * (id, status role, live region attributes) to the replacement container
+     * with `v-bind` so message announcements keep working.
+     */
+    a11yBindings: VfFormA11y
   }) => VNode[]
 
   /**

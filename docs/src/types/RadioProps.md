@@ -19,7 +19,6 @@ interface RadioProps<
     ModelPropsWithDefault<RadioModelProp<TRadioValue>, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     AlignedProps {
   /**

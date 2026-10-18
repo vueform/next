@@ -12,12 +12,13 @@ import type {
 } from '@vueform/core'
 import type { DatePickerProps as PvDatePickerProps } from 'primevue'
 import type { DatePickerSlots as ADatePickerSlots } from 'primevue/datepicker'
-
 import type {
+  DatePickerA11y,
   DatePickerApi,
   DatePickerClasses,
   DatePickerEmits,
   DatePickerExpose,
+  DatePickerModifiers,
   DatePickerParts,
   DatePickerProps,
   DatePickerSelectionModeProp,
@@ -133,6 +134,31 @@ export interface VfDatePickerClasses
 }
 
 /**
+ * Accessibility bindings of the VfDatePicker component.
+ */
+export interface VfDatePickerA11y extends DatePickerA11y {}
+
+/**
+ * Styling modifiers of the VfDatePicker component.
+ */
+export interface VfDatePickerModifiers extends DatePickerModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfDatePicker.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -158,6 +184,8 @@ export interface VfDatePickerContext<
   VfDatePickerSlots,
   VfDatePickerParts,
   VfDatePickerClasses,
+  VfDatePickerModifiers,
+  VfDatePickerA11y,
   VfDatePickerExpose,
   DatePickerApi<TProps>
 > {}

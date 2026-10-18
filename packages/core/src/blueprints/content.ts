@@ -13,9 +13,11 @@ import {
   type AlignedProps,
   type BaseElementEmits,
   type BaseElementProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type LayoutProps,
 } from '#src/features'
@@ -65,12 +67,22 @@ export interface ContentSlots<
 /**
  * Parts for the content element.
  */
-export interface ContentParts extends BaseElementParts {}
+export interface ContentParts extends BaseFieldElementParts {}
 
 /**
  * Classes for the content element.
  */
 export interface ContentClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the content element blueprint.
+ */
+export interface ContentModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the content element blueprint.
+ */
+export interface ContentA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for content-based components.
@@ -96,6 +108,8 @@ export function blueprint<TProps extends ContentProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<ContentEmits>
 ) {
+  const $security = useSecurity()
+
   /**
    * The element's message bag holding user-facing error and message strings.
    */
@@ -123,8 +137,6 @@ export function blueprint<TProps extends ContentProps<string>>(
   const messages = messageBag.messages
 
   // ============== COMPUTED ==============
-
-  const $security = useSecurity()
 
   /**
    * The resolved text content for the element — sanitized in the resolution

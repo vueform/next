@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type CheckboxesA11y,
   type CheckboxesApi,
   type CheckboxesClasses,
   type CheckboxesEmits,
   type CheckboxesExpose,
+  type CheckboxesModifiers,
   type CheckboxesParts,
   type CheckboxesProps,
   type CheckboxesSlots,
@@ -167,6 +169,27 @@ export interface VfCheckboxesSlots<
      * Whether items are rendered as groups.
      */
     grouped: boolean
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxesClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxesParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfCheckboxesModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfCheckboxesA11y
   }) => VNode[]
 
   /**
@@ -197,6 +220,27 @@ export interface VfCheckboxesSlots<
       ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>,
       RawItemOf<TItems, TGroupChildren>
     >
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxesClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxesParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfCheckboxesModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfCheckboxesA11y
   }) => VNode[]
 
   /**
@@ -227,6 +271,16 @@ export interface VfCheckboxesSlots<
       ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>,
       RawItemOf<TItems, TGroupChildren>
     >
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxesClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxesParts>
   }) => VNode[]
 
   /**
@@ -296,7 +350,39 @@ export interface VfCheckboxesClasses extends CheckboxesClasses {
 }
 
 /**
+ * Accessibility bindings of the VfCheckboxes component.
+ */
+export interface VfCheckboxesA11y extends CheckboxesA11y {}
+
+/**
+ * Styling modifiers of the VfCheckboxes component.
+ */
+export interface VfCheckboxesModifiers extends CheckboxesModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The group container's layout markers (stacked row layout, vertical
+   * alignment with adjacent form controls) and validation state.
+   */
+  group: {
+    'data-stacked'?: ''
+    'data-aligned'?: ''
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfCheckboxes.
+ *
+ * Plugins that add runtime API members should declaration-merge the same
+ * members here (or on `CheckboxesExpose` for all checkboxes-based components)
+ * so they appear on `ContextOf<'VfCheckboxes'>` / `context$` / `defineExpose`.
  */
 export interface VfCheckboxesExpose extends CheckboxesExpose {}
 
@@ -319,6 +405,8 @@ export interface VfCheckboxesContext<
   VfCheckboxesSlots,
   VfCheckboxesParts,
   VfCheckboxesClasses,
+  VfCheckboxesModifiers,
+  VfCheckboxesA11y,
   VfCheckboxesExpose,
   CheckboxesApi<TProps>
 > {}

@@ -1556,6 +1556,23 @@ Configure the component's behavior and appearance with these props.
 | [`type`](!code#props.type "string") | `'matrix'` | The element type identifier. |
 | [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
+### Layout {#props-layout}
+
+| Prop | Default | Description |
+| --- | --- | --- |
+| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
+| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
+| [`heading`](!code#props.heading "HeadingProp") | — | The heading level to render for the container's title. |
+| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
+| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
+| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
+| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
+| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
+| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
+| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
+| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
+
 ### Input {#props-matrix}
 
 | Prop | Default | Description |
@@ -1641,23 +1658,6 @@ Configure the component's behavior and appearance with these props.
 | [`conditions`](!code#props.conditions "ConditionalProp<TContext>") | — | Conditions that control the element's visibility and availability. |
 | [`conditionsTrigger`](!code#props.conditionsTrigger "ConditionsTriggerProp<TContext>") | — | The source that triggers re-evaluation of this element's async conditional props (`conditions`, `disabled`, `readonly`, and validation rule conditions). Accepts an array of element paths whose values are watched, a `Ref`, or a function used as a watch getter. When omitted, any change in the form model re-triggers evaluation. |
 | [`conditionsDebounce`](!code#props.conditionsDebounce "number") | — | The debounce delay in milliseconds applied before re-evaluating this element's async conditional props when the trigger source changes. Overrides the global `$conditions.debounce` config (default `300`). |
-
-### Layout {#props-layout}
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| [`columns`](!code#props.columns "ColumnsProp<TContext>") | — | Responsive grid column sizing for the element's layout. |
-| [`layout`](!code#props.layout "ComponentProp \| boolean") | `true` | Custom layout template for this element, `false` to render the element without any layout wrapper, or `true` (default) for normal layout. |
-| [`label`](!code#props.label "TProp<string, TContext>") | — | The label displayed alongside the element. |
-| [`hideLabel`](!code#props.hideLabel "boolean") | `false` | Whether to visually hide the element's label. |
-| [`page`](!code#props.page "PageProp<TContext>") | — | Page configuration for stepped/tabbed forms. Accepts a simple label or a metadata tuple with at least a `label` property. |
-| [`heading`](!code#props.heading "HeadingProp") | — | The heading level to render for the container's title. |
-| [`help`](!code#props.help "TProp<string, TContext>") | — | A help text displayed below the label. |
-| [`spaceTop`](!code#props.spaceTop "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
-| [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
-| [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
-| [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Customization {#props-customization}
 
@@ -1841,6 +1841,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
+| [`a11yBindings`](!code#context.a11yBindings "MatrixA11y") | Part-keyed accessibility bindings: ready-to-spread attribute bag for the add-row control — applied to the built-in button and passed to the `add` slot. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -1882,17 +1883,23 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
+| `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
+| `required` | — | Slot for customizing the required indicator. |
+| `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `default` | — | Slot for the default matrix content. |
-| `header` | [`class`](!code#slot.header.class "ClassValue") [`headers`](!code#slot.header.headers "(ResolvedMatrixCol \| {})[]") | Slot that replaces the header row. Receives class and header definitions. |
-| `colHeader` | [`class`](!code#slot.colHeader.class "ClassValue") [`id`](!code#slot.colHeader.id "string") [`label`](!code#slot.colHeader.label "string") | Slot that replaces each column header cell. |
-| `row` | [`class`](!code#slot.row.class "ClassValue") [`index`](!code#slot.row.index "number") [`rowHeader`](!code#slot.row.rowHeader "boolean") [`beingDragged`](!code#slot.row.beingDragged "boolean") [`isDropTarget`](!code#slot.row.isDropTarget "boolean") [`handleDragEnter`](!code#slot.row.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.row.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.row.handleDragEnd "() => void") [`canRemove`](!code#slot.row.canRemove "boolean") [`canSort`](!code#slot.row.canSort "boolean") [`label`](!code#slot.row.label "string") [`remove`](!code#slot.row.remove "() => void") [`cols`](!code#slot.row.cols "{ component: string \| Component; props: MatrixElementSchema }[]") | Slot that replaces each matrix row. Receives row state, drag handlers, label, remove handler, and columns. |
-| `rowHeader` | [`class`](!code#slot.rowHeader.class "ClassValue") [`label`](!code#slot.rowHeader.label "string") | Slot that replaces each row header cell. |
-| `sortWrapper` | [`class`](!code#slot.sortWrapper.class "ClassValue") [`handleDragEnter`](!code#slot.sortWrapper.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.sortWrapper.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sortWrapper.handleDragEnd "() => void") | Slot that replaces the drag sort handle wrapper. |
-| `sort` | [`class`](!code#slot.sort.class "ClassValue") [`handleDragEnter`](!code#slot.sort.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives class and drag event handlers. |
-| `cell` | [`component`](!code#slot.cell.component "string \| Component") [`props`](!code#slot.cell.props "MatrixElementSchema") [`handleDragEnter`](!code#slot.cell.handleDragEnter "($event: DragEvent) => void") | Slot that replaces each matrix cell. Receives the component, props for the cell element, and a drag enter handler for sortable rows. |
-| `removeWrapper` | [`class`](!code#slot.removeWrapper.class "ClassValue") [`handleRemove`](!code#slot.removeWrapper.handleRemove "() => void") | Slot that replaces the row remove button wrapper. |
-| `remove` | [`class`](!code#slot.remove.class "ClassValue") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the row remove button. |
-| `add` | [`class`](!code#slot.add.class "ClassValue") [`label`](!code#slot.add.label "TProp \| string") [`handleAdd`](!code#slot.add.handleAdd "() => void") | Slot that replaces the add row button. Receives class, label, and add handler. |
+| `header` | [`headers`](!code#slot.header.headers "(ResolvedMatrixCol \| {})[]") [`classes`](!code#slot.header.classes "VfMatrixClasses") [`parts`](!code#slot.header.parts "Partial<VfMatrixParts>") [`a11yBindings`](!code#slot.header.a11yBindings "VfMatrixA11y") [`modifiers`](!code#slot.header.modifiers "VfMatrixModifiers") | Slot that replaces the header row. Receives the component's classes and parts proxies and the header definitions. |
+| `colHeader` | [`id`](!code#slot.colHeader.id "string") [`label`](!code#slot.colHeader.label "string") [`classes`](!code#slot.colHeader.classes "ClassValue") [`part`](!code#slot.colHeader.part "DomAttrsOf<'div'> \| undefined") [`modifiers`](!code#slot.colHeader.modifiers "VfMatrixModifiers['colHeader']") | Slot that replaces each column header cell. |
+| `row` | [`index`](!code#slot.row.index "number") [`rowHeader`](!code#slot.row.rowHeader "boolean") [`beingDragged`](!code#slot.row.beingDragged "boolean") [`isDropTarget`](!code#slot.row.isDropTarget "boolean") [`canRemove`](!code#slot.row.canRemove "boolean") [`canSort`](!code#slot.row.canSort "boolean") [`label`](!code#slot.row.label "string") [`cols`](!code#slot.row.cols "{ component: string \| Component; props: MatrixElementSchema }[]") [`classes`](!code#slot.row.classes "VfMatrixClasses") [`parts`](!code#slot.row.parts "Partial<VfMatrixParts>") [`a11yBindings`](!code#slot.row.a11yBindings "VfMatrixA11y") [`modifiers`](!code#slot.row.modifiers "VfMatrixModifiers") [`handleDragEnter`](!code#slot.row.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.row.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.row.handleDragEnd "() => void") [`remove`](!code#slot.row.remove "() => void") | Slot that replaces each matrix row. Receives row state, drag handlers, label, remove handler, and columns. |
+| `rowHeader` | [`label`](!code#slot.rowHeader.label "string") [`classes`](!code#slot.rowHeader.classes "ClassValue") [`part`](!code#slot.rowHeader.part "DomAttrsOf<'div'> \| undefined") [`modifiers`](!code#slot.rowHeader.modifiers "VfMatrixModifiers['rowHeader']") | Slot that replaces each row header cell. |
+| `sortWrapper` | [`classes`](!code#slot.sortWrapper.classes "VfMatrixClasses") [`parts`](!code#slot.sortWrapper.parts "Partial<VfMatrixParts>") [`a11yBindings`](!code#slot.sortWrapper.a11yBindings "VfMatrixA11y") [`modifiers`](!code#slot.sortWrapper.modifiers "VfMatrixModifiers") [`handleDragEnter`](!code#slot.sortWrapper.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.sortWrapper.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sortWrapper.handleDragEnd "() => void") | Slot that replaces the drag sort handle wrapper. |
+| `sort` | [`classes`](!code#slot.sort.classes "ClassValue") [`part`](!code#slot.sort.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.sort.a11yBindings "ReturnType<VfMatrixA11y['sort']>") [`handleDragEnter`](!code#slot.sort.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives classes, part, and drag event handlers. |
+| `cell` | [`component`](!code#slot.cell.component "string \| Component") [`props`](!code#slot.cell.props "MatrixElementSchema") [`classes`](!code#slot.cell.classes "ClassValue") [`part`](!code#slot.cell.part "DomAttrsOf<'div'> \| undefined") [`handleDragEnter`](!code#slot.cell.handleDragEnter "($event: DragEvent) => void") | Slot that replaces each matrix cell. Receives the component, props for the cell element, and a drag enter handler for sortable rows. |
+| `removeWrapper` | [`classes`](!code#slot.removeWrapper.classes "VfMatrixClasses") [`parts`](!code#slot.removeWrapper.parts "Partial<VfMatrixParts>") [`a11yBindings`](!code#slot.removeWrapper.a11yBindings "VfMatrixA11y") [`modifiers`](!code#slot.removeWrapper.modifiers "VfMatrixModifiers") [`handleRemove`](!code#slot.removeWrapper.handleRemove "() => void") | Slot that replaces the row remove button wrapper. |
+| `remove` | [`classes`](!code#slot.remove.classes "ClassValue") [`part`](!code#slot.remove.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.remove.a11yBindings "ReturnType<VfMatrixA11y['remove']>") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the row remove button. |
+| `add` | [`label`](!code#slot.add.label "TProp \| string") [`classes`](!code#slot.add.classes "ClassValue") [`part`](!code#slot.add.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.add.a11yBindings "VfMatrixA11y['add']") [`handleAdd`](!code#slot.add.handleAdd "() => void") | Slot that replaces the add row button. Receives classes, part, label, and add handler. |
+| `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
+| `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
+| `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
 <!-- @slots-end -->
 
 <!-- @endtab -->
@@ -1957,14 +1964,88 @@ messageBag.append('Progress is saved automatically', 'message')
 <!-- #endregion viewer -->
 
 <!-- @parts-start -->
+### `panel`
+
+The wrapper around `root` with `display: contents` when the element is a step or a tab.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-panel` |
+
+### `root`
+
+The element's root wrapper.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-matrix` `.vf-tabular?` `.vf-wrap-col-headers?` `.vf-wrap-row-headers?` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+
+### `labelGroup`
+
+The container holding the label and required indicator.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label-group` |
+
+### `label`
+
+The label element; renders as the corresponding heading when the container's `heading` prop is set.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
+
+### `required`
+
+The required indicator.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-required` |
+
+### `elementGroup`
+
+The container wrapping the input and related UI.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-group` |
+
+### `elementWrapper`
+
+The wrapper directly around the input control.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-wrapper` |
+
+### `help`
+
+The help text area.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
+
 ### `grid`
 
 The grid layout element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-matrix-grid` `.vf-scrollable?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-grid` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-scrollable`](!code#parts.grid.modifiers.data-scrollable "''") |
 
 ### `header`
 
@@ -1972,8 +2053,8 @@ The header row element with `display: contents`.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-matrix-header` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-header` |
 
 ### `colHeader`
 
@@ -1981,8 +2062,9 @@ Each column header element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-matrix-col-header` `.vf-sticky?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-col-header` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-sticky`](!code#parts.colHeader.modifiers.data-sticky "''") |
 
 ### `srOnlyHeader`
 
@@ -1990,7 +2072,7 @@ The screen-reader-only header element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
 ### `row`
 
@@ -1998,8 +2080,9 @@ Each row element with `display: contents`.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-matrix-row` `.vf-dragging?` `.vf-drop-target?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-row` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-dragging`](!code#parts.row.modifiers.data-dragging "''") [`data-drop-target`](!code#parts.row.modifiers.data-drop-target "''") |
 
 ### `rowHeader`
 
@@ -2007,8 +2090,9 @@ Each row header element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-matrix-row-header` `.vf-sticky?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-row-header` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-sticky`](!code#parts.rowHeader.modifiers.data-sticky "''") |
 
 ### `cell`
 
@@ -2016,8 +2100,8 @@ Each cell element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-matrix-cell` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-cell` |
 
 ### `sortWrapper`
 
@@ -2025,8 +2109,8 @@ The drag sort handle wrapper element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-matrix-row-sort` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-row-sort` |
 
 ### `removeWrapper`
 
@@ -2034,8 +2118,8 @@ The row remove button wrapper element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-matrix-row-remove` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-row-remove` |
 
 ### `sort`
 
@@ -2043,8 +2127,9 @@ The drag sort handle element.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-matrix-sort` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-sort` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.sort.a11y.aria-label "string") |
 
 ### `remove`
 
@@ -2052,8 +2137,9 @@ The remove action element.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-matrix-remove` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-remove` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.remove.a11y.aria-label "string") |
 
 ### `add`
 
@@ -2061,11 +2147,56 @@ The add action element.
 
 | | |
 | --- | --- |
-| **Element** | [`<VfButton>`](./VfButton.md) |
-| **Classes** | `.vf-matrix-add` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-matrix-add` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.add.a11y.aria-label "string") |
+
+### `description`
+
+The description text area.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
+
+### `errors`
+
+The validation errors container.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+
+### `error`
+
+An individual validation error.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
+
+### `messages`
+
+The info messages container.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-messages` |
+
+### `message`
+
+An individual info message.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-message` |
 <!-- @parts-end -->
 <!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens
@@ -2120,9 +2251,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   --vf-element-line-color: var(--vf-gray-300);
 
-  --vf-label-font-size: 1rem;
-  --vf-label-font-weight: 600;
-  --vf-label-group-h-padding: calc(var(--vf-py) + var(--vf-border-width-t)) 0 0 0;
   --vf-label-group-v-padding: 0 0 0.375rem 0;
 
   --vf-required-bg: transparent;
@@ -2228,9 +2356,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   elementLineColor: '$gray300',
 
-  labelFontSize: '1rem',
-  labelFontWeight: '600',
-  labelGroupHPadding: 'calc($py + $borderWidthT) 0 0 0',
   labelGroupVPadding: '0 0 0.375rem 0',
 
   requiredBg: 'transparent',
@@ -2294,5 +2419,4 @@ All the CSS variables that control this component's appearance with default valu
 <!-- @tokens-end -->
 
 <!-- @endtab -->
-
 <!-- @endtabs -->

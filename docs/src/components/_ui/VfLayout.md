@@ -152,9 +152,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   --vf-element-line-color: var(--vf-gray-300);
 
-  --vf-label-font-size: 1rem;
-  --vf-label-font-weight: 600;
-  --vf-label-group-h-padding: calc(var(--vf-py) + var(--vf-border-width-t)) 0 0 0;
   --vf-label-group-v-padding: 0 0 0.375rem 0;
 
   --vf-required-bg: transparent;
@@ -223,9 +220,6 @@ All the CSS variables that control this component's appearance with default valu
    * -------------------------------------------------------------------------- */
   elementLineColor: '$gray300',
 
-  labelFontSize: '1rem',
-  labelFontWeight: '600',
-  labelGroupHPadding: 'calc($py + $borderWidthT) 0 0 0',
   labelGroupVPadding: '0 0 0.375rem 0',
 
   requiredBg: 'transparent',
@@ -288,5 +282,4 @@ All the CSS variables that control this component's appearance with default valu
 <!-- @endsubtabs -->
 <!-- @tokens-end -->
 <!-- @endtab -->
-
 <!-- @endtabs -->

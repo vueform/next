@@ -24,13 +24,13 @@ button.vf-btn {
   border-radius: var(--vf-btn-radius);
   box-shadow: var(--vf-btn-shadow);
 
-  &.vf-icon-only {
+  &[data-icon-only] {
     min-height: calc(1lh + 2 * var(--vf-btn-padding-y));
 
     // max-height: calc(1lh + 2 * var(--vf-btn-padding-y));
     aspect-ratio: 1;
 
-    &.vf-sm {
+    &[data-size='small'] {
       min-height: calc(1lh + 2 * var(--vf-btn-padding-y-sm));
 
       // max-height: calc(1lh + 2 * var(--vf-btn-padding-y-sm));
@@ -38,28 +38,28 @@ button.vf-btn {
   }
 
   /** Makes the button full-width. */
-  &.vf-fluid {
+  &[data-fluid] {
     width: 100%;
   }
 
   /** Aligns the button to the left within its container. */
-  &.vf-left {
+  &[data-align='left'] {
     margin-right: auto;
   }
 
   /** Aligns the button to the right within its container. */
-  &.vf-right {
+  &[data-align='right'] {
     margin-left: auto;
   }
 
   /** Centers the button horizontally within its container. */
-  &.vf-center {
+  &[data-align='center'] {
     margin-right: auto;
     margin-left: auto;
   }
 
   /** Small size variant with reduced padding and font size. */
-  &.vf-sm {
+  &[data-size='small'] {
     row-gap: var(--vf-btn-gutter-y-sm);
     column-gap: var(--vf-btn-gutter-x-sm);
     padding: var(--vf-btn-padding-y-sm) var(--vf-btn-padding-x-sm);
@@ -73,13 +73,14 @@ button.vf-btn {
   }
 
   /** Disabled state with muted colors and no pointer events. */
-  &:disabled {
+  &:disabled,
+  &[data-disabled] {
     pointer-events: none;
     opacity: var(--vf-btn-disabled-opacity);
   }
 
   /** Loading state that overlays a spinner icon. */
-  &.vf-loading {
+  &[data-loading] {
     &:before {
       position: absolute;
       inset: 0;
@@ -116,7 +117,7 @@ button.vf-btn {
   }
 
   /** Solid filled style variant. */
-  &.vf-filled {
+  &[data-variant='filled'] {
     color: var(--vf-btn-color);
     background-color: var(--vf-btn-bg);
     border-color: var(--vf-btn-border-color);
@@ -129,7 +130,7 @@ button.vf-btn {
   }
 
   /** Outlined style variant with a transparent background. */
-  &.vf-outlined {
+  &[data-variant='outlined'] {
     color: var(--vf-btn-outline-color);
     background-color: transparent;
     border-color: var(--vf-btn-outline-color);
@@ -144,7 +145,7 @@ button.vf-btn {
   }
 
   /** Text style variant with no background or border. */
-  &.vf-text {
+  &[data-variant='text'] {
     color: var(--vf-btn-outline-color);
     background-color: transparent;
     border-color: transparent;
@@ -159,7 +160,7 @@ button.vf-btn {
   }
 
   /** Link style variant rendered as an underlined text link. */
-  &.vf-link {
+  &[data-variant='link'] {
     color: var(--vf-btn-outline-color);
     background-color: transparent;
     border-color: transparent;
@@ -170,7 +171,7 @@ button.vf-btn {
   }
 
   /** Primary color theme. */
-  &.vf-primary {
+  &[data-severity='primary'] {
     --vf-btn-bg: var(--vf-btn-bg-primary);
     --vf-btn-color: var(--vf-btn-color-primary);
     --vf-btn-outline-color: var(--vf-btn-outline-primary);
@@ -183,7 +184,7 @@ button.vf-btn {
   }
 
   /** Secondary color theme. */
-  &.vf-secondary {
+  &[data-severity='secondary'] {
     --vf-btn-bg: var(--vf-btn-bg-secondary);
     --vf-btn-color: var(--vf-btn-color-secondary);
     --vf-btn-outline-color: var(--vf-btn-outline-secondary);
@@ -196,7 +197,7 @@ button.vf-btn {
   }
 
   /** Success color theme. */
-  &.vf-success {
+  &[data-severity='success'] {
     --vf-btn-bg: var(--vf-btn-bg-success);
     --vf-btn-color: var(--vf-btn-color-success);
     --vf-btn-outline-color: var(--vf-btn-outline-success);
@@ -209,7 +210,7 @@ button.vf-btn {
   }
 
   /** Info color theme. */
-  &.vf-info {
+  &[data-severity='info'] {
     --vf-btn-bg: var(--vf-btn-bg-info);
     --vf-btn-color: var(--vf-btn-color-info);
     --vf-btn-outline-color: var(--vf-btn-outline-info);
@@ -222,7 +223,7 @@ button.vf-btn {
   }
 
   /** Warning color theme. */
-  &.vf-warn {
+  &[data-severity='warn'] {
     --vf-btn-bg: var(--vf-btn-bg-warn);
     --vf-btn-color: var(--vf-btn-color-warn);
     --vf-btn-outline-color: var(--vf-btn-outline-warn);
@@ -235,7 +236,7 @@ button.vf-btn {
   }
 
   /** Help color theme. */
-  &.vf-help {
+  &[data-severity='help'] {
     --vf-btn-bg: var(--vf-btn-bg-help);
     --vf-btn-color: var(--vf-btn-color-help);
     --vf-btn-outline-color: var(--vf-btn-outline-help);
@@ -248,7 +249,7 @@ button.vf-btn {
   }
 
   /** Danger color theme. */
-  &.vf-danger {
+  &[data-severity='danger'] {
     --vf-btn-bg: var(--vf-btn-bg-danger);
     --vf-btn-color: var(--vf-btn-color-danger);
     --vf-btn-outline-color: var(--vf-btn-outline-danger);
@@ -261,7 +262,7 @@ button.vf-btn {
   }
 
   /** Contrast color theme. */
-  &.vf-contrast {
+  &[data-severity='contrast'] {
     --vf-btn-bg: var(--vf-btn-bg-contrast);
     --vf-btn-color: var(--vf-btn-color-contrast);
     --vf-btn-outline-color: var(--vf-btn-outline-contrast);
@@ -282,14 +283,14 @@ button.vf-btn {
   color: inherit;
 }
 
-.vf-btn:has(.vf-btn-icon.vf-right) {
+.vf-btn:has(.vf-btn-icon[data-pos='right']) {
   flex-direction: row-reverse;
 }
 
-.vf-btn:has(.vf-btn-icon.vf-top) {
+.vf-btn:has(.vf-btn-icon[data-pos='top']) {
   flex-direction: column;
 }
 
-.vf-btn:has(.vf-btn-icon.vf-bottom) {
+.vf-btn:has(.vf-btn-icon[data-pos='bottom']) {
   flex-direction: column-reverse;
 }

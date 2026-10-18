@@ -27,8 +27,19 @@ const props = withDefaults(
 const events = defineEvents<VfCheckboxEmits<TTrueValue, TFalseValue>>()
 const slots = defineSlots<VfCheckboxSlots<TTrueValue, TFalseValue>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  parts,
+  classes,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  a11yBindings,
+  modifiers,
+  useClasses,
+  useModifiers,
+} = useBlueprint(blueprint, props, events, slots)
 
 const trueValue = propRefs.trueValue as Ref<TTrueValue>
 const falseValue = propRefs.falseValue as Ref<TFalseValue>
@@ -38,7 +49,6 @@ const {
   id,
   disabled,
   viewLoaded,
-  aria,
   inputName,
   text,
   input,
@@ -50,19 +60,24 @@ const {
   handleModelUpdate,
 } = api
 
-useClasses(({ props, hasError }) => ({
+useClasses(() => ({
   root: 'vf-checkbox',
+  wrapper: 'vf-choice-wrapper',
+  input: 'vf-choice-input',
+  text: 'vf-choice-text',
+}))
+
+useModifiers(({ props, hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
   wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
   },
   input: {
-    'vf-choice-input': true,
-    'vf-danger': hasError.value,
+    'data-invalid': hasError.value ? '' : undefined,
   },
-  text: 'vf-choice-text',
 }))
 
 defineExpose(expose)
@@ -74,7 +89,6 @@ defineExpose(expose)
     <VfLayout v-else :label="false">
       <slot
         :model
-        :aria
         :input-name
         :id
         :true-value
@@ -82,6 +96,10 @@ defineExpose(expose)
         :disabled
         :input
         :text
+        :classes
+        :parts
+        :modifiers
+        :a11y-bindings
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -90,7 +108,6 @@ defineExpose(expose)
           v-if="outlets?.default"
           :is="outlets.default"
           :model
-          :aria
           :input-name
           :id
           :true-value
@@ -98,11 +115,19 @@ defineExpose(expose)
           :disabled
           :input
           :text
+          :classes
+          :parts
+          :modifiers
+          :a11y-bindings
           :handle-blur
           :handle-focus
           :handle-model-update
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          v-bind="{ ...modifiers.wrapper, ...parts.wrapper }"
+        >
           <input
             type="checkbox"
             v-model="value"
@@ -114,7 +139,8 @@ defineExpose(expose)
             :disabled
             :class="classes.input"
             v-bind="{
-              ...aria,
+              ...modifiers.input,
+              ...a11yBindings.input,
               ...parts.input,
             }"
             @blur="handleBlur"
@@ -127,8 +153,8 @@ defineExpose(expose)
             :text
             :id
             :generic-name
-            :class="classes.text"
-            v-bind="parts.text"
+            :classes="classes.text"
+            :part="parts.text"
           >
             <component
               v-if="outlets?.text"
@@ -136,8 +162,8 @@ defineExpose(expose)
               :text
               :id
               :generic-name
-              :class="classes.text"
-              v-bind="parts.text"
+              :classes="classes.text"
+              :part="parts.text"
             />
             <label
               v-else-if="text"

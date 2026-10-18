@@ -9,7 +9,7 @@ export const primitives = {
   /**
    * Brand primary color.
    */
-  brand: '#07bf9b',
+  brand: '#000000',
 
   /**
    * Red accent color used for danger and error states.

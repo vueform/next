@@ -33,28 +33,7 @@ const { parts, classes, context, expose, outlets, useClasses } = useBlueprint(
 useClasses(() => ({
   root: 'vf-steps',
   list: 'vf-steps-wrapper',
-  wrapper: ({
-    selected,
-    enabled,
-    completed,
-    invalid,
-    loading,
-  }: {
-    selected: boolean
-    enabled: boolean
-    completed: boolean
-    invalid: boolean
-    loading: boolean
-  }) => [
-    'vf-step-wrapper',
-    {
-      'vf-selected': selected,
-      'vf-enabled': enabled,
-      'vf-completed': completed,
-      'vf-invalid': invalid,
-      'vf-loading': loading,
-    },
-  ],
+  wrapper: 'vf-step-wrapper',
   step: 'vf-step',
 }))
 
@@ -69,7 +48,12 @@ defineExpose(expose)
         <template v-for="page in pager.pages" :key="page.pageId">
           <li
             v-if="page.available"
-            :class="classes.wrapper(page)"
+            :class="classes.wrapper"
+            :data-selected="page.selected ? '' : undefined"
+            :data-enabled="page.enabled ? '' : undefined"
+            :data-completed="page.completed ? '' : undefined"
+            :data-invalid="page.invalid ? '' : undefined"
+            :data-loading="page.loading ? '' : undefined"
             role="none"
             v-bind="parts.wrapper?.(page)"
           >
@@ -80,7 +64,6 @@ defineExpose(expose)
               role="tab"
               :aria-disabled="!page.enabled"
               :aria-selected="page.selected"
-              :aria-current="page.selected"
               :aria-controls="page.panelId"
               :tabindex="page.tabindex"
               v-bind="parts.step"

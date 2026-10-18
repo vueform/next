@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type StepsA11y,
   type StepsApi,
   type StepsClasses,
   type StepsEmits,
   type StepsExpose,
+  type StepsModifiers,
   type StepsParts,
   type StepsProps,
   type StepsSlots,
@@ -45,11 +47,6 @@ export interface VfStepsSlots extends StepsSlots<VfStepsContext> {
    * info.
    */
   wrapper: (scope: {
-    /**
-     * CSS classes for the step wrapper.
-     */
-    class: ClassValue
-
     /**
      * The zero-based index of the step's page.
      */
@@ -207,41 +204,39 @@ export interface VfStepsClasses extends StepsClasses {
   list: ClassValue
 
   /**
-   * Each step wrapper. Receives step state options.
-   *
-   * @param options Step state used for this wrapper.
+   * Each step wrapper. State is exposed via `data-selected`, `data-enabled`,
+   * `data-completed`, `data-invalid`, and `data-loading` attributes.
    */
-  wrapper: (options: {
-    /**
-     * Whether the step is currently selected.
-     */
-    selected: boolean
-
-    /**
-     * Whether the step is enabled for navigation.
-     */
-    enabled: boolean
-
-    /**
-     * Whether the step's page has been completed.
-     */
-    completed: boolean
-
-    /**
-     * Whether the step's page has validation errors.
-     */
-    invalid: boolean
-
-    /**
-     * Whether the step's page is busy validating or processing an event.
-     */
-    loading: boolean
-  }) => ClassValue
+  wrapper: ClassValue
 
   /**
    * The step content element.
    */
   step: ClassValue
+}
+
+/**
+ * Accessibility bindings of the VfSteps component.
+ */
+export interface VfStepsA11y extends StepsA11y {}
+
+/**
+ * Styling modifiers of the VfSteps component.
+ */
+export interface VfStepsModifiers extends StepsModifiers {
+  /**
+   * Each step wrapper's selection, navigation, completion, validity, and
+   * loading state.
+   *
+   * @param page The resolved page object for this step.
+   */
+  wrapper: (page: ResolvedPage) => {
+    'data-selected'?: ''
+    'data-enabled'?: ''
+    'data-completed'?: ''
+    'data-invalid'?: ''
+    'data-loading'?: ''
+  }
 }
 
 /**
@@ -265,6 +260,8 @@ export interface VfStepsContext extends DefineElementContext<
   VfStepsSlots,
   VfStepsParts,
   VfStepsClasses,
+  VfStepsModifiers,
+  VfStepsA11y,
   VfStepsExpose,
   StepsApi
 > {}

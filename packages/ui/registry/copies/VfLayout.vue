@@ -355,8 +355,14 @@ defineExpose(expose)
             :aria-labelledby="isFieldset && showLabel ? el$.labelId : undefined"
             :aria-label="isFieldset && !showLabel ? el$.genericName : undefined"
             :aria-describedby="
-              isFieldset ? el$.aria?.['aria-describedby'] : undefined
+              isFieldset
+                ? el$.a11yBindings?.input?.['aria-describedby']
+                : undefined
             "
+            :data-align-label="!el$.help ? '' : undefined"
+            :data-wrapped="el$.props?.wrap ? '' : undefined"
+            :data-align="el$.props?.align || undefined"
+            :data-aligned="el$.props?.aligned ? '' : undefined"
             :hidden="(!hasPager && !el$.visible) || undefined"
             v-bind="parts.root"
             v-show="el$.visible"

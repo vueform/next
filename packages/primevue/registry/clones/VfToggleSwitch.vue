@@ -215,11 +215,8 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ props }) => ({
-  root: {
-    'vf-toggle-switch': true,
-    'vf-aligned': !!props.aligned,
-  },
+useClasses(() => ({
+  root: 'vf-toggle-switch',
   handle: {
     'vf-toggle-switch-handle': true,
     [api.onIcon.value!]: api.checked.value && api.onIcon.value,
@@ -244,6 +241,7 @@ const {
   handleInput,
   handleBlur,
   handleFocus,
+  a11yBindings,
 } = api
 
 /**
@@ -302,6 +300,7 @@ declare module 'vue' {
         :readonly
         :invalid
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

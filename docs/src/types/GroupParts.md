@@ -2,5 +2,5 @@
 /**
  * Parts for the group element.
  */
-interface GroupParts extends BaseElementParts {}
+interface GroupParts extends BaseContainerElementParts {}
 ```

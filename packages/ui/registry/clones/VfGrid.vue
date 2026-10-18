@@ -282,26 +282,14 @@ useClasses(({ props, fitWidth, gridClass }) => ({
     [gridClass.value]: true,
   },
   cell: ({
-    align,
-    valign,
     colHeader,
     rowHeader,
   }: {
-    align: string
-    valign: string
     schema?: unknown
     colHeader?: boolean
     rowHeader?: boolean
   }) => ({
     'vf-grid-cell': true,
-    'vf-left': align === 'left',
-    'vf-center': align === 'center',
-    'vf-right': align === 'right',
-    'vf-justify': align === 'justify',
-    'vf-top': valign === 'top',
-    'vf-middle': valign === 'middle',
-    'vf-bottom': valign === 'bottom',
-    'vf-baseline': valign === 'baseline',
     'vf-grid-col-header': !!colHeader,
     'vf-grid-row-header': !!rowHeader,
   }),
@@ -378,6 +366,8 @@ declare module 'vue' {
                 v-for="cell in cells"
                 :key="cell.key"
                 :class="classes.cell(cell)"
+                :data-align="cell.align || undefined"
+                :data-valign="cell.valign || undefined"
                 :data-col="cell.col"
                 :data-row="cell.row"
                 :data-col-start="cell.colStart"

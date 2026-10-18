@@ -37,14 +37,14 @@
     outline-color: var(--vf-input-ring-color);
     box-shadow: var(--vf-input-ring-shadow);
 
-    &.vf-danger {
+    &[data-invalid] {
       outline-color: var(--vf-input-ring-color-danger);
       box-shadow: var(--vf-input-ring-shadow-danger);
     }
   }
 
   /** Danger/error state with highlighted colors. */
-  &.vf-danger {
+  &[data-invalid] {
     color: var(--vf-input-color-danger);
     caret-color: var(--vf-input-color-danger);
     background: var(--vf-input-bg-danger);

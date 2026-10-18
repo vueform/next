@@ -6,6 +6,8 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
+  BaseComponentA11y,
+  BaseComponentModifiers,
   ResolvedLanguagesProp,
   LooseRequired,
 } from '#src/types'
@@ -66,6 +68,16 @@ export interface LanguagesParts extends BaseComponentParts {}
  * CSS classes of the languages component.
  */
 export interface LanguagesClasses extends BaseComponentClasses {}
+
+/**
+ * Styling modifiers of the languages component.
+ */
+export interface LanguagesModifiers extends BaseComponentModifiers {}
+
+/**
+ * Accessibility bindings of the languages component.
+ */
+export interface LanguagesA11y extends BaseComponentA11y {}
 
 /**
  * Augmentable public API surface for languages-based components.

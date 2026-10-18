@@ -1,8 +1,10 @@
 import {
+  type TextareaA11y,
   type TextareaApi,
   type TextareaClasses,
   type TextareaEmits,
   type TextareaExpose,
+  type TextareaModifiers,
   type TextareaParts,
   type TextareaProps,
   type TextareaSlots,
@@ -118,6 +120,33 @@ export interface VfTextareaClasses
 }
 
 /**
+ * Accessibility bindings of the VfTextarea component.
+ */
+export interface VfTextareaA11y extends TextareaA11y {}
+
+/**
+ * Styling modifiers of the VfTextarea component.
+ */
+export interface VfTextareaModifiers extends TextareaModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The textarea control's validation state and sizing behavior markers.
+   */
+  input: {
+    'data-invalid'?: ''
+    'data-resizable'?: ''
+    'data-autogrow'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfTextarea.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -142,6 +171,8 @@ export interface VfTextareaContext<
   VfTextareaSlots,
   VfTextareaParts,
   VfTextareaClasses,
+  VfTextareaModifiers,
+  VfTextareaA11y,
   VfTextareaExpose,
   TextareaApi<TProps>
 > {}

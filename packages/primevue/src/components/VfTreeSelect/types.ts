@@ -16,10 +16,12 @@ import type { TreeSelectSlots as ATreeSelectSlots } from 'primevue/treeselect'
 import type { VNode } from 'vue'
 
 import type {
+  TreeSelectA11y,
   TreeSelectApi,
   TreeSelectClasses,
   TreeSelectEmits,
   TreeSelectExpose,
+  TreeSelectModifiers,
   TreeSelectParts,
   TreeSelectProps,
   TreeSelectSlots,
@@ -248,6 +250,33 @@ export interface VfTreeSelectClasses
 }
 
 /**
+ * Accessibility bindings of the VfTreeSelect component.
+ */
+export interface VfTreeSelectA11y extends TreeSelectA11y {}
+
+/**
+ * Styling modifiers of the VfTreeSelect component.
+ */
+export interface VfTreeSelectModifiers extends TreeSelectModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The tree-select control's validation state and placeholder marker, set
+   * while the value is empty and a placeholder is shown.
+   */
+  input: {
+    'data-invalid'?: ''
+    'data-placeholder'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfTreeSelect.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -275,6 +304,8 @@ export interface VfTreeSelectContext<
   VfTreeSelectSlots,
   VfTreeSelectParts,
   VfTreeSelectClasses,
+  VfTreeSelectModifiers,
+  VfTreeSelectA11y,
   VfTreeSelectExpose,
   TreeSelectApi<TProps>
 > {}

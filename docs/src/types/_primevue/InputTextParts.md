@@ -2,5 +2,5 @@
 /**
  * Structural parts of the input-text element blueprint.
  */
-interface InputTextParts extends BaseElementParts {}
+interface InputTextParts extends BaseFieldElementParts {}
 ```

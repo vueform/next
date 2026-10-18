@@ -33,7 +33,6 @@ interface ListboxProps<
       TContext
     >,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     MultipleProps<TMultiple>,

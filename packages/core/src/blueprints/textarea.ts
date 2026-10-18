@@ -16,7 +16,6 @@ import {
   makeInput,
   makeProvider,
   makeLayout,
-  type AriaProps,
   type ModelPropsWithDefault,
   type AddonsProps,
   type IconsProps,
@@ -24,9 +23,12 @@ import {
   type BaseElementProps,
   type ExpressionProps,
   type TranslateProps,
-  type BaseElementParts,
+  type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type TAriaA11y,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type TValidationProps,
   type ReadonlyProps,
@@ -44,7 +46,7 @@ import {
   type TranslatableModelApi,
 } from '#src/features'
 import { defineDefaults, type DefineEvents } from '#src/helpers'
-import type { LanguagesProp, LooseRequired } from '#src/types'
+import type { InputModeProp, LanguagesProp, LooseRequired } from '#src/types'
 
 /**
  * Props for the textarea element blueprint, parameterized by the model-driving
@@ -69,7 +71,6 @@ export interface TextareaProps<
     TranslateProps<TTranslate, TLanguages>,
     AddonsProps<TContext>,
     IconsProps<TContext>,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -78,6 +79,19 @@ export interface TextareaProps<
    * The number of visible text rows for the textarea.
    */
   rows?: number
+
+  /**
+   * The HTML `inputmode` attribute hinting which virtual keyboard mobile
+   * browsers should show.
+   */
+  inputmode?: InputModeProp
+
+  /**
+   * The HTML `autocomplete` attribute value for the textarea. When omitted,
+   * the element's name is used if it is a valid autofill token (e.g.
+   * `street-address`).
+   */
+  autocomplete?: string // @todo: is this needed for textarea?
 
   /**
    * Whether the textarea automatically grows to fit its content. When true, the
@@ -113,12 +127,22 @@ export interface TextareaSlots<
 /**
  * Structural parts of the textarea element blueprint.
  */
-export interface TextareaParts extends BaseElementParts {}
+export interface TextareaParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the textarea element blueprint.
  */
 export interface TextareaClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the textarea element blueprint.
+ */
+export interface TextareaModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the textarea element blueprint.
+ */
+export interface TextareaA11y extends BaseElementA11y, TAriaA11y {}
 
 /**
  * Augmentable public API surface for textarea-based components.

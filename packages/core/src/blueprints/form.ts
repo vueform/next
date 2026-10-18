@@ -59,6 +59,8 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
+  BaseComponentA11y,
+  BaseComponentModifiers,
   EndpointProp,
   ErrorLevelProp,
   ExpressionsProp,
@@ -691,6 +693,40 @@ export interface FormParts extends BaseComponentParts {}
 export interface FormClasses extends BaseComponentClasses {}
 
 /**
+ * Styling modifiers of the form component.
+ */
+export interface FormModifiers extends BaseComponentModifiers {}
+
+/**
+ * Accessibility bindings of the form component.
+ */
+export interface FormA11y extends BaseComponentA11y {
+  /**
+   * The form-level error live region: an assertive, atomic alert that can
+   * receive programmatic focus.
+   */
+  errors: {
+    id: string
+    role: 'alert'
+    'aria-live': 'assertive'
+    'aria-atomic': 'true'
+    tabindex: -1
+  }
+
+  /**
+   * The form-level message live region: a polite, atomic status that can
+   * receive programmatic focus.
+   */
+  messages: {
+    id: string
+    role: 'status'
+    'aria-live': 'polite'
+    'aria-atomic': 'true'
+    tabindex: -1
+  }
+}
+
+/**
  * Augmentable public API surface for form-based components.
  */
 export interface FormExpose extends BaseComponentExpose, FormApi {}
@@ -977,14 +1013,15 @@ function setup(
   let abortController: AbortController | null = null
 
   const form$ = createFormContext()
+  const $el = useCurrentElement()
+  const expression = useExpression()
+  const { localizeObject } = useLocale()
   const context$ = form$ as any
 
   /**
    * The resolved global configuration object.
    */
   const config = useConfig()
-
-  const expression = useExpression()
 
   /**
    * The form's http instance for endpoint submissions. Acquired in setup —
@@ -994,17 +1031,10 @@ function setup(
   const $http = useHttp()
 
   /**
-   * Optional name identifying this form instance in DevTools and debugging.
-   */
-  const name = computed(() => props.name)
-
-  /**
    * Unique identifier for this form instance, used for accessibility
    * attributes.
    */
   const uid = ref(config.uid())
-  const $el = useCurrentElement()
-  const { localizeObject } = useLocale()
 
   // =============== EVENTS ===============
 
@@ -1080,11 +1110,6 @@ function setup(
   const ruleMessages = toRef(() => props.ruleMessages)
   const transformPayload = toRef(() => props.transformPayload)
 
-  /**
-   * Aggregated payload, validation state, and data manipulation methods derived
-   * from all child elements, plus the root model providing the form's reactive
-   * data model, initial snapshot, and model registration.
-   */
   const {
     rootModel: maybeRootModel,
     payload,
@@ -1318,6 +1343,72 @@ function setup(
 
   on('reset', tabs.reset)
 
+  // ========== STANDARD SCHEMA ===========
+
+  const { makeFormValidation } = getValidationModule()
+
+  /**
+   * The active form-level Standard Schema: the explicit `validationSchema`
+   * prop, the adopted `useModel` instance's, or one attached to the schema via
+   * `defineSchema`'s second argument, in that order. The instance precedes the
+   * attachment so adoption never swaps the schema the instance already
+   * validates with on the shared validator (the instance's own resolution falls
+   * back to the attachment when it has no explicit option).
+   */
+  const validationSchema = computed(
+    () =>
+      props.validationSchema ??
+      (modelModule.hasModelStore(props.modelValue)
+        ? props.modelValue.validationSchema
+        : undefined) ??
+      getAttachedValidationSchema(props.schema)
+  )
+
+  if (isDev() && props.validationSchema) {
+    const attached = getAttachedValidationSchema(props.schema)
+    if (attached && attached !== props.validationSchema) {
+      warn(
+        'The `validationSchema` prop overrides the Standard ' +
+          "Schema attached via `defineSchema`'s second argument"
+      )
+    }
+  }
+
+  /**
+   * The form-side validation view-model: installs the resolved schema on the
+   * validator and exposes the form's structured issues and Standard Schema
+   * export.
+   */
+  const { issues, toStandardSchema } = makeFormValidation({
+    // @q: where issues is used?
+    validator,
+    validationSchema,
+  })
+
+  // ============== AUTOSAVE ==============
+
+  /**
+   * Optional name identifying this form instance in DevTools and debugging.
+   */
+  const name = computed(() => props.name)
+  const headers = computed(() => props.headers)
+  const json = computed(() => props.json)
+  const base64 = computed(() => props.base64)
+
+  const { autosave, clearAutosaved, loadAutosaved } = useAutosave({
+    autosave: toRef(() => props.autosave),
+    payload,
+    model,
+    sensitivePaths,
+    invalid,
+    headers,
+    json,
+    base64,
+    name,
+    load,
+    ...events,
+  })
+
   // ================ REFS ================
 
   /**
@@ -1342,24 +1433,6 @@ function setup(
   const validationDisabled = ref(false)
 
   /**
-   * Turns off the form's built-in submit-time validation entirely — the floor
-   * that otherwise always runs regardless of `validateOn`. Deliberately a
-   * programmatic call rather than a prop: opting out of validation should be an
-   * explicit act in code, not a template flag. `enableValidation` turns it back
-   * on.
-   */
-  const disableValidation = () => {
-    validationDisabled.value = true
-  }
-
-  /**
-   * Re-enables the form's submit-time validation after `disableValidation`.
-   */
-  const enableValidation = () => {
-    validationDisabled.value = false
-  }
-
-  /**
    * The HTTP response from the most recent submission.
    */
   const response = ref<HttpResponse | undefined>()
@@ -1371,10 +1444,6 @@ function setup(
 
   const errorLevel = toRef(props, 'errorLevel')
 
-  const headers = toRef(() => props.headers)
-  const json = toRef(() => props.json)
-  const base64 = toRef(() => props.base64)
-
   /**
    * The currently active pager (steps or tabs), or undefined if neither is
    * active.
@@ -1384,6 +1453,17 @@ function setup(
   )
 
   // ============== COMPUTED ==============
+
+  const successMessage = useDynamicProp('successMessage', props, {
+    localize: true,
+    string: true,
+  })
+
+  const redirect = useDynamicProp('redirect', props, {
+    localize: true,
+    string: true,
+    safeUrl: ['http', 'https'],
+  })
 
   /**
    * The DOM id for the form's error container element.
@@ -1432,17 +1512,6 @@ function setup(
       : undefined
   )
 
-  const successMessage = useDynamicProp('successMessage', props, {
-    localize: true,
-    string: true,
-  })
-
-  const redirect = useDynamicProp('redirect', props, {
-    localize: true,
-    string: true,
-    safeUrl: ['http', 'https'],
-  })
-
   /**
    * Resolved form-level expression constants. Each TProp value is resolved to a
    * primitive and made available to the expression evaluation scope.
@@ -1472,7 +1541,48 @@ function setup(
     return result
   })
 
+  /**
+   * Part-keyed accessibility bindings: ready-to-spread attribute bags for the
+   * form-level error (assertive alert) and message (polite status) live
+   * regions — applied to the built-in containers and passed to the `errors` /
+   * `messages` slots.
+   */
+  const a11yBindings = computed<FormA11y>(() => ({
+    errors: {
+      id: errorsId.value,
+      role: 'alert',
+      'aria-live': 'assertive',
+      'aria-atomic': 'true',
+      tabindex: -1,
+    },
+    messages: {
+      id: messagesId.value,
+      role: 'status',
+      'aria-live': 'polite',
+      'aria-atomic': 'true',
+      tabindex: -1,
+    },
+  }))
+
   // ============== METHODS ===============
+
+  /**
+   * Turns off the form's built-in submit-time validation entirely — the floor
+   * that otherwise always runs regardless of `validateOn`. Deliberately a
+   * programmatic call rather than a prop: opting out of validation should be an
+   * explicit act in code, not a template flag. `enableValidation` turns it back
+   * on.
+   */
+  const disableValidation = () => {
+    validationDisabled.value = true
+  }
+
+  /**
+   * Re-enables the form's submit-time validation after `disableValidation`.
+   */
+  const enableValidation = () => {
+    validationDisabled.value = false
+  }
 
   /**
    * Finds a registered element by its path or data path. When the form adopted
@@ -1568,48 +1678,6 @@ function setup(
    * Serializes the current model value to a `FormData` instance.
    */
   const toFormData = rootModel.store.toFormData
-
-  // ========== STANDARD SCHEMA ===========
-
-  const { makeFormValidation } = getValidationModule()
-
-  /**
-   * The active form-level Standard Schema: the explicit `validationSchema`
-   * prop, the adopted `useModel` instance's, or one attached to the schema via
-   * `defineSchema`'s second argument, in that order. The instance precedes the
-   * attachment so adoption never swaps the schema the instance already
-   * validates with on the shared validator (the instance's own resolution falls
-   * back to the attachment when it has no explicit option).
-   */
-  const validationSchema = computed(
-    () =>
-      props.validationSchema ??
-      (modelModule.hasModelStore(props.modelValue)
-        ? props.modelValue.validationSchema
-        : undefined) ??
-      getAttachedValidationSchema(props.schema)
-  )
-
-  if (isDev() && props.validationSchema) {
-    const attached = getAttachedValidationSchema(props.schema)
-    if (attached && attached !== props.validationSchema) {
-      warn(
-        'The `validationSchema` prop overrides the Standard ' +
-          "Schema attached via `defineSchema`'s second argument"
-      )
-    }
-  }
-
-  /**
-   * The form-side validation view-model: installs the resolved schema on the
-   * validator and exposes the form's structured issues and Standard Schema
-   * export.
-   */
-  const { issues, toStandardSchema } = makeFormValidation({
-    // @q: where issues is used?
-    validator,
-    validationSchema,
-  })
 
   const scrollToTopIfShouldOn = async (key: ScrollTopOnProp[number]) => {
     if (
@@ -2055,22 +2123,6 @@ function setup(
    */
   const handleSubmit = () => submit()
 
-  // ============== AUTOSAVE ==============
-
-  const { autosave, clearAutosaved, loadAutosaved } = useAutosave({
-    autosave: toRef(() => props.autosave),
-    payload,
-    model,
-    sensitivePaths,
-    invalid,
-    headers,
-    json,
-    base64,
-    name: toRef(() => props.name),
-    load,
-    ...events,
-  })
-
   // ============= CONTAINER ==============
 
   createContainerContext({
@@ -2101,6 +2153,7 @@ function setup(
     resolvedSchema,
     errorsId,
     messagesId,
+    a11yBindings,
     tabs,
     steps,
     language,

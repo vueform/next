@@ -22,7 +22,6 @@ interface SliderProps<
     ModelPropsWithDefaultValue<SliderModelProp<TRange>, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     InfoProps,
     IntervalProps,

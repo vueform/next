@@ -15,12 +15,13 @@ import type {
   LanguagesProp,
 } from '@vueform/core'
 import type { InputMaskProps as PvInputMaskProps } from 'primevue'
-
 import type {
+  InputMaskA11y,
   InputMaskApi,
   InputMaskClasses,
   InputMaskEmits,
   InputMaskExpose,
+  InputMaskModifiers,
   InputMaskParts,
   InputMaskProps,
   InputMaskSlots,
@@ -128,6 +129,31 @@ export interface VfInputMaskClasses
 }
 
 /**
+ * Accessibility bindings of the VfInputMask component.
+ */
+export interface VfInputMaskA11y extends InputMaskA11y {}
+
+/**
+ * Styling modifiers of the VfInputMask component.
+ */
+export interface VfInputMaskModifiers extends InputMaskModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfInputMask.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -153,6 +179,8 @@ export interface VfInputMaskContext<
   VfInputMaskSlots,
   VfInputMaskParts,
   VfInputMaskClasses,
+  VfInputMaskModifiers,
+  VfInputMaskA11y,
   VfInputMaskExpose,
   InputMaskApi<TProps>
 > {}

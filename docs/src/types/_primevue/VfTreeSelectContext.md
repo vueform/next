@@ -18,6 +18,8 @@ interface VfTreeSelectContext<
   VfTreeSelectSlots,
   VfTreeSelectParts,
   VfTreeSelectClasses,
+  VfTreeSelectModifiers,
+  VfTreeSelectA11y,
   VfTreeSelectExpose,
   TreeSelectApi<TProps>
 > {}

@@ -12,13 +12,15 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
   type ColorFormat,
-  type AriaProps,
   type ExpressionProps,
   type ValidationProps,
   type DisabledProps,
@@ -71,7 +73,6 @@ export interface ColorPickerProps<
     ModelPropsWithDefaultValue<TextModel, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     InfoProps,
     AlignedProps,
@@ -135,12 +136,22 @@ export interface ColorPickerSlots<
 /**
  * Structural parts of the color-picker element blueprint.
  */
-export interface ColorPickerParts extends BaseElementParts {}
+export interface ColorPickerParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the color-picker element blueprint.
  */
 export interface ColorPickerClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the color-picker element blueprint.
+ */
+export interface ColorPickerModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the color-picker element blueprint.
+ */
+export interface ColorPickerA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for color-picker-based components.

@@ -12,12 +12,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type ValidationProps,
   type DisabledProps,
@@ -100,7 +102,6 @@ export interface SliderProps<
     ModelPropsWithDefaultValue<SliderModelProp<TRange>, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     InfoProps,
     IntervalProps,
@@ -151,12 +152,22 @@ export interface SliderSlots<
 /**
  * Structural parts of the slider element blueprint.
  */
-export interface SliderParts extends BaseElementParts {}
+export interface SliderParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the slider element blueprint.
  */
 export interface SliderClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the slider element blueprint.
+ */
+export interface SliderModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the slider element blueprint.
+ */
+export interface SliderA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for slider-based components.

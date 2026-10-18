@@ -11,10 +11,12 @@ import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
 import type { VNode } from 'vue'
 
 import type {
+  ListboxA11y,
   ListboxApi,
   ListboxClasses,
   ListboxEmits,
   ListboxExpose,
+  ListboxModifiers,
   ListboxParts,
   ListboxProps,
   ListboxSlots,
@@ -264,6 +266,31 @@ export interface VfListboxClasses extends ListboxClasses {
 }
 
 /**
+ * Accessibility bindings of the VfListbox component.
+ */
+export interface VfListboxA11y extends ListboxA11y {}
+
+/**
+ * Styling modifiers of the VfListbox component.
+ */
+export interface VfListboxModifiers extends ListboxModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The listbox control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfListbox.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -291,6 +318,8 @@ export interface VfListboxContext<
   VfListboxSlots,
   VfListboxParts,
   VfListboxClasses,
+  VfListboxModifiers,
+  VfListboxA11y,
   VfListboxExpose,
   ListboxApi<TProps>
 > {}

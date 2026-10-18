@@ -90,28 +90,21 @@ const slots =
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help, empty, hasError, props }) => ({
-  root: {
-    'vf-select': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-select',
   addonGroup: 'vf-addon-group',
   iconGroup: 'vf-icon-group',
-  input: {
-    'vf-input': true,
-    'vf-select-input': true,
-    'vf-placeholder': empty.value && !!props.placeholder,
-    'vf-danger': hasError.value,
-  },
+  input: 'vf-input vf-select-input',
 }))
 
 const {
   id,
   loading,
   placeholder,
+  empty,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   name,
   items,
@@ -138,11 +131,12 @@ defineExpose(expose)
         :name
         :id
         :class="classes.input"
+        :data-placeholder="empty && !!placeholder ? '' : undefined"
         :disabled
         :multiple
         :ref="(el) => (input = el)"
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...parts.input,
         }"
         @blur="handleBlur"

@@ -10,7 +10,7 @@
       "path": "VfMatrix.vue",
       "target": "{componentsDir}/VfMatrix.vue",
       "kind": "component",
-      "hash": "sha256:8105e7429674f2e7211aa489a939b1934c26293bd7f2767841cd3b2c3b8b01d2"
+      "hash": "sha256:5280cbb3153fb308694c89b14d8a2208e0bbb735b653e05581e35b331fd4d407"
     }
   ],
   "imports": [
@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfMatrix.vue",
     "blueprint": "matrix",
-    "hash": "sha256:8fd748a86607ad1af51c81af22fce97b4ccd938998f30d5be42d6aebe90505fb",
+    "hash": "sha256:037271eb2965661d39a384fb696a94281129e8a8db7bf781d64caf09e6a84273",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

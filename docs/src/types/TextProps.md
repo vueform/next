@@ -23,7 +23,6 @@ interface TextProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -34,7 +33,15 @@ interface TextProps<
   inputType?: InputTypeProp
 
   /**
-   * The HTML `autocomplete` attribute value for the input.
+   * The HTML `inputmode` attribute hinting which virtual keyboard mobile
+   * browsers should show.
+   */
+  inputmode?: InputModeProp
+
+  /**
+   * The HTML `autocomplete` attribute value for the input. When omitted, the
+   * element's name is used if it is a valid autofill token (e.g. `email`,
+   * `tel`, `postal-code`).
    */
   autocomplete?: string
 }

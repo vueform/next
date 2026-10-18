@@ -8,7 +8,7 @@
   align-items: center;
 
   /** Reverses layout so the input appears on the right. */
-  &.vf-right {
+  &[data-align='right'] {
     flex-direction: row-reverse;
     justify-content: flex-start;
 
@@ -17,7 +17,7 @@
     }
   }
 
-  &.vf-aligned {
+  &[data-aligned] {
     margin: var(--vf-choice-aligned-margin);
   }
 }

@@ -2,5 +2,5 @@
 /**
  * Structural parts of the rating element blueprint.
  */
-interface RatingParts extends BaseElementParts {}
+interface RatingParts extends BaseFieldElementParts {}
 ```

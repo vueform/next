@@ -12,7 +12,14 @@ const entry: AdapterEntry = {
   modules,
   createVueform,
   defaultConfig,
-  theme,
+  theme: {
+    ...theme,
+    brand: 'var(--vp-c-brand-1)',
+    dark: {
+      ...theme.dark,
+      brand: 'var(--vp-c-brand-1)',
+    },
+  },
   icon: (name) =>
     name && name.startsWith('vf-') ? name : name ? `fa-solid fa-${name}` : '',
 }

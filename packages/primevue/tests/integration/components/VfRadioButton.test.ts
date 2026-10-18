@@ -199,7 +199,7 @@ describe('Forwarded events', () => {
 // Text label alignment
 // =============================================================================
 describe('Text label alignment', () => {
-  test('applies left alignment class', () => {
+  test('applies left alignment attribute', () => {
     const { form } = createForm({
       schema: defineSchema({
         el: { type: 'radio-button', text: 'Label', align: 'left' },
@@ -207,10 +207,10 @@ describe('Text label alignment', () => {
     })
 
     const wrapper = form.find('.vf-choice-wrapper')
-    expect(wrapper.classes()).toContain('vf-left')
+    expect(wrapper.attributes('data-align')).toBe('left')
   })
 
-  test('applies right alignment class', () => {
+  test('applies right alignment attribute', () => {
     const { form } = createForm({
       schema: defineSchema({
         el: { type: 'radio-button', text: 'Label', align: 'right' },
@@ -218,7 +218,7 @@ describe('Text label alignment', () => {
     })
 
     const wrapper = form.find('.vf-choice-wrapper')
-    expect(wrapper.classes()).toContain('vf-right')
+    expect(wrapper.attributes('data-align')).toBe('right')
   })
 })
 

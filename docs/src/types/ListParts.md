@@ -2,5 +2,5 @@
 /**
  * Parts for the list element.
  */
-interface ListParts extends BaseElementParts {}
+interface ListParts extends BaseContainerElementParts {}
 ```

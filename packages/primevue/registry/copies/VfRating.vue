@@ -34,11 +34,8 @@ const slots = defineSlots<VfRatingSlots>()
 const { api, parts, classes, context, expose, outlets, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ props }) => ({
-  root: {
-    'vf-rating': true,
-    'vf-aligned': !!props.aligned,
-  },
+useClasses(() => ({
+  root: 'vf-rating',
 }))
 
 const {
@@ -54,6 +51,7 @@ const {
   handleInput,
   handleBlur,
   handleFocus,
+  a11yBindings,
 } = api
 
 /**
@@ -78,6 +76,7 @@ defineExpose(expose)
         :readonly
         :invalid
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

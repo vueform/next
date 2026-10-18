@@ -7,7 +7,7 @@ import {
   makeDisabled,
   makeItems,
   makeData,
-  makeCheckboxesAria,
+  makeGroupAria,
   makeHolderProvider,
   makeLayout,
   type DisabledProps,
@@ -16,9 +16,12 @@ import {
   type BaseElementProps,
   type ValidationProps,
   type ContainerProps,
-  type BaseElementParts,
+  type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type GroupAriaA11y,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type ItemsProps,
   type ItemsModelProp,
@@ -113,12 +116,22 @@ export interface CheckboxesSlots<
 /**
  * Structural parts of the checkboxes element blueprint.
  */
-export interface CheckboxesParts extends BaseElementParts {}
+export interface CheckboxesParts extends BaseContainerElementParts {}
 
 /**
  * CSS classes for the checkboxes element blueprint.
  */
 export interface CheckboxesClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the checkboxes element blueprint.
+ */
+export interface CheckboxesModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the checkboxes element blueprint.
+ */
+export interface CheckboxesA11y extends BaseElementA11y, GroupAriaA11y {}
 
 /**
  * Augmentable public API surface for checkboxes-based components.
@@ -160,7 +173,7 @@ export function blueprint<TProps extends LooseCheckboxesProps>(
     .use(makeDisabled())
     .use(makeData())
     .use(makeItems({ multiple: true }))
-    .use(makeCheckboxesAria())
+    .use(makeGroupAria({ role: 'group' }))
     .use(
       makeHolderProvider({
         multiple: true,

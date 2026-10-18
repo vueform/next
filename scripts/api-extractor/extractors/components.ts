@@ -13,6 +13,7 @@ import {
   extractAdapterFeatureNames,
   extractAdapterTypeInfo,
   extractBaseAugmentations,
+  extractBindings,
   extractBlueprintName,
   extractClassDefaults,
   extractClassTypes,
@@ -77,16 +78,55 @@ function componentUsesVfLayout(
   return tpl ? tpl[1].includes('<VfLayout') : false
 }
 
+/**
+ * Whether a blueprint declares the container element kind (its parts extend
+ * `BaseContainerElementParts`). Memoized per blueprint file path.
+ */
+const containerBlueprintCache = new Map<string, boolean>()
+
+function isContainerBlueprint(
+  blueprintName: string | undefined,
+  blueprintDirs: string[]
+): boolean {
+  if (!blueprintName) return false
+
+  // Checked across all dirs (adapter first, core after): adapter blueprints
+  // may be pure re-exports of the core blueprint, whose file then carries
+  // the kind declaration.
+  for (const dir of blueprintDirs) {
+    const blueprintPath = path.join(dir, `${blueprintName}.ts`)
+    if (!containerBlueprintCache.has(blueprintPath)) {
+      containerBlueprintCache.set(
+        blueprintPath,
+        fs.existsSync(blueprintPath) &&
+          fs
+            .readFileSync(blueprintPath, 'utf-8')
+            .includes('extends BaseContainerElementParts')
+      )
+    }
+    if (containerBlueprintCache.get(blueprintPath)) return true
+  }
+
+  return false
+}
+
 function mergeBaseAugmentations(
   entry: ComponentEntry,
   augmentations: BaseAugmentations,
+  kind: 'field' | 'container',
   baseClasses: Record<string, string>,
   ownDefaults: Record<string, string>
 ): void {
   for (const [name, info] of Object.entries(augmentations.slots)) {
     if (!entry.slots[name]) entry.slots[name] = info
   }
-  for (const [name, info] of Object.entries(augmentations.parts)) {
+
+  const kindParts =
+    kind === 'container' ? augmentations.containerParts : augmentations.fieldParts
+  for (const [name, info] of Object.entries({
+    ...augmentations.parts,
+    ...kindParts,
+  })) {
     if (!entry.parts[name]) entry.parts[name] = info
   }
   for (const [name, info] of Object.entries(augmentations.classes)) {
@@ -112,6 +152,7 @@ function applyAugmentations(
   components: Record<string, ComponentEntry>,
   augmentations: BaseAugmentations | null,
   componentsDirs: string[],
+  blueprintDirs: string[],
   baseClasses: Record<string, string>
 ): void {
   if (!augmentations) return
@@ -127,7 +168,16 @@ function applyAugmentations(
         path.join(elementDir, componentName),
         {}
       )
-      mergeBaseAugmentations(entry, augmentations, baseClasses, ownDefaults)
+      const kind = isContainerBlueprint(entry.blueprint, blueprintDirs)
+        ? 'container'
+        : 'field'
+      mergeBaseAugmentations(
+        entry,
+        augmentations,
+        kind,
+        baseClasses,
+        ownDefaults
+      )
     }
   }
 }
@@ -189,6 +239,8 @@ function extractCoreComponents(): Record<string, ComponentEntry> {
     const partsDecl = findInterface(typesFile, `${componentName}Parts`)
     const slotsDecl = findInterface(typesFile, `${componentName}Slots`)
     const classesDecl = findInterface(typesFile, `${componentName}Classes`)
+    const a11yDecl = findInterface(typesFile, `${componentName}A11y`)
+    const modifiersDecl = findInterface(typesFile, `${componentName}Modifiers`)
 
     const props = propsDecl
       ? extractComponentProps(checker, propsDecl, defaults)
@@ -196,6 +248,10 @@ function extractCoreComponents(): Record<string, ComponentEntry> {
     const events = eventsDecl ? extractEvents(checker, eventsDecl) : {}
     const parts = partsDecl ? extractParts(checker, partsDecl) : {}
     const slots = slotsDecl ? extractSlots(checker, slotsDecl) : {}
+    const a11y = a11yDecl ? extractBindings(checker, a11yDecl) : {}
+    const modifiers = modifiersDecl
+      ? extractBindings(checker, modifiersDecl)
+      : {}
 
     const classTypes = classesDecl
       ? extractClassTypes(checker, classesDecl)
@@ -230,6 +286,9 @@ function extractCoreComponents(): Record<string, ComponentEntry> {
       slots,
       classes: classTypes,
     }
+
+    if (Object.keys(a11y).length) entry.a11y = a11y
+    if (Object.keys(modifiers).length) entry.modifiers = modifiers
 
     const componentApi = apiFile
       ? extractComponentApi(checker, apiFile)
@@ -409,6 +468,8 @@ function extractAdapterComponents(
     const partsDecl = findInterface(typesFile, `${componentName}Parts`)
     const slotsDecl = findInterface(typesFile, `${componentName}Slots`)
     const classesDecl = findInterface(typesFile, `${componentName}Classes`)
+    const a11yDecl = findInterface(typesFile, `${componentName}A11y`)
+    const modifiersDecl = findInterface(typesFile, `${componentName}Modifiers`)
 
     const props = propsDecl
       ? extractComponentProps(adapterChecker, propsDecl, defaults)
@@ -416,6 +477,10 @@ function extractAdapterComponents(
     const events = eventsDecl ? extractEvents(adapterChecker, eventsDecl) : {}
     const parts = partsDecl ? extractParts(adapterChecker, partsDecl) : {}
     const slots = slotsDecl ? extractSlots(adapterChecker, slotsDecl) : {}
+    const a11y = a11yDecl ? extractBindings(adapterChecker, a11yDecl) : {}
+    const modifiers = modifiersDecl
+      ? extractBindings(adapterChecker, modifiersDecl)
+      : {}
 
     if (eventsDecl) {
       const forwarded = resolveForwardedEventDescriptions(
@@ -515,6 +580,9 @@ function extractAdapterComponents(
       classes: classTypes,
     }
 
+    if (Object.keys(a11y).length) entry.a11y = a11y
+    if (Object.keys(modifiers).length) entry.modifiers = modifiers
+
     if (adapterTypeInfo) entry.adapterTypeInfo = adapterTypeInfo
 
     const componentApi = apiFile
@@ -597,6 +665,7 @@ function main() {
     uiComponents,
     uiAugmentations,
     [CORE_COMPONENTS_DIR],
+    [BLUEPRINTS_DIR],
     uiBaseClasses
   )
   expandSlotInheritance(uiComponents)
@@ -630,6 +699,7 @@ function main() {
       adapterComponents,
       adapterAugmentations,
       [adapterComponentsDir, CORE_COMPONENTS_DIR],
+      [path.join(adapterDir, 'src/blueprints'), BLUEPRINTS_DIR],
       effectiveBaseClasses
     )
     expandSlotInheritance(adapterComponents)

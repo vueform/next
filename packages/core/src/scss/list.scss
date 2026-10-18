@@ -18,7 +18,7 @@
   align-items: var(--vf-list-item-align);
 
   /** Visual state while being dragged. */
-  &.vf-dragging {
+  &[data-dragging] {
     cursor: grabbing;
     opacity: var(--vf-list-dragging-opacity);
   }
@@ -64,7 +64,7 @@
   margin: var(--vf-list-add-margin);
 }
 
-.vf-list-item.vf-wrapped {
+.vf-list-item[data-wrapped] {
   & > .vf-list-element > .vf-element > .vf-element-group > .vf-element-wrapper {
     padding: var(--vf-group-wrapped-padding);
     background-color: var(--vf-group-wrapped-bg);

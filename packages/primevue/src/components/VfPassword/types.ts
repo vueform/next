@@ -16,12 +16,13 @@ import type {
 } from '@vueform/core'
 import type { PasswordProps as PvPasswordProps } from 'primevue'
 import type { PasswordSlots as APasswordSlots } from 'primevue/password'
-
 import type {
+  PasswordA11y,
   PasswordApi,
   PasswordClasses,
   PasswordEmits,
   PasswordExpose,
+  PasswordModifiers,
   PasswordParts,
   PasswordProps,
   PasswordSlots,
@@ -133,6 +134,31 @@ export interface VfPasswordClasses
 }
 
 /**
+ * Accessibility bindings of the VfPassword component.
+ */
+export interface VfPasswordA11y extends PasswordA11y {}
+
+/**
+ * Styling modifiers of the VfPassword component.
+ */
+export interface VfPasswordModifiers extends PasswordModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfPassword.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -157,6 +183,8 @@ export interface VfPasswordContext<
   VfPasswordSlots,
   VfPasswordParts,
   VfPasswordClasses,
+  VfPasswordModifiers,
+  VfPasswordA11y,
   VfPasswordExpose,
   PasswordApi<TProps>
 > {}

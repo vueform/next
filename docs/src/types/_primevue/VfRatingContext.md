@@ -15,6 +15,8 @@ interface VfRatingContext extends DefineElementContext<
   VfRatingSlots,
   VfRatingParts,
   VfRatingClasses,
+  VfRatingModifiers,
+  VfRatingA11y,
   VfRatingExpose,
   RatingApi
 > {}

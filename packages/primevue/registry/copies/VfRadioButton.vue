@@ -46,7 +46,7 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  aria,
+  a11yBindings,
   inputName,
   text,
   input,
@@ -59,14 +59,9 @@ const {
   handleModelUpdate,
 } = api
 
-useClasses(({ props }) => ({
+useClasses(() => ({
   root: 'vf-radio-button',
-  wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
-  },
+  wrapper: 'vf-choice-wrapper',
   text: 'vf-choice-text',
 }))
 
@@ -80,7 +75,7 @@ defineExpose(expose)
       <slot
         :model
         :value="radioValue"
-        :aria
+        :a11y-bindings="a11yBindings"
         :input-name
         :id
         :disabled
@@ -96,7 +91,7 @@ defineExpose(expose)
           :is="outlets.default"
           :model
           :value="radioValue"
-          :aria
+          :a11y-bindings="a11yBindings"
           :input-name
           :id
           :disabled
@@ -109,7 +104,13 @@ defineExpose(expose)
           :class="classes.wrapper"
           v-bind="parts.wrapper"
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          :data-align="props.align || undefined"
+          :data-aligned="props.aligned ? '' : undefined"
+          v-bind="parts.wrapper"
+        >
           <RadioButton
             v-model="value"
             :name="inputName"
@@ -120,7 +121,7 @@ defineExpose(expose)
             :readonly
             :invalid
             v-bind="{
-              ...aria,
+              ...a11yBindings.input,
               ...forwardProps,
               ...parts.input,
             }"

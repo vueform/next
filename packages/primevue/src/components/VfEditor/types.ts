@@ -14,10 +14,12 @@ import {
 import type { VNode } from 'vue'
 
 import type {
+  EditorA11y,
   EditorApi,
   EditorClasses,
   EditorEmits,
   EditorExpose,
+  EditorModifiers,
   EditorParts,
   EditorProps,
   EditorSlots,
@@ -136,6 +138,31 @@ export interface VfEditorClasses extends EditorClasses {
 }
 
 /**
+ * Accessibility bindings of the VfEditor component.
+ */
+export interface VfEditorA11y extends EditorA11y {}
+
+/**
+ * Styling modifiers of the VfEditor component.
+ */
+export interface VfEditorModifiers extends EditorModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The editor control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfEditor.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -160,6 +187,8 @@ export interface VfEditorContext<
   VfEditorSlots,
   VfEditorParts,
   VfEditorClasses,
+  VfEditorModifiers,
+  VfEditorA11y,
   VfEditorExpose,
   EditorApi<TProps>
 > {}

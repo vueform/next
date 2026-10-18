@@ -5,12 +5,13 @@ import type {
 } from '@vueform/core'
 import type { ToggleButtonProps as PvToggleButtonProps } from 'primevue'
 import type { ToggleButtonSlots as AToggleButtonSlots } from 'primevue/togglebutton'
-
 import type {
+  ToggleButtonA11y,
   ToggleButtonApi,
   ToggleButtonClasses,
   ToggleButtonEmits,
   ToggleButtonExpose,
+  ToggleButtonModifiers,
   ToggleButtonParts,
   ToggleButtonProps,
   ToggleButtonSlots,
@@ -74,6 +75,31 @@ export interface VfToggleButtonClasses extends ToggleButtonClasses {
 }
 
 /**
+ * Accessibility bindings of the VfToggleButton component.
+ */
+export interface VfToggleButtonA11y extends ToggleButtonA11y {}
+
+/**
+ * Styling modifiers of the VfToggleButton component.
+ */
+export interface VfToggleButtonModifiers extends ToggleButtonModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The toggle-button control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfToggleButton.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -99,6 +125,8 @@ export interface VfToggleButtonContext extends DefineElementContext<
   VfToggleButtonSlots,
   VfToggleButtonParts,
   VfToggleButtonClasses,
+  VfToggleButtonModifiers,
+  VfToggleButtonA11y,
   VfToggleButtonExpose,
   ToggleButtonApi
 > {}

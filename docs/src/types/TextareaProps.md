@@ -22,7 +22,6 @@ interface TextareaProps<
     TranslateProps<TTranslate, TLanguages>,
     AddonsProps<TContext>,
     IconsProps<TContext>,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -31,6 +30,19 @@ interface TextareaProps<
    * The number of visible text rows for the textarea.
    */
   rows?: number
+
+  /**
+   * The HTML `inputmode` attribute hinting which virtual keyboard mobile
+   * browsers should show.
+   */
+  inputmode?: InputModeProp
+
+  /**
+   * The HTML `autocomplete` attribute value for the textarea. When omitted,
+   * the element's name is used if it is a valid autofill token (e.g.
+   * `street-address`).
+   */
+  autocomplete?: string // @todo: is this needed for textarea?
 
   /**
    * Whether the textarea automatically grows to fit its content. When true, the

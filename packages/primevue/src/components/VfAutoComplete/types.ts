@@ -15,10 +15,12 @@ import type { AutoCompleteSlots as AAutoCompleteSlots } from 'primevue/autocompl
 import type { VNode } from 'vue'
 
 import type {
+  AutoCompleteA11y,
   AutoCompleteApi,
   AutoCompleteClasses,
   AutoCompleteEmits,
   AutoCompleteExpose,
+  AutoCompleteModifiers,
   AutoCompleteParts,
   AutoCompleteProps,
   AutoCompleteSlots,
@@ -252,6 +254,31 @@ export interface VfAutoCompleteClasses
 }
 
 /**
+ * Accessibility bindings of the VfAutoComplete component.
+ */
+export interface VfAutoCompleteA11y extends AutoCompleteA11y {}
+
+/**
+ * Styling modifiers of the VfAutoComplete component.
+ */
+export interface VfAutoCompleteModifiers extends AutoCompleteModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfAutoComplete.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -280,6 +307,8 @@ export interface VfAutoCompleteContext<
   VfAutoCompleteSlots,
   VfAutoCompleteParts,
   VfAutoCompleteClasses,
+  VfAutoCompleteModifiers,
+  VfAutoCompleteA11y,
   VfAutoCompleteExpose,
   AutoCompleteApi<TProps>
 > {}

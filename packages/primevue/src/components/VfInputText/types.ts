@@ -15,12 +15,13 @@ import type {
   LanguagesProp,
 } from '@vueform/core'
 import type { InputTextProps as PvInputTextProps } from 'primevue'
-
 import type {
+  InputTextA11y,
   InputTextApi,
   InputTextClasses,
   InputTextEmits,
   InputTextExpose,
+  InputTextModifiers,
   InputTextParts,
   InputTextProps,
   InputTextSlots,
@@ -128,6 +129,31 @@ export interface VfInputTextClasses
 }
 
 /**
+ * Accessibility bindings of the VfInputText component.
+ */
+export interface VfInputTextA11y extends InputTextA11y {}
+
+/**
+ * Styling modifiers of the VfInputText component.
+ */
+export interface VfInputTextModifiers extends InputTextModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfInputText.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -153,6 +179,8 @@ export interface VfInputTextContext<
   VfInputTextSlots,
   VfInputTextParts,
   VfInputTextClasses,
+  VfInputTextModifiers,
+  VfInputTextA11y,
   VfInputTextExpose,
   InputTextApi<TProps>
 > {}

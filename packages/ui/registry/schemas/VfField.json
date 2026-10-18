@@ -10,7 +10,7 @@
       "path": "VfField.vue",
       "target": "{componentsDir}/VfField.vue",
       "kind": "component",
-      "hash": "sha256:be624800da990c4451667e68af30bda5b216656737268aa7b44b437f5ac12c74"
+      "hash": "sha256:74370558f2e828fec599678bdd2d65e81b075065c5bfc4ab3854cdc42fe6422b"
     }
   ],
   "imports": [
@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfField.vue",
     "blueprint": "field",
-    "hash": "sha256:c4f8f64f6f3d8ae9601938aa13593313b597b9bec457dc751fc5b06c9e8e45c6",
+    "hash": "sha256:7782ecacf93458328c20bc7c86fe15a2ac7bafaa5e7e2ce2ef09886427670068",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

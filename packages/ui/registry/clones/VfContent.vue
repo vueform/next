@@ -155,14 +155,7 @@ const { api, context, expose, outlets, useClasses } = useBlueprint(
  * @see https://ui.vueform.com/guide/classes
  */
 useClasses(() => ({
-  root: {
-    'vf-content': true,
-    'vf-left': props.align === 'left',
-    'vf-center': props.align === 'center',
-    'vf-right': props.align === 'right',
-    'vf-justify': props.align === 'justify',
-    'vf-aligned': !!props.aligned,
-  },
+  root: 'vf-content',
 }))
 
 const { viewLoaded, content, isHtml, tag } = api

@@ -15,62 +15,59 @@ const events = defineEvents<VfButtonEmits>()
 const slots = defineSlots<VfButtonSlots>()
 const attrs = useAttrs()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  parts,
+  classes,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  a11yBindings,
+  modifiers,
+  useClasses,
+  useModifiers,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
-  root: {
-    'vf-button': true,
-    'vf-align-label': !api.help.value,
-  },
+  root: 'vf-button',
   button: [
     {
       'vf-btn': true,
       [api.tokenClass]: !!api.tokenCss.value,
-      'vf-filled': props.variant === 'filled',
-      'vf-outlined': props.variant === 'outlined',
-      'vf-text': props.variant === 'text',
-      'vf-link': props.variant === 'link',
-      'vf-primary': api.severity.value === 'primary',
-      'vf-secondary': api.severity.value === 'secondary',
-      'vf-success': api.severity.value === 'success',
-      'vf-info': api.severity.value === 'info',
-      'vf-warn': api.severity.value === 'warn',
-      'vf-help': api.severity.value === 'help',
-      'vf-danger': api.severity.value === 'danger',
-      'vf-contrast': api.severity.value === 'contrast',
-      'vf-sm': props.size === 'small',
-      'vf-fluid': props.fluid,
-      'vf-disabled': api.disabled.value,
-      'vf-loading': api.loading.value,
-      'vf-left': props.align === 'left',
-      'vf-right': props.align === 'right',
-      'vf-center': props.align === 'center',
-      'vf-icon-only': !!api.icon.value && !api.text.value,
     },
     props.layout === false ? props.class : undefined,
   ],
   icon: {
     'vf-btn-icon': true,
     [api.icon.value!]: !!api.icon.value,
-    'vf-right': props.iconPos === 'right',
-    'vf-top': props.iconPos === 'top',
-    'vf-bottom': props.iconPos === 'bottom',
   },
   text: 'vf-btn-text',
 }))
 
-const {
-  viewLoaded,
-  text,
-  href,
-  to,
-  disabled,
-  tokenCss,
-  icon,
-  nonce,
-  handleClick,
-} = api
+useModifiers(
+  ({ props, severity, icon, text, href, to, loading, disabled }) => ({
+    button: {
+      'data-variant': props.variant,
+      'data-severity': severity.value,
+      'data-size': props.size,
+      'data-align': props.align || undefined,
+      'data-fluid': props.fluid ? '' : undefined,
+      'data-icon-only': !!icon.value && !text.value ? '' : undefined,
+      'data-loading': loading.value ? '' : undefined,
+      // Anchor mode has no native `disabled` attribute, so the styling state
+      // needs its own marker there; `<button>` keeps `:disabled`.
+      'data-disabled':
+        (href.value || to.value) && disabled.value ? '' : undefined,
+    },
+    icon: {
+      'data-pos': props.iconPos,
+    },
+  })
+)
+
+const { viewLoaded, text, href, to, id, tokenCss, icon, nonce, handleClick } =
+  api
 
 const { target, rel, download } = propRefs
 
@@ -84,21 +81,37 @@ defineExpose(expose)
       <component
         :is="href || to ? 'a' : 'button'"
         :type="href || to ? undefined : 'button'"
+        :id
         :href="href || to"
         :target
         :rel
         :download
-        :disabled
         :class="classes.button"
-        v-bind="{ ...parts.button, ...attrs }"
+        v-bind="{
+          ...modifiers.button,
+          ...a11yBindings.button,
+          ...parts.button,
+          ...attrs,
+        }"
         @click="handleClick"
       >
-        <i v-if="icon" :class="classes.icon" v-bind="parts.icon" />
+        <i
+          v-if="icon"
+          :class="classes.icon"
+          aria-hidden="true"
+          v-bind="{ ...modifiers.icon, ...parts.icon }"
+        />
         <slot name="before">
           <component v-if="outlets?.before" :is="outlets.before" />
         </slot>
-        <slot :text>
-          <component v-if="outlets?.default" :is="outlets.default" :text />
+        <slot :text :classes :parts>
+          <component
+            v-if="outlets?.default"
+            :is="outlets.default"
+            :text
+            :classes
+            :parts
+          />
           <span v-else-if="text" :class="classes.text" v-bind="parts.text">
             {{ text }}
           </span>

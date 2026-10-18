@@ -23,6 +23,8 @@ interface VfMultiSelectContext<
   VfMultiSelectSlots,
   VfMultiSelectParts,
   VfMultiSelectClasses,
+  VfMultiSelectModifiers,
+  VfMultiSelectA11y,
   VfMultiSelectExpose,
   MultiSelectApi<TProps>
 > {}

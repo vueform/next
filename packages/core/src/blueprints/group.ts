@@ -16,9 +16,11 @@ import {
   type ModelProps,
   type BaseElementEmits,
   type BaseElementProps,
-  type BaseElementParts,
+  type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
+  type BaseElementA11y,
+  type BaseElementModifiers,
   type BaseElementSlots,
   type TabbedEmits,
   type TabbedProps,
@@ -94,12 +96,22 @@ export interface GroupSlots<
 /**
  * Parts for the group element.
  */
-export interface GroupParts extends BaseElementParts {}
+export interface GroupParts extends BaseContainerElementParts {}
 
 /**
  * Classes for the group element.
  */
 export interface GroupClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the group element blueprint.
+ */
+export interface GroupModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the group element blueprint.
+ */
+export interface GroupA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for group-based components.

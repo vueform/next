@@ -14,10 +14,12 @@ import type { MultiSelectSlots as AMultiSelectSlots } from 'primevue/multiselect
 import type { VNode } from 'vue'
 
 import type {
+  MultiSelectA11y,
   MultiSelectApi,
   MultiSelectClasses,
   MultiSelectEmits,
   MultiSelectExpose,
+  MultiSelectModifiers,
   MultiSelectParts,
   MultiSelectProps,
   MultiSelectSlots,
@@ -333,6 +335,33 @@ export interface VfMultiSelectClasses
 }
 
 /**
+ * Accessibility bindings of the VfMultiSelect component.
+ */
+export interface VfMultiSelectA11y extends MultiSelectA11y {}
+
+/**
+ * Styling modifiers of the VfMultiSelect component.
+ */
+export interface VfMultiSelectModifiers extends MultiSelectModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The multi-select control's validation state and placeholder marker, set
+   * while the value is empty and a placeholder is shown.
+   */
+  input: {
+    'data-invalid'?: ''
+    'data-placeholder'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfMultiSelect.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -366,6 +395,8 @@ export interface VfMultiSelectContext<
   VfMultiSelectSlots,
   VfMultiSelectParts,
   VfMultiSelectClasses,
+  VfMultiSelectModifiers,
+  VfMultiSelectA11y,
   VfMultiSelectExpose,
   MultiSelectApi<TProps>
 > {}

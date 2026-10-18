@@ -174,7 +174,7 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `wrapper` | [`class`](!code#slot.wrapper.class "ClassValue") [`index`](!code#slot.wrapper.index "number") [`label`](!code#slot.wrapper.label "string") [`meta`](!code#slot.wrapper.meta "Record<string, any>") [`selected`](!code#slot.wrapper.selected "boolean") [`invalid`](!code#slot.wrapper.invalid "boolean") [`loading`](!code#slot.wrapper.loading "boolean") [`enabled`](!code#slot.wrapper.enabled "boolean") [`completed`](!code#slot.wrapper.completed "boolean") [`el$`](!code#slot.wrapper.el$ "UnknownElement") [`page`](!code#slot.wrapper.page "ResolvedPage") | Slot that replaces each step wrapper element. Receives step state and page info. |
+| `wrapper` | [`index`](!code#slot.wrapper.index "number") [`label`](!code#slot.wrapper.label "string") [`meta`](!code#slot.wrapper.meta "Record<string, any>") [`selected`](!code#slot.wrapper.selected "boolean") [`invalid`](!code#slot.wrapper.invalid "boolean") [`loading`](!code#slot.wrapper.loading "boolean") [`enabled`](!code#slot.wrapper.enabled "boolean") [`completed`](!code#slot.wrapper.completed "boolean") [`el$`](!code#slot.wrapper.el$ "UnknownElement") [`page`](!code#slot.wrapper.page "ResolvedPage") | Slot that replaces each step wrapper element. Receives step state and page info. |
 | `default` | [`index`](!code#slot.default.index "number") [`label`](!code#slot.default.label "string") [`meta`](!code#slot.default.meta "Record<string, any>") [`selected`](!code#slot.default.selected "boolean") [`invalid`](!code#slot.default.invalid "boolean") [`loading`](!code#slot.default.loading "boolean") [`enabled`](!code#slot.default.enabled "boolean") [`completed`](!code#slot.default.completed "boolean") [`el$`](!code#slot.default.el$ "UnknownElement") | Slot that replaces each step's inner content. Receives step state. |
 <!-- @slots-end -->
 <!-- @endtab -->
@@ -200,8 +200,8 @@ The root steps container element.
 
 | | |
 | --- | --- |
-| **Element** | `<div>` |
-| **Classes** | `.vf-steps` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-steps` |
 
 ### `list`
 
@@ -209,8 +209,8 @@ The ordered list element containing all steps.
 
 | | |
 | --- | --- |
-| **Element** | `<ol>` |
-| **Classes** | `.vf-steps-wrapper` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ol>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-steps-wrapper` |
 
 ### `wrapper`
 
@@ -218,8 +218,9 @@ Each step wrapper. Receives step state options.
 
 | | |
 | --- | --- |
-| **Element** | `<li>` |
-| **Classes** | `.vf-step-wrapper` `.vf-selected?` `.vf-enabled?` `.vf-completed?` `.vf-invalid?` `.vf-loading?` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-step-wrapper` |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-selected`](!code#parts.wrapper.modifiers.data-selected "''") [`data-enabled`](!code#parts.wrapper.modifiers.data-enabled "''") [`data-completed`](!code#parts.wrapper.modifiers.data-completed "''") [`data-invalid`](!code#parts.wrapper.modifiers.data-invalid "''") [`data-loading`](!code#parts.wrapper.modifiers.data-loading "''") |
 
 ### `step`
 
@@ -227,11 +228,10 @@ The step content element.
 
 | | |
 | --- | --- |
-| **Element** | `<li>` |
-| **Classes** | `.vf-step` |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-step` |
 <!-- @parts-end -->
 <!-- @endtab -->
-
 <!-- @tab Tokens -->
 
 ## Tokens

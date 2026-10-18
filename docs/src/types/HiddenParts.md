@@ -2,5 +2,5 @@
 /**
  * Parts for the hidden element.
  */
-interface HiddenParts extends BaseElementParts {}
+interface HiddenParts extends BaseFieldElementParts {}
 ```

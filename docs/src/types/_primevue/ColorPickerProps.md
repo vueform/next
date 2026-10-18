@@ -19,7 +19,6 @@ interface ColorPickerProps<
     ModelPropsWithDefaultValue<TextModel, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     InfoProps,
     AlignedProps,

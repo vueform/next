@@ -297,12 +297,10 @@ export interface VfCloneNameClasses extends ListClasses {
   items: ClassValue
 
   /**
-   * Each list item wrapper. Receives drag state.
-   *
-   * @param beingDragged Whether this item is currently being dragged.
-   * @param isDropTarget Whether this item is the current drop target.
+   * Each list item wrapper. Drag state is exposed via `data-dragging` and
+   * `data-drop-target` attributes (and `data-wrapped` for the `wrap` prop).
    */
-  item: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
+  item: ClassValue
 
   /**
    * The element wrapper within each list item.
@@ -434,15 +432,10 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ props }) => ({
+useClasses(() => ({
   container: 'vf-list',
   items: 'vf-list-items',
-  item: (beingDragged: boolean, isDropTarget: boolean) => ({
-    'vf-list-item': true,
-    'vf-wrapped': props.wrap,
-    'vf-dragging': beingDragged,
-    'vf-drop-target': isDropTarget,
-  }),
+  item: 'vf-list-item',
   element: 'vf-list-element',
   sort: 'vf-list-sort',
   remove: 'vf-list-remove',
@@ -555,6 +548,7 @@ declare module 'vue' {
         v-else
         ref="list"
         :class="classes.items"
+        role="list"
         v-bind="parts.items"
         @dragover="handleWrapperDragOver"
         @drop="handleDrop"
@@ -573,7 +567,7 @@ declare module 'vue' {
             "
             :handle-drag-end
             :handle-remove="() => handleRemove(index)"
-            :class="classes.item(dragIndex === index, dropTarget === id)"
+            :class="classes.item"
             v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
           >
             <component
@@ -590,12 +584,16 @@ declare module 'vue' {
               "
               :handle-drag-end
               :handle-remove="() => handleRemove(index)"
-              :class="classes.item(dragIndex === index, dropTarget === id)"
+              :class="classes.item"
               v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
             />
             <div
               v-else
-              :class="classes.item(dragIndex === index, dropTarget === id)"
+              :class="classes.item"
+              :data-wrapped="props.wrap ? '' : undefined"
+              :data-dragging="dragIndex === index ? '' : undefined"
+              :data-drop-target="dropTarget === id ? '' : undefined"
+              role="listitem"
               v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
               @dragenter="handleDragEnter($event, position)"
             >
@@ -627,6 +625,7 @@ declare module 'vue' {
                   :layout="false"
                   :draggable="true"
                   detached
+                  :aria-label="t('sr_list_sort', { index: index + 1 })"
                   v-bind="parts.sort"
                   @dragstart="handleDragStart($event, index)"
                   @dragend="handleDragEnd"
@@ -674,6 +673,11 @@ declare module 'vue' {
                   :name="`${id}__remove_${index}`"
                   :text="removeLabel"
                   :icon="removeIcon"
+                  :aria-label="
+                    removeLabel
+                      ? undefined
+                      : t('sr_list_remove', { index: index + 1 })
+                  "
                   :class="classes.remove"
                   v-bind="parts.remove"
                   @click.prevent="handleRemove(index)"

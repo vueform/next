@@ -47,7 +47,7 @@ const {
   id,
   disabled,
   viewLoaded,
-  aria,
+  a11yBindings,
   inputName,
   text,
   input,
@@ -59,18 +59,10 @@ const {
   handleModelUpdate,
 } = api
 
-useClasses(({ props, hasError }) => ({
+useClasses(() => ({
   root: 'vf-checkbox',
-  wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
-  },
-  input: {
-    'vf-choice-input': true,
-    'vf-danger': hasError.value,
-  },
+  wrapper: 'vf-choice-wrapper',
+  input: 'vf-choice-input',
   text: 'vf-choice-text',
 }))
 
@@ -83,7 +75,6 @@ defineExpose(expose)
     <VfLayout v-else :label="false">
       <slot
         :model
-        :aria
         :input-name
         :id
         :true-value
@@ -91,6 +82,7 @@ defineExpose(expose)
         :disabled
         :input
         :text
+        :a11y-bindings
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -99,7 +91,7 @@ defineExpose(expose)
           v-if="outlets?.default"
           :is="outlets.default"
           :model
-          :aria
+          :a11y-bindings
           :input-name
           :id
           :true-value
@@ -111,7 +103,13 @@ defineExpose(expose)
           :handle-focus
           :handle-model-update
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          :data-align="props.align || undefined"
+          :data-aligned="props.aligned ? '' : undefined"
+          v-bind="parts.wrapper"
+        >
           <input
             type="checkbox"
             v-model="value"
@@ -123,7 +121,7 @@ defineExpose(expose)
             :disabled
             :class="classes.input"
             v-bind="{
-              ...aria,
+              ...a11yBindings.input,
               ...parts.input,
             }"
             @blur="handleBlur"

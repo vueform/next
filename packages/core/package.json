@@ -224,6 +224,7 @@
     "@vue/test-utils": "catalog:",
     "@vueform/tsconfig": "workspace:*",
     "@vueform/utils": "workspace:^",
+    "axe-core": "catalog:",
     "fast-glob": "catalog:",
     "happy-dom": "catalog:",
     "sass-embedded": "catalog:",

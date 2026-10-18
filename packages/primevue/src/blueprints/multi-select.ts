@@ -15,12 +15,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -113,7 +115,6 @@ export interface MultiSelectProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     PlaceholderProps<TContext>,
@@ -172,12 +173,22 @@ export interface MultiSelectSlots<
 /**
  * Structural parts of the multi-select element blueprint.
  */
-export interface MultiSelectParts extends BaseElementParts {}
+export interface MultiSelectParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the multi-select element blueprint.
  */
 export interface MultiSelectClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the multi-select element blueprint.
+ */
+export interface MultiSelectModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the multi-select element blueprint.
+ */
+export interface MultiSelectA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for multi-select-based components.

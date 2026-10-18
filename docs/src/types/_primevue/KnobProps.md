@@ -18,7 +18,6 @@ interface KnobProps<
     ExpressionProps,
     ModelPropsWithDefaultValue<TextishModel, TContext>,
     ValidationProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,

@@ -185,6 +185,7 @@ const {
   step,
   forwardProps,
   handleInput,
+  a11yBindings,
 } = api
 
 /**
@@ -235,6 +236,7 @@ declare module 'vue' {
         :max
         :step
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

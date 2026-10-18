@@ -7,6 +7,8 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
+  BaseComponentA11y,
+  BaseComponentModifiers,
   LooseRequired,
 } from '#src/types'
 
@@ -48,6 +50,16 @@ export interface StepsParts extends BaseComponentParts {}
  * CSS classes of the steps component.
  */
 export interface StepsClasses extends BaseComponentClasses {}
+
+/**
+ * Styling modifiers of the steps component.
+ */
+export interface StepsModifiers extends BaseComponentModifiers {}
+
+/**
+ * Accessibility bindings of the steps component.
+ */
+export interface StepsA11y extends BaseComponentA11y {}
 
 /**
  * Augmentable public API surface for steps-based components.

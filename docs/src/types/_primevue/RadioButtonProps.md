@@ -19,7 +19,6 @@ interface RadioButtonProps<
     ModelPropsWithDefaultValue<RadioButtonModelProp<TRadioValue>, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,

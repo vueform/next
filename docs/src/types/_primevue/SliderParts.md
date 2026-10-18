@@ -2,5 +2,5 @@
 /**
  * Structural parts of the slider element blueprint.
  */
-interface SliderParts extends BaseElementParts {}
+interface SliderParts extends BaseFieldElementParts {}
 ```

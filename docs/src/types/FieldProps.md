@@ -31,7 +31,6 @@ interface FieldProps<
     TranslateProps<TTranslate, TLanguages>,
     AddonsProps<TContext>,
     IconsProps<TContext>,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext> {
   /**

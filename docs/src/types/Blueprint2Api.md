@@ -46,6 +46,18 @@ type Blueprint2Api<
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 
   /**
+   * Merged part-keyed accessibility bindings: the blueprint's semantic base
+   * with component-registered bags (`useA11yBindings`) layered on top.
+   */
+  a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
+
+  /**
+   * Merged part-keyed styling modifiers registered by the component via
+   * `useModifiers` (`data-*` state and variant attributes).
+   */
+  modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
+
+  /**
    * The object to hand to `defineExpose`: the raw API plus the resolved
    * `props`, `parts`, `classes`, and `outlets`.
    */
@@ -54,6 +66,8 @@ type Blueprint2Api<
     parts: TParts
     classes: TClasses
     outlets: ComputedRef<TSlots>
+    a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
+    modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
   }
 
   /**
@@ -64,6 +78,34 @@ type Blueprint2Api<
   useClasses: (
     ...defs: ClassDefsArg<
       TClasses,
+      ClassFactoryApi<TApi, TProps, TEvents>,
+      PropRefsOf<TProps>
+    >[]
+  ) => void
+
+  /**
+   * Registers component-level accessibility binding definitions, layered on
+   * top of the blueprint's base bags. Bags for the same part shallow-merge;
+   * functional entries replace the whole entry.
+   *
+   * @param defs Binding definition objects or factories.
+   */
+  useA11yBindings: (
+    ...defs: BindingDefsArg<
+      ClassFactoryApi<TApi, TProps, TEvents>,
+      PropRefsOf<TProps>
+    >[]
+  ) => void
+
+  /**
+   * Registers component-level styling modifier definitions (part-keyed
+   * `data-*` bags). Bags for the same part shallow-merge; functional entries
+   * replace the whole entry.
+   *
+   * @param defs Modifier definition objects or factories.
+   */
+  useModifiers: (
+    ...defs: BindingDefsArg<
       ClassFactoryApi<TApi, TProps, TEvents>,
       PropRefsOf<TProps>
     >[]

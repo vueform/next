@@ -19,12 +19,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type TAriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type AddonsProps,
   type IconsProps,
   type ExpressionProps,
@@ -97,7 +99,6 @@ export interface TextareaProps<
     AddonsProps<TContext>,
     IconsProps<TContext>,
     AddonableProps,
-    AriaProps,
     ReadonlyProps<TContext>,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
@@ -148,12 +149,22 @@ export interface TextareaSlots<
 /**
  * Structural parts of the textarea element blueprint.
  */
-export interface TextareaParts extends BaseElementParts {}
+export interface TextareaParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the textarea element blueprint.
  */
 export interface TextareaClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the textarea element blueprint.
+ */
+export interface TextareaModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the textarea element blueprint.
+ */
+export interface TextareaA11y extends BaseElementA11y, TAriaA11y {}
 
 /**
  * Augmentable public API surface for textarea-based components.

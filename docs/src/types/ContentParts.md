@@ -2,5 +2,5 @@
 /**
  * Parts for the content element.
  */
-interface ContentParts extends BaseElementParts {}
+interface ContentParts extends BaseFieldElementParts {}
 ```

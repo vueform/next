@@ -1,21 +1,21 @@
 .vf-content {
-  &.vf-left {
+  &[data-align='left'] {
     text-align: left;
   }
 
-  &.vf-center {
+  &[data-align='center'] {
     text-align: center;
   }
 
-  &.vf-right {
+  &[data-align='right'] {
     text-align: right;
   }
 
-  &.vf-justify {
+  &[data-align='justify'] {
     text-align: justify;
   }
 
-  &.vf-aligned {
+  &[data-aligned] {
     .vf-element-wrapper {
       margin: var(--vf-content-aligned-margin);
     }

@@ -9,12 +9,13 @@ import {
   type VueformInstance,
 } from '@vueform/core'
 import * as components from '@vueform/core/components'
+import { en_US } from '@vueform/core/locales'
 
 import './integration/fixtures/base'
-import { en_US } from '@vueform/core/locales'
 import * as modules from '@vueform/core/modules'
 import * as rules from '@vueform/core/rules'
 import exprEval from '@vueform/expr-eval'
+import axe from 'axe-core'
 import { defineComponent, nextTick, onMounted, ref, type Component } from 'vue'
 
 import VfTest from './integration/fixtures/VfTest.vue'
@@ -226,6 +227,44 @@ export function getAttr(
       : parent.findAllComponents(selector)[nth]
 
   return $el?.attributes?.(attr)
+}
+
+/**
+ * Asserts axe-core reports no violations for the element subtree.
+ *
+ * Mount helpers render detached (no `attachTo`), but axe only audits nodes
+ * that are part of the document — the subtree's detached root is temporarily
+ * appended to `document.body` for the run and removed afterwards, which keeps
+ * the element's own position in its tree untouched.
+ *
+ * `color-contrast` is disabled (no real layout in happy-dom) and so is
+ * `region` (a page-level landmark rule that is meaningless for a component
+ * fragment).
+ */
+export const expectNoA11yViolations = async (el: Element) => {
+  let root: Element = el
+  while (root.parentElement) root = root.parentElement
+
+  const detached = !root.isConnected
+  if (detached) document.body.appendChild(root)
+
+  try {
+    const results = await axe.run(el as any, {
+      rules: {
+        'color-contrast': { enabled: false },
+        region: { enabled: false },
+      },
+    })
+
+    expect(
+      results.violations.map((v) => ({
+        id: v.id,
+        nodes: v.nodes.map((n) => n.html),
+      }))
+    ).toEqual([])
+  } finally {
+    if (detached) root.remove()
+  }
 }
 
 export function getClass(

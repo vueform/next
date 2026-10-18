@@ -9,7 +9,7 @@ import {
   defineEvents,
   useBlueprint,
   vdomPrime,
-  type AriaProp,
+  type A11yBindings,
   type ClassValue,
   type DefineElementContext,
   type DomAttrsOf,
@@ -87,9 +87,10 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioButtonSlots<
     model: TRadioValue | null
 
     /**
-     * The aria attributes to bind to the input.
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
      */
-    aria: AriaProp
+    a11yBindings: A11yBindings
 
     /**
      * The `name` attribute of the input.
@@ -301,7 +302,7 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  aria,
+  a11yBindings,
   inputName,
   text,
   input,
@@ -320,14 +321,9 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ props }) => ({
+useClasses(() => ({
   root: 'vf-radio-button',
-  wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
-  },
+  wrapper: 'vf-choice-wrapper',
   text: 'vf-choice-text',
 }))
 
@@ -366,7 +362,7 @@ declare module 'vue' {
       <slot
         :model
         :value="radioValue"
-        :aria
+        :a11y-bindings="a11yBindings"
         :input-name
         :id
         :disabled
@@ -382,7 +378,7 @@ declare module 'vue' {
           :is="outlets.default"
           :model
           :value="radioValue"
-          :aria
+          :a11y-bindings="a11yBindings"
           :input-name
           :id
           :disabled
@@ -395,7 +391,13 @@ declare module 'vue' {
           :class="classes.wrapper"
           v-bind="parts.wrapper"
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          :data-align="props.align || undefined"
+          :data-aligned="props.aligned ? '' : undefined"
+          v-bind="parts.wrapper"
+        >
           <RadioButton
             v-model="value"
             :name="inputName"
@@ -406,7 +408,7 @@ declare module 'vue' {
             :readonly
             :invalid
             v-bind="{
-              ...aria,
+              ...a11yBindings.input,
               ...forwardProps,
               ...parts.input,
             }"

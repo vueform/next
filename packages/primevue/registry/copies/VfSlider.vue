@@ -51,6 +51,7 @@ const {
   step,
   forwardProps,
   handleInput,
+  a11yBindings,
 } = api
 
 /**
@@ -79,6 +80,7 @@ defineExpose(expose)
         :max
         :step
         v-bind="{
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

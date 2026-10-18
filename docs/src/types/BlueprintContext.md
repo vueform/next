@@ -11,6 +11,8 @@ type BlueprintContext<
   TSlots extends Record<string, any> = Record<string, any>,
   TParts extends Record<string, any> = Record<string, any>,
   TClasses extends Record<string, any> = Record<string, any>,
+  TModifiers = DefaultContextModifiers<TApi, TSlots>,
+  TA11y = DefaultContextA11y<TApi, TSlots>,
 > = UnwrapApiRefs<
   // `outlets` is omitted from the api side: blueprints type it wide
   // (`ComputedRef<Record<string, any>>` from `useOutlets`), and intersecting
@@ -25,6 +27,18 @@ type BlueprintContext<
       // registered via `useClasses` or that users supply through `classes`.
       classes: TClasses & Record<string, any>
       outlets: ComputedRef<TSlots>
+
+      /**
+       * Part-keyed accessibility bindings: the blueprint's semantic base
+       * merged with component-registered bags (`useA11yBindings`).
+       */
+      a11yBindings: TA11y
+
+      /**
+       * Part-keyed styling modifiers (`data-*` state and variant attributes)
+       * registered by the component via `useModifiers`.
+       */
+      modifiers: TModifiers
 
       /**
        * The resolved Vueform configuration for the injecting app.

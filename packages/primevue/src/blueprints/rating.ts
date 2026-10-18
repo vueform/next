@@ -13,12 +13,14 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementParts,
+  type BaseElementA11y,
+  type BaseElementModifiers,
+  type AriaA11y,
+  type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
   type DefineEvents,
   type LooseRequired,
-  type AriaProps,
   type ExpressionProps,
   type ValidationProps,
   type DisabledProps,
@@ -67,7 +69,6 @@ export interface RatingProps<
     ModelPropsWithDefaultValue<TextishModel, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,
@@ -109,12 +110,22 @@ export interface RatingSlots<
 /**
  * Structural parts of the rating element blueprint.
  */
-export interface RatingParts extends BaseElementParts {}
+export interface RatingParts extends BaseFieldElementParts {}
 
 /**
  * CSS classes for the rating element blueprint.
  */
 export interface RatingClasses extends BaseElementClasses {}
+
+/**
+ * Styling modifiers of the rating element blueprint.
+ */
+export interface RatingModifiers extends BaseElementModifiers {}
+
+/**
+ * Accessibility bindings of the rating element blueprint.
+ */
+export interface RatingA11y extends BaseElementA11y, AriaA11y {}
 
 /**
  * Augmentable public API surface for rating-based components.

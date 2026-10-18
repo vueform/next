@@ -15,6 +15,8 @@ interface VfPasswordContext<
   VfPasswordSlots,
   VfPasswordParts,
   VfPasswordClasses,
+  VfPasswordModifiers,
+  VfPasswordA11y,
   VfPasswordExpose,
   PasswordApi<TProps>
 > {}

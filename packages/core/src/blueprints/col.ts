@@ -10,6 +10,8 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
+  BaseComponentA11y,
+  BaseComponentModifiers,
   AlignProp,
   ValignProp,
   LooseRequired,
@@ -77,6 +79,16 @@ export interface ColParts extends BaseComponentParts {}
 export interface ColClasses extends BaseComponentClasses {}
 
 /**
+ * Styling modifiers of the col component.
+ */
+export interface ColModifiers extends BaseComponentModifiers {}
+
+/**
+ * Accessibility bindings of the col component.
+ */
+export interface ColA11y extends BaseComponentA11y {}
+
+/**
  * Augmentable public API surface for col-based components.
  */
 export interface ColExpose extends BaseComponentExpose, ColApi {}
@@ -131,6 +143,26 @@ export function blueprint<TProps extends ColProps>(
    */
   const nonce = toRef(() => config.nonce)
 
+  /**
+   * The resolved horizontal alignment, falling back to the grid's align prop.
+   */
+  const align = toRef(() => props.align || gridAlign.value)
+
+  /**
+   * The resolved vertical alignment, falling back to the grid's valign prop.
+   */
+  const valign = toRef(() => props.valign || gridValign.value)
+
+  /**
+   * The number of columns the cell spans.
+   */
+  const colspan = toRef(() => Number(props.colspan || 1))
+
+  /**
+   * The number of rows the cell spans.
+   */
+  const rowspan = toRef(() => Number(props.rowspan || 1))
+
   // ============== COMPUTED ==============
 
   /**
@@ -144,16 +176,6 @@ export function blueprint<TProps extends ColProps>(
   const cell = computed(() =>
     cells.value.find((cell) => cell.col === col.value && cell.row === row.value)
   )
-
-  /**
-   * The resolved horizontal alignment, falling back to the grid's align prop.
-   */
-  const align = toRef(() => props.align || gridAlign.value)
-
-  /**
-   * The resolved vertical alignment, falling back to the grid's valign prop.
-   */
-  const valign = toRef(() => props.valign || gridValign.value)
 
   /**
    * Whether this cell should be styled as a column header, resolved from the
@@ -174,16 +196,6 @@ export function blueprint<TProps extends ColProps>(
     if (props.header) return col.value === 0 || row.value !== 0
     return false
   })
-
-  /**
-   * The number of columns the cell spans.
-   */
-  const colspan = toRef(() => Number(props.colspan || 1))
-
-  /**
-   * The number of rows the cell spans.
-   */
-  const rowspan = toRef(() => Number(props.rowspan || 1))
 
   /**
    * The CSS text for the cell's grid-area when it spans multiple columns or

@@ -18,6 +18,8 @@ interface VfSelectContext<
   VfSelectSlots,
   VfSelectParts,
   VfSelectClasses,
+  VfSelectModifiers,
+  VfSelectA11y,
   VfSelectExpose,
   SelectApi<TProps>
 > {}

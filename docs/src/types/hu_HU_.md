@@ -16,6 +16,8 @@ const hu_HU: {
   sr_list_sort: string
   sr_matrix_add: string
   sr_matrix_remove: string
+  sr_matrix_sort: string
+  sr_file_remove: string
   steps_back: string
   steps_next: string
   steps_finish: string

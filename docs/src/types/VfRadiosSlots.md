@@ -55,6 +55,27 @@ interface VfRadiosSlots<
      * Whether items are rendered as groups.
      */
     grouped: boolean
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadiosClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadiosParts>
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfRadiosA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadiosModifiers
   }) => VNode[]
 
   /**
@@ -80,6 +101,27 @@ interface VfRadiosSlots<
      * The resolved option group.
      */
     group: ResolvedGroup<TValue, TRaw>
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadiosClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadiosParts>
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfRadiosA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadiosModifiers
   }) => VNode[]
 
   /**
@@ -106,6 +148,16 @@ interface VfRadiosSlots<
      * The resolved radio item.
      */
     item: ResolvedItem<TValue, TRaw>
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadiosClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadiosParts>
   }) => VNode[]
 
   /**

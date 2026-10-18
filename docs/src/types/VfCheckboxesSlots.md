@@ -60,6 +60,27 @@ interface VfCheckboxesSlots<
      * Whether items are rendered as groups.
      */
     grouped: boolean
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxesClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxesParts>
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfCheckboxesA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfCheckboxesModifiers
   }) => VNode[]
 
   /**
@@ -90,6 +111,27 @@ interface VfCheckboxesSlots<
       ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>,
       RawItemOf<TItems, TGroupChildren>
     >
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxesClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxesParts>
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfCheckboxesA11y
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfCheckboxesModifiers
   }) => VNode[]
 
   /**
@@ -120,6 +162,16 @@ interface VfCheckboxesSlots<
       ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>,
       RawItemOf<TItems, TGroupChildren>
     >
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfCheckboxesClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfCheckboxesParts>
   }) => VNode[]
 
   /**

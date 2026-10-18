@@ -80,22 +80,27 @@ export function typeLinkPlugin(md: any) {
           if (codeToken?.type !== 'code_inline' || closeIdx === -1) continue
 
           const cleanName = codeToken.content.replace(/\(\)$/, '')
+          // Kebab-case keys (attribute names like `data-invalid`) render
+          // camelCased in the popover code — quoting breaks the code styling.
+          const codeName = cleanName.includes('-')
+            ? cleanName.replace(/-([a-z0-9])/g, (_: string, c: string) =>
+                c.toUpperCase()
+              )
+            : cleanName
           const popoverType = isType ? '$type' : isValue ? 'value' : 'code'
 
           let popoverItems: { type: string; content: string }[]
           if (isCode && title.includes('\t')) {
             const [typeStr, ...descParts] = title.split('\t')
             const desc = descParts.join('\t').trim()
-            popoverItems = [
-              { type: 'code', content: `${cleanName}: ${typeStr}` },
-            ]
+            popoverItems = [{ type: 'code', content: `${codeName}: ${typeStr}` }]
             if (desc) popoverItems.push({ type: 'text', content: desc })
           } else {
             const popoverContent = isType
               ? title
               : isValue
                 ? title
-                : `${cleanName}: ${title}`
+                : `${codeName}: ${title}`
             popoverItems = [{ type: popoverType, content: popoverContent }]
           }
           const popover = JSON.stringify(popoverItems)

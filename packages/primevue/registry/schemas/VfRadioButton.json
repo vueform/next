@@ -10,7 +10,7 @@
       "path": "VfRadioButton.vue",
       "target": "{componentsDir}/VfRadioButton.vue",
       "kind": "component",
-      "hash": "sha256:ace5afa891b9cb616c4ac8d4cf12b3dc73456cf8167e38247296e41392929dad"
+      "hash": "sha256:ce5896c264f7cc531c2146891f9f03e9423323f95514b28a33e3a2fe18c45716"
     }
   ],
   "imports": [
@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfRadioButton.vue",
     "blueprint": "radio-button",
-    "hash": "sha256:50e60294894f75178a162e73d4319a10e295243991275f505928fbad67fc0524",
+    "hash": "sha256:390177e7ffa3f6931890a6a3ec962d716e8a2bb0efebc27a91b9aaaf04d77b9e",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

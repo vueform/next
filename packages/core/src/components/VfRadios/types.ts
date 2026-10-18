@@ -1,10 +1,12 @@
 import type { VNode } from 'vue'
 
 import {
+  type RadiosA11y,
   type RadiosApi,
   type RadiosClasses,
   type RadiosEmits,
   type RadiosExpose,
+  type RadiosModifiers,
   type RadiosParts,
   type RadiosProps,
   type RadiosSlots,
@@ -162,6 +164,27 @@ export interface VfRadiosSlots<
      * Whether items are rendered as groups.
      */
     grouped: boolean
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadiosClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadiosParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadiosModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfRadiosA11y
   }) => VNode[]
 
   /**
@@ -187,6 +210,27 @@ export interface VfRadiosSlots<
      * The resolved option group.
      */
     group: ResolvedGroup<TValue, TRaw>
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadiosClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadiosParts>
+
+    /**
+     * The component's styling modifiers, keyed by part name; apply each bag
+     * with `v-bind`.
+     */
+    modifiers: VfRadiosModifiers
+
+    /**
+     * The component's part-keyed accessibility bindings.
+     */
+    a11yBindings: VfRadiosA11y
   }) => VNode[]
 
   /**
@@ -213,6 +257,16 @@ export interface VfRadiosSlots<
      * The resolved radio item.
      */
     item: ResolvedItem<TValue, TRaw>
+
+    /**
+     * The component's resolved classes, keyed by part name.
+     */
+    classes: VfRadiosClasses
+
+    /**
+     * The component's resolved parts, keyed by part name.
+     */
+    parts: Partial<VfRadiosParts>
   }) => VNode[]
 
   /**
@@ -281,7 +335,39 @@ export interface VfRadiosClasses extends RadiosClasses {
 }
 
 /**
+ * Accessibility bindings of the VfRadios component.
+ */
+export interface VfRadiosA11y extends RadiosA11y {}
+
+/**
+ * Styling modifiers of the VfRadios component.
+ */
+export interface VfRadiosModifiers extends RadiosModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The group container's layout markers (stacked row layout, vertical
+   * alignment with adjacent form controls) and validation state.
+   */
+  group: {
+    'data-stacked'?: ''
+    'data-aligned'?: ''
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfRadios.
+ *
+ * Plugins that add runtime API members should declaration-merge the same
+ * members here (or on `RadiosExpose` for all radios-based components) so they
+ * appear on `ContextOf<'VfRadios'>` / `context$` / `defineExpose`.
  */
 export interface VfRadiosExpose extends RadiosExpose {}
 
@@ -304,6 +390,8 @@ export interface VfRadiosContext<
   VfRadiosSlots,
   VfRadiosParts,
   VfRadiosClasses,
+  VfRadiosModifiers,
+  VfRadiosA11y,
   VfRadiosExpose,
   RadiosApi<TProps>
 > {}

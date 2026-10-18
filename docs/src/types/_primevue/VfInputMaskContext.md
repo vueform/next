@@ -16,6 +16,8 @@ interface VfInputMaskContext<
   VfInputMaskSlots,
   VfInputMaskParts,
   VfInputMaskClasses,
+  VfInputMaskModifiers,
+  VfInputMaskA11y,
   VfInputMaskExpose,
   InputMaskApi<TProps>
 > {}

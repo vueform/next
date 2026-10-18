@@ -15,12 +15,13 @@ import type {
   LanguagesProp,
 } from '@vueform/core'
 import type { TextareaProps as PvTextareaProps } from 'primevue'
-
 import type {
+  TextareaA11y,
   TextareaApi,
   TextareaClasses,
   TextareaEmits,
   TextareaExpose,
+  TextareaModifiers,
   TextareaParts,
   TextareaProps,
   TextareaSlots,
@@ -126,6 +127,31 @@ export interface VfTextareaClasses
 }
 
 /**
+ * Accessibility bindings of the VfTextarea component.
+ */
+export interface VfTextareaA11y extends TextareaA11y {}
+
+/**
+ * Styling modifiers of the VfTextarea component.
+ */
+export interface VfTextareaModifiers extends TextareaModifiers {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
+  /**
+   * The input control's validation state.
+   */
+  input: {
+    'data-invalid'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfTextarea.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -150,6 +176,8 @@ export interface VfTextareaContext<
   VfTextareaSlots,
   VfTextareaParts,
   VfTextareaClasses,
+  VfTextareaModifiers,
+  VfTextareaA11y,
   VfTextareaExpose,
   TextareaApi<TProps>
 > {}

@@ -6,7 +6,7 @@ Official adapter for Vueform.
 
 <!--@size-start-->
 
-Generated at 2026-10-16T07:41:53.887Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform).
+Generated at 2026-10-18T05:35:09.405Z. Sizes are the emitted JS and CSS assets of a production Vite build with default settings (esbuild minification for JS and CSS, no custom config), measured as deltas against a baseline (Vite app only, no Vueform).
 
 Measured with:
 
@@ -106,34 +106,34 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| `VfForm` | 5.72&nbsp;kB | 0.00&nbsp;kB |
+| `VfForm` | 5.77&nbsp;kB | 0.00&nbsp;kB |
 | `VfMatrix` | 4.08&nbsp;kB | 0.18&nbsp;kB |
-| `VfLayout` | 2.97&nbsp;kB | 0.55&nbsp;kB |
-| `VfGrid` | 2.37&nbsp;kB | 0.00&nbsp;kB |
-| `VfButton` | 1.02&nbsp;kB | 0.99&nbsp;kB |
-| `VfList` | 1.54&nbsp;kB | 0.17&nbsp;kB |
-| `VfFile` | 1.61&nbsp;kB | 0.04&nbsp;kB |
-| `VfNav` | 1.05&nbsp;kB | 0.07&nbsp;kB |
+| `VfLayout` | 3.02&nbsp;kB | 0.55&nbsp;kB |
+| `VfGrid` | 2.32&nbsp;kB | 0.00&nbsp;kB |
+| `VfButton` | 1.10&nbsp;kB | 1.05&nbsp;kB |
+| `VfList` | 1.58&nbsp;kB | 0.17&nbsp;kB |
+| `VfFile` | 1.59&nbsp;kB | 0.04&nbsp;kB |
+| `VfNav` | 0.97&nbsp;kB | 0.07&nbsp;kB |
 | `VfSteps` | 0.17&nbsp;kB | 0.63&nbsp;kB |
-| `VfCheckboxes` | 0.79&nbsp;kB | -0.01&nbsp;kB |
-| `VfAddon` | 0.29&nbsp;kB | 0.47&nbsp;kB |
+| `VfAddon` | 0.31&nbsp;kB | 0.47&nbsp;kB |
+| `VfCheckboxes` | 0.77&nbsp;kB | -0.01&nbsp;kB |
 | `VfCheckbox` | 0.75&nbsp;kB | 0.00&nbsp;kB |
-| `VfCol` | 0.72&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadio` | 0.66&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadios` | 0.60&nbsp;kB | 0.00&nbsp;kB |
-| `VfSelect` | 0.44&nbsp;kB | 0.12&nbsp;kB |
-| `VfText` | 0.43&nbsp;kB | 0.09&nbsp;kB |
-| `VfGroup` | 0.44&nbsp;kB | 0.08&nbsp;kB |
-| `VfTextarea` | 0.48&nbsp;kB | 0.04&nbsp;kB |
-| `VfLanguages` | 0.37&nbsp;kB | 0.13&nbsp;kB |
-| `VfField` | 0.39&nbsp;kB | 0.00&nbsp;kB |
-| `VfContent` | 0.32&nbsp;kB | 0.04&nbsp;kB |
+| `VfCol` | 0.70&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadio` | 0.64&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadios` | 0.59&nbsp;kB | 0.00&nbsp;kB |
+| `VfGroup` | 0.47&nbsp;kB | 0.08&nbsp;kB |
+| `VfSelect` | 0.42&nbsp;kB | 0.12&nbsp;kB |
+| `VfText` | 0.42&nbsp;kB | 0.09&nbsp;kB |
+| `VfLanguages` | 0.38&nbsp;kB | 0.13&nbsp;kB |
+| `VfTextarea` | 0.46&nbsp;kB | 0.04&nbsp;kB |
+| `VfField` | 0.36&nbsp;kB | 0.00&nbsp;kB |
+| `VfContent` | 0.26&nbsp;kB | 0.04&nbsp;kB |
 | `VfHidden` | 0.27&nbsp;kB | 0.00&nbsp;kB |
-| `VfRow` | 0.25&nbsp;kB | 0.00&nbsp;kB |
-| `VfTabs` | 0.13&nbsp;kB | 0.12&nbsp;kB |
-| `VfIcon` | 0.14&nbsp;kB | 0.00&nbsp;kB |
-| `VfElements` | 0.11&nbsp;kB | 0.00&nbsp;kB |
-| **Total** | 49.21&nbsp;kB | 6.48&nbsp;kB |
+| `VfRow` | 0.26&nbsp;kB | 0.00&nbsp;kB |
+| `VfTabs` | 0.12&nbsp;kB | 0.12&nbsp;kB |
+| `VfElements` | 0.13&nbsp;kB | 0.00&nbsp;kB |
+| `VfIcon` | 0.13&nbsp;kB | -0.01&nbsp;kB |
+| **Total** | 49.88&nbsp;kB | 6.58&nbsp;kB |
 
 </details>
 
@@ -142,34 +142,34 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| `VfForm` | 4.32&nbsp;kB | 0.00&nbsp;kB |
-| `VfMatrix` | 3.23&nbsp;kB | 0.16&nbsp;kB |
-| `VfLayout` | 2.44&nbsp;kB | 0.47&nbsp;kB |
-| `VfGrid` | 1.70&nbsp;kB | 0.02&nbsp;kB |
-| `VfButton` | 0.87&nbsp;kB | 0.79&nbsp;kB |
-| `VfList` | 1.16&nbsp;kB | 0.16&nbsp;kB |
-| `VfFile` | 1.03&nbsp;kB | 0.04&nbsp;kB |
-| `VfNav` | 0.92&nbsp;kB | 0.08&nbsp;kB |
-| `VfSteps` | 0.14&nbsp;kB | 0.57&nbsp;kB |
-| `VfCheckboxes` | 0.24&nbsp;kB | 0.02&nbsp;kB |
-| `VfAddon` | 0.24&nbsp;kB | 0.45&nbsp;kB |
-| `VfCheckbox` | 0.32&nbsp;kB | 0.01&nbsp;kB |
-| `VfCol` | 0.42&nbsp;kB | 0.01&nbsp;kB |
-| `VfRadio` | 0.41&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadios` | 0.13&nbsp;kB | 0.00&nbsp;kB |
-| `VfSelect` | 0.39&nbsp;kB | 0.12&nbsp;kB |
-| `VfText` | 0.31&nbsp;kB | 0.09&nbsp;kB |
-| `VfGroup` | 0.32&nbsp;kB | 0.08&nbsp;kB |
-| `VfTextarea` | 0.46&nbsp;kB | 0.04&nbsp;kB |
-| `VfLanguages` | 0.29&nbsp;kB | 0.13&nbsp;kB |
-| `VfField` | 0.22&nbsp;kB | 0.00&nbsp;kB |
-| `VfContent` | 0.30&nbsp;kB | 0.03&nbsp;kB |
-| `VfHidden` | 0.14&nbsp;kB | 0.00&nbsp;kB |
+| `VfForm` | 4.22&nbsp;kB | 0.00&nbsp;kB |
+| `VfMatrix` | 3.19&nbsp;kB | 0.13&nbsp;kB |
+| `VfLayout` | 2.50&nbsp;kB | 0.45&nbsp;kB |
+| `VfGrid` | 1.76&nbsp;kB | 0.01&nbsp;kB |
+| `VfButton` | 0.93&nbsp;kB | 0.83&nbsp;kB |
+| `VfList` | 1.13&nbsp;kB | 0.12&nbsp;kB |
+| `VfFile` | 1.06&nbsp;kB | 0.03&nbsp;kB |
+| `VfNav` | 0.82&nbsp;kB | 0.05&nbsp;kB |
+| `VfSteps` | 0.23&nbsp;kB | 0.54&nbsp;kB |
+| `VfAddon` | 0.29&nbsp;kB | 0.44&nbsp;kB |
+| `VfCheckboxes` | 0.23&nbsp;kB | -0.03&nbsp;kB |
+| `VfCheckbox` | 0.31&nbsp;kB | -0.02&nbsp;kB |
+| `VfCol` | 0.53&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadio` | 0.37&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadios` | 0.19&nbsp;kB | 0.00&nbsp;kB |
+| `VfGroup` | 0.34&nbsp;kB | 0.05&nbsp;kB |
+| `VfSelect` | 0.30&nbsp;kB | 0.12&nbsp;kB |
+| `VfText` | 0.38&nbsp;kB | 0.09&nbsp;kB |
+| `VfLanguages` | 0.30&nbsp;kB | 0.10&nbsp;kB |
+| `VfTextarea` | 0.33&nbsp;kB | 0.03&nbsp;kB |
+| `VfField` | 0.26&nbsp;kB | -0.02&nbsp;kB |
+| `VfContent` | 0.16&nbsp;kB | 0.03&nbsp;kB |
+| `VfHidden` | 0.21&nbsp;kB | 0.00&nbsp;kB |
 | `VfRow` | 0.19&nbsp;kB | 0.00&nbsp;kB |
-| `VfTabs` | 0.12&nbsp;kB | 0.10&nbsp;kB |
-| `VfIcon` | 0.24&nbsp;kB | 0.01&nbsp;kB |
-| `VfElements` | 0.05&nbsp;kB | 0.02&nbsp;kB |
-| **Total** | 40.42&nbsp;kB | 5.63&nbsp;kB |
+| `VfTabs` | 0.09&nbsp;kB | 0.09&nbsp;kB |
+| `VfElements` | 0.04&nbsp;kB | 0.00&nbsp;kB |
+| `VfIcon` | 0.11&nbsp;kB | -0.01&nbsp;kB |
+| **Total** | 40.95&nbsp;kB | 5.71&nbsp;kB |
 
 </details>
 
@@ -178,34 +178,34 @@ Values near zero — even slightly negative, within ±0.2 kB — are compression
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| `VfForm` | 18.05&nbsp;kB | 0.00&nbsp;kB |
-| `VfMatrix` | 17.63&nbsp;kB | 1.16&nbsp;kB |
-| `VfLayout` | 11.87&nbsp;kB | 3.18&nbsp;kB |
-| `VfGrid` | 7.76&nbsp;kB | 0.00&nbsp;kB |
-| `VfButton` | 4.73&nbsp;kB | 7.67&nbsp;kB |
-| `VfList` | 7.96&nbsp;kB | 1.38&nbsp;kB |
-| `VfFile` | 6.17&nbsp;kB | 0.26&nbsp;kB |
-| `VfNav` | 5.22&nbsp;kB | 0.30&nbsp;kB |
-| `VfSteps` | 1.65&nbsp;kB | 4.31&nbsp;kB |
-| `VfCheckboxes` | 5.17&nbsp;kB | 0.00&nbsp;kB |
-| `VfAddon` | 1.40&nbsp;kB | 3.92&nbsp;kB |
-| `VfCheckbox` | 4.63&nbsp;kB | 0.00&nbsp;kB |
-| `VfCol` | 2.58&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadio` | 4.56&nbsp;kB | 0.00&nbsp;kB |
-| `VfRadios` | 5.01&nbsp;kB | 0.00&nbsp;kB |
-| `VfSelect` | 4.14&nbsp;kB | 0.76&nbsp;kB |
-| `VfText` | 3.90&nbsp;kB | 0.83&nbsp;kB |
-| `VfGroup` | 3.25&nbsp;kB | 0.97&nbsp;kB |
-| `VfTextarea` | 4.00&nbsp;kB | 0.25&nbsp;kB |
-| `VfLanguages` | 1.70&nbsp;kB | 1.05&nbsp;kB |
-| `VfField` | 2.70&nbsp;kB | 0.00&nbsp;kB |
-| `VfContent` | 2.10&nbsp;kB | 0.23&nbsp;kB |
+| `VfForm` | 18.25&nbsp;kB | 0.00&nbsp;kB |
+| `VfMatrix` | 17.78&nbsp;kB | 1.16&nbsp;kB |
+| `VfLayout` | 12.11&nbsp;kB | 3.18&nbsp;kB |
+| `VfGrid` | 7.64&nbsp;kB | 0.00&nbsp;kB |
+| `VfButton` | 4.88&nbsp;kB | 8.28&nbsp;kB |
+| `VfList` | 8.14&nbsp;kB | 1.38&nbsp;kB |
+| `VfFile` | 6.21&nbsp;kB | 0.26&nbsp;kB |
+| `VfNav` | 5.11&nbsp;kB | 0.35&nbsp;kB |
+| `VfSteps` | 1.73&nbsp;kB | 4.39&nbsp;kB |
+| `VfAddon` | 1.40&nbsp;kB | 3.93&nbsp;kB |
+| `VfCheckboxes` | 5.05&nbsp;kB | 0.00&nbsp;kB |
+| `VfCheckbox` | 4.24&nbsp;kB | 0.00&nbsp;kB |
+| `VfCol` | 2.45&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadio` | 4.19&nbsp;kB | 0.00&nbsp;kB |
+| `VfRadios` | 4.89&nbsp;kB | 0.00&nbsp;kB |
+| `VfGroup` | 3.29&nbsp;kB | 0.98&nbsp;kB |
+| `VfSelect` | 4.08&nbsp;kB | 0.76&nbsp;kB |
+| `VfText` | 3.89&nbsp;kB | 0.83&nbsp;kB |
+| `VfLanguages` | 1.67&nbsp;kB | 1.06&nbsp;kB |
+| `VfTextarea` | 4.10&nbsp;kB | 0.26&nbsp;kB |
+| `VfField` | 2.73&nbsp;kB | 0.00&nbsp;kB |
+| `VfContent` | 1.95&nbsp;kB | 0.27&nbsp;kB |
 | `VfHidden` | 1.59&nbsp;kB | 0.00&nbsp;kB |
 | `VfRow` | 1.14&nbsp;kB | 0.00&nbsp;kB |
-| `VfTabs` | 1.51&nbsp;kB | 0.99&nbsp;kB |
-| `VfIcon` | 0.72&nbsp;kB | 0.00&nbsp;kB |
+| `VfTabs` | 1.52&nbsp;kB | 1.01&nbsp;kB |
 | `VfElements` | 0.74&nbsp;kB | 0.00&nbsp;kB |
-| **Total** | 193.90&nbsp;kB | 48.88&nbsp;kB |
+| `VfIcon` | 0.74&nbsp;kB | 0.00&nbsp;kB |
+| **Total** | 195.26&nbsp;kB | 49.84&nbsp;kB |
 
 </details>
 
@@ -405,9 +405,9 @@ What each locale adds to the bundle when registered.
 
 | Locale | JS |
 | --- | --- |
-| `hu_HU` | 1.71&nbsp;kB |
-| `de_DE` | 1.56&nbsp;kB |
-| `en_US` | 1.27&nbsp;kB |
+| `hu_HU` | 1.72&nbsp;kB |
+| `de_DE` | 1.57&nbsp;kB |
+| `en_US` | 1.28&nbsp;kB |
 
 </details>
 
@@ -417,8 +417,8 @@ What each locale adds to the bundle when registered.
 | Locale | JS |
 | --- | --- |
 | `hu_HU` | 1.50&nbsp;kB |
-| `de_DE` | 1.36&nbsp;kB |
-| `en_US` | 1.07&nbsp;kB |
+| `de_DE` | 1.38&nbsp;kB |
+| `en_US` | 1.10&nbsp;kB |
 
 </details>
 
@@ -427,9 +427,9 @@ What each locale adds to the bundle when registered.
 
 | Locale | JS |
 | --- | --- |
-| `hu_HU` | 7.39&nbsp;kB |
-| `de_DE` | 6.61&nbsp;kB |
-| `en_US` | 6.45&nbsp;kB |
+| `hu_HU` | 7.44&nbsp;kB |
+| `de_DE` | 6.65&nbsp;kB |
+| `en_US` | 6.48&nbsp;kB |
 
 </details>
 

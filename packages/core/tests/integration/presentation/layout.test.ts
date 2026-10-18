@@ -143,14 +143,18 @@ describe('Label', () => {
       expect(label.attributes('id')).toBeTruthy()
     })
 
-    test('slot receives class attribute', () => {
+    test('slot receives classes prop', () => {
       const labelSlot = markRaw(
         defineComponent({
-          props: ['label', 'for', 'id', 'class'],
+          props: ['label', 'for', 'id', 'classes'],
           inheritAttrs: false,
           setup(props) {
             return () =>
-              h('label', { class: ['custom-label', props.class] }, props.label)
+              h(
+                'label',
+                { class: ['custom-label', props.classes] },
+                props.label
+              )
           },
         })
       )
@@ -193,13 +197,13 @@ describe('Label', () => {
       expect(label.text()).toBe('Label text')
     })
 
-    test('slot receives for, id, and class', async () => {
+    test('slot receives for, id, and classes', async () => {
       const App = defineComponent({
         template: `
           <VfForm>
             <VfText name="el" label="Label text">
-              <template #label="{ label, for: htmlFor, id, class: cls }">
-                <label :for="htmlFor" :id="id" :class="['custom-label', cls]">{{ label }}</label>
+              <template #label="{ label, for: htmlFor, id, classes }">
+                <label :for="htmlFor" :id="id" :class="['custom-label', classes]">{{ label }}</label>
               </template>
             </VfText>
           </VfForm>

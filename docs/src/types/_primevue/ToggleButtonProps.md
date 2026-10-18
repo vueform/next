@@ -20,7 +20,6 @@ interface ToggleButtonProps<
     ModelPropsWithDefaultValue<any, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     ReadonlyProps<TContext>,
     InfoProps,

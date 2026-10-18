@@ -27,8 +27,10 @@ import type {
   FormEmits,
   FormParts,
   FormSlots,
+  FormA11y,
   FormExpose,
   FormClasses,
+  FormModifiers,
 } from '#src/blueprints/form'
 import type { NavPosProp } from '#src/blueprints/nav'
 
@@ -623,6 +625,23 @@ export interface VfFormClasses extends FormClasses {
 }
 
 /**
+ * Accessibility bindings of the VfForm component.
+ */
+export interface VfFormA11y extends FormA11y {}
+
+/**
+ * Styling modifiers of the VfForm component.
+ */
+export interface VfFormModifiers extends FormModifiers {
+  /**
+   * The root form element's stacked layout marker.
+   */
+  root: {
+    'data-stacked'?: ''
+  }
+}
+
+/**
  * Augmentable public API surface for VfForm.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -654,6 +673,8 @@ export interface VfFormContext<
   VfFormSlots,
   VfFormParts,
   VfFormClasses,
+  VfFormModifiers,
+  VfFormA11y,
   VfFormExpose,
   FormApi<TProps>
 > {}

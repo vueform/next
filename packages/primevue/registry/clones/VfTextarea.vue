@@ -222,11 +222,8 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ help }) => ({
-  root: {
-    'vf-textarea': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-textarea',
 }))
 
 const {
@@ -236,7 +233,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   name,
   tooltipModifiers,
@@ -310,7 +307,7 @@ declare module 'vue' {
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
         v-bind="{
-          ...aria,
+          ...a11yBindings.input,
           ...forwardProps,
           ...parts.input,
         }"

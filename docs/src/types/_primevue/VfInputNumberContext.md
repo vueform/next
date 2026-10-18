@@ -15,6 +15,8 @@ interface VfInputNumberContext extends DefineElementContext<
   VfInputNumberSlots,
   VfInputNumberParts,
   VfInputNumberClasses,
+  VfInputNumberModifiers,
+  VfInputNumberA11y,
   VfInputNumberExpose,
   InputNumberApi
 > {}

@@ -2,5 +2,5 @@
 /**
  * Structural parts of the toggle-switch element blueprint.
  */
-interface ToggleSwitchParts extends BaseElementParts {}
+interface ToggleSwitchParts extends BaseFieldElementParts {}
 ```

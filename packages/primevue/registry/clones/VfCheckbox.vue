@@ -13,7 +13,7 @@ import {
   defineEvents,
   useBlueprint,
   vdomPrime,
-  type AriaProp,
+  type A11yBindings,
   type ClassValue,
   type DefineElementContext,
   type ForwardedSlots,
@@ -136,9 +136,10 @@ export interface VfCloneNameSlots<TTrueValue = any, TFalseValue = any>
     text: string | undefined
 
     /**
-     * The aria attributes to bind to the input.
+     * Part-keyed accessibility bindings; apply each key's bag to the matching
+     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
      */
-    aria: AriaProp
+    a11yBindings: A11yBindings
 
     /**
      * Handles the input's blur event.
@@ -318,14 +319,9 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ props }) => ({
+useClasses(() => ({
   root: 'vf-checkbox',
-  wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
-  },
+  wrapper: 'vf-choice-wrapper',
   text: 'vf-choice-text',
 }))
 
@@ -340,7 +336,7 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  aria,
+  a11yBindings,
   inputName,
   text,
   input,
@@ -393,7 +389,7 @@ declare module 'vue' {
     <VfLayout v-else :label="false">
       <slot
         :model
-        :aria
+        :a11y-bindings="a11yBindings"
         :input-name
         :id
         :true-value
@@ -409,7 +405,7 @@ declare module 'vue' {
           v-if="outlets?.default"
           :is="outlets.default"
           :model
-          :aria
+          :a11y-bindings="a11yBindings"
           :input-name
           :id
           :true-value
@@ -422,7 +418,13 @@ declare module 'vue' {
           :handle-input
           :handle-model-update
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div
+          v-else
+          :class="classes.wrapper"
+          :data-align="props.align || undefined"
+          :data-aligned="props.aligned ? '' : undefined"
+          v-bind="parts.wrapper"
+        >
           <Checkbox
             :name="inputName"
             :input-id="id"
@@ -435,7 +437,7 @@ declare module 'vue' {
             :invalid
             binary
             v-bind="{
-              ...aria,
+              ...a11yBindings.input,
               ...forwardProps,
               ...parts.input,
             }"

@@ -15,6 +15,8 @@ interface VfColContext extends DefineElementContext<
   VfColSlots,
   VfColParts,
   VfColClasses,
+  VfColModifiers,
+  VfColA11y,
   VfColExpose,
   ColApi
 > {}

@@ -18,6 +18,8 @@ interface VfSelectButtonContext<
   VfSelectButtonSlots,
   VfSelectButtonParts,
   VfSelectButtonClasses,
+  VfSelectButtonModifiers,
+  VfSelectButtonA11y,
   VfSelectButtonExpose,
   SelectButtonApi<TProps>
 > {}

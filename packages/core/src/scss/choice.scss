@@ -8,7 +8,7 @@
   align-items: center;
 
   /** Reverses layout so the input appears on the right. */
-  &.vf-right {
+  &[data-align='right'] {
     flex-direction: row-reverse;
     justify-content: flex-start;
 
@@ -17,7 +17,7 @@
     }
   }
 
-  &.vf-aligned {
+  &[data-aligned] {
     margin: var(--vf-choice-aligned-margin);
   }
 }
@@ -88,7 +88,7 @@
   }
 
   /** Danger/error state with highlighted colors. */
-  &.vf-danger:not(:disabled) {
+  &[data-invalid]:not(:disabled) {
     background: var(--vf-choice-bg-danger);
     border-color: var(--vf-choice-border-color-danger);
 

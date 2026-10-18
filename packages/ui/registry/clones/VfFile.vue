@@ -7,6 +7,7 @@
 
 import {
   useBlueprint,
+  useLocale,
   defineEvents,
   type ClassValue,
   type DefineElementContext,
@@ -354,10 +355,7 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  * @see https://ui.vueform.com/guide/classes
  */
 useClasses(() => ({
-  root: {
-    'vf-file': true,
-    'vf-align-label': !api.help.value,
-  },
+  root: 'vf-file',
   input: 'sr-only',
   list: 'vf-file-list',
   item: 'vf-file-item',
@@ -371,7 +369,7 @@ const {
   id,
   viewLoaded,
   disabled,
-  aria,
+  a11yBindings,
   input,
   name,
   fileList,
@@ -385,6 +383,8 @@ const {
   handleBlur,
   handleInput,
 } = api
+
+const { t } = useLocale()
 
 defineExpose(expose)
 </script>
@@ -461,6 +461,7 @@ declare module 'vue' {
                     v-else
                     :name="`${id}__remove_${index}`"
                     :icon="removeIcon"
+                    :aria-label="t('sr_file_remove', { index: index + 1 })"
                     :class="classes.remove"
                     :disabled
                     :layout="false"
@@ -530,8 +531,8 @@ declare module 'vue' {
           :accept
           :capture
           v-bind="{
+            ...a11yBindings.input,
             ...parts.input,
-            ...aria,
           }"
           :ref="(el) => (input = el)"
           @blur="handleBlur"

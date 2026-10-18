@@ -15,6 +15,8 @@ interface VfToggleButtonContext extends DefineElementContext<
   VfToggleButtonSlots,
   VfToggleButtonParts,
   VfToggleButtonClasses,
+  VfToggleButtonModifiers,
+  VfToggleButtonA11y,
   VfToggleButtonExpose,
   ToggleButtonApi
 > {}

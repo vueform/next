@@ -12,7 +12,7 @@ import {
 import { describe, expectTypeOf, test } from 'vitest'
 
 const base = {
-  brand: '#07bf9b',
+  brand: '#000000',
   gutter: '1rem',
   inputColor: '$gray900',
   dark: { brand: '#0f0' },

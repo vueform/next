@@ -34,7 +34,6 @@ interface SelectButtonProps<
     >,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     LoadingProps<TContext>,
     MultipleProps<TMultiple>,

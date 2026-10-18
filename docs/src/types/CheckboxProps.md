@@ -20,7 +20,6 @@ interface CheckboxProps<
     ModelPropsWithDefault<CheckboxModelProp<TTrueValue, TFalseValue>, TContext>,
     ValidationProps<TContext>,
     AddonableProps,
-    AriaProps,
     DisabledProps<TContext>,
     AlignedProps {
   /**

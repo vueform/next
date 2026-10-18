@@ -210,11 +210,8 @@ const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ help }) => ({
-  root: {
-    'vf-file-upload': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-file-upload',
   wrapper: {
     'vf-file-upload-wrapper': true,
     'vf-basic': props.mode === 'basic',
@@ -242,6 +239,7 @@ const {
   handleRemoveFile,
   handleRemoveUploadedFile,
   handleClear,
+  a11yBindings,
 } = api
 
 defineExpose(expose)
@@ -290,6 +288,7 @@ declare module 'vue' {
           :input-id="id"
           :class="classes.input"
           v-bind="{
+            ...a11yBindings.input,
             ...forwardProps,
             ...parts.input,
           }"

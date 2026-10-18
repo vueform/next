@@ -31,11 +31,8 @@ const slots = defineSlots<VfFileUploadSlots<TMultiple>>()
 const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-file-upload': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-file-upload',
   wrapper: {
     'vf-file-upload-wrapper': true,
     'vf-basic': props.mode === 'basic',
@@ -63,6 +60,7 @@ const {
   handleRemoveFile,
   handleRemoveUploadedFile,
   handleClear,
+  a11yBindings,
 } = api
 
 defineExpose(expose)
@@ -86,6 +84,7 @@ defineExpose(expose)
           :input-id="id"
           :class="classes.input"
           v-bind="{
+            ...a11yBindings.input,
             ...forwardProps,
             ...parts.input,
           }"

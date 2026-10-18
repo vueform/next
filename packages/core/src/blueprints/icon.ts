@@ -6,6 +6,8 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
+  BaseComponentA11y,
+  BaseComponentModifiers,
   LooseRequired,
 } from '#src/types'
 
@@ -47,6 +49,16 @@ export interface IconParts extends BaseComponentParts {}
  * CSS classes of the icon component.
  */
 export interface IconClasses extends BaseComponentClasses {}
+
+/**
+ * Styling modifiers of the icon component.
+ */
+export interface IconModifiers extends BaseComponentModifiers {}
+
+/**
+ * Accessibility bindings of the icon component.
+ */
+export interface IconA11y extends BaseComponentA11y {}
 
 /**
  * Augmentable public API surface for icon-based components.
