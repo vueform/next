@@ -10,7 +10,7 @@ import {
   type MaybeRef,
 } from 'vue'
 
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import {
   defineEvents,
   type EventListener,
@@ -33,7 +33,7 @@ import {
   useConfig,
   useRootDom,
   useDynamicPropFactory,
-  useFallbackProp,
+  useEffectiveProp,
   type VueformChildren,
   useRouter,
 } from './'
@@ -454,11 +454,11 @@ export function usePager(options: UsePagesOptions): Pager {
   const { on, off, fire, fireAsync, eventInProgress } =
     defineEvents<PagerEmits>()
 
-  const context$ = useComponentContext()
+  const context$ = useContext()
   const config = useConfig()
   const validation = getValidationModule()
   const makeDynamicProp = useDynamicPropFactory()
-  const validateOn = useFallbackProp<ValidateOnProp>('validateOn')
+  const validateOn = useEffectiveProp<ValidateOnProp>('validateOn')
   const root = useRootDom()
 
   const History = useRouter(

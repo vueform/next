@@ -16,6 +16,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   type TreeSelectionModeProp,
   vdomPrime,
   type TreeOptionsProp,
@@ -273,6 +274,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfTreeSelectModifiers,
+  VfTreeSelectA11y,
   VfCloneNameExpose,
   TreeSelectApi<TProps>
 > {}
@@ -312,8 +315,16 @@ const slots = defineSlots<VfCloneNameSlots<TOptions, TSelectionMode, TModel>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -325,6 +336,18 @@ useClasses(() => ({
   root: 'vf-tree-select',
 }))
 
+useModifiers(({ empty, placeholder, help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const {
   value,
   id,
@@ -333,8 +356,7 @@ const {
   disabled,
   loading,
   resolving,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   invalid,
   items,
@@ -406,7 +428,6 @@ declare module 'vue' {
       <TreeSelect
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :options="items"
         :placeholder
@@ -414,12 +435,8 @@ declare module 'vue' {
         :loading="loading || resolving"
         :invalid
         fluid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleInput"

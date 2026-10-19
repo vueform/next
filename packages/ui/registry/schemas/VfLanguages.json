@@ -10,7 +10,7 @@
       "path": "VfLanguages.vue",
       "target": "{componentsDir}/VfLanguages.vue",
       "kind": "component",
-      "hash": "sha256:495dbd668a160149599871fdfa5003128d82f142f83b95533182e4ef7c87a087"
+      "hash": "sha256:19e12cf12028924374740556578a6ce3570548b96795323ad555473b9b13ba95"
     }
   ],
   "imports": [

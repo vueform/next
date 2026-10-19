@@ -27,13 +27,21 @@ export function normalize(value: any, active = true): any {
     return value
   }
 
-  // is number
-  if (value.match(/^-*\d+$/)) {
-    return parseInt(value, 10)
+  // Numeric strings parse into numbers ONLY when the number round-trips back
+  // to the exact same string. A non-canonical spelling ("127.0", "0.50",
+  // "007", or an integer beyond safe precision) stays a string — converting it
+  // would silently rewrite what was typed (e.g. "127.0" -> 127 kills the
+  // trailing ".0" under the user's cursor).
+
+  // is integer
+  if (value.match(/^-?\d+$/)) {
+    const parsed = parseInt(value, 10)
+    return String(parsed) === value ? parsed : value
 
     // is float
-  } else if (value.match(/^\d+\.\d+$/)) {
-    return parseFloat(value)
+  } else if (value.match(/^-?\d+\.\d+$/)) {
+    const parsed = parseFloat(value)
+    return String(parsed) === value ? parsed : value
 
     // everything else
   } else {

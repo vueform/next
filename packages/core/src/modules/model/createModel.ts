@@ -90,20 +90,20 @@ type MakeRootModelOptions = {
   /**
    * The reactive ref bound to the form's `v-model`, used as the initial source
    * of truth for the root model. When it holds a `useModel` instance, its store
-   * is adopted directly (shared data, no clone or v-model sync).
+   * is attached directly (shared data, no clone or v-model sync).
    */
   modelValue: Ref<any>
 
   /**
    * Whether the component has an active `v-model` binding (raw prop detection,
-   * supplied by the component adapter). Adopted stores override it to `false`
+   * supplied by the component adapter). Attached stores override it to `false`
    * internally — the store is the single source of truth, so no v-model
    * emission happens.
    */
   hasVModel: Ref<boolean>
 
   /**
-   * The form's component context, recorded on adopted stores (backing
+   * The form's component context, recorded on attached stores (backing
    * `instance.submit()`) and passed to `change` events. Opaque to the module.
    */
   context$: any
@@ -526,7 +526,8 @@ function reconcileSchemaIndex(
 
   const reusedOf = new Map<ModelNode, ModelNode>()
 
-  // First pass: reuse or adopt each fresh node (parents walk before children).
+  // First pass: reuse or take over each fresh node (parents walk before
+  // children).
   for (const [path, freshNode] of fresh.nodes) {
     const existing = index.nodes.get(path)
 
@@ -912,7 +913,7 @@ function makeModelEngine(options: {
       form$: facade,
       store,
       find: (path) => find(path),
-      submits: () => store.adoptingContext.value?.submits ?? submits.value,
+      submits: () => store.attachingContext.value?.submits ?? submits.value,
     })
     attachValidator(store, created)
     return created
@@ -926,7 +927,7 @@ function makeModelEngine(options: {
 
   // No root owner is registered for the headless engine: root-bucket
   // validation-schema issues surface through the validator's rollup fallback.
-  // Registering one here would duplicate them once a form adopts the store —
+  // Registering one here would duplicate them once a form attaches the store —
   // the mounted form root registers its own path-`''` owner on the same
   // validator.
 
@@ -1197,8 +1198,8 @@ function makeModelInstance<TSchema = FormSchema>(
     get empty() {
       return engine.empty.value
     },
-    get adopted() {
-      return store.adopted.value
+    get attached() {
+      return store.attached.value
     },
     get data() {
       return store.model.value
@@ -1338,7 +1339,7 @@ function makeModelBinding(options: {
 }
 
 /**
- * Creates an empty schema index. Used by forms without an adopted `useModel`
+ * Creates an empty schema index. Used by forms without an attached `useModel`
  * instance: the index starts blank and mounted registration fills it, so the
  * schema walk is never paid for plain forms.
  */
@@ -1361,7 +1362,7 @@ function makeEmptyIndex(): SchemaIndex {
  * The returned instances own their data and expose the familiar data API
  * (`update` / `load` / `clear` / `reset` / `clean`, `dirty` / `empty`,
  * path-based `get` / `set`, `toJSON` / `toFormData`). Passing one to a form's
- * `v-model` (or `useForm`) makes the form adopt it — the same store is shared
+ * `v-model` (or `useForm`) makes the form attach it — the same store is shared
  * without cloning, and `submit()` becomes available.
  *
  * ```ts
@@ -1436,7 +1437,7 @@ export function createModel(vueform: VueformInstance): ModelModule {
 
     // Reactive schemas: reconcile the index, data, and engines in place on
     // change — every identity (instance, store, index, surviving nodes) is
-    // preserved, so adopting forms and expression state carry over.
+    // preserved, so attaching forms and expression state carry over.
     if (isRef(schema)) {
       scope.run(() => {
         watch(schema as Ref<FormSchema>, (newSchema, oldSchema) => {
@@ -1470,7 +1471,7 @@ export function createModel(vueform: VueformInstance): ModelModule {
  * registration, and lifecycle methods.
  *
  * Always backed by a model store and schema index: when `modelValue` holds a
- * `useModel` instance the form adopts its store and index (the store stays the
+ * `useModel` instance the form attaches its store and index (the store stays the
  * single source of truth — no v-model emission or inbound watcher), otherwise a
  * store is created internally from the plain `modelValue` and kept in sync with
  * it, with an empty index filled by mounted registration.
@@ -1482,31 +1483,31 @@ export function makeRootModel(options: MakeRootModelOptions): RootModel {
 
   const initialModelValue = unref(options.modelValue)
 
-  const adopted = hasModelStore(initialModelValue)
+  const attached = hasModelStore(initialModelValue)
 
-  const store: ModelStore = adopted
+  const store: ModelStore = attached
     ? getModelStore(initialModelValue)
     : makeModelStore({ model: clone(initialModelValue) || {} })
 
-  const index: SchemaIndex = adopted
+  const index: SchemaIndex = attached
     ? initialModelValue.index
     : makeEmptyIndex()
 
-  const modelFind = adopted ? initialModelValue.find : undefined
+  const modelFind = attached ? initialModelValue.find : undefined
 
   const model = store.model
   const lastModel = ref()
   const initialModel = store.initialModel
 
-  if (adopted) {
-    store.adopt(context$)
+  if (attached) {
+    store.attach(context$)
   }
 
-  // Adopted stores skip v-model emission — the store is the single source of
+  // Attached stores skip v-model emission — the store is the single source of
   // truth.
-  const hasVModel = computed(() => !adopted && options.hasVModel.value)
+  const hasVModel = computed(() => !attached && options.hasVModel.value)
 
-  // The form's teardown runs before its children; this keeps an adopted
+  // The form's teardown runs before its children; this keeps an attached
   // store's data from being wiped by child unregistration.
   let destroyed = false
 
@@ -1524,17 +1525,17 @@ export function makeRootModel(options: MakeRootModelOptions): RootModel {
   })
 
   const unregister = (dataPath: string) => {
-    if (destroyed && adopted) return
+    if (destroyed && attached) return
     store.unregister(dataPath)
   }
 
   const init = () => {
     lastModel.value = clone(model.value)
 
-    if (adopted) {
+    if (attached) {
       // Child registration may have seeded keys the schema walk missed —
       // re-snapshot so they don't read as dirty, but never wipe changes the
-      // user made before adoption.
+      // user made before attachment.
       if (!store.dirty.value) store.clean()
     } else {
       initialModel.value = clone(model.value)
@@ -1543,8 +1544,8 @@ export function makeRootModel(options: MakeRootModelOptions): RootModel {
     binding.emitInitial()
     binding.initNotify()
 
-    // An adopted store is the single source of truth — no inbound watcher.
-    if (!adopted) {
+    // An attached store is the single source of truth — no inbound watcher.
+    if (!attached) {
       binding.initInbound()
     }
   }
@@ -1554,7 +1555,7 @@ export function makeRootModel(options: MakeRootModelOptions): RootModel {
 
     binding.destroy()
 
-    if (adopted) {
+    if (attached) {
       store.release()
     } else {
       store.destroy()
@@ -1563,7 +1564,7 @@ export function makeRootModel(options: MakeRootModelOptions): RootModel {
 
   return {
     store,
-    adopted,
+    attached,
     index,
     modelFind,
     model,
@@ -1616,7 +1617,7 @@ export function makeChildModel(options: MakeChildModelOptions) {
   // children haven't registered yet (this runs during the container's setup,
   // before the children's), mirroring how nested containers seed their slice
   // via `startupModel` registration. Children registering afterwards find the
-  // seeded values in the model and adopt them over their own defaults, so no
+  // seeded values in the model and take them over their own defaults, so no
   // change events fire at startup. Written per key directly (not via
   // `update`) because key ownership can't be established before the children
   // exist.

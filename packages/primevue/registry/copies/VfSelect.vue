@@ -18,6 +18,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   type OptionGroupChildrenProp,
   type OptionsProp,
   type OptionValueProp,
@@ -88,12 +89,33 @@ const slots =
     >
   >()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-select',
 }))
+
+useModifiers(({ empty, placeholder, help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const {
   id,
@@ -102,8 +124,7 @@ const {
   disabled,
   loading,
   resolving,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   invalid,
   rawItems,
@@ -130,7 +151,6 @@ defineExpose(expose)
       <PvSelect
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :options="rawItems"
         :option-label="itemLabel"
@@ -143,12 +163,8 @@ defineExpose(expose)
         :loading="loading || resolving"
         :invalid
         fluid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"

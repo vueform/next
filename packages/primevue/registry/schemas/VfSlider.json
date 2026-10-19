@@ -10,7 +10,7 @@
       "path": "VfSlider.vue",
       "target": "{componentsDir}/VfSlider.vue",
       "kind": "component",
-      "hash": "sha256:72f06c97068b9945401f7607611e561535f6e91812a9c34c2cc3cf4c9b255725"
+      "hash": "sha256:ccf7f620f5cd27e1e120aabdce315e170883384854bf7135d539743aa0441925"
     }
   ],
   "imports": [
@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfSlider.vue",
     "blueprint": "slider",
-    "hash": "sha256:b231642e3dcfae6eecb5734e108cdeb869bba886c0cdcd7a07b39e0c5cbdd6c2",
+    "hash": "sha256:ab406bf690c961775f0888e5a13da8e536bd9b4294f71636f8f91a5bc5356dc3",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -1,10 +1,9 @@
 ```ts
 /**
- * Returns the public context of the nearest Vueform component — the same object
- * it passes to the `#template` slot and the one event handlers receive as
- * `context$`.
+ * Injects the nearest ancestor's component context, throwing if none is
+ * available.
  *
- * @param name The component name used for type inference.
+ * @context
  */
-function useContext<T extends ComponentNames>(name: T): ContextOf<T>
+function useContext(): UnknownComponent
 ```

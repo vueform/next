@@ -52,20 +52,20 @@ defineProps<{
     <template v-if="slots?.back" #back="slotProps">
       <component :is="slots?.back" v-bind="slotProps" />
     </template>
-    <template v-if="slots?.backText" #backText="slotProps">
-      <component :is="slots?.backText" v-bind="slotProps" />
+    <template v-if="slots?.['back-text']" #back-text="slotProps">
+      <component :is="slots?.['back-text']" v-bind="slotProps" />
     </template>
     <template v-if="slots?.next" #next="slotProps">
       <component :is="slots?.next" v-bind="slotProps" />
     </template>
-    <template v-if="slots?.nextText" #nextText="slotProps">
-      <component :is="slots?.nextText" v-bind="slotProps" />
+    <template v-if="slots?.['next-text']" #next-text="slotProps">
+      <component :is="slots?.['next-text']" v-bind="slotProps" />
     </template>
     <template v-if="slots?.finish" #finish="slotProps">
       <component :is="slots?.finish" v-bind="slotProps" />
     </template>
-    <template v-if="slots?.finishText" #finishText="slotProps">
-      <component :is="slots?.finishText" v-bind="slotProps" />
+    <template v-if="slots?.['finish-text']" #finish-text="slotProps">
+      <component :is="slots?.['finish-text']" v-bind="slotProps" />
     </template>
   </VfNav>
 </template>

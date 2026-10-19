@@ -180,7 +180,7 @@ function rewriteSpecifier(
       return `${target.package}/components/${componentTypes[1]}`
     }
     if (
-      /^(composables|helpers|tools|types|features|utils|contexts|directives)(\/.+)?$/.test(
+      /^(a11y|composables|helpers|tools|types|features|utils|contexts|directives)(\/.+)?$/.test(
         sub
       )
     ) {

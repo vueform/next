@@ -8,6 +8,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   vdomPrime,
   type ClassValue,
   type DefineElementContext,
@@ -121,6 +122,8 @@ export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfKnobModifiers,
+  VfKnobA11y,
   VfCloneNameExpose,
   KnobApi
 > {}
@@ -156,8 +159,16 @@ const slots = defineSlots<VfCloneNameSlots>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -172,6 +183,14 @@ useClasses(({ props }) => ({
   },
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const {
   value,
   name,
@@ -179,13 +198,12 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   min,
   max,
   step,
   forwardProps,
   handleInput,
-  a11yBindings,
 } = api
 
 /**
@@ -227,7 +245,6 @@ declare module 'vue' {
     <VfLayout v-else>
       <Knob
         :name
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :readonly
@@ -235,12 +252,8 @@ declare module 'vue' {
         :min
         :max
         :step
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @change="handleInput"
       />
     </VfLayout>

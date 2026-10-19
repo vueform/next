@@ -6,7 +6,7 @@ import {
   useGlobals,
   useExpression,
 } from '#src/composables'
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import type { makeElement } from '#src/features'
 import { defineFeature } from '#src/helpers'
 import type {
@@ -114,7 +114,7 @@ function normalizeColumns(cols: ColumnsPlain | ColumnsObject | undefined) {
 export const makeLayout = defineFeature(
   () =>
     ({ props, deps }: MakeViewOptions) => {
-      const context$ = useComponentContext()
+      const context$ = useContext()
       const { defaultBreakpoint } = useGlobals()
       const expression = useExpression()
       const wrapper = useCurrentElement()

@@ -71,7 +71,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -105,7 +105,7 @@ defineExpose(expose)
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
         v-bind="{ ...forwardProps, ...classCompat(bindings.input) }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keypress="handleKeypress"
         @blur="handleBlur"

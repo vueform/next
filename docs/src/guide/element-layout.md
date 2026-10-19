@@ -768,13 +768,13 @@ Under the hood this uses error **hoisting**: addon elements render with the `hoi
 
 ### Slot Addons
 
-For full control over the addon markup — custom classes, arbitrary structure, components Vueform doesn't ship — use the `addonBefore` and `addonAfter` slots. They replace the corresponding addon section entirely, so the matching prop is bypassed when the slot is present. Wrap your content in `<VfAddon>` to keep the standard addon wrapper styling:
+For full control over the addon markup — custom classes, arbitrary structure, components Vueform doesn't ship — use the `addon-before` and `addon-after` slots. They replace the corresponding addon section entirely, so the matching prop is bypassed when the slot is present. Wrap your content in `<VfAddon>` to keep the standard addon wrapper styling:
 
 ::: usage
 
 ```vue [Preview]
 <VfText name="search" label="Search">
-  <template #addonAfter>
+  <template #addon-after>
     <VfAddon>
       <button class="my-search-btn" type="button">🔍</button>
     </VfAddon>
@@ -787,7 +787,7 @@ For full control over the addon markup — custom classes, arbitrary structure, 
 import { h, resolveComponent } from 'vue'
 import { defineSchema, defineSlot, useForm } from '@vueform/ui'
 
-const SearchBtn = defineSlot('VfText.addonAfter', {
+const SearchBtn = defineSlot('VfText.addon-after', {
   setup: () => {
     const VfAddon = resolveComponent('VfAddon')
 
@@ -802,7 +802,7 @@ const schema = defineSchema({
   search: {
     type: 'text',
     label: 'Search',
-    slots: { addonAfter: SearchBtn },
+    slots: { 'addon-after': SearchBtn },
   },
 })
 
@@ -935,7 +935,7 @@ Short of replacing it wholesale, the layout can be customized at three levels �
 
 ### Slots
 
-Every layout part that displays content has a matching slot that replaces it: `label`, `required`, `help`, `description`, `errors`, `messages`, `iconBefore`, `iconAfter`, `addonBefore`, `addonAfter`, and `language`. Use them for rich content where a plain [TextProp](/guide/dynamic-props) isn't enough:
+Every layout part that displays content has a matching slot that replaces it: `label`, `required`, `help`, `description`, `errors`, `messages`, `icon-before`, `icon-after`, `addon-before`, `addon-after`, and `language`. Use them for rich content where a plain [TextProp](/guide/dynamic-props) isn't enough:
 
 ::: usage
 

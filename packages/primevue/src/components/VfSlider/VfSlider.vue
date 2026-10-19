@@ -54,7 +54,7 @@ const {
   disabled,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   min,
   max,
   step,
@@ -87,7 +87,7 @@ defineExpose(expose)
         :max
         :step
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @change="handleInput"
       />
     </VfLayout>

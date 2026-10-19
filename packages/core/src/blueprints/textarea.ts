@@ -102,6 +102,11 @@ export interface TextareaProps<
    * Whether the native browser resize handle is enabled on the textarea.
    */
   resize?: boolean
+
+  /**
+   * Whether the value is always cast to a string.
+   */
+  string?: boolean
 }
 
 /**
@@ -204,6 +209,7 @@ export const defaults = defineDefaults<TextareaProps>()({
   layout: true,
   disabled: false,
   readonly: false,
+  string: false,
   translate: false,
   autogrow: true,
   resize: false,

@@ -4,7 +4,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import {
   blueprint,
   defaults,
@@ -28,12 +33,28 @@ const props = withDefaults(defineProps<VfToggleButtonProps>(), defaults)
 const events = defineEvents<VfToggleButtonEmits>()
 const slots = defineSlots<VfToggleButtonSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-toggle-button',
 }))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -42,7 +63,7 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   onLabel,
   offLabel,
   onIcon,
@@ -52,7 +73,6 @@ const {
   handleInput,
   handleBlur,
   handleFocus,
-  a11yBindings,
 } = api
 
 defineExpose(expose)
@@ -64,7 +84,6 @@ defineExpose(expose)
     <VfLayout v-else>
       <ToggleButton
         :name
-        :class="classes.input"
         v-model="value"
         :disabled
         :readonly
@@ -73,12 +92,8 @@ defineExpose(expose)
         :off-label
         :on-icon
         :off-icon
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="handleInput"

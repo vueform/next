@@ -10,13 +10,13 @@
       "path": "VfButton.vue",
       "target": "{componentsDir}/VfButton.vue",
       "kind": "component",
-      "hash": "sha256:53e22aa04b2ff39307ee073c945c60f27295b5c99a6ddb9d27b6aeef40686329"
+      "hash": "sha256:ee694ea217e3847adfa10763a32df26323676da719aaaac6c9b9e7b05c4e92af"
     }
   ],
   "imports": [
     "vue",
-    "@vueform/ui/components/VfButton",
     "@vueform/ui",
+    "@vueform/ui/components/VfButton",
     "@vueform/ui/button.css",
     "@vueform/ui/animation.css"
   ],
@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfButton.vue",
     "blueprint": "button",
-    "hash": "sha256:5415828b0cc7252818b36ac6ebec319b636e090756f626feb9159163a356dbfe",
+    "hash": "sha256:93bf2eff671d05ca908029a55494f016ad57768e8d1ccbf8db1af9b311c5e6fb",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

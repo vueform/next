@@ -3,7 +3,7 @@
  * A standalone form model created by `useModel`: owns the data of a schema
  * outside any form, with unwrapped reactive state (`model`, `dirty`, `empty` —
  * no `.value`) and the full data manipulation API. Passing it to a form's
- * `v-model` makes the form adopt it, after which `submit()` and `adopted`
+ * `v-model` makes the form attach it, after which `submit()` and `attached`
  * reflect the form.
  */
 type ModelInstance<TSchema = FormSchema> = {
@@ -30,9 +30,9 @@ type ModelInstance<TSchema = FormSchema> = {
   readonly empty: boolean
 
   /**
-   * Whether a form has adopted the model (via `v-model` / `useForm`).
+   * Whether a form has attached the model (via `v-model` / `useForm`).
    */
-  readonly adopted: boolean
+  readonly attached: boolean
 
   /**
    * The schema index: the node tree describing every data-carrying element,
@@ -55,7 +55,7 @@ type ModelInstance<TSchema = FormSchema> = {
   /**
    * The form-level Standard Schema run by `validate()`, if any (explicit
    * `validationSchema` option or one attached via `defineSchema`'s second
-   * argument). An adopting form picks it up when it has no own.
+   * argument). An attaching form picks it up when it has no own.
    */
   readonly validationSchema: StandardSchemaV1 | undefined
 
@@ -158,8 +158,8 @@ type ModelInstance<TSchema = FormSchema> = {
   on: (event: ModelStoreEvents, cb: (...args: any[]) => void) => () => void
 
   /**
-   * Submits the adopting form. Warns and resolves `undefined` when no form has
-   * adopted the model.
+   * Submits the attaching form. Warns and resolves `undefined` when no form has
+   * attached the model.
    */
   submit: () => Promise<any>
 

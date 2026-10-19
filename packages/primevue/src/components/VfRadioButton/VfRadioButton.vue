@@ -53,7 +53,7 @@ const {
   viewLoaded,
   inputName,
   text,
-  input,
+  inputRef,
   genericName,
   forwardProps,
   forwardSlots,
@@ -97,7 +97,7 @@ defineExpose(expose)
         :input-name
         :id
         :disabled
-        :input
+        :input-ref="inputRef"
         :text
         :bindings="bindings.wrapper"
         :handle-blur
@@ -113,7 +113,7 @@ defineExpose(expose)
           :input-name
           :id
           :disabled
-          :input
+          :input-ref="inputRef"
           :text
           :bindings="bindings.wrapper"
           :handle-blur
@@ -131,7 +131,7 @@ defineExpose(expose)
             :readonly
             :invalid
             v-bind="{ ...bindings.input, ...forwardProps }"
-            :ref="(el) => (input = el)"
+            :ref="(el) => (inputRef = el)"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"

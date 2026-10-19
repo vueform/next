@@ -43,6 +43,28 @@ describe('size', () => {
     expect(field.invalid).toBe(false)
   })
 
+  it('should use the numeric message for number values', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: { type: 'text', rules: 'size:5', default: 4 as any },
+      }),
+    })
+    await field.validate()
+    expect(field.invalid).toBe(true)
+    expect(field.errors[0]).toContain('must be 5')
+    expect(field.errors[0]).not.toContain('Invalid field')
+  })
+
+  it('should treat a number value by magnitude, not length', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: { type: 'text', rules: 'size:5', default: 5 as any },
+      }),
+    })
+    await field.validate()
+    expect(field.invalid).toBe(false)
+  })
+
   it('should pass after updating to matching length', async () => {
     const { field } = createForm({
       schema: defineSchema({

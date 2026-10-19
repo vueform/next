@@ -311,9 +311,9 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
   /**
    * Slot that replaces the back button's text label.
    *
-   * @inherits VfNav.backText
+   * @inherits VfNav.back-text
    */
-  backText: (scope: SlotPropsOf<'VfNav', 'backText'>) => VNode[]
+  'back-text': (scope: SlotPropsOf<'VfNav', 'back-text'>) => VNode[]
 
   /**
    * Slot that replaces the next button in the navigation bar.
@@ -325,9 +325,9 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
   /**
    * Slot that replaces the next button's text label.
    *
-   * @inherits VfNav.nextText
+   * @inherits VfNav.next-text
    */
-  nextText: (scope: SlotPropsOf<'VfNav', 'nextText'>) => VNode[]
+  'next-text': (scope: SlotPropsOf<'VfNav', 'next-text'>) => VNode[]
 
   /**
    * Slot that replaces the finish button in the navigation bar.
@@ -339,9 +339,9 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
   /**
    * Slot that replaces the finish button's text label.
    *
-   * @inherits VfNav.finishText
+   * @inherits VfNav.finish-text
    */
-  finishText: (scope: SlotPropsOf<'VfNav', 'finishText'>) => VNode[]
+  'finish-text': (scope: SlotPropsOf<'VfNav', 'finish-text'>) => VNode[]
 }
 
 /**

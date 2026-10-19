@@ -16,6 +16,7 @@
  */
 
 import {
+  inputAria,
   useBlueprint,
   type ItemsProp,
   type GroupChildrenProp,
@@ -87,25 +88,42 @@ const slots =
     >
   >()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-select',
-  addonGroup: 'vf-addon-group',
-  iconGroup: 'vf-icon-group',
   input: 'vf-input vf-select-input',
 }))
+
+useModifiers(({ empty, placeholder, help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const {
   id,
   loading,
   placeholder,
-  empty,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   items,
   groups,
@@ -130,15 +148,10 @@ defineExpose(expose)
         v-model="value"
         :name
         :id
-        :class="classes.input"
-        :data-placeholder="empty && !!placeholder ? '' : undefined"
         :disabled
         :multiple
-        :ref="(el) => (input = el)"
-        v-bind="{
-          ...a11yBindings.input,
-          ...parts.input,
-        }"
+        :ref="(el) => (inputRef = el)"
+        v-bind="bindings.input"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="handleInput"

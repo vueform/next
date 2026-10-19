@@ -16,6 +16,7 @@ import {
   defineEvents,
   useBlueprint,
   type LanguagesProp,
+  tInputAria,
   vdomPrime,
   type AddonGroupParts,
   type AddonsParts,
@@ -181,6 +182,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfPasswordModifiers,
+  VfPasswordA11y,
   VfCloneNameExpose,
   PasswordApi<TProps>
 > {}
@@ -220,8 +223,16 @@ const slots = defineSlots<VfCloneNameSlots<TTranslate, TLanguages>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -233,6 +244,17 @@ useClasses(() => ({
   root: 'vf-password',
 }))
 
+useModifiers(({ help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(tInputAria())
+
 const {
   value,
   id,
@@ -240,8 +262,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -305,7 +326,6 @@ declare module 'vue' {
       <Password
         :name
         :input-id="id"
-        :class="classes.input"
         v-model="inputValue"
         :placeholder
         :disabled
@@ -313,12 +333,8 @@ declare module 'vue' {
         :invalid
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"
         @keypress="handleKeypress"

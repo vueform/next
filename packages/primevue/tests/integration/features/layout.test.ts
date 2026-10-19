@@ -208,7 +208,7 @@ describe('Float Label', () => {
           el: {
             type: 'input-text',
             slots: {
-              'float-label': defineSlot('VfInputText.floatLabel', {
+              'float-label': defineSlot('VfInputText.float-label', {
                 setup() {
                   return () => 'Float via slot'
                 },
@@ -229,7 +229,7 @@ describe('Float Label', () => {
           el: {
             type: 'input-text',
             slots: {
-              'float-label': defineSlot('VfInputText.floatLabel', {
+              'float-label': defineSlot('VfInputText.float-label', {
                 setup() {
                   return () => 'Float via slot'
                 },
@@ -284,7 +284,7 @@ describe('Icon Before', () => {
             type: 'input-text',
             placeholder: 'Icon before slot',
             slots: {
-              'icon-before': defineSlot('VfInputText.iconBefore', {
+              'icon-before': defineSlot('VfInputText.icon-before', {
                 setup() {
                   return () => h('i', { class: 'pi pi-search' })
                 },
@@ -304,7 +304,7 @@ describe('Icon Before', () => {
             type: 'input-text',
             placeholder: 'Icon before slot',
             slots: {
-              'icon-before': defineSlot('VfInputText.iconBefore', {
+              'icon-before': defineSlot('VfInputText.icon-before', {
                 setup() {
                   return () => h('i', { class: 'pi pi-search' })
                 },
@@ -357,7 +357,7 @@ describe('Icon After', () => {
           el: {
             type: 'input-text',
             slots: {
-              'icon-after': defineSlot('VfInputText.iconAfter', {
+              'icon-after': defineSlot('VfInputText.icon-after', {
                 setup() {
                   return () => h('i', { class: 'pi pi-lock' })
                 },
@@ -376,7 +376,7 @@ describe('Icon After', () => {
           el: {
             type: 'input-text',
             slots: {
-              'icon-after': defineSlot('VfInputText.iconAfter', {
+              'icon-after': defineSlot('VfInputText.icon-after', {
                 setup() {
                   return () => h('i', { class: 'pi pi-lock' })
                 },
@@ -451,7 +451,7 @@ describe('Addon Before', () => {
             type: 'input-text',
             placeholder: 'Addon before slot',
             slots: {
-              'addon-before': defineSlot('VfInputText.addonBefore', {
+              'addon-before': defineSlot('VfInputText.addon-before', {
                 setup() {
                   return () => h(InputGroupAddon, null, () => '$')
                 },
@@ -505,7 +505,7 @@ describe('Addon After', () => {
             type: 'input-text',
             placeholder: 'Addon after slot',
             slots: {
-              'addon-after': defineSlot('VfInputText.addonAfter', {
+              'addon-after': defineSlot('VfInputText.addon-after', {
                 setup() {
                   return () => h(InputGroupAddon, null, () => '.00')
                 },

@@ -22,15 +22,19 @@ const props = withDefaults(defineProps<VfContentProps>(), defaults)
 const events = defineEvents<VfContentEmits>()
 const slots = defineSlots<VfContentSlots>()
 
-const { api, context, expose, outlets, useClasses } = useBlueprint(
-  blueprint,
-  props,
-  events,
-  slots
-)
+const { api, context, expose, outlets, useClasses, useModifiers } =
+  useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-content',
+}))
+
+useModifiers(({ props, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+  },
 }))
 
 const { viewLoaded, content, isHtml, tag } = api

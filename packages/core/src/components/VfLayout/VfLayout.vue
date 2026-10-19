@@ -112,20 +112,22 @@ const { t } = useLocale()
 const hasIcons = computed(
   () =>
     !!(
-      elementSlots.iconBefore ||
+      elementSlots['icon-before'] ||
       el$.iconBefore ||
-      elementSlots.iconAfter ||
+      elementSlots['icon-after'] ||
       el$.iconAfter ||
       props.loading
     )
 )
 
 const hasBeforeAddon = computed(
-  () => el$.addonable && !!(elementSlots.addonBefore || el$.addonsBefore.length)
+  () =>
+    el$.addonable && !!(elementSlots['addon-before'] || el$.addonsBefore.length)
 )
 
 const hasAfterAddon = computed(
-  () => el$.addonable && !!(elementSlots.addonAfter || el$.addonsAfter.length)
+  () =>
+    el$.addonable && !!(elementSlots['addon-after'] || el$.addonsAfter.length)
 )
 
 const hasLanguageAddon = computed(
@@ -225,8 +227,8 @@ defineExpose(expose)
             <!-- Addons before -->
             <template v-if="renderGroup && el$.addonable">
               <component
-                v-if="elementSlots.addonBefore"
-                :is="elementSlots.addonBefore"
+                v-if="elementSlots['addon-before']"
+                :is="elementSlots['addon-before']"
               />
               <template v-else>
                 <VfAddon
@@ -244,8 +246,8 @@ defineExpose(expose)
               v-bind="hasIcons ? el$.bindings?.iconGroup : undefined"
             >
               <component
-                v-if="elementSlots.iconBefore"
-                :is="elementSlots.iconBefore"
+                v-if="elementSlots['icon-before']"
+                :is="elementSlots['icon-before']"
                 :icon-before="el$.iconBefore"
               />
               <VfIcon
@@ -262,8 +264,8 @@ defineExpose(expose)
                 aria-hidden="true"
               />
               <component
-                v-else-if="elementSlots.iconAfter"
-                :is="elementSlots.iconAfter"
+                v-else-if="elementSlots['icon-after']"
+                :is="elementSlots['icon-after']"
                 :icon-after="el$.iconAfter"
               />
               <VfIcon
@@ -276,8 +278,8 @@ defineExpose(expose)
             <!-- Addons after -->
             <template v-if="renderGroup && el$.addonable">
               <component
-                v-if="elementSlots.addonAfter"
-                :is="elementSlots.addonAfter"
+                v-if="elementSlots['addon-after']"
+                :is="elementSlots['addon-after']"
               />
               <template v-else>
                 <VfAddon
@@ -464,8 +466,8 @@ defineExpose(expose)
                   <!-- Addons before -->
                   <template v-if="renderGroup && el$.addonable">
                     <component
-                      v-if="elementSlots.addonBefore"
-                      :is="elementSlots.addonBefore"
+                      v-if="elementSlots['addon-before']"
+                      :is="elementSlots['addon-before']"
                     />
                     <template v-else>
                       <VfAddon
@@ -483,8 +485,8 @@ defineExpose(expose)
                     v-bind="hasIcons ? el$.bindings?.iconGroup : undefined"
                   >
                     <component
-                      v-if="elementSlots.iconBefore"
-                      :is="elementSlots.iconBefore"
+                      v-if="elementSlots['icon-before']"
+                      :is="elementSlots['icon-before']"
                       :icon-before="el$.iconBefore"
                     />
                     <VfIcon
@@ -501,8 +503,8 @@ defineExpose(expose)
                       aria-hidden="true"
                     />
                     <component
-                      v-else-if="elementSlots.iconAfter"
-                      :is="elementSlots.iconAfter"
+                      v-else-if="elementSlots['icon-after']"
+                      :is="elementSlots['icon-after']"
                       :icon-after="el$.iconAfter"
                     />
                     <VfIcon
@@ -515,8 +517,8 @@ defineExpose(expose)
                   <!-- Addons after -->
                   <template v-if="renderGroup && el$.addonable">
                     <component
-                      v-if="elementSlots.addonAfter"
-                      :is="elementSlots.addonAfter"
+                      v-if="elementSlots['addon-after']"
+                      :is="elementSlots['addon-after']"
                     />
                     <template v-else>
                       <VfAddon

@@ -66,7 +66,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  input,
+  inputRef,
   name,
   handleKeydown,
   handleKeyup,
@@ -99,7 +99,7 @@ defineExpose(expose)
         :readonly="readonly || undefined"
         :rows="props.rows"
         v-bind="bindings.input"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"
         @keypress="handleKeypress"

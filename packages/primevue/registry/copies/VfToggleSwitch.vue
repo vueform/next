@@ -8,7 +8,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import {
   blueprint,
   defaults,
@@ -38,8 +43,17 @@ const props = withDefaults(
 const events = defineEvents<VfToggleSwitchEmits<TTrueValue, TFalseValue>>()
 const slots = defineSlots<VfToggleSwitchSlots<TTrueValue, TFalseValue>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-toggle-switch',
@@ -49,6 +63,17 @@ useClasses(() => ({
     [api.offIcon.value!]: !api.checked.value && api.offIcon.value,
   },
 }))
+
+useModifiers(({ hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const trueValue = propRefs.trueValue as Ref<TTrueValue>
 const falseValue = propRefs.falseValue as Ref<TFalseValue>
@@ -61,13 +86,12 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   handleInput,
   handleBlur,
   handleFocus,
-  a11yBindings,
 } = api
 
 /**
@@ -86,7 +110,6 @@ defineExpose(expose)
     <VfLayout v-else>
       <ToggleSwitch
         :name
-        :class="classes.input"
         v-model="inputValue"
         :input-id="id"
         :true-value
@@ -94,12 +117,8 @@ defineExpose(expose)
         :disabled
         :readonly
         :invalid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="handleInput"
@@ -112,14 +131,15 @@ defineExpose(expose)
           <component :is="slot" v-bind="scope" />
         </template>
         <template #handle="scope">
-          <slot name="handle" v-bind="scope">
+          <slot name="handle" v-bind="scope" :bindings="bindings.handle">
             <component
               v-if="outlets.handle"
               :is="outlets.handle"
               v-bind="scope"
+              :bindings="bindings.handle"
             />
             <template v-else>
-              <i :class="classes.handle" />
+              <i v-bind="bindings.handle" />
             </template>
           </slot>
         </template>

@@ -7,7 +7,7 @@
 const makeInput: (
   config?: MakeInputConfig | undefined
 ) => (options: MakeInputOptions) => {
-  input: Ref<any, any>
+  inputRef: Ref<any, any>
   setInputRef: (el: any) => void
   canonicalDomValue: ComputedRef<boolean>
   handleInput: (payload: any, e?: Event) => void

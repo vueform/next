@@ -289,7 +289,7 @@ export function blueprint<TProps extends LooseMultiSelectProps>(
    * @param isFocus Whether to focus the component after showing.
    */
   const show = (isFocus?: boolean) => {
-    api.input.value?.show(isFocus)
+    api.inputRef.value?.show(isFocus)
   }
 
   /**
@@ -298,7 +298,7 @@ export function blueprint<TProps extends LooseMultiSelectProps>(
    * @param isFocus Whether to focus the component after hiding.
    */
   const hide = (isFocus?: boolean) => {
-    api.input.value?.hide(isFocus)
+    api.inputRef.value?.hide(isFocus)
   }
 
   return { ...api, show, hide }

@@ -10,17 +10,17 @@
       "path": "VfField.vue",
       "target": "{componentsDir}/VfField.vue",
       "kind": "component",
-      "hash": "sha256:1dc8b6925dea490bc9ddd48e4839be84cc732ae82c18f11a5a2df4082f2b60c0"
+      "hash": "sha256:ba54e780a535a0fb5abbe0009f06c98c7a63b885997a0102e869a307e1b0c11b"
     }
   ],
-  "imports": ["@vueform/primevue/components/VfField", "@vueform/primevue"],
+  "imports": ["@vueform/primevue", "@vueform/primevue/components/VfField"],
   "dependencies": {},
   "registryDependencies": [],
   "element": true,
   "clone": {
     "path": "VfField.vue",
     "blueprint": "field",
-    "hash": "sha256:c1c85ef457590e67d5846cf2fb1248288fa3bf1847b22f867f192bc6f76de7dc",
+    "hash": "sha256:3947045642ad72cbd7b2aeb23da23be7b0869db1394b2a0a8518af79d4cb25e5",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

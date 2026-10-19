@@ -59,7 +59,7 @@ const {
   invalid,
   id,
   viewLoaded,
-  input,
+  inputRef,
   format,
   forwardProps,
   handleInput,
@@ -80,7 +80,7 @@ defineExpose(expose)
         :disabled
         :invalid
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @change="(e) => handleInput(e.value, e.event)"
       />
     </VfLayout>

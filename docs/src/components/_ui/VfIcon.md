@@ -31,7 +31,7 @@ const schema = defineSchema({
     label: 'Search',
     iconBefore: 'search',
     slots: {
-      iconBefore: defineSlot('VfText.iconBefore', {
+      'icon-before': defineSlot('VfText.icon-before', {
         setup: () => () => {
           const VfIcon = resolveComponent('VfIcon')
           return h(VfIcon, { icon: 'search' })

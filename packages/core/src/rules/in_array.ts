@@ -16,7 +16,10 @@ export const in_array = createRule(
   },
   {
     transformParams: ({ params }) => ({
-      path$: params.path$.replace(/\.\*$/, ''),
+      path$:
+        typeof params.path$ === 'string'
+          ? params.path$.replace(/\.\*$/, '')
+          : params.path$,
     }),
     params: ['path$'],
   }

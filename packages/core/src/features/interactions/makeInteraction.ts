@@ -1,7 +1,7 @@
 import { ref } from 'vue'
 
 import { useRootDom } from '#src/composables'
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import { defineFeature, type FeatureEvents } from '#src/helpers'
 
 /**
@@ -25,7 +25,7 @@ export const makeInteraction = defineFeature(
     ({ events }: MakeInteractionOptions) => {
       const { on } = events
       const root = useRootDom()
-      const context$ = useComponentContext()
+      const context$ = useContext()
 
       /**
        * Whether the element is currently focused.

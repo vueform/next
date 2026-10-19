@@ -1,4 +1,4 @@
-import type { Ref, WritableComputedRef } from 'vue'
+import { toRef, type Ref, type WritableComputedRef } from 'vue'
 
 import { useData, type CastOption } from '#src/composables'
 import {
@@ -243,6 +243,8 @@ export type MakeDataOptions<C extends MakeDataConfig = {}> = {
     languages?: LanguagesProp | undefined
     nullValue?: any
 
+    string?: boolean
+
     /**
      * Transforms the element's value when submitting the form.
      *
@@ -458,7 +460,8 @@ export const makeData: MakeDataFeature = defineFeature<MakeDataFeature>(
         ]),
         ...deps,
         ...events,
-        cast: config?.cast,
+        cast:
+          config?.cast ?? toRef(() => (props.string ? 'string' : undefined)),
       }) as any
     }
 )

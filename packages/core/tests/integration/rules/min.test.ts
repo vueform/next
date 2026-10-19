@@ -56,4 +56,28 @@ describe('min', () => {
     await field.validate()
     expect(field.invalid).toBe(false)
   })
+
+  // Typed message tags must resolve per value category — the numeric type maps
+  // to `rule_min_numeric_error`, not the default fallback.
+  it('should use the numeric message for number values', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: { type: 'text', rules: 'min:3', default: 1 as any },
+      }),
+    })
+    await field.validate()
+    expect(field.invalid).toBe(true)
+    expect(field.errors[0]).toContain('must be at least 3')
+    expect(field.errors[0]).not.toContain('Invalid field')
+  })
+
+  it('should use the string message for string values', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: { type: 'text', rules: 'min:3', default: 'ab' },
+      }),
+    })
+    await field.validate()
+    expect(field.errors[0]).toContain('must be at least 3 characters')
+  })
 })

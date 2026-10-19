@@ -6,7 +6,7 @@ import {
   useLocale,
   useSecurity,
 } from '#src/composables'
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import {
   makeData,
   makeElement,
@@ -275,7 +275,7 @@ export function blueprint<TProps extends FileProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<FileEmits>
 ) {
-  const context$ = useComponentContext()
+  const context$ = useContext()
   const { t } = useLocale()
   const $security = useSecurity()
 
@@ -292,7 +292,7 @@ export function blueprint<TProps extends FileProps<string>>(
   const {
     model,
     onUserInput,
-    input,
+    inputRef,
     handleInput: baseHandleInput,
     touched,
     visited,
@@ -447,7 +447,7 @@ export function blueprint<TProps extends FileProps<string>>(
    * input.
    */
   const triggerFileInput = () => {
-    input.value?.click()
+    inputRef.value?.click()
   }
 
   return {

@@ -15,6 +15,7 @@ import {
   defineEvents,
   useBlueprint,
   type LanguagesProp,
+  inputAria,
   vdomPrime,
 } from '@vueform/primevue'
 import {
@@ -48,8 +49,17 @@ const props = withDefaults(
 const events = defineEvents<VfEditorEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfEditorSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-editor',
@@ -66,6 +76,14 @@ useClasses(() => ({
   placeholderToolbar: 'vf-editor-placeholder-toolbar',
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const { editorStyle } = propRefs
 
 const {
@@ -75,7 +93,7 @@ const {
   placeholder,
   viewLoaded,
   invalid,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   editorCss,
@@ -87,7 +105,6 @@ const {
   translatable,
   handleInput,
   handleLoad,
-  a11yBindings,
 } = api
 
 /**
@@ -104,8 +121,8 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else :languages="false">
-      <div v-if="!ready" :class="classes.placeholder">
-        <div :class="classes.placeholderToolbar">
+      <div v-if="!ready" v-bind="bindings.placeholder">
+        <div v-bind="bindings.placeholderToolbar">
           <span />
           <span />
           <span />
@@ -114,26 +131,21 @@ defineExpose(expose)
           <span />
         </div>
         <div
-          :class="classes.placeholderContent"
+          v-bind="bindings.placeholderContent"
           :style="editorStyle"
           data-editor-placeholder-content
         />
       </div>
       <Editor
         :name
-        :class="classes.input"
         v-model="inputValue"
         :editor-style
         :placeholder
         :readonly
         :invalid
         :modules
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @load="handleLoad"
         @value-change="handleInput"
       >

@@ -14,10 +14,10 @@
  */
 
 import {
+  inputAria,
   useBlueprint,
   defineEvents,
   type LanguagesProp,
-  type A11yBindings,
   type AddonGroupClasses,
   type AddonsParts,
   type AddonsSlots,
@@ -113,13 +113,6 @@ export interface VfCloneNameSlots<
     context: VfCloneNameContext<
       VfCloneNameProps<TTranslate, TLanguages, TNullValue>
     >
-
-    /**
-     * Part-keyed accessibility bindings; apply the `input` bag to the rendered
-     * control with `v-bind` so label/help/description/error relationships and
-     * ARIA state stay intact (e.g. `v-bind="a11yBindings.input"`).
-     */
-    a11yBindings: A11yBindings
   }) => VNode[]
 }
 
@@ -134,6 +127,15 @@ export interface VfCloneNameSlots<
  */
 export interface VfCloneNameParts
   extends FieldParts, AddonsParts, IconsParts, TranslateParts {
+  /**
+   * The user-rendered control. VfCloneName does not render it — the default slot
+   * supplies the markup and applies `bindings.input` (ARIA state and part
+   * overrides) to whichever element acts as the control.
+   *
+   * @tag input
+   */
+  input: DomAttrsOf<'input'>
+
   /**
    * The addon group wrapper element.
    *
@@ -181,6 +183,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfFieldModifiers,
+  VfFieldA11y,
   VfCloneNameExpose,
   FieldApi<TProps>
 > {}
@@ -220,7 +224,7 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, context, expose, outlets, useClasses } = useBlueprint(
+const { api, context, expose, outlets, useClasses, useA11y } = useBlueprint(
   blueprint,
   props,
   events,
@@ -235,11 +239,11 @@ const { api, context, expose, outlets, useClasses } = useBlueprint(
  */
 useClasses(() => ({
   root: 'vf-field',
-  addonGroup: 'vf-addon-group',
-  iconGroup: 'vf-icon-group',
 }))
 
-const { viewLoaded, a11yBindings } = api
+useA11y(inputAria())
+
+const { viewLoaded } = api
 
 defineExpose(expose)
 </script>
@@ -292,13 +296,8 @@ declare module 'vue' {
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <slot :context :a11y-bindings>
-        <component
-          v-if="outlets?.default"
-          :is="outlets.default"
-          :context
-          :a11y-bindings
-        />
+      <slot :context>
+        <component v-if="outlets?.default" :is="outlets.default" :context />
       </slot>
     </VfLayout>
   </slot>

@@ -7,7 +7,7 @@ import {
   useMessageBag,
   useTokens,
 } from '#src/composables'
-import { useComponentContext, useFormContext } from '#src/contexts'
+import { useContext, useFormContext } from '#src/contexts'
 import { type makeDisabled, type makeElement } from '#src/features'
 import { defineFeature, type FeatureEvents } from '#src/helpers'
 import {
@@ -54,7 +54,7 @@ type MakeButtonOptions = {
 export const makeButton = defineFeature(
   () =>
     ({ props, events, deps }: MakeButtonOptions) => {
-      const context$ = useComponentContext()
+      const context$ = useContext()
       const form$ = useFormContext()
       const config = useConfig()
 

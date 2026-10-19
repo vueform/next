@@ -136,7 +136,7 @@ export interface FormProps<
 
   /**
    * The form data object (v-model), or a `useModel` instance whose store the
-   * form adopts (shared data, no cloning or v-model sync).
+   * form attaches (shared data, no cloning or v-model sync).
    */
   modelValue?: Record<string, any> | ModelInstance<any>
 
@@ -1141,12 +1141,12 @@ function setup(
   const data = model
 
   /**
-   * Whether the form adopted a `useModel` instance's store (passed via
+   * Whether the form attached a `useModel` instance's store (passed via
    * `v-model` / the `modelValue` prop).
    */
-  const hasAdoptedModel = rootModel.adopted
+  const hasAttachedModel = rootModel.attached
 
-  // Expression tracking controller for this form's index. Adopted `useModel`
+  // Expression tracking controller for this form's index. Attached `useModel`
   // instances already created one (their engine tracks walk nodes); plain
   // forms get a fresh controller here, and mounted elements init their claimed
   // nodes against it. No-op when the expression module isn't installed.
@@ -1161,7 +1161,7 @@ function setup(
   })
 
   /**
-   * Index nodes created by mounted registration (as opposed to the adopted
+   * Index nodes created by mounted registration (as opposed to the attached
    * instance's schema walk). They are removed again on unregistration — walk
    * nodes are only unclaimed, since they must outlive the form.
    */
@@ -1325,11 +1325,11 @@ function setup(
 
   /**
    * The active form-level Standard Schema: the explicit `validationSchema`
-   * prop, the adopted `useModel` instance's, or one attached to the schema via
+   * prop, the attached `useModel` instance's, or one bound to the schema via
    * `defineSchema`'s second argument, in that order. The instance precedes the
-   * attachment so adoption never swaps the schema the instance already
-   * validates with on the shared validator (the instance's own resolution falls
-   * back to the attachment when it has no explicit option).
+   * `defineSchema` binding so attaching a model never swaps the schema the
+   * instance already validates with on the shared validator (the instance's own
+   * resolution falls back to that binding when it has no explicit option).
    */
   const validationSchema = computed(
     () =>
@@ -1538,7 +1538,7 @@ function setup(
   }
 
   /**
-   * Finds a registered element by its path or data path. When the form adopted
+   * Finds a registered element by its path or data path. When the form attached
    * a `useModel` instance, unmounted schema elements resolve to their virtual
    * contexts as a last resort.
    *
@@ -2172,7 +2172,7 @@ function setup(
     set,
     toJSON,
     toFormData,
-    hasAdoptedModel,
+    hasAttachedModel,
     scrollToTop,
     scrollToFirstError,
     focusFirstError,

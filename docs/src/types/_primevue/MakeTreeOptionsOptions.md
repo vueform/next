@@ -23,7 +23,7 @@ interface MakeTreeOptionsOptions {
     [
       [typeof makeData, ['nullValue', 'update', 'model', 'pending']],
       [typeof makeElement, ['path']],
-      [typeof makeInput, ['input']],
+      [typeof makeInput, ['inputRef']],
     ]
   >
 }

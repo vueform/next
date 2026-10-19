@@ -10,7 +10,7 @@
       "path": "VfFileUpload.vue",
       "target": "{componentsDir}/VfFileUpload.vue",
       "kind": "component",
-      "hash": "sha256:4890f867a21b0e67e7c418c3101d6268f17376cce5d05db41a4f753e732de3ff"
+      "hash": "sha256:613c6031c32e121634546d60c968b2c8cdd5b76c534e8f1a7c52bed566b43378"
     }
   ],
   "imports": [
@@ -26,7 +26,7 @@
   "clone": {
     "path": "VfFileUpload.vue",
     "blueprint": "file-upload",
-    "hash": "sha256:06953040f58c18d0ea50e5490a82c6894aaf3f93ba50f7d6696f1a3df8a6c72d",
+    "hash": "sha256:ba4d8877762c9d1aed1fa2d32eb23110a6969564555c8b478e75172ea44fd7bd",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

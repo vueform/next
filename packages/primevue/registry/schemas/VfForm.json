@@ -10,13 +10,13 @@
       "path": "VfForm.vue",
       "target": "{componentsDir}/VfForm.vue",
       "kind": "component",
-      "hash": "sha256:5d7a2fa063be552f66ce3d1a1d5bf12c9a1fb93d05aa5792bdc5a72177639d63"
+      "hash": "sha256:ea23b5fad6adc4b1c695fdbcb1de8e5058bc345dffa1264dad5fc909f1a7a3fd"
     },
     {
       "path": "FormNav.vue",
       "target": "{componentsDir}/FormNav.vue",
       "kind": "component",
-      "hash": "sha256:63760a283b0929344c2b1d2fdfa22febb1478cb8af6bc77dcca9b2059e0191fe"
+      "hash": "sha256:0d92fd21092439396b428812f7660de1271c26f0d2c869d6e9aaf5c240a392e4"
     },
     {
       "path": "FormStep.vue",

@@ -17,6 +17,7 @@
 
 import {
   defineEvents,
+  choicesAria,
   useBlueprint,
   type OptionGroupChildrenProp,
   type OptionsProp,
@@ -203,6 +204,12 @@ export interface VfCloneNameSlots<
      * The resolved option group.
      */
     group: ResolvedGroup<TValue, TRaw>
+
+    /**
+     * The group fieldset's resolved bindings (part overrides for this group's
+     * fieldset element); apply with `v-bind`.
+     */
+    bindings: VfRadioButtonGroupBindings['group']
   }) => VNode[]
 
   /**
@@ -229,6 +236,12 @@ export interface VfCloneNameSlots<
      * The resolved option item.
      */
     item: ResolvedOption<TValue, TRaw>
+
+    /**
+     * The item's resolved bindings (part overrides for this item's
+     * VfRadioButton child); apply with `v-bind`.
+     */
+    bindings: VfRadioButtonGroupBindings['item']
   }) => VNode[]
 
   /**
@@ -265,7 +278,7 @@ export interface VfCloneNameParts extends RadioButtonGroupParts {
    *
    * @tag div
    */
-  group: DomAttrsOf<'div'>
+  wrapper: DomAttrsOf<'div'>
 
   /**
    * The fieldset element wrapping each group when items are grouped.
@@ -273,7 +286,7 @@ export interface VfCloneNameParts extends RadioButtonGroupParts {
    * @param group The group data.
    * @tag fieldset
    */
-  fieldset: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
+  group: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
 
   /**
    * The legend element displaying the group label.
@@ -281,7 +294,7 @@ export interface VfCloneNameParts extends RadioButtonGroupParts {
    * @param group The group data.
    * @tag legend
    */
-  legend: (group: Record<string, any>) => DomAttrsOf<'legend'>
+  groupLabel: (group: Record<string, any>) => DomAttrsOf<'legend'>
 
   /**
    * Props factory for each VfRadioButton child component, receiving the item
@@ -306,7 +319,28 @@ export interface VfCloneNameClasses extends RadioButtonGroupClasses {
   /**
    * The wrapper element containing all radio button items.
    */
-  group: ClassValue
+  wrapper: ClassValue
+
+  /**
+   * The fieldset element wrapping each group when items are grouped.
+   *
+   * @param group The group data.
+   */
+  group: (group: Record<string, any>) => ClassValue
+
+  /**
+   * The legend element displaying the group label.
+   *
+   * @param group The group data.
+   */
+  groupLabel: (group: Record<string, any>) => ClassValue
+
+  /**
+   * Each item's `VfRadioButton` child component.
+   *
+   * @param item The radio button item data.
+   */
+  item: (item: Record<string, any>) => ClassValue
 }
 
 /**
@@ -343,6 +377,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfRadioButtonGroupModifiers,
+  VfRadioButtonGroupA11y,
   VfCloneNameExpose,
   RadioButtonGroupApi<TProps>
 > {}
@@ -412,8 +448,16 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const {
   items,
@@ -421,7 +465,6 @@ const {
   grouped,
   viewLoaded,
   path,
-  a11yBindings,
   disabled,
   label,
   handleFocus,
@@ -436,8 +479,24 @@ const {
  */
 useClasses(({ props }) => ({
   root: 'vf-radio-button-group vf-choices',
-  group: [props.layout === false ? props.class : null, 'vf-choices-group'],
+  wrapper: [props.layout === false ? props.class : null, 'vf-choices-group'],
+  group: () => null,
+  groupLabel: () => null,
+  item: () => null,
 }))
+
+useModifiers(({ props, invalid, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  wrapper: {
+    'data-stacked': props.stacked ? '' : undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+    'data-invalid': invalid.value ? '' : undefined,
+  },
+}))
+
+useA11y(choicesAria({ role: 'radiogroup' }))
 
 defineExpose(expose)
 </script>
@@ -449,7 +508,14 @@ import type {
   EntryOptionValueKeyOf,
   EntryOptionValueReturnOf,
   EntryOptionsOf,
+  ResolvedBindings,
 } from '@vueform/primevue'
+
+type VfRadioButtonGroupBindings = ResolvedBindings<
+  VfCloneNameParts,
+  VfRadioButtonGroupModifiers,
+  VfRadioButtonGroupA11y
+>
 
 type EntryProps<TEntry> = VfCloneNameProps<
   EntryOptionsOf<TEntry>,
@@ -490,15 +556,9 @@ declare module 'vue' {
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else :label="false">
       <div
-        :class="classes.group"
-        :data-stacked="props.stacked ? '' : undefined"
-        :data-aligned="props.aligned ? '' : undefined"
         @focusin="handleFocus"
         @focusout="handleBlur"
-        v-bind="{
-          ...a11yBindings.group,
-          ...parts.group,
-        }"
+        v-bind="bindings.wrapper"
       >
         <slot :items :groups :grouped :disabled :label :radio-name="path">
           <component
@@ -507,13 +567,20 @@ declare module 'vue' {
             :items
             :groups
             :grouped
-            :radio-name="path"
             :disabled
             :label
+            :radio-name="path"
           />
           <template v-else-if="grouped">
             <template v-for="(group, gi) in groups" :key="gi">
-              <slot name="group" :group :disabled :label :radio-name="path">
+              <slot
+                name="group"
+                :group
+                :disabled
+                :label
+                :radio-name="path"
+                :bindings="bindings.group(group)"
+              >
                 <component
                   v-if="outlets?.group"
                   :is="outlets.group"
@@ -521,13 +588,21 @@ declare module 'vue' {
                   :disabled
                   :label
                   :radio-name="path"
+                  :bindings="bindings.group(group)"
                 />
-                <fieldset v-else v-bind="parts.fieldset?.(group)">
-                  <legend v-bind="parts.legend?.(group)">
+                <fieldset v-else v-bind="bindings.group(group)">
+                  <legend v-bind="bindings.groupLabel(group)">
                     {{ group.label }}
                   </legend>
                   <template v-for="item in group.items" :key="item.key">
-                    <slot name="item" :item :disabled :label :radio-name="path">
+                    <slot
+                      name="item"
+                      :item
+                      :disabled
+                      :label
+                      :radio-name="path"
+                      :bindings="bindings.item(item)"
+                    >
                       <component
                         v-if="outlets?.item"
                         :is="outlets.item"
@@ -535,6 +610,7 @@ declare module 'vue' {
                         :disabled
                         :label
                         :radio-name="path"
+                        :bindings="bindings.item(item)"
                       />
                       <VfRadioButton
                         v-else
@@ -543,7 +619,7 @@ declare module 'vue' {
                         :radio-name="path"
                         :disabled="disabled || item.disabled"
                         :layout="false"
-                        v-bind="parts.item?.(item)"
+                        v-bind="bindings.item(item)"
                       >
                         <template v-if="outlets?.radio" #default="slotProps">
                           <slot name="radio" v-bind="slotProps">
@@ -564,7 +640,14 @@ declare module 'vue' {
           </template>
           <template v-else>
             <template v-for="item in items" :key="item.key">
-              <slot name="item" :item :disabled :label :radio-name="path">
+              <slot
+                name="item"
+                :item
+                :disabled
+                :label
+                :radio-name="path"
+                :bindings="bindings.item(item)"
+              >
                 <component
                   v-if="outlets?.item"
                   :is="outlets.item"
@@ -572,6 +655,7 @@ declare module 'vue' {
                   :disabled
                   :label
                   :radio-name="path"
+                  :bindings="bindings.item(item)"
                 />
                 <VfRadioButton
                   v-else
@@ -580,7 +664,7 @@ declare module 'vue' {
                   :radio-name="path"
                   :disabled="disabled || item.disabled"
                   :layout="false"
-                  v-bind="parts.item?.(item)"
+                  v-bind="bindings.item(item)"
                 >
                   <template v-if="outlets?.radio" #default="slotProps">
                     <slot name="radio" v-bind="slotProps">

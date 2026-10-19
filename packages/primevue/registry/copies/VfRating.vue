@@ -4,7 +4,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import {
   blueprint,
   defaults,
@@ -31,12 +36,31 @@ const props = withDefaults(defineProps<VfRatingProps>(), defaults)
 const events = defineEvents<VfRatingEmits>()
 const slots = defineSlots<VfRatingSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-rating',
 }))
+
+useModifiers(({ hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -45,13 +69,12 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   handleInput,
   handleBlur,
   handleFocus,
-  a11yBindings,
 } = api
 
 /**
@@ -70,17 +93,12 @@ defineExpose(expose)
     <VfLayout v-else>
       <Rating
         :name
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :readonly
         :invalid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="(e) => handleInput(e.value, e.originalEvent)"

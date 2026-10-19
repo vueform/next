@@ -12,10 +12,13 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   vdomPrime,
   type ClassValue,
   type DefineElementContext,
+  type DomAttrsOf,
   type ForwardedSlots,
+  type PartBindings,
   type WidenProps,
 } from '@vueform/primevue'
 import {
@@ -99,6 +102,17 @@ export interface VfCloneNameSlots<TTrueValue = true, TFalseValue = false>
      * Current checked state of the item as a boolean.
      */
     checked: boolean
+
+    /**
+     * The handle element's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: PartBindings<
+      'handle',
+      VfCloneNameParts,
+      VfToggleSwitchModifiers,
+      VfToggleSwitchA11y
+    >
   }): VNode[]
 }
 
@@ -118,6 +132,13 @@ export interface VfCloneNameParts extends ToggleSwitchParts {
    * @tag ToggleSwitch
    */
   input: PvToggleSwitchProps
+
+  /**
+   * The toggle switch handle element.
+   *
+   * @tag i
+   */
+  handle: DomAttrsOf<'i'>
 }
 
 /**
@@ -168,6 +189,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfToggleSwitchModifiers,
+  VfToggleSwitchA11y,
   VfCloneNameExpose,
   ToggleSwitchApi<TProps>
 > {}
@@ -206,8 +229,17 @@ const slots = defineSlots<VfCloneNameSlots<TTrueValue, TFalseValue>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -224,6 +256,17 @@ useClasses(() => ({
   },
 }))
 
+useModifiers(({ hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const trueValue = propRefs.trueValue as Ref<TTrueValue>
 const falseValue = propRefs.falseValue as Ref<TFalseValue>
 
@@ -235,13 +278,12 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   handleInput,
   handleBlur,
   handleFocus,
-  a11yBindings,
 } = api
 
 /**
@@ -291,7 +333,6 @@ declare module 'vue' {
     <VfLayout v-else>
       <ToggleSwitch
         :name
-        :class="classes.input"
         v-model="inputValue"
         :input-id="id"
         :true-value
@@ -299,12 +340,8 @@ declare module 'vue' {
         :disabled
         :readonly
         :invalid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="handleInput"
@@ -317,14 +354,15 @@ declare module 'vue' {
           <component :is="slot" v-bind="scope" />
         </template>
         <template #handle="scope">
-          <slot name="handle" v-bind="scope">
+          <slot name="handle" v-bind="scope" :bindings="bindings.handle">
             <component
               v-if="outlets.handle"
               :is="outlets.handle"
               v-bind="scope"
+              :bindings="bindings.handle"
             />
             <template v-else>
-              <i :class="classes.handle" />
+              <i v-bind="bindings.handle" />
             </template>
           </slot>
         </template>

@@ -113,6 +113,8 @@ export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfContentModifiers,
+  VfContentA11y,
   VfCloneNameExpose,
   ContentApi
 > {}
@@ -141,12 +143,8 @@ const slots = defineSlots<VfCloneNameSlots>()
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const { api, context, expose, outlets, useClasses } = useBlueprint(
-  blueprint,
-  props,
-  events,
-  slots
-)
+const { api, context, expose, outlets, useClasses, useModifiers } =
+  useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -156,6 +154,14 @@ const { api, context, expose, outlets, useClasses } = useBlueprint(
  */
 useClasses(() => ({
   root: 'vf-content',
+}))
+
+useModifiers(({ props, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+  },
 }))
 
 const { viewLoaded, content, isHtml, tag } = api

@@ -127,7 +127,7 @@ export interface VfCheckboxSlots<TTrueValue = any, TFalseValue = any>
     /**
      * Ref to the underlying input element.
      */
-    input: any
+    inputRef: any
 
     /**
      * The resolved label text.

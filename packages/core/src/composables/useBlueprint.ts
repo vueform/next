@@ -29,7 +29,7 @@ import {
   createPresetContext,
   markContextReady,
   opaque,
-  useComponentContext,
+  useContext,
   useVueformContext,
   usePresetContext,
 } from '#src/contexts'
@@ -281,7 +281,7 @@ type Blueprint2Api<
 
   /**
    * The component's single public context — what the `#template` slot, event
-   * handlers (`context$`), `find()`, and `useContext()` receive.
+   * handlers (`context$`), `find()`, and `useTemplateContext()` receive.
    */
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 
@@ -1229,7 +1229,7 @@ function useParts<TProps extends Record<string, any>>(
   TProps extends { parts?: PartsProp<infer P> } ? P : Record<string, any>
 > {
   const attrs = useAttrs()
-  const context = useComponentContext()
+  const context = useContext()
   const instance = useCurrentInstance()
   const $security = getSecurityModule()
 
@@ -1341,7 +1341,7 @@ function defineClasses<
 >(api: TApi, propRefs: TPropRefs): DefineClassesReturn<C, TApi, TPropRefs> {
   const name = useCurrentName()
   const config = useConfig() as ReturnType<typeof useConfig>
-  const context$ = useComponentContext()
+  const context$ = useContext()
   const instance = useCurrentInstance()
   const rawPropKeys = getInstanceRawPropKeys(instance)
 
@@ -1774,7 +1774,7 @@ function buildForwards(
   config: ForwardsConfig,
   outlets: ComputedRef<Record<string, any>>
 ) {
-  const context$ = useComponentContext()
+  const context$ = useContext()
   const $attrs = useAttrs()
 
   const handlers: Record<string, (...args: any[]) => void> = {}
@@ -1878,7 +1878,7 @@ export function useBlueprint<
 
   const api = usePlugins<SpreadMerge<TApi, ResolvedExtension<TExt>>>(
     () => {
-      const context$ = useComponentContext()
+      const context$ = useContext()
       const fire = (events as any).fire
 
       onBeforeMount(() => fire('beforeMount', context$))
@@ -1955,12 +1955,12 @@ export function useBlueprint<
 
   // The single public context: the `reactive()` proxy created at the top of
   // setup (see `createComponentContext`). It is what event handlers receive as
-  // `context$`, what `find()` returns, what `useContext()` returns, and what
+  // `context$`, what `find()` returns, what `useTemplateContext()` returns, and what
   // the `#template` slot and the template outlet receive as `context` — one
   // object, ref members read unwrapped and assignable. The API is added
   // through the proxy so reads that happened before it (plugins, class
   // factories) re-run.
-  const context = useComponentContext()
+  const context = useContext()
 
   // `props` is left out: the context's raw object serves the resolved props
   // through a getter from the moment it is created (see

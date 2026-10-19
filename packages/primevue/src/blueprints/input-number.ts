@@ -287,7 +287,7 @@ export function blueprint<TProps extends InputNumberProps<string>>(
    * Returns the Intl.NumberFormat object used by the underlying InputNumber.
    */
   const getFormatter = (): Intl.NumberFormat | undefined => {
-    return api.input.value?.getFormatter()
+    return api.inputRef.value?.getFormatter()
   }
 
   return {

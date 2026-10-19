@@ -7,9 +7,9 @@ interface FloatLabelSlots {
   /**
    * Slot for customizing the floating label content.
    *
-   * @param scope The floatLabel slot's params.
+   * @param scope The float-label slot's params.
    */
-  floatLabel: (scope: {
+  'float-label': (scope: {
     /**
      * The floating label text.
      */

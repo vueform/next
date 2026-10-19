@@ -76,33 +76,30 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
   default: () => VNode[]
 
   /**
-   * Slot that replaces the header row. Receives class and header definitions.
+   * Slot that replaces the header row. Receives the header part's classes and
+   * part bag and the header definitions.
    *
    * @param scope The header slot's params.
    */
   header: (scope: {
     /**
-     * CSS classes for the header row.
-     */
-    class: ClassValue
-
-    /**
      * The resolved column header definitions.
      */
     headers: (ResolvedMatrixCol | {})[]
+
+    /**
+     * The header row's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
+     */
+    bindings: VfMatrixBindings['header']
   }) => VNode[]
 
   /**
    * Slot that replaces each column header cell.
    *
-   * @param scope The colHeader slot's params.
+   * @param scope The col-header slot's params.
    */
-  colHeader: (scope: {
-    /**
-     * CSS classes for the column header.
-     */
-    class: ClassValue
-
+  'col-header': (scope: {
     /**
      * The column header's unique ID.
      */
@@ -112,6 +109,12 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
      * The column header label text.
      */
     label: string
+
+    /**
+     * The column header's resolved bindings (classes, part overrides, sticky
+     * modifier); apply with `v-bind`.
+     */
+    bindings: VfMatrixBindings['colHeader']
   }) => VNode[]
 
   /**
@@ -121,11 +124,6 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
    * @param scope The row slot's params.
    */
   row: (scope: {
-    /**
-     * CSS classes for the row.
-     */
-    class: ClassValue
-
     /**
      * The row's item index.
      */
@@ -147,25 +145,6 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
     isDropTarget: boolean
 
     /**
-     * Handler for the drag enter event.
-     *
-     * @param $event The native drag event.
-     */
-    handleDragEnter: ($event: DragEvent) => void
-
-    /**
-     * Handler for the drag start event.
-     *
-     * @param $event The native drag event.
-     */
-    handleDragStart: ($event: DragEvent) => void
-
-    /**
-     * Handler for the drag end event.
-     */
-    handleDragEnd: () => void
-
-    /**
      * Whether the row can be removed.
      */
     canRemove: boolean
@@ -181,43 +160,64 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
     label: string
 
     /**
-     * Handler to remove this row.
-     */
-    remove: () => void
-
-    /**
      * The column element definitions for this row.
      */
     cols: { component: string | Component; props: MatrixElementSchema }[]
+
+    /**
+     * Handler for the drag enter event.
+     *
+     * @param $event The native drag event.
+     */
+    handleDragEnter: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag start event.
+     *
+     * @param $event The native drag event.
+     */
+    handleDragStart: ($event: DragEvent) => void
+
+    /**
+     * Handler for the drag end event.
+     */
+    handleDragEnd: () => void
+
+    /**
+     * Handler to remove this row.
+     */
+    remove: () => void
   }) => VNode[]
 
   /**
    * Slot that replaces each row header cell.
    *
-   * @param scope The rowHeader slot's params.
+   * @param scope The row-header slot's params.
    */
-  rowHeader: (scope: {
-    /**
-     * CSS classes for the row header.
-     */
-    class: ClassValue
-
+  'row-header': (scope: {
     /**
      * The row header label text.
      */
     label: string
+
+    /**
+     * The row header's resolved bindings (classes, part overrides, sticky
+     * modifier); apply with `v-bind`.
+     */
+    bindings: VfMatrixBindings['rowHeader']
   }) => VNode[]
 
   /**
    * Slot that replaces the drag sort handle wrapper.
    *
-   * @param scope The sortWrapper slot's params.
+   * @param scope The sort-wrapper slot's params.
    */
-  sortWrapper: (scope: {
+  'sort-wrapper': (scope: {
     /**
-     * CSS classes for the wrapper.
+     * The drag sort handle wrapper's resolved bindings (classes, part
+     * overrides); apply with `v-bind`.
      */
-    class: ClassValue
+    bindings: VfMatrixBindings['sortWrapper']
 
     /**
      * Handler for the drag enter event.
@@ -240,15 +240,17 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the drag handle. Receives class and drag event handlers.
+   * Slot that replaces the drag handle. Receives classes, part, and drag
+   * event handlers.
    *
    * @param scope The sort slot's params.
    */
   sort: (scope: {
     /**
-     * CSS classes for the handle element.
+     * The drag handle's resolved bindings (classes, part overrides, localized
+     * aria-label); apply with `v-bind`.
      */
-    class: ClassValue
+    bindings: VfMatrixBindings['sort']
 
     /**
      * Handler for the drag enter event.
@@ -288,6 +290,12 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
     props: MatrixElementSchema
 
     /**
+     * The cell's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
+     */
+    bindings: VfMatrixBindings['cell']
+
+    /**
      * Handler for the drag enter event on the cell.
      *
      * @param $event The native drag event.
@@ -298,13 +306,14 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
   /**
    * Slot that replaces the row remove button wrapper.
    *
-   * @param scope The removeWrapper slot's params.
+   * @param scope The remove-wrapper slot's params.
    */
-  removeWrapper: (scope: {
+  'remove-wrapper': (scope: {
     /**
-     * CSS classes for the wrapper.
+     * The row remove button wrapper's resolved bindings (classes, part
+     * overrides); apply with `v-bind`.
      */
-    class: ClassValue
+    bindings: VfMatrixBindings['removeWrapper']
 
     /**
      * Handler to remove the row.
@@ -319,9 +328,10 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
    */
   remove: (scope: {
     /**
-     * CSS classes for the remove button.
+     * The remove button's resolved bindings (classes, part overrides,
+     * localized aria-label fallback); apply with `v-bind`.
      */
-    class: ClassValue
+    bindings: VfMatrixBindings['remove']
 
     /**
      * Handler to remove the row.
@@ -330,21 +340,22 @@ export interface VfCloneNameSlots extends MatrixSlots<VfCloneNameContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the add row button. Receives class, label, and add
-   * handler.
+   * Slot that replaces the add row button. Receives classes, part, label, and
+   * add handler.
    *
    * @param scope The add slot's params.
    */
   add: (scope: {
     /**
-     * CSS classes for the add button.
-     */
-    class: ClassValue
-
-    /**
      * The button label text.
      */
     label: TProp | string
+
+    /**
+     * The add button's resolved bindings (classes, part overrides, fallback
+     * aria-label); apply with `v-bind`.
+     */
+    bindings: VfMatrixBindings['add']
 
     /**
      * Handler to add a new row.
@@ -429,16 +440,18 @@ export interface VfCloneNameParts extends MatrixParts {
   /**
    * The drag sort handle element.
    *
+   * @param index The row's zero-based index.
    * @tag VfButton
    */
-  sort: PartOf<'VfButton'>
+  sort: (index: number) => PartOf<'VfButton'>
 
   /**
    * The remove action element.
    *
+   * @param index The row's zero-based index.
    * @tag VfButton
    */
-  remove: PartOf<'VfButton'>
+  remove: (index: number) => PartOf<'VfButton'>
 
   /**
    * The add action element.
@@ -496,8 +509,10 @@ export interface VfCloneNameClasses extends MatrixClasses {
 
   /**
    * The drag sort handle element.
+   *
+   * @param index The row's zero-based index.
    */
-  sort: ClassValue
+  sort: (index: number) => ClassValue
 
   /**
    * The row remove button wrapper element.
@@ -506,8 +521,10 @@ export interface VfCloneNameClasses extends MatrixClasses {
 
   /**
    * The row remove button element.
+   *
+   * @param index The row's zero-based index.
    */
-  remove: ClassValue
+  remove: (index: number) => ClassValue
 
   /**
    * The add row button element.
@@ -542,6 +559,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfMatrixModifiers,
+  VfMatrixA11y,
   VfCloneNameExpose,
   MatrixApi<TProps>
 > {}
@@ -647,8 +666,18 @@ const slots = defineSlots<VfCloneNameSlots>()
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
+
+const { t } = useLocale()
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -665,28 +694,49 @@ useClasses(({ props, gridClass }) => ({
   },
   grid: {
     'vf-matrix-grid': true,
-    'vf-scrollable': !!props.scrollable,
     [gridClass.value]: true,
   },
   header: 'vf-matrix-header',
-  colHeader: {
-    'vf-matrix-col-header': true,
-    'vf-sticky': !!props.stickyCols,
-  },
+  colHeader: 'vf-matrix-col-header',
   row: 'vf-matrix-row',
-  rowHeader: {
-    'vf-matrix-row-header': true,
-    'vf-sticky': !!props.stickyRows,
-  },
+  rowHeader: 'vf-matrix-row-header',
   cell: 'vf-matrix-cell',
   sortWrapper: 'vf-matrix-row-sort',
-  sort: 'vf-matrix-sort',
+  sort: () => 'vf-matrix-sort',
   removeWrapper: 'vf-matrix-row-remove',
-  remove: 'vf-matrix-remove',
+  remove: () => 'vf-matrix-remove',
   add: 'vf-matrix-add',
 }))
 
-const { t } = useLocale()
+useModifiers(({ props }) => ({
+  grid: {
+    'data-scrollable': props.scrollable ? '' : undefined,
+  },
+  colHeader: {
+    'data-sticky': props.stickyCols ? '' : undefined,
+  },
+  rowHeader: {
+    'data-sticky': props.stickyRows ? '' : undefined,
+  },
+  row: (beingDragged: boolean, isDropTarget: boolean) => ({
+    'data-dragging': beingDragged ? '' : undefined,
+    'data-drop-target': isDropTarget ? '' : undefined,
+  }),
+}))
+
+useA11y(({ addLabel, removeLabel }) => ({
+  add: {
+    'aria-label': addLabel.value ? undefined : t('sr_matrix_add'),
+  },
+  sort: (index: number) => ({
+    'aria-label': t('sr_matrix_sort', { index: index + 1 }),
+  }),
+  remove: (index: number) => ({
+    'aria-label': removeLabel.value
+      ? undefined
+      : t('sr_matrix_remove', { index: index + 1 }),
+  }),
+}))
 
 const {
   canAdd,
@@ -725,9 +775,16 @@ import type {
   IsAny,
   ObjectModel,
   Prettify,
+  ResolvedBindings,
   UnwrapEntryRef,
   WidenScalar,
 } from '@vueform/ui'
+
+type VfMatrixBindings = ResolvedBindings<
+  VfCloneNameParts,
+  VfMatrixModifiers,
+  VfMatrixA11y
+>
 
 type EntryModeOf<TEntry> =
   EntryPropOf<TEntry, 'mode'> extends infer M
@@ -892,8 +949,7 @@ declare module 'vue' {
     <VfLayout v-else>
       <div
         ref="list"
-        :class="classes.grid"
-        v-bind="parts.grid"
+        v-bind="bindings.grid"
         @dragover="handleWrapperDragOver"
         @drop="handleDrop"
       >
@@ -901,43 +957,34 @@ declare module 'vue' {
           v-if="showColHeaders"
           name="header"
           :headers
-          :class="classes.header"
-          v-bind="parts.header"
+          :bindings="bindings.header"
         >
           <component
             v-if="outlets?.header"
             :is="outlets.header"
             :headers
-            :class="classes.header"
-            v-bind="parts.header"
+            :bindings="bindings.header"
           />
-          <div v-else :class="classes.header" v-bind="parts.header">
+          <div v-else v-bind="bindings.header">
             <template
               v-for="({ id, label, available }, i) in headers"
               :key="id || i"
             >
               <slot
-                name="colHeader"
+                name="col-header"
                 v-if="!id || available.value"
                 :id
                 :label
-                :class="classes.colHeader"
-                v-bind="parts.colHeader"
+                :bindings="bindings.colHeader"
               >
                 <component
-                  v-if="outlets?.colHeader"
-                  :is="outlets.colHeader"
+                  v-if="outlets?.['col-header']"
+                  :is="outlets['col-header']"
                   :id
                   :label
-                  :class="classes.colHeader"
-                  v-bind="parts.colHeader"
+                  :bindings="bindings.colHeader"
                 />
-                <div
-                  v-else
-                  :class="classes.colHeader"
-                  :id
-                  v-bind="parts.colHeader"
-                >
+                <div v-else :id v-bind="bindings.colHeader">
                   {{ label }}
                 </div>
               </slot>
@@ -949,18 +996,11 @@ declare module 'vue' {
           v-for="(row, rowIndex) in resolvedRows"
           :key="row.key"
           v-show="row.available.value"
-          :class="classes.row"
-          :data-dragging="dragIndex === row.dataIndex ? '' : undefined"
-          :data-drop-target="dropTarget === row.key ? '' : undefined"
-          v-bind="parts.row"
+          v-bind="
+            bindings.row(dragIndex === row.dataIndex, dropTarget === row.key)
+          "
         >
-          <component
-            :is="row.component"
-            v-bind="row.props"
-            :class="classes.row"
-            :data-dragging="dragIndex === row.dataIndex ? '' : undefined"
-            :data-drop-target="dropTarget === row.key ? '' : undefined"
-          >
+          <component :is="row.component" v-bind="row.props">
             <!--
               TEMPORARY deviation from the standard `slot > outlet > default`
               pattern, forced by a Vue Vapor bug (present in 3.6.0-rc.5 and
@@ -993,6 +1033,10 @@ declare module 'vue' {
                 :row-header="showRowHeaders"
                 :being-dragged="dragIndex === row.dataIndex"
                 :is-drop-target="dropTarget === row.key"
+                :label
+                :cols="resolvedRows[rowIndex].cols"
+                :can-remove
+                :can-sort
                 :handle-drag-enter="
                   ($event: DragEvent) => handleDragEnter($event, rowIndex)
                 "
@@ -1000,13 +1044,7 @@ declare module 'vue' {
                   ($event: DragEvent) => handleDragStart($event, row.dataIndex)
                 "
                 :handle-drag-end
-                :label
-                :cols="resolvedRows[rowIndex].cols"
                 :remove="row.remove"
-                :can-remove
-                :can-sort
-                :class="classes.row"
-                v-bind="parts.row"
               />
               <component
                 v-else-if="outlets?.row"
@@ -1015,6 +1053,10 @@ declare module 'vue' {
                 :row-header="showRowHeaders"
                 :being-dragged="dragIndex === row.dataIndex"
                 :is-drop-target="dropTarget === row.key"
+                :label
+                :cols="resolvedRows[rowIndex].cols"
+                :can-remove
+                :can-sort
                 :handle-drag-enter="
                   ($event: DragEvent) => handleDragEnter($event, rowIndex)
                 "
@@ -1022,19 +1064,14 @@ declare module 'vue' {
                   ($event: DragEvent) => handleDragStart($event, row.dataIndex)
                 "
                 :handle-drag-end
-                :label
-                :cols="resolvedRows[rowIndex].cols"
                 :remove="row.remove"
-                :can-remove
-                :can-sort
-                :class="classes.row"
-                v-bind="parts.row"
               />
               <template v-else>
                 <template v-if="canSort">
                   <slot
-                    v-if="slots.sortWrapper"
-                    name="sortWrapper"
+                    v-if="slots['sort-wrapper']"
+                    name="sort-wrapper"
+                    :bindings="bindings.sortWrapper"
                     :handle-drag-start="
                       ($event: DragEvent) =>
                         handleDragStart($event, row.dataIndex)
@@ -1043,12 +1080,11 @@ declare module 'vue' {
                     :handle-drag-enter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
-                    :class="classes.sortWrapper"
-                    v-bind="parts.sortWrapper"
                   />
                   <component
-                    v-else-if="outlets?.sortWrapper"
-                    :is="outlets.sortWrapper"
+                    v-else-if="outlets?.['sort-wrapper']"
+                    :is="outlets['sort-wrapper']"
+                    :bindings="bindings.sortWrapper"
                     :handle-drag-start="
                       ($event: DragEvent) =>
                         handleDragStart($event, row.dataIndex)
@@ -1057,18 +1093,12 @@ declare module 'vue' {
                     :handle-drag-enter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
-                    :class="classes.sortWrapper"
-                    v-bind="parts.sortWrapper"
                   />
-                  <div
-                    v-else
-                    :class="classes.sortWrapper"
-                    v-bind="parts.sortWrapper"
-                  >
+                  <div v-else v-bind="bindings.sortWrapper">
                     <slot
                       v-if="slots.sort"
                       name="sort"
-                      :class="classes.sort"
+                      :bindings="bindings.sort(rowIndex)"
                       :handle-drag-start="
                         ($event: DragEvent) =>
                           handleDragStart($event, row.dataIndex)
@@ -1077,12 +1107,11 @@ declare module 'vue' {
                       :handle-drag-enter="
                         ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
-                      v-bind="parts.sort"
                     />
                     <component
                       v-else-if="outlets?.sort"
                       :is="outlets.sort"
-                      :class="classes.sort"
+                      :bindings="bindings.sort(rowIndex)"
                       :handle-drag-start="
                         ($event: DragEvent) =>
                           handleDragStart($event, row.dataIndex)
@@ -1091,14 +1120,12 @@ declare module 'vue' {
                       :handle-drag-enter="
                         ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
-                      v-bind="parts.sort"
                     />
                     <VfButton
                       v-else
                       :name="`${id}__sort_${rowIndex}`"
                       :icon="sortIcon"
-                      :class="classes.sort"
-                      v-bind="parts.sort"
+                      v-bind="bindings.sort(rowIndex)"
                       :draggable="true"
                       :layout="false"
                       detached
@@ -1113,25 +1140,18 @@ declare module 'vue' {
 
                 <template v-if="showRowHeaders">
                   <slot
-                    v-if="slots.rowHeader"
-                    name="rowHeader"
+                    v-if="slots['row-header']"
+                    name="row-header"
                     :label
-                    :class="classes.rowHeader"
-                    v-bind="parts.rowHeader"
+                    :bindings="bindings.rowHeader"
                   />
                   <component
-                    v-else-if="outlets?.rowHeader"
-                    :is="outlets.rowHeader"
+                    v-else-if="outlets?.['row-header']"
+                    :is="outlets['row-header']"
                     :label
-                    :class="classes.rowHeader"
-                    v-bind="parts.rowHeader"
+                    :bindings="bindings.rowHeader"
                   />
-                  <div
-                    v-else
-                    :class="classes.rowHeader"
-                    :id="row.id"
-                    v-bind="parts.rowHeader"
-                  >
+                  <div v-else :id="row.id" v-bind="bindings.rowHeader">
                     {{ label }}
                   </div>
                 </template>
@@ -1151,26 +1171,25 @@ declare module 'vue' {
                     v-if="slots.cell"
                     name="cell"
                     :component="r.component"
+                    :props="r.props"
+                    :bindings="bindings.cell"
                     :handle-drag-enter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
-                    :props="r.props"
-                    v-bind="parts.cell"
                   />
                   <component
                     v-else-if="outlets?.cell"
                     :is="outlets.cell"
                     :component="r.component"
+                    :props="r.props"
+                    :bindings="bindings.cell"
                     :handle-drag-enter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
-                    :props="r.props"
-                    v-bind="parts.cell"
                   />
                   <div
                     v-else
-                    :class="classes.cell"
-                    v-bind="parts.cell"
+                    v-bind="bindings.cell"
                     @dragenter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
@@ -1181,52 +1200,38 @@ declare module 'vue' {
 
                 <template v-if="canRemove">
                   <slot
-                    v-if="slots.removeWrapper"
-                    name="removeWrapper"
+                    v-if="slots['remove-wrapper']"
+                    name="remove-wrapper"
+                    :bindings="bindings.removeWrapper"
                     :handle-remove="row.remove"
-                    :class="classes.removeWrapper"
-                    v-bind="parts.removeWrapper"
                   />
                   <component
-                    v-else-if="outlets?.removeWrapper"
-                    :is="outlets.removeWrapper"
+                    v-else-if="outlets?.['remove-wrapper']"
+                    :is="outlets['remove-wrapper']"
+                    :bindings="bindings.removeWrapper"
                     :handle-remove="row.remove"
-                    :class="classes.removeWrapper"
-                    v-bind="parts.removeWrapper"
                   />
-                  <div
-                    v-else
-                    :class="classes.removeWrapper"
-                    v-bind="parts.removeWrapper"
-                  >
+                  <div v-else v-bind="bindings.removeWrapper">
                     <slot
                       v-if="slots.remove"
                       name="remove"
+                      :bindings="bindings.remove(rowIndex)"
                       :handle-remove="row.remove"
-                      :class="classes.remove"
-                      v-bind="parts.remove"
                     />
                     <component
                       v-else-if="outlets?.remove"
                       :is="outlets.remove"
+                      :bindings="bindings.remove(rowIndex)"
                       :handle-remove="row.remove"
-                      :class="classes.remove"
-                      v-bind="parts.remove"
                     />
                     <VfButton
                       v-else
-                      :class="classes.remove"
                       :name="`${id}__remove_${rowIndex}`"
                       :text="removeLabel"
                       :icon="removeIcon"
-                      :aria-label="
-                        removeLabel
-                          ? undefined
-                          : t('sr_matrix_remove', { index: rowIndex + 1 })
-                      "
                       :layout="false"
                       detached
-                      v-bind="parts.remove"
+                      v-bind="bindings.remove(rowIndex)"
                       @click.prevent="row.remove"
                     />
                   </div>
@@ -1248,18 +1253,16 @@ declare module 'vue' {
       <template v-if="canAdd">
         <slot
           name="add"
-          :handle-add
           :label="addLabel!"
-          :class="classes.add"
-          v-bind="parts.add"
+          :bindings="bindings.add"
+          :handle-add
         >
           <component
             v-if="outlets?.add"
             :is="outlets.add"
-            :handle-add
             :label="addLabel!"
-            :class="classes.add"
-            v-bind="parts.add"
+            :bindings="bindings.add"
+            :handle-add
           />
           <VfButton
             v-else
@@ -1269,9 +1272,7 @@ declare module 'vue' {
             name="add"
             :text="addLabel"
             :icon="addIcon"
-            :class="classes.add"
-            :aria-label="addLabel ? undefined : t('sr_matrix_add')"
-            v-bind="parts.add"
+            v-bind="bindings.add"
             @click.prevent="handleAdd"
           />
         </slot>

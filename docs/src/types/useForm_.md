@@ -2,7 +2,7 @@
 /**
  * Creates a form component preconfigured with the given props and model,
  * returning it alongside the form context and a ready registrar. The model is
- * bound according to its shape: `useModel` instances are adopted, refs are
+ * bound according to its shape: `useModel` instances are attached, refs are
  * two-way synced, reactive objects are synced back on update, and plain objects
  * seed the initial value. Any option may be a ref or computed. Setup-only when
  * called without `vueform`.

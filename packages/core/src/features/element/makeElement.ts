@@ -128,7 +128,7 @@ export const makeElement = defineFeature(() => {
 
     if (!container) {
       // Standalone element (no form above): a bare store is enough to back the
-      // synthetic root container — no v-model binding or adoption applies.
+      // synthetic root container — no v-model binding or attachment applies.
       const store = getModelModule().makeModelStore()
 
       container = createContainerContext({

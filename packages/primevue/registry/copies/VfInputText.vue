@@ -15,6 +15,7 @@ import {
   defineEvents,
   useBlueprint,
   type LanguagesProp,
+  tInputAria,
   vdomPrime,
 } from '@vueform/primevue'
 import {
@@ -45,12 +46,32 @@ const props = withDefaults(
 const events = defineEvents<VfInputTextEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfInputTextSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-input-text',
 }))
+
+useModifiers(({ help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(tInputAria())
 
 const {
   value,
@@ -59,8 +80,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -95,7 +115,6 @@ defineExpose(expose)
         :type="inputType"
         :name
         :id
-        :class="classes.input"
         v-model="inputValue"
         :placeholder
         :autocomplete
@@ -104,12 +123,8 @@ defineExpose(expose)
         :invalid
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"
         @keypress="handleKeypress"

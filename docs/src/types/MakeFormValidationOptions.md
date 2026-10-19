@@ -10,7 +10,7 @@ type MakeFormValidationOptions = {
 
   /**
    * The resolved form-level Standard Schema (prop, `defineSchema` attachment,
-   * or adopted model instance — resolution stays with the form).
+   * or attached model instance — resolution stays with the form).
    */
   validationSchema: Ref<StandardSchemaV1 | undefined>
 }

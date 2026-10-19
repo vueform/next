@@ -58,7 +58,7 @@ const {
   name,
   disabled,
   viewLoaded,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   showUpload,
@@ -95,7 +95,7 @@ defineExpose(expose)
           :show-upload-button
           :input-id="id"
           v-bind="{ ...bindings.input, ...forwardProps }"
-          :ref="(el) => (input = el)"
+          :ref="(el) => (inputRef = el)"
           @select="handleSelect"
           @remove="handleRemoveFile"
           @remove-uploaded-file="handleRemoveUploadedFile"

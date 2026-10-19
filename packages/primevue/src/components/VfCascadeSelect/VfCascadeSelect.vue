@@ -112,7 +112,7 @@ const {
   disabled,
   loading,
   resolving,
-  input,
+  inputRef,
   name,
   invalid,
   rawItems,
@@ -152,7 +152,7 @@ defineExpose(expose)
         :invalid
         fluid
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"

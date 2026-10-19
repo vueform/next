@@ -10,7 +10,7 @@
       "path": "VfElements.vue",
       "target": "{componentsDir}/VfElements.vue",
       "kind": "component",
-      "hash": "sha256:0dc14c34079c77e7c0c4d81392b8d31ab418cd364d313e2f5286d563abb83cff"
+      "hash": "sha256:e17f0e86b0cbb2fa2cf03099af56fe7495219c0546812f5c20ef87b721e37496"
     }
   ],
   "imports": [

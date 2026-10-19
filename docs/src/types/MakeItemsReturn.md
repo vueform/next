@@ -10,7 +10,7 @@ type MakeItemsReturn<P = MakeItemsOptions['props']> = {
   resolvedItems: ShallowRef<any[] | Record<string, any>>
   normalizedItems: ComputedRef<NormalizedItem[]>
   selectedLabel: ComputedRef<string | string[] | undefined>
-  itemLabel: ComputedRef<string | ((item: any) => string) | undefined>
+  itemLabel: ComputedRef<string | ((item: any) => string)>
   itemValue: ComputedRef<string | ((item: any) => any) | undefined>
   itemDisabled: ComputedRef<string | ((item: any) => boolean) | undefined>
   grouped: ComputedRef<boolean>

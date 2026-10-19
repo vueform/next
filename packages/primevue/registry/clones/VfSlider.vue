@@ -8,6 +8,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   vdomPrime,
   type ClassValue,
   type DefineElementContext,
@@ -132,6 +133,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfSliderModifiers,
+  VfSliderA11y,
   VfCloneNameExpose,
   SliderApi<TProps>
 > {}
@@ -166,8 +169,17 @@ const slots = defineSlots<VfCloneNameSlots<TRange>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -179,6 +191,14 @@ useClasses(() => ({
   root: 'vf-slider',
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const { range } = propRefs
 
 const {
@@ -187,13 +207,12 @@ const {
   disabled,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   min,
   max,
   step,
   forwardProps,
   handleInput,
-  a11yBindings,
 } = api
 
 /**
@@ -245,7 +264,6 @@ declare module 'vue' {
     <VfLayout v-else>
       <Slider
         :name
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :invalid
@@ -253,12 +271,8 @@ declare module 'vue' {
         :min
         :max
         :step
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @change="handleInput"
       />
     </VfLayout>

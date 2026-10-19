@@ -8,7 +8,7 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { useBlueprint, defineEvents } from '@vueform/ui'
+import { inputAria, useBlueprint, defineEvents } from '@vueform/ui'
 import {
   defaults,
   blueprint,
@@ -36,8 +36,17 @@ const props = withDefaults(
 const events = defineEvents<VfCheckboxEmits<TTrueValue, TFalseValue>>()
 const slots = defineSlots<VfCheckboxSlots<TTrueValue, TFalseValue>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const trueValue = propRefs.trueValue as Ref<TTrueValue>
 const falseValue = propRefs.falseValue as Ref<TFalseValue>
@@ -47,10 +56,9 @@ const {
   id,
   disabled,
   viewLoaded,
-  a11yBindings,
   inputName,
   text,
-  input,
+  inputRef,
   genericName,
   model,
   handleBlur,
@@ -66,6 +74,21 @@ useClasses(() => ({
   text: 'vf-choice-text',
 }))
 
+useModifiers(({ props, hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  wrapper: {
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 defineExpose(expose)
 </script>
 
@@ -80,9 +103,9 @@ defineExpose(expose)
         :true-value
         :false-value
         :disabled
-        :input
+        :input-ref="inputRef"
         :text
-        :a11y-bindings
+        :bindings="bindings.wrapper"
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -91,25 +114,19 @@ defineExpose(expose)
           v-if="outlets?.default"
           :is="outlets.default"
           :model
-          :a11y-bindings
           :input-name
           :id
           :true-value
           :false-value
           :disabled
-          :input
+          :input-ref="inputRef"
           :text
+          :bindings="bindings.wrapper"
           :handle-blur
           :handle-focus
           :handle-model-update
         />
-        <div
-          v-else
-          :class="classes.wrapper"
-          :data-align="props.align || undefined"
-          :data-aligned="props.aligned ? '' : undefined"
-          v-bind="parts.wrapper"
-        >
+        <div v-else v-bind="bindings.wrapper">
           <input
             type="checkbox"
             v-model="value"
@@ -119,40 +136,24 @@ defineExpose(expose)
             :true-value
             :false-value
             :disabled
-            :class="classes.input"
-            v-bind="{
-              ...a11yBindings.input,
-              ...parts.input,
-            }"
+            v-bind="bindings.input"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
-            :ref="(el) => (input = el)"
+            :ref="(el) => (inputRef = el)"
           />
-          <slot
-            name="text"
-            :text
-            :id
-            :generic-name
-            :class="classes.text"
-            v-bind="parts.text"
-          >
+          <slot name="text" :text :id :generic-name :bindings="bindings.text">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :class="classes.text"
-              v-bind="parts.text"
+              :bindings="bindings.text"
             />
-            <label
-              v-else-if="text"
-              :class="classes.text"
-              :for="id"
-              v-bind="parts.text"
-              >{{ text }}</label
-            >
+            <label v-else-if="text" :for="id" v-bind="bindings.text">
+              {{ text }}
+            </label>
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>
           </slot>
         </div>

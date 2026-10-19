@@ -8,8 +8,8 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   vdomPrime,
-  type A11yBindings,
   type ClassValue,
   type DefineElementContext,
   type DomAttrsOf,
@@ -87,12 +87,6 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioButtonSlots<
     model: TRadioValue | null
 
     /**
-     * Part-keyed accessibility bindings; apply each key's bag to the matching
-     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
-     */
-    a11yBindings: A11yBindings
-
-    /**
      * The `name` attribute of the input.
      */
     inputName: string
@@ -110,12 +104,19 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioButtonSlots<
     /**
      * Ref to the underlying input element.
      */
-    input: any
+    inputRef: any
 
     /**
      * The resolved label text.
      */
     text: string | undefined
+
+    /**
+     * The default slot's own part is the wrapper (the fallback's top-level
+     * element): its resolved classes, part overrides, and alignment
+     * modifiers; apply with `v-bind`.
+     */
+    bindings: VfRadioButtonBindings['wrapper']
 
     /**
      * Handles the input's blur event.
@@ -167,6 +168,12 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioButtonSlots<
      * The element's display name for accessibility.
      */
     genericName: string
+
+    /**
+     * The text element's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: VfRadioButtonBindings['text']
   }) => VNode[]
 }
 
@@ -255,6 +262,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfRadioButtonModifiers,
+  VfRadioButtonA11y,
   VfCloneNameExpose,
   RadioButtonApi<TProps>
 > {}
@@ -289,8 +298,17 @@ const slots = defineSlots<VfCloneNameSlots<TRadioValue>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const radioValue = propRefs.value as Ref<TRadioValue> // @todo: look into if it's possible to remove this from all comps
 
@@ -302,10 +320,9 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  a11yBindings,
   inputName,
   text,
-  input,
+  inputRef,
   genericName,
   forwardProps,
   forwardSlots,
@@ -327,11 +344,36 @@ useClasses(() => ({
   text: 'vf-choice-text',
 }))
 
+useModifiers(({ props, hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  wrapper: {
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 defineExpose(expose)
 </script>
 
 <script lang="ts">
-import type { DefineRegistryEntry, EntryPropOr } from '@vueform/primevue'
+import type {
+  DefineRegistryEntry,
+  EntryPropOr,
+  ResolvedBindings,
+} from '@vueform/primevue'
+
+type VfRadioButtonBindings = ResolvedBindings<
+  VfCloneNameParts,
+  VfRadioButtonModifiers,
+  VfRadioButtonA11y
+>
 
 type EntryProps<TEntry> = VfCloneNameProps<EntryPropOr<TEntry, 'value', true>>
 
@@ -362,12 +404,12 @@ declare module 'vue' {
       <slot
         :model
         :value="radioValue"
-        :a11y-bindings
         :input-name
         :id
         :disabled
-        :input
+        :input-ref="inputRef"
         :text
+        :bindings="bindings.wrapper"
         :handle-blur
         :handle-focus
         :handle-input
@@ -378,41 +420,28 @@ declare module 'vue' {
           :is="outlets.default"
           :model
           :value="radioValue"
-          :a11y-bindings
           :input-name
           :id
           :disabled
-          :input
+          :input-ref="inputRef"
           :text
+          :bindings="bindings.wrapper"
           :handle-blur
           :handle-focus
           :handle-input
           :handle-model-update
-          :class="classes.wrapper"
-          v-bind="parts.wrapper"
         />
-        <div
-          v-else
-          :class="classes.wrapper"
-          :data-align="props.align || undefined"
-          :data-aligned="props.aligned ? '' : undefined"
-          v-bind="parts.wrapper"
-        >
+        <div v-else v-bind="bindings.wrapper">
           <RadioButton
             v-model="value"
             :name="inputName"
             :input-id="id"
-            :class="classes.input"
             :value="radioValue"
             :disabled
             :readonly
             :invalid
-            v-bind="{
-              ...a11yBindings.input,
-              ...forwardProps,
-              ...parts.input,
-            }"
-            :ref="(el) => (input = el)"
+            v-bind="{ ...bindings.input, ...forwardProps }"
+            :ref="(el) => (inputRef = el)"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
@@ -425,30 +454,18 @@ declare module 'vue' {
               <component :is="slot" v-bind="scope" />
             </template>
           </RadioButton>
-          <slot
-            name="text"
-            :text
-            :id
-            :generic-name
-            :class="classes.text"
-            v-bind="parts.text"
-          >
+          <slot name="text" :text :id :generic-name :bindings="bindings.text">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :class="classes.text"
-              v-bind="parts.text"
+              :bindings="bindings.text"
             />
-            <label
-              v-else-if="text"
-              :class="classes.text"
-              :for="id"
-              v-bind="parts.text"
-              >{{ text }}</label
-            >
+            <label v-else-if="text" :for="id" v-bind="bindings.text">
+              {{ text }}
+            </label>
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>
           </slot>
         </div>

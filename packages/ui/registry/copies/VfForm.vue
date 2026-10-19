@@ -31,8 +31,17 @@ const props = withDefaults(defineProps<VfFormProps<TSchema>>(), defaults)
 const events = defineEvents<VfFormEmits<TSchema>>()
 const slots = defineSlots<VfFormSlots<TSchema>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const config = useConfig()
 
@@ -43,15 +52,38 @@ useClasses(({ props, tokenClass, tokenCss, showErrors, errors }) => ({
     [config.build.darkClass]: props.dark === true,
     [config.build.lightClass]: props.dark === false,
   },
-  errorsWrapper: {
+  errors: {
     'vf-form-errors-wrapper': true,
     'sr-only': !showErrors.value || Object.keys(errors.value).length === 0,
   },
-  errors: 'vf-form-errors',
+  errorList: 'vf-form-errors',
   error: 'vf-form-error',
-  messagesWrapper: 'vf-form-messages-wrapper',
-  messages: 'vf-form-messages',
+  messages: 'vf-form-messages-wrapper',
+  messageList: 'vf-form-messages',
   message: 'vf-form-message',
+}))
+
+useModifiers(({ props }) => ({
+  root: {
+    'data-stacked': props.stacked ? '' : undefined,
+  },
+}))
+
+useA11y(({ errorsId, messagesId }) => ({
+  errors: {
+    id: errorsId.value,
+    role: 'alert',
+    'aria-live': 'assertive',
+    'aria-atomic': 'true',
+    tabindex: -1,
+  },
+  messages: {
+    id: messagesId.value,
+    role: 'status',
+    'aria-live': 'polite',
+    'aria-atomic': 'true',
+    tabindex: -1,
+  },
 }))
 
 const {
@@ -84,7 +116,6 @@ const {
   tokenCss,
   nonce,
   selectLanguage,
-  handleLanguageSelect,
   handleSubmit,
 } = api
 
@@ -94,41 +125,31 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <form
-      v-else
-      :class="classes.root"
-      :data-stacked="props.stacked ? '' : undefined"
-      v-bind="parts.root"
-      @submit.prevent
-    >
+    <form v-else v-bind="bindings.root" @submit.prevent>
       <slot name="content" :context>
         <component v-if="outlets?.content" :is="outlets.content" :context />
         <template v-else>
           <template v-if="showErrors">
-            <slot name="errors" :errors :id="errorsId">
+            <slot
+              name="errors"
+              :errors
+              :id="errorsId"
+              :bindings="bindings.errors"
+            >
               <component
                 v-if="outlets?.errors"
                 :is="outlets.errors"
                 :errors
                 :id="errorsId"
+                :bindings="bindings.errors"
               />
-              <div
-                v-else
-                :class="classes.errorsWrapper"
-                :id="errorsId"
-                v-bind="parts.errorsWrapper"
-                role="alert"
-                aria-live="assertive"
-                aria-atomic="true"
-                tabindex="-1"
-              >
-                <ul :class="classes.errors" v-bind="parts.errors">
+              <div v-else v-bind="bindings.errors">
+                <ul v-bind="bindings.errorList">
                   <template v-for="(fieldErrors, path) in errors" :key="path">
                     <li
                       v-for="(error, i) in fieldErrors"
                       :key="`${path}-${i}`"
-                      :class="classes.error"
-                      v-bind="parts.error"
+                      v-bind="bindings.error"
                     >
                       <slot name="error" :error :path>
                         <component
@@ -149,29 +170,25 @@ defineExpose(expose)
           </template>
 
           <template v-if="messages.length">
-            <slot name="messages" :messages :id="messagesId">
+            <slot
+              name="messages"
+              :messages
+              :id="messagesId"
+              :bindings="bindings.messages"
+            >
               <component
                 v-if="outlets?.messages"
                 :is="outlets.messages"
                 :messages
                 :id="messagesId"
+                :bindings="bindings.messages"
               />
-              <div
-                v-else
-                :class="classes.messagesWrapper"
-                :id="messagesId"
-                v-bind="parts.messagesWrapper"
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-                tabindex="-1"
-              >
-                <ul :class="classes.messages" v-bind="parts.messages">
+              <div v-else v-bind="bindings.messages">
+                <ul v-bind="bindings.messageList">
                   <li
                     v-for="(message, i) in messages"
                     :key="i"
-                    :class="classes.message"
-                    v-bind="parts.message"
+                    v-bind="bindings.message"
                   >
                     <slot name="message" :message>
                       <component
@@ -196,33 +213,52 @@ defineExpose(expose)
             :language
             :invalid-languages
             :select="selectLanguage"
+            :bindings="bindings.languages"
           >
             <component
-              :is="outlets?.languages || 'VfLanguages'"
+              v-if="outlets.languages"
+              :is="outlets.languages"
               :languages
               :language
               :invalid-languages
               :select="selectLanguage"
-              v-bind="parts.languages"
-              @select="handleLanguageSelect"
+              :bindings="bindings.languages"
             >
-              <!-- Presence-gated: an unconditional #default would replace
-                VfLanguages' own fallback (the language label) with nothing. -->
-              <template v-if="slots.language" #default="slotProps">
-                <slot name="language" v-bind="slotProps" />
+              <template v-if="outlets.language" #default="slotProps">
+                <slot name="language" v-bind="slotProps">
+                  <component :is="outlets.language" v-bind="slotProps" />
+                </slot>
               </template>
             </component>
+            <VfLanguages
+              v-else
+              :languages
+              :language
+              :invalid-languages
+              :select="selectLanguage"
+              v-bind="bindings.languages"
+            >
+              <template v-if="outlets.language" #default="slotProps">
+                <slot name="language" v-bind="slotProps">
+                  <component :is="outlets.language" v-bind="slotProps" />
+                </slot>
+              </template>
+            </VfLanguages>
           </slot>
 
-          <slot v-if="tabbed" name="tabs" :pager="tabs">
+          <slot
+            v-if="tabbed"
+            name="tabs"
+            :pager="tabs"
+            :bindings="bindings.tabs"
+          >
             <component
-              :is="outlets?.tabs || 'VfTabs'"
+              v-if="outlets?.tabs"
+              :is="outlets?.tabs"
               :pager="tabs"
-              v-bind="parts.tabs"
+              :bindings="bindings.tabs"
             >
-              <!-- Presence-gated: an unconditional #default would replace
-                VfTabs' own fallback (the tab label) with nothing. -->
-              <template v-if="slots.tab || outlets?.tab" #default="slotProps">
+              <template v-if="outlets.tab" #default="slotProps">
                 <slot name="tab" v-bind="slotProps">
                   <component
                     v-if="outlets?.tab"
@@ -232,16 +268,31 @@ defineExpose(expose)
                 </slot>
               </template>
             </component>
+            <VfTabs v-else :pager="tabs" v-bind="bindings.tabs">
+              <template v-if="outlets.tab" #default="slotProps">
+                <slot name="tab" v-bind="slotProps">
+                  <component
+                    v-if="outlets?.tab"
+                    :is="outlets.tab"
+                    v-bind="slotProps"
+                  />
+                </slot>
+              </template>
+            </VfTabs>
           </slot>
 
-          <slot v-if="stepped && progress" name="steps" :pager="steps">
+          <slot
+            v-if="stepped && progress"
+            name="steps"
+            :pager="steps"
+            :bindings="bindings.steps"
+          >
             <component
-              :is="outlets?.steps || 'VfSteps'"
+              v-if="outlets?.steps"
+              :is="outlets?.steps"
               :pager="steps"
-              v-bind="parts.steps"
+              :bindings="bindings.steps"
             >
-              <!-- Presence-gated: an unconditional #default would replace
-                VfSteps' own fallback (the step label) with nothing. -->
               <template v-if="slots.step || outlets?.step" #default="slotProps">
                 <slot name="step" v-bind="slotProps">
                   <component
@@ -252,6 +303,17 @@ defineExpose(expose)
                 </slot>
               </template>
             </component>
+            <VfSteps v-else :pager="steps" v-bind="bindings.steps">
+              <template v-if="slots.step || outlets?.step" #default="slotProps">
+                <slot name="step" v-bind="slotProps">
+                  <component
+                    v-if="outlets?.step"
+                    :is="outlets.step"
+                    v-bind="slotProps"
+                  />
+                </slot>
+              </template>
+            </VfSteps>
           </slot>
 
           <slot name="elements" :resolved-schema>
@@ -283,6 +345,7 @@ defineExpose(expose)
             :finish="finishLabel"
             :hide-back="!back"
             :position="navPos"
+            v-bind="bindings.nav"
           >
             <component
               :is="outlets?.nav || 'VfNav'"
@@ -292,7 +355,7 @@ defineExpose(expose)
               :finish="finishLabel"
               :hide-back="!back"
               :position="navPos"
-              v-bind="parts.nav"
+              v-bind="bindings.nav"
             >
               <template #back="slotProps">
                 <slot name="back" v-bind="slotProps">
@@ -303,11 +366,11 @@ defineExpose(expose)
                   />
                 </slot>
               </template>
-              <template #backText="slotProps">
-                <slot name="backText" v-bind="slotProps">
+              <template #back-text="slotProps">
+                <slot name="back-text" v-bind="slotProps">
                   <component
-                    v-if="outlets?.backText"
-                    :is="outlets?.backText"
+                    v-if="outlets?.['back-text']"
+                    :is="outlets?.['back-text']"
                     v-bind="slotProps"
                   />
                 </slot>
@@ -321,11 +384,11 @@ defineExpose(expose)
                   />
                 </slot>
               </template>
-              <template #nextText="slotProps">
-                <slot name="nextText" v-bind="slotProps">
+              <template #next-text="slotProps">
+                <slot name="next-text" v-bind="slotProps">
                   <component
-                    v-if="outlets?.nextText"
-                    :is="outlets?.nextText"
+                    v-if="outlets?.['next-text']"
+                    :is="outlets?.['next-text']"
                     v-bind="slotProps"
                   />
                 </slot>
@@ -339,11 +402,11 @@ defineExpose(expose)
                   />
                 </slot>
               </template>
-              <template #finishText="slotProps">
-                <slot name="finishText" v-bind="slotProps">
+              <template #finish-text="slotProps">
+                <slot name="finish-text" v-bind="slotProps">
                   <component
-                    v-if="outlets?.finishText"
-                    :is="outlets?.finishText"
+                    v-if="outlets?.['finish-text']"
+                    :is="outlets?.['finish-text']"
                     v-bind="slotProps"
                   />
                 </slot>

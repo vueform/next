@@ -12,6 +12,7 @@ import {
 import { useComponentFactory, useSecurity } from '#src/composables'
 import type { ComponentProp } from '#src/types'
 import {
+  camelToKebab,
   getGenericInstance,
   isVaporInstance,
   toCamelCase,
@@ -57,6 +58,15 @@ const normalizedSlotComponents = new WeakMap<object, Component>()
  * Cached camelizing shims for prop-based slot components, keyed by the raw
  * entry.
  */
+/**
+ * Normalizes an outlet key to the canonical kebab-case slot name, so a
+ * camelCase spelling (`slots: { nextText }`) lands on the same entry as the
+ * canonical `next-text`.
+ */
+function normalizeOutletKey(key: string) {
+  return /[A-Z]/.test(key) ? camelToKebab(key) : key
+}
+
 const camelizedSlotComponents = new WeakMap<object, Component>()
 
 /**
@@ -192,7 +202,7 @@ export function useOutlets(options: UseOutletsOptions): UseOutletsReturn {
         slot = toCamelizedSlotComponent(slot, slot as Component)
       }
 
-      outletsMap[key.includes('-') ? toCamelCase(key) : key] = slot
+      outletsMap[normalizeOutletKey(key)] = slot
     }
 
     if (options.template === null) {
@@ -218,7 +228,7 @@ export function useOutlets(options: UseOutletsOptions): UseOutletsReturn {
     // included), so the map mirrors what the render pattern shows.
     for (const key in vueSlots) {
       const slot = vueSlots[key]
-      outletsMap[key.includes('-') ? toCamelCase(key) : key] =
+      outletsMap[normalizeOutletKey(key)] =
         isVapor && typeof slot === 'function'
           ? toVdomRenderableSlot(key, slot)
           : slot

@@ -56,7 +56,7 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   handleInput,
@@ -85,7 +85,7 @@ defineExpose(expose)
         :readonly
         :invalid
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="(e) => handleInput(e.value, e.originalEvent)"

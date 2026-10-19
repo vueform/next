@@ -1,4 +1,5 @@
 import { defineSchema } from '@vueform/core'
+import * as rules from '@vueform/core/rules'
 
 import { createForm } from '../../helpers'
 
@@ -65,5 +66,49 @@ describe('in', () => {
     field.update('apple')
     await field.validate()
     expect(field.invalid).toBe(false)
+  })
+
+  it("should use the in rule's own message, not not_in's", async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: { type: 'text', rules: 'in:foo,bar', default: 'qux' },
+      }),
+    })
+    await field.validate()
+    // `rule_in_error` and `rule_not_in_error` share the same English text, so
+    // assert the tag resolves (no default fallback) rather than exact wording.
+    expect(field.errors[0]).toContain('is invalid')
+    expect(field.errors[0]).not.toContain('Invalid field')
+  })
+
+  it('should resolve the same message when used as an imported definition', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: {
+          type: 'text',
+          rules: [rules.in('foo', 'bar')],
+          default: 'qux',
+        },
+      }),
+    })
+    await field.validate()
+    expect(field.invalid).toBe(true)
+    expect(field.errors[0]).toContain('is invalid')
+    expect(field.errors[0]).not.toContain('Invalid field')
+  })
+
+  it('should allow overriding the message via ruleMessages', async () => {
+    const { field } = createForm({
+      schema: defineSchema({
+        field: {
+          type: 'text',
+          rules: 'in:foo,bar',
+          default: 'qux',
+          ruleMessages: { in: 'Pick foo or bar.' },
+        },
+      }),
+    })
+    await field.validate()
+    expect(field.errors).toContain('Pick foo or bar.')
   })
 })

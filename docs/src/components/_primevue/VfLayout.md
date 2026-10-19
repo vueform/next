@@ -128,16 +128,16 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `required` | — | Slot for customizing the required indicator. |
 | `info` | [`info`](!code#slot.info.info "string") | Slot for customizing the info tooltip or helper content. |
 | `ifta` | [`ifta`](!code#slot.ifta.ifta "string") | Slot for customizing the IFTA label content. |
+| `float-label` | [`floatLabel`](!code#slot.float-label.floatLabel "string") | Slot for customizing the floating label content. |
+| `addon-before` | [`addonBefore`](!code#slot.addon-before.addonBefore "AddonProp \| undefined") | Slot that replaces the before-addons section. |
+| `addon-after` | [`addonAfter`](!code#slot.addon-after.addonAfter "AddonProp \| undefined") | Slot that replaces the after-addons section. |
+| `icon-before` | [`iconBefore`](!code#slot.icon-before.iconBefore "string \| undefined") | Slot that replaces the icon rendered before the input. |
+| `icon-after` | [`iconAfter`](!code#slot.icon-after.iconAfter "string \| undefined") | Slot that replaces the icon rendered after the input. |
 | `tabs` | [`pager`](!code#slot.tabs.pager "Pager") [`bindings`](!code#slot.tabs.bindings "PartBindings<'tabs', TabbedParts>") | Slot that replaces the tabs navigation bar. Receives the pager instance. |
 | `tab` | [`page`](!code#slot.tab.page "ResolvedPage") [`bindings`](!code#slot.tab.bindings "PartBindings<'tab', TabbedParts>") | Slot that replaces each individual tab. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `default` | — | Slot for the element's default content. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
-| `floatLabel` | [`floatLabel`](!code#slot.floatLabel.floatLabel "string") | Slot for customizing the floating label content. |
-| `addonBefore` | [`addonBefore`](!code#slot.addonBefore.addonBefore "AddonProp \| undefined") | Slot that replaces the before-addons section. |
-| `addonAfter` | [`addonAfter`](!code#slot.addonAfter.addonAfter "AddonProp \| undefined") | Slot that replaces the after-addons section. |
-| `iconBefore` | [`iconBefore`](!code#slot.iconBefore.iconBefore "string \| undefined") | Slot that replaces the icon rendered before the input. |
-| `iconAfter` | [`iconAfter`](!code#slot.iconAfter.iconAfter "string \| undefined") | Slot that replaces the icon rendered after the input. |
 | `language` | [`language`](!code#slot.language.language "string") [`languages`](!code#slot.language.languages "LanguagesProp") | Slot that replaces the language selector rendering. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |

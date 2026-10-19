@@ -14,7 +14,7 @@ interface ExpressionTracking {
   trackable: (instance: Parameters<typeof getComponentDef>[0]) => boolean
 
   /**
-   * Activates tracking for the schema index unless it's already active (adopted
+   * Activates tracking for the schema index unless it's already active (attached
    * `useModel` instances arrive with the activation their engine created).
    * Returns whether tracking is active — `false` when the expression module is
    * not installed or expressions are disabled.

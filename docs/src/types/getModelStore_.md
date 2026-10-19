@@ -2,7 +2,7 @@
 /**
  * Returns the underlying model store of a `useModel` instance.
  *
- * Module-internal — consumed by `makeRootModel` for form adoption, never
+ * Module-internal — consumed by `makeRootModel` for form attachment, never
  * exposed outside the module.
  *
  * @param instance The model instance to unwrap.

@@ -30,7 +30,7 @@ const schema = defineSchema({
     type: 'text',
     label: 'Website',
     slots: {
-      addonBefore: defineSlot('VfText.addonBefore', {
+      'addon-before': defineSlot('VfText.addon-before', {
         setup: () => () => {
           const VfAddon = resolveComponent('VfAddon')
           return h(VfAddon, null, () => 'https://')

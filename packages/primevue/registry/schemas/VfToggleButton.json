@@ -10,7 +10,7 @@
       "path": "VfToggleButton.vue",
       "target": "{componentsDir}/VfToggleButton.vue",
       "kind": "component",
-      "hash": "sha256:546ed9025669d244e08afb4827a5d6e5d55cfb7a050822c4a652a624d5801cac"
+      "hash": "sha256:57b0003c2e568f882a5c54bdd0549e49bda21680c3066afcaf084c30fbe1a019"
     }
   ],
   "imports": [
@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfToggleButton.vue",
     "blueprint": "toggle-button",
-    "hash": "sha256:e3bb68994c59ca131021593254b5ac60cb5c8e8baa0fbf7148208e61ffc989ec",
+    "hash": "sha256:6cfb5734f19103b1c2fe2b7d3f56d187bff33a7cb519f16b72aa263647f5dd30",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

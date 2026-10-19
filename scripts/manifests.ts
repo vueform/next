@@ -86,14 +86,26 @@ const syncPublishExports = (pkg: Manifest) => {
 }
 
 /**
- * The workspace `imports` map only aliases `#src` into `src/` (dev-world);
- * published packages must not carry it. publishConfig cannot remove a field,
- * so the published manifest gets an empty map instead.
+ * The workspace `imports` map mostly aliases `#src` into `src/` (dev-world);
+ * published packages must not carry those. Entries whose target is a plain
+ * path (or path array) are such dev aliases and are dropped; a conditions
+ * object (e.g. `#vapor-bindings` resolving per mode) is kept with its dev
+ * condition stripped, like the exports sync. publishConfig cannot remove a
+ * field, so with nothing left the published manifest gets an empty map.
  */
 const syncPublishImports = (pkg: Manifest) => {
   const publishConfig = pkg.publishConfig as Manifest | undefined
-  if (pkg.imports) {
-    pkg.publishConfig = { ...publishConfig, imports: {} }
+  const imports = pkg.imports as Manifest | undefined
+  if (imports) {
+    const published: Record<string, unknown> = {}
+    for (const [key, val] of Object.entries(imports)) {
+      if (val === null || typeof val !== 'object' || Array.isArray(val))
+        continue
+      const stripped = stripDevCondition(val) as Record<string, unknown>
+      if (Object.keys(stripped).length === 0) continue
+      published[key] = stripped
+    }
+    pkg.publishConfig = { ...publishConfig, imports: published }
     return
   }
   if (!publishConfig || !('imports' in publishConfig)) return

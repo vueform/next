@@ -59,7 +59,7 @@ const {
   id,
   viewLoaded,
   disabled,
-  input,
+  inputRef,
   name,
   fileList,
   hasFiles,
@@ -203,7 +203,7 @@ defineExpose(expose)
           :accept
           :capture
           v-bind="bindings.input"
-          :ref="(el) => (input = el)"
+          :ref="(el) => (inputRef = el)"
           @blur="handleBlur"
           @focus="handleFocus"
           @input="handleInput"

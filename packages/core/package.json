@@ -42,7 +42,12 @@
       "./src/*",
       "./src/*.ts",
       "./src/*/index.ts"
-    ]
+    ],
+    "#vapor-bindings": {
+      "dev": "./src/utils/vapor-bindings.ts",
+      "vapor": "./dist/vapor/utils/vapor-bindings.js",
+      "default": "./dist/utils/vapor-bindings.js"
+    }
   },
   "exports": {
     "./bin": "./bin/vf.js",
@@ -131,7 +136,12 @@
     }
   },
   "publishConfig": {
-    "imports": {},
+    "imports": {
+      "#vapor-bindings": {
+        "vapor": "./dist/vapor/utils/vapor-bindings.js",
+        "default": "./dist/utils/vapor-bindings.js"
+      }
+    },
     "exports": {
       "./bin": "./bin/vf.js",
       ".": {

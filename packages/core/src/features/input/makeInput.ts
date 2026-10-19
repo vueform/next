@@ -1,6 +1,6 @@
 import { computed, ref, toValue, watch, type MaybeRefOrGetter } from 'vue'
 
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import type { makeData, makeInteraction } from '#src/features'
 import { defineFeature, type FeatureEvents } from '#src/helpers'
 import type { LooseContext, ReturnsOf } from '#src/types'
@@ -25,7 +25,7 @@ export type MakeInputConfig = {
   /**
    * Whether the registered input's DOM value is the model's own serialization —
    * i.e. copying the DOM value into the model as-is is always safe. When on
-   * (the default), `handleInput` may adopt values resolved from native events,
+   * (the default), `handleInput` may pick up values resolved from native events,
    * and the registered input gains recovery listeners that pick up value
    * changes no bound event reported (change-only autofill, password managers,
    * the composition trailing edge without `v-model`). Blueprints whose DOM
@@ -149,19 +149,19 @@ const isTextLike = (el: Element) =>
 export const makeInput = defineFeature(
   (config?: MakeInputConfig) =>
     ({ deps, events }: MakeInputOptions) => {
-      const context$ = useComponentContext()
+      const context$ = useContext()
 
       // ================ REFS ================
 
       /**
        * Ref to the underlying input element.
        */
-      const input = ref()
+      const inputRef = ref()
 
       /**
        * Whether the registered input's DOM value is the model's own
        * serialization (see `MakeInputConfig`). Gates both `handleInput`'s
-       * event-value adoption and the DOM recovery listeners.
+       * event-value pickup and the DOM recovery listeners.
        */
       const canonicalDomValue = computed(() =>
         toValue(config?.canonicalDomValue ?? true)
@@ -172,14 +172,14 @@ export const makeInput = defineFeature(
       /**
        * Registers the underlying input element. Bind it as a function ref in
        * custom templates and slots (`:ref="context.setInputRef"`) — the context
-       * members are read-only there, so `input` can't be assigned directly.
+       * members are read-only there, so `inputRef` can't be assigned directly.
        * Receives the element (or component instance) on mount and `null` on
        * unmount, like any function ref.
        *
        * @param el The input element / component instance, or `null`.
        */
       const setInputRef = (el: any) => {
-        input.value = el
+        inputRef.value = el
       }
 
       /**
@@ -208,7 +208,7 @@ export const makeInput = defineFeature(
        * The value is written to the model only when the model doesn't hold it
        * yet — with `v-model` in place this is a pure user-input notification,
        * without it `handleInput` performs the write itself. Values resolved
-       * from native events are only adopted while `canonicalDomValue` is on; on
+       * from native events are only picked up while `canonicalDomValue` is on; on
        * formatted inputs (masks) the event carries display text, so only the
        * notification fires, with the current model value as the payload. Either
        * way it reports the input: fires the `input` event with `(value, event,
@@ -249,7 +249,7 @@ export const makeInput = defineFeature(
       }
 
       /**
-       * Adopts a DOM value change no bound event reported (change-only
+       * Picks up a DOM value change no bound event reported (change-only
        * autofill, password managers, the composition trailing edge without
        * `v-model`): resolves the node's current value and, only when the model
        * doesn't already hold it, writes and reports it as user input. Silent in
@@ -271,7 +271,7 @@ export const makeInput = defineFeature(
       // (their DOM value is a fakepath string, and autofill never targets
       // them).
       watch(
-        [input, canonicalDomValue],
+        [inputRef, canonicalDomValue],
         ([el, canonical], _old, onCleanup) => {
           if (!canonical) return
           if (typeof Element === 'undefined' || !(el instanceof Element)) return
@@ -295,7 +295,7 @@ export const makeInput = defineFeature(
       // value already matches (so the caret is never disturbed while
       // typing); harmlessly idempotent alongside `v-model`.
       watch(
-        [deps.value, input, canonicalDomValue],
+        [deps.value, inputRef, canonicalDomValue],
         ([value, el, canonical]) => {
           if (!canonical) return
           if (typeof Element === 'undefined' || !(el instanceof Element)) return
@@ -346,7 +346,7 @@ export const makeInput = defineFeature(
       }))
 
       return {
-        input,
+        inputRef,
         setInputRef,
         canonicalDomValue,
         handleInput,

@@ -18,6 +18,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   type OptionsProp,
   type OptionValueProp,
   vdomPrime,
@@ -221,6 +222,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfSelectButtonModifiers,
+  VfSelectButtonA11y,
   VfCloneNameExpose,
   SelectButtonApi<TProps>
 > {}
@@ -294,8 +297,17 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -308,12 +320,20 @@ useClasses(({ props }) => ({
   input: props.layout === false ? props.class : null,
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const {
   value,
   viewLoaded,
   disabled,
   invalid,
-  input,
+  inputRef,
   rawItems,
   itemLabel,
   itemValue,
@@ -323,7 +343,6 @@ const {
   handleInput,
   handleFocus,
   handleBlur,
-  a11yBindings,
 } = api
 
 const { multiple } = propRefs
@@ -379,7 +398,6 @@ declare module 'vue' {
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
       <SelectButton
-        :class="classes.input"
         v-model="value"
         :options="rawItems"
         :option-label="itemLabel"
@@ -389,14 +407,10 @@ declare module 'vue' {
         :invalid
         :multiple
         fluid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
-        @focus="handleFocus"
-        @blur="handleBlur"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
+        @focusin="handleFocus"
+        @focusout="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"
       >
         <template

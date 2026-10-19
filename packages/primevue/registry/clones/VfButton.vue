@@ -132,6 +132,8 @@ export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfButtonModifiers,
+  VfButtonA11y,
   VfCloneNameExpose,
   ButtonApi
 > {}
@@ -164,8 +166,16 @@ const PvButton = vdomPrime(PrimeButton)
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -182,6 +192,21 @@ useClasses(() => ({
     },
   ],
 }))
+
+useModifiers(
+  ({ props, severity, icon, text, href, loading, disabled }, { fluid }) => ({
+    button: {
+      'data-severity': severity.value,
+      'data-align': props.align || undefined,
+      'data-fluid': fluid.value ? '' : undefined,
+      'data-loading': loading.value ? '' : undefined,
+      'data-icon-only': !!icon.value && !text.value ? '' : undefined,
+      // Anchor mode has no native `disabled` attribute, so the styling state
+      // needs its own marker there; `<button>` keeps `:disabled`.
+      'data-disabled': href.value && disabled.value ? '' : undefined,
+    },
+  })
+)
 
 const { target, rel, download, fluid } = propRefs
 
@@ -248,13 +273,8 @@ declare module 'vue' {
         :severity
         :badge
         :badge-severity="badgeSeverity"
-        :class="classes.button"
-        :data-align="props.align || undefined"
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...parts.button,
-          ...attrs,
-        }"
+        v-bind="{ ...bindings.button, ...attrs }"
         @click="handleClick"
       >
         <template

@@ -165,7 +165,7 @@ type UseDataOptions = {
 
   /**
    * Whether this element operates as the form root, owning the root model:
-   * adopting a `useModel` instance passed via `modelValue`, or creating an
+   * attaching a `useModel` instance passed via `modelValue`, or creating an
    * internal store from the plain `modelValue`. Mutually exclusive with
    * `container`.
    */

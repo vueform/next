@@ -140,6 +140,23 @@ const emptyItems: ResolvedItem[] = []
 const emptyGroups: ResolvedGroup[] = []
 
 /**
+ * Default label accessor forwarded for synthetic items: reads the `label` key
+ * core put on the synthetic `{ value, label }` wrapper, string-cast so
+ * third-party components with string-typed label props (e.g. PrimeVue's
+ * ToggleButton inside SelectButton) never receive a raw scalar.
+ */
+const syntheticItemLabel = (item: any): string => String(item?.label ?? '')
+
+/**
+ * Default label accessor forwarded when no `itemLabel` applies: the same
+ * normalized-label semantics `resolveLabel` uses internally, so delegated
+ * label resolution (third-party components fed `rawItems`) displays exactly
+ * what core-rendered elements display.
+ */
+const defaultItemLabel = (item: any): string =>
+  isPlainObject(item) ? JSON.stringify(item) : String(item ?? '')
+
+/**
  * Configuration for the items factory that normalizes option items.
  */
 type MakeItemsOptions = {
@@ -262,7 +279,7 @@ export type MakeItemsReturn<P = MakeItemsOptions['props']> = {
   resolvedItems: ShallowRef<any[] | Record<string, any>>
   normalizedItems: ComputedRef<NormalizedItem[]>
   selectedLabel: ComputedRef<string | string[] | undefined>
-  itemLabel: ComputedRef<string | ((item: any) => string) | undefined>
+  itemLabel: ComputedRef<string | ((item: any) => string)>
   itemValue: ComputedRef<string | ((item: any) => any) | undefined>
   itemDisabled: ComputedRef<string | ((item: any) => boolean) | undefined>
   grouped: ComputedRef<boolean>
@@ -516,15 +533,16 @@ export const makeItems = defineFeature<
       })
 
       /**
-       * Label accessor to forward to third-party components. Falls back to
-       * `'label'` for synthetic items.
+       * Label accessor to forward to third-party components. Always defined
+       * and always string-producing when the `itemLabel` prop is unset: the
+       * synthetic wrapper's `label` for synthetic items, the normalized-label
+       * fallback (JSON for plain objects) otherwise — mirroring what
+       * `resolveLabel` yields on the core-rendered path.
        */
-      const itemLabel = computed<string | ((item: any) => string) | undefined>(
-        () => {
-          if (props.itemLabel) return props.itemLabel
-          return synthetic.value ? 'label' : undefined
-        }
-      )
+      const itemLabel = computed<string | ((item: any) => string)>(() => {
+        if (props.itemLabel) return props.itemLabel
+        return synthetic.value ? syntheticItemLabel : defaultItemLabel
+      })
 
       /**
        * Value accessor to forward to third-party components. Falls back to

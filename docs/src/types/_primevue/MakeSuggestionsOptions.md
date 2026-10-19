@@ -24,7 +24,7 @@ type MakeSuggestionsOptions = {
     [
       [typeof makeData, ['nullValue', 'update', 'model', 'pending']],
       [typeof makeElement, ['path']],
-      [typeof makeInput, ['input', 'handleInput']],
+      [typeof makeInput, ['inputRef', 'handleInput']],
     ]
   >
   events: FeatureEvents<{

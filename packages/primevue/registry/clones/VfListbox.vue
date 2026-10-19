@@ -19,6 +19,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   type OptionGroupChildrenProp,
   type OptionsProp,
   type OptionValueProp,
@@ -310,6 +311,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfListboxModifiers,
+  VfListboxA11y,
   VfCloneNameExpose,
   ListboxApi<TProps>
 > {}
@@ -387,8 +390,17 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -400,12 +412,19 @@ useClasses(() => ({
   root: 'vf-listbox',
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const {
   value,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   invalid,
   rawItems,
   itemLabel,
@@ -474,7 +493,6 @@ declare module 'vue' {
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
       <Listbox
-        :class="classes.input"
         v-model="value"
         :options="rawItems"
         :option-label="itemLabel"
@@ -486,12 +504,8 @@ declare module 'vue' {
         :invalid
         :multiple
         fluid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"

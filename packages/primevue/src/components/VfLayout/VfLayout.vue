@@ -206,8 +206,8 @@ defineExpose(expose)
             <!-- Addons before -->
             <template v-if="renderGroup && el$.addonable">
               <component
-                v-if="elementSlots.addonBefore"
-                :is="elementSlots.addonBefore"
+                v-if="elementSlots['addon-before']"
+                :is="elementSlots['addon-before']"
               />
               <template v-else>
                 <VfAddon
@@ -230,11 +230,11 @@ defineExpose(expose)
                 v-bind="hasIcons ? el$.bindings?.iconGroup : undefined"
               >
                 <InputIcon
-                  v-if="elementSlots.iconBefore"
+                  v-if="elementSlots['icon-before']"
                   v-bind="el$.bindings?.iconBefore"
                 >
                   <component
-                    :is="elementSlots.iconBefore"
+                    :is="elementSlots['icon-before']"
                     :icon-before="el$.iconBefore"
                   />
                 </InputIcon>
@@ -252,11 +252,11 @@ defineExpose(expose)
                   aria-hidden="true"
                 />
                 <InputIcon
-                  v-else-if="elementSlots.iconAfter"
+                  v-else-if="elementSlots['icon-after']"
                   v-bind="el$.bindings?.iconAfter"
                 >
                   <component
-                    :is="elementSlots.iconAfter"
+                    :is="elementSlots['icon-after']"
                     :icon-after="el$.iconAfter"
                   />
                 </InputIcon>
@@ -273,8 +273,12 @@ defineExpose(expose)
                 v-bind="hasIfta ? el$.bindings?.ifta : el$.bindings?.float"
               >
                 <component
-                  v-if="hasIfta ? elementSlots.ifta : elementSlots.floatLabel"
-                  :is="hasIfta ? elementSlots.ifta : elementSlots.floatLabel"
+                  v-if="
+                    hasIfta ? elementSlots.ifta : elementSlots['float-label']
+                  "
+                  :is="
+                    hasIfta ? elementSlots.ifta : elementSlots['float-label']
+                  "
                   v-bind="
                     hasIfta
                       ? { ifta: el$.ifta }
@@ -290,8 +294,8 @@ defineExpose(expose)
             <!-- Addons after -->
             <template v-if="renderGroup && el$.addonable">
               <component
-                v-if="elementSlots.addonAfter"
-                :is="elementSlots.addonAfter"
+                v-if="elementSlots['addon-after']"
+                :is="elementSlots['addon-after']"
               />
               <template v-else>
                 <VfAddon
@@ -524,8 +528,8 @@ defineExpose(expose)
                   <!-- Addons before -->
                   <template v-if="renderGroup && el$.addonable">
                     <component
-                      v-if="elementSlots.addonBefore"
-                      :is="elementSlots.addonBefore"
+                      v-if="elementSlots['addon-before']"
+                      :is="elementSlots['addon-before']"
                     />
                     <template v-else>
                       <VfAddon
@@ -554,11 +558,11 @@ defineExpose(expose)
                       v-bind="hasIcons ? el$.bindings?.iconGroup : undefined"
                     >
                       <InputIcon
-                        v-if="elementSlots.iconBefore"
+                        v-if="elementSlots['icon-before']"
                         v-bind="el$.bindings?.iconBefore"
                       >
                         <component
-                          :is="elementSlots.iconBefore"
+                          :is="elementSlots['icon-before']"
                           :icon-before="el$.iconBefore"
                         />
                       </InputIcon>
@@ -576,11 +580,11 @@ defineExpose(expose)
                         aria-hidden="true"
                       />
                       <InputIcon
-                        v-else-if="elementSlots.iconAfter"
+                        v-else-if="elementSlots['icon-after']"
                         v-bind="el$.bindings?.iconAfter"
                       >
                         <component
-                          :is="elementSlots.iconAfter"
+                          :is="elementSlots['icon-after']"
                           :icon-after="el$.iconAfter"
                         />
                       </InputIcon>
@@ -600,10 +604,14 @@ defineExpose(expose)
                     >
                       <component
                         v-if="
-                          hasIfta ? elementSlots.ifta : elementSlots.floatLabel
+                          hasIfta
+                            ? elementSlots.ifta
+                            : elementSlots['float-label']
                         "
                         :is="
-                          hasIfta ? elementSlots.ifta : elementSlots.floatLabel
+                          hasIfta
+                            ? elementSlots.ifta
+                            : elementSlots['float-label']
                         "
                         v-bind="
                           hasIfta
@@ -620,8 +628,8 @@ defineExpose(expose)
                   <!-- Addons after -->
                   <template v-if="renderGroup && el$.addonable">
                     <component
-                      v-if="elementSlots.addonAfter"
-                      :is="elementSlots.addonAfter"
+                      v-if="elementSlots['addon-after']"
+                      :is="elementSlots['addon-after']"
                     />
                     <template v-else>
                       <VfAddon

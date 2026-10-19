@@ -62,21 +62,65 @@ const props = withDefaults(defineProps<VfListProps>(), defaults)
 const events = defineEvents<VfListEmits>()
 const slots = defineSlots<VfListSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
+
+const { t } = useLocale()
 
 useClasses(() => ({
-  container: 'vf-list',
+  root: 'vf-list',
   items: 'vf-list-items',
-  item: 'vf-list-item',
+  item: () => 'vf-list-item',
   element: 'vf-list-element',
-  sort: 'vf-list-sort',
-  remove: 'vf-list-remove',
+  sort: () => 'vf-list-sort',
+  remove: () => 'vf-list-remove',
   placeholder: 'vf-list-placeholder',
   add: 'vf-list-add',
 }))
 
-const { t } = useLocale()
+useModifiers(({ props }) => ({
+  item: (beingDragged: boolean, isDropTarget: boolean) => ({
+    'data-wrapped': props.wrap ? '' : undefined,
+    'data-dragging': beingDragged ? '' : undefined,
+    'data-drop-target': isDropTarget ? '' : undefined,
+  }),
+}))
+
+useA11y(({ placeholderId, addLabel, removeLabel, items, placeholder }) => ({
+  items: {
+    role: 'list',
+  },
+  item: (_beingDragged: boolean, _isDropTarget: boolean) => ({
+    role: 'listitem' as const,
+  }),
+  placeholder: {
+    id: placeholderId.value,
+    role: 'status',
+  },
+  add: {
+    'aria-label': addLabel.value ? undefined : t('sr_list_add'),
+    'aria-describedby':
+      items.value.length === 0 && placeholder.value
+        ? placeholderId.value
+        : undefined,
+  },
+  sort: (index: number) => ({
+    'aria-label': t('sr_list_sort', { index: index + 1 }),
+  }),
+  remove: (index: number) => ({
+    'aria-label': removeLabel.value
+      ? undefined
+      : t('sr_list_remove', { index: index + 1 }),
+  }),
+}))
 
 const {
   items,
@@ -90,7 +134,6 @@ const {
   removeIcon,
   sortIcon,
   placeholder,
-  placeholderId,
   canAdd,
   canRemove,
   canSort,
@@ -104,8 +147,6 @@ const {
 } = api
 
 defineExpose(expose)
-
-// @todo: template a11y
 </script>
 
 <template>
@@ -115,22 +156,14 @@ defineExpose(expose)
       <slot
         v-if="items.length === 0"
         name="placeholder"
-        :class="classes.placeholder"
-        v-bind="parts.placeholder"
+        :bindings="bindings.placeholder"
       >
         <component
           v-if="outlets?.placeholder"
           :is="outlets.placeholder"
-          :class="classes.placeholder"
-          v-bind="parts.placeholder"
+          :bindings="bindings.placeholder"
         />
-        <div
-          v-else-if="placeholder"
-          :id="placeholderId"
-          :class="classes.placeholder"
-          role="status"
-          v-bind="parts.placeholder"
-        >
+        <div v-else-if="placeholder" v-bind="bindings.placeholder">
           {{ placeholder }}
         </div>
       </slot>
@@ -138,9 +171,7 @@ defineExpose(expose)
       <div
         v-else
         ref="list"
-        :class="classes.items"
-        role="list"
-        v-bind="parts.items"
+        v-bind="bindings.items"
         @dragover="handleWrapperDragOver"
         @drop="handleDrop"
       >
@@ -150,6 +181,7 @@ defineExpose(expose)
             :index
             :being-dragged="dragIndex === index"
             :is-drop-target="dropTarget === id"
+            :bindings="bindings.item(dragIndex === index, dropTarget === id)"
             :handle-drag-enter="
               ($event: DragEvent) => handleDragEnter($event, position)
             "
@@ -158,8 +190,6 @@ defineExpose(expose)
             "
             :handle-drag-end
             :handle-remove="() => handleRemove(index)"
-            :class="classes.item"
-            v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
           >
             <component
               v-if="outlets?.item"
@@ -167,6 +197,7 @@ defineExpose(expose)
               :index
               :being-dragged="dragIndex === index"
               :is-drop-target="dropTarget === id"
+              :bindings="bindings.item(dragIndex === index, dropTarget === id)"
               :handle-drag-enter="
                 ($event: DragEvent) => handleDragEnter($event, position)
               "
@@ -175,55 +206,44 @@ defineExpose(expose)
               "
               :handle-drag-end
               :handle-remove="() => handleRemove(index)"
-              :class="classes.item"
-              v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
             />
             <div
               v-else
-              :class="classes.item"
-              :data-wrapped="props.wrap ? '' : undefined"
-              :data-dragging="dragIndex === index ? '' : undefined"
-              :data-drop-target="dropTarget === id ? '' : undefined"
-              role="listitem"
-              v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
+              v-bind="bindings.item(dragIndex === index, dropTarget === id)"
               @dragenter="handleDragEnter($event, position)"
             >
               <slot
                 v-if="canSort"
                 name="sort"
+                :bindings="bindings.sort(index)"
                 :handle-drag-start="
                   ($event: DragEvent) => handleDragStart($event, index)
                 "
                 :handle-drag-end
-                :class="classes.sort"
-                v-bind="parts.sort"
               >
                 <component
                   v-if="outlets?.sort"
                   :is="outlets.sort"
+                  :bindings="bindings.sort(index)"
                   :handle-drag-start="
                     ($event: DragEvent) => handleDragStart($event, index)
                   "
                   :handle-drag-end
-                  :class="classes.sort"
-                  v-bind="parts.sort"
                 />
                 <VfButton
                   v-else
-                  :class="classes.sort"
                   :name="`${id}__sort_${index}`"
                   :icon="sortIcon"
                   :layout="false"
                   :draggable="true"
                   detached
-                  :aria-label="t('sr_list_sort', { index: index + 1 })"
-                  v-bind="parts.sort"
+                  v-bind="bindings.sort(index)"
                   @dragstart="handleDragStart($event, index)"
                   @dragend="handleDragEnd"
                 />
               </slot>
 
-              <div :class="classes.element" v-bind="parts.element">
+              <div v-bind="bindings.element">
                 <slot :component="prototypeComponent" :props="prototype" :index>
                   <component
                     v-if="outlets?.default"
@@ -244,16 +264,14 @@ defineExpose(expose)
               <slot
                 v-if="canRemove"
                 name="remove"
+                :bindings="bindings.remove(index)"
                 :handle-remove="() => handleRemove(index)"
-                :class="classes.remove"
-                v-bind="parts.remove"
               >
                 <component
                   v-if="outlets?.remove"
                   :is="outlets.remove"
+                  :bindings="bindings.remove(index)"
                   :handle-remove="() => handleRemove(index)"
-                  :class="classes.remove"
-                  v-bind="parts.remove"
                 />
                 <VfButton
                   v-else
@@ -264,13 +282,7 @@ defineExpose(expose)
                   :name="`${id}__remove_${index}`"
                   :text="removeLabel"
                   :icon="removeIcon"
-                  :aria-label="
-                    removeLabel
-                      ? undefined
-                      : t('sr_list_remove', { index: index + 1 })
-                  "
-                  :class="classes.remove"
-                  v-bind="parts.remove"
+                  v-bind="bindings.remove(index)"
                   @click.prevent="handleRemove(index)"
                 />
               </slot>
@@ -282,18 +294,16 @@ defineExpose(expose)
       <slot
         v-if="canAdd"
         name="add"
-        :handle-add
         :label="addLabel!"
-        :class="classes.add"
-        v-bind="parts.add"
+        :bindings="bindings.add"
+        :handle-add
       >
         <component
           v-if="outlets?.add"
           :is="outlets.add"
-          :handle-add
           :label="addLabel!"
-          :class="classes.add"
-          v-bind="parts.add"
+          :bindings="bindings.add"
+          :handle-add
         />
         <VfButton
           v-else
@@ -304,12 +314,7 @@ defineExpose(expose)
           name="add"
           :text="addLabel"
           :icon="addIcon"
-          :class="classes.add"
-          :aria-label="addLabel ? undefined : t('sr_list_add')"
-          :aria-describedby="
-            items.length === 0 && placeholder ? placeholderId : undefined
-          "
-          v-bind="parts.add"
+          v-bind="bindings.add"
           @click.prevent="handleAdd"
         />
       </slot>

@@ -9,7 +9,7 @@ import {
   makeInput,
   makeForwards,
   makeProvider,
-  useComponentContext,
+  useContext,
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
@@ -228,7 +228,7 @@ export function blueprint<TProps extends FileUploadProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<FileUploadEmits>
 ) {
-  const context$ = useComponentContext()
+  const context$ = useContext()
 
   const api = useFeatures(
     aliasProps(props, {
@@ -248,7 +248,7 @@ export function blueprint<TProps extends FileUploadProps<string>>(
     .use(makeProvider())
     .build()
 
-  const { clear, model, shouldValidate, validate, input } = api
+  const { clear, model, shouldValidate, validate, inputRef } = api
 
   // `TProps` is unbound — writes here use the wide file-upload model.
   const update = api.update as (data: FileUploadModel) => void
@@ -343,7 +343,7 @@ export function blueprint<TProps extends FileUploadProps<string>>(
    * Programmatically triggers the PrimeVue FileUpload's upload method.
    */
   const upload = () => {
-    input.value?.upload()
+    inputRef.value?.upload()
   }
 
   return {

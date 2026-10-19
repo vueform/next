@@ -17,7 +17,7 @@ describe('Plain array options', () => {
       }),
     })
 
-    const comp = select.input
+    const comp = select.inputRef
     expect(comp).toBeTruthy()
     expect(select.rawItems).toHaveLength(3)
     expect(select.rawItems[0]).toEqual({ value: 'Foo', label: 'Foo' })
@@ -238,7 +238,7 @@ describe('optionLabel', () => {
     expect(select.itemLabel).toBe('title')
   })
 
-  it('should use label key for synthetic (plain array) items', () => {
+  it('should resolve synthetic (plain array) item labels as strings', () => {
     const { select } = createForm({
       schema: defineSchema({
         select: {
@@ -248,7 +248,28 @@ describe('optionLabel', () => {
       }),
     })
 
-    expect(select.itemLabel).toBe('label')
+    // Always a string-producing accessor when the prop is unset, so PrimeVue
+    // components with string-typed label props never receive a raw scalar.
+    const itemLabel = select.itemLabel as (item: any) => string
+    expect(typeof itemLabel).toBe('function')
+    expect(itemLabel(select.rawItems[0])).toBe('Foo')
+    expect(itemLabel({ value: 1, label: 1 })).toBe('1')
+  })
+
+  it('should resolve unlabeled object items as their JSON text', () => {
+    const { select } = createForm({
+      schema: defineSchema({
+        select: {
+          type: 'select',
+          options: [{ id: 1, title: 'First' }],
+        },
+      }),
+    })
+
+    // Mirrors core's normalized-label fallback for the delegated path.
+    const itemLabel = select.itemLabel as (item: any) => string
+    expect(typeof itemLabel).toBe('function')
+    expect(itemLabel(select.rawItems[0])).toBe('{"id":1,"title":"First"}')
   })
 })
 

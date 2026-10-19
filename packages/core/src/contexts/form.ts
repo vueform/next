@@ -1,4 +1,4 @@
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import { createContext } from '#src/helpers'
 import type { FormContext } from '#src/types'
 
@@ -9,7 +9,7 @@ const [_useFormContext, provideFormContext] =
  * Creates and provides the form context from the current component context.
  */
 export function createFormContext(): FormContext {
-  const form$ = useComponentContext() as FormContext
+  const form$ = useContext() as FormContext
 
   provideFormContext(form$)
 

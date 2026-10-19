@@ -21,8 +21,9 @@ type RuleContext = {
   vueform: VueformInstance
 
   /**
-   * The size-type category of the element (`'string'`, `'number'`, `'array'`,
-   * or `'file'`).
+   * The size-type category of the element (`'string'`, `'numeric'`, `'array'`,
+   * or `'file'`). Matches the locale message-tag segments (e.g.
+   * `rule_min_numeric_error`).
    */
   type: SizeTypes
 

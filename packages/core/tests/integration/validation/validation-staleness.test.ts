@@ -119,7 +119,7 @@ describe('Validation Staleness', () => {
       expect(email.invalid).toBe(false)
     })
 
-    it('should mark a mounted element unvalidated when an adopted model is written externally', async () => {
+    it('should mark a mounted element unvalidated when an attached model is written externally', async () => {
       const schema = defineSchema({
         email: { type: 'text', rules: 'required|email' },
       })

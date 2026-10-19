@@ -773,7 +773,7 @@
         "label": "Layout",
         "common": true,
         "members": [
-          "input",
+          "inputRef",
           "inputName",
           "id",
           "title",

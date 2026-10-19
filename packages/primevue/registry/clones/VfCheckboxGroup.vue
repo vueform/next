@@ -17,6 +17,7 @@
 
 import {
   defineEvents,
+  choicesAria,
   useBlueprint,
   type OptionGroupChildrenProp,
   type OptionsProp,
@@ -223,6 +224,12 @@ export interface VfCloneNameSlots<
       >,
       RawOptionOf<TOptions, TGroupChildren>
     >
+
+    /**
+     * The group fieldset's resolved bindings (part overrides for this group's
+     * fieldset element); apply with `v-bind`.
+     */
+    bindings: VfCheckboxGroupBindings['group']
   }) => VNode[]
 
   /**
@@ -258,6 +265,12 @@ export interface VfCloneNameSlots<
       >,
       RawOptionOf<TOptions, TGroupChildren>
     >
+
+    /**
+     * The item's resolved bindings (part overrides for this item's VfCheckbox
+     * child); apply with `v-bind`.
+     */
+    bindings: VfCheckboxGroupBindings['item']
   }) => VNode[]
 
   /**
@@ -293,7 +306,7 @@ export interface VfCloneNameParts extends CheckboxGroupParts {
    *
    * @tag div
    */
-  group: DomAttrsOf<'div'>
+  wrapper: DomAttrsOf<'div'>
 
   /**
    * The fieldset element wrapping each group when items are grouped.
@@ -301,7 +314,7 @@ export interface VfCloneNameParts extends CheckboxGroupParts {
    * @param group The group data.
    * @tag fieldset
    */
-  fieldset: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
+  group: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
 
   /**
    * The legend element displaying the group label.
@@ -309,7 +322,7 @@ export interface VfCloneNameParts extends CheckboxGroupParts {
    * @param group The group data.
    * @tag legend
    */
-  legend: (group: Record<string, any>) => DomAttrsOf<'legend'>
+  groupLabel: (group: Record<string, any>) => DomAttrsOf<'legend'>
 
   /**
    * Props factory for each VfCheckbox child component, receiving the item data.
@@ -333,7 +346,28 @@ export interface VfCloneNameClasses extends CheckboxGroupClasses {
   /**
    * The wrapper element containing all checkbox items.
    */
-  group: ClassValue
+  wrapper: ClassValue
+
+  /**
+   * The fieldset element wrapping each group when items are grouped.
+   *
+   * @param group The group data.
+   */
+  group: (group: Record<string, any>) => ClassValue
+
+  /**
+   * The legend element displaying the group label.
+   *
+   * @param group The group data.
+   */
+  groupLabel: (group: Record<string, any>) => ClassValue
+
+  /**
+   * Each item's `VfCheckbox` child component.
+   *
+   * @param item The checkbox item data.
+   */
+  item: (item: Record<string, any>) => ClassValue
 }
 
 /**
@@ -370,6 +404,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfCheckboxGroupModifiers,
+  VfCheckboxGroupA11y,
   VfCloneNameExpose,
   CheckboxGroupApi<TProps>
 > {}
@@ -435,8 +471,16 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const {
   items,
@@ -444,7 +488,6 @@ const {
   grouped,
   viewLoaded,
   path,
-  a11yBindings,
   disabled,
   label,
   handleFocus,
@@ -459,8 +502,24 @@ const {
  */
 useClasses(({ props }) => ({
   root: 'vf-checkbox-group vf-choices',
-  group: [props.layout === false ? props.class : null, 'vf-choices-group'],
+  wrapper: [props.layout === false ? props.class : null, 'vf-choices-group'],
+  group: () => null,
+  groupLabel: () => null,
+  item: () => null,
 }))
+
+useModifiers(({ props, invalid, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  wrapper: {
+    'data-stacked': props.stacked ? '' : undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+    'data-invalid': invalid.value ? '' : undefined,
+  },
+}))
+
+useA11y(choicesAria({ role: 'group' }))
 
 defineExpose(expose)
 </script>
@@ -472,7 +531,14 @@ import type {
   EntryOptionValueKeyOf,
   EntryOptionValueReturnOf,
   EntryOptionsOf,
+  ResolvedBindings,
 } from '@vueform/primevue'
+
+type VfCheckboxGroupBindings = ResolvedBindings<
+  VfCloneNameParts,
+  VfCheckboxGroupModifiers,
+  VfCheckboxGroupA11y
+>
 
 type EntryProps<TEntry> = VfCloneNameProps<
   EntryOptionsOf<TEntry>,
@@ -513,15 +579,9 @@ declare module 'vue' {
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else :label="false">
       <div
-        :class="classes.group"
-        :data-stacked="props.stacked ? '' : undefined"
-        :data-aligned="props.aligned ? '' : undefined"
         @focusin="handleFocus"
         @focusout="handleBlur"
-        v-bind="{
-          ...a11yBindings.group,
-          ...parts.group,
-        }"
+        v-bind="bindings.wrapper"
       >
         <slot :items :groups :grouped :disabled :label :checkbox-name="path">
           <component
@@ -530,13 +590,20 @@ declare module 'vue' {
             :items
             :groups
             :grouped
-            :checkbox-name="path"
             :disabled
             :label
+            :checkbox-name="path"
           />
           <template v-else-if="grouped">
             <template v-for="(group, gi) in groups" :key="gi">
-              <slot name="group" :group :disabled :label :checkbox-name="path">
+              <slot
+                name="group"
+                :group
+                :disabled
+                :label
+                :checkbox-name="path"
+                :bindings="bindings.group(group)"
+              >
                 <component
                   v-if="outlets?.group"
                   :is="outlets.group"
@@ -544,9 +611,10 @@ declare module 'vue' {
                   :disabled
                   :label
                   :checkbox-name="path"
+                  :bindings="bindings.group(group)"
                 />
-                <fieldset v-else v-bind="parts.fieldset?.(group)">
-                  <legend v-bind="parts.legend?.(group)">
+                <fieldset v-else v-bind="bindings.group(group)">
+                  <legend v-bind="bindings.groupLabel(group)">
                     {{ group.label }}
                   </legend>
                   <template v-for="item in group.items" :key="item.key">
@@ -556,6 +624,7 @@ declare module 'vue' {
                       :disabled
                       :label
                       :checkbox-name="path"
+                      :bindings="bindings.item(item)"
                     >
                       <component
                         v-if="outlets?.item"
@@ -564,6 +633,7 @@ declare module 'vue' {
                         :disabled
                         :label
                         :checkbox-name="path"
+                        :bindings="bindings.item(item)"
                       />
                       <VfCheckbox
                         v-else
@@ -572,7 +642,7 @@ declare module 'vue' {
                         :checkbox-name="path"
                         :disabled="disabled || item.disabled"
                         :layout="false"
-                        v-bind="parts.item?.(item)"
+                        v-bind="bindings.item(item)"
                       >
                         <template v-if="outlets?.checkbox" #default="slotProps">
                           <slot name="checkbox" v-bind="slotProps">
@@ -596,7 +666,14 @@ declare module 'vue' {
           </template>
           <template v-else>
             <template v-for="item in items" :key="item.key">
-              <slot name="item" :item :disabled :label :checkbox-name="path">
+              <slot
+                name="item"
+                :item
+                :disabled
+                :label
+                :checkbox-name="path"
+                :bindings="bindings.item(item)"
+              >
                 <component
                   v-if="outlets?.item"
                   :is="outlets.item"
@@ -604,6 +681,7 @@ declare module 'vue' {
                   :disabled
                   :label
                   :checkbox-name="path"
+                  :bindings="bindings.item(item)"
                 />
                 <VfCheckbox
                   v-else
@@ -612,7 +690,7 @@ declare module 'vue' {
                   :checkbox-name="path"
                   :disabled="disabled || item.disabled"
                   :layout="false"
-                  v-bind="parts.item?.(item)"
+                  v-bind="bindings.item(item)"
                 >
                   <template v-if="outlets?.checkbox" #default="slotProps">
                     <slot name="checkbox" v-bind="slotProps">

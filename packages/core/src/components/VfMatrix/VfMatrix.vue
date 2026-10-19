@@ -218,15 +218,15 @@ defineExpose(expose)
               :key="id || i"
             >
               <slot
-                name="colHeader"
+                name="col-header"
                 v-if="!id || available.value"
                 :id
                 :label
                 :bindings="bindings.colHeader"
               >
                 <component
-                  v-if="outlets?.colHeader"
-                  :is="outlets.colHeader"
+                  v-if="outlets?.['col-header']"
+                  :is="outlets['col-header']"
                   :id
                   :label
                   :bindings="bindings.colHeader"
@@ -316,8 +316,8 @@ defineExpose(expose)
               <template v-else>
                 <template v-if="canSort">
                   <slot
-                    v-if="slots.sortWrapper"
-                    name="sortWrapper"
+                    v-if="slots['sort-wrapper']"
+                    name="sort-wrapper"
                     :bindings="bindings.sortWrapper"
                     :handle-drag-start="
                       ($event: DragEvent) =>
@@ -329,8 +329,8 @@ defineExpose(expose)
                     "
                   />
                   <component
-                    v-else-if="outlets?.sortWrapper"
-                    :is="outlets.sortWrapper"
+                    v-else-if="outlets?.['sort-wrapper']"
+                    :is="outlets['sort-wrapper']"
                     :bindings="bindings.sortWrapper"
                     :handle-drag-start="
                       ($event: DragEvent) =>
@@ -387,14 +387,14 @@ defineExpose(expose)
 
                 <template v-if="showRowHeaders">
                   <slot
-                    v-if="slots.rowHeader"
-                    name="rowHeader"
+                    v-if="slots['row-header']"
+                    name="row-header"
                     :label
                     :bindings="bindings.rowHeader"
                   />
                   <component
-                    v-else-if="outlets?.rowHeader"
-                    :is="outlets.rowHeader"
+                    v-else-if="outlets?.['row-header']"
+                    :is="outlets['row-header']"
                     :label
                     :bindings="bindings.rowHeader"
                   />
@@ -447,14 +447,14 @@ defineExpose(expose)
 
                 <template v-if="canRemove">
                   <slot
-                    v-if="slots.removeWrapper"
-                    name="removeWrapper"
+                    v-if="slots['remove-wrapper']"
+                    name="remove-wrapper"
                     :bindings="bindings.removeWrapper"
                     :handle-remove="row.remove"
                   />
                   <component
-                    v-else-if="outlets?.removeWrapper"
-                    :is="outlets.removeWrapper"
+                    v-else-if="outlets?.['remove-wrapper']"
+                    :is="outlets['remove-wrapper']"
                     :bindings="bindings.removeWrapper"
                     :handle-remove="row.remove"
                   />

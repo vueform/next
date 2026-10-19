@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { defaults, blueprint } from '#src/blueprints/tabs'
-import { useBlueprint, type ResolvedPage } from '#src/composables'
+import { useBlueprint, useConfig, type ResolvedPage } from '#src/composables'
+import { useElementContext } from '#src/contexts'
 import { defineEvents } from '#src/helpers'
 
 import type { VfTabsEmits, VfTabsProps, VfTabsSlots } from './types'
@@ -15,8 +16,14 @@ const slots = defineSlots<VfTabsSlots>()
 const { context, expose, outlets, bindings, useClasses, useModifiers } =
   useBlueprint(blueprint, props, events, slots)
 
+const el$ = useElementContext()
+const config = useConfig()
+
 useClasses(() => ({
-  root: 'vf-tabs',
+  root: {
+    'vf-tabs': true,
+    [config.cols(12)]: !!el$,
+  },
   list: 'vf-tabs-wrapper',
   wrapper: 'vf-tab-wrapper',
   tab: 'vf-tab',

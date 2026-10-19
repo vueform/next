@@ -15,7 +15,9 @@ import {
   defineEvents,
   useBlueprint,
   type LanguagesProp,
+  tInputAria,
   vdomPrime,
+  classCompat,
 } from '@vueform/primevue'
 import {
   blueprint,
@@ -25,7 +27,6 @@ import {
   type VfInputMaskSlots,
 } from '@vueform/primevue/components/VfInputMask'
 import PrimeInputMask from 'primevue/inputmask'
-import type { WritableComputedRef } from 'vue'
 
 const InputMask = vdomPrime(PrimeInputMask)
 
@@ -45,12 +46,31 @@ const props = withDefaults(
 const events = defineEvents<VfInputMaskEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfInputMaskSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-input-mask',
 }))
+
+useModifiers(({ help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(tInputAria())
 
 const {
   value,
@@ -59,8 +79,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -75,13 +94,6 @@ const {
   handleBlur,
 } = api
 
-/**
- * PrimeVue InputMask types `modelValue` as `string | null`. The element's
- * `value` is the active-language scalar (`string | number | null`), which is
- * the same runtime binding as before — this assertion is type-only.
- */
-const inputValue = value as WritableComputedRef<string | null>
-
 defineExpose(expose)
 </script>
 
@@ -93,20 +105,15 @@ defineExpose(expose)
         :name
         :id
         :mask
-        :class="classes.input || undefined"
-        v-model="inputValue"
+        v-model="value"
         :placeholder
         :disabled
         :readonly
         :invalid
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...classCompat(bindings.input) }"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keypress="handleKeypress"
         @blur="handleBlur"

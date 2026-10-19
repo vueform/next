@@ -1799,8 +1799,8 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`destroyValidation()`](!code#context.destroyValidation "() => void") | Unregisters the element from the validator and clears its validation views. |
 | [`rootModel`](!code#context.rootModel "RootModel \| undefined") | The root model backing the form when this element operates as the form root, `undefined` for every other element. |
 | [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. |
-| [`setInputRef()`](!code#context.setInputRef "(el: any) => void") | Registers the underlying input element. Bind it as a function ref in custom templates and slots (`:ref="context.setInputRef"`) — the context members are read-only there, so `input` can't be assigned directly. Receives the element (or component instance) on mount and `null` on unmount, like any function ref. |
-| [`canonicalDomValue`](!code#context.canonicalDomValue "boolean") | Whether the registered input's DOM value is the model's own serialization (see `MakeInputConfig`). Gates both `handleInput`'s event-value adoption and the DOM recovery listeners. |
+| [`setInputRef()`](!code#context.setInputRef "(el: any) => void") | Registers the underlying input element. Bind it as a function ref in custom templates and slots (`:ref="context.setInputRef"`) — the context members are read-only there, so `inputRef` can't be assigned directly. Receives the element (or component instance) on mount and `null` on unmount, like any function ref. |
+| [`canonicalDomValue`](!code#context.canonicalDomValue "boolean") | Whether the registered input's DOM value is the model's own serialization (see `MakeInputConfig`). Gates both `handleInput`'s event-value pickup and the DOM recovery listeners. |
 | [`inputBindings`](!code#context.inputBindings "object") | Spreadable bindings for a native text-like input rendered without `v-model`: `v-bind="context.inputBindings"` wires the ref, the user-input report (which also performs the write — the DOM recovery and write-back watchers complete the two-way sync), and the interaction listeners. |
 | [`componentBindings`](!code#context.componentBindings "object") | Spreadable bindings for a component input rendered without `v-model`: `v-bind="context.componentBindings"` wires `modelValue`, the `update:modelValue` handler (write + user-input report), and the interaction listeners for components that emit focus / blur. |
 | [`groups`](!code#context.groups "ResolvedGroup<any, Record<string, any>>[]") | Resolved option groups. Empty when not grouped — use `items` then. |
@@ -1808,7 +1808,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`resolvedItems`](!code#context.resolvedItems "ShallowRef<any[], any[]> \| ShallowRef<Record<string, any>, Record<string, any>>") | The raw items data before normalization (from props, endpoint, or function). |
 | [`normalizedItems`](!code#context.normalizedItems "NormalizedItem[]") | All normalized items before conditional filtering, flattened across groups when grouped. |
 | [`selectedLabel`](!code#context.selectedLabel "string \| string[] \| undefined") | The resolved label(s) of the currently selected item(s). Returns a single string for single-select, or an array of strings for multi-select. Returns `undefined` (single) or `[]` (multiple) when nothing is selected. |
-| [`itemLabel`](!code#context.itemLabel "ComputedRef<string \| ((item: any) => string) \| undefined>") | Label accessor to forward to third-party components. Falls back to `'label'` for synthetic items. |
+| [`itemLabel`](!code#context.itemLabel "string \| ((item: any) => string)") | Label accessor to forward to third-party components. Always defined and always string-producing when the `itemLabel` prop is unset: the synthetic wrapper's `label` for synthetic items, the normalized-label fallback (JSON for plain objects) otherwise — mirroring what `resolveLabel` yields on the core-rendered path. |
 | [`itemValue`](!code#context.itemValue "ComputedRef<string \| ((item: any) => any) \| undefined>") | Value accessor to forward to third-party components. Falls back to `'value'` for synthetic items. |
 | [`itemDisabled`](!code#context.itemDisabled "ComputedRef<string \| ((item: any) => boolean) \| undefined>") | Disabled accessor to forward to third-party components. Points at `__disabled` when conditional resolution is required. |
 | [`grouped`](!code#context.grouped "boolean") | Whether the items are grouped (a `groupLabel` or `groupChildren` prop is set). |
@@ -1890,7 +1890,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 | Name | Description |
 | --- | --- |
-| [`input`](!code#context.input "any") | Ref to the underlying input element. |
+| [`inputRef`](!code#context.inputRef "any") | Ref to the underlying input element. |
 | [`id`](!code#context.id "string") | The resolved element id, using the id prop or falling back to the auto-generated uid. |
 | [`label`](!code#context.label "string \| undefined") | The resolved label text for the element. |
 | [`help`](!code#context.help "string") | The resolved help text for the element. |
@@ -1924,7 +1924,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 | Name | Description |
 | --- | --- |
-| [`handleInput()`](!code#context.handleInput "(payload: any, e: Event \| undefined) => void") | Handles a user-initiated change end to end. Bind it to the one event that means "the user changed it": `@input` for native text inputs, `@change` for native checkbox / radio / select / file controls, `@update:model-value` for components — alongside `v-model`, or without it.<br><br>Accepts the new value or the native event carrying it (an event's value is read the way `v-model` reads it); a plain value may pass the originating event as the second argument so composition filtering still applies. Events fired during an IME composition session are ignored — the composed text arrives once, when the session ends.<br><br>The value is written to the model only when the model doesn't hold it yet — with `v-model` in place this is a pure user-input notification, without it `handleInput` performs the write itself. Values resolved from native events are only adopted while `canonicalDomValue` is on; on formatted inputs (masks) the event carries display text, so only the notification fires, with the current model value as the payload. Either way it reports the input: fires the `input` event with `(value, event, context$)` and triggers `validateOn` / expression untracking. It does **not** touch the interaction states — `visited` and `touched` come from `handleFocus` / `handleBlur`. |
+| [`handleInput()`](!code#context.handleInput "(payload: any, e: Event \| undefined) => void") | Handles a user-initiated change end to end. Bind it to the one event that means "the user changed it": `@input` for native text inputs, `@change` for native checkbox / radio / select / file controls, `@update:model-value` for components — alongside `v-model`, or without it.<br><br>Accepts the new value or the native event carrying it (an event's value is read the way `v-model` reads it); a plain value may pass the originating event as the second argument so composition filtering still applies. Events fired during an IME composition session are ignored — the composed text arrives once, when the session ends.<br><br>The value is written to the model only when the model doesn't hold it yet — with `v-model` in place this is a pure user-input notification, without it `handleInput` performs the write itself. Values resolved from native events are only picked up while `canonicalDomValue` is on; on formatted inputs (masks) the event carries display text, so only the notification fires, with the current model value as the payload. Either way it reports the input: fires the `input` event with `(value, event, context$)` and triggers `validateOn` / expression untracking. It does **not** touch the interaction states — `visited` and `touched` come from `handleFocus` / `handleBlur`. |
 | [`handleBlur()`](!code#context.handleBlur "(e: Event) => void") | Fires the blur event on the element. |
 | [`handleFocus()`](!code#context.handleFocus "(e: Event) => void") | Handles focus by setting the focused state and firing the focus event. |
 
@@ -1989,13 +1989,13 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `required` | — | Slot for customizing the required indicator. |
 | `info` | [`info`](!code#slot.info.info "string") | Slot for customizing the info tooltip or helper content. |
 | `ifta` | [`ifta`](!code#slot.ifta.ifta "string") | Slot for customizing the IFTA label content. |
+| `float-label` | [`floatLabel`](!code#slot.float-label.floatLabel "string") | Slot for customizing the floating label content. |
+| `addon-before` | [`addonBefore`](!code#slot.addon-before.addonBefore "AddonProp \| undefined") | Slot that replaces the before-addons section. |
+| `addon-after` | [`addonAfter`](!code#slot.addon-after.addonAfter "AddonProp \| undefined") | Slot that replaces the after-addons section. |
+| `icon-before` | [`iconBefore`](!code#slot.icon-before.iconBefore "string \| undefined") | Slot that replaces the icon rendered before the input. |
+| `icon-after` | [`iconAfter`](!code#slot.icon-after.iconAfter "string \| undefined") | Slot that replaces the icon rendered after the input. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
-| `floatLabel` | [`floatLabel`](!code#slot.floatLabel.floatLabel "string") | Slot for customizing the floating label content. |
-| `addonBefore` | [`addonBefore`](!code#slot.addonBefore.addonBefore "AddonProp \| undefined") | Slot that replaces the before-addons section. |
-| `addonAfter` | [`addonAfter`](!code#slot.addonAfter.addonAfter "AddonProp \| undefined") | Slot that replaces the after-addons section. |
-| `iconBefore` | [`iconBefore`](!code#slot.iconBefore.iconBefore "string \| undefined") | Slot that replaces the icon rendered before the input. |
-| `iconAfter` | [`iconAfter`](!code#slot.iconAfter.iconAfter "string \| undefined") | Slot that replaces the icon rendered after the input. |
 | `loader` | [`options`](!code#slot.loader.options "any[]") | Custom loader template. |
 | `empty` | — | Custom empty template. |
 | `dropdownicon` | [`class`](!code#slot.dropdownicon.class "string") | Custom dropdown icon template. |

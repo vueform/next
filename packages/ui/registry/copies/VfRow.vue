@@ -22,8 +22,12 @@ const props = withDefaults(defineProps<VfRowProps>(), defaults)
 const events = defineEvents<VfRowEmits>()
 const slots = defineSlots<VfRowSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, bindings, useClasses } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 useClasses(() => ({
   root: 'vf-grid-row',
@@ -37,7 +41,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else :class="classes.root" :data-row-id="uid" v-bind="parts.root">
+    <div v-else :data-row-id="uid" v-bind="bindings.root">
       <slot>
         <component v-if="outlets?.default" :is="outlets.default" />
       </slot>

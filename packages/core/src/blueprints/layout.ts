@@ -3,7 +3,7 @@ import { computed, toRef, unref, markRaw, toRaw } from 'vue'
 import {
   useGlobals,
   useConfig,
-  useFallbackProp,
+  useEffectiveProp,
   useOutlets,
   useSecurity,
   useTokens,
@@ -137,8 +137,8 @@ export function blueprint<TProps extends LayoutProps>(
    * The parent element's component context.
    */
   const el$ = useElementContext()
-  const showRequiredProp = useFallbackProp<ShowRequiredProp>('showRequired')
-  const errorLevel = useFallbackProp<ErrorLevelProp>('errorLevel')
+  const showRequiredProp = useEffectiveProp<ShowRequiredProp>('showRequired')
+  const errorLevel = useEffectiveProp<ErrorLevelProp>('errorLevel')
   const { defaultBreakpoint } = useGlobals()
   const config = useConfig()
 
@@ -389,5 +389,4 @@ export const defaults = defineDefaults<LayoutProps>()({
   addons: undefined,
   loading: undefined,
   languages: undefined,
-  expressions: undefined,
 })

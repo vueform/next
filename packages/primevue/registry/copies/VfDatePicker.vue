@@ -8,7 +8,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import type { DatePickerSelectionModeProp } from '@vueform/primevue/blueprints/date-picker'
 import {
   blueprint,
@@ -37,12 +42,31 @@ const props = withDefaults(
 const events = defineEvents<VfDatePickerEmits<TSelectionMode>>()
 const slots = defineSlots<VfDatePickerSlots<TSelectionMode>>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-date-picker',
 }))
+
+useModifiers(({ help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -51,8 +75,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -97,7 +120,6 @@ defineExpose(expose)
       <DatePicker
         :name
         :input-id="id"
-        :class="classes.input"
         v-model="inputValue"
         :selection-mode="pickerSelectionMode"
         :placeholder
@@ -108,12 +130,8 @@ defineExpose(expose)
         :max-date
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @blur="(e: any) => handleBlur(e)"
         @focus="(e: any) => handleFocus(e)"
         @change="handleInput"

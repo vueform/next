@@ -12,6 +12,7 @@ import {
   type ClassValue,
   type DefineElementContext,
   type DomAttrsOf,
+  type PartBindings,
   type ResolvedSchema,
   type WidenProps,
 } from '@vueform/primevue'
@@ -64,15 +65,10 @@ export interface VfCloneNameEmits extends GroupEmits<VfCloneNameContext> {}
  */
 export interface VfCloneNameSlots extends GroupSlots<VfCloneNameContext> {
   /**
-   * Slot that replaces the wrapper element. Receives the wrapper class and
-   * resolved schema.
+   * Slot that replaces the wrapper element. Receives the wrapper part's
+   * resolved bindings and the resolved schema.
    */
   wrapper: (scope: {
-    /**
-     * CSS classes for the wrapper element.
-     */
-    class: ClassValue
-
     /**
      * The resolved schema of the group's child elements.
      */
@@ -82,6 +78,17 @@ export interface VfCloneNameSlots extends GroupSlots<VfCloneNameContext> {
      * The group's resolved label.
      */
     label?: string
+
+    /**
+     * The wrapper element's resolved bindings (classes, part overrides,
+     * stacked / wrapped modifiers); apply with `v-bind`.
+     */
+    bindings: PartBindings<
+      'wrapper',
+      VfCloneNameParts,
+      VfGroupModifiers,
+      VfGroupA11y
+    >
   }) => VNode[]
 
   /**
@@ -157,6 +164,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfGroupModifiers,
+  VfGroupA11y,
   VfCloneNameExpose,
   GroupApi<TProps>
 > {}
@@ -193,7 +202,7 @@ const slots = defineSlots<VfCloneNameSlots>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
+const { api, context, expose, outlets, bindings, useClasses, useModifiers } =
   useBlueprint(blueprint, props, events, slots)
 
 /**
@@ -205,6 +214,16 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
 useClasses(({ props }) => ({
   root: 'vf-group',
   wrapper: [props.layout === false ? props.class : null, 'vf-group-elements'],
+}))
+
+useModifiers(({ props }) => ({
+  root: {
+    'data-wrapped': props.wrap ? '' : undefined,
+  },
+  wrapper: {
+    'data-stacked': props.stacked ? '' : undefined,
+    'data-wrapped': props.innerWrap ? '' : undefined,
+  },
 }))
 
 const { resolvedSchema, label } = api
@@ -255,29 +274,15 @@ declare module 'vue' {
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <slot
-        name="wrapper"
-        :resolved-schema
-        :label
-        :class="classes.wrapper"
-        v-bind="parts.wrapper"
-      >
+      <slot name="wrapper" :resolved-schema :label :bindings="bindings.wrapper">
         <component
           v-if="outlets?.wrapper"
           :is="outlets.wrapper"
           :resolved-schema
-          :parts
-          :classes
-          :class="classes.wrapper"
-          v-bind="parts.wrapper"
+          :label
+          :bindings="bindings.wrapper"
         />
-        <div
-          v-else
-          :class="classes.wrapper"
-          :data-stacked="props.stacked ? '' : undefined"
-          :data-wrapped="props.innerWrap ? '' : undefined"
-          v-bind="parts.wrapper"
-        >
+        <div v-else v-bind="bindings.wrapper">
           <slot :resolved-schema>
             <component
               v-if="outlets?.default"

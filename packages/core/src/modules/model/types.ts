@@ -272,25 +272,25 @@ export type ModelStore = ReturnType<
  */
 export type RootModel = {
   /**
-   * The backing model store — the form's own, or the adopted `useModel` store
+   * The backing model store — the form's own, or the attached `useModel` store
    * when `modelValue` carries one.
    */
   store: ModelStore
 
   /**
-   * Whether the model adopted an existing `useModel` store from `modelValue`
+   * Whether the model attached an existing `useModel` store from `modelValue`
    * instead of creating its own.
    */
-  adopted: boolean
+  attached: boolean
 
   /**
-   * The schema index describing every data-carrying element: the adopted
+   * The schema index describing every data-carrying element: the attached
    * instance's index, or an empty one for internally created stores.
    */
   index: SchemaIndex
 
   /**
-   * The adopted `useModel` instance's element lookup, `undefined` when the
+   * The attached `useModel` instance's element lookup, `undefined` when the
    * store was created internally.
    */
   modelFind: ((path: string) => StatefulElement | undefined) | undefined
@@ -323,7 +323,7 @@ export type RootModel = {
 
   /**
    * Removes an element's data path from the model. No-op once the form is torn
-   * down when the store is adopted, so the store's data survives child
+   * down when the store is attached, so the store's data survives child
    * unregistration.
    */
   unregister: (dataPath: string) => void
@@ -341,7 +341,7 @@ export type RootModel = {
   init: () => void
 
   /**
-   * Tears down the model binding and releases (adopted) or destroys (own) the
+   * Tears down the model binding and releases (attached) or destroys (own) the
    * store.
    */
   destroy: () => void
@@ -351,7 +351,7 @@ export type RootModel = {
  * A standalone form model created by `useModel`: owns the data of a schema
  * outside any form, with unwrapped reactive state (`model`, `dirty`, `empty` —
  * no `.value`) and the full data manipulation API. Passing it to a form's
- * `v-model` makes the form adopt it, after which `submit()` and `adopted`
+ * `v-model` makes the form attach it, after which `submit()` and `attached`
  * reflect the form.
  */
 export type ModelInstance<TSchema = FormSchema> = {
@@ -378,9 +378,9 @@ export type ModelInstance<TSchema = FormSchema> = {
   readonly empty: boolean
 
   /**
-   * Whether a form has adopted the model (via `v-model` / `useForm`).
+   * Whether a form has attached the model (via `v-model` / `useForm`).
    */
-  readonly adopted: boolean
+  readonly attached: boolean
 
   /**
    * The schema index: the node tree describing every data-carrying element,
@@ -403,7 +403,7 @@ export type ModelInstance<TSchema = FormSchema> = {
   /**
    * The form-level Standard Schema run by `validate()`, if any (explicit
    * `validationSchema` option or one attached via `defineSchema`'s second
-   * argument). An adopting form picks it up when it has no own.
+   * argument). An attaching form picks it up when it has no own.
    */
   readonly validationSchema: StandardSchemaV1 | undefined
 
@@ -506,8 +506,8 @@ export type ModelInstance<TSchema = FormSchema> = {
   on: (event: ModelStoreEvents, cb: (...args: any[]) => void) => () => void
 
   /**
-   * Submits the adopting form. Warns and resolves `undefined` when no form has
-   * adopted the model.
+   * Submits the attaching form. Warns and resolves `undefined` when no form has
+   * attached the model.
    */
   submit: () => Promise<any>
 

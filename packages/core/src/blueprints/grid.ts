@@ -646,6 +646,13 @@ export function blueprint<TProps extends GridProps<string>>(
       }
     }
 
+    // A schema cell without a `name` gets the same derived, position-stable
+    // name the cell `key` falls back to — elements declare `name` as a
+    // required prop, so leaving it off would warn on every nameless cell.
+    if (schema && schema.name === undefined) {
+      schema.name = `${props.name}_${row}_${colIdx}`
+    }
+
     const resolvedCell: ResolvedCell = {
       key: schema
         ? String(schema.name ?? `${props.name}_${row}_${colIdx}`)

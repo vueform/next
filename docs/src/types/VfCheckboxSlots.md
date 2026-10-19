@@ -46,7 +46,7 @@ interface VfCheckboxSlots<
     /**
      * The input DOM element reference.
      */
-    input: any
+    inputRef: any
 
     /**
      * The checkbox label text.

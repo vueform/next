@@ -19,6 +19,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   type OptionGroupChildrenProp,
   type OptionsProp,
   type OptionValueProp,
@@ -346,6 +347,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfSelectModifiers,
+  VfSelectA11y,
   VfCloneNameExpose,
   SelectApi<TProps>
 > {}
@@ -423,8 +426,17 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -436,6 +448,18 @@ useClasses(() => ({
   root: 'vf-select',
 }))
 
+useModifiers(({ empty, placeholder, help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const {
   id,
   placeholder,
@@ -443,8 +467,7 @@ const {
   disabled,
   loading,
   resolving,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   invalid,
   rawItems,
@@ -517,7 +540,6 @@ declare module 'vue' {
       <PvSelect
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :options="rawItems"
         :option-label="itemLabel"
@@ -530,12 +552,8 @@ declare module 'vue' {
         :loading="loading || resolving"
         :invalid
         fluid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"

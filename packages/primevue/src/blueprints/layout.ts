@@ -76,7 +76,7 @@ export function blueprint<TProps extends LayoutProps>(
     () =>
       useLabelTagBase.value &&
       el$.floatLabel === undefined &&
-      !el$.outlets?.floatLabel &&
+      !el$.outlets?.['float-label'] &&
       el$.ifta === undefined &&
       !el$.outlets?.ifta
   )
@@ -116,9 +116,9 @@ export function blueprint<TProps extends LayoutProps>(
   const hasIcons = computed(
     () =>
       !!(
-        elementSlots.iconBefore ||
+        elementSlots['icon-before'] ||
         el$.iconBefore ||
-        elementSlots.iconAfter ||
+        elementSlots['icon-after'] ||
         el$.iconAfter ||
         isLoading.value
       )
@@ -126,11 +126,13 @@ export function blueprint<TProps extends LayoutProps>(
 
   const hasBeforeAddon = computed(
     () =>
-      el$.addonable && !!(elementSlots.addonBefore || el$.addonsBefore.length)
+      el$.addonable &&
+      !!(elementSlots['addon-before'] || el$.addonsBefore.length)
   )
 
   const hasAfterAddon = computed(
-    () => el$.addonable && !!(elementSlots.addonAfter || el$.addonsAfter.length)
+    () =>
+      el$.addonable && !!(elementSlots['addon-after'] || el$.addonsAfter.length)
   )
 
   /**
@@ -156,7 +158,7 @@ export function blueprint<TProps extends LayoutProps>(
    * Whether a PrimeVue FloatLabel wrapper is active.
    */
   const hasFloat = computed(
-    () => el$.floatLabel !== undefined || !!elementSlots.floatLabel
+    () => el$.floatLabel !== undefined || !!elementSlots['float-label']
   )
 
   /**

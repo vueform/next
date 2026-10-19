@@ -4,7 +4,12 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { useBlueprint, defineEvents } from '@vueform/ui'
+import {
+  useBlueprint,
+  defineEvents,
+  type AlignProp,
+  type ValignProp,
+} from '@vueform/ui'
 import {
   defaults,
   blueprint,
@@ -52,8 +57,16 @@ const props = withDefaults(defineProps<VfGridProps>(), defaults)
 const events = defineEvents<VfGridEmits>()
 const slots = defineSlots<VfGridSlots>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(({ props, fitWidth, gridClass }) => ({
   root: {
@@ -62,13 +75,9 @@ useClasses(({ props, fitWidth, gridClass }) => ({
     'vf-wrap-col-headers': !!props.wrapColHeaders,
     'vf-wrap-row-headers': !!props.wrapRowHeaders,
   },
-  wrapper: {
-    'vf-grid-wrapper': true,
-    'vf-scrollable': !!props.scrollable,
-  },
+  wrapper: 'vf-grid-wrapper',
   grid: {
     'vf-grid-grid': true,
-    'vf-fit': !!fitWidth.value,
     [gridClass.value]: true,
   },
   cell: ({
@@ -85,6 +94,19 @@ useClasses(({ props, fitWidth, gridClass }) => ({
   }),
 }))
 
+useModifiers(({ props, fitWidth }) => ({
+  wrapper: {
+    'data-scrollable': props.scrollable ? '' : undefined,
+  },
+  grid: {
+    'data-fit': fitWidth.value ? '' : undefined,
+  },
+  cell: (cell: { align: AlignProp; valign: ValignProp }) => ({
+    'data-align': cell.align || undefined,
+    'data-valign': cell.valign || undefined,
+  }),
+}))
+
 const { tabular } = propRefs
 
 const { gridCss, nonce, cells } = api
@@ -96,17 +118,14 @@ defineExpose(expose)
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div :class="classes.wrapper">
-        <div :class="classes.grid" v-bind="parts.grid">
+      <div v-bind="bindings.wrapper">
+        <div v-bind="bindings.grid">
           <slot :cells>
             <component v-if="outlets?.default" :is="outlets.default" :cells />
             <template v-else>
               <div
                 v-for="cell in cells"
                 :key="cell.key"
-                :class="classes.cell(cell)"
-                :data-align="cell.align || undefined"
-                :data-valign="cell.valign || undefined"
                 :data-col="cell.col"
                 :data-row="cell.row"
                 :data-col-start="cell.colStart"
@@ -115,10 +134,7 @@ defineExpose(expose)
                 :data-row-end="cell.rowEnd"
                 :data-last-col="cell.lastCol"
                 :data-last-row="cell.lastRow"
-                v-bind="{
-                  ...cell.attrs,
-                  ...parts.cell?.(cell),
-                }"
+                v-bind="{ ...bindings.cell(cell), ...cell.attrs }"
               >
                 <slot name="cell" :cell>
                   <component v-if="outlets?.cell" :is="outlets.cell" :cell />

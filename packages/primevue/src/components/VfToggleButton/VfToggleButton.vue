@@ -56,7 +56,7 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   onLabel,
   offLabel,
   onIcon,
@@ -86,7 +86,7 @@ defineExpose(expose)
         :on-icon
         :off-icon
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="handleInput"

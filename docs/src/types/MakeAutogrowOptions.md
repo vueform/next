@@ -8,7 +8,7 @@ type MakeAutogrowOptions = {
     autogrow: boolean | undefined
   }
   deps: ReturnsOf<
-    [[typeof makeInput, ['input']], [typeof makeTData, ['value']]]
+    [[typeof makeInput, ['inputRef']], [typeof makeTData, ['value']]]
   >
 }
 ```

@@ -44,7 +44,7 @@ type FormReady<C> = {
 
 /**
  * The accepted shapes of `useForm`'s model argument: a `useModel` instance
- * (adopted by the form), a ref (two-way synced), a reactive object (keys synced
+ * (attached by the form), a ref (two-way synced), a reactive object (keys synced
  * back on update), or a plain object (initial value).
  */
 type UseFormModelArg<M extends Record<string, any>> =
@@ -82,7 +82,7 @@ const unrefProps = (props: Record<string, any>): Record<string, any> =>
 
 // Members shared between a `useModel` instance and the mounted form context.
 // Pre-mount, `form$` answers these from a bound instance; instance-only
-// members (`adopted`, `input`, `on`, `validationSchema`) and mount-only
+// members (`attached`, `input`, `on`, `validationSchema`) and mount-only
 // members stay off the list so nothing appears or vanishes on mount.
 const sharedModelMembers = new Set([
   'model',
@@ -129,7 +129,7 @@ function syncReactive(target: Record<string, any>, data: Record<string, any>) {
 /**
  * Creates a form component preconfigured with the given props and model,
  * returning it alongside the form context and a ready registrar. The model is
- * bound according to its shape: `useModel` instances are adopted, refs are
+ * bound according to its shape: `useModel` instances are attached, refs are
  * two-way synced, reactive objects are synced back on update, and plain objects
  * seed the initial value. Any option may be a ref or computed. Setup-only when
  * called without `vueform`.
@@ -248,7 +248,7 @@ export function useForm(
   const modelBinding = (): Record<string, any> => {
     if (model === undefined) return {}
 
-    // Branded useModel instance: adopted by the form — no update listener.
+    // Branded useModel instance: attached by the form — no update listener.
     if (modelInstance) {
       return { modelValue: model }
     }

@@ -15,6 +15,7 @@ import {
   defineEvents,
   useBlueprint,
   type LanguagesProp,
+  tInputAria,
   vdomPrime,
 } from '@vueform/primevue'
 import {
@@ -46,12 +47,28 @@ const props = withDefaults(
 const events = defineEvents<VfTextareaEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfTextareaSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-textarea',
 }))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(tInputAria())
 
 const {
   value,
@@ -60,8 +77,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -93,7 +109,6 @@ defineExpose(expose)
       <VdomPrimeTextarea
         :name
         :id
-        :class="classes.input"
         v-model="inputValue"
         :placeholder
         :disabled
@@ -101,12 +116,8 @@ defineExpose(expose)
         :invalid
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"
         @keypress="handleKeypress"

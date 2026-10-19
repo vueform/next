@@ -588,7 +588,7 @@ describe('Icons', () => {
         schema: defineSchema({
           el: {
             type: 'text',
-            slots: { iconBefore: iconSlot },
+            slots: { 'icon-before': iconSlot },
           },
         }),
       })
@@ -610,7 +610,7 @@ describe('Icons', () => {
         schema: defineSchema({
           el: {
             type: 'text',
-            slots: { iconAfter: iconSlot },
+            slots: { 'icon-after': iconSlot },
           },
         }),
       })
@@ -681,7 +681,7 @@ describe('Addon slots', () => {
         schema: defineSchema({
           el: {
             type: 'text',
-            slots: { addonBefore: addonSlot },
+            slots: { 'addon-before': addonSlot },
           },
         }),
       })
@@ -704,7 +704,7 @@ describe('Addon slots', () => {
         schema: defineSchema({
           el: {
             type: 'text',
-            slots: { addonAfter: addonSlot },
+            slots: { 'addon-after': addonSlot },
           },
         }),
       })

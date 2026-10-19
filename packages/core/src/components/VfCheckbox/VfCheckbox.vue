@@ -50,7 +50,7 @@ const {
   viewLoaded,
   inputName,
   text,
-  input,
+  inputRef,
   genericName,
   model,
   handleBlur,
@@ -95,7 +95,7 @@ defineExpose(expose)
         :true-value
         :false-value
         :disabled
-        :input
+        :input-ref="inputRef"
         :text
         :bindings="bindings.wrapper"
         :handle-blur
@@ -111,7 +111,7 @@ defineExpose(expose)
           :true-value
           :false-value
           :disabled
-          :input
+          :input-ref="inputRef"
           :text
           :bindings="bindings.wrapper"
           :handle-blur
@@ -132,7 +132,7 @@ defineExpose(expose)
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
-            :ref="(el) => (input = el)"
+            :ref="(el) => (inputRef = el)"
           />
           <slot name="text" :text :id :generic-name :bindings="bindings.text">
             <component

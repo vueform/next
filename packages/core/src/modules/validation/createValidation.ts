@@ -32,6 +32,7 @@ import {
   emptyLanguages,
   equals,
   get as getByPath,
+  isDev,
   isThenable,
   replaceWildcards,
   isPlainObject,
@@ -193,7 +194,7 @@ type MakeElementValidationOptions = {
   isRoot: boolean
 
   /**
-   * The root model store, when the element is the form root (validator adoption
+   * The root model store, when the element is the form root (validator attachment
    * / attachment).
    */
   store?: object
@@ -290,7 +291,7 @@ type MakeFormValidationOptions = {
 
   /**
    * The resolved form-level Standard Schema (prop, `defineSchema` attachment,
-   * or adopted model instance — resolution stays with the form).
+   * or attached model instance — resolution stays with the form).
    */
   validationSchema: Ref<StandardSchemaV1 | undefined>
 }
@@ -415,8 +416,13 @@ function depsOf(
     params.forEach((param, i) => {
       if (!String(param).includes('$')) return
       const paramName = String(param).replace(/(?:\$\?|[$?])$/, '')
-      const attr = attributes.find((a) => a.name === paramName) || attributes[i]
-      if (typeof attr?.value === 'string') deps.push(attr.value)
+      const attr =
+        attributes.find((a) => a.name === paramName) ||
+        (attributes[i]?.name === undefined ? attributes[i] : undefined)
+      // A trailing `.*` (e.g. `in_array:tags.*`) references the array element
+      // itself — the dependency is the array's own path.
+      if (typeof attr?.value === 'string')
+        deps.push(attr.value.replace(/\.\*$/, ''))
     })
   }
 
@@ -604,7 +610,7 @@ function getElementType(el$: StatefulElement): SizeTypes {
     : value instanceof File
       ? 'file'
       : typeof value === 'number'
-        ? 'number'
+        ? 'numeric'
         : isPlainObject(value)
           ? undefined
           : 'string'
@@ -615,7 +621,7 @@ function sizeOf(value: any, type: SizeTypes): number | undefined {
   switch (type) {
     case 'array':
       return Array.isArray(value) ? value.length : 0
-    case 'number':
+    case 'numeric':
       return Number(value)
     case 'file':
       return Number(value?.size || 0) / 1000
@@ -649,24 +655,54 @@ function makeRuleContext(options: {
         []) as ValidatorParams<any>
     }
 
+    // Raw params first — keyed per the `RawParams` contract (declared names
+    // with their `$` suffix kept, the optional `?` marker stripped) — so
+    // `transformParams` runs on the raw strings *before* `$` resolution.
+    const raw = declared.reduce<Record<string, string | undefined>>(
+      (acc, param, i) => {
+        const rawName = String(param).replace(/\?$/, '')
+        const paramName = rawName.replace(/\$$/, '')
+        // Named attributes only match their own param; the positional
+        // fallback must not hand a differently-named attribute to this param
+        // (e.g. `dimensions:max_width=300` feeding `min_width`).
+        const positional =
+          unit.attributes[i]?.name === undefined
+            ? unit.attributes[i]
+            : undefined
+        acc[rawName] = (
+          unit.attributes.find((a) => a.name === paramName) ||
+          positional ||
+          {}
+        ).value
+
+        if (acc[rawName] === undefined && !String(param).endsWith('?')) {
+          if (isDev()) {
+            warn(
+              `Param \`${paramName}\` is not provided in \`${unit.name}\` rule of \`${el$.path}\``
+            )
+          }
+        }
+
+        return acc
+      },
+      {}
+    )
+
+    const transformed = (
+      typeof ruleOptions?.transformParams === 'function'
+        ? ruleOptions.transformParams({ params: raw as any })
+        : raw
+    ) as Record<string, string | undefined>
+
     const params = declared.reduce<
       Record<string, string | StatefulElement | undefined>
-    >((acc, param, i) => {
-      const paramName = String(param).replace(/(?:\$\?|[$?])$/, '')
-      acc[paramName] = (
-        unit.attributes.find((a) => a.name === paramName) ||
-        unit.attributes[i] ||
-        {}
-      ).value
-
-      if (acc[paramName] === undefined && !String(param).endsWith('?')) {
-        warn(
-          `Param \`${paramName}\` is not provided in \`${unit.name}\` rule of \`${el$.path}\``
-        )
-      }
+    >((acc, param) => {
+      const rawName = String(param).replace(/\?$/, '')
+      const paramName = rawName.replace(/\$$/, '')
+      acc[paramName] = transformed[rawName]
 
       if (
-        (String(param).endsWith('$') || String(param).endsWith('$?')) &&
+        rawName.endsWith('$') &&
         form$ &&
         typeof acc[paramName] === 'string'
       ) {
@@ -678,9 +714,7 @@ function makeRuleContext(options: {
       return acc
     }, {})
 
-    return (typeof ruleOptions?.transformParams === 'function'
-      ? ruleOptions.transformParams({ params: params as any })
-      : params) as unknown as ValidatorParams<any>
+    return params as unknown as ValidatorParams<any>
   }
 
   return (unit: Unit, el$: StatefulElement): CheckContext<any> => {
@@ -1153,7 +1187,7 @@ function normalizeStandardSchemaIssues(
 }
 
 // The validator hangs off the model store itself under a private symbol, so a
-// form and an adopted `useModel` share one validator per store — even across
+// form and an attached `useModel` share one validator per store — even across
 // Vueform instances — without any module-scope table.
 const VALIDATOR: unique symbol = Symbol('vueform.validator')
 

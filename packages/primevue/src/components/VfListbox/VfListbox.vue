@@ -108,7 +108,7 @@ const {
   value,
   viewLoaded,
   disabled,
-  input,
+  inputRef,
   invalid,
   rawItems,
   itemLabel,
@@ -143,7 +143,7 @@ defineExpose(expose)
         :multiple
         fluid
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"

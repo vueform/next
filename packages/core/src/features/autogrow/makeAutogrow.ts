@@ -13,7 +13,7 @@ type MakeAutogrowOptions = {
     autogrow: boolean | undefined
   }
   deps: ReturnsOf<
-    [[typeof makeInput, ['input']], [typeof makeTData, ['value']]]
+    [[typeof makeInput, ['inputRef']], [typeof makeTData, ['value']]]
   >
 }
 
@@ -27,7 +27,7 @@ type MakeAutogrowOptions = {
 export const makeAutogrow = defineFeature(
   () =>
     ({ props, deps }: MakeAutogrowOptions) => {
-      const { input, value } = deps
+      const { inputRef, value } = deps
 
       // ============== METHODS ===============
 
@@ -37,7 +37,7 @@ export const makeAutogrow = defineFeature(
        * height.
        */
       const autosize = () => {
-        const el = input.value as HTMLTextAreaElement | undefined
+        const el = inputRef.value as HTMLTextAreaElement | undefined
         if (!el || !props.autogrow) return
 
         el.style.height = 'auto'
@@ -56,7 +56,7 @@ export const makeAutogrow = defineFeature(
 
       onMounted(() => {
         if (!props.autogrow) return
-        const el = input.value as HTMLTextAreaElement | undefined
+        const el = inputRef.value as HTMLTextAreaElement | undefined
         if (!el) return
 
         el.addEventListener('paste', handlePaste)
@@ -64,7 +64,7 @@ export const makeAutogrow = defineFeature(
       })
 
       onBeforeUnmount(() => {
-        const el = input.value as HTMLTextAreaElement | undefined
+        const el = inputRef.value as HTMLTextAreaElement | undefined
         if (!el) return
         el.removeEventListener('paste', handlePaste)
       })
@@ -85,7 +85,7 @@ export const makeAutogrow = defineFeature(
           if (val) {
             nextTick(autosize)
           } else {
-            const el = input.value as HTMLTextAreaElement | undefined
+            const el = inputRef.value as HTMLTextAreaElement | undefined
             if (el) el.style.height = ''
           }
         }

@@ -25,7 +25,7 @@ const events = defineEvents<VfIconEmits>()
 const slots = defineSlots<VfIconSlots>()
 const attrs = useAttrs()
 
-const { parts, classes, context, expose, outlets, useClasses, propRefs } =
+const { context, expose, outlets, bindings, useClasses, propRefs } =
   useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
@@ -42,9 +42,9 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <i
       v-else-if="icon"
-      :class="[classes.root, icon]"
+      :class="icon"
       aria-hidden="true"
-      v-bind="{ ...parts.root, ...attrs }"
+      v-bind="{ ...bindings.root, ...attrs }"
     />
   </slot>
 </template>

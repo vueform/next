@@ -291,9 +291,9 @@ const model = useModel(schema)
 
 You can pass an object of default values as the second argument. Its shape must comply with the schema, so referencing a non-existent field or assigning the wrong value type produces a type error.
 
-### Model Adoption
+### Model Attachment
 
-A model is really just a plain object holding the values you've set on it — until a form adopts it. Adoption happens when you pass the model to `!useForm`:
+A model is really just a plain object holding the values you've set on it — until a form attaches it. Attachment happens when you pass the model to `!useForm`:
 
 ```ts
 const schema = defineSchema({
@@ -308,7 +308,7 @@ const model = useModel(schema, {
 const [MyForm] = useForm({ schema }, model)
 ```
 
-Once adopted, the model becomes the form's external state — the same way you'd bind a `v-model` to a regular Vue component. From that point on it delegates to the form context and unlocks the full form lifecycle (validation, submission, conditions, and so on); before adoption, only the values you explicitly set are visible.
+Once attached, the model becomes the form's external state — the same way you'd bind a `v-model` to a regular Vue component. From that point on it delegates to the form context and unlocks the full form lifecycle (validation, submission, conditions, and so on); before attachment, only the values you explicitly set are visible.
 
 ```ts
 const schema = defineSchema({
@@ -322,7 +322,7 @@ const model = useModel(schema, {
 
 model.model // { name: 'John Doe' }
 
-const [MyForm] = useForm({ schema }, model) // <- Adoption happens here
+const [MyForm] = useForm({ schema }, model) // <- Attachment happens here
 
 model.model // { name: 'John Doe', email: null }
 ```
@@ -335,7 +335,7 @@ When the form initializes, every element registers itself into the model. Keys y
 
 ```ts
 model.model                         // current model snapshot
-model.adopted                       // whether a form has adopted the model
+model.attached                       // whether a form has attached the model
 model.get('name')                   // single value by path
 model.toJSON()                      // serialized model
 
@@ -347,7 +347,7 @@ model.clear()                       // clear all values
 
 > Note: `get` and `set` accept dot-paths (`'name.first_name'`, `'team.0.name'`).
 
-#### After Adoption
+#### After Attachment
 
 The remaining members read from form-level state that only exists once the form has mounted:
 
@@ -366,7 +366,7 @@ model.validate()   // run every rule against the current data
 model.clean()      // mark as not dirty by snapshotting the current value as the new initial
 ```
 
-Before adoption, these props return `undefined` and the methods are no-ops — both log a warning if you call them prematurely.
+Before attachment, these props return `undefined` and the methods are no-ops — both log a warning if you call them prematurely.
 
 ## Validation
 

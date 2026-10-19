@@ -15,6 +15,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   type TreeSelectionModeProp,
   vdomPrime,
   type TreeOptionsProp,
@@ -46,12 +47,32 @@ const events =
   defineEvents<VfTreeSelectEmits<TOptions, TSelectionMode, TModel>>()
 const slots = defineSlots<VfTreeSelectSlots<TOptions, TSelectionMode, TModel>>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-tree-select',
 }))
+
+useModifiers(({ empty, placeholder, help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -61,8 +82,7 @@ const {
   disabled,
   loading,
   resolving,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   invalid,
   items,
@@ -83,7 +103,6 @@ defineExpose(expose)
       <TreeSelect
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :options="items"
         :placeholder
@@ -91,12 +110,8 @@ defineExpose(expose)
         :loading="loading || resolving"
         :invalid
         fluid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleInput"

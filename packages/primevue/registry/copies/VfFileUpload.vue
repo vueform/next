@@ -4,7 +4,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import {
   blueprint,
   defaults,
@@ -28,8 +33,17 @@ const props = withDefaults(
 const events = defineEvents<VfFileUploadEmits<TMultiple>>()
 const slots = defineSlots<VfFileUploadSlots<TMultiple>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-file-upload',
@@ -39,13 +53,21 @@ useClasses(() => ({
   },
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const { multiple, showUploadButton, mode } = propRefs
 
 const {
   name,
   disabled,
   viewLoaded,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   showUpload,
@@ -60,7 +82,6 @@ const {
   handleRemoveFile,
   handleRemoveUploadedFile,
   handleClear,
-  a11yBindings,
 } = api
 
 defineExpose(expose)
@@ -70,7 +91,7 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div :class="classes.wrapper">
+      <div v-bind="bindings.wrapper">
         <FileUpload
           :name
           :disabled
@@ -82,13 +103,8 @@ defineExpose(expose)
           :mode
           :show-upload-button
           :input-id="id"
-          :class="classes.input"
-          v-bind="{
-            ...a11yBindings.input,
-            ...forwardProps,
-            ...parts.input,
-          }"
-          :ref="(el) => (input = el)"
+          v-bind="{ ...bindings.input, ...forwardProps }"
+          :ref="(el) => (inputRef = el)"
           @select="handleSelect"
           @remove="handleRemoveFile"
           @remove-uploaded-file="handleRemoveUploadedFile"
@@ -110,15 +126,20 @@ defineExpose(expose)
             </slot>
           </template>
         </FileUpload>
-        <slot name="button" :upload>
-          <component v-if="outlets?.button" :is="outlets.button" :upload />
+        <slot name="button" :upload :bindings="bindings.button">
+          <component
+            v-if="outlets?.button"
+            :is="outlets.button"
+            :upload
+            :bindings="bindings.button"
+          />
           <VfButton
             v-else-if="showUpload"
             :name="`${name}__upload`"
             text="Upload"
             :layout="false"
             severity="secondary"
-            v-bind="parts.button"
+            v-bind="bindings.button"
             @click="upload"
           />
         </slot>

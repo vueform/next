@@ -8,5 +8,9 @@ import { createRule } from '#src/helpers'
  */
 export const confirmed = createRule(
   'confirmed',
-  (value, { el$, getOther$ }) => value === getOther$(`${el$.path}_confirmed`)
+  (value, { el$, getOther$ }) =>
+    value == getOther$(`${el$.path}_confirmed`)?.value,
+  {
+    deps: ({ el$ }) => [`${el$.path}_confirmed`],
+  }
 )

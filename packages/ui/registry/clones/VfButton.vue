@@ -6,11 +6,15 @@
  */
 
 import {
+  buildLayoutBags,
+  showsHelp,
   useBlueprint,
   defineEvents,
+  buildDescribedBy,
   type ClassValue,
   type DefineElementContext,
   type DomAttrsOf,
+  type PartBindings,
 } from '@vueform/ui'
 import {
   defaults,
@@ -76,6 +80,17 @@ export interface VfCloneNameSlots extends ButtonSlots<VfCloneNameContext> {
      * The resolved button label text.
      */
     text: string | undefined
+
+    /**
+     * The label text element's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: PartBindings<
+      'text',
+      VfCloneNameParts,
+      VfButtonModifiers,
+      VfButtonA11y
+    >
   }) => VNode[]
 
   /**
@@ -166,6 +181,8 @@ export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfButtonModifiers,
+  VfButtonA11y,
   VfCloneNameExpose,
   ButtonApi
 > {}
@@ -195,8 +212,17 @@ const attrs = useAttrs()
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -220,19 +246,54 @@ useClasses(() => ({
   text: 'vf-btn-text',
 }))
 
-const {
-  viewLoaded,
-  text,
-  href,
-  to,
-  id,
-  severity,
-  tokenCss,
-  icon,
-  nonce,
-  a11yBindings,
-  handleClick,
-} = api
+useModifiers(
+  ({ props, severity, icon, text, href, to, loading, disabled }) => ({
+    button: {
+      'data-variant': props.variant,
+      'data-severity': severity.value,
+      'data-size': props.size,
+      'data-align': props.align || undefined,
+      'data-fluid': props.fluid ? '' : undefined,
+      'data-icon-only': !!icon.value && !text.value ? '' : undefined,
+      'data-loading': loading.value ? '' : undefined,
+      // Anchor mode has no native `disabled` attribute, so the styling state
+      // needs its own marker there; `<button>` keeps `:disabled`.
+      'data-disabled':
+        (href.value || to.value) && disabled.value ? '' : undefined,
+    },
+    icon: {
+      'data-pos': props.iconPos,
+    },
+  })
+)
+
+useA11y((api) => {
+  const isLink = !!(api.href.value || api.to.value)
+
+  return {
+    button: {
+      disabled: !isLink ? api.disabled.value || undefined : undefined,
+      'aria-disabled': isLink ? api.disabled.value || undefined : undefined,
+      'aria-busy': api.loading.value || undefined,
+      'aria-label':
+        api.icon.value && !api.text.value ? api.genericName.value : undefined,
+      'aria-describedby': buildDescribedBy([
+        showsHelp(api) ? api.helpId.value : null,
+        api.description.value ? api.descriptionId.value : null,
+        api.displayErrors.value?.length ? api.errorId.value : null,
+      ]),
+    },
+    ...buildLayoutBags({
+      labelId: api.labelId.value,
+      helpId: api.helpId.value,
+      descriptionId: api.descriptionId.value,
+      errorId: api.errorId.value,
+    }),
+  }
+})
+
+const { viewLoaded, text, href, to, id, tokenCss, icon, nonce, handleClick } =
+  api
 
 const { target, rel, download } = propRefs
 
@@ -274,29 +335,21 @@ declare module 'vue' {
         :target
         :rel
         :download
-        :data-variant="props.variant"
-        :data-severity="severity"
-        :data-size="props.size"
-        :data-align="props.align || undefined"
-        :data-fluid="props.fluid ? '' : undefined"
-        :data-icon-only="!!icon && !text ? '' : undefined"
-        :class="classes.button"
-        v-bind="{ ...a11yBindings.button, ...parts.button, ...attrs }"
+        v-bind="{ ...bindings.button, ...attrs }"
         @click="handleClick"
       >
-        <i
-          v-if="icon"
-          :class="classes.icon"
-          :data-pos="props.iconPos"
-          aria-hidden="true"
-          v-bind="parts.icon"
-        />
+        <i v-if="icon" aria-hidden="true" v-bind="bindings.icon" />
         <slot name="before">
           <component v-if="outlets?.before" :is="outlets.before" />
         </slot>
-        <slot :text>
-          <component v-if="outlets?.default" :is="outlets.default" :text />
-          <span v-else-if="text" :class="classes.text" v-bind="parts.text">
+        <slot :text :bindings="bindings.text">
+          <component
+            v-if="outlets?.default"
+            :is="outlets.default"
+            :text
+            :bindings="bindings.text"
+          />
+          <span v-else-if="text" v-bind="bindings.text">
             {{ text }}
           </span>
         </slot>

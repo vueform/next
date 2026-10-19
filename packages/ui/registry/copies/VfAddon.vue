@@ -24,8 +24,12 @@ const events = defineEvents<VfAddonEmits>()
 const slots = defineSlots<VfAddonSlots>()
 const attrs = useAttrs()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, bindings, useClasses } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 useClasses(() => ({
   root: 'vf-addon',
@@ -39,7 +43,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else :class="classes.root" v-bind="{ ...parts.root, ...attrs }">
+    <div v-else v-bind="{ ...bindings.root, ...attrs }">
       <component
         v-if="resolved && typeof resolved === 'object'"
         :is="resolved.component"

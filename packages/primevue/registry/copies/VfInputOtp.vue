@@ -4,7 +4,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import {
   blueprint,
   defaults,
@@ -29,12 +34,32 @@ const props = withDefaults(defineProps<VfInputOtpProps>(), defaults)
 const events = defineEvents<VfInputOtpEmits>()
 const slots = defineSlots<VfInputOtpSlots>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-input-otp',
 }))
+
+useModifiers(({ help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const { length } = propRefs
 
@@ -43,8 +68,7 @@ const {
   viewLoaded,
   disabled,
   readonly,
-  a11yBindings,
-  input,
+  inputRef,
   tooltipModifiers,
   tooltipValue,
   invalid,
@@ -70,19 +94,14 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
       <InputOtp
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :readonly
         :invalid
         :length
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"

@@ -12,10 +12,10 @@
  */
 
 import {
+  tInputAria,
   useBlueprint,
   defineEvents,
   type LanguagesProp,
-  autocompleteTokenOf,
 } from '@vueform/ui'
 import {
   defaults,
@@ -45,25 +45,41 @@ const props = withDefaults(
 const events = defineEvents<VfTextareaEmits>()
 const slots = defineSlots<VfTextareaSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-textarea',
-  addonGroup: 'vf-addon-group',
-  iconGroup: 'vf-icon-group',
   input: 'vf-input vf-textarea-input',
 }))
 
+useModifiers(({ props, hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-resizable': props.resize ? '' : undefined,
+    'data-autogrow': props.autogrow ? '' : undefined,
+  },
+}))
+
+useA11y(tInputAria())
+
 const {
   id,
+  autocomplete,
   loading,
   readonly,
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   handleKeydown,
   handleKeyup,
@@ -88,21 +104,15 @@ defineExpose(expose)
       <textarea
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :placeholder
-        :autocomplete="props.autocomplete ?? autocompleteTokenOf(name)"
-        :inputmode="props.inputmode"
-        :data-resizable="props.resize ? '' : undefined"
-        :data-autogrow="props.autogrow ? '' : undefined"
+        :autocomplete
+        :inputmode
         :disabled
         :readonly="readonly || undefined"
         :rows="props.rows"
-        v-bind="{
-          ...a11yBindings.input,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="bindings.input"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"
         @keypress="handleKeypress"

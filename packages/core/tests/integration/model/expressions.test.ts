@@ -210,7 +210,7 @@ describe('Headless model expressions', () => {
     expect(model$.get('text')).toBe('{text2}')
   })
 
-  it('keeps tracking while adopted and untracks on mounted edits', async () => {
+  it('keeps tracking while attached and untracks on mounted edits', async () => {
     const { vueform } = install()
 
     const schema = defineSchema({

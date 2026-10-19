@@ -101,6 +101,11 @@ export interface TextProps<
    * `tel`, `postal-code`).
    */
   autocomplete?: string
+
+  /**
+   * Whether the value is always cast to a string.
+   */
+  string?: boolean
 }
 
 /**
@@ -199,6 +204,7 @@ export const defaults = defineDefaults<TextProps>()({
   inputType: 'text',
   disabled: false,
   readonly: false,
+  string: false,
   translate: false,
   submit: true,
   bail: true,

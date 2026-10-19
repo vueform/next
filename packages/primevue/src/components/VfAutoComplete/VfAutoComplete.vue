@@ -76,7 +76,7 @@ const {
   disabled,
   loading,
   resolving,
-  input,
+  inputRef,
   name,
   invalid,
   suggestions,
@@ -113,7 +113,7 @@ defineExpose(expose)
         :min-length
         fluid
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="handleChange"

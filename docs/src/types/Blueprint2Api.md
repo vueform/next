@@ -41,7 +41,7 @@ type Blueprint2Api<
 
   /**
    * The component's single public context — what the `#template` slot, event
-   * handlers (`context$`), `find()`, and `useContext()` receive.
+   * handlers (`context$`), `find()`, and `useTemplateContext()` receive.
    */
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 

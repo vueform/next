@@ -57,7 +57,7 @@ const {
   viewLoaded,
   disabled,
   readonly,
-  input,
+  inputRef,
   tooltipModifiers,
   tooltipValue,
   invalid,
@@ -90,7 +90,7 @@ defineExpose(expose)
         :length
         v-tooltip:[tooltipModifiers]="tooltipValue"
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"

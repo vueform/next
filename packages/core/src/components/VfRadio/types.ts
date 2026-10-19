@@ -105,7 +105,7 @@ export interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
     /**
      * The input DOM element reference.
      */
-    input: any
+    inputRef: any
 
     /**
      * The radio label text.

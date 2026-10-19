@@ -6,9 +6,9 @@
  */
 
 import {
+  inputAria,
   useBlueprint,
   defineEvents,
-  type A11yBindings,
   type ClassValue,
   type DefineElementContext,
   type DomAttrsOf,
@@ -83,12 +83,6 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioSlots<
     model: TRadioValue | null
 
     /**
-     * Part-keyed accessibility bindings; apply each key's bag to the matching
-     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
-     */
-    a11yBindings: A11yBindings
-
-    /**
      * The input's `name` attribute.
      */
     inputName: string
@@ -106,12 +100,19 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioSlots<
     /**
      * The input DOM element reference.
      */
-    input: any
+    inputRef: any
 
     /**
      * The radio label text.
      */
     text: string | undefined
+
+    /**
+     * The default slot's own part is the wrapper (the fallback's top-level
+     * element): its resolved classes, part overrides, and alignment
+     * modifiers; apply with `v-bind`.
+     */
+    bindings: VfRadioBindings['wrapper']
 
     /**
      * Handler for the input's blur event.
@@ -153,6 +154,12 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioSlots<
      * The element's generic name, used as screen-reader-only fallback text.
      */
     genericName: string
+
+    /**
+     * The text element's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: VfRadioBindings['text']
   }) => VNode[]
 }
 
@@ -248,6 +255,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfRadioModifiers,
+  VfRadioA11y,
   VfCloneNameExpose,
   RadioApi<TProps>
 > {}
@@ -281,8 +290,17 @@ const slots = defineSlots<VfCloneNameSlots<TRadioValue>>()
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const radioValue = propRefs.radioValue as Ref<TRadioValue>
 
@@ -291,10 +309,9 @@ const {
   id,
   disabled,
   viewLoaded,
-  a11yBindings,
   inputName,
   text,
-  input,
+  inputRef,
   genericName,
   model,
   handleBlur,
@@ -316,11 +333,36 @@ useClasses(() => ({
   text: 'vf-choice-text',
 }))
 
+useModifiers(({ props, hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  wrapper: {
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 defineExpose(expose)
 </script>
 
 <script lang="ts">
-import type { DefineRegistryEntry, EntryPropOr } from '@vueform/ui'
+import type {
+  DefineRegistryEntry,
+  EntryPropOr,
+  ResolvedBindings,
+} from '@vueform/ui'
+
+type VfRadioBindings = ResolvedBindings<
+  VfCloneNameParts,
+  VfRadioModifiers,
+  VfRadioA11y
+>
 
 type EntryProps<TEntry> = VfCloneNameProps<
   EntryPropOr<TEntry, 'radioValue', true>
@@ -353,12 +395,12 @@ declare module 'vue' {
       <slot
         :model
         :value="radioValue"
-        :a11y-bindings
         :input-name
         :id
         :disabled
-        :input
+        :input-ref="inputRef"
         :text
+        :bindings="bindings.wrapper"
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -368,64 +410,42 @@ declare module 'vue' {
           :is="outlets.default"
           :model
           :value="radioValue"
-          :a11y-bindings
           :input-name
           :id
           :disabled
-          :input
+          :input-ref="inputRef"
           :text
+          :bindings="bindings.wrapper"
           :handle-blur
           :handle-focus
           :handle-model-update
         />
-        <div
-          v-else
-          :class="classes.wrapper"
-          :data-align="props.align || undefined"
-          :data-aligned="props.aligned ? '' : undefined"
-          v-bind="parts.wrapper"
-        >
+        <div v-else v-bind="bindings.wrapper">
           <input
             type="radio"
             v-model="value"
-            :class="classes.input"
             :name="inputName"
             :value="radioValue"
             :id
             :disabled
-            v-bind="{
-              ...a11yBindings.input,
-              ...parts.input,
-            }"
-            :ref="(el) => (input = el)"
+            v-bind="bindings.input"
+            :ref="(el) => (inputRef = el)"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
           />
-          <slot
-            name="text"
-            :text
-            :id
-            :generic-name
-            :class="classes.text"
-            v-bind="parts.text"
-          >
+          <slot name="text" :text :id :generic-name :bindings="bindings.text">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :class="classes.text"
-              v-bind="parts.text"
+              :bindings="bindings.text"
             />
-            <label
-              v-else-if="text"
-              :class="classes.text"
-              :for="id"
-              v-bind="parts.text"
-              >{{ text }}</label
-            >
+            <label v-else-if="text" :for="id" v-bind="bindings.text">{{
+              text
+            }}</label>
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>
           </slot>
         </div>

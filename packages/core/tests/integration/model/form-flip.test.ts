@@ -31,7 +31,7 @@ const createModel = (data?: Record<string, any>): ModelInstance<any> =>
   inSetup(() => useModel(schema, data as any)) as any
 
 describe('Form flip: mounted registration claims index nodes', () => {
-  it('resolves instance.find to the mounted context while adopted', async () => {
+  it('resolves instance.find to the mounted context while attached', async () => {
     const model$ = createModel({ name: 'John' })
 
     const mounted = createForm({ schema, modelValue: model$ })
@@ -59,7 +59,7 @@ describe('Form flip: mounted registration claims index nodes', () => {
     ])
   })
 
-  it('validates through the mounted validators when adopted', async () => {
+  it('validates through the mounted validators when attached', async () => {
     const model$ = createModel({ name: 'John', email: 'john@example.com' })
 
     createForm({ schema, modelValue: model$ })

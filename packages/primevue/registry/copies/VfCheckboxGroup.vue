@@ -16,6 +16,7 @@
 
 import {
   defineEvents,
+  choicesAria,
   useBlueprint,
   type OptionGroupChildrenProp,
   type OptionsProp,
@@ -75,8 +76,16 @@ const slots =
     >
   >()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const {
   items,
@@ -84,7 +93,6 @@ const {
   grouped,
   viewLoaded,
   path,
-  a11yBindings,
   disabled,
   label,
   handleFocus,
@@ -93,8 +101,24 @@ const {
 
 useClasses(({ props }) => ({
   root: 'vf-checkbox-group vf-choices',
-  group: [props.layout === false ? props.class : null, 'vf-choices-group'],
+  wrapper: [props.layout === false ? props.class : null, 'vf-choices-group'],
+  group: () => null,
+  groupLabel: () => null,
+  item: () => null,
 }))
+
+useModifiers(({ props, invalid, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  wrapper: {
+    'data-stacked': props.stacked ? '' : undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+    'data-invalid': invalid.value ? '' : undefined,
+  },
+}))
+
+useA11y(choicesAria({ role: 'group' }))
 
 defineExpose(expose)
 </script>
@@ -104,15 +128,9 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else :label="false">
       <div
-        :class="classes.group"
-        :data-stacked="props.stacked ? '' : undefined"
-        :data-aligned="props.aligned ? '' : undefined"
         @focusin="handleFocus"
         @focusout="handleBlur"
-        v-bind="{
-          ...a11yBindings.group,
-          ...parts.group,
-        }"
+        v-bind="bindings.wrapper"
       >
         <slot :items :groups :grouped :disabled :label :checkbox-name="path">
           <component
@@ -121,13 +139,20 @@ defineExpose(expose)
             :items
             :groups
             :grouped
-            :checkbox-name="path"
             :disabled
             :label
+            :checkbox-name="path"
           />
           <template v-else-if="grouped">
             <template v-for="(group, gi) in groups" :key="gi">
-              <slot name="group" :group :disabled :label :checkbox-name="path">
+              <slot
+                name="group"
+                :group
+                :disabled
+                :label
+                :checkbox-name="path"
+                :bindings="bindings.group(group)"
+              >
                 <component
                   v-if="outlets?.group"
                   :is="outlets.group"
@@ -135,9 +160,10 @@ defineExpose(expose)
                   :disabled
                   :label
                   :checkbox-name="path"
+                  :bindings="bindings.group(group)"
                 />
-                <fieldset v-else v-bind="parts.fieldset?.(group)">
-                  <legend v-bind="parts.legend?.(group)">
+                <fieldset v-else v-bind="bindings.group(group)">
+                  <legend v-bind="bindings.groupLabel(group)">
                     {{ group.label }}
                   </legend>
                   <template v-for="item in group.items" :key="item.key">
@@ -147,6 +173,7 @@ defineExpose(expose)
                       :disabled
                       :label
                       :checkbox-name="path"
+                      :bindings="bindings.item(item)"
                     >
                       <component
                         v-if="outlets?.item"
@@ -155,6 +182,7 @@ defineExpose(expose)
                         :disabled
                         :label
                         :checkbox-name="path"
+                        :bindings="bindings.item(item)"
                       />
                       <VfCheckbox
                         v-else
@@ -163,7 +191,7 @@ defineExpose(expose)
                         :checkbox-name="path"
                         :disabled="disabled || item.disabled"
                         :layout="false"
-                        v-bind="parts.item?.(item)"
+                        v-bind="bindings.item(item)"
                       >
                         <template v-if="outlets?.checkbox" #default="slotProps">
                           <slot name="checkbox" v-bind="slotProps">
@@ -187,7 +215,14 @@ defineExpose(expose)
           </template>
           <template v-else>
             <template v-for="item in items" :key="item.key">
-              <slot name="item" :item :disabled :label :checkbox-name="path">
+              <slot
+                name="item"
+                :item
+                :disabled
+                :label
+                :checkbox-name="path"
+                :bindings="bindings.item(item)"
+              >
                 <component
                   v-if="outlets?.item"
                   :is="outlets.item"
@@ -195,6 +230,7 @@ defineExpose(expose)
                   :disabled
                   :label
                   :checkbox-name="path"
+                  :bindings="bindings.item(item)"
                 />
                 <VfCheckbox
                   v-else
@@ -203,7 +239,7 @@ defineExpose(expose)
                   :checkbox-name="path"
                   :disabled="disabled || item.disabled"
                   :layout="false"
-                  v-bind="parts.item?.(item)"
+                  v-bind="bindings.item(item)"
                 >
                   <template v-if="outlets?.checkbox" #default="slotProps">
                     <slot name="checkbox" v-bind="slotProps">

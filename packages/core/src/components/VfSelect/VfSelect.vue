@@ -107,7 +107,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  input,
+  inputRef,
   name,
   items,
   groups,
@@ -134,7 +134,7 @@ defineExpose(expose)
         :id
         :disabled
         :multiple
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         v-bind="bindings.input"
         @blur="handleBlur"
         @focus="handleFocus"

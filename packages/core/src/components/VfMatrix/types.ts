@@ -284,9 +284,9 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   /**
    * Slot that replaces each column header cell.
    *
-   * @param scope The colHeader slot's params.
+   * @param scope The col-header slot's params.
    */
-  colHeader: (scope: {
+  'col-header': (scope: {
     /**
      * The column header's unique ID.
      */
@@ -379,9 +379,9 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   /**
    * Slot that replaces each row header cell.
    *
-   * @param scope The rowHeader slot's params.
+   * @param scope The row-header slot's params.
    */
-  rowHeader: (scope: {
+  'row-header': (scope: {
     /**
      * The row header label text.
      */
@@ -397,9 +397,9 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   /**
    * Slot that replaces the drag sort handle wrapper.
    *
-   * @param scope The sortWrapper slot's params.
+   * @param scope The sort-wrapper slot's params.
    */
-  sortWrapper: (scope: {
+  'sort-wrapper': (scope: {
     /**
      * The drag sort handle wrapper's resolved bindings (classes, part
      * overrides); apply with `v-bind`.
@@ -493,9 +493,9 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   /**
    * Slot that replaces the row remove button wrapper.
    *
-   * @param scope The removeWrapper slot's params.
+   * @param scope The remove-wrapper slot's params.
    */
-  removeWrapper: (scope: {
+  'remove-wrapper': (scope: {
     /**
      * The row remove button wrapper's resolved bindings (classes, part
      * overrides); apply with `v-bind`.

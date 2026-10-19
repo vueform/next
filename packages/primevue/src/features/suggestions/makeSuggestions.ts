@@ -46,7 +46,7 @@ type MakeSuggestionsOptions = {
     [
       [typeof makeData, ['nullValue', 'update', 'model', 'pending']],
       [typeof makeElement, ['path']],
-      [typeof makeInput, ['input', 'handleInput']],
+      [typeof makeInput, ['inputRef', 'handleInput']],
     ]
   >
   events: FeatureEvents<{
@@ -90,7 +90,7 @@ export const makeSuggestions = defineFeature(
       const query = ref('')
 
       const focusInputValue = toRef(() => {
-        const focusInput = deps.input.value?.$refs.focusInput || undefined
+        const focusInput = deps.inputRef.value?.$refs.focusInput || undefined
         return (
           String(focusInput?.value || focusInput?.$el?.value || '') || undefined
         )

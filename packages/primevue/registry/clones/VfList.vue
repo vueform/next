@@ -72,11 +72,6 @@ export interface VfCloneNameSlots extends ListSlots<VfCloneNameContext> {
    */
   item: (scope: {
     /**
-     * CSS classes for the item wrapper.
-     */
-    class: ClassValue
-
-    /**
      * The item's index.
      */
     index: number
@@ -90,6 +85,12 @@ export interface VfCloneNameSlots extends ListSlots<VfCloneNameContext> {
      * Whether this item is the current drop target.
      */
     isDropTarget: boolean
+
+    /**
+     * The item wrapper's resolved bindings (classes, part overrides, drag
+     * modifiers, listitem role); apply with `v-bind`.
+     */
+    bindings: VfListBindings['item']
 
     /**
      * Handler for the drag enter event.
@@ -117,15 +118,17 @@ export interface VfCloneNameSlots extends ListSlots<VfCloneNameContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the drag handle. Receives class and drag event handlers.
+   * Slot that replaces the drag handle. Receives classes, part, and drag
+   * event handlers.
    *
    * @param scope The sort slot's params.
    */
   sort: (scope: {
     /**
-     * CSS classes for the handle element.
+     * The drag handle's resolved bindings (classes, part overrides, localized
+     * aria-label); apply with `v-bind`.
      */
-    class: ClassValue
+    bindings: VfListBindings['sort']
 
     /**
      * Handler for the drag start event.
@@ -163,15 +166,17 @@ export interface VfCloneNameSlots extends ListSlots<VfCloneNameContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the remove button. Receives class and remove handler.
+   * Slot that replaces the remove button. Receives classes, part, and remove
+   * handler.
    *
    * @param scope The remove slot's params.
    */
   remove: (scope: {
     /**
-     * CSS classes for the remove button.
+     * The remove button's resolved bindings (classes, part overrides,
+     * localized aria-label fallback); apply with `v-bind`.
      */
-    class: ClassValue
+    bindings: VfListBindings['remove']
 
     /**
      * Handler to remove this list item.
@@ -186,31 +191,35 @@ export interface VfCloneNameSlots extends ListSlots<VfCloneNameContext> {
    */
   placeholder: (scope: {
     /**
-     * CSS classes for the placeholder element.
+     * The placeholder's resolved bindings (classes, part overrides, id and
+     * status role); apply with `v-bind` so the add button's describedby keeps
+     * resolving.
      */
-    class: ClassValue
+    bindings: VfListBindings['placeholder']
   }) => VNode[]
 
   /**
-   * Slot that replaces the add button. Receives class, add handler, and label.
+   * Slot that replaces the add button. Receives classes, part, add handler,
+   * and label.
    *
    * @param scope The add slot's params.
    */
   add: (scope: {
     /**
-     * CSS classes for the add button.
+     * The button label text.
      */
-    class: ClassValue
+    label: any
+
+    /**
+     * The add button's resolved bindings (classes, part overrides, fallback
+     * aria-label, placeholder describedby); apply with `v-bind`.
+     */
+    bindings: VfListBindings['add']
 
     /**
      * Handler to add a new list item.
      */
     handleAdd: () => void
-
-    /**
-     * The button label text.
-     */
-    label: any
   }) => VNode[]
 }
 
@@ -250,16 +259,18 @@ export interface VfCloneNameParts extends ListParts {
   /**
    * The drag handle element.
    *
+   * @param index The item's zero-based index.
    * @tag VfButton
    */
-  sort: PartOf<'VfButton'>
+  sort: (index: number) => PartOf<'VfButton'>
 
   /**
    * The remove action element.
    *
+   * @param index The item's zero-based index.
    * @tag VfButton
    */
-  remove: PartOf<'VfButton'>
+  remove: (index: number) => PartOf<'VfButton'>
 
   /**
    * The placeholder element displayed when the list is empty.
@@ -287,11 +298,6 @@ export interface VfCloneNameParts extends ListParts {
  */
 export interface VfCloneNameClasses extends ListClasses {
   /**
-   * The outer list container element.
-   */
-  container: ClassValue
-
-  /**
    * The items container element.
    */
   items: ClassValue
@@ -299,8 +305,11 @@ export interface VfCloneNameClasses extends ListClasses {
   /**
    * Each list item wrapper. Drag state is exposed via `data-dragging` and
    * `data-drop-target` attributes (and `data-wrapped` for the `wrap` prop).
+   *
+   * @param beingDragged Whether this item is currently being dragged.
+   * @param isDropTarget Whether this item is the current drop target.
    */
-  item: ClassValue
+  item: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
 
   /**
    * The element wrapper within each list item.
@@ -309,13 +318,17 @@ export interface VfCloneNameClasses extends ListClasses {
 
   /**
    * The drag handle element.
+   *
+   * @param index The item's zero-based index.
    */
-  sort: ClassValue
+  sort: (index: number) => ClassValue
 
   /**
    * The remove button element.
+   *
+   * @param index The item's zero-based index.
    */
-  remove: ClassValue
+  remove: (index: number) => ClassValue
 
   /**
    * The placeholder element displayed when the list is empty.
@@ -355,6 +368,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfListModifiers,
+  VfListA11y,
   VfCloneNameExpose,
   ListApi<TProps>
 > {}
@@ -423,8 +438,18 @@ const slots = defineSlots<VfCloneNameSlots>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
+
+const { t } = useLocale()
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -433,17 +458,51 @@ const { api, parts, classes, context, expose, outlets, useClasses } =
  * @see https://primevue.vueform.com/guide/classes
  */
 useClasses(() => ({
-  container: 'vf-list',
+  root: 'vf-list',
   items: 'vf-list-items',
-  item: 'vf-list-item',
+  item: () => 'vf-list-item',
   element: 'vf-list-element',
-  sort: 'vf-list-sort',
-  remove: 'vf-list-remove',
+  sort: () => 'vf-list-sort',
+  remove: () => 'vf-list-remove',
   placeholder: 'vf-list-placeholder',
   add: 'vf-list-add',
 }))
 
-const { t } = useLocale()
+useModifiers(({ props }) => ({
+  item: (beingDragged: boolean, isDropTarget: boolean) => ({
+    'data-wrapped': props.wrap ? '' : undefined,
+    'data-dragging': beingDragged ? '' : undefined,
+    'data-drop-target': isDropTarget ? '' : undefined,
+  }),
+}))
+
+useA11y(({ placeholderId, addLabel, removeLabel, items, placeholder }) => ({
+  items: {
+    role: 'list',
+  },
+  item: (_beingDragged: boolean, _isDropTarget: boolean) => ({
+    role: 'listitem' as const,
+  }),
+  placeholder: {
+    id: placeholderId.value,
+    role: 'status',
+  },
+  add: {
+    'aria-label': addLabel.value ? undefined : t('sr_list_add'),
+    'aria-describedby':
+      items.value.length === 0 && placeholder.value
+        ? placeholderId.value
+        : undefined,
+  },
+  sort: (index: number) => ({
+    'aria-label': t('sr_list_sort', { index: index + 1 }),
+  }),
+  remove: (index: number) => ({
+    'aria-label': removeLabel.value
+      ? undefined
+      : t('sr_list_remove', { index: index + 1 }),
+  }),
+}))
 
 const {
   items,
@@ -457,7 +516,6 @@ const {
   removeIcon,
   sortIcon,
   placeholder,
-  placeholderId,
   canAdd,
   canRemove,
   canSort,
@@ -471,8 +529,6 @@ const {
 } = api
 
 defineExpose(expose)
-
-// @todo: template a11y
 </script>
 
 <script lang="ts">
@@ -483,8 +539,15 @@ import type {
   EntrySchemaOf,
   FlattenedListModel,
   IsAny,
+  ResolvedBindings,
   SchemaToModel,
 } from '@vueform/primevue'
+
+type VfListBindings = ResolvedBindings<
+  VfCloneNameParts,
+  VfListModifiers,
+  VfListA11y
+>
 
 type ListModelOf<TEntry> =
   IsAny<EntryPropOf<TEntry, 'flat'>> extends true
@@ -524,22 +587,14 @@ declare module 'vue' {
       <slot
         v-if="items.length === 0"
         name="placeholder"
-        :class="classes.placeholder"
-        v-bind="parts.placeholder"
+        :bindings="bindings.placeholder"
       >
         <component
           v-if="outlets?.placeholder"
           :is="outlets.placeholder"
-          :class="classes.placeholder"
-          v-bind="parts.placeholder"
+          :bindings="bindings.placeholder"
         />
-        <div
-          v-else-if="placeholder"
-          :id="placeholderId"
-          :class="classes.placeholder"
-          role="status"
-          v-bind="parts.placeholder"
-        >
+        <div v-else-if="placeholder" v-bind="bindings.placeholder">
           {{ placeholder }}
         </div>
       </slot>
@@ -547,9 +602,7 @@ declare module 'vue' {
       <div
         v-else
         ref="list"
-        :class="classes.items"
-        role="list"
-        v-bind="parts.items"
+        v-bind="bindings.items"
         @dragover="handleWrapperDragOver"
         @drop="handleDrop"
       >
@@ -559,6 +612,7 @@ declare module 'vue' {
             :index
             :being-dragged="dragIndex === index"
             :is-drop-target="dropTarget === id"
+            :bindings="bindings.item(dragIndex === index, dropTarget === id)"
             :handle-drag-enter="
               ($event: DragEvent) => handleDragEnter($event, position)
             "
@@ -567,8 +621,6 @@ declare module 'vue' {
             "
             :handle-drag-end
             :handle-remove="() => handleRemove(index)"
-            :class="classes.item"
-            v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
           >
             <component
               v-if="outlets?.item"
@@ -576,6 +628,7 @@ declare module 'vue' {
               :index
               :being-dragged="dragIndex === index"
               :is-drop-target="dropTarget === id"
+              :bindings="bindings.item(dragIndex === index, dropTarget === id)"
               :handle-drag-enter="
                 ($event: DragEvent) => handleDragEnter($event, position)
               "
@@ -584,55 +637,44 @@ declare module 'vue' {
               "
               :handle-drag-end
               :handle-remove="() => handleRemove(index)"
-              :class="classes.item"
-              v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
             />
             <div
               v-else
-              :class="classes.item"
-              :data-wrapped="props.wrap ? '' : undefined"
-              :data-dragging="dragIndex === index ? '' : undefined"
-              :data-drop-target="dropTarget === id ? '' : undefined"
-              role="listitem"
-              v-bind="parts.item?.(dragIndex === index, dropTarget === id)"
+              v-bind="bindings.item(dragIndex === index, dropTarget === id)"
               @dragenter="handleDragEnter($event, position)"
             >
               <slot
                 v-if="canSort"
                 name="sort"
+                :bindings="bindings.sort(index)"
                 :handle-drag-start="
                   ($event: DragEvent) => handleDragStart($event, index)
                 "
                 :handle-drag-end
-                :class="classes.sort"
-                v-bind="parts.sort"
               >
                 <component
                   v-if="outlets?.sort"
                   :is="outlets.sort"
+                  :bindings="bindings.sort(index)"
                   :handle-drag-start="
                     ($event: DragEvent) => handleDragStart($event, index)
                   "
                   :handle-drag-end
-                  :class="classes.sort"
-                  v-bind="parts.sort"
                 />
                 <VfButton
                   v-else
-                  :class="classes.sort"
                   :name="`${id}__sort_${index}`"
                   :icon="sortIcon"
                   :layout="false"
                   :draggable="true"
                   detached
-                  :aria-label="t('sr_list_sort', { index: index + 1 })"
-                  v-bind="parts.sort"
+                  v-bind="bindings.sort(index)"
                   @dragstart="handleDragStart($event, index)"
                   @dragend="handleDragEnd"
                 />
               </slot>
 
-              <div :class="classes.element" v-bind="parts.element">
+              <div v-bind="bindings.element">
                 <slot :component="prototypeComponent" :props="prototype" :index>
                   <component
                     v-if="outlets?.default"
@@ -653,16 +695,14 @@ declare module 'vue' {
               <slot
                 v-if="canRemove"
                 name="remove"
+                :bindings="bindings.remove(index)"
                 :handle-remove="() => handleRemove(index)"
-                :class="classes.remove"
-                v-bind="parts.remove"
               >
                 <component
                   v-if="outlets?.remove"
                   :is="outlets.remove"
+                  :bindings="bindings.remove(index)"
                   :handle-remove="() => handleRemove(index)"
-                  :class="classes.remove"
-                  v-bind="parts.remove"
                 />
                 <VfButton
                   v-else
@@ -673,13 +713,7 @@ declare module 'vue' {
                   :name="`${id}__remove_${index}`"
                   :text="removeLabel"
                   :icon="removeIcon"
-                  :aria-label="
-                    removeLabel
-                      ? undefined
-                      : t('sr_list_remove', { index: index + 1 })
-                  "
-                  :class="classes.remove"
-                  v-bind="parts.remove"
+                  v-bind="bindings.remove(index)"
                   @click.prevent="handleRemove(index)"
                 />
               </slot>
@@ -691,18 +725,16 @@ declare module 'vue' {
       <slot
         v-if="canAdd"
         name="add"
-        :handle-add
         :label="addLabel!"
-        :class="classes.add"
-        v-bind="parts.add"
+        :bindings="bindings.add"
+        :handle-add
       >
         <component
           v-if="outlets?.add"
           :is="outlets.add"
-          :handle-add
           :label="addLabel!"
-          :class="classes.add"
-          v-bind="parts.add"
+          :bindings="bindings.add"
+          :handle-add
         />
         <VfButton
           v-else
@@ -713,12 +745,7 @@ declare module 'vue' {
           name="add"
           :text="addLabel"
           :icon="addIcon"
-          :class="classes.add"
-          :aria-label="addLabel ? undefined : t('sr_list_add')"
-          :aria-describedby="
-            items.length === 0 && placeholder ? placeholderId : undefined
-          "
-          v-bind="parts.add"
+          v-bind="bindings.add"
           @click.prevent="handleAdd"
         />
       </slot>

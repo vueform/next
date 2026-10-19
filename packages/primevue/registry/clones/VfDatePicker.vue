@@ -12,6 +12,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   vdomPrime,
   type AddonGroupParts,
   type AddonsParts,
@@ -173,6 +174,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfDatePickerModifiers,
+  VfDatePickerA11y,
   VfCloneNameExpose,
   DatePickerApi<TProps>
 > {}
@@ -208,8 +211,16 @@ const slots = defineSlots<VfCloneNameSlots<TSelectionMode>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -221,6 +232,17 @@ useClasses(() => ({
   root: 'vf-date-picker',
 }))
 
+useModifiers(({ help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const {
   value,
   id,
@@ -228,8 +250,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -306,7 +327,6 @@ declare module 'vue' {
       <DatePicker
         :name
         :input-id="id"
-        :class="classes.input"
         v-model="inputValue"
         :selection-mode="pickerSelectionMode"
         :placeholder
@@ -317,12 +337,8 @@ declare module 'vue' {
         :max-date
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @blur="(e: any) => handleBlur(e)"
         @focus="(e: any) => handleFocus(e)"
         @change="handleInput"

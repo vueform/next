@@ -266,7 +266,7 @@ describe('handleInput DOM recovery', () => {
     })
   )
 
-  it('should adopt a change-only value the bound events missed (autofill)', async () => {
+  it('should pick up a change-only value the bound events missed (autofill)', async () => {
     const { form, el } = await mountWith({
       type: 'text',
       template: RecoveryTpl,
@@ -345,7 +345,7 @@ describe('handleInput DOM recovery', () => {
     expect(inputs).toBe(1)
   })
 
-  it('should adopt the final composed text on `compositionend` without v-model', async () => {
+  it('should pick up the final composed text on `compositionend` without v-model', async () => {
     const { form, el } = await mountWith({
       type: 'text',
       template: RecoveryTpl,
@@ -355,7 +355,7 @@ describe('handleInput DOM recovery', () => {
 
     // Chrome fires the last real `input` with `isComposing: true` before
     // `compositionend` — without v-model nothing re-dispatches it, so the
-    // recovery listener adopts the composed text at the session's end.
+    // recovery listener picks up the composed text at the session's end.
     node.composing = true
     node.value = '日本'
     await input.trigger('input')

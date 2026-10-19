@@ -62,8 +62,8 @@ const createModel = (data?: Record<string, any>): ModelInstance<any> =>
     )
   ) as any
 
-describe('VfForm adoption of useModel instances', () => {
-  it('adopts the store: shared data, adopted state', async () => {
+describe('VfForm attachment of useModel instances', () => {
+  it('attaches the store: shared data, attached state', async () => {
     const model$ = createModel({ name: 'John' })
 
     const { form$, name } = createForm({
@@ -76,7 +76,7 @@ describe('VfForm adoption of useModel instances', () => {
 
     await nextTick()
 
-    expect(model$.adopted).toBe(true)
+    expect(model$.attached).toBe(true)
 
     // The form reads the store's data (same object, not a clone).
     expect(form$.model).toBe(model$.model)
@@ -93,7 +93,7 @@ describe('VfForm adoption of useModel instances', () => {
     expect(form$.model.email).toBe('jane@example.com')
   })
 
-  it('submits the adopting form through the model', async () => {
+  it('submits the attaching form through the model', async () => {
     const { adapter, calls } = mockAdapter()
     const model$ = createModel({ name: 'John' })
 
@@ -118,7 +118,7 @@ describe('VfForm adoption of useModel instances', () => {
     expect(result).toEqual(expect.objectContaining({ type: 'success' }))
   })
 
-  it('exposes serialization and adoption state on the context', async () => {
+  it('exposes serialization and attachment state on the context', async () => {
     const model$ = createModel({ name: 'John' })
 
     const { form$ } = createForm({
@@ -131,20 +131,20 @@ describe('VfForm adoption of useModel instances', () => {
 
     await nextTick()
 
-    expect(form$.hasAdoptedModel).toBe(true)
+    expect(form$.hasAttachedModel).toBe(true)
     expect(form$.data).toBe(form$.model)
     expect(JSON.parse(form$.toJSON())).toEqual({ name: 'John', email: null })
     expect(form$.toFormData()).toBeInstanceOf(FormData)
   })
 
-  it('reports no adopted model on plain forms', async () => {
+  it('reports no attached model on plain forms', async () => {
     const { form$ } = createForm({
       schema: { name: { type: 'text' } },
     })
 
     await nextTick()
 
-    expect(form$.hasAdoptedModel).toBe(false)
+    expect(form$.hasAttachedModel).toBe(false)
   })
 
   it('releases on unmount, keeping the data', async () => {
@@ -156,11 +156,11 @@ describe('VfForm adoption of useModel instances', () => {
     })
 
     await nextTick()
-    expect(model$.adopted).toBe(true)
+    expect(model$.attached).toBe(true)
 
     form.unmount()
 
-    expect(model$.adopted).toBe(false)
+    expect(model$.attached).toBe(false)
     expect(model$.model.name).toBe('John')
   })
 })
@@ -275,13 +275,13 @@ describe('useForm', () => {
     expect(data).toEqual({ name: 'John' })
   })
 
-  it('adopts a useModel instance', async () => {
+  it('attaches a useModel instance', async () => {
     const model$ = createModel({ name: 'John' })
 
     const { wrapper, form$ } = mountUseForm(model$)
     await nextTick()
 
-    expect(model$.adopted).toBe(true)
+    expect(model$.attached).toBe(true)
     expect(form$.model).toBe(model$.model)
 
     await wrapper.find('input').setValue('Jane')
@@ -315,18 +315,18 @@ describe('useForm', () => {
     expect(model$.model.email).toBe('john@example.com')
 
     // Instance-only and mount-only members stay hidden.
-    expect((form$ as any).adopted).toBeUndefined()
-    expect((form$ as any).input).toBeUndefined()
+    expect((form$ as any).attached).toBeUndefined()
+    expect((form$ as any).inputRef).toBeUndefined()
     expect(form$.submitting).toBeUndefined()
 
     // After mount the context takes over — same store, values survive.
     show.value = true
     await nextTick()
 
-    expect(model$.adopted).toBe(true)
+    expect(model$.attached).toBe(true)
     expect(form$.model).toBe(model$.model)
     expect(form$.model.email).toBe('john@example.com')
-    expect(form$.hasAdoptedModel).toBe(true)
+    expect(form$.hasAttachedModel).toBe(true)
     expect(form$.submitting).toBe(false)
   })
 
@@ -372,7 +372,7 @@ describe('useForm', () => {
 
     await nextTick()
 
-    expect(model$.adopted).toBe(true)
+    expect(model$.attached).toBe(true)
     expect(form$.model).toBe(model$.model)
     expect(wrapper.findAll('input')).toHaveLength(2)
   })

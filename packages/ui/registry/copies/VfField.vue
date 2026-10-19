@@ -12,7 +12,12 @@
  * https://ui.vueform.com/guide/components#building-on-blueprints
  */
 
-import { useBlueprint, defineEvents, type LanguagesProp } from '@vueform/ui'
+import {
+  inputAria,
+  useBlueprint,
+  defineEvents,
+  type LanguagesProp,
+} from '@vueform/ui'
 import {
   defaults,
   blueprint,
@@ -39,7 +44,7 @@ const props = withDefaults(
 const events = defineEvents<VfFieldEmits<TTranslate, TLanguages, TNullValue>>()
 const slots = defineSlots<VfFieldSlots<TTranslate, TLanguages, TNullValue>>()
 
-const { api, context, expose, outlets, useClasses } = useBlueprint(
+const { api, context, expose, outlets, useClasses, useA11y } = useBlueprint(
   blueprint,
   props,
   events,
@@ -48,11 +53,11 @@ const { api, context, expose, outlets, useClasses } = useBlueprint(
 
 useClasses(() => ({
   root: 'vf-field',
-  addonGroup: 'vf-addon-group',
-  iconGroup: 'vf-icon-group',
 }))
 
-const { viewLoaded, a11yBindings } = api
+useA11y(inputAria())
+
+const { viewLoaded } = api
 
 defineExpose(expose)
 </script>
@@ -61,13 +66,8 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <slot :context :a11y-bindings>
-        <component
-          v-if="outlets?.default"
-          :is="outlets.default"
-          :context
-          :a11y-bindings
-        />
+      <slot :context>
+        <component v-if="outlets?.default" :is="outlets.default" :context />
       </slot>
     </VfLayout>
   </slot>

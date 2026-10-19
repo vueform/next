@@ -4,7 +4,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import {
   blueprint,
   defaults,
@@ -30,12 +35,29 @@ const props = withDefaults(defineProps<VfSliderProps<TRange>>(), defaults)
 const events = defineEvents<VfSliderEmits<TRange>>()
 const slots = defineSlots<VfSliderSlots<TRange>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-slider',
 }))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const { range } = propRefs
 
@@ -45,13 +67,12 @@ const {
   disabled,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   min,
   max,
   step,
   forwardProps,
   handleInput,
-  a11yBindings,
 } = api
 
 /**
@@ -71,7 +92,6 @@ defineExpose(expose)
     <VfLayout v-else>
       <Slider
         :name
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :invalid
@@ -79,12 +99,8 @@ defineExpose(expose)
         :min
         :max
         :step
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @change="handleInput"
       />
     </VfLayout>

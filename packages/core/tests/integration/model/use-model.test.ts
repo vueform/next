@@ -360,7 +360,7 @@ describe('useModel store API', () => {
     expect(formData.get('name')).toBe('John')
   })
 
-  it('warns when submitting while not adopted', async () => {
+  it('warns when submitting while not attached', async () => {
     const model$ = create()
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
@@ -368,9 +368,9 @@ describe('useModel store API', () => {
 
     expect(result).toBeUndefined()
     expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('not adopted by any form')
+      expect.stringContaining('not attached by any form')
     )
-    expect(model$.adopted).toBe(false)
+    expect(model$.attached).toBe(false)
 
     warn.mockRestore()
   })

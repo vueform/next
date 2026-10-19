@@ -1,4 +1,4 @@
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import { defineFeature, type FeatureEvents } from '#src/helpers'
 import type { LooseContext } from '#src/types'
 
@@ -23,7 +23,7 @@ export const makeKeyHandlers = defineFeature(
   () =>
     ({ events }: MakeKeyHandlersOptions) => {
       const { fire } = events
-      const context$ = useComponentContext()
+      const context$ = useContext()
 
       // ============== METHODS ===============
 

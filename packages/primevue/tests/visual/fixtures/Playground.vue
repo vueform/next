@@ -160,7 +160,7 @@ const slots = defineSchema({
   floatLabel: {
     type: 'input-text',
     slots: {
-      floatLabel: defineSlot('VfInputText.floatLabel', {
+      'float-label': defineSlot('VfInputText.float-label', {
         setup() {
           return () => h('span', 'Float label via slot')
         },
@@ -192,7 +192,7 @@ const slots = defineSchema({
   addonBefore: {
     type: 'input-text',
     slots: {
-      addonBefore: defineSlot('VfInputText.addonBefore', {
+      'addon-before': defineSlot('VfInputText.addon-before', {
         setup() {
           return () => h('span', 'Addon before via slot')
         },
@@ -202,7 +202,7 @@ const slots = defineSchema({
   addonAfter: {
     type: 'input-text',
     slots: {
-      addonAfter: defineSlot('VfInputText.addonAfter', {
+      'addon-after': defineSlot('VfInputText.addon-after', {
         setup() {
           return () => h('span', 'Addon after via slot')
         },
@@ -212,7 +212,7 @@ const slots = defineSchema({
   addonIconBefore: {
     type: 'input-text',
     slots: {
-      addonBefore: defineSlot('VfInputText.addonBefore', {
+      'addon-before': defineSlot('VfInputText.addon-before', {
         setup() {
           return () => h('i', { class: 'pi pi-search' })
         },
@@ -222,7 +222,7 @@ const slots = defineSchema({
   addonIconAfter: {
     type: 'input-text',
     slots: {
-      addonAfter: defineSlot('VfInputText.addonAfter', {
+      'addon-after': defineSlot('VfInputText.addon-after', {
         setup() {
           return () => h('i', { class: 'pi pi-lock' })
         },
@@ -260,7 +260,7 @@ const slots = defineSchema({
           </template>
         </VfInputText>
         <VfInputText name="float-label">
-          <template #floatLabel> Float label via inline slot </template>
+          <template #float-label> Float label via inline slot </template>
         </VfInputText>
         <VfInputText name="ifta">
           <template #ifta> Ifta via inline slot </template>
@@ -273,16 +273,16 @@ const slots = defineSchema({
           <template #required> # </template>
         </VfInputText>
         <VfInputText name="addon-before">
-          <template #addonBefore> Addon before via inline slot </template>
+          <template #addon-before> Addon before via inline slot </template>
         </VfInputText>
         <VfInputText name="addon-after">
-          <template #addonAfter> Addon after via inline slot </template>
+          <template #addon-after> Addon after via inline slot </template>
         </VfInputText>
         <VfInputText name="icon-before">
-          <template #iconBefore><i class="pi pi-search" /></template>
+          <template #icon-before><i class="pi pi-search" /></template>
         </VfInputText>
         <VfInputText name="icon-after">
-          <template #iconAfter><i class="pi pi-lock" /></template>
+          <template #icon-after><i class="pi pi-lock" /></template>
         </VfInputText>
       </VfForm>
     </div>

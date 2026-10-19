@@ -9,7 +9,7 @@ const makeSuggestions: (
   suggestions: ComputedRef<any[] | undefined>
   resolvedItems: ShallowRef<any[] | Record<string, any>>
   selectedLabel: ComputedRef<string | string[] | undefined>
-  itemLabel: ComputedRef<string | ((item: any) => string) | undefined>
+  itemLabel: ComputedRef<string | ((item: any) => string)>
   itemDisabled: ComputedRef<string | ((item: any) => boolean) | undefined>
   grouped: ComputedRef<boolean>
   resolving: ShallowRef<boolean>

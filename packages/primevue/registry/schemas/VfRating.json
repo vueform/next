@@ -10,7 +10,7 @@
       "path": "VfRating.vue",
       "target": "{componentsDir}/VfRating.vue",
       "kind": "component",
-      "hash": "sha256:3b787fa74655be16eef80b024a39ed3325e362de3e18af7e37577545903e5d1c"
+      "hash": "sha256:764e3fc1c2ec6df06c732bff511a3c085d6eb5c2ef5e66f4298c3b0e8b27402a"
     }
   ],
   "imports": [
@@ -27,7 +27,7 @@
   "clone": {
     "path": "VfRating.vue",
     "blueprint": "rating",
-    "hash": "sha256:f5c061e830b507a79cec28992ac09604a00167fab80a2953d36b05b49aeacffe",
+    "hash": "sha256:d453cc54eb712c58ffcd0668cb2d0b376e14459fc3749bbd99969491fe2c17dc",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

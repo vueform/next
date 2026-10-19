@@ -7,7 +7,7 @@ import {
   type Ref,
 } from 'vue'
 
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import type { DProp } from '#src/types'
 import { containsHtml, normalize, resolveIcon, toKebabCase } from '#src/utils'
 
@@ -396,7 +396,7 @@ export function useDynamicProp(
   propsOrProp: Record<string, any> | Ref<any>,
   options: UseDynamicPropOptions = {}
 ): ComputedRef<any> {
-  const context$ = options.context$ ?? useComponentContext()
+  const context$ = options.context$ ?? useContext()
   const helpers = resolveDynamicPropHelpers(options)
 
   if (isRef(propsOrProp)) {
@@ -430,7 +430,7 @@ export function useDynamicPropFactory(): MakeDynamicPropFn {
   const config = useConfig()
   const { sanitizeHtml, sanitizeUrl } = useSecurity()
   const { localize } = useLocale()
-  const defaultContext$ = useComponentContext()
+  const defaultContext$ = useContext()
 
   /**
    * Resolves a raw dynamic prop value into an expression-aware computed.

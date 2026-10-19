@@ -18,6 +18,7 @@
 import {
   defineEvents,
   useBlueprint,
+  inputAria,
   type OptionGroupChildrenProp,
   type OptionsProp,
   type OptionValueProp,
@@ -88,19 +89,35 @@ const slots =
     >
   >()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-listbox',
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const {
   value,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   invalid,
   rawItems,
   itemLabel,
@@ -123,7 +140,6 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
       <Listbox
-        :class="classes.input"
         v-model="value"
         :options="rawItems"
         :option-label="itemLabel"
@@ -135,12 +151,8 @@ defineExpose(expose)
         :invalid
         :multiple
         fluid
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"
         @change="(e) => handleInput(e.value, e.originalEvent)"

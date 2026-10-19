@@ -24,7 +24,7 @@ interface FormProps<
 
   /**
    * The form data object (v-model), or a `useModel` instance whose store the
-   * form adopts (shared data, no cloning or v-model sync).
+   * form attaches (shared data, no cloning or v-model sync).
    */
   modelValue?: Record<string, any> | ModelInstance<any>
 

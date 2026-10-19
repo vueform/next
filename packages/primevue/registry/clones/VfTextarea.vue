@@ -16,6 +16,7 @@ import {
   defineEvents,
   useBlueprint,
   type LanguagesProp,
+  tInputAria,
   vdomPrime,
   type AddonGroupParts,
   type AddonsParts,
@@ -173,6 +174,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfTextareaModifiers,
+  VfTextareaA11y,
   VfCloneNameExpose,
   TextareaApi<TProps>
 > {}
@@ -213,8 +216,16 @@ const slots = defineSlots<VfCloneNameSlots<TTranslate, TLanguages>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -226,6 +237,14 @@ useClasses(() => ({
   root: 'vf-textarea',
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(tInputAria())
+
 const {
   value,
   id,
@@ -233,8 +252,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -298,7 +316,6 @@ declare module 'vue' {
       <VdomPrimeTextarea
         :name
         :id
-        :class="classes.input"
         v-model="inputValue"
         :placeholder
         :disabled
@@ -306,12 +323,8 @@ declare module 'vue' {
         :invalid
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"
         @keypress="handleKeypress"

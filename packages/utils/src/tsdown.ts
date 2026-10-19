@@ -219,6 +219,11 @@ export function selfAugmentationRewrite(name: string): DtsRewrite {
 const coreExternal = (options: CoreTsdownOptions) => [
   'vue',
   options.name,
+  // Internal conditional specifier (see core's `imports` field): it must stay
+  // external so the CONSUMER's resolver picks the mode copy — the `vapor`
+  // condition resolves the vapor-mode compile, everything else the main-mode
+  // one. Bundling it in would freeze one mode into the shared chunks.
+  '#vapor-bindings',
   ...(options.external ?? []),
 ]
 
@@ -297,6 +302,12 @@ export async function createCoreTsdownConfig(
     // the script starts with its own `rm -rf dist`.
     dts: false,
     clean: false,
+    define: {
+      // Folds vapor-only interop out of the main build (e.g. the
+      // `utils/vapor-bindings.ts` accessors, whose Vue 3.6-only export
+      // accesses must never reach the singly-compiled main dist).
+      __VUEFORM_VAPOR__: 'false',
+    },
     outputOptions: {
       banner: indexBanner(options.name, root),
     },
@@ -368,6 +379,13 @@ export async function createCoreVaporTsdownConfig(
   for (const file of sfcBarrels) {
     entries[relative(srcAbs, file).replace(/\.ts$/, '')] = file
   }
+  // The `#vapor-bindings` target: nothing imports it in-build (the specifier
+  // stays external so the consumer's resolver picks the mode copy — see
+  // core's `imports` field), so it must be an explicit entry to be emitted.
+  const vaporBindings = join(srcAbs, 'utils/vapor-bindings.ts')
+  if (existsSync(vaporBindings)) {
+    entries['utils/vapor-bindings'] = vaporBindings
+  }
 
   return {
     entry: entries,
@@ -381,6 +399,12 @@ export async function createCoreVaporTsdownConfig(
     deps: { neverBundle: coreExternal(options) },
     // Types are not re-emitted; vapor exports reuse the main dist's d.ts.
     dts: false,
+    define: {
+      // Compiles vapor-only interop in (e.g. the `utils/vapor-bindings.ts`
+      // accessors — the dual-mode closure keeps define-referencing modules
+      // internal to this build instead of resolving them to the main dist).
+      __VUEFORM_VAPOR__: 'true',
+    },
     inputOptions: {
       // The vapor-externals plugin rewrites the absolute main-dist ids
       // itself (relative to each chunk) — rolldown must not pre-relativize
@@ -570,6 +594,13 @@ export async function createAdapterVaporTsdownConfig(
   const sfcBarrels = sfcReexportClosure(srcAbs, dualTrees, [toolsAbs])
   for (const file of sfcBarrels) {
     entries[relative(srcAbs, file).replace(/\.ts$/, '')] = file
+  }
+  // The `#vapor-bindings` target: nothing imports it in-build (the specifier
+  // stays external so the consumer's resolver picks the mode copy — see
+  // core's `imports` field), so it must be an explicit entry to be emitted.
+  const vaporBindings = join(srcAbs, 'utils/vapor-bindings.ts')
+  if (existsSync(vaporBindings)) {
+    entries['utils/vapor-bindings'] = vaporBindings
   }
 
   return {

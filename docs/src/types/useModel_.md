@@ -2,7 +2,7 @@
 /**
  * Creates a standalone form model from a schema, without mounting any
  * components. The returned instance owns the data and exposes the data API;
- * passing it to a form's `v-model` (or `useForm`) makes the form adopt it.
+ * passing it to a form's `v-model` (or `useForm`) makes the form attach it.
  * Setup-only.
  *
  * @param schema The form schema describing the model's shape. A ref/computed

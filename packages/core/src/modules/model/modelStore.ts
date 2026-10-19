@@ -81,7 +81,7 @@ const STORE: unique symbol = Symbol('vueform.modelStore')
  *
  * Both `useModel` (standalone data ownership) and VfForm's internal root model
  * (`useData`) are built on top of it. When a `useModel` instance is passed to a
- * form, the form adopts this store directly, so the data is shared without
+ * form, the form attaches this store directly, so the data is shared without
  * cloning.
  *
  * @param options Model store configuration object.
@@ -90,8 +90,8 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
   const model = ref<Record<string, any>>(options.model ?? {})
   const initialModel = ref<Record<string, any>>(clone(model.value))
   const nullModel = options.nullModel
-  const adopted = ref(false)
-  const adoptingContext = ref<any>(null)
+  const attached = ref(false)
+  const attachingContext = ref<any>(null)
 
   // Incrementing this schedules notify watchers without a deep model
   // traversal. Vue's scheduler coalesces synchronous increments.
@@ -299,22 +299,22 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
     return changed
   }
 
-  const adopt = (context$: any) => {
-    adopted.value = true
-    adoptingContext.value = context$
+  const attach = (context$: any) => {
+    attached.value = true
+    attachingContext.value = context$
   }
 
   const release = () => {
-    adopted.value = false
-    adoptingContext.value = null
+    attached.value = false
+    attachingContext.value = null
   }
 
   const submit = async () => {
-    if (!adoptingContext.value) {
-      warn('`submit()` called on a model that is not adopted by any form')
+    if (!attachingContext.value) {
+      warn('`submit()` called on a model that is not attached by any form')
       return undefined
     }
-    return adoptingContext.value.submit()
+    return attachingContext.value.submit()
   }
 
   const destroy = () => {
@@ -326,8 +326,8 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
     model,
     initialModel,
     nullModel,
-    adopted,
-    adoptingContext,
+    attached,
+    attachingContext,
     notifyTrigger,
     dirty,
     empty,
@@ -348,7 +348,7 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
     on,
     fire,
     consumeValueChanged,
-    adopt,
+    attach,
     release,
     submit,
     destroy,
@@ -369,7 +369,7 @@ export function setModelStore(instance: object, store: ModelStore) {
 /**
  * Returns the underlying model store of a `useModel` instance.
  *
- * Module-internal — consumed by `makeRootModel` for form adoption, never
+ * Module-internal — consumed by `makeRootModel` for form attachment, never
  * exposed outside the module.
  *
  * @param instance The model instance to unwrap.
@@ -380,7 +380,7 @@ export function getModelStore(instance: ModelInstance<any>): ModelStore {
 
 /**
  * Whether a value is a `useModel` instance. VfForm checks `modelValue` with it
- * to adopt the instance's store directly instead of cloning the data.
+ * to attach the instance's store directly instead of cloning the data.
  *
  * @param value The value to check.
  */

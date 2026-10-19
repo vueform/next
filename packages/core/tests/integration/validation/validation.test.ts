@@ -98,6 +98,33 @@ describe('Validation', () => {
       await confirm.validate()
       expect(confirm.invalid).toBe(false)
     })
+
+    it('should warn about a missing required param in dev only', async () => {
+      const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      const { field } = createForm({
+        schema: defineSchema({
+          field: { type: 'text', rules: 'min', default: 'abc' },
+        }),
+      })
+
+      await field.validate()
+      expect(warnSpy).toHaveBeenCalledWith(
+        expect.stringContaining('Param `min` is not provided')
+      )
+
+      warnSpy.mockClear()
+      vi.stubEnv('NODE_ENV', 'production')
+      try {
+        await field.validate()
+        expect(warnSpy).not.toHaveBeenCalledWith(
+          expect.stringContaining('Param `min` is not provided')
+        )
+      } finally {
+        vi.unstubAllEnvs()
+        warnSpy.mockRestore()
+      }
+    })
   })
 
   describe('Validation Triggers', () => {

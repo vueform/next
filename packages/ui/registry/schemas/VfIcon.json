@@ -10,7 +10,7 @@
       "path": "VfIcon.vue",
       "target": "{componentsDir}/VfIcon.vue",
       "kind": "component",
-      "hash": "sha256:94a762edbc969e0b300252566ae6851c8fd04b41c81794bf916569ba2fb43fc8"
+      "hash": "sha256:5bfc41c83310530f1e4523bd726a1a342a6e150b4cfbe889a1cc82f2f3b96c95"
     }
   ],
   "imports": [

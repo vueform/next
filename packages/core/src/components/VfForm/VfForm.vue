@@ -352,11 +352,11 @@ defineExpose(expose)
                   />
                 </slot>
               </template>
-              <template #backText="slotProps">
-                <slot name="backText" v-bind="slotProps">
+              <template #back-text="slotProps">
+                <slot name="back-text" v-bind="slotProps">
                   <component
-                    v-if="outlets?.backText"
-                    :is="outlets?.backText"
+                    v-if="outlets?.['back-text']"
+                    :is="outlets?.['back-text']"
                     v-bind="slotProps"
                   />
                 </slot>
@@ -370,11 +370,11 @@ defineExpose(expose)
                   />
                 </slot>
               </template>
-              <template #nextText="slotProps">
-                <slot name="nextText" v-bind="slotProps">
+              <template #next-text="slotProps">
+                <slot name="next-text" v-bind="slotProps">
                   <component
-                    v-if="outlets?.nextText"
-                    :is="outlets?.nextText"
+                    v-if="outlets?.['next-text']"
+                    :is="outlets?.['next-text']"
                     v-bind="slotProps"
                   />
                 </slot>
@@ -388,11 +388,11 @@ defineExpose(expose)
                   />
                 </slot>
               </template>
-              <template #finishText="slotProps">
-                <slot name="finishText" v-bind="slotProps">
+              <template #finish-text="slotProps">
+                <slot name="finish-text" v-bind="slotProps">
                   <component
-                    v-if="outlets?.finishText"
-                    :is="outlets?.finishText"
+                    v-if="outlets?.['finish-text']"
+                    :is="outlets?.['finish-text']"
                     v-bind="slotProps"
                   />
                 </slot>

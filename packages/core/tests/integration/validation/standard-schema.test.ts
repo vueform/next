@@ -440,7 +440,7 @@ describe('Standard Schema', () => {
       expect(model$.errors).toContain('Passwords must match')
     })
 
-    it('should be picked up by a form adopting the model instance', async () => {
+    it('should be picked up by a form attaching the model instance', async () => {
       const model$ = inSetup(() =>
         useModel(
           {
@@ -466,7 +466,7 @@ describe('Standard Schema', () => {
       expect(confirm.errors).toContain('Passwords must match')
     })
 
-    it('should win over a schema attached via defineSchema when adopted', async () => {
+    it('should win over a schema attached via defineSchema when attached', async () => {
       const attached = standardSchema(() => ({
         issues: [{ message: 'From attached', path: ['confirm'] }],
       }))
@@ -510,8 +510,8 @@ describe('Standard Schema', () => {
 
     // The headless engine registers no path-`''` owner (root-bucket issues go
     // through the validator's rollup fallback), so the mounted form root's own
-    // owner doesn't duplicate them after adoption.
-    it('should not duplicate pathless issues when a form adopts the instance', async () => {
+    // owner doesn't duplicate them after attachment.
+    it('should not duplicate pathless issues when a form attaches the instance', async () => {
       const model$ = inSetup(() =>
         useModel({ name: { type: 'text' } }, undefined, alwaysRootIssue)
       )
@@ -532,7 +532,7 @@ describe('Standard Schema', () => {
       ).toBe(1)
     })
 
-    it('should not duplicate path-targeted issues when a form adopts the instance', async () => {
+    it('should not duplicate path-targeted issues when a form attaches the instance', async () => {
       const model$ = inSetup(() =>
         useModel(
           {
@@ -563,7 +563,7 @@ describe('Standard Schema', () => {
 
     // The engine's per-node owners go dormant while a mounted element claims
     // their node, so they never duplicate the mounted owners in the rollups.
-    it('should not duplicate issues when the instance was validated headlessly before a form adopts it', async () => {
+    it('should not duplicate issues when the instance was validated headlessly before a form attaches it', async () => {
       const model$ = inSetup(() =>
         useModel(
           {

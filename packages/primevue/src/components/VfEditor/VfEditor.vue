@@ -78,7 +78,7 @@ const {
   placeholder,
   viewLoaded,
   invalid,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   editorCss,
@@ -130,7 +130,7 @@ defineExpose(expose)
         :invalid
         :modules
         v-bind="{ ...forwardProps, ...bindings.input }"
-        :ref="(el) => (input = el)"
+        :ref="(el) => (inputRef = el)"
         @load="handleLoad"
         @value-change="handleInput"
       >

@@ -13,15 +13,15 @@ type TextOutlets = ContextOf<'VfText'>['outlets']
 
 describe('context.outlets on the public context', () => {
   test('outlet values are typed slot callbacks, not `any`', () => {
-    expectTypeOf<NonNullable<TextOutlets['addonBefore']>>().not.toBeAny()
-    expectTypeOf<NonNullable<TextOutlets['addonBefore']>>().toExtend<
+    expectTypeOf<NonNullable<TextOutlets['addon-before']>>().not.toBeAny()
+    expectTypeOf<NonNullable<TextOutlets['addon-before']>>().toExtend<
       (...args: any[]) => any
     >()
   })
 
   test('the payload keeps its declared shape', () => {
     expectTypeOf<
-      Parameters<NonNullable<TextOutlets['addonBefore']>>[0]
+      Parameters<NonNullable<TextOutlets['addon-before']>>[0]
     >().toExtend<{
       addonBefore: unknown
     }>()

@@ -10,7 +10,7 @@
       "path": "VfColorPicker.vue",
       "target": "{componentsDir}/VfColorPicker.vue",
       "kind": "component",
-      "hash": "sha256:507c30a5026e8d897aae66994b3d740a3f2d1ed1a96db4604f7954a731623c9a"
+      "hash": "sha256:27a21caf80d8137f11f5c37b6a308774ff7af5611ec703b1c8792d725661b642"
     }
   ],
   "imports": [
@@ -26,7 +26,7 @@
   "clone": {
     "path": "VfColorPicker.vue",
     "blueprint": "color-picker",
-    "hash": "sha256:9ab914045d000d2c15613df2fe8415a669fef0ef70b62bb0991eec4c1fbb76e1",
+    "hash": "sha256:2fd0eed86745b5edb79b8e577452456cef5d737698326d7f0500b503e729859c",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -6,20 +6,20 @@ type MakeRootModelOptions = {
   /**
    * The reactive ref bound to the form's `v-model`, used as the initial source
    * of truth for the root model. When it holds a `useModel` instance, its store
-   * is adopted directly (shared data, no clone or v-model sync).
+   * is attached directly (shared data, no clone or v-model sync).
    */
   modelValue: Ref<any>
 
   /**
    * Whether the component has an active `v-model` binding (raw prop detection,
-   * supplied by the component adapter). Adopted stores override it to `false`
+   * supplied by the component adapter). Attached stores override it to `false`
    * internally — the store is the single source of truth, so no v-model
    * emission happens.
    */
   hasVModel: Ref<boolean>
 
   /**
-   * The form's component context, recorded on adopted stores (backing
+   * The form's component context, recorded on attached stores (backing
    * `instance.submit()`) and passed to `change` events. Opaque to the module.
    */
   context$: any

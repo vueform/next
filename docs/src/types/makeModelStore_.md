@@ -7,7 +7,7 @@
  *
  * Both `useModel` (standalone data ownership) and VfForm's internal root model
  * (`useData`) are built on top of it. When a `useModel` instance is passed to a
- * form, the form adopts this store directly, so the data is shared without
+ * form, the form attaches this store directly, so the data is shared without
  * cloning.
  *
  * @param options Model store configuration object.
@@ -16,8 +16,8 @@ function makeModelStore(options: ModelStoreOptions = {}): {
   model: Ref<Record<string, any>, Record<string, any>>
   initialModel: Ref<Record<string, any>, Record<string, any>>
   nullModel: Record<string, any> | undefined
-  adopted: Ref<boolean, boolean>
-  adoptingContext: Ref<any, any>
+  attached: Ref<boolean, boolean>
+  attachingContext: Ref<any, any>
   notifyTrigger: Ref<number, number>
   dirty: ComputedRef<boolean>
   empty: ComputedRef<boolean>
@@ -47,7 +47,7 @@ function makeModelStore(options: ModelStoreOptions = {}): {
   on: (event: ModelStoreEvents, cb: (...args: any[]) => void) => () => void
   fire: (event: ModelStoreEvents, ...args: any[]) => void
   consumeValueChanged: () => boolean
-  adopt: (context$: any) => void
+  attach: (context$: any) => void
   release: () => void
   submit: () => Promise<any>
   destroy: () => void

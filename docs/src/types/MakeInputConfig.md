@@ -6,7 +6,7 @@ type MakeInputConfig = {
   /**
    * Whether the registered input's DOM value is the model's own serialization —
    * i.e. copying the DOM value into the model as-is is always safe. When on
-   * (the default), `handleInput` may adopt values resolved from native events,
+   * (the default), `handleInput` may pick up values resolved from native events,
    * and the registered input gains recovery listeners that pick up value
    * changes no bound event reported (change-only autofill, password managers,
    * the composition trailing edge without `v-model`). Blueprints whose DOM

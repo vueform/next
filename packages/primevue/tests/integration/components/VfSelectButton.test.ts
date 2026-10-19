@@ -215,9 +215,10 @@ describe('Interaction events', () => {
       }),
     })
 
+    // PrimeVue's SelectButton emits no focus/blur component events — focus is
+    // observed via native focusin/focusout bubbling from the toggle buttons.
     const sb = form.findComponent({ name: 'SelectButton' })
-    sb.vm.$emit('focus', new FocusEvent('focus'))
-    await nextTick()
+    await sb.trigger('focusin')
 
     expect(el.focused).toBe(true)
   })
@@ -230,10 +231,8 @@ describe('Interaction events', () => {
     })
 
     const sb = form.findComponent({ name: 'SelectButton' })
-    sb.vm.$emit('focus', new FocusEvent('focus'))
-    await nextTick()
-    sb.vm.$emit('blur', new FocusEvent('blur'))
-    await nextTick()
+    await sb.trigger('focusin')
+    await sb.trigger('focusout')
 
     expect(el.focused).toBe(false)
   })

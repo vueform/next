@@ -9,7 +9,7 @@ import { useElementContext, useFormContext } from '#src/contexts'
  * @private
  * @param prop The prop name to look up on the element and form contexts.
  */
-export function useFallbackProp<T = any>(prop: string): Ref<T> {
+export function useEffectiveProp<T = any>(prop: string): Ref<T> {
   const el$ = useElementContext()
   const form$ = useFormContext()
 

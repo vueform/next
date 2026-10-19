@@ -1,6 +1,6 @@
 import { toRaw, type Ref } from 'vue'
 
-import { CLASS_REGISTRAR, useComponentContext } from '#src/contexts'
+import { CLASS_REGISTRAR, useContext } from '#src/contexts'
 import type {
   ClassesOf,
   ClassInput,
@@ -76,7 +76,7 @@ export function useClasses<
   T extends ComponentNames,
   D extends TemplateClassDefs<T>[],
 >(_name: T, ...defs: D): TemplateClassesOf<T, D> {
-  const context$ = useComponentContext()
+  const context$ = useContext()
   const register = toRaw(context$)?.[CLASS_REGISTRAR]
 
   if (typeof register !== 'function') {

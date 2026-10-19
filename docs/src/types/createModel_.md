@@ -8,7 +8,7 @@
  * The returned instances own their data and expose the familiar data API
  * (`update` / `load` / `clear` / `reset` / `clean`, `dirty` / `empty`,
  * path-based `get` / `set`, `toJSON` / `toFormData`). Passing one to a form's
- * `v-model` (or `useForm`) makes the form adopt it — the same store is shared
+ * `v-model` (or `useForm`) makes the form attach it — the same store is shared
  * without cloning, and `submit()` becomes available.
  *
  * ```ts

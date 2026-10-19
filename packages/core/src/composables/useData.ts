@@ -15,7 +15,7 @@ import {
 } from 'vue'
 
 import {
-  useComponentContext,
+  useContext,
   useFormContext,
   type ContainerContext,
 } from '#src/contexts'
@@ -48,7 +48,7 @@ import {
 
 import {
   useCurrentInstance,
-  useFallbackProp,
+  useEffectiveProp,
   useDynamicPropFactory,
   type VueformChildren,
 } from './'
@@ -221,7 +221,7 @@ type UseDataOptions = {
 
   /**
    * Whether this element operates as the form root, owning the root model:
-   * adopting a `useModel` instance passed via `modelValue`, or creating an
+   * attaching a `useModel` instance passed via `modelValue`, or creating an
    * internal store from the plain `modelValue`. Mutually exclusive with
    * `container`.
    */
@@ -322,13 +322,13 @@ export function useData(options: UseDataOptions) {
     form$?.index
   )
   const modelModule = getModelModule()
-  const context$ = useComponentContext()
+  const context$ = useContext()
   const instance = useCurrentInstance()
   const componentScope = getCurrentScope()
   const { makeElementValidation } = getValidationModule()
   const makeDynamicProp = useDynamicPropFactory()
-  const clearCustomErrors = useFallbackProp<boolean>('clearCustomErrors')
-  const validateOn = useFallbackProp<ValidateOnProp>('validateOn')
+  const clearCustomErrors = useEffectiveProp<boolean>('clearCustomErrors')
+  const validateOn = useEffectiveProp<ValidateOnProp>('validateOn')
 
   /**
    * Whether the component has an active `v-model` binding.
@@ -643,7 +643,7 @@ export function useData(options: UseDataOptions) {
   // ============= VALIDATION =============
 
   /**
-   * The element's validation view-model: owner identity, validator adoption,
+   * The element's validation view-model: owner identity, validator attachment,
    * rule compilation, per-language views, and validation policy.
    */
   const dataValidation = makeElementValidation({
@@ -1002,7 +1002,7 @@ export function useData(options: UseDataOptions) {
       if (data !== undefined) {
         options.container!.update(
           `${dataPath.value}${!isPlainObject(data) && translatable.value ? `.${language.value}` : ''}`,
-          options?.cast ? data : normalize(data)
+          unref(options.cast) ? data : normalize(data)
         )
       }
 
@@ -1605,7 +1605,7 @@ export function useData(options: UseDataOptions) {
      */
     initialModel,
     /**
-     * The root model backing the form (store, index, registration, adoption
+     * The root model backing the form (store, index, registration, attachment
      * state). Only present when the `root` option is set.
      */
     rootModel,

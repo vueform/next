@@ -69,7 +69,7 @@ const [MyForm] = useForm({ schema, endpoint: '/api/register' })
 
 Mounted, each element validates on its [triggers](#when-validation-runs) (by default: first blur and step navigation, plus submission always validates anything without a current passing result), errors render under the inputs, and a failed validation blocks submission while Vueform scrolls to and focuses the first invalid element.
 
-The two worlds aren't alternatives — they share one engine. When a form [adopts](/guide/model#adopting-the-model) a `!useModel` instance, they share a single validator: the state you read on the instance is the same state the form renders.
+The two worlds aren't alternatives — they share one engine. When a form [attaches](/guide/model#attaching-the-model) a `!useModel` instance, they share a single validator: the state you read on the instance is the same state the form renders.
 
 ```ts
 const model = useModel(schema)
@@ -617,7 +617,7 @@ When several sources are present, exactly one wins — they don't merge. From hi
 
 1. `:validation-schema` passed on the rendered component (`<VfForm>` / `<MyForm>` in the template)
 2. `validationSchema` in `!useForm`'s options (this and #1 are the same underlying form prop — a template-level value overrides it)
-3. The adopted `!useModel` instance's `validationSchema` option
+3. The attached `!useModel` instance's `validationSchema` option
 4. One attached to the schema via `!defineSchema`'s second argument
 
 The more specific source always wins: schema definition < model instance < form usage. Vueform warns in development when a prop or instance option silently overrides an attached schema.

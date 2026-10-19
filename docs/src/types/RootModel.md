@@ -7,25 +7,25 @@
  */
 type RootModel = {
   /**
-   * The backing model store — the form's own, or the adopted `useModel` store
+   * The backing model store — the form's own, or the attached `useModel` store
    * when `modelValue` carries one.
    */
   store: ModelStore
 
   /**
-   * Whether the model adopted an existing `useModel` store from `modelValue`
+   * Whether the model attached an existing `useModel` store from `modelValue`
    * instead of creating its own.
    */
-  adopted: boolean
+  attached: boolean
 
   /**
-   * The schema index describing every data-carrying element: the adopted
+   * The schema index describing every data-carrying element: the attached
    * instance's index, or an empty one for internally created stores.
    */
   index: SchemaIndex
 
   /**
-   * The adopted `useModel` instance's element lookup, `undefined` when the
+   * The attached `useModel` instance's element lookup, `undefined` when the
    * store was created internally.
    */
   modelFind: ((path: string) => StatefulElement | undefined) | undefined
@@ -58,7 +58,7 @@ type RootModel = {
 
   /**
    * Removes an element's data path from the model. No-op once the form is torn
-   * down when the store is adopted, so the store's data survives child
+   * down when the store is attached, so the store's data survives child
    * unregistration.
    */
   unregister: (dataPath: string) => void
@@ -76,7 +76,7 @@ type RootModel = {
   init: () => void
 
   /**
-   * Tears down the model binding and releases (adopted) or destroys (own) the
+   * Tears down the model binding and releases (attached) or destroys (own) the
    * store.
    */
   destroy: () => void

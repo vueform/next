@@ -397,16 +397,16 @@ const [MyForm] = useForm({
 
 ## Custom Navigation
 
-Each navigation button has a pair of slots: `#back` / `#next` / `#finish` replace the whole button, while `#backText` / `#nextText` / `#finishText` swap only the label inside the default button — keeping its styling, disabled, and loading behavior:
+Each navigation button has a pair of slots: `#back` / `#next` / `#finish` replace the whole button, while `#back-text` / `#next-text` / `#finish-text` swap only the label inside the default button — keeping its styling, disabled, and loading behavior:
 
 ::: usage w-xl
 
 ```vue [Preview]
 <VfForm stepped hide-errors>
-  <template #nextText="{ pager }">
+  <template #next-text="{ pager }">
     Continue ({{ pager.index + 1 }}/{{ pager.pages.length }})
   </template>
-  <template #finishText>
+  <template #finish-text>
     Complete
   </template>
   <VfGroup name="personal" page="Personal">
@@ -454,12 +454,12 @@ const [MyForm] = useForm({
   stepped: true,
   hideErrors: true,
   slots: {
-    nextText: defineSlot('VfForm.nextText', {
+    'next-text': defineSlot('VfForm.next-text', {
       props: ['pager'],
       setup: (props) => () =>
         `Continue (${props.pager.index + 1}/${props.pager.pages.length})`,
     }),
-    finishText: defineSlot('VfForm.finishText', {
+    'finish-text': defineSlot('VfForm.finish-text', {
       setup: () => () => 'Complete',
     }),
   },
@@ -686,7 +686,7 @@ Configure the component's behavior and appearance with these props.
 
 | Prop | Default | Description |
 | --- | --- | --- |
-| [`modelValue`](!code#props.modelValue "Record<string, any> \| ModelInstance<any>") | — | The form data object (v-model), or a `useModel` instance whose store the form adopts (shared data, no cloning or v-model sync). |
+| [`modelValue`](!code#props.modelValue "Record<string, any> \| ModelInstance<any>") | — | The form data object (v-model), or a `useModel` instance whose store the form attaches (shared data, no cloning or v-model sync). |
 | [`transformPayload`](!code#props.transformPayload "(payload: Record<string, any>, context$: any) => Record<string, any>") | — | Transforms form data before submission. |
 
 ### Validation {#props-validation}
@@ -757,7 +757,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`validationDisabled`](!code#context.validationDisabled "boolean") | Whether submit-time validation is currently disabled (see `disableValidation` / `enableValidation`). |
 | [`disableValidation()`](!code#context.disableValidation "() => void") | Turns off the form's built-in submit-time validation entirely — the floor that otherwise always runs regardless of `validateOn`. Deliberately a programmatic call rather than a prop: opting out of validation should be an explicit act in code, not a template flag. `enableValidation` turns it back on. |
 | [`enableValidation()`](!code#context.enableValidation "() => void") | Re-enables the form's submit-time validation after `disableValidation`. |
-| [`index`](!code#context.index "SchemaIndex") | The schema index describing every data-carrying element: the adopted instance's index, or an empty one for internally created stores. |
+| [`index`](!code#context.index "SchemaIndex") | The schema index describing every data-carrying element: the attached instance's index, or an empty one for internally created stores. |
 | [`resolvedConsts`](!code#context.resolvedConsts "Record<string, any> \| undefined") | Resolved form-level expression constants. Each TProp value is resolved to a primitive and made available to the expression evaluation scope. |
 | [`validator`](!code#context.validator "Validator") | The validator instance the element is registered with: the form's validator, a store-attached one, or a newly created one. |
 | [`issues`](!code#context.issues "Issue[]") | The form's current validation issues as reported by the validator. |
@@ -768,7 +768,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`loadAutosaved()`](!code#context.loadAutosaved "() => Promise<boolean>") | Loads the stored draft into the form, resolving whether a draft was found and loaded (async because a configured `$security.decrypt` may be). Unlike the automatic load on mount, a manual call fires no `autosaveRestore` pre-hook — calling it _is_ the consent. |
 | [`toJSON()`](!code#context.toJSON "() => string") | Serializes the current model value to a JSON string. |
 | [`toFormData()`](!code#context.toFormData "() => FormData") | Serializes the current model value to a `FormData` instance. |
-| [`hasAdoptedModel`](!code#context.hasAdoptedModel "boolean") | Whether the form adopted a `useModel` instance's store (passed via `v-model` / the `modelValue` prop). |
+| [`hasAttachedModel`](!code#context.hasAttachedModel "boolean") | Whether the form attached a `useModel` instance's store (passed via `v-model` / the `modelValue` prop). |
 | [`scrollToTop()`](!code#context.scrollToTop "() => void") | Scrolls the viewport to the top of the form element. |
 | [`scrollToFirstError()`](!code#context.scrollToFirstError "() => Promise<any>") | Scrolls the viewport to the first element that has a validation error. |
 | [`focusFirstError()`](!code#context.focusFirstError "(scroll: boolean \| undefined) => Promise<any>") | Focuses the first element that has a validation error and optionally scrolls to it. |
@@ -845,7 +845,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`registerChild()`](!code#context.registerChild "(context$: any, path: string, dataPath: string \| undefined, initialModel: any) => void") | Registers a child element with the form, setting up its model and data path tracking. |
 | [`unregisterChild()`](!code#context.unregisterChild "(path: string, dataPath: string \| undefined, instance: any) => void") | Unregisters a child element from the form, cleaning up its model and data path tracking. |
 | [`updateChild()`](!code#context.updateChild "(dataPath: string, value: any) => void") | Updates a child element's value in the root model by its data path. |
-| [`find()`](!code#context.find "(path: string) => any") | Finds a registered element by its path or data path. When the form adopted a `useModel` instance, unmounted schema elements resolve to their virtual contexts as a last resort. |
+| [`find()`](!code#context.find "(path: string) => any") | Finds a registered element by its path or data path. When the form attached a `useModel` instance, unmounted schema elements resolve to their virtual contexts as a last resort. |
 | [`findByDataPath()`](!code#context.findByDataPath "(dataPath: string) => any") | Finds a registered element by its data path. |
 | [`findSiblings()`](!code#context.findSiblings "(path: string) => any[]") | Returns all sibling elements that share the same parent path. |
 | [`get()`](!code#context.get "(path: string) => any") | Gets the value of an element by path, falling back to the raw model value. When the path contains a `@` separator (e.g. `name@label` or `name@nested.prop`), returns the specified property from the element context instead of its model value. |
@@ -949,11 +949,11 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `default` | [`resolvedSchema`](!code#slot.default.resolvedSchema "ResolvedSchema") | Slot for the default form body content. Receives the resolved schema. |
 | `nav` | [`pager`](!code#slot.nav.pager "Pager") [`next`](!code#slot.nav.next "TProp") [`back`](!code#slot.nav.back "TProp") [`finish`](!code#slot.nav.finish "TProp") [`hideBack`](!code#slot.nav.hideBack "boolean") [`position`](!code#slot.nav.position "NavPosProp") | Slot that replaces the navigation bar. Receives pager, button labels, and visibility. |
 | `back` | [`label`](!code#slot.back.label "TProp \| string \| undefined") [`pager`](!code#slot.back.pager "Pager") [`form$`](!code#slot.back.form$ "any") [`disabled`](!code#slot.back.disabled "boolean \| string \| ConditionalProp") [`fluid`](!code#slot.back.fluid "boolean") [`bindings`](!code#slot.back.bindings "VfNavBindings['back']") [`back`](!code#slot.back.back "() => Promise<void>") | Slot that replaces the back button in the navigation bar. |
-| `backText` | [`label`](!code#slot.backText.label "string \| undefined") [`pager`](!code#slot.backText.pager "Pager") [`form$`](!code#slot.backText.form$ "any") | Slot that replaces the back button's text label. |
+| `back-text` | [`label`](!code#slot.back-text.label "string \| undefined") [`pager`](!code#slot.back-text.pager "Pager") [`form$`](!code#slot.back-text.form$ "any") | Slot that replaces the back button's text label. |
 | `next` | [`label`](!code#slot.next.label "TProp \| string \| undefined") [`pager`](!code#slot.next.pager "Pager") [`form$`](!code#slot.next.form$ "any") [`disabled`](!code#slot.next.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.next.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.next.fluid "boolean") [`bindings`](!code#slot.next.bindings "VfNavBindings['next']") [`next`](!code#slot.next.next "() => Promise<void>") | Slot that replaces the next button in the navigation bar. |
-| `nextText` | [`label`](!code#slot.nextText.label "string \| undefined") [`pager`](!code#slot.nextText.pager "Pager") [`form$`](!code#slot.nextText.form$ "any") | Slot that replaces the next button's text label. |
+| `next-text` | [`label`](!code#slot.next-text.label "string \| undefined") [`pager`](!code#slot.next-text.pager "Pager") [`form$`](!code#slot.next-text.form$ "any") | Slot that replaces the next button's text label. |
 | `finish` | [`label`](!code#slot.finish.label "TProp \| string \| undefined") [`pager`](!code#slot.finish.pager "Pager") [`form$`](!code#slot.finish.form$ "any") [`disabled`](!code#slot.finish.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.finish.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.finish.fluid "boolean") [`bindings`](!code#slot.finish.bindings "VfNavBindings['finish']") [`finish`](!code#slot.finish.finish "() => Promise<void>") | Slot that replaces the finish button in the navigation bar. |
-| `finishText` | [`label`](!code#slot.finishText.label "string \| undefined") [`pager`](!code#slot.finishText.pager "Pager") [`form$`](!code#slot.finishText.form$ "any") | Slot that replaces the finish button's text label. |
+| `finish-text` | [`label`](!code#slot.finish-text.label "string \| undefined") [`pager`](!code#slot.finish-text.pager "Pager") [`form$`](!code#slot.finish-text.form$ "any") | Slot that replaces the finish button's text label. |
 | `errors` | [`errors`](!code#slot.errors.errors "Record<string, string[]>") [`id`](!code#slot.errors.id "string") [`bindings`](!code#slot.errors.bindings "VfFormBindings['errors']") | Slot that replaces the form-level errors container. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") [`id`](!code#slot.messages.id "string") [`bindings`](!code#slot.messages.bindings "VfFormBindings['messages']") | Slot that replaces the form-level messages container. |
 <!-- @slots-end -->

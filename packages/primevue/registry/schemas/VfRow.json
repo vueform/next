@@ -10,7 +10,7 @@
       "path": "VfRow.vue",
       "target": "{componentsDir}/VfRow.vue",
       "kind": "component",
-      "hash": "sha256:b4d9a1b30a3eb5ec79caa6e92766d2551b17e1958d3f6503a7b23eeffa4556a9"
+      "hash": "sha256:ae1eff2223d7498ef341180612dd090ed5d91b58cfadda7939aa767fed410c00"
     }
   ],
   "imports": [

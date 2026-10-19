@@ -10,13 +10,12 @@
       "path": "VfInputMask.vue",
       "target": "{componentsDir}/VfInputMask.vue",
       "kind": "component",
-      "hash": "sha256:ce0709c568837ee8cf967dfca7f26d2fb50deaabef625e279a6b67247d941b3d"
+      "hash": "sha256:1a4695ac52d9947f2928879002b3e0d748d92c9789d28ea5946fc8bbf83d95fe"
     }
   ],
   "imports": [
     "@vueform/primevue",
     "primevue/inputmask",
-    "vue",
     "@vueform/primevue/components/VfInputMask"
   ],
   "dependencies": {},
@@ -25,7 +24,7 @@
   "clone": {
     "path": "VfInputMask.vue",
     "blueprint": "input-mask",
-    "hash": "sha256:6a732e36b58b05007998c2dad1569f9aea9ef8b080c610c324ba457fbea0fcf6",
+    "hash": "sha256:057181d986d9a44dfbd40b7c5ecad5c68144cd92e51cb872553f553370ed4828",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

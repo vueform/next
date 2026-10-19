@@ -824,9 +824,9 @@ export interface VfRangeEmits<
 :::
 
 ```ts
-import { useComponentContext } from '@vueform/ui'
+import { useContext } from '@vueform/ui'
 
-const context$ = useComponentContext() // the component's own context
+const context$ = useContext() // the component's own context
 
 const clear = () => {
   api.value.value = null

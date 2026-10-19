@@ -1,4 +1,4 @@
-import { defineSchema, useClasses, useContext } from '@vueform/core'
+import { defineSchema, useClasses, useTemplateContext } from '@vueform/core'
 import { defineComponent, h, markRaw, nextTick, ref } from 'vue'
 
 import { createForm } from '../../helpers'
@@ -15,7 +15,7 @@ const TemplateDef = defineComponent({
   name: 'TemplateClasses',
   props: { context: { type: Object, required: true } },
   setup: () => {
-    const { classes } = useContext('VfText')
+    const { classes } = useTemplateContext('VfText')
 
     useClasses('VfText', { input: 'tpl-input', icon: 'tpl-icon' })
     useClasses('VfText', (el$) => ({
@@ -41,7 +41,7 @@ const IconOnly = markRaw(
     name: 'TemplateIconOnly',
     props: { context: { type: Object, required: true } },
     setup: () => {
-      const { classes } = useContext('VfText')
+      const { classes } = useTemplateContext('VfText')
 
       useClasses('VfText', { icon: 'tpl-icon' })
 

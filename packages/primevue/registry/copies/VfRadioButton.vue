@@ -4,7 +4,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import {
   blueprint,
   defaults,
@@ -33,8 +38,17 @@ const props = withDefaults(
 const events = defineEvents<VfRadioButtonEmits<TRadioValue>>()
 const slots = defineSlots<VfRadioButtonSlots<TRadioValue>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const radioValue = propRefs.value as Ref<TRadioValue> // @todo: look into if it's possible to remove this from all comps
 
@@ -46,10 +60,9 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  a11yBindings,
   inputName,
   text,
-  input,
+  inputRef,
   genericName,
   forwardProps,
   forwardSlots,
@@ -65,6 +78,21 @@ useClasses(() => ({
   text: 'vf-choice-text',
 }))
 
+useModifiers(({ props, hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  wrapper: {
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 defineExpose(expose)
 </script>
 
@@ -75,12 +103,12 @@ defineExpose(expose)
       <slot
         :model
         :value="radioValue"
-        :a11y-bindings
         :input-name
         :id
         :disabled
-        :input
+        :input-ref="inputRef"
         :text
+        :bindings="bindings.wrapper"
         :handle-blur
         :handle-focus
         :handle-input
@@ -91,41 +119,28 @@ defineExpose(expose)
           :is="outlets.default"
           :model
           :value="radioValue"
-          :a11y-bindings
           :input-name
           :id
           :disabled
-          :input
+          :input-ref="inputRef"
           :text
+          :bindings="bindings.wrapper"
           :handle-blur
           :handle-focus
           :handle-input
           :handle-model-update
-          :class="classes.wrapper"
-          v-bind="parts.wrapper"
         />
-        <div
-          v-else
-          :class="classes.wrapper"
-          :data-align="props.align || undefined"
-          :data-aligned="props.aligned ? '' : undefined"
-          v-bind="parts.wrapper"
-        >
+        <div v-else v-bind="bindings.wrapper">
           <RadioButton
             v-model="value"
             :name="inputName"
             :input-id="id"
-            :class="classes.input"
             :value="radioValue"
             :disabled
             :readonly
             :invalid
-            v-bind="{
-              ...a11yBindings.input,
-              ...forwardProps,
-              ...parts.input,
-            }"
-            :ref="(el) => (input = el)"
+            v-bind="{ ...bindings.input, ...forwardProps }"
+            :ref="(el) => (inputRef = el)"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
@@ -138,30 +153,18 @@ defineExpose(expose)
               <component :is="slot" v-bind="scope" />
             </template>
           </RadioButton>
-          <slot
-            name="text"
-            :text
-            :id
-            :generic-name
-            :class="classes.text"
-            v-bind="parts.text"
-          >
+          <slot name="text" :text :id :generic-name :bindings="bindings.text">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :class="classes.text"
-              v-bind="parts.text"
+              :bindings="bindings.text"
             />
-            <label
-              v-else-if="text"
-              :class="classes.text"
-              :for="id"
-              v-bind="parts.text"
-              >{{ text }}</label
-            >
+            <label v-else-if="text" :for="id" v-bind="bindings.text">
+              {{ text }}
+            </label>
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>
           </slot>
         </div>

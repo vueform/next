@@ -5,5 +5,5 @@
  *
  * @param prop The prop name to look up on the element and form contexts.
  */
-function useFallbackProp<T = any>(prop: string): Ref<T>
+function useEffectiveProp<T = any>(prop: string): Ref<T>
 ```

@@ -29,9 +29,9 @@ export interface IconsSlots {
   /**
    * Slot that replaces the icon rendered before the input.
    *
-   * @param scope The iconBefore slot's params.
+   * @param scope The icon-before slot's params.
    */
-  iconBefore: (scope: {
+  'icon-before': (scope: {
     /**
      * The resolved icon class string.
      */
@@ -41,9 +41,9 @@ export interface IconsSlots {
   /**
    * Slot that replaces the icon rendered after the input.
    *
-   * @param scope The iconAfter slot's params.
+   * @param scope The icon-after slot's params.
    */
-  iconAfter: (scope: {
+  'icon-after': (scope: {
     /**
      * The resolved icon class string.
      */

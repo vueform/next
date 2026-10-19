@@ -268,8 +268,8 @@ declare module '@vueform/ui/components/VfText' {
 [Slots](/guide/slots) can be filled two ways in Vueform: inline [template slots](/guide/slots#template-slots) and the [`slots` prop](/guide/slots#the-slots-prop). A custom template sees both through a common surface Vueform calls **outlets** — `context.outlets` holds an entry for every filled slot, whichever way it was defined (when both fill the same slot, the inline one wins). The keys are typed:
 
 ```ts
-context.outlets.
-//              <|*addonAfter@"(property) addonAfter?: ((props: { addonAfte..."|addonBefore|description|...
+context.outlets['']
+//               <|*addon-after@"(property) addon-after?: ((props: { addonAf..."|addon-before|description|...
 ```
 
 <br />
@@ -524,7 +524,7 @@ Each listener has its own job:
 - **`@focus="handleFocus"`** — sets `focused` and `visited` and fires the `focus` event.
 - **`@blur="handleBlur"`** — clears `focused`, sets `touched`, and fires the `blur` event — which is also what runs blur-mode validation. Skip it and `validateOn: ['blur']` never validates.
 
-`:ref="context.setInputRef"` registers the DOM node as the element's underlying input (`context.input`) — and it's more than a ref: on registered native inputs Vueform also watches for value changes that no bound event reported (a password manager or autofill that fires only `change`, for example) and adopts them as user input, so don't skip the binding.
+`:ref="context.setInputRef"` registers the DOM node as the element's underlying input (`context.inputRef`) — and it's more than a ref: on registered native inputs Vueform also watches for value changes that no bound event reported (a password manager or autofill that fires only `change`, for example) and picks them up as user input, so don't skip the binding.
 
 The same shape covers every kind of control — bind `handleInput` to whatever event means _"the user changed it"_:
 

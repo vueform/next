@@ -102,6 +102,8 @@ export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfHiddenModifiers,
+  VfHiddenA11y,
   VfCloneNameExpose,
   HiddenApi
 > {}

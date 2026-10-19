@@ -63,6 +63,8 @@ type MakeDataOptions<C extends MakeDataConfig = {}> = {
     languages?: LanguagesProp | undefined
     nullValue?: any
 
+    string?: boolean
+
     /**
      * Transforms the element's value when submitting the form.
      *

@@ -782,7 +782,7 @@ This sync happens once, on mount, and is controlled by the `syncSteps` prop (def
 </VfForm>
 ```
 
-If data arrives **after** mount — loaded from an API, pushed into an adopted model — call `syncSteps()` on the form context to re-run the sync on demand. It works with the prop disabled too:
+If data arrives **after** mount — loaded from an API, pushed into an attached model — call `syncSteps()` on the form context to re-run the sync on demand. It works with the prop disabled too:
 
 ```ts
 const [MyForm, form$, formReady] = useForm({ schema, stepped: true }, model)
@@ -908,7 +908,7 @@ Every part of the paging UI is replaceable through [Slots](/guide/slots), at two
 | -------------- | ----------------- | ------------------------------------------------------------------------------------------------------ |
 | Tab bar        | `#tabs`           | `#tab`                                                                                                 |
 | Step indicator | `#steps`          | `#step`                                                                                                |
-| Navigation bar | `#nav`            | `#back` / `#next` / `#finish` (whole buttons), `#backText` / `#nextText` / `#finishText` (labels only) |
+| Navigation bar | `#nav`            | `#back` / `#next` / `#finish` (whole buttons), `#back-text` / `#next-text` / `#finish-text` (labels only) |
 
 The wholesale slots receive the `pager`, so a custom bar drives navigation through the [Pager API](#pager-api). The piece slots receive their resolved state: a tab or step gets `label`, `index`, `selected`, `invalid`, and `meta` from [Page Metadata](#page-metadata) (steps add `enabled` and `completed`), a button gets its `label`, `disabled`, `loading`, and its action to call (`next`, `back`, or `finish`). For example, numbering the steps and checking off completed ones:
 

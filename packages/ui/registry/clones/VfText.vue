@@ -13,10 +13,10 @@
  */
 
 import {
+  tInputAria,
   useBlueprint,
   defineEvents,
   type LanguagesProp,
-  autocompleteTokenOf,
   type AddonGroupClasses,
   type AddonGroupParts,
   type AddonsParts,
@@ -161,6 +161,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfTextModifiers,
+  VfTextA11y,
   VfCloneNameExpose,
   TextApi<TProps>
 > {}
@@ -198,8 +200,17 @@ const slots = defineSlots<VfCloneNameSlots<TTranslate, TLanguages>>()
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -212,16 +223,27 @@ useClasses(() => ({
   input: 'vf-input vf-text-input',
 }))
 
+useModifiers(({ help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(tInputAria())
+
 const {
   value,
   id,
+  autocomplete,
   loading,
   readonly,
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   handleKeydown,
   handleKeyup,
@@ -231,7 +253,7 @@ const {
   handleInput,
 } = api
 
-const { inputType, autocomplete, inputmode } = propRefs
+const { inputType, inputmode } = propRefs
 
 defineExpose(expose)
 </script>
@@ -276,18 +298,14 @@ declare module 'vue' {
         :type="inputType"
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :placeholder
-        :autocomplete="autocomplete ?? autocompleteTokenOf(name)"
+        :autocomplete
         :inputmode
         :disabled
         :readonly="readonly || undefined"
-        v-bind="{
-          ...a11yBindings.input,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="bindings.input"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"
         @keypress="handleKeypress"

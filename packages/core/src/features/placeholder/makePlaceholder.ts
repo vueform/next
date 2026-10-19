@@ -1,7 +1,7 @@
 import { computed } from 'vue'
 
-import { useDynamicProp, useFallbackProp } from '#src/composables'
-import { useComponentContext } from '#src/contexts'
+import { useDynamicProp, useEffectiveProp } from '#src/composables'
+import { useContext } from '#src/contexts'
 import { defineFeature } from '#src/helpers'
 import type { ShowRequiredProp, TProp } from '#src/types'
 
@@ -23,8 +23,8 @@ type MakePlaceholderOptions = {
 export const makePlaceholder = defineFeature(
   () =>
     ({ props }: MakePlaceholderOptions) => {
-      const context$ = useComponentContext()
-      const showRequired = useFallbackProp<ShowRequiredProp>('showRequired')
+      const context$ = useContext()
+      const showRequired = useEffectiveProp<ShowRequiredProp>('showRequired')
 
       // ============== COMPUTED ==============
 

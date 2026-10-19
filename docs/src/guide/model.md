@@ -58,7 +58,7 @@ The binding adapts to the shape you pass:
 | `ref`            | Two-way syncs it, exactly like `v-model`.                                |
 | `reactive`       | Syncs form changes back into its keys, preserving the object's identity. |
 | `object` (plain) | Seeds the initial values — no syncing back.                              |
-| `useModel`       | Adopts Vueform's headless store — more on this below.                    |
+| `useModel`       | Attaches Vueform's headless store — more on this below.                  |
 
 None of the first three shapes is type-checked against the schema — a model whose keys or value types don't match the schema compiles without complaint. When you want the model enforced by TypeScript, define it with `useModel`.
 
@@ -133,9 +133,9 @@ model.issues // structured validation issues
 
 Everything about validation — defining rules, validation schemas, error messages, when validation runs — is covered in [Validation](/guide/validation).
 
-### Adopting the Model
+### Attaching the Model
 
-The instance can be passed anywhere a model is accepted — `!useForm`'s second argument or `v-model` — and the form **adopts** it:
+The instance can be passed anywhere a model is accepted — `!useForm`'s second argument or `v-model` — and the form **attaches** it:
 
 ::: code-group
 
@@ -149,7 +149,7 @@ const schema = defineSchema({
 
 const model = useModel(schema, { name: 'John' })
 
-                                    // ▼ adoption happens here
+                                    // ▼ attachment happens here
 const [MyForm] = useForm({ schema }, model)
 ```
 
@@ -166,23 +166,23 @@ const model = useModel(schema, { name: 'John' })
 </script>
 
 <template>
-                <!-- ▼ adoption happens here -->
+                <!-- ▼ attachment happens here -->
   <VfForm v-model="model" :schema />
 </template>
 ```
 
 :::
 
-Adoption is not syncing. The form doesn't clone the data or wire up update listeners — it uses the instance's store as its own. There is one source of truth and nothing to keep in sync: type into the form and `model.model` already holds it, call `model.set()` and the form already shows it.
+Attachment is not syncing. The form doesn't clone the data or wire up update listeners — it uses the instance's store as its own. There is one source of truth and nothing to keep in sync: type into the form and `model.model` already holds it, call `model.set()` and the form already shows it.
 
-Adoption is also what unlocks the form-bound members:
+Attachment is also what unlocks the form-bound members:
 
 ```ts
-model.adopted // true once a form has adopted the instance
-model.submit() // submits the adopting form
+model.attached // true once a form has attached the instance
+model.submit() // submits the attaching form
 ```
 
-On the form side, `form$.hasAdoptedModel` reports whether the form adopted a model instance. See [Submitting Forms](/guide/submit) for the submission flow.
+On the form side, `form$.hasAttachedModel` reports whether the form attached a model instance. See [Submitting Forms](/guide/submit) for the submission flow.
 
 ### Using the Model Before Mount
 
@@ -397,5 +397,5 @@ These are the same members you read from the [Context](/guide/context) — the p
 The plugin is development-only by design: it registers its module behind a `NODE_ENV` guard and loads the inspector lazily, so production builds exclude the package entirely and it adds nothing to your bundle. Registering it unconditionally is safe; the top-level `devtools: false` config option opts out in development too.
 
 ::: info
-A `!useModel` instance that hasn't been adopted by a form has no component to attach to and doesn't appear in the inspector. Once a form adopts it, the form node reflects its data — there is one store, so what you see is the instance's store.
+A `!useModel` instance that no form has attached has no component backing it and doesn't appear in the inspector. Once a form attaches it, the form node reflects its data — there is one store, so what you see is the instance's store.
 :::

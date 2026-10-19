@@ -16,7 +16,9 @@ import {
   defineEvents,
   useBlueprint,
   type LanguagesProp,
+  tInputAria,
   vdomPrime,
+  classCompat,
   type AddonGroupParts,
   type AddonsParts,
   type AddonsSlots,
@@ -47,7 +49,6 @@ import {
 } from '@vueform/primevue/blueprints/input-mask'
 import type { InputMaskProps as PvInputMaskProps } from 'primevue'
 import PrimeInputMask from 'primevue/inputmask'
-import type { WritableComputedRef } from 'vue'
 
 /**
  * Prop definitions.
@@ -175,6 +176,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfInputMaskModifiers,
+  VfInputMaskA11y,
   VfCloneNameExpose,
   InputMaskApi<TProps>
 > {}
@@ -214,8 +217,16 @@ const slots = defineSlots<VfCloneNameSlots<TTranslate, TLanguages>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -227,6 +238,17 @@ useClasses(() => ({
   root: 'vf-input-mask',
 }))
 
+useModifiers(({ help, hasError }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(tInputAria())
+
 const {
   value,
   id,
@@ -234,8 +256,7 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   tooltipModifiers,
   tooltipValue,
@@ -249,13 +270,6 @@ const {
   handleFocus,
   handleBlur,
 } = api
-
-/**
- * PrimeVue InputMask types `modelValue` as `string | null`. The element's
- * `value` is the active-language scalar (`string | number | null`), which is
- * the same runtime binding as before — this assertion is type-only.
- */
-const inputValue = value as WritableComputedRef<string | null>
 
 defineExpose(expose)
 </script>
@@ -300,20 +314,15 @@ declare module 'vue' {
         :name
         :id
         :mask
-        :class="classes.input || undefined"
-        v-model="inputValue"
+        v-model="value"
         :placeholder
         :disabled
         :readonly
         :invalid
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...classCompat(bindings.input) }"
+        :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keypress="handleKeypress"
         @blur="handleBlur"

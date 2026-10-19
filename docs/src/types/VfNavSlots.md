@@ -52,9 +52,9 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
   /**
    * Slot that replaces the back button's text label.
    *
-   * @param scope The backText slot's params.
+   * @param scope The back-text slot's params.
    */
-  backText: (scope: {
+  'back-text': (scope: {
     /**
      * The button label text.
      */
@@ -125,9 +125,9 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
   /**
    * Slot that replaces the next button's text label.
    *
-   * @param scope The nextText slot's params.
+   * @param scope The next-text slot's params.
    */
-  nextText: (scope: {
+  'next-text': (scope: {
     /**
      * The button label text.
      */
@@ -198,9 +198,9 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
   /**
    * Slot that replaces the finish button's text label.
    *
-   * @param scope The finishText slot's params.
+   * @param scope The finish-text slot's params.
    */
-  finishText: (scope: {
+  'finish-text': (scope: {
     /**
      * The button label text.
      */

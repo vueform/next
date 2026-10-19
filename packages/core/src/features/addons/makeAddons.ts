@@ -1,6 +1,6 @@
 import { computed, type ComputedRef } from 'vue'
 
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import { defineFeature } from '#src/helpers'
 import type { AddonItem, AddonProp } from '#src/types'
 
@@ -50,7 +50,7 @@ function resolveAddons(
 export const makeAddons = defineFeature(
   () =>
     ({ props }: MakeAddonsOptions) => {
-      const context$ = useComponentContext()
+      const context$ = useContext()
 
       /**
        * Whether this element supports before/after addons.

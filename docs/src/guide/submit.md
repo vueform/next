@@ -116,9 +116,9 @@ const handleClick = async () => {
 
 `submit()` performs exactly what a submit button does and resolves with a [`SubmitResult`](#submit-result) describing the outcome.
 
-### Through an Adopted Model
+### Through an Attached Model
 
-When a form [adopts](/guide/model#adopting-the-model) a `!useModel` instance, the instance gains `submit()` — it submits the adopting form:
+When a form [attaches](/guide/model#attaching-the-model) a `!useModel` instance, the instance gains `submit()` — it submits the attaching form:
 
 ```ts
 const model = useModel(schema)
@@ -128,7 +128,7 @@ const [MyForm] = useForm({ schema, endpoint: '/api/register' }, model)
 const result = await model.submit()
 ```
 
-This is deliberate: the headless model never has an endpoint of its own. Submission — the endpoint, the request, the lifecycle — belongs to the form, and adoption is what connects the two. Calling `submit()` on an unadopted instance logs a warning and does nothing.
+This is deliberate: the headless model never has an endpoint of its own. Submission — the endpoint, the request, the lifecycle — belongs to the form, and attachment is what connects the two. Calling `submit()` on an unattached instance logs a warning and does nothing.
 
 ## Submission Lifecycle
 
@@ -905,4 +905,4 @@ const form$ = useTemplateRef('form$')
 
 :::
 
-An adopted `!useModel` instance mirrors this state headlessly — `model.submits`, for example, reads the adopting form's counter — completing the loop this chapter started with: one submission engine, readable from either side.
+An attached `!useModel` instance mirrors this state headlessly — `model.submits`, for example, reads the attaching form's counter — completing the loop this chapter started with: one submission engine, readable from either side.

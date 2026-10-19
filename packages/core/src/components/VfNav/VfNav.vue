@@ -112,10 +112,10 @@ defineExpose(expose)
             v-bind="bindings.back"
             @click="pager.back"
           >
-            <slot name="backText" :label="backLabel" :pager :form$>
+            <slot name="back-text" :label="backLabel" :pager :form$>
               <component
-                v-if="outlets?.backText"
-                :is="outlets.backText"
+                v-if="outlets?.['back-text']"
+                :is="outlets['back-text']"
                 :label="backLabel"
                 :pager
                 :form$
@@ -165,10 +165,10 @@ defineExpose(expose)
             v-bind="bindings.next"
             @click="pager.next"
           >
-            <slot name="nextText" :label="nextLabel" :pager :form$>
+            <slot name="next-text" :label="nextLabel" :pager :form$>
               <component
-                v-if="outlets?.nextText"
-                :is="outlets.nextText"
+                v-if="outlets?.['next-text']"
+                :is="outlets['next-text']"
                 :label="nextLabel"
                 :pager
                 :form$
@@ -218,10 +218,10 @@ defineExpose(expose)
             v-bind="bindings.finish"
             @click="pager.finish"
           >
-            <slot name="finishText" :label="finishLabel" :pager :form$>
+            <slot name="finish-text" :label="finishLabel" :pager :form$>
               <component
-                v-if="outlets?.finishText"
-                :is="outlets.finishText"
+                v-if="outlets?.['finish-text']"
+                :is="outlets['finish-text']"
                 :label="finishLabel"
                 :pager
                 :form$

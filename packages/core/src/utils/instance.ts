@@ -1,4 +1,3 @@
-import * as vue from 'vue'
 import {
   getCurrentInstance,
   renderSlot,
@@ -7,6 +6,7 @@ import {
 } from 'vue'
 
 import type { ComponentOptions } from '#src/types'
+import { getVaporCurrentInstance, vaporSlotKey } from '#vapor-bindings'
 
 import { camelToKebab } from './string'
 
@@ -88,12 +88,21 @@ export type GenericInstance = ComponentInternalInstance | VaporInstanceLike
 
 // Vue 3.6 runtime-exports the shared `currentInstance` binding (which holds
 // vapor instances during vapor setup, where `getCurrentInstance()` returns
-// null), but Vue 3.5 does not. STATIC namespace property access (`vue.x`,
-// like `rawVaporSlotKey` below) keeps 3.5 working (resolves to `undefined`)
-// AND stays tree-shakeable: aliasing the namespace into a record and using
-// computed access (`vueRuntime['x']`) makes Rolldown-based consumer builds
-// (vite 8) bail out and retain the entire vue runtime (~50 kB gzip measured
-// on the bare `createVueform` import).
+// null), but Vue 3.5 does not. Shared code must therefore never reference the
+// 3.6-only exports directly — a named import breaks on 3.5 outright, a static
+// namespace access (`vue.currentInstance`) makes consumer bundlers running on
+// 3.5 emit "not exported" warnings, and computed namespace access
+// (`vueRuntime['x']`) makes Rolldown-based consumer builds (vite 8) bail out
+// and retain the entire vue runtime (~50 kB gzip measured on the bare
+// `createVueform` import). Instead, the accessors are value-imported from the
+// `#vapor-bindings` internal specifier (`utils/vapor-bindings.ts` — this file
+// must NOT mention the vapor define's name even in comments: the dual-mode
+// closure seeds on the raw token and would re-compile this module and every
+// importer into the vapor dist). The specifier stays external in the dist, and
+// the package's `imports` field resolves it per environment: the `vapor`
+// resolution condition picks the vapor-mode compile (which reads the 3.6
+// exports), everything else the main-mode compile, which behaves exactly like
+// Vue 3.5 (no vapor).
 
 /**
  * Returns whether the given instance is a Vapor component instance.
@@ -117,7 +126,7 @@ export function isVaporInstance(
  * subtree root rather than the current component.
  */
 export function getGenericInstance(): GenericInstance | null {
-  const vapor = (vue as Record<string, any>).currentInstance
+  const vapor = getVaporCurrentInstance() as GenericInstance | null | undefined
   if (isVaporInstance(vapor)) return vapor
 
   return getCurrentInstance()
@@ -179,15 +188,6 @@ function resolveSource(source: unknown) {
 }
 
 /**
- * The marker Vue 3.6's `renderSlot` reads to route a slot function through the
- * `VaporSlot` interop block: a raw vapor slot carries itself under this key.
- * Exported by the vapor runtime builds only (`undefined` on 3.5), and a Symbol
- * since 3.6.0-rc.3 — earlier RCs used the `__vapor` boolean instead, which is
- * kept for compatibility.
- */
-const rawVaporSlotKey: symbol | undefined = (vue as any).rawVaporSlotKey
-
-/**
  * Wraps a raw Vapor slot function (which returns DOM blocks) into a
  * VDOM-renderable slot function returning VNodes, so it can be rendered with
  * `h()`, `<component :is>`, or called directly by VDOM code. Mirrors the
@@ -204,6 +204,13 @@ const rawVaporSlotKey: symbol | undefined = (vue as any).rawVaporSlotKey
 export function toVdomRenderableSlot(name: string, slot: Slot): Slot {
   const cached = vdomSlotCache.get(slot)
   if (cached) return cached
+
+  // The marker Vue 3.6's `renderSlot` reads to route a slot function through
+  // the `VaporSlot` interop block: a raw vapor slot carries itself under this
+  // key (a Symbol since 3.6.0-rc.3 — earlier RCs used the `__vapor` boolean
+  // instead, which is kept for compatibility). Resolved per environment via
+  // `#vapor-bindings`; `undefined` on runtimes without it.
+  const rawVaporSlotKey = vaporSlotKey
   ;(slot as any).__vapor = true
   if (rawVaporSlotKey) (slot as any)[rawVaporSlotKey] = slot
 

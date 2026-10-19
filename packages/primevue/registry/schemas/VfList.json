@@ -10,7 +10,7 @@
       "path": "VfList.vue",
       "target": "{componentsDir}/VfList.vue",
       "kind": "component",
-      "hash": "sha256:ada775bffbbc420c34836a57b4e9d4851d2107aa44fe344d3da6732fc6b22218"
+      "hash": "sha256:52d563407eed85964152514c1949af6b3171bb4a136838e2cd6605688fabd21f"
     }
   ],
   "imports": [
@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfList.vue",
     "blueprint": "list",
-    "hash": "sha256:c64d1d3169f01c56c4c7c4e4327694c3fdb1b26583b54cd32d70c9c6c3252659",
+    "hash": "sha256:cc1e1689687cbbb73fc47784cbce9cd9fad2fa27ff14cf2ff114caa06c9843c4",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

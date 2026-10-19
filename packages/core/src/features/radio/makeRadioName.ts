@@ -1,7 +1,7 @@
 import { computed, watch } from 'vue'
 
 import { useDynamicProp } from '#src/composables'
-import { useComponentContext } from '#src/contexts'
+import { useContext } from '#src/contexts'
 import { type makeElement, type makeData } from '#src/features'
 import { defineFeature } from '#src/helpers'
 import type { ReturnsOf, TProp } from '#src/types'
@@ -37,7 +37,7 @@ type MakeRadioNameOptions = {
 export const makeRadioName = defineFeature(
   () =>
     ({ props, deps }: MakeRadioNameOptions) => {
-      const context$ = useComponentContext()
+      const context$ = useContext()
       const { container, path, form$, value } = deps
 
       const radioName = useDynamicProp('radioName', props)

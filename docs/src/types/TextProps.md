@@ -44,5 +44,10 @@ interface TextProps<
    * `tel`, `postal-code`).
    */
   autocomplete?: string
+
+  /**
+   * Whether the value is always cast to a string.
+   */
+  string?: boolean
 }
 ```

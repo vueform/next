@@ -3,7 +3,7 @@ import {
   useConditionalList,
   useExpression,
   useFormContext,
-  useComponentContext,
+  useContext,
   useHttp,
   equals,
   isThenable,
@@ -53,7 +53,7 @@ interface MakeTreeOptionsOptions {
     [
       [typeof makeData, ['nullValue', 'update', 'model', 'pending']],
       [typeof makeElement, ['path']],
-      [typeof makeInput, ['input']],
+      [typeof makeInput, ['inputRef']],
     ]
   >
 }
@@ -142,7 +142,7 @@ export const makeTreeOptions = defineFeature(
   () =>
     ({ props, deps }: MakeTreeOptionsOptions) => {
       const form$ = useFormContext()
-      const context$ = useComponentContext()
+      const context$ = useContext()
       const expression = useExpression()
       const $http = useHttp()
 

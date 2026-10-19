@@ -16,9 +16,11 @@ import {
   defineEvents,
   useBlueprint,
   type LanguagesProp,
+  inputAria,
   vdomPrime,
   type ClassValue,
   type DefineElementContext,
+  type DomAttrsOf,
   type ForwardedSlots,
   type WidenProps,
 } from '@vueform/primevue'
@@ -129,6 +131,27 @@ export interface VfCloneNameParts extends EditorParts {
    * @tag Editor
    */
   input: PvEditorProps
+
+  /**
+   * The loading-skeleton placeholder shown until the editor module loads.
+   *
+   * @tag div
+   */
+  placeholder: DomAttrsOf<'div'>
+
+  /**
+   * The loading-skeleton toolbar area.
+   *
+   * @tag div
+   */
+  placeholderToolbar: DomAttrsOf<'div'>
+
+  /**
+   * The loading-skeleton content area.
+   *
+   * @tag div
+   */
+  placeholderContent: DomAttrsOf<'div'>
 }
 
 /**
@@ -189,6 +212,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfEditorModifiers,
+  VfEditorA11y,
   VfCloneNameExpose,
   EditorApi<TProps>
 > {}
@@ -228,8 +253,17 @@ const slots = defineSlots<VfCloneNameSlots<TTranslate, TLanguages>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -252,6 +286,14 @@ useClasses(() => ({
   placeholderToolbar: 'vf-editor-placeholder-toolbar',
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const { editorStyle } = propRefs
 
 const {
@@ -261,7 +303,7 @@ const {
   placeholder,
   viewLoaded,
   invalid,
-  input,
+  inputRef,
   forwardProps,
   forwardSlots,
   editorCss,
@@ -273,7 +315,6 @@ const {
   translatable,
   handleInput,
   handleLoad,
-  a11yBindings,
 } = api
 
 /**
@@ -322,8 +363,8 @@ declare module 'vue' {
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else :languages="false">
-      <div v-if="!ready" :class="classes.placeholder">
-        <div :class="classes.placeholderToolbar">
+      <div v-if="!ready" v-bind="bindings.placeholder">
+        <div v-bind="bindings.placeholderToolbar">
           <span />
           <span />
           <span />
@@ -332,26 +373,21 @@ declare module 'vue' {
           <span />
         </div>
         <div
-          :class="classes.placeholderContent"
+          v-bind="bindings.placeholderContent"
           :style="editorStyle"
           data-editor-placeholder-content
         />
       </div>
       <Editor
         :name
-        :class="classes.input"
         v-model="inputValue"
         :editor-style
         :placeholder
         :readonly
         :invalid
         :modules
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @load="handleLoad"
         @value-change="handleInput"
       >

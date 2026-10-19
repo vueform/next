@@ -10,7 +10,7 @@
       "path": "VfLayout.vue",
       "target": "{componentsDir}/VfLayout.vue",
       "kind": "component",
-      "hash": "sha256:8af8607d3bd8e69691ea2d23be14035f9bb4f561140bc9228bbec97b4a5fac50"
+      "hash": "sha256:e9a1e3c1151b8f5e97051683fa30f40ccc35131554dfd6d0ed9e7198576f6fa5"
     }
   ],
   "imports": [

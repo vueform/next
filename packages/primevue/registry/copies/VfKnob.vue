@@ -4,7 +4,12 @@
  * https://primevue.vueform.com/guide/components#building-on-blueprints
  */
 
-import { defineEvents, useBlueprint, vdomPrime } from '@vueform/primevue'
+import {
+  defineEvents,
+  useBlueprint,
+  inputAria,
+  vdomPrime,
+} from '@vueform/primevue'
 import {
   blueprint,
   defaults,
@@ -31,8 +36,16 @@ const props = withDefaults(defineProps<VfKnobProps>(), defaults)
 const events = defineEvents<VfKnobEmits>()
 const slots = defineSlots<VfKnobSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(({ props }) => ({
   root: {
@@ -41,6 +54,14 @@ useClasses(({ props }) => ({
   },
 }))
 
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
+
 const {
   value,
   name,
@@ -48,13 +69,12 @@ const {
   readonly,
   invalid,
   viewLoaded,
-  input,
+  inputRef,
   min,
   max,
   step,
   forwardProps,
   handleInput,
-  a11yBindings,
 } = api
 
 /**
@@ -73,7 +93,6 @@ defineExpose(expose)
     <VfLayout v-else>
       <Knob
         :name
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :readonly
@@ -81,12 +100,8 @@ defineExpose(expose)
         :min
         :max
         :step
-        v-bind="{
-          ...a11yBindings.input,
-          ...forwardProps,
-          ...parts.input,
-        }"
-        :ref="(el) => (input = el)"
+        v-bind="{ ...forwardProps, ...bindings.input }"
+        :ref="(el) => (inputRef = el)"
         @change="handleInput"
       />
     </VfLayout>

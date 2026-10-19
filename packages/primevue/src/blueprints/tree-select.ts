@@ -273,14 +273,14 @@ export function blueprint<TProps extends LooseTreeSelectProps>(
    * Shows the tree-select overlay.
    */
   const show = () => {
-    api.input.value?.show()
+    api.inputRef.value?.show()
   }
 
   /**
    * Hides the tree-select overlay.
    */
   const hide = () => {
-    api.input.value?.hide()
+    api.inputRef.value?.hide()
   }
 
   return { ...api, show, hide }

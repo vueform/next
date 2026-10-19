@@ -6,6 +6,7 @@
  */
 
 import {
+  inputAria,
   useBlueprint,
   useLocale,
   defineEvents,
@@ -19,11 +20,11 @@ import {
 import {
   defaults,
   blueprint,
+  type FileListItem,
   type FileApi,
   type FileClasses,
   type FileEmits,
   type FileExpose,
-  type FileListItem,
   type FileParts,
   type FileProps,
   type FileSlots,
@@ -114,6 +115,12 @@ export interface VfCloneNameSlots<
     type: 'file' | 'string' | 'object'
 
     /**
+     * The file item's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
+     */
+    bindings: VfFileBindings['item']
+
+    /**
      * Callback to remove a file by index.
      *
      * @param index The index to remove.
@@ -136,6 +143,12 @@ export interface VfCloneNameSlots<
      * Whether the element is disabled.
      */
     disabled: boolean
+
+    /**
+     * The remove button's resolved bindings (classes, part overrides,
+     * localized aria-label); apply with `v-bind`.
+     */
+    bindings: VfFileBindings['remove']
 
     /**
      * Callback to remove a file by index.
@@ -170,6 +183,12 @@ export interface VfCloneNameSlots<
      * The kind of value: `'file'`, `'string'`, or `'object'`.
      */
     type: 'file' | 'string' | 'object'
+
+    /**
+     * The file name element's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: VfFileBindings['name']
   }) => VNode[]
 
   /**
@@ -179,11 +198,6 @@ export interface VfCloneNameSlots<
    */
   add: (scope: {
     /**
-     * Callback to open the native file picker.
-     */
-    triggerFileInput: () => void
-
-    /**
      * Whether the element is disabled.
      */
     disabled: boolean
@@ -192,6 +206,17 @@ export interface VfCloneNameSlots<
      * The resolved button label text.
      */
     text?: string
+
+    /**
+     * The add button's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: VfFileBindings['add']
+
+    /**
+     * Callback to open the native file picker.
+     */
+    triggerFileInput: () => void
   }) => VNode[]
 }
 
@@ -271,18 +296,32 @@ export interface VfCloneNameClasses extends FileClasses {
 
   /**
    * An individual file entry in the file list.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  item: ClassValue
+  item: (file: FileListItem, index: number) => ClassValue
 
   /**
    * The file name text or link.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  name: ClassValue
+  name: (file: FileListItem, index: number) => ClassValue
 
   /**
    * The remove button for a file entry.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  remove: ClassValue
+  remove: (file: FileListItem, index: number) => ClassValue
+
+  /**
+   * The hidden file `<input>` tag.
+   */
+  input: ClassValue
 }
 
 /**
@@ -312,6 +351,8 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
+  VfFileModifiers,
+  VfFileA11y,
   VfCloneNameExpose,
   FileApi<TProps>
 > {}
@@ -345,8 +386,17 @@ const slots = defineSlots<VfCloneNameSlots<TMultiple>>()
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -358,9 +408,23 @@ useClasses(() => ({
   root: 'vf-file',
   input: 'sr-only',
   list: 'vf-file-list',
-  item: 'vf-file-item',
-  name: 'vf-file-name',
-  remove: 'vf-file-remove',
+  item: () => 'vf-file-item',
+  name: () => 'vf-file-name',
+  remove: () => 'vf-file-remove',
+}))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+const { t } = useLocale()
+
+useA11y(inputAria(), () => ({
+  remove: (_file: FileListItem, index: number) => ({
+    'aria-label': t('sr_file_remove', { index: index + 1 }),
+  }),
 }))
 
 const { accept, multiple, capture, add } = propRefs
@@ -369,8 +433,7 @@ const {
   id,
   viewLoaded,
   disabled,
-  a11yBindings,
-  input,
+  inputRef,
   name,
   fileList,
   hasFiles,
@@ -384,13 +447,21 @@ const {
   handleInput,
 } = api
 
-const { t } = useLocale()
-
 defineExpose(expose)
 </script>
 
 <script lang="ts">
-import type { DefineRegistryEntry, EntryMultipleOf } from '@vueform/ui'
+import type {
+  DefineRegistryEntry,
+  EntryMultipleOf,
+  ResolvedBindings,
+} from '@vueform/ui'
+
+type VfFileBindings = ResolvedBindings<
+  VfCloneNameParts,
+  VfFileModifiers,
+  VfFileA11y
+>
 
 type EntryProps<TEntry> = VfCloneNameProps<EntryMultipleOf<TEntry>>
 
@@ -418,54 +489,57 @@ declare module 'vue' {
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div v-if="hasFiles" :class="classes.list" v-bind="parts.list">
+      <div v-if="hasFiles" v-bind="bindings.list">
         <template v-for="(file, index) in fileList" :key="index">
           <slot
             name="file"
             :value="file.raw"
-            :fileName="file.name"
+            :file-name="file.name"
             :type="file.type"
             :url="file.url"
             :index
             :disabled
             :removable="file.removable"
+            :bindings="bindings.item(file, index)"
             :remove="handleRemove"
           >
             <component
               v-if="outlets?.file"
               :is="outlets.file"
               :value="file.raw"
-              :fileName="file.name"
+              :file-name="file.name"
               :type="file.type"
               :url="file.url"
               :index
               :disabled
               :removable="file.removable"
+              :bindings="bindings.item(file, index)"
               :remove="handleRemove"
             />
-            <div
-              v-else
-              :class="classes.item"
-              v-bind="parts.item?.(file, index)"
-            >
+            <div v-else v-bind="bindings.item(file, index)">
               <template v-if="file.removable">
-                <slot name="remove" :index :disabled :remove="handleRemove">
+                <slot
+                  name="remove"
+                  :index
+                  :disabled
+                  :bindings="bindings.remove(file, index)"
+                  :remove="handleRemove"
+                >
                   <component
                     v-if="outlets?.remove"
                     :is="outlets.remove"
                     :index
                     :disabled
+                    :bindings="bindings.remove(file, index)"
                     :remove="handleRemove"
                   />
                   <VfButton
                     v-else
                     :name="`${id}__remove_${index}`"
                     :icon="removeIcon"
-                    :aria-label="t('sr_file_remove', { index: index + 1 })"
-                    :class="classes.remove"
                     :disabled
                     :layout="false"
-                    v-bind="parts.remove?.(file, index)"
+                    v-bind="bindings.remove(file, index)"
                     @click="handleRemove(index)"
                   />
                 </slot>
@@ -473,29 +547,30 @@ declare module 'vue' {
               <slot
                 name="name"
                 :value="file.raw"
-                :fileName="file.name"
+                :file-name="file.name"
                 :url="file.url"
                 :type="file.type"
+                :bindings="bindings.name(file, index)"
               >
                 <component
                   v-if="outlets?.name"
                   :is="outlets.name"
                   :value="file.raw"
-                  :fileName="file.name"
+                  :file-name="file.name"
                   :url="file.url"
                   :type="file.type"
+                  :bindings="bindings.name(file, index)"
                 />
                 <a
                   v-else-if="file.url"
                   :href="file.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  :class="classes.name"
-                  v-bind="parts.name?.(file, index)"
+                  v-bind="bindings.name(file, index)"
                 >
                   {{ file.name }}
                 </a>
-                <span v-else :class="classes.name" v-bind="parts.name">
+                <span v-else v-bind="bindings.name(file, index)">
                   {{ file.name }}
                 </span>
               </slot>
@@ -504,13 +579,20 @@ declare module 'vue' {
         </template>
       </div>
       <template v-if="add">
-        <slot name="add" :triggerFileInput :disabled :text>
+        <slot
+          name="add"
+          :disabled
+          :text
+          :bindings="bindings.add"
+          :trigger-file-input
+        >
           <component
             v-if="outlets?.add"
             :is="outlets.add"
-            :triggerFileInput
             :disabled
             :text
+            :bindings="bindings.add"
+            :trigger-file-input
           />
           <VfButton
             v-else
@@ -519,22 +601,18 @@ declare module 'vue' {
             :icon="addIcon"
             :disabled
             @click="triggerFileInput"
-            v-bind="parts.add"
+            v-bind="bindings.add"
           />
         </slot>
         <input
           type="file"
           :name
           :id
-          class="sr-only"
           :multiple
           :accept
           :capture
-          v-bind="{
-            ...a11yBindings.input,
-            ...parts.input,
-          }"
-          :ref="(el) => (input = el)"
+          v-bind="bindings.input"
+          :ref="(el) => (inputRef = el)"
           @blur="handleBlur"
           @focus="handleFocus"
           @input="handleInput"
