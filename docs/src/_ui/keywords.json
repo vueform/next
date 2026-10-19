@@ -3759,5 +3759,59 @@
   },
   "VfTextarea": {
     "link": "/components/VfTextarea"
+  },
+  "createRule": {
+    "link": "/api/helpers/createRule"
+  },
+  "createVueformFactory": {
+    "link": "/api/helpers/createVueformFactory"
+  },
+  "defineComputedSchema": {
+    "link": "/api/helpers/defineComputedSchema"
+  },
+  "defineConfig": {
+    "link": "/api/helpers/defineConfig"
+  },
+  "definePlugin": {
+    "link": "/api/helpers/definePlugin"
+  },
+  "definePreset": {
+    "link": "/api/helpers/definePreset"
+  },
+  "defineSchema": {
+    "link": "/api/helpers/defineSchema"
+  },
+  "defineSlot": {
+    "link": "/api/helpers/defineSlot"
+  },
+  "defineTheme": {
+    "link": "/api/helpers/defineTheme"
+  },
+  "extendTheme": {
+    "link": "/api/helpers/extendTheme"
+  },
+  "useClasses": {
+    "link": "/api/composables/useClasses"
+  },
+  "useDate": {
+    "link": "/api/composables/useDate"
+  },
+  "useForm": {
+    "link": "/api/composables/useForm"
+  },
+  "useHttp": {
+    "link": "/api/composables/useHttp"
+  },
+  "useLocale": {
+    "link": "/api/composables/useLocale"
+  },
+  "useModel": {
+    "link": "/api/composables/useModel"
+  },
+  "useSecurity": {
+    "link": "/api/composables/useSecurity"
+  },
+  "useTemplateContext": {
+    "link": "/api/composables/useTemplateContext"
   }
 }

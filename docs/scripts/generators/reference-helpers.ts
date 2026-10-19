@@ -24,15 +24,7 @@ const DOCS_CONFIG = JSON.parse(
 
 const HELPER_ORDER: string[] = DOCS_CONFIG.orders?.helpers ?? []
 
-interface AdapterDef {
-  path: string
-  typesOutputDir: string
-  host: string
-  config: string
-  displayName?: string
-}
-
-const adapters: Record<string, AdapterDef> = DOCS_CONFIG.adapters
+const SIDEBAR_PATH = path.join(DOCS_ROOT, '.vitepress/sidebar.ts')
 
 // ============== TEMPLATE ==============
 
@@ -170,35 +162,21 @@ function main() {
     }
   }
 
+  // Patch the shared sidebar config. It is used by every adapter build, so
+  // only core helpers go in; an adapter-only helper needs an `/api` sidebar
+  // section in that adapter's own config instead.
   const allNames = Object.keys(helpers).filter((n) => !helpers[n].private)
+  const helperNames = sortNames(allNames, HELPER_ORDER)
 
-  const indent = '            '
-
-  for (const [adapterName, adapterDef] of Object.entries(adapters)) {
-    const adapterPath = path.join(API_DIR, adapterName, 'helpers.json')
-    const adapterHelpers: Record<string, HelperEntry> = fs.existsSync(
-      adapterPath
-    )
-      ? JSON.parse(fs.readFileSync(adapterPath, 'utf-8'))
-      : {}
-
-    const mergedNames = [
-      ...new Set([...allNames, ...Object.keys(adapterHelpers)]),
-    ].filter((n) => !helpers[n]?.private)
-    const helperNames = sortNames(mergedNames, HELPER_ORDER)
-
-    const configPath = path.join(
-      DOCS_ROOT,
-      path.relative(DOCS_ROOT, path.resolve(DOCS_ROOT, '..', adapterDef.config))
-    )
-    let config = fs.readFileSync(configPath, 'utf-8')
-    config = patchConfigRegion(
-      config,
+  const sidebarSrc = fs.readFileSync(SIDEBAR_PATH, 'utf-8')
+  fs.writeFileSync(
+    SIDEBAR_PATH,
+    patchConfigRegion(
+      sidebarSrc,
       'helpers',
-      serializeItems(helperNames, indent)
+      serializeItems(helperNames, '        ')
     )
-    fs.writeFileSync(configPath, config)
-  }
+  )
 
   console.log(
     `helpers-reference: ${created} created, ${updated} updated, ${removed} removed, ${unchanged} unchanged`

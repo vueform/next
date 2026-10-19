@@ -8,7 +8,7 @@ Submitting a form sounds like a single action, but it's a cycle: validate the da
 
 ## Submission Without a Form
 
-A [`!useModel`](/guide/model#usemodel) instance can't submit itself — submission is a form capability. But every ingredient of a submission is already there, headlessly: validation, the payload, and the [HTTP module](/guide/http). Composed by hand:
+A [`!useModel`](/guide/model) instance can't submit itself — submission is a form capability. But every ingredient of a submission is already there, headlessly: validation, the payload, and the [HTTP module](/guide/http). Composed by hand:
 
 ```ts
 import { defineSchema, useModel, useHttp } from '@vueform/ui'

@@ -311,7 +311,7 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
 
   const submit = async () => {
     if (!attachingContext.value) {
-      warn('`submit()` called on a model that is not attached by any form')
+      warn('`submit()` called on a model that is not attached to any form')
       return undefined
     }
     return attachingContext.value.submit()

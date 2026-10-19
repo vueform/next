@@ -139,7 +139,7 @@ Deferred view mounting is on by default and is what the [stepped-form numbers](#
 
 ### Bind `v-model` Only When You Consume It
 
-An active [`v-model`](/guide/model#v-model) on the form means every keystroke snapshots and emits the entire model — the one thing that turns constant-time typing into a cost that [grows with form size](#updating-with-v-model). It's the right tool when something outside the form renders or reacts to values live. When it isn't — when you only need the data at submit, or occasionally — read the model on demand through [`form$`](/guide/model#reading-the-model-via-context) or receive it in the submit flow, and leave the binding off.
+An active [`v-model`](/guide/model#other-model-shapes) on the form means every keystroke snapshots and emits the entire model — the one thing that turns constant-time typing into a cost that [grows with form size](#updating-with-v-model). It's the right tool when something outside the form renders or reacts to values live. When it isn't — when you only need the data at submit, or occasionally — read the model on demand through [`form$`](/guide/context) or receive it in the submit flow, and leave the binding off.
 
 ### Prefer Structured Conditions Over Expressions
 

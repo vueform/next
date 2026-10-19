@@ -44,7 +44,7 @@ type FormReady<C> = {
 
 /**
  * The accepted shapes of `useForm`'s model argument: a `useModel` instance
- * (attached by the form), a ref (two-way synced), a reactive object (keys synced
+ * (attached to the form), a ref (two-way synced), a reactive object (keys synced
  * back on update), or a plain object (initial value).
  */
 type UseFormModelArg<M extends Record<string, any>> =
@@ -134,7 +134,6 @@ function syncReactive(target: Record<string, any>, data: Record<string, any>) {
  * seed the initial value. Any option may be a ref or computed. Setup-only when
  * called without `vueform`.
  *
- * @private
  * @param formProps Props forwarded to VfForm (e.g. `schema`).
  * @param model The form data: `useModel` instance, ref, reactive, or plain
  *   object.
@@ -248,7 +247,7 @@ export function useForm(
   const modelBinding = (): Record<string, any> => {
     if (model === undefined) return {}
 
-    // Branded useModel instance: attached by the form — no update listener.
+    // Branded useModel instance: attached to the form — no update listener.
     if (modelInstance) {
       return { modelValue: model }
     }

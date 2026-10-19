@@ -17,18 +17,7 @@ requireData(
   API_EXTRACTOR_HINT
 )
 const COMPOSABLES_DIR = path.join(DOCS_ROOT, 'src/api/composables')
-
-interface AdapterDef {
-  path: string
-  typesOutputDir: string
-  host: string
-  config: string
-  displayName?: string
-}
-
-const adapters: Record<string, AdapterDef> = JSON.parse(
-  fs.readFileSync(path.join(DOCS_ROOT, 'config.json'), 'utf-8')
-).adapters
+const SIDEBAR_PATH = path.join(DOCS_ROOT, '.vitepress/sidebar.ts')
 
 // ============== TEMPLATE ==============
 
@@ -786,35 +775,20 @@ function main() {
     }
   }
 
-  // 3. Patch sidebar config (per adapter)
-  const indent = '            '
+  // 3. Patch the shared sidebar config. It is used by every adapter build,
+  // so only core composables go in; an adapter-only composable needs an
+  // `/api` sidebar section in that adapter's own config instead.
+  const names = [...expected.keys()].sort()
 
-  for (const [adapterName, adapterDef] of Object.entries(adapters)) {
-    const adapterPath = path.join(API_DIR, adapterName, 'composables.json')
-    const adapterComposables: Record<string, ComposableEntry> = fs.existsSync(
-      adapterPath
-    )
-      ? JSON.parse(fs.readFileSync(adapterPath, 'utf-8'))
-      : {}
-
-    const merged = { ...composables, ...adapterComposables }
-    const mergedNames = Object.entries(merged)
-      .filter(([, entry]) => !(entry as any).private)
-      .map(([name]) => name)
-      .sort()
-
-    const configPath = path.join(
-      DOCS_ROOT,
-      path.relative(DOCS_ROOT, path.resolve(DOCS_ROOT, '..', adapterDef.config))
-    )
-    let config = fs.readFileSync(configPath, 'utf-8')
-    config = patchConfigRegion(
-      config,
+  const sidebarSrc = fs.readFileSync(SIDEBAR_PATH, 'utf-8')
+  fs.writeFileSync(
+    SIDEBAR_PATH,
+    patchConfigRegion(
+      sidebarSrc,
       'composables',
-      serializeItems(mergedNames, indent)
+      serializeItems(names, '        ')
     )
-    fs.writeFileSync(configPath, config)
-  }
+  )
 
   console.log(
     `composables-reference: ${created} created, ${updated} updated, ${removed} removed, ${unchanged} unchanged`

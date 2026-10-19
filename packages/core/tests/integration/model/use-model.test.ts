@@ -368,7 +368,7 @@ describe('useModel store API', () => {
 
     expect(result).toBeUndefined()
     expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('not attached by any form')
+      expect.stringContaining('not attached to any form')
     )
     expect(model$.attached).toBe(false)
 

@@ -667,7 +667,45 @@ function isInsideLink(tokens: any[], idx: number): boolean {
 }
 
 /**
+ * Builds the `<a>` attribute list and external-icon markup for a matched
+ * inline keyword.
+ */
+function anchorParts(
+  entry: KeywordEntry,
+  keywordName: string,
+  context: string | null
+): { attrs: string[]; extIcon: string } {
+  const isExternal =
+    entry.link?.startsWith('http://') || entry.link?.startsWith('https://')
+
+  const cls = isExternal ? 'keyword-link keyword-link-external' : 'keyword-link'
+  const attrs: string[] = [`class="${cls}"`]
+
+  if (entry.link) {
+    attrs.push(`href="${escapeHtml(entry.link)}"`)
+    if (isExternal) {
+      attrs.push('target="_blank"', 'rel="noopener noreferrer"')
+    }
+  }
+
+  const blocks = contextualPopover(entry, keywordName, extendedMap, context)
+  if (blocks) {
+    attrs.push(`data-popover="${escapeHtml(JSON.stringify(blocks))}"`)
+  }
+
+  const extIcon = isExternal
+    ? '<span class="keyword-link-ext-icon" aria-hidden="true"></span>'
+    : ''
+
+  return { attrs, extIcon }
+}
+
+/**
  * Markdown-it plugin that auto-links keywords inside inline code spans.
+ *
+ * A code span whose entire content is a single keyword renders as
+ * `<a><code>…</code></a>`, so the link wraps the whole code chip. Spans that
+ * mix keywords with other text keep the nested `<code><a>…</a></code>` form.
  *
  * Unlike the Shiki transformer for fenced code blocks, this does **not** add
  * the default "Go to definition" popover. Only keywords that carry an explicit
@@ -712,6 +750,19 @@ export function inlineKeywordLink(md: any) {
     }
 
     const nolinkNames: Set<string> = env?._nolinkNames ?? new Set()
+
+    if (parts.length === 1 && parts[0].match) {
+      const name = parts[0].text
+      const entry = extendedMap[name]
+      if (
+        entry &&
+        (entry.link || entry.popover?.length) &&
+        !nolinkNames.has(name)
+      ) {
+        const { attrs, extIcon } = anchorParts(entry, name, null)
+        return `<a ${attrs.join(' ')}><code${self.renderAttrs(token)}>${escapeHtml(name)}${extIcon}</code></a>`
+      }
+    }
 
     let html = `<code${self.renderAttrs(token)}>`
 
@@ -758,30 +809,7 @@ export function inlineKeywordLink(md: any) {
         (entry.link || entry.popover?.length) &&
         !nolinkNames.has(part.text)
       ) {
-        const isExternal =
-          entry.link?.startsWith('http://') ||
-          entry.link?.startsWith('https://')
-
-        const cls = isExternal
-          ? 'keyword-link keyword-link-external'
-          : 'keyword-link'
-        const attrs: string[] = [`class="${cls}"`]
-
-        if (entry.link) {
-          attrs.push(`href="${escapeHtml(entry.link)}"`)
-          if (isExternal) {
-            attrs.push('target="_blank"', 'rel="noopener noreferrer"')
-          }
-        }
-
-        const blocks = contextualPopover(entry, part.text, extendedMap, context)
-        if (blocks) {
-          attrs.push(`data-popover="${escapeHtml(JSON.stringify(blocks))}"`)
-        }
-
-        const extIcon = isExternal
-          ? '<span class="keyword-link-ext-icon" aria-hidden="true"></span>'
-          : ''
+        const { attrs, extIcon } = anchorParts(entry, part.text, context)
         const display = escaped ? displayKeyword(part.text) : part.text
         html += `<a ${attrs.join(' ')}>${escapeHtml(display)}${extIcon}</a>`
       } else {

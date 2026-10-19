@@ -301,7 +301,7 @@ describe('Reactive schema (useModel with a ref)', () => {
     expect(model$.index.version.value).toBe(version)
   })
 
-  it('follows schema changes while attached by a mounted form', async () => {
+  it('follows schema changes while attached to a mounted form', async () => {
     const { vueform } = install()
     const schema = ref<any>(
       defineSchema({

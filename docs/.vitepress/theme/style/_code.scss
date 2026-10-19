@@ -15,118 +15,128 @@
     }
   }
 
-  // Inline type reference links — code chip with dotted underline
-  a.type-link {
-    padding: 3px 6px;
-    font-family: var(--vp-font-family-mono);
-    font-size: var(--vp-code-font-size);
-    color: var(--vp-code-color);
-    text-decoration: underline dotted currentcolor;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    background-color: var(--vp-code-bg);
-    border-radius: 4px;
-    transition: color 0.2s;
+  // // Inline type reference links — code chip with dotted underline
+  // a.type-link {
+  //   padding: 3px 6px;
+  //   font-family: var(--vp-font-family-mono);
+  //   font-size: var(--vp-code-font-size);
+  //   color: var(--vp-code-color);
+  //   text-decoration: underline dotted currentcolor;
+  //   text-decoration-thickness: 1px;
+  //   text-underline-offset: 3px;
+  //   background-color: var(--vp-code-bg);
+  //   border-radius: 4px;
+  //   transition: color 0.2s;
 
-    &:hover {
-      color: var(--vp-c-brand-2);
-    }
-  }
+  //   &:hover {
+  //     color: var(--vp-c-brand-2);
+  //   }
+  // }
 
-  a.code-popover {
-    color: var(--vp-code-color);
-    text-decoration: underline dotted
-      color-mix(in srgb, currentcolor 50%, transparent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    cursor: text;
-    transition: color 0.2s;
-  }
+  // a.code-popover {
+  //   color: var(--vp-code-color);
+  //   text-decoration: underline dotted
+  //     color-mix(in srgb, currentcolor 50%, transparent);
+  //   text-decoration-thickness: 1px;
+  //   text-underline-offset: 3px;
+  //   cursor: text;
+  //   transition: color 0.2s;
+  // }
+
+  // code:not(pre):has(> a) {
+  //   background-color: var(--vp-c-brand-soft);
+  // }
+
+  // // Whole-keyword code spans render as `<a><code>…</code></a>`; keep the
+  // // chip background that nested `<code><a>` spans get from the rule above.
+  // a[data-popover] > code {
+  //   background-color: var(--vp-c-brand-soft);
+  // }
 }
 
-a:not([data-popover]):has(code) {
-  // color: var(--vp-code-color);
-  text-decoration: none;
+// a:not([data-popover]):has(code) {
+//   // color: var(--vp-code-color);
+//   text-decoration: none;
 
-  code {
-    color: var(--vp-code-link-color);
-    background-color: var(--vp-c-brand-soft);
-  }
+//   code {
+//     color: var(--vp-code-link-color);
+//     background-color: var(--vp-c-brand-soft);
+//   }
 
-  &:hover code {
-    color: var(--vp-code-link-hover-color);
-  }
-}
+//   &:hover code {
+//     color: var(--vp-code-link-hover-color);
+//   }
+// }
 
-a[data-popover] {
-  // Popover-only keyword links — dotted underline, text cursor
-  &:not([href]) {
-    color: inherit;
-    text-decoration: underline dotted
-      color-mix(in srgb, currentcolor 50%, transparent);
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    cursor: text;
-    transition: color 0.2s;
-  }
+// a[data-popover] {
+//   // Popover-only keyword links — dotted underline, text cursor
+//   &:not([href]) {
+//     color: inherit;
+//     text-decoration: underline dotted
+//       color-mix(in srgb, currentcolor 50%, transparent);
+//     text-decoration-thickness: 1px;
+//     text-underline-offset: 3px;
+//     cursor: text;
+//     transition: color 0.2s;
+//   }
 
-  // Navigation keyword links (inline code & elsewhere) — solid underline
-  &[href] {
-    color: inherit;
-    text-decoration: underline solid currentcolor;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-    transition: color 0.2s;
-  }
-}
+//   // Navigation keyword links (inline code & elsewhere) — solid underline
+//   &[href] {
+//     color: inherit;
+//     text-decoration: underline solid currentcolor;
+//     text-decoration-thickness: 1px;
+//     text-underline-offset: 3px;
+//     transition: color 0.2s;
+//   }
+// }
 
 // External keyword link icon
-.keyword-link-ext-icon {
-  display: inline-block;
-  width: 11px;
-  height: 11px;
-  margin-left: 2px;
-  vertical-align: middle;
-  background: var(--vp-c-text-2);
-  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E")
-    no-repeat center / contain;
-  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E")
-    no-repeat center / contain;
+// .keyword-link-ext-icon {
+//   display: inline-block;
+//   width: 11px;
+//   height: 11px;
+//   margin-left: 2px;
+//   vertical-align: middle;
+//   background: var(--vp-c-text-2);
+//   -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E")
+//     no-repeat center / contain;
+//   mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6'/%3E%3Cpolyline points='15 3 21 3 21 9'/%3E%3Cline x1='10' y1='14' x2='21' y2='3'/%3E%3C/svg%3E")
+//     no-repeat center / contain;
 
-  pre code & {
-    position: relative;
-    top: -1px;
-    width: 12px;
-    height: 12px;
-  }
+//   pre code & {
+//     position: relative;
+//     top: -1px;
+//     width: 12px;
+//     height: 12px;
+//   }
 
-  a:hover & {
-    background: var(--vp-c-text-1);
-  }
-}
+//   a:hover & {
+//     background: var(--vp-c-text-1);
+//   }
+// }
 
 // Code blocks: subtler underlines, dotted-to-solid hover for nav links
-pre code a[data-popover] {
-  padding: 0;
-  font-family: inherit;
-  font-size: inherit;
-  background: none;
-  border-radius: 0;
+// pre code a[data-popover] {
+//   padding: 0;
+//   font-family: inherit;
+//   font-size: inherit;
+//   background: none;
+//   border-radius: 0;
 
-  &:not([href]) {
-    text-decoration-color: color-mix(in srgb, currentcolor 50%, transparent);
-  }
+//   &:not([href]) {
+//     text-decoration-color: color-mix(in srgb, currentcolor 50%, transparent);
+//   }
 
-  &[href] {
-    text-decoration-style: dotted;
-    text-decoration-color: color-mix(in srgb, currentcolor 50%, transparent);
+//   &[href] {
+//     text-decoration-style: dotted;
+//     text-decoration-color: color-mix(in srgb, currentcolor 50%, transparent);
 
-    &:hover {
-      text-decoration: underline solid
-        color-mix(in srgb, currentcolor 80%, transparent);
-    }
-  }
-}
+//     &:hover {
+//       text-decoration: underline solid
+//         color-mix(in srgb, currentcolor 80%, transparent);
+//     }
+//   }
+// }
 
 // Code group tabs: no transition flash when toggling example code blocks
 .vp-code-group .tabs label {
@@ -222,5 +232,66 @@ pre code a[data-popover] {
     & > code {
       background-color: var(--vp-c-gray-soft);
     }
+  }
+}
+
+a,
+a.keyword-link,
+a.code-popover {
+  &[href] {
+    code {
+      background-color: var(--vp-c-brand-soft);
+    }
+  }
+
+  &:not([href]) {
+    color: var(--vp-c-neutral);
+    color: inherit;
+
+    code {
+      color: var(--vp-c-neutral);
+    }
+  }
+
+  &[data-popover] {
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+    text-decoration-color: color-mix(in srgb, currentcolor 50%, transparent);
+
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
+
+pre {
+  a.keyword-link {
+    color: inherit;
+    text-decoration-line: underline;
+    text-decoration-style: dotted;
+
+    &[href]:hover {
+      text-decoration: none;
+    }
+
+    // padding: 0;
+    // font-family: inherit;
+    // font-size: inherit;
+    // background: none;
+    // border-radius: 0;
+
+    // &:not([href]) {
+    //   text-decoration-color: color-mix(in srgb, currentcolor 50%, transparent);
+    // }
+
+    // &[href] {
+    //   text-decoration-style: dotted;
+    //   text-decoration-color: color-mix(in srgb, currentcolor 50%, transparent);
+
+    //   &:hover {
+    //     text-decoration: underline solid
+    //       color-mix(in srgb, currentcolor 80%, transparent);
+    //   }
+    // }
   }
 }

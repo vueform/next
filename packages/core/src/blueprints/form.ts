@@ -1325,11 +1325,12 @@ function setup(
 
   /**
    * The active form-level Standard Schema: the explicit `validationSchema`
-   * prop, the attached `useModel` instance's, or one bound to the schema via
+   * prop, the attached `useModel` instance's, or one attached to the schema via
    * `defineSchema`'s second argument, in that order. The instance precedes the
-   * `defineSchema` binding so attaching a model never swaps the schema the
+   * `defineSchema` attachment so attaching a model never swaps the schema the
    * instance already validates with on the shared validator (the instance's own
-   * resolution falls back to that binding when it has no explicit option).
+   * resolution falls back to the `defineSchema` attachment when it has no
+   * explicit option).
    */
   const validationSchema = computed(
     () =>

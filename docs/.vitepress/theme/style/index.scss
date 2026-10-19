@@ -34,22 +34,22 @@ html:not(.dark) .dark-only {
 // Headings
 // ---------------------------------------------------------------------------
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  a[data-popover][href] {
-    font-weight: 600;
-    color: var(--vp-c-brand-1);
-    text-decoration: none;
-    text-underline-offset: 2px;
-    transition:
-      color 0.25s,
-      opacity 0.25s;
-  }
-}
+// h1,
+// h2,
+// h3,
+// h4,
+// h5,
+// h6 {
+//   a[data-popover][href] {
+//     font-weight: 600;
+//     color: var(--vp-c-brand-1);
+//     text-decoration: none;
+//     text-underline-offset: 2px;
+//     transition:
+//       color 0.25s,
+//       opacity 0.25s;
+//   }
+// }
 
 // ---------------------------------------------------------------------------
 // Doc content

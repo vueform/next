@@ -1,47 +1,30 @@
+---
+outline: [2,3]
+---
+
 # Context
 
-Every Vueform component exposes a **context** — the same public instance you would get from a Vue template ref, and the same object `defineExpose` publishes. It holds the component's state, its resolved props, its methods, and its event helpers.
+A context is simply what the component [exposes](https://www.youtube.com/watch?v=PLQTJ5qL1rg) — roughly the same public instance you'd reach with a [template ref](https://vuejs.org/guide/essentials/template-refs.html). It holds the component's state, its resolved props, methods, event helpers and so on.
 
-::: tip
-By convention, variables that hold a context use the **`$` suffix**: `form$` for a form, `el$` for an element, `context$` as a generic callback parameter. You'll see "context" used this way throughout the docs.
-:::
+The context differs per component. Every component's [reference page](/components) has a **Context** tab listing precisely what its context holds — see [`!VfForm`'s](/components/VfForm#context) for the form, or [`!VfText`'s](/components/VfText#context) for a text element.
 
-## Template Refs
+## Form Context
 
-The Vue-native way in is a template ref. Put one on `!VfForm` to get the form context, or on an element to get that element's context:
-
-```vue
-<script setup lang="ts">
-import { onMounted, useTemplateRef } from 'vue'
-
-const form$ = useTemplateRef('form$')
-const email$ = useTemplateRef('email$')
-
-onMounted(() => {
-  email$.value?.focus()
-})
-</script>
-
-<template>
-  <VfForm ref="form$">
-    <VfText ref="email$" name="email" label="Email" />
-  </VfForm>
-</template>
-```
-
-> _⚠️ show type usage already_
-
-`form$.value` and `email$.value` are `undefined` until the component mounts, so use optional chaining.
-
-## `!useForm`
-
-`useForm` returns the same form context as a template ref, without you having to place one:
+`useForm` can be used to define a **typed** form — [schema](/guide/rendering#schema-based-forms) plus any [form-level props](/components/VfForm#props) — in code, and returns a tuple of three:
 
 ```ts
 const [MyForm, form$, formReady] = useForm({ schema })
 ```
 
-`form$` is a live proxy to the underlying template ref — you don't need `.value` to access it, but you also can't destructure it:
+- **`MyForm`** — the renderable component: essentially `VfForm` with your options pre-bound.
+- **`form$`** — the form's context.
+- **`formReady`** — a function that hands you that same context once the form has mounted.
+
+::: tip
+By convention, variables that hold a context use the **`$` suffix** in Vueform: `form$` for a form, `el$` for an element, `context$` or `ctx$` for generic ones. You'll see it throughout the docs.
+:::
+
+`form$` and `formReady` are two routes to the same: the **form's context**. The one difference is timing: `form$` exists immediately but its members are `undefined` until the form *mounts*, while `formReady` *waits* for the form to mount. Use `form$` wherever reactivity absorbs the timing — like a template — and read it directly, no `.value`:
 
 ```vue
 <script setup lang="ts">
@@ -51,16 +34,16 @@ const schema = defineSchema({
   email: { type: 'text', label: 'Email' },
 })
 
-const [MyForm, form$] = useForm({ schema })
+const [MyForm, form$, formReady] = useForm({ schema })
 </script>
 
 <template>
   <MyForm />
-  <p v-if="form$.submitting">Sending…</p>
+  <p v-if="form$.submitting">Sending…</p> // [!code highlight]
 </template>
 ```
 
-`formReady` waits until the form has mounted. Pass a callback, or call it with no arguments to get a promise:
+For code that must run against the mounted form, use `formReady`. Pass a callback, or call it with no arguments to get a promise of the same:
 
 ```ts
 formReady((form$) => {
@@ -70,20 +53,11 @@ formReady((form$) => {
 const form$ = await formReady()
 ```
 
-Either way you reach the same context. For work that needs the mounted form, use `formReady` with `!useForm`, or `onMounted` with a template ref. `onMounted` works with `form$` too, but only when the form renders with the component itself — if it mounts later (e.g. behind `v-if`), `formReady` is the one that waits for it.
+## Element Contexts
 
-::: tip
-The form context is unavailable before mount — there's no instance to access yet. The form's model has no such limit: with `useModel` you can read and modify the data before the form mounts. See [Model](/guide/model).
-:::
-
-## Finding Elements
-
-Once you have the form context, `find` looks up any registered element by path. You don't need a ref on each element.
-
-When the form is typed from a `defineSchema` result, TypeScript suggests known paths:
+The form context is also the gateway to its elements: its [`find`](/components/VfForm#context.find) method looks up any registered element's context by [path](/guide/element-paths). When the form is typed from a `defineSchema` result, TypeScript suggests the known paths:
 
 ```ts
-import { onMounted } from 'vue'
 import { defineSchema, useForm } from '@vueform/ui'
 
 const schema = defineSchema({
@@ -98,128 +72,52 @@ const schema = defineSchema({
   },
 })
 
-const [MyForm, form$] = useForm({ schema })
+const [MyForm, form$, formReady] = useForm({ schema })
 
-onMounted(() => {
-  form$?.find('')
-  //           ^|*text:name@"name"|text:country@"country"
+formReady((form$) => {
+  form$.find('')
+  //          ^|*text:name@"name"|text:country@"country"
 })
 ```
 
-`find` also returns the matching element's context with its generics:
+What it returns is the matching element's context — generics included:
 
 ```ts
-onMounted(() => {
-  form$?.find('country')?.items
-//                             <|*items@"ResolvedItem<{ id: string; name: string }>[]"|rawItems|resolveItems
+formReady((form$) => {
+  form$.find('country')?.items
+//                            <|*items@"ResolvedItem<{ id: string; name: string }>[]"|rawItems|resolveItems
 })
 ```
 
-That typing is available in every way you reach the form — `form$` from `useForm`, the `formReady` callback, or a template ref on `!VfForm`.
+Unknown paths are still accepted: they return the element's context typed as `unknown`. You get the same typing whether you reach the form through `form$` or the `formReady` callback.
 
-Unknown paths are still accepted and return an untyped element (or `undefined` if nothing is registered there).
+## Context from Argument
 
-## Built-in Members
+You don't always have to go looking for a context — sometimes it's handed to you. Every [event handler](/guide/event-handlers) receives the firing component's context as its **last argument**. And wherever a [dynamic prop](/guide/dynamic-props) accepts a function, that function is called with the owning component's context, so the value can follow live state.
 
-> _⚠️ needs $http and maybe $security?_
-
-Form and element contexts differ in what they expose, but a few members are on **every** context — typed and always there:
-
-| Member     | What it holds                                                                                                           |
-| ---------- | ----------------------------------------------------------------------------------------------------------------------- |
-| `$config`  | The resolved app [configuration](/guide/configuration).                                                                 |
-| `$locale`  | The [locale module](/guide/locales): `t()` for tags, `localize()` for locale maps, `set()` to switch the active locale. |
-| `$globals` | The app-wide [globals](/guide/globals).                                                                                 |
-
-They turn any callback that receives a context into a doorway to the app level, no imports needed — a handler switching the locale, for example:
-
-```vue
-<VfSelect
-  name="locale"
-  :items="{ en_US: 'English', de_DE: 'Deutsch' }"
-  @change="(value, _old, { $locale }) => $locale.set(value)"
-/>
-```
-
-## Where Context Shows Up
-
-Context is not only something you look up. Many APIs receive it as an argument — a few examples:
-
-#### Event Handlers
-
-Element and form events pass the source context as their last argument. Here a country change clears the city field through the form hanging on that select:
-
-::: code-group
-
-```ts [Schema]
-import { defineSchema, useForm } from '@vueform/ui'
-
-const schema = defineSchema({
-  country: {
-    type: 'select',
-    label: 'Country',
-    items: countries,
-    onChange: (_value, _old, el$) => {
-      el$.form$?.find('city')?.update('')
+```ts
+defineSchema({
+  name: {
+    type: 'text',
+    label: 'Name',
+    onChange: (newValue, oldValue, el$) => {
+      console.log(el$.valid) // [!code highlight]
+    },
+    help: (el$) => {
+      return el$.dirty ? 'Unsaved change' : '' // [!code highlight]
     },
   },
-  city: { type: 'text', label: 'City' },
-})
-
-const [MyForm] = useForm({ schema })
-```
-
-```vue [Template]
-<VfForm>
-  <VfSelect
-    name="country"
-    label="Country"
-    :items="countries"
-    @change="(_value, _old, el$) => {
-      el$.form$?.find('city')?.update('')
-    }"
-  />
-  <VfText name="city" label="City" />
-</VfForm>
-```
-
-:::
-
-See [Event Handlers](/guide/event-handlers) for the rest of the event API.
-
-#### Dynamic Props
-
-Labels, hints, help text, and many other props also accept a function. The argument is the element's context, so the value can depend on live state:
-
-::: code-group
-
-```ts [Schema]
-defineSchema({
-  bio: {
-    type: 'text',
-    label: 'Bio',
-    hint: (el$) =>
-      `${(el$.value || '').length}/60 characters`,
-  },
 })
 ```
 
-```vue [Template]
-<VfText
-  name="bio"
-  label="Bio"
-  :hint="(el$) => `${(el$.value || '').length}/60 characters`"
-/>
+## `!useContext`
+
+Inside your own component rendered within a Vueform component or element — through a [slot](/guide/slots) or a [template](/guide/templates) — `useContext` returns the nearest Vueform component's context: the same object the `#template` slot and event handlers receive. Its argument is the component's name, used purely for type inference:
+
+```ts
+import { useContext } from '@vueform/ui'
+
+const el$ = useContext('VfText')
 ```
 
-:::
-
-See [Dynamic Props](/guide/dynamic-props) for every shape a dynamic prop can take.
-
-The same pattern runs through the rest of the API — wherever a prop accepts a function (e.g. conditions), the component's context is its argument.
-
-### Callback Generics Limitation
-
-::: warning LIMITATION
-In `defineSchema`, the context argument of callbacks doesn't carry the element's generics — it keeps the widest types. This is a TypeScript limitation; contexts you reach any other way (template callbacks, `find`, refs) are unaffected.
-:::
+See the [`useContext`](/api/composables/useContext) API page for full reference.

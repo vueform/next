@@ -64,7 +64,7 @@ export function typeLinkPlugin(md: any) {
         // [`name`](!code#anchor "type string") — with anchor id
         // [`name`](!value "expression") — plain value popover (no prefix)
         // [`name`](!type "TypeName") — $type snippet popover
-        // Restructure from <a><code>name</code></a> to <code><a>name</a></code>
+        // Rendered as <a><code>name</code></a> so the link wraps the chip
         const isCode = href === '!code' || href.startsWith('!code#')
         const isValue = href === '!value' || href.startsWith('!value#')
         const isType = href === '!type' || href.startsWith('!type#')
@@ -120,10 +120,10 @@ export function typeLinkPlugin(md: any) {
           const cls = isType ? 'keyword-link' : 'code-popover'
           const htmlToken = new state.Token('html_inline', '', 0)
           htmlToken.content =
-            `<code><a class="${cls}"` +
+            `<a class="${cls}"` +
             `${idAttr}${clickAttr}` +
             ` data-popover="${escaped}"` +
-            `>${md.utils.escapeHtml(codeToken.content)}</a></code>`
+            `><code>${md.utils.escapeHtml(codeToken.content)}</code></a>`
 
           children.splice(i, closeIdx - i + 1, htmlToken)
         }

@@ -7,7 +7,7 @@
  *
  * @param schema The form schema describing the model's shape. A ref/computed
  *   schema keeps the instance in sync with schema changes.
- * @param model Initial (partial) data cloned over the schema defaults.
+ * @param seed Initial (partial) data cloned over the schema defaults.
  * @param validationSchema A Standard Schema (Zod, Valibot, ArkType, …) run by
  *   `validate()` against the whole model for form-level validation.
  */
@@ -16,7 +16,7 @@ function useModel<
   Z extends StandardSchemaV1 = StandardSchemaV1,
 >(
   schema: S | Ref<S>,
-  model?: DeepPartial<SchemaToModel<S>> & Record<string, any>,
+  seed?: DeepPartial<SchemaToModel<S>> & Record<string, any>,
   validationSchema?: Z & MatchesSchemaModel<S, Z>
 ): ModelInstance<S>
 ```

@@ -18,10 +18,9 @@ import type {
  * passing it to a form's `v-model` (or `useForm`) makes the form attach it.
  * Setup-only.
  *
- * @private
  * @param schema The form schema describing the model's shape. A ref/computed
  *   schema keeps the instance in sync with schema changes.
- * @param model Initial (partial) data cloned over the schema defaults.
+ * @param seed Initial (partial) data cloned over the schema defaults.
  * @param validationSchema A Standard Schema (Zod, Valibot, ArkType, …) run by
  *   `validate()` against the whole model for form-level validation.
  */
@@ -30,14 +29,14 @@ export function useModel<
   Z extends StandardSchemaV1 = StandardSchemaV1,
 >(
   schema: S | Ref<S>,
-  model?: DeepPartial<SchemaToModel<S>> & Record<string, any>,
+  seed?: DeepPartial<SchemaToModel<S>> & Record<string, any>,
   validationSchema?: Z & MatchesSchemaModel<S, Z>
 ): ModelInstance<S>
 
 export function useModel(
   schema: FormSchema | Ref<FormSchema>,
-  model?: Record<string, any>,
+  seed?: Record<string, any>,
   validationSchema?: StandardSchemaV1
 ) {
-  return getModelModule().make(schema, model, validationSchema)
+  return getModelModule().make(schema, seed, validationSchema)
 }

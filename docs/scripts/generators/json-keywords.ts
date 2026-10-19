@@ -3,6 +3,7 @@ import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 import uiConfig from '../../.vitepress/adapters/ui/config'
+import sharedSidebar from '../../.vitepress/sidebar'
 import { requireData, API_EXTRACTOR_HINT } from './ensure-data'
 
 // =============== PATHS ================
@@ -32,9 +33,8 @@ const adapters: Record<string, AdapterDef> = DOCS_CONFIG.adapters
 
 type SidebarItem = { text?: string; link?: string; items?: SidebarItem[] }
 
-function buildLinkMap(config: any): Map<string, string> {
+function buildLinkMap(sidebar: any): Map<string, string> {
   const map = new Map<string, string>()
-  const sidebar = config?.themeConfig?.sidebar
   if (!sidebar || typeof sidebar !== 'object') return map
 
   function walk(items: SidebarItem[]) {
@@ -53,7 +53,13 @@ function buildLinkMap(config: any): Map<string, string> {
   return map
 }
 
-const uiLinkMap = buildLinkMap(uiConfig)
+// The shared sidebar carries the guide/api sections (composables, helpers,
+// features); the adapter config's sidebar only carries components. Adapter
+// entries win on conflict.
+const uiLinkMap = new Map([
+  ...buildLinkMap(sharedSidebar),
+  ...buildLinkMap(uiConfig?.themeConfig?.sidebar),
+])
 
 function resolveLink(name: string): string | undefined {
   return uiLinkMap.get(name)

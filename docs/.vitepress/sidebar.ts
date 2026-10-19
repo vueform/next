@@ -127,6 +127,10 @@ export default {
         { text: 'defineSlot', link: '/api/helpers/defineSlot' },
         { text: 'definePreset', link: '/api/helpers/definePreset' },
         { text: 'definePlugin', link: '/api/helpers/definePlugin' },
+        {
+          text: 'createVueformFactory',
+          link: '/api/helpers/createVueformFactory',
+        },
         // @generated:helpers-end
       ],
     },
@@ -137,8 +141,10 @@ export default {
         // @generated:composables-start
         { text: 'useClasses', link: '/api/composables/useClasses' },
         { text: 'useDate', link: '/api/composables/useDate' },
+        { text: 'useForm', link: '/api/composables/useForm' },
         { text: 'useHttp', link: '/api/composables/useHttp' },
         { text: 'useLocale', link: '/api/composables/useLocale' },
+        { text: 'useModel', link: '/api/composables/useModel' },
         { text: 'useSecurity', link: '/api/composables/useSecurity' },
         {
           text: 'useTemplateContext',

@@ -1,370 +1,199 @@
+---
+outline: [2,3]
+---
+
 # Model
 
-Every form owns a single data object — the **model**. Each element writes its value under its `name`, containers nest or flatten their children's keys, and the result is one canonical store. This chapter covers how to bind that model to your own state, how to read and write it, and how to manage it headlessly with `useModel`.
+Every form owns a single data object — the **model**: each element writes its value under its `name`, and the result is one canonical store. By default the model is internal and the form takes care of everything, but you can also externalize it and own the store yourself.
 
-## `v-model`
+## Internal Model
 
-The form accepts a `v-model` like any input component. Bind a `ref` and three things happen at once:
-
-- The ref's initial value **seeds** the model when the form mounts.
-- **Form → ref** — every change inside the form (user input, programmatic updates, `reset`, `clear`) propagates out.
-- **Ref → form** — assigning to the ref from outside propagates back in.
+The form doesn't need a store handed to it: it builds one from its schema on mount and exposes it through the [form context](/guide/context#form-context):
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
+import { defineSchema, useForm } from '@vueform/ui'
 
-const model = ref({ name: 'John' })
+const schema = defineSchema({
+  name: { type: 'text', label: 'Name' },
+  email: { type: 'text', label: 'Email' },
+})
+
+const [MyForm, form$] = useForm({ schema })
+</script>
+
+<template>
+  <MyForm />
+  <pre>{{ form$.data }}</pre> // [!code highlight]
+</template>
+```
+
+The context exposes the full data API: `form$.data` and `form$.payload` to read, `form$.set()` and `form$.update()` to write — see the [full reference](/components/VfForm#context.section-data).
+
+For most forms this is all the model handling you need. Its boundary is the form's lifecycle: the store is created on mount and gone on unmount, and nothing can reach it before the form exists. Crossing that boundary is what externalizing the model is for.
+
+## External Model
+
+To externalize the model, create a store with `!useModel` and hand it to the form:
+
+```vue
+<script setup lang="ts">
+import { defineSchema, useForm, useModel } from '@vueform/ui'
+
+const schema = defineSchema({
+  name: { type: 'text', label: 'Name' },
+  email: { type: 'text', label: 'Email' },
+  city: { type: 'text', label: 'City' },
+})
+
+const model = useModel(schema, {
+  name: 'John',           // ✅ string | number | null — typed from the schema
+  email: true,            // ❌ compile error — not a text value
+  c                       // 💡 autocomplete
+// ^|*text:city?@"string | number | null"
+})
+
+const [MyForm] = useForm({ schema }, model)
+</script>
+
+<template>
+  <MyForm />
+</template>
+```
+
+`!useModel` translates the schema to model shape: each element becomes a key in the model, typed by its model shape. The second argument accepts a seed of initial values, type-checked against the schema — known keys are offered as autocomplete and wrong value types surface as compile errors, while extra keys are deliberately tolerated, so data carrying more than the form shows (a server row, say) can seed it as-is.
+
+Alternatively you can pass plainer model shapes to `!useForm`:
+
+| You pass         | The form                                                                 |
+| ---------------- | ------------------------------------------------------------------------ |
+| `ref`            | Two-way syncs it, exactly like any `v-model`.                            |
+| `reactive`       | Syncs form changes back into its keys, preserving the object's identity. |
+| `object` (plain) | Seeds the initial values — no syncing back.                              |
+
+These are fine when the form's data is just another piece of component state. What they lack is what `!useModel` adds: none of them is type-checked against the schema, and none carries the [Model API](#the-model-api).
+
+
+::: tip
+
+`useModel` and `useForm` depend on setup context, so as long as you are using them inside `<script setup>` you are fine. If you want to use them outside of it [follow this guide](/guide/vueform-instance#outside-a-setup-context).
+
+:::
+
+### Inline Forms
+
+Inline forms — built without `!useForm` — accept the same model shapes, including `!useModel` as a `v-model` on `!VfForm` directly:
+
+```vue
+<script setup lang="ts">
+import { useModel } from '@vueform/ui'
+
+const model = useModel({}, { name: 'John' })
 </script>
 
 <template>
   <VfForm v-model="model">
     <VfText name="name" label="Name" />
-    <VfText name="email" label="Email" />
   </VfForm>
 </template>
 ```
 
-The ref doesn't need to hold every key — missing ones are filled in as elements register: each element contributes its `default` value, or its null value when it has none. Here `model` becomes `{ name: 'John', email: null }` once the form mounts.
+The schema argument stays an empty object: the form's shape is defined inline by the template, so there is nothing to type the model against — typing is what inline usage gives up. The instance still carries the full [Model API](#the-model-api).
 
-::: info
-In-template `v-model` needs a `ref()`, not `reactive()`. `v-model` syncs by replacing the bound value, which works for a ref's `.value` but can't replace a reactive object as a whole without losing reactivity. To bind a reactive object, use `useForm` below.
-:::
+It also works one level down, on individual elements — whether they sit inside a form or stand alone:
 
-## Binding in `!useForm`
-
-> _⚠️ probably I would swap this with useModel – that's more relevant, useForm is the addition_
-
-`useForm`'s second argument binds the model without template wiring. The binding itself is the same one `v-model` gives you — the difference is that the schema, the form props, and the model now live together in a single typed form definition:
-
-```ts
-import { defineSchema, useForm } from '@vueform/ui'
+```vue
+<script setup lang="ts">
 import { ref } from 'vue'
 
-const schema = defineSchema({
-  name: { type: 'text', label: 'Name' },
-  email: { type: 'text', label: 'Email' },
-})
+const name = ref('John')
+</script>
 
-const model = ref({ name: 'John' })
-
-const [MyForm] = useForm({ schema }, model)
+<template>
+  <VfText v-model="name" name="name" label="Name" />
+</template>
 ```
 
-The binding adapts to the shape you pass:
+Element binding comes with two caveats. It moves the plain value, so a `!useModel` instance can't be bound here — `!VfForm` is the only place that attaches one. And each value should reach exactly one `v-model`: an element bound inside a bound form would be written from two directions at once.
 
-| You pass         | The form                                                                 |
-| ---------------- | ------------------------------------------------------------------------ |
-| `ref`            | Two-way syncs it, exactly like `v-model`.                                |
-| `reactive`       | Syncs form changes back into its keys, preserving the object's identity. |
-| `object` (plain) | Seeds the initial values — no syncing back.                              |
-| `useModel`       | Attaches Vueform's headless store — more on this below.                  |
+## The Model API
 
-None of the first three shapes is type-checked against the schema — a model whose keys or value types don't match the schema compiles without complaint. When you want the model enforced by TypeScript, define it with `useModel`.
-
-## `!useModel`
-
-Everything so far required a mounted form. `useModel` removes that requirement: it is a **headless data engine** that builds the complete model — defaults, null values, nested structure — from a schema alone, without mounting a single component. If you know headless form libraries, this is that role — with the difference that the same instance can later power your rendered form.
+The Model API is a single set of members for managing data:
 
 ```ts
-import { defineSchema, useModel } from '@vueform/ui'
+const model = useModel(schema) // external instance…
+// …or the internal model: const model = form$
 
-const schema = defineSchema({
-  name: { type: 'text', label: 'Name' },
-  email: { type: 'text', label: 'Email' },
-})
-
-const model = useModel(schema, { name: 'John' })
-
-model.model // { name: 'John', email: null }
-```
-
-The model's shape is built up front — no mount involved. Once Vueform is installed as a Vue plugin with `createVueform`, `!useModel` and `!useForm` are callable anywhere: plain modules, event handlers, tests — no component setup context required.
-
-The second argument is an optional seed — a one-time cloned snapshot, type-checked against the schema. Keys you skip receive their default or null value; keys the schema doesn't know stay in the model as plain data — they don't appear in the payload or the inferred type. Later mutations of the seed are ignored: the instance owns its own data from then on.
-
-::: warning
-The seed must be a plain object or a `reactive` object — not a Vue `ref`. A `ref` is rejected (the instance would otherwise clone the ref internals). For a live two-way binding with a form, pass the `!useModel` instance via `v-model` or `!useForm`.
-:::
-
-::: info
-The schema can also be reactive: pass a ref (e.g. a `defineComputedSchema` result) and the instance follows schema changes — added elements seed their defaults, removed elements drop their data, existing values survive.
-:::
-
-### The Model API
-
-The instance owns its data and exposes the full reading and writing API. State is unwrapped — no `.value`:
-
-```ts
-model.model // the reactive data object
+model.data // the reactive data object
 model.payload // the data that gets submitted
-model.dirty // differs from the initial snapshot
-model.empty // every value is its null value
 
-model.get('email')
-model.set('email', 'john@example.com')
-model.update({ name: 'Jane' })
-model.load(serverData)
-model.clear()
-model.reset()
-model.clean()
+model.set('email', 'john@example.com') // single value by dot-path
+model.update({ name: 'Jane' }) // partial deep-merge
+model.clear() // every value back to its null value
+model.reset() // back to the initial snapshot
 
-model.toJSON() // JSON string
-model.toFormData() // FormData instance
+await model.validate() // run the schema's rules
+await model.submit() // submit the form
 ```
 
-`payload` is what submission sends: the model without elements whose [Conditions](/guide/conditions) aren't met and elements with `submit: false` — conditions are evaluated headlessly too. `find()` even returns a virtual [Context](/guide/context) for any element path — no component behind it.
+The [internal model](#internal-model)'s API lives on the [form context](/guide/context#form-context), which is populated on mount: before that every member is `undefined`, so there is nothing to read or write yet.
 
-`update` and `load` merge the same way: plain objects are deep-merged, arrays and leaf values are replaced. The difference is intent — `load` announces the data as externally loaded and fires the `load` event. `clean` doesn't change any value; it re-snapshots the model so `dirty` turns `false` and `reset` returns to the new baseline.
+A `!useModel` instance doesn't wait for a form: it builds the complete model from the schema immediately — seed values where provided, defaults and null values everywhere else.
 
-### Validating Headlessly
+Passing the `!useModel` instance to `!useForm` makes the form **attach** it. Attachment is not syncing: the form doesn't clone the data or wire up update listeners — it uses it **as its own store**, so there is one source of truth and nothing to keep in sync.
 
-`validate()` runs every element's rules against the current data — again, no mounted form — and resolves with whether everything passed:
+- **Before attachment** the instance is yours alone: only your code changes its data, and it can't be submitted — there is no form behind `submit()` yet.
+- **After attachment** the model is kept in sync with the form for free: whatever is typed into the form is already in `model.data`, and whatever you `set()` is already on screen. `model.attached` turns `true` and `model.submit()` submits the attaching form.
 
-```ts
-const model = useModel(schema)
+## Using Pinia
 
-await model.validate() // resolves false when any rule fails
-
-model.invalid // whether any validated element is invalid
-model.errors // aggregated error messages
-model.issues // structured validation issues
-```
-
-Everything about validation — defining rules, validation schemas, error messages, when validation runs — is covered in [Validation](/guide/validation).
-
-### Attaching the Model
-
-The instance can be passed anywhere a model is accepted — `!useForm`'s second argument or `v-model` — and the form **attaches** it:
+A model owned by a [Pinia](https://pinia.vuejs.org/) store outlives any component: a form can mount anywhere, attach it, and unmount without losing data. A store is not a component, though, so `!useModel` has no setup context — create the model from your own instance instead:
 
 ::: code-group
 
-```ts [useForm]
-import { defineSchema, useForm, useModel } from '@vueform/ui'
+```ts [stores/user.ts]
+import { defineStore } from 'pinia'
+import { defineSchema } from '@vueform/ui'
+import { vueform } from '@/vueform'
 
 const schema = defineSchema({
   name: { type: 'text', label: 'Name' },
   email: { type: 'text', label: 'Email' },
 })
 
-const model = useModel(schema, { name: 'John' })
+export const useUserStore = defineStore('user', () => {
+  const model = vueform.useModel(schema)
 
-                                    // ▼ attachment happens here
-const [MyForm] = useForm({ schema }, model)
+  return { model }
+})
 ```
 
-```vue [v-model]
-<script setup lang="ts">
-import { defineSchema, useModel } from '@vueform/ui'
+```ts [vueform.ts]
+import { createVueform } from '@vueform/ui/origin'
 
-const schema = defineSchema({
-  name: { type: 'text', label: 'Name' },
-  email: { type: 'text', label: 'Email' },
-})
+export const vueform = createVueform()
+```
 
-const model = useModel(schema, { name: 'John' })
-</script>
+```ts [main.ts]
+import { createApp } from 'vue'
+import { createPinia } from 'pinia'
+import { vueform } from './vueform'
+import App from './App.vue'
 
-<template>
-                <!-- ▼ attachment happens here -->
-  <VfForm v-model="model" :schema />
-</template>
+createApp(App).use(createPinia()).use(vueform).mount('#app')
 ```
 
 :::
 
-Attachment is not syncing. The form doesn't clone the data or wire up update listeners — it uses the instance's store as its own. There is one source of truth and nothing to keep in sync: type into the form and `model.model` already holds it, call `model.set()` and the form already shows it.
+A component that renders a form attaches `store.model` like any other instance — and because the store never looks for an injection, it works no matter when it's first touched: a router guard before mount, a test, another store.
 
-Attachment is also what unlocks the form-bound members:
+One caveat: `vueform.ts` keeps the instance in module scope, which is the right pattern in the browser and the wrong one on an SSR server, where module scope is shared between requests — there, the instance belongs in the per-request app factory, as [Cross-Request State](/guide/ssr#cross-request-state) explains.
 
-```ts
-model.attached // true once a form has attached the instance
-model.submit() // submits the attaching form
-```
-
-On the form side, `form$.hasAttachedModel` reports whether the form attached a model instance. See [Submitting Forms](/guide/submit) for the submission flow.
-
-### Using the Model Before Mount
-
-A `useModel` instance works immediately — no form required. Create it during app setup, seed it from a route or a store, then mount the form whenever:
-
-::: code-group
-
-```ts [user.ts]
-import { defineSchema, useModel } from '@vueform/ui'
-
-export const schema = defineSchema({
-  name: { type: 'text', label: 'Name' },
-  email: { type: 'text', label: 'Email' },
-})
-
-export const model = useModel(schema)
-```
-
-```vue [UserForm.vue]
-<script setup lang="ts">
-import { useForm } from '@vueform/ui'
-import { model, schema } from './user'
-
-// The form doesn't exist yet — the model is already usable
-model.load(serverData)
-
-const [MyForm] = useForm({ schema }, model)
-</script>
-
-<template>
-  <MyForm />
-</template>
-```
-
-:::
-
-The form can live in `user.ts` too. Pass the instance to `!useForm` there and you can skip keeping a `model` variable altogether — the returned `form$` already has `load`, `set`, `get`, `update`, `validate`, and the other shared methods, working even before the form mounts:
-
-::: code-group
-
-```ts [user.ts]
-import { defineSchema, useForm, useModel } from '@vueform/ui'
-
-const schema = defineSchema({
-  name: { type: 'text', label: 'Name' },
-  email: { type: 'text', label: 'Email' },
-})
-
-export const [MyForm, form$] = useForm({ schema }, useModel(schema))
-```
-
-```vue [UserForm.vue]
-<script setup lang="ts">
-import { MyForm, form$ } from './user'
-
-// The form doesn't exist yet — form$ answers from the model
-form$.load(serverData)
-</script>
-
-<template>
-  <MyForm />
-</template>
-```
-
-:::
-
-#### Import order
-
-::: warning closed
-The examples above are fine as long as `user.ts` is not imported in the same file as `createVueform` — or earlier — where Vueform is installed as a Vue plugin (usually `main.ts`). If it is, wrap the call in a function and invoke it after install:
-
-::: code-group
-
-```ts [user.ts]
-import { defineSchema, useForm, useModel } from '@vueform/ui'
-
-const schema = defineSchema({
-  name: { type: 'text', label: 'Name' },
-  email: { type: 'text', label: 'Email' },
-})
-
-export function createUserModel() {
-  return useModel(schema)
-}
-```
-
-```vue [UserForm.vue]
-<script setup lang="ts">
-import { useForm } from '@vueform/ui'
-import { createUserModel, schema } from './user'
-
-const model = createUserModel()
-
-model.load(serverData)
-
-const [MyForm] = useForm({ schema }, model)
-</script>
-
-<template>
-  <MyForm />
-</template>
-```
-
-:::
-
-::: code-group
-
-```ts [user.ts]
-import { defineSchema, useForm, useModel } from '@vueform/ui'
-
-const schema = defineSchema({
-  name: { type: 'text', label: 'Name' },
-  email: { type: 'text', label: 'Email' },
-})
-
-export function createUserForm() {
-  return useForm({ schema }, useModel(schema))
-}
-```
-
-```vue [UserForm.vue]
-<script setup lang="ts">
-import { createUserForm } from './user'
-
-const [MyForm, form$] = createUserForm()
-
-form$.load(serverData)
-</script>
-
-<template>
-  <MyForm />
-</template>
-```
-
-:::
-:::
-
-## Reading the Model via Context
-
-You don't need a `useModel` instance to work with a mounted form's data — the form's [Context](/guide/context) exposes the same API. `model` is the full data object: every registered element's current value.
-
-```ts
-import { defineSchema, useForm } from '@vueform/ui'
-
-const schema = defineSchema({
-  name: { type: 'text', label: 'Name' },
-  email: { type: 'text', label: 'Email' },
-})
-
-const [MyForm, form$, formReady] = useForm({ schema })
-
-formReady((form$) => {
-  form$.model // { name: null, email: null }
-})
-```
-
-Single values are read by dot-path with `get` — typed and autocompleted when the schema comes from `!defineSchema`:
-
-```ts
-form$.get('email')
-```
-
-The `dirty` and `empty` flags are here too, along with the rest of the form's state — see [VfForm Context](/components/VfForm#context) for the full API.
-
-## Writing the Model via Context
-
-The same context carries the writing API:
-
-```ts
-formReady((form$) => {
-  form$.update({ name: 'Jane' }) // partial deep-merge
-  form$.set('email', 'jane@example.com') // single value by path
-  form$.load(serverData) // like update + fires the `load` event
-  form$.clear() // every value back to its null value
-  form$.reset() // back to the mounted snapshot
-  form$.clean() // current state becomes the new snapshot
-})
-```
+To learn more about using `!useForm` and `!useModel` outside of a setup context, see [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context).
 
 ## DevTools
 
-Everything above is available for inspection without writing a single `console.log`. The `@vueform/devtools` plugin registers a **Vueform** inspector in [Vue DevTools](https://devtools.vuejs.org/) that shows every mounted form, its elements, and their live data and state. Install the package and register its plugin:
+The `@vueform/devtools` plugin registers a **Vueform** inspector in [Vue DevTools](https://devtools.vuejs.org/): every mounted form with its elements on the left, the selected node's live data, state, and validation on the right — the same members you'd read from the [Context](/guide/context), without writing a single `console.log`. Install the package and register its plugin:
 
 ```ts
 import { createVueform } from '@vueform/ui'
@@ -380,22 +209,4 @@ That's the whole setup — with Vue DevTools installed, the inspector is active 
 <img class="light-only" src="/images/devtools-light.webp" alt="The Vueform inspector in Vue DevTools, with a form tree on the left and the selected element's data and state on the right." />
 <img class="dark-only" src="/images/devtools-dark.webp" alt="The Vueform inspector in Vue DevTools, with a form tree on the left and the selected element's data and state on the right." />
 
-The left pane lists each form by its `name` (`!VfForm` when unnamed) with its elements underneath, nested the same way the model is — `nested` and `flattened` containers are tagged, and so is any element that is currently `invalid`. Select a node and the right pane shows its state, grouped:
-
-| Section          | Form                                                                                                 | Element                                                                                                                                         |
-| ---------------- | ---------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------- |
-| **Data**         | `model`, `payload`, `initialModel`                                                                   | `model`, `payload`, `initialModel`, `tracking`                                                                                                  |
-| **State**        | `empty`, `dirty`, `validated`, `invalid`, `debouncing`, `pending`, `busy`, `completed`, `submitting` | `available`, `empty`, `visited`, `touched`, `dirty`, `validated`, `invalid`, `debouncing`, `pending`, `busy`, `completed`, `success`, `hoisted` |
-| **Validation**   | `errors`, `messages`                                                                                 | `errors`, `messages`, `required`                                                                                                                |
-| **Localization** | `language`, `languages`                                                                              | —                                                                                                                                               |
-| **Submit**       | `submits`, `result`, `response`                                                                      | —                                                                                                                                               |
-| **Path**         | —                                                                                                    | `path`, `dataPath`                                                                                                                              |
-| **UID**          | `uid`                                                                                                | `uid`                                                                                                                                           |
-
-These are the same members you read from the [Context](/guide/context) — the panel is a live window onto `form$` and `el$`. Type into a field and `model` updates in the panel, fail a rule and the `invalid` tag appears on the element, call `form$.load()` from the console and `dirty` flips — `model` versus `payload` is a particularly handy pair to compare when debugging `submit: false` elements or unmet [Conditions](/guide/conditions).
-
-The plugin is development-only by design: it registers its module behind a `NODE_ENV` guard and loads the inspector lazily, so production builds exclude the package entirely and it adds nothing to your bundle. Registering it unconditionally is safe; the top-level `devtools: false` config option opts out in development too.
-
-::: info
-A `!useModel` instance that no form has attached has no component backing it and doesn't appear in the inspector. Once a form attaches it, the form node reflects its data — there is one store, so what you see is the instance's store.
-:::
+The plugin is development-only by design: production builds exclude the package entirely, so registering it unconditionally is safe.

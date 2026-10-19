@@ -194,8 +194,7 @@ type MakeElementValidationOptions = {
   isRoot: boolean
 
   /**
-   * The root model store, when the element is the form root (validator attachment
-   * / attachment).
+   * The root model store, when the element is the form root (validator attachment).
    */
   store?: object
 

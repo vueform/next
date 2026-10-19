@@ -154,7 +154,14 @@ function resolveVariantsContent(kwEntry: KeywordEntry | null): string {
 <template>
   <!-- Whitespace-sensitive: rendered inside <pre> (the HTML view), where any
        inter-node space becomes visible — keep the nodes flush. -->
-  <code v-if="hasPopover"
+  <a
+    v-if="hasPopover && matchedFull && !trailingSuffix"
+    class="keyword-link"
+    :href="entry.link || undefined"
+    :data-popover="popoverAttr"
+    ><code>{{ `${prefix ?? ''}${cleanValue}${suffix ?? ''}` }}</code></a
+  >
+  <code v-else-if="hasPopover"
     >{{ matchedFull ? '' : (prefix ?? '')
     }}<a
       class="keyword-link"

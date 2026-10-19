@@ -5,6 +5,10 @@ export default {
     sidebar: {
       '/components': [
         {
+          text: 'Components',
+          items: [{ text: 'Overview', link: '/components/' }],
+        },
+        {
           text: 'Elements',
           collapsed: false,
           items: [
