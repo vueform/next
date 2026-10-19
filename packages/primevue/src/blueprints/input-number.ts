@@ -21,7 +21,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -57,7 +56,6 @@ import {
   makeInfo,
   makeInterval,
   makeTooltip,
-  makeAria,
   type ModelPropsWithDefaultValue,
   type FloatLabelProps,
   type IftaLabelProps,
@@ -186,7 +184,7 @@ export interface InputNumberModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the input-number element blueprint.
  */
-export interface InputNumberA11y extends BaseElementA11y, AriaA11y {}
+export interface InputNumberA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for input-number-based components.
@@ -249,7 +247,6 @@ export function blueprint<TProps extends InputNumberProps<string>>(
     .use(makeFloatLabel())
     .use(makeIfta())
     .use(makeInfo())
-    .use(makeAria())
     .use(makeForwards(forwards))
     .use(makeProvider())
     .build()

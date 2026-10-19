@@ -17,7 +17,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -51,7 +50,6 @@ import {
   makeFloatLabel,
   makeIfta,
   makeInfo,
-  makeAria,
   type ModelPropsWithDefaultValue,
   type OptionGroupChildrenProp,
   type FloatLabelProps,
@@ -188,7 +186,7 @@ export interface MultiSelectModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the multi-select element blueprint.
  */
-export interface MultiSelectA11y extends BaseElementA11y, AriaA11y {}
+export interface MultiSelectA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for multi-select-based components.
@@ -281,7 +279,6 @@ export function blueprint<TProps extends LooseMultiSelectProps>(
     .use(makeFloatLabel())
     .use(makeIfta())
     .use(makeInfo())
-    .use(makeAria())
     .use(makeForwards(forwards))
     .use(makeProvider())
     .build()

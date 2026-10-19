@@ -8,6 +8,7 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { CascadeSelectProps as PvCascadeSelectProps } from 'primevue'
 import type { CascadeSelectSlots as ACascadeSelectSlots } from 'primevue/cascadeselect'
@@ -247,9 +248,10 @@ export interface VfCascadeSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfCascadeSelect component.
+ * Accessibility bindings of the VfCascadeSelect component, produced by the
+ * `inputAria` pattern the component registers via `useA11y`.
  */
-export interface VfCascadeSelectA11y extends CascadeSelectA11y {}
+export interface VfCascadeSelectA11y extends CascadeSelectA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfCascadeSelect component.

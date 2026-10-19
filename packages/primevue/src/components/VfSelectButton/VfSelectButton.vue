@@ -12,6 +12,7 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeSelectButton from 'primevue/selectbutton'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/select-button'
 import type { OptionsProp, OptionValueProp } from '#src/features'
 import { vdomPrime } from '#src/helpers'
@@ -74,16 +75,30 @@ const slots =
     >
   >()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help, props }) => ({
-  root: {
-    'vf-select-button': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(({ props }) => ({
+  root: 'vf-select-button',
   input: props.layout === false ? props.class : null,
 }))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -112,7 +127,6 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
       <SelectButton
-        :class="classes.input"
         v-model="value"
         :options="rawItems"
         :option-label="itemLabel"
@@ -122,10 +136,7 @@ defineExpose(expose)
         :invalid
         :multiple
         fluid
-        v-bind="{
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @focus="handleFocus"
         @blur="handleBlur"

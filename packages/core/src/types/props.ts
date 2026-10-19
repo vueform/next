@@ -272,7 +272,6 @@ export type InputModeProp =
   | 'search'
   | 'email'
   | 'url'
-  | (string & {})
 
 /**
  * Allowed values for the HTML `<input>` element's `type` attribute.

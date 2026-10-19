@@ -2,6 +2,7 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeToggleButton from 'primevue/togglebutton'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/toggle-button'
 import { vdomPrime } from '#src/helpers'
 
@@ -25,15 +26,28 @@ const props = withDefaults(defineProps<VfToggleButtonProps>(), defaults)
 const events = defineEvents<VfToggleButtonEmits>()
 const slots = defineSlots<VfToggleButtonSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-toggle-button': true,
-    'vf-align-label': !help.value,
+useClasses(() => ({
+  root: 'vf-toggle-button',
+}))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -63,7 +77,6 @@ defineExpose(expose)
     <VfLayout v-else>
       <ToggleButton
         :name
-        :class="classes.input"
         v-model="value"
         :disabled
         :readonly
@@ -72,10 +85,7 @@ defineExpose(expose)
         :off-label
         :on-icon
         :off-icon
-        v-bind="{
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @blur="handleBlur"
         @focus="handleFocus"

@@ -1,6 +1,10 @@
 import type { VNode } from 'vue'
 
-import { type Pager, type ResolvedPage } from '#src/composables'
+import {
+  type Pager,
+  type PartBindings,
+  type ResolvedPage,
+} from '#src/composables'
 import type { PartOf, SlotPropsOf } from '#src/types'
 
 /**
@@ -59,6 +63,12 @@ export interface TabbedSlots {
      * The pager instance managing tab state.
      */
     pager: Pager
+
+    /**
+     * The tab navigation bar's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: PartBindings<'tabs', TabbedParts>
   }) => VNode[]
 
   /**

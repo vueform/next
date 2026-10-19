@@ -17,19 +17,21 @@ To see where keys come from, here is how `VfText` defines and renders its own (s
 ```vue
 <!-- VfText.vue (simplified) -->
 <script setup lang="ts">
-const classes = useClasses('VfText', () => ({
+const { bindings, useClasses } = useBlueprint(blueprint, props, events, slots)
+
+useClasses(() => ({
   input: 'vf-input vf-text-input',
 }))
 </script>
 
 <template>
   <VfLayout>
-    <input :class="classes.input" />
+    <input v-bind="bindings.input" />
   </VfLayout>
 </template>
 ```
 
-The component declares a default class value under each of its keys, and its template binds each part to `classes.<key>`. The `classes` object holds each key's _resolved_ value: the declared default, plus whatever overrides the rest of this chapter is about — and whichever override mechanism you use, you always target a part by its key.
+The component declares a default class value under each of its keys, and its template binds each part's merged `bindings` bag, which carries the key's _resolved_ value under `class`: the declared default, plus whatever overrides the rest of this chapter is about — and whichever override mechanism you use, you always target a part by its key.
 
 ::: info
 `VfText` renders more parts than its own template shows — the label, errors, and the rest come from the `VfLayout` wrapper (the shared [element layout](/guide/element-layout)). Their keys (`label`, `errors`, and so on) work just like `input`: they belong to the same flat key map, no matter which template renders the part. [Element Class Resolution](#element-class-resolution) covers where each of them is defined.

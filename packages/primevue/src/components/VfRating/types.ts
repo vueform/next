@@ -2,11 +2,13 @@ import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type {
   RatingProps as PvRatingProps,
   RatingSlots as ARatingSlots,
 } from 'primevue'
+
 import type {
   RatingA11y,
   RatingApi,
@@ -77,9 +79,10 @@ export interface VfRatingClasses extends RatingClasses {
 }
 
 /**
- * Accessibility bindings of the VfRating component.
+ * Accessibility bindings of the VfRating component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfRatingA11y extends RatingA11y {}
+export interface VfRatingA11y extends RatingA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfRating component.

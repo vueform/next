@@ -15,7 +15,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -45,7 +44,6 @@ import type {
 import { computed, toRef } from 'vue'
 
 import {
-  makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
@@ -183,7 +181,7 @@ export interface ToggleSwitchModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the toggle-switch element blueprint.
  */
-export interface ToggleSwitchA11y extends BaseElementA11y, AriaA11y {}
+export interface ToggleSwitchA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for toggle-switch-based components.
@@ -235,7 +233,6 @@ export function blueprint<TProps extends ToggleSwitchProps<string>>(
     .use(makeReadonly())
     .use(makeData())
     .use(makeInput())
-    .use(makeAria())
     .use(makeInfo())
     .use(makeForwards(forwards))
     .use(makeProvider())

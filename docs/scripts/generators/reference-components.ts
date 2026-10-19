@@ -1078,12 +1078,20 @@ function generatePartsSection(
     const rows: string[] = []
     rows.push(`| **Element** ${PART_ROW_HINTS.element} | ${element} |`)
     if (classesFormatted) {
-      rows.push(`| **Classes** ${PART_ROW_HINTS.classes} | ${classesFormatted} |`)
+      rows.push(
+        `| **Classes** ${PART_ROW_HINTS.classes} | ${classesFormatted} |`
+      )
     }
 
-    const modifiersFormatted = formatBindingAttrs(name, 'modifiers', modifiers[name])
+    const modifiersFormatted = formatBindingAttrs(
+      name,
+      'modifiers',
+      modifiers[name]
+    )
     if (modifiersFormatted) {
-      rows.push(`| **Modifiers** ${PART_ROW_HINTS.modifiers} | ${modifiersFormatted} |`)
+      rows.push(
+        `| **Modifiers** ${PART_ROW_HINTS.modifiers} | ${modifiersFormatted} |`
+      )
     }
 
     const a11yFormatted = formatBindingAttrs(name, 'a11y', a11y[name])
@@ -1681,7 +1689,9 @@ function ensureTab(
   for (let i = idx + 1; i < DOC_TABS.length; i++) {
     const next = content.match(tabMarker(DOC_TABS[i]))
     if (next?.index !== undefined) {
-      return content.slice(0, next.index) + tab + '\n' + content.slice(next.index)
+      return (
+        content.slice(0, next.index) + tab + '\n' + content.slice(next.index)
+      )
     }
   }
 

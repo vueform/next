@@ -21,7 +21,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type TAriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -59,7 +58,6 @@ import {
   makeIfta,
   makeInfo,
   makeTooltip,
-  makeTAria,
   type ModelPropsWithDefaultValue,
   type FloatLabelProps,
   type IftaLabelProps,
@@ -180,7 +178,7 @@ export interface InputTextModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the input-text element blueprint.
  */
-export interface InputTextA11y extends BaseElementA11y, TAriaA11y {}
+export interface InputTextA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for input-text-based components.
@@ -230,7 +228,6 @@ export function blueprint<TProps extends InputTextProps<string>>(
     .use(makePlaceholder())
     .use(makeMultilingual())
     .use(makeTData())
-    .use(makeTAria())
     .use(makeInput())
     .use(makeKeyHandlers())
     .use(makeLoading())

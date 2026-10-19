@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="const TRadioValue = true">
 import type { Ref } from 'vue'
 
+import { inputAria } from '#src/a11y'
 import { defaults, blueprint } from '#src/blueprints/radio'
 import { useBlueprint } from '#src/composables'
 import { defineEvents } from '#src/helpers'
@@ -19,8 +20,17 @@ const props = withDefaults(defineProps<VfRadioProps<TRadioValue>>(), defaults)
 const events = defineEvents<VfRadioEmits<TRadioValue>>()
 const slots = defineSlots<VfRadioSlots<TRadioValue>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 const radioValue = propRefs.radioValue as Ref<TRadioValue>
 
@@ -29,7 +39,6 @@ const {
   id,
   disabled,
   viewLoaded,
-  aria,
   inputName,
   text,
   input,
@@ -41,20 +50,27 @@ const {
   handleModelUpdate,
 } = api
 
-useClasses(({ props, hasError }) => ({
+useClasses(() => ({
   root: 'vf-radio',
-  wrapper: {
-    'vf-choice-wrapper': true,
-    'vf-left': props.align === 'left',
-    'vf-right': props.align === 'right',
-    'vf-aligned': !!props.aligned,
-  },
-  input: {
-    'vf-choice-input': true,
-    'vf-danger': hasError.value,
-  },
+  wrapper: 'vf-choice-wrapper',
+  input: 'vf-choice-input',
   text: 'vf-choice-text',
 }))
+
+useModifiers(({ props, hasError, help }) => ({
+  root: {
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  wrapper: {
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 defineExpose(expose)
 </script>
@@ -66,12 +82,12 @@ defineExpose(expose)
       <slot
         :model
         :value="radioValue"
-        :aria
         :input-name
         :id
         :disabled
         :input
         :text
+        :bindings="bindings.wrapper"
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -81,58 +97,42 @@ defineExpose(expose)
           :is="outlets.default"
           :model
           :value="radioValue"
-          :aria
           :input-name
           :id
           :disabled
           :input
           :text
+          :bindings="bindings.wrapper"
           :handle-blur
           :handle-focus
           :handle-model-update
         />
-        <div v-else :class="classes.wrapper" v-bind="parts.wrapper">
+        <div v-else v-bind="bindings.wrapper">
           <input
             type="radio"
             v-model="value"
-            :class="classes.input"
             :name="inputName"
             :value="radioValue"
             :id
             :disabled
-            v-bind="{
-              ...aria,
-              ...parts.input,
-            }"
+            v-bind="bindings.input"
             :ref="(el) => (input = el)"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
           />
-          <slot
-            name="text"
-            :text
-            :id
-            :generic-name
-            :class="classes.text"
-            v-bind="parts.text"
-          >
+          <slot name="text" :text :id :generic-name :bindings="bindings.text">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :class="classes.text"
-              v-bind="parts.text"
+              :bindings="bindings.text"
             />
-            <label
-              v-else-if="text"
-              :class="classes.text"
-              :for="id"
-              v-bind="parts.text"
-              >{{ text }}</label
-            >
+            <label v-else-if="text" :for="id" v-bind="bindings.text">{{
+              text
+            }}</label>
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>
           </slot>
         </div>

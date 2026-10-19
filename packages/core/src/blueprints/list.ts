@@ -4,7 +4,6 @@ import {
   useContainerProvider,
   useDynamicProp,
   useFeatures,
-  useLocale,
   useSecurity,
   useComponentFactory,
 } from '#src/composables'
@@ -168,65 +167,9 @@ export interface ListClasses extends BaseElementClasses {}
 export interface ListModifiers extends BaseElementModifiers {}
 
 /**
- * Accessibility bindings of the list element.
+ * Accessibility bindings of the list element blueprint.
  */
-export interface ListA11y extends BaseElementA11y {
-  /**
-   * The items container's list role.
-   */
-  items: {
-    role: 'list'
-  }
-
-  /**
-   * Each item wrapper's listitem role.
-   *
-   * @param beingDragged Whether this item is currently being dragged.
-   * @param isDropTarget Whether this item is the current drop target.
-   */
-  item: (
-    beingDragged: boolean,
-    isDropTarget: boolean
-  ) => {
-    role: 'listitem'
-  }
-
-  /**
-   * The empty-state placeholder's id and status role.
-   */
-  placeholder: {
-    id: string
-    role: 'status'
-  }
-
-  /**
-   * The add control's accessible name (when it renders without a visible
-   * label) and its describedby to the empty-state placeholder.
-   */
-  add: {
-    'aria-label'?: string
-    'aria-describedby'?: string
-  }
-
-  /**
-   * The per-item sort handle's localized accessible name.
-   *
-   * @param index The item's zero-based index.
-   */
-  sort: (index: number) => {
-    'aria-label': string
-  }
-
-  /**
-   * The per-item remove control's localized accessible name (when it renders
-   * without a visible label).
-   *
-   * @param index The item's zero-based index.
-   */
-  remove: (index: number) => {
-    'aria-label'?: string
-  }
-}
+export interface ListA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for list-based components.
@@ -256,8 +199,6 @@ export function blueprint<TProps extends ListProps<string>>(
 ) {
   const { sanitizeProps } = useSecurity()
   const { makeFromSchema } = useComponentFactory()
-  const { t } = useLocale()
-
   const initial = toRef(() => Number(props.initial ?? 0))
 
   const api = useFeatures(props, events, {
@@ -427,42 +368,6 @@ export function blueprint<TProps extends ListProps<string>>(
     return 'div'
   })
 
-  /**
-   * Part-keyed accessibility bindings: ready-to-spread attribute bags for the
-   * list structure (items container, item wrappers), the empty-state
-   * placeholder status region, and the add/sort/remove controls — applied to
-   * the built-in markup and passed to the matching slots. Per-item bags
-   * (`sort`, `remove`) are functions of the item index, resolved at the call
-   * site like functional parts.
-   */
-  const a11yBindings = computed<ListA11y>(() => ({
-    items: {
-      role: 'list',
-    },
-    item: (_beingDragged: boolean, _isDropTarget: boolean) => ({
-      role: 'listitem' as const,
-    }),
-    placeholder: {
-      id: placeholderId.value,
-      role: 'status',
-    },
-    add: {
-      'aria-label': addLabel.value ? undefined : t('sr_list_add'),
-      'aria-describedby':
-        items.value.length === 0 && placeholder.value
-          ? placeholderId.value
-          : undefined,
-    },
-    sort: (index: number) => ({
-      'aria-label': t('sr_list_sort', { index: index + 1 }),
-    }),
-    remove: (index: number) => ({
-      'aria-label': removeLabel.value
-        ? undefined
-        : t('sr_list_remove', { index: index + 1 }),
-    }),
-  }))
-
   // ============== METHODS ===============
 
   /**
@@ -494,7 +399,6 @@ export function blueprint<TProps extends ListProps<string>>(
 
   return {
     ...api,
-    a11yBindings,
     addLabel,
     removeLabel,
     placeholder,

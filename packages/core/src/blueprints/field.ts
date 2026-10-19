@@ -10,7 +10,6 @@ import {
   makeMultilingual,
   makeDisabled,
   makeReadonly,
-  makeAria,
   makeInput,
   makeKeyHandlers,
   makeProvider,
@@ -24,7 +23,6 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type AriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -220,7 +218,7 @@ export interface FieldModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the field element blueprint.
  */
-export interface FieldA11y extends BaseElementA11y, AriaA11y {}
+export interface FieldA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for field-based components.
@@ -259,7 +257,6 @@ export function blueprint<TProps extends FieldProps<string>>(
     .use(makeDisabled())
     .use(makeReadonly())
     .use(makeTData())
-    .use(makeAria())
     .use(makeInput())
     .use(makeKeyHandlers())
     .use(makeProvider())

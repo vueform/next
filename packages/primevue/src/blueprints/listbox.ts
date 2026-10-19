@@ -14,7 +14,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -41,7 +40,6 @@ import type {
 
 import {
   makeInfo,
-  makeAria,
   type ModelPropsWithDefaultValue,
   type OptionGroupChildrenProp,
   type InfoProps,
@@ -172,7 +170,7 @@ export interface ListboxModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the listbox element blueprint.
  */
-export interface ListboxA11y extends BaseElementA11y, AriaA11y {}
+export interface ListboxA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for listbox-based components.
@@ -237,7 +235,6 @@ export function blueprint<TProps extends LooseListboxProps>(
     .use(makeInput())
     .use(makeItems())
     .use(makeInfo())
-    .use(makeAria())
     .use(makeForwards(forwards))
     .use(makeProvider())
     .build()

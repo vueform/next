@@ -10,6 +10,7 @@ import { defineEvents, useBlueprint, type LanguagesProp } from '@vueform/core'
 import PrimePassword from 'primevue/password'
 import type { WritableComputedRef } from 'vue'
 
+import { tInputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/password'
 import { vdomPrime } from '#src/helpers'
 
@@ -33,15 +34,31 @@ const props = withDefaults(
 const events = defineEvents<VfPasswordEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfPasswordSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
+useClasses(() => ({
+  root: 'vf-password',
+}))
+
+useModifiers(({ help, hasError }) => ({
   root: {
-    'vf-password': true,
-    'vf-align-label': !help.value,
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(tInputAria())
 
 const {
   value,
@@ -50,7 +67,6 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  aria,
   input,
   name,
   tooltipModifiers,
@@ -83,7 +99,6 @@ defineExpose(expose)
       <Password
         :name
         :input-id="id"
-        :class="classes.input"
         v-model="inputValue"
         :placeholder
         :disabled
@@ -91,11 +106,7 @@ defineExpose(expose)
         :invalid
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...aria,
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"

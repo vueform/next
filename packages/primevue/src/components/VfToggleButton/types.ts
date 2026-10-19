@@ -1,10 +1,12 @@
 import type {
+  InputAriaA11y,
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
 } from '@vueform/core'
 import type { ToggleButtonProps as PvToggleButtonProps } from 'primevue'
 import type { ToggleButtonSlots as AToggleButtonSlots } from 'primevue/togglebutton'
+
 import type {
   ToggleButtonA11y,
   ToggleButtonApi,
@@ -75,9 +77,10 @@ export interface VfToggleButtonClasses extends ToggleButtonClasses {
 }
 
 /**
- * Accessibility bindings of the VfToggleButton component.
+ * Accessibility bindings of the VfToggleButton component, produced by the
+ * `inputAria` pattern the component registers via `useA11y`.
  */
-export interface VfToggleButtonA11y extends ToggleButtonA11y {}
+export interface VfToggleButtonA11y extends ToggleButtonA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfToggleButton component.

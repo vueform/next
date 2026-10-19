@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 
+import type { InputAriaA11y } from '#src/a11y'
 import {
   type CheckboxA11y,
   type CheckboxApi,
@@ -11,6 +12,7 @@ import {
   type CheckboxProps,
   type CheckboxSlots,
 } from '#src/blueprints/checkbox'
+import type { ResolvedBindings } from '#src/composables'
 import type {
   WidenProps,
   DefineElementContext,
@@ -19,6 +21,15 @@ import type {
   DomAttrsOf,
   EntryPropOr,
 } from '#src/types'
+
+/**
+ * Resolved per-part binding bags for VfCheckbox slot scopes.
+ */
+type VfCheckboxBindings = ResolvedBindings<
+  VfCheckboxParts,
+  VfCheckboxModifiers,
+  VfCheckboxA11y
+>
 
 /**
  * VfCheckbox props narrowed from a registry `TEntry` payload, applying the
@@ -118,26 +129,11 @@ export interface VfCheckboxSlots<
     text: string | undefined
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The default slot's own part is the wrapper (the fallback's top-level
+     * element): its resolved classes, part overrides, and alignment
+     * modifiers; apply with `v-bind`.
      */
-    classes: VfCheckboxClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfCheckboxParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfCheckboxModifiers
-
-    /**
-     * Part-keyed accessibility bindings; apply each key's bag to the matching
-     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
-     */
-    a11yBindings: VfCheckboxA11y
+    bindings: VfCheckboxBindings['wrapper']
 
     /**
      * Handler for the input's blur event.
@@ -181,15 +177,10 @@ export interface VfCheckboxSlots<
     genericName: string
 
     /**
-     * CSS classes for the text element.
-     */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:text` attribute overrides for the text element; apply
+     * The text element's resolved bindings (classes, part overrides); apply
      * with `v-bind`.
      */
-    part: DomAttrsOf<'label'> | undefined
+    bindings: VfCheckboxBindings['text']
   }) => VNode[]
 }
 
@@ -240,9 +231,10 @@ export interface VfCheckboxClasses extends CheckboxClasses {
 }
 
 /**
- * Accessibility bindings of the VfCheckbox component.
+ * Accessibility bindings of the VfCheckbox component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfCheckboxA11y extends CheckboxA11y {}
+export interface VfCheckboxA11y extends CheckboxA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfCheckbox component.

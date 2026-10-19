@@ -7,11 +7,13 @@ import type {
   AddonGroupParts,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type {
   InputNumberProps as PvInputNumberProps,
   InputNumberSlots as AInputNumberSlots,
 } from 'primevue'
+
 import type {
   InputNumberA11y,
   InputNumberApi,
@@ -102,9 +104,10 @@ export interface VfInputNumberClasses
 }
 
 /**
- * Accessibility bindings of the VfInputNumber component.
+ * Accessibility bindings of the VfInputNumber component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfInputNumberA11y extends InputNumberA11y {}
+export interface VfInputNumberA11y extends InputNumberA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfInputNumber component.

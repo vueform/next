@@ -7,6 +7,7 @@
     TNullValue = [TTranslate] extends [true] ? string | number | null : any
   "
 >
+import { inputAria } from '#src/a11y'
 import { defaults, blueprint } from '#src/blueprints/field'
 import { useBlueprint } from '#src/composables'
 import { defineEvents } from '#src/helpers'
@@ -30,7 +31,7 @@ const props = withDefaults(
 const events = defineEvents<VfFieldEmits<TTranslate, TLanguages, TNullValue>>()
 const slots = defineSlots<VfFieldSlots<TTranslate, TLanguages, TNullValue>>()
 
-const { api, context, expose, outlets, useClasses } = useBlueprint(
+const { api, context, expose, outlets, useClasses, useA11y } = useBlueprint(
   blueprint,
   props,
   events,
@@ -38,13 +39,10 @@ const { api, context, expose, outlets, useClasses } = useBlueprint(
 )
 
 useClasses(() => ({
-  root: {
-    'vf-field': true,
-    'vf-align-label': !api.help.value,
-  },
-  addonGroup: 'vf-addon-group',
-  iconGroup: 'vf-icon-group',
+  root: 'vf-field',
 }))
+
+useA11y(inputAria())
 
 const { viewLoaded } = api
 

@@ -13,42 +13,63 @@ const props = withDefaults(defineProps<VfNavProps>(), defaults)
 const events = defineEvents<VfNavEmits>()
 const slots = defineSlots<VfNavSlots>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
-  root: {
-    'vf-nav': true,
-    'vf-no-back': !props.pager.previousPage && !!props.hideBack,
-    'vf-left': props.position === 'left',
-    'vf-center': props.position === 'center',
-    'vf-right': props.position === 'right',
-    'vf-fluid': props.position === 'fluid',
-  },
+  root: 'vf-nav',
   back: 'vf-nav-back',
+  next: 'vf-nav-next',
+  finish: 'vf-nav-finish',
+}))
+
+useModifiers(({ props, loading }) => ({
+  root: {
+    'data-position': props.position || undefined,
+    'data-no-back':
+      !props.pager.previousPage && !!props.hideBack ? '' : undefined,
+  },
   next: {
-    'vf-nav-next': true,
-    'vf-loading': api.loading.value,
+    'data-loading': loading.value ? '' : undefined,
   },
   finish: {
-    'vf-nav-finish': true,
-    'vf-loading': api.loading.value,
+    'data-loading': loading.value ? '' : undefined,
   },
 }))
+
+useA11y(({ props, loading, describedby, statusId }) => {
+  const forward = {
+    'aria-busy': loading.value || undefined,
+    'aria-disabled': loading.value || undefined,
+    'aria-describedby': describedby.value,
+  }
+
+  return {
+    back: {
+      'aria-disabled': !props.pager.previousPage || undefined,
+    },
+    next: forward,
+    finish: forward,
+    srOnlyLoading: {
+      id: statusId.value,
+      role: 'status',
+    },
+  }
+})
 
 const form$ = useFormContext()
 const { t } = useLocale()
 const { hideBack } = propRefs
-const {
-  backLabel,
-  loading,
-  backAriaBindings,
-  forwardAriaBindings,
-  nextLabel,
-  finishLabel,
-  statusId,
-  fluid,
-} = api
+const { backLabel, loading, nextLabel, finishLabel, fluid } = api
 
 defineExpose(expose)
 </script>
@@ -56,7 +77,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else :class="classes.root" v-bind="parts.root">
+    <div v-else v-bind="bindings.root">
       <template v-if="pager.previousPage || !hideBack">
         <slot
           name="back"
@@ -65,10 +86,8 @@ defineExpose(expose)
           :pager
           :disabled="!pager.previousPage"
           :fluid
+          :bindings="bindings.back"
           :back="pager.back"
-          :a11y-bindings="backAriaBindings"
-          :class="classes.back"
-          v-bind="parts.back"
         >
           <component
             v-if="outlets?.back"
@@ -78,10 +97,8 @@ defineExpose(expose)
             :pager
             :disabled="!pager.previousPage"
             :fluid
+            :bindings="bindings.back"
             :back="pager.back"
-            :a11y-bindings="backAriaBindings"
-            :class="classes.back"
-            v-bind="parts.back"
           />
           <VfButton
             v-else
@@ -92,8 +109,7 @@ defineExpose(expose)
             name="back"
             :fluid
             :disabled="!pager.previousPage"
-            :class="classes.back"
-            v-bind="{ ...backAriaBindings, ...parts.back }"
+            v-bind="bindings.back"
             @click="pager.back"
           >
             <slot name="backText" :label="backLabel" :pager :form$>
@@ -120,11 +136,9 @@ defineExpose(expose)
           :pager
           :loading
           :fluid
-          :a11y-bindings="forwardAriaBindings"
           :disabled="loading"
+          :bindings="bindings.next"
           :next="pager.next"
-          :class="classes.next"
-          v-bind="parts.next"
         >
           <component
             v-if="outlets?.next"
@@ -135,10 +149,8 @@ defineExpose(expose)
             :loading
             :fluid
             :disabled="loading"
-            :a11y-bindings="forwardAriaBindings"
+            :bindings="bindings.next"
             :next="pager.next"
-            :class="classes.next"
-            v-bind="parts.next"
           />
           <VfButton
             v-else
@@ -150,8 +162,7 @@ defineExpose(expose)
             severity="primary"
             :fluid
             :disabled="loading"
-            :class="classes.next"
-            v-bind="{ ...forwardAriaBindings, ...parts.next }"
+            v-bind="bindings.next"
             @click="pager.next"
           >
             <slot name="nextText" :label="nextLabel" :pager :form$>
@@ -177,12 +188,10 @@ defineExpose(expose)
           :form$
           :pager
           :loading
-          :a11y-bindings="forwardAriaBindings"
           :disabled="loading"
           :fluid
+          :bindings="bindings.finish"
           :finish="pager.finish"
-          :class="classes.finish"
-          v-bind="parts.finish"
         >
           <component
             v-if="outlets?.finish"
@@ -191,12 +200,10 @@ defineExpose(expose)
             :form$
             :pager
             :loading
-            :fluid
             :disabled="loading"
-            :a11y-bindings="forwardAriaBindings"
+            :fluid
+            :bindings="bindings.finish"
             :finish="pager.finish"
-            :class="classes.finish"
-            v-bind="parts.finish"
           />
           <VfButton
             v-else
@@ -208,8 +215,7 @@ defineExpose(expose)
             severity="primary"
             :fluid
             :disabled="loading"
-            :class="classes.finish"
-            v-bind="{ ...forwardAriaBindings, ...parts.finish }"
+            v-bind="bindings.finish"
             @click="pager.finish"
           >
             <slot name="finishText" :label="finishLabel" :pager :form$>
@@ -231,12 +237,10 @@ defineExpose(expose)
       <span
         v-if="pager.invalid || pager.loading"
         class="sr-only"
-        role="status"
-        :id="statusId"
-        v-bind="parts.srOnlyLoading"
+        v-bind="bindings.srOnlyLoading"
       >
         <template v-if="pager.loading">
-          {{ t('sr_step_error') }}
+          {{ t('sr_step_loading') }}
         </template>
         <template v-else-if="pager.invalid">
           {{ t('sr_step_error') }}

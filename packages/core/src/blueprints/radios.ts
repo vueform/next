@@ -5,7 +5,6 @@ import {
   makeDisabled,
   makeItems,
   makeData,
-  makeGroupAria,
   makeHolderProvider,
   makeLayout,
   type DisabledProps,
@@ -17,7 +16,6 @@ import {
   type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type GroupAriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -129,7 +127,7 @@ export interface RadiosModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the radios element blueprint.
  */
-export interface RadiosA11y extends BaseElementA11y, GroupAriaA11y {}
+export interface RadiosA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for radios-based components.
@@ -167,7 +165,6 @@ export function blueprint<TProps extends LooseRadiosProps>(
     .use(makeDisabled())
     .use(makeData())
     .use(makeItems({ multiple: false }))
-    .use(makeGroupAria({ role: 'radiogroup' }))
     .use(
       makeHolderProvider({
         multiple: false,

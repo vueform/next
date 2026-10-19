@@ -1,5 +1,6 @@
 import tsParser from '@typescript-eslint/parser'
 import eslintConfigPrettier from 'eslint-config-prettier'
+import unusedImports from 'eslint-plugin-unused-imports'
 import vue from 'eslint-plugin-vue'
 import vueA11y from 'eslint-plugin-vuejs-accessibility'
 import { defineConfig } from 'eslint/config'
@@ -66,14 +67,22 @@ export default defineConfig([
         extraFileExtensions: ['.vue'],
       },
     },
+    plugins: {
+      'unused-imports': unusedImports,
+    },
     rules: {
       // Like oxlint's no-unused-vars (vite.config.ts) but template-aware:
       // vue-eslint-parser marks template-referenced bindings as used, so this
-      // is safe inside <script setup>. `args: 'none'` because the core rule
-      // is not TS-aware and false-positives on parameter names in function
-      // TYPES (e.g. `testFn?: (value: string) => string`); oxlint covers
-      // unused args in plain .ts.
-      'no-unused-vars': [
+      // is safe inside <script setup>. Split across the unused-imports plugin
+      // so unused imports get an autofix (fix-on-save removes them; the TS
+      // language server's removeUnusedImports is unusable in .vue files — see
+      // .vscode/settings.json). `args: 'none'` because the core rule is not
+      // TS-aware and false-positives on parameter names in function TYPES
+      // (e.g. `testFn?: (value: string) => string`); oxlint covers unused
+      // args in plain .ts.
+      'no-unused-vars': 'off',
+      'unused-imports/no-unused-imports': 'error',
+      'unused-imports/no-unused-vars': [
         'error',
         { vars: 'all', varsIgnorePattern: '^_', args: 'none' },
       ],

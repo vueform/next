@@ -3,6 +3,7 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeInputOtp from 'primevue/inputotp'
 import type { WritableComputedRef } from 'vue'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/input-otp'
 import { vdomPrime } from '#src/helpers'
 
@@ -22,15 +23,32 @@ const props = withDefaults(defineProps<VfInputOtpProps>(), defaults)
 const events = defineEvents<VfInputOtpEmits>()
 const slots = defineSlots<VfInputOtpSlots>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
+useClasses(() => ({
+  root: 'vf-input-otp',
+}))
+
+useModifiers(({ help, hasError }) => ({
   root: {
-    'vf-input-otp': true,
-    'vf-align-label': !help.value,
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const { length } = propRefs
 
@@ -39,7 +57,6 @@ const {
   viewLoaded,
   disabled,
   readonly,
-  aria,
   input,
   tooltipModifiers,
   tooltipValue,
@@ -66,18 +83,13 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
       <InputOtp
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :readonly
         :invalid
         :length
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...aria,
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @focus="handleFocus"
         @blur="handleBlur"

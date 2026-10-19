@@ -1,5 +1,4 @@
 export * from './base'
-export * from './aria'
 export * from './default-value'
 export * from './float-label'
 export * from './ifta'

@@ -30,11 +30,8 @@ function _bpSelect<TProps extends SelectProps>(
 }
 
 describe('blueprint factories preserve items generics', () => {
-  test('checkboxes blueprint return exposes items / a11yBindings / path', () => {
+  test('checkboxes blueprint return exposes items / path', () => {
     expectTypeOf<ReturnType<typeof _bpCheckboxes>>().toHaveProperty('items')
-    expectTypeOf<ReturnType<typeof _bpCheckboxes>>().toHaveProperty(
-      'a11yBindings'
-    )
     expectTypeOf<ReturnType<typeof _bpCheckboxes>>().toHaveProperty('path')
   })
 

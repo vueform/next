@@ -10,7 +10,6 @@ import {
   ref,
   shallowRef,
   toRaw,
-  unref,
   useAttrs,
   type ComputedRef,
   type Ref,
@@ -287,8 +286,8 @@ type Blueprint2Api<
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 
   /**
-   * Merged part-keyed accessibility bindings: the blueprint's semantic base
-   * with component-registered bags (`useA11yBindings`) layered on top.
+   * Merged part-keyed accessibility bindings registered by the component via
+   * `useA11y` (usually through a canonical `#src/a11y` pattern).
    */
   a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
 
@@ -297,6 +296,18 @@ type Blueprint2Api<
    * `useModifiers` (`data-*` state and variant attributes).
    */
   modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
+
+  /**
+   * The per-part aggregate the template consumes: for each part key, one bag
+   * (or resolver function) merging the part's modifiers, a11y bindings, part
+   * attribute overrides, and resolved classes (as `class`).
+   */
+  bindings: BindingMemberOf<
+    TSlots,
+    ApiOf<TApi>,
+    'bindings',
+    BindingsOf<TParts, TClasses, Modifiers, A11yBindings>
+  >
 
   /**
    * The object to hand to `defineExpose`: the raw API plus the resolved
@@ -309,6 +320,12 @@ type Blueprint2Api<
     outlets: ComputedRef<TSlots>
     a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
     modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
+    bindings: BindingMemberOf<
+      TSlots,
+      ApiOf<TApi>,
+      'bindings',
+      BindingsOf<TParts, TClasses, Modifiers, A11yBindings>
+    >
   }
 
   /**
@@ -325,13 +342,14 @@ type Blueprint2Api<
   ) => void
 
   /**
-   * Registers component-level accessibility binding definitions, layered on
-   * top of the blueprint's base bags. Bags for the same part shallow-merge;
-   * functional entries replace the whole entry.
+   * Registers component-level accessibility binding definitions (part-keyed
+   * `aria-*`/role bags), usually by invoking a canonical pattern from
+   * `#src/a11y`. Bags for the same part shallow-merge; functional entries
+   * replace the whole entry.
    *
    * @param defs Binding definition objects or factories.
    */
-  useA11yBindings: (
+  useA11y: (
     ...defs: BindingDefsArg<
       ClassFactoryApi<TApi, TProps, TEvents>,
       PropRefsOf<TProps>
@@ -485,6 +503,126 @@ export type DefaultContextModifiers<TApi, TSlots> = BindingMemberOf<
 >
 
 /**
+ * One aspect surface's member for a part key, normalized for aggregation:
+ * the empty bag when the surface has no member for the key, non-nullable
+ * otherwise (optional members stay callable/spreadable).
+ */
+type AspectOf<T, K> = K extends keyof T ? NonNullable<T[K]> : {}
+
+/**
+ * Resolves a functional aspect member to the bag it returns; plain bags pass
+ * through.
+ */
+type ResolvedAspect<T> = T extends (...args: any[]) => infer R ? R : T
+
+/**
+ * The call signature a part's aggregate binding resolves with: the parameters
+ * of its first functional ASPECT member (modifiers, a11y, classes — the
+ * symmetry doctrine makes them identical), or `never` when the key is static.
+ *
+ * Deliberately ignores the part member: the runtime decides a key's mode from
+ * the registered aspect definitions (part overrides are dual-surface wrappers
+ * that cannot signal it), so deriving the typed mode from the same surfaces
+ * keeps types and runtime equal by construction. A functional part key with
+ * no functional aspect member types as a static bag — calling it is a type
+ * error, which is the compiler telling you to add the backing definition.
+ */
+type BindingArgsOf<_P, C, M, A> = M extends (...args: infer R) => any
+  ? R
+  : A extends (...args: infer R) => any
+    ? R
+    : C extends (...args: infer R) => any
+      ? R
+      : never
+
+/**
+ * One part's aggregated binding bag from the already-extracted member types:
+ * its modifier and a11y attributes, its part attribute overrides (functional
+ * members resolved to their returned bags), and its resolved classes under
+ * `class` (merged, never replaced, with part-level `class` overrides).
+ */
+type BindingBagOf<P, M, A> = Omit<
+  ResolvedAspect<M> & ResolvedAspect<A> & ResolvedAspect<P>,
+  'class'
+> & {
+  /**
+   * The part's resolved CSS classes, including part-level `class` overrides.
+   */
+  class?: ClassValue
+}
+
+/**
+ * One part's resolved binding bag, looked up by key across the component's
+ * Parts/Modifiers/A11y interfaces — the slot scope type for a single
+ * `bindings` prop, e.g. `PartBindings<'text', VfButtonParts>`. Surfaces that
+ * do not carry the key contribute nothing, and functional members resolve to
+ * their returned bags, so the same form works for every part.
+ *
+ * Includes `undefined`: the aggregate hands a slot `undefined` when the part
+ * currently has nothing to bind (no modifier/a11y bag, no part override, and
+ * classes resolving to nothing), so the possible absence is part of what a
+ * slot receives — call sites never append it.
+ *
+ * Components whose slots pass several bindings bags should build one private
+ * map instead: `type VfXBindings = ResolvedBindings<VfXParts, VfXModifiers,
+ * VfXA11y>` and reference `VfXBindings['item']` per slot.
+ */
+export type PartBindings<
+  K extends PropertyKey,
+  TParts,
+  TModifiers = {},
+  TA11y = {},
+> =
+  | BindingBagOf<
+      AspectOf<TParts, K>,
+      AspectOf<TModifiers, K>,
+      AspectOf<TA11y, K>
+    >
+  | undefined
+
+/**
+ * Every part's resolved binding bag, keyed like the component's `bindings`
+ * aggregate — the building block for a component's private `VfXBindings`
+ * alias (see `PartBindings`).
+ */
+export type ResolvedBindings<TParts, TModifiers = {}, TA11y = {}> = {
+  [K in keyof TParts | keyof TModifiers | keyof TA11y]: PartBindings<
+    K,
+    TParts,
+    TModifiers,
+    TA11y
+  >
+}
+
+/**
+ * One part's aggregate binding member: the merged bag itself (possibly
+ * `undefined`) for static keys, bound bare with `v-bind="bindings.x"`; or the
+ * key's resolver — always present, never optional — for functional keys,
+ * called as `v-bind="bindings.item(…)"`.
+ */
+type BindingOf<P, C, M, A> = [BindingArgsOf<P, C, M, A>] extends [never]
+  ? BindingBagOf<P, M, A> | undefined
+  : (...args: BindingArgsOf<P, C, M, A>) => BindingBagOf<P, M, A> | undefined
+
+/**
+ * The per-part `bindings` aggregate type: for every part key (plus any
+ * aspect-only key not yet anchored to a part), the merged bag (static keys)
+ * or its resolver function (functional keys). Templates bind
+ * `v-bind="bindings.x"` / `v-bind="bindings.item(…)"` and slots receive the
+ * resolved bag as their `bindings` prop.
+ */
+export type BindingsOf<TParts, TClasses, TModifiers, TA11y> = {
+  [
+    K in keyof TParts | keyof TClasses | keyof TModifiers | keyof TA11y
+  ]: BindingOf<
+    AspectOf<TParts, K>,
+    AspectOf<TClasses, K>,
+    AspectOf<TModifiers, K>,
+    AspectOf<TA11y, K>
+  >
+} & Record<string, any>
+
+/**
  * The members `useBlueprint` builds for a `makeForwards` declaration and
  * assigns onto the api.
  */
@@ -532,8 +670,8 @@ export type BlueprintContext<
       outlets: ComputedRef<TSlots>
 
       /**
-       * Part-keyed accessibility bindings: the blueprint's semantic base
-       * merged with component-registered bags (`useA11yBindings`).
+       * Part-keyed accessibility bindings registered by the component via
+       * `useA11y` (usually through a canonical `#src/a11y` pattern).
        */
       a11yBindings: TA11y
 
@@ -542,6 +680,14 @@ export type BlueprintContext<
        * registered by the component via `useModifiers`.
        */
       modifiers: TModifiers
+
+      /**
+       * The per-part aggregate the template consumes: for each part key, one
+       * bag (or resolver function when the part is functional) merging the
+       * part's modifiers, a11y bindings, part attribute overrides, and
+       * resolved classes (as `class`).
+       */
+      bindings: BindingsOf<TParts, TClasses, TModifiers, TA11y>
 
       /**
        * The resolved Vueform configuration for the injecting app.
@@ -1456,11 +1602,7 @@ function defineClasses<
 function defineBindings<
   TApi = Record<string, any>,
   TPropRefs = Record<string, any>,
->(
-  base: (() => Record<string, any> | undefined) | null,
-  api: TApi,
-  propRefs: TPropRefs
-): DefineBindingsReturn<TApi, TPropRefs> {
+>(api: TApi, propRefs: TPropRefs): DefineBindingsReturn<TApi, TPropRefs> {
   const defs = shallowRef<BindingDefsArg<TApi, TPropRefs>[]>([])
 
   const useBindings = (...newDefs: BindingDefsArg<TApi, TPropRefs>[]) => {
@@ -1472,7 +1614,7 @@ function defineBindings<
   // tracked. Per part key, object bags shallow-merge onto earlier layers
   // (last write wins per attribute); functional entries replace whole-entry.
   const bindings = computed(() => {
-    const merged: Record<string, any> = { ...(base?.() ?? {}) }
+    const merged: Record<string, any> = {}
 
     for (const def of defs.value) {
       const resolved =
@@ -1496,6 +1638,129 @@ function defineBindings<
   })
 
   return { bindings, useBindings }
+}
+
+/**
+ * Builds the per-part `bindings` aggregate the templates consume. Each key has
+ * ONE mode, decided by the registered aspect DEFINITIONS (classes, modifiers,
+ * a11y — never part overrides, whose dual-surface wrappers cannot signal it):
+ *
+ * - STATIC (no functional def): `bindings.input` IS the merged bag (or
+ *   `undefined`), bound bare with `v-bind="bindings.input"`. Part overrides
+ *   resolve by spread, which applies their context-function semantics.
+ * - FUNCTIONAL (any functional def): `bindings.item` is a resolver called with
+ *   the part's arguments — `v-bind="bindings.item(item)"` — resolving every
+ *   surface with that one argument list (the symmetry doctrine). Part
+ *   overrides are invoked with the same arguments.
+ *
+ * This is why every functional part key must carry at least one functional
+ * aspect definition: the defs are the mode's source of truth. The merged bag
+ * carries the part's modifiers, a11y bindings, and part attribute overrides
+ * (canonical order), plus the part's resolved classes as `class` (part-level
+ * `class` overrides merge in rather than replace).
+ *
+ * Reads happen at access/call time, so whichever effect reads the key
+ * (usually the render effect) tracks them.
+ *
+ * @param parts The resolved part attribute overrides.
+ * @param classes The lazy resolved-classes proxy.
+ * @param a11yBindings The merged a11y bags computed.
+ * @param modifiers The merged modifier bags computed.
+ */
+function defineAggregateBindings(
+  parts: Record<string, any>,
+  classes: Record<string, any>,
+  a11yBindings: ComputedRef<Record<string, any>>,
+  modifiers: ComputedRef<Record<string, any>>
+) {
+  const resolvers = new Map<string, (...args: any[]) => any>()
+
+  const resolveEntry = (value: any, args: any[]) =>
+    typeof value === 'function' ? value(...args) : value
+
+  const buildBag = (key: string, args: any[], functional: boolean) => {
+    const m = resolveEntry(modifiers.value[key], args)
+    const a = resolveEntry(a11yBindings.value[key], args)
+
+    // Part overrides follow the key's mode: functional keys invoke them with
+    // the call-site arguments; static keys spread them, which routes through
+    // the wrapper's spread surface (context functions resolve there).
+    const raw = parts[key]
+    const p =
+      raw == null
+        ? undefined
+        : functional && typeof raw === 'function'
+          ? raw(...args)
+          : { ...raw }
+
+    const cls = mergeClass(resolveEntry(classes[key], args), (p as any)?.class)
+
+    if (!m && !a && !p && cls == null) return undefined
+
+    const bag: Record<string, any> = { ...m, ...a, ...p }
+    if (cls != null) bag.class = cls
+    return bag
+  }
+
+  /**
+   * The key's mode: functional when any registered definition for it is a
+   * function. Reads stay inside the caller's effect, so mode changes
+   * re-render.
+   */
+  const isFunctionalKey = (key: string) =>
+    typeof modifiers.value[key] === 'function' ||
+    typeof a11yBindings.value[key] === 'function' ||
+    typeof classes[key] === 'function'
+
+  const resolverFor = (key: string) => {
+    let resolver = resolvers.get(key)
+    if (!resolver) {
+      resolver = (...args: any[]) => buildBag(key, args, true)
+      resolvers.set(key, resolver)
+    }
+    return resolver
+  }
+
+  const resolveKey = (key: string) =>
+    isFunctionalKey(key) ? resolverFor(key) : buildBag(key, [], false)
+
+  const collectKnownKeys = (): string[] => {
+    const keys = new Set<string>([
+      ...Object.keys(modifiers.value),
+      ...Object.keys(a11yBindings.value),
+      ...Object.keys(parts),
+      ...Object.keys(classes),
+    ])
+    return [...keys]
+  }
+
+  return new Proxy({} as Record<string, any>, {
+    get(_, key) {
+      // See the classes proxy: reactivity probes must be answered here.
+      if (typeof key === 'string' && key.startsWith('__v_')) {
+        return key === '__v_skip' ? true : undefined
+      }
+
+      if (typeof key !== 'string') return undefined
+      return resolveKey(key)
+    },
+    has(_, key) {
+      return typeof key === 'string'
+    },
+    ownKeys() {
+      return collectKnownKeys()
+    },
+    getOwnPropertyDescriptor(_, key) {
+      if (typeof key === 'string') {
+        return {
+          enumerable: true,
+          configurable: true,
+          get: () => resolveKey(key),
+        }
+      }
+      return undefined
+    },
+  })
 }
 
 /**
@@ -1665,17 +1930,27 @@ export function useBlueprint<
   const { classes, useClasses, useClassOverrides, setBaseClasses } =
     defineClasses(api, propRefs)
 
-  // The two part-keyed binding surfaces. A11y merges component-registered
-  // bags on top of the blueprint's semantic base (the features' / blueprint's
-  // `a11yBindings` computed); modifiers are a pure view concern, so they have
-  // no blueprint base — every definition comes from the component layer.
-  const { bindings: a11yBindings, useBindings: useA11yBindings } =
-    defineBindings(() => unref((api as any).a11yBindings), api, propRefs)
-
-  const { bindings: modifiers, useBindings: useModifiers } = defineBindings(
-    null,
+  // The two part-keyed aspect surfaces. Both are pure view concerns defined
+  // entirely at the component layer: modifiers via `useModifiers`, a11y via
+  // `useA11y` (usually invoking a canonical pattern from `#src/a11y`).
+  const { bindings: a11yBindings, useBindings: useA11y } = defineBindings(
     api,
     propRefs
+  )
+
+  const { bindings: modifiers, useBindings: useModifiers } = defineBindings(
+    api,
+    propRefs
+  )
+
+  // The per-part aggregate the templates consume: for each part key, one bag
+  // merging the part's modifiers, a11y bindings, part attribute overrides,
+  // and (as `class`) its resolved classes.
+  const bindings = defineAggregateBindings(
+    resolvedParts,
+    classes,
+    a11yBindings,
+    modifiers
   )
 
   // The single public context: the `reactive()` proxy created at the top of
@@ -1696,10 +1971,9 @@ export function useBlueprint<
     parts: resolvedParts,
     classes,
     outlets,
-    // The merged binding surfaces shadow the blueprint's raw `a11yBindings`
-    // member, so the context always serves component-layer results.
     a11yBindings,
     modifiers,
+    bindings,
   }
 
   // These land on the context's raw object, so the placement rule applies
@@ -1761,8 +2035,9 @@ export function useBlueprint<
     expose,
     a11yBindings,
     modifiers,
+    bindings,
     useClasses,
-    useA11yBindings,
+    useA11y,
     useModifiers,
   } as any
 }

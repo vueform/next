@@ -5,6 +5,7 @@
 >
 import type { Ref } from 'vue'
 
+import { inputAria } from '#src/a11y'
 import { defaults, blueprint } from '#src/blueprints/checkbox'
 import { useBlueprint } from '#src/composables'
 import { defineEvents } from '#src/helpers'
@@ -29,16 +30,14 @@ const slots = defineSlots<VfCheckboxSlots<TTrueValue, TFalseValue>>()
 
 const {
   api,
-  parts,
-  classes,
   context,
   expose,
   outlets,
   propRefs,
-  a11yBindings,
-  modifiers,
+  bindings,
   useClasses,
   useModifiers,
+  useA11y,
 } = useBlueprint(blueprint, props, events, slots)
 
 const trueValue = propRefs.trueValue as Ref<TTrueValue>
@@ -80,6 +79,8 @@ useModifiers(({ props, hasError, help }) => ({
   },
 }))
 
+useA11y(inputAria())
+
 defineExpose(expose)
 </script>
 
@@ -96,10 +97,7 @@ defineExpose(expose)
         :disabled
         :input
         :text
-        :classes
-        :parts
-        :modifiers
-        :a11y-bindings
+        :bindings="bindings.wrapper"
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -115,19 +113,12 @@ defineExpose(expose)
           :disabled
           :input
           :text
-          :classes
-          :parts
-          :modifiers
-          :a11y-bindings
+          :bindings="bindings.wrapper"
           :handle-blur
           :handle-focus
           :handle-model-update
         />
-        <div
-          v-else
-          :class="classes.wrapper"
-          v-bind="{ ...modifiers.wrapper, ...parts.wrapper }"
-        >
+        <div v-else v-bind="bindings.wrapper">
           <input
             type="checkbox"
             v-model="value"
@@ -137,41 +128,24 @@ defineExpose(expose)
             :true-value
             :false-value
             :disabled
-            :class="classes.input"
-            v-bind="{
-              ...modifiers.input,
-              ...a11yBindings.input,
-              ...parts.input,
-            }"
+            v-bind="bindings.input"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
             :ref="(el) => (input = el)"
           />
-          <slot
-            name="text"
-            :text
-            :id
-            :generic-name
-            :classes="classes.text"
-            :part="parts.text"
-          >
+          <slot name="text" :text :id :generic-name :bindings="bindings.text">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :classes="classes.text"
-              :part="parts.text"
+              :bindings="bindings.text"
             />
-            <label
-              v-else-if="text"
-              :class="classes.text"
-              :for="id"
-              v-bind="parts.text"
-              >{{ text }}</label
-            >
+            <label v-else-if="text" :for="id" v-bind="bindings.text">
+              {{ text }}
+            </label>
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>
           </slot>
         </div>

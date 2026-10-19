@@ -4,8 +4,10 @@ import type {
   DefineRegistryEntry,
   EntryPropOf,
   WidenProps,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { SliderProps as PvSliderProps } from 'primevue'
+
 import type {
   SliderA11y,
   SliderApi,
@@ -94,9 +96,10 @@ export interface VfSliderClasses extends SliderClasses {
 }
 
 /**
- * Accessibility bindings of the VfSlider component.
+ * Accessibility bindings of the VfSlider component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfSliderA11y extends SliderA11y {}
+export interface VfSliderA11y extends SliderA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfSlider component.

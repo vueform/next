@@ -15,7 +15,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -42,7 +41,6 @@ import type {
 } from 'primevue/rating'
 
 import {
-  makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
@@ -125,7 +123,7 @@ export interface RatingModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the rating element blueprint.
  */
-export interface RatingA11y extends BaseElementA11y, AriaA11y {}
+export interface RatingA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for rating-based components.
@@ -173,7 +171,6 @@ export function blueprint<TProps extends RatingProps<string>>(
     .use(makeReadonly())
     .use(makeData())
     .use(makeInput())
-    .use(makeAria())
     .use(makeInfo())
     .use(makeForwards(forwards))
     .use(makeProvider())

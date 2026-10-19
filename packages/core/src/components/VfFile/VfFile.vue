@@ -1,6 +1,7 @@
 <script setup lang="ts" generic="const TMultiple extends boolean = false">
-import { defaults, blueprint } from '#src/blueprints/file'
-import { useBlueprint } from '#src/composables'
+import { inputAria } from '#src/a11y'
+import { defaults, blueprint, type FileListItem } from '#src/blueprints/file'
+import { useBlueprint, useLocale } from '#src/composables'
 import { defineEvents } from '#src/helpers'
 
 import type { VfFileEmits, VfFileProps, VfFileSlots } from './types'
@@ -17,19 +18,39 @@ const props = withDefaults(defineProps<VfFileProps<TMultiple>>(), defaults)
 const events = defineEvents<VfFileEmits>()
 const slots = defineSlots<VfFileSlots<TMultiple>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
-  root: {
-    'vf-file': true,
-    'vf-align-label': !api.help.value,
-  },
+  root: 'vf-file',
   input: 'sr-only',
   list: 'vf-file-list',
-  item: 'vf-file-item',
-  name: 'vf-file-name',
-  remove: 'vf-file-remove',
+  item: () => 'vf-file-item',
+  name: () => 'vf-file-name',
+  remove: () => 'vf-file-remove',
+}))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+const { t } = useLocale()
+
+useA11y(inputAria(), () => ({
+  remove: (_file: FileListItem, index: number) => ({
+    'aria-label': t('sr_file_remove', { index: index + 1 }),
+  }),
 }))
 
 const { accept, multiple, capture, add } = propRefs
@@ -38,7 +59,6 @@ const {
   id,
   viewLoaded,
   disabled,
-  aria,
   input,
   name,
   fileList,
@@ -60,53 +80,57 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div v-if="hasFiles" :class="classes.list" v-bind="parts.list">
+      <div v-if="hasFiles" v-bind="bindings.list">
         <template v-for="(file, index) in fileList" :key="index">
           <slot
             name="file"
             :value="file.raw"
-            :fileName="file.name"
+            :file-name="file.name"
             :type="file.type"
             :url="file.url"
             :index
             :disabled
             :removable="file.removable"
+            :bindings="bindings.item(file, index)"
             :remove="handleRemove"
           >
             <component
               v-if="outlets?.file"
               :is="outlets.file"
               :value="file.raw"
-              :fileName="file.name"
+              :file-name="file.name"
               :type="file.type"
               :url="file.url"
               :index
               :disabled
               :removable="file.removable"
+              :bindings="bindings.item(file, index)"
               :remove="handleRemove"
             />
-            <div
-              v-else
-              :class="classes.item"
-              v-bind="parts.item?.(file, index)"
-            >
+            <div v-else v-bind="bindings.item(file, index)">
               <template v-if="file.removable">
-                <slot name="remove" :index :disabled :remove="handleRemove">
+                <slot
+                  name="remove"
+                  :index
+                  :disabled
+                  :bindings="bindings.remove(file, index)"
+                  :remove="handleRemove"
+                >
                   <component
                     v-if="outlets?.remove"
                     :is="outlets.remove"
                     :index
                     :disabled
+                    :bindings="bindings.remove(file, index)"
                     :remove="handleRemove"
                   />
                   <VfButton
                     v-else
                     :name="`${id}__remove_${index}`"
                     :icon="removeIcon"
-                    :class="classes.remove"
                     :disabled
                     :layout="false"
-                    v-bind="parts.remove?.(file, index)"
+                    v-bind="bindings.remove(file, index)"
                     @click="handleRemove(index)"
                   />
                 </slot>
@@ -114,29 +138,30 @@ defineExpose(expose)
               <slot
                 name="name"
                 :value="file.raw"
-                :fileName="file.name"
+                :file-name="file.name"
                 :url="file.url"
                 :type="file.type"
+                :bindings="bindings.name(file, index)"
               >
                 <component
                   v-if="outlets?.name"
                   :is="outlets.name"
                   :value="file.raw"
-                  :fileName="file.name"
+                  :file-name="file.name"
                   :url="file.url"
                   :type="file.type"
+                  :bindings="bindings.name(file, index)"
                 />
                 <a
                   v-else-if="file.url"
                   :href="file.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  :class="classes.name"
-                  v-bind="parts.name?.(file, index)"
+                  v-bind="bindings.name(file, index)"
                 >
                   {{ file.name }}
                 </a>
-                <span v-else :class="classes.name" v-bind="parts.name">
+                <span v-else v-bind="bindings.name(file, index)">
                   {{ file.name }}
                 </span>
               </slot>
@@ -145,13 +170,20 @@ defineExpose(expose)
         </template>
       </div>
       <template v-if="add">
-        <slot name="add" :triggerFileInput :disabled :text>
+        <slot
+          name="add"
+          :disabled
+          :text
+          :bindings="bindings.add"
+          :trigger-file-input
+        >
           <component
             v-if="outlets?.add"
             :is="outlets.add"
-            :triggerFileInput
             :disabled
             :text
+            :bindings="bindings.add"
+            :trigger-file-input
           />
           <VfButton
             v-else
@@ -160,21 +192,17 @@ defineExpose(expose)
             :icon="addIcon"
             :disabled
             @click="triggerFileInput"
-            v-bind="parts.add"
+            v-bind="bindings.add"
           />
         </slot>
         <input
           type="file"
           :name
           :id
-          class="sr-only"
           :multiple
           :accept
           :capture
-          v-bind="{
-            ...parts.input,
-            ...aria,
-          }"
+          v-bind="bindings.input"
           :ref="(el) => (input = el)"
           @blur="handleBlur"
           @focus="handleFocus"

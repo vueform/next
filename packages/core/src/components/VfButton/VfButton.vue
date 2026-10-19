@@ -1,9 +1,11 @@
 <script setup lang="ts">
 import { useAttrs } from 'vue'
 
+import { buildLayoutBags, showsHelp } from '#src/a11y'
 import { defaults, blueprint } from '#src/blueprints/button'
 import { useBlueprint } from '#src/composables'
 import { defineEvents } from '#src/helpers'
+import { buildDescribedBy } from '#src/utils'
 
 import type { VfButtonEmits, VfButtonProps, VfButtonSlots } from './types'
 
@@ -17,16 +19,14 @@ const attrs = useAttrs()
 
 const {
   api,
-  parts,
-  classes,
   context,
   expose,
   outlets,
   propRefs,
-  a11yBindings,
-  modifiers,
+  bindings,
   useClasses,
   useModifiers,
+  useA11y,
 } = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
@@ -66,6 +66,31 @@ useModifiers(
   })
 )
 
+useA11y((api) => {
+  const isLink = !!(api.href.value || api.to.value)
+
+  return {
+    button: {
+      disabled: !isLink ? api.disabled.value || undefined : undefined,
+      'aria-disabled': isLink ? api.disabled.value || undefined : undefined,
+      'aria-busy': api.loading.value || undefined,
+      'aria-label':
+        api.icon.value && !api.text.value ? api.genericName.value : undefined,
+      'aria-describedby': buildDescribedBy([
+        showsHelp(api) ? api.helpId.value : null,
+        api.description.value ? api.descriptionId.value : null,
+        api.displayErrors.value?.length ? api.errorId.value : null,
+      ]),
+    },
+    ...buildLayoutBags({
+      labelId: api.labelId.value,
+      helpId: api.helpId.value,
+      descriptionId: api.descriptionId.value,
+      errorId: api.errorId.value,
+    }),
+  }
+})
+
 const { viewLoaded, text, href, to, id, tokenCss, icon, nonce, handleClick } =
   api
 
@@ -86,33 +111,21 @@ defineExpose(expose)
         :target
         :rel
         :download
-        :class="classes.button"
-        v-bind="{
-          ...modifiers.button,
-          ...a11yBindings.button,
-          ...parts.button,
-          ...attrs,
-        }"
+        v-bind="{ ...bindings.button, ...attrs }"
         @click="handleClick"
       >
-        <i
-          v-if="icon"
-          :class="classes.icon"
-          aria-hidden="true"
-          v-bind="{ ...modifiers.icon, ...parts.icon }"
-        />
+        <i v-if="icon" aria-hidden="true" v-bind="bindings.icon" />
         <slot name="before">
           <component v-if="outlets?.before" :is="outlets.before" />
         </slot>
-        <slot :text :classes :parts>
+        <slot :text :bindings="bindings.text">
           <component
             v-if="outlets?.default"
             :is="outlets.default"
             :text
-            :classes
-            :parts
+            :bindings="bindings.text"
           />
-          <span v-else-if="text" :class="classes.text" v-bind="parts.text">
+          <span v-else-if="text" v-bind="bindings.text">
             {{ text }}
           </span>
         </slot>

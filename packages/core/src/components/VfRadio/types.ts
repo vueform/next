@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 
+import type { InputAriaA11y } from '#src/a11y'
 import {
   type RadioA11y,
   type RadioApi,
@@ -11,6 +12,7 @@ import {
   type RadioProps,
   type RadioSlots,
 } from '#src/blueprints/radio'
+import type { ResolvedBindings } from '#src/composables'
 import type {
   WidenProps,
   DefineElementContext,
@@ -19,6 +21,15 @@ import type {
   DomAttrsOf,
   EntryPropOr,
 } from '#src/types'
+
+/**
+ * Resolved per-part binding bags for VfRadio slot scopes.
+ */
+type VfRadioBindings = ResolvedBindings<
+  VfRadioParts,
+  VfRadioModifiers,
+  VfRadioA11y
+>
 
 /**
  * VfRadio props narrowed from a registry `TEntry` payload, applying the entry's
@@ -102,26 +113,11 @@ export interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
     text: string | undefined
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The default slot's own part is the wrapper (the fallback's top-level
+     * element): its resolved classes, part overrides, and alignment
+     * modifiers; apply with `v-bind`.
      */
-    classes: VfRadioClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadioParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfRadioModifiers
-
-    /**
-     * Part-keyed accessibility bindings; apply each key's bag to the matching
-     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
-     */
-    a11yBindings: VfRadioA11y
+    bindings: VfRadioBindings['wrapper']
 
     /**
      * Handler for the input's blur event.
@@ -165,15 +161,10 @@ export interface VfRadioSlots<TRadioValue = any> extends RadioSlots<
     genericName: string
 
     /**
-     * CSS classes for the text element.
-     */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:text` attribute overrides for the text element; apply
+     * The text element's resolved bindings (classes, part overrides); apply
      * with `v-bind`.
      */
-    part: DomAttrsOf<'label'> | undefined
+    bindings: VfRadioBindings['text']
   }) => VNode[]
 }
 
@@ -231,9 +222,10 @@ export interface VfRadioClasses extends RadioClasses {
 }
 
 /**
- * Accessibility bindings of the VfRadio component.
+ * Accessibility bindings of the VfRadio component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfRadioA11y extends RadioA11y {}
+export interface VfRadioA11y extends RadioA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfRadio component.

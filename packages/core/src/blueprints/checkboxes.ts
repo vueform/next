@@ -7,7 +7,6 @@ import {
   makeDisabled,
   makeItems,
   makeData,
-  makeGroupAria,
   makeHolderProvider,
   makeLayout,
   type DisabledProps,
@@ -19,7 +18,6 @@ import {
   type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type GroupAriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -131,7 +129,7 @@ export interface CheckboxesModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the checkboxes element blueprint.
  */
-export interface CheckboxesA11y extends BaseElementA11y, GroupAriaA11y {}
+export interface CheckboxesA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for checkboxes-based components.
@@ -173,7 +171,6 @@ export function blueprint<TProps extends LooseCheckboxesProps>(
     .use(makeDisabled())
     .use(makeData())
     .use(makeItems({ multiple: true }))
-    .use(makeGroupAria({ role: 'group' }))
     .use(
       makeHolderProvider({
         multiple: true,

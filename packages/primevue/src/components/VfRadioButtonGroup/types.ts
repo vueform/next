@@ -4,6 +4,8 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   DomAttrsOf,
+  GroupAriaA11y,
+  ResolvedBindings,
   PartOf,
   ResolvedGroup,
 } from '@vueform/core'
@@ -33,6 +35,15 @@ import type {
   OptionValueOf,
   RawOptionOf,
 } from '#src/features/options'
+
+/**
+ * Resolved per-part binding bags for VfRadioButtonGroup slot scopes.
+ */
+type VfRadioButtonGroupBindings = ResolvedBindings<
+  VfRadioButtonGroupParts,
+  VfRadioButtonGroupModifiers,
+  VfRadioButtonGroupA11y
+>
 
 /**
  * VfRadioButtonGroup props narrowed from a registry `TEntry` payload, applying
@@ -174,27 +185,6 @@ export interface VfRadioButtonGroupSlots<
      * Whether the options are grouped.
      */
     grouped: boolean
-
-    /**
-     * The component's resolved classes, keyed by part name.
-     */
-    classes: VfRadioButtonGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadioButtonGroupParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfRadioButtonGroupModifiers
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfRadioButtonGroupA11y
   }) => VNode[]
 
   /**
@@ -222,25 +212,10 @@ export interface VfRadioButtonGroupSlots<
     group: ResolvedGroup<TValue, TRaw>
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The group fieldset's resolved bindings (part overrides for this group's
+     * fieldset element); apply with `v-bind`.
      */
-    classes: VfRadioButtonGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadioButtonGroupParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfRadioButtonGroupModifiers
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfRadioButtonGroupA11y
+    bindings: VfRadioButtonGroupBindings['group']
   }) => VNode[]
 
   /**
@@ -269,14 +244,10 @@ export interface VfRadioButtonGroupSlots<
     item: ResolvedOption<TValue, TRaw>
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The item's resolved bindings (part overrides for this item's
+     * VfRadioButton child); apply with `v-bind`.
      */
-    classes: VfRadioButtonGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadioButtonGroupParts>
+    bindings: VfRadioButtonGroupBindings['item']
   }) => VNode[]
 
   /**
@@ -307,7 +278,7 @@ export interface VfRadioButtonGroupParts extends RadioButtonGroupParts {
    *
    * @tag div
    */
-  group: DomAttrsOf<'div'>
+  wrapper: DomAttrsOf<'div'>
 
   /**
    * The fieldset element wrapping each group when items are grouped.
@@ -315,7 +286,7 @@ export interface VfRadioButtonGroupParts extends RadioButtonGroupParts {
    * @param group The group data.
    * @tag fieldset
    */
-  fieldset: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
+  group: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
 
   /**
    * The legend element displaying the group label.
@@ -323,7 +294,7 @@ export interface VfRadioButtonGroupParts extends RadioButtonGroupParts {
    * @param group The group data.
    * @tag legend
    */
-  legend: (group: Record<string, any>) => DomAttrsOf<'legend'>
+  groupLabel: (group: Record<string, any>) => DomAttrsOf<'legend'>
 
   /**
    * Props factory for each VfRadioButton child component, receiving the item
@@ -342,13 +313,35 @@ export interface VfRadioButtonGroupClasses extends RadioButtonGroupClasses {
   /**
    * The wrapper element containing all radio button items.
    */
-  group: ClassValue
+  wrapper: ClassValue
+
+  /**
+   * The fieldset element wrapping each group when items are grouped.
+   *
+   * @param group The group data.
+   */
+  group: (group: Record<string, any>) => ClassValue
+
+  /**
+   * The legend element displaying the group label.
+   *
+   * @param group The group data.
+   */
+  groupLabel: (group: Record<string, any>) => ClassValue
+
+  /**
+   * Each item's `VfRadioButton` child component.
+   *
+   * @param item The radio button item data.
+   */
+  item: (item: Record<string, any>) => ClassValue
 }
 
 /**
  * Accessibility bindings of the VfRadioButtonGroup component.
  */
-export interface VfRadioButtonGroupA11y extends RadioButtonGroupA11y {}
+export interface VfRadioButtonGroupA11y
+  extends RadioButtonGroupA11y, GroupAriaA11y {}
 
 /**
  * Styling modifiers of the VfRadioButtonGroup component.
@@ -366,7 +359,7 @@ export interface VfRadioButtonGroupModifiers extends RadioButtonGroupModifiers {
    * The group container's layout markers (stacked row layout, vertical
    * alignment with adjacent form controls) and validation state.
    */
-  group: {
+  wrapper: {
     'data-stacked'?: ''
     'data-aligned'?: ''
     'data-invalid'?: ''

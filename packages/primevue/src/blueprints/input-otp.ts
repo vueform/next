@@ -15,7 +15,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -42,7 +41,6 @@ import type {
 import {
   makeInfo,
   makeTooltip,
-  makeAria,
   type ModelPropsWithDefaultValue,
   type InfoProps,
   type TooltipProps,
@@ -131,7 +129,7 @@ export interface InputOtpModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the input-otp element blueprint.
  */
-export interface InputOtpA11y extends BaseElementA11y, AriaA11y {}
+export interface InputOtpA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for input-otp-based components.
@@ -185,7 +183,6 @@ export function blueprint<TProps extends InputOtpProps<string>>(
     .use(makeInput())
     .use(makeTooltip())
     .use(makeInfo())
-    .use(makeAria())
     .use(makeForwards(forwards))
     .use(makeProvider())
     .build()

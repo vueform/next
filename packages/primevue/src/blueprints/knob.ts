@@ -15,7 +15,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -39,7 +38,6 @@ import type {
 } from 'primevue/knob'
 
 import {
-  makeAria,
   makeInfo,
   makeInterval,
   type ModelPropsWithDefaultValue,
@@ -129,7 +127,7 @@ export interface KnobModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the knob element blueprint.
  */
-export interface KnobA11y extends BaseElementA11y, AriaA11y {}
+export interface KnobA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for knob-based components.
@@ -176,7 +174,6 @@ export function blueprint<TProps extends KnobProps<string>>(
     .use(makeData())
     .use(makeInput())
     .use(makeInterval())
-    .use(makeAria())
     .use(makeInfo())
     .use(makeForwards(forwards))
     .use(makeProvider())

@@ -10,6 +10,7 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   UnwrapEntryRef,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { TreeSelectProps as PvTreeSelectProps } from 'primevue'
 import type { TreeSelectSlots as ATreeSelectSlots } from 'primevue/treeselect'
@@ -250,9 +251,10 @@ export interface VfTreeSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfTreeSelect component.
+ * Accessibility bindings of the VfTreeSelect component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfTreeSelectA11y extends TreeSelectA11y {}
+export interface VfTreeSelectA11y extends TreeSelectA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfTreeSelect component.

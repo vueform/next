@@ -58,7 +58,7 @@ describe('VfText a11y', () => {
   })
 
   // ===========================================================================
-  // TRANSLATABLE (makeTAria)
+  // TRANSLATABLE (tInputAria)
   // ===========================================================================
   describe('translatable', () => {
     it('should describe the input with the editing-language live region and set lang', async () => {

@@ -22,14 +22,15 @@ Like any other slot, `template` can be filled inline with [`#template`](/guide/s
   <template #template="{ context }">
     <input
       :id="context.id"
-      :class="context.classes.input"
       :value="context.value"
-      v-bind="context.parts.input"
+      v-bind="context.bindings.input"
       @input="context.handleInput"
     />
   </template>
 </VfText>
 ```
+
+`context.bindings.input` is the `input` part's single merged attribute bag — the part's resolved [classes](/guide/classes) under `class`, its `data-*` [modifiers](/guide/parts#modifiers), its [ARIA attributes](/guide/accessibility), and the user's [`parts`](/guide/parts) overrides — so one `v-bind` keeps all four surfaces wired. Every part has one, keyed under `context.bindings`.
 
 The slot replaces the component's **entire** markup, and it works the same on every Vueform component — `!VfForm`, `VfGroup`, `VfTabs`, not just elements. For an element like the `VfText` above, "entire" includes the standard element layout — label, errors, and the rest — so these examples render nothing but a bare input (the `label` never shows). Wrapping an element template's markup in `<VfLayout>` keeps the layout; that's the norm and covered in [The Standard Layout](#the-standard-layout).
 
@@ -44,9 +45,8 @@ const EmailInput = defineSlot('VfText.template', {
   setup: (props) => () =>
     h('input', {
       id: props.context.id,
-      class: props.context.classes.input,
       value: props.context.value,
-      ...props.context.parts.input,
+      ...props.context.bindings.input,
       onInput: props.context.handleInput,
     }),
 })
@@ -80,13 +80,8 @@ defineProps<{ context: ContextOf<'VfText'> }>()
       :type="context.props.inputType"
       :name="context.name"
       :id="context.id"
-      :class="context.classes.input"
       :value="context.value"
-      v-bind="{
-        ...context.modifiers.input,
-        ...context.a11yBindings.input,
-        ...context.parts.input,
-      }"
+      v-bind="context.bindings.input"
       :ref="context.setInputRef"
       @input="context.handleInput"
     />
@@ -139,7 +134,7 @@ context.classes.
 <br />
 <br />
 
-All the template has to do is bind them at the matching spots of the markup:
+A node bound with its part's merged bag needs no separate `:class` — `context.bindings.input` already carries the resolved class under `class`. Read `context.classes` directly when you want a class on its own, without the rest of the part's attributes:
 
 ```vue
 <template>
@@ -224,15 +219,14 @@ context.parts.i
 <br />
 <br />
 
-In an element template, `<VfLayout>` binds most parts automatically — label, description, errors, addons, icons. What's left for the template are the parts belonging to its _own_ markup — like `input` for `VfText` — spread onto the node with `v-bind`:
+In an element template, `<VfLayout>` binds most parts automatically — label, description, errors, addons, icons. What's left for the template are the parts belonging to its _own_ markup — like `input` for `VfText` — and the merged `context.bindings.input` the examples above spread already carries them (reach for `context.parts.input` directly only when you deliberately want the user's raw attributes without the computed classes, modifiers, and ARIA):
 
 ```vue
 <template>
   <VfLayout>
     <input
-      :class="context.classes.input"
       :value="context.value"
-      v-bind="context.parts.input"
+      v-bind="context.bindings.input"
       @input="context.handleInput"
     />
   </VfLayout>
@@ -241,7 +235,7 @@ In an element template, `<VfLayout>` binds most parts automatically — label, d
 
 Skipping the binding means the `parts.input` / `part:input` attributes users define silently never reach the `<input>` tag.
 
-A node of your own needs no runtime registration — `context.parts` resolves any key the user supplies. What it needs is a type: augment the component's `Parts` interface:
+A node of your own needs no runtime registration — `context.parts` (and with it `context.bindings`) resolves any key the user supplies. What it needs is a type: augment the component's `Parts` interface:
 
 ```vue
 <!-- MyTextTemplate.vue -->
@@ -257,8 +251,8 @@ declare module '@vueform/ui/components/VfText' {
 
 <template>
   <VfLayout>
-    <span v-bind="context.parts.icon">@</span>
-    <input v-bind="context.parts.input" />
+    <span v-bind="context.bindings.icon">@</span>
+    <input v-bind="context.bindings.input" />
   </VfLayout>
 </template>
 ```
@@ -267,7 +261,7 @@ declare module '@vueform/ui/components/VfText' {
 <VfText name="email" :parts="{ icon: { title: 'Email address' } }" />
 ```
 
-`DomAttrsOf` accepts any HTML tag and types the part as that tag's attribute set; for a part that renders a registered Vueform component, use `PartOf<'ComponentName'>` instead, which resolves to a partial prop list of that component. The `part:icon` shorthand follows from the interface too – no need to define it separately. For a node rendered in a loop, declare the part as a function of its runtime args and call it before spreading — see [Callable Parts](/guide/parts#callable-parts).
+`DomAttrsOf` accepts any HTML tag and types the part as that tag's attribute set; for a part that renders a registered Vueform component, use `PartOf<'ComponentName'>` instead, which resolves to a partial prop list of that component. The `part:icon` shorthand follows from the interface too – no need to define it separately. For a node rendered in a loop, declare the part as a function of its runtime args and call the bag before spreading (`v-bind="context.bindings.item(…)"`) — see [Callable Parts](/guide/parts#callable-parts).
 
 ### Slots
 
@@ -295,7 +289,7 @@ defineProps<{ context: ContextOf<'VfGroup'> }>()
 
 <template>
   <VfLayout>
-    <div :class="context.classes.wrapper" v-bind="context.parts.wrapper">
+    <div v-bind="context.bindings.wrapper">
       <component
         v-if="context.outlets.default"
         :is="context.outlets.default"
@@ -334,7 +328,7 @@ declare module '@vueform/ui/components/VfText' {
 
 <template>
   <VfLayout>
-    <span :class="classes.icon" v-bind="context.parts.icon">
+    <span v-bind="context.bindings.icon">
       <component
         v-if="context.outlets.prefix"
         :is="context.outlets.prefix"
@@ -342,7 +336,7 @@ declare module '@vueform/ui/components/VfText' {
       />
       <template v-else>@</template>
     </span>
-    <input :class="classes.input" v-bind="context.parts.input" />
+    <input v-bind="context.bindings.input" />
   </VfLayout>
 </template>
 ```
@@ -422,8 +416,7 @@ The `<VfLayout>` at the template's root is the shared [element layout](/guide/el
   <VfLayout>
     <input
       :value="context.value"
-      :class="context.classes.input"
-      v-bind="context.parts.input"
+      v-bind="context.bindings.input"
       @input="context.handleInput"
     />
   </VfLayout>
@@ -436,8 +429,7 @@ Omit it for raw markup with none of the standard chrome:
 <template>
   <input
     :value="context.value"
-    :class="context.classes.input"
-    v-bind="context.parts.input"
+    v-bind="context.bindings.input"
     @input="context.handleInput"
   />
 </template>
@@ -567,7 +559,7 @@ The wiring above is a fixed recipe, so the context also ships it pre-assembled a
 ```vue
 <template>
   <VfLayout>
-    <input :class="context.classes.input" v-bind="context.inputBindings" />
+    <input v-bind="{ ...context.bindings.input, ...context.inputBindings }" />
   </VfLayout>
 </template>
 ```

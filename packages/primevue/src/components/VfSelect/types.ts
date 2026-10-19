@@ -9,6 +9,7 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { SelectProps as PvSelectProps } from 'primevue'
 import type { SelectSlots as ASelectSlots } from 'primevue/select'
@@ -305,9 +306,10 @@ export interface VfSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfSelect component.
+ * Accessibility bindings of the VfSelect component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfSelectA11y extends SelectA11y {}
+export interface VfSelectA11y extends SelectA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfSelect component.

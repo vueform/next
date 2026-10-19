@@ -10,6 +10,7 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeTreeSelect from 'primevue/treeselect'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/tree-select'
 import type { TreeSelectionModeProp } from '#src/features/tree-options'
 import { vdomPrime } from '#src/helpers'
@@ -39,15 +40,32 @@ const events =
   defineEvents<VfTreeSelectEmits<TOptions, TSelectionMode, TModel>>()
 const slots = defineSlots<VfTreeSelectSlots<TOptions, TSelectionMode, TModel>>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
+useClasses(() => ({
+  root: 'vf-tree-select',
+}))
+
+useModifiers(({ empty, placeholder, help, hasError }) => ({
   root: {
-    'vf-tree-select': true,
-    'vf-align-label': !help.value,
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -57,7 +75,6 @@ const {
   disabled,
   loading,
   resolving,
-  aria,
   input,
   name,
   invalid,
@@ -79,7 +96,6 @@ defineExpose(expose)
       <TreeSelect
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :options="items"
         :placeholder
@@ -87,11 +103,7 @@ defineExpose(expose)
         :loading="loading || resolving"
         :invalid
         fluid
-        v-bind="{
-          ...aria,
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @focus="handleFocus"
         @blur="handleBlur"

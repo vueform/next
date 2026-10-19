@@ -182,7 +182,7 @@ A few elements produce content that isn't meaningful to assistive technologies:
 
 ## Custom Templates
 
-When you [rewire a template](/guide/templates), you take on responsibility for the ARIA attributes that template previously rendered. The element's `a11yBindings` computed is available on the [context](/guide/context) (and is passed to replacement slots directly). It is always keyed by part — each key holds a ready-to-spread bag of attributes for that DOM part, so one `v-bind` carries everything:
+When you [rewire a template](/guide/templates), you take on responsibility for the ARIA attributes that template previously rendered. The element's ARIA bags are available part-keyed on the [context](/guide/context) as `a11yBindings`, and they fold — together with the part's classes, `data-*` modifiers, and `parts` overrides — into the part's single `bindings` bag (a replacement slot receives its own part's resolved bag as a `bindings` prop directly). Each key holds a ready-to-spread bag of attributes for that DOM part, so one `v-bind` carries everything:
 
 ```vue
 <!-- MyTextTemplate.vue -->
@@ -198,11 +198,11 @@ defineProps<{ context: ContextOf<'VfText'> }>()
       :name="context.name"
       :id="context.id"
       :value="context.value"
-      v-bind="{ ...context.a11yBindings.input, ...context.parts.input }"
+      v-bind="context.bindings.input"
       @input="context.handleInput"
     />
   </VfLayout>
 </template>
 ```
 
-Besides `input`, the bags cover the layout-rendered parts too — `label`, `help`, `description`, and `error` each carry the `id` (and `role` for the error region) that the input's `aria-describedby` points at. If your template replaces one of those regions, spread the matching bag onto your replacement so the id relationships stay intact. If you skip the bindings, the input loses its connection to those regions and screen readers won't announce errors, help text, or the required state.
+Besides `input`, the bags cover the layout-rendered parts too — `label`, `help`, `description`, and `errors` each carry the `id` (and `role` for the errors region) that the input's `aria-describedby` points at. If your template replaces one of those regions, spread the matching bag onto your replacement so the id relationships stay intact. If you skip the bindings, the input loses its connection to those regions and screen readers won't announce errors, help text, or the required state.

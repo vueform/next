@@ -18,7 +18,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -63,7 +62,6 @@ import {
   makeIfta,
   makeInfo,
   makeTooltip,
-  makeAria,
   type ModelPropsWithDefaultValue,
   type FloatLabelProps,
   type IftaLabelProps,
@@ -226,7 +224,7 @@ export interface DatePickerModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the date-picker element blueprint.
  */
-export interface DatePickerA11y extends BaseElementA11y, AriaA11y {}
+export interface DatePickerA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for date-picker-based components.
@@ -337,7 +335,6 @@ export function blueprint<TProps extends DatePickerProps<string>>(
     .use(makeReadonly())
     .use(makePlaceholder())
     .use(makeData())
-    .use(makeAria())
     .use(makeInput({ canonicalDomValue: false }))
     .use(makeLoading())
     .use(makeTooltip())

@@ -2,8 +2,10 @@ import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { ColorPickerProps as PvColorPickerProps } from 'primevue'
+
 import type {
   ColorPickerA11y,
   ColorPickerApi,
@@ -66,9 +68,10 @@ export interface VfColorPickerClasses extends ColorPickerClasses {
 }
 
 /**
- * Accessibility bindings of the VfColorPicker component.
+ * Accessibility bindings of the VfColorPicker component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfColorPickerA11y extends ColorPickerA11y {}
+export interface VfColorPickerA11y extends ColorPickerA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfColorPicker component.

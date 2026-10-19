@@ -6,6 +6,7 @@
     TLanguages extends LanguagesProp = LanguagesProp
   "
 >
+import { tInputAria } from '#src/a11y'
 import { defaults, blueprint } from '#src/blueprints/text'
 import { useBlueprint } from '#src/composables'
 import { defineEvents } from '#src/helpers'
@@ -29,30 +30,43 @@ const props = withDefaults(
 const events = defineEvents<VfTextEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfTextSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help, hasError }) => ({
+useClasses(() => ({
+  root: 'vf-text',
+  input: 'vf-input vf-text-input',
+}))
+
+useModifiers(({ help, hasError }) => ({
   root: {
-    'vf-text': true,
-    'vf-align-label': !help.value,
+    'data-align-label': !help.value ? '' : undefined,
   },
   input: {
-    'vf-input': true,
-    'vf-text-input': true,
-    'vf-danger': hasError.value,
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(tInputAria())
 
 const {
   value,
   id,
+  autocomplete,
   loading,
   readonly,
   placeholder,
   viewLoaded,
   disabled,
-  aria,
   input,
   name,
   handleKeydown,
@@ -63,7 +77,7 @@ const {
   handleInput,
 } = api
 
-const { inputType, autocomplete } = propRefs
+const { inputType, inputmode } = propRefs
 
 defineExpose(expose)
 </script>
@@ -76,16 +90,13 @@ defineExpose(expose)
         :type="inputType"
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :placeholder
         :autocomplete
+        :inputmode
         :disabled
         :readonly="readonly || undefined"
-        v-bind="{
-          ...aria,
-          ...parts.input,
-        }"
+        v-bind="bindings.input"
         :ref="(el) => (input = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"

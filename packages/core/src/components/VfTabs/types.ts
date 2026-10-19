@@ -11,7 +11,7 @@ import type {
   TabsClasses,
   TabsModifiers,
 } from '#src/blueprints/tabs'
-import type { ResolvedPage } from '#src/composables'
+import type { PartBindings, ResolvedPage } from '#src/composables'
 import type {
   DefineElementContext,
   ClassValue,
@@ -129,6 +129,12 @@ export interface VfTabsSlots extends TabbedSlots<VfTabsContext> {
      * The tab's element context.
      */
     el$: UnknownElement
+
+    /**
+     * The tab button's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: PartBindings<'tab', VfTabsParts, VfTabsModifiers, VfTabsA11y>
   }) => VNode[]
 }
 

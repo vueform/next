@@ -284,11 +284,11 @@
         "@primeuix/themes": "^2.0.3",
         "@primevue/core": "^4.5.5",
         "primeicons": "^7.0.0",
-        "primevue": "^4.5.5"
+        "primevue": "^4.5.5",
+        "quill": "^2.0.3"
       },
       "vaporDeps": {
-        "@primeuix/styled": "^0.7.4",
-        "quill": "^2.0.3"
+        "@primeuix/styled": "^0.7.4"
       },
       "nuxtDeps": {
         "@primevue/nuxt-module": "^4.5.5"

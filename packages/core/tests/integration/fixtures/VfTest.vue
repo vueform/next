@@ -9,6 +9,8 @@
 import {
   useBlueprint,
   defineEvents,
+  tInputAria,
+  type TAriaA11y,
   type LanguagesProp,
   type AddonGroupClasses,
   type AddonGroupParts,
@@ -27,10 +29,12 @@ import {
 import {
   defaults,
   blueprint,
+  type TextA11y,
   type TextApi,
   type TextClasses,
   type TextEmits,
   type TextExpose,
+  type TextModifiers,
   type TextParts,
   type TextProps,
   type TextSlots,
@@ -109,6 +113,14 @@ export interface VfTestSlots<
 export interface VfTestParts
   extends TextParts, AddonsParts, AddonGroupParts, IconsParts, TranslateParts {
   input: DomAttrsOf<'input'>
+  // Synthetic parts backing the pipeline-exercise class keys below.
+  foo: DomAttrsOf<'div'>
+  bar: DomAttrsOf<'div'>
+  baz: DomAttrsOf<'div'>
+  qux: DomAttrsOf<'div'>
+  quux: DomAttrsOf<'div'>
+  corge: DomAttrsOf<'div'>
+  grault: DomAttrsOf<'div'>
 }
 
 export interface VfTestClasses
@@ -123,6 +135,12 @@ export interface VfTestClasses
   grault: ClassValue
 }
 
+/**
+ * Accessibility bindings of the VfTest component, produced by the `tInputAria`
+ * pattern the component registers via `useA11y`.
+ */
+export interface VfTestA11y extends TextA11y, TAriaA11y {}
+
 export interface VfTestExpose extends TextExpose {}
 
 export interface VfTestContext<
@@ -133,6 +151,8 @@ export interface VfTestContext<
   VfTestSlots,
   VfTestParts,
   VfTestClasses,
+  TextModifiers,
+  VfTestA11y,
   VfTestExpose,
   TextApi<TProps>
 > {}
@@ -159,8 +179,16 @@ const props = withDefaults(defineProps<VfTestProps<TTranslate, TLanguages>>(), {
 const events = defineEvents<VfTestEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfTestSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(({ success, focused, hasError }) => ({
   root: 'vf-text vf-offset-label',
@@ -180,6 +208,8 @@ useClasses(({ success, focused, hasError }) => ({
   grault: 'grault',
 }))
 
+useA11y(tInputAria())
+
 const {
   value,
   id,
@@ -188,7 +218,6 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  a11yBindings,
   input,
   name,
   handleKeydown,
@@ -212,16 +241,12 @@ defineExpose(expose)
         :type="inputType"
         :name
         :id
-        :class="classes.input('foo', 123)"
         v-model="value"
         :placeholder
         :autocomplete
         :disabled
         :readonly="readonly || undefined"
-        v-bind="{
-          ...a11yBindings.input,
-          ...parts.input,
-        }"
+        v-bind="bindings.input('foo', 123)"
         :ref="(el) => (input = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"
@@ -230,13 +255,13 @@ defineExpose(expose)
         @focus="handleFocus"
         @input="handleInput"
       />
-      <div :class="classes.foo" />
-      <div :class="classes.bar" />
-      <div :class="classes.baz" />
-      <div :class="classes.qux" />
-      <div :class="classes.quux" />
-      <div :class="classes.corge" />
-      <div :class="classes.grault" />
+      <div v-bind="bindings.foo" />
+      <div v-bind="bindings.bar" />
+      <div v-bind="bindings.baz" />
+      <div v-bind="bindings.qux" />
+      <div v-bind="bindings.quux" />
+      <div v-bind="bindings.corge" />
+      <div v-bind="bindings.grault" />
     </VfLayout>
   </slot>
 </template>

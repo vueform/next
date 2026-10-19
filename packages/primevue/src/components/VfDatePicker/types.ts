@@ -9,9 +9,11 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { DatePickerProps as PvDatePickerProps } from 'primevue'
 import type { DatePickerSlots as ADatePickerSlots } from 'primevue/datepicker'
+
 import type {
   DatePickerA11y,
   DatePickerApi,
@@ -134,9 +136,10 @@ export interface VfDatePickerClasses
 }
 
 /**
- * Accessibility bindings of the VfDatePicker component.
+ * Accessibility bindings of the VfDatePicker component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfDatePickerA11y extends DatePickerA11y {}
+export interface VfDatePickerA11y extends DatePickerA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfDatePicker component.

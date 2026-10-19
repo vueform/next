@@ -3,6 +3,7 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeInputNumber from 'primevue/inputnumber'
 import type { WritableComputedRef } from 'vue'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/input-number'
 import { vdomPrime } from '#src/helpers'
 
@@ -25,15 +26,31 @@ const props = withDefaults(defineProps<VfInputNumberProps>(), defaults)
 const events = defineEvents<VfInputNumberEmits>()
 const slots = defineSlots<VfInputNumberSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
+useClasses(() => ({
+  root: 'vf-text-number',
+}))
+
+useModifiers(({ help, hasError }) => ({
   root: {
-    'vf-text-number': true,
-    'vf-align-label': !help.value,
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -42,7 +59,6 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  aria,
   input,
   name,
   tooltipModifiers,
@@ -85,7 +101,6 @@ defineExpose(expose)
       <InputNumber
         :name
         :input-id="id"
-        :class="classes.input"
         v-model="inputValue"
         :placeholder
         :disabled
@@ -101,11 +116,7 @@ defineExpose(expose)
         :mode
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...aria,
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @focus="handleFocus"
         @blur="handleBlur"

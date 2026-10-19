@@ -10,6 +10,7 @@
     TModel = any
   "
 >
+import { inputAria } from '#src/a11y'
 import { defaults, blueprint } from '#src/blueprints/select'
 import { useBlueprint } from '#src/composables'
 import type { ItemsProp, GroupChildrenProp, ItemValueProp } from '#src/features'
@@ -71,23 +72,34 @@ const slots =
     >
   >()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help, empty, hasError, props }) => ({
+useClasses(() => ({
+  root: 'vf-select',
+  input: 'vf-input vf-select-input',
+}))
+
+useModifiers(({ empty, placeholder, help, hasError }) => ({
   root: {
-    'vf-select': true,
-    'vf-align-label': !help.value,
+    'data-align-label': !help.value ? '' : undefined,
   },
-  addonGroup: 'vf-addon-group',
-  iconGroup: 'vf-icon-group',
   input: {
-    'vf-input': true,
-    'vf-select-input': true,
-    'vf-placeholder': empty.value && !!props.placeholder,
-    'vf-danger': hasError.value,
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   id,
@@ -95,7 +107,6 @@ const {
   placeholder,
   viewLoaded,
   disabled,
-  aria,
   input,
   name,
   items,
@@ -121,14 +132,10 @@ defineExpose(expose)
         v-model="value"
         :name
         :id
-        :class="classes.input"
         :disabled
         :multiple
         :ref="(el) => (input = el)"
-        v-bind="{
-          ...aria,
-          ...parts.input,
-        }"
+        v-bind="bindings.input"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="handleInput"

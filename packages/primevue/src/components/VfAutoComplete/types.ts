@@ -9,6 +9,7 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { AutoCompleteProps as PvAutoCompleteProps } from 'primevue'
 import type { AutoCompleteSlots as AAutoCompleteSlots } from 'primevue/autocomplete'
@@ -254,9 +255,10 @@ export interface VfAutoCompleteClasses
 }
 
 /**
- * Accessibility bindings of the VfAutoComplete component.
+ * Accessibility bindings of the VfAutoComplete component, produced by the
+ * `inputAria` pattern the component registers via `useA11y`.
  */
-export interface VfAutoCompleteA11y extends AutoCompleteA11y {}
+export interface VfAutoCompleteA11y extends AutoCompleteA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfAutoComplete component.

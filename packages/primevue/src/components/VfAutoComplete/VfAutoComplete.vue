@@ -10,6 +10,7 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeAutoComplete from 'primevue/autocomplete'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/auto-complete'
 import type { SuggestionsProp } from '#src/features'
 import { vdomPrime } from '#src/helpers'
@@ -40,15 +41,32 @@ const events =
 const slots =
   defineSlots<VfAutoCompleteSlots<TSuggestions, TMultiple, TModel>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
+useClasses(() => ({
+  root: 'vf-auto-complete',
+}))
+
+useModifiers(({ help, hasError }) => ({
   root: {
-    'vf-auto-complete': true,
-    'vf-align-label': !help.value,
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -58,7 +76,6 @@ const {
   disabled,
   loading,
   resolving,
-  aria,
   input,
   name,
   invalid,
@@ -85,7 +102,6 @@ defineExpose(expose)
       <AutoComplete
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :suggestions
         :option-label="itemLabel"
@@ -96,11 +112,7 @@ defineExpose(expose)
         :invalid
         :min-length
         fluid
-        v-bind="{
-          ...aria,
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @focus="handleFocus"
         @blur="handleBlur"

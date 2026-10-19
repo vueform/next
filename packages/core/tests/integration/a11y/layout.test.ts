@@ -6,7 +6,7 @@ import { createForm, expectNoA11yViolations } from '../../helpers'
 // (defineSchema's exact-typed inference needs literals).
 
 /**
- * The single-input element types sharing the makeAria / makeTAria input
+ * The single-input element types sharing the aria / tInputAria input pattern
  * contract, with the selector locating their native input inside the form.
  */
 const inputTypes = [

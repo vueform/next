@@ -4,6 +4,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   TProp,
+  ResolvedBindings,
   ResolvedLanguagesProp,
   ResolvedPage,
   DefineElementContext,
@@ -33,6 +34,11 @@ import type {
   FormModifiers,
 } from '#src/blueprints/form'
 import type { NavPosProp } from '#src/blueprints/nav'
+
+/**
+ * Resolved per-part binding bags for VfForm slot scopes.
+ */
+type VfFormBindings = ResolvedBindings<VfFormParts, VfFormModifiers, VfFormA11y>
 
 /**
  * VfForm props narrowed from a registry `TEntry` payload, applying the entry's
@@ -157,6 +163,12 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The set of languages containing validation errors.
      */
     invalidLanguages: Set<string>
+
+    /**
+     * The language selector's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: VfFormBindings['languages']
   }) => VNode[]
 
   /**
@@ -167,6 +179,12 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The pager instance controlling the tabs.
      */
     pager: Pager
+
+    /**
+     * The tab list's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
+     */
+    bindings: VfFormBindings['tabs']
   }) => VNode[]
 
   /**
@@ -177,6 +195,12 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The resolved page of the tab.
      */
     page: ResolvedPage
+
+    /**
+     * The tab's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
+     */
+    bindings: VfFormBindings['tab']
   }) => VNode[]
 
   /**
@@ -187,6 +211,12 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The pager instance controlling the steps.
      */
     pager: Pager
+
+    /**
+     * The step list's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
+     */
+    bindings: VfFormBindings['steps']
   }) => VNode[]
 
   /**
@@ -197,6 +227,12 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The resolved page of the step.
      */
     page: ResolvedPage
+
+    /**
+     * The step's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
+     */
+    bindings: VfFormBindings['step']
   }) => VNode[]
 
   /**
@@ -331,14 +367,14 @@ export interface VfFormParts extends FormParts {
    *
    * @tag div
    */
-  errorsWrapper: DomAttrsOf<'div'>
+  errors: DomAttrsOf<'div'>
 
   /**
    * The error list element.
    *
    * @tag ul
    */
-  errors: DomAttrsOf<'ul'>
+  errorList: DomAttrsOf<'ul'>
 
   /**
    * Each error item element.
@@ -352,14 +388,14 @@ export interface VfFormParts extends FormParts {
    *
    * @tag div
    */
-  messagesWrapper: DomAttrsOf<'div'>
+  messages: DomAttrsOf<'div'>
 
   /**
    * The message list element.
    *
    * @tag ul
    */
-  messages: DomAttrsOf<'ul'>
+  messageList: DomAttrsOf<'ul'>
 
   /**
    * Each message item element.
@@ -498,12 +534,12 @@ export interface VfFormClasses extends FormClasses {
   /**
    * The errors container element.
    */
-  errorsWrapper: ClassValue
+  errors: ClassValue
 
   /**
    * The error list element.
    */
-  errors: ClassValue
+  errorList: ClassValue
 
   /**
    * Each error item element.
@@ -513,12 +549,12 @@ export interface VfFormClasses extends FormClasses {
   /**
    * The messages container element.
    */
-  messagesWrapper: ClassValue
+  messages: ClassValue
 
   /**
    * The message list element.
    */
-  messages: ClassValue
+  messageList: ClassValue
 
   /**
    * Each message item element.
@@ -627,7 +663,31 @@ export interface VfFormClasses extends FormClasses {
 /**
  * Accessibility bindings of the VfForm component.
  */
-export interface VfFormA11y extends FormA11y {}
+export interface VfFormA11y extends FormA11y {
+  /**
+   * The form-level error live region: an assertive, atomic alert that can
+   * receive programmatic focus.
+   */
+  errors: {
+    id: string
+    role: 'alert'
+    'aria-live': 'assertive'
+    'aria-atomic': 'true'
+    tabindex: -1
+  }
+
+  /**
+   * The form-level message live region: a polite, atomic status that can
+   * receive programmatic focus.
+   */
+  messages: {
+    id: string
+    role: 'status'
+    'aria-live': 'polite'
+    'aria-atomic': 'true'
+    tabindex: -1
+  }
+}
 
 /**
  * Styling modifiers of the VfForm component.

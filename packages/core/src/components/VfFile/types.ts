@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 
+import type { InputAriaA11y } from '#src/a11y'
 import {
   type FileA11y,
   type FileApi,
@@ -12,6 +13,7 @@ import {
   type FileProps,
   type FileSlots,
 } from '#src/blueprints/file'
+import type { ResolvedBindings } from '#src/composables'
 import type { EntryMultipleOf } from '#src/features'
 import type {
   WidenProps,
@@ -22,6 +24,11 @@ import type {
   PartOf,
   FileProp,
 } from '#src/types'
+
+/**
+ * Resolved per-part binding bags for VfFile slot scopes.
+ */
+type VfFileBindings = ResolvedBindings<VfFileParts, VfFileModifiers, VfFileA11y>
 
 /**
  * VfFile props narrowed from a registry `TEntry` payload, applying the entry's
@@ -106,25 +113,10 @@ export interface VfFileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The file item's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
      */
-    classes: VfFileClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfFileParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfFileModifiers
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfFileA11y
+    bindings: VfFileBindings['item']
 
     /**
      * Callback to remove a file by index.
@@ -151,21 +143,10 @@ export interface VfFileSlots<
     disabled: boolean
 
     /**
-     * CSS classes for the remove button element.
+     * The remove button's resolved bindings (classes, part overrides,
+     * localized aria-label); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:remove` attribute overrides for the remove button
-     * element; apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Resolved accessibility bindings for this file's remove button
-     * (localized aria-label); apply with `v-bind`.
-     */
-    a11yBindings: ReturnType<VfFileA11y['remove']>
+    bindings: VfFileBindings['remove']
 
     /**
      * Callback to remove a file by index.
@@ -202,15 +183,10 @@ export interface VfFileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * CSS classes for the file name element.
-     */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:name` attribute overrides for the file name element;
+     * The file name element's resolved bindings (classes, part overrides);
      * apply with `v-bind`.
      */
-    part: DomAttrsOf<'a' | 'span'> | undefined
+    bindings: VfFileBindings['name']
   }) => VNode[]
 
   /**
@@ -230,10 +206,10 @@ export interface VfFileSlots<
     text?: string
 
     /**
-     * Resolved `part:add` attribute overrides for the add button element;
-     * apply with `v-bind`.
+     * The add button's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
      */
-    part: PartOf<'VfButton'> | undefined
+    bindings: VfFileBindings['add']
 
     /**
      * Callback to open the native file picker.
@@ -306,24 +282,54 @@ export interface VfFileClasses extends FileClasses {
 
   /**
    * An individual file entry in the file list.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  item: ClassValue
+  item: (file: FileListItem, index: number) => ClassValue
 
   /**
    * The file name text or link.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  name: ClassValue
+  name: (file: FileListItem, index: number) => ClassValue
 
   /**
    * The remove button for a file entry.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  remove: ClassValue
+  remove: (file: FileListItem, index: number) => ClassValue
+
+  /**
+   * The hidden file `<input>` tag.
+   */
+  input: ClassValue
 }
 
 /**
- * Accessibility bindings of the VfFile component.
+ * Accessibility bindings of the VfFile component: the `inputAria` pattern's
+ * bags plus the per-file remove control's bag, registered via `useA11y` in
+ * the SFC (VfFile is the remove bag's only consumer, so it is defined there
+ * rather than as a shared pattern).
  */
-export interface VfFileA11y extends FileA11y {}
+export interface VfFileA11y extends FileA11y, InputAriaA11y {
+  /**
+   * The per-file remove control's localized accessible name.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
+   */
+  remove: (
+    file: FileListItem,
+    index: number
+  ) => {
+    'aria-label': string
+  }
+}
 
 /**
  * Styling modifiers of the VfFile component.

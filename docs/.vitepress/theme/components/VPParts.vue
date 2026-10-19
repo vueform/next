@@ -604,7 +604,8 @@ const htmlLines = computed<HtmlLine[]>(() => {
 
   function walk(node: TreeNode, depth: number) {
     const part = data.parts?.[node.key] ?? layoutData.value?.parts?.[node.key]
-    const cls = data.classes?.[node.key] ?? layoutData.value?.classes?.[node.key]
+    const cls =
+      data.classes?.[node.key] ?? layoutData.value?.classes?.[node.key]
     const tag = part?.tag?.split(' | ')[0] ?? getDomTag(node.key) ?? 'div'
 
     if (node.repeatable) {

@@ -8,8 +8,6 @@ import {
 } from '#src/composables'
 import { useComponentContext } from '#src/contexts'
 import {
-  makeAria,
-  makeFileAria,
   makeData,
   makeElement,
   makeInteraction,
@@ -25,7 +23,6 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type FileAriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -159,7 +156,7 @@ export interface FileModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the file element blueprint.
  */
-export interface FileA11y extends BaseElementA11y, FileAriaA11y {}
+export interface FileA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for file-based components.
@@ -288,8 +285,6 @@ export function blueprint<TProps extends FileProps<string>>(
     .use(makeDisabled())
     .use(makeInteraction())
     .use(makeData())
-    .use(makeAria())
-    .use(makeFileAria())
     .use(makeInput())
     .use(makeProvider())
     .build()

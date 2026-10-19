@@ -31,23 +31,25 @@ describe('VfRadio a11y', () => {
   })
 
   // ===========================================================================
-  // SLOT CONTRACT (a11yBindings)
+  // SLOT CONTRACT (bindings)
   // ===========================================================================
   describe('default slot', () => {
-    it('should expose part-keyed a11yBindings whose input bag lands on a custom input', async () => {
+    it('should expose the wrapper bindings bag that lands on a custom wrapper', async () => {
       const slot = defineSlot('VfRadio.default', {
-        props: ['a11yBindings', 'id', 'inputName'],
+        props: ['bindings', 'id', 'inputName'],
         template:
-          '<input type="radio" class="slot-radio" :id="id" :name="inputName" v-bind="a11yBindings.input" />',
+          '<div class="slot-wrapper" v-bind="bindings">' +
+          '<input type="radio" class="slot-radio" :id="id" :name="inputName" />' +
+          '</div>',
       })
 
-      const { form, el } = createForm({
+      const { form } = createForm({
         schema: defineSchema({
           el: {
             type: 'radio',
             label: 'The label',
-            help: 'The help text',
-            rules: 'required',
+            align: 'right',
+            aligned: true,
             slots: { default: slot },
           },
         }),
@@ -55,26 +57,14 @@ describe('VfRadio a11y', () => {
 
       await nextTick()
 
-      const input = form.find('.slot-radio')
-      expect(input.exists()).toBe(true)
+      const wrapper = form.find('.slot-wrapper')
+      expect(wrapper.exists()).toBe(true)
 
-      const id = input.attributes('id')!
-
-      // The help relationship from a11yBindings.input lands on the slot input.
-      expect(input.attributes('aria-describedby')!.split(' ')).toContain(
-        `${id}__help`
-      )
-      expect(input.attributes('aria-required')).toBe('true')
-      expect(input.attributes('aria-invalid')).toBeUndefined()
-
-      // Error state flows through the same bag after validation.
-      await el.validate()
-      await nextTick()
-
-      expect(input.attributes('aria-invalid')).toBe('true')
-      expect(input.attributes('aria-describedby')!.split(' ')).toContain(
-        `${id}__error`
-      )
+      // The wrapper bag carries the resolved classes and alignment modifiers
+      // of the slot's own part (the fallback's top-level element).
+      expect(wrapper.classes()).toContain('vf-choice-wrapper')
+      expect(wrapper.attributes('data-align')).toBe('right')
+      expect(wrapper.attributes('data-aligned')).toBe('')
     })
   })
 })

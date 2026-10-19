@@ -2,11 +2,13 @@ import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type {
   InputOtpProps as PvInputOtpProps,
   InputOtpSlots as AInputOtpSlots,
 } from 'primevue'
+
 import type {
   InputOtpA11y,
   InputOtpApi,
@@ -89,9 +91,10 @@ export interface VfInputOtpClasses
 }
 
 /**
- * Accessibility bindings of the VfInputOtp component.
+ * Accessibility bindings of the VfInputOtp component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfInputOtpA11y extends InputOtpA11y {}
+export interface VfInputOtpA11y extends InputOtpA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfInputOtp component.

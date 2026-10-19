@@ -13,6 +13,7 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeListbox from 'primevue/listbox'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/listbox'
 import type {
   OptionGroupChildrenProp,
@@ -79,21 +80,34 @@ const slots =
     >
   >()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-listbox': true,
-    'vf-align-label': !help.value,
+useClasses(() => ({
+  root: 'vf-listbox',
+}))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   value,
   viewLoaded,
   disabled,
-  aria,
   input,
   invalid,
   rawItems,
@@ -117,7 +131,6 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
       <Listbox
-        :class="classes.input"
         v-model="value"
         :options="rawItems"
         :option-label="itemLabel"
@@ -129,11 +142,7 @@ defineExpose(expose)
         :invalid
         :multiple
         fluid
-        v-bind="{
-          ...aria,
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @focus="handleFocus"
         @blur="handleBlur"

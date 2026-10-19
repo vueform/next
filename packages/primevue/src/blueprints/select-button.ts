@@ -14,7 +14,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -42,7 +41,6 @@ import type {
 
 import {
   makeInfo,
-  makeAria,
   type ModelPropsWithDefaultValue,
   type InfoProps,
   type OptionsProps,
@@ -173,7 +171,7 @@ export interface SelectButtonModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the select-button element blueprint.
  */
-export interface SelectButtonA11y extends BaseElementA11y, AriaA11y {}
+export interface SelectButtonA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for select-button-based components.
@@ -230,7 +228,6 @@ export function blueprint<TProps extends LooseSelectButtonProps>(
     .use(makeInput())
     .use(makeItems())
     .use(makeInfo())
-    .use(makeAria())
     .use(makeForwards(forwards))
     .use(makeProvider())
     .build()

@@ -1073,13 +1073,13 @@ describe('Label', () => {
     test('slot receives classes prop', () => {
       const labelSlot = markRaw(
         defineComponent({
-          props: ['label', 'for', 'id', 'classes'],
+          props: ['label', 'for', 'id', 'bindings'],
           inheritAttrs: false,
           setup(props) {
             return () =>
               h(
                 'label',
-                { class: ['custom-label', props.classes] },
+                { class: ['custom-label', props.bindings?.class] },
                 props.label
               )
           },
@@ -1129,8 +1129,8 @@ describe('Label', () => {
         template: `
           <VfForm>
             <VfInputText name="el" label="Label text">
-              <template #label="{ label, for: htmlFor, id, classes }">
-                <label :for="htmlFor" :id="id" :class="['custom-label', classes]">{{ label }}</label>
+              <template #label="{ label, for: htmlFor, id, bindings }">
+                <label :for="htmlFor" :id="id" :class="['custom-label', bindings?.class]">{{ label }}</label>
               </template>
             </VfInputText>
           </VfForm>

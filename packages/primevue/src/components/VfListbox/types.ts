@@ -4,6 +4,7 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { ListboxProps as PvListboxProps } from 'primevue'
 import type { ListboxSlots as AListboxSlots } from 'primevue/listbox'
@@ -266,9 +267,10 @@ export interface VfListboxClasses extends ListboxClasses {
 }
 
 /**
- * Accessibility bindings of the VfListbox component.
+ * Accessibility bindings of the VfListbox component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfListboxA11y extends ListboxA11y {}
+export interface VfListboxA11y extends ListboxA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfListbox component.

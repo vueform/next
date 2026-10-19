@@ -16,7 +16,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -50,7 +49,6 @@ import type {
 import { computed, ref, toRef, nextTick } from 'vue'
 
 import {
-  makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
@@ -162,7 +160,7 @@ export interface EditorModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the editor element blueprint.
  */
-export interface EditorA11y extends BaseElementA11y, AriaA11y {}
+export interface EditorA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for editor-based components.
@@ -218,7 +216,6 @@ export function blueprint<TProps extends EditorProps<string>>(
     .use(makeMultilingual())
     .use(makeTData())
     .use(makeInput({ canonicalDomValue: false }))
-    .use(makeAria())
     .use(makeInfo())
     .use(makeForwards(forwards))
     .use(makeProvider())

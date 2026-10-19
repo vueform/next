@@ -1,7 +1,6 @@
 import { useFeatures } from '#src/composables'
 import {
   makeButton,
-  makeButtonAria,
   makeDisabled,
   makeLayout,
   makeElement,
@@ -12,7 +11,6 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type ButtonAriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -103,7 +101,7 @@ export interface ButtonModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the button element blueprint.
  */
-export interface ButtonA11y extends BaseElementA11y, ButtonAriaA11y {}
+export interface ButtonA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for button-based components.
@@ -135,7 +133,6 @@ export function blueprint<TProps extends ButtonProps<string>>(
     .use(makeLayout())
     .use(makeDisabled())
     .use(makeButton())
-    .use(makeButtonAria())
     .build()
 }
 

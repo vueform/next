@@ -1,11 +1,13 @@
 import type {
   ClassValue,
+  DomAttrsOf,
   EntryTranslateOf,
   EntryLanguagesOf,
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
   LanguagesProp,
+  InputAriaA11y,
 } from '@vueform/core'
 import {
   type EditorProps as PvEditorProps,
@@ -110,6 +112,27 @@ export interface VfEditorParts extends EditorParts {
    * @tag Editor
    */
   input: PvEditorProps
+
+  /**
+   * The loading-skeleton placeholder shown until the editor module loads.
+   *
+   * @tag div
+   */
+  placeholder: DomAttrsOf<'div'>
+
+  /**
+   * The loading-skeleton toolbar area.
+   *
+   * @tag div
+   */
+  placeholderToolbar: DomAttrsOf<'div'>
+
+  /**
+   * The loading-skeleton content area.
+   *
+   * @tag div
+   */
+  placeholderContent: DomAttrsOf<'div'>
 }
 
 /**
@@ -138,9 +161,10 @@ export interface VfEditorClasses extends EditorClasses {
 }
 
 /**
- * Accessibility bindings of the VfEditor component.
+ * Accessibility bindings of the VfEditor component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfEditorA11y extends EditorA11y {}
+export interface VfEditorA11y extends EditorA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfEditor component.

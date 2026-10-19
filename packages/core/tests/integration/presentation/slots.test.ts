@@ -121,8 +121,9 @@ describe('Prop-supplied slot attribute leaking', () => {
 
     const node = form.find('.custom-label')
     expect(node.exists()).toBe(true)
-    // The element binds `:label`, `:for`, `:id`, `:tag` to the label slot; none
-    // should appear as DOM attributes on the rendered component.
+    // The element binds `:label`, `:for`, `:id`, `:tag`, `:bindings` to the
+    // label slot; none should appear as DOM attributes on the rendered
+    // component.
     expect(node.attributes('label')).toBeUndefined()
     expect(node.attributes('tag')).toBeUndefined()
   })

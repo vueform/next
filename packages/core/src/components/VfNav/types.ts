@@ -12,7 +12,7 @@ import type {
   NavExpose,
   NavClasses,
 } from '#src/blueprints/nav'
-import type { Pager } from '#src/composables'
+import type { Pager, ResolvedBindings } from '#src/composables'
 import type { ConditionalProp } from '#src/modules/conditions'
 import {
   type DefineElementContext,
@@ -22,6 +22,11 @@ import {
   type PartOf,
   type TProp,
 } from '#src/types'
+
+/**
+ * Resolved per-part binding bags for VfNav slot scopes.
+ */
+type VfNavBindings = ResolvedBindings<VfNavParts, VfNavModifiers, VfNavA11y>
 
 /**
  * Props for the VfNav component.
@@ -80,20 +85,10 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * CSS classes for the back button element.
+     * The back button's resolved bindings (classes, part overrides, ARIA
+     * state); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:back` attribute overrides for the back button element;
-     * apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Ready-to-spread ARIA attribute bindings for the rendered control.
-     */
-    a11yBindings: VfNavA11y['back']
+    bindings: VfNavBindings['back']
 
     /**
      * Handler to navigate back.
@@ -163,25 +158,10 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * CSS classes for the next button element.
+     * The next button's resolved bindings (classes, part overrides, loading
+     * modifier, ARIA state); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:next` attribute overrides for the next button element;
-     * apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Ready-to-spread styling modifier attributes for the rendered control.
-     */
-    modifiers: VfNavModifiers['next']
-
-    /**
-     * Ready-to-spread ARIA attribute bindings for the rendered control.
-     */
-    a11yBindings: VfNavA11y['next']
+    bindings: VfNavBindings['next']
 
     /**
      * Handler to navigate to the next step.
@@ -251,25 +231,10 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * CSS classes for the finish button element.
+     * The finish button's resolved bindings (classes, part overrides, loading
+     * modifier, ARIA state); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:finish` attribute overrides for the finish button
-     * element; apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Ready-to-spread styling modifier attributes for the rendered control.
-     */
-    modifiers: VfNavModifiers['finish']
-
-    /**
-     * Ready-to-spread ARIA attribute bindings for the rendered control.
-     */
-    a11yBindings: VfNavA11y['finish']
+    bindings: VfNavBindings['finish']
 
     /**
      * Handler to finish/submit the form.
@@ -367,7 +332,41 @@ export interface VfNavClasses extends NavClasses {
 /**
  * Accessibility bindings of the VfNav component.
  */
-export interface VfNavA11y extends NavA11y {}
+export interface VfNavA11y extends NavA11y {
+  /**
+   * ARIA state for the back navigation control.
+   */
+  back: {
+    'aria-disabled'?: true
+  }
+
+  /**
+   * ARIA state for the next navigation control.
+   */
+  next: {
+    'aria-busy'?: true
+    'aria-disabled'?: true
+    'aria-describedby'?: string
+  }
+
+  /**
+   * ARIA state for the finish navigation control.
+   */
+  finish: {
+    'aria-busy'?: true
+    'aria-disabled'?: true
+    'aria-describedby'?: string
+  }
+
+  /**
+   * The screen-reader status region's id and role, keyed to the sr-only
+   * loading span it binds to.
+   */
+  srOnlyLoading: {
+    id: string
+    role: 'status'
+  }
+}
 
 /**
  * Styling modifiers of the VfNav component.

@@ -17,7 +17,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -50,7 +49,6 @@ import {
   makeFloatLabel,
   makeIfta,
   makeInfo,
-  makeAria,
   type ModelPropsWithDefaultValue,
   type FloatLabelProps,
   type IftaLabelProps,
@@ -217,7 +215,7 @@ export interface CascadeSelectModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the cascade-select element blueprint.
  */
-export interface CascadeSelectA11y extends BaseElementA11y, AriaA11y {}
+export interface CascadeSelectA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for cascade-select-based components.
@@ -296,7 +294,6 @@ export function blueprint<TProps extends LooseCascadeSelectProps>(
     .use(makeFloatLabel())
     .use(makeIfta())
     .use(makeInfo())
-    .use(makeAria())
     .use(makeForwards(forwards))
     .use(makeProvider())
     .build()

@@ -204,6 +204,15 @@ declare module '@vueform/core' {
     }) => VNode[]
   }
 
+  interface LayoutPartKeyRegistry {
+    /**
+     * The info tooltip overlay is rendered by the tooltip directive, not a
+     * template part — its class key is registered here so the part-key check
+     * accepts it.
+     */
+    infoTooltip: unknown
+  }
+
   interface BaseElementClasses {
     /**
      * The element's root wrapper.

@@ -12,8 +12,7 @@ import type {
   FormModifiers,
 } from '#src/blueprints/form'
 import type { NavPosProp } from '#src/blueprints/nav'
-import type { Pager } from '#src/composables'
-import type { TabbedSlots } from '#src/features'
+import type { Pager, ResolvedBindings } from '#src/composables'
 import {
   type DefineElementContext,
   type DefineRegistryEntry,
@@ -28,6 +27,11 @@ import {
   type ResolvedSchema,
   type EntrySchemaOf,
 } from '#src/types'
+
+/**
+ * Resolved per-part binding bags for VfForm slot scopes.
+ */
+type VfFormBindings = ResolvedBindings<VfFormParts, VfFormModifiers, VfFormA11y>
 
 /**
  * VfForm props narrowed from a registry `TEntry` payload, applying the entry's
@@ -67,8 +71,9 @@ export interface VfFormEmits<TSchema = FormSchema> extends FormEmits<
  * context-receiving slots (e.g. `#content`) get the schema-narrowed context.
  * Plain usage (`VfFormSlots`) keeps the context wide.
  */
-export interface VfFormSlots<TSchema = FormSchema>
-  extends FormSlots<VfFormContext<VfFormProps<TSchema>>>, TabbedSlots {
+export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
+  VfFormContext<VfFormProps<TSchema>>
+> {
   /**
    * Slot that replaces the entire form content area. Receives the form's
    * context as a single `context` prop, like the `template` slot.
@@ -109,6 +114,12 @@ export interface VfFormSlots<TSchema = FormSchema>
      * @param language The language code to select.
      */
     select: (language: string) => void
+
+    /**
+     * The language selector's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: VfFormBindings['languages']
   }) => VNode[]
 
   /**
@@ -126,6 +137,12 @@ export interface VfFormSlots<TSchema = FormSchema>
      * The pager instance managing step state.
      */
     pager: Pager
+
+    /**
+     * The steps navigation bar's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: VfFormBindings['steps']
   }) => VNode[]
 
   /**
@@ -143,6 +160,12 @@ export interface VfFormSlots<TSchema = FormSchema>
      * The pager instance managing tab state.
      */
     pager: Pager
+
+    /**
+     * The tabs navigation bar's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: VfFormBindings['tabs']
   }) => VNode[]
 
   /**
@@ -167,21 +190,11 @@ export interface VfFormSlots<TSchema = FormSchema>
     id: string
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The errors container's resolved bindings (classes, part overrides, and the
+     * live-region attributes — id, alert role, aria-live); apply to the
+     * replacement container with `v-bind` so error announcements keep working.
      */
-    classes: VfFormClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfFormParts>
-
-    /**
-     * The form's part-keyed accessibility bindings; apply the `errors` bag
-     * (id, alert role, live region attributes) to the replacement container
-     * with `v-bind` so error announcements keep working.
-     */
-    a11yBindings: VfFormA11y
+    bindings: VfFormBindings['errors']
   }) => VNode[]
 
   /**
@@ -214,21 +227,12 @@ export interface VfFormSlots<TSchema = FormSchema>
     id: string
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The messages container's resolved bindings (classes, part overrides, and the
+     * live-region attributes — id, status role, aria-live); apply to the
+     * replacement container with `v-bind` so message announcements keep
+     * working.
      */
-    classes: VfFormClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfFormParts>
-
-    /**
-     * The form's part-keyed accessibility bindings; apply the `messages` bag
-     * (id, status role, live region attributes) to the replacement container
-     * with `v-bind` so message announcements keep working.
-     */
-    a11yBindings: VfFormA11y
+    bindings: VfFormBindings['messages']
   }) => VNode[]
 
   /**
@@ -384,14 +388,14 @@ export interface VfFormParts extends FormParts {
    *
    * @tag div
    */
-  errorsWrapper: DomAttrsOf<'div'>
+  errors: DomAttrsOf<'div'>
 
   /**
    * The error list element.
    *
    * @tag ul
    */
-  errors: DomAttrsOf<'ul'>
+  errorList: DomAttrsOf<'ul'>
 
   /**
    * Each error item element.
@@ -405,14 +409,14 @@ export interface VfFormParts extends FormParts {
    *
    * @tag div
    */
-  messagesWrapper: DomAttrsOf<'div'>
+  messages: DomAttrsOf<'div'>
 
   /**
    * The message list element.
    *
    * @tag ul
    */
-  messages: DomAttrsOf<'ul'>
+  messageList: DomAttrsOf<'ul'>
 
   /**
    * Each message item element.
@@ -441,12 +445,12 @@ export interface VfFormClasses extends FormClasses {
   /**
    * The errors container element.
    */
-  errorsWrapper: ClassValue
+  errors: ClassValue
 
   /**
    * The error list element.
    */
-  errors: ClassValue
+  errorList: ClassValue
 
   /**
    * Each error item element.
@@ -456,12 +460,12 @@ export interface VfFormClasses extends FormClasses {
   /**
    * The messages container element.
    */
-  messagesWrapper: ClassValue
+  messages: ClassValue
 
   /**
    * The message list element.
    */
-  messages: ClassValue
+  messageList: ClassValue
 
   /**
    * Each message item element.
@@ -472,7 +476,33 @@ export interface VfFormClasses extends FormClasses {
 /**
  * Accessibility bindings of the VfForm component.
  */
-export interface VfFormA11y extends FormA11y {}
+export interface VfFormA11y extends FormA11y {
+  /**
+   * The form-level error live region (the errors wrapper): an assertive,
+   * atomic alert that can receive programmatic focus. Keyed to the `errors`
+   * container part — a list element cannot carry the alert role.
+   */
+  errors: {
+    id: string
+    role: 'alert'
+    'aria-live': 'assertive'
+    'aria-atomic': 'true'
+    tabindex: -1
+  }
+
+  /**
+   * The form-level message live region (the messages wrapper): a polite,
+   * atomic status that can receive programmatic focus. Keyed to the `messages`
+   * container part — a list element cannot carry the status role.
+   */
+  messages: {
+    id: string
+    role: 'status'
+    'aria-live': 'polite'
+    'aria-atomic': 'true'
+    tabindex: -1
+  }
+}
 
 /**
  * Styling modifiers of the VfForm component.

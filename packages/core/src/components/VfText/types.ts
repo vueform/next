@@ -1,3 +1,4 @@
+import type { TAriaA11y } from '#src/a11y'
 import {
   type TextA11y,
   type TextApi,
@@ -111,9 +112,10 @@ export interface VfTextClasses
 }
 
 /**
- * Accessibility bindings of the VfText component.
+ * Accessibility bindings of the VfText component, produced by the `tInputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfTextA11y extends TextA11y {}
+export interface VfTextA11y extends TextA11y, TAriaA11y {}
 
 /**
  * Styling modifiers of the VfText component.

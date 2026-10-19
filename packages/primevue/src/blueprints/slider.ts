@@ -14,7 +14,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -42,7 +41,6 @@ import type {
 import { computed } from 'vue'
 
 import {
-  makeAria,
   makeInfo,
   makeInterval,
   type ModelPropsWithDefaultValue,
@@ -167,7 +165,7 @@ export interface SliderModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the slider element blueprint.
  */
-export interface SliderA11y extends BaseElementA11y, AriaA11y {}
+export interface SliderA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for slider-based components.
@@ -217,7 +215,6 @@ export function blueprint<TProps extends SliderProps<string>>(
     .use(makeData())
     .use(makeInput())
     .use(makeInterval())
-    .use(makeAria())
     .use(makeInfo())
     .use(makeForwards(forwards))
     .use(makeProvider())

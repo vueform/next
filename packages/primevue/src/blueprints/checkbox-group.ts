@@ -1,6 +1,5 @@
 import {
   defineDefaults,
-  makeGroupAria,
   makeData,
   makeDisabled,
   makeElement,
@@ -13,7 +12,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type GroupAriaA11y,
   type BaseContainerElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -145,7 +143,7 @@ export interface CheckboxGroupModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the checkbox-group element blueprint.
  */
-export interface CheckboxGroupA11y extends BaseElementA11y, GroupAriaA11y {}
+export interface CheckboxGroupA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for checkbox-group-based components.
@@ -199,7 +197,6 @@ export function blueprint<TProps extends LooseCheckboxGroupProps>(
         multiple: true,
       })
     )
-    .use(makeGroupAria({ role: 'group' }))
     .use(makeInfo())
     .use(
       makeHolderProvider({

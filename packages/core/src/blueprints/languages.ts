@@ -36,6 +36,13 @@ export interface LanguagesProps<
    * Set of language codes that currently have validation errors.
    */
   invalidLanguages?: Set<string>
+
+  /**
+   * Select a language.
+   *
+   * @param language The selected language code.
+   */
+  select: (language: string) => void
 }
 
 /**
@@ -43,14 +50,7 @@ export interface LanguagesProps<
  */
 export interface LanguagesEmits<
   TContext = any,
-> extends BaseComponentEmits<TContext> {
-  /**
-   * Emitted when a language is selected by the user.
-   *
-   * @param language The selected language code.
-   */
-  select: [language: string]
-}
+> extends BaseComponentEmits<TContext> {}
 
 /**
  * Slots of the languages component.
@@ -100,14 +100,14 @@ export type LanguagesApi<TProps extends LanguagesProps = LanguagesProps> =
  */
 export function blueprint<TProps extends LanguagesProps>(
   props: LooseRequired<TProps>,
-  events: DefineEvents<LanguagesEmits>
+  _events: DefineEvents<LanguagesEmits>
 ) {
   /**
    * Handles language selection by firing the `select` event.
    *
    * @param language The selected language code.
    */
-  const handleSelect = (language: string) => events.fire('select', language)
+  const handleSelect = (language: string) => props.select(language)
 
   return {
     handleSelect,

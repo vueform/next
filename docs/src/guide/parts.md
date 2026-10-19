@@ -258,26 +258,21 @@ Components express their visual states and variants as `data-*` **modifier attri
 
 Modifiers are the styling aspect of component state. Assistive state is carried separately by ARIA attributes, and when one state matters to both worlds the component emits both from the same source (`aria-invalid` alongside `data-invalid`) — see [Accessibility](/guide/accessibility#aria-vs-styling-attributes). Styling always targets the `data-*` side. Native `disabled` is the exception serving both aspects, so CSS keys on `:disabled` (with `data-disabled` only where no native attribute exists, like a button rendered as an anchor).
 
-Like `a11yBindings`, the resolved modifiers are available part-keyed on the [Context](/guide/context) as `modifiers`, and slots that replace a part receive its bag as a `modifiers` prop (per-item parts receive the already-resolved bag). When you [rewire a template](/guide/templates) or replace a part through a slot, spread the bag so your markup keeps the component's styling states:
+The resolved modifiers are available part-keyed on the [Context](/guide/context) as `modifiers`, and they fold — together with the part's [ARIA attributes](/guide/accessibility), your `parts` overrides, and the part's resolved [classes](/guide/classes) under `class` — into the part's single `bindings` bag. A slot that replaces a part receives that bag — already resolved, even for per-item parts — as its `bindings` prop. When you [rewire a template](/guide/templates) or replace a part through a slot, apply it with `v-bind` so your markup keeps the component's styling states:
 
 ```vue
 <VfList name="tags">
-  <template #item="{ modifiers, a11yBindings, parts, classes, index }">
-    <div
-      :class="classes.item"
-      v-bind="{
-        ...modifiers.item(false, false),
-        ...a11yBindings.item(false, false),
-        ...parts.item(false, false),
-      }"
-    >
+  <template #item="{ bindings, index }">
+    <div v-bind="bindings">
       …
     </div>
   </template>
 </VfList>
 ```
 
-A part's attributes merge in a fixed order — modifiers first, then `a11yBindings`, then your `parts` overrides — so a user-supplied part attribute always wins over the computed ones.
+To drop one piece of the bag — say, the built-in classes because you restyle the node from scratch — destructure it away: `#item="{ bindings: { class: _, ...bindings } }"`.
+
+A part's `bindings` merge in a fixed order — modifiers first, then the ARIA attributes, then your `parts` overrides — so a user-supplied part attribute always wins over the computed ones.
 
 Every component's reference page lists its modifier contract under a **Modifiers** tab, typed exactly (each attribute with its literal values). Plugins can extend a component's contract by declaration-merging its `VfXModifiers` interface.
 

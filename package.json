@@ -70,6 +70,7 @@
     "conventional-recommended-bump": "catalog:",
     "eslint": "catalog:",
     "eslint-config-prettier": "catalog:",
+    "eslint-plugin-unused-imports": "catalog:",
     "eslint-plugin-vue": "catalog:",
     "eslint-plugin-vuejs-accessibility": "catalog:",
     "husky": "catalog:",

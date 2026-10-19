@@ -11,6 +11,7 @@ import type {
   ListProps,
   ListSlots,
 } from '#src/blueprints/list'
+import type { ResolvedBindings } from '#src/composables'
 import type { ArrayModel } from '#src/features'
 import type {
   DefineElementContext,
@@ -26,6 +27,11 @@ import type {
   WidenProps,
   EntrySchemaOf,
 } from '#src/types'
+
+/**
+ * Resolved per-part binding bags for VfList slot scopes.
+ */
+type VfListBindings = ResolvedBindings<VfListParts, VfListModifiers, VfListA11y>
 
 /**
  * Lists carry a rows-array model shaped by their child schema and `flat` prop:
@@ -95,26 +101,10 @@ export interface VfListSlots extends ListSlots<VfListContext> {
     isDropTarget: boolean
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The item wrapper's resolved bindings (classes, part overrides, drag
+     * modifiers, listitem role); apply with `v-bind`.
      */
-    classes: VfListClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfListParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind` (the `item` bag is a function of the drag state).
-     */
-    modifiers: VfListModifiers
-
-    /**
-     * The component's accessibility bindings, keyed by part name; apply each
-     * bag with `v-bind`.
-     */
-    a11yBindings: VfListA11y
+    bindings: VfListBindings['item']
 
     /**
      * Handler for the drag enter event.
@@ -149,21 +139,10 @@ export interface VfListSlots extends ListSlots<VfListContext> {
    */
   sort: (scope: {
     /**
-     * CSS classes for the drag handle element.
-     */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:sort` attribute overrides for the drag handle element;
-     * apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Resolved accessibility bindings for this item's drag handle (localized
+     * The drag handle's resolved bindings (classes, part overrides, localized
      * aria-label); apply with `v-bind`.
      */
-    a11yBindings: ReturnType<VfListA11y['sort']>
+    bindings: VfListBindings['sort']
 
     /**
      * Handler for the drag start event.
@@ -208,21 +187,10 @@ export interface VfListSlots extends ListSlots<VfListContext> {
    */
   remove: (scope: {
     /**
-     * CSS classes for the remove button element.
+     * The remove button's resolved bindings (classes, part overrides,
+     * localized aria-label fallback); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:remove` attribute overrides for the remove button
-     * element; apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Resolved accessibility bindings for this item's remove button
-     * (localized aria-label fallback); apply with `v-bind`.
-     */
-    a11yBindings: ReturnType<VfListA11y['remove']>
+    bindings: VfListBindings['remove']
 
     /**
      * Handler to remove this list item.
@@ -237,21 +205,11 @@ export interface VfListSlots extends ListSlots<VfListContext> {
    */
   placeholder: (scope: {
     /**
-     * CSS classes for the placeholder element.
+     * The placeholder's resolved bindings (classes, part overrides, id and
+     * status role); apply with `v-bind` so the add button's describedby keeps
+     * resolving.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:placeholder` attribute overrides for the placeholder
-     * element; apply with `v-bind`.
-     */
-    part: DomAttrsOf<'div'> | undefined
-
-    /**
-     * Accessibility bindings for the placeholder (id, status role); apply
-     * with `v-bind` so the add button's describedby keeps resolving.
-     */
-    a11yBindings: VfListA11y['placeholder']
+    bindings: VfListBindings['placeholder']
   }) => VNode[]
 
   /**
@@ -267,21 +225,10 @@ export interface VfListSlots extends ListSlots<VfListContext> {
     label: any
 
     /**
-     * CSS classes for the add button element.
+     * The add button's resolved bindings (classes, part overrides, fallback
+     * aria-label, placeholder describedby); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:add` attribute overrides for the add button element;
-     * apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Accessibility bindings for the add control (fallback aria-label,
-     * placeholder describedby); apply with `v-bind`.
-     */
-    a11yBindings: VfListA11y['add']
+    bindings: VfListBindings['add']
 
     /**
      * Handler to add a new list item.
@@ -353,11 +300,6 @@ export interface VfListParts extends ListParts {
  */
 export interface VfListClasses extends ListClasses {
   /**
-   * The outer list container element.
-   */
-  container: ClassValue
-
-  /**
    * The items container element.
    */
   items: ClassValue
@@ -365,8 +307,11 @@ export interface VfListClasses extends ListClasses {
   /**
    * Each list item wrapper. Drag state is exposed via `data-dragging` and
    * `data-drop-target` attributes (and `data-wrapped` for the `wrap` prop).
+   *
+   * @param beingDragged Whether this item is currently being dragged.
+   * @param isDropTarget Whether this item is the current drop target.
    */
-  item: ClassValue
+  item: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
 
   /**
    * The element wrapper within each list item.
@@ -375,13 +320,17 @@ export interface VfListClasses extends ListClasses {
 
   /**
    * The drag handle element.
+   *
+   * @param index The item's zero-based index.
    */
-  sort: ClassValue
+  sort: (index: number) => ClassValue
 
   /**
    * The remove button element.
+   *
+   * @param index The item's zero-based index.
    */
-  remove: ClassValue
+  remove: (index: number) => ClassValue
 
   /**
    * The placeholder element displayed when the list is empty.
@@ -397,7 +346,63 @@ export interface VfListClasses extends ListClasses {
 /**
  * Accessibility bindings of the VfList component.
  */
-export interface VfListA11y extends ListA11y {}
+export interface VfListA11y extends ListA11y {
+  /**
+   * The items container's list role.
+   */
+  items: {
+    role: 'list'
+  }
+
+  /**
+   * Each item wrapper's listitem role.
+   *
+   * @param beingDragged Whether this item is currently being dragged.
+   * @param isDropTarget Whether this item is the current drop target.
+   */
+  item: (
+    beingDragged: boolean,
+    isDropTarget: boolean
+  ) => {
+    role: 'listitem'
+  }
+
+  /**
+   * The empty-state placeholder's id and status role.
+   */
+  placeholder: {
+    id: string
+    role: 'status'
+  }
+
+  /**
+   * The add control's accessible name (when it renders without a visible
+   * label) and its describedby to the empty-state placeholder.
+   */
+  add: {
+    'aria-label'?: string
+    'aria-describedby'?: string
+  }
+
+  /**
+   * The per-item sort handle's localized accessible name.
+   *
+   * @param index The item's zero-based index.
+   */
+  sort: (index: number) => {
+    'aria-label': string
+  }
+
+  /**
+   * The per-item remove control's localized accessible name (when it renders
+   * without a visible label).
+   *
+   * @param index The item's zero-based index.
+   */
+  remove: (index: number) => {
+    'aria-label'?: string
+  }
+}
 
 /**
  * Styling modifiers of the VfList component.

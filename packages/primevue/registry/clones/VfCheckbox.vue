@@ -389,7 +389,7 @@ declare module 'vue' {
     <VfLayout v-else :label="false">
       <slot
         :model
-        :a11y-bindings="a11yBindings"
+        :a11y-bindings
         :input-name
         :id
         :true-value
@@ -405,7 +405,7 @@ declare module 'vue' {
           v-if="outlets?.default"
           :is="outlets.default"
           :model
-          :a11y-bindings="a11yBindings"
+          :a11y-bindings
           :input-name
           :id
           :true-value

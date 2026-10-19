@@ -13,8 +13,10 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   LanguagesProp,
+  TAriaA11y,
 } from '@vueform/core'
 import type { InputTextProps as PvInputTextProps } from 'primevue'
+
 import type {
   InputTextA11y,
   InputTextApi,
@@ -129,9 +131,10 @@ export interface VfInputTextClasses
 }
 
 /**
- * Accessibility bindings of the VfInputText component.
+ * Accessibility bindings of the VfInputText component, produced by the `tInputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfInputTextA11y extends InputTextA11y {}
+export interface VfInputTextA11y extends InputTextA11y, TAriaA11y {}
 
 /**
  * Styling modifiers of the VfInputText component.

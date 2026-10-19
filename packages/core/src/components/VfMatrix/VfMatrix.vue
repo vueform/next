@@ -95,8 +95,18 @@ const props = withDefaults(defineProps<VfMatrixProps>(), defaults)
 const events = defineEvents<VfMatrixEmits>()
 const slots = defineSlots<VfMatrixSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
+
+const { t } = useLocale()
 
 useClasses(({ props, gridClass }) => ({
   root: {
@@ -107,32 +117,49 @@ useClasses(({ props, gridClass }) => ({
   },
   grid: {
     'vf-matrix-grid': true,
-    'vf-scrollable': !!props.scrollable,
     [gridClass.value]: true,
   },
   header: 'vf-matrix-header',
-  colHeader: {
-    'vf-matrix-col-header': true,
-    'vf-sticky': !!props.stickyCols,
-  },
-  row: (beingDragged: boolean, isDropTarget: boolean) => ({
-    'vf-matrix-row': true,
-    'vf-dragging': beingDragged,
-    'vf-drop-target': isDropTarget,
-  }),
-  rowHeader: {
-    'vf-matrix-row-header': true,
-    'vf-sticky': !!props.stickyRows,
-  },
+  colHeader: 'vf-matrix-col-header',
+  row: 'vf-matrix-row',
+  rowHeader: 'vf-matrix-row-header',
   cell: 'vf-matrix-cell',
   sortWrapper: 'vf-matrix-row-sort',
-  sort: 'vf-matrix-sort',
+  sort: () => 'vf-matrix-sort',
   removeWrapper: 'vf-matrix-row-remove',
-  remove: 'vf-matrix-remove',
+  remove: () => 'vf-matrix-remove',
   add: 'vf-matrix-add',
 }))
 
-const { t } = useLocale()
+useModifiers(({ props }) => ({
+  grid: {
+    'data-scrollable': props.scrollable ? '' : undefined,
+  },
+  colHeader: {
+    'data-sticky': props.stickyCols ? '' : undefined,
+  },
+  rowHeader: {
+    'data-sticky': props.stickyRows ? '' : undefined,
+  },
+  row: (beingDragged: boolean, isDropTarget: boolean) => ({
+    'data-dragging': beingDragged ? '' : undefined,
+    'data-drop-target': isDropTarget ? '' : undefined,
+  }),
+}))
+
+useA11y(({ addLabel, removeLabel }) => ({
+  add: {
+    'aria-label': addLabel.value ? undefined : t('sr_matrix_add'),
+  },
+  sort: (index: number) => ({
+    'aria-label': t('sr_matrix_sort', { index: index + 1 }),
+  }),
+  remove: (index: number) => ({
+    'aria-label': removeLabel.value
+      ? undefined
+      : t('sr_matrix_remove', { index: index + 1 }),
+  }),
+}))
 
 const {
   canAdd,
@@ -169,8 +196,7 @@ defineExpose(expose)
     <VfLayout v-else>
       <div
         ref="list"
-        :class="classes.grid"
-        v-bind="parts.grid"
+        v-bind="bindings.grid"
         @dragover="handleWrapperDragOver"
         @drop="handleDrop"
       >
@@ -178,17 +204,15 @@ defineExpose(expose)
           v-if="showColHeaders"
           name="header"
           :headers
-          :class="classes.header"
-          v-bind="parts.header"
+          :bindings="bindings.header"
         >
           <component
             v-if="outlets?.header"
             :is="outlets.header"
             :headers
-            :class="classes.header"
-            v-bind="parts.header"
+            :bindings="bindings.header"
           />
-          <div v-else :class="classes.header" v-bind="parts.header">
+          <div v-else v-bind="bindings.header">
             <template
               v-for="({ id, label, available }, i) in headers"
               :key="id || i"
@@ -198,23 +222,16 @@ defineExpose(expose)
                 v-if="!id || available.value"
                 :id
                 :label
-                :class="classes.colHeader"
-                v-bind="parts.colHeader"
+                :bindings="bindings.colHeader"
               >
                 <component
                   v-if="outlets?.colHeader"
                   :is="outlets.colHeader"
                   :id
                   :label
-                  :class="classes.colHeader"
-                  v-bind="parts.colHeader"
+                  :bindings="bindings.colHeader"
                 />
-                <div
-                  v-else
-                  :class="classes.colHeader"
-                  :id
-                  v-bind="parts.colHeader"
-                >
+                <div v-else :id v-bind="bindings.colHeader">
                   {{ label }}
                 </div>
               </slot>
@@ -226,18 +243,11 @@ defineExpose(expose)
           v-for="(row, rowIndex) in resolvedRows"
           :key="row.key"
           v-show="row.available.value"
-          :class="
-            classes.row(dragIndex === row.dataIndex, dropTarget === row.key)
+          v-bind="
+            bindings.row(dragIndex === row.dataIndex, dropTarget === row.key)
           "
-          v-bind="parts.row"
         >
-          <component
-            :is="row.component"
-            v-bind="row.props"
-            :class="
-              classes.row(dragIndex === row.dataIndex, dropTarget === row.key)
-            "
-          >
+          <component :is="row.component" v-bind="row.props">
             <!--
               TEMPORARY deviation from the standard `slot > outlet > default`
               pattern, forced by a Vue Vapor bug (present in 3.6.0-rc.5 and
@@ -270,6 +280,10 @@ defineExpose(expose)
                 :row-header="showRowHeaders"
                 :being-dragged="dragIndex === row.dataIndex"
                 :is-drop-target="dropTarget === row.key"
+                :label
+                :cols="resolvedRows[rowIndex].cols"
+                :can-remove
+                :can-sort
                 :handle-drag-enter="
                   ($event: DragEvent) => handleDragEnter($event, rowIndex)
                 "
@@ -277,18 +291,7 @@ defineExpose(expose)
                   ($event: DragEvent) => handleDragStart($event, row.dataIndex)
                 "
                 :handle-drag-end
-                :label
-                :cols="resolvedRows[rowIndex].cols"
                 :remove="row.remove"
-                :can-remove
-                :can-sort
-                :class="
-                  classes.row(
-                    dragIndex === row.dataIndex,
-                    dropTarget === row.key
-                  )
-                "
-                v-bind="parts.row"
               />
               <component
                 v-else-if="outlets?.row"
@@ -297,6 +300,10 @@ defineExpose(expose)
                 :row-header="showRowHeaders"
                 :being-dragged="dragIndex === row.dataIndex"
                 :is-drop-target="dropTarget === row.key"
+                :label
+                :cols="resolvedRows[rowIndex].cols"
+                :can-remove
+                :can-sort
                 :handle-drag-enter="
                   ($event: DragEvent) => handleDragEnter($event, rowIndex)
                 "
@@ -304,24 +311,14 @@ defineExpose(expose)
                   ($event: DragEvent) => handleDragStart($event, row.dataIndex)
                 "
                 :handle-drag-end
-                :label
-                :cols="resolvedRows[rowIndex].cols"
                 :remove="row.remove"
-                :can-remove
-                :can-sort
-                :class="
-                  classes.row(
-                    dragIndex === row.dataIndex,
-                    dropTarget === row.key
-                  )
-                "
-                v-bind="parts.row"
               />
               <template v-else>
                 <template v-if="canSort">
                   <slot
                     v-if="slots.sortWrapper"
                     name="sortWrapper"
+                    :bindings="bindings.sortWrapper"
                     :handle-drag-start="
                       ($event: DragEvent) =>
                         handleDragStart($event, row.dataIndex)
@@ -330,12 +327,11 @@ defineExpose(expose)
                     :handle-drag-enter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
-                    :class="classes.sortWrapper"
-                    v-bind="parts.sortWrapper"
                   />
                   <component
                     v-else-if="outlets?.sortWrapper"
                     :is="outlets.sortWrapper"
+                    :bindings="bindings.sortWrapper"
                     :handle-drag-start="
                       ($event: DragEvent) =>
                         handleDragStart($event, row.dataIndex)
@@ -344,18 +340,12 @@ defineExpose(expose)
                     :handle-drag-enter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
-                    :class="classes.sortWrapper"
-                    v-bind="parts.sortWrapper"
                   />
-                  <div
-                    v-else
-                    :class="classes.sortWrapper"
-                    v-bind="parts.sortWrapper"
-                  >
+                  <div v-else v-bind="bindings.sortWrapper">
                     <slot
                       v-if="slots.sort"
                       name="sort"
-                      :class="classes.sort"
+                      :bindings="bindings.sort(rowIndex)"
                       :handle-drag-start="
                         ($event: DragEvent) =>
                           handleDragStart($event, row.dataIndex)
@@ -364,12 +354,11 @@ defineExpose(expose)
                       :handle-drag-enter="
                         ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
-                      v-bind="parts.sort"
                     />
                     <component
                       v-else-if="outlets?.sort"
                       :is="outlets.sort"
-                      :class="classes.sort"
+                      :bindings="bindings.sort(rowIndex)"
                       :handle-drag-start="
                         ($event: DragEvent) =>
                           handleDragStart($event, row.dataIndex)
@@ -378,14 +367,12 @@ defineExpose(expose)
                       :handle-drag-enter="
                         ($event: DragEvent) => handleDragEnter($event, rowIndex)
                       "
-                      v-bind="parts.sort"
                     />
                     <VfButton
                       v-else
                       :name="`${id}__sort_${rowIndex}`"
                       :icon="sortIcon"
-                      :class="classes.sort"
-                      v-bind="parts.sort"
+                      v-bind="bindings.sort(rowIndex)"
                       :draggable="true"
                       :layout="false"
                       detached
@@ -403,22 +390,15 @@ defineExpose(expose)
                     v-if="slots.rowHeader"
                     name="rowHeader"
                     :label
-                    :class="classes.rowHeader"
-                    v-bind="parts.rowHeader"
+                    :bindings="bindings.rowHeader"
                   />
                   <component
                     v-else-if="outlets?.rowHeader"
                     :is="outlets.rowHeader"
                     :label
-                    :class="classes.rowHeader"
-                    v-bind="parts.rowHeader"
+                    :bindings="bindings.rowHeader"
                   />
-                  <div
-                    v-else
-                    :class="classes.rowHeader"
-                    :id="row.id"
-                    v-bind="parts.rowHeader"
-                  >
+                  <div v-else :id="row.id" v-bind="bindings.rowHeader">
                     {{ label }}
                   </div>
                 </template>
@@ -438,26 +418,25 @@ defineExpose(expose)
                     v-if="slots.cell"
                     name="cell"
                     :component="r.component"
+                    :props="r.props"
+                    :bindings="bindings.cell"
                     :handle-drag-enter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
-                    :props="r.props"
-                    v-bind="parts.cell"
                   />
                   <component
                     v-else-if="outlets?.cell"
                     :is="outlets.cell"
                     :component="r.component"
+                    :props="r.props"
+                    :bindings="bindings.cell"
                     :handle-drag-enter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
-                    :props="r.props"
-                    v-bind="parts.cell"
                   />
                   <div
                     v-else
-                    :class="classes.cell"
-                    v-bind="parts.cell"
+                    v-bind="bindings.cell"
                     @dragenter="
                       ($event: DragEvent) => handleDragEnter($event, rowIndex)
                     "
@@ -470,45 +449,36 @@ defineExpose(expose)
                   <slot
                     v-if="slots.removeWrapper"
                     name="removeWrapper"
+                    :bindings="bindings.removeWrapper"
                     :handle-remove="row.remove"
-                    :class="classes.removeWrapper"
-                    v-bind="parts.removeWrapper"
                   />
                   <component
                     v-else-if="outlets?.removeWrapper"
                     :is="outlets.removeWrapper"
+                    :bindings="bindings.removeWrapper"
                     :handle-remove="row.remove"
-                    :class="classes.removeWrapper"
-                    v-bind="parts.removeWrapper"
                   />
-                  <div
-                    v-else
-                    :class="classes.removeWrapper"
-                    v-bind="parts.removeWrapper"
-                  >
+                  <div v-else v-bind="bindings.removeWrapper">
                     <slot
                       v-if="slots.remove"
                       name="remove"
+                      :bindings="bindings.remove(rowIndex)"
                       :handle-remove="row.remove"
-                      :class="classes.remove"
-                      v-bind="parts.remove"
                     />
                     <component
                       v-else-if="outlets?.remove"
                       :is="outlets.remove"
+                      :bindings="bindings.remove(rowIndex)"
                       :handle-remove="row.remove"
-                      :class="classes.remove"
-                      v-bind="parts.remove"
                     />
                     <VfButton
                       v-else
-                      :class="classes.remove"
                       :name="`${id}__remove_${rowIndex}`"
                       :text="removeLabel"
                       :icon="removeIcon"
                       :layout="false"
                       detached
-                      v-bind="parts.remove"
+                      v-bind="bindings.remove(rowIndex)"
                       @click.prevent="row.remove"
                     />
                   </div>
@@ -530,18 +500,16 @@ defineExpose(expose)
       <template v-if="canAdd">
         <slot
           name="add"
-          :handle-add
           :label="addLabel!"
-          :class="classes.add"
-          v-bind="parts.add"
+          :bindings="bindings.add"
+          :handle-add
         >
           <component
             v-if="outlets?.add"
             :is="outlets.add"
-            :handle-add
             :label="addLabel!"
-            :class="classes.add"
-            v-bind="parts.add"
+            :bindings="bindings.add"
+            :handle-add
           />
           <VfButton
             v-else
@@ -551,9 +519,7 @@ defineExpose(expose)
             name="add"
             :text="addLabel"
             :icon="addIcon"
-            :class="classes.add"
-            :aria-label="addLabel ? undefined : t('sr_matrix_add')"
-            v-bind="parts.add"
+            v-bind="bindings.add"
             @click.prevent="handleAdd"
           />
         </slot>

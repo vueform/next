@@ -75,7 +75,7 @@ defineExpose(expose)
       <slot
         :model
         :value="radioValue"
-        :a11y-bindings="a11yBindings"
+        :a11y-bindings
         :input-name
         :id
         :disabled
@@ -91,7 +91,7 @@ defineExpose(expose)
           :is="outlets.default"
           :model
           :value="radioValue"
-          :a11y-bindings="a11yBindings"
+          :a11y-bindings
           :input-name
           :id
           :disabled

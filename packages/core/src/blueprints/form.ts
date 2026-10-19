@@ -700,31 +700,7 @@ export interface FormModifiers extends BaseComponentModifiers {}
 /**
  * Accessibility bindings of the form component.
  */
-export interface FormA11y extends BaseComponentA11y {
-  /**
-   * The form-level error live region: an assertive, atomic alert that can
-   * receive programmatic focus.
-   */
-  errors: {
-    id: string
-    role: 'alert'
-    'aria-live': 'assertive'
-    'aria-atomic': 'true'
-    tabindex: -1
-  }
-
-  /**
-   * The form-level message live region: a polite, atomic status that can
-   * receive programmatic focus.
-   */
-  messages: {
-    id: string
-    role: 'status'
-    'aria-live': 'polite'
-    'aria-atomic': 'true'
-    tabindex: -1
-  }
-}
+export interface FormA11y extends BaseComponentA11y {}
 
 /**
  * Augmentable public API surface for form-based components.
@@ -1541,29 +1517,6 @@ function setup(
     return result
   })
 
-  /**
-   * Part-keyed accessibility bindings: ready-to-spread attribute bags for the
-   * form-level error (assertive alert) and message (polite status) live
-   * regions — applied to the built-in containers and passed to the `errors` /
-   * `messages` slots.
-   */
-  const a11yBindings = computed<FormA11y>(() => ({
-    errors: {
-      id: errorsId.value,
-      role: 'alert',
-      'aria-live': 'assertive',
-      'aria-atomic': 'true',
-      tabindex: -1,
-    },
-    messages: {
-      id: messagesId.value,
-      role: 'status',
-      'aria-live': 'polite',
-      'aria-atomic': 'true',
-      tabindex: -1,
-    },
-  }))
-
   // ============== METHODS ===============
 
   /**
@@ -2153,7 +2106,6 @@ function setup(
     resolvedSchema,
     errorsId,
     messagesId,
-    a11yBindings,
     tabs,
     steps,
     language,

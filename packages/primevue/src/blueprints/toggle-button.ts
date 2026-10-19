@@ -16,7 +16,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -43,7 +42,6 @@ import type {
 import { ref } from 'vue'
 
 import {
-  makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
@@ -150,7 +148,7 @@ export interface ToggleButtonModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the toggle-button element blueprint.
  */
-export interface ToggleButtonA11y extends BaseElementA11y, AriaA11y {}
+export interface ToggleButtonA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for toggle-button-based components.
@@ -202,7 +200,6 @@ export function blueprint<TProps extends ToggleButtonProps<string>>(
     .use(makeReadonly())
     .use(makeData())
     .use(makeInput({ canonicalDomValue: false }))
-    .use(makeAria())
     .use(makeInfo())
     .use(makeForwards(forwards))
     .use(makeProvider())

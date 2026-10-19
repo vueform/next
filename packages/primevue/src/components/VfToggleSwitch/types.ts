@@ -1,5 +1,8 @@
 import type {
+  InputAriaA11y,
   ClassValue,
+  DomAttrsOf,
+  PartBindings,
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
@@ -88,6 +91,17 @@ export interface VfToggleSwitchSlots<TTrueValue = true, TFalseValue = false>
      * Current checked state of the item as a boolean.
      */
     checked: boolean
+
+    /**
+     * The handle element's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: PartBindings<
+      'handle',
+      VfToggleSwitchParts,
+      VfToggleSwitchModifiers,
+      VfToggleSwitchA11y
+    >
   }): VNode[]
 }
 
@@ -101,6 +115,13 @@ export interface VfToggleSwitchParts extends ToggleSwitchParts {
    * @tag ToggleSwitch
    */
   input: PvToggleSwitchProps
+
+  /**
+   * The toggle switch handle element.
+   *
+   * @tag i
+   */
+  handle: DomAttrsOf<'i'>
 }
 
 /**
@@ -119,9 +140,10 @@ export interface VfToggleSwitchClasses extends ToggleSwitchClasses {
 }
 
 /**
- * Accessibility bindings of the VfToggleSwitch component.
+ * Accessibility bindings of the VfToggleSwitch component, produced by the
+ * `inputAria` pattern the component registers via `useA11y`.
  */
-export interface VfToggleSwitchA11y extends ToggleSwitchA11y {}
+export interface VfToggleSwitchA11y extends ToggleSwitchA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfToggleSwitch component.

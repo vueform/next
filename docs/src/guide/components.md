@@ -418,7 +418,7 @@ One-off inputs like these are `!VfField`'s whole role — quick, local, no new e
 
 ## Building on Blueprints
 
-Beyond `!VfField` sits the second approach: making a real Vueform component's SFC yours. What makes it practical is the **blueprint**: every built-in's behavior — model, validation, conditions, interaction, accessibility — is a separate importable module that keeps living (and updating) in the package, while the component on top of it is a single SFC — markup, classes, types — that the CLI writes into your project. You own the file; the machinery stays upstream.
+Beyond `!VfField` sits the second approach: making a real Vueform component's SFC yours. What makes it practical is the **blueprint**: every built-in's behavior — model, validation, conditions, interaction, focus — is a separate importable module that keeps living (and updating) in the package, while the component on top of it is a single SFC — markup, classes, types — that the CLI writes into your project. You own the file; the machinery stays upstream.
 
 That file can serve two intents, and everything about it — the anatomy, the toolkit, the way it grows — is shared between them. The intent decides only its **identity**.
 
@@ -485,7 +485,7 @@ Every generated file follows the same structure — a copy of an element like `!
 ```vue
 <script setup lang="ts">
 import { defaults, blueprint } from '@vueform/ui/blueprints/text'
-import { useBlueprint, defineEvents } from '@vueform/ui'
+import { useBlueprint, defineEvents, tInputAria } from '@vueform/ui'
 import type { VfTextEmits, VfTextProps, VfTextSlots } from '@vueform/ui/components/VfText'
 import '@vueform/ui/input.css'
 import '@vueform/ui/text.css'
@@ -505,16 +505,14 @@ const slots = defineSlots<VfTextSlots>()
 
 const {
   api,
-  parts,
-  classes,
   context,
   expose,
   outlets,
   propRefs,
-  a11yBindings,
-  modifiers,
+  bindings,
   useClasses,
   useModifiers,
+  useA11y,
 } = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
@@ -527,6 +525,8 @@ useModifiers(({ hasError }) => ({
     'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(tInputAria())
 
 const { value, id, name, viewLoaded, input, handleInput, handleFocus, handleBlur } = api
 
@@ -543,9 +543,8 @@ defineExpose(expose)
         :type="inputType"
         :name
         :id
-        :class="classes.input"
         v-model="value"
-        v-bind="{ ...modifiers.input, ...a11yBindings.input, ...parts.input }"
+        v-bind="bindings.input"
         :ref="(el) => (input = el)"
         @input="handleInput"
         @focus="handleFocus"
@@ -593,11 +592,11 @@ Upgrades Vue's emits into Vueform's [event hub](/guide/event-handlers): the retu
 ```ts
 import { defaults, blueprint } from '@vueform/ui/blueprints/text'
 // ...
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
+const { api, context, expose, outlets, propRefs, bindings, useClasses } =
   useBlueprint(blueprint, props, events, slots)
 ```
 
-The **blueprint** is the component's entire "script" behavior, importable on its own. For `!VfText` that's model sync, input handling, validation, conditions, expressions, focus, accessibility, lifecycle — for `!VfTabs` it would be tab state and navigation. `useBlueprint` runs it with your props, events, and slots, and hands back the working surface the rest of the file binds — [covered below](#the-useblueprint-toolkit). Reusing the built-in blueprint is what makes your copy a _real_ `VfText`.
+The **blueprint** is the component's entire "script" behavior, importable on its own. For `!VfText` that's model sync, input handling, validation, conditions, expressions, focus, lifecycle — for `!VfTabs` it would be tab state and navigation. The presentation aspects — classes, `data-*` modifiers, ARIA — stay in the SFC, registered through `useClasses` / `useModifiers` / `useA11y` below. `useBlueprint` runs it with your props, events, and slots, and hands back the working surface the rest of the file binds — [covered below](#the-useblueprint-toolkit). Reusing the built-in blueprint is what makes your copy a _real_ `VfText`.
 
 #### The Style Chunks
 
@@ -656,7 +655,7 @@ That entry is what makes the new element fully typed end to end: `type: 'range'`
 `useBlueprint` returns everything the SFC works with:
 
 ```ts
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
+const { api, context, expose, outlets, propRefs, bindings, useClasses, useModifiers, useA11y } =
   useBlueprint(blueprint, props, events, slots)
 ```
 
@@ -666,13 +665,9 @@ What each piece is for:
 
 The blueprint's full working surface with **refs intact** — for `!VfText` the value, interaction handlers, and state — plus the event helpers and resolved `props`. It's what the `<script>` destructures for the template (`value`, `handleInput`, …) and what your own logic reads and writes (`api.value.value = …`).
 
-#### `parts`
+#### `bindings`
 
-The resolved [Parts](/guide/parts) attribute bags. Spread each onto the DOM node it belongs to (`v-bind="parts.input"`); a skipped binding silently swallows the user's `parts` / `part:` attributes for that node.
-
-#### `classes`
-
-The [resolved classes](/guide/classes#override-priority): your `useClasses` definitions merged with theme classes, user `classes` props, and `reclass` overrides. Bind each key at the matching spot (`:class="classes.input"`).
+One merged attribute bag per [part](/guide/parts): the part's `data-*` [modifiers](/guide/parts#modifiers), its [ARIA attributes](/guide/accessibility), the user's `parts` / `part:` overrides, and the [resolved classes](/guide/classes#override-priority) under `class` — your `useClasses` definitions merged with theme classes, user `classes` props, and `reclass` overrides. Spread each onto the DOM node it belongs to (`v-bind="bindings.input"`); a part with per-instance arguments resolves as a call (`v-bind="bindings.item(…)"`). A skipped binding silently swallows the user's `parts` / `part:` attributes — and the node's classes, styling states, and ARIA wiring — for that node. The aspects also come back individually (`parts`, `classes`, `modifiers`, `a11yBindings`) for the rare spot that needs one on its own.
 
 #### `context`
 
@@ -694,6 +689,14 @@ A lazy `toRef` proxy over the resolved props, for reactive destructuring: `const
 
 Registers the component's class definitions: a static object, or a factory over `(api, propRefs)` that re-runs as state changes. Built-in components keep classes to part names — state and variants are expressed as attributes (`aria-invalid`, `data-*`) instead.
 
+#### `useModifiers`
+
+Registers the component's `data-*` [modifier](/guide/parts#modifiers) definitions the same way — part-keyed bags, static or as a factory over `(api, propRefs)`. The results land in each part's `bindings` bag.
+
+#### `useA11y`
+
+Registers the component's ARIA definitions — they land in `bindings` too, next to the modifiers. The canonical patterns ship ready-made: `inputAria()` for single-input elements, `tInputAria()` for translatable text inputs, `choicesAria({ role })` for choice groups — or pass your own `(api) => ({ … })` factory for component-specific bags (that is how VfButton and VfFile define their one-off bags).
+
 ### Extending the Logic
 
 The supported way to grow the component is the **extension callback** — `useBlueprint`'s optional fifth argument. It runs right after the blueprint builds its api and receives it (followed by the resolved props and events); whatever object it returns is merged in:
@@ -703,7 +706,7 @@ The supported way to grow the component is the **extension callback** — `useBl
 import { computed } from 'vue'
 // ...
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
+const { api, context, expose, outlets, propRefs, bindings, useClasses } =
   useBlueprint(blueprint, props, events, slots, (api) => { // [!code highlight]
     const charCount = computed(() => String(api.value.value ?? '').length)
 
@@ -874,7 +877,7 @@ export interface VfRangeSlots<
 </template>
 ```
 
-**Parts** — a node of your own gets a [part](/guide/parts) type, so users can target it with `:parts="{ counter: … }"` / `part:counter`; spread the bag onto the node:
+**Parts** — a node of your own gets a [part](/guide/parts) type, so users can target it with `:parts="{ counter: … }"` / `part:counter`; spread the part's merged `bindings` bag onto the node:
 
 ::: code-group
 
@@ -906,13 +909,13 @@ export interface VfRangeParts extends /* ... */ {
 ```vue
 <template>
   <!-- inside the layout, after the input -->
-  <span v-bind="parts.counter">{{ charCount }}</span>
+  <span v-bind="bindings.counter">{{ charCount }}</span>
 </template>
 ```
 
 `DomAttrsOf` accepts any HTML tag and types the part as that tag's attribute set; for a part that renders a registered Vueform component, use `PartOf<'ComponentName'>` instead, which resolves to a partial prop list of that component. For a node rendered in a loop, declare the part as a function of its runtime args — see [Callable Parts](/guide/parts#callable-parts).
 
-**Classes** — the node gets a class key too: declare it, register the value with `useClasses`, and bind it — users style it through `classes` / `reclass` / `class:counter`:
+**Classes** — the node gets a class key too: declare it and register the value with `useClasses` — the resolved value rides along under `bindings.counter`'s `class`, and users style it through `classes` / `reclass` / `class:counter`:
 
 ::: code-group
 
@@ -949,14 +952,14 @@ useClasses({ counter: 'vf-text-counter' })
 
 <template>
   <!-- inside the layout, after the input -->
-  <span :class="classes.counter">{{ charCount }}</span>
+  <span v-bind="bindings.counter">{{ charCount }}</span>
 </template>
 ```
 
 <span id="expose-interface">**Expose**</span> — members added through the [extension callback](#extending-the-logic) become typed on contexts obtained _outside_ the SFC (`find()`, `ContextOf`, `context$`) by declaring them on the expose interface. Given the earlier extension:
 
 ```ts
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
+const { api, context, expose, outlets, propRefs, bindings, useClasses } =
   useBlueprint(blueprint, props, events, slots, (api) => {
     const charCount = computed(() => String(api.value.value ?? '').length)
 

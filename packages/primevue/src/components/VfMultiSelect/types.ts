@@ -8,6 +8,7 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { MultiSelectProps as PvMultiSelectProps } from 'primevue'
 import type { MultiSelectSlots as AMultiSelectSlots } from 'primevue/multiselect'
@@ -335,9 +336,10 @@ export interface VfMultiSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfMultiSelect component.
+ * Accessibility bindings of the VfMultiSelect component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfMultiSelectA11y extends MultiSelectA11y {}
+export interface VfMultiSelectA11y extends MultiSelectA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfMultiSelect component.

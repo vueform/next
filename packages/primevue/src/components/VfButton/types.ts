@@ -8,6 +8,7 @@ import type {
   ButtonProps as PvButtonProps,
   ButtonSlots as AButtonSlots,
 } from 'primevue'
+
 import type {
   ButtonA11y,
   ButtonApi,

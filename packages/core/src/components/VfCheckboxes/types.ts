@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 
+import type { GroupAriaA11y } from '#src/a11y'
 import {
   type CheckboxesA11y,
   type CheckboxesApi,
@@ -12,6 +13,7 @@ import {
   type CheckboxesSlots,
 } from '#src/blueprints/checkboxes'
 import type { VfCheckboxSlots } from '#src/components/VfCheckbox/types'
+import type { ResolvedBindings } from '#src/composables'
 import type {
   ResolvedGroup,
   ResolvedItem,
@@ -33,6 +35,15 @@ import type {
   DomAttrsOf,
   PartOf,
 } from '#src/types'
+
+/**
+ * Resolved per-part binding bags for VfCheckboxes slot scopes.
+ */
+type VfCheckboxesBindings = ResolvedBindings<
+  VfCheckboxesParts,
+  VfCheckboxesModifiers,
+  VfCheckboxesA11y
+>
 
 /**
  * VfCheckboxes props narrowed from a registry `TEntry` payload, applying the
@@ -169,27 +180,6 @@ export interface VfCheckboxesSlots<
      * Whether items are rendered as groups.
      */
     grouped: boolean
-
-    /**
-     * The component's resolved classes, keyed by part name.
-     */
-    classes: VfCheckboxesClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfCheckboxesParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfCheckboxesModifiers
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfCheckboxesA11y
   }) => VNode[]
 
   /**
@@ -222,25 +212,10 @@ export interface VfCheckboxesSlots<
     >
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The group fieldset's resolved bindings (part overrides for this group's
+     * fieldset element); apply with `v-bind`.
      */
-    classes: VfCheckboxesClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfCheckboxesParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfCheckboxesModifiers
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfCheckboxesA11y
+    bindings: VfCheckboxesBindings['group']
   }) => VNode[]
 
   /**
@@ -273,14 +248,10 @@ export interface VfCheckboxesSlots<
     >
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The item's resolved bindings (part overrides for this item's VfCheckbox
+     * child); apply with `v-bind`.
      */
-    classes: VfCheckboxesClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfCheckboxesParts>
+    bindings: VfCheckboxesBindings['item']
   }) => VNode[]
 
   /**
@@ -312,7 +283,7 @@ export interface VfCheckboxesParts extends CheckboxesParts {
    *
    * @tag div
    */
-  group: DomAttrsOf<'div'>
+  wrapper: DomAttrsOf<'div'>
 
   /**
    * The fieldset element wrapping each group when items are grouped.
@@ -320,7 +291,7 @@ export interface VfCheckboxesParts extends CheckboxesParts {
    * @param group The group data.
    * @tag fieldset
    */
-  fieldset: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
+  group: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
 
   /**
    * The legend element displaying the group label.
@@ -328,7 +299,7 @@ export interface VfCheckboxesParts extends CheckboxesParts {
    * @param group The group data.
    * @tag legend
    */
-  legend: (group: Record<string, any>) => DomAttrsOf<'legend'>
+  groupLabel: (group: Record<string, any>) => DomAttrsOf<'legend'>
 
   /**
    * Props factory for each VfCheckbox child component, receiving the item data.
@@ -346,13 +317,34 @@ export interface VfCheckboxesClasses extends CheckboxesClasses {
   /**
    * The wrapper element containing all checkbox items.
    */
-  group: ClassValue
+  wrapper: ClassValue
+
+  /**
+   * The fieldset element wrapping each group when items are grouped.
+   *
+   * @param group The group data.
+   */
+  group: (group: Record<string, any>) => ClassValue
+
+  /**
+   * The legend element displaying the group label.
+   *
+   * @param group The group data.
+   */
+  groupLabel: (group: Record<string, any>) => ClassValue
+
+  /**
+   * Each item's `VfCheckbox` child component.
+   *
+   * @param item The checkbox item data.
+   */
+  item: (item: Record<string, any>) => ClassValue
 }
 
 /**
  * Accessibility bindings of the VfCheckboxes component.
  */
-export interface VfCheckboxesA11y extends CheckboxesA11y {}
+export interface VfCheckboxesA11y extends CheckboxesA11y, GroupAriaA11y {}
 
 /**
  * Styling modifiers of the VfCheckboxes component.
@@ -370,7 +362,7 @@ export interface VfCheckboxesModifiers extends CheckboxesModifiers {
    * The group container's layout markers (stacked row layout, vertical
    * alignment with adjacent form controls) and validation state.
    */
-  group: {
+  wrapper: {
     'data-stacked'?: ''
     'data-aligned'?: ''
     'data-invalid'?: ''

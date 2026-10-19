@@ -9,7 +9,6 @@ import {
   makeText,
   makeData,
   makeInput,
-  makeAria,
   makeCheckboxName,
   makeProvider,
   makeForwards,
@@ -18,7 +17,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -191,7 +189,7 @@ export interface CheckboxModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the checkbox element blueprint.
  */
-export interface CheckboxA11y extends BaseElementA11y, AriaA11y {}
+export interface CheckboxA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for checkbox-based components.
@@ -240,7 +238,6 @@ export function blueprint<TProps extends CheckboxProps<string>>(
     .use(makeText())
     .use(makeData())
     .use(makeInput())
-    .use(makeAria())
     .use(makeCheckboxName())
     .use(makeInfo())
     .use(makeForwards(forwards))

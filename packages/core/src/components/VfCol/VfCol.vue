@@ -12,47 +12,25 @@ const props = withDefaults(defineProps<VfColProps>(), defaults)
 const events = defineEvents<VfColEmits>()
 const slots = defineSlots<VfColSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
+const { api, context, expose, outlets, bindings, useClasses, useModifiers } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
-  root: ({
-    align,
-    valign,
-    colHeader,
-    rowHeader,
-  }: {
-    align: string
-    valign: string
-    colHeader: boolean
-    rowHeader: boolean
-  }) => ({
+useClasses(({ colHeader, rowHeader }) => ({
+  root: {
     'vf-grid-cell': true,
-    'vf-left': align === 'left',
-    'vf-center': align === 'center',
-    'vf-right': align === 'right',
-    'vf-justify': align === 'justify',
-    'vf-top': valign === 'top',
-    'vf-middle': valign === 'middle',
-    'vf-bottom': valign === 'bottom',
-    'vf-baseline': valign === 'baseline',
-    'vf-grid-col-header': colHeader,
-    'vf-grid-row-header': rowHeader,
-  }),
+    'vf-grid-col-header': colHeader.value,
+    'vf-grid-row-header': rowHeader.value,
+  },
 }))
 
-const {
-  align,
-  valign,
-  cell,
-  cellCss,
-  colspan,
-  rowspan,
-  colHeader,
-  rowHeader,
-  nonce,
-  uid,
-} = api
+useModifiers(({ align, valign }) => ({
+  root: {
+    'data-align': align.value || undefined,
+    'data-valign': valign.value || undefined,
+  },
+}))
+
+const { cell, cellCss, colspan, rowspan, nonce, uid } = api
 
 defineExpose(expose)
 </script>
@@ -62,7 +40,6 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <div
       v-if="!template"
-      :class="classes.root({ align, valign, colHeader, rowHeader })"
       :data-col-id="uid"
       :data-col="cell?.col"
       :data-row="cell?.row"
@@ -72,7 +49,7 @@ defineExpose(expose)
       :data-row-end="cell?.rowEnd"
       :data-colspan="colspan"
       :data-rowspan="rowspan"
-      v-bind="parts.root"
+      v-bind="bindings.root"
     >
       <slot>
         <component v-if="outlets?.default" :is="outlets.default" />

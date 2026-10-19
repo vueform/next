@@ -1,6 +1,8 @@
 import type {
+  InputAriaA11y,
   ClassValue,
   DomAttrsOf,
+  PartBindings,
   PartOf,
   DefineElementContext,
   DefineRegistryEntry,
@@ -82,6 +84,17 @@ export interface VfFileUploadSlots<TMultiple extends boolean = boolean>
      * The upload handler function.
      */
     upload: () => void
+
+    /**
+     * The upload button's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: PartBindings<
+      'button',
+      VfFileUploadParts,
+      VfFileUploadModifiers,
+      VfFileUploadA11y
+    >
   }) => VNode[]
 }
 
@@ -125,9 +138,10 @@ export interface VfFileUploadClasses extends FileUploadClasses {
 }
 
 /**
- * Accessibility bindings of the VfFileUpload component.
+ * Accessibility bindings of the VfFileUpload component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfFileUploadA11y extends FileUploadA11y {}
+export interface VfFileUploadA11y extends FileUploadA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfFileUpload component.

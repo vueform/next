@@ -109,40 +109,7 @@ export type NavApi<TProps extends NavProps = NavProps> = ReturnType<
 /**
  * Accessibility bindings of the nav component.
  */
-export interface NavA11y extends BaseComponentA11y {
-  /**
-   * ARIA state for the back navigation control.
-   */
-  back: {
-    'aria-disabled'?: true
-  }
-
-  /**
-   * ARIA state for the next navigation control.
-   */
-  next: {
-    'aria-busy'?: true
-    'aria-disabled'?: true
-    'aria-describedby'?: string
-  }
-
-  /**
-   * ARIA state for the finish navigation control.
-   */
-  finish: {
-    'aria-busy'?: true
-    'aria-disabled'?: true
-    'aria-describedby'?: string
-  }
-
-  /**
-   * The screen-reader status region's id and role.
-   */
-  status: {
-    id: string
-    role: 'status'
-  }
-}
+export interface NavA11y extends BaseComponentA11y {}
 
 /**
  * Builds the nav factory API from resolved props and events. Resolves
@@ -231,37 +198,11 @@ export function blueprint<TProps extends NavProps>(
       : undefined
   )
 
-  /**
-   * Part-keyed accessibility bindings: ready-to-spread attribute bags for the
-   * back, next, and finish controls (also passed to their slots) and for the
-   * screen-reader status region.
-   */
-  const a11yBindings = computed<NavA11y>(() => {
-    const forward = {
-      'aria-busy': loading.value || undefined,
-      'aria-disabled': loading.value || undefined,
-      'aria-describedby': describedby.value,
-    }
-
-    return {
-      back: {
-        'aria-disabled': !props.pager.previousPage || undefined,
-      },
-      next: forward,
-      finish: forward,
-      status: {
-        id: statusId.value,
-        role: 'status',
-      },
-    }
-  })
-
   return {
     backLabel,
     loading,
     fluid,
     describedby,
-    a11yBindings,
     nextLabel,
     finishLabel,
     statusId,

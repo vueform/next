@@ -66,7 +66,12 @@ const PRESETS: Record<AdapterName, AdapterPreset> = {
       return `import { theme } from '@vueform/primevue/themes'`
     },
     companions: {
-      packages: ['primevue', '@primeuix/themes', '@primevue/nuxt-module'],
+      packages: [
+        'primevue',
+        '@primeuix/themes',
+        '@primevue/nuxt-module',
+        'quill',
+      ],
       hint:
         `PrimeVue installed. Add '@primevue/nuxt-module' to your nuxt.config ` +
         `\`modules\` and configure a theme (see https://primevue.org/nuxt).`,

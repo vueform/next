@@ -14,7 +14,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -46,7 +45,6 @@ import type {
 import { computed, onMounted, toRef, watch, type WatchHandle } from 'vue'
 
 import {
-  makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
@@ -151,7 +149,7 @@ export interface ColorPickerModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the color-picker element blueprint.
  */
-export interface ColorPickerA11y extends BaseElementA11y, AriaA11y {}
+export interface ColorPickerA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for color-picker-based components.
@@ -220,7 +218,6 @@ export function blueprint<TProps extends ColorPickerProps<string>>(
     .use(makeDisabled())
     .use(makeData({ cast }))
     .use(makeInput())
-    .use(makeAria())
     .use(makeInfo())
     .use(makeForwards(forwards))
     .use(makeProvider())

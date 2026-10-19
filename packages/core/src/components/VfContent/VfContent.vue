@@ -12,21 +12,18 @@ const props = withDefaults(defineProps<VfContentProps>(), defaults)
 const events = defineEvents<VfContentEmits>()
 const slots = defineSlots<VfContentSlots>()
 
-const { api, context, expose, outlets, useClasses } = useBlueprint(
-  blueprint,
-  props,
-  events,
-  slots
-)
+const { api, context, expose, outlets, useClasses, useModifiers } =
+  useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
+  root: 'vf-content',
+}))
+
+useModifiers(({ props, help }) => ({
   root: {
-    'vf-content': true,
-    'vf-left': props.align === 'left',
-    'vf-center': props.align === 'center',
-    'vf-right': props.align === 'right',
-    'vf-justify': props.align === 'justify',
-    'vf-aligned': !!props.aligned,
+    'data-align-label': !help.value ? '' : undefined,
+    'data-align': props.align || undefined,
+    'data-aligned': props.aligned ? '' : undefined,
   },
 }))
 

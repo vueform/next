@@ -1,3 +1,4 @@
+export * from './a11y'
 export * from './composables'
 export * from './contexts'
 export * from './features'

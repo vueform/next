@@ -1,7 +1,6 @@
 import { useFeatures } from '#src/composables'
 import {
   makeAddons,
-  makeAria,
   makeData,
   makeElement,
   makeIcons,
@@ -23,7 +22,6 @@ import {
   type ValidationProps,
   type BaseFieldElementParts,
   type BaseElementClasses,
-  type AriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -146,7 +144,7 @@ export interface SelectModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the select element blueprint.
  */
-export interface SelectA11y extends BaseElementA11y, AriaA11y {}
+export interface SelectA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for select-based components.
@@ -188,7 +186,6 @@ export function blueprint<TProps extends LooseSelectProps>(
     .use(makeData())
     .use(makeItems())
     .use(makeLoading())
-    .use(makeAria())
     .use(makeInput())
     .use(makeProvider())
     .build()

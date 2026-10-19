@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 
+import type { A11yLayoutBags } from '#src/a11y'
 import {
   type ButtonA11y,
   type ButtonApi,
@@ -11,6 +12,7 @@ import {
   type ButtonProps,
   type ButtonSlots,
 } from '#src/blueprints/button'
+import type { PartBindings } from '#src/composables'
 import type {
   DefineElementContext,
   DPropValue,
@@ -62,14 +64,15 @@ export interface VfButtonSlots extends ButtonSlots<VfButtonContext> {
     text: string | undefined
 
     /**
-     * The component's resolved CSS classes.
+     * The label text element's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
      */
-    classes: VfButtonClasses
-
-    /**
-     * The component's structural part bindings.
-     */
-    parts: Partial<VfButtonParts>
+    bindings: PartBindings<
+      'text',
+      VfButtonParts,
+      VfButtonModifiers,
+      VfButtonA11y
+    >
   }) => VNode[]
 
   /**
@@ -125,9 +128,24 @@ export interface VfButtonClasses extends ButtonClasses {
 }
 
 /**
- * Accessibility bindings of the VfButton component.
+ * Accessibility bindings of the VfButton component, registered via `useA11y`
+ * in the SFC (VfButton is the only consumer, so the bags are defined there
+ * rather than as a shared pattern): the `button` bag carries native/ARIA
+ * disabled state (native on `<button>`, `aria-disabled` on anchors), busy
+ * state, the icon-only accessible name, and describedby.
  */
-export interface VfButtonA11y extends ButtonA11y {}
+export interface VfButtonA11y extends ButtonA11y, A11yLayoutBags {
+  /**
+   * Native/ARIA state for the button control.
+   */
+  button: {
+    disabled?: true
+    'aria-disabled'?: true
+    'aria-busy'?: true
+    'aria-label'?: string
+    'aria-describedby'?: string
+  }
+}
 
 /**
  * Styling modifiers of the VfButton component.

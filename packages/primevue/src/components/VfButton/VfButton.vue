@@ -19,24 +19,41 @@ const attrs = useAttrs()
 // Non-colliding tag: Vapor treats `<Button>` as native `<button>`.
 const PvButton = vdomPrime(PrimeButton)
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-button': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-button',
   button: [
     props.layout === false ? props.class : null,
     {
       [api.tokenClass]: !!api.tokenCss.value,
-      'vf-left': props.align === 'left',
-      'vf-right': props.align === 'right',
-      'vf-center': props.align === 'center',
     },
   ],
 }))
+
+useModifiers(
+  ({ props, severity, icon, text, href, loading, disabled }, { fluid }) => ({
+    button: {
+      'data-severity': severity.value,
+      'data-align': props.align || undefined,
+      'data-fluid': fluid.value ? '' : undefined,
+      'data-loading': loading.value ? '' : undefined,
+      'data-icon-only': !!icon.value && !text.value ? '' : undefined,
+      // Anchor mode has no native `disabled` attribute, so the styling state
+      // needs its own marker there; `<button>` keeps `:disabled`.
+      'data-disabled': href.value && disabled.value ? '' : undefined,
+    },
+  })
+)
 
 const { target, rel, download, fluid } = propRefs
 
@@ -80,12 +97,8 @@ defineExpose(expose)
         :severity
         :badge
         :badge-severity="badgeSeverity"
-        :class="classes.button"
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{
-          ...parts.button,
-          ...attrs,
-        }"
+        v-bind="{ ...bindings.button, ...attrs }"
         @click="handleClick"
       >
         <template

@@ -334,12 +334,12 @@ const [Form] = useForm({ schema })
 
 :::
 
-`placeholder` is a `TextProp` — a plain string, a locale map, or a function. For a fully custom empty state, the `#placeholder` slot **replaces** the placeholder element; it receives the default styling class as a prop if you'd rather extend than replace:
+`placeholder` is a `TextProp` — a plain string, a locale map, or a function. For a fully custom empty state, the `#placeholder` slot **replaces** the placeholder element; it receives the part's resolved `bindings` — the default styling class, the `status` role, and the `id` the add button's `aria-describedby` points at — if you'd rather extend than replace:
 
 ```vue
 <VfList name="items" label="Items" :initial="0">
-  <template #placeholder="{ class: placeholderClass }">
-    <div :class="placeholderClass">
+  <template #placeholder="{ bindings }">
+    <div v-bind="bindings">
       📋 Your list is empty — add an item to get started.
     </div>
   </template>

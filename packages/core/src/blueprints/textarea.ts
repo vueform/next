@@ -1,6 +1,7 @@
 import { useFeatures } from '#src/composables'
 import {
   makeAddons,
+  makeAutocomplete,
   makeAutogrow,
   makeElement,
   makeIcons,
@@ -8,7 +9,6 @@ import {
   makeLoading,
   makeMultilingual,
   makeTData,
-  makeTAria,
   makeKeyHandlers,
   makeDisabled,
   makeReadonly,
@@ -26,7 +26,6 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type TAriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -142,7 +141,7 @@ export interface TextareaModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the textarea element blueprint.
  */
-export interface TextareaA11y extends BaseElementA11y, TAriaA11y {}
+export interface TextareaA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for textarea-based components.
@@ -186,10 +185,10 @@ export function blueprint<TProps extends TextareaProps<string>>(
     .use(makePlaceholder())
     .use(makeMultilingual())
     .use(makeTData())
-    .use(makeTAria())
     .use(makeInput())
     .use(makeKeyHandlers())
     .use(makeLoading())
+    .use(makeAutocomplete())
     .use(makeAutogrow())
     .use(makeProvider())
     .build()

@@ -13,8 +13,10 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   LanguagesProp,
+  TAriaA11y,
 } from '@vueform/core'
 import type { InputMaskProps as PvInputMaskProps } from 'primevue'
+
 import type {
   InputMaskA11y,
   InputMaskApi,
@@ -129,9 +131,10 @@ export interface VfInputMaskClasses
 }
 
 /**
- * Accessibility bindings of the VfInputMask component.
+ * Accessibility bindings of the VfInputMask component, produced by the `tInputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfInputMaskA11y extends InputMaskA11y {}
+export interface VfInputMaskA11y extends InputMaskA11y, TAriaA11y {}
 
 /**
  * Styling modifiers of the VfInputMask component.

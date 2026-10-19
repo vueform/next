@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 
+import type { InputAriaA11y } from '#src/a11y'
 import {
   type SelectA11y,
   type SelectApi,
@@ -192,9 +193,10 @@ export interface VfSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfSelect component.
+ * Accessibility bindings of the VfSelect component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfSelectA11y extends SelectA11y {}
+export interface VfSelectA11y extends SelectA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfSelect component.

@@ -1,6 +1,6 @@
 export * from './addons'
 export * from './alignment'
-export * from './aria'
+export * from './autocomplete'
 export * from './autogrow'
 export * from './button'
 export * from './checkbox'

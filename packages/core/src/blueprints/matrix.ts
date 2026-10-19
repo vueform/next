@@ -14,7 +14,6 @@ import {
   useFeatures,
   useItemsSource,
   useConditionalList,
-  useLocale,
   useSecurity,
   useComponentFactory,
 } from '#src/composables'
@@ -477,34 +476,7 @@ export interface MatrixModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the matrix element.
  */
-export interface MatrixA11y extends BaseElementA11y {
-  /**
-   * The add-row control's localized accessible name (when it renders without
-   * a visible label).
-   */
-  add: {
-    'aria-label'?: string
-  }
-
-  /**
-   * The per-row sort handle's localized accessible name.
-   *
-   * @param index The row's zero-based index.
-   */
-  sort: (index: number) => {
-    'aria-label': string
-  }
-
-  /**
-   * The per-row remove control's localized accessible name (when it renders
-   * without a visible label).
-   *
-   * @param index The row's zero-based index.
-   */
-  remove: (index: number) => {
-    'aria-label'?: string
-  }
-}
+export interface MatrixA11y extends BaseElementA11y {}
 
 /**
  * Schema definition for a matrix cell element, requiring a type property.
@@ -807,7 +779,6 @@ export function blueprint<TProps extends MatrixProps<string>>(
   const config = useConfig()
   const $security = useSecurity()
   const { makeFromSchema } = useComponentFactory()
-  const { t } = useLocale()
 
   /**
    * The raw cols source resolution: handles plain data, endpoint URLs, and
@@ -1298,25 +1269,6 @@ export function blueprint<TProps extends MatrixProps<string>>(
     return parts.join(' ')
   })
 
-  /**
-   * Part-keyed accessibility bindings: ready-to-spread attribute bag for the
-   * add-row control — applied to the built-in button and passed to the `add`
-   * slot.
-   */
-  const a11yBindings = computed<MatrixA11y>(() => ({
-    add: {
-      'aria-label': addLabel.value ? undefined : t('sr_matrix_add'),
-    },
-    sort: (index: number) => ({
-      'aria-label': t('sr_matrix_sort', { index: index + 1 }),
-    }),
-    remove: (index: number) => ({
-      'aria-label': removeLabel.value
-        ? undefined
-        : t('sr_matrix_remove', { index: index + 1 }),
-    }),
-  }))
-
   const resolveWidth = (
     width: number | string | undefined,
     def: number | string
@@ -1456,7 +1408,6 @@ export function blueprint<TProps extends MatrixProps<string>>(
     gridClass,
     gridColumns,
     nonce,
-    a11yBindings,
     addLabel,
     removeLabel,
     addIcon,

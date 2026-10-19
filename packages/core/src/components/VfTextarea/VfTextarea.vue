@@ -8,6 +8,7 @@
 >
 import type { WritableComputedRef } from 'vue'
 
+import { tInputAria } from '#src/a11y'
 import { defaults, blueprint } from '#src/blueprints/textarea'
 import { useBlueprint } from '#src/composables'
 import { defineEvents } from '#src/helpers'
@@ -31,33 +32,40 @@ const props = withDefaults(
 const events = defineEvents<VfTextareaEmits>()
 const slots = defineSlots<VfTextareaSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ hasError }) => ({
-  root: {
-    'vf-textarea': true,
-    'vf-align-label': !api.help.value,
-  },
-  addonGroup: 'vf-addon-group',
-  iconGroup: 'vf-icon-group',
+useClasses(() => ({
+  root: 'vf-textarea',
+  input: 'vf-input vf-textarea-input',
+}))
+
+useModifiers(({ props, hasError }) => ({
   input: {
-    'vf-input': true,
-    'vf-textarea-input': true,
-    'vf-resizable': props.resize,
-    'vf-autogrow': props.autogrow,
-    'vf-danger': hasError.value,
+    'data-invalid': hasError.value ? '' : undefined,
+    'data-resizable': props.resize ? '' : undefined,
+    'data-autogrow': props.autogrow ? '' : undefined,
   },
 }))
 
+useA11y(tInputAria())
+
 const {
   id,
+  autocomplete,
   loading,
   readonly,
   placeholder,
   viewLoaded,
   disabled,
-  aria,
   input,
   name,
   handleKeydown,
@@ -83,16 +91,14 @@ defineExpose(expose)
       <textarea
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :placeholder
+        :autocomplete
+        :inputmode
         :disabled
         :readonly="readonly || undefined"
         :rows="props.rows"
-        v-bind="{
-          ...aria,
-          ...parts.input,
-        }"
+        v-bind="bindings.input"
         :ref="(el) => (input = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"

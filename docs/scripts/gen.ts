@@ -111,9 +111,7 @@ async function main(): Promise<void> {
     })
   }
 
-  let ok = (await Promise.all(PARALLEL.map((id) => runTask(id)))).every(
-    Boolean
-  )
+  let ok = (await Promise.all(PARALLEL.map((id) => runTask(id)))).every(Boolean)
 
   for (const id of CLOSERS) {
     if (ok) {

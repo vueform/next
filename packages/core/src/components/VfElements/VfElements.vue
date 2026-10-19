@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<VfElementsProps>(), defaults)
 const events = defineEvents<VfElementsEmits>()
 const slots = defineSlots<VfElementsSlots>()
 
-const { parts, classes, context, expose, outlets, useClasses } = useBlueprint(
+const { context, expose, outlets, bindings, useClasses } = useBlueprint(
   blueprint,
   props,
   events,
@@ -33,7 +33,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else :class="classes.root" v-bind="parts.root">
+    <div v-else v-bind="bindings.root">
       <slot>
         <component v-if="outlets?.default" :is="outlets.default" />
       </slot>

@@ -292,12 +292,12 @@ declare module 'vue' {
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <slot :context :a11y-bindings="a11yBindings">
+      <slot :context :a11y-bindings>
         <component
           v-if="outlets?.default"
           :is="outlets.default"
           :context
-          :a11y-bindings="a11yBindings"
+          :a11y-bindings
         />
       </slot>
     </VfLayout>

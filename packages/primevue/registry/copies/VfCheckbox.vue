@@ -80,7 +80,7 @@ defineExpose(expose)
     <VfLayout v-else :label="false">
       <slot
         :model
-        :a11y-bindings="a11yBindings"
+        :a11y-bindings
         :input-name
         :id
         :true-value
@@ -96,7 +96,7 @@ defineExpose(expose)
           v-if="outlets?.default"
           :is="outlets.default"
           :model
-          :a11y-bindings="a11yBindings"
+          :a11y-bindings
           :input-name
           :id
           :true-value

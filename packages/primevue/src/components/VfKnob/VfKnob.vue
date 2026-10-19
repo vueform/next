@@ -3,6 +3,7 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeKnob from 'primevue/knob'
 import type { WritableComputedRef } from 'vue'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/knob'
 import { vdomPrime } from '#src/helpers'
 
@@ -22,8 +23,16 @@ const props = withDefaults(defineProps<VfKnobProps>(), defaults)
 const events = defineEvents<VfKnobEmits>()
 const slots = defineSlots<VfKnobSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(({ props }) => ({
   root: {
@@ -31,6 +40,14 @@ useClasses(({ props }) => ({
     'vf-centered': !!props.centered,
   },
 }))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -63,7 +80,6 @@ defineExpose(expose)
     <VfLayout v-else>
       <Knob
         :name
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :readonly
@@ -71,10 +87,7 @@ defineExpose(expose)
         :min
         :max
         :step
-        v-bind="{
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @change="handleInput"
       />

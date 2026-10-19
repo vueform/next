@@ -12,6 +12,7 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeCascadeSelect from 'primevue/cascadeselect'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/cascade-select'
 import type {
   CascadeOptionGroupChildrenProp,
@@ -77,15 +78,32 @@ const slots =
     >
   >()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
+useClasses(() => ({
+  root: 'vf-cascade-select',
+}))
+
+useModifiers(({ help, hasError }) => ({
   root: {
-    'vf-cascade-select': true,
-    'vf-align-label': !help.value,
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   id,
@@ -94,7 +112,6 @@ const {
   disabled,
   loading,
   resolving,
-  aria,
   input,
   name,
   invalid,
@@ -122,7 +139,6 @@ defineExpose(expose)
       <CascadeSelect
         :name
         :id
-        :class="classes.input"
         v-model="value"
         :options="rawItems"
         :option-label="itemLabel"
@@ -135,11 +151,7 @@ defineExpose(expose)
         :loading="loading || resolving"
         :invalid
         fluid
-        v-bind="{
-          ...aria,
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @focus="handleFocus"
         @blur="handleBlur"

@@ -15,7 +15,6 @@ import {
   type BaseElementExpose,
   type BaseElementA11y,
   type BaseElementModifiers,
-  type AriaA11y,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -47,7 +46,6 @@ import type {
 import { computed } from 'vue'
 
 import {
-  makeAria,
   makeInfo,
   type ModelPropsWithDefaultValue,
   type InfoProps,
@@ -173,7 +171,7 @@ export interface FileUploadModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the file-upload element blueprint.
  */
-export interface FileUploadA11y extends BaseElementA11y, AriaA11y {}
+export interface FileUploadA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for file-upload-based components.
@@ -244,7 +242,6 @@ export function blueprint<TProps extends FileUploadProps<string>>(
     .use(makeDisabled())
     .use(makeData())
     .use(makeInput())
-    .use(makeAria())
     .use(makeInfo())
     .use(makePlaceholder())
     .use(makeForwards(forwards))

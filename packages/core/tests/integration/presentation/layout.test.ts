@@ -58,7 +58,7 @@ describe('Label', () => {
     test('renders custom label component', () => {
       const labelSlot = markRaw(
         defineComponent({
-          props: ['label', 'for', 'id', 'class'],
+          props: ['label', 'for', 'id', 'bindings'],
           inheritAttrs: false,
           setup(props) {
             return () =>
@@ -67,7 +67,7 @@ describe('Label', () => {
                 {
                   for: props.for,
                   id: props.id,
-                  class: ['custom-label', props.class],
+                  class: ['custom-label', props.bindings?.class],
                 },
                 props.label
               )
@@ -143,16 +143,16 @@ describe('Label', () => {
       expect(label.attributes('id')).toBeTruthy()
     })
 
-    test('slot receives classes prop', () => {
+    test('slot receives bindings prop', () => {
       const labelSlot = markRaw(
         defineComponent({
-          props: ['label', 'for', 'id', 'classes'],
+          props: ['label', 'for', 'id', 'bindings'],
           inheritAttrs: false,
           setup(props) {
             return () =>
               h(
                 'label',
-                { class: ['custom-label', props.classes] },
+                { class: ['custom-label', props.bindings?.class] },
                 props.label
               )
           },
@@ -197,13 +197,13 @@ describe('Label', () => {
       expect(label.text()).toBe('Label text')
     })
 
-    test('slot receives for, id, and classes', async () => {
+    test('slot receives for, id, and bindings', async () => {
       const App = defineComponent({
         template: `
           <VfForm>
             <VfText name="el" label="Label text">
-              <template #label="{ label, for: htmlFor, id, classes }">
-                <label :for="htmlFor" :id="id" :class="['custom-label', classes]">{{ label }}</label>
+              <template #label="{ label, for: htmlFor, id, bindings }">
+                <label :for="htmlFor" :id="id" class="custom-label" v-bind="bindings">{{ label }}</label>
               </template>
             </VfText>
           </VfForm>
@@ -266,13 +266,16 @@ describe('Description', () => {
     test('renders custom description component', () => {
       const descriptionSlot = markRaw(
         defineComponent({
-          props: ['description', 'id', 'class'],
+          props: ['description', 'id', 'bindings'],
           inheritAttrs: false,
           setup(props) {
             return () =>
               h(
                 'div',
-                { id: props.id, class: ['custom-description', props.class] },
+                {
+                  id: props.id,
+                  class: ['custom-description', props.bindings?.class],
+                },
                 props.description
               )
           },
@@ -348,13 +351,13 @@ describe('Description', () => {
       expect(description.text()).toBe('This is a description')
     })
 
-    test('slot receives id and class', async () => {
+    test('slot receives id and bindings', async () => {
       const App = defineComponent({
         template: `
           <VfForm>
             <VfText name="el" description="This is a description">
-              <template #description="{ description, id, class: cls }">
-                <div :id="id" :class="['custom-description', cls]">{{ description }}</div>
+              <template #description="{ description, id, bindings }">
+                <div :id="id" class="custom-description" v-bind="bindings">{{ description }}</div>
               </template>
             </VfText>
           </VfForm>
@@ -414,13 +417,13 @@ describe('Help', () => {
     test('renders custom help component', () => {
       const helpSlot = markRaw(
         defineComponent({
-          props: ['help', 'id', 'class'],
+          props: ['help', 'id', 'bindings'],
           inheritAttrs: false,
           setup(props) {
             return () =>
               h(
                 'div',
-                { id: props.id, class: ['custom-help', props.class] },
+                { id: props.id, class: ['custom-help', props.bindings?.class] },
                 props.help
               )
           },
@@ -494,13 +497,13 @@ describe('Help', () => {
       expect(help.text()).toBe('This is help text')
     })
 
-    test('slot receives id and class', async () => {
+    test('slot receives id and bindings', async () => {
       const App = defineComponent({
         template: `
           <VfForm>
             <VfText name="el" label="With help" help="This is help text">
-              <template #help="{ help, id, class: cls }">
-                <div :id="id" :class="['custom-help', cls]">{{ help }}</div>
+              <template #help="{ help, id, bindings }">
+                <div :id="id" class="custom-help" v-bind="bindings">{{ help }}</div>
               </template>
             </VfText>
           </VfForm>

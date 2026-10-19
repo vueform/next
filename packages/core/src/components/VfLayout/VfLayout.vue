@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<VfLayoutProps>(), defaults)
 const events = defineEvents<VfLayoutEmits>()
 const slots = defineSlots<VfLayoutSlots>()
 
-const { api, classes, context, expose, outlets, useClasses } = useBlueprint(
+const { api, context, expose, outlets, useClasses } = useBlueprint(
   blueprint,
   props,
   events,
@@ -59,20 +59,16 @@ useLayoutClasses({
     'vf-line-bottom': !!lineBottom,
   }),
   panel: 'vf-panel',
-  labelGroup: (heading?: HeadingProp) => ({
+  labelGroup: (_heading?: HeadingProp) => ({
     'vf-label-group': true,
-    'vf-h1': heading === 1,
-    'vf-h2': heading === 2,
-    'vf-h3': heading === 3,
-    'vf-h4': heading === 4,
-    'vf-h5': heading === 5,
-    'vf-h6': heading === 6,
   }),
   label: 'vf-label',
   required: 'vf-required',
   elementGroup: 'vf-element-group',
   elementWrapper: 'vf-element-wrapper',
   addonGroup: 'vf-addon-group',
+  addonBefore: () => null,
+  addonAfter: () => null,
   iconGroup: 'vf-icon-group',
   loading: 'vf-icon vf-icon-loading',
   help: 'vf-help',
@@ -173,22 +169,36 @@ const rootProps = computed(() => {
   return undefined
 })
 
-const iconGroupProps = computed(() => ({
-  ...parts.iconGroup,
-  class: mergeClass(classes.iconGroup, parts.iconGroup?.class),
-}))
-
-const addonGroupProps = computed(() => ({
-  ...parts.addonGroup,
-  class: mergeClass(classes.addonGroup, parts.addonGroup?.class),
-}))
+/**
+ * The token-driven root class, kept outside the element's `bindings.root` bag
+ * because the scoped token CSS belongs to this VfLayout instance, not to the
+ * element's class pipeline.
+ */
+const tokenRootClass = computed(() => (tokenCss.value ? api.tokenClass : null))
 
 /**
- * Resolves per-addon parts that may be defined as a function of the addon and
- * its index.
+ * Strips `class` from a resolved binding bag so the template can keep the
+ * class-source order explicit (bag classes before the column classes) while
+ * spreading the remaining attributes with `v-bind`.
  */
-const resolveAddonParts = (part: unknown, addon: any, i: number | string) =>
-  typeof part === 'function' ? part(addon, i) : part
+const withoutClass = (bag?: Record<string, any>) => {
+  if (!bag) return undefined
+  const { class: _class, ...attrs } = bag
+  return attrs
+}
+
+/**
+ * The element's resolved root bag; split into class and attrs at the binding
+ * site to preserve class order next to the column classes.
+ */
+const rootBindings = computed(() => el$.bindings?.root(el$.props as any))
+
+/**
+ * The element's resolved label-group bag, resolved with the heading level.
+ */
+const labelGroupBag = computed(() =>
+  el$.bindings?.labelGroup(el$.props.heading)
+)
 
 defineExpose(expose)
 </script>
@@ -210,7 +220,7 @@ defineExpose(expose)
         <component :is="rootProps ? 'div' : VfPassthrough" v-bind="rootProps">
           <component
             :is="renderGroup ? 'div' : VfPassthrough"
-            v-bind="renderGroup ? addonGroupProps : undefined"
+            v-bind="renderGroup ? el$.bindings?.addonGroup : undefined"
           >
             <!-- Addons before -->
             <template v-if="renderGroup && el$.addonable">
@@ -223,7 +233,7 @@ defineExpose(expose)
                   v-for="(addon, i) in el$.addonsBefore"
                   :key="`before-${i}`"
                   :addon
-                  v-bind="resolveAddonParts(parts.addonBefore, addon, i)"
+                  v-bind="el$.bindings?.addonBefore(addon, i)"
                 />
               </template>
             </template>
@@ -231,7 +241,7 @@ defineExpose(expose)
             <!-- Icon group -->
             <component
               :is="hasIcons ? 'div' : VfPassthrough"
-              v-bind="hasIcons ? iconGroupProps : undefined"
+              v-bind="hasIcons ? el$.bindings?.iconGroup : undefined"
             >
               <component
                 v-if="elementSlots.iconBefore"
@@ -241,14 +251,14 @@ defineExpose(expose)
               <VfIcon
                 v-else-if="el$.iconBefore"
                 :icon="el$.iconBefore"
-                v-bind="parts.iconBefore"
+                v-bind="el$.bindings?.iconBefore"
               />
 
               <slot />
 
               <span
                 v-if="props.loading"
-                :class="classes.loading"
+                v-bind="el$.bindings?.loading"
                 aria-hidden="true"
               />
               <component
@@ -259,7 +269,7 @@ defineExpose(expose)
               <VfIcon
                 v-else-if="el$.iconAfter"
                 :icon="el$.iconAfter"
-                v-bind="parts.iconAfter"
+                v-bind="el$.bindings?.iconAfter"
               />
             </component>
 
@@ -274,7 +284,7 @@ defineExpose(expose)
                   v-for="(addon, i) in el$.addonsAfter"
                   :key="`after-${i}`"
                   :addon
-                  v-bind="resolveAddonParts(parts.addonAfter, addon, i)"
+                  v-bind="el$.bindings?.addonAfter(addon, i)"
                 />
               </template>
             </template>
@@ -286,12 +296,12 @@ defineExpose(expose)
                 :is="elementSlots.language"
                 :language="el$.language"
                 :languages="el$.languages"
-                v-bind="parts.language"
+                v-bind="el$.bindings?.language"
               />
               <VfAddon
                 v-else
                 :addon="el$.translateAddon"
-                v-bind="parts.language"
+                v-bind="el$.bindings?.language"
               />
             </template>
           </component>
@@ -315,40 +325,42 @@ defineExpose(expose)
       <template v-else>
         <component
           :is="hasPager ? 'div' : VfPassthrough"
-          :class="classes.panel"
           :id="`${el$.name}__panel`"
           role="tabpanel"
           :aria-labelledby="`${el$.name}__tab`"
           :hidden="!el$.visible || undefined"
           :tabindex="0"
-          v-bind="parts.panel"
+          v-bind="el$.bindings?.panel"
         >
           <!-- Container -->
           <component
             :is="isFieldset ? 'fieldset' : 'div'"
             :class="[
-              classes.root?.(el$.props as any),
+              rootBindings?.class,
+              tokenRootClass,
               helperClasses('columns.container'),
               columnClasses.container,
             ]"
             :aria-labelledby="isFieldset && showLabel ? el$.labelId : undefined"
             :aria-label="isFieldset && !showLabel ? el$.genericName : undefined"
             :aria-describedby="
-              isFieldset ? el$.aria?.['aria-describedby'] : undefined
+              isFieldset
+                ? el$.a11yBindings?.input?.['aria-describedby']
+                : undefined
             "
             :hidden="(!hasPager && !el$.visible) || undefined"
-            v-bind="parts.root"
+            v-bind="withoutClass(rootBindings)"
             v-show="el$.visible"
           >
             <!-- Label group -->
             <div
               v-if="showLabel"
               :class="[
-                classes.labelGroup?.(el$.props.heading),
+                labelGroupBag?.class,
                 helperClasses('columns.label'),
                 columnClasses.label,
               ]"
-              v-bind="parts.labelGroup"
+              v-bind="withoutClass(labelGroupBag)"
             >
               <!-- Label -->
               <component
@@ -356,18 +368,16 @@ defineExpose(expose)
                 :is="elementSlots.label"
                 :for="useLabelTag ? el$.id : undefined"
                 :id="el$.labelId"
-                :class="classes.label"
                 :tag="headingTag || (useLabelTag ? 'label' : 'span')"
                 :label="el$.label"
-                v-bind="parts.label"
+                :bindings="el$.bindings?.label"
               />
               <component
                 v-else
                 :is="headingTag || (useLabelTag ? 'label' : 'span')"
                 :for="useLabelTag ? el$.id : undefined"
                 :id="el$.labelId"
-                :class="classes.label"
-                v-bind="parts.label"
+                v-bind="el$.bindings?.label"
               >
                 {{ el$.label }}
               </component>
@@ -380,8 +390,7 @@ defineExpose(expose)
               <span
                 v-else-if="showRequired"
                 aria-hidden="true"
-                :class="classes.required"
-                v-bind="parts.required"
+                v-bind="el$.bindings?.required"
               />
 
               <!-- Help -->
@@ -390,14 +399,12 @@ defineExpose(expose)
                 :is="elementSlots.help"
                 :help="el$.help"
                 :id="el$.helpId"
-                :class="classes.help"
-                v-bind="parts.help"
+                :bindings="el$.bindings?.help"
               />
               <div
                 v-else-if="showHelp"
                 :id="el$.helpId"
-                :class="classes.help"
-                v-bind="parts.help"
+                v-bind="el$.bindings?.help"
               >
                 {{ el$.help }}
               </div>
@@ -419,18 +426,18 @@ defineExpose(expose)
             <!-- Element group -->
             <div
               :class="[
-                classes.elementGroup,
+                el$.bindings?.elementGroup?.class,
                 helperClasses('columns.12-wrapper'),
                 columnClasses.group,
               ]"
-              v-bind="parts.elementGroup"
+              v-bind="withoutClass(el$.bindings?.elementGroup)"
             >
               <!-- Tabs -->
               <component
                 v-if="el$.props.tabbed"
                 :is="elementSlots.tabs || 'VfTabs'"
                 :pager="el$.pager"
-                v-bind="parts.tabs"
+                v-bind="el$.bindings?.tabs"
               >
                 <template #tab="tabProps">
                   <component
@@ -444,15 +451,15 @@ defineExpose(expose)
               <!-- Element wrapper -->
               <div
                 :class="[
-                  classes.elementWrapper,
+                  el$.bindings?.elementWrapper?.class,
                   helperClasses('columns.wrapper'),
                   columnClasses.wrapper,
                 ]"
-                v-bind="parts.elementWrapper"
+                v-bind="withoutClass(el$.bindings?.elementWrapper)"
               >
                 <component
                   :is="renderGroup ? 'div' : VfPassthrough"
-                  v-bind="renderGroup ? addonGroupProps : undefined"
+                  v-bind="renderGroup ? el$.bindings?.addonGroup : undefined"
                 >
                   <!-- Addons before -->
                   <template v-if="renderGroup && el$.addonable">
@@ -465,7 +472,7 @@ defineExpose(expose)
                         v-for="(addon, i) in el$.addonsBefore"
                         :key="`before-${i}`"
                         :addon
-                        v-bind="resolveAddonParts(parts.addonBefore, addon, i)"
+                        v-bind="el$.bindings?.addonBefore(addon, i)"
                       />
                     </template>
                   </template>
@@ -473,7 +480,7 @@ defineExpose(expose)
                   <!-- Icon group -->
                   <component
                     :is="hasIcons ? 'div' : VfPassthrough"
-                    v-bind="hasIcons ? iconGroupProps : undefined"
+                    v-bind="hasIcons ? el$.bindings?.iconGroup : undefined"
                   >
                     <component
                       v-if="elementSlots.iconBefore"
@@ -483,14 +490,14 @@ defineExpose(expose)
                     <VfIcon
                       v-else-if="el$.iconBefore"
                       :icon="el$.iconBefore"
-                      v-bind="parts.iconBefore"
+                      v-bind="el$.bindings?.iconBefore"
                     />
 
                     <slot />
 
                     <span
                       v-if="props.loading"
-                      :class="classes.loading"
+                      v-bind="el$.bindings?.loading"
                       aria-hidden="true"
                     />
                     <component
@@ -501,7 +508,7 @@ defineExpose(expose)
                     <VfIcon
                       v-else-if="el$.iconAfter"
                       :icon="el$.iconAfter"
-                      v-bind="parts.iconAfter"
+                      v-bind="el$.bindings?.iconAfter"
                     />
                   </component>
 
@@ -516,7 +523,7 @@ defineExpose(expose)
                         v-for="(addon, i) in el$.addonsAfter"
                         :key="`after-${i}`"
                         :addon
-                        v-bind="resolveAddonParts(parts.addonAfter, addon, i)"
+                        v-bind="el$.bindings?.addonAfter(addon, i)"
                       />
                     </template>
                   </template>
@@ -528,12 +535,12 @@ defineExpose(expose)
                       :is="elementSlots.language"
                       :language="el$.language"
                       :languages="el$.languages"
-                      v-bind="parts.language"
+                      v-bind="el$.bindings?.language"
                     />
                     <VfAddon
                       v-else
                       :addon="el$.translateAddon"
-                      v-bind="parts.language"
+                      v-bind="el$.bindings?.language"
                     />
                   </template>
                 </component>
@@ -559,14 +566,16 @@ defineExpose(expose)
                 :is="elementSlots.description"
                 :description="el$.description"
                 :id="el$.descriptionId"
-                :class="[classes.description, columnClasses.full]"
-                v-bind="parts.description"
+                :bindings="{
+                  ...el$.bindings?.description,
+                  class: [el$.bindings?.description?.class, columnClasses.full],
+                }"
               />
               <div
                 v-else-if="showDescription"
                 :id="el$.descriptionId"
-                :class="[classes.description, columnClasses.full]"
-                v-bind="parts.description"
+                :class="[el$.bindings?.description?.class, columnClasses.full]"
+                v-bind="withoutClass(el$.bindings?.description)"
               >
                 {{ el$.description }}
               </div>
@@ -576,19 +585,18 @@ defineExpose(expose)
                 v-if="showErrors && elementSlots.errors"
                 :is="elementSlots.errors"
                 :errors="el$.displayErrors"
+                :bindings="el$.bindings?.errors"
               />
               <div
                 v-else-if="showErrors"
-                :class="classes.errors"
                 :id="el$.errorId"
                 role="alert"
-                v-bind="parts.errors"
+                v-bind="el$.bindings?.errors"
               >
                 <div
                   v-for="error in el$.displayErrors"
                   :key="error"
-                  :class="classes.error"
-                  v-bind="parts.error"
+                  v-bind="el$.bindings?.error"
                 >
                   {{ error }}
                 </div>
@@ -602,14 +610,12 @@ defineExpose(expose)
               />
               <div
                 v-else-if="el$.messages.length"
-                :class="classes.messages"
-                v-bind="parts.messages"
+                v-bind="el$.bindings?.messages"
               >
                 <div
                   v-for="message in el$.messages"
                   :key="message"
-                  :class="classes.message"
-                  v-bind="parts.message"
+                  v-bind="el$.bindings?.message"
                 >
                   {{ message }}
                 </div>

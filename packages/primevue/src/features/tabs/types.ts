@@ -1,4 +1,4 @@
-import type { Pager, ResolvedPage } from '@vueform/core'
+import type { Pager, PartBindings, ResolvedPage } from '@vueform/core'
 import type { TabProps } from 'primevue/tab'
 import type { TabListProps } from 'primevue/tablist'
 import type { ClassValue, VNode } from 'vue'
@@ -6,7 +6,7 @@ import type { ClassValue, VNode } from 'vue'
 /**
  * @write
  */
-export interface TabsSlots {
+export interface TabbedSlots {
   /**
    * Slot that replaces the tabs navigation bar. Receives the pager instance.
    */
@@ -17,9 +17,10 @@ export interface TabsSlots {
     pager: Pager
 
     /**
-     * CSS classes to apply to the tab list.
+     * The tab list's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
      */
-    classes: ClassValue
+    bindings: PartBindings<'tabs', TabbedParts>
   }) => VNode[]
 
   /**
@@ -32,16 +33,17 @@ export interface TabsSlots {
     page: ResolvedPage
 
     /**
-     * CSS classes to apply to the tab.
+     * The tab's resolved bindings (classes, part overrides, resolved with the
+     * tab's page); apply with `v-bind`.
      */
-    classes: ClassValue
+    bindings: PartBindings<'tab', TabbedParts>
   }) => VNode[]
 }
 
 /**
  * @write
  */
-export interface TabsParts {
+export interface TabbedParts {
   /**
    * Props forwarded to the nested TabList component.
    *
@@ -61,7 +63,7 @@ export interface TabsParts {
 /**
  * @write
  */
-export interface TabsClasses {
+export interface TabbedClasses {
   /**
    * The tab list element.
    */

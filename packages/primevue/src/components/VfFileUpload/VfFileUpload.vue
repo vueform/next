@@ -2,6 +2,7 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeFileUpload from 'primevue/fileupload'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/file-upload'
 import { vdomPrime } from '#src/helpers'
 
@@ -23,19 +24,33 @@ const props = withDefaults(
 const events = defineEvents<VfFileUploadEmits<TMultiple>>()
 const slots = defineSlots<VfFileUploadSlots<TMultiple>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-file-upload': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-file-upload',
   wrapper: {
     'vf-file-upload-wrapper': true,
     'vf-basic': props.mode === 'basic',
   },
 }))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const { multiple, showUploadButton, mode } = propRefs
 
@@ -67,7 +82,7 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div :class="classes.wrapper">
+      <div v-bind="bindings.wrapper">
         <FileUpload
           :name
           :disabled
@@ -79,11 +94,7 @@ defineExpose(expose)
           :mode
           :show-upload-button
           :input-id="id"
-          :class="classes.input"
-          v-bind="{
-            ...forwardProps,
-            ...parts.input,
-          }"
+          v-bind="{ ...bindings.input, ...forwardProps }"
           :ref="(el) => (input = el)"
           @select="handleSelect"
           @remove="handleRemoveFile"
@@ -106,15 +117,20 @@ defineExpose(expose)
             </slot>
           </template>
         </FileUpload>
-        <slot name="button" :upload>
-          <component v-if="outlets?.button" :is="outlets.button" :upload />
+        <slot name="button" :upload :bindings="bindings.button">
+          <component
+            v-if="outlets?.button"
+            :is="outlets.button"
+            :upload
+            :bindings="bindings.button"
+          />
           <VfButton
             v-else-if="showUpload"
             :name="`${name}__upload`"
             text="Upload"
             :layout="false"
             severity="secondary"
-            v-bind="parts.button"
+            v-bind="bindings.button"
             @click="upload"
           />
         </slot>

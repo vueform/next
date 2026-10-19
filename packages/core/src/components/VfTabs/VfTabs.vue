@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defaults, blueprint } from '#src/blueprints/tabs'
-import { useBlueprint } from '#src/composables'
+import { useBlueprint, type ResolvedPage } from '#src/composables'
 import { defineEvents } from '#src/helpers'
 
 import type { VfTabsEmits, VfTabsProps, VfTabsSlots } from './types'
@@ -12,28 +12,21 @@ const props = withDefaults(defineProps<VfTabsProps>(), defaults)
 const events = defineEvents<VfTabsEmits>()
 const slots = defineSlots<VfTabsSlots>()
 
-const { parts, classes, context, expose, outlets, useClasses } = useBlueprint(
-  blueprint,
-  props,
-  events,
-  slots
-)
+const { context, expose, outlets, bindings, useClasses, useModifiers } =
+  useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-tabs',
   list: 'vf-tabs-wrapper',
-  wrapper: ({
-    selected,
-    invalid,
-  }: {
-    selected: boolean
-    invalid: boolean
-  }) => ({
-    'vf-tab-wrapper': true,
-    'vf-selected': selected,
-    'vf-invalid': invalid,
-  }),
+  wrapper: 'vf-tab-wrapper',
   tab: 'vf-tab',
+}))
+
+useModifiers(() => ({
+  wrapper: (page: ResolvedPage) => ({
+    'data-selected': page.selected ? '' : undefined,
+    'data-invalid': page.invalid ? '' : undefined,
+  }),
 }))
 
 defineExpose(expose)
@@ -42,35 +35,29 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else :class="classes.root" v-bind="parts.root">
-      <ul :class="classes.list" role="tablist" v-bind="parts.list">
+    <div v-else v-bind="bindings.root">
+      <ul role="tablist" v-bind="bindings.list">
         <template v-for="page in pager.pages" :key="page.pageId">
-          <li
-            v-if="page.available"
-            :class="classes.wrapper(page)"
-            role="none"
-            v-bind="parts.wrapper?.(page)"
-          >
+          <li v-if="page.available" role="none" v-bind="bindings.wrapper(page)">
             <button
               type="button"
-              :class="classes.tab"
               :id="page.pageId"
               role="tab"
               :aria-selected="page.selected"
-              :aria-current="page.selected"
               :aria-controls="page.panelId"
               :tabindex="page.tabindex"
-              v-bind="parts.tab"
+              v-bind="bindings.tab"
               @click="page.select"
               @keydown="page.keydown"
               @focus="page.focus"
               @blur="page.blur"
             >
-              <slot v-bind="page">
+              <slot v-bind="page" :bindings="bindings.tab">
                 <component
                   v-if="outlets?.default"
                   :is="outlets.default"
                   v-bind="page"
+                  :bindings="bindings.tab"
                 />
                 <template v-else>
                   {{ page.label }}

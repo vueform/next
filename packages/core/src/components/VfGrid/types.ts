@@ -12,6 +12,7 @@ import type {
   GridSlots,
   GridCell,
 } from '#src/blueprints/grid'
+import type { BindingsOf } from '#src/composables'
 import type { ObjectModel } from '#src/features'
 import type {
   DefineElementContext,
@@ -26,6 +27,13 @@ import type {
   SchemaToModel,
   WidenProps,
 } from '#src/types'
+
+type VfGridBindings = BindingsOf<
+  VfGridParts,
+  VfGridClasses,
+  VfGridModifiers,
+  VfGridA11y
+>
 
 /**
  * Resolves the `grid` schema from a registry `TEntry` payload (unwrapping a
@@ -112,6 +120,13 @@ export interface VfGridSlots extends GridSlots<VfGridContext> {
  * Structural parts of the VfGrid component.
  */
 export interface VfGridParts extends GridParts {
+  /**
+   * The scrollable wrapper around the grid layout element.
+   *
+   * @tag div
+   */
+  wrapper: DomAttrsOf<'div'>
+
   /**
    * The grid layout element.
    *

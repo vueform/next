@@ -198,7 +198,7 @@ describe('Modifiers', () => {
   })
 
   describe('slot propagation', () => {
-    it('should hand slots the modifier bags so replaced parts keep their state attrs', () => {
+    it('should hand slots the resolved bindings bag so replaced parts keep their state attrs', () => {
       const App = makeApp(
         `<VfForm ref="form$">
           <VfList
@@ -208,8 +208,8 @@ describe('Modifiers', () => {
             :model-value="['foo', 'bar']"
             :schema="{ text: { type: 'text' } }"
           >
-            <template #item="{ modifiers, index }">
-              <div class="custom-item" v-bind="modifiers.item(false, false)">
+            <template #item="{ bindings, index }">
+              <div class="custom-item" v-bind="bindings">
                 item {{ index }}
               </div>
             </template>

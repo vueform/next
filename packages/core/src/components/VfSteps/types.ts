@@ -11,7 +11,7 @@ import {
   type StepsProps,
   type StepsSlots,
 } from '#src/blueprints/steps'
-import type { ResolvedPage } from '#src/composables'
+import type { PartBindings, ResolvedPage } from '#src/composables'
 import type {
   DefineElementContext,
   ClassValue,
@@ -146,6 +146,12 @@ export interface VfStepsSlots extends StepsSlots<VfStepsContext> {
      * The step's element context.
      */
     el$: UnknownElement
+
+    /**
+     * The step button's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: PartBindings<'step', VfStepsParts, VfStepsModifiers, VfStepsA11y>
   }) => VNode[]
 }
 
@@ -168,18 +174,12 @@ export interface VfStepsParts extends StepsParts {
   list: DomAttrsOf<'ol'>
 
   /**
-   * Each step wrapper. Receives step state options.
+   * Each step wrapper. Receives the step's resolved page.
    *
-   * @param options Step state used for this wrapper.
+   * @param page The resolved page data for this step.
    * @tag li
    */
-  wrapper: (options: {
-    selected: boolean
-    enabled: boolean
-    completed: boolean
-    invalid: boolean
-    loading: boolean
-  }) => DomAttrsOf<'li'>
+  wrapper: (page: ResolvedPage) => DomAttrsOf<'li'>
 
   /**
    * The step content element.

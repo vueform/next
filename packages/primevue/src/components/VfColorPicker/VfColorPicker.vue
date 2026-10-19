@@ -2,6 +2,7 @@
 import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeColorPicker from 'primevue/colorpicker'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/color-picker'
 import { vdomPrime } from '#src/helpers'
 
@@ -25,15 +26,31 @@ const props = withDefaults(defineProps<VfColorPickerProps>(), defaults)
 const events = defineEvents<VfColorPickerEmits>()
 const slots = defineSlots<VfColorPickerSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ props }) => ({
+useClasses(() => ({
+  root: 'vf-color-picker',
+}))
+
+useModifiers(({ hasError, help }) => ({
   root: {
-    'vf-color-picker': true,
-    'vf-aligned': !!props.aligned,
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -57,16 +74,12 @@ defineExpose(expose)
     <VfLayout v-else>
       <PvColorPicker
         :name
-        :class="classes.input"
         v-model="value"
         :input-id="id"
         :format
         :disabled
         :invalid
-        v-bind="{
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @change="(e) => handleInput(e.value, e.event)"
       />

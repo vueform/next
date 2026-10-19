@@ -10,6 +10,7 @@ import { defineEvents, useBlueprint, type LanguagesProp } from '@vueform/core'
 import PrimeEditor from 'primevue/editor'
 import type { WritableComputedRef } from 'vue'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/editor'
 import { vdomPrime } from '#src/helpers'
 
@@ -33,14 +34,20 @@ const props = withDefaults(
 const events = defineEvents<VfEditorEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfEditorSlots<TTranslate, TLanguages>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ help }) => ({
-  root: {
-    'vf-editor': true,
-    'vf-align-label': !help.value,
-  },
+useClasses(() => ({
+  root: 'vf-editor',
   input: {
     'vf-editor-input': true,
     'vf-editor-loading': !api.ready.value,
@@ -53,6 +60,14 @@ useClasses(({ help }) => ({
   placeholderContent: 'vf-editor-placeholder-content',
   placeholderToolbar: 'vf-editor-placeholder-toolbar',
 }))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const { editorStyle } = propRefs
 
@@ -91,8 +106,8 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else :languages="false">
-      <div v-if="!ready" :class="classes.placeholder">
-        <div :class="classes.placeholderToolbar">
+      <div v-if="!ready" v-bind="bindings.placeholder">
+        <div v-bind="bindings.placeholderToolbar">
           <span />
           <span />
           <span />
@@ -101,24 +116,20 @@ defineExpose(expose)
           <span />
         </div>
         <div
-          :class="classes.placeholderContent"
+          v-bind="bindings.placeholderContent"
           :style="editorStyle"
           data-editor-placeholder-content
         />
       </div>
       <Editor
         :name
-        :class="classes.input"
         v-model="inputValue"
         :editor-style
         :placeholder
         :readonly
         :invalid
         :modules
-        v-bind="{
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @load="handleLoad"
         @value-change="handleInput"
@@ -144,6 +155,7 @@ defineExpose(expose)
                 <select
                   v-if="translatable"
                   class="ql-vflanguage"
+                  aria-label="Editing language"
                   v-model="language"
                 >
                   <option
@@ -154,12 +166,16 @@ defineExpose(expose)
                     {{ label }}
                   </option>
                 </select>
-                <select class="ql-header" defaultValue="0">
+                <select
+                  class="ql-header"
+                  defaultValue="0"
+                  aria-label="Heading level"
+                >
                   <option value="1">Heading</option>
                   <option value="2">Subheading</option>
                   <option value="0">Normal</option>
                 </select>
-                <select class="ql-font">
+                <select class="ql-font" aria-label="Font">
                   <option />
                   <option value="serif" />
                   <option value="monospace" />
@@ -171,13 +187,13 @@ defineExpose(expose)
                 <button class="ql-underline" type="button" />
               </span>
               <span class="ql-formats">
-                <select class="ql-color" />
-                <select class="ql-background" />
+                <select class="ql-color" aria-label="Text color" />
+                <select class="ql-background" aria-label="Background color" />
               </span>
               <span class="ql-formats">
                 <button class="ql-list" value="ordered" type="button" />
                 <button class="ql-list" value="bullet" type="button" />
-                <select class="ql-align">
+                <select class="ql-align" aria-label="Text alignment">
                   <option defaultValue />
                   <option value="center" />
                   <option value="right" />

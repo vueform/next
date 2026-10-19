@@ -18,20 +18,29 @@ const props = withDefaults(defineProps<VfLanguagesProps>(), defaults)
 const events = defineEvents<VfLanguagesEmits>()
 const slots = defineSlots<VfLanguagesSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses, propRefs } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-languages',
   list: 'vf-languages-wrapper',
-  wrapper: (selected: boolean, invalid: boolean) => [
-    'vf-language-wrapper',
-    {
-      'vf-selected': selected,
-      'vf-invalid': invalid,
-    },
-  ],
+  wrapper: 'vf-language-wrapper',
   language: 'vf-language',
+}))
+
+useModifiers(() => ({
+  wrapper: (selected: boolean, invalid: boolean) => ({
+    'data-selected': selected ? '' : undefined,
+    'data-invalid': invalid ? '' : undefined,
+  }),
 }))
 
 const { languages, language, invalidLanguages } = propRefs
@@ -43,20 +52,17 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else :class="classes.root" v-bind="parts.root">
-      <ul :class="classes.list" role="tablist" v-bind="parts.list">
+    <div v-else v-bind="bindings.root">
+      <!-- Plain buttons on purpose: tablist roles are a keyboard contract
+        (roving tabindex, arrow keys) this component does not implement yet.
+        aria-current marks the active language without promising tab
+        semantics. -->
+      <ul v-bind="bindings.list">
         <li
           v-for="(label, value) in languages"
           :key="value"
-          :class="
-            classes.wrapper(
-              language === value,
-              !!invalidLanguages?.has(value as string)
-            )
-          "
-          role="none"
           v-bind="
-            parts.wrapper?.(
+            bindings.wrapper(
               language === value,
               !!invalidLanguages?.has(value as string)
             )
@@ -64,21 +70,19 @@ defineExpose(expose)
         >
           <button
             type="button"
-            :class="classes.language"
-            role="tab"
-            :aria-selected="language === value"
-            :aria-current="language === value"
+            :aria-current="language === value || undefined"
             :aria-invalid="invalidLanguages?.has(value as string) || undefined"
-            v-bind="parts.language"
+            v-bind="bindings.language"
             @click="handleSelect(value as string)"
           >
-            <slot
-              v-bind="{ language, languages, value, label, parts, classes }"
-            >
+            <slot :language :languages :value :label>
               <component
                 v-if="outlets?.default"
                 :is="outlets.default"
-                v-bind="{ language, languages, value, label, parts, classes }"
+                :language
+                :languages
+                :value
+                :label
               />
               <template v-else>
                 {{ label }}

@@ -3,6 +3,7 @@
 import type { Component, ComponentPropsOptions } from 'vue'
 
 import type { BaseElementContext } from './base'
+import type { ClassValue } from './classes'
 import type { NarrowExpose } from './utils'
 
 /**
@@ -29,7 +30,9 @@ export type DefineRegistryEntry<
   TEmits extends Record<string, any>,
   TSlots extends Record<string, any>,
   TParts extends Record<string, any>,
-  TClasses extends Record<string, any>,
+  TClasses extends Record<string, any> &
+    PartKeyed<TClasses, TParts> &
+    ClassShaped<TClasses>,
   TContext,
 > = {
   /**
@@ -246,6 +249,151 @@ export type ContextOutlets<TSlots> = {
     : BivariantSlot<TSlots[K]>
 }
 
+// ============ BINDING SURFACE CONTRACTS ============
+
+/**
+ * The element-layout part names core renders through VfLayout. Adapters own
+ * the part SHAPES (their `BaseElementParts` augmentations differ per adapter),
+ * but core owns the KEY vocabulary — these keys stand in for those parts in
+ * core-world checks, where the adapter augmentations are not loaded. An
+ * augmentable interface (member values are irrelevant) so adapters can
+ * declaration-merge keys of their own that are legitimately partless (e.g. a
+ * class styling a directive-rendered overlay).
+ */
+export interface LayoutPartKeyRegistry {
+  root: unknown
+  panel: unknown
+  labelGroup: unknown
+  label: unknown
+  required: unknown
+  help: unknown
+  elementGroup: unknown
+  elementWrapper: unknown
+  addonGroup: unknown
+  iconGroup: unknown
+  addonBefore: unknown
+  addonAfter: unknown
+  iconBefore: unknown
+  iconAfter: unknown
+  language: unknown
+  loading: unknown
+  tabs: unknown
+  description: unknown
+  errors: unknown
+  error: unknown
+  messages: unknown
+  message: unknown
+}
+
+/**
+ * The key union of `LayoutPartKeyRegistry` — see there.
+ */
+export type LayoutPartKeys = keyof LayoutPartKeyRegistry
+
+/**
+ * Resolves a functional aspect member to the bag it returns; plain members
+ * pass through.
+ */
+type ResolvedSurfaceMember<T> =
+  NonNullable<T> extends (...args: any[]) => infer R ? R : NonNullable<T>
+
+/**
+ * Part-key subset check: every key of an aspect surface (classes, modifiers,
+ * a11y) must be backed by a part — a key of `TParts` or a layout part core
+ * renders. Violations surface as an impossible constraint carrying the
+ * offending keys in `__keysWithoutPart`. Loose surfaces (string index
+ * signatures) are exempt.
+ */
+export type PartKeyed<T, TParts> = string extends keyof T
+  ? unknown
+  : [Exclude<keyof T, keyof TParts | LayoutPartKeys>] extends [never]
+    ? unknown
+    : { __keysWithoutPart: Exclude<keyof T, keyof TParts | LayoutPartKeys> }
+
+/**
+ * Classes member shape check: every member must be a `ClassValue` or a
+ * function returning one.
+ */
+export type ClassShaped<T> = string extends keyof T
+  ? unknown
+  : {
+      [K in keyof T]: ClassValue | ((...args: any[]) => ClassValue)
+    }
+
+/**
+ * The attribute namespaces an aspect's bags may carry: modifiers live in the
+ * `data-*` namespace; a11y bags carry `aria-*` plus the blessed native
+ * attributes that serve the assistive aspect.
+ */
+type ModifierAttrKeys = `data-${string}`
+type A11yAttrKeys =
+  | `aria-${string}`
+  | 'role'
+  | 'id'
+  | 'lang'
+  | 'disabled'
+  | 'tabindex'
+
+/**
+ * Collects the bag attribute names outside the aspect's allowed vocabulary
+ * across all members of a surface.
+ */
+type InvalidBagKeys<T, TAllowed extends PropertyKey> = {
+  [K in keyof T]: Exclude<keyof ResolvedSurfaceMember<T[K]>, TAllowed>
+}[keyof T]
+
+/**
+ * Modifiers bag vocabulary check: every attribute of every bag must be
+ * `data-*`. Encodes the aspect-split doctrine at the type level.
+ */
+export type ModifierShaped<T> = string extends keyof T
+  ? unknown
+  : [InvalidBagKeys<T, ModifierAttrKeys>] extends [never]
+    ? unknown
+    : {
+        __modifierAttrsOutsideDataNamespace: InvalidBagKeys<T, ModifierAttrKeys>
+      }
+
+/**
+ * A11y bag vocabulary check: every attribute of every bag must be `aria-*`,
+ * `role`, `id`, `lang`, `tabindex`, or native `disabled`. Encodes the
+ * aspect-split doctrine at the type level.
+ */
+export type A11yShaped<T> = string extends keyof T
+  ? unknown
+  : [InvalidBagKeys<T, A11yAttrKeys>] extends [never]
+    ? unknown
+    : { __a11yAttrsOutsideAriaVocabulary: InvalidBagKeys<T, A11yAttrKeys> }
+
+/**
+ * Collects the shared keys where both the part and the aspect member are
+ * functional but their parameter tuples differ — the aggregate resolves every
+ * aspect with ONE argument list, so functional signatures must match per part.
+ * (A static member under a functional part, or a functional classes member
+ * under a static part, is allowed: the aggregate resolves plain bags as-is.)
+ */
+type AsymmetricKeys<T, TParts> = {
+  [K in keyof T & keyof TParts]: NonNullable<TParts[K]> extends (
+    ...args: infer A
+  ) => any
+    ? NonNullable<T[K]> extends (...args: infer B) => any
+      ? [A, B] extends [B, A]
+        ? never
+        : K
+      : never
+    : never
+}[keyof T & keyof TParts]
+
+/**
+ * Functional-signature symmetry check between an aspect surface and the parts
+ * spine — see `AsymmetricKeys`.
+ */
+export type PartSymmetric<T, TParts> = string extends keyof T
+  ? unknown
+  : [AsymmetricKeys<T, TParts>] extends [never]
+    ? unknown
+    : { __membersNotMatchingPartSignature: AsymmetricKeys<T, TParts> }
+
 /**
  * Assembles a component's `*Context` from its public type surfaces:
  *
@@ -295,9 +443,16 @@ export type DefineElementContext<
   TEmits extends Record<string, any>,
   TSlots extends Record<string, any>,
   TParts extends Record<string, any>,
-  TClasses extends Record<string, any>,
-  TModifiers,
-  TA11y,
+  TClasses extends Record<string, any> &
+    PartKeyed<TClasses, TParts> &
+    ClassShaped<TClasses> &
+    PartSymmetric<TClasses, TParts>,
+  TModifiers extends PartKeyed<TModifiers, TParts> &
+    ModifierShaped<TModifiers> &
+    PartSymmetric<TModifiers, TParts>,
+  TA11y extends PartKeyed<TA11y, TParts> &
+    A11yShaped<TA11y> &
+    PartSymmetric<TA11y, TParts>,
   TExpose,
   TApi extends Record<string, any>,
 > = BaseElementContext<

@@ -3,6 +3,7 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeSlider from 'primevue/slider'
 import type { WritableComputedRef } from 'vue'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/slider'
 import { vdomPrime } from '#src/helpers'
 
@@ -21,12 +22,29 @@ const props = withDefaults(defineProps<VfSliderProps<TRange>>(), defaults)
 const events = defineEvents<VfSliderEmits<TRange>>()
 const slots = defineSlots<VfSliderSlots<TRange>>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(() => ({
   root: 'vf-slider',
 }))
+
+useModifiers(({ hasError }) => ({
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
+  },
+}))
+
+useA11y(inputAria())
 
 const { range } = propRefs
 
@@ -61,7 +79,6 @@ defineExpose(expose)
     <VfLayout v-else>
       <Slider
         :name
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :invalid
@@ -69,10 +86,7 @@ defineExpose(expose)
         :min
         :max
         :step
-        v-bind="{
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @change="handleInput"
       />

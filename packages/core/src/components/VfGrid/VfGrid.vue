@@ -2,6 +2,7 @@
 import { defaults, blueprint } from '#src/blueprints/grid'
 import { useBlueprint } from '#src/composables'
 import { defineEvents } from '#src/helpers'
+import type { AlignProp, ValignProp } from '#src/types'
 
 import type { VfGridEmits, VfGridProps, VfGridSlots } from './types'
 
@@ -41,8 +42,16 @@ const props = withDefaults(defineProps<VfGridProps>(), defaults)
 const events = defineEvents<VfGridEmits>()
 const slots = defineSlots<VfGridSlots>()
 
-const { api, parts, classes, context, expose, outlets, propRefs, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  propRefs,
+  bindings,
+  useClasses,
+  useModifiers,
+} = useBlueprint(blueprint, props, events, slots)
 
 useClasses(({ props, fitWidth, gridClass }) => ({
   root: {
@@ -51,38 +60,35 @@ useClasses(({ props, fitWidth, gridClass }) => ({
     'vf-wrap-col-headers': !!props.wrapColHeaders,
     'vf-wrap-row-headers': !!props.wrapRowHeaders,
   },
-  wrapper: {
-    'vf-grid-wrapper': true,
-    'vf-scrollable': !!props.scrollable,
-  },
+  wrapper: 'vf-grid-wrapper',
   grid: {
     'vf-grid-grid': true,
-    'vf-fit': !!fitWidth.value,
     [gridClass.value]: true,
   },
   cell: ({
-    align,
-    valign,
     colHeader,
     rowHeader,
   }: {
-    align: string
-    valign: string
     schema?: unknown
     colHeader?: boolean
     rowHeader?: boolean
   }) => ({
     'vf-grid-cell': true,
-    'vf-left': align === 'left',
-    'vf-center': align === 'center',
-    'vf-right': align === 'right',
-    'vf-justify': align === 'justify',
-    'vf-top': valign === 'top',
-    'vf-middle': valign === 'middle',
-    'vf-bottom': valign === 'bottom',
-    'vf-baseline': valign === 'baseline',
     'vf-grid-col-header': !!colHeader,
     'vf-grid-row-header': !!rowHeader,
+  }),
+}))
+
+useModifiers(({ props, fitWidth }) => ({
+  wrapper: {
+    'data-scrollable': props.scrollable ? '' : undefined,
+  },
+  grid: {
+    'data-fit': fitWidth.value ? '' : undefined,
+  },
+  cell: (cell: { align: AlignProp; valign: ValignProp }) => ({
+    'data-align': cell.align || undefined,
+    'data-valign': cell.valign || undefined,
   }),
 }))
 
@@ -97,15 +103,14 @@ defineExpose(expose)
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div :class="classes.wrapper">
-        <div :class="classes.grid" v-bind="parts.grid">
+      <div v-bind="bindings.wrapper">
+        <div v-bind="bindings.grid">
           <slot :cells>
             <component v-if="outlets?.default" :is="outlets.default" :cells />
             <template v-else>
               <div
                 v-for="cell in cells"
                 :key="cell.key"
-                :class="classes.cell(cell)"
                 :data-col="cell.col"
                 :data-row="cell.row"
                 :data-col-start="cell.colStart"
@@ -114,10 +119,7 @@ defineExpose(expose)
                 :data-row-end="cell.rowEnd"
                 :data-last-col="cell.lastCol"
                 :data-last-row="cell.lastRow"
-                v-bind="{
-                  ...cell.attrs,
-                  ...parts.cell?.(cell),
-                }"
+                v-bind="{ ...bindings.cell(cell), ...cell.attrs }"
               >
                 <slot name="cell" :cell>
                   <component v-if="outlets?.cell" :is="outlets.cell" :cell />

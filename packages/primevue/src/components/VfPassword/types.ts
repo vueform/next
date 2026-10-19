@@ -13,9 +13,11 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   LanguagesProp,
+  TAriaA11y,
 } from '@vueform/core'
 import type { PasswordProps as PvPasswordProps } from 'primevue'
 import type { PasswordSlots as APasswordSlots } from 'primevue/password'
+
 import type {
   PasswordA11y,
   PasswordApi,
@@ -134,9 +136,10 @@ export interface VfPasswordClasses
 }
 
 /**
- * Accessibility bindings of the VfPassword component.
+ * Accessibility bindings of the VfPassword component, produced by the `tInputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfPasswordA11y extends PasswordA11y {}
+export interface VfPasswordA11y extends PasswordA11y, TAriaA11y {}
 
 /**
  * Styling modifiers of the VfPassword component.

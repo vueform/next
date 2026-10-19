@@ -362,7 +362,7 @@ declare module 'vue' {
       <slot
         :model
         :value="radioValue"
-        :a11y-bindings="a11yBindings"
+        :a11y-bindings
         :input-name
         :id
         :disabled
@@ -378,7 +378,7 @@ declare module 'vue' {
           :is="outlets.default"
           :model
           :value="radioValue"
-          :a11y-bindings="a11yBindings"
+          :a11y-bindings
           :input-name
           :id
           :disabled

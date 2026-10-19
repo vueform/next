@@ -2355,6 +2355,66 @@ export function extractBaseAugmentations(
   }
 }
 
+export interface ComponentAugmentations {
+  slots: Record<string, SlotInfo>
+  parts: Record<string, PartInfo>
+  classes: Record<string, ClassInfo>
+}
+
+/**
+ * Extracts a component-scoped declaration merge: a
+ * `declare module '@vueform/core/components/<Comp>'` block in the component
+ * dir's `unstyled.ts` / `styled.ts` / `index.ts` augmenting the component's
+ * `Slots` / `Parts` / `Classes` interfaces (e.g. VfGroup gaining the tabs
+ * feature's surface in an adapter). Returns `null` when no such block exists.
+ *
+ * The checker merges declarations, so each extracted set carries the full
+ * merged member list, not just the augmentation's additions — merge the
+ * result if-absent, like base augmentations.
+ */
+export function extractComponentAugmentations(
+  program: ts.Program,
+  checker: ts.TypeChecker,
+  componentDir: string,
+  componentName: string
+): ComponentAugmentations | null {
+  const moduleName = `@vueform/core/components/${componentName}`
+
+  let slotsDecl: ts.InterfaceDeclaration | undefined
+  let partsDecl: ts.InterfaceDeclaration | undefined
+  let classesDecl: ts.InterfaceDeclaration | undefined
+
+  for (const fileName of ['unstyled.ts', 'styled.ts', 'index.ts']) {
+    const sourceFile = program.getSourceFile(
+      path.join(componentDir, fileName)
+    )
+    if (!sourceFile) continue
+    slotsDecl ??= findDeclareModuleInterface(
+      sourceFile,
+      moduleName,
+      `${componentName}Slots`
+    )
+    partsDecl ??= findDeclareModuleInterface(
+      sourceFile,
+      moduleName,
+      `${componentName}Parts`
+    )
+    classesDecl ??= findDeclareModuleInterface(
+      sourceFile,
+      moduleName,
+      `${componentName}Classes`
+    )
+  }
+
+  if (!slotsDecl && !partsDecl && !classesDecl) return null
+
+  return {
+    slots: slotsDecl ? extractSlots(checker, slotsDecl) : {},
+    parts: partsDecl ? extractParts(checker, partsDecl) : {},
+    classes: classesDecl ? extractClassTypes(checker, classesDecl) : {},
+  }
+}
+
 // =============== UTILS ================
 
 export function findInterface(

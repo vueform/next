@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 
+import type { GroupAriaA11y } from '#src/a11y'
 import {
   type RadiosA11y,
   type RadiosApi,
@@ -12,6 +13,7 @@ import {
   type RadiosSlots,
 } from '#src/blueprints/radios'
 import type { VfRadioSlots } from '#src/components/VfRadio/types'
+import type { ResolvedBindings } from '#src/composables'
 import type {
   ResolvedGroup,
   ResolvedItem,
@@ -33,6 +35,15 @@ import type {
   DomAttrsOf,
   PartOf,
 } from '#src/types'
+
+/**
+ * Resolved per-part binding bags for VfRadios slot scopes.
+ */
+type VfRadiosBindings = ResolvedBindings<
+  VfRadiosParts,
+  VfRadiosModifiers,
+  VfRadiosA11y
+>
 
 /**
  * VfRadios props narrowed from a registry `TEntry` payload, applying the
@@ -164,27 +175,6 @@ export interface VfRadiosSlots<
      * Whether items are rendered as groups.
      */
     grouped: boolean
-
-    /**
-     * The component's resolved classes, keyed by part name.
-     */
-    classes: VfRadiosClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadiosParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfRadiosModifiers
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfRadiosA11y
   }) => VNode[]
 
   /**
@@ -212,25 +202,10 @@ export interface VfRadiosSlots<
     group: ResolvedGroup<TValue, TRaw>
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The group fieldset's resolved bindings (part overrides for this group's
+     * fieldset element); apply with `v-bind`.
      */
-    classes: VfRadiosClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadiosParts>
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfRadiosModifiers
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfRadiosA11y
+    bindings: VfRadiosBindings['group']
   }) => VNode[]
 
   /**
@@ -259,14 +234,10 @@ export interface VfRadiosSlots<
     item: ResolvedItem<TValue, TRaw>
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The item's resolved bindings (part overrides for this item's VfRadio
+     * child); apply with `v-bind`.
      */
-    classes: VfRadiosClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadiosParts>
+    bindings: VfRadiosBindings['item']
   }) => VNode[]
 
   /**
@@ -297,7 +268,7 @@ export interface VfRadiosParts extends RadiosParts {
    *
    * @tag div
    */
-  group: DomAttrsOf<'div'>
+  wrapper: DomAttrsOf<'div'>
 
   /**
    * The fieldset element wrapping each group when items are grouped.
@@ -305,7 +276,7 @@ export interface VfRadiosParts extends RadiosParts {
    * @param group The group data.
    * @tag fieldset
    */
-  fieldset: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
+  group: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
 
   /**
    * The legend element displaying the group label.
@@ -313,7 +284,7 @@ export interface VfRadiosParts extends RadiosParts {
    * @param group The group data.
    * @tag legend
    */
-  legend: (group: Record<string, any>) => DomAttrsOf<'legend'>
+  groupLabel: (group: Record<string, any>) => DomAttrsOf<'legend'>
 
   /**
    * Props factory for each VfRadio child component, receiving the item data.
@@ -331,13 +302,34 @@ export interface VfRadiosClasses extends RadiosClasses {
   /**
    * The wrapper element containing all radio items.
    */
-  group: ClassValue
+  wrapper: ClassValue
+
+  /**
+   * The fieldset element wrapping each group when items are grouped.
+   *
+   * @param group The group data.
+   */
+  group: (group: Record<string, any>) => ClassValue
+
+  /**
+   * The legend element displaying the group label.
+   *
+   * @param group The group data.
+   */
+  groupLabel: (group: Record<string, any>) => ClassValue
+
+  /**
+   * Each item's `VfRadio` child component.
+   *
+   * @param item The radio item data.
+   */
+  item: (item: Record<string, any>) => ClassValue
 }
 
 /**
  * Accessibility bindings of the VfRadios component.
  */
-export interface VfRadiosA11y extends RadiosA11y {}
+export interface VfRadiosA11y extends RadiosA11y, GroupAriaA11y {}
 
 /**
  * Styling modifiers of the VfRadios component.
@@ -355,7 +347,7 @@ export interface VfRadiosModifiers extends RadiosModifiers {
    * The group container's layout markers (stacked row layout, vertical
    * alignment with adjacent form controls) and validation state.
    */
-  group: {
+  wrapper: {
     'data-stacked'?: ''
     'data-aligned'?: ''
     'data-invalid'?: ''

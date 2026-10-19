@@ -33,9 +33,9 @@ import type {
   IftaClasses,
   IftaParts,
   IftaSlots,
-  TabsClasses,
-  TabsParts,
-  TabsSlots,
+  TabbedClasses,
+  TabbedParts,
+  TabbedSlots,
 } from '#src/features'
 
 /**
@@ -67,7 +67,7 @@ export interface VfLayoutSlots
     AddonsSlots,
     IconsSlots,
     TranslateSlots,
-    TabsSlots {
+    TabbedSlots {
   /**
    * Slot for the element's default content.
    */
@@ -85,7 +85,7 @@ export interface VfLayoutParts
     AddonsParts,
     IconsParts,
     TranslateParts,
-    TabsParts {
+    TabbedParts {
   /**
    * The PrimeVue InputGroup wrapping addons and the input.
    *
@@ -111,7 +111,7 @@ export interface VfLayoutClasses
     IftaClasses,
     IconsClasses,
     AddonGroupClasses,
-    TabsClasses {}
+    TabbedClasses {}
 
 /**
  * Styling modifiers of the VfLayout component.

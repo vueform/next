@@ -18,6 +18,7 @@ import {
   extractClassDefaults,
   extractClassTypes,
   extractComponentApi,
+  extractComponentAugmentations,
   extractComponentProps,
   extractDefaults,
   extractEvents,
@@ -122,7 +123,9 @@ function mergeBaseAugmentations(
   }
 
   const kindParts =
-    kind === 'container' ? augmentations.containerParts : augmentations.fieldParts
+    kind === 'container'
+      ? augmentations.containerParts
+      : augmentations.fieldParts
   for (const [name, info] of Object.entries({
     ...augmentations.parts,
     ...kindParts,
@@ -178,6 +181,40 @@ function applyAugmentations(
         baseClasses,
         ownDefaults
       )
+    }
+  }
+}
+
+/**
+ * Merges component-scoped declaration merges (`declare module
+ * '@vueform/core/components/<Comp>'` in the component's unstyled/styled/index)
+ * into the entries — e.g. an adapter's VfGroup gaining the tabs feature's
+ * slots / parts / classes. The extracted sets are full merged member lists,
+ * so existing entries win and only the augmentation's additions land.
+ */
+function applyComponentAugmentations(
+  components: Record<string, ComponentEntry>,
+  program: import('typescript').Program,
+  checker: import('typescript').TypeChecker,
+  componentsDir: string
+): void {
+  for (const [componentName, entry] of Object.entries(components)) {
+    const augmentations = extractComponentAugmentations(
+      program,
+      checker,
+      path.join(componentsDir, componentName),
+      componentName
+    )
+    if (!augmentations) continue
+
+    for (const [name, info] of Object.entries(augmentations.slots)) {
+      if (!entry.slots[name]) entry.slots[name] = info
+    }
+    for (const [name, info] of Object.entries(augmentations.parts)) {
+      if (!entry.parts[name]) entry.parts[name] = info
+    }
+    for (const [name, info] of Object.entries(augmentations.classes)) {
+      if (!entry.classes[name]) entry.classes[name] = info
     }
   }
 }
@@ -600,6 +637,13 @@ function extractAdapterComponents(
     output[componentName] = entry
   }
 
+  applyComponentAugmentations(
+    output,
+    adapterProgram,
+    adapterChecker,
+    componentsDir
+  )
+
   const own = Object.keys(output).length - reExported - fallback
   console.log(
     `${adapterName}/components: ${Object.keys(output).length} total, ${own} own, ${reExported} re-exported, ${fallback} core fallback`
@@ -667,6 +711,14 @@ function main() {
     [CORE_COMPONENTS_DIR],
     [BLUEPRINTS_DIR],
     uiBaseClasses
+  )
+  const { program: uiProgram, checker: uiChecker } =
+    createProgram(uiAdapterDir)
+  applyComponentAugmentations(
+    uiComponents,
+    uiProgram,
+    uiChecker,
+    path.join(uiAdapterDir, 'src/components')
   )
   expandSlotInheritance(uiComponents)
 

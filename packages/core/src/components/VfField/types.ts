@@ -1,5 +1,6 @@
 import type { VNode } from 'vue'
 
+import type { InputAriaA11y } from '#src/a11y'
 import {
   type FieldA11y,
   type FieldApi,
@@ -128,6 +129,15 @@ export interface VfFieldSlots<
 export interface VfFieldParts
   extends FieldParts, AddonsParts, IconsParts, TranslateParts {
   /**
+   * The user-rendered control. VfField does not render it — the default slot
+   * supplies the markup and applies `bindings.input` (ARIA state and part
+   * overrides) to whichever element acts as the control.
+   *
+   * @tag input
+   */
+  input: DomAttrsOf<'input'>
+
+  /**
    * The addon group wrapper element.
    *
    * @tag div
@@ -142,9 +152,10 @@ export interface VfFieldClasses
   extends FieldClasses, AddonGroupClasses, IconsClasses {}
 
 /**
- * Accessibility bindings of the VfField component.
+ * Accessibility bindings of the VfField component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfFieldA11y extends FieldA11y {}
+export interface VfFieldA11y extends FieldA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfField component.

@@ -3,6 +3,7 @@ import { defineEvents, useBlueprint } from '@vueform/core'
 import PrimeRating from 'primevue/rating'
 import type { WritableComputedRef } from 'vue'
 
+import { inputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/rating'
 import { vdomPrime } from '#src/helpers'
 
@@ -22,15 +23,31 @@ const props = withDefaults(defineProps<VfRatingProps>(), defaults)
 const events = defineEvents<VfRatingEmits>()
 const slots = defineSlots<VfRatingSlots>()
 
-const { api, parts, classes, context, expose, outlets, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const {
+  api,
+  context,
+  expose,
+  outlets,
+  bindings,
+  useClasses,
+  useModifiers,
+  useA11y,
+} = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ props }) => ({
+useClasses(() => ({
+  root: 'vf-rating',
+}))
+
+useModifiers(({ hasError, help }) => ({
   root: {
-    'vf-rating': true,
-    'vf-aligned': !!props.aligned,
+    'data-align-label': !help.value ? '' : undefined,
+  },
+  input: {
+    'data-invalid': hasError.value ? '' : undefined,
   },
 }))
+
+useA11y(inputAria())
 
 const {
   value,
@@ -63,15 +80,11 @@ defineExpose(expose)
     <VfLayout v-else>
       <Rating
         :name
-        :class="classes.input"
         v-model="inputValue"
         :disabled
         :readonly
         :invalid
-        v-bind="{
-          ...forwardProps,
-          ...parts.input,
-        }"
+        v-bind="{ ...forwardProps, ...bindings.input }"
         :ref="(el) => (input = el)"
         @blur="handleBlur"
         @focus="handleFocus"

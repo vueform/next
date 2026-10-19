@@ -6,7 +6,6 @@ import {
   makeText,
   makeData,
   makeInput,
-  makeAria,
   makeRadioName,
   makeProvider,
   makeLayout,
@@ -19,7 +18,6 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type AriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -136,7 +134,7 @@ export interface RadioModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the radio element blueprint.
  */
-export interface RadioA11y extends BaseElementA11y, AriaA11y {}
+export interface RadioA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for radio-based components.
@@ -169,7 +167,6 @@ export function blueprint<TProps extends RadioProps<string>>(
     .use(makeDisabled())
     .use(makeData())
     .use(makeInput())
-    .use(makeAria())
     .use(makeRadioName())
     .use(makeProvider())
     .build()

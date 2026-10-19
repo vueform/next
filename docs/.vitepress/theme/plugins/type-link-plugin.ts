@@ -93,7 +93,9 @@ export function typeLinkPlugin(md: any) {
           if (isCode && title.includes('\t')) {
             const [typeStr, ...descParts] = title.split('\t')
             const desc = descParts.join('\t').trim()
-            popoverItems = [{ type: 'code', content: `${codeName}: ${typeStr}` }]
+            popoverItems = [
+              { type: 'code', content: `${codeName}: ${typeStr}` },
+            ]
             if (desc) popoverItems.push({ type: 'text', content: desc })
           } else {
             const popoverContent = isType

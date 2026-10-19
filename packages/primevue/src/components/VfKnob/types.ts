@@ -2,8 +2,10 @@ import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
+  InputAriaA11y,
 } from '@vueform/core'
 import type { KnobProps as PvKnobProps } from 'primevue'
+
 import type {
   KnobA11y,
   KnobApi,
@@ -66,9 +68,10 @@ export interface VfKnobClasses extends KnobClasses {
 }
 
 /**
- * Accessibility bindings of the VfKnob component.
+ * Accessibility bindings of the VfKnob component, produced by the `inputAria`
+ * pattern the component registers via `useA11y`.
  */
-export interface VfKnobA11y extends KnobA11y {}
+export interface VfKnobA11y extends KnobA11y, InputAriaA11y {}
 
 /**
  * Styling modifiers of the VfKnob component.

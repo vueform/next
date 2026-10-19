@@ -1,13 +1,13 @@
 import { useFeatures } from '#src/composables'
 import {
   makeAddons,
+  makeAutocomplete,
   makeElement,
   makeIcons,
   makeInteraction,
   makeLoading,
   makeMultilingual,
   makeTData,
-  makeTAria,
   makeKeyHandlers,
   makeDisabled,
   makeReadonly,
@@ -24,7 +24,6 @@ import {
   type TranslateProps,
   type BaseFieldElementParts,
   type BaseElementClasses,
-  type TAriaA11y,
   type BaseElementA11y,
   type BaseElementModifiers,
   type BaseElementSlots,
@@ -139,7 +138,7 @@ export interface TextModifiers extends BaseElementModifiers {}
 /**
  * Accessibility bindings of the text element blueprint.
  */
-export interface TextA11y extends BaseElementA11y, TAriaA11y {}
+export interface TextA11y extends BaseElementA11y {}
 
 /**
  * Augmentable public API surface for text-based components.
@@ -181,10 +180,10 @@ export function blueprint<TProps extends TextProps<string>>(
     .use(makePlaceholder())
     .use(makeMultilingual())
     .use(makeTData())
-    .use(makeTAria())
     .use(makeInput())
     .use(makeKeyHandlers())
     .use(makeLoading())
+    .use(makeAutocomplete())
     .use(makeProvider())
     .build()
 }
