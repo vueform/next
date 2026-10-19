@@ -29,8 +29,8 @@ type BlueprintContext<
       outlets: ComputedRef<TSlots>
 
       /**
-       * Part-keyed accessibility bindings: the blueprint's semantic base
-       * merged with component-registered bags (`useA11yBindings`).
+       * Part-keyed accessibility bindings registered by the component via
+       * `useA11y` (usually through a canonical `#src/a11y` pattern).
        */
       a11yBindings: TA11y
 
@@ -39,6 +39,14 @@ type BlueprintContext<
        * registered by the component via `useModifiers`.
        */
       modifiers: TModifiers
+
+      /**
+       * The per-part aggregate the template consumes: for each part key, one
+       * bag (or resolver function when the part is functional) merging the
+       * part's modifiers, a11y bindings, part attribute overrides, and
+       * resolved classes (as `class`).
+       */
+      bindings: BindingsOf<TParts, TClasses, TModifiers, TA11y>
 
       /**
        * The resolved Vueform configuration for the injecting app.

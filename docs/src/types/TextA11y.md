@@ -2,5 +2,5 @@
 /**
  * Accessibility bindings of the text element blueprint.
  */
-interface TextA11y extends BaseElementA11y, TAriaA11y {}
+interface TextA11y extends BaseElementA11y {}
 ```

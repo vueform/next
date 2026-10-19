@@ -175,7 +175,7 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
 | `wrapper` | [`index`](!code#slot.wrapper.index "number") [`label`](!code#slot.wrapper.label "string") [`meta`](!code#slot.wrapper.meta "Record<string, any>") [`selected`](!code#slot.wrapper.selected "boolean") [`invalid`](!code#slot.wrapper.invalid "boolean") [`loading`](!code#slot.wrapper.loading "boolean") [`enabled`](!code#slot.wrapper.enabled "boolean") [`completed`](!code#slot.wrapper.completed "boolean") [`el$`](!code#slot.wrapper.el$ "UnknownElement") [`page`](!code#slot.wrapper.page "ResolvedPage") | Slot that replaces each step wrapper element. Receives step state and page info. |
-| `default` | [`index`](!code#slot.default.index "number") [`label`](!code#slot.default.label "string") [`meta`](!code#slot.default.meta "Record<string, any>") [`selected`](!code#slot.default.selected "boolean") [`invalid`](!code#slot.default.invalid "boolean") [`loading`](!code#slot.default.loading "boolean") [`enabled`](!code#slot.default.enabled "boolean") [`completed`](!code#slot.default.completed "boolean") [`el$`](!code#slot.default.el$ "UnknownElement") | Slot that replaces each step's inner content. Receives step state. |
+| `default` | [`index`](!code#slot.default.index "number") [`label`](!code#slot.default.label "string") [`meta`](!code#slot.default.meta "Record<string, any>") [`selected`](!code#slot.default.selected "boolean") [`invalid`](!code#slot.default.invalid "boolean") [`loading`](!code#slot.default.loading "boolean") [`enabled`](!code#slot.default.enabled "boolean") [`completed`](!code#slot.default.completed "boolean") [`el$`](!code#slot.default.el$ "UnknownElement") [`bindings`](!code#slot.default.bindings "PartBindings<'step', VfStepsParts, VfStepsModifiers, VfStepsA11y>") | Slot that replaces each step's inner content. Receives step state. |
 <!-- @slots-end -->
 <!-- @endtab -->
 
@@ -214,7 +214,7 @@ The ordered list element containing all steps.
 
 ### `wrapper`
 
-Each step wrapper. Receives step state options.
+Each step wrapper. Receives the step's resolved page.
 
 | | |
 | --- | --- |

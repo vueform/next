@@ -10,17 +10,31 @@ interface VfFileClasses extends FileClasses {
 
   /**
    * An individual file entry in the file list.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  item: ClassValue
+  item: (file: FileListItem, index: number) => ClassValue
 
   /**
    * The file name text or link.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  name: ClassValue
+  name: (file: FileListItem, index: number) => ClassValue
 
   /**
    * The remove button for a file entry.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
    */
-  remove: ClassValue
+  remove: (file: FileListItem, index: number) => ClassValue
+
+  /**
+   * The hidden file `<input>` tag.
+   */
+  input: ClassValue
 }
 ```

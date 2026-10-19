@@ -417,7 +417,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
-| [`a11yBindings`](!code#context.a11yBindings "AriaA11y") | Part-keyed accessibility bindings: ARIA attributes for the input and ids/roles for the layout-rendered label, help, description, and error parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -465,8 +464,8 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `default` | [`model`](!code#slot.default.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.default.trueValue "TTrueValue") [`falseValue`](!code#slot.default.falseValue "TFalseValue") [`inputName`](!code#slot.default.inputName "string") [`id`](!code#slot.default.id "string") [`disabled`](!code#slot.default.disabled "boolean") [`input`](!code#slot.default.input "any") [`text`](!code#slot.default.text "string \| undefined") [`classes`](!code#slot.default.classes "VfCheckboxClasses") [`parts`](!code#slot.default.parts "Partial<VfCheckboxParts>") [`a11yBindings`](!code#slot.default.a11yBindings "VfCheckboxA11y") [`modifiers`](!code#slot.default.modifiers "VfCheckboxModifiers") [`handleBlur`](!code#slot.default.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.default.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.default.handleModelUpdate "(e: Event) => void") | Slot that replaces the default checkbox rendering. Receives input-specific props. |
-| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`classes`](!code#slot.text.classes "ClassValue") [`part`](!code#slot.text.part "DomAttrsOf<'label'> \| undefined") | Slot that replaces the text/label portion of the checkbox. |
+| `default` | [`model`](!code#slot.default.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.default.trueValue "TTrueValue") [`falseValue`](!code#slot.default.falseValue "TFalseValue") [`inputName`](!code#slot.default.inputName "string") [`id`](!code#slot.default.id "string") [`disabled`](!code#slot.default.disabled "boolean") [`input`](!code#slot.default.input "any") [`text`](!code#slot.default.text "string \| undefined") [`bindings`](!code#slot.default.bindings "VfCheckboxBindings['wrapper']") [`handleBlur`](!code#slot.default.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.default.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.default.handleModelUpdate "(e: Event) => void") | Slot that replaces the default checkbox rendering. Receives input-specific props. |
+| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfCheckboxBindings['text']") | Slot that replaces the text/label portion of the checkbox. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -634,6 +633,7 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -643,7 +643,6 @@ An individual validation error.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.error.a11y.id "string") [`role`](!code#parts.error.a11y.role "'alert'") |
 
 ### `messages`
 

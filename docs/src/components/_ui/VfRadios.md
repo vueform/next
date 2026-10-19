@@ -1192,7 +1192,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
-| [`a11yBindings`](!code#context.a11yBindings "GroupAriaA11y") | Part-keyed accessibility bindings: role, labelling, and ARIA state for the group container plus ids/roles for the layout-rendered parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -1239,11 +1238,11 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `default` | [`radioName`](!code#slot.default.radioName "string") [`disabled`](!code#slot.default.disabled "boolean") [`label`](!code#slot.default.label "string \| undefined") [`items`](!code#slot.default.items "ResolvedItem<TValue, TRaw>[]") [`groups`](!code#slot.default.groups "ResolvedGroup<TValue, TRaw>[]") [`grouped`](!code#slot.default.grouped "boolean") [`classes`](!code#slot.default.classes "VfRadiosClasses") [`parts`](!code#slot.default.parts "Partial<VfRadiosParts>") [`a11yBindings`](!code#slot.default.a11yBindings "VfRadiosA11y") [`modifiers`](!code#slot.default.modifiers "VfRadiosModifiers") | Slot that replaces the default radios rendering. Receives resolved items, groups, and shared state. |
-| `group` | [`radioName`](!code#slot.group.radioName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<TValue, TRaw>") [`classes`](!code#slot.group.classes "VfRadiosClasses") [`parts`](!code#slot.group.parts "Partial<VfRadiosParts>") [`a11yBindings`](!code#slot.group.a11yBindings "VfRadiosA11y") [`modifiers`](!code#slot.group.modifiers "VfRadiosModifiers") | Slot that replaces each option group when items are grouped. |
-| `item` | [`radioName`](!code#slot.item.radioName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedItem<TValue, TRaw>") [`classes`](!code#slot.item.classes "VfRadiosClasses") [`parts`](!code#slot.item.parts "Partial<VfRadiosParts>") | Slot that replaces each entire `VfRadio` child. Receives the resolved item and shared state. |
-| `radio` | [`value`](!code#slot.radio.value "TRadioValue") [`model`](!code#slot.radio.model "TRadioValue \| null") [`inputName`](!code#slot.radio.inputName "string") [`id`](!code#slot.radio.id "string") [`disabled`](!code#slot.radio.disabled "boolean") [`input`](!code#slot.radio.input "any") [`text`](!code#slot.radio.text "string \| undefined") [`classes`](!code#slot.radio.classes "VfRadioClasses") [`parts`](!code#slot.radio.parts "Partial<VfRadioParts>") [`a11yBindings`](!code#slot.radio.a11yBindings "VfRadioA11y") [`modifiers`](!code#slot.radio.modifiers "VfRadioModifiers") [`handleBlur`](!code#slot.radio.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.radio.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.radio.handleModelUpdate "(e: Event) => void") | Slot that replaces each individual radio input rendering inside the default `VfRadio` child.<br><br>Child radios always use the default `true` radio value; the holder's item value is resolved by name, not passed as `radioValue`. |
-| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`classes`](!code#slot.text.classes "ClassValue") [`part`](!code#slot.text.part "DomAttrsOf<'label'> \| undefined") | Slot that replaces the text/label of each individual radio. |
+| `default` | [`radioName`](!code#slot.default.radioName "string") [`disabled`](!code#slot.default.disabled "boolean") [`label`](!code#slot.default.label "string \| undefined") [`items`](!code#slot.default.items "ResolvedItem<TValue, TRaw>[]") [`groups`](!code#slot.default.groups "ResolvedGroup<TValue, TRaw>[]") [`grouped`](!code#slot.default.grouped "boolean") | Slot that replaces the default radios rendering. Receives resolved items, groups, and shared state. |
+| `group` | [`radioName`](!code#slot.group.radioName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<TValue, TRaw>") [`bindings`](!code#slot.group.bindings "VfRadiosBindings['group']") | Slot that replaces each option group when items are grouped. |
+| `item` | [`radioName`](!code#slot.item.radioName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedItem<TValue, TRaw>") [`bindings`](!code#slot.item.bindings "VfRadiosBindings['item']") | Slot that replaces each entire `VfRadio` child. Receives the resolved item and shared state. |
+| `radio` | [`value`](!code#slot.radio.value "TRadioValue") [`model`](!code#slot.radio.model "TRadioValue \| null") [`inputName`](!code#slot.radio.inputName "string") [`id`](!code#slot.radio.id "string") [`disabled`](!code#slot.radio.disabled "boolean") [`input`](!code#slot.radio.input "any") [`text`](!code#slot.radio.text "string \| undefined") [`bindings`](!code#slot.radio.bindings "VfRadioBindings['wrapper']") [`handleBlur`](!code#slot.radio.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.radio.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.radio.handleModelUpdate "(e: Event) => void") | Slot that replaces each individual radio input rendering inside the default `VfRadio` child.<br><br>Child radios always use the default `true` radio value; the holder's item value is resolved by name, not passed as `radioValue`. |
+| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfRadioBindings['text']") | Slot that replaces the text/label of each individual radio. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -1362,7 +1361,7 @@ The help text area.
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
 | **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
-### `group`
+### `wrapper`
 
 The wrapper element containing all radio items.
 
@@ -1370,10 +1369,10 @@ The wrapper element containing all radio items.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choices-group` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.group.modifiers.data-stacked "''") [`data-aligned`](!code#parts.group.modifiers.data-aligned "''") [`data-invalid`](!code#parts.group.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.group.a11y.role "'group' \| 'radiogroup'") [`aria-labelledby`](!code#parts.group.a11y.aria-labelledby "string") [`aria-label`](!code#parts.group.a11y.aria-label "string") [`aria-describedby`](!code#parts.group.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.group.a11y.aria-invalid "true") [`aria-required`](!code#parts.group.a11y.aria-required "true") |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.wrapper.modifiers.data-stacked "''") [`data-aligned`](!code#parts.wrapper.modifiers.data-aligned "''") [`data-invalid`](!code#parts.wrapper.modifiers.data-invalid "''") |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.wrapper.a11y.role "'group' \| 'radiogroup'") [`aria-labelledby`](!code#parts.wrapper.a11y.aria-labelledby "string") [`aria-label`](!code#parts.wrapper.a11y.aria-label "string") [`aria-describedby`](!code#parts.wrapper.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.wrapper.a11y.aria-invalid "true") [`aria-required`](!code#parts.wrapper.a11y.aria-required "true") |
 
-### `fieldset`
+### `group`
 
 The fieldset element wrapping each group when items are grouped.
 
@@ -1381,7 +1380,7 @@ The fieldset element wrapping each group when items are grouped.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<fieldset>` |
 
-### `legend`
+### `groupLabel`
 
 The legend element displaying the group label.
 
@@ -1415,6 +1414,7 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -1424,7 +1424,6 @@ An individual validation error.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.error.a11y.id "string") [`role`](!code#parts.error.a11y.role "'alert'") |
 
 ### `messages`
 

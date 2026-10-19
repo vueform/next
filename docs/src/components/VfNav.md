@@ -171,12 +171,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | --- | --- |
 | [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
 | [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
-
-### Accessibility {#section-a11y}
-
-| Name | Description |
-| --- | --- |
-| [`a11yBindings`](!code#context.a11yBindings "NavA11y") | Part-keyed accessibility bindings: ready-to-spread attribute bags for the back, next, and finish controls (also passed to their slots) and for the screen-reader status region. |
 <!-- @context-end -->
 
 <!-- @endcollapsible -->
@@ -208,11 +202,11 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `back` | [`label`](!code#slot.back.label "TProp \| string \| undefined") [`pager`](!code#slot.back.pager "Pager") [`form$`](!code#slot.back.form$ "any") [`disabled`](!code#slot.back.disabled "boolean \| string \| ConditionalProp") [`fluid`](!code#slot.back.fluid "boolean") [`classes`](!code#slot.back.classes "ClassValue") [`part`](!code#slot.back.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.back.a11yBindings "VfNavA11y['back']") [`back`](!code#slot.back.back "() => Promise<void>") | Slot that replaces the back button. The payload is what VfNav provides — a fixed list, independent of the registered `VfButton`'s prop surface, since the slot may render anything. |
+| `back` | [`label`](!code#slot.back.label "TProp \| string \| undefined") [`pager`](!code#slot.back.pager "Pager") [`form$`](!code#slot.back.form$ "any") [`disabled`](!code#slot.back.disabled "boolean \| string \| ConditionalProp") [`fluid`](!code#slot.back.fluid "boolean") [`bindings`](!code#slot.back.bindings "VfNavBindings['back']") [`back`](!code#slot.back.back "() => Promise<void>") | Slot that replaces the back button. The payload is what VfNav provides — a fixed list, independent of the registered `VfButton`'s prop surface, since the slot may render anything. |
 | `backText` | [`label`](!code#slot.backText.label "string \| undefined") [`pager`](!code#slot.backText.pager "Pager") [`form$`](!code#slot.backText.form$ "any") | Slot that replaces the back button's text label. |
-| `next` | [`label`](!code#slot.next.label "TProp \| string \| undefined") [`pager`](!code#slot.next.pager "Pager") [`form$`](!code#slot.next.form$ "any") [`disabled`](!code#slot.next.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.next.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.next.fluid "boolean") [`classes`](!code#slot.next.classes "ClassValue") [`part`](!code#slot.next.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.next.a11yBindings "VfNavA11y['next']") [`modifiers`](!code#slot.next.modifiers "VfNavModifiers['next']") [`next`](!code#slot.next.next "() => Promise<void>") | Slot that replaces the next button. The payload is what VfNav provides — a fixed list, independent of the registered `VfButton`'s prop surface, since the slot may render anything. |
+| `next` | [`label`](!code#slot.next.label "TProp \| string \| undefined") [`pager`](!code#slot.next.pager "Pager") [`form$`](!code#slot.next.form$ "any") [`disabled`](!code#slot.next.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.next.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.next.fluid "boolean") [`bindings`](!code#slot.next.bindings "VfNavBindings['next']") [`next`](!code#slot.next.next "() => Promise<void>") | Slot that replaces the next button. The payload is what VfNav provides — a fixed list, independent of the registered `VfButton`'s prop surface, since the slot may render anything. |
 | `nextText` | [`label`](!code#slot.nextText.label "string \| undefined") [`pager`](!code#slot.nextText.pager "Pager") [`form$`](!code#slot.nextText.form$ "any") | Slot that replaces the next button's text label. |
-| `finish` | [`label`](!code#slot.finish.label "TProp \| string \| undefined") [`pager`](!code#slot.finish.pager "Pager") [`form$`](!code#slot.finish.form$ "any") [`disabled`](!code#slot.finish.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.finish.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.finish.fluid "boolean") [`classes`](!code#slot.finish.classes "ClassValue") [`part`](!code#slot.finish.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.finish.a11yBindings "VfNavA11y['finish']") [`modifiers`](!code#slot.finish.modifiers "VfNavModifiers['finish']") [`finish`](!code#slot.finish.finish "() => Promise<void>") | Slot that replaces the finish button. The payload is what VfNav provides — a fixed list, independent of the registered `VfButton`'s prop surface, since the slot may render anything. |
+| `finish` | [`label`](!code#slot.finish.label "TProp \| string \| undefined") [`pager`](!code#slot.finish.pager "Pager") [`form$`](!code#slot.finish.form$ "any") [`disabled`](!code#slot.finish.disabled "boolean \| string \| ConditionalProp") [`loading`](!code#slot.finish.loading "boolean \| ConditionalProp") [`fluid`](!code#slot.finish.fluid "boolean") [`bindings`](!code#slot.finish.bindings "VfNavBindings['finish']") [`finish`](!code#slot.finish.finish "() => Promise<void>") | Slot that replaces the finish button. The payload is what VfNav provides — a fixed list, independent of the registered `VfButton`'s prop surface, since the slot may render anything. |
 | `finishText` | [`label`](!code#slot.finishText.label "string \| undefined") [`pager`](!code#slot.finishText.pager "Pager") [`form$`](!code#slot.finishText.form$ "any") | Slot that replaces the finish button's text label. |
 <!-- @slots-end -->
 
@@ -273,6 +267,7 @@ The screen-reader-only loading indicator element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.srOnlyLoading.a11y.id "string") [`role`](!code#parts.srOnlyLoading.a11y.role "'status'") |
 <!-- @parts-end -->
 <!-- @endtab -->
 <!-- @tab Tokens -->

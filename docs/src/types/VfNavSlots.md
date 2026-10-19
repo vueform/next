@@ -38,20 +38,10 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * CSS classes for the back button element.
+     * The back button's resolved bindings (classes, part overrides, ARIA
+     * state); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:back` attribute overrides for the back button element;
-     * apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Ready-to-spread ARIA attribute bindings for the rendered control.
-     */
-    a11yBindings: VfNavA11y['back']
+    bindings: VfNavBindings['back']
 
     /**
      * Handler to navigate back.
@@ -121,25 +111,10 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * CSS classes for the next button element.
+     * The next button's resolved bindings (classes, part overrides, loading
+     * modifier, ARIA state); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:next` attribute overrides for the next button element;
-     * apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Ready-to-spread ARIA attribute bindings for the rendered control.
-     */
-    a11yBindings: VfNavA11y['next']
-
-    /**
-     * Ready-to-spread styling modifier attributes for the rendered control.
-     */
-    modifiers: VfNavModifiers['next']
+    bindings: VfNavBindings['next']
 
     /**
      * Handler to navigate to the next step.
@@ -209,25 +184,10 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * CSS classes for the finish button element.
+     * The finish button's resolved bindings (classes, part overrides, loading
+     * modifier, ARIA state); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:finish` attribute overrides for the finish button
-     * element; apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Ready-to-spread ARIA attribute bindings for the rendered control.
-     */
-    a11yBindings: VfNavA11y['finish']
-
-    /**
-     * Ready-to-spread styling modifier attributes for the rendered control.
-     */
-    modifiers: VfNavModifiers['finish']
+    bindings: VfNavBindings['finish']
 
     /**
      * Handler to finish/submit the form.

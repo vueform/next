@@ -128,8 +128,8 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `required` | — | Slot for customizing the required indicator. |
 | `info` | [`info`](!code#slot.info.info "string") | Slot for customizing the info tooltip or helper content. |
 | `ifta` | [`ifta`](!code#slot.ifta.ifta "string") | Slot for customizing the IFTA label content. |
-| `tabs` | [`pager`](!code#slot.tabs.pager "Pager") [`classes`](!code#slot.tabs.classes "ClassValue") | Slot that replaces the tabs navigation bar. Receives the pager instance. |
-| `tab` | [`page`](!code#slot.tab.page "ResolvedPage") [`classes`](!code#slot.tab.classes "ClassValue") | Slot that replaces each individual tab. |
+| `tabs` | [`pager`](!code#slot.tabs.pager "Pager") [`bindings`](!code#slot.tabs.bindings "PartBindings<'tabs', TabbedParts>") | Slot that replaces the tabs navigation bar. Receives the pager instance. |
+| `tab` | [`page`](!code#slot.tab.page "ResolvedPage") [`bindings`](!code#slot.tab.bindings "PartBindings<'tab', TabbedParts>") | Slot that replaces each individual tab. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `default` | — | Slot for the element's default content. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |

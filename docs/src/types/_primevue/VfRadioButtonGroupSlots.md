@@ -60,27 +60,6 @@ interface VfRadioButtonGroupSlots<
      * Whether the options are grouped.
      */
     grouped: boolean
-
-    /**
-     * The component's resolved classes, keyed by part name.
-     */
-    classes: VfRadioButtonGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadioButtonGroupParts>
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfRadioButtonGroupA11y
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfRadioButtonGroupModifiers
   }) => VNode[]
 
   /**
@@ -108,25 +87,10 @@ interface VfRadioButtonGroupSlots<
     group: ResolvedGroup<TValue, TRaw>
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The group fieldset's resolved bindings (part overrides for this group's
+     * fieldset element); apply with `v-bind`.
      */
-    classes: VfRadioButtonGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadioButtonGroupParts>
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfRadioButtonGroupA11y
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfRadioButtonGroupModifiers
+    bindings: VfRadioButtonGroupBindings['group']
   }) => VNode[]
 
   /**
@@ -155,14 +119,10 @@ interface VfRadioButtonGroupSlots<
     item: ResolvedOption<TValue, TRaw>
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The item's resolved bindings (part overrides for this item's
+     * VfRadioButton child); apply with `v-bind`.
      */
-    classes: VfRadioButtonGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadioButtonGroupParts>
+    bindings: VfRadioButtonGroupBindings['item']
   }) => VNode[]
 
   /**

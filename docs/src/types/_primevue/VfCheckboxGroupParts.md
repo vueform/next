@@ -8,7 +8,7 @@ interface VfCheckboxGroupParts extends CheckboxGroupParts {
    *
    * @tag div
    */
-  group: DomAttrsOf<'div'>
+  wrapper: DomAttrsOf<'div'>
 
   /**
    * The fieldset element wrapping each group when items are grouped.
@@ -16,7 +16,7 @@ interface VfCheckboxGroupParts extends CheckboxGroupParts {
    * @param group The group data.
    * @tag fieldset
    */
-  fieldset: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
+  group: (group: Record<string, any>) => DomAttrsOf<'fieldset'>
 
   /**
    * The legend element displaying the group label.
@@ -24,7 +24,7 @@ interface VfCheckboxGroupParts extends CheckboxGroupParts {
    * @param group The group data.
    * @tag legend
    */
-  legend: (group: Record<string, any>) => DomAttrsOf<'legend'>
+  groupLabel: (group: Record<string, any>) => DomAttrsOf<'legend'>
 
   /**
    * Props factory for each VfCheckbox child component, receiving the item data.

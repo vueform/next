@@ -9,5 +9,12 @@ interface VfToggleSwitchParts extends ToggleSwitchParts {
    * @tag ToggleSwitch
    */
   input: PvToggleSwitchProps
+
+  /**
+   * The toggle switch handle element.
+   *
+   * @tag i
+   */
+  handle: DomAttrsOf<'i'>
 }
 ```

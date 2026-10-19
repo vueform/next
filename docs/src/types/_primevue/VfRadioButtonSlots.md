@@ -46,26 +46,11 @@ interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
     text: string | undefined
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The default slot's own part is the wrapper (the fallback's top-level
+     * element): its resolved classes, part overrides, and alignment
+     * modifiers; apply with `v-bind`.
      */
-    classes: VfRadioButtonClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfRadioButtonParts>
-
-    /**
-     * Part-keyed accessibility bindings; apply each key's bag to the matching
-     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
-     */
-    a11yBindings: VfRadioButtonA11y
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfRadioButtonModifiers
+    bindings: VfRadioButtonBindings['wrapper']
 
     /**
      * Handles the input's blur event.
@@ -119,15 +104,10 @@ interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
     genericName: string
 
     /**
-     * CSS classes for the text/label element.
+     * The text element's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:text` attribute overrides for the text/label element;
-     * apply with `v-bind`.
-     */
-    part: DomAttrsOf<'label'> | undefined
+    bindings: VfRadioButtonBindings['text']
   }) => VNode[]
 }
 ```

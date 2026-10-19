@@ -629,7 +629,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
-| [`a11yBindings`](!code#context.a11yBindings "AriaA11y") | Part-keyed accessibility bindings: ARIA attributes for the input and ids/roles for the layout-rendered label, help, description, and error parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -847,6 +846,7 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -856,7 +856,6 @@ An individual validation error.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.error.a11y.id "string") [`role`](!code#parts.error.a11y.role "'alert'") |
 
 ### `messages`
 

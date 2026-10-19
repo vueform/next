@@ -796,8 +796,10 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
+| `tabs` | [`pager`](!code#slot.tabs.pager "Pager") [`bindings`](!code#slot.tabs.bindings "PartBindings<'tabs', TabbedParts>") | Slot for customizing the tab navigation bar. |
+| `tab` | [`index`](!code#slot.tab.index "number") [`label`](!code#slot.tab.label "string") [`meta`](!code#slot.tab.meta "Record<string, any>") [`selected`](!code#slot.tab.selected "boolean") [`invalid`](!code#slot.tab.invalid "boolean") [`loading`](!code#slot.tab.loading "boolean") [`el$`](!code#slot.tab.el$ "UnknownElement") [`bindings`](!code#slot.tab.bindings "PartBindings<'tab', VfTabsParts, VfTabsModifiers, VfTabsA11y>") | Slot for customizing an individual tab button. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `wrapper` | [`resolvedSchema`](!code#slot.wrapper.resolvedSchema "ResolvedSchema") [`label`](!code#slot.wrapper.label "string") [`classes`](!code#slot.wrapper.classes "VfGroupClasses") [`parts`](!code#slot.wrapper.parts "Partial<VfGroupParts>") [`modifiers`](!code#slot.wrapper.modifiers "VfGroupModifiers") | Slot that replaces the wrapper element. Receives the component's classes and parts proxies and the resolved schema. |
+| `wrapper` | [`resolvedSchema`](!code#slot.wrapper.resolvedSchema "ResolvedSchema") [`label`](!code#slot.wrapper.label "string") [`bindings`](!code#slot.wrapper.bindings "PartBindings<'wrapper', VfGroupParts, VfGroupModifiers, VfGroupA11y>") | Slot that replaces the wrapper element. Receives the wrapper part's resolved bindings and the resolved schema. |
 | `default` | [`resolvedSchema`](!code#slot.default.resolvedSchema "ResolvedSchema") | Slot that replaces the default content. Receives the resolved schema for rendering children. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
@@ -964,6 +966,14 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
+
+### `tabs`
+
+Props forwarded to the nested VfTabs component.
+
+| | |
+| --- | --- |
+| **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfTabs>`](./VfTabs.md) |
 
 ### `errors`
 

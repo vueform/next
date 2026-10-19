@@ -4,11 +4,6 @@
  */
 interface VfListClasses extends ListClasses {
   /**
-   * The outer list container element.
-   */
-  container: ClassValue
-
-  /**
    * The items container element.
    */
   items: ClassValue
@@ -16,8 +11,11 @@ interface VfListClasses extends ListClasses {
   /**
    * Each list item wrapper. Drag state is exposed via `data-dragging` and
    * `data-drop-target` attributes (and `data-wrapped` for the `wrap` prop).
+   *
+   * @param beingDragged Whether this item is currently being dragged.
+   * @param isDropTarget Whether this item is the current drop target.
    */
-  item: ClassValue
+  item: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
 
   /**
    * The element wrapper within each list item.
@@ -26,13 +24,17 @@ interface VfListClasses extends ListClasses {
 
   /**
    * The drag handle element.
+   *
+   * @param index The item's zero-based index.
    */
-  sort: ClassValue
+  sort: (index: number) => ClassValue
 
   /**
    * The remove button element.
+   *
+   * @param index The item's zero-based index.
    */
-  remove: ClassValue
+  remove: (index: number) => ClassValue
 
   /**
    * The placeholder element displayed when the list is empty.

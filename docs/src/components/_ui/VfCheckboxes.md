@@ -1196,7 +1196,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
-| [`a11yBindings`](!code#context.a11yBindings "GroupAriaA11y") | Part-keyed accessibility bindings: role, labelling, and ARIA state for the group container plus ids/roles for the layout-rendered parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -1243,11 +1242,11 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `default` | [`checkboxName`](!code#slot.default.checkboxName "string") [`disabled`](!code#slot.default.disabled "boolean") [`label`](!code#slot.default.label "string \| undefined") [`items`](!code#slot.default.items "ResolvedItem<ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>, RawItemOf<TItems, TGroupChildren>>[]") [`groups`](!code#slot.default.groups "ResolvedGroup<ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>, RawItemOf<TItems, TGroupChildren>>[]") [`grouped`](!code#slot.default.grouped "boolean") [`classes`](!code#slot.default.classes "VfCheckboxesClasses") [`parts`](!code#slot.default.parts "Partial<VfCheckboxesParts>") [`a11yBindings`](!code#slot.default.a11yBindings "VfCheckboxesA11y") [`modifiers`](!code#slot.default.modifiers "VfCheckboxesModifiers") | Slot that replaces the default checkboxes rendering. |
-| `group` | [`checkboxName`](!code#slot.group.checkboxName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>, RawItemOf<TItems, TGroupChildren>>") [`classes`](!code#slot.group.classes "VfCheckboxesClasses") [`parts`](!code#slot.group.parts "Partial<VfCheckboxesParts>") [`a11yBindings`](!code#slot.group.a11yBindings "VfCheckboxesA11y") [`modifiers`](!code#slot.group.modifiers "VfCheckboxesModifiers") | Slot that replaces each option group when items are grouped. |
-| `item` | [`checkboxName`](!code#slot.item.checkboxName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedItem<ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>, RawItemOf<TItems, TGroupChildren>>") [`classes`](!code#slot.item.classes "VfCheckboxesClasses") [`parts`](!code#slot.item.parts "Partial<VfCheckboxesParts>") | Slot that replaces each entire `VfCheckbox` child. |
-| `checkbox` | [`model`](!code#slot.checkbox.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.checkbox.trueValue "TTrueValue") [`falseValue`](!code#slot.checkbox.falseValue "TFalseValue") [`inputName`](!code#slot.checkbox.inputName "string") [`id`](!code#slot.checkbox.id "string") [`disabled`](!code#slot.checkbox.disabled "boolean") [`input`](!code#slot.checkbox.input "any") [`text`](!code#slot.checkbox.text "string \| undefined") [`classes`](!code#slot.checkbox.classes "VfCheckboxClasses") [`parts`](!code#slot.checkbox.parts "Partial<VfCheckboxParts>") [`a11yBindings`](!code#slot.checkbox.a11yBindings "VfCheckboxA11y") [`modifiers`](!code#slot.checkbox.modifiers "VfCheckboxModifiers") [`handleBlur`](!code#slot.checkbox.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.checkbox.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.checkbox.handleModelUpdate "(e: Event) => void") | Slot that replaces each individual checkbox input rendering.<br><br>Child checkboxes always use the default `true` / `false` values; the holder's item value is resolved by name, not passed as `trueValue`. |
-| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`classes`](!code#slot.text.classes "ClassValue") [`part`](!code#slot.text.part "DomAttrsOf<'label'> \| undefined") | Slot that replaces the text/label of each individual checkbox. |
+| `default` | [`checkboxName`](!code#slot.default.checkboxName "string") [`disabled`](!code#slot.default.disabled "boolean") [`label`](!code#slot.default.label "string \| undefined") [`items`](!code#slot.default.items "ResolvedItem<ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>, RawItemOf<TItems, TGroupChildren>>[]") [`groups`](!code#slot.default.groups "ResolvedGroup<ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>, RawItemOf<TItems, TGroupChildren>>[]") [`grouped`](!code#slot.default.grouped "boolean") | Slot that replaces the default checkboxes rendering. |
+| `group` | [`checkboxName`](!code#slot.group.checkboxName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>, RawItemOf<TItems, TGroupChildren>>") [`bindings`](!code#slot.group.bindings "VfCheckboxesBindings['group']") | Slot that replaces each option group when items are grouped. |
+| `item` | [`checkboxName`](!code#slot.item.checkboxName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedItem<ItemValueOf<TItems, TItemValueKey, TGroupChildren, TItemValueReturn>, RawItemOf<TItems, TGroupChildren>>") [`bindings`](!code#slot.item.bindings "VfCheckboxesBindings['item']") | Slot that replaces each entire `VfCheckbox` child. |
+| `checkbox` | [`model`](!code#slot.checkbox.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.checkbox.trueValue "TTrueValue") [`falseValue`](!code#slot.checkbox.falseValue "TFalseValue") [`inputName`](!code#slot.checkbox.inputName "string") [`id`](!code#slot.checkbox.id "string") [`disabled`](!code#slot.checkbox.disabled "boolean") [`input`](!code#slot.checkbox.input "any") [`text`](!code#slot.checkbox.text "string \| undefined") [`bindings`](!code#slot.checkbox.bindings "VfCheckboxBindings['wrapper']") [`handleBlur`](!code#slot.checkbox.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.checkbox.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.checkbox.handleModelUpdate "(e: Event) => void") | Slot that replaces each individual checkbox input rendering.<br><br>Child checkboxes always use the default `true` / `false` values; the holder's item value is resolved by name, not passed as `trueValue`. |
+| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfCheckboxBindings['text']") | Slot that replaces the text/label of each individual checkbox. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -1366,7 +1365,7 @@ The help text area.
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
 | **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
-### `group`
+### `wrapper`
 
 The wrapper element containing all checkbox items.
 
@@ -1374,10 +1373,10 @@ The wrapper element containing all checkbox items.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choices-group` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.group.modifiers.data-stacked "''") [`data-aligned`](!code#parts.group.modifiers.data-aligned "''") [`data-invalid`](!code#parts.group.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.group.a11y.role "'group' \| 'radiogroup'") [`aria-labelledby`](!code#parts.group.a11y.aria-labelledby "string") [`aria-label`](!code#parts.group.a11y.aria-label "string") [`aria-describedby`](!code#parts.group.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.group.a11y.aria-invalid "true") [`aria-required`](!code#parts.group.a11y.aria-required "true") |
+| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.wrapper.modifiers.data-stacked "''") [`data-aligned`](!code#parts.wrapper.modifiers.data-aligned "''") [`data-invalid`](!code#parts.wrapper.modifiers.data-invalid "''") |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.wrapper.a11y.role "'group' \| 'radiogroup'") [`aria-labelledby`](!code#parts.wrapper.a11y.aria-labelledby "string") [`aria-label`](!code#parts.wrapper.a11y.aria-label "string") [`aria-describedby`](!code#parts.wrapper.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.wrapper.a11y.aria-invalid "true") [`aria-required`](!code#parts.wrapper.a11y.aria-required "true") |
 
-### `fieldset`
+### `group`
 
 The fieldset element wrapping each group when items are grouped.
 
@@ -1385,7 +1384,7 @@ The fieldset element wrapping each group when items are grouped.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<fieldset>` |
 
-### `legend`
+### `groupLabel`
 
 The legend element displaying the group label.
 
@@ -1419,6 +1418,7 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -1428,7 +1428,6 @@ An individual validation error.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.error.a11y.id "string") [`role`](!code#parts.error.a11y.role "'alert'") |
 
 ### `messages`
 

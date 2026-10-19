@@ -15,8 +15,8 @@ interface VfLayoutContext extends DefineElementContext<
   VfLayoutSlots,
   VfLayoutParts,
   VfLayoutClasses,
-  Modifiers,
-  A11yBindings,
+  VfLayoutModifiers,
+  VfLayoutA11y,
   VfLayoutExpose,
   LayoutApi
 > {}

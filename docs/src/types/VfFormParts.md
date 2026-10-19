@@ -43,14 +43,14 @@ interface VfFormParts extends FormParts {
    *
    * @tag div
    */
-  errorsWrapper: DomAttrsOf<'div'>
+  errors: DomAttrsOf<'div'>
 
   /**
    * The error list element.
    *
    * @tag ul
    */
-  errors: DomAttrsOf<'ul'>
+  errorList: DomAttrsOf<'ul'>
 
   /**
    * Each error item element.
@@ -64,14 +64,14 @@ interface VfFormParts extends FormParts {
    *
    * @tag div
    */
-  messagesWrapper: DomAttrsOf<'div'>
+  messages: DomAttrsOf<'div'>
 
   /**
    * The message list element.
    *
    * @tag ul
    */
-  messages: DomAttrsOf<'ul'>
+  messageList: DomAttrsOf<'ul'>
 
   /**
    * Each message item element.

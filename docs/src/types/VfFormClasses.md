@@ -11,12 +11,12 @@ interface VfFormClasses extends FormClasses {
   /**
    * The errors container element.
    */
-  errorsWrapper: ClassValue
+  errors: ClassValue
 
   /**
    * The error list element.
    */
-  errors: ClassValue
+  errorList: ClassValue
 
   /**
    * Each error item element.
@@ -26,12 +26,12 @@ interface VfFormClasses extends FormClasses {
   /**
    * The messages container element.
    */
-  messagesWrapper: ClassValue
+  messages: ClassValue
 
   /**
    * The message list element.
    */
-  messages: ClassValue
+  messageList: ClassValue
 
   /**
    * Each message item element.

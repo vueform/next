@@ -54,26 +54,11 @@ interface VfCheckboxSlots<
     text: string | undefined
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The default slot's own part is the wrapper (the fallback's top-level
+     * element): its resolved classes, part overrides, and alignment
+     * modifiers; apply with `v-bind`.
      */
-    classes: VfCheckboxClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfCheckboxParts>
-
-    /**
-     * Part-keyed accessibility bindings; apply each key's bag to the matching
-     * DOM part with `v-bind` (e.g. `v-bind="a11yBindings.input"`).
-     */
-    a11yBindings: VfCheckboxA11y
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfCheckboxModifiers
+    bindings: VfCheckboxBindings['wrapper']
 
     /**
      * Handler for the input's blur event.
@@ -117,15 +102,10 @@ interface VfCheckboxSlots<
     genericName: string
 
     /**
-     * CSS classes for the text element.
-     */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:text` attribute overrides for the text element; apply
+     * The text element's resolved bindings (classes, part overrides); apply
      * with `v-bind`.
      */
-    part: DomAttrsOf<'label'> | undefined
+    bindings: VfCheckboxBindings['text']
   }) => VNode[]
 }
 ```

@@ -685,7 +685,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
-| [`a11yBindings`](!code#context.a11yBindings "ListA11y") | Part-keyed accessibility bindings: ready-to-spread attribute bags for the list structure (items container, item wrappers), the empty-state placeholder status region, and the add/sort/remove controls — applied to the built-in markup and passed to the matching slots. Per-item bags (`sort`, `remove`) are functions of the item index, resolved at the call site like functional parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -730,12 +729,12 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `item` | [`index`](!code#slot.item.index "number") [`beingDragged`](!code#slot.item.beingDragged "boolean") [`isDropTarget`](!code#slot.item.isDropTarget "boolean") [`classes`](!code#slot.item.classes "VfListClasses") [`parts`](!code#slot.item.parts "Partial<VfListParts>") [`a11yBindings`](!code#slot.item.a11yBindings "VfListA11y") [`modifiers`](!code#slot.item.modifiers "VfListModifiers") [`handleDragEnter`](!code#slot.item.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.item.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.item.handleDragEnd "() => void") [`handleRemove`](!code#slot.item.handleRemove "() => void") | Slot that replaces each list item wrapper. Receives drag state and event handlers. |
-| `sort` | [`classes`](!code#slot.sort.classes "ClassValue") [`part`](!code#slot.sort.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.sort.a11yBindings "ReturnType<VfListA11y['sort']>") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives classes, part, and drag event handlers. |
+| `item` | [`index`](!code#slot.item.index "number") [`beingDragged`](!code#slot.item.beingDragged "boolean") [`isDropTarget`](!code#slot.item.isDropTarget "boolean") [`bindings`](!code#slot.item.bindings "VfListBindings['item']") [`handleDragEnter`](!code#slot.item.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.item.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.item.handleDragEnd "() => void") [`handleRemove`](!code#slot.item.handleRemove "() => void") | Slot that replaces each list item wrapper. Receives drag state and event handlers. |
+| `sort` | [`bindings`](!code#slot.sort.bindings "VfListBindings['sort']") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives classes, part, and drag event handlers. |
 | `default` | [`component`](!code#slot.default.component "string \| Component") [`props`](!code#slot.default.props "Record<string, any>") [`index`](!code#slot.default.index "ElementName") | Slot that replaces the default element content within each list item. |
-| `remove` | [`classes`](!code#slot.remove.classes "ClassValue") [`part`](!code#slot.remove.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.remove.a11yBindings "ReturnType<VfListA11y['remove']>") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the remove button. Receives classes, part, and remove handler. |
-| `placeholder` | [`classes`](!code#slot.placeholder.classes "ClassValue") [`part`](!code#slot.placeholder.part "DomAttrsOf<'div'> \| undefined") [`a11yBindings`](!code#slot.placeholder.a11yBindings "VfListA11y['placeholder']") | Slot that replaces the placeholder element when the list is empty. |
-| `add` | [`label`](!code#slot.add.label "any") [`classes`](!code#slot.add.classes "ClassValue") [`part`](!code#slot.add.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.add.a11yBindings "VfListA11y['add']") [`handleAdd`](!code#slot.add.handleAdd "() => void") | Slot that replaces the add button. Receives classes, part, add handler, and label. |
+| `remove` | [`bindings`](!code#slot.remove.bindings "VfListBindings['remove']") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the remove button. Receives classes, part, and remove handler. |
+| `placeholder` | [`bindings`](!code#slot.placeholder.bindings "VfListBindings['placeholder']") | Slot that replaces the placeholder element when the list is empty. |
+| `add` | [`label`](!code#slot.add.label "any") [`bindings`](!code#slot.add.bindings "VfListBindings['add']") [`handleAdd`](!code#slot.add.handleAdd "() => void") | Slot that replaces the add button. Receives classes, part, add handler, and label. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -815,7 +814,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-list` |
 | **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
 
 ### `labelGroup`
@@ -889,7 +888,6 @@ Each list item wrapper. Receives drag state.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-item` |
 | **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-wrapped`](!code#parts.item.modifiers.data-wrapped "''") [`data-dragging`](!code#parts.item.modifiers.data-dragging "''") [`data-drop-target`](!code#parts.item.modifiers.data-drop-target "''") |
 | **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.item.a11y.role "'listitem'") |
 
@@ -909,7 +907,6 @@ The drag handle element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-sort` |
 | **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.sort.a11y.aria-label "string") |
 
 ### `remove`
@@ -919,7 +916,6 @@ The remove action element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-remove` |
 | **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.remove.a11y.aria-label "string") |
 
 ### `placeholder`

@@ -27,10 +27,11 @@ interface A11yLayoutBags {
   }
 
   /**
-   * The error region's id and alert role, referenced by `aria-describedby`
-   * while the element has errors.
+   * The errors container's id and alert role, referenced by
+   * `aria-describedby` while the element has errors. Keyed `errors` to match
+   * the part it binds to (the per-error item part is `error`).
    */
-  error: {
+  errors: {
     id: string
     role: 'alert'
   }

@@ -2,5 +2,5 @@
 /**
  * Accessibility bindings of the field element blueprint.
  */
-interface FieldA11y extends BaseElementA11y, AriaA11y {}
+interface FieldA11y extends BaseElementA11y {}
 ```

@@ -13,7 +13,9 @@ type DefineRegistryEntry<
   TEmits extends Record<string, any>,
   TSlots extends Record<string, any>,
   TParts extends Record<string, any>,
-  TClasses extends Record<string, any>,
+  TClasses extends Record<string, any> &
+    PartKeyed<TClasses, TParts> &
+    ClassShaped<TClasses>,
   TContext,
 > = {
   /**

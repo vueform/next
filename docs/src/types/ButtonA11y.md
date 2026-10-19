@@ -2,5 +2,5 @@
 /**
  * Accessibility bindings of the button element blueprint.
  */
-interface ButtonA11y extends BaseElementA11y, ButtonAriaA11y {}
+interface ButtonA11y extends BaseElementA11y {}
 ```

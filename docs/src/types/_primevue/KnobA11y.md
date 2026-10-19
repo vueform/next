@@ -2,5 +2,5 @@
 /**
  * Accessibility bindings of the knob element blueprint.
  */
-interface KnobA11y extends BaseElementA11y, AriaA11y {}
+interface KnobA11y extends BaseElementA11y {}
 ```

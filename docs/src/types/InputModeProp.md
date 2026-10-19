@@ -12,5 +12,4 @@ type InputModeProp =
   | 'search'
   | 'email'
   | 'url'
-  | (string & {})
 ```

@@ -15,7 +15,7 @@ interface VfCheckboxGroupModifiers extends CheckboxGroupModifiers {
    * The group container's layout markers (stacked row layout, vertical
    * alignment with adjacent form controls) and validation state.
    */
-  group: {
+  wrapper: {
     'data-stacked'?: ''
     'data-aligned'?: ''
     'data-invalid'?: ''

@@ -507,7 +507,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`uid`](!code#context.uid "string") | A unique auto-generated identifier for the element. |
-| [`a11yBindings`](!code#context.a11yBindings "AriaA11y") | Part-keyed accessibility bindings: ARIA attributes for the input and ids/roles for the layout-rendered label, help, description, and error parts. |
 | [`helpId`](!code#context.helpId "string") | The DOM id for the element's help text region. |
 | [`errorId`](!code#context.errorId "string") | The DOM id for the element's error message region. |
 | [`labelId`](!code#context.labelId "string") | The DOM id for the element's label region. |
@@ -557,10 +556,10 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `file` | [`value`](!code#slot.file.value "FileProp") [`fileName`](!code#slot.file.fileName "string") [`url`](!code#slot.file.url "string") [`index`](!code#slot.file.index "number") [`removable`](!code#slot.file.removable "boolean") [`disabled`](!code#slot.file.disabled "boolean") [`type`](!code#slot.file.type "'file' \| 'string' \| 'object'") [`classes`](!code#slot.file.classes "VfFileClasses") [`parts`](!code#slot.file.parts "Partial<VfFileParts>") [`a11yBindings`](!code#slot.file.a11yBindings "VfFileA11y") [`modifiers`](!code#slot.file.modifiers "VfFileModifiers") [`remove`](!code#slot.file.remove "(index: number) => void") | Slot that replaces the rendering of a single file item in the list. |
-| `remove` | [`index`](!code#slot.remove.index "number") [`disabled`](!code#slot.remove.disabled "boolean") [`classes`](!code#slot.remove.classes "ClassValue") [`part`](!code#slot.remove.part "PartOf<'VfButton'> \| undefined") [`a11yBindings`](!code#slot.remove.a11yBindings "ReturnType<VfFileA11y['remove']>") [`remove`](!code#slot.remove.remove "(index: number) => void") | Slot that replaces the remove button for a file item. |
-| `name` | [`value`](!code#slot.name.value "FileProp") [`fileName`](!code#slot.name.fileName "string") [`url`](!code#slot.name.url "string") [`type`](!code#slot.name.type "'file' \| 'string' \| 'object'") [`classes`](!code#slot.name.classes "ClassValue") [`part`](!code#slot.name.part "DomAttrsOf<'a' \| 'span'> \| undefined") | Slot that replaces the file name display for a file item. |
-| `add` | [`disabled`](!code#slot.add.disabled "boolean") [`text`](!code#slot.add.text "string") [`part`](!code#slot.add.part "PartOf<'VfButton'> \| undefined") [`triggerFileInput`](!code#slot.add.triggerFileInput "() => void") | Slot that replaces the file selection button and hidden input. |
+| `file` | [`value`](!code#slot.file.value "FileProp") [`fileName`](!code#slot.file.fileName "string") [`url`](!code#slot.file.url "string") [`index`](!code#slot.file.index "number") [`removable`](!code#slot.file.removable "boolean") [`disabled`](!code#slot.file.disabled "boolean") [`type`](!code#slot.file.type "'file' \| 'string' \| 'object'") [`bindings`](!code#slot.file.bindings "VfFileBindings['item']") [`remove`](!code#slot.file.remove "(index: number) => void") | Slot that replaces the rendering of a single file item in the list. |
+| `remove` | [`index`](!code#slot.remove.index "number") [`disabled`](!code#slot.remove.disabled "boolean") [`bindings`](!code#slot.remove.bindings "VfFileBindings['remove']") [`remove`](!code#slot.remove.remove "(index: number) => void") | Slot that replaces the remove button for a file item. |
+| `name` | [`value`](!code#slot.name.value "FileProp") [`fileName`](!code#slot.name.fileName "string") [`url`](!code#slot.name.url "string") [`type`](!code#slot.name.type "'file' \| 'string' \| 'object'") [`bindings`](!code#slot.name.bindings "VfFileBindings['name']") | Slot that replaces the file name display for a file item. |
+| `add` | [`disabled`](!code#slot.add.disabled "boolean") [`text`](!code#slot.add.text "string") [`bindings`](!code#slot.add.bindings "VfFileBindings['add']") [`triggerFileInput`](!code#slot.add.triggerFileInput "() => void") | Slot that replaces the file selection button and hidden input. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -704,7 +703,6 @@ An individual file entry in the file list.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-file-item` |
 
 ### `name`
 
@@ -713,7 +711,6 @@ The file name text or link.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<a>` `<span>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-file-name` |
 
 ### `remove`
 
@@ -722,7 +719,6 @@ The remove button for a file entry.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-file-remove` |
 | **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.remove.a11y.aria-label "string") |
 
 ### `add`
@@ -740,6 +736,7 @@ The file input element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<input>` |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.sr-only` |
 | **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-invalid`](!code#parts.input.modifiers.data-invalid "''") |
 | **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-describedby`](!code#parts.input.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.input.a11y.aria-invalid "true") [`aria-required`](!code#parts.input.a11y.aria-required "true") [`aria-busy`](!code#parts.input.a11y.aria-busy "true") |
 
@@ -761,6 +758,7 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
+| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -770,7 +768,6 @@ An individual validation error.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.error.a11y.id "string") [`role`](!code#parts.error.a11y.role "'alert'") |
 
 ### `messages`
 

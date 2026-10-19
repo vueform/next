@@ -70,27 +70,6 @@ interface VfCheckboxGroupSlots<
      * Whether items are rendered as groups.
      */
     grouped: boolean
-
-    /**
-     * The component's resolved classes, keyed by part name.
-     */
-    classes: VfCheckboxGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfCheckboxGroupParts>
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfCheckboxGroupA11y
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfCheckboxGroupModifiers
   }) => VNode[]
 
   /**
@@ -128,25 +107,10 @@ interface VfCheckboxGroupSlots<
     >
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The group fieldset's resolved bindings (part overrides for this group's
+     * fieldset element); apply with `v-bind`.
      */
-    classes: VfCheckboxGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfCheckboxGroupParts>
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfCheckboxGroupA11y
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfCheckboxGroupModifiers
+    bindings: VfCheckboxGroupBindings['group']
   }) => VNode[]
 
   /**
@@ -184,14 +148,10 @@ interface VfCheckboxGroupSlots<
     >
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The item's resolved bindings (part overrides for this item's VfCheckbox
+     * child); apply with `v-bind`.
      */
-    classes: VfCheckboxGroupClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfCheckboxGroupParts>
+    bindings: VfCheckboxGroupBindings['item']
   }) => VNode[]
 
   /**

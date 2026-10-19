@@ -21,6 +21,17 @@ interface VfToggleSwitchSlots<TTrueValue = true, TFalseValue = false>
      * Current checked state of the item as a boolean.
      */
     checked: boolean
+
+    /**
+     * The handle element's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
+     */
+    bindings: PartBindings<
+      'handle',
+      VfToggleSwitchParts,
+      VfToggleSwitchModifiers,
+      VfToggleSwitchA11y
+    >
   }): VNode[]
 }
 ```

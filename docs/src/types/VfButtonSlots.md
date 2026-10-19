@@ -18,6 +18,17 @@ interface VfButtonSlots extends ButtonSlots<VfButtonContext> {
      * The resolved button label text.
      */
     text: string | undefined
+
+    /**
+     * The label text element's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: PartBindings<
+      'text',
+      VfButtonParts,
+      VfButtonModifiers,
+      VfButtonA11y
+    >
   }) => VNode[]
 
   /**

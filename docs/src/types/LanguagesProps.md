@@ -23,5 +23,12 @@ interface LanguagesProps<
    * Set of language codes that currently have validation errors.
    */
   invalidLanguages?: Set<string>
+
+  /**
+   * Select a language.
+   *
+   * @param language The selected language code.
+   */
+  select: (language: string) => void
 }
 ```

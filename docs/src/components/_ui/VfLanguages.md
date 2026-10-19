@@ -96,6 +96,7 @@ Configure the component's behavior and appearance with these props.
 | Prop | Default | Description |
 | --- | --- | --- |
 | [`invalidLanguages`](!code#props.invalidLanguages "Set<string>") | — | Set of language codes that currently have validation errors. |
+| [`select`](!code#props.select "(language: string) => void") | — | **Required.** Select a language. |
 
 ### I18n {#props-i18n}
 
@@ -163,7 +164,6 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 <!-- @events-start -->
 | Name | Params | Description |
 | --- | --- | --- |
-| `select` | [`language`](!code#events.select.language "string") | Emitted when a language is selected by the user. |
 | `beforeMount` | [`context$`](!code#events.beforeMount.context$ "TContext") | Emitted before the component is mounted. |
 | `mounted` | [`context$`](!code#events.mounted.context$ "TContext") | Emitted after the component is mounted. |
 | `beforeUnmount` | [`context$`](!code#events.beforeUnmount.context$ "TContext") | Emitted before the component is unmounted. |
@@ -182,7 +182,7 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | Name | Scope | Description |
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
-| `default` | [`language`](!code#slot.default.language "string") [`languages`](!code#slot.default.languages "ResolvedLanguagesProp") [`value`](!code#slot.default.value "string") [`label`](!code#slot.default.label "string") [`classes`](!code#slot.default.classes "VfLanguagesClasses") [`parts`](!code#slot.default.parts "Partial<VfLanguagesParts>") [`modifiers`](!code#slot.default.modifiers "VfLanguagesModifiers") | Slot that replaces each individual language option rendering. |
+| `default` | [`language`](!code#slot.default.language "string") [`languages`](!code#slot.default.languages "ResolvedLanguagesProp") [`value`](!code#slot.default.value "string") [`label`](!code#slot.default.label "string") | Slot that replaces each individual language option rendering. |
 <!-- @slots-end -->
 <!-- @endtab -->
 

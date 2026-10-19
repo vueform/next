@@ -4,8 +4,9 @@
  * context-receiving slots (e.g. `#content`) get the schema-narrowed context.
  * Plain usage (`VfFormSlots`) keeps the context wide.
  */
-interface VfFormSlots<TSchema = FormSchema>
-  extends FormSlots<VfFormContext<VfFormProps<TSchema>>>, TabbedSlots {
+interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
+  VfFormContext<VfFormProps<TSchema>>
+> {
   /**
    * Slot that replaces the entire form content area. Receives the form's
    * context as a single `context` prop, like the `template` slot.
@@ -46,6 +47,12 @@ interface VfFormSlots<TSchema = FormSchema>
      * @param language The language code to select.
      */
     select: (language: string) => void
+
+    /**
+     * The language selector's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: VfFormBindings['languages']
   }) => VNode[]
 
   /**
@@ -63,6 +70,12 @@ interface VfFormSlots<TSchema = FormSchema>
      * The pager instance managing step state.
      */
     pager: Pager
+
+    /**
+     * The steps navigation bar's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: VfFormBindings['steps']
   }) => VNode[]
 
   /**
@@ -80,6 +93,12 @@ interface VfFormSlots<TSchema = FormSchema>
      * The pager instance managing tab state.
      */
     pager: Pager
+
+    /**
+     * The tabs navigation bar's resolved bindings (classes, part overrides);
+     * apply with `v-bind`.
+     */
+    bindings: VfFormBindings['tabs']
   }) => VNode[]
 
   /**
@@ -104,21 +123,11 @@ interface VfFormSlots<TSchema = FormSchema>
     id: string
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The errors container's resolved bindings (classes, part overrides, and the
+     * live-region attributes — id, alert role, aria-live); apply to the
+     * replacement container with `v-bind` so error announcements keep working.
      */
-    classes: VfFormClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfFormParts>
-
-    /**
-     * The form's part-keyed accessibility bindings; apply the `errors` bag
-     * (id, alert role, live region attributes) to the replacement container
-     * with `v-bind` so error announcements keep working.
-     */
-    a11yBindings: VfFormA11y
+    bindings: VfFormBindings['errors']
   }) => VNode[]
 
   /**
@@ -151,21 +160,12 @@ interface VfFormSlots<TSchema = FormSchema>
     id: string
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The messages container's resolved bindings (classes, part overrides, and the
+     * live-region attributes — id, status role, aria-live); apply to the
+     * replacement container with `v-bind` so message announcements keep
+     * working.
      */
-    classes: VfFormClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfFormParts>
-
-    /**
-     * The form's part-keyed accessibility bindings; apply the `messages` bag
-     * (id, status role, live region attributes) to the replacement container
-     * with `v-bind` so message announcements keep working.
-     */
-    a11yBindings: VfFormA11y
+    bindings: VfFormBindings['messages']
   }) => VNode[]
 
   /**

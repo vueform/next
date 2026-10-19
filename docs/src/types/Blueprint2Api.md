@@ -46,8 +46,8 @@ type Blueprint2Api<
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 
   /**
-   * Merged part-keyed accessibility bindings: the blueprint's semantic base
-   * with component-registered bags (`useA11yBindings`) layered on top.
+   * Merged part-keyed accessibility bindings registered by the component via
+   * `useA11y` (usually through a canonical `#src/a11y` pattern).
    */
   a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
 
@@ -56,6 +56,18 @@ type Blueprint2Api<
    * `useModifiers` (`data-*` state and variant attributes).
    */
   modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
+
+  /**
+   * The per-part aggregate the template consumes: for each part key, one bag
+   * (or resolver function) merging the part's modifiers, a11y bindings, part
+   * attribute overrides, and resolved classes (as `class`).
+   */
+  bindings: BindingMemberOf<
+    TSlots,
+    ApiOf<TApi>,
+    'bindings',
+    BindingsOf<TParts, TClasses, Modifiers, A11yBindings>
+  >
 
   /**
    * The object to hand to `defineExpose`: the raw API plus the resolved
@@ -68,6 +80,12 @@ type Blueprint2Api<
     outlets: ComputedRef<TSlots>
     a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
     modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
+    bindings: BindingMemberOf<
+      TSlots,
+      ApiOf<TApi>,
+      'bindings',
+      BindingsOf<TParts, TClasses, Modifiers, A11yBindings>
+    >
   }
 
   /**
@@ -84,13 +102,14 @@ type Blueprint2Api<
   ) => void
 
   /**
-   * Registers component-level accessibility binding definitions, layered on
-   * top of the blueprint's base bags. Bags for the same part shallow-merge;
-   * functional entries replace the whole entry.
+   * Registers component-level accessibility binding definitions (part-keyed
+   * `aria-*`/role bags), usually by invoking a canonical pattern from
+   * `#src/a11y`. Bags for the same part shallow-merge; functional entries
+   * replace the whole entry.
    *
    * @param defs Binding definition objects or factories.
    */
-  useA11yBindings: (
+  useA11y: (
     ...defs: BindingDefsArg<
       ClassFactoryApi<TApi, TProps, TEvents>,
       PropRefsOf<TProps>

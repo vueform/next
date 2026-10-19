@@ -4,6 +4,13 @@
  */
 interface VfGridParts extends GridParts {
   /**
+   * The scrollable wrapper around the grid layout element.
+   *
+   * @tag div
+   */
+  wrapper: DomAttrsOf<'div'>
+
+  /**
    * The grid layout element.
    *
    * @tag div

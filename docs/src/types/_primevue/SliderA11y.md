@@ -2,5 +2,5 @@
 /**
  * Accessibility bindings of the slider element blueprint.
  */
-interface SliderA11y extends BaseElementA11y, AriaA11y {}
+interface SliderA11y extends BaseElementA11y {}
 ```

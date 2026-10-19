@@ -48,9 +48,16 @@ type DefineElementContext<
   TEmits extends Record<string, any>,
   TSlots extends Record<string, any>,
   TParts extends Record<string, any>,
-  TClasses extends Record<string, any>,
-  TModifiers,
-  TA11y,
+  TClasses extends Record<string, any> &
+    PartKeyed<TClasses, TParts> &
+    ClassShaped<TClasses> &
+    PartSymmetric<TClasses, TParts>,
+  TModifiers extends PartKeyed<TModifiers, TParts> &
+    ModifierShaped<TModifiers> &
+    PartSymmetric<TModifiers, TParts>,
+  TA11y extends PartKeyed<TA11y, TParts> &
+    A11yShaped<TA11y> &
+    PartSymmetric<TA11y, TParts>,
   TExpose,
   TApi extends Record<string, any>,
 > = BaseElementContext<

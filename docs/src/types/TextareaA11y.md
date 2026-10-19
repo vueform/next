@@ -2,5 +2,5 @@
 /**
  * Accessibility bindings of the textarea element blueprint.
  */
-interface TextareaA11y extends BaseElementA11y, TAriaA11y {}
+interface TextareaA11y extends BaseElementA11y {}
 ```

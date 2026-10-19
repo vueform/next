@@ -2,5 +2,5 @@
 /**
  * Accessibility bindings of the input-mask element blueprint.
  */
-interface InputMaskA11y extends BaseElementA11y, TAriaA11y {}
+interface InputMaskA11y extends BaseElementA11y {}
 ```

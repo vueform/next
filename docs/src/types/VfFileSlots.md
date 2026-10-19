@@ -47,25 +47,10 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * The component's resolved classes, keyed by part name.
+     * The file item's resolved bindings (classes, part overrides); apply with
+     * `v-bind`.
      */
-    classes: VfFileClasses
-
-    /**
-     * The component's resolved parts, keyed by part name.
-     */
-    parts: Partial<VfFileParts>
-
-    /**
-     * The component's part-keyed accessibility bindings.
-     */
-    a11yBindings: VfFileA11y
-
-    /**
-     * The component's styling modifiers, keyed by part name; apply each bag
-     * with `v-bind`.
-     */
-    modifiers: VfFileModifiers
+    bindings: VfFileBindings['item']
 
     /**
      * Callback to remove a file by index.
@@ -92,21 +77,10 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     disabled: boolean
 
     /**
-     * CSS classes for the remove button element.
+     * The remove button's resolved bindings (classes, part overrides,
+     * localized aria-label); apply with `v-bind`.
      */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:remove` attribute overrides for the remove button
-     * element; apply with `v-bind`.
-     */
-    part: PartOf<'VfButton'> | undefined
-
-    /**
-     * Resolved accessibility bindings for this file's remove button
-     * (localized aria-label); apply with `v-bind`.
-     */
-    a11yBindings: ReturnType<VfFileA11y['remove']>
+    bindings: VfFileBindings['remove']
 
     /**
      * Callback to remove a file by index.
@@ -143,15 +117,10 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * CSS classes for the file name element.
-     */
-    classes: ClassValue
-
-    /**
-     * Resolved `part:name` attribute overrides for the file name element;
+     * The file name element's resolved bindings (classes, part overrides);
      * apply with `v-bind`.
      */
-    part: DomAttrsOf<'a' | 'span'> | undefined
+    bindings: VfFileBindings['name']
   }) => VNode[]
 
   /**
@@ -171,10 +140,10 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     text?: string
 
     /**
-     * Resolved `part:add` attribute overrides for the add button element;
-     * apply with `v-bind`.
+     * The add button's resolved bindings (classes, part overrides); apply
+     * with `v-bind`.
      */
-    part: PartOf<'VfButton'> | undefined
+    bindings: VfFileBindings['add']
 
     /**
      * Callback to open the native file picker.
