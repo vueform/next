@@ -140,6 +140,8 @@ The [internal model](#internal-model)'s API lives on the [form context](/guide/c
 
 A `!useModel` instance doesn't wait for a form: it builds the complete model from the schema immediately — seed values where provided, defaults and null values everywhere else.
 
+## Attaching The Model
+
 Passing the `!useModel` instance to `!useForm` makes the form **attach** it. Attachment is not syncing: the form doesn't clone the data or wire up update listeners — it uses it **as its own store**, so there is one source of truth and nothing to keep in sync.
 
 - **Before attachment** the instance is yours alone: only your code changes its data, and it can't be submitted — there is no form behind `submit()` yet.

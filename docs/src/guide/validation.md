@@ -817,7 +817,7 @@ The form-level `errorLevel` prop picks the surfaces:
 
 ### How Many Errors Show
 
-`maxErrors` caps how many errors an element **displays** — the counterpart of `bail`, which capped how many rules ran. It defaults to `1`, so even an element collecting several failures shows one at a time. Set it to `-1` to show everything collected:
+`maxErrors` caps how many errors an element **displays** — the counterpart of [`bail`](/guide/validation#how-many-rules-run), which capped how many rules ran. It defaults to `1`, so even an element collecting several failures shows one at a time. Set it to `-1` to show everything collected:
 
 ```vue
 <VfText
@@ -852,7 +852,9 @@ The `hoist` prop pushes an element's errors up to its nearest ancestor element �
 
 ### Required Indicators
 
-Elements with an active `required` rule mark themselves. The `showRequired` prop controls where — `['label']` by default, `['label', 'placeholder']` to mark both, or `false` for no indicator — set on the form for every element or individually per element.
+Elements with an active `required` rule mark themselves. The `showRequired` prop controls where the indicator appears — the default is `['label']`, and `false` turns it off. Set it on the form for every element, or per element.
+
+The accepted places vary by element (a text input also offers `'placeholder'`, for instance), so check the prop's type on the element at hand, e.g. [VfText's](/components/VfText#props.showRequired).
 
 ### Scroll and Focus
 
@@ -866,4 +868,242 @@ When submission fails validation, Vueform **focuses** the first invalid element 
 />
 ```
 
-`scrollOptions` is forwarded to the browser's `scrollIntoView`.
+`scrollOptions` is forwarded to the browser's [`scrollIntoView`](https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollIntoView).
+
+## Errors from Outside the Rules
+
+Not every error comes from a rule — a server rejects a value, a business process flags a record, a wizard wants to pin a note on a field. Every element carries a [`messageBag`](/api/modules/messageBag) for exactly this, and its entries render alongside rule errors and count toward the element's error state.
+
+### Adding and Removing
+
+```ts
+el$.messageBag.append('Not valid.', 'error')     // appended after rule errors
+el$.messageBag.prepend('Server error.', 'error') // prepended before rule errors
+```
+
+The `'error'` argument is the default and can be omitted. Pass `'message'` instead for an informational note that renders without counting as an error:
+
+```ts
+el$.messageBag.append('Saved successfully.', 'message')
+```
+
+Both `append` and `prepend` take an optional third `keep` argument — when `true`, the entry survives `clear()` and the automatic clearing below.
+
+Removing works by entry or wholesale:
+
+```ts
+el$.messageBag.remove('Not valid.', 'error')
+
+el$.messageBag.clear('errors')   // only errors
+el$.messageBag.clear('messages') // only messages
+el$.messageBag.clear()           // both
+```
+
+### Auto-clearing on Value Change
+
+Custom errors describe the value they were added for, so by default they clear as soon as the element's value changes. The form's `clearCustomErrors` prop turns that off:
+
+```vue
+<VfForm :clear-custom-errors="false">
+  <!-- custom errors persist until cleared manually -->
+</VfForm>
+```
+
+### Server Validation Errors
+
+For a backend answering `422` with field errors, set the form's `setInvalid` prop and Vueform maps the response onto the matching elements automatically — `transformServerInvalid` adapts payload shapes that don't match out of the box. The full setup lives in [Server Validation Errors](/guide/submit#server-validation-errors).
+
+For one-off cases or non-`422` responses, append the errors yourself in `onInvalid` / `onResponse`:
+
+```ts
+const [MyForm] = useForm({
+  schema,
+  endpoint: '/api/register',
+  onInvalid: ({ errors, context$ }) => {
+    Object.entries(errors).forEach(([path, messages]) => {
+      const el$ = context$.find(path)
+      messages.forEach((msg) => el$?.messageBag.append(msg, 'error'))
+    })
+  },
+})
+```
+
+## Validation State
+
+Every element exposes the same validation state through its [context](/guide/context). Leaf elements derive it from their own rules; containers aggregate it from their children — and can combine that with rules of their own.
+
+| Property        | Type       | Description                                                                                                                                                                          |
+| --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `invalid`       | `boolean`  | At least one rule failed — own or any child's.                                                                                                                                       |
+| `pending`       | `boolean`  | An async rule is currently running — own or a child's.                                                                                                                               |
+| `debouncing`    | `boolean`  | A debounce timer is active — own or a child's.                                                                                                                                       |
+| `busy`          | `boolean`  | `pending` or `debouncing` — blocks form submission.                                                                                                                                  |
+| `validated`     | `boolean`  | All rules (own and children's) have run **against the current value**. Changing a value through any path — typing, `update()`, `load()`, a server write-back — marks the affected results stale and flips it back to `false` until they re-run. |
+| `completed`     | `boolean`  | Validated without errors, or no rules defined.                                                                                                                                       |
+| `success`       | `boolean`  | `completed` after the element has been touched.                                                                                                                                      |
+| `required`      | `boolean`  | An active `required` or `accepted` rule exists.                                                                                                                                      |
+| `dirty`         | `boolean`  | The current value differs from the initial value.                                                                                                                                    |
+| `empty`         | `boolean`  | The value is empty (for containers — every child is empty).                                                                                                                          |
+| `touched`       | `boolean`  | The element has been blurred at least once.                                                                                                                                          |
+| `errors`        | `string[]` | All error messages — rule errors plus `messageBag` errors, including hoisted children's.                                                                                             |
+| `displayErrors` | `string[]` | The errors actually rendered, capped by `maxErrors`.                                                                                                                                 |
+| `ownErrors`     | `string[]` | The element's own errors, excluding hoisted children's.                                                                                                                              |
+| `hasError`      | `boolean`  | `errors` is non-empty.                                                                                                                                                               |
+
+```ts
+formReady((form$) => {
+  const email$ = form$.find('email')
+
+  email$.invalid       // false
+  email$.errors        // []
+  email$.validated     // true
+  email$.dirty         // false
+})
+```
+
+Elements also emit `valid` and `invalid` events as they cross the boundary in either direction.
+
+### Form State
+
+The form aggregates the same booleans — `invalid`, `pending`, `debouncing`, `busy`, `validated`, `completed`, `dirty`, `empty` — across all of its elements. Its error projections are keyed:
+
+```ts
+form$.errors
+// { email: ['The Email field is required.'] }
+
+form$.issues
+// [{ path: 'email', rule: 'required', message: 'The Email field is required.' }]
+```
+
+`errors` maps element paths to their message arrays. [Validation Schema](#one-schema-for-the-whole-form) issues whose path matches no element appear under the root `''` key.
+
+`issues` is the structured counterpart — one entry per failure:
+
+| Field      | Description                                                                                                                                    |
+| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `path`     | The element path the failure belongs to (`''` for root-level Validation Schema issues).                                                        |
+| `language` | On translatable elements, the language the failure occurred in.                                                                                |
+| `rule`     | The name of the failing rule. Standard Schema failures have no rule name — element-level schemas report `standard_schema`, the form-level Validation Schema reports `validation_schema`, so schema failures stay distinguishable when processing issues. |
+| `message`  | The resolved, localized message.                                                                                                               |
+
+## Driving Validation from Code
+
+Every element, every container, the form, and a headless model instance expose the same validation methods:
+
+| Method               | Description                                                                                                                                                                         |
+| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `validate()`         | **Async.** Runs the rules and resolves `true` when everything passes. On containers and the form, children already passing against their current value are skipped — pass `{ force: true }` to re-run everything regardless (what submit does when `validateOn` includes `'submit'`). |
+| `validateSelf()`     | **Async.** Runs only the component's **own** rules — leaving children untouched.                                                                   |
+| `validateChildren()` | **Async.** Containers — validates the **children** only (the incomplete ones by default, all of them with `{ force: true }`) and resolves whether every child passes.               |
+| `validateCurrent()`  | **Async.** Translatable elements only — validates just the active language.                                                                                                         |
+| `unvalidate()`       | Resets validation state — clears rule errors and marks the rules as not having run.                                                                                                 |
+| `invalidate()`       | Marks results as stale so the next validation re-runs them — adds no errors.                                                                                                        |
+| `clearErrors()`      | Clears custom errors from this component's own `messageBag`.                                                                                                                        |
+| `clearMessages()`    | Clears custom messages from this component's own `messageBag`.                                                                                                                      |
+| `clearMessageBag()`  | Clears both.                                                                                                                                                                        |
+| `toStandardSchema()` | Exports the compiled rules as a Standard Schema — covered in the closing section of this chapter.                                                                                   |
+
+```ts
+formReady(async (form$) => {
+  const isValid = await form$.find('email').validate()
+
+  if (!isValid) {
+    console.log(form$.find('email').errors)
+  }
+})
+```
+
+::: warning
+The `clear*` methods act on the **calling component's own** `messageBag`. `form$.clearErrors()` clears the form-level bag — it does **not** cascade into elements. To clear element errors, call the method on each element.
+:::
+
+## Validation Without a Form
+
+Everything this chapter covered runs without a mounted component. Hand the same schema to `!useModel` and the full cycle works headlessly — define, run, read:
+
+```ts
+import { defineSchema, useModel } from '@vueform/ui'
+
+const schema = defineSchema({
+  email: { type: 'text', label: 'Email', rules: 'required|email' },
+  age: { type: 'text', label: 'Age', rules: 'nullable|integer|min:18' },
+})
+
+const model = useModel(schema, { email: 'not-an-email' })
+
+await model.validate() // resolves false — the email rule fails
+
+model.invalid // true
+model.errors  // ['The Email must be a valid email address.']
+model.issues  // [{ path: 'email', rule: 'email', message: '…' }]
+```
+
+No component was mounted. The rules, the Validation Schema, conditions, custom rules, localized messages — all of it behaves exactly as described in the previous sections, because a mounted form was never what ran them. Triggers and error display are the form's contribution; the validation itself lives with the data.
+
+### One Validator, Two Views
+
+A form that [attaches](/guide/model#attaching-the-model) a `!useModel` instance shares a single validator with it — the state you read on the instance is the same state the form renders:
+
+```ts
+const model = useModel(schema)
+const [MyForm] = useForm({ schema }, model)
+
+// after mount, both views read identical validation state
+model.invalid
+```
+
+### Exporting as a Standard Schema
+
+Any form or model instance can expose its compiled rules — element rules, conditions, and the Validation Schema combined — as a spec-compliant `StandardSchemaV1`:
+
+```ts
+const model = useModel(schema)
+const validator = model.toStandardSchema()
+
+const result = await validator['~standard'].validate({
+  email: 'jane@example.com',
+  age: 17,
+})
+
+result.issues // [{ path: ['age'], message: 'The Age must be at least 18.' }]
+```
+
+The exported validator is a **standalone checker**, fully detached from the instance it came from — it checks whatever value you pass in, never reads the instance's data, and writes no state back.
+
+The passed value is a complete world of its own — cross-field rules find their referenced elements in it, `$if` conditions evaluate against it, and the issues come back with fully localized messages, phrased exactly as the form would phrase them. Interaction-dependent rules such as `captcha` are skipped. The method is available on `!useModel` instances and as `form$.toStandardSchema()`.
+
+Because the result is itself a Standard Schema, anything that consumes the spec can run it — a server route validating the same payload before it hits the database, a test suite, another library entirely. Combined with [Validation Schemas](#one-schema-for-the-whole-form) flowing the other way, this is the intro's promise made concrete — one validation definition, enforced on both sides of the wire, whichever side you authored it on.
+
+## Global Defaults
+
+Every validation-related prop this chapter tuned per form or per element can be set once, app-wide, as a [Default](/guide/defaults):
+
+```ts
+import { createVueform } from '@vueform/ui'
+
+app.use(
+  createVueform({
+    defaults: {
+      VfForm: {
+        validateOn: ['blur', 'next'],
+        errorLevel: 'all',
+        focusError: true,
+        scrollToError: true,
+        scrollOptions: { behavior: 'smooth' },
+        clearCustomErrors: true,
+      },
+      '*element': {
+        bail: true,
+        maxErrors: 1,
+      },
+    },
+    rules: {
+      /* globally registered custom rules */
+    },
+    ruleMessageTag: (name, type) =>
+      type ? `rule_${name}_${type}_error` : `rule_${name}_error`,
+  })
+)
+```
+
+`rules` and `ruleMessageTag` sit at the top level of the config rather than under `defaults` — they register behavior, not prop values. The full defaults system is covered in [Defaults](/guide/defaults).
