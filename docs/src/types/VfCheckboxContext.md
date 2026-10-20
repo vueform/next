@@ -15,8 +15,7 @@ interface VfCheckboxContext<
   VfCheckboxSlots,
   VfCheckboxParts,
   VfCheckboxClasses,
-  VfCheckboxModifiers,
-  VfCheckboxA11y,
+  VfCheckboxBindings,
   VfCheckboxExpose,
   CheckboxApi<TProps>
 > {}

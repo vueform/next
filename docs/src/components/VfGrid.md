@@ -1066,8 +1066,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-grid` `.vf-tabular?` `.vf-wrap-col-headers?` `.vf-wrap-row-headers?` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -1130,8 +1129,6 @@ The scrollable wrapper around the grid layout element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-grid-wrapper` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-scrollable`](!code#parts.wrapper.modifiers.data-scrollable "''") |
 
 ### `grid`
 
@@ -1140,8 +1137,6 @@ The grid layout element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-grid-grid` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-fit`](!code#parts.grid.modifiers.data-fit "''") |
 
 ### `cell`
 
@@ -1150,8 +1145,6 @@ Each cell element. Receives alignment, schema, and header options.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-grid-cell` `.vf-grid-col-header?` `.vf-grid-row-header?` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align`](!code#parts.cell.modifiers.data-align "AlignProp") [`data-valign`](!code#parts.cell.modifiers.data-valign "ValignProp") |
 
 ### `description`
 
@@ -1214,13 +1207,6 @@ All the CSS variables that control this component's appearance with default valu
   /**
    * Element tokens
    * -------------------------------------------------------------------------- */
-  --vf-grid-gutter-x: var(--vf-gutter);
-  --vf-grid-gutter-y: var(--vf-gutter);
-
-  --vf-grid-col-header-color: inherit;
-  --vf-grid-header-font-size: 1rem;
-  --vf-grid-row-header-color: inherit;
-
   --vf-tabular-bg: var(--vf-white);
 
   --vf-tabular-border-color: var(--vf-gray-300);
@@ -1314,13 +1300,6 @@ All the CSS variables that control this component's appearance with default valu
   /**
    * Element tokens
    * -------------------------------------------------------------------------- */
-  gridGutterX: '$gutter',
-  gridGutterY: '$gutter',
-
-  gridColHeaderColor: 'inherit',
-  gridHeaderFontSize: '1rem',
-  gridRowHeaderColor: 'inherit',
-
   tabularBg: '$white',
 
   tabularBorderColor: '$gray300',

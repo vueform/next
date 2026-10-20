@@ -19,11 +19,6 @@ type Blueprint2Api<
   api: ClassFactoryApi<TApi, TProps, TEvents> & ForwardsOf<TApi>
 
   /**
-   * Resolved part attribute overrides.
-   */
-  parts: TParts
-
-  /**
    * Resolved CSS classes for the component.
    */
   classes: TClasses
@@ -46,88 +41,62 @@ type Blueprint2Api<
   context: BlueprintContext<TApi, TProps, TEvents, TSlots, TParts, TClasses>
 
   /**
-   * Merged part-keyed accessibility bindings registered by the component via
-   * `useA11y` (usually through a canonical `#src/a11y` pattern).
-   */
-  a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
-
-  /**
-   * Merged part-keyed styling modifiers registered by the component via
-   * `useModifiers` (`data-*` state and variant attributes).
-   */
-  modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
-
-  /**
    * The per-part aggregate the template consumes: for each part key, one bag
-   * (or resolver function) merging the part's modifiers, a11y bindings, part
-   * attribute overrides, and resolved classes (as `class`).
+   * (or resolver function when the part is functional) merging the part's
+   * registered binding definitions and part attribute overrides. Classes are
+   * not included — templates bind `:class="classes.x"` alongside.
    */
   bindings: BindingMemberOf<
     TSlots,
     ApiOf<TApi>,
     'bindings',
-    BindingsOf<TParts, TClasses, Modifiers, A11yBindings>
+    BindingsOf<TParts, Record<string, any>>
   >
 
   /**
    * The object to hand to `defineExpose`: the raw API plus the resolved
-   * `props`, `parts`, `classes`, and `outlets`.
+   * `props`, `classes`, and `outlets`.
    */
   expose: ClassFactoryApi<TApi, ContextProps<TProps>, TEvents> & {
     props: ContextProps<TProps>
-    parts: TParts
     classes: TClasses
     outlets: ComputedRef<TSlots>
-    a11yBindings: MergedBindings<TApi, TSlots, 'a11yBindings', A11yBindings>
-    modifiers: MergedBindings<TApi, TSlots, 'modifiers', Modifiers>
     bindings: BindingMemberOf<
       TSlots,
       ApiOf<TApi>,
       'bindings',
-      BindingsOf<TParts, TClasses, Modifiers, A11yBindings>
+      BindingsOf<TParts, Record<string, any>>
     >
   }
 
   /**
-   * Registers component-level class definitions.
+   * Registers component-level class definitions and returns the `classes`
+   * surface (the same object `useBlueprint` returns) — SFCs write
+   * `const classes = useClasses({...})`. Resolution is lazy per key, so the
+   * returned surface reflects definitions registered later too.
    *
    * @param defs Class definition objects or factories.
    */
-  useClasses: (
-    ...defs: ClassDefsArg<
-      TClasses,
-      ClassFactoryApi<TApi, TProps, TEvents>,
-      PropRefsOf<TProps>
-    >[]
-  ) => void
+  useClasses: (...defs: ClassDefsArg<TClasses>[]) => TClasses
 
   /**
-   * Registers component-level accessibility binding definitions (part-keyed
-   * `aria-*`/role bags), usually by invoking a canonical pattern from
-   * `#src/a11y`. Bags for the same part shallow-merge; functional entries
-   * replace the whole entry.
+   * Registers part-keyed binding definitions (a11y, state markers, and any
+   * other per-part attributes) — for each part key a resolver function,
+   * invoked at the consuming site with the template's call arguments (none
+   * for arg-less parts); entries for the same key resolve-then-shallow-merge
+   * in registration order — and returns the `bindings` aggregate (the same
+   * object `useBlueprint` returns): SFCs write
+   * `const bindings = useBindings({...})`.
    *
-   * @param defs Binding definition objects or factories.
+   * @param defs Part-keyed binding definitions.
    */
-  useA11y: (
-    ...defs: BindingDefsArg<
-      ClassFactoryApi<TApi, TProps, TEvents>,
-      PropRefsOf<TProps>
-    >[]
-  ) => void
-
-  /**
-   * Registers component-level styling modifier definitions (part-keyed
-   * `data-*` bags). Bags for the same part shallow-merge; functional entries
-   * replace the whole entry.
-   *
-   * @param defs Modifier definition objects or factories.
-   */
-  useModifiers: (
-    ...defs: BindingDefsArg<
-      ClassFactoryApi<TApi, TProps, TEvents>,
-      PropRefsOf<TProps>
-    >[]
-  ) => void
+  useBindings: (
+    ...defs: BindingDefsOf<BindingDefsSurfaceOf<TSlots>>[]
+  ) => BindingMemberOf<
+    TSlots,
+    ApiOf<TApi>,
+    'bindings',
+    BindingsOf<TParts, Record<string, any>>
+  >
 }
 ```

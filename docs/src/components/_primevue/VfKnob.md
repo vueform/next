@@ -755,8 +755,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-knob` `.vf-centered?` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -775,7 +774,6 @@ The label element, associated with the control via `for`.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
 
 ### `required`
 
@@ -812,7 +810,6 @@ The help text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
 ### `input`
 
@@ -821,8 +818,6 @@ The knob element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Knob>`](https://primevue.org/knob/) |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-invalid`](!code#parts.input.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-describedby`](!code#parts.input.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.input.a11y.aria-invalid "true") [`aria-required`](!code#parts.input.a11y.aria-required "true") [`aria-busy`](!code#parts.input.a11y.aria-busy "true") |
 
 ### `info`
 
@@ -850,7 +845,6 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
 
 ### `errors`
 
@@ -860,7 +854,6 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 

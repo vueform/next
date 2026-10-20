@@ -15,8 +15,7 @@ interface VfEditorContext<
   VfEditorSlots,
   VfEditorParts,
   VfEditorClasses,
-  VfEditorModifiers,
-  VfEditorA11y,
+  VfEditorBindings,
   VfEditorExpose,
   EditorApi<TProps>
 > {}

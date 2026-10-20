@@ -1,6 +1,6 @@
 ```ts
 /**
- * Default context member type for a binding surface (`a11yBindings` /
+ * Default context member type for a binding surface (`bindings` /
  * `modifiers`) when the context is not instantiated with an explicit
  * component-level type: the component context's type when the slots carry
  * one (the SFC side, where `TSlots` is the raw slots interface and the

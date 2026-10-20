@@ -76,7 +76,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | Name | Description |
 | --- | --- |
 | [`classes`](!code#context.classes "object") | The resolved CSS class map for the component. |
-| [`parts`](!code#context.parts "any") | Blueprint-provided parts: VfLayout has no structural parts of its own, it forwards the parent element's resolved parts so the layout renders with that element's part overrides. |
+| [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 | [`tokens`](!code#context.tokens "CSSProperties") | Reactive inline style object with resolved theme token CSS custom properties. |
 | [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this component instance, used to target the injected token style rule. |
 | [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this component instance. |
@@ -131,7 +131,7 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
 | `tabs` | [`pager`](!code#slot.tabs.pager "Pager") [`bindings`](!code#slot.tabs.bindings "PartBindings<'tabs', TabbedParts>") | Slot for customizing the tab navigation bar. |
-| `tab` | [`index`](!code#slot.tab.index "number") [`label`](!code#slot.tab.label "string") [`meta`](!code#slot.tab.meta "Record<string, any>") [`selected`](!code#slot.tab.selected "boolean") [`invalid`](!code#slot.tab.invalid "boolean") [`loading`](!code#slot.tab.loading "boolean") [`el$`](!code#slot.tab.el$ "UnknownElement") [`bindings`](!code#slot.tab.bindings "PartBindings<'tab', VfTabsParts, VfTabsModifiers, VfTabsA11y>") | Slot for customizing an individual tab button. |
+| `tab` | [`index`](!code#slot.tab.index "number") [`label`](!code#slot.tab.label "string") [`meta`](!code#slot.tab.meta "Record<string, any>") [`selected`](!code#slot.tab.selected "boolean") [`invalid`](!code#slot.tab.invalid "boolean") [`loading`](!code#slot.tab.loading "boolean") [`el$`](!code#slot.tab.el$ "UnknownElement") [`bindings`](!code#slot.tab.bindings "PartBindings<'tab', VfTabsParts, VfTabsBindings>") | Slot for customizing an individual tab button. |
 | `default` | — | Slot for the element's default content. |
 <!-- @slots-end -->
 <!-- @endtab -->
@@ -147,6 +147,20 @@ All the CSS variables that control this component's appearance with default valu
 
 ```css
 :root {
+  /**
+   * Element tokens
+   * -------------------------------------------------------------------------- */
+  --vf-label-font-size: 1rem;
+  --vf-label-font-weight: 600;
+  --vf-label-group-h-padding: calc(var(--vf-py) + var(--vf-border-width-t)) 0 0 0;
+
+  --vf-input-border-width-l: var(--vf-border-width-l);
+
+  --vf-icon-font-size: 0.875rem;
+  --vf-icon-group-color: inherit;
+  --vf-icon-group-color-danger: var(--vf-color-danger);
+  --vf-icon-group-width: 2.5rem;
+
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -202,11 +216,19 @@ All the CSS variables that control this component's appearance with default valu
   --vf-element-wrapper-padding: 0;
 
   /**
+   * Semantic tokens
+   * -------------------------------------------------------------------------- */
+  --vf-icon-height: 0.75rem;
+  --vf-icon-width: 0.75rem;
+
+  /**
    * Primitives tokens
    * -------------------------------------------------------------------------- */
   --vf-space-1: 1rem;
   --vf-space-2: 2rem;
   --vf-space-3: 3rem;
+
+  --vf-icon-loading: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6.5' fill='none' stroke='currentColor' stroke-width='1.5' stroke-dasharray='30.6 10.2' stroke-linecap='round'/%3E%3C/svg%3E");
 }
 ```
 
@@ -215,6 +237,20 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
+  /**
+   * Element tokens
+   * -------------------------------------------------------------------------- */
+  labelFontSize: '1rem',
+  labelFontWeight: '600',
+  labelGroupHPadding: 'calc($py + $borderWidthT) 0 0 0',
+
+  inputBorderWidthL: '$borderWidthL',
+
+  iconFontSize: '0.875rem',
+  iconGroupColor: 'inherit',
+  iconGroupColorDanger: '$colorDanger',
+  iconGroupWidth: '2.5rem',
+
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -270,11 +306,19 @@ All the CSS variables that control this component's appearance with default valu
   elementWrapperPadding: '0',
 
   /**
+   * Semantic tokens
+   * -------------------------------------------------------------------------- */
+  iconHeight: '0.75rem',
+  iconWidth: '0.75rem',
+
+  /**
    * Primitives tokens
    * -------------------------------------------------------------------------- */
   space1: '1rem',
   space2: '2rem',
   space3: '3rem',
+
+  iconLoading: "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Ccircle cx='8' cy='8' r='6.5' fill='none' stroke='currentColor' stroke-width='1.5' stroke-dasharray='30.6 10.2' stroke-linecap='round'/%3E%3C/svg%3E\")",
 }
 ```
 

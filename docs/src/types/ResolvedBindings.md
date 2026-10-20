@@ -1,15 +1,10 @@
 ```ts
 /**
  * Every part's resolved binding bag, keyed like the component's `bindings`
- * aggregate — the building block for a component's private `VfXBindings`
+ * aggregate — the building block for a component's private resolved-bags
  * alias (see `PartBindings`).
  */
-type ResolvedBindings<TParts, TModifiers = {}, TA11y = {}> = {
-  [K in keyof TParts | keyof TModifiers | keyof TA11y]: PartBindings<
-    K,
-    TParts,
-    TModifiers,
-    TA11y
-  >
+type ResolvedBindings<TParts, TBindings = {}> = {
+  [K in keyof TParts | keyof TBindings]: PartBindings<K, TParts, TBindings>
 }
 ```

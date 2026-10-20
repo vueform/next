@@ -1171,7 +1171,7 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `before` | — | Slot for content rendered before the label. |
-| `default` | [`text`](!code#slot.default.text "string \| undefined") [`bindings`](!code#slot.default.bindings "PartBindings<'text', VfButtonParts, VfButtonModifiers, VfButtonA11y>") | Default slot that replaces the button label content. |
+| `default` | [`text`](!code#slot.default.text "string \| undefined") [`bindings`](!code#slot.default.bindings "PartBindings<'text', VfButtonParts, VfButtonBindings>") | Default slot that replaces the button label content. |
 | `after` | — | Slot for content rendered after the label. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
@@ -1232,8 +1232,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-button` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -1252,7 +1251,6 @@ The label element, associated with the control via `for`.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
 
 ### `required`
 
@@ -1289,7 +1287,6 @@ The help text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
 ### `button`
 
@@ -1298,9 +1295,6 @@ The root button or anchor element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<button>` `<a>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-btn` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-variant`](!code#parts.button.modifiers.data-variant "'text' \| 'link' \| 'filled' \| 'outlined'") [`data-severity`](!code#parts.button.modifiers.data-severity "'help' \| (string & {}) \| 'warn' \| 'success' \| 'primary' \| 'secondary' \| 'info' \| 'danger' \| 'contrast'") [`data-size`](!code#parts.button.modifiers.data-size "'small' \| 'medium'") [`data-align`](!code#parts.button.modifiers.data-align "'left' \| 'center' \| 'right'") [`data-fluid`](!code#parts.button.modifiers.data-fluid "''") [`data-icon-only`](!code#parts.button.modifiers.data-icon-only "''") [`data-loading`](!code#parts.button.modifiers.data-loading "''") [`data-disabled`](!code#parts.button.modifiers.data-disabled "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`disabled`](!code#parts.button.a11y.disabled "true") [`aria-disabled`](!code#parts.button.a11y.aria-disabled "true") [`aria-busy`](!code#parts.button.a11y.aria-busy "true") [`aria-label`](!code#parts.button.a11y.aria-label "string") [`aria-describedby`](!code#parts.button.a11y.aria-describedby "string") |
 
 ### `icon`
 
@@ -1309,8 +1303,6 @@ The icon of the button.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<i>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-btn-icon` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-pos`](!code#parts.icon.modifiers.data-pos "'left' \| 'right' \| 'bottom' \| 'top'") |
 
 ### `text`
 
@@ -1319,7 +1311,6 @@ The text of the button.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-btn-text` |
 
 ### `description`
 
@@ -1329,7 +1320,6 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
 
 ### `errors`
 
@@ -1339,7 +1329,6 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 

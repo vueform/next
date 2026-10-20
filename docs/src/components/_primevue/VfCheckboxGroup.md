@@ -384,10 +384,10 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `info` | [`info`](!code#slot.info.info "string") | Slot for customizing the info tooltip or helper content. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `default` | [`checkboxName`](!code#slot.default.checkboxName "string") [`disabled`](!code#slot.default.disabled "boolean") [`label`](!code#slot.default.label "string \| undefined") [`items`](!code#slot.default.items "ResolvedOption<OptionValueOf<TOptions, TOptionValueKey, TGroupChildren, TOptionValueReturn>, RawOptionOf<TOptions, TGroupChildren>>[]") [`groups`](!code#slot.default.groups "ResolvedGroup<OptionValueOf<TOptions, TOptionValueKey, TGroupChildren, TOptionValueReturn>, RawOptionOf<TOptions, TGroupChildren>>[]") [`grouped`](!code#slot.default.grouped "boolean") | Slot that replaces the default checkboxes rendering. |
-| `group` | [`checkboxName`](!code#slot.group.checkboxName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<OptionValueOf<TOptions, TOptionValueKey, TGroupChildren, TOptionValueReturn>, RawOptionOf<TOptions, TGroupChildren>>") [`bindings`](!code#slot.group.bindings "VfCheckboxGroupBindings['group']") | Slot that replaces each option group when items are grouped. |
-| `item` | [`checkboxName`](!code#slot.item.checkboxName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedOption<OptionValueOf<TOptions, TOptionValueKey, TGroupChildren, TOptionValueReturn>, RawOptionOf<TOptions, TGroupChildren>>") [`bindings`](!code#slot.item.bindings "VfCheckboxGroupBindings['item']") | Slot that replaces each entire `VfCheckbox` child. |
-| `checkbox` | [`model`](!code#slot.checkbox.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.checkbox.trueValue "TTrueValue") [`falseValue`](!code#slot.checkbox.falseValue "TFalseValue") [`inputName`](!code#slot.checkbox.inputName "string") [`id`](!code#slot.checkbox.id "string") [`disabled`](!code#slot.checkbox.disabled "boolean") [`inputRef`](!code#slot.checkbox.inputRef "any") [`text`](!code#slot.checkbox.text "string \| undefined") [`bindings`](!code#slot.checkbox.bindings "VfCheckboxBindings['wrapper']") [`handleBlur`](!code#slot.checkbox.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.checkbox.handleFocus "(e: FocusEvent) => void") [`handleInput`](!code#slot.checkbox.handleInput "(payload: any, e: Event \| undefined) => void") [`handleModelUpdate`](!code#slot.checkbox.handleModelUpdate "(data: Event) => void") | Slot that replaces each individual checkbox input rendering.<br><br>Child checkboxes always use the default `true` / `false` values; the holder's item value is resolved by name, not passed as `trueValue`. |
-| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfCheckboxBindings['text']") | Slot that replaces the text/label of each individual checkbox. |
+| `group` | [`checkboxName`](!code#slot.group.checkboxName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<OptionValueOf<TOptions, TOptionValueKey, TGroupChildren, TOptionValueReturn>, RawOptionOf<TOptions, TGroupChildren>>") [`bindings`](!code#slot.group.bindings "VfCheckboxGroupResolvedBindings['group']") | Slot that replaces each option group when items are grouped. |
+| `item` | [`checkboxName`](!code#slot.item.checkboxName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedOption<OptionValueOf<TOptions, TOptionValueKey, TGroupChildren, TOptionValueReturn>, RawOptionOf<TOptions, TGroupChildren>>") [`bindings`](!code#slot.item.bindings "VfCheckboxGroupResolvedBindings['item']") | Slot that replaces each entire `VfCheckbox` child. |
+| `checkbox` | [`model`](!code#slot.checkbox.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.checkbox.trueValue "TTrueValue") [`falseValue`](!code#slot.checkbox.falseValue "TFalseValue") [`inputName`](!code#slot.checkbox.inputName "string") [`id`](!code#slot.checkbox.id "string") [`disabled`](!code#slot.checkbox.disabled "boolean") [`inputRef`](!code#slot.checkbox.inputRef "any") [`text`](!code#slot.checkbox.text "string \| undefined") [`bindings`](!code#slot.checkbox.bindings "VfCheckboxResolvedBindings['wrapper']") [`handleBlur`](!code#slot.checkbox.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.checkbox.handleFocus "(e: FocusEvent) => void") [`handleInput`](!code#slot.checkbox.handleInput "(payload: any, e: Event \| undefined) => void") [`handleModelUpdate`](!code#slot.checkbox.handleModelUpdate "(data: Event) => void") | Slot that replaces each individual checkbox input rendering.<br><br>Child checkboxes always use the default `true` / `false` values; the holder's item value is resolved by name, not passed as `trueValue`. |
+| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfCheckboxResolvedBindings['text']") | Slot that replaces the text/label of each individual checkbox. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -445,8 +445,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-checkbox-group` `.vf-choices` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -465,7 +464,6 @@ The label element; renders as the corresponding heading when the container's `he
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
 
 ### `required`
 
@@ -502,7 +500,6 @@ The help text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
 ### `wrapper`
 
@@ -511,9 +508,6 @@ The wrapper element containing all checkbox items.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choices-group` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.wrapper.modifiers.data-stacked "''") [`data-aligned`](!code#parts.wrapper.modifiers.data-aligned "''") [`data-invalid`](!code#parts.wrapper.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.wrapper.a11y.role "'group' \| 'radiogroup'") [`aria-labelledby`](!code#parts.wrapper.a11y.aria-labelledby "string") [`aria-label`](!code#parts.wrapper.a11y.aria-label "string") [`aria-describedby`](!code#parts.wrapper.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.wrapper.a11y.aria-invalid "true") [`aria-required`](!code#parts.wrapper.a11y.aria-required "true") |
 
 ### `group`
 
@@ -565,7 +559,6 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
 
 ### `errors`
 
@@ -575,7 +568,6 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -617,15 +609,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```css
 :root {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-choice-aligned-margin: calc((1lh - var(--p-checkbox-height, 1.25rem)) / 2 + var(--p-inputtext-padding-y)) 0 0 0;
-
-  --vf-choices-direction: column;
-  --vf-choices-gutter-x: 0.75rem;
-  --vf-choices-gutter-y: 0.25rem;
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -694,15 +677,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  choiceAlignedMargin: 'calc((1lh - var(--p-checkbox-height, 1.25rem)) / 2 + var(--p-inputtext-padding-y)) 0 0 0',
-
-  choicesDirection: 'column',
-  choicesGutterX: '0.75rem',
-  choicesGutterY: '0.25rem',
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

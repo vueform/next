@@ -362,8 +362,6 @@ The root column element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-grid-cell` `.vf-grid-col-header?` `.vf-grid-row-header?` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align`](!code#parts.root.modifiers.data-align "AlignProp") [`data-valign`](!code#parts.root.modifiers.data-valign "ValignProp") |
 <!-- @parts-end -->
 <!-- @endtab -->
 <!-- @tab Tokens -->

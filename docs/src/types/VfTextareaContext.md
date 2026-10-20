@@ -15,8 +15,7 @@ interface VfTextareaContext<
   VfTextareaSlots,
   VfTextareaParts,
   VfTextareaClasses,
-  VfTextareaModifiers,
-  VfTextareaA11y,
+  VfTextareaBindings,
   VfTextareaExpose,
   TextareaApi<TProps>
 > {}

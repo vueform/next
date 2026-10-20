@@ -109,10 +109,10 @@ interface VfStepsSlots extends StepsSlots<VfStepsContext> {
     el$: UnknownElement
 
     /**
-     * The step button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The step button's resolved bindings (part overrides, state attributes);
+     * apply with `v-bind`.
      */
-    bindings: PartBindings<'step', VfStepsParts, VfStepsModifiers, VfStepsA11y>
+    bindings: PartBindings<'step', VfStepsParts, VfStepsBindings>
   }) => VNode[]
 }
 ```

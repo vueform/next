@@ -164,7 +164,7 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | --- | --- | --- |
 | `template` | [`context`](!code#slot.template.context "TContext") | Slot that replaces the entire component rendering. Receives the full component context as a single `context` prop. |
 | `wrapper` | [`index`](!code#slot.wrapper.index "number") [`label`](!code#slot.wrapper.label "string") [`meta`](!code#slot.wrapper.meta "Record<string, any>") [`selected`](!code#slot.wrapper.selected "boolean") [`invalid`](!code#slot.wrapper.invalid "boolean") [`loading`](!code#slot.wrapper.loading "boolean") [`el$`](!code#slot.wrapper.el$ "UnknownElement") [`page`](!code#slot.wrapper.page "ResolvedPage") | Slot that replaces each tab wrapper element. Receives tab state and page info. |
-| `default` | [`index`](!code#slot.default.index "number") [`label`](!code#slot.default.label "string") [`meta`](!code#slot.default.meta "Record<string, any>") [`selected`](!code#slot.default.selected "boolean") [`invalid`](!code#slot.default.invalid "boolean") [`loading`](!code#slot.default.loading "boolean") [`el$`](!code#slot.default.el$ "UnknownElement") [`bindings`](!code#slot.default.bindings "PartBindings<'tab', VfTabsParts, VfTabsModifiers, VfTabsA11y>") | Slot that replaces each tab's inner content. Receives tab state. |
+| `default` | [`index`](!code#slot.default.index "number") [`label`](!code#slot.default.label "string") [`meta`](!code#slot.default.meta "Record<string, any>") [`selected`](!code#slot.default.selected "boolean") [`invalid`](!code#slot.default.invalid "boolean") [`loading`](!code#slot.default.loading "boolean") [`el$`](!code#slot.default.el$ "UnknownElement") [`bindings`](!code#slot.default.bindings "PartBindings<'tab', VfTabsParts, VfTabsBindings>") | Slot that replaces each tab's inner content. Receives tab state. |
 <!-- @slots-end -->
 <!-- @endtab -->
 
@@ -190,7 +190,6 @@ The root tabs container element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-tabs` |
 
 ### `list`
 
@@ -199,7 +198,6 @@ The tab list element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-tabs-wrapper` |
 
 ### `wrapper`
 
@@ -208,8 +206,6 @@ Each tab wrapper. Receives the resolved page data.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-tab-wrapper` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-selected`](!code#parts.wrapper.modifiers.data-selected "''") [`data-invalid`](!code#parts.wrapper.modifiers.data-invalid "''") |
 
 ### `tab`
 
@@ -218,86 +214,6 @@ The tab button element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<button>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-tab` |
 <!-- @parts-end -->
-<!-- @endtab -->
-<!-- @tab Tokens -->
-
-## Tokens
-
-All the CSS variables that control this component's appearance with default values in the default theme. See [Theming Guide](/guide/theming-guide#vueform-s-token-system) for details.
-
-<!-- @tokens-start -->
-<!-- @subtabs -->
-<!-- @subtab CSS -->
-
-```css
-:root {
-  /**
-   * Component tokens
-   * -------------------------------------------------------------------------- */
-  --vf-tab-padding: 0 1rem 0.5rem 1rem;
-  --vf-tabs-gutter-x: 0;
-  --vf-tabs-gutter-y: 0;
-  --vf-tabs-margin: 0 0 var(--vf-gutter) 0;
-
-  --vf-tab-color: inherit;
-  --vf-tab-color-danger: var(--vf-red);
-  --vf-tab-color-selected: inherit;
-  --vf-tab-color-selected-danger: var(--vf-red);
-
-  --vf-tab-bg: transparent;
-  --vf-tab-bg-danger: transparent;
-  --vf-tab-bg-selected: transparent;
-  --vf-tab-bg-selected-danger: transparent;
-
-  --vf-tab-border-color: transparent;
-  --vf-tab-border-color-danger: transparent;
-  --vf-tab-border-color-selected: var(--vf-brand);
-  --vf-tab-border-color-selected-danger: var(--vf-red);
-  --vf-tab-border-width: 0 0 2px 0;
-  --vf-tab-radius: 0px;
-
-  --vf-tabs-font-size: 1rem;
-}
-```
-
-<!-- @endsubtab -->
-<!-- @subtab JS -->
-
-```ts
-{
-  /**
-   * Component tokens
-   * -------------------------------------------------------------------------- */
-  tabPadding: '0 1rem 0.5rem 1rem',
-  tabsGutterX: '0',
-  tabsGutterY: '0',
-  tabsMargin: '0 0 $gutter 0',
-
-  tabColor: 'inherit',
-  tabColorDanger: '$red',
-  tabColorSelected: 'inherit',
-  tabColorSelectedDanger: '$red',
-
-  tabBg: 'transparent',
-  tabBgDanger: 'transparent',
-  tabBgSelected: 'transparent',
-  tabBgSelectedDanger: 'transparent',
-
-  tabBorderColor: 'transparent',
-  tabBorderColorDanger: 'transparent',
-  tabBorderColorSelected: '$brand',
-  tabBorderColorSelectedDanger: '$red',
-  tabBorderWidth: '0 0 2px 0',
-  tabRadius: '0px',
-
-  tabsFontSize: '1rem',
-}
-```
-
-<!-- @endsubtab -->
-<!-- @endsubtabs -->
-<!-- @tokens-end -->
 <!-- @endtab -->
 <!-- @endtabs -->

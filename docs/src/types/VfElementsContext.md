@@ -15,8 +15,7 @@ interface VfElementsContext extends DefineElementContext<
   VfElementsSlots,
   VfElementsParts,
   VfElementsClasses,
-  VfElementsModifiers,
-  VfElementsA11y,
+  VfElementsBindings,
   VfElementsExpose,
   ElementsApi
 > {}

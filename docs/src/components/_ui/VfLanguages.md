@@ -208,7 +208,6 @@ The root language selector element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-languages` |
 
 ### `list`
 
@@ -217,7 +216,6 @@ The language list element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-languages-wrapper` |
 
 ### `wrapper`
 
@@ -226,8 +224,6 @@ Each language wrapper. Receives whether this option is currently selected and wh
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-language-wrapper` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-selected`](!code#parts.wrapper.modifiers.data-selected "''") [`data-invalid`](!code#parts.wrapper.modifiers.data-invalid "''") |
 
 ### `language`
 
@@ -236,84 +232,6 @@ The language button element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<button>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-language` |
 <!-- @parts-end -->
-<!-- @endtab -->
-<!-- @tab Tokens -->
-
-## Tokens
-
-All the CSS variables that control this component's appearance with default values in the default theme. See [Theming Guide](/guide/theming-guide#vueform-s-token-system) for details.
-
-<!-- @tokens-start -->
-<!-- @subtabs -->
-<!-- @subtab CSS -->
-
-```css
-:root {
-  /**
-   * Component tokens
-   * -------------------------------------------------------------------------- */
-  --vf-language-padding: 0 1rem 0.5rem 1rem;
-  --vf-languages-gutter: var(--vf-gutter);
-  --vf-languages-margin: 0 0 var(--vf-gutter) 0;
-
-  --vf-language-color: inherit;
-  --vf-language-color-danger: var(--vf-red);
-  --vf-language-color-selected: inherit;
-  --vf-language-color-selected-danger: var(--vf-red);
-
-  --vf-language-bg: transparent;
-  --vf-language-bg-danger: transparent;
-  --vf-language-bg-selected: transparent;
-  --vf-language-bg-selected-danger: transparent;
-
-  --vf-language-border-color: transparent;
-  --vf-language-border-color-danger: transparent;
-  --vf-language-border-color-selected: var(--vf-brand);
-  --vf-language-border-color-selected-danger: var(--vf-red);
-  --vf-language-border-width: 0 0 2px 0;
-  --vf-language-radius: 0px;
-
-  --vf-languages-font-size: 1rem;
-}
-```
-
-<!-- @endsubtab -->
-<!-- @subtab JS -->
-
-```ts
-{
-  /**
-   * Component tokens
-   * -------------------------------------------------------------------------- */
-  languagePadding: '0 1rem 0.5rem 1rem',
-  languagesGutter: '$gutter',
-  languagesMargin: '0 0 $gutter 0',
-
-  languageColor: 'inherit',
-  languageColorDanger: '$red',
-  languageColorSelected: 'inherit',
-  languageColorSelectedDanger: '$red',
-
-  languageBg: 'transparent',
-  languageBgDanger: 'transparent',
-  languageBgSelected: 'transparent',
-  languageBgSelectedDanger: 'transparent',
-
-  languageBorderColor: 'transparent',
-  languageBorderColorDanger: 'transparent',
-  languageBorderColorSelected: '$brand',
-  languageBorderColorSelectedDanger: '$red',
-  languageBorderWidth: '0 0 2px 0',
-  languageRadius: '0px',
-
-  languagesFontSize: '1rem',
-}
-```
-
-<!-- @endsubtab -->
-<!-- @endsubtabs -->
-<!-- @tokens-end -->
 <!-- @endtab -->
 <!-- @endtabs -->

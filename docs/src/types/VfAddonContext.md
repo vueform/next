@@ -15,8 +15,7 @@ interface VfAddonContext extends DefineElementContext<
   VfAddonSlots,
   VfAddonParts,
   VfAddonClasses,
-  VfAddonModifiers,
-  VfAddonA11y,
+  VfAddonBindings,
   VfAddonExpose,
   AddonApi
 > {}

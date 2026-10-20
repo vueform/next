@@ -15,8 +15,7 @@ interface VfHiddenContext extends DefineElementContext<
   VfHiddenSlots,
   VfHiddenParts,
   VfHiddenClasses,
-  VfHiddenModifiers,
-  VfHiddenA11y,
+  VfHiddenBindings,
   VfHiddenExpose,
   HiddenApi
 > {}

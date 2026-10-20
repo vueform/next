@@ -22,8 +22,7 @@ interface VfFormContext<
   VfFormSlots,
   VfFormParts,
   VfFormClasses,
-  VfFormModifiers,
-  VfFormA11y,
+  VfFormBindings,
   VfFormExpose,
   FormApi<TProps>
 > {}

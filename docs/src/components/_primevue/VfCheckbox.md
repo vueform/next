@@ -431,8 +431,8 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `required` | — | Slot for customizing the required indicator. |
 | `info` | [`info`](!code#slot.info.info "string") | Slot for customizing the info tooltip or helper content. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `default` | [`model`](!code#slot.default.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.default.trueValue "TTrueValue") [`falseValue`](!code#slot.default.falseValue "TFalseValue") [`inputName`](!code#slot.default.inputName "string") [`id`](!code#slot.default.id "string") [`disabled`](!code#slot.default.disabled "boolean") [`inputRef`](!code#slot.default.inputRef "any") [`text`](!code#slot.default.text "string \| undefined") [`bindings`](!code#slot.default.bindings "VfCheckboxBindings['wrapper']") [`handleBlur`](!code#slot.default.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.default.handleFocus "(e: FocusEvent) => void") [`handleInput`](!code#slot.default.handleInput "(payload: any, e: Event \| undefined) => void") [`handleModelUpdate`](!code#slot.default.handleModelUpdate "(data: Event) => void") | Slot that replaces the default checkbox rendering. Receives input-specific props. |
-| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfCheckboxBindings['text']") | Slot that replaces the text/label portion of the checkbox. |
+| `default` | [`model`](!code#slot.default.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.default.trueValue "TTrueValue") [`falseValue`](!code#slot.default.falseValue "TFalseValue") [`inputName`](!code#slot.default.inputName "string") [`id`](!code#slot.default.id "string") [`disabled`](!code#slot.default.disabled "boolean") [`inputRef`](!code#slot.default.inputRef "any") [`text`](!code#slot.default.text "string \| undefined") [`bindings`](!code#slot.default.bindings "VfCheckboxResolvedBindings['wrapper']") [`handleBlur`](!code#slot.default.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.default.handleFocus "(e: FocusEvent) => void") [`handleInput`](!code#slot.default.handleInput "(payload: any, e: Event \| undefined) => void") [`handleModelUpdate`](!code#slot.default.handleModelUpdate "(data: Event) => void") | Slot that replaces the default checkbox rendering. Receives input-specific props. |
+| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfCheckboxResolvedBindings['text']") | Slot that replaces the text/label portion of the checkbox. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `icon` | [`checked`](!code#slot.icon.checked "boolean") [`indeterminate`](!code#slot.icon.indeterminate "boolean \| undefined") [`class`](!code#slot.icon.class "string") | Custom icon template. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
@@ -491,8 +491,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-checkbox` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -511,7 +510,6 @@ The label element, associated with the control via `for`.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
 
 ### `required`
 
@@ -548,7 +546,6 @@ The help text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
 ### `wrapper`
 
@@ -557,8 +554,6 @@ The wrapper element surrounding the input and text.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choice-wrapper` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align`](!code#parts.wrapper.modifiers.data-align "'auto' \| 'left' \| 'right'") [`data-aligned`](!code#parts.wrapper.modifiers.data-aligned "''") |
 
 ### `input`
 
@@ -567,8 +562,6 @@ The PrimeVue Checkbox input element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Checkbox>`](https://primevue.org/checkbox/) |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-invalid`](!code#parts.input.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-describedby`](!code#parts.input.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.input.a11y.aria-invalid "true") [`aria-required`](!code#parts.input.a11y.aria-required "true") [`aria-busy`](!code#parts.input.a11y.aria-busy "true") |
 
 ### `text`
 
@@ -577,7 +570,6 @@ The label/text element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choice-text` |
 
 ### `info`
 
@@ -605,7 +597,6 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
 
 ### `errors`
 
@@ -615,7 +606,6 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -657,14 +647,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```css
 :root {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-choice-aligned-margin: calc((1lh - var(--p-checkbox-height, 1.25rem)) / 2 + var(--p-inputtext-padding-y)) 0 0 0;
-  --vf-choice-gutter: 0.375rem;
-
-  --vf-choice-color: inherit;
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -733,14 +715,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  choiceAlignedMargin: 'calc((1lh - var(--p-checkbox-height, 1.25rem)) / 2 + var(--p-inputtext-padding-y)) 0 0 0',
-  choiceGutter: '0.375rem',
-
-  choiceColor: 'inherit',
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

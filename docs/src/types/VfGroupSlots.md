@@ -19,15 +19,10 @@ interface VfGroupSlots extends GroupSlots<VfGroupContext> {
     label?: string
 
     /**
-     * The wrapper element's resolved bindings (classes, part overrides,
-     * stacked / wrapped modifiers); apply with `v-bind`.
+     * The wrapper element's resolved bindings (part overrides and stacked /
+     * wrapped markers); apply with `v-bind`.
      */
-    bindings: PartBindings<
-      'wrapper',
-      VfGroupParts,
-      VfGroupModifiers,
-      VfGroupA11y
-    >
+    bindings: PartBindings<'wrapper', VfGroupParts, VfGroupBindings>
   }) => VNode[]
 
   /**

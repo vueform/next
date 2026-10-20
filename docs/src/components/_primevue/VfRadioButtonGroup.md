@@ -347,10 +347,10 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `info` | [`info`](!code#slot.info.info "string") | Slot for customizing the info tooltip or helper content. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
 | `default` | [`radioName`](!code#slot.default.radioName "string") [`disabled`](!code#slot.default.disabled "boolean") [`label`](!code#slot.default.label "string \| undefined") [`items`](!code#slot.default.items "ResolvedOption<TValue, TRaw>[]") [`groups`](!code#slot.default.groups "ResolvedGroup<TValue, TRaw>[]") [`grouped`](!code#slot.default.grouped "boolean") | Slot that replaces the default radio buttons rendering. Receives resolved items, groups, and shared state. |
-| `group` | [`radioName`](!code#slot.group.radioName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<TValue, TRaw>") [`bindings`](!code#slot.group.bindings "VfRadioButtonGroupBindings['group']") | Slot that replaces each option group when items are grouped. |
-| `item` | [`radioName`](!code#slot.item.radioName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedOption<TValue, TRaw>") [`bindings`](!code#slot.item.bindings "VfRadioButtonGroupBindings['item']") | Slot that replaces each entire `VfRadioButton` child. Receives the resolved item and shared state. |
-| `radio` | [`value`](!code#slot.radio.value "TRadioValue") [`model`](!code#slot.radio.model "TRadioValue \| null") [`inputName`](!code#slot.radio.inputName "string") [`id`](!code#slot.radio.id "string") [`disabled`](!code#slot.radio.disabled "boolean") [`inputRef`](!code#slot.radio.inputRef "any") [`text`](!code#slot.radio.text "string \| undefined") [`bindings`](!code#slot.radio.bindings "VfRadioButtonBindings['wrapper']") [`handleBlur`](!code#slot.radio.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.radio.handleFocus "(e: FocusEvent) => void") [`handleInput`](!code#slot.radio.handleInput "(payload: any, e: Event \| undefined) => void") [`handleModelUpdate`](!code#slot.radio.handleModelUpdate "(e: Event) => void") | Slot that replaces each individual radio button input rendering inside the default `VfRadioButton` child.<br><br>Child radios always use the default `true` radio value; the holder's item value is resolved by name, not passed as `value`. |
-| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfRadioButtonBindings['text']") | Slot that replaces the text/label of each individual radio button. |
+| `group` | [`radioName`](!code#slot.group.radioName "string") [`disabled`](!code#slot.group.disabled "boolean") [`label`](!code#slot.group.label "string \| undefined") [`group`](!code#slot.group.group "ResolvedGroup<TValue, TRaw>") [`bindings`](!code#slot.group.bindings "VfRadioButtonGroupResolvedBindings['group']") | Slot that replaces each option group when items are grouped. |
+| `item` | [`radioName`](!code#slot.item.radioName "string") [`disabled`](!code#slot.item.disabled "boolean") [`label`](!code#slot.item.label "string \| undefined") [`item`](!code#slot.item.item "ResolvedOption<TValue, TRaw>") [`bindings`](!code#slot.item.bindings "VfRadioButtonGroupResolvedBindings['item']") | Slot that replaces each entire `VfRadioButton` child. Receives the resolved item and shared state. |
+| `radio` | [`value`](!code#slot.radio.value "TRadioValue") [`model`](!code#slot.radio.model "TRadioValue \| null") [`inputName`](!code#slot.radio.inputName "string") [`id`](!code#slot.radio.id "string") [`disabled`](!code#slot.radio.disabled "boolean") [`inputRef`](!code#slot.radio.inputRef "any") [`text`](!code#slot.radio.text "string \| undefined") [`bindings`](!code#slot.radio.bindings "VfRadioButtonResolvedBindings['wrapper']") [`handleBlur`](!code#slot.radio.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.radio.handleFocus "(e: FocusEvent) => void") [`handleInput`](!code#slot.radio.handleInput "(payload: any, e: Event \| undefined) => void") [`handleModelUpdate`](!code#slot.radio.handleModelUpdate "(e: Event) => void") | Slot that replaces each individual radio button input rendering inside the default `VfRadioButton` child.<br><br>Child radios always use the default `true` radio value; the holder's item value is resolved by name, not passed as `value`. |
+| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfRadioButtonResolvedBindings['text']") | Slot that replaces the text/label of each individual radio button. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -411,8 +411,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-radio-button-group` `.vf-choices` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -431,7 +430,6 @@ The label element; renders as the corresponding heading when the container's `he
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` `<h1>` `<h2>` `<h3>` `<h4>` `<h5>` `<h6>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
 
 ### `required`
 
@@ -468,7 +466,6 @@ The help text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
 ### `wrapper`
 
@@ -477,9 +474,6 @@ The wrapper element containing all radio button items.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choices-group` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.wrapper.modifiers.data-stacked "''") [`data-aligned`](!code#parts.wrapper.modifiers.data-aligned "''") [`data-invalid`](!code#parts.wrapper.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.wrapper.a11y.role "'group' \| 'radiogroup'") [`aria-labelledby`](!code#parts.wrapper.a11y.aria-labelledby "string") [`aria-label`](!code#parts.wrapper.a11y.aria-label "string") [`aria-describedby`](!code#parts.wrapper.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.wrapper.a11y.aria-invalid "true") [`aria-required`](!code#parts.wrapper.a11y.aria-required "true") |
 
 ### `group`
 
@@ -531,7 +525,6 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
 
 ### `errors`
 
@@ -541,7 +534,6 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -583,15 +575,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```css
 :root {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-choice-aligned-margin: calc((1lh - var(--p-checkbox-height, 1.25rem)) / 2 + var(--p-inputtext-padding-y)) 0 0 0;
-
-  --vf-choices-direction: column;
-  --vf-choices-gutter-x: 0.75rem;
-  --vf-choices-gutter-y: 0.25rem;
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -660,15 +643,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  choiceAlignedMargin: 'calc((1lh - var(--p-checkbox-height, 1.25rem)) / 2 + var(--p-inputtext-padding-y)) 0 0 0',
-
-  choicesDirection: 'column',
-  choicesGutterX: '0.75rem',
-  choicesGutterY: '0.25rem',
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

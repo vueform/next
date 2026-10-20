@@ -197,48 +197,6 @@ The root elements container.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-elements` |
 <!-- @parts-end -->
-<!-- @endtab -->
-<!-- @tab Tokens -->
-
-## Tokens
-
-All the CSS variables that control this component's appearance with default values in the default theme. See [Theming Guide](/guide/theming-guide#vueform-s-token-system) for details.
-
-<!-- @tokens-start -->
-<!-- @subtabs -->
-<!-- @subtab CSS -->
-
-```css
-:root {
-  /**
-   * Component tokens
-   * -------------------------------------------------------------------------- */
-  --vf-elements-gutter-stacked-x: calc(var(--vf-gutter) * 0.66);
-  --vf-elements-gutter-stacked-y: calc(var(--vf-gutter) * 0.66);
-  --vf-elements-gutter-x: var(--vf-gutter);
-  --vf-elements-gutter-y: var(--vf-gutter);
-}
-```
-
-<!-- @endsubtab -->
-<!-- @subtab JS -->
-
-```ts
-{
-  /**
-   * Component tokens
-   * -------------------------------------------------------------------------- */
-  elementsGutterStackedX: 'calc($gutter * 0.66)',
-  elementsGutterStackedY: 'calc($gutter * 0.66)',
-  elementsGutterX: '$gutter',
-  elementsGutterY: '$gutter',
-}
-```
-
-<!-- @endsubtab -->
-<!-- @endsubtabs -->
-<!-- @tokens-end -->
 <!-- @endtab -->
 <!-- @endtabs -->

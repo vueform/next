@@ -16,8 +16,7 @@ interface VfDatePickerContext<
   VfDatePickerSlots,
   VfDatePickerParts,
   VfDatePickerClasses,
-  VfDatePickerModifiers,
-  VfDatePickerA11y,
+  VfDatePickerBindings,
   VfDatePickerExpose,
   DatePickerApi<TProps>
 > {}

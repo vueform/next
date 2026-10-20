@@ -38,10 +38,10 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * The back button's resolved bindings (classes, part overrides, ARIA
-     * state); apply with `v-bind`.
+     * The back button's resolved bindings (part overrides, ARIA state); apply
+     * with `v-bind`.
      */
-    bindings: VfNavBindings['back']
+    bindings: VfNavBags['back']
 
     /**
      * Handler to navigate back.
@@ -111,10 +111,10 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * The next button's resolved bindings (classes, part overrides, loading
-     * modifier, ARIA state); apply with `v-bind`.
+     * The next button's resolved bindings (part overrides, loading modifier,
+     * ARIA state); apply with `v-bind`.
      */
-    bindings: VfNavBindings['next']
+    bindings: VfNavBags['next']
 
     /**
      * Handler to navigate to the next step.
@@ -184,10 +184,10 @@ interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * The finish button's resolved bindings (classes, part overrides, loading
-     * modifier, ARIA state); apply with `v-bind`.
+     * The finish button's resolved bindings (part overrides, loading modifier,
+     * ARIA state); apply with `v-bind`.
      */
-    bindings: VfNavBindings['finish']
+    bindings: VfNavBags['finish']
 
     /**
      * Handler to finish/submit the form.

@@ -15,8 +15,7 @@ interface VfColorPickerContext extends DefineElementContext<
   VfColorPickerSlots,
   VfColorPickerParts,
   VfColorPickerClasses,
-  VfColorPickerModifiers,
-  VfColorPickerA11y,
+  VfColorPickerBindings,
   VfColorPickerExpose,
   ColorPickerApi
 > {}

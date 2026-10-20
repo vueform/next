@@ -15,8 +15,7 @@ interface VfGroupContext<
   VfGroupSlots,
   VfGroupParts,
   VfGroupClasses,
-  VfGroupModifiers,
-  VfGroupA11y,
+  VfGroupBindings,
   VfGroupExpose,
   GroupApi<TProps>
 > {}

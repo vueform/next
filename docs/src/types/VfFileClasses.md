@@ -14,7 +14,7 @@ interface VfFileClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  item: (file: FileListItem, index: number) => ClassValue
+  item: ClassValue
 
   /**
    * The file name text or link.
@@ -22,7 +22,7 @@ interface VfFileClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  name: (file: FileListItem, index: number) => ClassValue
+  name: ClassValue
 
   /**
    * The remove button for a file entry.
@@ -30,7 +30,7 @@ interface VfFileClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  remove: (file: FileListItem, index: number) => ClassValue
+  remove: ClassValue
 
   /**
    * The hidden file `<input>` tag.

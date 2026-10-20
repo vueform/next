@@ -398,8 +398,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-content` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") [`data-align`](!code#parts.root.modifiers.data-align "AlignProp") [`data-aligned`](!code#parts.root.modifiers.data-aligned "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -514,11 +513,6 @@ All the CSS variables that control this component's appearance with default valu
 ```css
 :root {
   /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-content-aligned-margin: calc(var(--vf-input-pt) + var(--vf-input-border-width-t)) 0 0 0;
-
-  /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
   --vf-element-line-color: var(--vf-gray-300);
@@ -586,11 +580,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  contentAlignedMargin: 'calc($inputPt + $inputBorderWidthT) 0 0 0',
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

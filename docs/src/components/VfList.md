@@ -729,12 +729,12 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `item` | [`index`](!code#slot.item.index "number") [`beingDragged`](!code#slot.item.beingDragged "boolean") [`isDropTarget`](!code#slot.item.isDropTarget "boolean") [`bindings`](!code#slot.item.bindings "VfListBindings['item']") [`handleDragEnter`](!code#slot.item.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.item.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.item.handleDragEnd "() => void") [`handleRemove`](!code#slot.item.handleRemove "() => void") | Slot that replaces each list item wrapper. Receives drag state and event handlers. |
-| `sort` | [`bindings`](!code#slot.sort.bindings "VfListBindings['sort']") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives classes, part, and drag event handlers. |
+| `item` | [`index`](!code#slot.item.index "number") [`beingDragged`](!code#slot.item.beingDragged "boolean") [`isDropTarget`](!code#slot.item.isDropTarget "boolean") [`bindings`](!code#slot.item.bindings "VfListResolvedBindings['item']") [`handleDragEnter`](!code#slot.item.handleDragEnter "($event: DragEvent) => void") [`handleDragStart`](!code#slot.item.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.item.handleDragEnd "() => void") [`handleRemove`](!code#slot.item.handleRemove "() => void") | Slot that replaces each list item wrapper. Receives drag state and event handlers. |
+| `sort` | [`bindings`](!code#slot.sort.bindings "VfListResolvedBindings['sort']") [`handleDragStart`](!code#slot.sort.handleDragStart "($event: DragEvent) => void") [`handleDragEnd`](!code#slot.sort.handleDragEnd "() => void") | Slot that replaces the drag handle. Receives the handle's bindings and drag event handlers. |
 | `default` | [`component`](!code#slot.default.component "string \| Component") [`props`](!code#slot.default.props "Record<string, any>") [`index`](!code#slot.default.index "ElementName") | Slot that replaces the default element content within each list item. |
-| `remove` | [`bindings`](!code#slot.remove.bindings "VfListBindings['remove']") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the remove button. Receives classes, part, and remove handler. |
-| `placeholder` | [`bindings`](!code#slot.placeholder.bindings "VfListBindings['placeholder']") | Slot that replaces the placeholder element when the list is empty. |
-| `add` | [`label`](!code#slot.add.label "any") [`bindings`](!code#slot.add.bindings "VfListBindings['add']") [`handleAdd`](!code#slot.add.handleAdd "() => void") | Slot that replaces the add button. Receives classes, part, add handler, and label. |
+| `remove` | [`bindings`](!code#slot.remove.bindings "VfListResolvedBindings['remove']") [`handleRemove`](!code#slot.remove.handleRemove "() => void") | Slot that replaces the remove button. Receives the button's bindings and the remove handler. |
+| `placeholder` | [`bindings`](!code#slot.placeholder.bindings "VfListResolvedBindings['placeholder']") | Slot that replaces the placeholder element when the list is empty. |
+| `add` | [`label`](!code#slot.add.label "any") [`bindings`](!code#slot.add.bindings "VfListResolvedBindings['add']") [`handleAdd`](!code#slot.add.handleAdd "() => void") | Slot that replaces the add button. Receives the button's bindings, add handler, and label. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -814,8 +814,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-list` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -878,8 +877,6 @@ The items container element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-items` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.items.a11y.role "'list'") |
 
 ### `item`
 
@@ -888,8 +885,6 @@ Each list item wrapper. Receives drag state.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-wrapped`](!code#parts.item.modifiers.data-wrapped "''") [`data-dragging`](!code#parts.item.modifiers.data-dragging "''") [`data-drop-target`](!code#parts.item.modifiers.data-drop-target "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`role`](!code#parts.item.a11y.role "'listitem'") |
 
 ### `element`
 
@@ -898,7 +893,6 @@ The element wrapper within each list item.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-element` |
 
 ### `sort`
 
@@ -907,7 +901,6 @@ The drag handle element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.sort.a11y.aria-label "string") |
 
 ### `remove`
 
@@ -916,7 +909,6 @@ The remove action element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.remove.a11y.aria-label "string") |
 
 ### `placeholder`
 
@@ -925,8 +917,6 @@ The placeholder element displayed when the list is empty.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-placeholder` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.placeholder.a11y.id "string") [`role`](!code#parts.placeholder.a11y.role "'status'") |
 
 ### `add`
 
@@ -935,8 +925,6 @@ The add action element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-list-add` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.add.a11y.aria-label "string") [`aria-describedby`](!code#parts.add.a11y.aria-describedby "string") |
 
 ### `description`
 
@@ -996,36 +984,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```css
 :root {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-group-wrapped-bg: transparent;
-  --vf-group-wrapped-border-color: var(--vf-gray-300);
-  --vf-group-wrapped-border-style: solid;
-  --vf-group-wrapped-border-width: 1px;
-  --vf-group-wrapped-padding: 1.5rem;
-  --vf-group-wrapped-radius: var(--vf-radius);
-
-  --vf-list-gutter-x: var(--vf-gutter);
-  --vf-list-gutter-y: var(--vf-gutter);
-  --vf-list-item-align: center;
-  --vf-list-item-gutter-x: var(--vf-gutter);
-  --vf-list-item-gutter-y: 0;
-
-  --vf-list-dragging-opacity: 0.6;
-
-  --vf-list-placeholder-align: left;
-  --vf-list-placeholder-bg: transparent;
-  --vf-list-placeholder-border-color: transparent;
-  --vf-list-placeholder-border-style: solid;
-  --vf-list-placeholder-border-width: 0;
-  --vf-list-placeholder-color: var(--vf-gray-500);
-  --vf-list-placeholder-font-style: italic;
-  --vf-list-placeholder-padding: calc(var(--vf-py) + var(--vf-border-width-t) + var(--vf-border-width-b)) 0;
-  --vf-list-placeholder-radius: var(--vf-radius);
-
-  --vf-list-add-margin: calc(var(--vf-gutter) * 0.66) 0 0 0;
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -1094,36 +1052,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  groupWrappedBg: 'transparent',
-  groupWrappedBorderColor: '$gray300',
-  groupWrappedBorderStyle: 'solid',
-  groupWrappedBorderWidth: '1px',
-  groupWrappedPadding: '1.5rem',
-  groupWrappedRadius: '$radius',
-
-  listGutterX: '$gutter',
-  listGutterY: '$gutter',
-  listItemAlign: 'center',
-  listItemGutterX: '$gutter',
-  listItemGutterY: '0',
-
-  listDraggingOpacity: '0.6',
-
-  listPlaceholderAlign: 'left',
-  listPlaceholderBg: 'transparent',
-  listPlaceholderBorderColor: 'transparent',
-  listPlaceholderBorderStyle: 'solid',
-  listPlaceholderBorderWidth: '0',
-  listPlaceholderColor: '$gray500',
-  listPlaceholderFontStyle: 'italic',
-  listPlaceholderPadding: 'calc($py + $borderWidthT + $borderWidthB) 0',
-  listPlaceholderRadius: '$radius',
-
-  listAddMargin: 'calc($gutter * 0.66) 0 0 0',
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

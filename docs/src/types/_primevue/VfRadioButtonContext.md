@@ -16,8 +16,7 @@ interface VfRadioButtonContext<
   VfRadioButtonSlots,
   VfRadioButtonParts,
   VfRadioButtonClasses,
-  VfRadioButtonModifiers,
-  VfRadioButtonA11y,
+  VfRadioButtonBindings,
   VfRadioButtonExpose,
   RadioButtonApi<TProps>
 > {}

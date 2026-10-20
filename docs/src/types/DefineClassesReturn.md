@@ -20,7 +20,7 @@ type DefineClassesReturn<
    *
    * @param defs Class definition objects or factories.
    */
-  useClasses: (...defs: ClassDefsArg<C, TApi, TPropRefs>[]) => void
+  useClasses: (...defs: ClassDefsArg<C>[]) => void
 
   /**
    * Registers override definitions from outside the component (templates /
@@ -29,7 +29,9 @@ type DefineClassesReturn<
    *
    * @param defs Class definition objects or factories.
    */
-  useClassOverrides: (...defs: ClassDefsArg<C, TApi, TPropRefs>[]) => void
+  useClassOverrides: (
+    ...defs: OverrideClassDefsArg<C, TApi, TPropRefs>[]
+  ) => void
 
   /**
    * Installs the shared base class map at the bottom of the class chain.

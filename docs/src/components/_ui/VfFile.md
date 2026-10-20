@@ -556,10 +556,10 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `file` | [`value`](!code#slot.file.value "FileProp") [`fileName`](!code#slot.file.fileName "string") [`url`](!code#slot.file.url "string") [`index`](!code#slot.file.index "number") [`removable`](!code#slot.file.removable "boolean") [`disabled`](!code#slot.file.disabled "boolean") [`type`](!code#slot.file.type "'file' \| 'string' \| 'object'") [`bindings`](!code#slot.file.bindings "VfFileBindings['item']") [`remove`](!code#slot.file.remove "(index: number) => void") | Slot that replaces the rendering of a single file item in the list. |
-| `remove` | [`index`](!code#slot.remove.index "number") [`disabled`](!code#slot.remove.disabled "boolean") [`bindings`](!code#slot.remove.bindings "VfFileBindings['remove']") [`remove`](!code#slot.remove.remove "(index: number) => void") | Slot that replaces the remove button for a file item. |
-| `name` | [`value`](!code#slot.name.value "FileProp") [`fileName`](!code#slot.name.fileName "string") [`url`](!code#slot.name.url "string") [`type`](!code#slot.name.type "'file' \| 'string' \| 'object'") [`bindings`](!code#slot.name.bindings "VfFileBindings['name']") | Slot that replaces the file name display for a file item. |
-| `add` | [`disabled`](!code#slot.add.disabled "boolean") [`text`](!code#slot.add.text "string") [`bindings`](!code#slot.add.bindings "VfFileBindings['add']") [`triggerFileInput`](!code#slot.add.triggerFileInput "() => void") | Slot that replaces the file selection button and hidden input. |
+| `file` | [`value`](!code#slot.file.value "FileProp") [`fileName`](!code#slot.file.fileName "string") [`url`](!code#slot.file.url "string") [`index`](!code#slot.file.index "number") [`removable`](!code#slot.file.removable "boolean") [`disabled`](!code#slot.file.disabled "boolean") [`type`](!code#slot.file.type "'file' \| 'string' \| 'object'") [`bindings`](!code#slot.file.bindings "VfFileResolvedBindings['item']") [`remove`](!code#slot.file.remove "(index: number) => void") | Slot that replaces the rendering of a single file item in the list. |
+| `remove` | [`index`](!code#slot.remove.index "number") [`disabled`](!code#slot.remove.disabled "boolean") [`bindings`](!code#slot.remove.bindings "VfFileResolvedBindings['remove']") [`remove`](!code#slot.remove.remove "(index: number) => void") | Slot that replaces the remove button for a file item. |
+| `name` | [`value`](!code#slot.name.value "FileProp") [`fileName`](!code#slot.name.fileName "string") [`url`](!code#slot.name.url "string") [`type`](!code#slot.name.type "'file' \| 'string' \| 'object'") [`bindings`](!code#slot.name.bindings "VfFileResolvedBindings['name']") | Slot that replaces the file name display for a file item. |
+| `add` | [`disabled`](!code#slot.add.disabled "boolean") [`text`](!code#slot.add.text "string") [`bindings`](!code#slot.add.bindings "VfFileResolvedBindings['add']") [`triggerFileInput`](!code#slot.add.triggerFileInput "() => void") | Slot that replaces the file selection button and hidden input. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -628,8 +628,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-file` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -648,7 +647,6 @@ The label element, associated with the control via `for`.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
 
 ### `required`
 
@@ -685,7 +683,6 @@ The help text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
 ### `list`
 
@@ -694,7 +691,6 @@ The container for the list of uploaded files.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-file-list` |
 
 ### `item`
 
@@ -719,7 +715,6 @@ The remove button for a file entry.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-label`](!code#parts.remove.a11y.aria-label "string") |
 
 ### `add`
 
@@ -736,9 +731,6 @@ The file input element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<input>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.sr-only` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-invalid`](!code#parts.input.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-describedby`](!code#parts.input.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.input.a11y.aria-invalid "true") [`aria-required`](!code#parts.input.a11y.aria-required "true") [`aria-busy`](!code#parts.input.a11y.aria-busy "true") |
 
 ### `description`
 
@@ -748,7 +740,6 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
 
 ### `errors`
 
@@ -758,7 +749,6 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -800,15 +790,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```css
 :root {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-file-gutter-x: calc(var(--vf-gutter) / 2);
-  --vf-file-gutter-y: calc(var(--vf-gutter) / 2);
-  --vf-file-item-gutter-x: calc(var(--vf-gutter) / 2);
-  --vf-file-item-gutter-y: calc(var(--vf-gutter) / 2);
-  --vf-file-margin: 0 0 calc(var(--vf-gutter) / 2) 0;
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -877,15 +858,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  fileGutterX: 'calc($gutter / 2)',
-  fileGutterY: 'calc($gutter / 2)',
-  fileItemGutterX: 'calc($gutter / 2)',
-  fileItemGutterY: 'calc($gutter / 2)',
-  fileMargin: '0 0 calc($gutter / 2) 0',
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

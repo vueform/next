@@ -26,10 +26,10 @@ interface VfListSlots extends ListSlots<VfListContext> {
     isDropTarget: boolean
 
     /**
-     * The item wrapper's resolved bindings (classes, part overrides, drag
-     * modifiers, listitem role); apply with `v-bind`.
+     * The item wrapper's resolved bindings (part overrides, drag markers,
+     * listitem role); apply with `v-bind`.
      */
-    bindings: VfListBindings['item']
+    bindings: VfListResolvedBindings['item']
 
     /**
      * Handler for the drag enter event.
@@ -57,17 +57,17 @@ interface VfListSlots extends ListSlots<VfListContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the drag handle. Receives classes, part, and drag
-   * event handlers.
+   * Slot that replaces the drag handle. Receives the handle's bindings and
+   * drag event handlers.
    *
    * @param scope The sort slot's params.
    */
   sort: (scope: {
     /**
-     * The drag handle's resolved bindings (classes, part overrides, localized
+     * The drag handle's resolved bindings (part overrides, localized
      * aria-label); apply with `v-bind`.
      */
-    bindings: VfListBindings['sort']
+    bindings: VfListResolvedBindings['sort']
 
     /**
      * Handler for the drag start event.
@@ -105,17 +105,17 @@ interface VfListSlots extends ListSlots<VfListContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the remove button. Receives classes, part, and remove
-   * handler.
+   * Slot that replaces the remove button. Receives the button's bindings and
+   * the remove handler.
    *
    * @param scope The remove slot's params.
    */
   remove: (scope: {
     /**
-     * The remove button's resolved bindings (classes, part overrides,
-     * localized aria-label fallback); apply with `v-bind`.
+     * The remove button's resolved bindings (part overrides, localized
+     * aria-label fallback); apply with `v-bind`.
      */
-    bindings: VfListBindings['remove']
+    bindings: VfListResolvedBindings['remove']
 
     /**
      * Handler to remove this list item.
@@ -130,16 +130,16 @@ interface VfListSlots extends ListSlots<VfListContext> {
    */
   placeholder: (scope: {
     /**
-     * The placeholder's resolved bindings (classes, part overrides, id and
-     * status role); apply with `v-bind` so the add button's describedby keeps
+     * The placeholder's resolved bindings (part overrides, id and status
+     * role); apply with `v-bind` so the add button's describedby keeps
      * resolving.
      */
-    bindings: VfListBindings['placeholder']
+    bindings: VfListResolvedBindings['placeholder']
   }) => VNode[]
 
   /**
-   * Slot that replaces the add button. Receives classes, part, add handler,
-   * and label.
+   * Slot that replaces the add button. Receives the button's bindings, add
+   * handler, and label.
    *
    * @param scope The add slot's params.
    */
@@ -150,10 +150,10 @@ interface VfListSlots extends ListSlots<VfListContext> {
     label: any
 
     /**
-     * The add button's resolved bindings (classes, part overrides, fallback
+     * The add button's resolved bindings (part overrides, fallback
      * aria-label, placeholder describedby); apply with `v-bind`.
      */
-    bindings: VfListBindings['add']
+    bindings: VfListResolvedBindings['add']
 
     /**
      * Handler to add a new list item.

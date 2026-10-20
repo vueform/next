@@ -15,8 +15,7 @@ interface VfGridContext<
   VfGridSlots,
   VfGridParts,
   VfGridClasses,
-  VfGridModifiers,
-  VfGridA11y,
+  VfGridBindings,
   VfGridExpose,
   GridApi<TProps>
 > {}

@@ -15,8 +15,7 @@ interface VfButtonContext extends DefineElementContext<
   VfButtonSlots,
   VfButtonParts,
   VfButtonClasses,
-  VfButtonModifiers,
-  VfButtonA11y,
+  VfButtonBindings,
   VfButtonExpose,
   ButtonApi
 > {}

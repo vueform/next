@@ -15,8 +15,7 @@ interface VfInputOtpContext extends DefineElementContext<
   VfInputOtpSlots,
   VfInputOtpParts,
   VfInputOtpClasses,
-  VfInputOtpModifiers,
-  VfInputOtpA11y,
+  VfInputOtpBindings,
   VfInputOtpExpose,
   InputOtpApi
 > {}

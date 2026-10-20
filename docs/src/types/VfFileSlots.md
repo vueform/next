@@ -47,10 +47,10 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * The file item's resolved bindings (classes, part overrides); apply with
+     * The file item's resolved bindings (part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfFileBindings['item']
+    bindings: VfFileResolvedBindings['item']
 
     /**
      * Callback to remove a file by index.
@@ -77,10 +77,10 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     disabled: boolean
 
     /**
-     * The remove button's resolved bindings (classes, part overrides,
-     * localized aria-label); apply with `v-bind`.
+     * The remove button's resolved bindings (part overrides, localized
+     * aria-label); apply with `v-bind`.
      */
-    bindings: VfFileBindings['remove']
+    bindings: VfFileResolvedBindings['remove']
 
     /**
      * Callback to remove a file by index.
@@ -117,10 +117,10 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * The file name element's resolved bindings (classes, part overrides);
-     * apply with `v-bind`.
+     * The file name element's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfFileBindings['name']
+    bindings: VfFileResolvedBindings['name']
   }) => VNode[]
 
   /**
@@ -140,10 +140,10 @@ interface VfFileSlots<TMultiple extends boolean = boolean> extends FileSlots<
     text?: string
 
     /**
-     * The add button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The add button's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfFileBindings['add']
+    bindings: VfFileResolvedBindings['add']
 
     /**
      * Callback to open the native file picker.

@@ -797,9 +797,9 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `tabs` | [`pager`](!code#slot.tabs.pager "Pager") [`bindings`](!code#slot.tabs.bindings "PartBindings<'tabs', TabbedParts>") | Slot for customizing the tab navigation bar. |
-| `tab` | [`index`](!code#slot.tab.index "number") [`label`](!code#slot.tab.label "string") [`meta`](!code#slot.tab.meta "Record<string, any>") [`selected`](!code#slot.tab.selected "boolean") [`invalid`](!code#slot.tab.invalid "boolean") [`loading`](!code#slot.tab.loading "boolean") [`el$`](!code#slot.tab.el$ "UnknownElement") [`bindings`](!code#slot.tab.bindings "PartBindings<'tab', VfTabsParts, VfTabsModifiers, VfTabsA11y>") | Slot for customizing an individual tab button. |
+| `tab` | [`index`](!code#slot.tab.index "number") [`label`](!code#slot.tab.label "string") [`meta`](!code#slot.tab.meta "Record<string, any>") [`selected`](!code#slot.tab.selected "boolean") [`invalid`](!code#slot.tab.invalid "boolean") [`loading`](!code#slot.tab.loading "boolean") [`el$`](!code#slot.tab.el$ "UnknownElement") [`bindings`](!code#slot.tab.bindings "PartBindings<'tab', VfTabsParts, VfTabsBindings>") | Slot for customizing an individual tab button. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `wrapper` | [`resolvedSchema`](!code#slot.wrapper.resolvedSchema "ResolvedSchema") [`label`](!code#slot.wrapper.label "string") [`bindings`](!code#slot.wrapper.bindings "PartBindings<'wrapper', VfGroupParts, VfGroupModifiers, VfGroupA11y>") | Slot that replaces the wrapper element. Receives the wrapper part's resolved bindings and the resolved schema. |
+| `wrapper` | [`resolvedSchema`](!code#slot.wrapper.resolvedSchema "ResolvedSchema") [`label`](!code#slot.wrapper.label "string") [`bindings`](!code#slot.wrapper.bindings "PartBindings<'wrapper', VfGroupParts, VfGroupBindings>") | Slot that replaces the wrapper element. Receives the wrapper part's resolved bindings and the resolved schema. |
 | `default` | [`resolvedSchema`](!code#slot.default.resolvedSchema "ResolvedSchema") | Slot that replaces the default content. Receives the resolved schema for rendering children. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
@@ -891,8 +891,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-group` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") [`data-wrapped`](!code#parts.root.modifiers.data-wrapped "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -955,8 +954,6 @@ The wrapper element containing child elements.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-group-elements` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-stacked`](!code#parts.wrapper.modifiers.data-stacked "''") [`data-wrapped`](!code#parts.wrapper.modifiers.data-wrapped "''") |
 
 ### `description`
 
@@ -1025,22 +1022,6 @@ All the CSS variables that control this component's appearance with default valu
 ```css
 :root {
   /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-group-wrapped-bg: transparent;
-  --vf-group-wrapped-border-color: var(--vf-gray-300);
-  --vf-group-wrapped-border-style: solid;
-  --vf-group-wrapped-border-width: 1px;
-  --vf-group-wrapped-padding: 1.5rem;
-  --vf-group-wrapped-radius: var(--vf-radius);
-
-  --vf-group-grid-template-columns: repeat(12, minmax(0, 1fr));
-  --vf-group-gutter-stacked-x: calc(var(--vf-gutter) * 0.66);
-  --vf-group-gutter-stacked-y: calc(var(--vf-gutter) * 0.66);
-  --vf-group-gutter-x: var(--vf-gutter);
-  --vf-group-gutter-y: var(--vf-gutter);
-
-  /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
   --vf-element-line-color: var(--vf-gray-300);
@@ -1108,22 +1089,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  groupWrappedBg: 'transparent',
-  groupWrappedBorderColor: '$gray300',
-  groupWrappedBorderStyle: 'solid',
-  groupWrappedBorderWidth: '1px',
-  groupWrappedPadding: '1.5rem',
-  groupWrappedRadius: '$radius',
-
-  groupGridTemplateColumns: 'repeat(12, minmax(0, 1fr))',
-  groupGutterStackedX: 'calc($gutter * 0.66)',
-  groupGutterStackedY: 'calc($gutter * 0.66)',
-  groupGutterX: '$gutter',
-  groupGutterY: '$gutter',
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

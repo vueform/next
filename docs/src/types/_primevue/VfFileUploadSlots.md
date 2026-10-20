@@ -21,15 +21,10 @@ interface VfFileUploadSlots<TMultiple extends boolean = boolean>
     upload: () => void
 
     /**
-     * The upload button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The upload button's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: PartBindings<
-      'button',
-      VfFileUploadParts,
-      VfFileUploadModifiers,
-      VfFileUploadA11y
-    >
+    bindings: PartBindings<'button', VfFileUploadParts, VfFileUploadBindings>
   }) => VNode[]
 }
 ```

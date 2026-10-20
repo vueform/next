@@ -15,8 +15,7 @@ interface VfStepsContext extends DefineElementContext<
   VfStepsSlots,
   VfStepsParts,
   VfStepsClasses,
-  VfStepsModifiers,
-  VfStepsA11y,
+  VfStepsBindings,
   VfStepsExpose,
   StepsApi
 > {}

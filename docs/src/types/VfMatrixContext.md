@@ -15,8 +15,7 @@ interface VfMatrixContext<
   VfMatrixSlots,
   VfMatrixParts,
   VfMatrixClasses,
-  VfMatrixModifiers,
-  VfMatrixA11y,
+  VfMatrixBindings,
   VfMatrixExpose,
   MatrixApi<TProps>
 > {}

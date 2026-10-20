@@ -15,8 +15,7 @@ interface VfTextContext<
   VfTextSlots,
   VfTextParts,
   VfTextClasses,
-  VfTextModifiers,
-  VfTextA11y,
+  VfTextBindings,
   VfTextExpose,
   TextApi<TProps>
 > {}

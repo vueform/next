@@ -16,8 +16,7 @@ interface VfToggleSwitchContext<
   VfToggleSwitchSlots,
   VfToggleSwitchParts,
   VfToggleSwitchClasses,
-  VfToggleSwitchModifiers,
-  VfToggleSwitchA11y,
+  VfToggleSwitchBindings,
   VfToggleSwitchExpose,
   ToggleSwitchApi<TProps>
 > {}

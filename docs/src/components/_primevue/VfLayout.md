@@ -79,7 +79,6 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 | [`useLabelTag`](!code#context.useLabelTag "boolean") | Whether to render a `<label>` tag for the element. Extends the base so it also returns `false` when a floating or IFTA label is active and the input wrapper's label is the only one with `for`. |
 | [`tags`](!code#context.tags "object") | Merged translation tags from the active locale and the fallback locale. |
-| [`elementSlots`](!code#context.elementSlots "any") | The host element's resolved outlets (`el$.outlets`). |
 | [`pager`](!code#context.pager "any") | The pager of the element's container, if any.<br><br>Always a `Ref` (never `Ref \| undefined`) so `ContextOf` / `slotContext` unwrap agree — `UnwrapTopLevelRef` does not peel `Ref \| undefined`. |
 | [`infoTooltipArg`](!code#context.infoTooltipArg "object") | Argument object for the PrimeVue tooltip directive on the info icon. |
 | [`isLoading`](!code#context.isLoading "boolean") | Whether the element is currently in a loading state that should show a spinner (respects an explicit `loading: false` prop override). |
@@ -89,7 +88,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`hasFloat`](!code#context.hasFloat "boolean") | Whether a PrimeVue FloatLabel wrapper is active. |
 | [`hasIfta`](!code#context.hasIfta "boolean") | Whether a PrimeVue IftaLabel wrapper is active. |
 | [`hasLabelWrapper`](!code#context.hasLabelWrapper "boolean") | Whether either a FloatLabel or IftaLabel wrapper is rendered. |
-| [`rootProps`](!code#context.rootProps "any") | Props for the passthrough root `<div>` rendered when the element has `layout: false`, or `undefined` when no root wrapper is needed. |
+| [`rootProps`](!code#context.rootProps "object") | Props for the passthrough root `<div>` rendered when the element has `layout: false`, or `undefined` when no root wrapper is needed. |
 | [`languageOptions`](!code#context.languageOptions "object") | Options for the language Select rendered in the translate addon. |
 | [`setLanguage()`](!code#context.setLanguage "(val: string) => void") | Updates the element's active language. |
 <!-- @context-end -->
@@ -411,6 +410,18 @@ All the CSS variables that control this component's appearance with default valu
 ```css
 :root {
   /**
+   * Element tokens
+   * -------------------------------------------------------------------------- */
+  --vf-info-font-size: 0.875rem;
+  --vf-info-margin: 0 0 0 5px;
+
+  --vf-tooltip-fix-space: 2px;
+
+  --vf-label-font-size: 1rem;
+  --vf-label-font-weight: 600;
+  --vf-label-group-h-padding: calc(var(--vf-py) + var(--vf-border-width-t)) 0 0 0;
+
+  /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
   --vf-element-line-color: var(--vf-gray-300);
@@ -478,6 +489,18 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
+  /**
+   * Element tokens
+   * -------------------------------------------------------------------------- */
+  infoFontSize: '0.875rem',
+  infoMargin: '0 0 0 5px',
+
+  tooltipFixSpace: '2px',
+
+  labelFontSize: '1rem',
+  labelFontWeight: '600',
+  labelGroupHPadding: 'calc($py + $borderWidthT) 0 0 0',
+
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

@@ -49,10 +49,10 @@ interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
     select: (language: string) => void
 
     /**
-     * The language selector's resolved bindings (classes, part overrides);
-     * apply with `v-bind`.
+     * The language selector's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfFormBindings['languages']
+    bindings: VfFormBags['languages']
   }) => VNode[]
 
   /**
@@ -72,10 +72,10 @@ interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
     pager: Pager
 
     /**
-     * The steps navigation bar's resolved bindings (classes, part overrides);
-     * apply with `v-bind`.
+     * The steps navigation bar's resolved bindings (part overrides); apply
+     * with `v-bind`.
      */
-    bindings: VfFormBindings['steps']
+    bindings: VfFormBags['steps']
   }) => VNode[]
 
   /**
@@ -95,10 +95,10 @@ interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
     pager: Pager
 
     /**
-     * The tabs navigation bar's resolved bindings (classes, part overrides);
-     * apply with `v-bind`.
+     * The tabs navigation bar's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfFormBindings['tabs']
+    bindings: VfFormBags['tabs']
   }) => VNode[]
 
   /**
@@ -123,11 +123,11 @@ interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
     id: string
 
     /**
-     * The errors container's resolved bindings (classes, part overrides, and the
+     * The errors container's resolved bindings (part overrides and the
      * live-region attributes — id, alert role, aria-live); apply to the
      * replacement container with `v-bind` so error announcements keep working.
      */
-    bindings: VfFormBindings['errors']
+    bindings: VfFormBags['errors']
   }) => VNode[]
 
   /**
@@ -160,12 +160,12 @@ interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
     id: string
 
     /**
-     * The messages container's resolved bindings (classes, part overrides, and the
+     * The messages container's resolved bindings (part overrides and the
      * live-region attributes — id, status role, aria-live); apply to the
      * replacement container with `v-bind` so message announcements keep
      * working.
      */
-    bindings: VfFormBindings['messages']
+    bindings: VfFormBags['messages']
   }) => VNode[]
 
   /**

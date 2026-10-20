@@ -18,8 +18,7 @@ interface VfRadiosContext<
   VfRadiosSlots,
   VfRadiosParts,
   VfRadiosClasses,
-  VfRadiosModifiers,
-  VfRadiosA11y,
+  VfRadiosBindings,
   VfRadiosExpose,
   RadiosApi<TProps>
 > {}

@@ -1058,8 +1058,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-text` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -1078,7 +1077,6 @@ The label element, associated with the control via `for`.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
 
 ### `required`
 
@@ -1115,7 +1113,6 @@ The help text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
 ### `input`
 
@@ -1124,9 +1121,6 @@ The text input element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<input>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-input` `.vf-text-input` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-invalid`](!code#parts.input.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-describedby`](!code#parts.input.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.input.a11y.aria-invalid "true") [`aria-required`](!code#parts.input.a11y.aria-required "true") [`aria-busy`](!code#parts.input.a11y.aria-busy "true") [`lang`](!code#parts.input.a11y.lang "string") |
 
 ### `addonBefore`
 
@@ -1194,7 +1188,6 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
 
 ### `errors`
 
@@ -1204,7 +1197,6 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -1246,46 +1238,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```css
 :root {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-input-color: var(--vf-gray-800);
-  --vf-input-color-autofill: var(--vf-gray-800);
-  --vf-input-color-danger: var(--vf-gray-800);
-  --vf-input-color-disabled: var(--vf-text-disabled);
-
-  --vf-input-ring-color: var(--vf-brand);
-  --vf-input-ring-color-danger: var(--vf-brand);
-  --vf-input-ring-offset: -1px;
-  --vf-input-ring-shadow: none;
-  --vf-input-ring-shadow-danger: none;
-  --vf-input-ring-style: solid;
-  --vf-input-ring-width: 1px;
-
-  --vf-input-bg: var(--vf-white);
-  --vf-input-bg-autofill: var(--vf-white);
-  --vf-input-bg-danger: var(--vf-white);
-  --vf-input-bg-disabled: var(--vf-bg-disabled);
-
-  --vf-input-border-color: var(--vf-gray-300);
-  --vf-input-border-color-danger: var(--vf-gray-300);
-  --vf-input-border-color-disabled: var(--vf-border-disabled);
-  --vf-input-border-style: solid;
-  --vf-input-border-width-b: var(--vf-border-width-b);
-  --vf-input-border-width-l: var(--vf-border-width-l);
-  --vf-input-border-width-r: var(--vf-border-width-r);
-  --vf-input-border-width-t: var(--vf-border-width-t);
-  --vf-input-radius: var(--vf-radius);
-
-  --vf-input-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
-
-  --vf-input-pb: var(--vf-py);
-  --vf-input-pl: var(--vf-px);
-  --vf-input-pr: var(--vf-px);
-  --vf-input-pt: var(--vf-py);
-
-  --vf-icon-group-width: 2.5rem;
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -1354,46 +1306,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  inputColor: '$gray800',
-  inputColorAutofill: '$gray800',
-  inputColorDanger: '$gray800',
-  inputColorDisabled: '$textDisabled',
-
-  inputRingColor: '$brand',
-  inputRingColorDanger: '$brand',
-  inputRingOffset: '-1px',
-  inputRingShadow: 'none',
-  inputRingShadowDanger: 'none',
-  inputRingStyle: 'solid',
-  inputRingWidth: '1px',
-
-  inputBg: '$white',
-  inputBgAutofill: '$white',
-  inputBgDanger: '$white',
-  inputBgDisabled: '$bgDisabled',
-
-  inputBorderColor: '$gray300',
-  inputBorderColorDanger: '$gray300',
-  inputBorderColorDisabled: '$borderDisabled',
-  inputBorderStyle: 'solid',
-  inputBorderWidthB: '$borderWidthB',
-  inputBorderWidthL: '$borderWidthL',
-  inputBorderWidthR: '$borderWidthR',
-  inputBorderWidthT: '$borderWidthT',
-  inputRadius: '$radius',
-
-  inputShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0)',
-
-  inputPb: '$py',
-  inputPl: '$px',
-  inputPr: '$px',
-  inputPt: '$py',
-
-  iconGroupWidth: '2.5rem',
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

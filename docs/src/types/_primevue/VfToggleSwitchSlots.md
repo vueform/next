@@ -29,8 +29,7 @@ interface VfToggleSwitchSlots<TTrueValue = true, TFalseValue = false>
     bindings: PartBindings<
       'handle',
       VfToggleSwitchParts,
-      VfToggleSwitchModifiers,
-      VfToggleSwitchA11y
+      VfToggleSwitchBindings
     >
   }): VNode[]
 }

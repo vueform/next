@@ -18,8 +18,7 @@ interface VfListboxContext<
   VfListboxSlots,
   VfListboxParts,
   VfListboxClasses,
-  VfListboxModifiers,
-  VfListboxA11y,
+  VfListboxBindings,
   VfListboxExpose,
   ListboxApi<TProps>
 > {}

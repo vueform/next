@@ -464,8 +464,8 @@ Named [Slots](/guide/slots) for replacing parts of the component's rendering.
 | `label` | [`label`](!code#slot.label.label "string") | Slot for customizing the element's label content. |
 | `required` | — | Slot for customizing the required indicator. |
 | `help` | [`help`](!code#slot.help.help "string") | Slot for customizing the help text. |
-| `default` | [`model`](!code#slot.default.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.default.trueValue "TTrueValue") [`falseValue`](!code#slot.default.falseValue "TFalseValue") [`inputName`](!code#slot.default.inputName "string") [`id`](!code#slot.default.id "string") [`disabled`](!code#slot.default.disabled "boolean") [`inputRef`](!code#slot.default.inputRef "any") [`text`](!code#slot.default.text "string \| undefined") [`bindings`](!code#slot.default.bindings "VfCheckboxBindings['wrapper']") [`handleBlur`](!code#slot.default.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.default.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.default.handleModelUpdate "(e: Event) => void") | Slot that replaces the default checkbox rendering. Receives input-specific props. |
-| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfCheckboxBindings['text']") | Slot that replaces the text/label portion of the checkbox. |
+| `default` | [`model`](!code#slot.default.model "TTrueValue \| TFalseValue") [`trueValue`](!code#slot.default.trueValue "TTrueValue") [`falseValue`](!code#slot.default.falseValue "TFalseValue") [`inputName`](!code#slot.default.inputName "string") [`id`](!code#slot.default.id "string") [`disabled`](!code#slot.default.disabled "boolean") [`inputRef`](!code#slot.default.inputRef "any") [`text`](!code#slot.default.text "string \| undefined") [`bindings`](!code#slot.default.bindings "VfCheckboxResolvedBindings['wrapper']") [`handleBlur`](!code#slot.default.handleBlur "(e: FocusEvent) => void") [`handleFocus`](!code#slot.default.handleFocus "(e: FocusEvent) => void") [`handleModelUpdate`](!code#slot.default.handleModelUpdate "(e: Event) => void") | Slot that replaces the default checkbox rendering. Receives input-specific props. |
+| `text` | [`text`](!code#slot.text.text "string \| undefined") [`id`](!code#slot.text.id "string") [`genericName`](!code#slot.text.genericName "string") [`bindings`](!code#slot.text.bindings "VfCheckboxResolvedBindings['text']") | Slot that replaces the text/label portion of the checkbox. |
 | `description` | [`description`](!code#slot.description.description "string") | Slot for customizing the description text. |
 | `errors` | [`errors`](!code#slot.errors.errors "string[]") | Slot for customizing the validation errors display. |
 | `messages` | [`messages`](!code#slot.messages.messages "string[]") | Slot for customizing the info messages display. |
@@ -526,8 +526,7 @@ The element's root wrapper.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` `.vf-checkbox` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align-label`](!code#parts.root.modifiers.data-align-label "''") |
+| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
 
 ### `labelGroup`
 
@@ -546,7 +545,6 @@ The label element, associated with the control via `for`.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.label.a11y.id "string") |
 
 ### `required`
 
@@ -583,7 +581,6 @@ The help text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.help.a11y.id "string") |
 
 ### `wrapper`
 
@@ -592,8 +589,6 @@ The wrapper element surrounding the input and text.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choice-wrapper` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-align`](!code#parts.wrapper.modifiers.data-align "'left' \| 'right' \| 'auto'") [`data-aligned`](!code#parts.wrapper.modifiers.data-aligned "''") |
 
 ### `input`
 
@@ -602,9 +597,6 @@ The checkbox input element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<input>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choice-input` |
-| **Modifiers** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The <code>data-*</code> state and variant attributes this part carries."}]'></a> | [`data-invalid`](!code#parts.input.modifiers.data-invalid "''") |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`aria-describedby`](!code#parts.input.a11y.aria-describedby "string") [`aria-invalid`](!code#parts.input.a11y.aria-invalid "true") [`aria-required`](!code#parts.input.a11y.aria-required "true") [`aria-busy`](!code#parts.input.a11y.aria-busy "true") |
 
 ### `text`
 
@@ -613,7 +605,6 @@ The label/text element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-choice-text` |
 
 ### `description`
 
@@ -623,7 +614,6 @@ The description text area.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.description.a11y.id "string") |
 
 ### `errors`
 
@@ -633,7 +623,6 @@ The validation errors container.
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
-| **A11y** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The accessibility attributes this part carries."}]'></a> | [`id`](!code#parts.errors.a11y.id "string") [`role`](!code#parts.errors.a11y.role "'alert'") |
 
 ### `error`
 
@@ -675,52 +664,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```css
 :root {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  --vf-choice-aligned-margin: calc((1lh - (var(--vf-choice-height) + var(--vf-choice-border-width-t))) / 2 + var(--vf-input-pt)) 0 0 0;
-  --vf-choice-gutter: 0.375rem;
-
-  --vf-choice-height: 1rem;
-  --vf-choice-width: 1rem;
-
-  --vf-choice-ring-color: var(--vf-brand);
-  --vf-choice-ring-color-danger: var(--vf-brand);
-  --vf-choice-ring-offset: -1px;
-  --vf-choice-ring-shadow: none;
-  --vf-choice-ring-shadow-danger: none;
-  --vf-choice-ring-style: solid;
-  --vf-choice-ring-width: 1px;
-
-  --vf-choice-bg: var(--vf-white);
-  --vf-choice-bg-checked: var(--vf-brand);
-  --vf-choice-bg-checked-danger: var(--vf-brand);
-  --vf-choice-bg-checked-disabled: var(--vf-gray-400);
-  --vf-choice-bg-danger: var(--vf-white);
-  --vf-choice-bg-disabled: var(--vf-bg-disabled);
-
-  --vf-choice-border-color: var(--vf-gray-300);
-  --vf-choice-border-color-checked: var(--vf-brand);
-  --vf-choice-border-color-checked-danger: var(--vf-brand);
-  --vf-choice-border-color-checked-disabled: var(--vf-gray-400);
-  --vf-choice-border-color-danger: var(--vf-gray-300);
-  --vf-choice-border-color-disabled: var(--vf-border-disabled);
-  --vf-choice-border-width-b: 1px;
-  --vf-choice-border-width-l: 1px;
-  --vf-choice-border-width-r: 1px;
-  --vf-choice-border-width-t: 1px;
-  --vf-choice-radius: var(--vf-radius-sm);
-
-  --vf-choice-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0);
-
-  --vf-choice-color: inherit;
-  --vf-choice-icon-color: var(--vf-white);
-  --vf-choice-icon-color-danger: var(--vf-white);
-  --vf-choice-icon-color-disabled: var(--vf-white);
-
-  --vf-choice-icon-checked: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e");
-  --vf-choice-icon-selected: url("data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3.5'/%3e%3c/svg%3e");
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */
@@ -789,52 +732,6 @@ All the CSS variables that control this component's appearance with default valu
 
 ```ts
 {
-  /**
-   * Element tokens
-   * -------------------------------------------------------------------------- */
-  choiceAlignedMargin: 'calc((1lh - ($choiceHeight + $choiceBorderWidthT)) / 2 + $inputPt) 0 0 0',
-  choiceGutter: '0.375rem',
-
-  choiceHeight: '1rem',
-  choiceWidth: '1rem',
-
-  choiceRingColor: '$brand',
-  choiceRingColorDanger: '$brand',
-  choiceRingOffset: '-1px',
-  choiceRingShadow: 'none',
-  choiceRingShadowDanger: 'none',
-  choiceRingStyle: 'solid',
-  choiceRingWidth: '1px',
-
-  choiceBg: '$white',
-  choiceBgChecked: '$brand',
-  choiceBgCheckedDanger: '$brand',
-  choiceBgCheckedDisabled: '$gray400',
-  choiceBgDanger: '$white',
-  choiceBgDisabled: '$bgDisabled',
-
-  choiceBorderColor: '$gray300',
-  choiceBorderColorChecked: '$brand',
-  choiceBorderColorCheckedDanger: '$brand',
-  choiceBorderColorCheckedDisabled: '$gray400',
-  choiceBorderColorDanger: '$gray300',
-  choiceBorderColorDisabled: '$borderDisabled',
-  choiceBorderWidthB: '1px',
-  choiceBorderWidthL: '1px',
-  choiceBorderWidthR: '1px',
-  choiceBorderWidthT: '1px',
-  choiceRadius: '$radiusSm',
-
-  choiceShadow: '0px 0px 0px 0px rgba(0, 0, 0, 0)',
-
-  choiceColor: 'inherit',
-  choiceIconColor: '$white',
-  choiceIconColorDanger: '$white',
-  choiceIconColorDisabled: '$white',
-
-  choiceIconChecked: "url(\"data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3e%3cpath d='M12.207 4.793a1 1 0 010 1.414l-5 5a1 1 0 01-1.414 0l-2-2a1 1 0 011.414-1.414L6.5 9.086l4.293-4.293a1 1 0 011.414 0z'/%3e%3c/svg%3e\")",
-  choiceIconSelected: "url(\"data:image/svg+xml,%3csvg viewBox='0 0 16 16' fill='currentColor' xmlns='http://www.w3.org/2000/svg'%3e%3ccircle cx='8' cy='8' r='3.5'/%3e%3c/svg%3e\")",
-
   /**
    * Shared element layout tokens
    * -------------------------------------------------------------------------- */

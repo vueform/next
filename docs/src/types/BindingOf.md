@@ -1,11 +1,10 @@
 ```ts
 /**
- * One part's aggregate binding member: the merged bag itself (possibly
- * `undefined`) for static keys, bound bare with `v-bind="bindings.x"`; or the
- * key's resolver — always present, never optional — for functional keys,
- * called as `v-bind="bindings.item(…)"`.
+ * One part's aggregate binding member: the key's resolver — always present,
+ * never optional — called with the part's arguments or none:
+ * `v-bind="bindings.input()"`, `v-bind="bindings.item(item)"`.
  */
-type BindingOf<P, C, M, A> = [BindingArgsOf<P, C, M, A>] extends [never]
-  ? BindingBagOf<P, M, A> | undefined
-  : (...args: BindingArgsOf<P, C, M, A>) => BindingBagOf<P, M, A> | undefined
+type BindingOf<P, B> = (
+  ...args: BindingArgsOf<P, B>
+) => BindingBagOf<P, B> | undefined
 ```

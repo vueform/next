@@ -15,8 +15,7 @@ interface VfLanguagesContext extends DefineElementContext<
   VfLanguagesSlots,
   VfLanguagesParts,
   VfLanguagesClasses,
-  VfLanguagesModifiers,
-  VfLanguagesA11y,
+  VfLanguagesBindings,
   VfLanguagesExpose,
   LanguagesApi
 > {}

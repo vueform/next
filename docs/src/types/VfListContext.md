@@ -15,8 +15,7 @@ interface VfListContext<
   VfListSlots,
   VfListParts,
   VfListClasses,
-  VfListModifiers,
-  VfListA11y,
+  VfListBindings,
   VfListExpose,
   ListApi<TProps>
 > {}

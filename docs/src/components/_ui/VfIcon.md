@@ -167,52 +167,6 @@ The root icon element.
 | | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<i>` |
-| **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-icon` |
 <!-- @parts-end -->
-<!-- @endtab -->
-<!-- @tab Tokens -->
-
-## Tokens
-
-All the CSS variables that control this component's appearance with default values in the default theme. See [Theming Guide](/guide/theming-guide#vueform-s-token-system) for details.
-
-<!-- @tokens-start -->
-<!-- @subtabs -->
-<!-- @subtab CSS -->
-
-```css
-:root {
-  /**
-   * Component tokens
-   * -------------------------------------------------------------------------- */
-  --vf-input-border-width-l: var(--vf-border-width-l);
-
-  --vf-icon-font-size: 0.875rem;
-  --vf-icon-group-color: inherit;
-  --vf-icon-group-color-danger: var(--vf-color-danger);
-  --vf-icon-group-width: 2.5rem;
-}
-```
-
-<!-- @endsubtab -->
-<!-- @subtab JS -->
-
-```ts
-{
-  /**
-   * Component tokens
-   * -------------------------------------------------------------------------- */
-  inputBorderWidthL: '$borderWidthL',
-
-  iconFontSize: '0.875rem',
-  iconGroupColor: 'inherit',
-  iconGroupColorDanger: '$colorDanger',
-  iconGroupWidth: '2.5rem',
-}
-```
-
-<!-- @endsubtab -->
-<!-- @endsubtabs -->
-<!-- @tokens-end -->
 <!-- @endtab -->
 <!-- @endtabs -->

@@ -26,7 +26,7 @@ function useBlueprint<
   SpreadMerge<TApi, ResolvedExtension<TExt>>,
   LooseRequired<TProps>,
   TEvents,
-  ReturnType<typeof useParts<LooseRequired<TProps>>>,
+  PartsOfProps<LooseRequired<TProps>>,
   ClassesOfProps<LooseRequired<TProps>>,
   TSlots
 >

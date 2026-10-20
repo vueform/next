@@ -24,8 +24,7 @@ interface VfCheckboxGroupContext<
   VfCheckboxGroupSlots,
   VfCheckboxGroupParts,
   VfCheckboxGroupClasses,
-  VfCheckboxGroupModifiers,
-  VfCheckboxGroupA11y,
+  VfCheckboxGroupBindings,
   VfCheckboxGroupExpose,
   CheckboxGroupApi<TProps>
 > {}

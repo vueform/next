@@ -47,10 +47,10 @@ interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
 
     /**
      * The default slot's own part is the wrapper (the fallback's top-level
-     * element): its resolved classes, part overrides, and alignment
-     * modifiers; apply with `v-bind`.
+     * element): its resolved part overrides and alignment modifiers; apply
+     * with `v-bind`.
      */
-    bindings: VfRadioButtonBindings['wrapper']
+    bindings: VfRadioButtonResolvedBindings['wrapper']
 
     /**
      * Handles the input's blur event.
@@ -104,10 +104,10 @@ interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
     genericName: string
 
     /**
-     * The text element's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The text element's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfRadioButtonBindings['text']
+    bindings: VfRadioButtonResolvedBindings['text']
   }) => VNode[]
 }
 ```

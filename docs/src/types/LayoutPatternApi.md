@@ -1,8 +1,9 @@
 ```ts
 /**
- * The slice of a component api every layout-aware a11y pattern reads.
- * Patterns are invoked inside the `useA11y` merged computed, so every
- * `.value` read stays tracked.
+ * The slice of a component api every layout-aware binding pattern reads.
+ * Patterns build part-keyed definitions whose entries are zero-argument
+ * resolvers: every `.value` read runs at the part's consuming site (its own
+ * render effect), never while the definition is registered or merged.
  */
 interface LayoutPatternApi {
   props: {

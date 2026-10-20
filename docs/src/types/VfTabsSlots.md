@@ -89,10 +89,10 @@ interface VfTabsSlots extends TabbedSlots<VfTabsContext> {
     el$: UnknownElement
 
     /**
-     * The tab button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The tab button's resolved bindings (part overrides, state attributes);
+     * apply with `v-bind`.
      */
-    bindings: PartBindings<'tab', VfTabsParts, VfTabsModifiers, VfTabsA11y>
+    bindings: PartBindings<'tab', VfTabsParts, VfTabsBindings>
   }) => VNode[]
 }
 ```

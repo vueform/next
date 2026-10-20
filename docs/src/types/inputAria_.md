@@ -1,17 +1,22 @@
 ```ts
 /**
- * A11y pattern for single-input elements: the `input` bag carries ARIA state
- * (describedby, invalid, required, busy), and the layout bags (label, help,
- * description, errors) carry the ids and roles their regions must render
- * with.
+ * Binding pattern for single-input elements: the `input` entry carries ARIA
+ * state (describedby, invalid, required, busy), and the layout entries
+ * (label, help, description, errors) carry the ids and roles their regions
+ * must render with.
  *
- * Register with `useA11y(inputAria())`.
+ * Register with `useBindings(inputAria(api))`. The entries read
+ * child-aggregating state (`hasError`), which is exactly why they are
+ * zero-argument resolvers: the reads run in each part's own render effect,
+ * never inside a shared computed that children's vapor prop sources pull.
+ *
+ * @param api The component api slice the entries read.
  */
-const inputAria: () => (
+const inputAria: (
   api: LayoutPatternApi & {
     hasError: Ref<boolean>
     busy: Ref<boolean>
     required: Ref<boolean>
   }
-) => InputAriaA11y
+) => BindingDefsOf<LayoutRegionBindings & { input: InputAriaBag }>
 ```

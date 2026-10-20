@@ -85,7 +85,7 @@ interface VfRadiosSlots<
      * The group fieldset's resolved bindings (part overrides for this group's
      * fieldset element); apply with `v-bind`.
      */
-    bindings: VfRadiosBindings['group']
+    bindings: VfRadiosResolvedBindings['group']
   }) => VNode[]
 
   /**
@@ -117,7 +117,7 @@ interface VfRadiosSlots<
      * The item's resolved bindings (part overrides for this item's VfRadio
      * child); apply with `v-bind`.
      */
-    bindings: VfRadiosBindings['item']
+    bindings: VfRadiosResolvedBindings['item']
   }) => VNode[]
 
   /**

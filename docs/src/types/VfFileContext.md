@@ -15,8 +15,7 @@ interface VfFileContext<
   VfFileSlots,
   VfFileParts,
   VfFileClasses,
-  VfFileModifiers,
-  VfFileA11y,
+  VfFileBindings,
   VfFileExpose,
   FileApi<TProps>
 > {}

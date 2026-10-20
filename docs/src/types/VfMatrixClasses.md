@@ -41,10 +41,8 @@ interface VfMatrixClasses extends MatrixClasses {
 
   /**
    * The drag sort handle element.
-   *
-   * @param index The row's zero-based index.
    */
-  sort: (index: number) => ClassValue
+  sort: ClassValue
 
   /**
    * The row remove button wrapper element.
@@ -53,10 +51,8 @@ interface VfMatrixClasses extends MatrixClasses {
 
   /**
    * The row remove button element.
-   *
-   * @param index The row's zero-based index.
    */
-  remove: (index: number) => ClassValue
+  remove: ClassValue
 
   /**
    * The add row button element.

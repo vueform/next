@@ -16,8 +16,7 @@ interface VfFileUploadContext<
   VfFileUploadSlots,
   VfFileUploadParts,
   VfFileUploadClasses,
-  VfFileUploadModifiers,
-  VfFileUploadA11y,
+  VfFileUploadBindings,
   VfFileUploadExpose,
   FileUploadApi<TProps>
 > {}

@@ -16,8 +16,7 @@ interface VfInputTextContext<
   VfInputTextSlots,
   VfInputTextParts,
   VfInputTextClasses,
-  VfInputTextModifiers,
-  VfInputTextA11y,
+  VfInputTextBindings,
   VfInputTextExpose,
   InputTextApi<TProps>
 > {}

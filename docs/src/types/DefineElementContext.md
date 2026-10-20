@@ -11,8 +11,7 @@
  *   VfSelectSlots,
  *   VfSelectParts,
  *   VfSelectClasses,
- *   VfSelectModifiers,
- *   VfSelectA11y,
+ *   VfSelectBindings,
  *   VfSelectExpose,
  *   SelectApi<TProps>
  * > {}
@@ -52,12 +51,7 @@ type DefineElementContext<
     PartKeyed<TClasses, TParts> &
     ClassShaped<TClasses> &
     PartSymmetric<TClasses, TParts>,
-  TModifiers extends PartKeyed<TModifiers, TParts> &
-    ModifierShaped<TModifiers> &
-    PartSymmetric<TModifiers, TParts>,
-  TA11y extends PartKeyed<TA11y, TParts> &
-    A11yShaped<TA11y> &
-    PartSymmetric<TA11y, TParts>,
+  TBindings extends PartKeyed<TBindings, TParts>,
   TExpose,
   TApi extends Record<string, any>,
 > = BaseElementContext<
@@ -67,7 +61,6 @@ type DefineElementContext<
   ContextOutlets<TSlots>,
   TParts,
   TClasses,
-  TModifiers,
-  TA11y
+  TBindings
 >
 ````

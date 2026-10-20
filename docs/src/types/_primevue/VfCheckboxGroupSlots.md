@@ -110,7 +110,7 @@ interface VfCheckboxGroupSlots<
      * The group fieldset's resolved bindings (part overrides for this group's
      * fieldset element); apply with `v-bind`.
      */
-    bindings: VfCheckboxGroupBindings['group']
+    bindings: VfCheckboxGroupResolvedBindings['group']
   }) => VNode[]
 
   /**
@@ -151,7 +151,7 @@ interface VfCheckboxGroupSlots<
      * The item's resolved bindings (part overrides for this item's VfCheckbox
      * child); apply with `v-bind`.
      */
-    bindings: VfCheckboxGroupBindings['item']
+    bindings: VfCheckboxGroupResolvedBindings['item']
   }) => VNode[]
 
   /**
