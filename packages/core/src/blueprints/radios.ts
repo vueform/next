@@ -16,8 +16,7 @@ import {
   type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type ItemsProps,
   type ItemsModelProp,
@@ -120,14 +119,10 @@ export interface RadiosParts extends BaseContainerElementParts {}
 export interface RadiosClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the radios element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the radios blueprint.
  */
-export interface RadiosModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the radios element blueprint.
- */
-export interface RadiosA11y extends BaseElementA11y {}
+export interface RadiosBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for radios-based components.

@@ -2,8 +2,7 @@ import type { VNode } from 'vue'
 
 import type {
   NavApi,
-  NavA11y,
-  NavModifiers,
+  NavBindings,
   NavPosProp,
   NavProps,
   NavEmits,
@@ -26,7 +25,7 @@ import {
 /**
  * Resolved per-part binding bags for VfNav slot scopes.
  */
-type VfNavBindings = ResolvedBindings<VfNavParts, VfNavModifiers, VfNavA11y>
+type VfNavBags = ResolvedBindings<VfNavParts, VfNavBindings>
 
 /**
  * Props for the VfNav component.
@@ -85,10 +84,10 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * The back button's resolved bindings (classes, part overrides, ARIA
-     * state); apply with `v-bind`.
+     * The back button's resolved bindings (part overrides, ARIA state); apply
+     * with `v-bind`.
      */
-    bindings: VfNavBindings['back']
+    bindings: VfNavBags['back']
 
     /**
      * Handler to navigate back.
@@ -158,10 +157,10 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * The next button's resolved bindings (classes, part overrides, loading
-     * modifier, ARIA state); apply with `v-bind`.
+     * The next button's resolved bindings (part overrides, loading modifier,
+     * ARIA state); apply with `v-bind`.
      */
-    bindings: VfNavBindings['next']
+    bindings: VfNavBags['next']
 
     /**
      * Handler to navigate to the next step.
@@ -231,10 +230,10 @@ export interface VfNavSlots extends NavSlots<VfNavContext> {
     fluid: boolean
 
     /**
-     * The finish button's resolved bindings (classes, part overrides, loading
-     * modifier, ARIA state); apply with `v-bind`.
+     * The finish button's resolved bindings (part overrides, loading modifier,
+     * ARIA state); apply with `v-bind`.
      */
-    bindings: VfNavBindings['finish']
+    bindings: VfNavBags['finish']
 
     /**
      * Handler to finish/submit the form.
@@ -330,9 +329,20 @@ export interface VfNavClasses extends NavClasses {
 }
 
 /**
- * Accessibility bindings of the VfNav component.
+ * Part-keyed binding definitions of the VfNav component, registered via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfNavA11y extends NavA11y {
+export interface VfNavBindings extends NavBindings {
+  /**
+   * The root navigation element's position variant and the marker set while
+   * the back button is hidden on the first page.
+   */
+  root: {
+    'data-position'?: NavPosProp
+    'data-no-back'?: ''
+  }
+
   /**
    * ARIA state for the back navigation control.
    */
@@ -341,18 +351,20 @@ export interface VfNavA11y extends NavA11y {
   }
 
   /**
-   * ARIA state for the next navigation control.
+   * The next button's loading state and ARIA state.
    */
   next: {
+    'data-loading'?: ''
     'aria-busy'?: true
     'aria-disabled'?: true
     'aria-describedby'?: string
   }
 
   /**
-   * ARIA state for the finish navigation control.
+   * The finish button's loading state and ARIA state.
    */
   finish: {
+    'data-loading'?: ''
     'aria-busy'?: true
     'aria-disabled'?: true
     'aria-describedby'?: string
@@ -365,34 +377,6 @@ export interface VfNavA11y extends NavA11y {
   srOnlyLoading: {
     id: string
     role: 'status'
-  }
-}
-
-/**
- * Styling modifiers of the VfNav component.
- */
-export interface VfNavModifiers extends NavModifiers {
-  /**
-   * The root navigation element's position variant and the marker set while
-   * the back button is hidden on the first page.
-   */
-  root: {
-    'data-position'?: NavPosProp
-    'data-no-back'?: ''
-  }
-
-  /**
-   * The next button's loading state.
-   */
-  next: {
-    'data-loading'?: ''
-  }
-
-  /**
-   * The finish button's loading state.
-   */
-  finish: {
-    'data-loading'?: ''
   }
 }
 
@@ -421,8 +405,7 @@ export interface VfNavContext extends DefineElementContext<
   VfNavSlots,
   VfNavParts,
   VfNavClasses,
-  VfNavModifiers,
-  VfNavA11y,
+  VfNavBindings,
   VfNavExpose,
   NavApi
 > {}

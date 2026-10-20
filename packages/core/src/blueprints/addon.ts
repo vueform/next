@@ -9,8 +9,7 @@ import type {
   BaseComponentSlots,
   BaseComponentClasses,
   BaseComponentExpose,
-  BaseComponentA11y,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   AddonItem,
   LooseRequired,
 } from '#src/types'
@@ -55,14 +54,10 @@ export interface AddonParts extends BaseComponentParts {}
 export interface AddonClasses extends BaseComponentClasses {}
 
 /**
- * Styling modifiers of the addon component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the addon blueprint.
  */
-export interface AddonModifiers extends BaseComponentModifiers {}
-
-/**
- * Accessibility bindings of the addon component.
- */
-export interface AddonA11y extends BaseComponentA11y {}
+export interface AddonBindings extends BaseComponentBindings {}
 
 /**
  * Augmentable public API surface for addon-based components.

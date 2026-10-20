@@ -9,9 +9,11 @@ interface VfFormClasses extends FormClasses {
   root: ClassValue
 
   /**
-   * The errors container element.
+   * The errors container element. Functional: the entry reads the form-level
+   * `errors` aggregate, which must resolve at the part's render site (see the
+   * classes definition in VfForm.vue).
    */
-  errors: ClassValue
+  errors: () => ClassValue
 
   /**
    * The error list element.

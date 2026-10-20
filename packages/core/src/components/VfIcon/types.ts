@@ -1,7 +1,6 @@
 import {
-  type IconA11y,
   type IconApi,
-  type IconModifiers,
+  type IconBindings,
   type IconProps,
   type IconEmits,
   type IconParts,
@@ -65,14 +64,9 @@ export interface VfIconClasses extends IconClasses {
 }
 
 /**
- * Accessibility bindings of the VfIcon component.
+ * Part-keyed binding definitions of the VfIcon component.
  */
-export interface VfIconA11y extends IconA11y {}
-
-/**
- * Styling modifiers of the VfIcon component.
- */
-export interface VfIconModifiers extends IconModifiers {}
+export interface VfIconBindings extends IconBindings {}
 
 /**
  * Augmentable public API surface for VfIcon.
@@ -95,8 +89,7 @@ export interface VfIconContext extends DefineElementContext<
   VfIconSlots,
   VfIconParts,
   VfIconClasses,
-  VfIconModifiers,
-  VfIconA11y,
+  VfIconBindings,
   VfIconExpose,
   IconApi
 > {}

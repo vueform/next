@@ -15,7 +15,7 @@ interface VfRadioButtonGroupModifiers extends RadioButtonGroupModifiers {
    * The group container's layout markers (stacked row layout, vertical
    * alignment with adjacent form controls) and validation state.
    */
-  wrapper: {
+  wrapper: () => {
     'data-stacked'?: ''
     'data-aligned'?: ''
     'data-invalid'?: ''

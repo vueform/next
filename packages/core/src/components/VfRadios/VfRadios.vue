@@ -52,9 +52,9 @@ const {
   expose,
   outlets,
   bindings,
+  classes,
   useClasses,
-  useModifiers,
-  useA11y,
+  useBindings,
 } = useBlueprint(blueprint, props, events, slots)
 
 const {
@@ -69,28 +69,28 @@ const {
   handleBlur,
 } = api
 
-useClasses(({ props }) => ({
+useClasses({
   root: 'vf-radios vf-choices',
-  wrapper: [props.layout === false ? props.class : null, 'vf-choices-group'],
-  // No default styling yet; the functional defs are the mode signal that
-  // keys these bindings as per-group/per-item resolvers.
-  group: () => null,
-  groupLabel: () => null,
-  item: () => null,
-}))
+  wrapper: () => [
+    props.layout === false ? props.class : null,
+    'vf-choices-group',
+  ],
+})
 
-useModifiers(({ props, invalid, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    // Zero-arg resolver: aggregate reads resolve at the wrapper's own render effect.
+    wrapper: () => ({
+      'data-stacked': api.props.stacked ? '' : undefined,
+      'data-aligned': api.props.aligned ? '' : undefined,
+      'data-invalid': api.invalid.value ? '' : undefined,
+    }),
   },
-  wrapper: {
-    'data-stacked': props.stacked ? '' : undefined,
-    'data-aligned': props.aligned ? '' : undefined,
-    'data-invalid': invalid.value ? '' : undefined,
-  },
-}))
-
-useA11y(choicesAria({ role: 'radiogroup' }))
+  choicesAria(api, { role: 'radiogroup' })
+)
 
 defineExpose(expose)
 </script>
@@ -102,7 +102,8 @@ defineExpose(expose)
       <div
         @focusin="handleFocus"
         @focusout="handleBlur"
-        v-bind="bindings.wrapper"
+        :class="classes.wrapper"
+        v-bind="bindings.wrapper()"
       >
         <slot :items :groups :grouped :disabled :label :radio-name="path">
           <component

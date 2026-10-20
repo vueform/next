@@ -37,26 +37,27 @@ const {
   outlets,
   propRefs,
   bindings,
+  classes,
   useClasses,
-  useModifiers,
-  useA11y,
+  useBindings,
 } = useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+useClasses({
   root: 'vf-text',
   input: 'vf-input vf-text-input',
-}))
+})
 
-useModifiers(({ help, hasError }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(tInputAria())
+  tInputAria(api)
+)
 
 const {
   value,
@@ -96,7 +97,8 @@ defineExpose(expose)
         :inputmode
         :disabled
         :readonly="readonly || undefined"
-        v-bind="bindings.input"
+        :class="classes.input"
+        v-bind="bindings.input()"
         :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"

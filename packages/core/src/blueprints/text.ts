@@ -24,8 +24,7 @@ import {
   type TranslateProps,
   type BaseFieldElementParts,
   type BaseElementClasses,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type BaseElementExpose,
   type AddonableProps,
@@ -136,14 +135,10 @@ export interface TextParts extends BaseFieldElementParts {}
 export interface TextClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the text element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the text blueprint.
  */
-export interface TextModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the text element blueprint.
- */
-export interface TextA11y extends BaseElementA11y {}
+export interface TextBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for text-based components.

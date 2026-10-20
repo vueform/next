@@ -1,9 +1,8 @@
 import type { VNode } from 'vue'
 
 import {
-  type ElementsA11y,
   type ElementsApi,
-  type ElementsModifiers,
+  type ElementsBindings,
   type ElementsProps,
   type ElementsEmits,
   type ElementsParts,
@@ -69,14 +68,9 @@ export interface VfElementsClasses extends ElementsClasses {
 }
 
 /**
- * Accessibility bindings of the VfElements component.
+ * Part-keyed binding definitions of the VfElements component.
  */
-export interface VfElementsA11y extends ElementsA11y {}
-
-/**
- * Styling modifiers of the VfElements component.
- */
-export interface VfElementsModifiers extends ElementsModifiers {}
+export interface VfElementsBindings extends ElementsBindings {}
 
 /**
  * Augmentable public API surface for VfElements.
@@ -99,8 +93,7 @@ export interface VfElementsContext extends DefineElementContext<
   VfElementsSlots,
   VfElementsParts,
   VfElementsClasses,
-  VfElementsModifiers,
-  VfElementsA11y,
+  VfElementsBindings,
   VfElementsExpose,
   ElementsApi
 > {}

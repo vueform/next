@@ -6,8 +6,7 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
-  BaseComponentA11y,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   ResolvedLanguagesProp,
   LooseRequired,
 } from '#src/types'
@@ -70,14 +69,10 @@ export interface LanguagesParts extends BaseComponentParts {}
 export interface LanguagesClasses extends BaseComponentClasses {}
 
 /**
- * Styling modifiers of the languages component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the languages blueprint.
  */
-export interface LanguagesModifiers extends BaseComponentModifiers {}
-
-/**
- * Accessibility bindings of the languages component.
- */
-export interface LanguagesA11y extends BaseComponentA11y {}
+export interface LanguagesBindings extends BaseComponentBindings {}
 
 /**
  * Augmentable public API surface for languages-based components.

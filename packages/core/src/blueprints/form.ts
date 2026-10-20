@@ -59,8 +59,7 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
-  BaseComponentA11y,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   EndpointProp,
   ErrorLevelProp,
   ExpressionsProp,
@@ -693,14 +692,10 @@ export interface FormParts extends BaseComponentParts {}
 export interface FormClasses extends BaseComponentClasses {}
 
 /**
- * Styling modifiers of the form component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the form blueprint.
  */
-export interface FormModifiers extends BaseComponentModifiers {}
-
-/**
- * Accessibility bindings of the form component.
- */
-export interface FormA11y extends BaseComponentA11y {}
+export interface FormBindings extends BaseComponentBindings {}
 
 /**
  * Augmentable public API surface for form-based components.

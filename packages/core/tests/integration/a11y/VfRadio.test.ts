@@ -60,9 +60,10 @@ describe('VfRadio a11y', () => {
       const wrapper = form.find('.slot-wrapper')
       expect(wrapper.exists()).toBe(true)
 
-      // The wrapper bag carries the resolved classes and alignment modifiers
-      // of the slot's own part (the fallback's top-level element).
-      expect(wrapper.classes()).toContain('vf-choice-wrapper')
+      // The wrapper bag carries the alignment modifiers of the slot's own
+      // part. Classes are NOT part of binding bags — slot consumers read them
+      // via `context.classes` when they want them.
+      expect(wrapper.classes()).not.toContain('vf-choice-wrapper')
       expect(wrapper.attributes('data-align')).toBe('right')
       expect(wrapper.attributes('data-aligned')).toBe('')
     })

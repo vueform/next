@@ -52,10 +52,16 @@ useClasses(({ props, tokenClass, tokenCss, showErrors, errors }) => ({
     [config.build.darkClass]: props.dark === true,
     [config.build.lightClass]: props.dark === false,
   },
-  errors: {
+  // Functional on purpose: the entry reads the form-level `errors` aggregate,
+  // which must resolve in the part's own render effect — never inside the
+  // merged classes computed, where elements' vapor dynamic prop sources would
+  // pick it up as a dependency and close a reactive cycle (errors -> element
+  // validation -> element props -> form bindings) that Vue 3.6's dirty-check
+  // walk cannot terminate on.
+  errors: () => ({
     'vf-form-errors-wrapper': true,
     'sr-only': !showErrors.value || Object.keys(errors.value).length === 0,
-  },
+  }),
   errorList: 'vf-form-errors',
   error: 'vf-form-error',
   messages: 'vf-form-messages-wrapper',
@@ -134,16 +140,16 @@ defineExpose(expose)
               name="errors"
               :errors
               :id="errorsId"
-              :bindings="bindings.errors"
+              :bindings="bindings.errors()"
             >
               <component
                 v-if="outlets?.errors"
                 :is="outlets.errors"
                 :errors
                 :id="errorsId"
-                :bindings="bindings.errors"
+                :bindings="bindings.errors()"
               />
-              <div v-else v-bind="bindings.errors">
+              <div v-else v-bind="bindings.errors()">
                 <ul v-bind="bindings.errorList">
                   <template v-for="(fieldErrors, path) in errors" :key="path">
                     <li

@@ -1,13 +1,12 @@
 import type { VNode } from 'vue'
 
-import type { GroupAriaA11y } from '#src/a11y'
+import type { ChoicesAriaBag, LayoutRegionBindings } from '#src/a11y'
 import {
-  type RadiosA11y,
   type RadiosApi,
+  type RadiosBindings,
   type RadiosClasses,
   type RadiosEmits,
   type RadiosExpose,
-  type RadiosModifiers,
   type RadiosParts,
   type RadiosProps,
   type RadiosSlots,
@@ -39,10 +38,9 @@ import type {
 /**
  * Resolved per-part binding bags for VfRadios slot scopes.
  */
-type VfRadiosBindings = ResolvedBindings<
+type VfRadiosResolvedBindings = ResolvedBindings<
   VfRadiosParts,
-  VfRadiosModifiers,
-  VfRadiosA11y
+  VfRadiosBindings
 >
 
 /**
@@ -205,7 +203,7 @@ export interface VfRadiosSlots<
      * The group fieldset's resolved bindings (part overrides for this group's
      * fieldset element); apply with `v-bind`.
      */
-    bindings: VfRadiosBindings['group']
+    bindings: VfRadiosResolvedBindings['group']
   }) => VNode[]
 
   /**
@@ -237,7 +235,7 @@ export interface VfRadiosSlots<
      * The item's resolved bindings (part overrides for this item's VfRadio
      * child); apply with `v-bind`.
      */
-    bindings: VfRadiosBindings['item']
+    bindings: VfRadiosResolvedBindings['item']
   }) => VNode[]
 
   /**
@@ -327,14 +325,13 @@ export interface VfRadiosClasses extends RadiosClasses {
 }
 
 /**
- * Accessibility bindings of the VfRadios component.
+ * Part-keyed binding definitions of the VfRadios component: its own state
+ * markers merged with the `choicesAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries resolve at each part's
+ * consuming site and their keys stay static; the per-group/per-item entries
+ * are parameterized, so their keys are functional.
  */
-export interface VfRadiosA11y extends RadiosA11y, GroupAriaA11y {}
-
-/**
- * Styling modifiers of the VfRadios component.
- */
-export interface VfRadiosModifiers extends RadiosModifiers {
+export interface VfRadiosBindings extends RadiosBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -344,14 +341,44 @@ export interface VfRadiosModifiers extends RadiosModifiers {
   }
 
   /**
-   * The group container's layout markers (stacked row layout, vertical
-   * alignment with adjacent form controls) and validation state.
+   * The group container's role, labelling, and ARIA state (from the
+   * `choicesAria` pattern) merged with its layout markers (stacked row
+   * layout, vertical alignment with adjacent form controls) and validation
+   * state. A zero-argument resolver: it reads child-aggregating state
+   * (`invalid`), which must resolve in the wrapper's own render effect.
    */
   wrapper: {
     'data-stacked'?: ''
     'data-aligned'?: ''
     'data-invalid'?: ''
-  }
+  } & ChoicesAriaBag
+
+  /**
+   * Per-group binding resolver for the group fieldset — a mode marker: it
+   * contributes no attributes of its own, it keys the part functional so
+   * per-group part overrides resolve with the group data.
+   *
+   * @param group The group data.
+   */
+  group: (group: Record<string, any>) => {}
+
+  /**
+   * Per-group binding resolver for the group legend — a mode marker: it
+   * contributes no attributes of its own, it keys the part functional so
+   * per-group part overrides resolve with the group data.
+   *
+   * @param group The group data.
+   */
+  groupLabel: (group: Record<string, any>) => {}
+
+  /**
+   * Per-item binding resolver for each `VfRadio` child — a mode marker: it
+   * contributes no attributes of its own, it keys the part functional so
+   * per-item part overrides resolve with the item data.
+   *
+   * @param item The radio item data.
+   */
+  item: (item: Record<string, any>) => {}
 }
 
 /**
@@ -382,8 +409,7 @@ export interface VfRadiosContext<
   VfRadiosSlots,
   VfRadiosParts,
   VfRadiosClasses,
-  VfRadiosModifiers,
-  VfRadiosA11y,
+  VfRadiosBindings,
   VfRadiosExpose,
   RadiosApi<TProps>
 > {}

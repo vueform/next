@@ -10,7 +10,8 @@ import {
   useBlueprint,
   defineEvents,
   tInputAria,
-  type TAriaA11y,
+  type LayoutRegionBindings,
+  type TInputAriaBag,
   type LanguagesProp,
   type AddonGroupClasses,
   type AddonGroupParts,
@@ -29,12 +30,11 @@ import {
 import {
   defaults,
   blueprint,
-  type TextA11y,
+  type TextBindings,
   type TextApi,
   type TextClasses,
   type TextEmits,
   type TextExpose,
-  type TextModifiers,
   type TextParts,
   type TextProps,
   type TextSlots,
@@ -136,10 +136,14 @@ export interface VfTestClasses
 }
 
 /**
- * Accessibility bindings of the VfTest component, produced by the `tInputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfTest component: a functional
+ * `input` entry (exercising args-resolution: the aria entries from
+ * `tInputAria` resolve with the same call-site arguments) plus the layout
+ * region entries.
  */
-export interface VfTestA11y extends TextA11y, TAriaA11y {}
+export interface VfTestBindings extends TextBindings, LayoutRegionBindings {
+  input: (foo: string, bar: number) => TInputAriaBag
+}
 
 export interface VfTestExpose extends TextExpose {}
 
@@ -151,8 +155,7 @@ export interface VfTestContext<
   VfTestSlots,
   VfTestParts,
   VfTestClasses,
-  TextModifiers,
-  VfTestA11y,
+  VfTestBindings,
   VfTestExpose,
   TextApi<TProps>
 > {}
@@ -186,18 +189,19 @@ const {
   outlets,
   propRefs,
   bindings,
+  classes,
   useClasses,
-  useA11y,
+  useBindings,
 } = useBlueprint(blueprint, props, events, slots)
 
-useClasses(({ success, focused, hasError }) => ({
+useClasses({
   root: 'vf-text vf-offset-label',
   input: (foo: string, bar: number) => ({
     [`vf-${foo} vf-${bar}`]: true,
     'vf-disabled': disabled.value,
-    'vf-focused': focused.value,
-    'vf-success': success.value,
-    'vf-danger': hasError.value,
+    'vf-focused': api.focused.value,
+    'vf-success': api.success.value,
+    'vf-danger': api.hasError.value,
   }),
   foo: 'foo',
   bar: 'bar',
@@ -206,9 +210,9 @@ useClasses(({ success, focused, hasError }) => ({
   quux: 'quux',
   corge: 'corge',
   grault: 'grault',
-}))
+})
 
-useA11y(tInputAria())
+useBindings(tInputAria(api))
 
 const {
   value,
@@ -246,6 +250,7 @@ defineExpose(expose)
         :autocomplete
         :disabled
         :readonly="readonly || undefined"
+        :class="classes.input('foo', 123)"
         v-bind="bindings.input('foo', 123)"
         :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
@@ -255,13 +260,13 @@ defineExpose(expose)
         @focus="handleFocus"
         @input="handleInput"
       />
-      <div v-bind="bindings.foo" />
-      <div v-bind="bindings.bar" />
-      <div v-bind="bindings.baz" />
-      <div v-bind="bindings.qux" />
-      <div v-bind="bindings.quux" />
-      <div v-bind="bindings.corge" />
-      <div v-bind="bindings.grault" />
+      <div :class="classes.foo" v-bind="bindings.foo()" />
+      <div :class="classes.bar" v-bind="bindings.bar()" />
+      <div :class="classes.baz" v-bind="bindings.baz()" />
+      <div :class="classes.qux" v-bind="bindings.qux()" />
+      <div :class="classes.quux" v-bind="bindings.quux()" />
+      <div :class="classes.corge" v-bind="bindings.corge()" />
+      <div :class="classes.grault" v-bind="bindings.grault()" />
     </VfLayout>
   </slot>
 </template>

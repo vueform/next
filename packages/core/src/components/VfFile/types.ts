@@ -1,14 +1,13 @@
 import type { VNode } from 'vue'
 
-import type { InputAriaA11y } from '#src/a11y'
+import type { InputAriaBag, LayoutRegionBindings } from '#src/a11y'
 import {
-  type FileA11y,
   type FileApi,
   type FileClasses,
   type FileEmits,
   type FileExpose,
   type FileListItem,
-  type FileModifiers,
+  type FileBindings,
   type FileParts,
   type FileProps,
   type FileSlots,
@@ -28,7 +27,7 @@ import type {
 /**
  * Resolved per-part binding bags for VfFile slot scopes.
  */
-type VfFileBindings = ResolvedBindings<VfFileParts, VfFileModifiers, VfFileA11y>
+type VfFileResolvedBindings = ResolvedBindings<VfFileParts, VfFileBindings>
 
 /**
  * VfFile props narrowed from a registry `TEntry` payload, applying the entry's
@@ -113,10 +112,10 @@ export interface VfFileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * The file item's resolved bindings (classes, part overrides); apply with
+     * The file item's resolved bindings (part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfFileBindings['item']
+    bindings: VfFileResolvedBindings['item']
 
     /**
      * Callback to remove a file by index.
@@ -143,10 +142,10 @@ export interface VfFileSlots<
     disabled: boolean
 
     /**
-     * The remove button's resolved bindings (classes, part overrides,
-     * localized aria-label); apply with `v-bind`.
+     * The remove button's resolved bindings (part overrides, localized
+     * aria-label); apply with `v-bind`.
      */
-    bindings: VfFileBindings['remove']
+    bindings: VfFileResolvedBindings['remove']
 
     /**
      * Callback to remove a file by index.
@@ -183,10 +182,10 @@ export interface VfFileSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * The file name element's resolved bindings (classes, part overrides);
-     * apply with `v-bind`.
+     * The file name element's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfFileBindings['name']
+    bindings: VfFileResolvedBindings['name']
   }) => VNode[]
 
   /**
@@ -206,10 +205,10 @@ export interface VfFileSlots<
     text?: string
 
     /**
-     * The add button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The add button's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfFileBindings['add']
+    bindings: VfFileResolvedBindings['add']
 
     /**
      * Callback to open the native file picker.
@@ -286,7 +285,7 @@ export interface VfFileClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  item: (file: FileListItem, index: number) => ClassValue
+  item: ClassValue
 
   /**
    * The file name text or link.
@@ -294,7 +293,7 @@ export interface VfFileClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  name: (file: FileListItem, index: number) => ClassValue
+  name: ClassValue
 
   /**
    * The remove button for a file entry.
@@ -302,7 +301,7 @@ export interface VfFileClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  remove: (file: FileListItem, index: number) => ClassValue
+  remove: ClassValue
 
   /**
    * The hidden file `<input>` tag.
@@ -311,14 +310,45 @@ export interface VfFileClasses extends FileClasses {
 }
 
 /**
- * Accessibility bindings of the VfFile component: the `inputAria` pattern's
- * bags plus the per-file remove control's bag, registered via `useA11y` in
- * the SFC (VfFile is the remove bag's only consumer, so it is defined there
- * rather than as a shared pattern).
+ * Part-keyed binding definitions of the VfFile component: its own state
+ * markers and per-file entries merged with the `inputAria` pattern entries it
+ * registers via `useBindings`. The per-file entries (`item`, `name`,
+ * `remove`) are parameterized resolvers, so those keys are functional and
+ * templates call `bindings.item(file, index)`; the rest are zero-argument
+ * resolvers whose keys stay static.
  */
-export interface VfFileA11y extends FileA11y, InputAriaA11y {
+export interface VfFileBindings extends FileBindings, LayoutRegionBindings {
   /**
-   * The per-file remove control's localized accessible name.
+   * The file input control's validation state and ARIA state.
+   */
+  input: {
+    'data-invalid'?: ''
+  } & InputAriaBag
+
+  /**
+   * Functional-mode marker for the per-file item part: it contributes no
+   * attributes of its own, but keeps the key functional so part overrides
+   * resolve with the file entry and index.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
+   */
+  item: (file: FileListItem, index: number) => {}
+
+  /**
+   * Functional-mode marker for the per-file name part: it contributes no
+   * attributes of its own, but keeps the key functional so part overrides
+   * resolve with the file entry and index.
+   *
+   * @param file The file entry.
+   * @param index The file's zero-based index.
+   */
+  name: (file: FileListItem, index: number) => {}
+
+  /**
+   * The per-file remove control's localized accessible name (VfFile is the
+   * remove entry's only consumer, so it is defined in the SFC rather than as
+   * a shared pattern).
    *
    * @param file The file entry.
    * @param index The file's zero-based index.
@@ -328,26 +358,6 @@ export interface VfFileA11y extends FileA11y, InputAriaA11y {
     index: number
   ) => {
     'aria-label': string
-  }
-}
-
-/**
- * Styling modifiers of the VfFile component.
- */
-export interface VfFileModifiers extends FileModifiers {
-  /**
-   * The root element's label-alignment marker, set while the element renders
-   * without help text.
-   */
-  root: {
-    'data-align-label'?: ''
-  }
-
-  /**
-   * The file input control's validation state.
-   */
-  input: {
-    'data-invalid'?: ''
   }
 }
 
@@ -376,8 +386,7 @@ export interface VfFileContext<
   VfFileSlots,
   VfFileParts,
   VfFileClasses,
-  VfFileModifiers,
-  VfFileA11y,
+  VfFileBindings,
   VfFileExpose,
   FileApi<TProps>
 > {}

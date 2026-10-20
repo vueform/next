@@ -1,12 +1,11 @@
 import type { Component, VNode } from 'vue'
 
 import type {
-  ListA11y,
   ListApi,
+  ListBindings,
   ListClasses,
   ListEmits,
   ListExpose,
-  ListModifiers,
   ListParts,
   ListProps,
   ListSlots,
@@ -31,7 +30,7 @@ import type {
 /**
  * Resolved per-part binding bags for VfList slot scopes.
  */
-type VfListBindings = ResolvedBindings<VfListParts, VfListModifiers, VfListA11y>
+type VfListResolvedBindings = ResolvedBindings<VfListParts, VfListBindings>
 
 /**
  * Lists carry a rows-array model shaped by their child schema and `flat` prop:
@@ -101,10 +100,10 @@ export interface VfListSlots extends ListSlots<VfListContext> {
     isDropTarget: boolean
 
     /**
-     * The item wrapper's resolved bindings (classes, part overrides, drag
-     * modifiers, listitem role); apply with `v-bind`.
+     * The item wrapper's resolved bindings (part overrides, drag markers,
+     * listitem role); apply with `v-bind`.
      */
-    bindings: VfListBindings['item']
+    bindings: VfListResolvedBindings['item']
 
     /**
      * Handler for the drag enter event.
@@ -132,17 +131,17 @@ export interface VfListSlots extends ListSlots<VfListContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the drag handle. Receives classes, part, and drag
-   * event handlers.
+   * Slot that replaces the drag handle. Receives the handle's bindings and
+   * drag event handlers.
    *
    * @param scope The sort slot's params.
    */
   sort: (scope: {
     /**
-     * The drag handle's resolved bindings (classes, part overrides, localized
+     * The drag handle's resolved bindings (part overrides, localized
      * aria-label); apply with `v-bind`.
      */
-    bindings: VfListBindings['sort']
+    bindings: VfListResolvedBindings['sort']
 
     /**
      * Handler for the drag start event.
@@ -180,17 +179,17 @@ export interface VfListSlots extends ListSlots<VfListContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the remove button. Receives classes, part, and remove
-   * handler.
+   * Slot that replaces the remove button. Receives the button's bindings and
+   * the remove handler.
    *
    * @param scope The remove slot's params.
    */
   remove: (scope: {
     /**
-     * The remove button's resolved bindings (classes, part overrides,
-     * localized aria-label fallback); apply with `v-bind`.
+     * The remove button's resolved bindings (part overrides, localized
+     * aria-label fallback); apply with `v-bind`.
      */
-    bindings: VfListBindings['remove']
+    bindings: VfListResolvedBindings['remove']
 
     /**
      * Handler to remove this list item.
@@ -205,16 +204,16 @@ export interface VfListSlots extends ListSlots<VfListContext> {
    */
   placeholder: (scope: {
     /**
-     * The placeholder's resolved bindings (classes, part overrides, id and
-     * status role); apply with `v-bind` so the add button's describedby keeps
+     * The placeholder's resolved bindings (part overrides, id and status
+     * role); apply with `v-bind` so the add button's describedby keeps
      * resolving.
      */
-    bindings: VfListBindings['placeholder']
+    bindings: VfListResolvedBindings['placeholder']
   }) => VNode[]
 
   /**
-   * Slot that replaces the add button. Receives classes, part, add handler,
-   * and label.
+   * Slot that replaces the add button. Receives the button's bindings, add
+   * handler, and label.
    *
    * @param scope The add slot's params.
    */
@@ -225,10 +224,10 @@ export interface VfListSlots extends ListSlots<VfListContext> {
     label: any
 
     /**
-     * The add button's resolved bindings (classes, part overrides, fallback
+     * The add button's resolved bindings (part overrides, fallback
      * aria-label, placeholder describedby); apply with `v-bind`.
      */
-    bindings: VfListBindings['add']
+    bindings: VfListResolvedBindings['add']
 
     /**
      * Handler to add a new list item.
@@ -306,12 +305,10 @@ export interface VfListClasses extends ListClasses {
 
   /**
    * Each list item wrapper. Drag state is exposed via `data-dragging` and
-   * `data-drop-target` attributes (and `data-wrapped` for the `wrap` prop).
-   *
-   * @param beingDragged Whether this item is currently being dragged.
-   * @param isDropTarget Whether this item is the current drop target.
+   * `data-drop-target` attributes (and `data-wrapped` for the `wrap` prop) on
+   * the item's bindings, so the class value is static.
    */
-  item: (beingDragged: boolean, isDropTarget: boolean) => ClassValue
+  item: ClassValue
 
   /**
    * The element wrapper within each list item.
@@ -320,17 +317,13 @@ export interface VfListClasses extends ListClasses {
 
   /**
    * The drag handle element.
-   *
-   * @param index The item's zero-based index.
    */
-  sort: (index: number) => ClassValue
+  sort: ClassValue
 
   /**
    * The remove button element.
-   *
-   * @param index The item's zero-based index.
    */
-  remove: (index: number) => ClassValue
+  remove: ClassValue
 
   /**
    * The placeholder element displayed when the list is empty.
@@ -344,9 +337,21 @@ export interface VfListClasses extends ListClasses {
 }
 
 /**
- * Accessibility bindings of the VfList component.
+ * Part-keyed binding definitions of the VfList component. The `items` entry
+ * is a static bag; `placeholder` and `add` are zero-argument resolvers —
+ * resolved at each part's consuming site, keys stay static — and the
+ * per-item `item` / `sort` / `remove` entries are parameterized, so those
+ * keys are functional.
  */
-export interface VfListA11y extends ListA11y {
+export interface VfListBindings extends ListBindings {
+  /**
+   * The root element's label-alignment marker, set while the element renders
+   * without help text.
+   */
+  root: {
+    'data-align-label'?: ''
+  }
+
   /**
    * The items container's list role.
    */
@@ -355,7 +360,7 @@ export interface VfListA11y extends ListA11y {
   }
 
   /**
-   * Each item wrapper's listitem role.
+   * Each item wrapper's listitem role plus its wrap marker and drag state.
    *
    * @param beingDragged Whether this item is currently being dragged.
    * @param isDropTarget Whether this item is the current drop target.
@@ -365,6 +370,9 @@ export interface VfListA11y extends ListA11y {
     isDropTarget: boolean
   ) => {
     role: 'listitem'
+    'data-wrapped'?: ''
+    'data-dragging'?: ''
+    'data-drop-target'?: ''
   }
 
   /**
@@ -405,34 +413,6 @@ export interface VfListA11y extends ListA11y {
 }
 
 /**
- * Styling modifiers of the VfList component.
- */
-export interface VfListModifiers extends ListModifiers {
-  /**
-   * The root element's label-alignment marker, set while the element renders
-   * without help text.
-   */
-  root: {
-    'data-align-label'?: ''
-  }
-
-  /**
-   * Each list item wrapper's wrap marker and drag state.
-   *
-   * @param beingDragged Whether this item is currently being dragged.
-   * @param isDropTarget Whether this item is the current drop target.
-   */
-  item: (
-    beingDragged: boolean,
-    isDropTarget: boolean
-  ) => {
-    'data-wrapped'?: ''
-    'data-dragging'?: ''
-    'data-drop-target'?: ''
-  }
-}
-
-/**
  * Augmentable public API surface for VfList.
  *
  * Plugins that add runtime API members should declaration-merge the same
@@ -457,8 +437,7 @@ export interface VfListContext<
   VfListSlots,
   VfListParts,
   VfListClasses,
-  VfListModifiers,
-  VfListA11y,
+  VfListBindings,
   VfListExpose,
   ListApi<TProps>
 > {}

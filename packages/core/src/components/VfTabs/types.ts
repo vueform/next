@@ -1,15 +1,14 @@
 import type { VNode } from 'vue'
 
 import type {
-  TabsA11y,
   TabsApi,
+  TabsBindings,
   TabsProps,
   TabsEmits,
   TabbedParts,
   TabbedSlots,
   TabsExpose,
   TabsClasses,
-  TabsModifiers,
 } from '#src/blueprints/tabs'
 import type { PartBindings, ResolvedPage } from '#src/composables'
 import type {
@@ -131,10 +130,10 @@ export interface VfTabsSlots extends TabbedSlots<VfTabsContext> {
     el$: UnknownElement
 
     /**
-     * The tab button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The tab button's resolved bindings (part overrides, state attributes);
+     * apply with `v-bind`.
      */
-    bindings: PartBindings<'tab', VfTabsParts, VfTabsModifiers, VfTabsA11y>
+    bindings: PartBindings<'tab', VfTabsParts, VfTabsBindings>
   }) => VNode[]
 }
 
@@ -199,14 +198,11 @@ export interface VfTabsClasses extends TabsClasses {
 }
 
 /**
- * Accessibility bindings of the VfTabs component.
+ * Part-keyed binding definitions of the VfTabs component, registered via
+ * `useBindings`. The `wrapper` entry is a parameterized resolver, so the key
+ * is functional — the template calls `bindings.wrapper(page)`.
  */
-export interface VfTabsA11y extends TabsA11y {}
-
-/**
- * Styling modifiers of the VfTabs component.
- */
-export interface VfTabsModifiers extends TabsModifiers {
+export interface VfTabsBindings extends TabsBindings {
   /**
    * Each tab wrapper's selection and validity state.
    *
@@ -239,8 +235,7 @@ export interface VfTabsContext extends DefineElementContext<
   VfTabsSlots,
   VfTabsParts,
   VfTabsClasses,
-  VfTabsModifiers,
-  VfTabsA11y,
+  VfTabsBindings,
   VfTabsExpose,
   TabsApi
 > {}

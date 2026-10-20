@@ -1,11 +1,16 @@
 import type { Ref } from 'vue'
 
+import type { BindingDefsOf } from '#src/composables'
+
 /**
- * Binding bags for the layout-rendered parts (label, help, description,
- * error): the ids the control's `aria-describedby` / `aria-labelledby` point
- * at, and the error region's alert role.
+ * Resolved binding bags for the layout-rendered parts (label, help,
+ * description, error): the ids the control's `aria-describedby` /
+ * `aria-labelledby` point at, and the error region's alert role. The runtime
+ * pattern supplies them as zero-argument resolvers (a definition-side
+ * freedom), so they resolve at each part's consuming site while the keys stay
+ * static.
  */
-export interface A11yLayoutBags {
+export interface LayoutRegionBindings {
   /**
    * The label element's id, referenced by `aria-labelledby` relationships.
    */
@@ -39,9 +44,10 @@ export interface A11yLayoutBags {
 }
 
 /**
- * The slice of a component api every layout-aware a11y pattern reads.
- * Patterns are invoked inside the `useA11y` merged computed, so every
- * `.value` read stays tracked.
+ * The slice of a component api every layout-aware binding pattern reads.
+ * Patterns build part-keyed definitions whose entries are zero-argument
+ * resolvers: every `.value` read runs at the part's consuming site (its own
+ * render effect), never while the definition is registered or merged.
  */
 export interface LayoutPatternApi {
   props: {
@@ -75,20 +81,25 @@ export const showsHelp = (api: LayoutPatternApi) =>
   !!api.help.value && api.label.value !== undefined && !api.props.hideLabel
 
 /**
- * Binding bags for the layout-rendered parts (label, help, description,
+ * Binding entries for the layout-rendered parts (label, help, description,
  * error) so slot users replacing those regions keep the id relationships the
  * input's `aria-describedby` points at.
  *
- * @param ids Resolved ids of the layout regions.
+ * @param api The component api carrying the layout region ids.
  */
-export const buildLayoutBags = (ids: {
-  labelId: string
-  helpId: string
-  descriptionId: string
-  errorId: string
-}): A11yLayoutBags => ({
-  label: { id: ids.labelId },
-  help: { id: ids.helpId },
-  description: { id: ids.descriptionId },
-  errors: { id: ids.errorId, role: 'alert' },
+export const layoutRegionBindings = (
+  api: Pick<
+    LayoutPatternApi,
+    'labelId' | 'helpId' | 'descriptionId' | 'errorId'
+  >
+): BindingDefsOf<LayoutRegionBindings> => ({
+  label: (): LayoutRegionBindings['label'] => ({ id: api.labelId.value }),
+  help: (): LayoutRegionBindings['help'] => ({ id: api.helpId.value }),
+  description: (): LayoutRegionBindings['description'] => ({
+    id: api.descriptionId.value,
+  }),
+  errors: (): LayoutRegionBindings['errors'] => ({
+    id: api.errorId.value,
+    role: 'alert',
+  }),
 })

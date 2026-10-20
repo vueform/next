@@ -3,11 +3,10 @@ import type {
   ConditionsTriggerProp,
 } from '#src/modules/conditions'
 import type {
-  BaseComponentA11y,
   BaseComponentClasses,
   BaseComponentEmits,
   BaseComponentExpose,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   BaseComponentParts,
   BaseComponentProps,
   BaseComponentSlots,
@@ -138,6 +137,5 @@ export interface BaseElementClasses extends BaseComponentClasses {
     lineBottom?: boolean
   }) => ClassValue
 }
-export interface BaseElementModifiers extends BaseComponentModifiers {}
-export interface BaseElementA11y extends BaseComponentA11y {}
+export interface BaseElementBindings extends BaseComponentBindings {}
 export interface BaseElementExpose extends BaseComponentExpose {}

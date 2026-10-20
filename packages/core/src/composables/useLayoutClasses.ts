@@ -25,7 +25,10 @@ const normalizeLayoutClasses = (
       typeof reference[key] === 'function' &&
       value != null &&
       typeof value !== 'function'
-        ? () => value
+        ? // Declared parameter on purpose: zero-arity entries are lazy
+          // statics, and this wrapper must keep the key functional like the
+          // reference it overrides.
+          (_arg: unknown) => value
         : value
   }
 

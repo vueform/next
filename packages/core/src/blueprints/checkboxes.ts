@@ -18,8 +18,7 @@ import {
   type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type ItemsProps,
   type ItemsModelProp,
@@ -122,14 +121,10 @@ export interface CheckboxesParts extends BaseContainerElementParts {}
 export interface CheckboxesClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the checkboxes element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the checkboxes blueprint.
  */
-export interface CheckboxesModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the checkboxes element blueprint.
- */
-export interface CheckboxesA11y extends BaseElementA11y {}
+export interface CheckboxesBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for checkboxes-based components.

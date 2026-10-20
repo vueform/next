@@ -76,9 +76,9 @@ const {
   expose,
   outlets,
   bindings,
+  classes,
   useClasses,
-  useModifiers,
-  useA11y,
+  useBindings,
 } = useBlueprint(blueprint, props, events, slots)
 
 const {
@@ -93,26 +93,27 @@ const {
   handleBlur,
 } = api
 
-useClasses(({ props }) => ({
+useClasses({
   root: 'vf-checkboxes vf-choices',
-  wrapper: [props.layout === false ? props.class : null, 'vf-choices-group'],
-  group: () => null,
-  groupLabel: () => null,
-  item: () => null,
-}))
+  wrapper: () => [
+    props.layout === false ? props.class : null,
+    'vf-choices-group',
+  ],
+})
 
-useModifiers(({ props, invalid, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    wrapper: () => ({
+      'data-stacked': api.props.stacked ? '' : undefined,
+      'data-aligned': api.props.aligned ? '' : undefined,
+      'data-invalid': api.invalid.value ? '' : undefined,
+    }),
   },
-  wrapper: {
-    'data-stacked': props.stacked ? '' : undefined,
-    'data-aligned': props.aligned ? '' : undefined,
-    'data-invalid': invalid.value ? '' : undefined,
-  },
-}))
-
-useA11y(choicesAria({ role: 'group' }))
+  choicesAria(api, { role: 'group' })
+)
 
 defineExpose(expose)
 </script>
@@ -124,16 +125,10 @@ defineExpose(expose)
       <div
         @focusin="handleFocus"
         @focusout="handleBlur"
-        v-bind="bindings.wrapper"
+        :class="classes.wrapper"
+        v-bind="bindings.wrapper()"
       >
-        <slot
-          :items
-          :groups
-          :grouped
-          :disabled
-          :label
-          :checkbox-name="path"
-        >
+        <slot :items :groups :grouped :disabled :label :checkbox-name="path">
           <component
             v-if="outlets?.default"
             :is="outlets.default"

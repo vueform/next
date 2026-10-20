@@ -18,10 +18,9 @@ import {
   type BaseElementEmits,
   type BaseElementProps,
   type BaseContainerElementParts,
-  type BaseElementA11y,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type ValidationProps,
   type ContainerProps,
@@ -162,14 +161,10 @@ export interface ListParts extends BaseContainerElementParts {}
 export interface ListClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the list element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the list blueprint.
  */
-export interface ListModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the list element blueprint.
- */
-export interface ListA11y extends BaseElementA11y {}
+export interface ListBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for list-based components.

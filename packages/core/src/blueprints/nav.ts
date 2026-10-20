@@ -10,8 +10,7 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
-  BaseComponentA11y,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   LooseRequired,
   TProp,
 } from '#src/types'
@@ -88,9 +87,10 @@ export interface NavParts extends BaseComponentParts {}
 export interface NavClasses extends BaseComponentClasses {}
 
 /**
- * Styling modifiers of the nav component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the nav blueprint.
  */
-export interface NavModifiers extends BaseComponentModifiers {}
+export interface NavBindings extends BaseComponentBindings {}
 
 /**
  * Augmentable public API surface for nav-based components.
@@ -105,11 +105,6 @@ export interface NavExpose extends BaseComponentExpose, NavApi {}
 export type NavApi<TProps extends NavProps = NavProps> = ReturnType<
   typeof blueprint<TProps>
 >
-
-/**
- * Accessibility bindings of the nav component.
- */
-export interface NavA11y extends BaseComponentA11y {}
 
 /**
  * Builds the nav factory API from resolved props and events. Resolves

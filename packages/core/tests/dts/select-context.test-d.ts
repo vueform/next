@@ -42,12 +42,15 @@ describe('VfSelect expose — factory API lives on VfSelectExpose; context unwra
     >()
   })
 
-  test('props / outlets / parts / classes are typed', () => {
+  test('props / outlets / bindings / classes are typed', () => {
     expectTypeOf<SelectContext['props']>().not.toBeAny()
     expectTypeOf<SelectContext['props']>().toHaveProperty('multiple')
     expectTypeOf<SelectContext['props']>().toHaveProperty('items')
     expectTypeOf<SelectContext['outlets']>().not.toBeAny()
     expectTypeOf<SelectContext['outlets']>().toHaveProperty('template')
+    // The part vocabulary surfaces as the context's per-key bindings
+    // resolvers; `parts` is the per-key override surface, not a bag.
+    expectTypeOf<SelectContext['bindings']>().toHaveProperty('input')
     expectTypeOf<SelectContext['parts']>().toHaveProperty('input')
     expectTypeOf<SelectContext['classes']>().toHaveProperty('input')
     // Undeclared keys resolve at runtime (lazy proxy) — templates may read keys

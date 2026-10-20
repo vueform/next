@@ -16,8 +16,7 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type LayoutProps,
 } from '#src/features'
@@ -75,14 +74,10 @@ export interface ContentParts extends BaseFieldElementParts {}
 export interface ContentClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the content element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the content blueprint.
  */
-export interface ContentModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the content element blueprint.
- */
-export interface ContentA11y extends BaseElementA11y {}
+export interface ContentBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for content-based components.

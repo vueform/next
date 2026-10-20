@@ -1,13 +1,12 @@
 import type { Component, VNode } from 'vue'
 
 import type {
-  MatrixA11y,
   MatrixApi,
+  MatrixBindings,
   MatrixClasses,
   MatrixEmits,
   MatrixElementSchema,
   MatrixExpose,
-  MatrixModifiers,
   MatrixParts,
   MatrixProps,
   MatrixSlots,
@@ -34,10 +33,9 @@ import type {
 /**
  * Resolved per-part binding bags for VfMatrix slot scopes.
  */
-type VfMatrixBindings = ResolvedBindings<
+type VfMatrixResolvedBindings = ResolvedBindings<
   VfMatrixParts,
-  VfMatrixModifiers,
-  VfMatrixA11y
+  VfMatrixBindings
 >
 
 /**
@@ -263,8 +261,8 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   default: () => VNode[]
 
   /**
-   * Slot that replaces the header row. Receives the header part's classes and
-   * part bag and the header definitions.
+   * Slot that replaces the header row. Receives the header part's resolved
+   * bindings and the header definitions.
    *
    * @param scope The header slot's params.
    */
@@ -275,10 +273,10 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
     headers: (ResolvedMatrixCol | {})[]
 
     /**
-     * The header row's resolved bindings (classes, part overrides); apply with
+     * The header row's resolved bindings (part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfMatrixBindings['header']
+    bindings: VfMatrixResolvedBindings['header']
   }) => VNode[]
 
   /**
@@ -298,10 +296,10 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
     label: string
 
     /**
-     * The column header's resolved bindings (classes, part overrides, sticky
-     * modifier); apply with `v-bind`.
+     * The column header's resolved bindings (part overrides, sticky
+     * marker); apply with `v-bind`.
      */
-    bindings: VfMatrixBindings['colHeader']
+    bindings: VfMatrixResolvedBindings['colHeader']
   }) => VNode[]
 
   /**
@@ -388,10 +386,10 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
     label: string
 
     /**
-     * The row header's resolved bindings (classes, part overrides, sticky
-     * modifier); apply with `v-bind`.
+     * The row header's resolved bindings (part overrides, sticky
+     * marker); apply with `v-bind`.
      */
-    bindings: VfMatrixBindings['rowHeader']
+    bindings: VfMatrixResolvedBindings['rowHeader']
   }) => VNode[]
 
   /**
@@ -401,10 +399,10 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    */
   'sort-wrapper': (scope: {
     /**
-     * The drag sort handle wrapper's resolved bindings (classes, part
+     * The drag sort handle wrapper's resolved bindings (part
      * overrides); apply with `v-bind`.
      */
-    bindings: VfMatrixBindings['sortWrapper']
+    bindings: VfMatrixResolvedBindings['sortWrapper']
 
     /**
      * Handler for the drag enter event.
@@ -427,17 +425,17 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the drag handle. Receives classes, part, and drag
-   * event handlers.
+   * Slot that replaces the drag handle. Receives the handle's bindings and
+   * drag event handlers.
    *
    * @param scope The sort slot's params.
    */
   sort: (scope: {
     /**
-     * The drag handle's resolved bindings (classes, part overrides, localized
+     * The drag handle's resolved bindings (part overrides, localized
      * aria-label); apply with `v-bind`.
      */
-    bindings: VfMatrixBindings['sort']
+    bindings: VfMatrixResolvedBindings['sort']
 
     /**
      * Handler for the drag enter event.
@@ -477,10 +475,10 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
     props: MatrixElementSchema
 
     /**
-     * The cell's resolved bindings (classes, part overrides); apply with
+     * The cell's resolved bindings (part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfMatrixBindings['cell']
+    bindings: VfMatrixResolvedBindings['cell']
 
     /**
      * Handler for the drag enter event on the cell.
@@ -497,10 +495,10 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    */
   'remove-wrapper': (scope: {
     /**
-     * The row remove button wrapper's resolved bindings (classes, part
+     * The row remove button wrapper's resolved bindings (part
      * overrides); apply with `v-bind`.
      */
-    bindings: VfMatrixBindings['removeWrapper']
+    bindings: VfMatrixResolvedBindings['removeWrapper']
 
     /**
      * Handler to remove the row.
@@ -515,10 +513,10 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
    */
   remove: (scope: {
     /**
-     * The remove button's resolved bindings (classes, part overrides,
+     * The remove button's resolved bindings (part overrides,
      * localized aria-label fallback); apply with `v-bind`.
      */
-    bindings: VfMatrixBindings['remove']
+    bindings: VfMatrixResolvedBindings['remove']
 
     /**
      * Handler to remove the row.
@@ -527,8 +525,8 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
   }) => VNode[]
 
   /**
-   * Slot that replaces the add row button. Receives classes, part, label, and
-   * add handler.
+   * Slot that replaces the add row button. Receives the button's bindings,
+   * label, and add handler.
    *
    * @param scope The add slot's params.
    */
@@ -539,10 +537,10 @@ export interface VfMatrixSlots extends MatrixSlots<VfMatrixContext> {
     label: TProp | string
 
     /**
-     * The add button's resolved bindings (classes, part overrides, fallback
+     * The add button's resolved bindings (part overrides, fallback
      * aria-label); apply with `v-bind`.
      */
-    bindings: VfMatrixBindings['add']
+    bindings: VfMatrixResolvedBindings['add']
 
     /**
      * Handler to add a new row.
@@ -684,10 +682,8 @@ export interface VfMatrixClasses extends MatrixClasses {
 
   /**
    * The drag sort handle element.
-   *
-   * @param index The row's zero-based index.
    */
-  sort: (index: number) => ClassValue
+  sort: ClassValue
 
   /**
    * The row remove button wrapper element.
@@ -696,10 +692,8 @@ export interface VfMatrixClasses extends MatrixClasses {
 
   /**
    * The row remove button element.
-   *
-   * @param index The row's zero-based index.
    */
-  remove: (index: number) => ClassValue
+  remove: ClassValue
 
   /**
    * The add row button element.
@@ -708,41 +702,13 @@ export interface VfMatrixClasses extends MatrixClasses {
 }
 
 /**
- * Accessibility bindings of the VfMatrix component.
+ * Part-keyed binding definitions of the VfMatrix component. The grid /
+ * header-related / add entries are zero-argument resolvers — resolved at each
+ * part's consuming site, keys stay static — while the per-row `row` and
+ * per-index `sort` / `remove` entries are parameterized, so those keys are
+ * functional.
  */
-export interface VfMatrixA11y extends MatrixA11y {
-  /**
-   * The add-row control's localized accessible name (when it renders without
-   * a visible label).
-   */
-  add: {
-    'aria-label'?: string
-  }
-
-  /**
-   * The per-row sort handle's localized accessible name.
-   *
-   * @param index The row's zero-based index.
-   */
-  sort: (index: number) => {
-    'aria-label': string
-  }
-
-  /**
-   * The per-row remove control's localized accessible name (when it renders
-   * without a visible label).
-   *
-   * @param index The row's zero-based index.
-   */
-  remove: (index: number) => {
-    'aria-label'?: string
-  }
-}
-
-/**
- * Styling modifiers of the VfMatrix component.
- */
-export interface VfMatrixModifiers extends MatrixModifiers {
+export interface VfMatrixBindings extends MatrixBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -785,6 +751,33 @@ export interface VfMatrixModifiers extends MatrixModifiers {
     'data-dragging'?: ''
     'data-drop-target'?: ''
   }
+
+  /**
+   * The add-row control's localized accessible name (when it renders without
+   * a visible label).
+   */
+  add: {
+    'aria-label'?: string
+  }
+
+  /**
+   * The per-row sort handle's localized accessible name.
+   *
+   * @param index The row's zero-based index.
+   */
+  sort: (index: number) => {
+    'aria-label': string
+  }
+
+  /**
+   * The per-row remove control's localized accessible name (when it renders
+   * without a visible label).
+   *
+   * @param index The row's zero-based index.
+   */
+  remove: (index: number) => {
+    'aria-label'?: string
+  }
 }
 
 /**
@@ -812,8 +805,7 @@ export interface VfMatrixContext<
   VfMatrixSlots,
   VfMatrixParts,
   VfMatrixClasses,
-  VfMatrixModifiers,
-  VfMatrixA11y,
+  VfMatrixBindings,
   VfMatrixExpose,
   MatrixApi<TProps>
 > {}

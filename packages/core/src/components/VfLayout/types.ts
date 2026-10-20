@@ -7,9 +7,8 @@ import {
   type LayoutExpose,
   type LayoutParts,
   type LayoutSlots,
-  type LayoutA11y,
   type LayoutClasses,
-  type LayoutModifiers,
+  type LayoutBindings,
 } from '#src/blueprints/layout'
 import type {
   TabbedSlots,
@@ -163,14 +162,9 @@ export interface VfLayoutClasses
 }
 
 /**
- * Styling modifiers of the VfLayout component.
+ * Part-keyed binding definitions of the VfLayout component.
  */
-export interface VfLayoutModifiers extends LayoutModifiers {}
-
-/**
- * Accessibility bindings of the VfLayout component.
- */
-export interface VfLayoutA11y extends LayoutA11y {}
+export interface VfLayoutBindings extends LayoutBindings {}
 
 /**
  * Augmentable public API surface for VfLayout.
@@ -197,8 +191,7 @@ export interface VfLayoutContext extends DefineElementContext<
   VfLayoutSlots,
   VfLayoutParts,
   VfLayoutClasses,
-  VfLayoutModifiers,
-  VfLayoutA11y,
+  VfLayoutBindings,
   VfLayoutExpose,
   LayoutApi
 > {}

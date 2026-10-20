@@ -1,10 +1,9 @@
 import {
-  type HiddenA11y,
   type HiddenApi,
   type HiddenClasses,
   type HiddenEmits,
   type HiddenExpose,
-  type HiddenModifiers,
+  type HiddenBindings,
   type HiddenParts,
   type HiddenProps,
   type HiddenSlots,
@@ -46,14 +45,9 @@ export interface VfHiddenParts extends HiddenParts {}
 export interface VfHiddenClasses extends HiddenClasses {}
 
 /**
- * Accessibility bindings of the VfHidden component.
+ * Part-keyed binding definitions of the VfHidden component.
  */
-export interface VfHiddenA11y extends HiddenA11y {}
-
-/**
- * Styling modifiers of the VfHidden component.
- */
-export interface VfHiddenModifiers extends HiddenModifiers {}
+export interface VfHiddenBindings extends HiddenBindings {}
 
 /**
  * Augmentable public API surface for VfHidden.
@@ -80,8 +74,7 @@ export interface VfHiddenContext extends DefineElementContext<
   VfHiddenSlots,
   VfHiddenParts,
   VfHiddenClasses,
-  VfHiddenModifiers,
-  VfHiddenA11y,
+  VfHiddenBindings,
   VfHiddenExpose,
   HiddenApi
 > {}

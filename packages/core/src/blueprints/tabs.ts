@@ -7,8 +7,7 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
-  BaseComponentA11y,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   LooseRequired,
 } from '#src/types'
 
@@ -52,14 +51,10 @@ export interface TabbedParts extends BaseComponentParts {}
 export interface TabsClasses extends BaseComponentClasses {}
 
 /**
- * Styling modifiers of the tabs component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the tabs blueprint.
  */
-export interface TabsModifiers extends BaseComponentModifiers {}
-
-/**
- * Accessibility bindings of the tabs component.
- */
-export interface TabsA11y extends BaseComponentA11y {}
+export interface TabsBindings extends BaseComponentBindings {}
 
 /**
  * Augmentable public API surface for tabs-based components.

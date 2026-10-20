@@ -31,18 +31,18 @@ const props = withDefaults(
 const events = defineEvents<VfFieldEmits<TTranslate, TLanguages, TNullValue>>()
 const slots = defineSlots<VfFieldSlots<TTranslate, TLanguages, TNullValue>>()
 
-const { api, context, expose, outlets, useClasses, useA11y } = useBlueprint(
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
   blueprint,
   props,
   events,
   slots
 )
 
-useClasses(() => ({
+useClasses({
   root: 'vf-field',
-}))
+})
 
-useA11y(inputAria())
+useBindings(inputAria(api))
 
 const { viewLoaded } = api
 

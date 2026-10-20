@@ -78,7 +78,8 @@ describe('template augmentation (VfText)', () => {
     >().toEqualTypeOf<string>()
   })
 
-  test("parts: typed on the context's parts bag and on the `parts` prop", () => {
+  test("parts: typed on the context's bindings/parts resolvers and on the `parts` prop", () => {
+    expectTypeOf<TextContext['bindings']>().toHaveProperty('extIcon')
     expectTypeOf<TextContext['parts']>().toHaveProperty('extIcon')
     expectTypeOf<NonNullable<VfTextProps['parts']>>().toHaveProperty('extIcon')
   })

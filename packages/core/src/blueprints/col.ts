@@ -10,8 +10,7 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
-  BaseComponentA11y,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   AlignProp,
   ValignProp,
   LooseRequired,
@@ -79,14 +78,10 @@ export interface ColParts extends BaseComponentParts {}
 export interface ColClasses extends BaseComponentClasses {}
 
 /**
- * Styling modifiers of the col component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the col blueprint.
  */
-export interface ColModifiers extends BaseComponentModifiers {}
-
-/**
- * Accessibility bindings of the col component.
- */
-export interface ColA11y extends BaseComponentA11y {}
+export interface ColBindings extends BaseComponentBindings {}
 
 /**
  * Augmentable public API surface for col-based components.

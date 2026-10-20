@@ -1,11 +1,10 @@
-import type { TAriaA11y } from '#src/a11y'
+import type { LayoutRegionBindings, TInputAriaBag } from '#src/a11y'
 import {
-  type TextA11y,
   type TextApi,
   type TextClasses,
   type TextEmits,
   type TextExpose,
-  type TextModifiers,
+  type TextBindings,
   type TextParts,
   type TextProps,
   type TextSlots,
@@ -112,15 +111,12 @@ export interface VfTextClasses
 }
 
 /**
- * Accessibility bindings of the VfText component, produced by the `tInputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfText component: its own state
+ * markers merged with the `tInputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfTextA11y extends TextA11y, TAriaA11y {}
-
-/**
- * Styling modifiers of the VfText component.
- */
-export interface VfTextModifiers extends TextModifiers {
+export interface VfTextBindings extends TextBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -130,11 +126,12 @@ export interface VfTextModifiers extends TextModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state, including the active
+   * editing language for translatable inputs.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & TInputAriaBag
 }
 
 /**
@@ -162,8 +159,7 @@ export interface VfTextContext<
   VfTextSlots,
   VfTextParts,
   VfTextClasses,
-  VfTextModifiers,
-  VfTextA11y,
+  VfTextBindings,
   VfTextExpose,
   TextApi<TProps>
 > {}

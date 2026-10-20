@@ -1,13 +1,12 @@
 import type { VNode } from 'vue'
 
-import type { InputAriaA11y } from '#src/a11y'
+import type { InputAriaBag, LayoutRegionBindings } from '#src/a11y'
 import {
-  type SelectA11y,
   type SelectApi,
   type SelectClasses,
   type SelectEmits,
   type SelectExpose,
-  type SelectModifiers,
+  type SelectBindings,
   type SelectParts,
   type SelectProps,
   type SelectSlots,
@@ -193,15 +192,12 @@ export interface VfSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfSelect component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfSelect component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfSelectA11y extends SelectA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfSelect component.
- */
-export interface VfSelectModifiers extends SelectModifiers {
+export interface VfSelectBindings extends SelectBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -211,13 +207,13 @@ export interface VfSelectModifiers extends SelectModifiers {
   }
 
   /**
-   * The select control's validation state and placeholder marker, set while
-   * the value is empty and a placeholder is shown.
+   * The select control's validation state, placeholder marker (set while the
+   * value is empty and a placeholder is shown), and ARIA state.
    */
   input: {
     'data-invalid'?: ''
     'data-placeholder'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -248,8 +244,7 @@ export interface VfSelectContext<
   VfSelectSlots,
   VfSelectParts,
   VfSelectClasses,
-  VfSelectModifiers,
-  VfSelectA11y,
+  VfSelectBindings,
   VfSelectExpose,
   SelectApi<TProps>
 > {}

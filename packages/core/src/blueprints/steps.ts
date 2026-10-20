@@ -7,8 +7,7 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
-  BaseComponentA11y,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   LooseRequired,
 } from '#src/types'
 
@@ -52,14 +51,10 @@ export interface StepsParts extends BaseComponentParts {}
 export interface StepsClasses extends BaseComponentClasses {}
 
 /**
- * Styling modifiers of the steps component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the steps blueprint.
  */
-export interface StepsModifiers extends BaseComponentModifiers {}
-
-/**
- * Accessibility bindings of the steps component.
- */
-export interface StepsA11y extends BaseComponentA11y {}
+export interface StepsBindings extends BaseComponentBindings {}
 
 /**
  * Augmentable public API surface for steps-based components.

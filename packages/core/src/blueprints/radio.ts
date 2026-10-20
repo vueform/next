@@ -18,8 +18,7 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type AddonableProps,
   type LayoutProps,
@@ -127,14 +126,10 @@ export interface RadioParts extends BaseFieldElementParts {}
 export interface RadioClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the radio element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the radio blueprint.
  */
-export interface RadioModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the radio element blueprint.
- */
-export interface RadioA11y extends BaseElementA11y {}
+export interface RadioBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for radio-based components.

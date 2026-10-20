@@ -25,33 +25,33 @@ const {
   outlets,
   propRefs,
   bindings,
+  classes,
   useClasses,
-  useModifiers,
-  useA11y,
+  useBindings,
 } = useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+useClasses({
   root: 'vf-file',
   input: 'sr-only',
   list: 'vf-file-list',
-  item: () => 'vf-file-item',
-  name: () => 'vf-file-name',
-  remove: () => 'vf-file-remove',
-}))
-
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
+  item: 'vf-file-item',
+  name: 'vf-file-name',
+  remove: 'vf-file-remove',
+})
 
 const { t } = useLocale()
 
-useA11y(inputAria(), () => ({
-  remove: (_file: FileListItem, index: number) => ({
-    'aria-label': t('sr_file_remove', { index: index + 1 }),
-  }),
-}))
+useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
+    remove: (_file: FileListItem, index: number) => ({
+      'aria-label': t('sr_file_remove', { index: index + 1 }),
+    }),
+  },
+  inputAria(api)
+)
 
 const { accept, multiple, capture, add } = propRefs
 
@@ -80,7 +80,7 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div v-if="hasFiles" v-bind="bindings.list">
+      <div v-if="hasFiles" :class="classes.list" v-bind="bindings.list()">
         <template v-for="(file, index) in fileList" :key="index">
           <slot
             name="file"
@@ -107,7 +107,11 @@ defineExpose(expose)
               :bindings="bindings.item(file, index)"
               :remove="handleRemove"
             />
-            <div v-else v-bind="bindings.item(file, index)">
+            <div
+              v-else
+              :class="classes.item"
+              v-bind="bindings.item(file, index)"
+            >
               <template v-if="file.removable">
                 <slot
                   name="remove"
@@ -130,6 +134,7 @@ defineExpose(expose)
                     :icon="removeIcon"
                     :disabled
                     :layout="false"
+                    :class="classes.remove"
                     v-bind="bindings.remove(file, index)"
                     @click="handleRemove(index)"
                   />
@@ -157,11 +162,16 @@ defineExpose(expose)
                   :href="file.url"
                   target="_blank"
                   rel="noopener noreferrer"
+                  :class="classes.name"
                   v-bind="bindings.name(file, index)"
                 >
                   {{ file.name }}
                 </a>
-                <span v-else v-bind="bindings.name(file, index)">
+                <span
+                  v-else
+                  :class="classes.name"
+                  v-bind="bindings.name(file, index)"
+                >
                   {{ file.name }}
                 </span>
               </slot>
@@ -174,7 +184,7 @@ defineExpose(expose)
           name="add"
           :disabled
           :text
-          :bindings="bindings.add"
+          :bindings="bindings.add()"
           :trigger-file-input
         >
           <component
@@ -182,7 +192,7 @@ defineExpose(expose)
             :is="outlets.add"
             :disabled
             :text
-            :bindings="bindings.add"
+            :bindings="bindings.add()"
             :trigger-file-input
           />
           <VfButton
@@ -192,7 +202,7 @@ defineExpose(expose)
             :icon="addIcon"
             :disabled
             @click="triggerFileInput"
-            v-bind="bindings.add"
+            v-bind="bindings.add()"
           />
         </slot>
         <input
@@ -202,7 +212,8 @@ defineExpose(expose)
           :multiple
           :accept
           :capture
-          v-bind="bindings.input"
+          :class="classes.input"
+          v-bind="bindings.input()"
           :ref="(el) => (inputRef = el)"
           @blur="handleBlur"
           @focus="handleFocus"

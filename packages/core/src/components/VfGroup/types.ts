@@ -1,12 +1,11 @@
 import type { VNode } from 'vue'
 
 import {
-  type GroupA11y,
   type GroupApi,
+  type GroupBindings,
   type GroupClasses,
   type GroupEmits,
   type GroupExpose,
-  type GroupModifiers,
   type GroupParts,
   type GroupProps,
   type GroupSlots,
@@ -87,15 +86,10 @@ export interface VfGroupSlots extends GroupSlots<VfGroupContext> {
     label?: string
 
     /**
-     * The wrapper element's resolved bindings (classes, part overrides,
-     * stacked / wrapped modifiers); apply with `v-bind`.
+     * The wrapper element's resolved bindings (part overrides and stacked /
+     * wrapped markers); apply with `v-bind`.
      */
-    bindings: PartBindings<
-      'wrapper',
-      VfGroupParts,
-      VfGroupModifiers,
-      VfGroupA11y
-    >
+    bindings: PartBindings<'wrapper', VfGroupParts, VfGroupBindings>
   }) => VNode[]
 
   /**
@@ -133,14 +127,11 @@ export interface VfGroupClasses extends GroupClasses {
 }
 
 /**
- * Accessibility bindings of the VfGroup component.
+ * Part-keyed binding definitions of the VfGroup component. Zero-argument
+ * resolver entries — resolved at each part's consuming site, keys stay
+ * static.
  */
-export interface VfGroupA11y extends GroupA11y {}
-
-/**
- * Styling modifiers of the VfGroup component.
- */
-export interface VfGroupModifiers extends GroupModifiers {
+export interface VfGroupBindings extends GroupBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text, and the wrap marker applying the wrapped visual
@@ -186,8 +177,7 @@ export interface VfGroupContext<
   VfGroupSlots,
   VfGroupParts,
   VfGroupClasses,
-  VfGroupModifiers,
-  VfGroupA11y,
+  VfGroupBindings,
   VfGroupExpose,
   GroupApi<TProps>
 > {}

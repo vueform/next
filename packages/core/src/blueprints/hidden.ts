@@ -11,8 +11,7 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type ValidationProps,
   type ModelEmits,
@@ -69,14 +68,10 @@ export interface HiddenParts extends BaseFieldElementParts {}
 export interface HiddenClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the hidden element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the hidden blueprint.
  */
-export interface HiddenModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the hidden element blueprint.
- */
-export interface HiddenA11y extends BaseElementA11y {}
+export interface HiddenBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for hidden-based components.

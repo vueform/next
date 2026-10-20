@@ -19,8 +19,7 @@ import {
   type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type TabbedEmits,
   type TabbedProps,
@@ -104,14 +103,10 @@ export interface GroupParts extends BaseContainerElementParts {}
 export interface GroupClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the group element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the group blueprint.
  */
-export interface GroupModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the group element blueprint.
- */
-export interface GroupA11y extends BaseElementA11y {}
+export interface GroupBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for group-based components.

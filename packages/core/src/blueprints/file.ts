@@ -23,8 +23,7 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type MultipleProps,
   type LayoutProps,
@@ -149,14 +148,10 @@ export interface FileParts extends BaseFieldElementParts {}
 export interface FileClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the file element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the file blueprint.
  */
-export interface FileModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the file element blueprint.
- */
-export interface FileA11y extends BaseElementA11y {}
+export interface FileBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for file-based components.

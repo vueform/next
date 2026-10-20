@@ -1,18 +1,16 @@
 import type { Ref, VNode } from 'vue'
 
 import type {
-  GridA11y,
   GridApi,
+  GridBindings,
   GridClasses,
   GridEmits,
   GridExpose,
-  GridModifiers,
   GridParts,
   GridProps,
   GridSlots,
   GridCell,
 } from '#src/blueprints/grid'
-import type { BindingsOf } from '#src/composables'
 import type { ObjectModel } from '#src/features'
 import type {
   DefineElementContext,
@@ -27,13 +25,6 @@ import type {
   SchemaToModel,
   WidenProps,
 } from '#src/types'
-
-type VfGridBindings = BindingsOf<
-  VfGridParts,
-  VfGridClasses,
-  VfGridModifiers,
-  VfGridA11y
->
 
 /**
  * Resolves the `grid` schema from a registry `TEntry` payload (unwrapping a
@@ -197,14 +188,12 @@ export interface VfGridClasses extends GridClasses {
 }
 
 /**
- * Accessibility bindings of the VfGrid component.
+ * Part-keyed binding definitions of the VfGrid component. The wrapper / grid
+ * entries are zero-argument resolvers — resolved at each part's consuming
+ * site, keys stay static — while the per-cell entry is parameterized, so the
+ * `cell` key is functional.
  */
-export interface VfGridA11y extends GridA11y {}
-
-/**
- * Styling modifiers of the VfGrid component.
- */
-export interface VfGridModifiers extends GridModifiers {
+export interface VfGridBindings extends GridBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -270,8 +259,7 @@ export interface VfGridContext<
   VfGridSlots,
   VfGridParts,
   VfGridClasses,
-  VfGridModifiers,
-  VfGridA11y,
+  VfGridBindings,
   VfGridExpose,
   GridApi<TProps>
 > {}

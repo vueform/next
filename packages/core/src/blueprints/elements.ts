@@ -6,8 +6,7 @@ import type {
   BaseComponentSlots,
   BaseComponentExpose,
   BaseComponentClasses,
-  BaseComponentA11y,
-  BaseComponentModifiers,
+  BaseComponentBindings,
   LooseRequired,
 } from '#src/types'
 
@@ -46,14 +45,10 @@ export interface ElementsParts extends BaseComponentParts {}
 export interface ElementsClasses extends BaseComponentClasses {}
 
 /**
- * Styling modifiers of the elements component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the elements blueprint.
  */
-export interface ElementsModifiers extends BaseComponentModifiers {}
-
-/**
- * Accessibility bindings of the elements component.
- */
-export interface ElementsA11y extends BaseComponentA11y {}
+export interface ElementsBindings extends BaseComponentBindings {}
 
 /**
  * Augmentable public API surface for elements-based components.

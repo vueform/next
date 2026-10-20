@@ -1,12 +1,11 @@
 import type { VNode } from 'vue'
 
 import {
-  type ColA11y,
   type ColApi,
   type ColClasses,
   type ColEmits,
   type ColExpose,
-  type ColModifiers,
+  type ColBindings,
   type ColParts,
   type ColProps,
   type ColSlots,
@@ -78,14 +77,11 @@ export interface VfColClasses extends ColClasses {
 }
 
 /**
- * Accessibility bindings of the VfCol component.
+ * Part-keyed binding definitions of the VfCol component, registered via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfColA11y extends ColA11y {}
-
-/**
- * Styling modifiers of the VfCol component.
- */
-export interface VfColModifiers extends ColModifiers {
+export interface VfColBindings extends ColBindings {
   /**
    * The root column element's horizontal and vertical alignment attributes.
    */
@@ -120,8 +116,7 @@ export interface VfColContext extends DefineElementContext<
   VfColSlots,
   VfColParts,
   VfColClasses,
-  VfColModifiers,
-  VfColA11y,
+  VfColBindings,
   VfColExpose,
   ColApi
 > {}

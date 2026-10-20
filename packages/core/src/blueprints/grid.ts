@@ -22,8 +22,7 @@ import {
   type BaseContainerElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type ContainerProps,
   type ValidationProps,
@@ -168,14 +167,10 @@ export interface GridParts extends BaseContainerElementParts {}
 export interface GridClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the grid element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the grid blueprint.
  */
-export interface GridModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the grid element blueprint.
- */
-export interface GridA11y extends BaseElementA11y {}
+export interface GridBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for grid-based components.

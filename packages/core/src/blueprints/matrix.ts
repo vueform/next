@@ -30,10 +30,9 @@ import {
   type BaseElementEmits,
   type BaseElementProps,
   type BaseContainerElementParts,
-  type BaseElementA11y,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type ValidationProps,
   type ContainerProps,
@@ -469,14 +468,10 @@ export interface MatrixParts extends BaseContainerElementParts {}
 export interface MatrixClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the matrix element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the matrix blueprint.
  */
-export interface MatrixModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the matrix element.
- */
-export interface MatrixA11y extends BaseElementA11y {}
+export interface MatrixBindings extends BaseElementBindings {}
 
 /**
  * Schema definition for a matrix cell element, requiring a type property.

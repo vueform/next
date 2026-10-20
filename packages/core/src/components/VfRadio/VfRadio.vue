@@ -27,9 +27,9 @@ const {
   outlets,
   propRefs,
   bindings,
+  classes,
   useClasses,
-  useModifiers,
-  useA11y,
+  useBindings,
 } = useBlueprint(blueprint, props, events, slots)
 
 const radioValue = propRefs.radioValue as Ref<TRadioValue>
@@ -50,27 +50,28 @@ const {
   handleModelUpdate,
 } = api
 
-useClasses(() => ({
+useClasses({
   root: 'vf-radio',
   wrapper: 'vf-choice-wrapper',
   input: 'vf-choice-input',
   text: 'vf-choice-text',
-}))
+})
 
-useModifiers(({ props, hasError, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    wrapper: () => ({
+      'data-align': api.props.align || undefined,
+      'data-aligned': api.props.aligned ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  wrapper: {
-    'data-align': props.align || undefined,
-    'data-aligned': props.aligned ? '' : undefined,
-  },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 defineExpose(expose)
 </script>
@@ -87,7 +88,7 @@ defineExpose(expose)
         :disabled
         :input-ref="inputRef"
         :text
-        :bindings="bindings.wrapper"
+        :bindings="bindings.wrapper()"
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -102,12 +103,12 @@ defineExpose(expose)
           :disabled
           :input-ref="inputRef"
           :text
-          :bindings="bindings.wrapper"
+          :bindings="bindings.wrapper()"
           :handle-blur
           :handle-focus
           :handle-model-update
         />
-        <div v-else v-bind="bindings.wrapper">
+        <div v-else :class="classes.wrapper" v-bind="bindings.wrapper()">
           <input
             type="radio"
             v-model="value"
@@ -115,24 +116,29 @@ defineExpose(expose)
             :value="radioValue"
             :id
             :disabled
-            v-bind="bindings.input"
+            :class="classes.input"
+            v-bind="bindings.input()"
             :ref="(el) => (inputRef = el)"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
           />
-          <slot name="text" :text :id :generic-name :bindings="bindings.text">
+          <slot name="text" :text :id :generic-name :bindings="bindings.text()">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :bindings="bindings.text"
+              :bindings="bindings.text()"
             />
-            <label v-else-if="text" :for="id" v-bind="bindings.text">{{
-              text
-            }}</label>
+            <label
+              v-else-if="text"
+              :for="id"
+              :class="classes.text"
+              v-bind="bindings.text()"
+              >{{ text }}</label
+            >
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>
           </slot>
         </div>

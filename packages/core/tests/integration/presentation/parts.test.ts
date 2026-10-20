@@ -3,7 +3,7 @@ import { nextTick } from 'vue'
 
 import { createForm, makeApp, mountApp } from '../../helpers'
 
-describe('useParts', () => {
+describe('part overrides', () => {
   // ==========================================================================
   // Group 1: Static object part (returned as-is, identity-equal)
   // ==========================================================================
@@ -23,7 +23,7 @@ describe('useParts', () => {
       expect(input.attributes('data-foo')).toBe('bar')
     })
 
-    it('should expose static values as spreadable AND callable parts', () => {
+    it('should resolve overrides through the bindings aggregate, not a context member', () => {
       const inputPart = { 'data-foo': 'bar' }
 
       const { text } = createForm({
@@ -32,10 +32,13 @@ describe('useParts', () => {
         }),
       })
 
-      // Object parts share the function parts' dual surface, so per-item call
-      // sites (`parts.x?.(item, index)`) work regardless of the user's form.
-      expect({ ...text.parts.input }).toStrictEqual(inputPart)
-      expect(text.parts.input('anything', 0)).toStrictEqual(inputPart)
+      // Part overrides are an input channel, not a bag: they render through
+      // the part's bindings resolver — the override merged on top of the
+      // registered definitions, regardless of the user's form (object or
+      // function) — while `context.parts.x()` answers what the user overrode.
+      expect(text.bindings.input()).toMatchObject(inputPart)
+      expect(text.parts.input()).toStrictEqual(inputPart)
+      expect(text.parts.label()).toBeUndefined()
     })
   })
 
@@ -260,8 +263,8 @@ describe('useParts', () => {
   // ==========================================================================
   // Group 6: Iteration — Object.keys / for...in / has
   // ==========================================================================
-  describe('iteration (ownKeys / has traps)', () => {
-    it('should expose all keys via Object.keys', () => {
+  describe('iteration (ownKeys trap on the bindings aggregate)', () => {
+    it('should enumerate overridden part keys via Object.keys', () => {
       const { text } = createForm({
         schema: defineSchema({
           text: {
@@ -274,26 +277,13 @@ describe('useParts', () => {
         }),
       })
 
-      const keys = Object.keys(text.parts)
+      const keys = Object.keys(text.bindings)
       expect(keys).toContain('input')
       expect(keys).toContain('label')
+      expect(keys).not.toContain('unknown')
     })
 
-    it('should support "in" operator', () => {
-      const { text } = createForm({
-        schema: defineSchema({
-          text: {
-            type: 'text',
-            parts: { input: { 'data-a': '1' } },
-          },
-        }),
-      })
-
-      expect('input' in text.parts).toBe(true)
-      expect('unknown' in text.parts).toBe(false)
-    })
-
-    it('should support spreading', () => {
+    it('should support spreading into per-key resolvers', () => {
       const inputPart = { 'data-a': '1' }
 
       const { text } = createForm({
@@ -305,8 +295,8 @@ describe('useParts', () => {
         }),
       })
 
-      const spread = { ...text.parts }
-      expect({ ...spread.input }).toStrictEqual(inputPart)
+      const spread = { ...text.bindings }
+      expect(spread.input()).toMatchObject(inputPart)
     })
   })
 
@@ -548,7 +538,7 @@ describe('useParts', () => {
         } as any
       )
 
-      expect(Object.keys(text.parts)).toContain('input')
+      expect(Object.keys(text.bindings)).toContain('input')
     })
   })
 })

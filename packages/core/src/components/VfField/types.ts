@@ -1,13 +1,12 @@
 import type { VNode } from 'vue'
 
-import type { InputAriaA11y } from '#src/a11y'
+import type { InputAriaBag, LayoutRegionBindings } from '#src/a11y'
 import {
-  type FieldA11y,
   type FieldApi,
   type FieldClasses,
   type FieldEmits,
   type FieldExpose,
-  type FieldModifiers,
+  type FieldBindings,
   type FieldParts,
   type FieldProps,
   type FieldSlots,
@@ -152,22 +151,15 @@ export interface VfFieldClasses
   extends FieldClasses, AddonGroupClasses, IconsClasses {}
 
 /**
- * Accessibility bindings of the VfField component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfField component: the `inputAria`
+ * pattern entries it registers via `useBindings`. Zero-argument resolver
+ * entries — resolved at each part's consuming site, keys stay static.
  */
-export interface VfFieldA11y extends FieldA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfField component.
- */
-export interface VfFieldModifiers extends FieldModifiers {
+export interface VfFieldBindings extends FieldBindings, LayoutRegionBindings {
   /**
-   * The root element's label-alignment marker, set while the element renders
-   * without help text.
+   * ARIA state for the input control, from the `inputAria` pattern.
    */
-  root: {
-    'data-align-label'?: ''
-  }
+  input: InputAriaBag
 }
 
 /**
@@ -195,8 +187,7 @@ export interface VfFieldContext<
   VfFieldSlots,
   VfFieldParts,
   VfFieldClasses,
-  VfFieldModifiers,
-  VfFieldA11y,
+  VfFieldBindings,
   VfFieldExpose,
   FieldApi<TProps>
 > {}

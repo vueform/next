@@ -14,8 +14,7 @@ import {
   type BaseElementParts,
   type BaseElementSlots,
   type BaseElementClasses,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
 } from '#src/features'
 import { defineDefaults, type DefineEvents } from '#src/helpers'
 import type {
@@ -95,14 +94,10 @@ export interface LayoutParts extends BaseElementParts {}
 export interface LayoutClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the element layout component.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the layout blueprint.
  */
-export interface LayoutModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the element layout component.
- */
-export interface LayoutA11y extends BaseElementA11y {}
+export interface LayoutBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for element-layout-based components.
@@ -350,12 +345,6 @@ export function blueprint<TProps extends LayoutProps>(
   return {
     el$,
 
-    /**
-     * Blueprint-provided parts: VfLayout has no structural parts of its own, it
-     * forwards the parent element's resolved parts so the layout renders with
-     * that element's part overrides.
-     */
-    parts: el$.parts,
     outlets,
     tokens,
     tokenClass,

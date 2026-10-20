@@ -170,7 +170,9 @@ describe('Label', () => {
       })
 
       const label = form.find('.custom-label')
-      expect(label.classes()).toContain('vf-label')
+      // Binding bags carry no classes — a slot replacement styles itself (or
+      // reads `context.classes`).
+      expect(label.classes()).not.toContain('vf-label')
     })
   })
 
@@ -218,7 +220,8 @@ describe('Label', () => {
       const input = app.find('input')
       expect(label.attributes('for')).toBe(input.attributes('id'))
       expect(label.attributes('id')).toBeTruthy()
-      expect(label.classes()).toContain('vf-label')
+      // Binding bags carry no classes (see above).
+      expect(label.classes()).not.toContain('vf-label')
     })
   })
 })

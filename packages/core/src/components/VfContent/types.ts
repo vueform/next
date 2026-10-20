@@ -1,12 +1,11 @@
 import type { VNode } from 'vue'
 
 import {
-  type ContentA11y,
   type ContentApi,
   type ContentClasses,
   type ContentEmits,
   type ContentExpose,
-  type ContentModifiers,
+  type ContentBindings,
   type ContentParts,
   type ContentProps,
   type ContentSlots,
@@ -60,14 +59,11 @@ export interface VfContentParts extends ContentParts {}
 export interface VfContentClasses extends ContentClasses {}
 
 /**
- * Accessibility bindings of the VfContent component.
+ * Part-keyed binding definitions of the VfContent component, registered via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfContentA11y extends ContentA11y {}
-
-/**
- * Styling modifiers of the VfContent component.
- */
-export interface VfContentModifiers extends ContentModifiers {
+export interface VfContentBindings extends ContentBindings {
   /**
    * The root element's label-alignment marker, horizontal text alignment, and
    * the marker set while the content vertically aligns with adjacent form
@@ -101,8 +97,7 @@ export interface VfContentContext extends DefineElementContext<
   VfContentSlots,
   VfContentParts,
   VfContentClasses,
-  VfContentModifiers,
-  VfContentA11y,
+  VfContentBindings,
   VfContentExpose,
   ContentApi
 > {}

@@ -23,8 +23,7 @@ import {
   type BaseFieldElementParts,
   type BaseElementClasses,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseElementSlots,
   type ExpressionProps,
   type TranslateProps,
@@ -211,14 +210,10 @@ export interface FieldParts extends BaseFieldElementParts {}
 export interface FieldClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the field element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the field blueprint.
  */
-export interface FieldModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the field element blueprint.
- */
-export interface FieldA11y extends BaseElementA11y {}
+export interface FieldBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for field-based components.

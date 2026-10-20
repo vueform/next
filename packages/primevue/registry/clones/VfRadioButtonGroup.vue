@@ -489,11 +489,17 @@ useModifiers(({ props, invalid, help }) => ({
   root: {
     'data-align-label': !help.value ? '' : undefined,
   },
-  wrapper: {
+  // Functional on purpose: the bag reads aggregate validation state, which
+  // must resolve in the wrapper's own render effect — never inside the merged
+  // modifiers computed. Children's vapor dynamic prop sources subscribe to
+  // that computed, so an eager `invalid` read closes a reactive cycle
+  // (invalid -> children's validation -> child props -> this component's
+  // bindings) that Vue 3.6's dirty-check walk cannot terminate on.
+  wrapper: () => ({
     'data-stacked': props.stacked ? '' : undefined,
     'data-aligned': props.aligned ? '' : undefined,
     'data-invalid': invalid.value ? '' : undefined,
-  },
+  }),
 }))
 
 useA11y(choicesAria({ role: 'radiogroup' }))
@@ -558,7 +564,7 @@ declare module 'vue' {
       <div
         @focusin="handleFocus"
         @focusout="handleBlur"
-        v-bind="bindings.wrapper"
+        v-bind="bindings.wrapper()"
       >
         <slot :items :groups :grouped :disabled :label :radio-name="path">
           <component

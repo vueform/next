@@ -224,7 +224,7 @@ describe('the context as a Vue reactive proxy', () => {
     warn.mockRestore()
   })
 
-  it('should hand out props, classes, and parts as-is (not re-wrapped)', async () => {
+  it('should hand out props, classes, and bindings as-is (not re-wrapped)', async () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { form } = await mountText()
     const context = form.findComponent(Tpl).props('context') as any
@@ -233,6 +233,7 @@ describe('the context as a Vue reactive proxy', () => {
     expect(context.props === raw.props).toBe(true)
     expect(context.classes === raw.classes).toBe(true)
     expect(context.parts === raw.parts).toBe(true)
+    expect(context.bindings === raw.bindings).toBe(true)
 
     // `context.props` answers Vue's raw probe, so `toRefs` destructures it
     // without the dev warning, live per key.

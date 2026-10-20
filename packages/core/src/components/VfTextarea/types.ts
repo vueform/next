@@ -1,11 +1,10 @@
-import type { TAriaA11y } from '#src/a11y'
+import type { LayoutRegionBindings, TInputAriaBag } from '#src/a11y'
 import {
-  type TextareaA11y,
   type TextareaApi,
   type TextareaClasses,
   type TextareaEmits,
   type TextareaExpose,
-  type TextareaModifiers,
+  type TextareaBindings,
   type TextareaParts,
   type TextareaProps,
   type TextareaSlots,
@@ -121,31 +120,23 @@ export interface VfTextareaClasses
 }
 
 /**
- * Accessibility bindings of the VfTextarea component, produced by the `tInputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfTextarea component: its own state
+ * markers merged with the `tInputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfTextareaA11y extends TextareaA11y, TAriaA11y {}
-
-/**
- * Styling modifiers of the VfTextarea component.
- */
-export interface VfTextareaModifiers extends TextareaModifiers {
+export interface VfTextareaBindings
+  extends TextareaBindings, LayoutRegionBindings {
   /**
-   * The root element's label-alignment marker, set while the element renders
-   * without help text.
-   */
-  root: {
-    'data-align-label'?: ''
-  }
-
-  /**
-   * The textarea control's validation state and sizing behavior markers.
+   * The textarea control's validation and sizing behavior markers plus its
+   * ARIA state, including the active editing language for translatable
+   * inputs.
    */
   input: {
     'data-invalid'?: ''
     'data-resizable'?: ''
     'data-autogrow'?: ''
-  }
+  } & TInputAriaBag
 }
 
 /**
@@ -173,8 +164,7 @@ export interface VfTextareaContext<
   VfTextareaSlots,
   VfTextareaParts,
   VfTextareaClasses,
-  VfTextareaModifiers,
-  VfTextareaA11y,
+  VfTextareaBindings,
   VfTextareaExpose,
   TextareaApi<TProps>
 > {}

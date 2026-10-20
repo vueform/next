@@ -1,12 +1,11 @@
 import type { VNode } from 'vue'
 
 import {
-  type StepsA11y,
   type StepsApi,
+  type StepsBindings,
   type StepsClasses,
   type StepsEmits,
   type StepsExpose,
-  type StepsModifiers,
   type StepsParts,
   type StepsProps,
   type StepsSlots,
@@ -148,10 +147,10 @@ export interface VfStepsSlots extends StepsSlots<VfStepsContext> {
     el$: UnknownElement
 
     /**
-     * The step button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The step button's resolved bindings (part overrides, state attributes);
+     * apply with `v-bind`.
      */
-    bindings: PartBindings<'step', VfStepsParts, VfStepsModifiers, VfStepsA11y>
+    bindings: PartBindings<'step', VfStepsParts, VfStepsBindings>
   }) => VNode[]
 }
 
@@ -216,14 +215,11 @@ export interface VfStepsClasses extends StepsClasses {
 }
 
 /**
- * Accessibility bindings of the VfSteps component.
+ * Part-keyed binding definitions of the VfSteps component, registered via
+ * `useBindings`. The `wrapper` entry is a parameterized resolver, so the key
+ * is functional — the template calls `bindings.wrapper(page)`.
  */
-export interface VfStepsA11y extends StepsA11y {}
-
-/**
- * Styling modifiers of the VfSteps component.
- */
-export interface VfStepsModifiers extends StepsModifiers {
+export interface VfStepsBindings extends StepsBindings {
   /**
    * Each step wrapper's selection, navigation, completion, validity, and
    * loading state.
@@ -260,8 +256,7 @@ export interface VfStepsContext extends DefineElementContext<
   VfStepsSlots,
   VfStepsParts,
   VfStepsClasses,
-  VfStepsModifiers,
-  VfStepsA11y,
+  VfStepsBindings,
   VfStepsExpose,
   StepsApi
 > {}

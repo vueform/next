@@ -1,10 +1,6 @@
 import type { VNode } from 'vue'
 
-import type {
-  BlueprintContext,
-  DefaultContextA11y,
-  DefaultContextModifiers,
-} from '#src/composables'
+import type { BlueprintContext, DefaultContextBindings } from '#src/composables'
 import type { DefineEvents } from '#src/helpers'
 
 import type { ClassValue } from './classes'
@@ -41,8 +37,7 @@ export type BaseComponentContext<
   TSlots extends Record<string, any> = Record<string, any>,
   TParts extends Record<string, any> = Record<string, any>,
   TClasses extends Record<string, any> = Record<string, any>,
-  TModifiers = DefaultContextModifiers<TApi, TSlots>,
-  TA11y = DefaultContextA11y<TApi, TSlots>,
+  TBindings = DefaultContextBindings,
 > = BlueprintContext<
   TApi,
   TProps,
@@ -50,8 +45,7 @@ export type BaseComponentContext<
   TSlots,
   TParts,
   TClasses,
-  TModifiers,
-  TA11y
+  TBindings
 >
 
 /**
@@ -164,8 +158,7 @@ export interface BaseComponentSlots<TContext = LooseContext> {
 
 export interface BaseComponentParts {}
 export interface BaseComponentClasses {}
-export interface BaseComponentModifiers {}
-export interface BaseComponentA11y {}
+export interface BaseComponentBindings {}
 export interface BaseComponentExpose {}
 
 /**
@@ -181,8 +174,7 @@ export type BaseElementContext<
   TSlots extends Record<string, any> = Record<string, any>,
   TParts extends Record<string, any> = Record<string, any>,
   TClasses extends Record<string, any> = Record<string, any>,
-  TModifiers = DefaultContextModifiers<TApi, TSlots>,
-  TA11y = DefaultContextA11y<TApi, TSlots>,
+  TBindings = DefaultContextBindings,
 > = BaseComponentContext<
   TApi,
   TProps,
@@ -190,6 +182,5 @@ export type BaseElementContext<
   TSlots,
   TParts,
   TClasses,
-  TModifiers,
-  TA11y
+  TBindings
 >

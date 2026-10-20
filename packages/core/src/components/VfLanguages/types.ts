@@ -1,15 +1,14 @@
 import type { VNode } from 'vue'
 
 import {
-  type LanguagesA11y,
   type LanguagesApi,
+  type LanguagesBindings,
   type LanguagesProps,
   type LanguagesEmits,
   type LanguagesParts,
   type LanguagesSlots,
   type LanguagesExpose,
   type LanguagesClasses,
-  type LanguagesModifiers,
 } from '#src/blueprints/languages'
 import type {
   DefineElementContext,
@@ -130,14 +129,11 @@ export interface VfLanguagesClasses extends LanguagesClasses {
 }
 
 /**
- * Accessibility bindings of the VfLanguages component.
+ * Part-keyed binding definitions of the VfLanguages component, registered via
+ * `useBindings`. The `wrapper` entry is a parameterized resolver, so the key
+ * is functional — the template calls `bindings.wrapper(selected, invalid)`.
  */
-export interface VfLanguagesA11y extends LanguagesA11y {}
-
-/**
- * Styling modifiers of the VfLanguages component.
- */
-export interface VfLanguagesModifiers extends LanguagesModifiers {
+export interface VfLanguagesBindings extends LanguagesBindings {
   /**
    * Each language wrapper's selection and validity state.
    *
@@ -174,8 +170,7 @@ export interface VfLanguagesContext extends DefineElementContext<
   VfLanguagesSlots,
   VfLanguagesParts,
   VfLanguagesClasses,
-  VfLanguagesModifiers,
-  VfLanguagesA11y,
+  VfLanguagesBindings,
   VfLanguagesExpose,
   LanguagesApi
 > {}

@@ -154,12 +154,6 @@ export type UnknownComponent = any
 
 // ================= CONTEXTS =================
 
-/**
- * Catch-all element parts when the concrete element type is unknown. Kept loose
- * for the same typecheck reason as `UnknownElement`.
- */
-export type UnknownElementParts = any
-
 export type FormContext = ContextOf<'VfForm'>
 
 /**
@@ -321,51 +315,6 @@ export type ClassShaped<T> = string extends keyof T
     }
 
 /**
- * The attribute namespaces an aspect's bags may carry: modifiers live in the
- * `data-*` namespace; a11y bags carry `aria-*` plus the blessed native
- * attributes that serve the assistive aspect.
- */
-type ModifierAttrKeys = `data-${string}`
-type A11yAttrKeys =
-  | `aria-${string}`
-  | 'role'
-  | 'id'
-  | 'lang'
-  | 'disabled'
-  | 'tabindex'
-
-/**
- * Collects the bag attribute names outside the aspect's allowed vocabulary
- * across all members of a surface.
- */
-type InvalidBagKeys<T, TAllowed extends PropertyKey> = {
-  [K in keyof T]: Exclude<keyof ResolvedSurfaceMember<T[K]>, TAllowed>
-}[keyof T]
-
-/**
- * Modifiers bag vocabulary check: every attribute of every bag must be
- * `data-*`. Encodes the aspect-split doctrine at the type level.
- */
-export type ModifierShaped<T> = string extends keyof T
-  ? unknown
-  : [InvalidBagKeys<T, ModifierAttrKeys>] extends [never]
-    ? unknown
-    : {
-        __modifierAttrsOutsideDataNamespace: InvalidBagKeys<T, ModifierAttrKeys>
-      }
-
-/**
- * A11y bag vocabulary check: every attribute of every bag must be `aria-*`,
- * `role`, `id`, `lang`, `tabindex`, or native `disabled`. Encodes the
- * aspect-split doctrine at the type level.
- */
-export type A11yShaped<T> = string extends keyof T
-  ? unknown
-  : [InvalidBagKeys<T, A11yAttrKeys>] extends [never]
-    ? unknown
-    : { __a11yAttrsOutsideAriaVocabulary: InvalidBagKeys<T, A11yAttrKeys> }
-
-/**
  * Collects the shared keys where both the part and the aspect member are
  * functional but their parameter tuples differ — the aggregate resolves every
  * aspect with ONE argument list, so functional signatures must match per part.
@@ -406,8 +355,7 @@ export type PartSymmetric<T, TParts> = string extends keyof T
  *   VfSelectSlots,
  *   VfSelectParts,
  *   VfSelectClasses,
- *   VfSelectModifiers,
- *   VfSelectA11y,
+ *   VfSelectBindings,
  *   VfSelectExpose,
  *   SelectApi<TProps>
  * > {}
@@ -447,12 +395,7 @@ export type DefineElementContext<
     PartKeyed<TClasses, TParts> &
     ClassShaped<TClasses> &
     PartSymmetric<TClasses, TParts>,
-  TModifiers extends PartKeyed<TModifiers, TParts> &
-    ModifierShaped<TModifiers> &
-    PartSymmetric<TModifiers, TParts>,
-  TA11y extends PartKeyed<TA11y, TParts> &
-    A11yShaped<TA11y> &
-    PartSymmetric<TA11y, TParts>,
+  TBindings extends PartKeyed<TBindings, TParts>,
   TExpose,
   TApi extends Record<string, any>,
 > = BaseElementContext<
@@ -462,8 +405,7 @@ export type DefineElementContext<
   ContextOutlets<TSlots>,
   TParts,
   TClasses,
-  TModifiers,
-  TA11y
+  TBindings
 >
 
 // ================== HELPERS =================
