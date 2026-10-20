@@ -40,26 +40,36 @@ interface ModelModule {
    * up front from the elements' model metadata (defaults, null values,
    * translatable expansion), without mounting any components.
    *
-   * @param schema The form schema describing the model's shape. When a
+   * @param options.schema The form schema describing the model's shape. When a
    *   ref/computed is passed (e.g. from `defineComputedSchema`), the instance
    *   follows schema changes: the index is reconciled in place, added elements
    *   seed their defaults, removed elements drop their data, and the headless
    *   engines re-wire — existing values and expression untrack state survive.
-   * @param model Initial (partial) data cloned over the schema defaults. A Vue
+   * @param options.validationSchema A Standard Schema run by `validate()`
+   *   against the whole model; overrides one attached via `defineSchema`.
+   * @param options.languages The language map used to expand translatable
+   *   values, overriding `config.languages` (element-level `languages` props
+   *   still win). Pass the same map the attaching form receives so the walk and
+   *   the mounted elements agree on the model shape.
+   * @param seed Initial (partial) data cloned over the schema defaults. A Vue
    *   ref is rejected (dev warn, seed ignored) — pass a plain or reactive
    *   object. Later mutations of the seed are ignored.
-   * @param validationSchema A Standard Schema run by `validate()` against the
-   *   whole model; overrides one attached via `defineSchema`.
    */
   make<const S extends (ObjectSchema | ArraySchema) & ExactValidatedSchema<S>>(
-    schema: S | Ref<S>,
-    model?: DeepPartial<SchemaToModel<S>> & Record<string, any>,
-    validationSchema?: StandardSchemaV1
+    options: {
+      schema: S | Ref<S>
+      validationSchema?: StandardSchemaV1
+      languages?: LanguagesProp
+    },
+    seed?: DeepPartial<SchemaToModel<S>> & Record<string, any>
   ): ModelInstance<S>
   make(
-    schema: FormSchema | Ref<FormSchema>,
-    model?: Record<string, any>,
-    validationSchema?: StandardSchemaV1
+    options: {
+      schema: FormSchema | Ref<FormSchema>
+      validationSchema?: StandardSchemaV1
+      languages?: LanguagesProp
+    },
+    seed?: Record<string, any>
   ): ModelInstance
 }
 ```

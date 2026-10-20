@@ -20,8 +20,7 @@ The arguments accepted by the composable.
 
 | Name | Description |
 | --- | --- |
-| [`schema`](!code#params.schema "FormSchema \| Ref<FormSchema>") | The form schema describing the model's shape. A ref/computed schema keeps the instance in sync with schema changes. |
+| [`options`](!code#params.options "{ schema: FormSchema \| Ref<FormSchema> validationSchema?: StandardSchemaV1 languages?: LanguagesProp }") |  |
 | [`seed?`](!code#params.seed "Record<string, any>") | Initial (partial) data cloned over the schema defaults. |
-| [`validationSchema?`](!code#params.validationSchema "StandardSchemaV1") | A Standard Schema (Zod, Valibot, ArkType, …) run by `validate()` against the whole model for form-level validation. |
 
 <!-- #endregion params -->

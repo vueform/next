@@ -12,7 +12,7 @@
  * without cloning, and `submit()` becomes available.
  *
  * ```ts
- * const model$ = createModel(config).make(schema, { name: 'John' })
+ * const model$ = createModel(config).make({ schema }, { name: 'John' })
  *
  * model$.model.name // 'John'
  * model$.set('email', 'john@example.com')
