@@ -155,8 +155,21 @@ export function useForm<
   model?: UseFormModelArg<SchemaToModel<S>>,
   vueform?: VueformInstance
 ): UseFormReturn<S>
-export function useForm(
-  formProps?: Record<string, any>,
+// The loose overload keeps dynamic / schema-less / ref-schema usage compiling
+// untouched (the `MatchesSchemaModel` check is vacuous for wide and invalid
+// schemas), but runs the same validation-schema check as the strict overload —
+// so a literal schema paired with a mismatched Standard Schema matches neither
+// overload and errors instead of silently falling back untyped. `const S` is
+// load-bearing: without it the inline schema literal widens and the check
+// degrades to its vacuous branch.
+export function useForm<
+  const S = FormSchema,
+  Z extends StandardSchemaV1 = StandardSchemaV1,
+>(
+  formProps?: {
+    schema?: S
+    validationSchema?: Z & MatchesSchemaModel<S, Z>
+  } & Record<string, any>,
   model?: UseFormModelArg<Record<string, any>>,
   vueform?: VueformInstance
 ): UseFormReturn

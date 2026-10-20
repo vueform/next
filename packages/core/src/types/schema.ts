@@ -589,6 +589,10 @@ export type Paths<T> = [FormSchema] extends [T]
  * the check is vacuous (loose schemas, untyped/union/non-object inputs) — and
  * to a readable diagnostic object otherwise, so intersecting it with the
  * Standard Schema parameter surfaces per-key errors at the call site.
+ *
+ * Ref/computed schemas (e.g. `defineComputedSchema`'s return) are unwrapped
+ * before the check — without it `SchemaToModel` would map the ref's own keys
+ * and every input would spuriously mismatch.
  */
 export type MatchesSchemaModel<S, Z extends StandardSchemaV1> =
   StandardSchemaV1.InferInput<Z> extends infer I
@@ -596,7 +600,7 @@ export type MatchesSchemaModel<S, Z extends StandardSchemaV1> =
       ? unknown
       : IsUnion<I> extends true
         ? unknown
-        : SchemaToModel<S> extends infer M
+        : SchemaToModel<S extends Ref<infer U> ? U : S> extends infer M
           ? string extends keyof M
             ? unknown
             : StripNullish<I> extends infer SI

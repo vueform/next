@@ -9,6 +9,7 @@ import {
   defineSchema,
   useForm,
   useModel,
+  type FormSchema,
   type StandardSchemaV1,
 } from '@vueform/core'
 import { describe, test } from 'vitest'
@@ -84,14 +85,61 @@ describe('defineComputedSchema — second argument type checking', () => {
 })
 
 describe('useForm — validationSchema option type checking', () => {
-  test('accepts a matching validationSchema', () => {
+  test('accepts a matching validationSchema (with extra props)', () => {
     useForm({ schema: { name: { type: 'text' } }, validationSchema: matching })
 
-    // Note: a mismatched validationSchema makes the typed overload
-    // inapplicable, so the call falls back to useForm's untyped overload
-    // without an error — the same pre-existing behavior as an invalid schema.
-    // Strict checking happens via defineSchema / defineComputedSchema /
-    // useModel.
+    useForm({
+      schema: { name: { type: 'text' } },
+      validationSchema: matching,
+      id: 'register',
+    })
+  })
+
+  test('rejects a mismatched validationSchema instead of silently falling back to the untyped overload', () => {
+    // @ts-expect-error — input key `nam` does not exist in the model
+    useForm({ schema: { name: { type: 'text' } }, validationSchema: wrongKey })
+
+    // @ts-expect-error — input type `Date` is incompatible with the text model
+    useForm({ schema: { name: { type: 'text' } }, validationSchema: wrongType })
+  })
+
+  test('ref/computed schemas are unwrapped and genuinely checked', () => {
+    const computedSchema = defineComputedSchema(() => ({
+      name: { type: 'text' },
+    }))
+
+    useForm({ schema: computedSchema, validationSchema: matching })
+
+    // @ts-expect-error — input key `nam` does not exist in the model
+    useForm({ schema: computedSchema, validationSchema: wrongKey })
+  })
+
+  test('record-map items produce literal-union models, checked like defineSchema', () => {
+    useForm({
+      schema: { country: { type: 'select', items: { us: 'US', de: 'DE' } } },
+      validationSchema: z.object({ country: z.enum(['us', 'de']) }),
+    })
+
+    useForm({
+      schema: { country: { type: 'select', items: { us: 'US', de: 'DE' } } },
+      // @ts-expect-error — `string` is wider than the 'us' | 'de' literal model
+      validationSchema: z.object({ country: z.string() }),
+    })
+  })
+
+  test('array items widen to primitive models, so backend-typical inputs fit', () => {
+    useForm({
+      schema: { country: { type: 'select', items: ['us', 'de'] } },
+      validationSchema: z.object({ country: z.string() }),
+    })
+  })
+
+  test('dynamic and schema-less usage stays loose (vacuous check)', () => {
+    useForm()
+    useForm({})
+
+    const dynamicSchema = {} as FormSchema
+    useForm({ schema: dynamicSchema, validationSchema: wrongKey })
   })
 })
 
