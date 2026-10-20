@@ -2,6 +2,13 @@
 outline: [2,3]
 ---
 
+<script setup lang="ts">
+const rules = {
+  rules: ['required', 'numeric', 'min:10'],
+  $if: [['type', '==', 'premium']],
+}
+</script>
+
 # Validation
 
 Vueform ships its own dependency-free validation system — 50+ built-in rules, custom rules, async checks, conditional activation, localized messages. It is also fully [Standard Schema](https://standardschema.dev) compatible — Zod, Valibot, or ArkType schemas plug straight in, and a form's rules export back out, so frontend and backend can share one validation definition.
@@ -508,3 +515,355 @@ declare module '@vueform/core' {
   }
 }
 ```
+
+## Async Rules and Debouncing
+
+A rule becomes asynchronous by making its check `async` — nothing else about the definition changes:
+
+```ts
+import { createRule } from '@vueform/ui'
+
+const usernameAvailable = createRule('username_available', async (value) => {
+  const response = await fetch(`/api/check-username?name=${value}`)
+  const { available } = await response.json()
+  return available || 'This username is taken.'
+})
+```
+
+An async Standard Schema used as element rules — a Zod `refine` with an async function, for instance — behaves exactly the same way.
+
+### In-flight State
+
+While an async check is underway, the element reports it:
+
+```ts
+el$.pending     // true while an async rule is running
+el$.debouncing  // true while a debounce timer is counting down
+el$.busy        // either of the above
+```
+
+These flags **roll up** — containers aggregate their children's state, and `form$.busy` is `true` while any element is waiting. A busy form doesn't submit; the request waits for the outcome instead of racing it.
+
+::: info
+If the element's value changes while an async rule is still running, that run is **discarded** — only the check against the latest value ever lands. Stale responses can't overwrite fresh state, no matter how out of order they arrive.
+:::
+
+### Debouncing
+
+An async rule firing on every keystroke means a request on every keystroke. A debounce delays the run until the input pauses for the given number of milliseconds, and it can be set at three levels:
+
+```vue
+<!-- on one rule, per use — only `email` is delayed, `required` runs immediately -->
+<VfText name="email" rules="required|email:debounce=500" />
+
+<!-- on the element — every one of its rules is delayed -->
+<VfText name="username" :rules="[usernameAvailable]" :debounce="500" />
+```
+
+```ts
+// on the rule definition — every use of the rule is delayed, no per-element setup
+const usernameAvailable = createRule('username_available', check, {
+  debounce: 500,
+})
+```
+
+When more than one level is set, the **most specific defined value wins**:
+
+1. The rule-level `debounce` parameter (`email:debounce=500`)
+2. The rule definition's `debounce` option
+3. The element's `debounce` prop
+4. `0` — no debounce
+
+Debouncing isn't reserved for async rules — any rule accepts it — but synchronous built-ins are instant and undebounced by default, so in practice the delay belongs to the rules that cost a round-trip.
+
+## Conditional Rules
+
+A rule can be tied to a condition — it only participates while `$if` is met. Wrap any rule in a `{ rules, $if }` object; the `$if` value uses the same syntax as element [conditions](/guide/conditions). Here `email` always runs, and `required` only activates while `subscribe` is checked:
+
+::: code-group
+
+```ts [Schema]
+defineSchema({
+  subscribe: { type: 'checkbox' },
+  email: {
+    type: 'text',
+    rules: [
+      'email',
+      {
+        rules: 'required',
+        $if: [['subscribe', '==', true]],
+      },
+    ],
+  },
+})
+```
+
+```vue [Template]
+<VfCheckbox name="subscribe" />
+<VfText
+  name="email"
+  :rules="[
+    'email',
+    {
+      rules: 'required',
+      $if: [['subscribe', '==', true]],
+    },
+  ]"
+/>
+```
+
+:::
+
+`rules` inside the wrapper accepts everything the prop itself does — a string, an array, a custom rule definition, or a Standard Schema. When the only rule is conditional, the object can be the entire `rules` value; the array is just for mixing it with always-on rules.
+
+Rules with different conditions go in separate wrappers:
+
+```ts
+defineSchema({
+  type: { type: 'text' },
+  amount: {
+    type: 'text',
+    rules: [
+      'numeric',
+      {
+        rules: 'required',
+        $if: [['type', '!=', 'free']],
+      },
+      {
+        rules: 'min:10',
+        $if: [['type', '==', 'premium']],
+      },
+    ],
+  },
+})
+```
+
+While a rule set shares one condition by passing the rules together:
+
+```ts
+defineSchema({
+  type: { type: 'text' },
+  amount: {
+    type: 'text',
+    rules: {
+      rules: ['required', 'min:10'],
+      $if: [['type', '==', 'premium']],
+    },
+  },
+})
+```
+
+The transitions are handled for you — when a condition turns **on**, the rule validates immediately, and when it turns **off**, the rule's error is cleared.
+
+## Multilingual Rules
+
+On a [translatable element](/guide/multilingual-inputs), a single rule set validates every language. To validate languages differently, key the rules by language code:
+
+```ts
+defineSchema({
+  bio: {
+    type: 'text',
+    translate: true,
+    rules: {
+      en_US: 'required|min:10',
+      fr_FR: 'required|min:5',
+    },
+  },
+})
+```
+
+Each language's entry takes the full `rules` spec — string, array, custom rule definition, Standard Schema, or a conditional `{ rules, $if }` wrapper — and each language validates **independently**, with its errors tagged by the language's label. `bail` also stops within one language's chain without affecting the others.
+
+## Error Messages
+
+Every built-in rule ships with a [localized](/guide/locales) default message that fills in the element's display name and the rule's parameters — `min:5` on a text element produces _"The Name must be at least 5 characters."_ Custom rules carry the message they were defined with. When the wording isn't right for a field or an app, override it per rule with `ruleMessages`.
+
+### Element and Form Messages
+
+The element-level `ruleMessages` prop replaces messages for that element's rules:
+
+```ts
+defineSchema({
+  email: {
+    type: 'text',
+    rules: 'required|email',
+    ruleMessages: {
+      required: 'Please enter your email.',
+      email: 'Not a valid email.',
+    },
+  },
+})
+```
+
+The same prop on the form applies to every element in it, unless an element overrides the same rule:
+
+```ts
+const [MyForm] = useForm({
+  schema,
+  ruleMessages: {
+    required: 'This field is required.',
+  },
+})
+```
+
+### Multilingual Messages
+
+Anywhere a message is accepted, a [locale-keyed object](/guide/dynamic-props#locale-map) works in place of the string — in `ruleMessages`, in `!createRule`'s `message` option, and in a check's returned string:
+
+```ts
+defineSchema({
+  email: {
+    type: 'text',
+    rules: 'required|email',
+    ruleMessages: {
+      required: {
+        en_US: 'Please enter your email.',
+        de_DE: 'Bitte E-Mail eingeben.',
+      },
+    },
+  },
+})
+```
+
+### The Resolution Order
+
+With every surface in play, a failing rule resolves its message top-down and the first one defined wins:
+
+1. The string returned by the check function
+2. The rule's `message` option in `!createRule`
+3. The element's `ruleMessages`
+4. The form's `ruleMessages`
+5. The rule's locale tag — e.g. `rule_required_error`
+6. The fallback `rule_default_error` tag
+
+At every step, the resolved value passes through the [Locale](/api/modules/locale) module, so any of them can also be a locale **tag** pointing at a key in the locale file. Resolution happens at **read time** — switching the locale re-renders every error in the new language without re-running a single check.
+
+::: info
+[Standard Schema](#validating-with-zod-and-standard-schema) failures carry their messages from the schema library itself and skip this chain entirely.
+:::
+
+### Locale Tags
+
+Steps 5 and 6 are how the built-in messages work — each rule's default message lives in the locale file under a tag derived from the rule's name. The derivation is the `ruleMessageTag` config function:
+
+```ts
+// Default implementation
+ruleMessageTag: (name, type) =>
+  type ? `rule_${name}_${type}_error` : `rule_${name}_error`
+```
+
+Most rules get the plain form — `rule_required_error`. The size-measuring rules (`min`, `max`, `between`, `size`, `gt`, `gte`, `lt`, `lte`) get a **typed** form that discriminates by what the value is: `rule_min_string_error`, `rule_min_numeric_error`, `rule_min_array_error`, `rule_min_file_error`. The `type` is derived from the element's current value at validation time — the same category that decides how size rules measure — and a custom rule opts into typed tags with `!createRule`'s `typed: true` option.
+
+Override the function globally to map rules onto an existing translation structure:
+
+```ts
+app.use(
+  createVueform({
+    ruleMessageTag: (name, type) =>
+      type ? `validation.${name}.${type}` : `validation.${name}`,
+  })
+)
+```
+
+A custom rule can also point at a specific tag directly — pass the tag as its `message`, and the locale module looks it up (an unknown tag is used verbatim as the message):
+
+```ts
+const lowercase = createRule('lowercase', (value) => {
+  return value === value.toLowerCase()
+}, {
+  message: 'custom_lowercase_validation',
+})
+```
+
+### The Display Name
+
+The `{attribute}` placeholder resolves to the element's `genericName` — an explicit `displayName` when set, otherwise whatever human-readable text the element already presents to the user, falling back to its `name`. Override it with the `displayName` prop:
+
+```vue
+<VfText name="email" rules="required" display-name="email address" />
+```
+
+This produces _"The **email address** field is required."_ instead of _"The **email** field is required."_
+
+### Placeholders
+
+Messages support placeholders replaced with live values:
+
+- `{attribute}` — the element's display name
+- `{min}`, `{max}`, `{size}`, `{other}`, `{date}`, … — the rule's own parameters, by name
+
+The built-in `min` message for strings, for instance, is _"The {attribute} must be at least {min} characters."_ Custom rules add their own computed placeholders with `messageParams`, shown in [Writing Your Own Rules](#writing-your-own-rules).
+
+## Controlling the Display
+
+Errors render without setup — beneath each element, and in the form's own error block. Every part of that rendering is adjustable.
+
+### Where Errors Render
+
+The form-level `errorLevel` prop picks the surfaces:
+
+| Value       | Behavior                                                         |
+| ----------- | ---------------------------------------------------------------- |
+| `'all'`     | Errors show on both the elements and the form (default).         |
+| `'element'` | Errors show only beneath elements.                               |
+| `'form'`    | Errors show only in the form-level block.                        |
+| `'none'`    | Errors render nowhere — validation state is still fully tracked. |
+
+```vue
+<VfForm error-level="element">
+  <VfText name="email" rules="required|email" />
+</VfForm>
+```
+
+### How Many Errors Show
+
+`maxErrors` caps how many errors an element **displays** — the counterpart of `bail`, which capped how many rules ran. It defaults to `1`, so even an element collecting several failures shows one at a time. Set it to `-1` to show everything collected:
+
+```vue
+<VfText
+  name="email"
+  rules="required|email|min:5"
+  :bail="false"
+  :max-errors="-1"
+/>
+```
+
+The two knobs are independent — `bail` decides what **runs**, `maxErrors` decides what's **shown**.
+
+### Hiding Errors
+
+The `hideErrors` prop suppresses an element's error display while validation keeps running underneath — the state is all still there to render elsewhere:
+
+```vue
+<VfText name="email" rules="required|email" hide-errors />
+```
+
+The same prop on `!VfForm` hides only the form-level error block.
+
+### Hoisting Errors
+
+The `hoist` prop pushes an element's errors up to its nearest ancestor element — the element itself displays and reports nothing, and the ancestor includes the messages in its own error display and in the form's errors:
+
+```vue
+<VfGroup name="address">
+  <VfText name="zip" rules="required" hoist />
+</VfGroup>
+```
+
+### Required Indicators
+
+Elements with an active `required` rule mark themselves. The `showRequired` prop controls where — `['label']` by default, `['label', 'placeholder']` to mark both, or `false` for no indicator — set on the form for every element or individually per element.
+
+### Scroll and Focus
+
+When submission fails validation, Vueform **focuses** the first invalid element and **scrolls** it into view. Both are on by default and configurable on the form:
+
+```vue
+<VfForm
+  :focus-error="false"
+  :scroll-to-error="false"
+  :scroll-options="{ behavior: 'smooth', block: 'center' }"
+/>
+```
+
+`scrollOptions` is forwarded to the browser's `scrollIntoView`.
