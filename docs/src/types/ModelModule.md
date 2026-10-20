@@ -60,7 +60,7 @@ interface ModelModule {
       schema: S | Ref<S>
       validationSchema?: StandardSchemaV1
       languages?: LanguagesProp
-    },
+    } & UseModelSubmissionOptions,
     seed?: DeepPartial<SchemaToModel<S>> & Record<string, any>
   ): ModelInstance<S>
   make(
@@ -68,7 +68,7 @@ interface ModelModule {
       schema: FormSchema | Ref<FormSchema>
       validationSchema?: StandardSchemaV1
       languages?: LanguagesProp
-    },
+    } & UseModelSubmissionOptions,
     seed?: Record<string, any>
   ): ModelInstance
 }

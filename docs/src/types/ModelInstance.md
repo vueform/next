@@ -150,18 +150,56 @@ type ModelInstance<TSchema = FormSchema> = {
   toFormData: () => FormData
 
   /**
-   * Subscribes a listener to a model event, returning an unsubscribe function.
+   * Subscribes a listener to a model event — the data events (`change`,
+   * `load`, `reset`, `clear`) or any submission event (`submit`, `success`,
+   * `fail`, `serverInvalid`, `cancelled`, `response`, `invalid`, `valid`) —
+   * returning an unsubscribe function.
    *
    * @param event The event name.
    * @param cb The listener to register.
    */
-  on: (event: ModelStoreEvents, cb: (...args: any[]) => void) => () => void
+  on: <E extends keyof ModelInstanceEvents & string>(
+    event: E,
+    cb: (...args: ModelInstanceEvents[E]) => any
+  ) => () => void
 
   /**
-   * Submits the attaching form. Warns and resolves `undefined` when no form has
-   * attached the model.
+   * Submits the model. When a form has attached the instance, the form's
+   * `submit()` runs (its props and UX apply); otherwise the instance's own
+   * submission flow runs against the `endpoint` / `method` / transform options
+   * and fires the `onXxx` callbacks.
    */
-  submit: () => Promise<any>
+  submit: () => Promise<SubmitResult | undefined>
+
+  /**
+   * Aborts the instance's in-flight submission request, if any.
+   */
+  abort: () => void
+
+  /**
+   * Whether the instance's own submission flow is currently running.
+   */
+  readonly submitting: boolean
+
+  /**
+   * Whether the instance's own submission flow is currently validating.
+   */
+  readonly validating: boolean
+
+  /**
+   * The number of times the instance's own submission flow has been started.
+   */
+  readonly submits: number
+
+  /**
+   * The HTTP response from the instance's most recent own submission.
+   */
+  readonly response: HttpResponse | undefined
+
+  /**
+   * The result object from the instance's most recent own submission attempt.
+   */
+  readonly result: SubmitResult | undefined
 
   /**
    * Returns the (virtual) element context at the given element path (e.g.

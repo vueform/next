@@ -3760,6 +3760,9 @@
   "VfTextarea": {
     "link": "/components/VfTextarea"
   },
+  "createEvents": {
+    "link": "/api/helpers/createEvents"
+  },
   "createRule": {
     "link": "/api/helpers/createRule"
   },
@@ -3810,6 +3813,9 @@
   },
   "useSecurity": {
     "link": "/api/composables/useSecurity"
+  },
+  "useSubmission": {
+    "link": "/api/composables/useSubmission"
   },
   "useTemplateContext": {
     "link": "/api/composables/useTemplateContext"

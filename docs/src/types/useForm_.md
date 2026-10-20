@@ -29,8 +29,14 @@ function useForm<
   vueform?: VueformInstance
 ): UseFormReturn<S>
 
-function useForm(
-  formProps?: Record<string, any>,
+function useForm<
+  const S = FormSchema,
+  Z extends StandardSchemaV1 = StandardSchemaV1,
+>(
+  formProps?: {
+    schema?: S
+    validationSchema?: Z & MatchesSchemaModel<S, Z>
+  } & Record<string, any>,
   model?: UseFormModelArg<Record<string, any>>,
   vueform?: VueformInstance
 ): UseFormReturn

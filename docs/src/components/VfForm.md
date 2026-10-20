@@ -658,22 +658,22 @@ Configure the component's behavior and appearance with these props.
 | [`submits`](!code#props.submits "boolean") | `false` | Whether the form should display a default submit button |
 | [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | — | Whether the form is disabled. Accepts a boolean, a ref, or a conditional prop. |
 | [`readonly`](!code#props.readonly "ConditionalProp<TContext>") | — | Whether the form is in read-only mode. Accepts a boolean, a ref, or a conditional prop. |
-| [`method`](!code#props.method "RequestMethod") | `'POST'` | The HTTP method for form submission (e.g. POST, PUT). |
-| [`endpoint`](!code#props.endpoint "EndpointProp") | — | The URL or async function handling form submission. |
 | [`redirect`](!code#props.redirect "TProp<string, TContext>") | — | URL to redirect to after successful submission. |
 | [`successMessage`](!code#props.successMessage "TProp<string, TContext>") | — | Message displayed after successful form submission. |
 | [`resetOnSuccess`](!code#props.resetOnSuccess "boolean") | `false` | Whether to reset the form after successful submission. |
 | [`clearOnSuccess`](!code#props.clearOnSuccess "boolean") | `false` | Whether to clear the form after successful submission. |
+| [`consts`](!code#props.consts "Record<string, TProp>") | — | Form-level expression constants. Each value is a TProp that is resolved and merged into the expression evaluation scope. Names already registered in `config.$expression.consts` keep the config value — the form-level entry is ignored. |
+| [`dark`](!code#props.dark "boolean") | — | Forces the form into dark or light mode regardless of the environment.<br><br>**Requires `build.scopedDarkMode: true` in the `createVueform` config.** |
+| [`tabbed`](!code#props.tabbed "boolean") | `false` | Whether to render the form in a tabbed layout. |
+| [`method`](!code#props.method "RequestMethod") | `'POST'` | The HTTP method for form submission (e.g. POST, PUT). |
+| [`endpoint`](!code#props.endpoint "EndpointProp") | — | The URL or async function handling form submission. |
 | [`setInvalid`](!code#props.setInvalid "boolean") | `false` | Whether to set validation errors on elements from a 422 server response. |
 | [`setResponse`](!code#props.setResponse "boolean") | `false` | Whether to update form data with the server response data. |
 | [`json`](!code#props.json "boolean") | `false` | Whether to send form data as JSON instead of FormData. |
 | [`base64`](!code#props.base64 "boolean") | `false` | Whether to encode file uploads as base64. |
 | [`headers`](!code#props.headers "Record<string, string>") | — | Custom HTTP headers to include in the submission request. |
-| [`consts`](!code#props.consts "Record<string, TProp>") | — | Form-level expression constants. Each value is a TProp that is resolved and merged into the expression evaluation scope. Names already registered in `config.$expression.consts` keep the config value — the form-level entry is ignored. |
-| [`dark`](!code#props.dark "boolean") | — | Forces the form into dark or light mode regardless of the environment.<br><br>**Requires `build.scopedDarkMode: true` in the `createVueform` config.** |
-| [`transformServerInvalid`](!code#props.transformServerInvalid "(data: Record<string, any>, context$: any) => Record<string, any>") | — | Transforms the server's validation error response. |
-| [`transformResponse`](!code#props.transformResponse "(data: any, context$: any) => Record<string, any>") | — | Transforms the server response data when `setResponse` is enabled. |
-| [`tabbed`](!code#props.tabbed "boolean") | `false` | Whether to render the form in a tabbed layout. |
+| [`transformServerInvalid`](!code#props.transformServerInvalid "(data: Record<string, any>, context$: any) => Record<string, any>") | `'defaultTransformServerInvalid'` | Transforms the server's validation error response. |
+| [`transformResponse`](!code#props.transformResponse "(data: any, context$: any) => Record<string, any>") | `'defaultTransformResponse'` | Transforms the server response data when `setResponse` is enabled. |
 
 ### I18n {#props-i18n}
 
@@ -855,7 +855,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 | Name | Description |
 | --- | --- |
-| [`fire()`](!code#context.fire "(e: E, args: TypeEmitsToOptions<FormEmits<any>>[E]) => void") | Fires an event synchronously, invoking before, listener, and after callbacks in order and emitting a native Vue event. |
+| [`fire()`](!code#context.fire "(e: E, args: TypeEmitsToOptions<FormEmits<any>>[E]) => void") | Fires an event synchronously, invoking before, listener, and after callbacks in order, then the external handler. |
 | [`fireAsync()`](!code#context.fireAsync "(e: E, args: TypeEmitsToOptions<FormEmits<any>>[E]) => Promise<any>") | Fires an event asynchronously, awaiting each callback and short-circuiting when any returns `false`. |
 | [`on()`](!code#context.on "(e: E, callback: (...args: TypeEmitsToOptions<FormEmits<any>>[E]) => any) => void") | Subscribes a callback to a specific event. |
 | [`off()`](!code#context.off "(e: E, callback: (...args: TypeEmitsToOptions<FormEmits<any>>[E]) => any) => void") | Removes a previously registered event callback. |
@@ -903,14 +903,14 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 | `autosaveRestore` | [`data`](!code#events.autosaveRestore.data "Record<string, any>"), [`context$`](!code#events.autosaveRestore.context$ "TContext") | Emitted before a locally stored autosave draft is restored into the form on mount. Return `false` to skip the restore (the stored draft is kept). |
 | `autosaveSuccess` | [`response`](!code#events.autosaveSuccess.response "HttpResponse"), [`context$`](!code#events.autosaveSuccess.context$ "TContext") | Emitted after a successful autosave operation. |
 | `autosaveFail` | [`error`](!code#events.autosaveFail.error "HttpError"), [`context$`](!code#events.autosaveFail.context$ "TContext") | Emitted when an autosave request fails due to a network or server error. |
+| `tab` | [`newPage`](!code#events.tab.newPage "ResolvedPage"), [`oldPage`](!code#events.tab.oldPage "ResolvedPage"), [`pager`](!code#events.tab.pager "Pager"), [`context$`](!code#events.tab.context$ "any") | Emitted when the active tab changes. |
+| `beforeTab` | [`newPage`](!code#events.beforeTab.newPage "ResolvedPage"), [`oldPage`](!code#events.beforeTab.oldPage "ResolvedPage"), [`pager`](!code#events.beforeTab.pager "Pager"), [`context$`](!code#events.beforeTab.context$ "any") | Emitted before the active tab changes, allowing cancellation. |
 | `submit` | [`payload`](!code#events.submit.payload "FormData \| Record<string, any>"), [`context$`](!code#events.submit.context$ "TContext") | Emitted when the form is submitted, before the HTTP request is sent. |
 | `response` | [`response`](!code#events.response.response "HttpResponse") | Emitted when an HTTP response is received from the server. |
 | `fail` | [`result`](!code#events.fail.result "SubmitFail") | Emitted when form submission fails due to a network or server error. |
 | `serverInvalid` | [`result`](!code#events.serverInvalid.result "SubmitServerInvalid") | Emitted when form submission fails due to validation errors. |
 | `success` | [`result`](!code#events.success.result "SubmitSuccess") | Emitted when form submission succeeds. |
 | `cancelled` | [`result`](!code#events.cancelled.result "SubmitCancelled") | Emitted when form submission is cancelled before sending a request (e.g. the form is invalid, loading, disabled, already submitting, or a `submit` handler / `endpoint` function returned `false`). |
-| `tab` | [`newPage`](!code#events.tab.newPage "ResolvedPage"), [`oldPage`](!code#events.tab.oldPage "ResolvedPage"), [`pager`](!code#events.tab.pager "Pager"), [`context$`](!code#events.tab.context$ "any") | Emitted when the active tab changes. |
-| `beforeTab` | [`newPage`](!code#events.beforeTab.newPage "ResolvedPage"), [`oldPage`](!code#events.beforeTab.oldPage "ResolvedPage"), [`pager`](!code#events.beforeTab.pager "Pager"), [`context$`](!code#events.beforeTab.context$ "any") | Emitted before the active tab changes, allowing cancellation. |
 | `change` | [`newValue`](!code#events.change.newValue "Record<string, any>"), [`oldValue`](!code#events.change.oldValue "Record<string, any>"), [`context$`](!code#events.change.context$ "TContext") | Emitted when any form element's value changes, with the new and previous values. |
 | `update:modelValue` | [`value`](!code#events.update:modelValue.value "Record<string, any>") | Emitted to update the v-model binding. |
 | `load` | [`value`](!code#events.load.value "any"), [`context$`](!code#events.load.context$ "TContext") | Emitted when form data is loaded programmatically via the `load` method. |
