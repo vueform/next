@@ -72,24 +72,15 @@ const slots =
     >
   >()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-select',
   input: 'vf-input vf-select-input',
 })
 
-useBindings(
+const bindings = useBindings(
   {
     root: () => ({
       'data-align-label': !api.help.value ? '' : undefined,

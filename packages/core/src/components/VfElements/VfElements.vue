@@ -16,10 +16,14 @@ const props = withDefaults(defineProps<VfElementsProps>(), defaults)
 const events = defineEvents<VfElementsEmits>()
 const slots = defineSlots<VfElementsSlots>()
 
-const { context, expose, outlets, bindings, classes, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const { context, expose, outlets, bindings, useClasses } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-elements',
 })
 

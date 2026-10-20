@@ -17,21 +17,12 @@ const props = withDefaults(defineProps<VfFormProps<TSchema>>(), defaults)
 const events = defineEvents<VfFormEmits<TSchema>>()
 const slots = defineSlots<VfFormSlots<TSchema>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 const config = useConfig()
 
-useClasses({
+const classes = useClasses({
   root: () => ({
     'vf-form': true,
     [api.tokenClass]: !!api.tokenCss.value,
@@ -50,7 +41,7 @@ useClasses({
   message: 'vf-form-message',
 })
 
-useBindings({
+const bindings = useBindings({
   root: () => ({
     'data-stacked': api.props.stacked ? '' : undefined,
   }),

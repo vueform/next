@@ -275,22 +275,34 @@ type Blueprint2Api<
   }
 
   /**
-   * Registers component-level class definitions.
+   * Registers component-level class definitions and returns the `classes`
+   * surface (the same object `useBlueprint` returns) — SFCs write
+   * `const classes = useClasses({...})`. Resolution is lazy per key, so the
+   * returned surface reflects definitions registered later too.
    *
    * @param defs Class definition objects or factories.
    */
-  useClasses: (...defs: ClassDefsArg<TClasses>[]) => void
+  useClasses: (...defs: ClassDefsArg<TClasses>[]) => TClasses
 
   /**
    * Registers part-keyed binding definitions (a11y, state markers, and any
-   * other per-part attributes): for each part key a resolver function,
+   * other per-part attributes) — for each part key a resolver function,
    * invoked at the consuming site with the template's call arguments (none
-   * for arg-less parts). Entries for the same key resolve-then-shallow-merge
-   * in registration order.
+   * for arg-less parts); entries for the same key resolve-then-shallow-merge
+   * in registration order — and returns the `bindings` aggregate (the same
+   * object `useBlueprint` returns): SFCs write
+   * `const bindings = useBindings({...})`.
    *
    * @param defs Part-keyed binding definitions.
    */
-  useBindings: (...defs: BindingDefsOf<BindingDefsSurfaceOf<TSlots>>[]) => void
+  useBindings: (
+    ...defs: BindingDefsOf<BindingDefsSurfaceOf<TSlots>>[]
+  ) => BindingMemberOf<
+    TSlots,
+    ApiOf<TApi>,
+    'bindings',
+    BindingsOf<TParts, Record<string, any>>
+  >
 }
 
 /**
@@ -1763,21 +1775,46 @@ export function useBlueprint<
   // factories and the public context receive them.
   Object.assign(api, events, { props })
 
-  const { classes, useClasses, useClassOverrides, setBaseClasses } =
-    defineClasses(api, propRefs)
+  const {
+    classes,
+    useClasses: registerClasses,
+    useClassOverrides,
+    setBaseClasses,
+  } = defineClasses(api, propRefs)
+
+  // Registrar handed to the SFC: registers and returns the `classes` surface,
+  // so components write `const classes = useClasses({...})`. Resolution is
+  // lazy per key — the returned surface also reflects later registrations.
+  const useClasses = (...defs: any[]) => {
+    registerClasses(...defs)
+    return classes
+  }
 
   // The single part-keyed attribute surface (a11y, state markers, and any
   // other per-part attrs), defined entirely at the component layer via
   // `useBindings` — every entry a resolver, zero-argument for arg-less parts,
   // parameterized for per-item parts (often through a canonical pattern from
   // `#src/a11y`).
-  const { useBindings, entriesOf, keysOf } = definePartBindings()
+  const {
+    useBindings: registerBindings,
+    entriesOf,
+    keysOf,
+  } = definePartBindings()
 
   // The per-part aggregate the templates consume: for each part key, one bag
   // merging the part's registered binding definitions and part attribute
   // overrides. Classes are not included — templates bind them separately via
   // `:class="classes.x"`.
   const bindings = defineAggregateBindings(parts, { entriesOf, keysOf })
+
+  // Registrar handed to the SFC: registers and returns the `bindings`
+  // aggregate, so components write `const bindings = useBindings({...})`.
+  // Entries resolve at call time — the aggregate also reflects later
+  // registrations.
+  const useBindings = (...defs: any[]) => {
+    registerBindings(...defs)
+    return bindings
+  }
 
   // The single public context: the `reactive()` proxy created at the top of
   // setup (see `createComponentContext`). It is what event handlers receive as

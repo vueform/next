@@ -12,17 +12,21 @@ const props = withDefaults(defineProps<VfStepsProps>(), defaults)
 const events = defineEvents<VfStepsEmits>()
 const slots = defineSlots<VfStepsSlots>()
 
-const { context, expose, outlets, bindings, classes, useClasses, useBindings } =
-  useBlueprint(blueprint, props, events, slots)
+const { context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-steps',
   list: 'vf-steps-wrapper',
   wrapper: 'vf-step-wrapper',
   step: 'vf-step',
 })
 
-useBindings({
+const bindings = useBindings({
   wrapper: (page: ResolvedPage) => ({
     'data-selected': page.selected ? '' : undefined,
     'data-enabled': page.enabled ? '' : undefined,

@@ -20,17 +20,8 @@ const props = withDefaults(defineProps<VfRadioProps<TRadioValue>>(), defaults)
 const events = defineEvents<VfRadioEmits<TRadioValue>>()
 const slots = defineSlots<VfRadioSlots<TRadioValue>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 const radioValue = propRefs.radioValue as Ref<TRadioValue>
 
@@ -50,14 +41,14 @@ const {
   handleModelUpdate,
 } = api
 
-useClasses({
+const classes = useClasses({
   root: 'vf-radio',
   wrapper: 'vf-choice-wrapper',
   input: 'vf-choice-input',
   text: 'vf-choice-text',
 })
 
-useBindings(
+const bindings = useBindings(
   {
     root: () => ({
       'data-align-label': !api.help.value ? '' : undefined,

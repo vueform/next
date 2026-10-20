@@ -17,19 +17,10 @@ const events = defineEvents<VfButtonEmits>()
 const slots = defineSlots<VfButtonSlots>()
 const attrs = useAttrs()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-button',
   button: () => [
     {
@@ -45,7 +36,7 @@ useClasses({
   text: 'vf-btn-text',
 })
 
-useBindings(
+const bindings = useBindings(
   {
     button: () => {
       const isLink = !!(api.href.value || api.to.value)

@@ -15,10 +15,14 @@ const events = defineEvents<VfAddonEmits>()
 const slots = defineSlots<VfAddonSlots>()
 const attrs = useAttrs()
 
-const { api, context, expose, outlets, bindings, classes, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, bindings, useClasses } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-addon',
 })
 

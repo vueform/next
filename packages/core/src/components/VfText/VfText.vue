@@ -30,24 +30,15 @@ const props = withDefaults(
 const events = defineEvents<VfTextEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfTextSlots<TTranslate, TLanguages>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-text',
   input: 'vf-input vf-text-input',
 })
 
-useBindings(
+const bindings = useBindings(
   {
     root: () => ({
       'data-align-label': !api.help.value ? '' : undefined,

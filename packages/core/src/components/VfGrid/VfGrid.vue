@@ -42,19 +42,10 @@ const props = withDefaults(defineProps<VfGridProps>(), defaults)
 const events = defineEvents<VfGridEmits>()
 const slots = defineSlots<VfGridSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses({
+const classes = useClasses({
   root: () => ({
     'vf-grid': true,
     'vf-tabular': !!props.tabular,
@@ -80,7 +71,7 @@ useClasses({
   }),
 })
 
-useBindings({
+const bindings = useBindings({
   wrapper: () => ({
     'data-scrollable': api.props.scrollable ? '' : undefined,
   }),

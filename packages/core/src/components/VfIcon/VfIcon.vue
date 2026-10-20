@@ -15,10 +15,10 @@ const events = defineEvents<VfIconEmits>()
 const slots = defineSlots<VfIconSlots>()
 const attrs = useAttrs()
 
-const { context, expose, outlets, bindings, classes, useClasses, propRefs } =
+const { context, expose, outlets, bindings, useClasses, propRefs } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses({
+const classes = useClasses({
   root: () => ['vf-icon', props.icon],
 })
 

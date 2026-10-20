@@ -46,16 +46,12 @@ const slots =
     >
   >()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 const {
   items,
@@ -69,7 +65,7 @@ const {
   handleBlur,
 } = api
 
-useClasses({
+const classes = useClasses({
   root: 'vf-radios vf-choices',
   wrapper: () => [
     props.layout === false ? props.class : null,
@@ -77,7 +73,7 @@ useClasses({
   ],
 })
 
-useBindings(
+const bindings = useBindings(
   {
     root: () => ({
       'data-align-label': !api.help.value ? '' : undefined,

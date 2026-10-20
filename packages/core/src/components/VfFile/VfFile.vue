@@ -18,19 +18,10 @@ const props = withDefaults(defineProps<VfFileProps<TMultiple>>(), defaults)
 const events = defineEvents<VfFileEmits>()
 const slots = defineSlots<VfFileSlots<TMultiple>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-file',
   input: 'sr-only',
   list: 'vf-file-list',
@@ -41,7 +32,7 @@ useClasses({
 
 const { t } = useLocale()
 
-useBindings(
+const bindings = useBindings(
   {
     input: () => ({
       'data-invalid': api.hasError.value ? '' : undefined,

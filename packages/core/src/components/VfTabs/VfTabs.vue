@@ -13,13 +13,17 @@ const props = withDefaults(defineProps<VfTabsProps>(), defaults)
 const events = defineEvents<VfTabsEmits>()
 const slots = defineSlots<VfTabsSlots>()
 
-const { context, expose, outlets, bindings, classes, useClasses, useBindings } =
-  useBlueprint(blueprint, props, events, slots)
+const { context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 const el$ = useElementContext()
 const config = useConfig()
 
-useClasses({
+const classes = useClasses({
   root: {
     'vf-tabs': true,
     [config.cols(12)]: !!el$,
@@ -29,7 +33,7 @@ useClasses({
   tab: 'vf-tab',
 })
 
-useBindings({
+const bindings = useBindings({
   wrapper: (page: ResolvedPage) => ({
     'data-selected': page.selected ? '' : undefined,
     'data-invalid': page.invalid ? '' : undefined,

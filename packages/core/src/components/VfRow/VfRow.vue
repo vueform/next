@@ -12,10 +12,14 @@ const props = withDefaults(defineProps<VfRowProps>(), defaults)
 const events = defineEvents<VfRowEmits>()
 const slots = defineSlots<VfRowSlots>()
 
-const { api, context, expose, outlets, bindings, classes, useClasses } =
-  useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, bindings, useClasses } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-grid-row',
 })
 

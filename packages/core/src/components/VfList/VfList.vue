@@ -52,20 +52,16 @@ const props = withDefaults(defineProps<VfListProps>(), defaults)
 const events = defineEvents<VfListEmits>()
 const slots = defineSlots<VfListSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 const { t } = useLocale()
 
-useClasses({
+const classes = useClasses({
   root: 'vf-list',
   items: 'vf-list-items',
   item: 'vf-list-item',
@@ -76,7 +72,7 @@ useClasses({
   add: 'vf-list-add',
 })
 
-useBindings({
+const bindings = useBindings({
   items: () => ({
     role: 'list' as const,
   }),

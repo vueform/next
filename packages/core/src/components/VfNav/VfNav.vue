@@ -13,19 +13,10 @@ const props = withDefaults(defineProps<VfNavProps>(), defaults)
 const events = defineEvents<VfNavEmits>()
 const slots = defineSlots<VfNavSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-nav',
   back: 'vf-nav-back',
   next: 'vf-nav-next',
@@ -39,7 +30,7 @@ const forward = (): VfNavBindings['next'] => ({
   'aria-describedby': api.describedby.value,
 })
 
-useBindings({
+const bindings = useBindings({
   root: () => ({
     'data-position': api.props.position || undefined,
     'data-no-back':

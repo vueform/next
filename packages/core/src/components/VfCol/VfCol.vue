@@ -12,18 +12,14 @@ const props = withDefaults(defineProps<VfColProps>(), defaults)
 const events = defineEvents<VfColEmits>()
 const slots = defineSlots<VfColSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses({
+const classes = useClasses({
   root: () => ({
     'vf-grid-cell': true,
     'vf-grid-col-header': api.colHeader.value,
@@ -31,7 +27,7 @@ useClasses({
   }),
 })
 
-useBindings({
+const bindings = useBindings({
   root: () => ({
     'data-align': api.align.value || undefined,
     'data-valign': api.valign.value || undefined,

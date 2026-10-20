@@ -95,20 +95,16 @@ const props = withDefaults(defineProps<VfMatrixProps>(), defaults)
 const events = defineEvents<VfMatrixEmits>()
 const slots = defineSlots<VfMatrixSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 const { t } = useLocale()
 
-useClasses({
+const classes = useClasses({
   root: () => ({
     'vf-matrix': true,
     'vf-tabular': !!props.tabular,
@@ -131,7 +127,7 @@ useClasses({
   add: 'vf-matrix-add',
 })
 
-useBindings({
+const bindings = useBindings({
   grid: () => ({
     'data-scrollable': api.props.scrollable ? '' : undefined,
   }),

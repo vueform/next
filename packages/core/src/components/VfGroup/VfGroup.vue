@@ -21,18 +21,14 @@ const props = withDefaults(defineProps<VfGroupProps>(), defaults)
 const events = defineEvents<VfGroupEmits>()
 const slots = defineSlots<VfGroupSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-group',
   wrapper: () => [
     props.layout === false ? props.class : null,
@@ -40,7 +36,7 @@ useClasses({
   ],
 })
 
-useBindings({
+const bindings = useBindings({
   root: () => ({
     'data-wrapped': api.props.wrap ? '' : undefined,
   }),

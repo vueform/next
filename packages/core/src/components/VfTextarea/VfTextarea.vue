@@ -30,23 +30,19 @@ const props = withDefaults(
 const events = defineEvents<VfTextareaEmits>()
 const slots = defineSlots<VfTextareaSlots<TTranslate, TLanguages>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-textarea',
   input: 'vf-input vf-textarea-input',
 })
 
-useBindings(
+const bindings = useBindings(
   {
     input: () => ({
       'data-invalid': api.hasError.value ? '' : undefined,

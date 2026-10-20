@@ -18,26 +18,17 @@ const props = withDefaults(defineProps<VfLanguagesProps>(), defaults)
 const events = defineEvents<VfLanguagesEmits>()
 const slots = defineSlots<VfLanguagesSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  classes,
-  useClasses,
-  useBindings,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses({
+const classes = useClasses({
   root: 'vf-languages',
   list: 'vf-languages-wrapper',
   wrapper: 'vf-language-wrapper',
   language: 'vf-language',
 })
 
-useBindings({
+const bindings = useBindings({
   wrapper: (selected: boolean, invalid: boolean) => ({
     'data-selected': selected ? '' : undefined,
     'data-invalid': invalid ? '' : undefined,
