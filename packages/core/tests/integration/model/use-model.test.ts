@@ -387,17 +387,24 @@ describe('useModel store API', () => {
     expect(formData.get('name')).toBe('John')
   })
 
-  it('warns when submitting while not attached', async () => {
+  it('runs the own submission flow when not attached', async () => {
     const model$ = create()
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
+    const submitted: any[] = []
+    model$.on('submit', (payload) => {
+      submitted.push(payload)
+    })
+
+    // Without an endpoint there is no request — the flow validates, fires
+    // `submit`, and resolves without a result.
     const result = await model$.submit()
 
     expect(result).toBeUndefined()
-    expect(warn).toHaveBeenCalledWith(
-      expect.stringContaining('not attached to any form')
-    )
+    expect(submitted).toHaveLength(1)
+    expect(warn).not.toHaveBeenCalled()
     expect(model$.attached).toBe(false)
+    expect(model$.submits).toBe(1)
 
     warn.mockRestore()
   })

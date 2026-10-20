@@ -13,12 +13,18 @@ import {
   type WatchStopHandle,
 } from 'vue'
 
-import { type VueformInstance, getAttachedValidationSchema } from '#src/helpers'
+import { useSubmission } from '#src/composables/useSubmission'
+import {
+  createEvents,
+  getAttachedValidationSchema,
+  type VueformInstance,
+} from '#src/helpers'
 import {
   getConditionsModule,
   hasConditionsModule,
 } from '#src/modules/conditions'
 import { getExpressionModule } from '#src/modules/expression'
+import { getHttpModule } from '#src/modules/http'
 import {
   getValidationModule,
   hasValidationModule,
@@ -63,6 +69,7 @@ import type {
   ModelStore,
   RootModel,
   SchemaIndex,
+  UseModelSubmissionOptions,
 } from './types'
 
 type ReconciledNodePrev = Pick<
@@ -1162,9 +1169,24 @@ function makeModelInstance<TSchema = FormSchema>(
     scope: EffectScope
     engine: ReturnType<typeof makeModelEngine>
     vueform: VueformInstance
+    submission: {
+      on: (event: string, cb: (...args: any[]) => any) => () => void
+      validate: () => Promise<boolean>
+      serverErrors: Ref<Record<string, string[]>>
+      serverIssues: ComputedRef<
+        { path: string; rule: string; message: string }[]
+      >
+      submit: () => Promise<any>
+      abort: () => void
+      submitting: Ref<boolean>
+      validating: Ref<boolean>
+      submits: Ref<number>
+      response: Ref<any>
+      result: Ref<any>
+    }
   }
 ): ModelInstance<TSchema> {
-  const { index, scope, engine, vueform } = options
+  const { index, scope, engine, vueform, submission } = options
 
   const instance = {
     get: store.get,
@@ -1182,11 +1204,14 @@ function makeModelInstance<TSchema = FormSchema>(
     clean: store.clean,
     toJSON: store.toJSON,
     toFormData: store.toFormData,
-    on: store.on,
-    submit: store.submit,
+    on: submission.on,
+    // An attaching form owns submission (its props and UX apply); otherwise
+    // the instance's own flow runs against its options.
+    submit: () => (store.attached.value ? store.submit() : submission.submit()),
+    abort: submission.abort,
     index,
     find: engine.find,
-    validate: engine.validate,
+    validate: submission.validate,
     validationSchema: engine.validationSchema,
     toStandardSchema: engine.toStandardSchema,
     destroy: () => {
@@ -1218,10 +1243,31 @@ function makeModelInstance<TSchema = FormSchema>(
       return engine.invalid.value
     },
     get errors() {
-      return engine.errors.value
+      const server = Object.values(submission.serverErrors.value).flat()
+      return server.length
+        ? [...engine.errors.value, ...server]
+        : engine.errors.value
     },
     get issues() {
-      return engine.issues.value
+      const server = submission.serverIssues.value
+      return server.length
+        ? [...engine.issues.value, ...server]
+        : engine.issues.value
+    },
+    get submitting() {
+      return submission.submitting.value
+    },
+    get validating() {
+      return submission.validating.value
+    },
+    get submits() {
+      return submission.submits.value
+    },
+    get response() {
+      return submission.response.value
+    },
+    get result() {
+      return submission.result.value
     },
   }
 
@@ -1389,7 +1435,7 @@ export function createModel(vueform: VueformInstance): ModelModule {
       schema: FormSchema | Ref<FormSchema>
       validationSchema?: StandardSchemaV1
       languages?: LanguagesProp
-    },
+    } & UseModelSubmissionOptions,
     model?: Record<string, any>
   ) => {
     const { schema, validationSchema: explicitValidationSchema } = options
@@ -1466,7 +1512,163 @@ export function createModel(vueform: VueformInstance): ModelModule {
       })
     }
 
-    return makeModelInstance(store, { index, scope, engine, vueform })
+    // ============ SUBMISSION ==============
+
+    const facade = engine.facade
+
+    /**
+     * The instance's event system: the submission events fire through it, and
+     * the `onXxx` options register on it (data events bridge from the store).
+     */
+    const events = createEvents()
+
+    /**
+     * Server-set validation errors from the last 422 response (when
+     * `setInvalid` is enabled), keyed by element path. Cleared on the next
+     * `validate()`.
+     */
+    const serverErrors = ref<Record<string, string[]>>({})
+
+    /**
+     * Structured issues synthesized from the server errors (`rule: 'server'`),
+     * merged into the instance's `issues`.
+     */
+    const serverIssues = computed(() =>
+      Object.entries(serverErrors.value).flatMap(([path, messages]) =>
+        messages.map((message) => ({ path, rule: 'server', message }))
+      )
+    )
+
+    /**
+     * Client-side errors keyed by element path, derived from the structured
+     * issues (the engine's flat `errors` carries messages only).
+     */
+    const errorsByPath = (): Record<string, string[]> => {
+      const result: Record<string, string[]> = {}
+      for (const issue of engine.issues.value) {
+        ;(result[issue.path ?? ''] ??= []).push(issue.message)
+      }
+      return result
+    }
+
+    /**
+     * Validates the model, dropping stale server errors first.
+     */
+    const validate = () => {
+      serverErrors.value = {}
+      return engine.validate()
+    }
+
+    /**
+     * The shared submission flow wired to the instance's options and headless
+     * equivalents of the form's hooks. The string `endpoint` option is used
+     * as-is (no expression resolution headlessly), and `applyServerErrors`
+     * lands 422 errors on the instance's error surface instead of element
+     * message bags.
+     */
+    const submission = useSubmission({
+      context$: facade,
+      http: getHttpModule(vueform).make(),
+      payload: () =>
+        options.transformPayload
+          ? options.transformPayload(engine.payload.value, facade)
+          : engine.payload.value,
+      update: store.update,
+      validate,
+      invalid: () => engine.invalid.value,
+      errors: errorsByPath,
+      issues: () => engine.issues.value,
+      endpoint: () => options.endpoint,
+      method: () => options.method ?? 'POST',
+      headers: () => options.headers,
+      json: () => options.json,
+      base64: () => options.base64,
+      setInvalid: () => options.setInvalid,
+      setResponse: () => options.setResponse,
+      transformServerInvalid: () => options.transformServerInvalid,
+      transformResponse: () => options.transformResponse,
+      fire: events.fire,
+      fireAsync: events.fireAsync,
+      applyServerErrors: (errors) => {
+        serverErrors.value = errors
+      },
+    })
+
+    // Mirror the mounted form's invalid/valid transition events.
+    scope.run(() => {
+      watch(engine.invalid, (isInvalid, wasInvalid) => {
+        if (isInvalid) {
+          events.fire('invalid', facade)
+        } else if (wasInvalid) {
+          events.fire('valid', facade)
+        }
+      })
+    })
+
+    /**
+     * Instance-level subscription spanning the store's data events (context
+     * appended, matching the form's emit shapes) and the submission events.
+     * Data events bridge lazily so unobserved stores never pay for the store's
+     * change snapshots.
+     */
+    const on = (event: string, cb: (...args: any[]) => any): (() => void) => {
+      if (event === 'change') {
+        return store.on('change', (newValue: any, oldValue: any) =>
+          cb(newValue, oldValue, facade)
+        )
+      }
+      if (event === 'load') {
+        return store.on('load', (value: any) => cb(value, facade))
+      }
+      if (event === 'reset' || event === 'clear') {
+        return store.on(event, () => cb(facade))
+      }
+
+      events.on(event, cb)
+      return () => events.off(event, cb)
+    }
+
+    const callbackEvents = [
+      'invalid',
+      'valid',
+      'submit',
+      'response',
+      'fail',
+      'serverInvalid',
+      'success',
+      'cancelled',
+      'change',
+      'reset',
+      'clear',
+      'load',
+    ] as const
+
+    for (const event of callbackEvents) {
+      const cb = (options as Record<string, any>)[
+        `on${event[0].toUpperCase()}${event.slice(1)}`
+      ]
+      if (typeof cb === 'function') on(event, cb)
+    }
+
+    return makeModelInstance(store, {
+      index,
+      scope,
+      engine,
+      vueform,
+      submission: {
+        on,
+        validate,
+        serverErrors,
+        serverIssues,
+        submit: submission.submit,
+        abort: submission.abort,
+        submitting: submission.submitting,
+        validating: submission.validating,
+        submits: submission.submits,
+        response: submission.response,
+        result: submission.result,
+      },
+    })
   }
 
   return {

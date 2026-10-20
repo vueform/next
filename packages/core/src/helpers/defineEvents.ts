@@ -118,6 +118,38 @@ export type FeatureEvents<TEvents extends Record<string, any[]>> = {
 }
 
 /**
+ * An optional external listener surface appended to the registered callbacks:
+ * `defineEvents` supplies the component's native emit / raw `on*` prop handler
+ * through it. Events arrive kebab-cased.
+ */
+type ExternalEvents = {
+  /**
+   * Invoked at the end of a synchronous `fire` with the event's arguments.
+   *
+   * @param event The kebab-cased event name.
+   * @param args The event arguments.
+   */
+  emit?: (event: string, args: any[]) => void
+
+  /**
+   * Invoked at the end of `fireAsync`; the raw return value is treated like a
+   * registered callback's (thenables awaited, `false` cancels, other defined
+   * values become the result).
+   *
+   * @param event The kebab-cased event name.
+   * @param args The event arguments.
+   */
+  emitAsync?: (event: string, args: any[]) => any
+
+  /**
+   * Whether an external handler exists for the event.
+   *
+   * @param event The kebab-cased event name.
+   */
+  has?: (event: string) => boolean
+}
+
+/**
  * The return type of `defineEvents`, providing fire, on, off, onBefore, and
  * onAfter methods.
  */
@@ -127,18 +159,17 @@ export type DefineEvents<T extends Record<string, any>> = ReturnType<
 
 /**
  * Creates a typed event system with synchronous and async firing, listener
- * registration, and before/after hooks.
+ * registration, and before/after hooks — component-free. `defineEvents` wraps
+ * it with the component's native emit; headless consumers (e.g. `useModel`)
+ * use it directly.
  *
- * @private
+ * @param external Optional external listener surface (native emit / raw prop
+ *   handlers) appended after the registered callbacks.
  */
-export function defineEvents<
+export function createEvents<
   T extends Record<string, any>,
   TEvents extends TypeEmitsToOptions<T> = TypeEmitsToOptions<T>,
->() {
-  const { nativeEmit } = useConfig()
-  const instance = useCurrentInstance()
-  const vm = useCurrentInstance()
-
+>(external?: ExternalEvents) {
   const listeners = ref<Record<string, ((...args: any[]) => any)[]>>({})
   const befores = ref<Record<string, ((...args: any[]) => any)[]>>({})
   const afters = ref<Record<string, ((...args: any[]) => any)[]>>({})
@@ -150,7 +181,7 @@ export function defineEvents<
 
   /**
    * Fires an event synchronously, invoking before, listener, and after
-   * callbacks in order and emitting a native Vue event.
+   * callbacks in order, then the external handler.
    *
    * @param e The event name.
    * @param args The event arguments forwarded to each callback.
@@ -164,17 +195,7 @@ export function defineEvents<
       }
     }
 
-    if (nativeEmit) {
-      vm.emit(event, ...args)
-    } else {
-      const listener =
-        getInstanceRawProp(instance, `on${toPascalCase(event)}`) ||
-        getInstanceRawProp(instance, `on-${toKebabCase(event)}`)
-
-      if (typeof listener === 'function') {
-        listener(...args)
-      }
-    }
+    external?.emit?.(event, args)
   }
 
   /**
@@ -217,27 +238,22 @@ export function defineEvents<
       }
     }
 
-    if (nativeEmit) {
-      vm.emit(event, ...args)
-    } else {
-      const listener =
-        getInstanceRawProp(instance, `on${toPascalCase(event)}`) ||
-        getInstanceRawProp(instance, `on-${toKebabCase(event)}`)
+    if (external?.emitAsync) {
+      const rawResult = external.emitAsync(event, args)
 
-      if (typeof listener === 'function') {
-        const rawListenerResult = listener(...args)
-        const listenerResult = isThenable(rawListenerResult)
-          ? await rawListenerResult
-          : rawListenerResult
+      if (isThenable(rawResult)) {
+        eventInProgress.value = true
+      }
 
-        if (listenerResult === false) {
-          eventInProgress.value = false
-          return false
-        }
+      const externalResult = isThenable(rawResult) ? await rawResult : rawResult
 
-        if (listenerResult !== undefined) {
-          lastResult = listenerResult
-        }
+      if (externalResult === false) {
+        eventInProgress.value = false
+        return false
+      }
+
+      if (externalResult !== undefined) {
+        lastResult = externalResult
       }
     }
 
@@ -335,12 +351,7 @@ export function defineEvents<
       return true
     }
 
-    return (
-      typeof (
-        getInstanceRawProp(instance, `on${toPascalCase(event)}`) ||
-        getInstanceRawProp(instance, `on-${event}`)
-      ) === 'function'
-    )
+    return external?.has?.(event) === true
   }
 
   return {
@@ -353,4 +364,50 @@ export function defineEvents<
     hasListeners,
     eventInProgress,
   }
+}
+
+/**
+ * Creates a typed event system with synchronous and async firing, listener
+ * registration, and before/after hooks, wired to the current component's
+ * native emit / raw `on*` prop handlers.
+ *
+ * @private
+ */
+export function defineEvents<
+  T extends Record<string, any>,
+  TEvents extends TypeEmitsToOptions<T> = TypeEmitsToOptions<T>,
+>() {
+  const { nativeEmit } = useConfig()
+  const instance = useCurrentInstance()
+  const vm = useCurrentInstance()
+
+  const rawListener = (event: string) =>
+    getInstanceRawProp(instance, `on${toPascalCase(event)}`) ||
+    getInstanceRawProp(instance, `on-${event}`)
+
+  return createEvents<T, TEvents>({
+    emit: (event, args) => {
+      if (nativeEmit) {
+        vm.emit(event, ...args)
+        return
+      }
+
+      const listener = rawListener(event)
+
+      if (typeof listener === 'function') {
+        listener(...args)
+      }
+    },
+    emitAsync: (event, args) => {
+      if (nativeEmit) {
+        vm.emit(event, ...args)
+        return undefined
+      }
+
+      const listener = rawListener(event)
+
+      return typeof listener === 'function' ? listener(...args) : undefined
+    },
+    has: (event) => typeof rawListener(event) === 'function',
+  })
 }

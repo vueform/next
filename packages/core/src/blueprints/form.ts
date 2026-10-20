@@ -21,8 +21,13 @@ import {
   useSchema,
   useDynamicProp,
   useData,
+  useSubmission,
+  defaultTransformServerInvalid,
+  defaultTransformResponse,
   type Pager,
   type ResolvedPage,
+  type SubmissionEmits,
+  type SubmissionProps,
   useExpression,
   useHttp,
   useLocale,
@@ -41,17 +46,13 @@ import type {
   ConditionsTriggerProp,
 } from '#src/modules/conditions'
 import { getExpressionModule } from '#src/modules/expression'
-import {
-  HttpError,
-  type HttpResponse,
-  type RequestMethod,
-} from '#src/modules/http'
+import { HttpError, type HttpResponse } from '#src/modules/http'
 import {
   getModelModule,
   type ModelInstance,
   type ModelNode,
 } from '#src/modules/model'
-import { getValidationModule, type Issue } from '#src/modules/validation'
+import { getValidationModule } from '#src/modules/validation'
 import type {
   BaseComponentEmits,
   BaseComponentProps,
@@ -60,7 +61,6 @@ import type {
   BaseComponentExpose,
   BaseComponentClasses,
   BaseComponentBindings,
-  EndpointProp,
   ErrorLevelProp,
   ExpressionsProp,
   LanguagesProp,
@@ -82,7 +82,6 @@ import type {
 } from '#src/types'
 import {
   get as getByPath,
-  isPlainObject,
   rootDomOf,
   scrollIntoViewIfNeeded,
   warn,
@@ -122,7 +121,11 @@ export interface FormProps<
   TContext = any,
   TSchema = FormSchema,
 >
-  extends BaseComponentProps<S, P, C, TContext>, TabbedProps, StackedProps {
+  extends
+    BaseComponentProps<S, P, C, TContext>,
+    TabbedProps,
+    StackedProps,
+    SubmissionProps {
   /**
    * Optional name identifying this form instance in DevTools and debugging.
    */
@@ -320,16 +323,6 @@ export interface FormProps<
   conditionsDebounce?: number
 
   /**
-   * The HTTP method for form submission (e.g. POST, PUT).
-   */
-  method?: RequestMethod
-
-  /**
-   * The URL or async function handling form submission.
-   */
-  endpoint?: EndpointProp
-
-  /**
    * URL to redirect to after successful submission.
    */
   redirect?: TProp<string, TContext>
@@ -348,31 +341,6 @@ export interface FormProps<
    * Whether to clear the form after successful submission.
    */
   clearOnSuccess?: boolean
-
-  /**
-   * Whether to set validation errors on elements from a 422 server response.
-   */
-  setInvalid?: boolean
-
-  /**
-   * Whether to update form data with the server response data.
-   */
-  setResponse?: boolean
-
-  /**
-   * Whether to send form data as JSON instead of FormData.
-   */
-  json?: boolean
-
-  /**
-   * Whether to encode file uploads as base64.
-   */
-  base64?: boolean
-
-  /**
-   * Custom HTTP headers to include in the submission request.
-   */
-  headers?: Record<string, string>
 
   /**
    * Token overrides applied to the form's CSS custom properties.
@@ -400,43 +368,13 @@ export interface FormProps<
    * **Requires `build.scopedDarkMode: true` in the `createVueform` config.**
    */
   dark?: boolean
-
-  /**
-   * Transforms form data before submission.
-   *
-   * @param payload The form payload to transform.
-   * @param context$ The form's component context.
-   */
-  transformPayload?: (
-    payload: Record<string, any>,
-    context$: any
-  ) => Record<string, any>
-
-  /**
-   * Transforms the server's validation error response.
-   *
-   * @param data The raw error response data.
-   * @param context$ The form's component context.
-   */
-  transformServerInvalid?: (
-    data: Record<string, any>,
-    context$: any
-  ) => Record<string, any>
-
-  /**
-   * Transforms the server response data when `setResponse` is enabled.
-   *
-   * @param data The raw response payload.
-   * @param context$ The form's component context.
-   */
-  transformResponse?: (data: any, context$: any) => Record<string, any>
 }
 
 /**
  * Events emitted by the form component.
  */
 export interface FormEmits<TContext = any>
-  extends BaseComponentEmits<TContext>, TabbedEmits {
+  extends BaseComponentEmits<TContext>, TabbedEmits, SubmissionEmits<TContext> {
   /**
    * Emitted when the active step changes.
    *
@@ -608,65 +546,6 @@ export interface FormEmits<TContext = any>
   autosaveFail: [error: HttpError, context$: TContext]
 
   /**
-   * Emitted when the form becomes invalid due to client-side validation errors.
-   *
-   * @param context$ The form's component context.
-   */
-  invalid: [context$: TContext]
-
-  /**
-   * Emitted when the form passes validation.
-   *
-   * @param context$ The form's component context.
-   */
-  valid: [context$: TContext]
-
-  /**
-   * Emitted when the form is submitted, before the HTTP request is sent.
-   *
-   * @param payload The submitted form payload.
-   * @param context$ The form's component context.
-   */
-  submit: [payload: FormData | Record<string, any>, context$: TContext]
-
-  /**
-   * Emitted when an HTTP response is received from the server.
-   *
-   * @param response The HTTP response object.
-   */
-  response: [response: HttpResponse]
-
-  /**
-   * Emitted when form submission fails due to a network or server error.
-   *
-   * @param result The failure result object.
-   */
-  fail: [result: SubmitFail]
-
-  /**
-   * Emitted when form submission fails due to validation errors.
-   *
-   * @param result The invalid result object.
-   */
-  serverInvalid: [result: SubmitServerInvalid]
-
-  /**
-   * Emitted when form submission succeeds.
-   *
-   * @param result The success result object.
-   */
-  success: [result: SubmitSuccess]
-
-  /**
-   * Emitted when form submission is cancelled before sending a request (e.g.
-   * the form is invalid, loading, disabled, already submitting, or a `submit`
-   * handler / `endpoint` function returned `false`).
-   *
-   * @param result The cancelled result object.
-   */
-  cancelled: [result: SubmitCancelled]
-
-  /**
    * Emitted to update the v-model binding.
    *
    * @param value The new model value.
@@ -702,192 +581,20 @@ export interface FormBindings extends BaseComponentBindings {}
  */
 export interface FormExpose extends BaseComponentExpose, FormApi {}
 
-/**
- * Result returned when form submission succeeds with a server response.
- */
-export interface SubmitSuccess {
-  /**
-   * The result type discriminator, always 'success'.
-   */
-  type: 'success'
-
-  /**
-   * The response data returned by the server.
-   */
-  data: any
-
-  /**
-   * The HTTP status code of the response.
-   */
-  status: number
-
-  /**
-   * The full HTTP response object.
-   */
-  response: HttpResponse
-
-  /**
-   * The form context instance at the time of submission.
-   */
-  context$: any
-}
-
-/**
- * Result returned when form submission is rejected due to client-side
- * validation errors.
- */
-export interface SubmitClientInvalid {
-  /**
-   * The result type discriminator, always 'invalid'.
-   */
-  type: 'invalid'
-
-  /**
-   * The error source, always 'client' for client-side validation failures.
-   */
-  source: 'client'
-
-  /**
-   * Validation errors keyed by element path.
-   */
-  errors: Record<string, string[]>
-
-  /**
-   * Structured validation issues (`{ path, rule, message }`) — the same
-   * projection as `form$.issues` at the time of submission.
-   */
-  issues: Issue[]
-
-  /**
-   * The form context instance at the time of submission.
-   */
-  context$: any
-}
-
-/**
- * Result returned when the server responds with a 422 validation error.
- */
-export interface SubmitServerInvalid {
-  /**
-   * The result type discriminator, always 'invalid'.
-   */
-  type: 'invalid'
-
-  /**
-   * The error source, always 'server' for 422 validation responses.
-   */
-  source: 'server'
-
-  /**
-   * Validation errors keyed by element path, transformed via
-   * `transformServerInvalid`.
-   */
-  errors: Record<string, string[]>
-
-  /**
-   * Structured issues synthesized from `errors` (`rule: 'server'`), mirroring
-   * the client-side `issues` shape.
-   */
-  issues: Issue[]
-
-  /**
-   * The raw response data from the server.
-   */
-  data: any
-
-  /**
-   * The full HTTP response object.
-   */
-  response: HttpResponse
-
-  /**
-   * The form context instance at the time of submission.
-   */
-  context$: any
-}
-
-/**
- * Union of client-side and server-side validation failure results.
- */
-export type SubmitInvalid = SubmitClientInvalid | SubmitServerInvalid
-
-/**
- * Result returned when form submission fails due to a network or server error.
- */
-export interface SubmitFail {
-  /**
-   * The result type discriminator, always 'fail'.
-   */
-  type: 'fail'
-
-  /**
-   * The category of the failure (e.g. network error, timeout, abort, an origin
-   * blocked by `$security.allowOrigins`, or an SSR-time request).
-   */
-  reason:
-    | 'network'
-    | 'timeout'
-    | 'http'
-    | 'abort'
-    | 'blocked'
-    | 'ssr'
-    | 'unknown'
-
-  /**
-   * The HTTP status code, or null if no response was received.
-   */
-  status: number | null
-
-  /**
-   * A human-readable error message describing the failure.
-   */
-  message: string
-
-  /**
-   * The response data if available, or null.
-   */
-  data: any | null
-
-  /**
-   * The HTTP response object if available, or null.
-   */
-  response: HttpResponse | null
-
-  /**
-   * The form context instance at the time of submission.
-   */
-  context$: any
-}
-
-/**
- * Result returned when form submission is cancelled before sending a request.
- */
-export interface SubmitCancelled {
-  /**
-   * The result type discriminator, always 'cancelled'.
-   */
-  type: 'cancelled'
-
-  /**
-   * The reason the submission was cancelled (e.g. form was invalid, disabled,
-   * or already submitting).
-   */
-  reason: 'loading' | 'disabled' | 'submitting' | 'prevented' | 'unknown'
-
-  /**
-   * The form context instance at the time of submission.
-   */
-  context$: any
-}
-
-/**
- * Discriminated union of all possible form submission outcomes.
- */
-export type SubmitResult =
-  | SubmitSuccess
-  | SubmitInvalid
-  | SubmitFail
-  | SubmitCancelled
+// The submission result types and shared submission props/emits live with the
+// shared runtime in `useSubmission`; re-exported here so existing
+// `blueprints/form` imports keep working.
+export type {
+  SubmissionEmits,
+  SubmissionProps,
+  SubmitCancelled,
+  SubmitClientInvalid,
+  SubmitFail,
+  SubmitInvalid,
+  SubmitResult,
+  SubmitServerInvalid,
+  SubmitSuccess,
+} from '#src/composables'
 
 /**
  * Factory API produced by the form blueprint's `blueprint` function, optionally
@@ -981,8 +688,6 @@ function setup(
   props: LooseRequired<FormProps>,
   events: DefineEvents<FormEmits>
 ) {
-  let abortController: AbortController | null = null
-
   const form$ = createFormContext()
   const $el = useCurrentElement()
   const expression = useExpression()
@@ -1383,37 +1088,6 @@ function setup(
 
   // ================ REFS ================
 
-  /**
-   * The number of times the form has been submitted.
-   */
-  const submits = ref(0)
-
-  /**
-   * Whether the form is currently being submitted.
-   */
-  const submitting = ref(false)
-
-  /**
-   * Whether the form is currently being validated.
-   */
-  const validating = ref(false)
-
-  /**
-   * Whether submit-time validation is currently disabled (see
-   * `disableValidation` / `enableValidation`).
-   */
-  const validationDisabled = ref(false)
-
-  /**
-   * The HTTP response from the most recent submission.
-   */
-  const response = ref<HttpResponse | undefined>()
-
-  /**
-   * The result object from the most recent submission attempt.
-   */
-  const result = ref<SubmitResult | undefined>()
-
   const errorLevel = toRef(props, 'errorLevel')
 
   /**
@@ -1514,6 +1188,12 @@ function setup(
   })
 
   // ============== METHODS ===============
+
+  /**
+   * Whether submit-time validation is currently disabled (see
+   * `disableValidation` / `enableValidation`).
+   */
+  const validationDisabled = ref(false)
 
   /**
    * Turns off the form's built-in submit-time validation entirely — the floor
@@ -1684,303 +1364,86 @@ function setup(
   }
 
   /**
-   * Validates and submits the form, returning a result describing the outcome.
+   * Focuses or scrolls to the first element with an error after a failed
+   * (client or server) validation, falling back to scrolling the form top.
    */
-  const submit = async (): Promise<SubmitResult | undefined> => {
-    submits.value++
-
-    result.value = undefined
-    response.value = undefined
-
-    if (loading.value || disabled.value || submitting.value) {
-      result.value = {
-        type: 'cancelled',
-        reason: loading.value
-          ? 'loading'
-          : disabled.value
-            ? 'disabled'
-            : submitting.value
-              ? 'submitting'
-              : 'unknown',
-        context$,
+  const indicateErrors = async () => {
+    if (!(await focusFirstError())) {
+      if (!(await scrollToFirstError())) {
+        await scrollToTopIfShouldOn('error')
       }
-
-      fire('cancelled', result.value)
-
-      return result.value
     }
-
-    if (!validationDisabled.value) {
-      validating.value = true
-      // Submission always validates as a floor, regardless of `validateOn`:
-      // every element without a current passing result runs (never-validated,
-      // stale, and currently-invalid ones alike), so an untouched form can
-      // never submit unvalidated. Adding `'submit'` to `validateOn` upgrades
-      // this to a forced full re-validation — prior results ignored — for
-      // rules whose outcome can change without the value changing (async
-      // server checks, date boundaries). `disableValidation()` is the only
-      // full opt-out, deliberately programmatic-only.
-      await validate(
-        props.validateOn?.includes('submit') ? { force: true } : undefined
-      )
-      validating.value = false
-    }
-
-    if (invalid.value) {
-      result.value = {
-        type: 'invalid',
-        source: 'client',
-        errors: errors.value,
-        issues: issues.value,
-        context$,
-      }
-
-      if (!(await focusFirstError())) {
-        if (!(await scrollToFirstError())) {
-          await scrollToTopIfShouldOn('error')
-        }
-      }
-
-      return result.value
-    }
-
-    submitting.value = true
-    abortController = new AbortController()
-
-    try {
-      const submitResponse = await fireAsync('submit', payload.value, context$)
-
-      if (submitResponse === false) {
-        result.value = {
-          type: 'cancelled',
-          reason: 'prevented',
-          context$,
-        }
-
-        fire('cancelled', result.value)
-
-        return result.value
-      }
-
-      if (submitResponse !== true) {
-        response.value = submitResponse as HttpResponse
-      } else if (typeof props.endpoint === 'function') {
-        const endpointResult = await props.endpoint(payload.value, context$)
-
-        if (endpointResult === false) {
-          result.value = {
-            type: 'cancelled',
-            reason: 'prevented',
-            context$,
-          }
-
-          fire('cancelled', result.value)
-
-          return result.value
-        }
-
-        if (typeof endpointResult === 'string') {
-          response.value = await $http.request({
-            url: endpointResult,
-            method: props.method,
-            data: payload.value,
-            headers: props.headers,
-            signal: abortController.signal,
-            requestType: props.json ? 'json' : 'form',
-            base64: props.base64,
-          })
-        } else if (endpointResult) {
-          response.value = endpointResult as HttpResponse
-        }
-      } else if (endpoint.value) {
-        response.value = await $http.request({
-          url: endpoint.value,
-          method: props.method,
-          data: payload.value,
-          headers: props.headers,
-          signal: abortController.signal,
-          requestType: props.json ? 'json' : 'form',
-          base64: props.base64,
-        })
-      }
-    } catch (error: any) {
-      if (error instanceof HttpError) {
-        const data = error.response?.data || null
-
-        if (error.reason === 'abort') {
-          result.value = {
-            type: 'fail',
-            reason: 'abort',
-            status: null,
-            message: error.message,
-            data: null,
-            response: null,
-            context$,
-          }
-
-          fire('fail', result.value)
-
-          return result.value
-        } else if (error.status === 422) {
-          // The 422 body is server-controlled and its shape is not trusted:
-          // coerce the error map to `Record<string, string[]>` so a string
-          // value doesn't iterate per-character and a scalar doesn't throw a
-          // `TypeError` from inside error handling.
-          const rawServerErrors =
-            props.transformServerInvalid?.(data, context$) || {}
-          const serverErrors: Record<string, string[]> = {}
-
-          if (isPlainObject(rawServerErrors)) {
-            for (const [path, messages] of Object.entries(rawServerErrors)) {
-              serverErrors[path] = Array.isArray(messages)
-                ? messages.filter((m): m is string => typeof m === 'string')
-                : typeof messages === 'string'
-                  ? [messages]
-                  : []
-            }
-          }
-
-          result.value = {
-            type: 'invalid',
-            source: 'server',
-            errors: serverErrors,
-            issues: Object.entries(serverErrors).flatMap(([path, messages]) =>
-              messages.map((message) => ({
-                path,
-                rule: 'server',
-                message,
-              }))
-            ),
-            data,
-            response: error.response!,
-            context$,
-          }
-
-          if (error.response) {
-            fire('response', error.response)
-          }
-
-          fire('serverInvalid', result.value)
-
-          if (props.setInvalid) {
-            for (const [path, messages] of Object.entries(serverErrors)) {
-              const element = find(path) as any
-              if (element?.messageBag) {
-                for (const msg of messages) {
-                  element.messageBag.append(msg, 'error')
-                }
-              }
-            }
-
-            if (!(await focusFirstError())) {
-              if (!(await scrollToFirstError())) {
-                await scrollToTopIfShouldOn('error')
-              }
-            }
-          }
-
-          return result.value
-        } else {
-          result.value = {
-            type: 'fail',
-            reason: error.reason,
-            status: error.status || null,
-            message: error.message,
-            data,
-            response: error.response || null,
-            context$,
-          }
-
-          if (error.response) {
-            fire('response', error.response)
-          }
-
-          fire('fail', result.value)
-
-          return result.value
-        }
-      } else {
-        throw new Error(error)
-      }
-    } finally {
-      submitting.value = false
-      abortController = null
-    }
-
-    if (
-      response.value &&
-      typeof response.value.status === 'number' &&
-      (response.value.status < 200 || response.value.status >= 300)
-    ) {
-      result.value = {
-        type: 'fail',
-        reason: 'http',
-        status: response.value.status,
-        message: `Request failed with status ${response.value.status}`,
-        data: response.value.data ?? null,
-        response: response.value,
-        context$,
-      }
-
-      fire('response', response.value)
-      fire('fail', result.value)
-
-      return result.value
-    }
-
-    if (response.value) {
-      result.value = {
-        type: 'success',
-        data: response.value.data,
-        status: response.value.status,
-        response: response.value,
-        context$,
-      }
-
-      fire('response', response.value)
-      fire('success', result.value)
-
-      if (successMessage.value) {
-        messageBag.append(successMessage.value, 'message')
-      }
-
-      if (props.resetOnSuccess) {
-        reset()
-      }
-
-      if (props.clearOnSuccess) {
-        clear()
-      }
-
-      if (props.setResponse) {
-        const responseData =
-          props.transformResponse?.(response.value.data, context$) || {}
-
-        if (Object.keys(responseData).length) {
-          update(responseData)
-        }
-      }
-
-      await scrollToTopIfShouldOn('success')
-
-      if (redirect.value) {
-        nextTick(() => {
-          window.location.href = redirect.value!
-        })
-      }
-
-      return result.value
-    }
-
-    return result.value
   }
 
   /**
-   * Aborts the current in-flight submission request.
+   * The shared submission flow (validation floor, submit event / endpoint
+   * dispatch, request, result handling) wired to this form's props, mounted
+   * UX hooks, and event system.
    */
-  const abort = () => {
-    abortController?.abort()
-  }
+  const { submits, submitting, validating, response, result, submit, abort } =
+    useSubmission({
+      context$,
+      http: $http,
+      payload: () => payload.value,
+      update,
+      validate: () =>
+        validate(
+          props.validateOn?.includes('submit') ? { force: true } : undefined
+        ),
+      invalid: () => invalid.value,
+      validationDisabled: () => validationDisabled.value,
+      errors: () => errors.value,
+      issues: () => issues.value,
+      endpoint: () =>
+        typeof props.endpoint === 'function' ? props.endpoint : endpoint.value,
+      method: () => props.method,
+      headers: () => props.headers,
+      json: () => props.json,
+      base64: () => props.base64,
+      setInvalid: () => props.setInvalid,
+      setResponse: () => props.setResponse,
+      transformServerInvalid: () => props.transformServerInvalid,
+      transformResponse: () => props.transformResponse,
+      fire,
+      fireAsync,
+      cancelReason: () =>
+        loading.value ? 'loading' : disabled.value ? 'disabled' : undefined,
+      onClientInvalid: indicateErrors,
+      applyServerErrors: async (serverErrors) => {
+        for (const [path, messages] of Object.entries(serverErrors)) {
+          const element = find(path) as any
+          if (element?.messageBag) {
+            for (const msg of messages) {
+              element.messageBag.append(msg, 'error')
+            }
+          }
+        }
+
+        await indicateErrors()
+      },
+      onSuccess: () => {
+        if (successMessage.value) {
+          messageBag.append(successMessage.value, 'message')
+        }
+
+        if (props.resetOnSuccess) {
+          reset()
+        }
+
+        if (props.clearOnSuccess) {
+          clear()
+        }
+      },
+      onAfterSuccess: async () => {
+        await scrollToTopIfShouldOn('success')
+
+        if (redirect.value) {
+          nextTick(() => {
+            window.location.href = redirect.value!
+          })
+        }
+      },
+    })
 
   /**
    * Registers a child element with the form, setting up its model and data path
@@ -2223,7 +1686,6 @@ export const defaults = defineDefaults<FormProps>()({
   // Function-typed props take function defaults literally (like Vue), so
   // these are the default values themselves, not factories.
   transformPayload: (data: Record<string, any>) => data,
-  transformServerInvalid: (data: Record<string, any> | null) =>
-    data?.errors || data || {},
-  transformResponse: (data: any) => data?.payload || {},
+  transformServerInvalid: defaultTransformServerInvalid,
+  transformResponse: defaultTransformResponse,
 })

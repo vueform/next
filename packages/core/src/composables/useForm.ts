@@ -82,8 +82,10 @@ const unrefProps = (props: Record<string, any>): Record<string, any> =>
 
 // Members shared between a `useModel` instance and the mounted form context.
 // Pre-mount, `form$` answers these from a bound instance; instance-only
-// members (`attached`, `input`, `on`, `validationSchema`) and mount-only
-// members stay off the list so nothing appears or vanishes on mount.
+// members (`attached`, `input`, `validationSchema`) and mount-only members
+// stay off the list so nothing appears or vanishes on mount. `on` exists on
+// both but stays off deliberately: a pre-mount registration would land on the
+// instance's emitter, which the mounted form's submissions don't fire into.
 const sharedModelMembers = new Set([
   'model',
   'data',
@@ -103,8 +105,14 @@ const sharedModelMembers = new Set([
   'reset',
   'clean',
   'validate',
+  'validating',
   'find',
   'submit',
+  'submits',
+  'submitting',
+  'response',
+  'result',
+  'abort',
   'toJSON',
   'toFormData',
   'toStandardSchema',

@@ -316,10 +316,18 @@ describe('useForm', () => {
     form$.set('email', 'john@example.com')
     expect(model$.model.email).toBe('john@example.com')
 
-    // Instance-only and mount-only members stay hidden.
+    // Submission state answers from the instance's own flow pre-mount.
+    expect(form$.submitting).toBe(false)
+    expect(form$.validating).toBe(false)
+    expect(form$.submits).toBe(0)
+    expect(form$.result).toBeUndefined()
+    expect(typeof form$.abort).toBe('function')
+
+    // Instance-only and mount-only members stay hidden — `on` deliberately,
+    // since pre-mount registrations wouldn't fire from the mounted form.
     expect((form$ as any).attached).toBeUndefined()
     expect((form$ as any).inputRef).toBeUndefined()
-    expect(form$.submitting).toBeUndefined()
+    expect((form$ as any).on).toBeUndefined()
 
     // After mount the context takes over — same store, values survive.
     show.value = true
@@ -330,6 +338,7 @@ describe('useForm', () => {
     expect(form$.model.email).toBe('john@example.com')
     expect(form$.hasAttachedModel).toBe(true)
     expect(form$.submitting).toBe(false)
+    expect(typeof form$.on).toBe('function')
   })
 
   it('answers nothing before mount for non-instance models', () => {

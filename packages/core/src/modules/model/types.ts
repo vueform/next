@@ -1,10 +1,16 @@
 import type { Ref } from 'vue'
 
+import type {
+  SubmissionEmits,
+  SubmissionProps,
+  SubmitResult,
+} from '#src/composables/useSubmission'
 import type { ConditionalProp } from '#src/modules/conditions'
 import type {
   ExpressionNodeState,
   ExpressionTracker,
 } from '#src/modules/expression'
+import type { HttpResponse } from '#src/modules/http'
 import type { Issue, RulesProp, TRulesProp } from '#src/modules/validation'
 import type {
   ArraySchema,
@@ -25,16 +31,82 @@ import type {
   makeMountedNode,
   makeRootModel,
 } from './createModel'
-import type {
-  hasModelStore,
-  makeModelStore,
-  ModelStoreEvents,
-} from './modelStore'
+import type { hasModelStore, makeModelStore } from './modelStore'
 
 /**
  * Configuration options for the model module (`config.$model`).
  */
 export interface ModelModuleOptions {}
+
+/**
+ * The data events a `useModel` instance fires alongside the submission events.
+ * The context argument is the instance's virtual form facade.
+ */
+export interface ModelDataEmits<TContext = any> {
+  /**
+   * Fired when any model value changes, with the new and previous snapshots.
+   *
+   * @param newValue The new model data.
+   * @param oldValue The previous model data.
+   * @param context$ The instance's virtual form context.
+   */
+  change: [
+    newValue: Record<string, any>,
+    oldValue: Record<string, any>,
+    context$: TContext,
+  ]
+
+  /**
+   * Fired when the model is reset to its initial snapshot.
+   *
+   * @param context$ The instance's virtual form context.
+   */
+  reset: [context$: TContext]
+
+  /**
+   * Fired when the model is cleared to its null values.
+   *
+   * @param context$ The instance's virtual form context.
+   */
+  clear: [context$: TContext]
+
+  /**
+   * Fired when data is loaded via `load()`.
+   *
+   * @param value The loaded model value.
+   * @param context$ The instance's virtual form context.
+   */
+  load: [value: any, context$: TContext]
+}
+
+/**
+ * Every event a `useModel` instance can fire: the shared submission events plus
+ * the model data events.
+ */
+export type ModelInstanceEvents = SubmissionEmits & ModelDataEmits
+
+/**
+ * Maps an emits interface to optional `onXxx` callback members (e.g.
+ * `serverInvalid` becomes `onServerInvalid`), each typed with the event's
+ * argument tuple.
+ */
+export type OnCallbacks<E> = {
+  [K in keyof E & string as `on${Capitalize<K>}`]?: (
+    ...args: E[K] extends any[] ? E[K] : any[]
+  ) => any
+}
+
+/**
+ * The `onXxx` callback options accepted by `useModel`, derived from the
+ * submission and model data events.
+ */
+export type UseModelCallbacks = OnCallbacks<ModelInstanceEvents>
+
+/**
+ * The submission-related `useModel` options: the shared submission props plus
+ * the event callbacks.
+ */
+export type UseModelSubmissionOptions = SubmissionProps & UseModelCallbacks
 
 /**
  * The model module instance: a stateless factory capturing the app config.
@@ -97,7 +169,7 @@ export interface ModelModule {
       schema: S | Ref<S>
       validationSchema?: StandardSchemaV1
       languages?: LanguagesProp
-    },
+    } & UseModelSubmissionOptions,
     seed?: DeepPartial<SchemaToModel<S>> & Record<string, any>
   ): ModelInstance<S>
   make(
@@ -105,7 +177,7 @@ export interface ModelModule {
       schema: FormSchema | Ref<FormSchema>
       validationSchema?: StandardSchemaV1
       languages?: LanguagesProp
-    },
+    } & UseModelSubmissionOptions,
     seed?: Record<string, any>
   ): ModelInstance
 }
@@ -509,18 +581,56 @@ export type ModelInstance<TSchema = FormSchema> = {
   toFormData: () => FormData
 
   /**
-   * Subscribes a listener to a model event, returning an unsubscribe function.
+   * Subscribes a listener to a model event — the data events (`change`,
+   * `load`, `reset`, `clear`) or any submission event (`submit`, `success`,
+   * `fail`, `serverInvalid`, `cancelled`, `response`, `invalid`, `valid`) —
+   * returning an unsubscribe function.
    *
    * @param event The event name.
    * @param cb The listener to register.
    */
-  on: (event: ModelStoreEvents, cb: (...args: any[]) => void) => () => void
+  on: <E extends keyof ModelInstanceEvents & string>(
+    event: E,
+    cb: (...args: ModelInstanceEvents[E]) => any
+  ) => () => void
 
   /**
-   * Submits the attaching form. Warns and resolves `undefined` when no form has
-   * attached the model.
+   * Submits the model. When a form has attached the instance, the form's
+   * `submit()` runs (its props and UX apply); otherwise the instance's own
+   * submission flow runs against the `endpoint` / `method` / transform options
+   * and fires the `onXxx` callbacks.
    */
-  submit: () => Promise<any>
+  submit: () => Promise<SubmitResult | undefined>
+
+  /**
+   * Aborts the instance's in-flight submission request, if any.
+   */
+  abort: () => void
+
+  /**
+   * Whether the instance's own submission flow is currently running.
+   */
+  readonly submitting: boolean
+
+  /**
+   * Whether the instance's own submission flow is currently validating.
+   */
+  readonly validating: boolean
+
+  /**
+   * The number of times the instance's own submission flow has been started.
+   */
+  readonly submits: number
+
+  /**
+   * The HTTP response from the instance's most recent own submission.
+   */
+  readonly response: HttpResponse | undefined
+
+  /**
+   * The result object from the instance's most recent own submission attempt.
+   */
+  readonly result: SubmitResult | undefined
 
   /**
    * Returns the (virtual) element context at the given element path (e.g.

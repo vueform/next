@@ -121,6 +121,44 @@ describe('useModel computed schema acceptance', () => {
   })
 })
 
+describe('useModel submission options', () => {
+  test('submission options and event callbacks are typed', () => {
+    const sub$ = useModel({
+      schema: { name: { type: 'text' } },
+      endpoint: '/api/users',
+      method: 'PUT',
+      json: true,
+      setInvalid: true,
+      transformPayload: (payload) => payload,
+      onSuccess: (result) => {
+        expectTypeOf(result.type).toEqualTypeOf<'success'>()
+        expectTypeOf(result.status).toEqualTypeOf<number>()
+      },
+      onServerInvalid: (result) => {
+        expectTypeOf(result.errors).toEqualTypeOf<Record<string, string[]>>()
+      },
+      onChange: (newValue, _oldValue, _context$) => {
+        expectTypeOf(newValue).toEqualTypeOf<Record<string, any>>()
+      },
+    })
+
+    expectTypeOf(sub$.submitting).toEqualTypeOf<boolean>()
+    expectTypeOf(sub$.submits).toEqualTypeOf<number>()
+    expectTypeOf(sub$.abort).toEqualTypeOf<() => void>()
+
+    const unsubscribe = sub$.on('success', (result) => {
+      expectTypeOf(result.type).toEqualTypeOf<'success'>()
+    })
+    expectTypeOf(unsubscribe).toEqualTypeOf<() => void>()
+
+    useModel({
+      schema: { name: { type: 'text' } },
+      // @ts-expect-error — endpoint must be a string or handler function
+      endpoint: 5,
+    })
+  })
+})
+
 describe('useModel seed argument acceptance', () => {
   test('the acceptance matrix is intentionally wide (partial and extra keys allowed)', () => {
     // No negative cases here by design.
