@@ -349,6 +349,8 @@ const lowercase = createRule('lowercase', (value) => {
 })
 ```
 
+`{attribute}` resolves to the element's display name — whatever human-readable text the element already presents to the user (each element decides which of its texts that is), falling back to its `name` — so a field presented as _Username_ reads _"The Username must be lowercase."_
+
 Both the returned string and the `message` option also accept locale-keyed objects for multilingual messages, and can name a locale tag instead of literal text — covered with the rest of message handling later in the chapter.
 
 ### Parameters
@@ -407,7 +409,7 @@ const matchField = createRule(
     params: ['other$'],
     message: 'The {attribute} must match {other}.',
     messageParams: ({ params }) => ({
-      other: params.other$?.genericName,
+      other: params.other$?.displayName,
     }),
   }
 )

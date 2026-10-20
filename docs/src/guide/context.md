@@ -53,7 +53,7 @@ formReady((form$) => {
 const form$ = await formReady()
 ```
 
-## Element Contexts
+## Element Context
 
 The form context is also the gateway to its elements: its [`find`](/components/VfForm#context.find) method looks up any registered element's context by [path](/guide/element-paths). When the form is typed from a `defineSchema` result, TypeScript suggests the known paths:
 
