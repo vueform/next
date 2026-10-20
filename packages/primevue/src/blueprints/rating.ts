@@ -13,8 +13,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -116,14 +115,10 @@ export interface RatingParts extends BaseFieldElementParts {}
 export interface RatingClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the rating element blueprint.
+ * Part-keyed attribute bindings of the rating element blueprint, extended by
+ * the consuming component via `useBindings`.
  */
-export interface RatingModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the rating element blueprint.
- */
-export interface RatingA11y extends BaseElementA11y {}
+export interface RatingBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for rating-based components.

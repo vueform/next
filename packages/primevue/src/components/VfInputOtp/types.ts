@@ -2,7 +2,8 @@ import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type {
   InputOtpProps as PvInputOtpProps,
@@ -10,12 +11,11 @@ import type {
 } from 'primevue'
 
 import type {
-  InputOtpA11y,
   InputOtpApi,
+  InputOtpBindings,
   InputOtpClasses,
   InputOtpEmits,
   InputOtpExpose,
-  InputOtpModifiers,
   InputOtpParts,
   InputOtpProps,
   InputOtpSlots,
@@ -91,15 +91,13 @@ export interface VfInputOtpClasses
 }
 
 /**
- * Accessibility bindings of the VfInputOtp component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfInputOtp component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfInputOtpA11y extends InputOtpA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfInputOtp component.
- */
-export interface VfInputOtpModifiers extends InputOtpModifiers {
+export interface VfInputOtpBindings
+  extends InputOtpBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -109,11 +107,11 @@ export interface VfInputOtpModifiers extends InputOtpModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -141,8 +139,7 @@ export interface VfInputOtpContext extends DefineElementContext<
   VfInputOtpSlots,
   VfInputOtpParts,
   VfInputOtpClasses,
-  VfInputOtpModifiers,
-  VfInputOtpA11y,
+  VfInputOtpBindings,
   VfInputOtpExpose,
   InputOtpApi
 > {}

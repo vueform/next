@@ -10,19 +10,19 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   UnwrapEntryRef,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { TreeSelectProps as PvTreeSelectProps } from 'primevue'
 import type { TreeSelectSlots as ATreeSelectSlots } from 'primevue/treeselect'
 import type { VNode } from 'vue'
 
 import type {
-  TreeSelectA11y,
   TreeSelectApi,
+  TreeSelectBindings,
   TreeSelectClasses,
   TreeSelectEmits,
   TreeSelectExpose,
-  TreeSelectModifiers,
   TreeSelectParts,
   TreeSelectProps,
   TreeSelectSlots,
@@ -251,15 +251,12 @@ export interface VfTreeSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfTreeSelect component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfTreeSelect component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfTreeSelectA11y extends TreeSelectA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfTreeSelect component.
- */
-export interface VfTreeSelectModifiers extends TreeSelectModifiers {
+export interface VfTreeSelectBindings
+  extends TreeSelectBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -269,13 +266,13 @@ export interface VfTreeSelectModifiers extends TreeSelectModifiers {
   }
 
   /**
-   * The tree-select control's validation state and placeholder marker, set
-   * while the value is empty and a placeholder is shown.
+   * The tree-select control's validation state, placeholder marker (set while
+   * the value is empty and a placeholder is shown), and ARIA state.
    */
   input: {
     'data-invalid'?: ''
     'data-placeholder'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -306,8 +303,7 @@ export interface VfTreeSelectContext<
   VfTreeSelectSlots,
   VfTreeSelectParts,
   VfTreeSelectClasses,
-  VfTreeSelectModifiers,
-  VfTreeSelectA11y,
+  VfTreeSelectBindings,
   VfTreeSelectExpose,
   TreeSelectApi<TProps>
 > {}

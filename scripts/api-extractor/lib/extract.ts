@@ -2385,9 +2385,7 @@ export function extractComponentAugmentations(
   let classesDecl: ts.InterfaceDeclaration | undefined
 
   for (const fileName of ['unstyled.ts', 'styled.ts', 'index.ts']) {
-    const sourceFile = program.getSourceFile(
-      path.join(componentDir, fileName)
-    )
+    const sourceFile = program.getSourceFile(path.join(componentDir, fileName))
     if (!sourceFile) continue
     slotsDecl ??= findDeclareModuleInterface(
       sourceFile,

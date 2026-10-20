@@ -15,8 +15,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -167,14 +166,10 @@ export interface RadioButtonParts extends BaseFieldElementParts {}
 export interface RadioButtonClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the radio-button element blueprint.
+ * Part-keyed attribute bindings of the radio-button element blueprint, extended
+ * by the consuming component via `useBindings`.
  */
-export interface RadioButtonModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the radio-button element blueprint.
- */
-export interface RadioButtonA11y extends BaseElementA11y {}
+export interface RadioButtonBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for radio-button-based components.

@@ -19,8 +19,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -177,14 +176,10 @@ export interface InputNumberParts extends BaseFieldElementParts {}
 export interface InputNumberClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the input-number element blueprint.
+ * Part-keyed attribute bindings of the input-number element blueprint,
+ * extended by the consuming component via `useBindings`.
  */
-export interface InputNumberModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the input-number element blueprint.
- */
-export interface InputNumberA11y extends BaseElementA11y {}
+export interface InputNumberBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for input-number-based components.

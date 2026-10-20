@@ -321,7 +321,7 @@ declare module 'vue' {
         :invalid
         fluid
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{ ...forwardProps, ...classCompat(bindings.input) }"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keypress="handleKeypress"

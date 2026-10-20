@@ -4,7 +4,7 @@ import {
   type BaseComponentExpose,
   type DefineEvents,
   type LooseRequired,
-  type UnknownElementParts,
+  type Parts,
 } from '@vueform/core'
 import {
   blueprint as useSetup,
@@ -13,9 +13,8 @@ import {
   type LayoutEmits,
   type LayoutParts,
   type LayoutSlots,
-  type LayoutA11y,
+  type LayoutBindings,
   type LayoutClasses,
-  type LayoutModifiers,
 } from '@vueform/core/blueprints/layout'
 import { computed, toRef, unref } from 'vue'
 
@@ -25,9 +24,8 @@ export type {
   LayoutEmits,
   LayoutParts,
   LayoutSlots,
-  LayoutA11y,
+  LayoutBindings,
   LayoutClasses,
-  LayoutModifiers,
 }
 
 /**
@@ -82,11 +80,6 @@ export function blueprint<TProps extends LayoutProps>(
   )
 
   /**
-   * The host element's resolved outlets (`el$.outlets`).
-   */
-  const elementSlots = el$.outlets
-
-  /**
    * The pager of the element's container, if any.
    *
    * Always a `Ref` (never `Ref | undefined`) so `ContextOf` / `slotContext`
@@ -116,9 +109,9 @@ export function blueprint<TProps extends LayoutProps>(
   const hasIcons = computed(
     () =>
       !!(
-        elementSlots['icon-before'] ||
+        el$.outlets['icon-before'] ||
         el$.iconBefore ||
-        elementSlots['icon-after'] ||
+        el$.outlets['icon-after'] ||
         el$.iconAfter ||
         isLoading.value
       )
@@ -127,12 +120,12 @@ export function blueprint<TProps extends LayoutProps>(
   const hasBeforeAddon = computed(
     () =>
       el$.addonable &&
-      !!(elementSlots['addon-before'] || el$.addonsBefore.length)
+      !!(el$.outlets['addon-before'] || el$.addonsBefore.length)
   )
 
   const hasAfterAddon = computed(
     () =>
-      el$.addonable && !!(elementSlots['addon-after'] || el$.addonsAfter.length)
+      el$.addonable && !!(el$.outlets['addon-after'] || el$.addonsAfter.length)
   )
 
   /**
@@ -142,7 +135,7 @@ export function blueprint<TProps extends LayoutProps>(
   const hasLanguageAddon = computed(
     () =>
       props.languages !== false &&
-      ((!!el$.props.translate && el$.translatable) || !!elementSlots.language)
+      ((!!el$.props.translate && el$.translatable) || !!el$.outlets.language)
   )
 
   /**
@@ -158,13 +151,13 @@ export function blueprint<TProps extends LayoutProps>(
    * Whether a PrimeVue FloatLabel wrapper is active.
    */
   const hasFloat = computed(
-    () => el$.floatLabel !== undefined || !!elementSlots['float-label']
+    () => el$.floatLabel !== undefined || !!el$.outlets['float-label']
   )
 
   /**
    * Whether a PrimeVue IftaLabel wrapper is active.
    */
-  const hasIfta = computed(() => el$.ifta !== undefined || !!elementSlots.ifta)
+  const hasIfta = computed(() => el$.ifta !== undefined || !!el$.outlets.ifta)
 
   /**
    * Whether either a FloatLabel or IftaLabel wrapper is rendered.
@@ -179,8 +172,11 @@ export function blueprint<TProps extends LayoutProps>(
     if (el$.props.layout !== false) return undefined
 
     const resolvedTokenClass = tokenCss.value ? tokenClass : null
-    const parts = el$.parts as UnknownElementParts | undefined
-    const root = parts?.root
+    // The element's part-override surface: whether a wrapper `<div>` renders
+    // at all hinges on a raw `part:root` override existing, which the merged
+    // `bindings.root()` bag cannot answer (definitions alone produce a bag).
+    const parts = el$.parts as Parts | undefined
+    const root = parts?.root()
 
     if (root) {
       return {
@@ -224,7 +220,6 @@ export function blueprint<TProps extends LayoutProps>(
     ...base,
     useLabelTag,
     tags,
-    elementSlots,
     pager,
     infoTooltipArg,
     isLoading,

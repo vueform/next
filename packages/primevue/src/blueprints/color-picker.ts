@@ -12,8 +12,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -142,14 +141,10 @@ export interface ColorPickerParts extends BaseFieldElementParts {}
 export interface ColorPickerClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the color-picker element blueprint.
+ * Part-keyed attribute bindings of the color-picker element blueprint,
+ * extended by the consuming component via `useBindings`.
  */
-export interface ColorPickerModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the color-picker element blueprint.
- */
-export interface ColorPickerA11y extends BaseElementA11y {}
+export interface ColorPickerBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for color-picker-based components.

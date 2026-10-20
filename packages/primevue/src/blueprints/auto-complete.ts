@@ -15,8 +15,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -178,14 +177,10 @@ export interface AutoCompleteParts extends BaseFieldElementParts {}
 export interface AutoCompleteClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the auto-complete element blueprint.
+ * Part-keyed attribute bindings of the auto-complete element blueprint,
+ * extended by the consuming component via `useBindings`.
  */
-export interface AutoCompleteModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the auto-complete element blueprint.
- */
-export interface AutoCompleteA11y extends BaseElementA11y {}
+export interface AutoCompleteBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for auto-complete-based components.

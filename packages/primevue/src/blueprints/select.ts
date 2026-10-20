@@ -18,8 +18,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -182,14 +181,10 @@ export interface SelectParts extends BaseFieldElementParts {}
 export interface SelectClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the select element blueprint.
+ * Part-keyed attribute bindings of the select element blueprint, extended by
+ * the consuming component via `useBindings`.
  */
-export interface SelectModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the select element blueprint.
- */
-export interface SelectA11y extends BaseElementA11y {}
+export interface SelectBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for select-based components.

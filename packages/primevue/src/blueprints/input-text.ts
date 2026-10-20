@@ -19,8 +19,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -171,14 +170,10 @@ export interface InputTextParts extends BaseFieldElementParts {}
 export interface InputTextClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the input-text element blueprint.
+ * Part-keyed attribute bindings of the input-text element blueprint, extended
+ * by the consuming component via `useBindings`.
  */
-export interface InputTextModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the input-text element blueprint.
- */
-export interface InputTextA11y extends BaseElementA11y {}
+export interface InputTextBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for input-text-based components.

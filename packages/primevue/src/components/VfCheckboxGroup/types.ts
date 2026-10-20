@@ -1,10 +1,11 @@
 import type {
   WidenProps,
+  ChoicesAriaBag,
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
   DomAttrsOf,
-  GroupAriaA11y,
+  LayoutRegionBindings,
   ResolvedBindings,
   PartOf,
   ResolvedGroup,
@@ -12,12 +13,11 @@ import type {
 import type { VNode } from 'vue'
 
 import type {
-  CheckboxGroupA11y,
   CheckboxGroupApi,
+  CheckboxGroupBindings,
   CheckboxGroupClasses,
   CheckboxGroupEmits,
   CheckboxGroupExpose,
-  CheckboxGroupModifiers,
   CheckboxGroupParts,
   CheckboxGroupProps,
   CheckboxGroupSlots,
@@ -39,10 +39,9 @@ import type {
 /**
  * Resolved per-part binding bags for VfCheckboxGroup slot scopes.
  */
-type VfCheckboxGroupBindings = ResolvedBindings<
+type VfCheckboxGroupResolvedBindings = ResolvedBindings<
   VfCheckboxGroupParts,
-  VfCheckboxGroupModifiers,
-  VfCheckboxGroupA11y
+  VfCheckboxGroupBindings
 >
 
 /**
@@ -234,7 +233,7 @@ export interface VfCheckboxGroupSlots<
      * The group fieldset's resolved bindings (part overrides for this group's
      * fieldset element); apply with `v-bind`.
      */
-    bindings: VfCheckboxGroupBindings['group']
+    bindings: VfCheckboxGroupResolvedBindings['group']
   }) => VNode[]
 
   /**
@@ -275,7 +274,7 @@ export interface VfCheckboxGroupSlots<
      * The item's resolved bindings (part overrides for this item's VfCheckbox
      * child); apply with `v-bind`.
      */
-    bindings: VfCheckboxGroupBindings['item']
+    bindings: VfCheckboxGroupResolvedBindings['item']
   }) => VNode[]
 
   /**
@@ -364,14 +363,14 @@ export interface VfCheckboxGroupClasses extends CheckboxGroupClasses {
 }
 
 /**
- * Accessibility bindings of the VfCheckboxGroup component.
+ * Part-keyed binding definitions of the VfCheckboxGroup component: its own
+ * state markers merged with the `choicesAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries resolve at each part's
+ * consuming site and their keys stay static; the per-group/per-item entries
+ * are parameterized, so their keys are functional.
  */
-export interface VfCheckboxGroupA11y extends CheckboxGroupA11y, GroupAriaA11y {}
-
-/**
- * Styling modifiers of the VfCheckboxGroup component.
- */
-export interface VfCheckboxGroupModifiers extends CheckboxGroupModifiers {
+export interface VfCheckboxGroupBindings
+  extends CheckboxGroupBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -381,14 +380,44 @@ export interface VfCheckboxGroupModifiers extends CheckboxGroupModifiers {
   }
 
   /**
-   * The group container's layout markers (stacked row layout, vertical
-   * alignment with adjacent form controls) and validation state.
+   * The group container's role, labelling, and ARIA state (from the
+   * `choicesAria` pattern) merged with its layout markers (stacked row
+   * layout, vertical alignment with adjacent form controls) and validation
+   * state. A zero-argument resolver: it reads child-aggregating state
+   * (`invalid`), which must resolve in the wrapper's own render effect.
    */
   wrapper: {
     'data-stacked'?: ''
     'data-aligned'?: ''
     'data-invalid'?: ''
-  }
+  } & ChoicesAriaBag
+
+  /**
+   * Per-group binding resolver for the group fieldset — a mode marker: it
+   * contributes no attributes of its own, it keys the part functional so
+   * per-group part overrides resolve with the group data.
+   *
+   * @param group The group data.
+   */
+  group: (group: Record<string, any>) => {}
+
+  /**
+   * Per-group binding resolver for the group legend — a mode marker: it
+   * contributes no attributes of its own, it keys the part functional so
+   * per-group part overrides resolve with the group data.
+   *
+   * @param group The group data.
+   */
+  groupLabel: (group: Record<string, any>) => {}
+
+  /**
+   * Per-item binding resolver for each `VfCheckbox` child — a mode marker: it
+   * contributes no attributes of its own, it keys the part functional so
+   * per-item part overrides resolve with the item data.
+   *
+   * @param item The checkbox item data.
+   */
+  item: (item: Record<string, any>) => {}
 }
 
 /**
@@ -426,8 +455,7 @@ export interface VfCheckboxGroupContext<
   VfCheckboxGroupSlots,
   VfCheckboxGroupParts,
   VfCheckboxGroupClasses,
-  VfCheckboxGroupModifiers,
-  VfCheckboxGroupA11y,
+  VfCheckboxGroupBindings,
   VfCheckboxGroupExpose,
   CheckboxGroupApi<TProps>
 > {}

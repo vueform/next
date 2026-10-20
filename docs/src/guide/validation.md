@@ -44,9 +44,9 @@ That one prop is a complete validation setup. With nothing else configured:
 
 - The element **validates** on its first **blur**, and the failing rule's message renders beneath the input — localized, with the element's label filled in: _"The Email must be a valid email address."_
 - Once a rule has **failed**, every subsequent edit **revalidates**, so the user gets immediate feedback exactly while they're correcting the value.
-- **Submitting** validates everything that doesn't currently pass. A failure blocks the request, and Vueform scrolls to and focuses the first invalid element.
+- **Submitting** validates everything that doesn't currently pass. A failure blocks the request, and Vueform scrolls to and focuses the first invalid element by default.
 
-The rendered errors are projections of state you can also read in code, wherever an [element](/guide/context#element-contexts) or [form context](/guide/context#form-context) is available:
+The rendered errors are projections of state you can also read in code, wherever an [element](/guide/context#element-context) or [form context](/guide/context#form-context) is available:
 
 ```ts
 formReady(async (form$) => {
@@ -62,7 +62,7 @@ formReady(async (form$) => {
 })
 ```
 
-`errors` carries the readable messages; `issues` is the structured counterpart with the path and the rule behind each one. The full validation API is documented in each component's context reference — see the validation section of [the form's context](/components/VfForm#context.section-validation) and of each element's, e.g. [VfText](/components/VfText#context.section-validation).
+`errors` carries the readable messages; `issues` is the structured counterpart with the path and the rule behind each one. The full validation API is documented in each [component](/components)'s context reference — see the validation section of [the form's context](/components/VfForm#context.section-validation) and of each element's, e.g. [VfText](/components/VfText#context.section-validation).
 
 Declaring the rule is the entire job. When rules run, what the messages say, and where errors appear are defaults you can tune.
 
@@ -118,8 +118,8 @@ Reach for the full re-run when a result can go stale without the value changing 
 Triggers describe a form nobody has interacted with yet. Interaction escalates the schedule:
 
 1. After an element **fails** a rule, every subsequent change re-validates it until it passes again.
-2. After an element's first **blur** (with the `blur` trigger active), every subsequent change validates it.
-3. After the form's first **submit attempt**, every element validates on every change for the rest of the form's life — regardless of `validateOn`.
+2. After an element's **first blur** (with the `blur` trigger active), every subsequent change validates it.
+3. After the form's **first submit attempt**, every element validates on every change for the rest of the form's life — regardless of `validateOn`.
 
 The result is a deliberate UX curve. Fresh input is never flagged mid-word, the first completed interaction gets checked, and from then on the user sees the error flip to resolved the moment their correction lands.
 
@@ -180,7 +180,7 @@ gt:min_price
 after:start_date
 ```
 
-Dot paths reach elements nested in groups, and wildcard paths resolve siblings inside a list:
+Dot paths reach elements nested in [groups](/guide/form-structure#grouping-elements), and wildcard paths resolve siblings inside a list:
 
 ```
 same:address.city
@@ -241,9 +241,7 @@ Error messages come from the schema library itself — configure them where you 
 
 Element rules check one value at a time. A **Validation Schema** validates the whole model with a single Standard Schema. Its strongest case is a schema your backend already validates with — attach it to the form, and both sides enforce the same constraints from one definition:
 
-::: code-group
-
-```ts [useForm]
+```ts
 import { z } from 'zod'
 import { defineSchema, useForm } from '@vueform/ui'
 
@@ -268,32 +266,6 @@ const schema = defineSchema(
 
 const [MyForm] = useForm({ schema })
 ```
-
-```vue [&lt;VfForm>]
-<script setup lang="ts">
-import { z } from 'zod'
-
-// the same schema your server validates the payload with
-const registration = z
-  .object({
-    password: z.string().min(8),
-    password_confirmed: z.string(),
-  })
-  .refine((data) => data.password === data.password_confirmed, {
-    message: "Passwords don't match.",
-    path: ['password_confirmed'],
-  })
-</script>
-
-<template>
-  <VfForm :validation-schema="registration">
-    <VfText name="password" input-type="password" />
-    <VfText name="password_confirmed" input-type="password" />
-  </VfForm>
-</template>
-```
-
-:::
 
 Note that no element declares `rules` here — the minimum length and the confirmation check both come from the Zod schema, which validates them interactively in the form exactly as it validates the payload on the server. Element rules and a Validation Schema also combine freely when you want both.
 
@@ -340,3 +312,197 @@ A mismatch surfaces right where you write the schema — as a diagnostic naming 
 - **Nesting is followed** — groups and lists compare structurally against their nested model shapes.
 
 The strict check applies wherever the two schemas meet with full type information — `!defineSchema`, `!defineComputedSchema`, and `!useModel`'s option. `!useForm`'s `validationSchema` option is looser — a mismatch there falls back to the untyped overload instead of erroring, which is one more reason to prefer attaching via `!defineSchema`. <!-- @todo: after completing .temp/tasks/useform-refact.md, useForm should gain full consistency -->
+
+## Writing Your Own Rules
+
+A custom rule is a check function created with the `createRule` factory:
+
+```ts
+import { createRule } from '@vueform/ui'
+
+const lowercase = createRule('lowercase', (value) => {
+  return value === value.toLowerCase()
+})
+```
+
+The definition goes straight into an element's `rules` array, next to any other rule:
+
+```vue
+<VfText name="username" :rules="['required', lowercase]" />
+```
+
+The check receives the current value and a rule **context** — the element ([`el$`](/guide/context#element-context)), the form ([`form$`](/guide/context#form-context)), declared `params`, and helpers. It returns `true` for valid, `false` for invalid, or a **string** for invalid with that string as the message.
+
+::: info
+`!createRule` is context-free — it's safe to call at module scope, even before `createVueform` runs, so rules can live in their own shared modules.
+:::
+
+### Error Message
+
+A check that returns plain `false` falls back to the generic locale message (_"Invalid field"_ in `en_US`). Return a string for a one-off message, or set the `message` option to give the rule its message once, with placeholders available:
+
+```ts
+const lowercase = createRule('lowercase', (value) => {
+  return value === value.toLowerCase()
+}, {
+  message: 'The {attribute} must be lowercase.',
+})
+```
+
+Both the returned string and the `message` option also accept locale-keyed objects for multilingual messages, and can name a locale tag instead of literal text — covered with the rest of message handling later in the chapter.
+
+### Parameters
+
+Declare parameter names with the `params` option:
+
+```ts
+const minWords = createRule(
+  'min_words',
+  (value, { params }) => {
+    const count = value.trim().split(/\s+/).length
+    return count >= Number(params.min)
+  },
+  {
+    params: ['min'],
+    message: 'Must have at least {min} words.',
+  }
+)
+```
+
+The `params` object in the check is **typed from the declaration** — every declared name is a known key, so `params.min` autocompletes and a typo is a compile error.
+
+Calling the definition returns a configured copy (the original is never mutated), with arguments passed by position or by name:
+
+```vue
+<!-- Positional -->
+<VfText name="bio" :rules="['required', minWords(3)]" />
+
+<!-- Named -->
+<VfText name="bio" :rules="['required', minWords({ min: 3 })]" />
+```
+
+Once [registered globally](#registering-rules-globally), the same parameters travel in the rule string:
+
+```vue
+<VfText name="bio" rules="required|min_words:3" />
+```
+
+Append `?` to mark a parameter optional:
+
+```ts
+params: ['min', 'max?']
+```
+
+A left-out parameter never throws — the check simply receives `undefined` for it. The difference is that a missing **required** parameter logs a dev console warning naming the param, the rule, and the element, while an optional one stays silent. Declare a param optional only when the check genuinely handles its absence.
+
+### Referencing Other Elements
+
+Some rules compare against another element — "must match the password", "must be after the start date". Declare such a parameter with a `$` suffix and it takes an [element path](/guide/element-paths), which Vueform resolves to the element's [context](/guide/context#element-context) for you:
+
+```ts
+const matchField = createRule(
+  'match_field',
+  (value, { params }) => value === params.other$?.value,
+  {
+    params: ['other$'],
+    message: 'The {attribute} must match {other}.',
+    messageParams: ({ params }) => ({
+      other: params.other$?.genericName,
+    }),
+  }
+)
+```
+
+Used as `matchField('pwd')` (or `match_field:pwd` once registered), the single declaration yields two params:
+
+- `params.other` — the path as passed (`'pwd'`)
+- `params.other$` — the element context found at that path, typed `StatefulElement | undefined` since the path might not match any element
+
+Vueform **watches** the element at the path, so the rule revalidates whenever `pwd` changes — the same automatic wiring the built-in comparison rules get.
+
+In the message, `{other}` is the raw path by default — _"The Confirm Password must match pwd."_ The `messageParams` above swaps in the referenced element's label instead — _"The Confirm Password must match Password."_ Values resolving to `undefined` are ignored, so when no element exists at the path, the message falls back to the path.
+
+Append `$?` instead of `$` to make the reference itself optional.
+
+### Dependencies the Engine Can't See
+
+Sometimes a check reads another element at a **fixed or derived** path — hard-coded inside the function rather than passed as a `$` param. Vueform can't see that dependency, so the rule wouldn't re-run when the other element changes. Declare the path with `deps` to get the same automatic revalidation:
+
+```ts
+const matchesOther = createRule(
+  'matches_other',
+  (value, { form$ }) => value === form$?.find('other')?.value,
+  {
+    deps: ['other'],
+    message: 'Must match the other field.',
+  }
+)
+```
+
+When the path isn't static, `deps` can be a function — it receives the same context as the check and returns the paths. Here the rule compares against a `_confirmed` sibling derived from the element's own path, and `deps` derives the same path so that sibling is watched:
+
+```ts
+const confirmedBySibling = createRule(
+  'confirmed_by_sibling',
+  (value, { el$, form$ }) =>
+    value === form$?.find(`${el$.path}_confirmed`)?.value,
+  {
+    deps: ({ el$ }) => [`${el$.path}_confirmed`],
+    message: 'The {attribute} must be confirmed.',
+  }
+)
+```
+
+### Extra Message Placeholders
+
+`messageParams` injects computed placeholders into the message — or overrides existing ones:
+
+```ts
+const maxFileSize = createRule(
+  'max_file_size',
+  (value, { params }) => {
+    return value.size <= Number(params.max) * 1024
+  },
+  {
+    params: ['max'],
+    message: '{attribute} must be under {maxMB}.',
+    messageParams: ({ params }) => ({
+      maxMB: `${params.max}MB`,
+    }),
+  }
+)
+```
+
+### Registering Rules Globally
+
+Register custom rules in the app config to reference them by name in string and array syntax, like built-ins:
+
+```ts
+import { createVueform, createRule } from '@vueform/ui'
+
+const phone = createRule('phone', (value) => /^\+?[\d\s-()]+$/.test(value), {
+  message: 'Must be a valid phone number.',
+})
+
+app.use(
+  createVueform({
+    rules: {
+      phone,
+    },
+  })
+)
+```
+
+```vue
+<VfText name="phone" rules="required|phone" />
+```
+
+For the registered names to autocomplete inside rule strings, augment the `CustomRules` interface:
+
+```ts
+declare module '@vueform/core' {
+  interface CustomRules {
+    phone: true
+  }
+}
+```

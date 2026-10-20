@@ -9,19 +9,19 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { AutoCompleteProps as PvAutoCompleteProps } from 'primevue'
 import type { AutoCompleteSlots as AAutoCompleteSlots } from 'primevue/autocomplete'
 import type { VNode } from 'vue'
 
 import type {
-  AutoCompleteA11y,
   AutoCompleteApi,
+  AutoCompleteBindings,
   AutoCompleteClasses,
   AutoCompleteEmits,
   AutoCompleteExpose,
-  AutoCompleteModifiers,
   AutoCompleteParts,
   AutoCompleteProps,
   AutoCompleteSlots,
@@ -255,15 +255,13 @@ export interface VfAutoCompleteClasses
 }
 
 /**
- * Accessibility bindings of the VfAutoComplete component, produced by the
- * `inputAria` pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfAutoComplete component: its own
+ * state markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfAutoCompleteA11y extends AutoCompleteA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfAutoComplete component.
- */
-export interface VfAutoCompleteModifiers extends AutoCompleteModifiers {
+export interface VfAutoCompleteBindings
+  extends AutoCompleteBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -273,11 +271,11 @@ export interface VfAutoCompleteModifiers extends AutoCompleteModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -309,8 +307,7 @@ export interface VfAutoCompleteContext<
   VfAutoCompleteSlots,
   VfAutoCompleteParts,
   VfAutoCompleteClasses,
-  VfAutoCompleteModifiers,
-  VfAutoCompleteA11y,
+  VfAutoCompleteBindings,
   VfAutoCompleteExpose,
   AutoCompleteApi<TProps>
 > {}

@@ -10,8 +10,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseContainerElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -136,14 +135,10 @@ export interface CheckboxGroupParts extends BaseContainerElementParts {}
 export interface CheckboxGroupClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the checkbox-group element blueprint.
+ * Part-keyed attribute bindings of the checkbox-group element blueprint,
+ * extended by the consuming component via `useBindings`.
  */
-export interface CheckboxGroupModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the checkbox-group element blueprint.
- */
-export interface CheckboxGroupA11y extends BaseElementA11y {}
+export interface CheckboxGroupBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for checkbox-group-based components.

@@ -4,6 +4,7 @@ import type {
   ClassValue,
   DomAttrsOf,
   TProp,
+  BindingsOf,
   ResolvedBindings,
   ResolvedLanguagesProp,
   ResolvedPage,
@@ -28,17 +29,24 @@ import type {
   FormEmits,
   FormParts,
   FormSlots,
-  FormA11y,
+  FormBindings,
   FormExpose,
   FormClasses,
-  FormModifiers,
 } from '#src/blueprints/form'
 import type { NavPosProp } from '#src/blueprints/nav'
 
 /**
  * Resolved per-part binding bags for VfForm slot scopes.
  */
-type VfFormBindings = ResolvedBindings<VfFormParts, VfFormModifiers, VfFormA11y>
+type VfFormBags = ResolvedBindings<VfFormParts, VfFormBindings>
+
+/**
+ * The per-part binding resolvers VfForm hands to its internal sub-components
+ * (`FormStep` / `FormNav`): each key resolves the part's bag with the
+ * call-site arguments (`bindings.step(page)`), merging the registered
+ * definitions and the user's part overrides.
+ */
+export type VfFormBindingResolvers = BindingsOf<VfFormParts, VfFormBindings>
 
 /**
  * VfForm props narrowed from a registry `TEntry` payload, applying the entry's
@@ -168,7 +176,7 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The language selector's resolved bindings (classes, part overrides);
      * apply with `v-bind`.
      */
-    bindings: VfFormBindings['languages']
+    bindings: VfFormBags['languages']
   }) => VNode[]
 
   /**
@@ -184,7 +192,7 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The tab list's resolved bindings (classes, part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfFormBindings['tabs']
+    bindings: VfFormBags['tabs']
   }) => VNode[]
 
   /**
@@ -200,7 +208,7 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The tab's resolved bindings (classes, part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfFormBindings['tab']
+    bindings: VfFormBags['tab']
   }) => VNode[]
 
   /**
@@ -216,7 +224,7 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The step list's resolved bindings (classes, part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfFormBindings['steps']
+    bindings: VfFormBags['steps']
   }) => VNode[]
 
   /**
@@ -232,7 +240,7 @@ export interface VfFormSlots<TSchema = FormSchema> extends FormSlots<
      * The step's resolved bindings (classes, part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfFormBindings['step']
+    bindings: VfFormBags['step']
   }) => VNode[]
 
   /**
@@ -661,12 +669,22 @@ export interface VfFormClasses extends FormClasses {
 }
 
 /**
- * Accessibility bindings of the VfForm component.
+ * Part-keyed binding definitions of the VfForm component, registered via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfFormA11y extends FormA11y {
+export interface VfFormBindings extends FormBindings {
   /**
-   * The form-level error live region: an assertive, atomic alert that can
-   * receive programmatic focus.
+   * The root form element's stacked layout marker.
+   */
+  root: {
+    'data-stacked'?: ''
+  }
+
+  /**
+   * The form-level error live region (the errors wrapper): an assertive,
+   * atomic alert that can receive programmatic focus. Keyed to the `errors`
+   * container part — a list element cannot carry the alert role.
    */
   errors: {
     id: string
@@ -677,8 +695,9 @@ export interface VfFormA11y extends FormA11y {
   }
 
   /**
-   * The form-level message live region: a polite, atomic status that can
-   * receive programmatic focus.
+   * The form-level message live region (the messages wrapper): a polite,
+   * atomic status that can receive programmatic focus. Keyed to the `messages`
+   * container part — a list element cannot carry the status role.
    */
   messages: {
     id: string
@@ -686,18 +705,6 @@ export interface VfFormA11y extends FormA11y {
     'aria-live': 'polite'
     'aria-atomic': 'true'
     tabindex: -1
-  }
-}
-
-/**
- * Styling modifiers of the VfForm component.
- */
-export interface VfFormModifiers extends FormModifiers {
-  /**
-   * The root form element's stacked layout marker.
-   */
-  root: {
-    'data-stacked'?: ''
   }
 }
 
@@ -733,8 +740,7 @@ export interface VfFormContext<
   VfFormSlots,
   VfFormParts,
   VfFormClasses,
-  VfFormModifiers,
-  VfFormA11y,
+  VfFormBindings,
   VfFormExpose,
   FormApi<TProps>
 > {}

@@ -13,8 +13,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -122,14 +121,10 @@ export interface InputOtpParts extends BaseFieldElementParts {}
 export interface InputOtpClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the input-otp element blueprint.
+ * Part-keyed attribute bindings of the input-otp element blueprint, extended
+ * by the consuming component via `useBindings`.
  */
-export interface InputOtpModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the input-otp element blueprint.
- */
-export interface InputOtpA11y extends BaseElementA11y {}
+export interface InputOtpBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for input-otp-based components.

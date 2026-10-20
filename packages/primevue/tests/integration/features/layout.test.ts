@@ -1070,7 +1070,7 @@ describe('Label', () => {
       expect(label.attributes('id')).toBeTruthy()
     })
 
-    test('slot receives classes prop', () => {
+    test('slot receives bindings prop', () => {
       const labelSlot = markRaw(
         defineComponent({
           props: ['label', 'for', 'id', 'bindings'],
@@ -1097,7 +1097,9 @@ describe('Label', () => {
       })
 
       const label = form.find('.custom-label')
-      expect(label.classes()).toContain('vf-label')
+      // Binding bags carry no classes — a slot replacement styles itself (or
+      // reads `context.classes`).
+      expect(label.classes()).not.toContain('vf-label')
     })
   })
 
@@ -1124,13 +1126,13 @@ describe('Label', () => {
       expect(label.text()).toBe('Label text')
     })
 
-    test('slot receives for, id, and classes', async () => {
+    test('slot receives for, id, and bindings', async () => {
       const App = defineComponent({
         template: `
           <VfForm>
             <VfInputText name="el" label="Label text">
               <template #label="{ label, for: htmlFor, id, bindings }">
-                <label :for="htmlFor" :id="id" :class="['custom-label', bindings?.class]">{{ label }}</label>
+                <label :for="htmlFor" :id="id" class="custom-label" v-bind="bindings">{{ label }}</label>
               </template>
             </VfInputText>
           </VfForm>
@@ -1145,7 +1147,8 @@ describe('Label', () => {
       const input = app.findComponent({ name: 'InputText' })
       expect(label.attributes('for')).toBe(input.attributes('id'))
       expect(label.attributes('id')).toBeTruthy()
-      expect(label.classes()).toContain('vf-label')
+      // Binding bags carry no classes (see above).
+      expect(label.classes()).not.toContain('vf-label')
     })
   })
 })

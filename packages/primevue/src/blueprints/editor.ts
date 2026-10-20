@@ -14,8 +14,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -153,14 +152,10 @@ export interface EditorParts extends BaseFieldElementParts {}
 export interface EditorClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the editor element blueprint.
+ * Part-keyed attribute bindings of the editor element blueprint, extended by
+ * the consuming component via `useBindings`.
  */
-export interface EditorModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the editor element blueprint.
- */
-export interface EditorA11y extends BaseElementA11y {}
+export interface EditorBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for editor-based components.

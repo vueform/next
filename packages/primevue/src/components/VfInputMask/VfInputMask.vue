@@ -12,7 +12,6 @@ import PrimeInputMask from 'primevue/inputmask'
 import { tInputAria } from '#src/a11y'
 import { blueprint, defaults } from '#src/blueprints/input-mask'
 import { vdomPrime } from '#src/helpers'
-import { classCompat } from '#src/utils'
 
 import type {
   VfInputMaskEmits,
@@ -38,31 +37,28 @@ const props = withDefaults(
 const events = defineEvents<VfInputMaskEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfInputMaskSlots<TTranslate, TLanguages>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-input-mask',
-}))
+})
 
-useModifiers(({ help, hasError }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(tInputAria())
+  tInputAria(api)
+)
 
 const {
   value,
@@ -103,8 +99,9 @@ defineExpose(expose)
         :readonly
         :invalid
         fluid
+        :class="classes.input || undefined"
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{ ...forwardProps, ...classCompat(bindings.input) }"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keypress="handleKeypress"

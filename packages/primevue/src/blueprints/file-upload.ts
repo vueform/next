@@ -13,8 +13,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -164,14 +163,10 @@ export interface FileUploadParts extends BaseFieldElementParts {}
 export interface FileUploadClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the file-upload element blueprint.
+ * Part-keyed attribute bindings of the file-upload element blueprint, extended
+ * by the consuming component via `useBindings`.
  */
-export interface FileUploadModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the file-upload element blueprint.
- */
-export interface FileUploadA11y extends BaseElementA11y {}
+export interface FileUploadBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for file-upload-based components.

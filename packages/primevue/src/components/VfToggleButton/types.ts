@@ -1,5 +1,6 @@
 import type {
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
@@ -8,12 +9,11 @@ import type { ToggleButtonProps as PvToggleButtonProps } from 'primevue'
 import type { ToggleButtonSlots as AToggleButtonSlots } from 'primevue/togglebutton'
 
 import type {
-  ToggleButtonA11y,
   ToggleButtonApi,
+  ToggleButtonBindings,
   ToggleButtonClasses,
   ToggleButtonEmits,
   ToggleButtonExpose,
-  ToggleButtonModifiers,
   ToggleButtonParts,
   ToggleButtonProps,
   ToggleButtonSlots,
@@ -77,15 +77,12 @@ export interface VfToggleButtonClasses extends ToggleButtonClasses {
 }
 
 /**
- * Accessibility bindings of the VfToggleButton component, produced by the
- * `inputAria` pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfToggleButton component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfToggleButtonA11y extends ToggleButtonA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfToggleButton component.
- */
-export interface VfToggleButtonModifiers extends ToggleButtonModifiers {
+export interface VfToggleButtonBindings
+  extends ToggleButtonBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -95,11 +92,11 @@ export interface VfToggleButtonModifiers extends ToggleButtonModifiers {
   }
 
   /**
-   * The toggle-button control's validation state.
+   * The toggle-button control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -128,8 +125,7 @@ export interface VfToggleButtonContext extends DefineElementContext<
   VfToggleButtonSlots,
   VfToggleButtonParts,
   VfToggleButtonClasses,
-  VfToggleButtonModifiers,
-  VfToggleButtonA11y,
+  VfToggleButtonBindings,
   VfToggleButtonExpose,
   ToggleButtonApi
 > {}

@@ -22,9 +22,8 @@ import type {
   LayoutParts,
   LayoutSlots,
   LayoutExpose,
-  LayoutA11y,
+  LayoutBindings,
   LayoutClasses,
-  LayoutModifiers,
 } from '#src/blueprints/layout'
 import type {
   FloatLabelClasses,
@@ -114,14 +113,10 @@ export interface VfLayoutClasses
     TabbedClasses {}
 
 /**
- * Styling modifiers of the VfLayout component.
+ * Part-keyed attribute bindings of the VfLayout component, declared as the
+ * RESOLVED bag shapes and extended by the component via `useBindings`.
  */
-export interface VfLayoutModifiers extends LayoutModifiers {}
-
-/**
- * Accessibility bindings of the VfLayout component.
- */
-export interface VfLayoutA11y extends LayoutA11y {}
+export interface VfLayoutBindings extends LayoutBindings {}
 
 /**
  * Augmentable public API surface for VfLayout.
@@ -148,8 +143,7 @@ export interface VfLayoutContext extends DefineElementContext<
   VfLayoutSlots,
   VfLayoutParts,
   VfLayoutClasses,
-  VfLayoutModifiers,
-  VfLayoutA11y,
+  VfLayoutBindings,
   VfLayoutExpose,
   LayoutApi
 > {}

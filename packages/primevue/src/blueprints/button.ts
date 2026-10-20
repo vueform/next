@@ -11,8 +11,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementModifiers,
-  type BaseElementA11y,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -132,14 +131,10 @@ export interface ButtonParts extends BaseFieldElementParts {}
 export interface ButtonClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the button element blueprint.
+ * Augmentable part-keyed binding definitions (a11y, state markers, and
+ * other per-part attrs) of the button blueprint.
  */
-export interface ButtonModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the button element blueprint.
- */
-export interface ButtonA11y extends BaseElementA11y {}
+export interface ButtonBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for button-based components.

@@ -8,19 +8,19 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { CascadeSelectProps as PvCascadeSelectProps } from 'primevue'
 import type { CascadeSelectSlots as ACascadeSelectSlots } from 'primevue/cascadeselect'
 import type { VNode } from 'vue'
 
 import type {
-  CascadeSelectA11y,
   CascadeSelectApi,
+  CascadeSelectBindings,
   CascadeSelectClasses,
   CascadeSelectEmits,
   CascadeSelectExpose,
-  CascadeSelectModifiers,
   CascadeSelectParts,
   CascadeSelectProps,
   CascadeSelectSlots,
@@ -248,15 +248,12 @@ export interface VfCascadeSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfCascadeSelect component, produced by the
- * `inputAria` pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfCascadeSelect component: its own
+ * state markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfCascadeSelectA11y extends CascadeSelectA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfCascadeSelect component.
- */
-export interface VfCascadeSelectModifiers extends CascadeSelectModifiers {
+export interface VfCascadeSelectBindings
+  extends CascadeSelectBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -266,11 +263,11 @@ export interface VfCascadeSelectModifiers extends CascadeSelectModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -308,8 +305,7 @@ export interface VfCascadeSelectContext<
   VfCascadeSelectSlots,
   VfCascadeSelectParts,
   VfCascadeSelectClasses,
-  VfCascadeSelectModifiers,
-  VfCascadeSelectA11y,
+  VfCascadeSelectBindings,
   VfCascadeSelectExpose,
   CascadeSelectApi<TProps>
 > {}

@@ -1,5 +1,6 @@
 import type {
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
   ClassValue,
   ResolvedBindings,
   WidenProps,
@@ -14,12 +15,11 @@ import type {
 import type { VNode } from 'vue'
 
 import type {
-  CheckboxA11y,
   CheckboxApi,
+  CheckboxBindings,
   CheckboxClasses,
   CheckboxEmits,
   CheckboxExpose,
-  CheckboxModifiers,
   CheckboxParts,
   CheckboxProps,
   CheckboxSlots,
@@ -30,10 +30,9 @@ import type { ForwardedSlots } from '#src/types'
 /**
  * Resolved per-part binding bags for VfCheckbox slot scopes.
  */
-type VfCheckboxBindings = ResolvedBindings<
+type VfCheckboxResolvedBindings = ResolvedBindings<
   VfCheckboxParts,
-  VfCheckboxModifiers,
-  VfCheckboxA11y
+  VfCheckboxBindings
 >
 
 /**
@@ -136,10 +135,10 @@ export interface VfCheckboxSlots<TTrueValue = any, TFalseValue = any>
 
     /**
      * The default slot's own part is the wrapper (the fallback's top-level
-     * element): its resolved classes, part overrides, and alignment
-     * modifiers; apply with `v-bind`.
+     * element): its resolved part overrides and alignment modifiers; apply
+     * with `v-bind`.
      */
-    bindings: VfCheckboxBindings['wrapper']
+    bindings: VfCheckboxResolvedBindings['wrapper']
 
     /**
      * Handles the input's blur event.
@@ -193,10 +192,10 @@ export interface VfCheckboxSlots<TTrueValue = any, TFalseValue = any>
     genericName: string
 
     /**
-     * The text element's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The text element's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfCheckboxBindings['text']
+    bindings: VfCheckboxResolvedBindings['text']
   }) => VNode[]
 }
 
@@ -247,15 +246,13 @@ export interface VfCheckboxClasses extends CheckboxClasses {
 }
 
 /**
- * Accessibility bindings of the VfCheckbox component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfCheckbox component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfCheckboxA11y extends CheckboxA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfCheckbox component.
- */
-export interface VfCheckboxModifiers extends CheckboxModifiers {
+export interface VfCheckboxBindings
+  extends CheckboxBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -274,11 +271,11 @@ export interface VfCheckboxModifiers extends CheckboxModifiers {
   }
 
   /**
-   * The checkbox input's validation state.
+   * The checkbox input's validation state and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -306,8 +303,7 @@ export interface VfCheckboxContext<
   VfCheckboxSlots,
   VfCheckboxParts,
   VfCheckboxClasses,
-  VfCheckboxModifiers,
-  VfCheckboxA11y,
+  VfCheckboxBindings,
   VfCheckboxExpose,
   CheckboxApi<TProps>
 > {}

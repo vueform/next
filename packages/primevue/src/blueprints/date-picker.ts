@@ -16,8 +16,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -217,14 +216,10 @@ export interface DatePickerParts extends BaseFieldElementParts {}
 export interface DatePickerClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the date picker element blueprint.
+ * Part-keyed attribute bindings of the date-picker element blueprint, extended
+ * by the consuming component via `useBindings`.
  */
-export interface DatePickerModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the date-picker element blueprint.
- */
-export interface DatePickerA11y extends BaseElementA11y {}
+export interface DatePickerBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for date-picker-based components.

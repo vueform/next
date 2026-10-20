@@ -13,18 +13,18 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   LanguagesProp,
-  TAriaA11y,
+  LayoutRegionBindings,
+  TInputAriaBag,
 } from '@vueform/core'
 import type { PasswordProps as PvPasswordProps } from 'primevue'
 import type { PasswordSlots as APasswordSlots } from 'primevue/password'
 
 import type {
-  PasswordA11y,
   PasswordApi,
+  PasswordBindings,
   PasswordClasses,
   PasswordEmits,
   PasswordExpose,
-  PasswordModifiers,
   PasswordParts,
   PasswordProps,
   PasswordSlots,
@@ -136,15 +136,13 @@ export interface VfPasswordClasses
 }
 
 /**
- * Accessibility bindings of the VfPassword component, produced by the `tInputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfPassword component: its own state
+ * markers merged with the `tInputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfPasswordA11y extends PasswordA11y, TAriaA11y {}
-
-/**
- * Styling modifiers of the VfPassword component.
- */
-export interface VfPasswordModifiers extends PasswordModifiers {
+export interface VfPasswordBindings
+  extends PasswordBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -154,11 +152,12 @@ export interface VfPasswordModifiers extends PasswordModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state, including the active
+   * editing language for translatable inputs.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & TInputAriaBag
 }
 
 /**
@@ -186,8 +185,7 @@ export interface VfPasswordContext<
   VfPasswordSlots,
   VfPasswordParts,
   VfPasswordClasses,
-  VfPasswordModifiers,
-  VfPasswordA11y,
+  VfPasswordBindings,
   VfPasswordExpose,
   PasswordApi<TProps>
 > {}

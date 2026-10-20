@@ -1,5 +1,6 @@
 import type {
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
   ClassValue,
   DomAttrsOf,
   PartBindings,
@@ -13,12 +14,11 @@ import type { ToggleSwitchSlots as AToggleSwitchSlots } from 'primevue/toggleswi
 import type { VNode } from 'vue'
 
 import type {
-  ToggleSwitchA11y,
   ToggleSwitchApi,
+  ToggleSwitchBindings,
   ToggleSwitchClasses,
   ToggleSwitchEmits,
   ToggleSwitchExpose,
-  ToggleSwitchModifiers,
   ToggleSwitchParts,
   ToggleSwitchProps,
   ToggleSwitchSlots,
@@ -99,8 +99,7 @@ export interface VfToggleSwitchSlots<TTrueValue = true, TFalseValue = false>
     bindings: PartBindings<
       'handle',
       VfToggleSwitchParts,
-      VfToggleSwitchModifiers,
-      VfToggleSwitchA11y
+      VfToggleSwitchBindings
     >
   }): VNode[]
 }
@@ -140,15 +139,12 @@ export interface VfToggleSwitchClasses extends ToggleSwitchClasses {
 }
 
 /**
- * Accessibility bindings of the VfToggleSwitch component, produced by the
- * `inputAria` pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfToggleSwitch component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfToggleSwitchA11y extends ToggleSwitchA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfToggleSwitch component.
- */
-export interface VfToggleSwitchModifiers extends ToggleSwitchModifiers {
+export interface VfToggleSwitchBindings
+  extends ToggleSwitchBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -158,11 +154,11 @@ export interface VfToggleSwitchModifiers extends ToggleSwitchModifiers {
   }
 
   /**
-   * The toggle-switch control's validation state.
+   * The toggle-switch control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -192,8 +188,7 @@ export interface VfToggleSwitchContext<
   VfToggleSwitchSlots,
   VfToggleSwitchParts,
   VfToggleSwitchClasses,
-  VfToggleSwitchModifiers,
-  VfToggleSwitchA11y,
+  VfToggleSwitchBindings,
   VfToggleSwitchExpose,
   ToggleSwitchApi<TProps>
 > {}

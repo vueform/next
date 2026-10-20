@@ -19,8 +19,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -155,14 +154,10 @@ export interface TextareaParts extends BaseFieldElementParts {}
 export interface TextareaClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the textarea element blueprint.
+ * Part-keyed attribute bindings of the textarea element blueprint, extended by
+ * the consuming component via `useBindings`.
  */
-export interface TextareaModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the textarea element blueprint.
- */
-export interface TextareaA11y extends BaseElementA11y {}
+export interface TextareaBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for textarea-based components.

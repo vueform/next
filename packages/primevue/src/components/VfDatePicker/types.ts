@@ -9,18 +9,18 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { DatePickerProps as PvDatePickerProps } from 'primevue'
 import type { DatePickerSlots as ADatePickerSlots } from 'primevue/datepicker'
 
 import type {
-  DatePickerA11y,
   DatePickerApi,
+  DatePickerBindings,
   DatePickerClasses,
   DatePickerEmits,
   DatePickerExpose,
-  DatePickerModifiers,
   DatePickerParts,
   DatePickerProps,
   DatePickerSelectionModeProp,
@@ -136,15 +136,12 @@ export interface VfDatePickerClasses
 }
 
 /**
- * Accessibility bindings of the VfDatePicker component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfDatePicker component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfDatePickerA11y extends DatePickerA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfDatePicker component.
- */
-export interface VfDatePickerModifiers extends DatePickerModifiers {
+export interface VfDatePickerBindings
+  extends DatePickerBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -154,11 +151,11 @@ export interface VfDatePickerModifiers extends DatePickerModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -187,8 +184,7 @@ export interface VfDatePickerContext<
   VfDatePickerSlots,
   VfDatePickerParts,
   VfDatePickerClasses,
-  VfDatePickerModifiers,
-  VfDatePickerA11y,
+  VfDatePickerBindings,
   VfDatePickerExpose,
   DatePickerApi<TProps>
 > {}

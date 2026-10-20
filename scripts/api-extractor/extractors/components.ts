@@ -712,8 +712,7 @@ function main() {
     [BLUEPRINTS_DIR],
     uiBaseClasses
   )
-  const { program: uiProgram, checker: uiChecker } =
-    createProgram(uiAdapterDir)
+  const { program: uiProgram, checker: uiChecker } = createProgram(uiAdapterDir)
   applyComponentAugmentations(
     uiComponents,
     uiProgram,

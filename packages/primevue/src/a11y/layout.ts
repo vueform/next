@@ -1,9 +1,10 @@
 import type { Ref } from 'vue'
 
 /**
- * The slice of a component api the PrimeVue a11y patterns read. Patterns are
- * invoked inside the `useA11y` merged computed, so every `.value` read stays
- * tracked.
+ * The slice of a component api the PrimeVue a11y patterns read. Patterns build
+ * part-keyed binding definitions whose entries are zero-argument resolvers:
+ * every `.value` read runs at the part's consuming site (its own render
+ * effect), never while the definition is registered or merged.
  */
 export interface LayoutPatternApi {
   props: {

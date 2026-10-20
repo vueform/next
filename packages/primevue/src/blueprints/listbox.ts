@@ -12,8 +12,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -163,14 +162,10 @@ export interface ListboxParts extends BaseFieldElementParts {}
 export interface ListboxClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the listbox element blueprint.
+ * Part-keyed attribute bindings of the listbox element blueprint, extended by
+ * the consuming component via `useBindings`.
  */
-export interface ListboxModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the listbox element blueprint.
- */
-export interface ListboxA11y extends BaseElementA11y {}
+export interface ListboxBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for listbox-based components.

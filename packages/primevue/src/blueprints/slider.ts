@@ -12,8 +12,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -158,14 +157,10 @@ export interface SliderParts extends BaseFieldElementParts {}
 export interface SliderClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the slider element blueprint.
+ * Part-keyed attribute bindings of the slider element blueprint, extended by
+ * the consuming component via `useBindings`.
  */
-export interface SliderModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the slider element blueprint.
- */
-export interface SliderA11y extends BaseElementA11y {}
+export interface SliderBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for slider-based components.

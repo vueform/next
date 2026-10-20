@@ -8,19 +8,19 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { MultiSelectProps as PvMultiSelectProps } from 'primevue'
 import type { MultiSelectSlots as AMultiSelectSlots } from 'primevue/multiselect'
 import type { VNode } from 'vue'
 
 import type {
-  MultiSelectA11y,
   MultiSelectApi,
+  MultiSelectBindings,
   MultiSelectClasses,
   MultiSelectEmits,
   MultiSelectExpose,
-  MultiSelectModifiers,
   MultiSelectParts,
   MultiSelectProps,
   MultiSelectSlots,
@@ -336,15 +336,12 @@ export interface VfMultiSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfMultiSelect component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfMultiSelect component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfMultiSelectA11y extends MultiSelectA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfMultiSelect component.
- */
-export interface VfMultiSelectModifiers extends MultiSelectModifiers {
+export interface VfMultiSelectBindings
+  extends MultiSelectBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -354,13 +351,13 @@ export interface VfMultiSelectModifiers extends MultiSelectModifiers {
   }
 
   /**
-   * The multi-select control's validation state and placeholder marker, set
-   * while the value is empty and a placeholder is shown.
+   * The multi-select control's validation state, placeholder marker (set
+   * while the value is empty and a placeholder is shown), and ARIA state.
    */
   input: {
     'data-invalid'?: ''
     'data-placeholder'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -397,8 +394,7 @@ export interface VfMultiSelectContext<
   VfMultiSelectSlots,
   VfMultiSelectParts,
   VfMultiSelectClasses,
-  VfMultiSelectModifiers,
-  VfMultiSelectA11y,
+  VfMultiSelectBindings,
   VfMultiSelectExpose,
   MultiSelectApi<TProps>
 > {}

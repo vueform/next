@@ -19,8 +19,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -157,14 +156,10 @@ export interface PasswordParts extends BaseFieldElementParts {}
 export interface PasswordClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the password element blueprint.
+ * Part-keyed attribute bindings of the password element blueprint, extended by
+ * the consuming component via `useBindings`.
  */
-export interface PasswordModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the password element blueprint.
- */
-export interface PasswordA11y extends BaseElementA11y {}
+export interface PasswordBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for password-based components.

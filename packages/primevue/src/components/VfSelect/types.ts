@@ -9,7 +9,8 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { SelectProps as PvSelectProps } from 'primevue'
 import type { SelectSlots as ASelectSlots } from 'primevue/select'
@@ -17,12 +18,11 @@ import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
 import type { VNode } from 'vue'
 
 import type {
-  SelectA11y,
   SelectApi,
+  SelectBindings,
   SelectClasses,
   SelectEmits,
   SelectExpose,
-  SelectModifiers,
   SelectParts,
   SelectProps,
   SelectSlots,
@@ -306,15 +306,11 @@ export interface VfSelectClasses
 }
 
 /**
- * Accessibility bindings of the VfSelect component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfSelect component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfSelectA11y extends SelectA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfSelect component.
- */
-export interface VfSelectModifiers extends SelectModifiers {
+export interface VfSelectBindings extends SelectBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -324,13 +320,13 @@ export interface VfSelectModifiers extends SelectModifiers {
   }
 
   /**
-   * The select control's validation state and placeholder marker, set while
-   * the value is empty and a placeholder is shown.
+   * The select control's validation state, placeholder marker (set while the
+   * value is empty and a placeholder is shown), and ARIA state.
    */
   input: {
     'data-invalid'?: ''
     'data-placeholder'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -361,8 +357,7 @@ export interface VfSelectContext<
   VfSelectSlots,
   VfSelectParts,
   VfSelectClasses,
-  VfSelectModifiers,
-  VfSelectA11y,
+  VfSelectBindings,
   VfSelectExpose,
   SelectApi<TProps>
 > {}

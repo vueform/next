@@ -15,8 +15,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -179,14 +178,10 @@ export interface MultiSelectParts extends BaseFieldElementParts {}
 export interface MultiSelectClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the multi-select element blueprint.
+ * Part-keyed attribute bindings of the multi-select element blueprint, extended
+ * by the consuming component via `useBindings`.
  */
-export interface MultiSelectModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the multi-select element blueprint.
- */
-export interface MultiSelectA11y extends BaseElementA11y {}
+export interface MultiSelectBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for multi-select-based components.

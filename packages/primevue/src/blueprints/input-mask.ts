@@ -19,8 +19,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -166,14 +165,10 @@ export interface InputMaskParts extends BaseFieldElementParts {}
 export interface InputMaskClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the input-mask element blueprint.
+ * Part-keyed attribute bindings of the input-mask element blueprint, extended
+ * by the consuming component via `useBindings`.
  */
-export interface InputMaskModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the input-mask element blueprint.
- */
-export interface InputMaskA11y extends BaseElementA11y {}
+export interface InputMaskBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for input-mask-based components.

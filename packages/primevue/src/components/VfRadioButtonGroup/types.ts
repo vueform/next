@@ -1,10 +1,11 @@
 import type {
   WidenProps,
+  ChoicesAriaBag,
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
   DomAttrsOf,
-  GroupAriaA11y,
+  LayoutRegionBindings,
   ResolvedBindings,
   PartOf,
   ResolvedGroup,
@@ -12,12 +13,11 @@ import type {
 import type { VNode } from 'vue'
 
 import type {
-  RadioButtonGroupA11y,
   RadioButtonGroupApi,
+  RadioButtonGroupBindings,
   RadioButtonGroupClasses,
   RadioButtonGroupEmits,
   RadioButtonGroupExpose,
-  RadioButtonGroupModifiers,
   RadioButtonGroupParts,
   RadioButtonGroupProps,
   RadioButtonGroupSlots,
@@ -39,10 +39,9 @@ import type {
 /**
  * Resolved per-part binding bags for VfRadioButtonGroup slot scopes.
  */
-type VfRadioButtonGroupBindings = ResolvedBindings<
+type VfRadioButtonGroupResolvedBindings = ResolvedBindings<
   VfRadioButtonGroupParts,
-  VfRadioButtonGroupModifiers,
-  VfRadioButtonGroupA11y
+  VfRadioButtonGroupBindings
 >
 
 /**
@@ -215,7 +214,7 @@ export interface VfRadioButtonGroupSlots<
      * The group fieldset's resolved bindings (part overrides for this group's
      * fieldset element); apply with `v-bind`.
      */
-    bindings: VfRadioButtonGroupBindings['group']
+    bindings: VfRadioButtonGroupResolvedBindings['group']
   }) => VNode[]
 
   /**
@@ -247,7 +246,7 @@ export interface VfRadioButtonGroupSlots<
      * The item's resolved bindings (part overrides for this item's
      * VfRadioButton child); apply with `v-bind`.
      */
-    bindings: VfRadioButtonGroupBindings['item']
+    bindings: VfRadioButtonGroupResolvedBindings['item']
   }) => VNode[]
 
   /**
@@ -338,15 +337,14 @@ export interface VfRadioButtonGroupClasses extends RadioButtonGroupClasses {
 }
 
 /**
- * Accessibility bindings of the VfRadioButtonGroup component.
+ * Part-keyed binding definitions of the VfRadioButtonGroup component: its own
+ * state markers merged with the `choicesAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries resolve at each part's
+ * consuming site and their keys stay static; the per-group/per-item entries
+ * are parameterized, so their keys are functional.
  */
-export interface VfRadioButtonGroupA11y
-  extends RadioButtonGroupA11y, GroupAriaA11y {}
-
-/**
- * Styling modifiers of the VfRadioButtonGroup component.
- */
-export interface VfRadioButtonGroupModifiers extends RadioButtonGroupModifiers {
+export interface VfRadioButtonGroupBindings
+  extends RadioButtonGroupBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -356,14 +354,44 @@ export interface VfRadioButtonGroupModifiers extends RadioButtonGroupModifiers {
   }
 
   /**
-   * The group container's layout markers (stacked row layout, vertical
-   * alignment with adjacent form controls) and validation state.
+   * The group container's role, labelling, and ARIA state (from the
+   * `choicesAria` pattern) merged with its layout markers (stacked row
+   * layout, vertical alignment with adjacent form controls) and validation
+   * state. A zero-argument resolver: it reads child-aggregating state
+   * (`invalid`), which must resolve in the wrapper's own render effect.
    */
   wrapper: {
     'data-stacked'?: ''
     'data-aligned'?: ''
     'data-invalid'?: ''
-  }
+  } & ChoicesAriaBag
+
+  /**
+   * Per-group binding resolver for the group fieldset — a mode marker: it
+   * contributes no attributes of its own, it keys the part functional so
+   * per-group part overrides resolve with the group data.
+   *
+   * @param group The group data.
+   */
+  group: (group: Record<string, any>) => {}
+
+  /**
+   * Per-group binding resolver for the group legend — a mode marker: it
+   * contributes no attributes of its own, it keys the part functional so
+   * per-group part overrides resolve with the group data.
+   *
+   * @param group The group data.
+   */
+  groupLabel: (group: Record<string, any>) => {}
+
+  /**
+   * Per-item binding resolver for each `VfRadioButton` child — a mode marker:
+   * it contributes no attributes of its own, it keys the part functional so
+   * per-item part overrides resolve with the item data.
+   *
+   * @param item The radio button item data.
+   */
+  item: (item: Record<string, any>) => {}
 }
 
 /**
@@ -401,8 +429,7 @@ export interface VfRadioButtonGroupContext<
   VfRadioButtonGroupSlots,
   VfRadioButtonGroupParts,
   VfRadioButtonGroupClasses,
-  VfRadioButtonGroupModifiers,
-  VfRadioButtonGroupA11y,
+  VfRadioButtonGroupBindings,
   VfRadioButtonGroupExpose,
   RadioButtonGroupApi<TProps>
 > {}

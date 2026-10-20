@@ -2,7 +2,8 @@ import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type {
   RatingProps as PvRatingProps,
@@ -10,12 +11,11 @@ import type {
 } from 'primevue'
 
 import type {
-  RatingA11y,
   RatingApi,
+  RatingBindings,
   RatingClasses,
   RatingEmits,
   RatingExpose,
-  RatingModifiers,
   RatingParts,
   RatingProps,
   RatingSlots,
@@ -79,15 +79,11 @@ export interface VfRatingClasses extends RatingClasses {
 }
 
 /**
- * Accessibility bindings of the VfRating component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfRating component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfRatingA11y extends RatingA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfRating component.
- */
-export interface VfRatingModifiers extends RatingModifiers {
+export interface VfRatingBindings extends RatingBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -97,11 +93,11 @@ export interface VfRatingModifiers extends RatingModifiers {
   }
 
   /**
-   * The rating control's validation state.
+   * The rating control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -129,8 +125,7 @@ export interface VfRatingContext extends DefineElementContext<
   VfRatingSlots,
   VfRatingParts,
   VfRatingClasses,
-  VfRatingModifiers,
-  VfRatingA11y,
+  VfRatingBindings,
   VfRatingExpose,
   RatingApi
 > {}

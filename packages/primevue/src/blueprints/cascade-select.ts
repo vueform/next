@@ -15,8 +15,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -208,14 +207,10 @@ export interface CascadeSelectParts extends BaseFieldElementParts {}
 export interface CascadeSelectClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the cascade-select element blueprint.
+ * Part-keyed attribute bindings of the cascade-select element blueprint,
+ * extended by the consuming component via `useBindings`.
  */
-export interface CascadeSelectModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the cascade-select element blueprint.
- */
-export interface CascadeSelectA11y extends BaseElementA11y {}
+export interface CascadeSelectBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for cascade-select-based components.

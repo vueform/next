@@ -10,12 +10,11 @@ import type {
 } from 'primevue'
 
 import type {
-  ButtonA11y,
   ButtonApi,
+  ButtonBindings,
   ButtonClasses,
   ButtonEmits,
   ButtonExpose,
-  ButtonModifiers,
   ButtonParts,
   ButtonProps,
   ButtonSlots,
@@ -79,14 +78,11 @@ export interface VfButtonClasses extends ButtonClasses {
 }
 
 /**
- * Accessibility bindings of the VfButton component.
+ * Part-keyed binding definitions of the VfButton component, registered via
+ * `useBindings` in the SFC. Zero-argument resolver entries — resolved at each
+ * part's consuming site, keys stay static.
  */
-export interface VfButtonA11y extends ButtonA11y {}
-
-/**
- * Styling modifiers of the VfButton component.
- */
-export interface VfButtonModifiers extends ButtonModifiers {
+export interface VfButtonBindings extends ButtonBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -135,8 +131,7 @@ export interface VfButtonContext extends DefineElementContext<
   VfButtonSlots,
   VfButtonParts,
   VfButtonClasses,
-  VfButtonModifiers,
-  VfButtonA11y,
+  VfButtonBindings,
   VfButtonExpose,
   ButtonApi
 > {}

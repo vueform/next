@@ -14,8 +14,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -141,14 +140,10 @@ export interface ToggleButtonParts extends BaseFieldElementParts {}
 export interface ToggleButtonClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the toggle-button element blueprint.
+ * Part-keyed attribute bindings of the toggle-button element blueprint,
+ * extended by the consuming component via `useBindings`.
  */
-export interface ToggleButtonModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the toggle-button element blueprint.
- */
-export interface ToggleButtonA11y extends BaseElementA11y {}
+export interface ToggleButtonBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for toggle-button-based components.

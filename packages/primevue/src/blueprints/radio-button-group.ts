@@ -10,8 +10,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseContainerElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -135,16 +134,10 @@ export interface RadioButtonGroupParts extends BaseContainerElementParts {}
 export interface RadioButtonGroupClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the radio-button-group element blueprint. Empty at
- * the blueprint layer — modifiers are a view concern, defined by the
- * consuming component via `useModifiers`.
+ * Part-keyed attribute bindings of the radio-button-group element blueprint,
+ * extended by the consuming component via `useBindings`.
  */
-export interface RadioButtonGroupModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the radio-button-group element blueprint.
- */
-export interface RadioButtonGroupA11y extends BaseElementA11y {}
+export interface RadioButtonGroupBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for radio-button-group-based components.

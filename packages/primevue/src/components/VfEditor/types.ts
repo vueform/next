@@ -7,7 +7,8 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   LanguagesProp,
-  InputAriaA11y,
+  LayoutRegionBindings,
+  InputAriaBag,
 } from '@vueform/core'
 import {
   type EditorProps as PvEditorProps,
@@ -16,12 +17,11 @@ import {
 import type { VNode } from 'vue'
 
 import type {
-  EditorA11y,
   EditorApi,
+  EditorBindings,
   EditorClasses,
   EditorEmits,
   EditorExpose,
-  EditorModifiers,
   EditorParts,
   EditorProps,
   EditorSlots,
@@ -161,15 +161,12 @@ export interface VfEditorClasses extends EditorClasses {
 }
 
 /**
- * Accessibility bindings of the VfEditor component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfEditor component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfEditorA11y extends EditorA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfEditor component.
- */
-export interface VfEditorModifiers extends EditorModifiers {
+export interface VfEditorBindings extends EditorBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -179,11 +176,11 @@ export interface VfEditorModifiers extends EditorModifiers {
   }
 
   /**
-   * The editor control's validation state.
+   * The editor control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -211,8 +208,7 @@ export interface VfEditorContext<
   VfEditorSlots,
   VfEditorParts,
   VfEditorClasses,
-  VfEditorModifiers,
-  VfEditorA11y,
+  VfEditorBindings,
   VfEditorExpose,
   EditorApi<TProps>
 > {}

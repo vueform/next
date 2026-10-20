@@ -2,17 +2,17 @@ import type {
   ClassValue,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { KnobProps as PvKnobProps } from 'primevue'
 
 import type {
-  KnobA11y,
   KnobApi,
+  KnobBindings,
   KnobClasses,
   KnobEmits,
   KnobExpose,
-  KnobModifiers,
   KnobParts,
   KnobProps,
   KnobSlots,
@@ -68,15 +68,12 @@ export interface VfKnobClasses extends KnobClasses {
 }
 
 /**
- * Accessibility bindings of the VfKnob component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfKnob component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfKnobA11y extends KnobA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfKnob component.
- */
-export interface VfKnobModifiers extends KnobModifiers {
+export interface VfKnobBindings extends KnobBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -86,11 +83,11 @@ export interface VfKnobModifiers extends KnobModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -118,8 +115,7 @@ export interface VfKnobContext extends DefineElementContext<
   VfKnobSlots,
   VfKnobParts,
   VfKnobClasses,
-  VfKnobModifiers,
-  VfKnobA11y,
+  VfKnobBindings,
   VfKnobExpose,
   KnobApi
 > {}

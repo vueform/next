@@ -1,5 +1,6 @@
 import type {
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
   ClassValue,
   EntryMultipleOf,
   WidenProps,
@@ -11,12 +12,11 @@ import type { SelectButtonSlots as ASelectButtonSlots } from 'primevue/selectbut
 import type { VNode } from 'vue'
 
 import type {
-  SelectButtonA11y,
   SelectButtonApi,
+  SelectButtonBindings,
   SelectButtonClasses,
   SelectButtonEmits,
   SelectButtonExpose,
-  SelectButtonModifiers,
   SelectButtonParts,
   SelectButtonProps,
   SelectButtonSlots,
@@ -181,15 +181,12 @@ export interface VfSelectButtonClasses extends SelectButtonClasses {
 }
 
 /**
- * Accessibility bindings of the VfSelectButton component, produced by the
- * `inputAria` pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfSelectButton component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfSelectButtonA11y extends SelectButtonA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfSelectButton component.
- */
-export interface VfSelectButtonModifiers extends SelectButtonModifiers {
+export interface VfSelectButtonBindings
+  extends SelectButtonBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -199,11 +196,11 @@ export interface VfSelectButtonModifiers extends SelectButtonModifiers {
   }
 
   /**
-   * The select-button control's validation state.
+   * The select-button control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -235,8 +232,7 @@ export interface VfSelectButtonContext<
   VfSelectButtonSlots,
   VfSelectButtonParts,
   VfSelectButtonClasses,
-  VfSelectButtonModifiers,
-  VfSelectButtonA11y,
+  VfSelectButtonBindings,
   VfSelectButtonExpose,
   SelectButtonApi<TProps>
 > {}

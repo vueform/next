@@ -4,17 +4,17 @@ import type {
   DefineRegistryEntry,
   EntryPropOf,
   WidenProps,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { SliderProps as PvSliderProps } from 'primevue'
 
 import type {
-  SliderA11y,
   SliderApi,
+  SliderBindings,
   SliderClasses,
   SliderEmits,
   SliderExpose,
-  SliderModifiers,
   SliderParts,
   SliderProps,
   SliderSlots,
@@ -96,15 +96,11 @@ export interface VfSliderClasses extends SliderClasses {
 }
 
 /**
- * Accessibility bindings of the VfSlider component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfSlider component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfSliderA11y extends SliderA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfSlider component.
- */
-export interface VfSliderModifiers extends SliderModifiers {
+export interface VfSliderBindings extends SliderBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -114,11 +110,11 @@ export interface VfSliderModifiers extends SliderModifiers {
   }
 
   /**
-   * The slider control's validation state.
+   * The slider control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -146,8 +142,7 @@ export interface VfSliderContext<
   VfSliderSlots,
   VfSliderParts,
   VfSliderClasses,
-  VfSliderModifiers,
-  VfSliderA11y,
+  VfSliderBindings,
   VfSliderExpose,
   SliderApi<TProps>
 > {}

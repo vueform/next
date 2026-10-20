@@ -13,17 +13,17 @@ import type {
   DefineElementContext,
   DefineRegistryEntry,
   LanguagesProp,
-  TAriaA11y,
+  LayoutRegionBindings,
+  TInputAriaBag,
 } from '@vueform/core'
 import type { InputMaskProps as PvInputMaskProps } from 'primevue'
 
 import type {
-  InputMaskA11y,
   InputMaskApi,
+  InputMaskBindings,
   InputMaskClasses,
   InputMaskEmits,
   InputMaskExpose,
-  InputMaskModifiers,
   InputMaskParts,
   InputMaskProps,
   InputMaskSlots,
@@ -131,15 +131,13 @@ export interface VfInputMaskClasses
 }
 
 /**
- * Accessibility bindings of the VfInputMask component, produced by the `tInputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfInputMask component: its own state
+ * markers merged with the `tInputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfInputMaskA11y extends InputMaskA11y, TAriaA11y {}
-
-/**
- * Styling modifiers of the VfInputMask component.
- */
-export interface VfInputMaskModifiers extends InputMaskModifiers {
+export interface VfInputMaskBindings
+  extends InputMaskBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -149,11 +147,12 @@ export interface VfInputMaskModifiers extends InputMaskModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state, including the active
+   * editing language for translatable inputs.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & TInputAriaBag
 }
 
 /**
@@ -182,8 +181,7 @@ export interface VfInputMaskContext<
   VfInputMaskSlots,
   VfInputMaskParts,
   VfInputMaskClasses,
-  VfInputMaskModifiers,
-  VfInputMaskA11y,
+  VfInputMaskBindings,
   VfInputMaskExpose,
   InputMaskApi<TProps>
 > {}

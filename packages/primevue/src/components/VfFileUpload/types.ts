@@ -1,5 +1,6 @@
 import type {
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
   ClassValue,
   DomAttrsOf,
   PartBindings,
@@ -16,12 +17,11 @@ import type {
 import type { VNode } from 'vue'
 
 import type {
-  FileUploadA11y,
   FileUploadApi,
+  FileUploadBindings,
   FileUploadClasses,
   FileUploadEmits,
   FileUploadExpose,
-  FileUploadModifiers,
   FileUploadParts,
   FileUploadProps,
   FileUploadSlots,
@@ -86,15 +86,10 @@ export interface VfFileUploadSlots<TMultiple extends boolean = boolean>
     upload: () => void
 
     /**
-     * The upload button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The upload button's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: PartBindings<
-      'button',
-      VfFileUploadParts,
-      VfFileUploadModifiers,
-      VfFileUploadA11y
-    >
+    bindings: PartBindings<'button', VfFileUploadParts, VfFileUploadBindings>
   }) => VNode[]
 }
 
@@ -138,15 +133,13 @@ export interface VfFileUploadClasses extends FileUploadClasses {
 }
 
 /**
- * Accessibility bindings of the VfFileUpload component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfFileUpload component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfFileUploadA11y extends FileUploadA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfFileUpload component.
- */
-export interface VfFileUploadModifiers extends FileUploadModifiers {
+export interface VfFileUploadBindings
+  extends FileUploadBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -156,11 +149,11 @@ export interface VfFileUploadModifiers extends FileUploadModifiers {
   }
 
   /**
-   * The file-upload control's validation state.
+   * The file-upload control's validation state and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -189,8 +182,7 @@ export interface VfFileUploadContext<
   VfFileUploadSlots,
   VfFileUploadParts,
   VfFileUploadClasses,
-  VfFileUploadModifiers,
-  VfFileUploadA11y,
+  VfFileUploadBindings,
   VfFileUploadExpose,
   FileUploadApi<TProps>
 > {}

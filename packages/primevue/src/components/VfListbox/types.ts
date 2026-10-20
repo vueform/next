@@ -4,7 +4,8 @@ import type {
   WidenProps,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type { ListboxProps as PvListboxProps } from 'primevue'
 import type { ListboxSlots as AListboxSlots } from 'primevue/listbox'
@@ -12,12 +13,11 @@ import type { VirtualScrollerItemOptions } from 'primevue/virtualscroller'
 import type { VNode } from 'vue'
 
 import type {
-  ListboxA11y,
   ListboxApi,
+  ListboxBindings,
   ListboxClasses,
   ListboxEmits,
   ListboxExpose,
-  ListboxModifiers,
   ListboxParts,
   ListboxProps,
   ListboxSlots,
@@ -267,15 +267,12 @@ export interface VfListboxClasses extends ListboxClasses {
 }
 
 /**
- * Accessibility bindings of the VfListbox component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed attribute bindings of the VfListbox component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`.
  */
-export interface VfListboxA11y extends ListboxA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfListbox component.
- */
-export interface VfListboxModifiers extends ListboxModifiers {
+export interface VfListboxBindings
+  extends ListboxBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -285,11 +282,11 @@ export interface VfListboxModifiers extends ListboxModifiers {
   }
 
   /**
-   * The listbox control's validation state.
+   * The listbox control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -320,8 +317,7 @@ export interface VfListboxContext<
   VfListboxSlots,
   VfListboxParts,
   VfListboxClasses,
-  VfListboxModifiers,
-  VfListboxA11y,
+  VfListboxBindings,
   VfListboxExpose,
   ListboxApi<TProps>
 > {}

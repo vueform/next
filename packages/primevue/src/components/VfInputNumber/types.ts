@@ -7,7 +7,8 @@ import type {
   AddonGroupParts,
   DefineElementContext,
   DefineRegistryEntry,
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
 } from '@vueform/core'
 import type {
   InputNumberProps as PvInputNumberProps,
@@ -15,12 +16,11 @@ import type {
 } from 'primevue'
 
 import type {
-  InputNumberA11y,
   InputNumberApi,
+  InputNumberBindings,
   InputNumberClasses,
   InputNumberEmits,
   InputNumberExpose,
-  InputNumberModifiers,
   InputNumberParts,
   InputNumberProps,
   InputNumberSlots,
@@ -104,15 +104,13 @@ export interface VfInputNumberClasses
 }
 
 /**
- * Accessibility bindings of the VfInputNumber component, produced by the `inputAria`
- * pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfInputNumber component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfInputNumberA11y extends InputNumberA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfInputNumber component.
- */
-export interface VfInputNumberModifiers extends InputNumberModifiers {
+export interface VfInputNumberBindings
+  extends InputNumberBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -122,11 +120,11 @@ export interface VfInputNumberModifiers extends InputNumberModifiers {
   }
 
   /**
-   * The input control's validation state.
+   * The input control's validation and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -155,8 +153,7 @@ export interface VfInputNumberContext extends DefineElementContext<
   VfInputNumberSlots,
   VfInputNumberParts,
   VfInputNumberClasses,
-  VfInputNumberModifiers,
-  VfInputNumberA11y,
+  VfInputNumberBindings,
   VfInputNumberExpose,
   InputNumberApi
 > {}

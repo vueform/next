@@ -15,8 +15,7 @@ import {
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
-  type BaseElementA11y,
-  type BaseElementModifiers,
+  type BaseElementBindings,
   type BaseFieldElementParts,
   type BaseElementProps,
   type BaseElementSlots,
@@ -168,14 +167,10 @@ export interface TreeSelectParts extends BaseFieldElementParts {}
 export interface TreeSelectClasses extends BaseElementClasses {}
 
 /**
- * Styling modifiers of the tree-select element blueprint.
+ * Part-keyed attribute bindings of the tree-select element blueprint, extended
+ * by the consuming component via `useBindings`.
  */
-export interface TreeSelectModifiers extends BaseElementModifiers {}
-
-/**
- * Accessibility bindings of the tree-select element blueprint.
- */
-export interface TreeSelectA11y extends BaseElementA11y {}
+export interface TreeSelectBindings extends BaseElementBindings {}
 
 /**
  * Augmentable public API surface for tree-select-based components.

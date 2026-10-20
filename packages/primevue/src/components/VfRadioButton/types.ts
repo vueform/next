@@ -1,5 +1,6 @@
 import type {
-  InputAriaA11y,
+  InputAriaBag,
+  LayoutRegionBindings,
   ClassValue,
   DomAttrsOf,
   ResolvedBindings,
@@ -12,12 +13,11 @@ import type { RadioButtonProps as PvRadioButtonProps } from 'primevue/radiobutto
 import type { VNode } from 'vue'
 
 import type {
-  RadioButtonA11y,
   RadioButtonApi,
+  RadioButtonBindings,
   RadioButtonClasses,
   RadioButtonEmits,
   RadioButtonExpose,
-  RadioButtonModifiers,
   RadioButtonParts,
   RadioButtonProps,
   RadioButtonSlots,
@@ -26,10 +26,9 @@ import type {
 /**
  * Resolved per-part binding bags for VfRadioButton slot scopes.
  */
-type VfRadioButtonBindings = ResolvedBindings<
+type VfRadioButtonResolvedBindings = ResolvedBindings<
   VfRadioButtonParts,
-  VfRadioButtonModifiers,
-  VfRadioButtonA11y
+  VfRadioButtonBindings
 >
 
 /**
@@ -115,10 +114,10 @@ export interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
 
     /**
      * The default slot's own part is the wrapper (the fallback's top-level
-     * element): its resolved classes, part overrides, and alignment
-     * modifiers; apply with `v-bind`.
+     * element): its resolved part overrides and alignment modifiers; apply
+     * with `v-bind`.
      */
-    bindings: VfRadioButtonBindings['wrapper']
+    bindings: VfRadioButtonResolvedBindings['wrapper']
 
     /**
      * Handles the input's blur event.
@@ -172,10 +171,10 @@ export interface VfRadioButtonSlots<TRadioValue = any> extends RadioButtonSlots<
     genericName: string
 
     /**
-     * The text element's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The text element's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfRadioButtonBindings['text']
+    bindings: VfRadioButtonResolvedBindings['text']
   }) => VNode[]
 }
 
@@ -226,15 +225,13 @@ export interface VfRadioButtonClasses extends RadioButtonClasses {
 }
 
 /**
- * Accessibility bindings of the VfRadioButton component, produced by the
- * `inputAria` pattern the component registers via `useA11y`.
+ * Part-keyed binding definitions of the VfRadioButton component: its own state
+ * markers merged with the `inputAria` pattern entries it registers via
+ * `useBindings`. Zero-argument resolver entries — resolved at each part's
+ * consuming site, keys stay static.
  */
-export interface VfRadioButtonA11y extends RadioButtonA11y, InputAriaA11y {}
-
-/**
- * Styling modifiers of the VfRadioButton component.
- */
-export interface VfRadioButtonModifiers extends RadioButtonModifiers {
+export interface VfRadioButtonBindings
+  extends RadioButtonBindings, LayoutRegionBindings {
   /**
    * The root element's label-alignment marker, set while the element renders
    * without help text.
@@ -253,11 +250,11 @@ export interface VfRadioButtonModifiers extends RadioButtonModifiers {
   }
 
   /**
-   * The radio input's validation state.
+   * The radio input's validation state and ARIA state.
    */
   input: {
     'data-invalid'?: ''
-  }
+  } & InputAriaBag
 }
 
 /**
@@ -287,8 +284,7 @@ export interface VfRadioButtonContext<
   VfRadioButtonSlots,
   VfRadioButtonParts,
   VfRadioButtonClasses,
-  VfRadioButtonModifiers,
-  VfRadioButtonA11y,
+  VfRadioButtonBindings,
   VfRadioButtonExpose,
   RadioButtonApi<TProps>
 > {}
