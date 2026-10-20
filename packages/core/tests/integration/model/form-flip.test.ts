@@ -28,7 +28,7 @@ const schema = defineSchema({
 })
 
 const createModel = (data?: Record<string, any>): ModelInstance<any> =>
-  inSetup(() => useModel(schema, data as any)) as any
+  inSetup(() => useModel({ schema }, data as any)) as any
 
 describe('Form flip: mounted registration claims index nodes', () => {
   it('resolves instance.find to the mounted context while attached', async () => {

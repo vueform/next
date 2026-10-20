@@ -21,21 +21,23 @@ import '@vueform/core/components'
 import { reactive, ref } from 'vue'
 
 const model$ = useModel({
-  name: { type: 'text' },
-  age: { type: 'text', forceNumbers: true },
-  subscribe: { type: 'checkbox' },
-  tags: { type: 'checkboxes' },
-  address: {
-    type: 'group',
-    schema: {
-      city: { type: 'text' },
+  schema: {
+    name: { type: 'text' },
+    age: { type: 'text', forceNumbers: true },
+    subscribe: { type: 'checkbox' },
+    tags: { type: 'checkboxes' },
+    address: {
+      type: 'group',
+      schema: {
+        city: { type: 'text' },
+      },
     },
-  },
-  billing: {
-    type: 'group',
-    nested: true,
-    schema: {
-      iban: { type: 'text' },
+    billing: {
+      type: 'group',
+      nested: true,
+      schema: {
+        iban: { type: 'text' },
+      },
     },
   },
 })
@@ -92,7 +94,7 @@ describe('useModel computed schema acceptance', () => {
     subscribe: { type: 'checkbox' },
   }))
 
-  const _computedModel$ = useModel(computedSchema)
+  const _computedModel$ = useModel({ schema: computedSchema })
 
   test('computed schema infers the same model as a plain schema', () => {
     expectTypeOf<
@@ -106,23 +108,25 @@ describe('useModel computed schema acceptance', () => {
   test('plain-schema validation keeps reporting inline at the offending property', () => {
     // (The ref union member in the parameter must not degrade it.)
     useModel({
-      bad_multi: {
-        type: 'select',
-        items: ['a', 'b'],
-        multiple: true,
-        // @ts-expect-error — multiple select requires an array model
-        default: 'a',
+      schema: {
+        bad_multi: {
+          type: 'select',
+          items: ['a', 'b'],
+          multiple: true,
+          // @ts-expect-error — multiple select requires an array model
+          default: 'a',
+        },
       },
     })
   })
 })
 
-describe('useModel model argument acceptance', () => {
+describe('useModel seed argument acceptance', () => {
   test('the acceptance matrix is intentionally wide (partial and extra keys allowed)', () => {
     // No negative cases here by design.
-    useModel({ name: { type: 'text' } }, { name: 'John' })
-    useModel({ name: { type: 'text' } }, {})
-    useModel({ name: { type: 'text' } }, { extra: 'accepted' })
+    useModel({ schema: { name: { type: 'text' } } }, { name: 'John' })
+    useModel({ schema: { name: { type: 'text' } } }, {})
+    useModel({ schema: { name: { type: 'text' } } }, { extra: 'accepted' })
   })
 })
 
@@ -173,7 +177,7 @@ describe('useForm tuple typing and model acceptance matrix', () => {
     useForm({ schema: { name: { type: 'text' } } }, reactive({ name: 'John' }))
     useForm(
       { schema: { name: { type: 'text' } } },
-      useModel({ name: { type: 'text' } })
+      useModel({ schema: { name: { type: 'text' } } })
     )
     useForm({ schema: { name: { type: 'text' } } }, { extra: 'accepted' })
   })

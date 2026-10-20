@@ -72,6 +72,12 @@ type ReconciledNodePrev = Pick<
 
 type BuildModelOptions = {
   vueform: VueformInstance
+
+  /**
+   * Instance-level language map overriding `config.languages` for translatable
+   * expansion (element-level `languages` props still win).
+   */
+  languages?: LanguagesProp
 }
 
 type SchemaIndexDiff = {
@@ -271,7 +277,7 @@ function resolveLanguageKeys(
   options: BuildModelOptions
 ): string[] {
   const languages: LanguagesProp | undefined =
-    props.languages ?? options.vueform.config.languages
+    props.languages ?? options.languages ?? options.vueform.config.languages
   return Object.keys(languages || {})
 }
 
@@ -672,11 +678,12 @@ function makeModelEngine(options: {
   vueform: VueformInstance
   validationSchema?: StandardSchemaV1
   scope: EffectScope
+  languages?: LanguagesProp
 }) {
   const { index, store, vueform, scope } = options
   const config = vueform.config
 
-  const languages: LanguagesProp = config.languages ?? {}
+  const languages: LanguagesProp = options.languages ?? config.languages ?? {}
 
   // Headless models read translatable values in the first language; the
   // mounted form owns language switching.
@@ -1366,7 +1373,7 @@ function makeEmptyIndex(): SchemaIndex {
  * without cloning, and `submit()` becomes available.
  *
  * ```ts
- * const model$ = createModel(config).make(schema, { name: 'John' })
+ * const model$ = createModel(config).make({ schema }, { name: 'John' })
  *
  * model$.model.name // 'John'
  * model$.set('email', 'john@example.com')
@@ -1378,11 +1385,16 @@ function makeEmptyIndex(): SchemaIndex {
  */
 export function createModel(vueform: VueformInstance): ModelModule {
   const make = (
-    schema: FormSchema | Ref<FormSchema>,
-    model?: Record<string, any>,
-    explicitValidationSchema?: StandardSchemaV1
+    options: {
+      schema: FormSchema | Ref<FormSchema>
+      validationSchema?: StandardSchemaV1
+      languages?: LanguagesProp
+    },
+    model?: Record<string, any>
   ) => {
-    const buildOptions = { vueform }
+    const { schema, validationSchema: explicitValidationSchema } = options
+
+    const buildOptions = { vueform, languages: options.languages }
 
     const validationSchema =
       explicitValidationSchema ?? getAttachedValidationSchema(schema)
@@ -1432,6 +1444,7 @@ export function createModel(vueform: VueformInstance): ModelModule {
         vueform,
         validationSchema,
         scope,
+        languages: options.languages,
       })
     )!
 

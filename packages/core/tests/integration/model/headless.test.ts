@@ -13,7 +13,7 @@ const mountAndModel = (schema: any, data?: Record<string, any>) => {
     schema,
     ...(data !== undefined ? { modelValue: data } : {}),
   })
-  const model$ = mounted.vueform.useModel(schema, data)
+  const model$ = mounted.vueform.useModel({ schema }, data)
   return { mounted, model$ }
 }
 
@@ -240,8 +240,10 @@ describe('Headless model engine parity', () => {
 
     const translated$ = vueform.useModel(
       {
-        title: { type: 'text', translate: true, rules: 'required' },
-      } as any,
+        schema: {
+          title: { type: 'text', translate: true, rules: 'required' },
+        } as any,
+      },
       { title: { en: 'Hello' } }
     )
 
@@ -304,8 +306,10 @@ describe('Headless model engine parity', () => {
 
     const translated$ = vueform.useModel(
       {
-        title: { type: 'text', translate: true },
-      } as any,
+        schema: {
+          title: { type: 'text', translate: true },
+        } as any,
+      },
       { title: { en: 'Hello', de: 'Hallo' } }
     )
 
@@ -331,8 +335,10 @@ describe('Headless model engine parity', () => {
 
     const model$ = vueform.useModel(
       {
-        title: { type: 'text', translate: true },
-      } as any,
+        schema: {
+          title: { type: 'text', translate: true },
+        } as any,
+      },
       { title: { en: 'Hello' } }
     )
 

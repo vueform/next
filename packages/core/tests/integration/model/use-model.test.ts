@@ -28,14 +28,16 @@ describe('useModel building', () => {
   it('builds the full model shape from element null values', () => {
     const model$ = inSetup(() =>
       useModel({
-        name: { type: 'text' },
-        bio: { type: 'textarea' },
-        subscribe: { type: 'checkbox' },
-        interests: { type: 'checkboxes' },
-        color: { type: 'radios' },
-        country: { type: 'select' },
-        tags: { type: 'select', multiple: true },
-        avatar: { type: 'file' },
+        schema: {
+          name: { type: 'text' },
+          bio: { type: 'textarea' },
+          subscribe: { type: 'checkbox' },
+          interests: { type: 'checkboxes' },
+          color: { type: 'radios' },
+          country: { type: 'select' },
+          tags: { type: 'select', multiple: true },
+          avatar: { type: 'file' },
+        },
       })
     )
 
@@ -54,10 +56,12 @@ describe('useModel building', () => {
   it('skips non-data elements', () => {
     const model$ = inSetup(() =>
       useModel({
-        name: { type: 'text' },
-        submit: { type: 'button', buttonLabel: 'Submit' },
-        info: { type: 'content', content: 'hello' },
-      } as any)
+        schema: {
+          name: { type: 'text' },
+          submit: { type: 'button', buttonLabel: 'Submit' },
+          info: { type: 'content', content: 'hello' },
+        } as any,
+      })
     )
 
     expect(Object.keys(model$.model)).toEqual(['name'])
@@ -66,9 +70,11 @@ describe('useModel building', () => {
   it('respects element-specific null values', () => {
     const model$ = inSetup(() =>
       useModel({
-        agree: { type: 'checkbox', falseValue: 'no' },
-        custom: { type: 'field', nullValue: 0 },
-      } as any)
+        schema: {
+          agree: { type: 'checkbox', falseValue: 'no' },
+          custom: { type: 'field', nullValue: 0 },
+        } as any,
+      })
     )
 
     expect(model$.model).toEqual({ agree: 'no', custom: 0 })
@@ -77,9 +83,11 @@ describe('useModel building', () => {
   it('applies value precedence: modelValue > default > nullValue', () => {
     const model$ = inSetup(() =>
       useModel({
-        a: { type: 'text' },
-        b: { type: 'text', default: 'def' },
-        c: { type: 'text', default: 'def', modelValue: 'mv' },
+        schema: {
+          a: { type: 'text' },
+          b: { type: 'text', default: 'def' },
+          c: { type: 'text', default: 'def', modelValue: 'mv' },
+        },
       })
     )
 
@@ -90,8 +98,10 @@ describe('useModel building', () => {
     const model$ = inSetup(() =>
       useModel(
         {
-          a: { type: 'text', default: 'def' },
-          b: { type: 'text' },
+          schema: {
+            a: { type: 'text', default: 'def' },
+            b: { type: 'text' },
+          },
         },
         { a: 'arg' }
       )
@@ -105,7 +115,10 @@ describe('useModel building', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     const model$ = inSetup(() =>
-      useModel({ text: { type: 'text' } }, ref({ text: 'foo' }) as any)
+      useModel(
+        { schema: { text: { type: 'text' } } },
+        ref({ text: 'foo' }) as any
+      )
     )
 
     expect(model$.model).toEqual({ text: null })
@@ -120,17 +133,19 @@ describe('useModel building', () => {
   it('flattens group children unless nested', () => {
     const model$ = inSetup(() =>
       useModel({
-        address: {
-          type: 'group',
-          schema: {
-            city: { type: 'text' },
-            zip: { type: 'text', default: '1234' },
+        schema: {
+          address: {
+            type: 'group',
+            schema: {
+              city: { type: 'text' },
+              zip: { type: 'text', default: '1234' },
+            },
           },
-        },
-        billing: {
-          type: 'group',
-          nested: true,
-          schema: { iban: { type: 'text' } },
+          billing: {
+            type: 'group',
+            nested: true,
+            schema: { iban: { type: 'text' } },
+          },
         },
       })
     )
@@ -145,21 +160,23 @@ describe('useModel building', () => {
   it('builds list rows from initial and the prototype', () => {
     const model$ = inSetup(() =>
       useModel({
-        contacts: {
-          type: 'list',
-          initial: 2,
-          schema: {
-            name: { type: 'text' },
-            email: { type: 'text' },
+        schema: {
+          contacts: {
+            type: 'list',
+            initial: 2,
+            schema: {
+              name: { type: 'text' },
+              email: { type: 'text' },
+            },
           },
-        },
-        domains: {
-          type: 'list',
-          flat: true,
-          initial: 1,
-          schema: { domain: { type: 'text' } },
-        },
-      } as any)
+          domains: {
+            type: 'list',
+            flat: true,
+            initial: 1,
+            schema: { domain: { type: 'text' } },
+          },
+        } as any,
+      })
     )
 
     expect(model$.model).toEqual({
@@ -174,11 +191,13 @@ describe('useModel building', () => {
   it('builds grid cells flattened with auto names', () => {
     const model$ = inSetup(() =>
       useModel({
-        info: {
-          type: 'grid',
-          grid: [[{ type: 'text', name: 'a' }, { type: 'text' }, 'label']],
-        },
-      } as any)
+        schema: {
+          info: {
+            type: 'grid',
+            grid: [[{ type: 'text', name: 'a' }, { type: 'text' }, 'label']],
+          },
+        } as any,
+      })
     )
 
     expect(model$.model).toEqual({ a: null, info_0_1: null })
@@ -187,30 +206,32 @@ describe('useModel building', () => {
   it('builds matrix shapes per mode', () => {
     const model$ = inSetup(() =>
       useModel({
-        single: {
-          type: 'matrix',
-          mode: 'single',
-          rows: ['r1', 'r2'],
-          cols: ['c1', 'c2'],
-        },
-        multiple: {
-          type: 'matrix',
-          mode: 'multiple',
-          rows: ['r1'],
-          cols: ['c1', 'c2'],
-        },
-        auto: {
-          type: 'matrix',
-          rows: ['r1'],
-          cols: ['c1', 'c2'],
-        },
-        dynamic: {
-          type: 'matrix',
-          mode: 'single',
-          rows: 2,
-          cols: ['c1'],
-        },
-      } as any)
+        schema: {
+          single: {
+            type: 'matrix',
+            mode: 'single',
+            rows: ['r1', 'r2'],
+            cols: ['c1', 'c2'],
+          },
+          multiple: {
+            type: 'matrix',
+            mode: 'multiple',
+            rows: ['r1'],
+            cols: ['c1', 'c2'],
+          },
+          auto: {
+            type: 'matrix',
+            rows: ['r1'],
+            cols: ['c1', 'c2'],
+          },
+          dynamic: {
+            type: 'matrix',
+            mode: 'single',
+            rows: 2,
+            cols: ['c1'],
+          },
+        } as any,
+      })
     )
 
     expect(model$.model).toEqual({
@@ -225,9 +246,11 @@ describe('useModel building', () => {
     const model$ = inSetup(
       () =>
         useModel({
-          title: { type: 'text', translate: true },
-          desc: { type: 'text', translate: true, default: 'foo' },
-        } as any),
+          schema: {
+            title: { type: 'text', translate: true },
+            desc: { type: 'text', translate: true, default: 'foo' },
+          } as any,
+        }),
       { languages: { en_US: 'English', de_DE: 'German' } }
     )
 
@@ -243,13 +266,15 @@ describe('useModel store API', () => {
     inSetup(() =>
       useModel(
         {
-          name: { type: 'text' },
-          address: {
-            type: 'group',
-            nested: true,
-            schema: { city: { type: 'text' } },
+          schema: {
+            name: { type: 'text' },
+            address: {
+              type: 'group',
+              nested: true,
+              schema: { city: { type: 'text' } },
+            },
+            tags: { type: 'checkboxes' },
           },
-          tags: { type: 'checkboxes' },
         },
         model as any
       )
@@ -332,12 +357,14 @@ describe('useModel store API', () => {
   it('clears dynamic container arrays to empty', () => {
     const model$ = inSetup(() =>
       useModel({
-        items: {
-          type: 'list',
-          initial: 1,
-          schema: { name: { type: 'text' } },
-        },
-      } as any)
+        schema: {
+          items: {
+            type: 'list',
+            initial: 1,
+            schema: { name: { type: 'text' } },
+          },
+        } as any,
+      })
     )
 
     expect(model$.model).toEqual({ items: [{ name: null }] })
@@ -380,8 +407,10 @@ describe('useModel destructuring', () => {
   it('keeps a destructured model reference live and reactive', async () => {
     const { model, data, set, get, update, clear, reset, clean } = inSetup(() =>
       useModel({
-        name: { type: 'text' },
-        tags: { type: 'select', multiple: true },
+        schema: {
+          name: { type: 'text' },
+          tags: { type: 'select', multiple: true },
+        },
       })
     )
 

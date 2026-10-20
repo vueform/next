@@ -125,7 +125,7 @@ describe('Validation Staleness', () => {
       })
 
       const model$ = inSetup(() =>
-        useModel(schema, { email: 'valid@example.com' })
+        useModel({ schema }, { email: 'valid@example.com' })
       ) as any
 
       const { email } = createForm({ schema, modelValue: model$ })

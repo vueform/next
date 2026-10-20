@@ -97,14 +97,13 @@ describe('useForm — validationSchema option type checking', () => {
 
 describe('useModel — validationSchema option type checking', () => {
   test('accepts matching and rejects mismatched Standard Schemas', () => {
-    useModel({ name: { type: 'text' } }, undefined, matching)
+    useModel({ schema: { name: { type: 'text' } }, validationSchema: matching })
 
-    useModel(
-      { name: { type: 'text' } },
-      undefined,
+    useModel({
+      schema: { name: { type: 'text' } },
       // @ts-expect-error — input key `nam` does not exist in the model
-      wrongKey
-    )
+      validationSchema: wrongKey,
+    })
   })
 })
 

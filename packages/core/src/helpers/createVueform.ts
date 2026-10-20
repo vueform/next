@@ -618,8 +618,8 @@ export function createVueformFactory<
         return ($http ??= useHttp(vueform))
       },
 
-      useModel: ((schema, model, validationSchema) =>
-        modules.model.make(schema, model, validationSchema)) as typeof useModel,
+      useModel: ((options, seed) =>
+        modules.model.make(options, seed)) as typeof useModel,
 
       useForm: ((formProps?: Record<string, any>, model?: any) =>
         useForm(formProps, model, vueform)) as typeof useForm,

@@ -404,14 +404,13 @@ describe('Standard Schema', () => {
   describe('useModel validationSchema option', () => {
     it('should run the Standard Schema on headless validate()', async () => {
       const model$ = inSetup(() =>
-        useModel(
-          {
+        useModel({
+          schema: {
             password: { type: 'text', default: 'secret' },
             confirm: { type: 'text', default: 'different' },
           },
-          undefined,
-          passwordsMatch
-        )
+          validationSchema: passwordsMatch,
+        })
       )
 
       const valid = await model$.validate()
@@ -423,15 +422,15 @@ describe('Standard Schema', () => {
 
     it('should pick up a Standard Schema attached via defineSchema', async () => {
       const model$ = inSetup(() =>
-        useModel(
-          defineSchema(
+        useModel({
+          schema: defineSchema(
             {
               password: { type: 'text', default: 'secret' },
               confirm: { type: 'text', default: 'different' },
             },
             passwordsMatch
-          )
-        )
+          ),
+        })
       )
 
       const valid = await model$.validate()
@@ -442,14 +441,13 @@ describe('Standard Schema', () => {
 
     it('should be picked up by a form attaching the model instance', async () => {
       const model$ = inSetup(() =>
-        useModel(
-          {
+        useModel({
+          schema: {
             password: { type: 'text', default: 'secret' },
             confirm: { type: 'text', default: 'different' },
           },
-          undefined,
-          passwordsMatch
-        )
+          validationSchema: passwordsMatch,
+        })
       )
 
       const { form$, confirm } = createForm({
@@ -482,7 +480,9 @@ describe('Standard Schema', () => {
         attached
       )
 
-      const model$ = inSetup(() => useModel(schema, undefined, explicit))
+      const model$ = inSetup(() =>
+        useModel({ schema, validationSchema: explicit })
+      )
 
       const { form$, confirm } = createForm({
         schema,
@@ -498,7 +498,10 @@ describe('Standard Schema', () => {
 
     it('should surface a pathless issue exactly once on headless validate()', async () => {
       const model$ = inSetup(() =>
-        useModel({ name: { type: 'text' } }, undefined, alwaysRootIssue)
+        useModel({
+          schema: { name: { type: 'text' } },
+          validationSchema: alwaysRootIssue,
+        })
       )
 
       await model$.validate()
@@ -513,7 +516,10 @@ describe('Standard Schema', () => {
     // owner doesn't duplicate them after attachment.
     it('should not duplicate pathless issues when a form attaches the instance', async () => {
       const model$ = inSetup(() =>
-        useModel({ name: { type: 'text' } }, undefined, alwaysRootIssue)
+        useModel({
+          schema: { name: { type: 'text' } },
+          validationSchema: alwaysRootIssue,
+        })
       )
 
       const { form$ } = createForm({
@@ -534,14 +540,13 @@ describe('Standard Schema', () => {
 
     it('should not duplicate path-targeted issues when a form attaches the instance', async () => {
       const model$ = inSetup(() =>
-        useModel(
-          {
+        useModel({
+          schema: {
             password: { type: 'text', default: 'secret' },
             confirm: { type: 'text', default: 'different' },
           },
-          undefined,
-          passwordsMatch
-        )
+          validationSchema: passwordsMatch,
+        })
       )
 
       const { form$ } = createForm({
@@ -565,14 +570,13 @@ describe('Standard Schema', () => {
     // their node, so they never duplicate the mounted owners in the rollups.
     it('should not duplicate issues when the instance was validated headlessly before a form attaches it', async () => {
       const model$ = inSetup(() =>
-        useModel(
-          {
+        useModel({
+          schema: {
             password: { type: 'text', default: 'secret' },
             confirm: { type: 'text', default: 'different' },
           },
-          undefined,
-          passwordsMatch
-        )
+          validationSchema: passwordsMatch,
+        })
       )
 
       // Headless validation first — the engine creates its own node owners.
@@ -597,14 +601,13 @@ describe('Standard Schema', () => {
 
     it('should not duplicate issues when the instance validates while a form is mounted', async () => {
       const model$ = inSetup(() =>
-        useModel(
-          {
+        useModel({
+          schema: {
             password: { type: 'text', default: 'secret' },
             confirm: { type: 'text', default: 'different' },
           },
-          undefined,
-          passwordsMatch
-        )
+          validationSchema: passwordsMatch,
+        })
       )
 
       const { form$ } = createForm({
@@ -707,15 +710,14 @@ describe('Standard Schema', () => {
 
     it('should run a Zod schema on headless useModel validate()', async () => {
       const model$ = inSetup(() =>
-        useModel(
-          {
+        useModel({
+          schema: {
             email: { type: 'text', default: 'not-an-email' },
           },
-          undefined,
-          z.object({
+          validationSchema: z.object({
             email: z.string().email('Invalid email zod'),
-          })
-        )
+          }),
+        })
       )
 
       const valid = await model$.validate()

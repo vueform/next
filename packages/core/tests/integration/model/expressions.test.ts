@@ -17,10 +17,12 @@ describe('Headless model expressions', () => {
     const { vueform } = install()
 
     const { model, set, get } = vueform.useModel(
-      defineSchema({
-        text: { type: 'text' },
-        text2: { type: 'text' },
-      }),
+      {
+        schema: defineSchema({
+          text: { type: 'text' },
+          text2: { type: 'text' },
+        }),
+      },
       {
         text: '{text2}',
         text2: 'foo',
@@ -41,7 +43,7 @@ describe('Headless model expressions', () => {
 
     const mounted = install({ schema } as any)
     const { vueform } = mounted
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     await nextTick()
 
@@ -61,11 +63,11 @@ describe('Headless model expressions', () => {
   it('resolves dependency-free templates once without a tracker', () => {
     const { vueform } = install()
 
-    const model$ = vueform.useModel(
-      defineSchema({
+    const model$ = vueform.useModel({
+      schema: defineSchema({
         sum: { type: 'text', default: '{1 + 1}' },
-      })
-    )
+      }),
+    })
 
     expect(model$.get('sum')).toBe(2)
   })
@@ -74,10 +76,12 @@ describe('Headless model expressions', () => {
     const { vueform } = install()
 
     const model$ = vueform.useModel(
-      defineSchema({
-        a: { type: 'text' },
-        b: { type: 'text', default: '{a}' },
-      }),
+      {
+        schema: defineSchema({
+          a: { type: 'text' },
+          b: { type: 'text', default: '{a}' },
+        }),
+      },
       { a: 'foo' }
     )
 
@@ -97,10 +101,12 @@ describe('Headless model expressions', () => {
     const { vueform } = install()
 
     const model$ = vueform.useModel(
-      defineSchema({
-        a: { type: 'text' },
-        b: { type: 'text', default: '{a}', untrackOn: [] },
-      }) as any,
+      {
+        schema: defineSchema({
+          a: { type: 'text' },
+          b: { type: 'text', default: '{a}', untrackOn: [] },
+        }) as any,
+      },
       { a: 'foo' }
     )
 
@@ -117,10 +123,12 @@ describe('Headless model expressions', () => {
     const { vueform } = install()
 
     const model$ = vueform.useModel(
-      defineSchema({
-        a: { type: 'text' },
-        b: { type: 'text', default: '{a}', untrackOn: ['input'] },
-      }) as any,
+      {
+        schema: defineSchema({
+          a: { type: 'text' },
+          b: { type: 'text', default: '{a}', untrackOn: ['input'] },
+        }) as any,
+      },
       { a: 'foo' }
     )
 
@@ -139,10 +147,12 @@ describe('Headless model expressions', () => {
     const { vueform } = install()
 
     const model$ = vueform.useModel(
-      defineSchema({
-        a: { type: 'text' },
-        b: { type: 'text', default: '{a}', untrackOn: ['load'] },
-      }) as any,
+      {
+        schema: defineSchema({
+          a: { type: 'text' },
+          b: { type: 'text', default: '{a}', untrackOn: ['load'] },
+        }) as any,
+      },
       { a: 'foo' }
     )
 
@@ -160,13 +170,15 @@ describe('Headless model expressions', () => {
 
     const model$ = vueform.useModel(
       {
-        title: { type: 'text' },
-        copy: {
-          type: 'text',
-          translate: true,
-          default: { en_US: '{title}!', de_DE: 'static' },
-        },
-      } as any,
+        schema: {
+          title: { type: 'text' },
+          copy: {
+            type: 'text',
+            translate: true,
+            default: { en_US: '{title}!', de_DE: 'static' },
+          },
+        } as any,
+      },
       { title: 'Hello' }
     )
 
@@ -181,10 +193,12 @@ describe('Headless model expressions', () => {
     const { vueform } = install({ $expression: { consts: { rate: 3 } } })
 
     const model$ = vueform.useModel(
-      defineSchema({
-        price: { type: 'text' },
-        total: { type: 'text', default: '{price * rate}' },
-      }),
+      {
+        schema: defineSchema({
+          price: { type: 'text' },
+          total: { type: 'text', default: '{price * rate}' },
+        }),
+      },
       { price: 10 }
     )
 
@@ -197,10 +211,12 @@ describe('Headless model expressions', () => {
     const { vueform } = install({ $expression: { enabled: false } })
 
     const model$ = vueform.useModel(
-      defineSchema({
-        text: { type: 'text' },
-        text2: { type: 'text' },
-      }),
+      {
+        schema: defineSchema({
+          text: { type: 'text' },
+          text2: { type: 'text' },
+        }),
+      },
       {
         text: '{text2}',
         text2: 'foo',
@@ -218,10 +234,13 @@ describe('Headless model expressions', () => {
       text2: { type: 'text' },
     } as any)
 
-    const model$ = vueform.useModel(schema, {
-      text: '{text2}',
-      text2: 'foo',
-    })
+    const model$ = vueform.useModel(
+      { schema },
+      {
+        text: '{text2}',
+        text2: 'foo',
+      }
+    )
 
     const mounted = createForm({ schema, modelValue: model$ })
     await nextTick()

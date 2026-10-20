@@ -55,8 +55,10 @@ const createModel = (data?: Record<string, any>): ModelInstance<any> =>
   inSetup(() =>
     useModel(
       {
-        name: { type: 'text' },
-        email: { type: 'text' },
+        schema: {
+          name: { type: 'text' },
+          email: { type: 'text' },
+        },
       },
       data as any
     )
@@ -356,7 +358,7 @@ describe('useForm', () => {
       defineComponent({ template: '<div />' }) as any
     )
 
-    const model$ = vueform.useModel(schema, { name: 'John' } as any)
+    const model$ = vueform.useModel({ schema }, { name: 'John' } as any)
     const [MyForm, form$] = vueform.useForm({ schema }, model$)
 
     expect(form$.model.name).toBe('John')
@@ -379,7 +381,7 @@ describe('useForm', () => {
 
   it('throws outside component setup when called as a bare composable', () => {
     expect(() => useForm({ schema })).toThrow(NotInstalledError)
-    expect(() => useModel(schema)).toThrow(NotInstalledError)
+    expect(() => useModel({ schema })).toThrow(NotInstalledError)
   })
 
   it('accepts the instance as an explicit source outside component setup', () => {
@@ -387,7 +389,7 @@ describe('useForm', () => {
       defineComponent({ template: '<div />' }) as any
     )
 
-    const model$ = vueform.useModel(schema, { name: 'John' } as any)
+    const model$ = vueform.useModel({ schema }, { name: 'John' } as any)
     const [MyForm, form$] = useForm({ schema }, model$, vueform)
 
     expect(MyForm).toBeTruthy()

@@ -33,7 +33,9 @@ describe('Module resolution', () => {
     expect(vueform.modules.locale).toBeDefined()
     expect(getLocaleModule(vueform).locale.value).toBe('en_US')
     // Headless model creation works right after createVueform().
-    const model$ = vueform.useModel({ name: { type: 'text' } } as any)
+    const model$ = vueform.useModel({
+      schema: { name: { type: 'text' } } as any,
+    })
     expect(model$.model).toEqual({ name: null })
   })
 
@@ -56,9 +58,9 @@ describe('Module resolution', () => {
 
     // No ambient tier: creating instances never makes a zero-arg call resolve.
     expect(() => getLocaleModule()).toThrow(NotInstalledError)
-    expect(() => useModel({ name: { type: 'text' } } as any)).toThrow(
-      NotInstalledError
-    )
+    expect(() =>
+      useModel({ schema: { name: { type: 'text' } } as any })
+    ).toThrow(NotInstalledError)
   })
 
   it('keeps explicit resolution stable when another instance is created (SSR interleaving)', () => {

@@ -19,7 +19,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       a: { type: 'text', default: 'foo' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     model$.set('a', 'edited')
 
@@ -41,7 +41,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       b: { type: 'text', default: 'bar' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     expect(model$.payload).toEqual({ a: 'foo', b: 'bar' })
 
@@ -63,7 +63,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       a: { type: 'text', default: 'foo' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     expect(model$.dirty).toBe(false)
 
@@ -94,7 +94,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       a: { type: 'text', label: 'One' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
     const node = model$.index.nodes.get('a')!
 
     schema.value = {
@@ -115,7 +115,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       email: { type: 'text' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     expect(await model$.validate()).toBe(true)
 
@@ -144,7 +144,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       state: { type: 'text', default: 'CA' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     expect(model$.payload).toEqual({ country: 'de', state: 'CA' })
 
@@ -174,7 +174,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       b: { type: 'text', default: '{a}' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     expect(model$.get('b')).toBe('foo')
 
@@ -198,7 +198,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       text: { type: 'text', label, default: '{@props.label}' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     expect(model$.get('text')).toBe('Foo')
 
@@ -218,7 +218,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       b: { type: 'text', default: '{a}' },
     })
 
-    const model$ = vueform.useModel(schema, { a: 'foo' })
+    const model$ = vueform.useModel({ schema }, { a: 'foo' })
 
     // User edit unlinks the tracker (default untrackOn includes 'input').
     model$.input({ b: 'manual' })
@@ -244,7 +244,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       b: { type: 'text' },
     })
 
-    const model$ = vueform.useModel(schema, { a: 'foo', b: '{a}' })
+    const model$ = vueform.useModel({ schema }, { a: 'foo', b: '{a}' })
 
     expect(model$.get('b')).toBe('foo')
 
@@ -267,7 +267,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       a: { type: 'text', default: 'foo' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
 
     schema.value = {
       a: { type: 'text', default: 'foo' },
@@ -290,7 +290,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       a: { type: 'text', label: 'One' },
     })
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
     const version = model$.index.version.value
 
     schema.value = {
@@ -310,7 +310,7 @@ describe('Reactive schema (useModel with a ref)', () => {
       })
     )
 
-    const model$ = vueform.useModel(schema)
+    const model$ = vueform.useModel({ schema })
     const mounted = createForm({
       schema: schema.value,
       modelValue: model$,
