@@ -908,7 +908,8 @@ Events emitted by the component. See [Events](/guide/event-handlers) for details
 | `submit` | [`payload`](!code#events.submit.payload "FormData \| Record<string, any>"), [`context$`](!code#events.submit.context$ "TContext") | Emitted when the form is submitted, before the HTTP request is sent. |
 | `response` | [`response`](!code#events.response.response "HttpResponse") | Emitted when an HTTP response is received from the server. |
 | `fail` | [`result`](!code#events.fail.result "SubmitFail") | Emitted when form submission fails due to a network or server error. |
-| `serverInvalid` | [`result`](!code#events.serverInvalid.result "SubmitServerInvalid") | Emitted when form submission fails due to validation errors. |
+| `clientInvalid` | [`result`](!code#events.clientInvalid.result "SubmitClientInvalid") | Emitted when a submission attempt fails client-side validation, before any request is made. |
+| `serverInvalid` | [`result`](!code#events.serverInvalid.result "SubmitServerInvalid") | Emitted when form submission fails due to server-side validation errors (a 422 response). |
 | `success` | [`result`](!code#events.success.result "SubmitSuccess") | Emitted when form submission succeeds. |
 | `cancelled` | [`result`](!code#events.cancelled.result "SubmitCancelled") | Emitted when form submission is cancelled before sending a request (e.g. the form is invalid, loading, disabled, already submitting, or a `submit` handler / `endpoint` function returned `false`). |
 | `change` | [`newValue`](!code#events.change.newValue "Record<string, any>"), [`oldValue`](!code#events.change.oldValue "Record<string, any>"), [`context$`](!code#events.change.context$ "TContext") | Emitted when any form element's value changes, with the new and previous values. |
