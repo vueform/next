@@ -124,9 +124,18 @@ export interface SubmissionEmits<TContext = any> {
   fail: [result: SubmitFail]
 
   /**
-   * Emitted when form submission fails due to validation errors.
+   * Emitted when a submission attempt fails client-side validation, before any
+   * request is made.
    *
-   * @param result The invalid result object.
+   * @param result The client-invalid result object.
+   */
+  clientInvalid: [result: SubmitClientInvalid]
+
+  /**
+   * Emitted when form submission fails due to server-side validation errors
+   * (a 422 response).
+   *
+   * @param result The server-invalid result object.
    */
   serverInvalid: [result: SubmitServerInvalid]
 
@@ -585,6 +594,8 @@ export function useSubmission(options: UseSubmissionOptions) {
         issues: options.issues(),
         context$,
       }
+
+      fire('clientInvalid', result.value)
 
       await options.onClientInvalid?.()
 

@@ -234,6 +234,7 @@ function makeModel(
     'submit',
     'response',
     'fail',
+    'clientInvalid',
     'serverInvalid',
     'success',
     'cancelled',
