@@ -36,6 +36,13 @@ interface ModelModule {
   hasModelStore: typeof hasModelStore
 
   /**
+   * Returns a `useModel` instance's internal event emitter (`undefined` for
+   * non-instance values). The form blueprint fires its events into it so
+   * instance-level subscriptions keep firing while a form owns submission.
+   */
+  getModelEvents: typeof getModelEvents
+
+  /**
    * Creates a standalone form model from a schema: the full data shape is built
    * up front from the elements' model metadata (defaults, null values,
    * translatable expansion), without mounting any components.

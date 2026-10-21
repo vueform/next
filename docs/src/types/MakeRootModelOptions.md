@@ -1,7 +1,4 @@
 ```ts
-/**
- * Configuration options for `makeRootModel`.
- */
 type MakeRootModelOptions = {
   /**
    * The reactive ref bound to the form's `v-model`, used as the initial source
@@ -35,18 +32,13 @@ type MakeRootModelOptions = {
   /**
    * Applies an inbound external `modelValue` change to the root model (e.g. the
    * form context's `update`).
-   *
-   * @param data The new (cloned) model value from outside.
    */
   applyInbound: (data: any) => void
 
   /**
-   * Event emitter for firing model change events during synchronization: the
-   * `change` event on value changes and `update:modelValue` for v-model sync.
+   * Fires the `change` event on value changes and `update:modelValue` for
+   * v-model sync.
    */
-  fire: {
-    (e: 'change', newValue: any, oldValue: any, context$: any): any
-    (e: 'update:modelValue', value: any): any
-  }
+  fire: ModelEventFire
 }
 ```

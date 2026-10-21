@@ -1,33 +1,12 @@
 ```ts
-/**
- * Configuration options for `makeChildModel`.
- */
 type MakeChildModelOptions = {
   /**
    * The parent model surface the element reads from and writes to — typed
    * structurally so the module never learns component container semantics.
    */
   parent: {
-    /**
-     * The parent's model object holding this element's slice.
-     */
     model: Ref<any>
-
-    /**
-     * Writes a value at an absolute data path within the root model.
-     *
-     * @param path The absolute dot-notation data path.
-     * @param value The value to set.
-     */
     update: (path: string, value: any) => void
-
-    /**
-     * Subscribes to changes at an absolute data path (and its descendants),
-     * returning an unsubscribe function.
-     *
-     * @param path The absolute dot-notation data path.
-     * @param cb The callback invoked when the path's subtree changes.
-     */
     subscribe: (path: string, cb: () => void) => () => void
   }
 
@@ -81,20 +60,15 @@ type MakeChildModelOptions = {
   context$: any
 
   /**
-   * Event emitter for firing model change events during synchronization: the
-   * `change` event on value changes and `update:modelValue` for v-model sync.
+   * Fires the `change` event on value changes and `update:modelValue` for
+   * v-model sync.
    */
-  fire: {
-    (e: 'change', newValue: any, oldValue: any, context$: any): any
-    (e: 'update:modelValue', value: any): any
-  }
+  fire: ModelEventFire
 
   /**
    * Writes the given value back to the parent's model for this element
    * (typically the element's own `update` method), also used to apply inbound
    * `v-model` changes.
-   *
-   * @param data The new value to set.
    */
   update: (data: any) => void
 

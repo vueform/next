@@ -1,7 +1,4 @@
 ```ts
-/**
- * Configuration options for `makeModelStore`.
- */
 type ModelStoreOptions = {
   /**
    * The initial model object the store takes ownership of. Not cloned — the

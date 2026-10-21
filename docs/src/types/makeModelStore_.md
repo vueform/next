@@ -23,16 +23,7 @@ function makeModelStore(options: ModelStoreOptions = {}): {
   empty: ComputedRef<boolean>
   subscribe: (dataPath: string, cb: () => void) => () => void
   dispatch: (dataPath: string) => void
-
-  /**
-   * Registers a listener called synchronously with the data path of every write
-   * that goes through the store (`set` / `register` / `unregister`, including
-   * the per-key writes of `update` / `load` / `clear` / `reset`). Every model
-   * mutation converges here, which makes it the one spot where validation can
-   * observe changes without instrumenting call sites.
-   */
   onWrite: (cb: (dataPath: string) => void) => () => void
-
   get: (dataPath?: string) => any
   set: (dataPath: string, value: any) => void
   register: (dataPath: string, initialModel: any) => void
@@ -48,6 +39,7 @@ function makeModelStore(options: ModelStoreOptions = {}): {
   fire: (event: ModelStoreEvents, ...args: any[]) => void
   consumeValueChanged: () => boolean
   attach: (context$: any) => void
+  onRelease: (cb: (context$: any) => void) => () => void
   release: () => void
   submit: () => Promise<any>
   destroy: () => void

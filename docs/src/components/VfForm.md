@@ -855,8 +855,8 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 
 | Name | Description |
 | --- | --- |
-| [`fire()`](!code#context.fire "(e: E, args: TypeEmitsToOptions<FormEmits<any>>[E]) => void") | Fires an event synchronously, invoking before, listener, and after callbacks in order, then the external handler. |
-| [`fireAsync()`](!code#context.fireAsync "(e: E, args: TypeEmitsToOptions<FormEmits<any>>[E]) => Promise<any>") | Fires an event asynchronously, awaiting each callback and short-circuiting when any returns `false`. |
+| [`fire()`](!code#context.fire "(e: E, args: TypeEmitsToOptions<FormEmits<any>>[E]) => void") | Fires a form event, mirrored into the attached instance's emitter. |
+| [`fireAsync()`](!code#context.fireAsync "(e: E, args: TypeEmitsToOptions<FormEmits<any>>[E]) => Promise<any>") | Fires a form event asynchronously across both emitters: the form's listeners run first, then the instance's; either side returning `false` cancels, and the form's result wins when both produce one. |
 | [`on()`](!code#context.on "(e: E, callback: (...args: TypeEmitsToOptions<FormEmits<any>>[E]) => any) => void") | Subscribes a callback to a specific event. |
 | [`off()`](!code#context.off "(e: E, callback: (...args: TypeEmitsToOptions<FormEmits<any>>[E]) => any) => void") | Removes a previously registered event callback. |
 

@@ -2,5 +2,5 @@
 /**
  * A standalone model store returned by `makeModelStore`.
  */
-type ModelStore = ReturnType<typeof import('./modelStore').makeModelStore>
+type ModelStore = ReturnType<typeof import('./store').makeModelStore>
 ```

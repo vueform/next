@@ -1,9 +1,6 @@
 ```ts
 /**
- * Returns the underlying model store of a `useModel` instance.
- *
- * Module-internal — consumed by `makeRootModel` for form attachment, never
- * exposed outside the module.
+ * Returns the underlying model store of a `useModel` instance. Module-internal.
  *
  * @param instance The model instance to unwrap.
  */
