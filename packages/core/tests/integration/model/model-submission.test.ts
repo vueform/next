@@ -168,6 +168,30 @@ describe('useModel submission', () => {
     expect(model$.invalid).toBe(true)
   })
 
+  it('fires onClientInvalid with the result on a client-side failure', async () => {
+    const { adapter, calls } = mockAdapter()
+    const vueform = makeVueform(adapter)
+
+    const received: any[] = []
+
+    const model$ = vueform.useModel({
+      schema: {
+        name: { type: 'text', rules: 'required' },
+      } as any,
+      endpoint: '/api/users',
+      onClientInvalid: (result) => {
+        received.push(result)
+      },
+    })
+
+    const result = await model$.submit()
+
+    expect(calls).toHaveLength(0)
+    expect(received).toHaveLength(1)
+    expect(received[0]).toBe(result)
+    expect(received[0]).toEqual(oc({ type: 'invalid', source: 'client' }))
+  })
+
   it('fires onInvalid / onValid on validity transitions', async () => {
     const vueform = makeVueform()
 

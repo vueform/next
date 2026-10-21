@@ -4,6 +4,18 @@
     "incremental": true,
     "tsBuildInfoFile": "./node_modules/.tmp/test.tsbuildinfo"
   },
-  "include": ["src", "tests"],
+  "include": [
+    "src",
+    "tests",
+    ".temp/expressions.bench.ts",
+    ".temp/headless.bench.ts",
+    ".temp/model.bench.ts",
+    "tests/bench/mount.bench.ts",
+    ".temp/rollups.bench.ts",
+    ".temp/utils.bench.ts",
+    ".temp/validation.bench.ts",
+    ".temp/conditions.bench.ts",
+    ".temp/lists.bench.ts"
+  ],
   "exclude": ["tests/dts"]
 }

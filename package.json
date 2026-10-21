@@ -40,6 +40,7 @@
     "size:report": "tsx scripts/size.ts --report",
     "stylelint": "vpr :stylelint",
     "test": "tsx scripts/test.ts",
+    "test-bench": "tsx scripts/test-bench.ts",
     "test-dts": "tsx scripts/test-dts.ts",
     "test-smoke": "tsx scripts/test-smoke.ts",
     "test-smoke-types": "tsx scripts/test-smoke-types.ts",

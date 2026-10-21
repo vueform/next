@@ -60,11 +60,15 @@ export async function createVitestConfig(
 
   aliases.push(...workspaceSourceAliases(packagesDir))
 
+  // Every project would otherwise match `*.bench.ts` through vitest's DEFAULT
+  // `benchmark.include` in bench mode — benches belong to the `bench` project
+  // alone, so the others get an empty one.
   const integrationProject = {
     extends: true,
     test: {
       name: 'integration',
       include: ['./tests/integration/**/*.test.ts'],
+      benchmark: { include: [] },
     },
   }
 
@@ -94,6 +98,40 @@ export async function createVitestConfig(
                   name: 'invariants',
                   environment: 'node',
                   include: ['./tests/invariants/**/*.test.ts'],
+                  benchmark: { include: [] },
+                },
+              },
+            ]
+          : []),
+
+        // Bench project (`vitest bench --project bench`, driven by the
+        // `test-bench` harness in src/bench/). Deliberately NOT extending the
+        // root config: benches run against BUILT DIST — no workspace source
+        // aliases, no vue alias (externalized dist and test files must share
+        // one native Vue) — and externalize `/packages/*/dist/` so Node loads
+        // dist as native ESM with zero module-runner getter overhead.
+        ...(existsSync(join(root, 'tests/bench'))
+          ? [
+              {
+                // The root resolve (workspace source aliases, the vue
+                // esm-bundler alias) leaks into projects even without
+                // `extends` — override it empty so `@vueform/*` resolves
+                // through package exports to dist, and everything shares the
+                // one native Vue.
+                resolve: { alias: [] },
+                test: {
+                  name: 'bench',
+                  environment: 'happy-dom',
+                  globals: true,
+                  include: [],
+                  benchmark: {
+                    include: ['./tests/bench/**/*.bench.ts'],
+                  },
+                  server: {
+                    deps: {
+                      external: [/\/packages\/[^/]+\/dist\//],
+                    },
+                  },
                 },
               },
             ]
@@ -109,6 +147,7 @@ export async function createVitestConfig(
                   // template-type runner, which maps vue-tsc diagnostics to
                   // named tests) run alongside the typecheck pass.
                   include: ['./tests/dts/**/*.test.ts'],
+                  benchmark: { include: [] },
                   typecheck: {
                     enabled: true,
                     checker: 'vue-tsc',

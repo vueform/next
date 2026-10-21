@@ -221,6 +221,7 @@
     "publint": "publint",
     "size": "vfd size",
     "test": "vitest --project integration --maxWorkers=16",
+    "test-bench": "tsx ../utils/src/bench/compare.ts",
     "test-dts": "vitest run --project test-dts",
     "typecheck": "vue-tsc -p tsconfig.app.json --noEmit && vue-tsc -p tsconfig.test.json --noEmit && tsc -p tsconfig.node.json --noEmit"
   },
