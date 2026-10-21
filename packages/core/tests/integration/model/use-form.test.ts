@@ -323,11 +323,12 @@ describe('useForm', () => {
     expect(form$.result).toBeUndefined()
     expect(typeof form$.abort).toBe('function')
 
-    // Instance-only and mount-only members stay hidden — `on` deliberately,
-    // since pre-mount registrations wouldn't fire from the mounted form.
+    // Instance-only and mount-only members stay hidden; `on` is shared — the
+    // mounted form mirrors its events into the instance's emitter, so
+    // pre-mount registrations keep firing after mount.
     expect((form$ as any).attached).toBeUndefined()
     expect((form$ as any).inputRef).toBeUndefined()
-    expect((form$ as any).on).toBeUndefined()
+    expect(typeof (form$ as any).on).toBe('function')
 
     // After mount the context takes over — same store, values survive.
     show.value = true
@@ -360,6 +361,72 @@ describe('useForm', () => {
 
     expect(form$.model).toBeUndefined()
     expect('model' in form$).toBe(false)
+  })
+
+  it('creates an internal engine when no model is passed', async () => {
+    const show = ref(false)
+
+    let tuple!: UseFormReturn<typeof schema>
+    mountApp(
+      defineComponent({
+        template: '<component :is="MyForm" v-if="show" />',
+        setup() {
+          tuple = useForm({ schema })
+          return { MyForm: tuple[0], show }
+        },
+      }) as any
+    )
+
+    const [, form$] = tuple
+
+    // The internal engine answers pre-mount: schema defaults, the data API,
+    // and submission state — exactly like a passed `useModel` instance.
+    expect(form$.model).toEqual({ name: null, email: null })
+    expect('model' in form$).toBe(true)
+
+    form$.set('name', 'John')
+    expect(form$.model.name).toBe('John')
+
+    expect(form$.submits).toBe(0)
+    expect(form$.submitting).toBe(false)
+    expect(typeof form$.validate).toBe('function')
+
+    // Same store after mount: the pre-mount write is on screen.
+    show.value = true
+    await nextTick()
+
+    expect(form$.hasAttachedModel).toBe(true)
+    expect(form$.model.name).toBe('John')
+  })
+
+  it('creates an internal engine from a plain-object seed', async () => {
+    const data: Record<string, any> = { name: 'John' }
+    const show = ref(false)
+
+    let tuple!: UseFormReturn<typeof schema>
+    mountApp(
+      defineComponent({
+        template: '<component :is="MyForm" v-if="show" />',
+        setup() {
+          tuple = useForm({ schema }, data as any)
+          return { MyForm: tuple[0], show }
+        },
+      }) as any
+    )
+
+    const [, form$] = tuple
+
+    // Seed applied over the schema defaults, readable pre-mount.
+    expect(form$.model).toEqual({ name: 'John', email: null })
+
+    show.value = true
+    await nextTick()
+
+    form$.set('name', 'Jane')
+    expect(form$.model.name).toBe('Jane')
+
+    // Still a seed: nothing is written back to the original object.
+    expect(data).toEqual({ name: 'John' })
   })
 
   it('is available on the instance for code outside component setup', async () => {

@@ -319,5 +319,76 @@ describe('useModel submission', () => {
     expect(calls[0].url).toBe('/api/form-endpoint')
     expect(result).toEqual(oc({ type: 'success' }))
     expect(form$.submits).toBe(1)
+
+    // The instance mirrors the attaching form's submission state — one flow,
+    // one set of counters.
+    expect(model$.submits).toBe(1)
+    expect(model$.result).toEqual(oc({ type: 'success' }))
+    expect(model$.response).toEqual(oc({ status: 200 }))
+    expect(model$.submitting).toBe(false)
+  })
+
+  it('fires the instance events and callbacks on form-driven submissions', async () => {
+    const { adapter } = mockAdapter()
+
+    const schema = defineSchema({ name: { type: 'text' } })
+
+    const { vueform } = createForm({ schema }, { $http: { adapter } })
+
+    const events: string[] = []
+    const model$ = vueform.useModel(
+      {
+        schema,
+        onSuccess: () => {
+          events.push('option-success')
+        },
+      },
+      { name: 'John' }
+    )
+    model$.on('submit', () => {
+      events.push('listener-submit')
+    })
+
+    const { form$ } = createForm(
+      { schema, modelValue: model$, endpoint: '/api/form-endpoint' },
+      { $http: { adapter } }
+    )
+
+    // Submit through the form: the attaching form owns the flow, and mirrors
+    // its events into the instance's emitter.
+    const result = await form$.submit()
+
+    expect(result).toEqual(oc({ type: 'success' }))
+    expect(events).toContain('listener-submit')
+    expect(events).toContain('option-success')
+
+    expect(model$.submits).toBe(form$.submits)
+    expect(model$.result).toBe(form$.result)
+    expect(model$.response).toBe(form$.response)
+  })
+
+  it('keeps the form submission state after the form unmounts', async () => {
+    const { adapter } = mockAdapter()
+
+    const schema = defineSchema({ name: { type: 'text' } })
+
+    const { vueform } = createForm({ schema }, { $http: { adapter } })
+    const model$ = vueform.useModel({ schema }, { name: 'John' })
+
+    const { form$, form } = createForm(
+      { schema, modelValue: model$, endpoint: '/api/form-endpoint' },
+      { $http: { adapter } }
+    )
+
+    await form$.submit()
+    expect(model$.submits).toBe(1)
+
+    form.unmount()
+
+    // Detached again, but the form's final submission state carried over.
+    expect(model$.attached).toBe(false)
+    expect(model$.submits).toBe(1)
+    expect(model$.result).toEqual(oc({ type: 'success' }))
+    expect(model$.response).toEqual(oc({ status: 200 }))
   })
 })

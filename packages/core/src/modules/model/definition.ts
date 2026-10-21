@@ -1,6 +1,6 @@
 import { defineModule } from '#src/helpers'
 
-import { createModel } from './createModel'
+import { createModel } from './instance'
 
 /**
  * The model module. Register via `createVueform({ modules: { model } })`.

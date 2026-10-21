@@ -1,10 +1,12 @@
 // @flag review later
 import {
   defineComponent,
+  getCurrentScope,
   h,
   isReactive,
   isRef,
   markRaw,
+  onScopeDispose,
   shallowRef,
   unref,
   type Component,
@@ -31,6 +33,7 @@ import type {
   SchemaToModel,
   StandardSchemaV1,
 } from '#src/types'
+import { isPlainObject } from '#src/utils'
 
 /**
  * Registers a callback fired with the form context once the form is mounted
@@ -70,53 +73,29 @@ export type UseFormReturn<TSchema = FormSchema> = [
   FormReady<VfFormContext<VfFormProps<TSchema>>>,
 ]
 
+// Instance-only members the mounted form context doesn't carry. The pre-mount
+// `form$` proxy answers every other engine member from the bound instance —
+// the data API, validation, submission state, `find`, and `on` (the mounted
+// form fires its events into the instance's emitter, so pre-mount
+// registrations keep working after mount) — and skips these so no member
+// vanishes when the context takes over.
+const instanceOnlyMembers = new Set([
+  'attached',
+  'destroy',
+  'input',
+  'validationSchema',
+])
+
 /**
  * Unwraps ref/computed option values.
  *
  * @param props The raw `useForm` options.
  */
-const unrefProps = (props: Record<string, any>): Record<string, any> =>
-  Object.fromEntries(
+function unrefProps(props: Record<string, any>): Record<string, any> {
+  return Object.fromEntries(
     Object.entries(props).map(([key, value]) => [key, unref(value)])
   )
-
-// Members shared between a `useModel` instance and the mounted form context.
-// Pre-mount, `form$` answers these from a bound instance; instance-only
-// members (`attached`, `input`, `validationSchema`) and mount-only members
-// stay off the list so nothing appears or vanishes on mount. `on` exists on
-// both but stays off deliberately: a pre-mount registration would land on the
-// instance's emitter, which the mounted form's submissions don't fire into.
-const sharedModelMembers = new Set([
-  'model',
-  'data',
-  'initialModel',
-  'payload',
-  'dirty',
-  'empty',
-  'invalid',
-  'errors',
-  'issues',
-  'index',
-  'get',
-  'set',
-  'update',
-  'load',
-  'clear',
-  'reset',
-  'clean',
-  'validate',
-  'validating',
-  'find',
-  'submit',
-  'submits',
-  'submitting',
-  'response',
-  'result',
-  'abort',
-  'toJSON',
-  'toFormData',
-  'toStandardSchema',
-])
+}
 
 /**
  * Writes `data`'s keys into a reactive target and removes keys the data no
@@ -136,11 +115,14 @@ function syncReactive(target: Record<string, any>, data: Record<string, any>) {
 
 /**
  * Creates a form component preconfigured with the given props and model,
- * returning it alongside the form context and a ready registrar. The model is
- * bound according to its shape: `useModel` instances are attached, refs are
- * two-way synced, reactive objects are synced back on update, and plain objects
- * seed the initial value. Any option may be a ref or computed. Setup-only when
- * called without `vueform`.
+ * returning it alongside the form context and a ready registrar. The form
+ * always has an engine: a passed `useModel` instance is attached as-is, and
+ * with no model (or a plain-object seed) an internal instance is created from
+ * the schema and attached the same way — so the context answers the engine's
+ * members (data, validation, submission) before the form mounts, and the
+ * mounted members join on mount. Refs are two-way synced and reactive objects
+ * are synced back on update instead; their store stays the caller's. Any
+ * option may be a ref or computed. Setup-only when called without `vueform`.
  *
  * @param formProps Props forwarded to VfForm (e.g. `schema`).
  * @param model The form data: `useModel` instance, ref, reactive, or plain
@@ -200,13 +182,48 @@ export function useForm(
    */
   const formRef = shallowRef<any>(null)
 
+  const modelModule = instance.modules.model
+
   /**
-   * The bound `useModel` instance, when the model argument is one.
+   * The `useModel` instance handed in as the model argument, if any.
    */
-  const modelInstance: ModelInstance<any> | null =
-    model !== undefined && instance.modules.model.hasModelStore(model)
-      ? model
+  const passedInstance: ModelInstance<any> | null =
+    model !== undefined && modelModule.hasModelStore(model) ? model : null
+
+  /**
+   * The internally created engine when no instance was handed in: with no
+   * model argument (or a plain-object seed) the form still gets a `useModel`
+   * instance built from its schema, so `form$` answers the engine's members
+   * before mount regardless of whether a model was passed. Ref and reactive
+   * models keep their sync semantics instead — their store is the caller's.
+   */
+  const internalInstance: ModelInstance<any> | null =
+    !passedInstance &&
+    (model === undefined ||
+      (!isRef(model) && !isReactive(model) && isPlainObject(model)))
+      ? modelModule.make(
+          {
+            schema: (formProps.schema ?? {}) as any,
+            validationSchema: unref(formProps.validationSchema) as any,
+            languages: isPlainObject(unref(formProps.languages))
+              ? (unref(formProps.languages) as any)
+              : undefined,
+          },
+          model as Record<string, any> | undefined
+        )
       : null
+
+  // The internal engine's effects live in a detached scope; tie its teardown
+  // to the calling scope when one exists. A passed instance is the caller's —
+  // never destroyed here.
+  if (internalInstance && getCurrentScope()) {
+    onScopeDispose(() => internalInstance.destroy())
+  }
+
+  /**
+   * The bound engine: the passed `useModel` instance or the internal one.
+   */
+  const modelInstance = passedInstance ?? internalInstance
 
   /**
    * Callbacks awaiting the mounted form context.
@@ -221,7 +238,12 @@ export function useForm(
       if (key === '__v_skip') return true
       const ctx = formRef.value
       if (ctx) return ctx[key]
-      if (modelInstance && sharedModelMembers.has(key as string)) {
+      if (
+        modelInstance &&
+        typeof key === 'string' &&
+        !instanceOnlyMembers.has(key) &&
+        key in modelInstance
+      ) {
         return (modelInstance as any)[key]
       }
       return undefined
@@ -229,7 +251,12 @@ export function useForm(
     has(_, key) {
       const ctx = formRef.value
       if (ctx) return key in ctx
-      return !!modelInstance && sharedModelMembers.has(key as string)
+      return (
+        !!modelInstance &&
+        typeof key === 'string' &&
+        !instanceOnlyMembers.has(key) &&
+        key in modelInstance
+      )
     },
   })
 
@@ -266,12 +293,12 @@ export function useForm(
    * The model binding props derived from the model argument's shape.
    */
   const modelBinding = (): Record<string, any> => {
-    if (model === undefined) return {}
-
-    // Branded useModel instance: attached to the form — no update listener.
+    // Engine (passed or internal): attached to the form — no update listener.
     if (modelInstance) {
-      return { modelValue: model }
+      return { modelValue: modelInstance }
     }
+
+    if (model === undefined) return {}
 
     if (isRef(model)) {
       return {

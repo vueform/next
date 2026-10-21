@@ -714,11 +714,47 @@ function setup(
 
   // =============== EVENTS ===============
 
+  const modelModule = getModelModule()
+
   /**
-   * Event system methods for subscribing to, unsubscribing from, and emitting
-   * form events.
+   * The attached `useModel` instance's emitter, when `modelValue` holds one.
+   * The form's events are mirrored into it (submission events included), so
+   * `on()` subscriptions and `onXxx` option callbacks registered on the
+   * instance keep firing while the form owns submission.
    */
-  const { on, off, fire, fireAsync } = events
+  const attachedModelEvents = modelModule.getModelEvents(props.modelValue)
+
+  const { on, off, fire: fireOwn, fireAsync: fireOwnAsync } = events
+
+  /**
+   * Fires a form event, mirrored into the attached instance's emitter.
+   */
+  const fire = ((e: any, ...args: any[]) => {
+    const result = fireOwn(e, ...args)
+    attachedModelEvents?.fire(e, ...args)
+    return result
+  }) as typeof fireOwn
+
+  /**
+   * Fires a form event asynchronously across both emitters: the form's
+   * listeners run first, then the instance's; either side returning `false`
+   * cancels, and the form's result wins when both produce one.
+   */
+  const fireAsync = (async (e: any, ...args: any[]) => {
+    const formResult = await fireOwnAsync(e, ...args)
+    if (formResult === false) return false
+    if (!attachedModelEvents) return formResult
+
+    const instanceResult = await attachedModelEvents.fireAsync(e, ...args)
+    if (instanceResult === false) return false
+    return formResult !== true ? formResult : instanceResult
+  }) as typeof fireOwnAsync
+
+  /**
+   * The event system with the bridged `fire` / `fireAsync`, handed to features
+   * that emit form events so their events reach the attached instance too.
+   */
+  const bridgedEvents = { ...events, fire, fireAsync }
 
   // =============== THEME ================
 
@@ -820,11 +856,10 @@ function setup(
     modelValue,
     ruleMessages,
     transformPayload,
-    ...events,
+    ...bridgedEvents,
   })
 
   const rootModel = maybeRootModel!
-  const modelModule = getModelModule()
 
   const {
     initialModel,
@@ -1083,7 +1118,7 @@ function setup(
     base64,
     name,
     load,
-    ...events,
+    ...bridgedEvents,
   })
 
   // ================ REFS ================

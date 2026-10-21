@@ -24,7 +24,7 @@ const [MyForm, form$, formReady] = useForm({ schema })
 By convention, variables that hold a context use the **`$` suffix** in Vueform: `form$` for a form, `el$` for an element, `context$` or `ctx$` for generic ones. You'll see it throughout the docs.
 :::
 
-`form$` and `formReady` are two routes to the same: the **form's context**. The one difference is timing: `form$` exists immediately but its members are `undefined` until the form *mounts*, while `formReady` *waits* for the form to mount. Use `form$` wherever reactivity absorbs the timing — like a template — and read it directly, no `.value`:
+`form$` and `formReady` are two routes to the same: the **form's context**. The context has two layers. Its model members — data, validation, submission — work from the moment `useForm` returns, because the form builds its model engine up front. Its mounted members — element contexts of rendered components, focus and scroll, steps and tabs — are `undefined` until the form *mounts*, and `formReady` *waits* for exactly that. Use `form$` wherever reactivity absorbs the timing — like a template — and read it directly, no `.value`:
 
 ```vue
 <script setup lang="ts">

@@ -136,16 +136,14 @@ await model.validate() // run the schema's rules
 await model.submit() // submit the form
 ```
 
-The [internal model](#internal-model)'s API lives on the [form context](/guide/context#form-context), which is populated on mount: before that every member is `undefined`, so there is nothing to read or write yet.
-
-A `!useModel` instance doesn't wait for a form: it builds the complete model from the schema immediately — seed values where provided, defaults and null values everywhere else.
+The [internal model](#internal-model)'s API lives on the form context — `form$`, or the `formReady` callback — while the [external model](#internal-model) returns the same API directly via  `!useModel`.
 
 ## Attaching The Model
 
 Passing the `!useModel` instance to `!useForm` makes the form **attach** it. Attachment is not syncing: the form doesn't clone the data or wire up update listeners — it uses it **as its own store**, so there is one source of truth and nothing to keep in sync.
 
-- **Before attachment** the instance is yours alone: only your code changes its data, and it can't be submitted — there is no form behind `submit()` yet.
-- **After attachment** the model is kept in sync with the form for free: whatever is typed into the form is already in `model.data`, and whatever you `set()` is already on screen. `model.attached` turns `true` and `model.submit()` submits the attaching form.
+- **Before attachment** the instance is yours alone: only your code changes its data, and `submit()` runs the instance's own headless flow against its `endpoint` and submission options.
+- **After attachment** the model is kept in sync with the form for free: whatever is typed into the form is already in `model.data`, and whatever you `set()` is already on screen. `model.attached` turns `true` and the form owns submission — `model.submit()` submits the attaching form with the form's props and UX. The instance mirrors the form while attached, so `model.submitting`, `model.submits`, `model.result`, and your `model.on('success')` listeners follow form-driven submits too. There is one flow and one set of counters, never two.
 
 ## Using Pinia
 

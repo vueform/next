@@ -38,7 +38,8 @@ import type {
  *   `json`, `base64`, `setInvalid`, `setResponse`, the transforms) and the
  *   `onXxx` event callbacks (`onSuccess`, `onFail`, `onServerInvalid`,
  *   `onChange`, …) apply alongside it. While a form has attached the instance,
- *   `submit()` delegates to the form and the form's props drive submission.
+ *   `submit()` delegates to the form, the form's props drive submission, and
+ *   the instance mirrors the form's submission state and events.
  * @param seed Initial (partial) data cloned over the schema defaults.
  */
 export function useModel<

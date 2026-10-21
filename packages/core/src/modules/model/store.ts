@@ -14,11 +14,6 @@ import {
   warn,
 } from '#src/utils'
 
-import type { ModelInstance, ModelStore } from './types'
-
-/**
- * Configuration options for `makeModelStore`.
- */
 type ModelStoreOptions = {
   /**
    * The initial model object the store takes ownership of. Not cloned — the
@@ -68,11 +63,6 @@ function clearedValue(value: any, nullNode: any): any {
   return null
 }
 
-// Instance brand + store slot: the store hangs off the instance itself under a
-// private symbol (non-enumerable — invisible to key walks and JSON). Not
-// exposed on the public surface.
-const STORE: unique symbol = Symbol('vueform.modelStore')
-
 /**
  * Creates a component-independent model store: the single owner of a form model
  * object with path-based reads/writes, subscriber-based change dispatching, and
@@ -108,12 +98,8 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
   let unwatchChange: WatchStopHandle | undefined
   let lastChangeSnapshot: any
 
-  // ============== COMPUTED ==============
-
   const dirty = computed(() => !equals(initialModel.value, model.value))
   const empty = computed(() => isEmptyValue(model.value, nullModel))
-
-  // ============== METHODS ===============
 
   const subscribe = (dataPath: string, cb: () => void) => {
     let set = subscribers.get(dataPath)
@@ -128,13 +114,10 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
     }
   }
 
-  /**
-   * Registers a listener called synchronously with the data path of every write
-   * that goes through the store (`set` / `register` / `unregister`, including
-   * the per-key writes of `update` / `load` / `clear` / `reset`). Every model
-   * mutation converges here, which makes it the one spot where validation can
-   * observe changes without instrumenting call sites.
-   */
+  // Every model mutation (`set` / `register` / `unregister`, including the
+  // per-key writes of `update` / `load` / `clear` / `reset`) converges on
+  // `notifyWrite`, which makes `onWrite` the one spot where validation can
+  // observe changes without instrumenting call sites.
   const onWrite = (cb: (dataPath: string) => void) => {
     writeListeners.add(cb)
     return () => {
@@ -299,14 +282,28 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
     return changed
   }
 
+  const releaseListeners = new Set<(context$: any) => void>()
+
   const attach = (context$: any) => {
     attached.value = true
     attachingContext.value = context$
   }
 
+  // Called with the releasing form's context when the form detaches (unmount).
+  // The instance uses it to carry the form's final submission state over, so
+  // its delegating members don't snap back to stale pre-attachment values.
+  const onRelease = (cb: (context$: any) => void) => {
+    releaseListeners.add(cb)
+    return () => {
+      releaseListeners.delete(cb)
+    }
+  }
+
   const release = () => {
+    const releasing = attachingContext.value
     attached.value = false
     attachingContext.value = null
+    if (releasing) releaseListeners.forEach((cb) => cb(releasing))
   }
 
   const submit = async () => {
@@ -349,41 +346,9 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
     fire,
     consumeValueChanged,
     attach,
+    onRelease,
     release,
     submit,
     destroy,
   }
-}
-
-/**
- * Binds a model instance to its backing store. Used as both the instance brand
- * (`hasModelStore`) and the store accessor (`getModelStore`).
- *
- * @param instance The model instance to brand.
- * @param store The store to bind.
- */
-export function setModelStore(instance: object, store: ModelStore) {
-  Object.defineProperty(instance, STORE, { value: store, enumerable: false })
-}
-
-/**
- * Returns the underlying model store of a `useModel` instance.
- *
- * Module-internal — consumed by `makeRootModel` for form attachment, never
- * exposed outside the module.
- *
- * @param instance The model instance to unwrap.
- */
-export function getModelStore(instance: ModelInstance<any>): ModelStore {
-  return (instance as unknown as { [STORE]: ModelStore })[STORE]
-}
-
-/**
- * Whether a value is a `useModel` instance. VfForm checks `modelValue` with it
- * to attach the instance's store directly instead of cloning the data.
- *
- * @param value The value to check.
- */
-export function hasModelStore(value: any): value is ModelInstance {
-  return !!value && typeof value === 'object' && STORE in value
 }

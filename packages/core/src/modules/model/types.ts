@@ -26,12 +26,10 @@ import type {
   StatefulElement,
 } from '#src/types'
 
-import type {
-  makeChildModel,
-  makeMountedNode,
-  makeRootModel,
-} from './createModel'
-import type { hasModelStore, makeModelStore } from './modelStore'
+import type { makeChildModel, makeRootModel } from './binding'
+import type { getModelEvents, hasModelStore } from './internals'
+import type { makeModelStore } from './store'
+import type { makeMountedNode } from './walk'
 
 /**
  * Configuration options for the model module (`config.$model`).
@@ -143,6 +141,13 @@ export interface ModelModule {
    * Whether a value carries a model store (a `useModel` instance).
    */
   hasModelStore: typeof hasModelStore
+
+  /**
+   * Returns a `useModel` instance's internal event emitter (`undefined` for
+   * non-instance values). The form blueprint fires its events into it so
+   * instance-level subscriptions keep firing while a form owns submission.
+   */
+  getModelEvents: typeof getModelEvents
 
   /**
    * Creates a standalone form model from a schema: the full data shape is built
@@ -343,9 +348,7 @@ export type SchemaIndex = {
 /**
  * A standalone model store returned by `makeModelStore`.
  */
-export type ModelStore = ReturnType<
-  typeof import('./modelStore').makeModelStore
->
+export type ModelStore = ReturnType<typeof import('./store').makeModelStore>
 
 /**
  * The root-level form model returned by `makeRootModel`: the store-backed model
@@ -479,7 +482,8 @@ export type ModelInstance<TSchema = FormSchema> = {
 
   /**
    * The submit payload: the model filtered to available, submittable elements
-   * (unavailable and `submit: false` elements are excluded).
+   * (unavailable and `submit: false` elements are excluded). While attached,
+   * the attaching form's payload (its props and transforms apply).
    */
   readonly payload: DeepPartial<SchemaToModel<TSchema>>
 
@@ -491,18 +495,22 @@ export type ModelInstance<TSchema = FormSchema> = {
   readonly validationSchema: StandardSchemaV1 | undefined
 
   /**
-   * Whether any validated element is currently invalid.
+   * Whether any validated element is currently invalid. While attached, the
+   * attaching form's state.
    */
   readonly invalid: boolean
 
   /**
-   * Aggregated error messages from every validated element.
+   * Aggregated error messages from every validated element. While attached,
+   * flattened from the attaching form's path-keyed errors (message-bag and
+   * server errors included).
    */
   readonly errors: string[]
 
   /**
    * Structured validation issues from every validated element (and the
-   * form-level Standard Schema, if any).
+   * form-level Standard Schema, if any). While attached, the attaching form's
+   * issues.
    */
   readonly issues: Issue[]
 
@@ -584,7 +592,9 @@ export type ModelInstance<TSchema = FormSchema> = {
    * Subscribes a listener to a model event — the data events (`change`,
    * `load`, `reset`, `clear`) or any submission event (`submit`, `success`,
    * `fail`, `serverInvalid`, `cancelled`, `response`, `invalid`, `valid`) —
-   * returning an unsubscribe function.
+   * returning an unsubscribe function. While a form has the instance attached,
+   * the form mirrors its events into the instance, so these listeners keep
+   * firing for form-driven submissions too.
    *
    * @param event The event name.
    * @param cb The listener to register.
@@ -603,39 +613,46 @@ export type ModelInstance<TSchema = FormSchema> = {
   submit: () => Promise<SubmitResult | undefined>
 
   /**
-   * Aborts the instance's in-flight submission request, if any.
+   * Aborts the in-flight submission request, if any — the attaching form's
+   * while attached, the instance's own otherwise.
    */
   abort: () => void
 
   /**
-   * Whether the instance's own submission flow is currently running.
+   * Whether a submission is currently running — the attaching form's state
+   * while attached, the instance's own flow otherwise.
    */
   readonly submitting: boolean
 
   /**
-   * Whether the instance's own submission flow is currently validating.
+   * Whether submit-time validation is currently running — the attaching form's
+   * state while attached, the instance's own flow otherwise.
    */
   readonly validating: boolean
 
   /**
-   * The number of times the instance's own submission flow has been started.
+   * The number of times a submission has been started — the attaching form's
+   * counter while attached, the instance's own otherwise.
    */
   readonly submits: number
 
   /**
-   * The HTTP response from the instance's most recent own submission.
+   * The HTTP response from the most recent submission — the attaching form's
+   * while attached, the instance's own otherwise.
    */
   readonly response: HttpResponse | undefined
 
   /**
-   * The result object from the instance's most recent own submission attempt.
+   * The result object from the most recent submission attempt — the attaching
+   * form's while attached, the instance's own otherwise.
    */
   readonly result: SubmitResult | undefined
 
   /**
-   * Returns the (virtual) element context at the given element path (e.g.
+   * Returns the element context at the given element path (e.g.
    * `address.city`, including flat containers' names), or `undefined` when no
-   * such element exists.
+   * such element exists. While attached, mounted element contexts resolve
+   * first; headlessly, the virtual contexts answer.
    *
    * @param path The dot-notation element path to look up.
    */
@@ -644,7 +661,8 @@ export type ModelInstance<TSchema = FormSchema> = {
   /**
    * Validates every available element with rules (per language when
    * translatable), plus the form-level Standard Schema when configured, and
-   * resolves with whether everything is valid.
+   * resolves with whether everything is valid. While attached, the attaching
+   * form's validation runs (mounted semantics apply).
    */
   validate: () => Promise<boolean>
 
