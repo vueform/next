@@ -108,7 +108,7 @@ Some elements can't be focused, so a blur never reaches them — those only supp
 Submitting **always validates**, no matter what `validateOn` contains. Before the request goes out, every element without a **current passing** result runs its rules. That covers three groups:
 - elements that **never validated**
 - elements whose value **changed** since they last validated (through any path, be it typing, `update()`, `load()`, or a server write-back)
-- elements that are currently **failing**, which gives async checks whose server-side answer may have changed a fresh chance on each attempt.
+- elements that are currently **failing**. <!-- which gives async checks whose server-side answer may have changed a fresh chance on each attempt. -->
 
 Elements already passing against their current value keep their result, so async checks aren't re-paid and debounce timers aren't re-waited.
 
@@ -913,13 +913,13 @@ Custom errors describe the value they were added for, so by default they clear a
 
 For a backend answering `422` with field errors, set the form's `setInvalid` prop and Vueform maps the response onto the matching elements automatically — `transformServerInvalid` adapts payload shapes that don't match out of the box. The full setup lives in [Server Validation Errors](/guide/submit#server-validation-errors).
 
-For one-off cases or non-`422` responses, append the errors yourself in `onInvalid` / `onResponse`:
+To handle `422` errors yourself, append them in `onServerInvalid` — or in `onResponse` for responses that aren't `422` at all:
 
 ```ts
 const [MyForm] = useForm({
   schema,
   endpoint: '/api/register',
-  onInvalid: ({ errors, context$ }) => {
+  onServerInvalid: ({ errors, context$ }) => {
     Object.entries(errors).forEach(([path, messages]) => {
       const el$ = context$.find(path)
       messages.forEach((msg) => el$?.messageBag.append(msg, 'error'))
@@ -961,7 +961,7 @@ formReady((form$) => {
 })
 ```
 
-Elements also emit `valid` and `invalid` events as they cross the boundary in either direction.
+Elements also emit `@valid` and `@invalid` events as they cross the boundary in either direction.
 
 ### Form State
 

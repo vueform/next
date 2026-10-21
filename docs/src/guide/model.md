@@ -136,7 +136,7 @@ await model.validate() // run the schema's rules
 await model.submit() // submit the form
 ```
 
-The [internal model](#internal-model)'s API lives on the form context — `form$`, or the `formReady` callback — while the [external model](#internal-model) returns the same API directly via  `!useModel`.
+The [internal model](#internal-model)'s API lives on the form context — `form$`, or the `formReady` callback — while the [external model](#external-model) returns the same API directly via  `!useModel`.
 
 ## Attaching The Model
 
