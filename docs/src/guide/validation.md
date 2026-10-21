@@ -1034,7 +1034,7 @@ const model = useModel(schema, { email: 'not-an-email' })
 await model.validate() // resolves false — the email rule fails
 
 model.invalid // true
-model.errors  // ['The Email must be a valid email address.']
+model.errors  // { email: ['The Email must be a valid email address.'] }
 model.issues  // [{ path: 'email', rule: 'email', message: '…' }]
 ```
 

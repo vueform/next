@@ -712,6 +712,10 @@ function anchorParts(
  * `popover` in the keyword map receive one; all others are rendered as plain
  * links (or left untouched when they have no link either).
  */
+// Inline code spans whose leading `!` is part of the code itself (operators),
+// not the no-link marker, so it must not be stripped.
+const BANG_EXCEPTIONS = new Set(['!', '!=', '!==', '!!'])
+
 export function inlineKeywordLink(md: any) {
   const defaultRender = md.renderer.rules.code_inline
 
@@ -726,7 +730,7 @@ export function inlineKeywordLink(md: any) {
     let content: string = token.content
 
     // `!keyword` → render as plain `keyword` with no auto-linking
-    if (content.startsWith('!')) {
+    if (content.startsWith('!') && !BANG_EXCEPTIONS.has(content)) {
       token.content = content.slice(1)
       return defaultRender(tokens, idx, options, env, self)
     }
