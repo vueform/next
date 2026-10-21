@@ -3,14 +3,24 @@
  * template that registers a key of its own via `useClasses()` can type it by
  * augmenting the component's `*Classes` interface; the key must then flow into
  * the context's `classes`, the `classes` / `reclass` props, and schema entries.
- * Run by `pnpm test-dts`.
+ * Every classes key must be backed by a part, so the augmentation declares the
+ * matching `*Parts` member too. Run by `pnpm test-dts`.
  */
-import { defineSchema, type ClassValue, type ContextOf } from '@vueform/core'
+import {
+  defineSchema,
+  type ClassValue,
+  type ContextOf,
+  type DomAttrsOf,
+} from '@vueform/core'
 import type { VfTextProps } from '@vueform/core/components/VfText'
 import '@vueform/core/components'
 import { describe, expectTypeOf, test } from 'vitest'
 
 declare module '@vueform/core/components/VfText' {
+  interface VfTextParts {
+    augmentedIcon: DomAttrsOf<'span'>
+  }
+
   interface VfTextClasses {
     augmentedIcon: ClassValue
   }
