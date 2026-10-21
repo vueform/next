@@ -145,7 +145,7 @@ Passing the `!useModel` instance to `!useForm` makes the form **attach** it. Att
 - **Before attachment** the instance is yours alone: only your code changes its data, and `submit()` runs the instance's own headless flow against its `endpoint` and submission options.
 - **After attachment** the model is kept in sync with the form for free: whatever is typed into the form is already in `model.data`, and whatever you `set()` is already on screen. `model.attached` turns `true` and the form owns submission — `model.submit()` submits the attaching form with the form's props and UX. The instance mirrors the form while attached, so `model.submitting`, `model.submits`, `model.result`, and your `model.on('success')` listeners follow form-driven submits too. There is one flow and one set of counters, never two.
 
-## Using Pinia
+## Outliving Components
 
 A model owned by a [Pinia](https://pinia.vuejs.org/) store outlives any component: a form can mount anywhere, attach it, and unmount without losing data. A store is not a component, though, so `!useModel` has no setup context — create the model from your own instance instead:
 

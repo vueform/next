@@ -476,3 +476,372 @@ const [MyForm] = useForm({
 ```
 
 :::
+
+## What Gets Sent
+
+The **payload** is what a submission sends. It's the model minus two kinds of elements — those whose [conditions](/guide/conditions) aren't met, and those with the element-level `submit: false` prop, an opt-out that keeps a value in the model but out of every request (a password-confirmation field, a UI-only toggle).
+
+Nothing assembles the payload at submit time — it's a live projection of the model, readable at any moment as `form$.payload` (headlessly, `model.payload`).
+
+### Transforming the Payload
+
+To reshape what's sent, use `transformPayload`:
+
+::: code-group
+
+```ts [Schema]
+const [MyForm] = useForm({
+  schema,
+  endpoint: '/api/register',
+  transformPayload: (payload, context$) => ({
+    ...payload,
+    submittedAt: new Date().toISOString(),
+  }),
+})
+```
+
+```vue [Template]
+<VfForm
+  endpoint="/api/register"
+  :transform-payload="
+    (payload, context$) => ({
+      ...payload,
+      submittedAt: new Date().toISOString(),
+    })
+  "
+/>
+```
+
+:::
+
+The function receives the aggregated payload and the form's [context](/guide/context), and whatever it returns is the payload from then on. It's baked into the projection itself rather than bolted onto submission — `form$.payload` reads, the [`@submit`](#owning-the-request) event's argument, the request body, and [autosave](/guide/autosave) requests all see the transformed data.
+
+::: tip
+The `payload` argument already excludes condition-hidden and `submit: false` values. To send the **full model** regardless, return `context$.model`:
+
+```ts
+transformPayload: (payload, context$) => context$.model
+```
+
+:::
+## Wire Format
+
+By default the payload travels as `multipart/form-data`, built from a `FormData` instance. Common backends — Express, Laravel, Rails — parse it out of the box, and file uploads need no extra setup.
+
+To send a JSON body instead, enable the `json` prop:
+
+```vue
+<VfForm endpoint="/api/register" json />
+```
+
+::: warning
+Files can't be serialized into JSON. When the form contains uploads and the endpoint still needs a JSON body, add the `base64` prop to encode files as base64 strings:
+
+```vue
+<VfForm endpoint="/api/register" json base64 />
+```
+
+:::
+
+Custom request headers go on the `headers` prop:
+
+```vue
+<VfForm endpoint="/api/register" :headers="{ 'X-Custom-Header': 'value' }" />
+```
+
+Headers meant for every request belong on the [HTTP module's defaults](/guide/http#configuring-defaults) instead — the per-form `headers` are merged on top of them.
+
+To make JSON (or base64) the norm for every form in the app, set the props as [Defaults](/guide/defaults):
+
+```ts
+app.use(
+  createVueform({
+    defaults: {
+      VfForm: {
+        json: true,
+        base64: true,
+      },
+    },
+  })
+)
+```
+
+Note that submissions always set their request format explicitly, so the HTTP module's global [`requestType`](/guide/configuration#http) governs your own `!useHttp` calls, not form submissions — for forms, the `!VfForm` default above is the one that counts. <!-- @todo: maybe we should have form's to default to useHttp settings too unless explicitly defined? -->
+
+## Owning the Request
+
+The request doesn't have to be Vueform's own call to a string [`endpoint`](/guide/submit#a-form-that-submits) — your code can step in at two points. The `endpoint` prop also accepts a **function** that performs the send itself — for when the request isn't a plain HTTP call Vueform can make, such as going through your own API client or SDK. And whatever the endpoint is, the `@submit` event runs right before it, where a handler can observe the attempt, cancel it, or conditionally take it over.
+
+### Endpoint as a Function
+
+A function endpoint replaces the built-in request while keeping everything around it — validation still gates, and `@success` / `@serverInvalid` / `@fail` still fire based on what you return:
+
+::: code-group
+
+```ts [Schema]
+import { defineSchema, useForm, useHttp } from '@vueform/ui'
+
+const $http = useHttp()
+
+const [MyForm] = useForm({
+  schema,
+  endpoint: async (payload, context$) => {
+    return await $http.post('/api/register', payload)
+  },
+})
+```
+
+```vue [Template]
+<script setup lang="ts">
+import { useHttp } from '@vueform/ui'
+
+const $http = useHttp()
+
+const handleEndpoint = async (payload, context$) => {
+  return await $http.post('/api/register', payload)
+}
+</script>
+
+<template>
+  <VfForm :endpoint="handleEndpoint">
+    <VfText name="email" label="Email" />
+    <VfButton name="save" text="Save" action="submit" />
+  </VfForm>
+</template>
+```
+
+:::
+
+The function receives the [payload](#what-gets-sent) and the form's [context](/guide/context), and its return value steers the rest of the lifecycle:
+
+| Return value   | Effect                                                                                                                                       |
+| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| `HttpResponse` | Used as the response — classification and result events follow from its status. This is what the example returns: `$http.post()` resolves with one. |
+| `string`       | Used as the endpoint URL — Vueform makes the request itself.                                                                                    |
+| `false`        | Cancels the attempt with reason `'prevented'`.                                                                                                  |
+| `void`         | Your function's work happened, but with nothing to classify, `submit()` resolves with `undefined` and no result events fire.                    |
+
+::: tip
+Make your requests with [`!useHttp`](/guide/http) so failures flow back into the pipeline — an `HttpError` thrown inside the function is caught and classified exactly like one from a string endpoint: a `422` becomes an [`invalid`](#the-result) result, a network failure becomes a `fail`.
+:::
+
+### Endpoint as an Expression
+
+When only the URL needs computing, skip the function. A string endpoint may be an [expression](/guide/expressions), with placeholders resolved from the model at submit time:
+
+```vue
+<VfForm endpoint="/api/users/{id}" method="PUT" />
+```
+
+Expression resolution is a mounted-form feature — a headless `!useModel` instance uses its `endpoint` string as-is.
+
+### Intercepting with `@submit`
+
+The `@submit` event fires after [validation passes](#the-submission-lifecycle) and before the request goes out, carrying the prepared payload and the [context](/guide/context). The handler is awaited, and what it returns decides what happens next.
+
+**Returning nothing** makes it a pure observer — the request proceeds untouched:
+
+```ts
+onSubmit: (payload, context$) => {
+  analytics.track('form-submitted', payload)
+}
+```
+
+**Returning `false`** cancels the attempt — the endpoint is never called and `submit()` resolves with a [`cancelled`](#the-result) result (reason `'prevented'`):
+
+```ts
+onSubmit: async (payload, context$) => {
+  const allowed = await checkRateLimit()
+  if (!allowed) return false
+}
+```
+
+**Returning an `HttpResponse`** takes the request over — the configured `endpoint` is skipped and the returned response drives [classification](#the-result):
+
+```ts
+const $http = useHttp()
+
+const [MyForm] = useForm({
+  schema,
+  endpoint: '/api/register',
+  onSubmit: async (payload, context$) => {
+    if (payload.plan === 'enterprise') {
+      // takes over: `/api/register` is skipped
+      return await $http.post('/api/enterprise/register', payload)
+    }
+    // all other plans continue to `/api/register`
+  },
+})
+```
+
+This makes `@submit` the conditional sibling of the function endpoint — reach for the function endpoint when custom logic *is* the submission mechanism, and for `@submit` when a string endpoint is the default and you only step in sometimes.
+
+## After Success
+
+Once an attempt classifies as `success`, the configured follow-ups run — always in the same order:
+
+1. `success-message`
+2. `reset-on-success` / `clear-on-success`
+3. `set-response`
+4. `scroll-top-on` (its `'success'` trigger)
+5. `redirect`
+
+### Success Message
+
+`success-message` appends a one-shot confirmation to the form's [`messageBag`](/guide/validation#errors-from-outside-the-rules):
+
+```vue
+<VfForm endpoint="/api/register" success-message="Registration complete!" />
+```
+
+Like several props in this section, it's a [dynamic prop](/guide/dynamic-props) — a static string, a function receiving the form's [context](/guide/context), an [expression](/guide/expressions), or a [locale map](/guide/translating-props):
+
+```vue
+<!-- Function -->
+<VfForm
+  endpoint="/api/register"
+  :success-message="(form$) => `Welcome, ${form$.model.name}!`"
+/>
+
+<!-- Expression -->
+<VfForm endpoint="/api/register" success-message="Welcome, {name}!" />
+
+<!-- Locale map -->
+<VfForm
+  endpoint="/api/register"
+  :success-message="{ en: 'Welcome, {name}!', de: 'Willkommen, {name}!' }"
+/>
+```
+
+### Reset or Clear
+
+Two props answer what state the form should be in afterwards. `reset-on-success` restores the initial values — those present at mount, or at the last `clean()` call. `clear-on-success` empties every value instead:
+
+```vue
+<!-- back to its starting values -->
+<VfForm endpoint="/api/register" reset-on-success />
+
+<!-- a blank slate -->
+<VfForm endpoint="/api/register" clear-on-success />
+```
+
+### Applying the Response
+
+A successful response from the server often carries values the form should adopt — the ID of the record it just created, or the slug the server generated from its title.
+
+With the `set-response` prop, Vueform reads the `payload` key of the response body and writes its entries into the matching elements by data path:
+
+::: code-group
+
+```ts [Schema]
+const schema = defineSchema({
+  id: { type: 'hidden' },
+  title: { type: 'text', label: 'Title' },
+  slug: { type: 'text', label: 'Slug' },
+  save: { type: 'button', text: 'Save', action: 'submit' },
+})
+
+const [MyForm] = useForm({
+  schema,
+  endpoint: '/api/posts',
+  setResponse: true,
+})
+```
+
+```vue [Template]
+<VfForm endpoint="/api/posts" set-response>
+  <VfHidden name="id" />
+  <VfText name="title" label="Title" />
+  <VfText name="slug" label="Slug" />
+  <VfButton name="save" text="Save" action="submit" />
+</VfForm>
+```
+
+:::
+
+A response of
+
+```json
+{
+  "payload": {
+    "id": 42,
+    "slug": "my-post"
+  }
+}
+```
+
+writes `id` and `slug` back into the form — so the next submission already carries the server-assigned values, exactly what a form that keeps editing the record it just created needs.
+
+If the values live under a different key, `transform-response` adapts the shape. It receives the response body and returns an object keyed by element data paths: <!-- @todo: the response key / path should be configurable -->
+
+```vue
+<VfForm
+  endpoint="/api/posts"
+  set-response
+  :transform-response="(data, context$) => data?.result?.fields || {}"
+/>
+```
+
+::: tip
+Response application runs **after** `reset-on-success` / `clear-on-success` — server-assigned values survive the reset.
+:::
+
+### Scroll to Top
+
+In a long form, the success message can land off-screen. The `scroll-top-on` prop names the moments the form scrolls back to its top, and `'success'` is one of them:
+
+```vue
+<VfForm
+  endpoint="/api/register"
+  :scroll-top-on="['success']"
+  success-message="Registration complete!"
+/>
+```
+
+The array also accepts `'error'` (a failed submit-time validation), `'next'` and `'back'` (step navigation in [multi-page forms](/guide/multi-page-forms)), and `'always'` — the default, covering all of them.
+
+### Redirect
+
+`redirect` sends the user elsewhere once everything above has run:
+
+```vue
+<VfForm endpoint="/api/register" redirect="/thank-you" />
+```
+
+The navigation happens **after** `submit()` resolves, so awaiting callers and event handlers still see the `success` result before the page goes away. It's a [dynamic prop](/guide/dynamic-props) like `success-message`:
+
+```vue
+<!-- Function -->
+<VfForm
+  endpoint="/api/register"
+  :redirect="(form$) => `/users/${form$.result?.data?.id}`"
+/>
+
+<!-- Expression -->
+<VfForm endpoint="/api/register" redirect="/users/{id}" />
+```
+
+Relative URLs always pass, and absolute ones must be `http` or `https` — a value with any other scheme is dropped, so a malicious `javascript:` URL can never become the destination.
+
+## Under the Hood: Submission Without a Form <!-- @todo: this needs a review after useModel refactor is in -->
+
+Strip away everything this chapter added — the gates, the events, the classification, the follow-ups — and what remains is three calls on a [`!useModel`](/guide/model) instance, composed by hand:
+
+```ts
+import { defineSchema, useModel, useHttp } from '@vueform/ui'
+
+const schema = defineSchema({
+  email: { type: 'text', label: 'Email', rules: 'required|email' },
+  plan: { type: 'select', label: 'Plan', items: ['free', 'pro'] },
+})
+
+const model = useModel({ schema })
+
+if (await model.validate()) {
+  await useHttp().post('/api/register', model.payload)
+}
+```
+
+Validate, take the [payload](#what-gets-sent), send it — that is all a submission is. When the endpoint expects a specific wire format, `model.toFormData()` and `model.toJSON()` serialize the same data as `FormData` or a JSON string.
+
+Everything above this section is that cycle, industrialized. The form's `submit()` wraps the same three steps in [gates](#gates), [interception](#owning-the-request), [classification](#the-result), [error display](#when-the-server-rejects), and [post-success actions](#after-success) — and [`!useModel`'s own submission options](#through-a-model) run the identical machinery headlessly, which is why the chapter could keep saying "the same applies to a model." One engine, hand-rolled or fully wrapped, readable from either side.
