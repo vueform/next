@@ -500,22 +500,55 @@ These gates are the security module's features. In a [modular setup](/guide/modu
 
 ## Draft Encryption
 
-The security module's persistence capability is a pair of app-provided ciphers — `$security.encrypt` and `$security.decrypt` — applied by features that persist values, currently [local autosave](/guide/autosave#encrypting-drafts) drafts. There is deliberately no built-in cipher: any key Vueform could generate on the device would sit right next to the ciphertext it protects. Bring a scheme whose key lives outside the stored data — typically delivered per user after login and held only in memory:
+The security module's persistence capability is a pair of app-provided ciphers — `$security.encrypt` and `$security.decrypt` — applied by features that persist values, currently [local autosave](/guide/autosave#encrypting-drafts) drafts. There is deliberately no built-in cipher — any key Vueform could generate on the device would sit right next to the ciphertext it protects. Bring a scheme whose key lives outside the stored data, typically delivered per user after login and held only in memory:
 
 ```ts
+let key: CryptoKey // import after login; memory only, never storage
+
 createVueform({
   $security: {
-    encrypt: async (value, purpose) => { /* e.g. Web Crypto with a session key */ },
-    decrypt: async (value, purpose) => { /* the inverse */ },
+    encrypt: async (value) => {
+      const iv = crypto.getRandomValues(new Uint8Array(12))
+      const data = await crypto.subtle.encrypt(
+        { name: 'AES-GCM', iv },
+        key,
+        new TextEncoder().encode(value)
+      )
+
+      return btoa(String.fromCharCode(...iv, ...new Uint8Array(data)))
+    },
+    decrypt: async (value) => {
+      const bytes = Uint8Array.from(atob(value), (c) => c.charCodeAt(0))
+      const data = await crypto.subtle.decrypt(
+        { name: 'AES-GCM', iv: bytes.slice(0, 12) },
+        key,
+        bytes.slice(12)
+      )
+
+      return new TextDecoder().decode(data)
+    },
   },
 })
 ```
 
-Both functions may be sync or async, and both receive a `purpose` tag naming the call site (e.g. `'autosave:local'`), so one implementation can serve every feature that encrypts. Configure them as a pair — one without the other can't round-trip persisted values and warns in dev. A `decrypt` that throws marks the stored value unreadable, and the feature treats it as absent (autosave discards the draft).
+Both functions may be sync or async, and both receive a `purpose` tag naming the call site (e.g. `'autosave:local'`), so one implementation can serve every feature that encrypts, branching per purpose if it ever needs to. Configure them as a pair — one without the other can't round-trip persisted values and warns in dev. A `decrypt` that throws marks the stored value unreadable, and the feature treats it as absent (autosave discards the draft).
 
-Storage keys are namespaced: a custom `autosave.local.key` is forced under the `vueform:` prefix, so a schema can't address an unrelated localStorage entry. Elements marked [`sensitive`](/guide/autosave#sensitive-values) are stripped from local drafts entirely — the strongest option for values that should never touch the disk.
+Until the ciphers are configured, persisted values are written as plaintext and every form persisting plaintext drafts warns in dev — storing unencrypted must be a conscious choice, not a silent default. To knowingly skip encryption, register identity ciphers — the no-op pair records the decision and silences the warning:
 
-See [Encrypting Drafts](/guide/autosave#encrypting-drafts) for a complete Web Crypto example and the storage mechanics.
+```ts
+createVueform({
+  $security: {
+    encrypt: (value) => value,
+    decrypt: (value) => value,
+  },
+})
+```
+
+A single form can also opt its own draft out of the app-wide ciphers — see [encrypting drafts](/guide/autosave#encrypting-drafts) for the per-form flag and the rest of the draft-side mechanics.
+
+Storage keys are namespaced — a custom `autosave.local.key` is forced under the `vueform:` prefix, so a schema can't address an unrelated localStorage entry.
+
+Know what encryption buys — protection for data **at rest**, against stolen hardware, disk backups, and storage scraped outside your app. Code running on your origin can use the in-memory key just like your app does, so [`sensitive`](/guide/autosave#sensitive-values) elements — stripped from local drafts entirely — remain the answer for values that should never touch the disk.
 
 ## Best Practices
 

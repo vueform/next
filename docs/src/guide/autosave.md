@@ -124,55 +124,36 @@ Local drafts persist form data — potentially personal data — to the user's d
 
 ### Encrypting Drafts
 
-Drafts are written as plaintext until the app configures the `$security` ciphers, and every form persisting plaintext drafts warns in dev — storing unencrypted must be a conscious choice, not a silent default. There's deliberately no built-in cipher, and [draft encryption](/guide/security#draft-encryption) explains why — real encryption needs a key the device alone doesn't have, typically delivered per user after login and held only in memory.
+Drafts are stored as plaintext until the app configures the `$security` ciphers, so every form persisting them warns in dev:
 
-Bring that key and plug the cipher pair into the app-level config — one mechanism, every form's drafts encrypted:
+_`!Drafts are being stored in plaintext — no '$security' ciphers are configured. Provide real ones via 'createVueform({ $security: { encrypt, decrypt } })'', or consciously opt out by registering identity functions ('encrypt: (v) => v, decrypt: (v) => v') or setting 'draft.encrypt: false' on this form.`_
+
+Storing unencrypted must be a conscious choice, not a silent default. During development the quickest way to acknowledge it is the app-wide opt-out — identity ciphers that store values as they are:
 
 ```ts
-import { createVueform } from '@vueform/ui'
-
-let key: CryptoKey // import after login; memory only, never storage
-
 createVueform({
   $security: {
-    encrypt: async (value) => {
-      const iv = crypto.getRandomValues(new Uint8Array(12))
-      const data = await crypto.subtle.encrypt(
-        { name: 'AES-GCM', iv },
-        key,
-        new TextEncoder().encode(value)
-      )
-
-      return btoa(String.fromCharCode(...iv, ...new Uint8Array(data)))
-    },
-    decrypt: async (value) => {
-      const bytes = Uint8Array.from(atob(value), (c) => c.charCodeAt(0))
-      const data = await crypto.subtle.decrypt(
-        { name: 'AES-GCM', iv: bytes.slice(0, 12) },
-        key,
-        bytes.slice(12)
-      )
-
-      return new TextDecoder().decode(data)
-    },
+    encrypt: (value) => value,
+    decrypt: (value) => value,
   },
 })
 ```
 
-The autosave-side mechanics:
+Before going to production, replace the stubs with a real cipher pair — [draft encryption](/guide/security#draft-encryption) walks you through the complete setup.
 
-- Both ciphers may be async — the Web Crypto example above just works. Because `decrypt` may be async, `loadAutosaved()` resolves its boolean as a Promise.
+What the ciphers mean for drafts:
+
+- Because `decrypt` may be async, `restoreDraft()` and `getDraft()` resolve as Promises.
 - A `decrypt` that **throws** — no key yet, a rotated session, someone else's draft — marks the draft unreadable. It's discarded like a corrupt one, and nothing loads.
-- Drafts call the ciphers with the purpose tag `'autosave:local'`, so one implementation can serve every feature that encrypts, branching per purpose if it ever needs to.
-- Encryption is app-wide. Opt a single harmless form out with `local: { encrypt: false }` ([Options](#options)) — its draft is written and read as plaintext. Flipping the flag later leaves the old draft unreadable, which counts as no draft.
-- To knowingly skip encryption everywhere, register identity ciphers (`$security: { encrypt: (v) => v, decrypt: (v) => v }`). Either that or the per-form opt-out records the decision and silences the plaintext warning.
-- In a [modular setup](/guide/code-splitting#modular-setup) that configured ciphers but didn't register the `security` module, drafts fall back to plaintext with a dev warning — misconfiguration never fails silently.
+- Opt a single harmless form out with `draft: { encrypt: false }` ([Options](#options)) — its draft is written and read as plaintext, warning-free. Flipping the flag later leaves the old draft unreadable, which counts as no draft.
 
-Know what encryption buys — protection for data **at rest**, against stolen hardware, disk backups, and storage scraped outside your app. Code running on your origin can use the in-memory key just like your app does, so [`sensitive`](#sensitive-values) remains the answer for values that shouldn't be persisted at all.
+Encryption protects the draft **at rest** — values that should never be persisted at all belong under [`sensitive`](#sensitive-values).
 
 ### Rolling Your Own
 
-If the fixed behaviors don't fit — a different trigger set, per-user keys, drafts synced to your own store — the local mirror isn't doing anything you can't do yourself. It's a convenience over the form's own [events](/guide/event-handlers). Subscribe to `@change` to save and `@mounted` to restore, and the policy in between is entirely yours:
+If the built-in draft saving doesn't fit — a different trigger set, per-user keys, drafts synced to your own store — it isn't doing anything you can't do yourself. It's a convenience over the form's own events.
+
+Subscribe to `@change` to save and `@mounted` to restore, and the policy in between is entirely yours:
 
 ```ts
 const [Form] = useForm({

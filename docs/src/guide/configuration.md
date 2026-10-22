@@ -582,6 +582,23 @@ See [Code Splitting](/guide/code-splitting) for what removing each module does.
 
 Each module reads its own options from a matching `$`-prefixed config key — the ones with options today:
 
+### `!$autosave`
+
+- Type: `AutosaveModuleOptions`
+- Default: `{}`
+
+Options for the [autosave module](/guide/autosave):
+
+| Field | Default | Description |
+| --- | --- | --- |
+| `storage` | `localStorage` | The default storage backend for drafts — a [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Storage) shaped object (`getItem` / `setItem` / `removeItem`), so `sessionStorage` and custom adapters qualify. A form's own `draft.storage` overrides it. |
+
+```ts
+createVueform({
+  $autosave: { storage: sessionStorage },
+})
+```
+
 ### `!$conditions`
 
 - Type: `ConditionsModuleOptions`
