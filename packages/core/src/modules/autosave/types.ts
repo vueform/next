@@ -73,6 +73,17 @@ export type DraftConfig = {
   encrypt?: boolean
 
   /**
+   * Form events that trigger a draft save. Defaults to `['change']` — the
+   * draft saves shortly after the form's data changes. `'change'` saves are
+   * debounced (`debounce`); every other event saves immediately. Any form
+   * event name is accepted. Listing `'step'` alongside `'next'`/`'back'` wires
+   * only `'step'` (it fires on every step navigation, both directions) — one
+   * navigation never triggers two saves. An empty array disables automatic
+   * saving entirely — drafts are then written only via `saveDraft()`.
+   */
+  on?: AutosaveOnProp
+
+  /**
    * Whether values of elements marked `sensitive` are stored in the draft.
    * Defaults to `false` — sensitive values are stripped by data path before
    * the draft is written. Set `true` to knowingly store them too.
@@ -90,9 +101,10 @@ export type DraftConfig = {
 
 /**
  * Configuration of the form's draft behavior: the model is saved to storage on
- * every action (change and page navigation, regardless of validity), restored
- * on mount, and discarded on successful submit. `true` enables drafts with the
- * defaults (`localStorage` under a key derived from the form's `name`).
+ * the configured `on` events (debounced change saves by default, regardless of
+ * validity), restored on mount, and discarded on successful submit. `true`
+ * enables drafts with the defaults (`localStorage` under a key derived from
+ * the form's `name`).
  */
 export type DraftProp = boolean | DraftConfig
 
@@ -115,7 +127,9 @@ export type AutosaveConfig<TContext = any> = {
   /**
    * Form events that trigger a remote save (e.g. `change`, `next`, `step`,
    * `tab`). Any form event name is accepted. Defaults to `['change']` — the
-   * form saves shortly after its data changes.
+   * form saves shortly after its data changes. Listing `step` alongside
+   * `next`/`back` wires only `step` (it fires on every step navigation, both
+   * directions) — one navigation never triggers two saves.
    */
   on?: AutosaveOnProp
 
@@ -130,7 +144,7 @@ export type AutosaveConfig<TContext = any> = {
    * Debounce delay in milliseconds applied when `on` includes `'change'`.
    * Defaults to `1000`.
    */
-  delay?: number
+  debounce?: number
 
   /**
    * Whether remote saves are sent while the form is invalid. Defaults to
@@ -377,6 +391,16 @@ export type AutosaveInstance = {
    * @param options Per-call overrides (`invalid`).
    */
   autosave: (options?: { invalid?: boolean }) => Promise<void>
+
+  /**
+   * Saves the current model snapshot to storage immediately, bypassing the
+   * debounce (async because a configured `$security.encrypt` may be). Unlike
+   * the automatic saves, a manual call fires no `saveDraft` pre-hook — calling
+   * it _is_ the consent (`draftSaved` still fires). Resolves whether a draft
+   * was written — `false` when drafts are inactive, or the write was
+   * superseded or failed.
+   */
+  saveDraft: () => Promise<boolean>
 
   /**
    * Resolves the stored draft data without loading it into the form, or

@@ -4,20 +4,18 @@ outline: [2,3]
 
 # Dates
 
-Dates show up all over a form: a condition that compares against _today_, a rule that demands a birth date in the past, an expression that computes a deadline. All of it runs through one **date layer** — a small, adapter-based module with a consistent date API. The built-in native adapter handles standard formats with zero dependencies; when you need custom format parsing and formatting, a date plugin (Day.js, date-fns, or Luxon) swaps in underneath and everything on top keeps working.
-
-This chapter covers the adapter and its plugins, the places dates plug into forms, and the `useDate` API for working with dates yourself.
+Dates show up all over a form — a condition that compares against _today_, a rule that demands a birth date in the past, an expression that computes a deadline. All of it runs through one **date layer**, a small adapter-based module with a consistent date API. The built-in native adapter handles standard formats with zero dependencies; when you need custom format parsing and formatting, a date plugin (Day.js, date-fns, or Luxon) swaps in underneath and everything on top keeps working.
 
 ## The Date Adapter
 
-The module itself is thin: a `make(value, format?)` factory that parses a value into a `DateInstance`. The parsing and math behind it come from the configured **adapter** (`$date.adapter`), and `@vueform/ui` wires in the dependency-free `nativeDateAdapter` by default. It understands:
+The module itself is thin — a `make(value, format?)` factory that parses a value into a `DateInstance`. The parsing and math behind it come from the configured **adapter** (`$date.adapter`), and `@vueform/ui` wires in the dependency-free `nativeDateAdapter` by default. It understands:
 
 - `Date` objects and timestamps
 - `YYYY-MM-DD` strings (parsed as local dates)
 - `YYYY-MM-DD HH:mm` and `YYYY-MM-DD HH:mm:ss` strings (parsed as local time)
 - anything else `new Date()` accepts (ISO strings with timezones, …)
 
-What it deliberately _doesn't_ do is format tokens: `format('DD/MM/YYYY')` and format-aware parsing (`make('31/12/2026', 'DD/MM/YYYY')`) warn and fall back to ISO output. Standard-format apps never notice; custom-format apps install a plugin.
+What it deliberately _doesn't_ do is format tokens. `format('DD/MM/YYYY')` and format-aware parsing (`make('31/12/2026', 'DD/MM/YYYY')`) warn and fall back to ISO output. Standard-format apps never notice; custom-format apps install a plugin.
 
 ### Format Plugins
 
@@ -36,24 +34,24 @@ With one registered, everything format-related lights up: the [`date_format`](#i
 
 ## Where Dates Are Used
 
-Each spot below notes whether the built-in native adapter is enough. The short version: **standard formats** (`YYYY-MM-DD`, `YYYY-MM-DD HH:mm[:ss]`, `Date` objects, timestamps) **never need a plugin; custom format tokens always do**.
+Each spot below notes whether the built-in native adapter is enough. The short version — **standard formats** (`YYYY-MM-DD`, `YYYY-MM-DD HH:mm[:ss]`, `Date` objects, timestamps) **never need a plugin; custom format tokens always do**.
 
 ### In Conditions
 
 The `before`, `after`, and `today` [condition operators](/guide/conditions#date-operators) compare an element's value against a date — a `YYYY-MM-DD` string or the `today` keyword — at day granularity:
 
 ```ts
-defineSchema({
+{
   start_date: { type: 'text', inputType: 'date', label: 'Start Date' },
   early_bird: {
     type: 'text',
     label: 'Early Bird Discount',
     conditions: [['start_date', 'before', '2026-06-01']],
   },
-})
+}
 ```
 
-**Plugin needed? No.** The operator's parameter is always a standard date or `today`, and element values in standard formats — what native date inputs produce — parse with the built-in adapter. The one exception: an element whose model holds a custom-formatted string (declared with the `valueFormat` prop, e.g. `'DD/MM/YYYY'`) needs a [format plugin](#format-plugins) to parse that value.
+**Plugin needed? No.** The operator's parameter is always a standard date or `today`, and element values in standard formats — what native date inputs produce — parse with the built-in adapter. The one exception is an element whose model holds a custom-formatted string (declared with the `valueFormat` prop, e.g. `'DD/MM/YYYY'`) — parsing that value needs a [format plugin](#format-plugins).
 
 ### In Validation Rules
 
@@ -72,24 +70,24 @@ _\* "Custom-formatted" means an element that stores its value in a format declar
 The path form gives the classic date-range pair:
 
 ```ts
-defineSchema({
+{
   start_date: { type: 'text', inputType: 'date', rules: 'required|date' },
   end_date: {
     type: 'text',
     inputType: 'date',
     rules: 'required|after:start_date', // [!code highlight]
   },
-})
+}
 ```
 
-See [Rules With Element References](/guide/validation#rules-with-element-references) for how path parameters resolve.
+See [Referencing Other Elements](/guide/validation#referencing-other-elements) for how path parameters resolve.
 
 ### In Expressions
 
-The [expression](/guide/expressions#dates) functions `TODAY()`, `NOW()`, `AGE()`, `DATE_ADD()`, and `FORMAT_DATE()` resolve their dates through the adapter:
+The [expression functions](/guide/expressions#built-in-functions) `TODAY()`, `NOW()`, `AGE()`, `DATE_ADD()`, and `FORMAT_DATE()` resolve their dates through the adapter:
 
 ```ts
-defineSchema({
+{
   dob: { type: 'text', inputType: 'date', label: 'Date of Birth' },
   age: { type: 'text', label: 'Age', default: '{AGE(dob)}' },
   deadline: {
@@ -97,14 +95,14 @@ defineSchema({
     label: 'Deadline',
     default: "{DATE_ADD(TODAY(), 30, 'day')}",
   },
-})
+}
 ```
 
 **Plugin needed? Only for `FORMAT_DATE()`** — it exists to apply format tokens, so it always requires a [format plugin](#format-plugins). The rest work with the built-in adapter on standard-format values; `DATE_ADD()` given a non-standard string warns and falls back to `YYYY-MM-DD` output.
 
 ## `!useDate`
 
-For your own date work — event handlers, custom rules, functional conditions — `useDate` parses any value through the configured adapter and returns a `DateInstance`. Called with no arguments it returns the current date; it's callable anywhere once `createVueform` has run:
+For your own date work — event handlers, custom rules, functional conditions — `useDate` parses any value through the configured adapter and returns a `DateInstance`. Called with no arguments it returns the current date:
 
 ```ts
 import { useDate } from '@vueform/ui'
@@ -118,6 +116,18 @@ today.diff(dob, 'year')        // the age in whole years
 dob.add(30, 'day').toISODate() // '1990-06-14'
 ```
 
+In component setup it finds the app's adapter by itself. Outside a component — in a custom rule or an expression function — pass the Vueform instance as the third argument; rule and function contexts carry it as `vueform`:
+
+```ts
+import { createRule, useDate } from '@vueform/ui'
+
+const workday = createRule('workday', (value, { vueform }) => {
+  const day = useDate(value, undefined, vueform).day()
+
+  return day !== 0 && day !== 6
+})
+```
+
 The instance is immutable — every manipulation returns a new instance — and exposes a dayjs-compatible API regardless of which adapter is behind it:
 
 | Group | Members |
@@ -129,18 +139,6 @@ The instance is immutable — every manipulation returns a new instance — and 
 | Output | `toDate()`, `toISOString()`, `toISODate()`, `valueOf()`, `unix()`, `format(tokens)` (plugin), `clone()` |
 
 Units accept singular and plural forms (`'day'` / `'days'`, `'month'` / `'months'`, …).
-
-A typical use — a custom rule built on adapter dates:
-
-```ts
-import { createRule, useDate } from '@vueform/ui'
-
-const workday = createRule('workday', (value) => {
-  const day = useDate(value).day()
-
-  return day !== 0 && day !== 6
-})
-```
 
 ## Custom Adapters
 

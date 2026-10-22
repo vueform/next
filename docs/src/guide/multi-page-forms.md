@@ -797,7 +797,7 @@ formReady(async (form$) => {
 
 The natural counterpart to resuming: persisting the user's progress as they move between steps, instead of waiting for the final submit.
 
-For declarative persistence, use the form's built-in **autosave** — one prop configuring an endpoint, with `on: ['step']` saving on every step change (and `local: true` keeping a browser-side draft). That whole feature has its own chapter: see [Autosaving Forms](/guide/autosave), and in particular [Saving on Page Navigation](/guide/autosave#saving-on-page-navigation).
+For declarative persistence, use the form's built-in **autosave** — one prop configuring an endpoint, with `on: ['step']` saving on every step change (and the separate `draft` prop keeping a browser-side draft). That whole feature has its own chapter: see [Autosaving Forms](/guide/autosave), and in particular [Event Triggers](/guide/autosave#event-triggers).
 
 For full manual control — custom requests, saving only part of the data, blocking navigation until the save succeeds — hook into the navigation events directly. The `step` event covers every navigation (Next, Back, and direct selection), so one handler is enough:
 

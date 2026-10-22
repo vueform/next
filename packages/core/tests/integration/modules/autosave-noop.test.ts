@@ -62,6 +62,7 @@ describe('Autosave without the autosave module', () => {
     // nothing saved anywhere, context methods are no-ops
     expect(Object.keys(store)).toHaveLength(0)
     expect(calls).toHaveLength(0)
+    expect(await form$.saveDraft()).toBe(false)
     expect(await form$.restoreDraft()).toBe(false)
     expect(await form$.getDraft()).toBeUndefined()
     expect(form$.discardDraft()).toBeUndefined()

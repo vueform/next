@@ -366,7 +366,7 @@ describe('Autosave on change', () => {
           endpoint: '/api/autosave',
           interval: 0,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -384,7 +384,7 @@ describe('Autosave on change', () => {
     expect(calls[0].data).toEqual({ name: 'Jane' })
   })
 
-  it('should debounce change autosave by delay', async () => {
+  it('should debounce change autosave by debounce', async () => {
     const { adapter, calls } = mockAdapter()
 
     const { name } = createForm(
@@ -396,7 +396,7 @@ describe('Autosave on change', () => {
           endpoint: '/api/autosave',
           interval: 0,
           on: ['change'],
-          delay: 1000,
+          debounce: 1000,
         },
       },
       { $http: { adapter } }
@@ -426,7 +426,7 @@ describe('Autosave on change', () => {
     expect(calls[0].data).toEqual({ name: 'Jan' })
   })
 
-  it('should use default delay of 1000', async () => {
+  it('should use default debounce of 1000', async () => {
     const { adapter, calls } = mockAdapter()
 
     const { name } = createForm(
@@ -512,7 +512,7 @@ describe('Autosave on change with validity gate', () => {
           endpoint: '/api/autosave',
           interval: 0,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -546,7 +546,7 @@ describe('Autosave on change with validity gate', () => {
           endpoint: '/api/autosave',
           interval: 0,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -575,7 +575,7 @@ describe('Autosave on change with validity gate', () => {
           endpoint: '/api/autosave',
           interval: 0,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
           invalid: true,
         },
       },
@@ -609,7 +609,7 @@ describe('Autosave on change with validity gate', () => {
         autosave: {
           endpoint: '/api/autosave',
           interval: 0,
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -762,7 +762,7 @@ describe('Autosave on navigation events', () => {
           endpoint: '/api/autosave',
           interval: 0,
           on: ['next'],
-          delay: 5000,
+          debounce: 5000,
         },
       },
       { $http: { adapter } }
@@ -774,6 +774,47 @@ describe('Autosave on navigation events', () => {
     await flushPromises()
 
     expect(calls).toHaveLength(1)
+  })
+})
+
+describe('Autosave navigation dedupe', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('should not double save when on lists step alongside next or back', async () => {
+    const { adapter, calls } = mockAdapter()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          interval: 0,
+          on: ['step', 'next', 'back'],
+        },
+      },
+      { $http: { adapter } }
+    )
+
+    await nextTick()
+
+    // one step navigation fires both `step` and the direction event
+    fireNav(form$, 'next')
+    fireNav(form$, 'step')
+    await flushPromises()
+    expect(calls).toHaveLength(1)
+
+    fireNav(form$, 'back')
+    fireNav(form$, 'step')
+    await flushPromises()
+    expect(calls).toHaveLength(2)
   })
 })
 
@@ -937,7 +978,7 @@ describe('Autosave success event', () => {
           endpoint: '/api/autosave',
           interval: 0,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -1659,7 +1700,7 @@ describe('Autosave endpoint gating', () => {
         autosave: {
           interval: 0,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -1837,7 +1878,7 @@ describe('Autosave endpoint gating', () => {
         autosave: {
           interval: 0,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -1856,7 +1897,7 @@ describe('Autosave endpoint gating', () => {
         endpoint: '/api/autosave',
         interval: 0,
         on: ['change'],
-        delay: 500,
+        debounce: 500,
       },
     })
     await nextTick()
@@ -1880,7 +1921,7 @@ describe('Autosave endpoint gating', () => {
           endpoint: '/api/autosave',
           interval: 0,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -1930,7 +1971,7 @@ describe('Autosave combined triggers', () => {
           endpoint: '/api/autosave',
           interval: 5000,
           on: ['change'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -1962,7 +2003,7 @@ describe('Autosave combined triggers', () => {
           endpoint: '/api/autosave',
           interval: 10000,
           on: ['change', 'next'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }
@@ -1997,7 +2038,7 @@ describe('Autosave combined triggers', () => {
           endpoint: '/api/autosave',
           interval: 5000,
           on: ['change', 'next', 'valid'],
-          delay: 500,
+          debounce: 500,
         },
       },
       { $http: { adapter } }

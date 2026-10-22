@@ -145,7 +145,7 @@ Every trigger — a submit button, `form$.submit()`, `model.submit()` — funnel
 1. **Gates** — a form that is loading, disabled, or already submitting doesn't start another attempt. The call resolves with a `cancelled` result and goes no further. See [Gates](#gates).
 2. **Validation** — the floor that always runs, no matter how the form otherwise validates. If the form comes out invalid, the call resolves with a client-side `invalid` result before any network traffic, and the first invalid element is scrolled into view and focused, unless [disabled](/guide/validation#scroll-and-focus). See [When Validation Fails](#when-validation-fails).
 3. **The `@submit` event** — fires with the [payload](#what-gets-sent) about to be sent. A handler can observe it, cancel the attempt, or take the request over entirely. See [Owning the Request](#owning-the-request).
-4. **The request** — unless a handler took over, the payload is sent to the `endpoint`. What's in the payload and how it's encoded have their own sections — [What Gets Sent](#what-gets-sent) and [Wire Format](#wire-format).
+4. **The request** — unless a handler took over, the payload is sent to the `endpoint`. What's in the payload and how it's encoded have their own sections — [What Gets Sent](#what-gets-sent) and [Request Format](#request-format).
 5. **Classification** — the outcome is categorized by the response: `2xx` is a `success`, `422` is a server-side `invalid`, and everything else — network error, timeout, abort, any other status — is a `fail`. See [The Result](#the-result).
 6. **Result events** — `@response` fires with the raw response, then the outcome's own event follows. See [Result Events](#result-events).
 7. **Post-success actions** — on `success`, the configured follow-ups run in a fixed order — message, reset or clear, response application, scroll, redirect. See [After Success](#after-success).
@@ -524,7 +524,7 @@ transformPayload: (payload, context$) => context$.model
 ```
 
 :::
-## Wire Format
+## Request Format
 
 By default the payload travels as `multipart/form-data`, built from a `FormData` instance. Common backends — Express, Laravel, Rails — parse it out of the box, and file uploads need no extra setup.
 
@@ -678,7 +678,7 @@ This makes `@submit` the conditional sibling of the function endpoint — reach 
 
 ## After Success
 
-Once an attempt classifies as `success`, the configured follow-ups run — always in the same order:
+Once an attempt classifies as [`success`](#success), the configured follow-ups run — always in the same order:
 
 1. `success-message`
 2. `reset-on-success` / `clear-on-success`
@@ -842,6 +842,6 @@ if (await model.validate()) {
 }
 ```
 
-Validate, take the [payload](#what-gets-sent), send it — that is all a submission is. When the endpoint expects a specific wire format, `model.toFormData()` and `model.toJSON()` serialize the same data as `FormData` or a JSON string.
+Validate, take the [payload](#what-gets-sent), send it — that is all a submission is. When the endpoint expects a specific request format, `model.toFormData()` and `model.toJSON()` serialize the same data as `FormData` or a JSON string.
 
 Everything above this section is that cycle, industrialized. The form's `submit()` wraps the same three steps in [gates](#gates), [interception](#owning-the-request), [classification](#the-result), [error display](#when-the-server-rejects), and [post-success actions](#after-success) — and [`!useModel`'s own submission options](#through-a-model) run the identical machinery headlessly, which is why the chapter could keep saying "the same applies to a model." One engine, hand-rolled or fully wrapped, readable from either side.

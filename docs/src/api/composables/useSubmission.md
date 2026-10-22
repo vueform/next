@@ -20,7 +20,7 @@ The arguments accepted by the composable.
 
 | Name | Description |
 | --- | --- |
-| [`options`](!code#params.options "object") | The host accessors and hooks the flow runs against. |
+| [`options`](!code#params.options "UseSubmissionOptions") | The host accessors and hooks the flow runs against. |
 
 <!-- #endregion params -->
 

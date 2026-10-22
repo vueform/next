@@ -278,15 +278,15 @@ export interface FormProps<
   /**
    * The remote autosave configuration: an endpoint URL, or an object with an
    * `endpoint` (URL or handler function) and its scheduling options (`on`,
-   * `interval`, `delay`, `invalid`, `method`, `transform`).
+   * `interval`, `debounce`, `invalid`, `method`, `transform`).
    */
   autosave?: AutosaveProp
 
   /**
-   * The draft configuration: `true`, or an object with `key`, `storage`,
-   * `restore`, `discardOnSuccess`, `encrypt` and `debounce`. Drafts save the
-   * model to storage on every action, restore it on mount, and are discarded
-   * on successful submit.
+   * The draft configuration: `true`, or an object with `key`, `storage`, `on`,
+   * `debounce`, `restore`, `discardOnSuccess`, `encrypt` and `sensitive`.
+   * Drafts save the model to storage on the configured `on` events, restore it
+   * on mount, and are discarded on successful submit.
    */
   draft?: DraftProp
 
@@ -1170,20 +1170,21 @@ function setup(
   const json = computed(() => props.json)
   const base64 = computed(() => props.base64)
 
-  const { autosave, getDraft, restoreDraft, discardDraft } = useAutosave({
-    autosave: toRef(() => props.autosave),
-    draft: toRef(() => props.draft),
-    payload,
-    model,
-    sensitivePaths,
-    invalid,
-    headers,
-    json,
-    base64,
-    name,
-    load,
-    ...bridgedEvents,
-  })
+  const { autosave, saveDraft, getDraft, restoreDraft, discardDraft } =
+    useAutosave({
+      autosave: toRef(() => props.autosave),
+      draft: toRef(() => props.draft),
+      payload,
+      model,
+      sensitivePaths,
+      invalid,
+      headers,
+      json,
+      base64,
+      name,
+      load,
+      ...bridgedEvents,
+    })
 
   // ================ REFS ================
 
@@ -1721,6 +1722,7 @@ function setup(
     submit,
     abort,
     autosave,
+    saveDraft,
     getDraft,
     restoreDraft,
     discardDraft,

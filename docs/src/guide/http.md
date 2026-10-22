@@ -4,7 +4,7 @@ outline: [2,3]
 
 # HTTP
 
-Everything Vueform sends over the wire — [submissions](/guide/submit), [autosave](/guide/autosave), items loaded from an endpoint — goes through one built-in HTTP layer. The same layer is exposed to your application as `!useHttp`, so your own requests share the base URL, headers, interceptors, and error handling that Vueform's internal ones use.
+Every request Vueform makes — [submissions](/guide/submit), [autosave](/guide/autosave), items loaded from an endpoint — goes through one built-in HTTP layer. The same layer is exposed to your application as `!useHttp`, so your own requests share the base URL, headers, interceptors, and error handling that Vueform's internal ones use.
 
 The default transport is a dependency-free Fetch adapter, wired in by the `@vueform/ui` presets. When you'd rather route traffic through Axios, ofetch, or an in-house client, you [swap the adapter](#switching-the-adapter) underneath and everything on top keeps working unchanged.
 

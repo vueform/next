@@ -979,7 +979,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The root form element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -987,7 +987,7 @@ The root form element.
 
 Props forwarded to the nested VfLanguages component.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfLanguages>`](./VfLanguages.md) |
 
@@ -995,7 +995,7 @@ Props forwarded to the nested VfLanguages component.
 
 Props forwarded to the nested VfTabs component.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfTabs>`](./VfTabs.md) |
 
@@ -1003,7 +1003,7 @@ Props forwarded to the nested VfTabs component.
 
 Props forwarded to the nested VfSteps component.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfSteps>`](./VfSteps.md) |
 
@@ -1011,7 +1011,7 @@ Props forwarded to the nested VfSteps component.
 
 Props forwarded to the nested VfElements component.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfElements>`](./VfElements.md) |
 
@@ -1019,7 +1019,7 @@ Props forwarded to the nested VfElements component.
 
 The error list element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
 
@@ -1027,7 +1027,7 @@ The error list element.
 
 The message list element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
 
@@ -1035,7 +1035,7 @@ The message list element.
 
 Props forwarded to the nested VfNav component.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfNav>`](./VfNav.md) |
 
@@ -1043,7 +1043,7 @@ Props forwarded to the nested VfNav component.
 
 The errors container element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -1051,7 +1051,7 @@ The errors container element.
 
 Each error item element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
 
@@ -1059,7 +1059,7 @@ Each error item element.
 
 The messages container element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -1067,7 +1067,7 @@ The messages container element.
 
 Each message item element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
 <!-- @parts-end -->

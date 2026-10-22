@@ -730,7 +730,7 @@ Options for the [security module](/guide/security):
 | Field | Type | Default | Description |
 | --- | --- | --- | --- |
 | `sanitizer` | `SecuritySanitizer` | — | The sanitization engine — `(html: string) => string`; HTML in `allowHtml` areas always renders through it. The [DOMPurify plugin](/plugins/dompurify) installs one. Unset: raw + dev warning in development, **empty in production**; an identity function is the conscious opt-out. |
-| `encrypt` | `SecurityCipher` | — | Encrypts values before features persist them — currently [local autosave drafts](/guide/autosave#encrypting-drafts). May be async. |
+| `encrypt` | `SecurityCipher` | — | Encrypts values before features persist them — currently form [drafts](/guide/autosave#encrypting-drafts). May be async. |
 | `decrypt` | `SecurityCipher` | — | The inverse, applied when persisted values are read back. A throw marks the value unreadable. |
 | `allowOrigins` | `string[]` | `[]` | Additional **cross-origin** destinations requests may target, as absolute origins. The app's own origin and the `$http.baseURL` origin always pass; everything else is rejected before the request is sent unless listed. Wildcards: `'https://*.example.com'` (any subdomain, never the apex) and `'https://example.com:*'` (any port); `['*']` removes the restriction. |
 | `allowHtml` | `('content' \| 'grid' \| 'slots')[]` | `[]` | The areas where strings may render as HTML: `VfContent`'s `content`, grid string cells, and [`slots`](/guide/slots#string-content) entries. An area not listed renders its strings as escaped text with a dev warning. |

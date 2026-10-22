@@ -21,10 +21,21 @@ import type {
 } from './types'
 
 /**
- * Navigation events that trigger an immediate draft save. Fixed by design —
- * drafts save on every action, regardless of validity.
+ * The default draft save triggers (`draft.on`) — drafts save on change,
+ * debounced, regardless of validity. Navigation triggers are opt-in.
  */
-const DRAFT_NAV_SAVE_EVENTS = ['next', 'back', 'step', 'tab']
+const DEFAULT_DRAFT_SAVE_EVENTS = ['change']
+
+/**
+ * Drops `next`/`back` from a trigger list that also names `step`. A step
+ * navigation fires `step` (the page change) alongside `next`/`back` (the
+ * direction), so wiring both would trigger two saves for one navigation.
+ */
+function dedupeNavEvents(events: string[]): string[] {
+  return events.includes('step')
+    ? events.filter((e) => e !== 'next' && e !== 'back')
+    : events
+}
 
 /**
  * Default debounce applied to change-triggered draft saves (`draft.debounce`).
@@ -38,8 +49,8 @@ const DEFAULT_DRAFT_DEBOUNCE = 1000
  * saving behavior: remote autosaves to `endpoint` on the configured events and
  * interval (deferred while the form is invalid unless `invalid: true` — a
  * skipped save runs when the form becomes valid), and a `draft` mirror that
- * saves the model to storage on every action, restores it on mount, and
- * discards it on successful submit.
+ * saves the model to storage on the configured `draft.on` events, restores it
+ * on mount, and discards it on successful submit.
  *
  * @param vueform The Vueform instance; its config (`$autosave.storage` is the
  *   default draft storage; `$security` is peeked at to warn when drafts would
@@ -377,25 +388,17 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     let draftWriteSeq = 0
 
     /**
-     * Writes the current model snapshot to storage, encrypted by the security
-     * module's cipher when one is configured (`$security.encrypt`) and the
-     * form hasn't opted out (`draft.encrypt: false`). Fires the `saveDraft`
-     * pre-hook (a handler returning `false` cancels the write) and `draftSaved`
-     * once the write lands. The snapshot is taken synchronously; a save
-     * superseded while encrypting is dropped.
+     * Writes the given draft data to storage under an already-claimed write
+     * sequence, encrypted by the security module's cipher when one is
+     * configured (`$security.encrypt`) and the form hasn't opted out
+     * (`draft.encrypt: false`). Fires `draftSaved` once the write lands.
+     * Resolves whether the draft was written — a write superseded while
+     * encrypting is dropped.
      */
-    const saveDraft = async () => {
-      if (!draftActive()) return
-
-      // The write claims its sequence before any await — a discard or newer
-      // save arriving during the pre-hook or encryption invalidates it.
-      const seq = ++draftWriteSeq
-      const data = draftData()
-
-      if ((await fireAsync('saveDraft', data, form$)) === false) return
-
-      if (seq !== draftWriteSeq) return
-
+    const writeDraft = async (
+      data: Record<string, any>,
+      seq: number
+    ): Promise<boolean> => {
       try {
         const serialized = JSON.stringify(data)
 
@@ -404,15 +407,54 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
             ? serialized
             : await security.encrypt(serialized, 'draft')
 
-        if (seq !== draftWriteSeq) return
+        if (seq !== draftWriteSeq) return false
 
         draftStorage.value!.setItem(draftKey.value!, stored)
         fire('draftSaved', data, form$)
+
+        return true
       } catch (error) {
         if (isDev()) {
           warn('Draft failed to save.', error)
         }
+        return false
       }
+    }
+
+    /**
+     * The automatic draft save (change and navigation events): fires the
+     * `saveDraft` pre-hook (a handler returning `false` cancels the write),
+     * then writes the current model snapshot. The snapshot is taken
+     * synchronously; the write claims its sequence before any await — a
+     * discard or newer save arriving during the pre-hook or encryption
+     * invalidates it.
+     */
+    const autoSaveDraft = async () => {
+      if (!draftActive()) return
+
+      const seq = ++draftWriteSeq
+      const data = draftData()
+
+      if ((await fireAsync('saveDraft', data, form$)) === false) return
+
+      if (seq !== draftWriteSeq) return
+
+      await writeDraft(data, seq)
+    }
+
+    /**
+     * Saves the current model snapshot to storage immediately, bypassing the
+     * debounce. Unlike the automatic saves, a manual call fires no `saveDraft`
+     * pre-hook — calling it _is_ the consent (`draftSaved` still fires).
+     * Resolves whether a draft was written — `false` when drafts are inactive,
+     * or the write was superseded or failed.
+     */
+    const saveDraft = async (): Promise<boolean> => {
+      if (!draftActive()) return false
+
+      const seq = ++draftWriteSeq
+
+      return writeDraft(draftData(), seq)
     }
 
     /**
@@ -543,14 +585,14 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
               save()
             },
-            Number(conf.delay ?? 1000)
+            Number(conf.debounce ?? 1000)
           )
 
           on('change', debouncedSave)
           registeredHandlers.push({ event: 'change', handler: debouncedSave })
         }
 
-        const navEvents = events.filter((e) => e !== 'change')
+        const navEvents = dedupeNavEvents(events.filter((e) => e !== 'change'))
 
         navEvents.forEach((e) => {
           const handler = () => {
@@ -569,6 +611,8 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       if (draftConfig.value) {
         warnUnencryptedDrafts()
 
+        const draftEvents = draftConfig.value.on ?? DEFAULT_DRAFT_SAVE_EVENTS
+
         // The debounce bounds the serialization work while typing; the same
         // value caps staleness — when that much time has passed since the last
         // write, a change saves immediately instead of debouncing, so
@@ -581,33 +625,40 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
         const saveDraftNow = () => {
           lastDraftSave = Date.now()
-          saveDraft()
+          autoSaveDraft()
         }
 
         const debouncedDraftSave = debounce(saveDraftNow, debounceMs)
         cancelDraftSave = debouncedDraftSave.cancel
 
-        const handleDraftChange = () => {
-          if (Date.now() - lastDraftSave >= debounceMs) {
-            debouncedDraftSave.cancel()
-            saveDraftNow()
-          } else {
-            debouncedDraftSave()
+        if (draftEvents.includes('change')) {
+          const handleDraftChange = () => {
+            if (Date.now() - lastDraftSave >= debounceMs) {
+              debouncedDraftSave.cancel()
+              saveDraftNow()
+            } else {
+              debouncedDraftSave()
+            }
           }
+
+          on('change', handleDraftChange)
+          registeredHandlers.push({
+            event: 'change',
+            handler: handleDraftChange,
+          })
         }
 
-        on('change', handleDraftChange)
-        registeredHandlers.push({ event: 'change', handler: handleDraftChange })
+        dedupeNavEvents(draftEvents.filter((e) => e !== 'change')).forEach(
+          (e) => {
+            const handler = () => {
+              debouncedDraftSave.cancel()
+              saveDraftNow()
+            }
 
-        DRAFT_NAV_SAVE_EVENTS.forEach((e) => {
-          const handler = () => {
-            debouncedDraftSave.cancel()
-            saveDraftNow()
+            on(e, handler)
+            registeredHandlers.push({ event: e, handler })
           }
-
-          on(e, handler)
-          registeredHandlers.push({ event: e, handler })
-        })
+        )
 
         if (draftConfig.value.discardOnSuccess !== false) {
           on('success', discardOnSuccess)
@@ -662,6 +713,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     return {
       autosave,
+      saveDraft,
       getDraft,
       restoreDraft,
       discardDraft,

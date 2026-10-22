@@ -406,7 +406,7 @@ Treat `allowComponents` as a contract with your schema authors: only the compone
 | `parts` bags, grid cell `attrs`, undeclared schema keys (form entries, flat list prototypes, grid cell / matrix column schemas) | Filtered before reaching the DOM: `innerHTML`/`outerHTML` and prototype keys are always dropped; everything else — including inline `on*` handlers and `srcdoc` — is app policy via [`banAttrs`](#banning-attributes), dropped in every value form. |
 | `tokens`, grid `widths`, matrix `gridTemplateColumns` | Values that could break out of a scoped CSS rule are dropped. |
 | `redirect`, button `href` / `to`, file `url` | Scheme-validated — `javascript:` and other script-bearing schemes never reach a navigation sink. |
-| `autosave.local.key` | Forced under the `vueform:` storage namespace. |
+| `draft.key` | Forced under the `vueform:` storage namespace. |
 
 ### Banning Attributes
 
@@ -500,7 +500,7 @@ These gates are the security module's features. In a [modular setup](/guide/modu
 
 ## Draft Encryption
 
-The security module's persistence capability is a pair of app-provided ciphers — `$security.encrypt` and `$security.decrypt` — applied by features that persist values, currently [local autosave](/guide/autosave#encrypting-drafts) drafts. There is deliberately no built-in cipher — any key Vueform could generate on the device would sit right next to the ciphertext it protects. Bring a scheme whose key lives outside the stored data, typically delivered per user after login and held only in memory:
+The security module's persistence capability is a pair of app-provided ciphers — `$security.encrypt` and `$security.decrypt` — applied by features that persist values, currently form [drafts](/guide/autosave#encrypting-drafts). There is deliberately no built-in cipher — any key Vueform could generate on the device would sit right next to the ciphertext it protects. Bring a scheme whose key lives outside the stored data, typically delivered per user after login and held only in memory:
 
 ```ts
 let key: CryptoKey // import after login; memory only, never storage
@@ -531,7 +531,7 @@ createVueform({
 })
 ```
 
-Both functions may be sync or async, and both receive a `purpose` tag naming the call site (e.g. `'autosave:local'`), so one implementation can serve every feature that encrypts, branching per purpose if it ever needs to. Configure them as a pair — one without the other can't round-trip persisted values and warns in dev. A `decrypt` that throws marks the stored value unreadable, and the feature treats it as absent (autosave discards the draft).
+Both functions may be sync or async, and both receive a `purpose` tag naming the call site (e.g. `'draft'`), so one implementation can serve every feature that encrypts, branching per purpose if it ever needs to. Configure them as a pair — one without the other can't round-trip persisted values and warns in dev. A `decrypt` that throws marks the stored value unreadable, and the feature treats it as absent (autosave discards the draft).
 
 Until the ciphers are configured, persisted values are written as plaintext and every form persisting plaintext drafts warns in dev — storing unencrypted must be a conscious choice, not a silent default. To knowingly skip encryption, register identity ciphers — the no-op pair records the decision and silences the warning:
 
@@ -546,9 +546,9 @@ createVueform({
 
 A single form can also opt its own draft out of the app-wide ciphers — see [encrypting drafts](/guide/autosave#encrypting-drafts) for the per-form flag and the rest of the draft-side mechanics.
 
-Storage keys are namespaced — a custom `autosave.local.key` is forced under the `vueform:` prefix, so a schema can't address an unrelated localStorage entry.
+Storage keys are namespaced — a custom `draft.key` is forced under the `vueform:` prefix, so a schema can't address an unrelated localStorage entry.
 
-Know what encryption buys — protection for data **at rest**, against stolen hardware, disk backups, and storage scraped outside your app. Code running on your origin can use the in-memory key just like your app does, so [`sensitive`](/guide/autosave#sensitive-values) elements — stripped from local drafts entirely — remain the answer for values that should never touch the disk.
+Know what encryption buys — protection for data **at rest**, against stolen hardware, disk backups, and storage scraped outside your app. Code running on your origin can use the in-memory key just like your app does, so [`sensitive`](/guide/autosave#sensitive-values) elements — stripped from drafts entirely — remain the answer for values that should never touch the disk.
 
 ## Best Practices
 

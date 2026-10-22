@@ -376,6 +376,201 @@ describe('Draft saving', () => {
 })
 
 // =============================================================================
+// TRIGGERS
+// =============================================================================
+
+describe('Draft save triggers', () => {
+  it('should disable automatic saving when on is empty', async () => {
+    const { store, storage } = mockStorage()
+
+    const { form$, name } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+      draft: { storage, on: [] },
+    })
+
+    await nextTick()
+
+    name.update('Jane')
+    fireNav(form$, 'next')
+    fireNav(form$, 'step')
+    await flushPromises()
+
+    expect(Object.keys(store)).toHaveLength(0)
+
+    // manual saving still works
+    expect(await form$.saveDraft()).toBe(true)
+    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
+  })
+
+  it('should save only on the listed events', async () => {
+    const { store, storage } = mockStorage()
+
+    const { form$, name } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+      draft: { storage, on: ['next'] },
+    })
+
+    await nextTick()
+
+    name.update('Jane')
+    fireNav(form$, 'step')
+    await flushPromises()
+    expect(Object.keys(store)).toHaveLength(0)
+
+    fireNav(form$, 'next')
+    await flushPromises()
+    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
+  })
+
+  it('should not save on next or back by default, step covers navigation', async () => {
+    const writes: string[] = []
+    const { storage } = mockStorage()
+    const countingStorage = {
+      ...storage,
+      setItem: (key: string, value: string) => {
+        writes.push(value)
+        storage.setItem(key, value)
+      },
+    }
+
+    const { form$ } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+      draft: { storage: countingStorage },
+    })
+
+    await nextTick()
+
+    // `next`/`back` alone don't trigger — `step` fires on the same navigation
+    fireNav(form$, 'next')
+    fireNav(form$, 'back')
+    await flushPromises()
+    expect(writes).toHaveLength(0)
+
+    fireNav(form$, 'step')
+    await flushPromises()
+    expect(writes).toHaveLength(1)
+  })
+
+  it('should not double save when on lists step alongside next or back', async () => {
+    const writes: string[] = []
+    const { storage } = mockStorage()
+    const countingStorage = {
+      ...storage,
+      setItem: (key: string, value: string) => {
+        writes.push(value)
+        storage.setItem(key, value)
+      },
+    }
+
+    const { form$ } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+      draft: { storage: countingStorage, on: ['step', 'next', 'back'] },
+    })
+
+    await nextTick()
+
+    // one step navigation fires both `step` and the direction event
+    fireNav(form$, 'next')
+    fireNav(form$, 'step')
+    await flushPromises()
+
+    expect(writes).toHaveLength(1)
+  })
+})
+
+// =============================================================================
+// MANUAL METHOD
+// =============================================================================
+
+describe('Draft manual saving', () => {
+  it('should save immediately via saveDraft and resolve true', async () => {
+    const { store, storage } = mockStorage()
+
+    const { form$ } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+      draft: { storage },
+    })
+
+    await flushPromises()
+
+    expect(await form$.saveDraft()).toBe(true)
+
+    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'John' })
+  })
+
+  it('should resolve false from saveDraft when drafts are not configured', async () => {
+    const { form$ } = createForm({
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+    })
+
+    await flushPromises()
+
+    expect(await form$.saveDraft()).toBe(false)
+  })
+
+  it('should bypass the saveDraft pre-hook on manual saves but fire draftSaved', async () => {
+    const { store, storage } = mockStorage()
+    const saveDraftHandler = vi.fn(() => false)
+    const draftSavedHandler = vi.fn()
+
+    const { form$ } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+      draft: { storage },
+      onSaveDraft: saveDraftHandler,
+      onDraftSaved: draftSavedHandler,
+    })
+
+    await flushPromises()
+
+    // a cancelling pre-hook handler doesn't stop the manual save
+    expect(await form$.saveDraft()).toBe(true)
+
+    expect(saveDraftHandler).not.toHaveBeenCalled()
+    expect(draftSavedHandler).toHaveBeenCalledTimes(1)
+    expect('vueform:draft_form' in store).toBe(true)
+  })
+
+  it('should strip sensitive values from manual saveDraft', async () => {
+    const { store, storage } = mockStorage()
+
+    const { form$ } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+        password: { type: 'text', sensitive: true, default: 'secret' },
+      }),
+      draft: { storage },
+    })
+
+    await flushPromises()
+
+    await form$.saveDraft()
+
+    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'John' })
+  })
+})
+
+// =============================================================================
 // SAVE EVENTS
 // =============================================================================
 
