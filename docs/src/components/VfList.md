@@ -472,7 +472,7 @@ Configure the component's behavior and appearance with these props.
 | [`wrap`](!code#props.wrap "boolean") | `false` | Whether to render list items in a wrapped layout. |
 | [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
-| [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |
+| [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored drafts. On a container, the whole subtree is excluded. |
 | [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | `false` | Whether the element is disabled. |
 
 ### Data {#props-data}
@@ -565,7 +565,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`initValidation()`](!code#context.initValidation "() => void") | Registers the element with the validator and compiles its rules. |
 | [`destroyValidation()`](!code#context.destroyValidation "() => void") | Unregisters the element from the validator and clears its validation views. |
 | [`rootModel`](!code#context.rootModel "RootModel \| undefined") | The root model backing the form when this element operates as the form root, `undefined` for every other element. |
-| [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. |
+| [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored drafts. |
 | [`canSort`](!code#context.canSort "boolean") | Whether the sort handle should be rendered. Returns `false` when the element is disabled or the optional sortable guard is falsy. |
 | [`dropTarget`](!code#context.dropTarget "any") | The stable id rendered at the current drop position (in the live display order), or `undefined` when not hovering over a valid target. The list template compares this against each row's id to flag the drop target. |
 | [`addLabel`](!code#context.addLabel "UnwrapDynamicProp<LooseRequired<TProps>[\"addLabel\"]> \| undefined") | The resolved label text for the "add" button. |

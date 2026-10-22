@@ -10,7 +10,7 @@ interface VueformConfig {
   modules: VueformModules
 
   /**
-   * Global autosave module options (reserved).
+   * Global autosave module options (e.g. the default draft `storage`).
    */
   $autosave: AutosaveModuleOptions
 

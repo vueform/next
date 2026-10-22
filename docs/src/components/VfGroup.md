@@ -567,7 +567,7 @@ Configure the component's behavior and appearance with these props.
 | [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
 | [`tabbed`](!code#props.tabbed "boolean") | `false` | Whether to render the form in a tabbed layout. |
-| [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |
+| [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored drafts. On a container, the whole subtree is excluded. |
 | [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | `false` | Whether the element is disabled. |
 
 ### Data {#props-data}
@@ -652,7 +652,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`initValidation()`](!code#context.initValidation "() => void") | Registers the element with the validator and compiles its rules. |
 | [`destroyValidation()`](!code#context.destroyValidation "() => void") | Unregisters the element from the validator and clears its validation views. |
 | [`rootModel`](!code#context.rootModel "RootModel \| undefined") | The root model backing the form when this element operates as the form root, `undefined` for every other element. |
-| [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. |
+| [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored drafts. |
 | [`pager`](!code#context.pager "Pager") | Pager instance for tabbed navigation within the group. |
 
 ### Data {#section-data}

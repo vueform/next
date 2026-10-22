@@ -14,7 +14,7 @@ interface SecurityModuleOptions {
   sanitizer?: SecuritySanitizer
 
   /**
-   * Encrypts values before features persist them (e.g. local autosave drafts).
+   * Encrypts values before features persist them (e.g. stored drafts).
    * There is no built-in cipher — bring a scheme whose key lives outside the
    * stored data, such as a session-delivered key held in memory. When omitted,
    * values are stored as-is.
@@ -24,7 +24,7 @@ interface SecurityModuleOptions {
   /**
    * The inverse of `encrypt`, applied when persisted values are read back. A
    * `decrypt` that throws marks the stored value unreadable — features treat it
-   * as absent (e.g. autosave discards the draft).
+   * as absent (e.g. the stored draft is discarded).
    */
   decrypt?: SecurityCipher
 

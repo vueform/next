@@ -65,7 +65,7 @@ type UseDataOptions = {
 
   /**
    * Whether the element holds sensitive data, excluded from locally stored
-   * autosave drafts.
+   * drafts.
    */
   sensitive?: Ref<boolean | undefined>
 

@@ -167,13 +167,19 @@ interface FormProps<
   focusError?: boolean
 
   /**
-   * The autosave configuration object: a remote `endpoint` (URL or handler
-   * function) with its scheduling options (`on`, `interval`, `delay`,
-   * `invalid`, `method`, `transform`), and/or a `local` draft mirror that saves
-   * the model to storage on every action, restores it on mount, and clears it
-   * on successful submit.
+   * The remote autosave configuration: an endpoint URL, or an object with an
+   * `endpoint` (URL or handler function) and its scheduling options (`on`,
+   * `interval`, `delay`, `invalid`, `method`, `transform`).
    */
   autosave?: AutosaveProp
+
+  /**
+   * The draft configuration: `true`, or an object with `key`, `storage`,
+   * `restore`, `discardOnSuccess`, `encrypt` and `debounce`. Drafts save the
+   * model to storage on every action, restore it on mount, and are discarded
+   * on successful submit.
+   */
+  draft?: DraftProp
 
   /**
    * Whether the form should display a default submit button

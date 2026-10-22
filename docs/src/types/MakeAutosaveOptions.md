@@ -1,13 +1,19 @@
 ```ts
 /**
- * Configuration options for `makeAutosave`, wiring one form's autosave
- * behavior.
+ * Configuration options for `makeAutosave`, wiring one form's autosave and
+ * draft behavior.
  */
 type MakeAutosaveOptions = {
   /**
-   * The autosave configuration object. When undefined, autosave is disabled.
+   * The remote autosave configuration. When undefined, remote autosave is
+   * disabled.
    */
   autosave: Ref<AutosaveProp | undefined>
+
+  /**
+   * The draft configuration. When undefined or `false`, drafts are disabled.
+   */
+  draft: Ref<DraftProp | undefined>
 
   /**
    * The form's submission payload (with `transformPayload` applied).
@@ -21,7 +27,8 @@ type MakeAutosaveOptions = {
 
   /**
    * Data paths of elements marked `sensitive` — their values are stripped from
-   * locally stored drafts.
+   * stored drafts and remote autosave payloads (unless the respective config
+   * sets `sensitive: true`).
    */
   sensitivePaths: ComputedRef<string[]>
 
@@ -47,12 +54,12 @@ type MakeAutosaveOptions = {
   invalid: ComputedRef<boolean>
 
   /**
-   * The form's `name` prop, used as the default local storage key.
+   * The form's `name` prop, used as the default draft storage key.
    */
   name: Ref<string | undefined>
 
   /**
-   * Loads data into the form's model (used to restore local drafts).
+   * Loads data into the form's model (used to restore drafts).
    *
    * @param data The data to load into the form's model.
    */
@@ -74,6 +81,16 @@ type MakeAutosaveOptions = {
    */
   fire: {
     /**
+     * Fires the autosaveResponse event when an autosave request receives a
+     * response, successful or not.
+     *
+     * @param e The event name.
+     * @param response The HTTP response the autosave request received.
+     * @param form$ The form context.
+     */
+    (e: 'autosaveResponse', response: HttpResponse, form$: any): any
+
+    /**
      * Fires the autosaveSuccess event after a successful save request.
      *
      * @param e The event name.
@@ -90,6 +107,33 @@ type MakeAutosaveOptions = {
      * @param form$ The form context.
      */
     (e: 'autosaveFail', error: HttpError, form$: any): any
+
+    /**
+     * Fires the autosaved event after a save completed without failing.
+     *
+     * @param e The event name.
+     * @param response The HTTP response, or `undefined` when the save produced
+     *   none (e.g. a handler function returning nothing).
+     * @param form$ The form context.
+     */
+    (e: 'autosaved', response: HttpResponse | undefined, form$: any): any
+
+    /**
+     * Fires the draftSaved event after a draft was written to storage.
+     *
+     * @param e The event name.
+     * @param data The stored draft data.
+     * @param form$ The form context.
+     */
+    (e: 'draftSaved', data: Record<string, any>, form$: any): any
+
+    /**
+     * Fires the draftDiscarded event after the stored draft was removed.
+     *
+     * @param e The event name.
+     * @param form$ The form context.
+     */
+    (e: 'draftDiscarded', form$: any): any
   }
 
   /**
@@ -107,14 +151,32 @@ type MakeAutosaveOptions = {
     (e: 'autosave', data: Record<string, any>, form$: any): Promise<any>
 
     /**
-     * Fires the autosaveRestore pre-hook event before a stored draft is loaded
-     * back into the form.
+     * Fires the saveDraft pre-hook event before a draft is written to storage.
+     *
+     * @param e The event name.
+     * @param data The draft data about to be stored.
+     * @param form$ The form context.
+     */
+    (e: 'saveDraft', data: Record<string, any>, form$: any): Promise<any>
+
+    /**
+     * Fires the restoreDraft pre-hook event before a stored draft is restored
+     * into the form on mount.
      *
      * @param e The event name.
      * @param data The stored draft data about to be restored.
      * @param form$ The form context.
      */
-    (e: 'autosaveRestore', data: Record<string, any>, form$: any): Promise<any>
+    (e: 'restoreDraft', data: Record<string, any>, form$: any): Promise<any>
+
+    /**
+     * Fires the discardDraft pre-hook event before the stored draft is
+     * discarded on successful submit.
+     *
+     * @param e The event name.
+     * @param form$ The form context.
+     */
+    (e: 'discardDraft', form$: any): Promise<any>
   }
 
   /**

@@ -4,7 +4,7 @@
  */
 interface VueformModules {
   /**
-   * The autosave module for interval, event, and local-draft form saving.
+   * The autosave module for remote interval/event form saving and drafts.
    */
   autosave?: VueformModule<AutosaveModule>
 

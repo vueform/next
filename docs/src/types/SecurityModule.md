@@ -103,7 +103,7 @@ interface SecurityModule {
    * calling feature's purpose tag. Identity when no cipher is configured.
    *
    * @param value The plaintext value.
-   * @param purpose The call-site tag (e.g. `'autosave:local'`).
+   * @param purpose The call-site tag (e.g. `'draft'`).
    */
   encrypt: SecurityCipher
 
@@ -112,7 +112,7 @@ interface SecurityModule {
    * calling feature's purpose tag. Identity when no cipher is configured.
    *
    * @param value The stored value.
-   * @param purpose The call-site tag (e.g. `'autosave:local'`).
+   * @param purpose The call-site tag (e.g. `'draft'`).
    */
   decrypt: SecurityCipher
 }

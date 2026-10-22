@@ -1,32 +1,40 @@
 ```ts
 /**
- * One form's wired autosave behavior: the manual trigger and the local draft
- * methods, exposed on the form's context.
+ * One form's wired autosave and draft behavior: the manual remote trigger and
+ * the draft methods, exposed on the form's context.
  */
 type AutosaveInstance = {
   /**
-   * Performs an autosave immediately: writes the local draft (when `local` is
-   * configured) and runs the remote save (when `endpoint` is configured). The
-   * validity gate applies as configured; pass `invalid` to override the
-   * config's `invalid` prop for this one call — `true` sends even while the
+   * Performs a remote autosave immediately (when `autosave` is configured).
+   * The validity gate applies as configured; pass `invalid` to override the
+   * config's `invalid` option for this one call — `true` sends even while the
    * form is invalid, `false` enforces the gate. A gated call while the form is
-   * invalid still writes the local draft and defers the remote save.
+   * invalid defers the save: it runs as soon as the form becomes valid.
    *
    * @param options Per-call overrides (`invalid`).
    */
   autosave: (options?: { invalid?: boolean }) => Promise<void>
 
   /**
-   * Removes the locally stored draft, if any.
+   * Resolves the stored draft data without loading it into the form, or
+   * `undefined` when there's nothing (valid) stored (async because a
+   * configured `$security.decrypt` may be).
    */
-  clearAutosaved: () => void
+  getDraft: () => Promise<Record<string, any> | undefined>
 
   /**
-   * Loads the stored draft into the form, resolving whether a draft was found
-   * and loaded (async because a configured `$security.decrypt` may be). Unlike
-   * the automatic load on mount, a manual call fires no `autosaveRestore`
-   * pre-hook — calling it is_ the consent.
+   * Restores the stored draft into the form, resolving whether a draft was
+   * found and restored (async because a configured `$security.decrypt` may
+   * be). Unlike the automatic restore on mount, a manual call fires no
+   * `restoreDraft` pre-hook — calling it is_ the consent.
    */
-  loadAutosaved: () => Promise<boolean>
+  restoreDraft: () => Promise<boolean>
+
+  /**
+   * Removes the stored draft, if any. Unlike the automatic discard on
+   * successful submit, a manual call fires no `discardDraft` pre-hook —
+   * calling it is_ the consent.
+   */
+  discardDraft: () => void
 }
 ```

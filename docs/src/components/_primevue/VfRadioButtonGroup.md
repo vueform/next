@@ -72,7 +72,7 @@ Configure the component's behavior and appearance with these props.
 | [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
 | [`defaultValue`](!code#props.defaultValue "T") | — | The default/initial value of the element. |
-| [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |
+| [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored drafts. On a container, the whole subtree is excluded. |
 | [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | — | Whether the element is disabled. |
 | [`headers`](!code#props.headers "Record<string, string>") | — | Custom HTTP headers to include when loading options from an endpoint. |
 | [`method`](!code#props.method "string") | — | The HTTP method to use when loading options from an endpoint. Defaults to `'GET'`. |
@@ -178,7 +178,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`initValidation()`](!code#context.initValidation "() => void") | Registers the element with the validator and compiles its rules. |
 | [`destroyValidation()`](!code#context.destroyValidation "() => void") | Unregisters the element from the validator and clears its validation views. |
 | [`rootModel`](!code#context.rootModel "RootModel \| undefined") | The root model backing the form when this element operates as the form root, `undefined` for every other element. |
-| [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored autosave drafts. |
+| [`sensitivePaths`](!code#context.sensitivePaths "string[]") | Data paths holding sensitive data (`sensitive: true`) within this element's subtree — excluded from locally stored drafts. |
 | [`groups`](!code#context.groups "ResolvedGroup<any, Record<string, any>>[]") | Resolved option groups. Empty when not grouped — use `items` then. |
 | [`rawItems`](!code#context.rawItems "any[]") | Library-friendly items for third-party components. Flat lists are the original raw objects (with `__disabled` injected when conditional disabled resolution is active). Grouped lists are the original group objects with children replaced by the filtered raw items. |
 | [`resolvedItems`](!code#context.resolvedItems "ShallowRef<any[], any[]> \| ShallowRef<Record<string, any>, Record<string, any>>") | The raw items data before normalization (from props, endpoint, or function). |

@@ -18,7 +18,7 @@ interface ModelProps<T = any, TContext = any> {
 
   /**
    * Whether the element holds sensitive data (passwords, payment details, …).
-   * Sensitive values are excluded from locally stored autosave drafts. On a
+   * Sensitive values are excluded from locally stored drafts. On a
    * container, the whole subtree is excluded.
    */
   sensitive?: boolean
