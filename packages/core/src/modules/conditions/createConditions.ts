@@ -256,10 +256,10 @@ export function createConditions(vueform: VueformInstance): ConditionsModule {
       return false
 
     if (propPath) {
-      // Prop references are the security module's policy (`safePropRefs`):
+      // Prop references are the security module's policy (`allowProps`):
       // a denied prop never reads, and the condition evaluates unmet. Resolved
       // lazily — module instantiation order at app creation is undefined.
-      if (!getSecurityModule(vueform).allowsPropRef(propPath)) {
+      if (!getSecurityModule(vueform).allowsProp(propPath)) {
         return false
       }
 

@@ -7,8 +7,10 @@ import type { getComponentDef } from '#src/utils'
 
 /**
  * The `$expression.whitelist` option: the prop keys that resolve expressions.
- * String members match the key exactly; RegExp members are tested as written
- * (anchor them yourself, e.g. `/^label$/`).
+ * String members match the key exactly, except that a `*` spans any characters
+ * (`'*'` matches every key, `'*Label'` / `'label*'` match any key ending /
+ * starting with the rest); RegExp members are tested as written (anchor them
+ * yourself, e.g. `/^label$/`).
  */
 export type ExpressionWhitelistProp = (string | RegExp)[]
 
@@ -27,7 +29,8 @@ export interface ExpressionModuleOptions {
   /**
    * The prop keys that resolve expressions. Unset, every expressionable prop
    * resolves. An array restricts resolution to the listed keys — strings match
-   * exactly, RegExps as written.
+   * exactly (`*` spans any characters: `'*'`, `'*Label'`, `'label*'`), RegExps
+   * as written.
    */
   whitelist?: ExpressionWhitelistProp
 
@@ -129,9 +132,9 @@ export interface ExpressionModule {
   /**
    * Whether `$expression.whitelist` allows resolving expressions for the given
    * prop key. An unset whitelist allows every key; string members match the
-   * key exactly, RegExp members as written. Always `false` on the inert
-   * surface. `noExpressions` is the caller's concern — this is the whitelist
-   * verdict only.
+   * key exactly (`*` spans any characters), RegExp members as written. Always
+   * `false` on the inert surface. `noExpressions` is the caller's concern —
+   * this is the whitelist verdict only.
    *
    * @param key The expressionable prop key.
    */

@@ -22,7 +22,7 @@ const EMPTY_PROPS = Object.freeze({})
  *   slot HTML is inserted with the platform's own `innerHTML` semantics, so
  *   `<script>` elements stay inert regardless.)
  * - **Configured intent without the module** (`allowHtml`, `allowComponents`,
- *   `allowOrigins` entries, `banAttrs`, `safePropRefs`, ciphers — a config
+ *   `allowOrigins` entries, `banAttrs`, `allowProps`, ciphers — a config
  *   that reads like
  *   policy): in development the surface stays permissive so the app remains
  *   workable, and `createVueform()`'s orphan-`$security`-options warning names
@@ -45,7 +45,9 @@ export function noopSecurity(config: VueformConfig): SecurityModule {
     options?.allowOrigins?.length && !options.allowOrigins.includes('*')
   )
   const banAttrsConfigured = !!options?.banAttrs?.length
-  const safePropRefsConfigured = !!options?.safePropRefs?.length
+  // Presence is the intent, not length: an explicit `[]` means "deny every
+  // prop reference" (unset means no limiting at all).
+  const allowPropsConfigured = options?.allowProps != null
   const allowHtmlConfigured = !!options?.allowHtml?.length
   const allowComponentsConfigured = !!options?.allowComponents?.length
 
@@ -74,7 +76,7 @@ export function noopSecurity(config: VueformConfig): SecurityModule {
     sanitizeUrl: (url) => (typeof url === 'string' ? url : undefined),
     allowsHtml: () => !allowHtmlConfigured || isDev(),
     allowsComponent: () => !allowComponentsConfigured || isDev(),
-    allowsPropRef: () => !safePropRefsConfigured || isDev(),
+    allowsProp: () => !allowPropsConfigured || isDev(),
     allowsOrigin: () => !originsConfigured || isDev(),
     encrypt: cipher,
     decrypt: cipher,

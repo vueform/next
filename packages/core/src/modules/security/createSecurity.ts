@@ -1,5 +1,6 @@
 import type { VueformInstance } from '#src/helpers'
 import {
+  escapeRegExp,
   isClient,
   isDev,
   isForbiddenKey,
@@ -9,11 +10,6 @@ import {
   warn,
 } from '#src/utils'
 
-import {
-  compilePropRefPattern,
-  matchesPropRef,
-  type PropRefPattern,
-} from './safePropRefs'
 import type {
   SecurityHtmlArea,
   SecurityModule,
@@ -124,6 +120,108 @@ function matchesOriginPattern(pattern: OriginPattern, url: URL): boolean {
  * Matches a URL scheme prefix (`https:`, `javascript:`, …) per RFC 3986.
  */
 const URL_SCHEME_RE = /^[a-zA-Z][a-zA-Z0-9+.-]*:/
+
+/**
+ * A compiled `$security.allowProps` pattern. The first segment matches the
+ * prop name itself (with `*` spanning any characters inside the segment, so
+ * `*propName` / `propName*` work); the remaining segments describe allowed
+ * nesting: `*` matches one level, `**` (final only) matches one or more, and
+ * anything else must match the level literally (`*` allowed within, like the
+ * name segment). Trailing `*` segments are optional — `propName.*.*` covers one
+ * or two levels — while static segments and `**` are not. A standalone `**`
+ * pattern matches every prop at every depth.
+ */
+type PropRefPattern = {
+  all: boolean
+  name: RegExp
+  nested: (RegExp | '*' | '**')[]
+}
+
+function segmentMatcher(segment: string): RegExp | null {
+  if (!segment) return null
+  return new RegExp(`^${segment.split('*').map(escapeRegExp).join('[^.]*')}$`)
+}
+
+/**
+ * Compiles one `allowProps` entry, or `null` when it isn't a valid pattern
+ * (an empty segment, or `**` anywhere but alone / as the final segment) — an
+ * invalid entry must never compile into something broader than written.
+ *
+ * @param pattern The raw (or expression-resolved) entry.
+ */
+function compilePropRefPattern(pattern: string): PropRefPattern | null {
+  const segments = pattern.split('.')
+
+  if (segments[0] === '**') {
+    return segments.length === 1 ? { all: true, name: /^/, nested: [] } : null
+  }
+
+  const name = segmentMatcher(segments[0])
+
+  if (!name) return null
+
+  const nested: PropRefPattern['nested'] = []
+
+  for (let i = 1; i < segments.length; i++) {
+    const segment = segments[i]
+
+    if (segment === '*') {
+      nested.push('*')
+      continue
+    }
+
+    if (segment === '**') {
+      if (i !== segments.length - 1) return null
+      nested.push('**')
+      continue
+    }
+
+    const matcher = segmentMatcher(segment)
+
+    if (!matcher) return null
+
+    nested.push(matcher)
+  }
+
+  return { all: false, name, nested }
+}
+
+/**
+ * Whether a referenced prop path matches a compiled pattern. `segments` is the
+ * normalized prop path (`[n]` index access already converted to dot segments).
+ *
+ * @param pattern The compiled pattern.
+ * @param segments The prop path segments (`['model', '0']` for `@model[0]`).
+ */
+function matchesPropRef(pattern: PropRefPattern, segments: string[]): boolean {
+  if (pattern.all) return true
+
+  if (!segments.length || !pattern.name.test(segments[0])) return false
+
+  let j = 1
+
+  for (let i = 0; i < pattern.nested.length; i++) {
+    const seg = pattern.nested[i]
+
+    if (seg === '**') return segments.length - j >= 1
+
+    if (j >= segments.length) {
+      // Trailing `*` segments are optional (`propName.*.*` covers one or two
+      // levels); a remaining static segment or `**` means the path is short.
+      for (let k = i; k < pattern.nested.length; k++) {
+        if (pattern.nested[k] !== '*') return false
+      }
+
+      return true
+    }
+
+    if (seg !== '*' && !seg.test(segments[j])) return false
+
+    j++
+  }
+
+  return j === segments.length
+}
 
 /**
  * Creates a security instance from the given app config (`$security`): the
@@ -338,18 +436,19 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     return undefined
   }
 
-  // Prop references fail closed like the other gates: an unset `safePropRefs`
-  // is `[]`, so no `path@prop` / `@prop` reference resolves until its prop is
-  // listed. String entries compile to wildcard patterns once; RegExp entries
-  // test the full prop path as written (rebuilt without the stateful `g` / `y`
-  // flags, like `banAttrs`). Invalid entries are dropped with a warning rather
-  // than silently never matching.
-  const safePropRefs = own(options, 'safePropRefs') ?? []
+  // Unlike the other gates, prop references limit only once the option is set
+  // (like `$expression.whitelist`): an unset `allowProps` resolves
+  // every `path@prop` / `@prop` reference, while an array restricts resolution
+  // to the listed patterns (`[]` denies all). String entries compile to
+  // wildcard patterns once; RegExp entries test the full prop path as written
+  // (rebuilt without the stateful `g` / `y` flags, like `banAttrs`). Invalid
+  // entries are dropped with a warning rather than silently never matching.
+  const allowProps = own(options, 'allowProps')
 
   const propRefPatterns: PropRefPattern[] = []
   const propRefRegexps: RegExp[] = []
 
-  for (const entry of safePropRefs) {
+  for (const entry of allowProps ?? []) {
     if (entry instanceof RegExp) {
       propRefRegexps.push(
         new RegExp(entry.source, entry.flags.replace(/[gy]/g, ''))
@@ -365,15 +464,17 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
       propRefPatterns.push(pattern)
     } else if (isDev()) {
       warn(
-        `\`$security.safePropRefs\` entry \`${entry}\` is not a valid pattern and was ignored. \`**\` may only stand alone or as the final segment, and segments must not be empty.`
+        `\`$security.allowProps\` entry \`${entry}\` is not a valid pattern and was ignored. \`**\` may only stand alone or as the final segment, and segments must not be empty.`
       )
     }
   }
 
   const rejectedPropRefs = new Set<string>()
 
-  const allowsPropRef = (prop: string): boolean => {
+  const allowsProp = (prop: string): boolean => {
     if (typeof prop !== 'string' || !prop) return false
+
+    if (allowProps == null) return true
 
     // `[n]` index access reads as nesting (`model[0]` → `model.0`), matching
     // how engines resolve the prop path.
@@ -387,7 +488,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     if (isDev() && !rejectedPropRefs.has(prop)) {
       rejectedPropRefs.add(prop)
       warn(
-        `\`@${prop}\` is not covered by \`$security.safePropRefs\`, so the prop reference will not resolve. Add a matching pattern to allow it.`
+        `\`@${prop}\` is not covered by \`$security.allowProps\`, so the prop reference will not resolve. Add a matching pattern to allow it.`
       )
     }
 
@@ -522,7 +623,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     sanitizeUrl,
     allowsHtml,
     allowsComponent,
-    allowsPropRef,
+    allowsProp,
     allowsOrigin,
     encrypt: own(options, 'encrypt') ?? identity,
     decrypt: own(options, 'decrypt') ?? identity,

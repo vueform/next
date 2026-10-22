@@ -120,6 +120,41 @@ describe('Security: noop surface in production', () => {
     })
   })
 
+  describe('`allowProp`', () => {
+    /**
+     * Threat: `allowProps` configured without the module — production
+     * would resolve every prop reference while the config claims they are
+     * restricted. Presence is the intent, not length: an explicit `[]` means
+     * "deny every prop reference".
+     *
+     * Measure: discovered intent fails closed — no prop reference resolves
+     * until the module is registered.
+     */
+    it('should deny prop references when allowProps is configured', () => {
+      prod()
+      const listed = noopSecurity({
+        $security: { allowProps: ['label'] },
+      } as any)
+      const empty = noopSecurity({
+        $security: { allowProps: [] },
+      } as any)
+
+      expect(listed.allowsProp('label')).toBe(false)
+      expect(empty.allowsProp('label')).toBe(false)
+    })
+
+    /**
+     * Threat: none — unset means no limiting at all (the gate's documented
+     * semantics), so permissive behavior is the configured behavior.
+     */
+    it('should allow prop references when allowProps is not configured', () => {
+      prod()
+      const sec = noopSecurity({ $security: {} } as any)
+
+      expect(sec.allowsProp('label')).toBe(true)
+    })
+  })
+
   describe('ciphers', () => {
     /**
      * Threat: ciphers configured without the module — production would persist

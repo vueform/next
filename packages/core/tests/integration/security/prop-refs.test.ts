@@ -3,28 +3,35 @@ import { defineSchema } from '@vueform/core'
 import { createForm } from '../../helpers'
 
 /**
- * `$security.safePropRefs` — the fail-closed gate over `path@prop` / `@prop`
- * references in conditions and expressions. The shared test helper opts out
- * with `['**']`; these suites pass their own policy (an explicit `undefined`
- * exercises the unset, fail-closed state with the module registered).
+ * `$security.allowProps` — the gate over `path@prop` / `@prop`
+ * references in conditions and expressions. Unset, every prop reference
+ * resolves (the option only limits once it is set, like
+ * `$expression.whitelist`); an array restricts resolution to the listed
+ * patterns, with `[]` denying every prop reference.
  */
 const makeForm = (
   schema: Record<string, any>,
-  safePropRefs: (string | RegExp)[] | undefined
+  allowProps: (string | RegExp)[] | undefined
 ) =>
   createForm({ schema: defineSchema(schema) }, {
-    $security: { safePropRefs },
+    $security: { allowProps },
   } as any)
 
-describe('safePropRefs', () => {
+describe('allowProps', () => {
   describe('conditions', () => {
     const schema = {
       source: { type: 'text', label: 'Src', default: 'x' },
       dep: { type: 'text', conditions: [['source@label', '==', 'Src']] },
     }
 
-    it('should resolve prop-ref conditions as unmet when unset', () => {
+    it('should evaluate prop-ref conditions when unset', () => {
       const { dep } = makeForm(schema, undefined)
+
+      expect(dep.available).toBe(true)
+    })
+
+    it('should resolve prop-ref conditions as unmet with an empty list', () => {
+      const { dep } = makeForm(schema, [])
 
       expect(dep.available).toBe(false)
     })
@@ -35,13 +42,13 @@ describe('safePropRefs', () => {
       expect(dep.available).toBe(true)
     })
 
-    it('should keep value conditions working when unset', () => {
+    it('should keep value conditions working with an empty list', () => {
       const { dep } = makeForm(
         {
           source: { type: 'text', default: 'x' },
           dep: { type: 'text', conditions: [['source', '==', 'x']] },
         },
-        undefined
+        []
       )
 
       expect(dep.available).toBe(true)
@@ -49,13 +56,25 @@ describe('safePropRefs', () => {
   })
 
   describe('expressions', () => {
-    it('should resolve PROP references to empty when unset', () => {
+    it('should resolve PROP references when unset', () => {
       const { el } = makeForm(
         {
           source: { type: 'text', label: 'Src' },
           el: { type: 'text', help: '{source@label}' },
         },
         undefined
+      )
+
+      expect(el.help).toBe('Src')
+    })
+
+    it('should resolve PROP references to empty with an empty list', () => {
+      const { el } = makeForm(
+        {
+          source: { type: 'text', label: 'Src' },
+          el: { type: 'text', help: '{source@label}' },
+        },
+        []
       )
 
       expect(el.help).toBe('')
@@ -76,7 +95,7 @@ describe('safePropRefs', () => {
     it('should gate SELF references through the same policy', () => {
       const denied = makeForm(
         { el: { type: 'text', label: 'Mine', help: '{@label}' } },
-        undefined
+        []
       )
       const allowed = makeForm(
         { el: { type: 'text', label: 'Mine', help: '{@label}' } },
@@ -89,13 +108,13 @@ describe('safePropRefs', () => {
   })
 
   describe('patterns', () => {
-    const resolved = (safePropRefs: (string | RegExp)[], prop: string) => {
+    const resolved = (allowProps: (string | RegExp)[], prop: string) => {
       const { el } = makeForm(
         {
           source: { type: 'text', label: 'Src' },
           el: { type: 'text', help: `{source@${prop}}` },
         },
-        safePropRefs
+        allowProps
       )
 
       return el.help

@@ -32,13 +32,13 @@ function expressionError(vueform?: VueformInstance): string {
     : 'Error'
 }
 
-// Whether `safePropRefs` allows reading the referenced prop — the security
+// Whether `allowProps` allows reading the referenced prop — the security
 // module's gate over `path@prop` / `@prop` (and the desugared PROP / SELF)
 // references. Without an owning instance there is no policy to consult.
-function allowsPropRef(ctx: ExpressionFunctionContext, prop: string): boolean {
+function allowsProp(ctx: ExpressionFunctionContext, prop: string): boolean {
   if (!ctx.vueform) return true
 
-  return useSecurity(ctx.vueform).allowsPropRef(prop)
+  return useSecurity(ctx.vueform).allowsProp(prop)
 }
 
 // Resolves a dot-path prop on an element context. `[n]` index segments are
@@ -225,7 +225,7 @@ export const UCF = defineFunction(() => (value: any) => {
 })
 
 export const PROP = defineFunction((ctx) => (path: string, prop: string) => {
-  if (!allowsPropRef(ctx, prop)) return undefined
+  if (!allowsProp(ctx, prop)) return undefined
 
   // Read form$ from the live eval context — expression is app-scoped, so
   // form$ is bound per resolve() rather than at provider creation.
@@ -239,7 +239,7 @@ export const PROP = defineFunction((ctx) => (path: string, prop: string) => {
 })
 
 export const SELF = defineFunction((ctx) => (prop: string) => {
-  if (!allowsPropRef(ctx, prop)) return undefined
+  if (!allowsProp(ctx, prop)) return undefined
 
   const el$ = ctx.el$
   if (!el$) return undefined

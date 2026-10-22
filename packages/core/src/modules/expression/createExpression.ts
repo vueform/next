@@ -3,6 +3,7 @@ import { computed, ref, watch, type WatchHandle } from 'vue'
 import type { VueformInstance } from '#src/helpers'
 import type { ModelNode, SchemaIndex } from '#src/modules/model'
 import {
+  escapeRegExp,
   get as getByPath,
   getComponentDef,
   isPlainObject,
@@ -444,10 +445,11 @@ export function createExpression(vueform: VueformInstance): ExpressionModule {
 
   const warn = () => {}
 
-  // `$expression.whitelist` compiles once: strings match keys exactly; RegExp
-  // entries test as written, rebuilt without the stateful `g` / `y` flags
-  // (config-held instances may be frozen — no `lastIndex` writes). Unset
-  // allows every key.
+  // `$expression.whitelist` compiles once: strings match keys exactly, except
+  // that a `*` in the entry spans any characters (`'*'` matches every key,
+  // `'*Label'` / `'label*'` match suffixes / prefixes); RegExp entries test as
+  // written, rebuilt without the stateful `g` / `y` flags (config-held
+  // instances may be frozen — no `lastIndex` writes). Unset allows every key.
   const whitelist = options.whitelist
 
   const whitelistKeys = new Set<string>()
@@ -456,7 +458,13 @@ export function createExpression(vueform: VueformInstance): ExpressionModule {
   if (Array.isArray(whitelist)) {
     for (const entry of whitelist) {
       if (typeof entry === 'string') {
-        whitelistKeys.add(entry)
+        if (entry.includes('*')) {
+          whitelistPatterns.push(
+            new RegExp(`^${entry.split('*').map(escapeRegExp).join('.*')}$`)
+          )
+        } else {
+          whitelistKeys.add(entry)
+        }
       } else if (entry instanceof RegExp) {
         whitelistPatterns.push(
           new RegExp(entry.source, entry.flags.replace(/[gy]/g, ''))

@@ -415,6 +415,50 @@ describe('Expressions', () => {
       expect(el.help).toBe('Help {name}')
     })
 
+    it('should match every key with a standalone `*`', () => {
+      const { el } = createForm(
+        {
+          schema: defineSchema({
+            name: { type: 'text', default: 'World' },
+            el: {
+              type: 'text',
+              label: 'Hello {name}',
+              help: 'Help {name}',
+            },
+          }),
+        },
+        {
+          $expression: { whitelist: ['*'] },
+        }
+      )
+
+      expect(el.label).toBe('Hello World')
+      expect(el.help).toBe('Help World')
+    })
+
+    it('should match key prefixes and suffixes with `*` members', () => {
+      const { el } = createForm(
+        {
+          schema: defineSchema({
+            name: { type: 'text', default: 'World' },
+            el: {
+              type: 'text',
+              label: 'Hello {name}',
+              help: 'Help {name}',
+              placeholder: 'Type {name}',
+            },
+          }),
+        },
+        {
+          $expression: { whitelist: ['lab*', '*lp'] },
+        }
+      )
+
+      expect(el.label).toBe('Hello World')
+      expect(el.help).toBe('Help World')
+      expect(el.placeholder).toBe('Type {name}')
+    })
+
     it('should disable all expressions when config enabled is false', () => {
       const { el } = createForm(
         {
