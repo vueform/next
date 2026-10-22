@@ -279,7 +279,7 @@ Note that no element declares `rules` here — the minimum length and the confir
 As `!defineSchema`'s second argument, the Validation Schema travels with the schema — every model and form built from it inherits it. It can also be attached to a single model or a single form instead:
 
 ```ts
-const model = useModel(schema, seed, { validationSchema })
+const model = useModel({ schema, validationSchema }, seed)
 const [MyForm] = useForm({ schema, validationSchema })
 ```
 
@@ -1029,7 +1029,7 @@ const schema = defineSchema({
   age: { type: 'text', label: 'Age', rules: 'nullable|integer|min:18' },
 })
 
-const model = useModel(schema, { email: 'not-an-email' })
+const model = useModel({ schema }, { email: 'not-an-email' })
 
 await model.validate() // resolves false — the email rule fails
 
@@ -1045,7 +1045,7 @@ No component was mounted. The rules, the Validation Schema, conditions, custom r
 A form that [attaches](/guide/model#attaching-the-model) a `!useModel` instance shares a single validator with it — the state you read on the instance is the same state the form renders:
 
 ```ts
-const model = useModel(schema)
+const model = useModel({ schema })
 const [MyForm] = useForm({ schema }, model)
 
 // after mount, both views read identical validation state
@@ -1057,7 +1057,7 @@ model.invalid
 Any form or model instance can expose its compiled rules — element rules, conditions, and the Validation Schema combined — as a spec-compliant `StandardSchemaV1`:
 
 ```ts
-const model = useModel(schema)
+const model = useModel({ schema })
 const validator = model.toStandardSchema()
 
 const result = await validator['~standard'].validate({

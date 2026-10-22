@@ -387,10 +387,9 @@ export function createExpression(vueform: VueformInstance): ExpressionModule {
       return value
     }
 
-    if (!HAS_UNESCAPED_BRACE_RE.test(value)) {
-      return value
-    }
-
+    // No unescaped-brace gate here: a string holding only `\{…}` blocks never
+    // reaches the engine (the escaped alternative wins the match), but the
+    // replace must still run so the escaping backslashes are consumed.
     return value.replace(CHAIN_RE, (match, expression, escaped) => {
       if (expression !== undefined) {
         const warningOwner = context$ ?? defaultWarningOwner

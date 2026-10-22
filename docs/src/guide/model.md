@@ -46,7 +46,7 @@ const schema = defineSchema({
   city: { type: 'text', label: 'City' },
 })
 
-const model = useModel(schema, {
+const model = useModel({ schema }, {
   name: 'John',           // ✅ string | number | null — typed from the schema
   email: true,            // ❌ compile error — not a text value
   c                       // 💡 autocomplete
@@ -98,7 +98,7 @@ const model = useModel({}, { name: 'John' })
 </template>
 ```
 
-The schema argument stays an empty object: the form's shape is defined inline by the template, so there is nothing to type the model against — typing is what inline usage gives up. The instance still carries the full [Model API](#the-model-api).
+The first argument stays an empty object: the form's shape is defined inline by the template, so there is nothing to type the model against — typing is what inline usage gives up. The instance still carries the full [Model API](#the-model-api).
 
 It also works one level down, on individual elements — whether they sit inside a form or stand alone:
 
@@ -121,7 +121,7 @@ Element binding comes with two caveats. It moves the plain value, so a `!useMode
 The Model API is a single set of members for managing data:
 
 ```ts
-const model = useModel(schema) // external instance…
+const model = useModel({ schema }) // external instance…
 // …or the internal model: const model = form$
 
 model.data // the reactive data object
@@ -145,6 +145,19 @@ Passing the `!useModel` instance to `!useForm` makes the form **attach** it. Att
 - **Before attachment** the instance is yours alone: only your code changes its data, and `submit()` runs the instance's own headless flow against its `endpoint` and submission options.
 - **After attachment** the model is kept in sync with the form for free: whatever is typed into the form is already in `model.data`, and whatever you `set()` is already on screen. `model.attached` turns `true` and the form owns submission — `model.submit()` submits the attaching form with the form's props and UX. The instance mirrors the form while attached, so `model.submitting`, `model.submits`, `model.result`, and your `model.on('success')` listeners follow form-driven submits too. There is one flow and one set of counters, never two.
 
+<!-- @todo -->
+<!-- Attachment also ends cleanly: when the form unmounts, the instance keeps everything — data, dirty state, even validation results — and a later form attaching the same instance picks that state up as-is, errors already on screen.
+
+A model attaches to **one form at a time** — when a second form attaches the same instance, the last one wins and Vueform warns in development. To show the same data in two live forms, hand the second form a `clone()` instead: a detached copy carrying the current data only, with the same schema and options but a clean baseline and fresh validation and submission state.
+
+```ts
+const model = useModel({ schema }, { name: 'John' })
+const copy = model.clone()
+
+copy.data // { name: 'John' } — copied once, independent from here on
+copy.dirty // false — the copied data is the clone's baseline
+``` -->
+
 ## Outliving Components
 
 A model owned by a [Pinia](https://pinia.vuejs.org/) store outlives any component: a form can mount anywhere, attach it, and unmount without losing data. A store is not a component, though, so `!useModel` has no setup context — create the model from your own instance instead:
@@ -162,7 +175,7 @@ const schema = defineSchema({
 })
 
 export const useUserStore = defineStore('user', () => {
-  const model = vueform.useModel(schema)
+  const model = vueform.useModel({ schema })
 
   return { model }
 })

@@ -39,6 +39,35 @@ const BLUEPRINTS_SRC_DIR = path.join(CORE_SRC, 'blueprints')
 
 const nonCoreAdapters = Object.entries(adapters).filter(([k]) => k !== 'ui')
 
+// ============= PLUGINS =============
+
+/**
+ * Plugin packages (package.json `vueform.group` of "plugins") are
+ * adapter-independent, so their type pages join the core pool — they are
+ * written into CORE_OUTPUT_DIR and reach every adapter manifest through the
+ * core names.
+ */
+function discoverPlugins(): { name: string; dir: string }[] {
+  const packagesDir = path.join(ROOT, 'packages')
+  const plugins: { name: string; dir: string }[] = []
+
+  for (const entry of fs.readdirSync(packagesDir)) {
+    const dir = path.join(packagesDir, entry)
+    const manifestPath = path.join(dir, 'package.json')
+    if (!fs.existsSync(manifestPath)) continue
+
+    const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf-8')) as {
+      vueform?: { group?: string }
+    }
+    const group = manifest.vueform?.group
+    if (group === 'plugin' || group === 'plugins') {
+      plugins.push({ name: entry, dir })
+    }
+  }
+
+  return plugins.sort((a, b) => a.name.localeCompare(b.name))
+}
+
 // ============= EXCLUSIONS =============
 
 const EXCLUDED_DIRS: string[] = (
@@ -149,6 +178,20 @@ function extractDeclarationText(
 function hasOwnTypeDeclarations(sourceFile: ts.SourceFile): boolean {
   for (const node of sourceFile.statements) {
     if (ts.isInterfaceDeclaration(node) || ts.isTypeAliasDeclaration(node)) {
+      return true
+    }
+  }
+  return false
+}
+
+/**
+ * Like `hasOwnTypeDeclarations`, but also counts runtime declarations — a
+ * single-file plugin's `index.ts` is its whole API, not a re-export barrel.
+ */
+function hasOwnDeclarations(sourceFile: ts.SourceFile): boolean {
+  if (hasOwnTypeDeclarations(sourceFile)) return true
+  for (const node of sourceFile.statements) {
+    if (ts.isFunctionDeclaration(node) || ts.isVariableStatement(node)) {
       return true
     }
   }
@@ -846,7 +889,7 @@ type FnGroup = {
   sourceFile: ts.SourceFile
 }
 
-async function phase1(): Promise<Set<string>> {
+async function corePhase(): Promise<Set<string>> {
   console.log('Phase 1: Core types...')
 
   const { program, checker } = createProgram(CORE_DIR)
@@ -1015,33 +1058,49 @@ async function phase1(): Promise<Set<string>> {
   return seen
 }
 
-// ================ PHASE 2: ADAPTER TYPES ================
+// ====== PHASE 2 & 3: ADAPTER + PLUGIN TYPES ======
 
-async function phase2(
-  adapterName: string,
-  adapterDef: AdapterDef,
-  coreSeen: Set<string>
-): Promise<Set<string>> {
-  console.log(`Phase 2: Adapter types (${adapterName})...`)
+/**
+ * Extracts the type pages of one package's `src` into `outputDir`, skipping
+ * names already claimed by an earlier phase (core wins over adapters, and
+ * both win over plugins). Returns the names it claimed plus the
+ * written/skipped counts.
+ */
+async function extractPackageTypes(
+  pkgDir: string,
+  outputDir: string,
+  alreadySeen: Set<string>
+): Promise<{ claimed: Set<string>; written: number; skipped: number }> {
+  const pkgSrc = path.join(pkgDir, 'src')
 
-  const adapterDir = path.join(ROOT, adapterDef.path)
-  const adapterSrc = path.join(adapterDir, 'src')
-  const outputDir = path.join(DOCS_ROOT, adapterDef.typesOutputDir)
-
-  const { program, checker } = createProgram(adapterDir)
-  const adapterSeen = new Set<string>()
+  const { program, checker } = createProgram(pkgDir)
+  const claimed = new Set<string>()
   let written = 0
   let skipped = 0
 
-  fs.rmSync(outputDir, { recursive: true, force: true })
   fs.mkdirSync(outputDir, { recursive: true })
+
+  const claim = (name: string): boolean => {
+    if (alreadySeen.has(name) || claimed.has(name)) return false
+    claimed.add(name)
+    return true
+  }
+
+  const write = async (name: string, entry: string) => {
+    const formatted = await formatTS(stripInternalTags(entry))
+    const content = fenceTs(stripUnderscorePrefix(formatted))
+    const outPath = path.join(outputDir, `${typeFileBase(name)}.md`)
+
+    fs.writeFileSync(outPath, content)
+    written++
+  }
 
   const sourceFiles = program
     .getSourceFiles()
     .filter(
       (sf) =>
-        sf.fileName.startsWith(adapterSrc + '/') &&
-        (!sf.fileName.endsWith('/index.ts') || hasOwnTypeDeclarations(sf))
+        sf.fileName.startsWith(pkgSrc + '/') &&
+        (!sf.fileName.endsWith('/index.ts') || hasOwnDeclarations(sf))
     )
     .sort((a, b) => a.fileName.localeCompare(b.fileName))
 
@@ -1052,22 +1111,15 @@ async function phase2(
         continue
 
       const name = node.name.text
-      if (coreSeen.has(name) || adapterSeen.has(name)) {
+      if (!claim(name)) {
         skipped++
         continue
       }
 
-      adapterSeen.add(name)
-
       let declText = extractDeclarationText(node, sourceFile)
       declText = declText.replace(/\bexport\s+/, '')
 
-      const formatted = await formatTS(stripInternalTags(declText))
-      const content = fenceTs(stripUnderscorePrefix(formatted))
-      const outPath = path.join(outputDir, `${typeFileBase(name)}.md`)
-
-      fs.writeFileSync(outPath, content)
-      written++
+      await write(name, declText)
     }
 
     // --- Exported Functions ---
@@ -1096,12 +1148,15 @@ async function phase2(
     })
 
     for (const [name, group] of fnGroups) {
-      if (coreSeen.has(name) || adapterSeen.has(name)) {
+      if (
+        [group.implementation, ...group.overloads].some(
+          (n) => n && hasSkipTypeExportTag(n)
+        ) ||
+        !claim(name)
+      ) {
         skipped++
         continue
       }
-
-      adapterSeen.add(name)
 
       const entry = buildFunctionEntry(
         group.overloads,
@@ -1112,15 +1167,12 @@ async function phase2(
 
       if (!entry) continue
 
-      const formatted = await formatTS(stripInternalTags(entry))
-      const content = fenceTs(stripUnderscorePrefix(formatted))
-      const outPath = path.join(outputDir, `${typeFileBase(name)}.md`)
-
-      fs.writeFileSync(outPath, content)
-      written++
+      await write(name, entry)
     }
 
     // --- Exported Variables ---
+    const varEntries: { name: string; entry: string }[] = []
+
     ts.forEachChild(sourceFile, (node) => {
       if (!ts.isVariableStatement(node)) return
       if (!isExported(node)) return
@@ -1129,40 +1181,72 @@ async function phase2(
         if (!ts.isIdentifier(decl.name)) continue
 
         const name = decl.name.text
-        if (
-          coreSeen.has(name) ||
-          adapterSeen.has(name) ||
-          hasSkipTypeExportTag(node)
-        ) {
+        if (hasSkipTypeExportTag(node) || !claim(name)) {
           skipped++
-          return
+          continue
         }
 
-        adapterSeen.add(name)
-
         const entry = buildVariableEntry(decl, node, checker, sourceFile)
-        if (!entry) return
-
-        void (async () => {
-          const formatted = await formatTS(stripInternalTags(entry))
-          const content = fenceTs(stripUnderscorePrefix(formatted))
-          const outPath = path.join(outputDir, `${typeFileBase(name)}.md`)
-          fs.writeFileSync(outPath, content)
-        })()
-
-        written++
+        if (entry) varEntries.push({ name, entry })
       }
     })
+
+    for (const { name, entry } of varEntries) {
+      await write(name, entry)
+    }
   }
+
+  return { claimed, written, skipped }
+}
+
+async function adapterPhase(
+  adapterName: string,
+  adapterDef: AdapterDef,
+  coreSeen: Set<string>
+): Promise<Set<string>> {
+  console.log(`Phase 2: Adapter types (${adapterName})...`)
+
+  const outputDir = path.join(DOCS_ROOT, adapterDef.typesOutputDir)
+  fs.rmSync(outputDir, { recursive: true, force: true })
+
+  const { claimed, written, skipped } = await extractPackageTypes(
+    path.join(ROOT, adapterDef.path),
+    outputDir,
+    coreSeen
+  )
 
   console.log(
     `  Phase 2 (${adapterName}): ${written} written${skipped ? `, ${skipped} skipped (already in core)` : ''}`
   )
 
-  return adapterSeen
+  return claimed
 }
 
-// ================ PHASE 3: JSON MANIFESTS ================
+/**
+ * Plugin type pages land next to the core ones, so the manifests (and every
+ * adapter) pick them up with the core names. A name already exported by core
+ * or by any adapter is omitted — plugins never override those. Each plugin's
+ * claimed names fold into `seen` before the next package runs.
+ */
+async function pluginPhase(seen: Set<string>): Promise<void> {
+  for (const { name, dir } of discoverPlugins()) {
+    console.log(`Phase 3: Plugin types (${name})...`)
+
+    const { claimed, written, skipped } = await extractPackageTypes(
+      dir,
+      CORE_OUTPUT_DIR,
+      seen
+    )
+
+    for (const claimedName of claimed) seen.add(claimedName)
+
+    console.log(
+      `  Phase 3 (${name}): ${written} written${skipped ? `, ${skipped} skipped (already seen)` : ''}`
+    )
+  }
+}
+
+// ================ PHASE 4: JSON MANIFESTS ================
 
 function collectMdNames(dir: string): string[] {
   const names: string[] = []
@@ -1192,8 +1276,8 @@ function collectMdNames(dir: string): string[] {
   return names.sort()
 }
 
-function phase3(): void {
-  console.log('Phase 3: JSON manifests...')
+function manifestPhase(): void {
+  console.log('Phase 4: JSON manifests...')
 
   const coreDir = path.join(GENERATED_DIR, 'core')
   fs.mkdirSync(coreDir, { recursive: true })
@@ -1224,19 +1308,24 @@ function phase3(): void {
     logs.push(`src/_${name}/types.json (${merged.length})`)
   }
 
-  console.log(`  Phase 3: ${logs.join(', ')}`)
+  console.log(`  Phase 4: ${logs.join(', ')}`)
 }
 
 // ================ MAIN ================
 
 async function main() {
-  const coreSeen = await phase1()
+  const coreSeen = await corePhase()
 
+  const adapterSeen = new Set<string>()
   for (const [name, def] of nonCoreAdapters) {
-    await phase2(name, def, coreSeen)
+    for (const claimedName of await adapterPhase(name, def, coreSeen)) {
+      adapterSeen.add(claimedName)
+    }
   }
 
-  phase3()
+  await pluginPhase(new Set([...coreSeen, ...adapterSeen]))
+
+  manifestPhase()
 
   console.log('\nDone.')
 }

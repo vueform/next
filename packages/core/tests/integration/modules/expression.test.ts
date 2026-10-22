@@ -833,14 +833,14 @@ describe('Expressions', () => {
   })
 
   describe('Edge cases', () => {
-    it('should not resolve escaped expression', () => {
+    it('should not resolve escaped expression but consume its backslash', () => {
       const { el } = createForm({
         schema: defineSchema({
           el: { type: 'text', label: '\\{not_an_expression}' },
         }),
       })
 
-      expect(el.label).toBe('\\{not_an_expression}')
+      expect(el.label).toBe('{not_an_expression}')
     })
 
     it('should resolve unescaped expression while preserving escaped ones', () => {

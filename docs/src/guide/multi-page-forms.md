@@ -757,7 +757,7 @@ const schema = defineSchema({
   terms: { type: 'checkbox', text: 'I agree', page: 'Review' },
 })
 
-const model = useModel(schema, {
+const model = useModel({ schema }, {
   name: 'John',
   email: 'john@example.com',
 })

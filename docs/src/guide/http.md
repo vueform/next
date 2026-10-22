@@ -4,13 +4,11 @@ outline: [2,3]
 
 # HTTP
 
-Everything Vueform sends over the wire — [submissions](/guide/submit), [autosave](/guide/autosave), items loaded from an endpoint — goes through one built-in HTTP layer. The same layer is exposed to your application as `useHttp()`, so your own requests share the base URL, headers, interceptors, and error handling that Vueform's internal ones use.
+Everything Vueform sends over the wire — [submissions](/guide/submit), [autosave](/guide/autosave), items loaded from an endpoint — goes through one built-in HTTP layer. The same layer is exposed to your application as `!useHttp`, so your own requests share the base URL, headers, interceptors, and error handling that Vueform's internal ones use.
 
-The default implementation rides on the Fetch API with zero dependencies. When you'd rather use Axios, ofetch, or your in-house client, you swap the **adapter** underneath and everything on top keeps working unchanged.
+The default transport is a dependency-free Fetch adapter, wired in by the `@vueform/ui` presets. When you'd rather route traffic through Axios, ofetch, or an in-house client, you [swap the adapter](#switching-the-adapter) underneath and everything on top keeps working unchanged.
 
-::: warning Client-side only
-The HTTP module is designed for the browser. During [SSR](/guide/ssr) the built-in fetch adapter refuses to send requests — a server-side `submit()` fails with `reason: 'ssr'`, and endpoint-driven items wait for hydration. For data a page needs before it renders, use your framework's server-side data fetching instead of `useHttp()`.
-:::
+The module is browser-only. During [SSR](/guide/ssr#http-is-client-side) the built-in adapter refuses to send requests — a server-side request rejects with an `!HttpError` whose `reason` is `'ssr'` — so data a page needs before it renders belongs in your framework's own data-fetching layer.
 
 ## Basic Usage
 
@@ -25,14 +23,10 @@ const $http = useHttp()
 const loadUsers = async () => {
   const { data } = await $http.get('/api/users')
 }
-
-const createUser = async () => {
-  const { data } = await $http.post('/api/users', { name: 'John' })
-}
 </script>
 ```
 
-`useHttp()` is callable anywhere once `createVueform` has run — components, route guards, stores, plain scripts. It doesn't depend on a component setup context.
+Called with no argument, `useHttp()` resolves the app's configuration by injection, so it belongs in `<script setup>`. Outside a setup context — a store, a route guard, a plain script — pass your `createVueform` instance as `useHttp(vueform)`, the same pattern [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context) describes for the other composables.
 
 ## Request Methods
 
@@ -47,7 +41,7 @@ Each shorthand returns a `Promise<HttpResponse<T>>`:
 | `$http.delete(url, config?)`       | DELETE request, no body.                       |
 | `$http.request(config)`            | Full request driven by an `HttpRequestConfig`. |
 
-The last argument is a partial `HttpRequestConfig` overriding the global defaults for that one call:
+The last argument is a partial `HttpRequestConfig` overriding the [defaults](#configuring-defaults) for that one call:
 
 ```ts
 const { data } = await $http.get('/api/users', {
@@ -64,10 +58,8 @@ const { data } = await $http.request({
   url: '/api/users',
   method: 'POST',
   data: { name: 'John' },
-  headers: { 'X-Custom': 'value' },
   requestType: 'json',
   responseType: 'json',
-  timeout: 5000,
 })
 ```
 
@@ -75,12 +67,12 @@ const { data } = await $http.request({
 
 ## The Response Object
 
-Every method resolves to a normalized `HttpResponse` — the same shape no matter which adapter is behind it:
+Every method resolves to a normalized `!HttpResponse` — the same shape no matter which adapter is behind it:
 
 ```ts
-const response = await $http.get<User[]>('/api/users')
+const response = await $http.get('/api/users')
 
-response.data       // parsed body, typed as User[]
+response.data       // parsed body
 response.status     // 200
 response.statusText // 'OK'
 response.headers    // Record<string, string>
@@ -93,6 +85,7 @@ Pass the response data type as a generic for end-to-end typing:
 type User = { id: number; name: string }
 
 const { data } = await $http.get<User[]>('/api/users')
+//      ^? User[]
 ```
 
 ## Configuring Defaults
@@ -114,60 +107,11 @@ app.use(
 )
 ```
 
-Per-request config overrides the defaults; headers are merged. See [`$http`](/guide/configuration#http) for the full option table — `baseURL`, `headers`, `timeout`, `defaultMethod`, `requestType`, `responseType`, `withCredentials`, `base64`, `onRequest`, `onResponse`, and `adapter`.
-
-## Submitting Through `!useHttp`
-
-The most common reason to reach for `useHttp()` is taking over part of the submission flow without giving up Vueform's [result lifecycle](/guide/submit#submit-result). The `endpoint` function and the `@submit` handler both accept an `HttpResponse` as a return value, and any `HttpError` they throw is caught and classified exactly like errors from a string `endpoint`:
-
-```ts
-import { defineSchema, useForm, useHttp } from '@vueform/ui'
-
-const $http = useHttp()
-
-const [Form] = useForm({
-  schema,
-  endpoint: async (data) => {
-    return await $http.post('/api/registration', {
-      ...data,
-      captchaToken: await getCaptchaToken(),
-    })
-  },
-})
-```
-
-Because the call goes through the configured adapter, your custom submission logic still benefits from `baseURL`, default headers, interceptors, and adapter swaps.
-
-## Loading Data
-
-For select-style elements, you often don't need a manual request at all — the `items` prop accepts an endpoint URL directly, fetched through this same HTTP layer:
-
-```vue
-<VfSelect name="country" items="/api/countries" />
-```
-
-For everything else — prefilling a record, hitting a side endpoint when a value changes — call `useHttp()` yourself:
-
-```vue
-<script setup lang="ts">
-import { onMounted } from 'vue'
-import { useForm, useHttp } from '@vueform/ui'
-
-const $http = useHttp()
-
-const [Form, form$] = useForm({ schema })
-
-onMounted(async () => {
-  const { data } = await $http.get('/api/profile')
-
-  form$.load(data)
-})
-</script>
-```
+Per-request config overrides the defaults, and headers are merged. When nothing sets them, requests go out as `GET` with `'json'` body encoding. The full option table — including `defaultMethod`, `requestType`, `base64`, and the interceptor and adapter keys — lives at [`$http`](/guide/configuration#http).
 
 ## Interceptors
 
-Interceptors hook into requests and responses at two scopes: **app-wide**, declared in the `$http` config, and **instance**, registered on a `useHttp()` instance and applying only to requests made through it.
+Interceptors hook into requests and responses at two scopes — **app-wide**, declared in the `$http` config, and **instance**, registered on a `useHttp()` instance and applying only to requests made through it.
 
 App-wide interceptors go in the `onRequest` / `onResponse` arrays of `$http` and run on every request — submissions, autosave, and manual calls alike:
 
@@ -202,6 +146,38 @@ $http.onRequest((config) => {
 
 For an instance's requests the two scopes nest like an onion: instance request interceptors → app-wide request interceptors → the adapter call → app-wide response interceptors → instance response interceptors. Interceptors can be `async` — the request awaits each one.
 
+## Error Handling
+
+Failures throw an `!HttpError` carrying enough context to react without parsing messages:
+
+```ts
+import { HttpError } from '@vueform/ui'
+
+try {
+  await $http.post('/api/users', { name: 'John' })
+} catch (error) {
+  if (error instanceof HttpError) {
+    error.reason   // what failed — see the table below
+    error.status   // HTTP status, when the server responded
+    error.data     // parsed response body, when available
+    error.response // full HttpResponse, when available
+    error.config   // the request config that produced the error
+  }
+}
+```
+
+| `reason`    | When                                                                                      |
+| ----------- | ----------------------------------------------------------------------------------------- |
+| `'http'`    | The server responded with a non-`2xx` status.                                             |
+| `'network'` | The request never reached the server (DNS, offline, CORS, …).                             |
+| `'timeout'` | The configured `timeout` elapsed.                                                         |
+| `'abort'`   | The request was [cancelled](#aborting-requests) via an `AbortSignal`.                     |
+| `'blocked'` | The target origin isn't allowed by [`allowOrigins`](/guide/security#request-origins).     |
+| `'ssr'`     | The request was attempted during [server-side rendering](/guide/ssr#http-is-client-side). |
+| `'unknown'` | Catch-all for unexpected adapter failures.                                                |
+
+`error.config` is safe to hand to an error reporter — credential-bearing headers such as `Authorization` and `Cookie` arrive as `'[redacted]'`, so a token attached by an interceptor never ends up in a log.
+
 ## Aborting Requests
 
 Pass an `AbortSignal` in the per-request config to cancel an in-flight request:
@@ -214,43 +190,58 @@ const promise = $http.get('/api/slow', { signal: controller.signal })
 controller.abort()
 ```
 
-An aborted request throws an `HttpError` with `reason: 'abort'`. The form's own submission has a shortcut — `form$.abort()`, covered in [Aborting an In-Flight Request](/guide/submit#aborting-an-in-flight-request).
+An aborted request throws an `HttpError` with `reason: 'abort'`. The form's own submission has a shortcut — `form$.abort()`, covered in [Aborting](/guide/submit#aborting).
 
-## Error Handling
+## Inside the Form Flow
 
-Failures throw an `HttpError` carrying enough context to react without parsing messages:
+The most common reason to reach for `useHttp()` is taking over part of the submission flow without giving up Vueform's result lifecycle. An `endpoint` function or `@submit` handler that returns an `HttpResponse` feeds [classification](/guide/submit#the-result) exactly as if Vueform had made the request itself, and an `HttpError` it throws is caught and classified the same way — a `422` becomes an `invalid` result, a network failure a `fail`:
 
 ```ts
-import { HttpError } from '@vueform/ui'
+import { useForm, useHttp } from '@vueform/ui'
 
-try {
-  await $http.post('/api/users', { name: 'John' })
-} catch (error) {
-  if (error instanceof HttpError) {
-    error.reason   // 'http' | 'network' | 'timeout' | 'abort' | 'unknown'
-    error.status   // HTTP status, when the server responded
-    error.data     // parsed response body, when available
-    error.response // full HttpResponse, when available
-    error.config   // the request config that produced the error
-  }
-}
+const $http = useHttp()
+
+const [Form] = useForm({
+  schema,
+  endpoint: async (data) => {
+    return await $http.post('/api/registration', {
+      ...data,
+      captchaToken: await getCaptchaToken(),
+    })
+  },
+})
 ```
 
-| `reason`    | When                                                          |
-| ----------- | ------------------------------------------------------------- |
-| `'http'`    | The server responded with a non-`2xx` status.                 |
-| `'network'` | The request never reached the server (DNS, offline, CORS, …). |
-| `'timeout'` | The configured `timeout` elapsed.                             |
-| `'abort'`   | The request was cancelled via an `AbortSignal`.               |
-| `'unknown'` | Catch-all for unexpected adapter failures.                    |
+Because the call goes through the configured module, your custom submission logic still benefits from `baseURL`, default headers, interceptors, and adapter swaps. The two takeover points and their other return values are covered in [Owning the Request](/guide/submit#owning-the-request).
 
-::: tip
-Inside an `endpoint` function or `@submit` handler you don't need to catch `HttpError` yourself — Vueform catches it and turns it into the appropriate [submit result](/guide/submit#submit-result) (`invalid` for `422`, `fail` otherwise).
-:::
+Data flows the other way through the same layer. Select-style elements don't need a manual request at all — their `items` prop accepts an endpoint URL directly:
+
+```vue
+<VfSelect name="country" items="/api/countries" />
+```
+
+For everything else — prefilling a record, hitting a side endpoint when a value changes — call `useHttp()` yourself and hand the result to the form:
+
+```vue
+<script setup lang="ts">
+import { onMounted } from 'vue'
+import { useForm, useHttp } from '@vueform/ui'
+
+const $http = useHttp()
+
+const [Form, form$] = useForm({ schema })
+
+onMounted(async () => {
+  const { data } = await $http.get('/api/profile')
+
+  form$.load(data)
+})
+</script>
+```
 
 ## Switching the Adapter
 
-The **adapter** is the function that actually performs a request: it takes an `HttpRequestConfig` and returns an `HttpResponse`. The `@vueform/ui` package wires in the Fetch-based `fetchHttpAdapter` by default; replace it under `$http.adapter` to route everything through your own client:
+The **adapter** is the function that actually performs a request. It takes an `HttpRequestConfig`, returns a `Promise<HttpResponse>`, and throws an `HttpError` on failure. The `@vueform/ui` presets wire in the Fetch-based `fetchHttpAdapter` by default; replace it under `$http.adapter` to route everything through your own client:
 
 ```ts
 import { createVueform, type HttpAdapter } from '@vueform/ui/origin'
@@ -277,6 +268,6 @@ createVueform({
 })
 ```
 
-Once installed, every call — through `useHttp()` and Vueform's internal flows alike — runs through your adapter, while interceptors, defaults, and error classification keep working unchanged.
+Once installed, every call — through `useHttp()` and Vueform's internal flows alike — runs through your adapter, while defaults, interceptors, and error classification keep working unchanged. The [origin policy](/guide/security#request-origins) also stays in force, because it's checked before the adapter is called — a custom adapter can't bypass it.
 
 Ready-made adapters ship as plugins so you only bundle what you use: [Axios](/plugins/axios) and [unjs/ofetch](/plugins/ofetch). Because requests and responses are always normalized into Vueform's own shapes, swapping adapters is non-breaking — your form code, endpoint handlers, and `useHttp()` calls don't change.

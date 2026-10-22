@@ -22,7 +22,7 @@ const LOCAL_NAV_SAVE_EVENTS = ['next', 'back', 'step', 'tab']
  * Debounce applied to change-triggered local saves, bounding the synchronous
  * model serialization work while the user types. Fixed by design.
  */
-const LOCAL_SAVE_DEBOUNCE = 100
+const LOCAL_SAVE_DEBOUNCE = 300
 
 /**
  * Upper bound on local draft staleness: when this much time has passed since

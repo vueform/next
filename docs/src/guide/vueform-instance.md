@@ -112,7 +112,7 @@ From then on, any file can build forms and models from the instance with no comp
 import { vueform } from '@/vueform'
 
 // A headless model with no component — see Model
-const model$ = vueform.useModel(schema, payload)
+const model$ = vueform.useModel({ schema }, payload)
 
 // A form with no component — see Rendering
 const form = vueform.useForm({ schema })
