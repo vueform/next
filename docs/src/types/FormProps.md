@@ -169,15 +169,15 @@ interface FormProps<
   /**
    * The remote autosave configuration: an endpoint URL, or an object with an
    * `endpoint` (URL or handler function) and its scheduling options (`on`,
-   * `interval`, `delay`, `invalid`, `method`, `transform`).
+   * `interval`, `debounce`, `invalid`, `method`, `transform`).
    */
   autosave?: AutosaveProp
 
   /**
-   * The draft configuration: `true`, or an object with `key`, `storage`,
-   * `restore`, `discardOnSuccess`, `encrypt` and `debounce`. Drafts save the
-   * model to storage on every action, restore it on mount, and are discarded
-   * on successful submit.
+   * The draft configuration: `true`, or an object with `key`, `storage`, `on`,
+   * `debounce`, `restore`, `discardOnSuccess`, `encrypt` and `sensitive`.
+   * Drafts save the model to storage on the configured `on` events, restore it
+   * on mount, and are discarded on successful submit.
    */
   draft?: DraftProp
 

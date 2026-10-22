@@ -38,6 +38,17 @@ type DraftConfig = {
   encrypt?: boolean
 
   /**
+   * Form events that trigger a draft save. Defaults to `['change']` — the
+   * draft saves shortly after the form's data changes. `'change'` saves are
+   * debounced (`debounce`); every other event saves immediately. Any form
+   * event name is accepted. Listing `'step'` alongside `'next'`/`'back'` wires
+   * only `'step'` (it fires on every step navigation, both directions) — one
+   * navigation never triggers two saves. An empty array disables automatic
+   * saving entirely — drafts are then written only via `saveDraft()`.
+   */
+  on?: AutosaveOnProp
+
+  /**
    * Whether values of elements marked `sensitive` are stored in the draft.
    * Defaults to `false` — sensitive values are stripped by data path before
    * the draft is written. Set `true` to knowingly store them too.

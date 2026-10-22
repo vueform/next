@@ -1712,7 +1712,7 @@ messageBag.append('Annual Report is ready to export', 'message')
 
 The wrapper around `root` with `display: contents` when the element is a step or a tab.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<TabPanel>`](https://primevue.org/tabpanel/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-panel` |
@@ -1721,7 +1721,7 @@ The wrapper around `root` with `display: contents` when the element is a step or
 
 The element's root wrapper.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
@@ -1730,7 +1730,7 @@ The element's root wrapper.
 
 The container holding the label and required indicator.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<legend>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label-group` |
@@ -1739,7 +1739,7 @@ The container holding the label and required indicator.
 
 The label element, associated with the control via `for`.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
@@ -1748,7 +1748,7 @@ The label element, associated with the control via `for`.
 
 The required indicator.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-required` |
@@ -1757,7 +1757,7 @@ The required indicator.
 
 The container wrapping the input and related UI.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` [`<TabsProps>`](https://primevue.org/tabsprops/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-group` |
@@ -1766,7 +1766,7 @@ The container wrapping the input and related UI.
 
 The wrapper directly around the input control.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-wrapper` |
@@ -1775,7 +1775,7 @@ The wrapper directly around the input control.
 
 The help text area.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
@@ -1784,7 +1784,7 @@ The help text area.
 
 The tree-select input element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<TreeSelect>`](https://primevue.org/treeselect/) |
 
@@ -1792,7 +1792,7 @@ The tree-select input element.
 
 Info container.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-info` |
@@ -1801,7 +1801,7 @@ Info container.
 
 Icon for displaying info tooltip.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-info-icon` |
@@ -1810,7 +1810,7 @@ Icon for displaying info tooltip.
 
 The description text area.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
@@ -1819,7 +1819,7 @@ The description text area.
 
 An individual addon rendered before the input.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfAddon>`](./VfAddon.md) |
 
@@ -1827,7 +1827,7 @@ An individual addon rendered before the input.
 
 An individual addon rendered after the input.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfAddon>`](./VfAddon.md) |
 
@@ -1835,7 +1835,7 @@ An individual addon rendered after the input.
 
 The addon group wrapper element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -1843,7 +1843,7 @@ The addon group wrapper element.
 
 The icon rendered before the input.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfIcon>`](./VfIcon.md) |
 
@@ -1851,7 +1851,7 @@ The icon rendered before the input.
 
 The icon rendered after the input.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfIcon>`](./VfIcon.md) |
 
@@ -1859,7 +1859,7 @@ The icon rendered after the input.
 
 The wrapper element grouping icons and the input.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -1867,7 +1867,7 @@ The wrapper element grouping icons and the input.
 
 The PrimeVue FloatLabel wrapper around the input.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<FloatLabel>`](https://primevue.org/floatlabel/) |
 
@@ -1875,7 +1875,7 @@ The PrimeVue FloatLabel wrapper around the input.
 
 The label tag inside PrimeVue FloatLabel.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` |
 
@@ -1883,7 +1883,7 @@ The label tag inside PrimeVue FloatLabel.
 
 The PrimeVue IftaLabel wrapper around the input.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<IftaLabel>`](https://primevue.org/iftalabel/) |
 
@@ -1891,7 +1891,7 @@ The PrimeVue IftaLabel wrapper around the input.
 
 The label tag inside PrimeVue IftaLabel.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` |
 
@@ -1899,7 +1899,7 @@ The label tag inside PrimeVue IftaLabel.
 
 The validation errors container.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<Message>`](https://primevue.org/message/) |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
@@ -1908,7 +1908,7 @@ The validation errors container.
 
 An individual validation error.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
@@ -1917,7 +1917,7 @@ An individual validation error.
 
 The info messages container.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-messages` |
@@ -1926,7 +1926,7 @@ The info messages container.
 
 An individual info message.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-message` |

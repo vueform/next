@@ -653,8 +653,8 @@ Configure the component's behavior and appearance with these props.
 | [`scrollToError`](!code#props.scrollToError "boolean") | `true` | Whether to scroll to the first element with an error on validation failure. |
 | [`scrollOptions`](!code#props.scrollOptions "ScrollIntoViewOptions") | `{ behavior: 'smooth' }` | Options passed to `scrollIntoView` when scrolling. |
 | [`focusError`](!code#props.focusError "boolean") | `true` | Whether to focus the first element with an error on validation failure. |
-| [`autosave`](!code#props.autosave "AutosaveProp") | — | The remote autosave configuration: an endpoint URL, or an object with an `endpoint` (URL or handler function) and its scheduling options (`on`, `interval`, `delay`, `invalid`, `method`, `transform`). |
-| [`draft`](!code#props.draft "DraftProp") | — | The draft configuration: `true`, or an object with `key`, `storage`, `restore`, `discardOnSuccess`, `encrypt` and `debounce`. Drafts save the model to storage on every action, restore it on mount, and are discarded on successful submit. |
+| [`autosave`](!code#props.autosave "AutosaveProp") | — | The remote autosave configuration: an endpoint URL, or an object with an `endpoint` (URL or handler function) and its scheduling options (`on`, `interval`, `debounce`, `invalid`, `method`, `transform`). |
+| [`draft`](!code#props.draft "DraftProp") | — | The draft configuration: `true`, or an object with `key`, `storage`, `on`, `debounce`, `restore`, `discardOnSuccess`, `encrypt` and `sensitive`. Drafts save the model to storage on the configured `on` events, restore it on mount, and are discarded on successful submit. |
 | [`submits`](!code#props.submits "boolean") | `false` | Whether the form should display a default submit button |
 | [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | — | Whether the form is disabled. Accepts a boolean, a ref, or a conditional prop. |
 | [`readonly`](!code#props.readonly "ConditionalProp<TContext>") | — | Whether the form is in read-only mode. Accepts a boolean, a ref, or a conditional prop. |
@@ -765,6 +765,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`toStandardSchema()`](!code#context.toStandardSchema "() => StandardSchemaV1<unknown, unknown>") | Exports the form's resolved validation as a Standard Schema. |
 | [`syncSteps()`](!code#context.syncSteps "() => void") | Synchronizes step states based on which steps contain data, enabling steps up to the last one with values. |
 | [`autosave()`](!code#context.autosave "(options: { invalid?: boolean \| undefined; } \| undefined) => Promise<void>") | Performs a remote autosave immediately (when `autosave` is configured). The validity gate applies as configured; pass `invalid` to override the config's `invalid` option for this one call — `true` sends even while the form is invalid, `false` enforces the gate. A gated call while the form is invalid defers the save: it runs as soon as the form becomes valid. |
+| [`saveDraft()`](!code#context.saveDraft "() => Promise<boolean>") | Saves the current model snapshot to storage immediately, bypassing the debounce (async because a configured `$security.encrypt` may be). Unlike the automatic saves, a manual call fires no `saveDraft` pre-hook — calling it _is_ the consent (`draftSaved` still fires). Resolves whether a draft was written — `false` when drafts are inactive, or the write was superseded or failed. |
 | [`getDraft()`](!code#context.getDraft "() => Promise<Record<string, any> \| undefined>") | Resolves the stored draft data without loading it into the form, or `undefined` when there's nothing (valid) stored (async because a configured `$security.decrypt` may be). |
 | [`restoreDraft()`](!code#context.restoreDraft "() => Promise<boolean>") | Restores the stored draft into the form, resolving whether a draft was found and restored (async because a configured `$security.decrypt` may be). Unlike the automatic restore on mount, a manual call fires no `restoreDraft` pre-hook — calling it _is_ the consent. |
 | [`discardDraft()`](!code#context.discardDraft "() => void") | Removes the stored draft, if any. Unlike the automatic discard on successful submit, a manual call fires no `discardDraft` pre-hook — calling it _is_ the consent. |
@@ -979,7 +980,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The root form element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -987,7 +988,7 @@ The root form element.
 
 Props forwarded to the nested VfLanguages component.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfLanguages>`](./VfLanguages.md) |
 
@@ -995,7 +996,7 @@ Props forwarded to the nested VfLanguages component.
 
 Props forwarded to the nested VfTabs component.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfTabs>`](./VfTabs.md) |
 
@@ -1003,7 +1004,7 @@ Props forwarded to the nested VfTabs component.
 
 Props forwarded to the nested VfSteps component.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfSteps>`](./VfSteps.md) |
 
@@ -1011,7 +1012,7 @@ Props forwarded to the nested VfSteps component.
 
 Props forwarded to the nested VfElements component.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfElements>`](./VfElements.md) |
 
@@ -1019,7 +1020,7 @@ Props forwarded to the nested VfElements component.
 
 The error list element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
 
@@ -1027,7 +1028,7 @@ The error list element.
 
 The message list element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
 
@@ -1035,7 +1036,7 @@ The message list element.
 
 Props forwarded to the nested VfNav component.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfNav>`](./VfNav.md) |
 
@@ -1043,7 +1044,7 @@ Props forwarded to the nested VfNav component.
 
 The errors container element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -1051,7 +1052,7 @@ The errors container element.
 
 Each error item element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
 
@@ -1059,7 +1060,7 @@ Each error item element.
 
 The messages container element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -1067,7 +1068,7 @@ The messages container element.
 
 Each message item element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
 <!-- @parts-end -->

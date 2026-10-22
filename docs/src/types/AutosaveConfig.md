@@ -18,7 +18,9 @@ type AutosaveConfig<TContext = any> = {
   /**
    * Form events that trigger a remote save (e.g. `change`, `next`, `step`,
    * `tab`). Any form event name is accepted. Defaults to `['change']` — the
-   * form saves shortly after its data changes.
+   * form saves shortly after its data changes. Listing `step` alongside
+   * `next`/`back` wires only `step` (it fires on every step navigation, both
+   * directions) — one navigation never triggers two saves.
    */
   on?: AutosaveOnProp
 
@@ -33,7 +35,7 @@ type AutosaveConfig<TContext = any> = {
    * Debounce delay in milliseconds applied when `on` includes `'change'`.
    * Defaults to `1000`.
    */
-  delay?: number
+  debounce?: number
 
   /**
    * Whether remote saves are sent while the form is invalid. Defaults to

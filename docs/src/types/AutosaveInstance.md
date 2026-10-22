@@ -16,6 +16,16 @@ type AutosaveInstance = {
   autosave: (options?: { invalid?: boolean }) => Promise<void>
 
   /**
+   * Saves the current model snapshot to storage immediately, bypassing the
+   * debounce (async because a configured `$security.encrypt` may be). Unlike
+   * the automatic saves, a manual call fires no `saveDraft` pre-hook — calling
+   * it is_ the consent (`draftSaved` still fires). Resolves whether a draft
+   * was written — `false` when drafts are inactive, or the write was
+   * superseded or failed.
+   */
+  saveDraft: () => Promise<boolean>
+
+  /**
    * Resolves the stored draft data without loading it into the form, or
    * `undefined` when there's nothing (valid) stored (async because a
    * configured `$security.decrypt` may be).
