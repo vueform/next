@@ -501,11 +501,13 @@ export type ModelInstance<TSchema = FormSchema> = {
   readonly invalid: boolean
 
   /**
-   * Aggregated error messages from every validated element. While attached,
-   * flattened from the attaching form's path-keyed errors (message-bag and
-   * server errors included).
+   * Validation errors keyed by element path — the same shape the form
+   * context, submit results, and server errors use. While attached, the
+   * attaching form's map (message-bag and server errors included). Flat
+   * message lists live on element contexts (`find(path).errors`) or derive
+   * from `issues`.
    */
-  readonly errors: string[]
+  readonly errors: Record<string, string[]>
 
   /**
    * Structured validation issues from every validated element (and the
@@ -633,7 +635,10 @@ export type ModelInstance<TSchema = FormSchema> = {
 
   /**
    * The number of times a submission has been started — the attaching form's
-   * counter while attached, the instance's own otherwise.
+   * counter while attached, the instance's own otherwise. Counters are
+   * per-attachment: when a form unmounts, its final count carries over to the
+   * detached instance, and attaching a different form starts from that form's
+   * own (fresh) counter.
    */
   readonly submits: number
 

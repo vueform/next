@@ -1188,6 +1188,10 @@ export function useData(options: UseDataOptions) {
   const clean = () => {
     if (isContainer.value) {
       statefulChildren$.value.forEach(({ clean }) => clean())
+      // The form root's `dirty` compares against the store baseline, which
+      // the per-element re-snapshots above never touch — without this the
+      // form stays dirty after `clean()`.
+      rootModel?.store.clean()
     } else {
       initialModel.value = clone(model.value)
     }
@@ -1447,7 +1451,7 @@ export function useData(options: UseDataOptions) {
         ...node.props,
         default: options.default?.value,
         untrackOn: (context$.props as any)?.untrackOn,
-        expressions: (context$.props as any)?.expressions,
+        noExpressions: (context$.props as any)?.noExpressions,
       }
     }
 

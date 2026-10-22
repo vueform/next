@@ -242,7 +242,7 @@ describe('useModel submission', () => {
 
     expect(result).toEqual(oc({ type: 'invalid', source: 'server' }))
     expect(serverInvalid).toHaveLength(1)
-    expect(model$.errors).toContain('Taken')
+    expect(model$.errors.name).toContain('Taken')
     expect(model$.issues).toContainEqual({
       path: 'name',
       rule: 'server',
@@ -251,7 +251,7 @@ describe('useModel submission', () => {
 
     await model$.validate()
 
-    expect(model$.errors).not.toContain('Taken')
+    expect(model$.errors.name ?? []).not.toContain('Taken')
   })
 
   it('updates the model from the response with setResponse and transformResponse', async () => {

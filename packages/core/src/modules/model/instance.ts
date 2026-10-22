@@ -309,7 +309,8 @@ function makeModel(
       return store.initialModel.value
     },
     get dirty() {
-      return store.dirty.value
+      const c = ctx()
+      return c ? !!c.dirty : store.dirty.value
     },
     get empty() {
       return engine.empty.value
@@ -329,18 +330,13 @@ function makeModel(
       return c ? !!c.invalid : engine.invalid.value
     },
     get errors() {
-      const formErrors = ctx()?.errors
-      if (formErrors) {
-        // The mounted form keys errors by element path; the instance's flat
-        // list mirrors element-context semantics, so flatten.
-        return Object.values(
-          formErrors as Record<string, string[]>
-        ).flat() as string[]
+      const c = ctx()
+      if (c) return c.errors
+      const result = errorsByPath()
+      for (const [path, messages] of Object.entries(serverErrors.value)) {
+        ;(result[path] ??= []).push(...messages)
       }
-      const server = Object.values(serverErrors.value).flat()
-      return server.length
-        ? [...engine.errors.value, ...server]
-        : engine.errors.value
+      return result
     },
     get issues() {
       const formIssues = ctx()?.issues

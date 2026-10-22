@@ -417,7 +417,9 @@ describe('Standard Schema', () => {
 
       expect(valid).toBe(false)
       expect(model$.invalid).toBe(true)
-      expect(model$.errors).toContain('Passwords must match')
+      expect(Object.values(model$.errors).flat()).toContain(
+        'Passwords must match'
+      )
     })
 
     it('should pick up a Standard Schema attached via defineSchema', async () => {
@@ -436,7 +438,9 @@ describe('Standard Schema', () => {
       const valid = await model$.validate()
 
       expect(valid).toBe(false)
-      expect(model$.errors).toContain('Passwords must match')
+      expect(Object.values(model$.errors).flat()).toContain(
+        'Passwords must match'
+      )
     })
 
     it('should be picked up by a form attaching the model instance', async () => {
@@ -507,7 +511,9 @@ describe('Standard Schema', () => {
       await model$.validate()
 
       expect(
-        model$.errors.filter((e: string) => e === 'Form is invalid').length
+        Object.values(model$.errors)
+          .flat()
+          .filter((e: string) => e === 'Form is invalid').length
       ).toBe(1)
     })
 
@@ -534,7 +540,9 @@ describe('Standard Schema', () => {
         form$.issues.filter((i: any) => i.message === 'Form is invalid').length
       ).toBe(1)
       expect(
-        model$.errors.filter((e: string) => e === 'Form is invalid').length
+        Object.values(model$.errors)
+          .flat()
+          .filter((e: string) => e === 'Form is invalid').length
       ).toBe(1)
     })
 
@@ -624,7 +632,9 @@ describe('Standard Schema', () => {
       await flushPromises()
 
       expect(
-        model$.errors.filter((e: string) => e === 'Passwords must match').length
+        Object.values(model$.errors)
+          .flat()
+          .filter((e: string) => e === 'Passwords must match').length
       ).toBe(1)
       expect(
         form$.issues.filter((i: any) => i.message === 'Passwords must match')
@@ -724,7 +734,7 @@ describe('Standard Schema', () => {
 
       expect(valid).toBe(false)
       expect(model$.invalid).toBe(true)
-      expect(model$.errors).toContain('Invalid email zod')
+      expect(Object.values(model$.errors).flat()).toContain('Invalid email zod')
     })
   })
 

@@ -53,7 +53,7 @@ describe('Form flip: mounted registration claims index nodes', () => {
 
     // Mounted validation lives on the nodes, so the instance sees it directly.
     expect(model$.invalid).toBe(true)
-    expect(model$.errors).toEqual([
+    expect(Object.values(model$.errors).flat()).toEqual([
       ...mounted.name.errors,
       ...mounted.email.errors,
     ])
@@ -88,7 +88,7 @@ describe('Form flip: mounted registration claims index nodes', () => {
 
     model$.set('email', 'still-not-an-email')
     expect(await model$.validate()).toBe(false)
-    expect(model$.errors).toHaveLength(1)
+    expect(Object.values(model$.errors).flat()).toHaveLength(1)
   })
 
   it('fills a plain form’s index entirely by registration', async () => {

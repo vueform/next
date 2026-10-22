@@ -4,6 +4,7 @@ import {
   clone,
   equals,
   get as getByPath,
+  isDev,
   isEmptyValue,
   isPlainObject,
   mergeOrReplace,
@@ -284,7 +285,19 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
 
   const releaseListeners = new Set<(context$: any) => void>()
 
+  // The ref wraps stored contexts in a reactive proxy, so identity checks
+  // against the raw context$ must unwrap both sides.
+  const sameContext = (context$: any) =>
+    toRaw(attachingContext.value) === toRaw(context$)
+
   const attach = (context$: any) => {
+    if (isDev() && attachingContext.value && !sameContext(context$)) {
+      warn(
+        'This model instance is already attached to a form. Attach one ' +
+          'form at a time — the last attached form wins; for a second ' +
+          'simultaneous form, give it its own instance.'
+      )
+    }
     attached.value = true
     attachingContext.value = context$
   }
@@ -299,7 +312,12 @@ export function makeModelStore(options: ModelStoreOptions = {}) {
     }
   }
 
-  const release = () => {
+  const release = (context$?: any) => {
+    // Identity-guarded: an earlier form's unmount must not detach the form
+    // that attached after it (last-attached wins, so only the current
+    // attacher may release).
+    if (context$ !== undefined && !sameContext(context$)) return
+
     const releasing = attachingContext.value
     attached.value = false
     attachingContext.value = null

@@ -49,7 +49,7 @@ describe('Headless model engine parity', () => {
       expectElementParity(mounted[path], model$.find(path))
     }
 
-    expect([...model$.errors].sort()).toEqual(
+    expect(Object.values(model$.errors).flat().sort()).toEqual(
       [
         ...mounted.name.errors,
         ...mounted.email.errors,
@@ -76,7 +76,7 @@ describe('Headless model engine parity', () => {
 
     expect(headlessValid).toBe(true)
     expect(model$.invalid).toBe(false)
-    expect(model$.errors).toEqual([])
+    expect(model$.errors).toEqual({})
     expect(mounted.form$.invalid).toBe(false)
   })
 
@@ -250,11 +250,11 @@ describe('Headless model engine parity', () => {
     expect(translated$.model).toEqual({ title: { en: 'Hello', de: null } })
 
     expect(await translated$.validate()).toBe(false)
-    expect(translated$.errors).toHaveLength(1)
+    expect(Object.values(translated$.errors).flat()).toHaveLength(1)
 
     translated$.set('title.de', 'Hallo')
     expect(await translated$.validate()).toBe(true)
-    expect(translated$.errors).toEqual([])
+    expect(translated$.errors).toEqual({})
   })
 
   it('produces identical error messages to the mounted form', async () => {

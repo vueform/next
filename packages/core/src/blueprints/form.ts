@@ -62,7 +62,6 @@ import type {
   BaseComponentClasses,
   BaseComponentBindings,
   ErrorLevelProp,
-  ExpressionsProp,
   LanguagesProp,
   RuleMessagesProp,
   ScrollTopOnProp,
@@ -348,11 +347,10 @@ export interface FormProps<
   tokens?: ThemeTokens
 
   /**
-   * Controls which props allow dynamic expression resolution. Set to `false` to
-   * disable all expression evaluation, `true` to enable for all expressionable
-   * props, or an array of prop keys to enable selectively.
+   * Disables expression resolution for the form and every element in it.
+   * Elements cannot override it with their own `noExpressions: false`.
    */
-  expressions?: ExpressionsProp
+  noExpressions?: boolean
 
   /**
    * Form-level expression constants. Each value is a TProp that is resolved and
@@ -892,7 +890,7 @@ function setup(
     config,
     languages: () => languages.value,
     consts: () => resolvedConsts.value,
-    expressions: () => props.expressions,
+    noExpressions: () => props.noExpressions,
   })
 
   /**
@@ -1078,7 +1076,16 @@ function setup(
 
   if (isDev() && props.validationSchema) {
     const attached = getAttachedValidationSchema(props.schema)
-    if (attached && attached !== props.validationSchema) {
+    // When an attached instance carries the same explicit schema (the useForm
+    // path hands it to both), its creation already warned — don't repeat it.
+    const instanceAlreadyWarned =
+      modelModule.hasModelStore(props.modelValue) &&
+      props.modelValue.validationSchema === props.validationSchema
+    if (
+      attached &&
+      attached !== props.validationSchema &&
+      !instanceAlreadyWarned
+    ) {
       warn(
         'The `validationSchema` prop overrides the Standard ' +
           "Schema attached via `defineSchema`'s second argument"
@@ -1198,6 +1205,10 @@ function setup(
    * primitive and made available to the expression evaluation scope.
    */
   const resolvedConsts = computed(() => {
+    // `$expression.localConsts: false` withholds form-defined consts entirely
+    // — only `$expression.consts` entries remain available.
+    if (config.$expression?.localConsts === false) return undefined
+
     const raw = props.consts
     if (!raw) return undefined
     const registered = config.$expression?.consts
@@ -1712,7 +1723,6 @@ export const defaults = defineDefaults<FormProps>()({
   method: 'POST',
   dark: undefined,
   navPos: 'auto',
-  expressions: undefined,
 
   showRequired: () => ['label'],
   scrollTopOn: () => ['always'],

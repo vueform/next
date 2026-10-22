@@ -125,7 +125,7 @@ describe('Reactive schema (useModel with a ref)', () => {
     await nextTick()
 
     expect(await model$.validate()).toBe(false)
-    expect(model$.errors[0]).toContain('Email')
+    expect(Object.values(model$.errors).flat()[0]).toContain('Email')
 
     schema.value = {
       email: { type: 'text' },
@@ -133,7 +133,7 @@ describe('Reactive schema (useModel with a ref)', () => {
     await nextTick()
 
     expect(await model$.validate()).toBe(true)
-    expect(model$.errors).toEqual([])
+    expect(model$.errors).toEqual({})
   })
 
   it('applies changed conditions to availability and payload', async () => {

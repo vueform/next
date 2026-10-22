@@ -62,6 +62,7 @@ describe('useModel model inference', () => {
 
   test('unwrapped reactive state — plain values, no refs', () => {
     expectTypeOf(model$.dirty).toEqualTypeOf<boolean>()
+    expectTypeOf(model$.errors).toEqualTypeOf<Record<string, string[]>>()
     expectTypeOf(model$.empty).toEqualTypeOf<boolean>()
     expectTypeOf(model$.attached).toEqualTypeOf<boolean>()
     expectTypeOf(model$.initialModel).toEqualTypeOf<Model>()

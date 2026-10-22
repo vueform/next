@@ -355,7 +355,7 @@ export function makeRootModel(options: MakeRootModelOptions): RootModel {
     binding.destroy()
 
     if (attached) {
-      store.release()
+      store.release(context$)
     } else {
       store.destroy()
     }
