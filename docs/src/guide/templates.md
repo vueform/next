@@ -528,11 +528,11 @@ Each listener has its own job:
 
 The same shape covers every kind of control — bind `handleInput` to whatever event means _"the user changed it"_:
 
-| Markup                           | Value             | Report                              |
-| -------------------------------- | ----------------- | ----------------------------------- |
-| Native text-like input           | `v-model="value"` | `@input="handleInput"`              |
-| Native checkbox / radio / select | `v-model="value"` | `@change="handleInput"`             |
-| Vue component                    | `v-model="value"` | `@update:model-value="handleInput"` |
+| Markup | Value | Report |
+| --- | --- | --- |
+| Native text-like input | `v-model="value"` | `@input="handleInput"` |
+| Native checkbox / radio / select | `v-model="value"` | `@change="handleInput"` |
+| Vue component | `v-model="value"` | `@update:model-value="handleInput"` |
 
 Without `v-model` — a render function, a `:value`-bound input — the same `handleInput` also performs the write: it accepts the new value directly or the native event carrying it (read the way `v-model` reads it: `checked` mapped onto the true/false values for checkboxes, the bound `:value` of radios and options, numbers for `type="number"`), and writes it to the model only when the model doesn't hold it yet:
 

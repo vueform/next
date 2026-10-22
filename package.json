@@ -19,7 +19,7 @@
     "docs:preview": "pnpm --filter @vueform/docs run preview",
     "eslint": "vpr :eslint",
     "fix": "tsx scripts/fix.ts",
-    "fmt": "vp fmt",
+    "fmt": "vp fmt && vpr :fmt:md",
     "lint": "vpr :lint",
     "lslint": "vpr :lslint",
     "manifests": "vpr :manifests",
@@ -109,6 +109,9 @@
     ],
     "*.{json,yml,yaml}": [
       "pnpm vp fmt"
+    ],
+    "*.md": [
+      "pnpm tsx scripts/compact-md-tables.ts"
     ]
   },
   "engines": {

@@ -38,14 +38,14 @@ const createUser = async () => {
 
 Each shorthand returns a `Promise<HttpResponse<T>>`:
 
-| Method                             | Signature                                      |
-| ---------------------------------- | ---------------------------------------------- |
-| `$http.get(url, config?)`          | GET request, no body.                          |
-| `$http.post(url, data?, config?)`  | POST with optional body.                       |
-| `$http.put(url, data?, config?)`   | PUT with optional body.                        |
-| `$http.patch(url, data?, config?)` | PATCH with optional body.                      |
-| `$http.delete(url, config?)`       | DELETE request, no body.                       |
-| `$http.request(config)`            | Full request driven by an `HttpRequestConfig`. |
+| Method | Signature |
+| --- | --- |
+| `$http.get(url, config?)` | GET request, no body. |
+| `$http.post(url, data?, config?)` | POST with optional body. |
+| `$http.put(url, data?, config?)` | PUT with optional body. |
+| `$http.patch(url, data?, config?)` | PATCH with optional body. |
+| `$http.delete(url, config?)` | DELETE request, no body. |
+| `$http.request(config)` | Full request driven by an `HttpRequestConfig`. |
 
 The last argument is a partial `HttpRequestConfig` overriding the global defaults for that one call:
 
@@ -236,13 +236,13 @@ try {
 }
 ```
 
-| `reason`    | When                                                          |
-| ----------- | ------------------------------------------------------------- |
-| `'http'`    | The server responded with a non-`2xx` status.                 |
+| `reason` | When |
+| --- | --- |
+| `'http'` | The server responded with a non-`2xx` status. |
 | `'network'` | The request never reached the server (DNS, offline, CORS, …). |
-| `'timeout'` | The configured `timeout` elapsed.                             |
-| `'abort'`   | The request was cancelled via an `AbortSignal`.               |
-| `'unknown'` | Catch-all for unexpected adapter failures.                    |
+| `'timeout'` | The configured `timeout` elapsed. |
+| `'abort'` | The request was cancelled via an `AbortSignal`. |
+| `'unknown'` | Catch-all for unexpected adapter failures. |
 
 ::: tip
 Inside an `endpoint` function or `@submit` handler you don't need to catch `HttpError` yourself — Vueform catches it and turns it into the appropriate [submit result](/guide/submit#submit-result) (`invalid` for `422`, `fail` otherwise).

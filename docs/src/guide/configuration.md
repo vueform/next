@@ -402,12 +402,12 @@ createVueform({
 
 Options controlling how Vueform emits its CSS:
 
-| Option           | Default           | Description                                                                                                                                                                                       |
-| ---------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `styleId`        | `'vueform-theme'` | The `id` of the injected `<style>` tag.                                                                                                                                                           |
-| `scopedDarkMode` | `false`           | Generates extra scoped CSS re-declaring all theme tokens under `darkClass` / `lightClass`, so the `dark` prop on `!VfForm` can toggle dark mode per form in any environment. Adds ~5–10 KB of CSS. |
-| `darkClass`      | `'vf-dark'`       | Class applied to forms with `:dark="true"` when `scopedDarkMode` is on.                                                                                                                           |
-| `lightClass`     | `'vf-light'`      | Class applied to forms with `:dark="false"` when `scopedDarkMode` is on.                                                                                                                          |
+| Option | Default | Description |
+| --- | --- | --- |
+| `styleId` | `'vueform-theme'` | The `id` of the injected `<style>` tag. |
+| `scopedDarkMode` | `false` | Generates extra scoped CSS re-declaring all theme tokens under `darkClass` / `lightClass`, so the `dark` prop on `!VfForm` can toggle dark mode per form in any environment. Adds ~5–10 KB of CSS. |
+| `darkClass` | `'vf-dark'` | Class applied to forms with `:dark="true"` when `scopedDarkMode` is on. |
+| `lightClass` | `'vf-light'` | Class applied to forms with `:dark="false"` when `scopedDarkMode` is on. |
 
 ```ts
 createVueform({
@@ -587,10 +587,10 @@ Each module reads its own options from a matching `$`-prefixed config key — th
 - Type: `ConditionsModuleOptions`
 - Default: `{}`
 
-| Field      | Default | Description                                                                                           |
-| ---------- | ------- | ----------------------------------------------------------------------------------------------------- |
-| `strict`   | `false` | Use [strict comparisons](/guide/conditions#strict-comparisons) when evaluating structured conditions. |
-| `debounce` | `300`   | Debounce in ms before re-evaluating async conditional props when their trigger source changes.        |
+| Field | Default | Description |
+| --- | --- | --- |
+| `strict` | `false` | Use [strict comparisons](/guide/conditions#strict-comparisons) when evaluating structured conditions. |
+| `debounce` | `300` | Debounce in ms before re-evaluating async conditional props when their trigger source changes. |
 
 ```ts
 createVueform({
@@ -618,14 +618,14 @@ createVueform({
 
 Options for the [expression](/guide/expressions) system:
 
-| Field       | Default                 | Description                                                              |
-| ----------- | ----------------------- | ------------------------------------------------------------------------ |
-| `enabled`   | `true`                  | Turns the expression system off entirely when `false`.                   |
-| `trigger`   | all expressionable keys | Allow-list of prop keys where expressions resolve.                       |
-| `functions` | `{}`                    | Custom expression functions keyed by name.                               |
-| `consts`    | `{}`                    | Custom expression constants keyed by name.                               |
-| `debug`     | `false`                 | Log expression parse/evaluation warnings.                                |
-| `adapter`   | path interpolation      | The engine — the [expr-eval plugin](/plugins/expr-eval) sets a full one. |
+| Field | Default | Description |
+| --- | --- | --- |
+| `enabled` | `true` | Turns the expression system off entirely when `false`. |
+| `trigger` | all expressionable keys | Allow-list of prop keys where expressions resolve. |
+| `functions` | `{}` | Custom expression functions keyed by name. |
+| `consts` | `{}` | Custom expression constants keyed by name. |
+| `debug` | `false` | Log expression parse/evaluation warnings. |
+| `adapter` | path interpolation | The engine — the [expr-eval plugin](/plugins/expr-eval) sets a full one. |
 
 ```ts
 createVueform({
@@ -654,19 +654,19 @@ createVueform({
 })
 ```
 
-| Option            | Type                                                        | Default            | Description                                            |
-| ----------------- | ----------------------------------------------------------- | ------------------ | ------------------------------------------------------ |
-| `baseURL`         | `string`                                                    | —                  | Prepended to relative URLs.                            |
-| `headers`         | `Record<string, string>`                                    | `{}`               | Default headers merged into every request.             |
-| `timeout`         | `number`                                                    | `0`                | Request timeout in ms; `0` disables.                   |
-| `requestType`     | `'json' \| 'form' \| 'multipart' \| 'text' \| 'urlencoded'` | `'json'`           | Default body encoding.                                 |
-| `responseType`    | `'json' \| 'text' \| 'blob' \| 'arrayBuffer'`               | `'json'`           | Expected response body type.                           |
-| `withCredentials` | `boolean`                                                   | `false`            | Include cookies on cross-origin requests.              |
-| `base64`          | `boolean`                                                   | `false`            | Convert `File`/`Blob` values to base64 in JSON bodies. |
-| `defaultMethod`   | `string`                                                    | `'GET'`            | Method when none is given per request.                 |
-| `onRequest`       | `RequestInterceptor[]`                                      | `[]`               | Global request interceptors.                           |
-| `onResponse`      | `ResponseInterceptor[]`                                     | `[]`               | Global response interceptors.                          |
-| `adapter`         | `HttpAdapter`                                               | `fetchHttpAdapter` | The client behind every request.                       |
+| Option | Type | Default | Description |
+| --- | --- | --- | --- |
+| `baseURL` | `string` | — | Prepended to relative URLs. |
+| `headers` | `Record<string, string>` | `{}` | Default headers merged into every request. |
+| `timeout` | `number` | `0` | Request timeout in ms; `0` disables. |
+| `requestType` | `'json' \| 'form' \| 'multipart' \| 'text' \| 'urlencoded'` | `'json'` | Default body encoding. |
+| `responseType` | `'json' \| 'text' \| 'blob' \| 'arrayBuffer'` | `'json'` | Expected response body type. |
+| `withCredentials` | `boolean` | `false` | Include cookies on cross-origin requests. |
+| `base64` | `boolean` | `false` | Convert `File`/`Blob` values to base64 in JSON bodies. |
+| `defaultMethod` | `string` | `'GET'` | Method when none is given per request. |
+| `onRequest` | `RequestInterceptor[]` | `[]` | Global request interceptors. |
+| `onResponse` | `ResponseInterceptor[]` | `[]` | Global response interceptors. |
+| `adapter` | `HttpAdapter` | `fetchHttpAdapter` | The client behind every request. |
 
 Per-request config overrides these; headers merge. See [HTTP Requests](/guide/http) for interceptors and adapter swaps.
 
@@ -690,11 +690,11 @@ createVueform({
 
 Options for [browser-history integration](/guide/multi-page-forms#browser-history) in multi-page forms:
 
-| Field        | Default       | Description                                                                      |
-| ------------ | ------------- | -------------------------------------------------------------------------------- |
-| `queryParam` | —             | Encode the active step as this query parameter instead of a path segment.        |
-| `router`     | auto-detected | The vue-router instance, or `false` to disable auto-detection.                   |
-| `adapter`    | built-in      | Custom router integration replacing the vue-router / `pushState` implementation. |
+| Field | Default | Description |
+| --- | --- | --- |
+| `queryParam` | — | Encode the active step as this query parameter instead of a path segment. |
+| `router` | auto-detected | The vue-router instance, or `false` to disable auto-detection. |
+| `adapter` | built-in | Custom router integration replacing the vue-router / `pushState` implementation. |
 
 ```ts
 createVueform({
@@ -709,15 +709,15 @@ createVueform({
 
 Options for the [security module](/guide/security):
 
-| Field             | Type                                 | Default | Description                                                                                                                                                                                                                                                                                                                                                                                                                 |
-| ----------------- | ------------------------------------ | ------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `sanitizer`       | `SecuritySanitizer`                  | —       | The sanitization engine — `(html: string) => string`; HTML in `allowHtml` areas always renders through it. The [DOMPurify plugin](/plugins/dompurify) installs one. Unset: raw + dev warning in development, **empty in production**; an identity function is the conscious opt-out.                                                                                                                                        |
-| `encrypt`         | `SecurityCipher`                     | —       | Encrypts values before features persist them — currently [local autosave drafts](/guide/autosave#encrypting-drafts). May be async.                                                                                                                                                                                                                                                                                          |
-| `decrypt`         | `SecurityCipher`                     | —       | The inverse, applied when persisted values are read back. A throw marks the value unreadable.                                                                                                                                                                                                                                                                                                                               |
-| `allowOrigins`    | `string[]`                           | `[]`    | Additional **cross-origin** destinations requests may target, as absolute origins. The app's own origin and the `$http.baseURL` origin always pass; everything else is rejected before the request is sent unless listed. Wildcards: `'https://*.example.com'` (any subdomain, never the apex) and `'https://example.com:*'` (any port); `['*']` removes the restriction.                                                   |
-| `allowComponents` | `string[]`                           | `[]`    | The globally registered component names a schema string may resolve to — in `slots` entries, the [`template`](/guide/templates#by-name) prop, the `layout` prop, and an element's `component` key (form entries, flat list prototypes, grid cell and matrix column schemas alike). A name outside the list is ignored with a dev warning; `Vf*` names derived from `type` are exempt.                                       |
-| `allowHtml`       | `('content' \| 'grid' \| 'slots')[]` | `[]`    | The areas where strings may render as HTML: `VfContent`'s `content`, grid string cells, and [`slots`](/guide/slots#string-content) entries. An area not listed renders its strings as escaped text with a dev warning.                                                                                                                                                                                                      |
-| `banProps`        | `(string \| RegExp)[]`               | `[]`    | Keys dropped (in every value form) from schema-reachable prop bags — schema entries, `parts` bags, grid cell `attrs`. Strings match case-insensitively, RegExps test the original key. Only `innerHTML`/`outerHTML` and prototype keys are always dropped; **configure at least `[/^on/i, 'srcdoc']` when schemas are untrusted**. Dropped entries warn in development. See [Banning Props](/guide/security#banning-props). |
+| Field | Type | Default | Description |
+| --- | --- | --- | --- |
+| `sanitizer` | `SecuritySanitizer` | — | The sanitization engine — `(html: string) => string`; HTML in `allowHtml` areas always renders through it. The [DOMPurify plugin](/plugins/dompurify) installs one. Unset: raw + dev warning in development, **empty in production**; an identity function is the conscious opt-out. |
+| `encrypt` | `SecurityCipher` | — | Encrypts values before features persist them — currently [local autosave drafts](/guide/autosave#encrypting-drafts). May be async. |
+| `decrypt` | `SecurityCipher` | — | The inverse, applied when persisted values are read back. A throw marks the value unreadable. |
+| `allowOrigins` | `string[]` | `[]` | Additional **cross-origin** destinations requests may target, as absolute origins. The app's own origin and the `$http.baseURL` origin always pass; everything else is rejected before the request is sent unless listed. Wildcards: `'https://*.example.com'` (any subdomain, never the apex) and `'https://example.com:*'` (any port); `['*']` removes the restriction. |
+| `allowComponents` | `string[]` | `[]` | The globally registered component names a schema string may resolve to — in `slots` entries, the [`template`](/guide/templates#by-name) prop, the `layout` prop, and an element's `component` key (form entries, flat list prototypes, grid cell and matrix column schemas alike). A name outside the list is ignored with a dev warning; `Vf*` names derived from `type` are exempt. |
+| `allowHtml` | `('content' \| 'grid' \| 'slots')[]` | `[]` | The areas where strings may render as HTML: `VfContent`'s `content`, grid string cells, and [`slots`](/guide/slots#string-content) entries. An area not listed renders its strings as escaped text with a dev warning. |
+| `banProps` | `(string \| RegExp)[]` | `[]` | Keys dropped (in every value form) from schema-reachable prop bags — schema entries, `parts` bags, grid cell `attrs`. Strings match case-insensitively, RegExps test the original key. Only `innerHTML`/`outerHTML` and prototype keys are always dropped; **configure at least `[/^on/i, 'srcdoc']` when schemas are untrusted**. Dropped entries warn in development. See [Banning Props](/guide/security#banning-props). |
 
 HTML rendering and component names are gated because schemas often come from outside the app — see [Untrusted Schemas](/guide/security#untrusted-schemas):
 

@@ -156,14 +156,14 @@ The four words naming the outcomes — `success`, `invalid`, `fail`, `cancelled`
 
 Every attempt is tracked through a handful of reactive properties:
 
-| Property     | Type                        | Description                                                                                      |
-| ------------ | --------------------------- | ------------------------------------------------------------------------------------------------ |
-| `submitting` | `boolean`                   | `true` while the HTTP request is in flight.                                                      |
-| `validating` | `boolean`                   | `true` while the submit-time validation runs.                                                    |
-| `loading`    | `boolean`                   | `true` while the `loading` prop is set or any element's async rules are pending or debouncing.   |
-| `submits`    | `number`                    | The number of attempts so far. Every `submit()` call counts, including [gated](#gates) ones.     |
-| `result`     | `SubmitResult \| undefined` | The last attempt's [result](#the-result).                                                        |
-| `response`   | `HttpResponse \| undefined` | The last attempt's raw HTTP response.                                                            |
+| Property | Type | Description |
+| --- | --- | --- |
+| `submitting` | `boolean` | `true` while the HTTP request is in flight. |
+| `validating` | `boolean` | `true` while the submit-time validation runs. |
+| `loading` | `boolean` | `true` while the `loading` prop is set or any element's async rules are pending or debouncing. |
+| `submits` | `number` | The number of attempts so far. Every `submit()` call counts, including [gated](#gates) ones. |
+| `result` | `SubmitResult \| undefined` | The last attempt's [result](#the-result). |
+| `response` | `HttpResponse \| undefined` | The last attempt's raw HTTP response. |
 
 Read them via the form context ([`form$` / `formReady`](/guide/context#form-context)) or, headlessly, via [`!useModel`](/guide/model#the-model-api).
 
@@ -171,11 +171,11 @@ Read them via the form context ([`form$` / `formReady`](/guide/context#form-cont
 
 Three states stop a submission before it starts. Each resolves `submit()` with a [`cancelled`](#the-result) result carrying the matching reason and fires the `@cancelled` event — no validation, no request:
 
-| State        | Cancel reason  | When                                                                                     |
-| ------------ | -------------- | ----------------------------------------------------------------------------------------- |
-| `loading`    | `'loading'`    | The [`loading`](/components/VfForm#props.loading) prop is set, or an element's async rules are pending or debouncing.          |
-| `disabled`   | `'disabled'`   | The [`disabled`](/components/VfForm#props.disabled) prop resolves to `true`.   |
-| `submitting` | `'submitting'` | A previous attempt hasn't finished yet. This is the built-in double-submit protection.     |
+| State | Cancel reason | When |
+| --- | --- | --- |
+| `loading` | `'loading'` | The [`loading`](/components/VfForm#props.loading) prop is set, or an element's async rules are pending or debouncing. |
+| `disabled` | `'disabled'` | The [`disabled`](/components/VfForm#props.disabled) prop resolves to `true`. |
+| `submitting` | `'submitting'` | A previous attempt hasn't finished yet. This is the built-in double-submit protection. |
 
 The `loading` gate doubles as a tool. When a form is populated from another request, keep `loading` set until the data lands, and a half-filled form can't be submitted:
 
@@ -396,15 +396,15 @@ result.data     // the response body, or null
 result.response // the HttpResponse, or null
 ```
 
-| Reason      | Meaning                                                                                      |
-| ----------- | --------------------------------------------------------------------------------------------- |
-| `'network'` | The request got no response — connection refused, DNS failure, offline.                        |
-| `'timeout'` | The request timed out.                                                                         |
-| `'http'`    | The server responded with a non-`2xx` status other than `422`.                                 |
-| `'abort'`   | [`abort()`](#aborting) cancelled the in-flight request.                                        |
-| `'blocked'` | The target origin isn't allowed by [`allowOrigins`](/guide/security#request-origins).          |
-| `'ssr'`     | The request was attempted during server-side rendering.                                        |
-| `'unknown'` | Anything that fits none of the above.                                                          |
+| Reason | Meaning |
+| --- | --- |
+| `'network'` | The request got no response — connection refused, DNS failure, offline. |
+| `'timeout'` | The request timed out. |
+| `'http'` | The server responded with a non-`2xx` status other than `422`. |
+| `'abort'` | [`abort()`](#aborting) cancelled the in-flight request. |
+| `'blocked'` | The target origin isn't allowed by [`allowOrigins`](/guide/security#request-origins). |
+| `'ssr'` | The request was attempted during server-side rendering. |
+| `'unknown'` | Anything that fits none of the above. |
 <!-- @todo: unknown could be just a plain `undefined` -->
 
 ### `cancelled`
@@ -425,14 +425,14 @@ With no `endpoint` configured and no handler producing a response, there is noth
 
 Awaiting `submit()` is one way to learn the outcome; the other is listening on the form. Each outcome fires an event carrying the same result object the promise resolves with:
 
-| Event            | Fires when                                                                    | Argument              |
-| ---------------- | ------------------------------------------------------------------------------ | --------------------- |
-| `@response`      | An HTTP response was received — on success **and** on error.                    | `HttpResponse`        |
-| `@success`       | The request completed with `2xx`.                                               | `SubmitSuccess`       |
-| `@clientInvalid` | Validation failed on the client — nothing was sent.                             | `SubmitClientInvalid` |
-| `@serverInvalid` | The server responded with `422`.                                                | `SubmitServerInvalid` |
-| `@fail`          | The request failed — network, timeout, abort, any other non-`2xx` status.       | `SubmitFail`          |
-| `@cancelled`     | A [gate](#gates) blocked the attempt, or a handler returned `false`.            | `SubmitCancelled`     |
+| Event | Fires when | Argument |
+| --- | --- | --- |
+| `@response` | An HTTP response was received — on success **and** on error. | `HttpResponse` |
+| `@success` | The request completed with `2xx`. | `SubmitSuccess` |
+| `@clientInvalid` | Validation failed on the client — nothing was sent. | `SubmitClientInvalid` |
+| `@serverInvalid` | The server responded with `422`. | `SubmitServerInvalid` |
+| `@fail` | The request failed — network, timeout, abort, any other non-`2xx` status. | `SubmitFail` |
+| `@cancelled` | A [gate](#gates) blocked the attempt, or a handler returned `false`. | `SubmitCancelled` |
 
 `@response` always precedes the outcome event, handing you the raw `HttpResponse` before any classification — and it only fires when a response was actually received, so never for aborted requests or client-side failures.
 
@@ -614,12 +614,12 @@ const handleEndpoint = async (payload, context$) => {
 
 The function receives the [payload](#what-gets-sent) and the form's [context](/guide/context), and its return value steers the rest of the lifecycle:
 
-| Return value   | Effect                                                                                                                                       |
-| -------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| Return value | Effect |
+| --- | --- |
 | `HttpResponse` | Used as the response — classification and result events follow from its status. This is what the example returns: `$http.post()` resolves with one. |
-| `string`       | Used as the endpoint URL — Vueform makes the request itself.                                                                                    |
-| `false`        | Cancels the attempt with reason `'prevented'`.                                                                                                  |
-| `void`         | Your function's work happened, but with nothing to classify, `submit()` resolves with `undefined` and no result events fire.                    |
+| `string` | Used as the endpoint URL — Vueform makes the request itself. |
+| `false` | Cancels the attempt with reason `'prevented'`. |
+| `void` | Your function's work happened, but with nothing to classify, `submit()` resolves with `undefined` and no result events fire. |
 
 ::: tip
 Make your requests with [`!useHttp`](/guide/http) so failures flow back into the pipeline — an `HttpError` thrown inside the function is caught and classified exactly like one from a string endpoint: a `422` becomes an [`invalid`](#the-result) result, a network failure becomes a `fail`.

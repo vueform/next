@@ -83,20 +83,20 @@ The middle part of a `[elementPath, operator, value]` condition decides how the 
 
 These compare the referenced element's value against the condition's `value` part:
 
-| Operator  | Meaning                                        |
-| --------- | ---------------------------------------------- |
-| `==`      | Equality.                                      |
-| `!=`      | Inequality.                                    |
-| `>`       | Greater than.                                  |
-| `>=`      | Greater than or equal.                         |
-| `<`       | Lower than.                                    |
-| `<=`      | Lower than or equal.                           |
+| Operator | Meaning |
+| --- | --- |
+| `==` | Equality. |
+| `!=` | Inequality. |
+| `>` | Greater than. |
+| `>=` | Greater than or equal. |
+| `<` | Lower than. |
+| `<=` | Lower than or equal. |
 | `between` | Between two numbers (exclusive): `[min, max]`. |
-| `^`       | Value starts with.                             |
-| `$`       | Value ends with.                               |
-| `*`       | Value contains substring.                      |
-| `in`      | Value is inside array.                         |
-| `not_in`  | Value is not inside array.                     |
+| `^` | Value starts with. |
+| `$` | Value ends with. |
+| `*` | Value contains substring. |
+| `in` | Value is inside array. |
+| `not_in` | Value is not inside array. |
 
 ```ts
 conditions: [['quantity', '>=', 100]]
@@ -108,9 +108,9 @@ conditions: [['coupon', '^', 'SAVE']]
 
 Two operators check whether the element has a value at all and take no third part:
 
-| Operator    | Meaning             |
-| ----------- | ------------------- |
-| `empty`     | Value is empty.     |
+| Operator | Meaning |
+| --- | --- |
+| `empty` | Value is empty. |
 | `not_empty` | Value is not empty. |
 
 ```ts
@@ -124,11 +124,11 @@ What counts as "empty" adapts to the value's type. Strings are empty when `''`, 
 
 Three operators compare dates. `before` and `after` expect a `YYYY-MM-DD` string or the keyword `today` as the third part; `today` stands alone and matches when the value is today's date:
 
-| Operator | Meaning                                  |
-| -------- | ---------------------------------------- |
+| Operator | Meaning |
+| --- | --- |
 | `before` | Value is before a given date or `today`. |
-| `after`  | Value is after a given date or `today`.  |
-| `today`  | Value equals today's date.               |
+| `after` | Value is after a given date or `today`. |
+| `today` | Value equals today's date. |
 
 ```ts
 conditions: [['event_date', 'after', 'today']]

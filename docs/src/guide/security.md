@@ -10,14 +10,14 @@ Vueform provides defense-in-depth on the client — CSP-compatible style injecti
 
 The protections Vueform itself provides live in one place: the `security` module, configured through the `$security` config key:
 
-| Option                                                          | Default | Controls                                                                                                                                                                                  |
-| --------------------------------------------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [`allowHtml`](#html-sanitization)                               | `[]`    | The areas where strings may render as **HTML** — `'content'`, `'grid'`, `'slots'`.                                                                                                        |
-| [`sanitizer`](#the-sanitize-step)                               | —       | The sanitization engine every allowed HTML area renders through. No built-in one — the [DOMPurify plugin](/plugins/dompurify) provides it; an identity function is the conscious opt-out. |
-| [`allowComponents`](#components-from-schemas)                   | `[]`    | The component names a schema string may resolve to.                                                                                                                                       |
-| [`banProps`](#banning-props)                                    | `[]`    | Attribute keys (strings or RegExps, e.g. `/^on/i`) to drop from schema-reachable attribute bags. Only `innerHTML`/`outerHTML` and prototype keys are built in.                            |
-| [`allowOrigins`](#request-origins)                              | `[]`    | Cross-origin destinations requests may target. Own origin allowed by default.                                                                                                             |
-| [`encrypt`](#draft-encryption) / [`decrypt`](#draft-encryption) | —       | Ciphers applied to persisted values, such as local autosave drafts.                                                                                                                       |
+| Option | Default | Controls |
+| --- | --- | --- |
+| [`allowHtml`](#html-sanitization) | `[]` | The areas where strings may render as **HTML** — `'content'`, `'grid'`, `'slots'`. |
+| [`sanitizer`](#the-sanitize-step) | — | The sanitization engine every allowed HTML area renders through. No built-in one — the [DOMPurify plugin](/plugins/dompurify) provides it; an identity function is the conscious opt-out. |
+| [`allowComponents`](#components-from-schemas) | `[]` | The component names a schema string may resolve to. |
+| [`banProps`](#banning-props) | `[]` | Attribute keys (strings or RegExps, e.g. `/^on/i`) to drop from schema-reachable attribute bags. Only `innerHTML`/`outerHTML` and prototype keys are built in. |
+| [`allowOrigins`](#request-origins) | `[]` | Cross-origin destinations requests may target. Own origin allowed by default. |
+| [`encrypt`](#draft-encryption) / [`decrypt`](#draft-encryption) | — | Ciphers applied to persisted values, such as local autosave drafts. |
 
 The headline guarantee these add up to, with the module registered: **a string from a schema renders as HTML only in an area you listed in `allowHtml`, and always through the `sanitizer`** — with unsanitized HTML requiring the explicit identity-sanitizer opt-out. Everything else renders as escaped text.
 
@@ -61,11 +61,11 @@ createVueform({
 
 The global `<style id="vueform-theme">` tag is injected three different ways depending on the environment, and the nonce is applied in each:
 
-| Path                                              | How the nonce is applied                                     |
-| ------------------------------------------------- | ------------------------------------------------------------ |
-| `@unhead/vue` available (Nuxt, or manual install) | Passed in `head.push({ style: [{ nonce }] })`.               |
-| DOM fallback (no Unhead)                          | Set via `style.setAttribute('nonce', nonce)`.                |
-| SSR via `getStyleTag()`                           | Included as a `nonce` attribute in the returned HTML string. |
+| Path | How the nonce is applied |
+| --- | --- |
+| `@unhead/vue` available (Nuxt, or manual install) | Passed in `head.push({ style: [{ nonce }] })`. |
+| DOM fallback (no Unhead) | Set via `style.setAttribute('nonce', nonce)`. |
+| SSR via `getStyleTag()` | Included as a `nonce` attribute in the returned HTML string. |
 
 Per-instance `<style>` tags are rendered by the components themselves — in the browser and in SSR output alike — with the same `nonce` attribute.
 
@@ -105,10 +105,10 @@ See [Themes & Tokens](/guide/themes-tokens) for the full list of icon tokens and
 
 Vueform requires exactly two additions to your existing policy:
 
-| Directive        | Required value           | Reason                                         |
-| ---------------- | ------------------------ | ---------------------------------------------- |
+| Directive | Required value | Reason |
+| --- | --- | --- |
 | `style-src-elem` | `'nonce-{SERVER_NONCE}'` | The injected `<style id="vueform-theme">` tag. |
-| `img-src`        | `data:`                  | Default theme icons use inline SVG data URIs.  |
+| `img-src` | `data:` | Default theme icons use inline SVG data URIs. |
 
 Everything else — `script-src`, `connect-src`, `default-src`, `font-src`, `form-action` — depends on your application, not Vueform.
 
@@ -195,13 +195,13 @@ createVueform({
 
 A blocked request never leaves the browser: it rejects with an `HttpError` carrying `reason: 'blocked'` before the adapter runs. The check happens after your interceptors, so it covers every request the HTTP module makes, whichever adapter is configured.
 
-| `allowOrigins`                | Effect                                                                                                                      |
-| ----------------------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| unset / `[]` (default)        | The app's own origin and `$http.baseURL` only.                                                                              |
-| `['https://cdn.example.com']` | The above, plus the listed origins.                                                                                         |
-| `['https://*.example.com']`   | Any subdomain of `example.com` (at any depth) over `https` — never the apex `example.com` itself, and never another scheme. |
-| `['https://example.com:*']`   | That exact host on any port (including the scheme default).                                                                 |
-| `['*']`                       | No restriction.                                                                                                             |
+| `allowOrigins` | Effect |
+| --- | --- |
+| unset / `[]` (default) | The app's own origin and `$http.baseURL` only. |
+| `['https://cdn.example.com']` | The above, plus the listed origins. |
+| `['https://*.example.com']` | Any subdomain of `example.com` (at any depth) over `https` — never the apex `example.com` itself, and never another scheme. |
+| `['https://example.com:*']` | That exact host on any port (including the scheme default). |
+| `['*']` | No restriction. |
 
 ::: warning
 A subdomain wildcard covers subdomains only: `https://*.example.com` does **not** match plain `https://example.com` — list the apex separately if you need both. The wildcard is valid only in the subdomain or port position (`https://*.example.com`, `https://example.com:*`); any other placement is ignored with a development warning.
@@ -267,11 +267,11 @@ The error map is expected keyed by element path (e.g. `{ email: ['Already taken'
 
 Most strings in Vueform — labels, placeholders, hints, button captions — render through Vue's text interpolation, which escapes HTML automatically: a `<script>` tag in a label shows up as literal text, never as executable code. Rendering a string **as HTML** happens in exactly three places, and each is an area you opt into with `$security.allowHtml`:
 
-| Area        | What it covers                                                      |
-| ----------- | ------------------------------------------------------------------- |
-| `'content'` | `VfContent`'s `content` prop.                                       |
-| `'slots'`   | HTML strings in [`slots`](#slot-content) entries.                   |
-| `'grid'`    | String cells in a [grid](/guide/form-structure#the-12-column-grid). |
+| Area | What it covers |
+| --- | --- |
+| `'content'` | `VfContent`'s `content` prop. |
+| `'slots'` | HTML strings in [`slots`](#slot-content) entries. |
+| `'grid'` | String cells in a [grid](/guide/form-structure#the-12-column-grid). |
 
 ```ts
 createVueform({
@@ -290,12 +290,12 @@ Strings in an allowed area pass through the sanitizer immediately before renderi
 
 Like the [ciphers](#draft-encryption), there is no built-in engine, and there is no on/off switch — HTML in an allowed area **always** passes through `$security.sanitizer`:
 
-| `sanitizer`                                                            | Result                                                                  |
-| ---------------------------------------------------------------------- | ----------------------------------------------------------------------- |
-| An engine (the [DOMPurify plugin](#installing-dompurify), or your own) | Sanitized HTML renders.                                                 |
-| Unset, in development                                                  | Raw HTML renders with a one-time warning naming the fix.                |
-| Unset, in production                                                   | The HTML area renders **empty** — unsanitizable HTML never ships.       |
-| `(html) => html` — the identity function                               | Raw HTML renders: the conscious, greppable opt-out for trusted schemas. |
+| `sanitizer` | Result |
+| --- | --- |
+| An engine (the [DOMPurify plugin](#installing-dompurify), or your own) | Sanitized HTML renders. |
+| Unset, in development | Raw HTML renders with a one-time warning naming the fix. |
+| Unset, in production | The HTML area renders **empty** — unsanitizable HTML never ships. |
+| `(html) => html` — the identity function | Raw HTML renders: the conscious, greppable opt-out for trusted schemas. |
 
 ::: tip
 The order matters more than it looks. A template like `content: 'Welcome, {name}!'` is harmless on its own — the danger is what `{name}` carries in. Sanitizing the resolved result is what makes user input safe here, not sanitizing the template.
@@ -345,10 +345,10 @@ createVueform({
 })
 ```
 
-| Option            | Purpose                                                                               |
-| ----------------- | ------------------------------------------------------------------------------------- |
-| `sanitizeOptions` | Passed directly to `DOMPurify.sanitize()` as the config object.                       |
-| `sanitizeInit`    | Receives the DOMPurify instance before first use — add hooks, set global config, etc. |
+| Option | Purpose |
+| --- | --- |
+| `sanitizeOptions` | Passed directly to `DOMPurify.sanitize()` as the config object. |
+| `sanitizeInit` | Receives the DOMPurify instance before first use — add hooks, set global config, etc. |
 
 ### Custom Sanitizer
 
@@ -398,14 +398,14 @@ Treat `allowComponents` as a contract with your schema authors: only the compone
 
 ### What Else Is Gated
 
-| Schema surface                                                                                                                  | Treatment                                                                                                                                                                                                                                      |
-| ------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `slots` / grid cell strings, `VfContent` content                                                                                | Text always renders escaped; HTML only through [`allowHtml`](#html-sanitization), always sanitized.                                                                                                                                            |
-| `component`, `template`, `layout` name strings                                                                                  | Resolved only through [`allowComponents`](#components-from-schemas).                                                                                                                                                                           |
+| Schema surface | Treatment |
+| --- | --- |
+| `slots` / grid cell strings, `VfContent` content | Text always renders escaped; HTML only through [`allowHtml`](#html-sanitization), always sanitized. |
+| `component`, `template`, `layout` name strings | Resolved only through [`allowComponents`](#components-from-schemas). |
 | `parts` bags, grid cell `attrs`, undeclared schema keys (form entries, flat list prototypes, grid cell / matrix column schemas) | Filtered before reaching the DOM: `innerHTML`/`outerHTML` and prototype keys are always dropped; everything else — including inline `on*` handlers and `srcdoc` — is app policy via [`banProps`](#banning-props), dropped in every value form. |
-| `tokens`, grid `widths`, matrix `gridTemplateColumns`                                                                           | Values that could break out of a scoped CSS rule are dropped.                                                                                                                                                                                  |
-| `redirect`, button `href` / `to`, file `url`                                                                                    | Scheme-validated — `javascript:` and other script-bearing schemes never reach a navigation sink.                                                                                                                                               |
-| `autosave.local.key`                                                                                                            | Forced under the `vueform:` storage namespace.                                                                                                                                                                                                 |
+| `tokens`, grid `widths`, matrix `gridTemplateColumns` | Values that could break out of a scoped CSS rule are dropped. |
+| `redirect`, button `href` / `to`, file `url` | Scheme-validated — `javascript:` and other script-bearing schemes never reach a navigation sink. |
+| `autosave.local.key` | Forced under the `vueform:` storage namespace. |
 
 ### Banning Props
 

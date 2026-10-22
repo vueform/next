@@ -363,11 +363,11 @@ const [MyForm] = useForm({ schema, stepped: true,
 
 Three boolean props remove parts of the stepped chrome:
 
-| Prop       | Default | Set to `false` to                                                        |
-| ---------- | ------- | ------------------------------------------------------------------------ |
-| `back`     | `true`  | Hide the back button entirely instead of disabling it on the first step. |
-| `progress` | `true`  | Hide the step progress indicator while keeping the navigation bar.       |
-| `nav`      | `true`  | Hide the whole navigation bar — for fully custom navigation controls.    |
+| Prop | Default | Set to `false` to |
+| --- | --- | --- |
+| `back` | `true` | Hide the back button entirely instead of disabling it on the first step. |
+| `progress` | `true` | Hide the step progress indicator while keeping the navigation bar. |
+| `nav` | `true` | Hide the whole navigation bar — for fully custom navigation controls. |
 
 ```vue
 <VfForm stepped :back="false" :progress="false">
@@ -438,32 +438,32 @@ const goToStep = (name: string) => form$.value?.pager.select(name)
 
 The pager's methods:
 
-| Method                             | Description                                              |
-| ---------------------------------- | -------------------------------------------------------- |
-| `select(name)`                     | Selects a page by name or index.                         |
-| `next()`                           | Validates the current page and advances to the next one. |
-| `back()`                           | Returns to the previous page.                            |
-| `finish()`                         | Validates all enabled pages and submits the form.        |
-| `reset()`                          | Resets to the first page and unvalidates all pages.      |
-| `enableUntil(name)`                | Enables all pages up to the given name or index.         |
-| `revertTo(name)`                   | Reverts to a page, unvalidating every page after it.     |
-| `getPage(name)`                    | Returns the resolved page object for a name or index.    |
-| `on(event, cb)` / `off(event, cb)` | Subscribes to / unsubscribes from pager events.          |
+| Method | Description |
+| --- | --- |
+| `select(name)` | Selects a page by name or index. |
+| `next()` | Validates the current page and advances to the next one. |
+| `back()` | Returns to the previous page. |
+| `finish()` | Validates all enabled pages and submits the form. |
+| `reset()` | Resets to the first page and unvalidates all pages. |
+| `enableUntil(name)` | Enables all pages up to the given name or index. |
+| `revertTo(name)` | Reverts to a page, unvalidating every page after it. |
+| `getPage(name)` | Returns the resolved page object for a name or index. |
+| `on(event, cb)` / `off(event, cb)` | Subscribes to / unsubscribes from pager events. |
 
 And its reactive properties:
 
-| Property                    | Description                                                 |
-| --------------------------- | ----------------------------------------------------------- |
-| `page`                      | The name of the currently selected page.                    |
-| `oldPage`                   | The name of the previously selected page.                   |
-| `index`                     | The zero-based index of the current page.                   |
-| `active`                    | Whether the pager is active.                                |
-| `pages`                     | Array of resolved page objects with state and methods.      |
-| `currentPage`               | The currently selected page object.                         |
-| `nextPage` / `previousPage` | The adjacent available pages, or `undefined`.               |
-| `lastPage`                  | The name of the last available page.                        |
-| `loading`                   | Whether any page is busy validating or processing an event. |
-| `invalid`                   | Whether any page has validation errors.                     |
+| Property | Description |
+| --- | --- |
+| `page` | The name of the currently selected page. |
+| `oldPage` | The name of the previously selected page. |
+| `index` | The zero-based index of the current page. |
+| `active` | Whether the pager is active. |
+| `pages` | Array of resolved page objects with state and methods. |
+| `currentPage` | The currently selected page object. |
+| `nextPage` / `previousPage` | The adjacent available pages, or `undefined`. |
+| `lastPage` | The name of the last available page. |
+| `loading` | Whether any page is busy validating or processing an event. |
+| `invalid` | Whether any page has validation errors. |
 
 Each entry in `pages` is a **resolved page** carrying its `name`, `label`, `meta`, `index`, and state flags (`available`, `selected`, `enabled`, `completed`, `invalid`, `loading`), plus methods like `select()` and `validate()` — the same objects the [slots](#customizing-with-slots) receive.
 
@@ -495,13 +495,13 @@ When validation fails, `scrollToError` (default `true`) scrolls the browser to t
 
 `scrollTopOn` controls when the form scrolls back to its own top. It accepts an array of triggers:
 
-| Value       | Scrolls to top when                    |
-| ----------- | -------------------------------------- |
-| `'always'`  | Any of the events below fires.         |
-| `'next'`    | The user advances to the next step.    |
-| `'back'`    | The user returns to the previous step. |
-| `'success'` | The form is submitted successfully.    |
-| `'error'`   | Submission fails validation.           |
+| Value | Scrolls to top when |
+| --- | --- |
+| `'always'` | Any of the events below fires. |
+| `'next'` | The user advances to the next step. |
+| `'back'` | The user returns to the previous step. |
+| `'success'` | The form is submitted successfully. |
+| `'error'` | Submission fails validation. |
 
 The default is `['always']`.
 
@@ -585,9 +585,9 @@ Navigation fires events on the form. All of them receive the **new page**, the *
 
 ### Tab Events
 
-| Event       | Fires when                                               |
-| ----------- | -------------------------------------------------------- |
-| `tab`       | The active tab changed.                                  |
+| Event | Fires when |
+| --- | --- |
+| `tab` | The active tab changed. |
 | `beforeTab` | Before the active tab changes. Return `false` to cancel. |
 
 ::: code-group
@@ -643,14 +643,14 @@ Tabbed **groups** emit the same `tab` / `beforeTab` pair — see [Tabbed Groups]
 
 ### Step Events
 
-| Event        | Fires when                                                    |
-| ------------ | ------------------------------------------------------------- |
-| `step`       | The active step changed — by Next, Back, or direct selection. |
-| `next`       | The user advanced to the next step.                           |
-| `back`       | The user returned to the previous step.                       |
-| `beforeStep` | Before the active step changes. Return `false` to cancel.     |
-| `beforeNext` | Before advancing. Return `false` to cancel.                   |
-| `beforeBack` | Before going back. Return `false` to cancel.                  |
+| Event | Fires when |
+| --- | --- |
+| `step` | The active step changed — by Next, Back, or direct selection. |
+| `next` | The user advanced to the next step. |
+| `back` | The user returned to the previous step. |
+| `beforeStep` | Before the active step changes. Return `false` to cancel. |
+| `beforeNext` | Before advancing. Return `false` to cancel. |
+| `beforeBack` | Before going back. Return `false` to cancel. |
 
 ::: code-group
 
@@ -904,11 +904,11 @@ A few variations:
 
 Every part of the paging UI is replaceable through [Slots](/guide/slots), at two levels of granularity — one slot swaps a whole region, a finer one customizes the pieces inside it while keeping the default wrapper and its accessibility wiring:
 
-| Region         | Replace wholesale | Customize the pieces                                                                                   |
-| -------------- | ----------------- | ------------------------------------------------------------------------------------------------------ |
-| Tab bar        | `#tabs`           | `#tab`                                                                                                 |
-| Step indicator | `#steps`          | `#step`                                                                                                |
-| Navigation bar | `#nav`            | `#back` / `#next` / `#finish` (whole buttons), `#back-text` / `#next-text` / `#finish-text` (labels only) |
+| Region | Replace wholesale | Customize the pieces |
+| --- | --- | --- |
+| Tab bar | `#tabs` | `#tab` |
+| Step indicator | `#steps` | `#step` |
+| Navigation bar | `#nav` | `#back` / `#next` / `#finish` (whole buttons), `#back-text` / `#next-text` / `#finish-text` (labels only) |
 
 The wholesale slots receive the `pager`, so a custom bar drives navigation through the [Pager API](#pager-api). The piece slots receive their resolved state: a tab or step gets `label`, `index`, `selected`, `invalid`, and `meta` from [Page Metadata](#page-metadata) (steps add `enabled` and `completed`), a button gets its `label`, `disabled`, `loading`, and its action to call (`next`, `back`, or `finish`). For example, numbering the steps and checking off completed ones:
 

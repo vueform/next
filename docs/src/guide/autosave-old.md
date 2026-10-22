@@ -359,12 +359,12 @@ To turn change-driven saving off, set `on` to a list without `'change'` — such
 
 In a [multi-page form](/guide/multi-page-forms), navigation events make natural save points:
 
-| Trigger  | Fires on                                                               |
-| -------- | ---------------------------------------------------------------------- |
-| `'next'` | A stepped form moves forward (after the current step validated).       |
-| `'back'` | A stepped form moves backward.                                         |
+| Trigger | Fires on |
+| --- | --- |
+| `'next'` | A stepped form moves forward (after the current step validated). |
+| `'back'` | A stepped form moves backward. |
 | `'step'` | The active step changes — covers `next`, `back`, and direct selection. |
-| `'tab'`  | The active tab changes in a tabbed form.                               |
+| `'tab'` | The active tab changes in a tabbed form. |
 
 ::: code-group
 
@@ -623,12 +623,12 @@ Because the handler returns the `HttpResponse`, `@autosave-success` fires as usu
 
 The function receives the autosave data ([`transform`](#transforming-autosave-data) result or payload) and the form's [Context](/guide/context). Its return value decides what happens next:
 
-| Return value         | Effect                                                                       |
-| -------------------- | ---------------------------------------------------------------------------- |
-| `string`             | Used as the endpoint URL — Vueform performs the built-in request against it. |
-| `HttpResponse`       | `@autosave-success` fires with this response.                                |
-| `void` / `undefined` | The save completes silently — no event fires.                                |
-| `false`              | The save is treated as skipped — no event fires.                             |
+| Return value | Effect |
+| --- | --- |
+| `string` | Used as the endpoint URL — Vueform performs the built-in request against it. |
+| `HttpResponse` | `@autosave-success` fires with this response. |
+| `void` / `undefined` | The save completes silently — no event fires. |
+| `false` | The save is treated as skipped — no event fires. |
 
 There doesn't have to be a request at all — persistence is whatever the function does. (Though for browser storage, [`local`](#local-drafts) already covers it, loading included.)
 

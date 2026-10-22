@@ -500,6 +500,19 @@ export default defineConfig({
       ':fmt:check': {
         command: 'vp fmt --check',
       },
+      // Mutating, yet cacheable: the md files are both input and output, so a
+      // hit replays the compacted content instead of skipping the work.
+      ':fmt:md': {
+        command: 'tsx scripts/compact-md-tables.ts',
+        cache: {
+          input: [
+            'docs/src/guide/**/*.md',
+            'scripts/compact-md-tables.ts',
+            'pnpm-lock.yaml',
+          ],
+          output: ['docs/src/guide/**/*.md'],
+        },
+      },
       ':stylelint': {
         command: 'stylelint "**/*.{scss,css}"',
         cache: {

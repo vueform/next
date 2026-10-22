@@ -54,17 +54,17 @@ const myPlugin = definePlugin((options: { debounce?: number } = {}) => ({
 
 Every definition key is optional — declare only the hooks you need:
 
-| Option    | Phase             | Purpose                                                                                                                     |
-| --------- | ----------------- | --------------------------------------------------------------------------------------------------------------------------- |
-| `name`    | —                 | Identifies the plugin (debugging, deduplication).                                                                           |
-| `apply`   | Install + Runtime | Selects which components the plugin targets.                                                                                |
-| `props`   | Install           | Extra props merged onto every matching component.                                                                           |
-| `emits`   | Install           | Extra emit names merged onto every matching component.                                                                      |
-| `extend`  | Runtime           | Runs inside each matching component's `setup()`, receiving `(props, api)`.                                                  |
-| `config`  | Install           | Mutates the global `VueformConfig`.                                                                                         |
-| `globals` | Install           | Returns members merged into the [Globals](/guide/globals) context. Receives `{ config, globals }`.                          |
-| `install` | Install           | App-side effects when the instance is installed into a Vue app — e.g. registering a directive. Receives `{ app, vueform }`. |
-| `plugins` | Recursive         | Nested plugins applied with the same rules.                                                                                 |
+| Option | Phase | Purpose |
+| --- | --- | --- |
+| `name` | — | Identifies the plugin (debugging, deduplication). |
+| `apply` | Install + Runtime | Selects which components the plugin targets. |
+| `props` | Install | Extra props merged onto every matching component. |
+| `emits` | Install | Extra emit names merged onto every matching component. |
+| `extend` | Runtime | Runs inside each matching component's `setup()`, receiving `(props, api)`. |
+| `config` | Install | Mutates the global `VueformConfig`. |
+| `globals` | Install | Returns members merged into the [Globals](/guide/globals) context. Receives `{ config, globals }`. |
+| `install` | Install | App-side effects when the instance is installed into a Vue app — e.g. registering a directive. Receives `{ app, vueform }`. |
+| `plugins` | Recursive | Nested plugins applied with the same rules. |
 
 ## Registering Plugins
 
@@ -99,14 +99,14 @@ Both forms are equivalent. Registering after `app.use()` throws — by then the 
 
 The `apply` option decides where `props`, `emits`, and `extend` attach:
 
-| Form                       | Matches                                                                                            |
-| -------------------------- | -------------------------------------------------------------------------------------------------- |
-| `'VfText'`                 | A single component by name.                                                                        |
-| `['VfText', 'VfTextarea']` | Any of the listed names.                                                                           |
-| `'*'`                      | Every registered component.                                                                        |
-| `'*element'`               | Every component flagged as an element — excludes structural components like `!VfForm` and `VfTabs`. |
-| `/pattern/`                | Any component whose name matches the regex.                                                        |
-| `(component) => boolean`   | A predicate over the component definition.                                                         |
+| Form | Matches |
+| --- | --- |
+| `'VfText'` | A single component by name. |
+| `['VfText', 'VfTextarea']` | Any of the listed names. |
+| `'*'` | Every registered component. |
+| `'*element'` | Every component flagged as an element — excludes structural components like `!VfForm` and `VfTabs`. |
+| `/pattern/` | Any component whose name matches the regex. |
+| `(component) => boolean` | A predicate over the component definition. |
 
 The predicate receives the candidate component's definition — most usefully its `name` and its `element` flag (`true` for Vueform elements):
 
@@ -441,10 +441,10 @@ A slot is declared as a render function: it receives the slot's props and return
 
 When a plugin targets every component (`'*'`) or every element (`'*element'`), augment the shared base interfaces in `@vueform/core` instead of repeating the declaration per component:
 
-| Matcher      | Base interfaces                                                                                                                       |
-| ------------ | ------------------------------------------------------------------------------------------------------------------------------------- |
-| `'*'`        | `BaseComponentProps`, `BaseComponentEmits`, `BaseComponentSlots`, `BaseComponentParts`, `BaseComponentClasses`, `BaseComponentExpose` |
-| `'*element'` | `BaseElementProps`, `BaseElementEmits`, `BaseElementSlots`, `BaseElementParts`, `BaseElementClasses`, `BaseElementExpose`             |
+| Matcher | Base interfaces |
+| --- | --- |
+| `'*'` | `BaseComponentProps`, `BaseComponentEmits`, `BaseComponentSlots`, `BaseComponentParts`, `BaseComponentClasses`, `BaseComponentExpose` |
+| `'*element'` | `BaseElementProps`, `BaseElementEmits`, `BaseElementSlots`, `BaseElementParts`, `BaseElementClasses`, `BaseElementExpose` |
 
 The `BaseElement*` interfaces extend their `BaseComponent*` counterparts, so component-level additions reach elements automatically. Match the original generic parameters here too:
 

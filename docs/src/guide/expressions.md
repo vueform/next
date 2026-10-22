@@ -99,13 +99,13 @@ Without the engine, an expression that holds more than a bare path is left in th
 
 Expressions are not JavaScript. The engine parses a small, self-contained language in which only its own operators and the registered functions can run — a string loaded from a database is as safe to evaluate as one typed into a template, and parsing stays fast because there's so little to parse.
 
-| Category    | Operators                                      |
-| ----------- | ---------------------------------------------- |
-| Math        | `+`, `-`, `*`, `/`, `%`, `^` (power)           |
-| Comparison  | `==`, `!=`, `>`, `>=`, `<`, `<=`               |
-| Logical     | `and` / `AND`, `or` / `OR`, `not` / `NOT`, `!` |
-| Membership  | `in`                                           |
-| Conditional | `cond ? a : b`                                 |
+| Category | Operators |
+| --- | --- |
+| Math | `+`, `-`, `*`, `/`, `%`, `^` (power) |
+| Comparison | `==`, `!=`, `>`, `>=`, `<`, `<=` |
+| Logical | `and` / `AND`, `or` / `OR`, `not` / `NOT`, `!` |
+| Membership | `in` |
+| Conditional | `cond ? a : b` |
 
 Logical operators work in either case — `and` and `AND` are the same operator. String literals inside an expression use quotes, as the ternary below shows:
 
@@ -340,44 +340,44 @@ The engine ships a library of helpers, called with parentheses inside a `{...}` 
 
 **Logic**
 
-| Function           | Description                                              |
-| ------------------ | -------------------------------------------------------- |
-| `NOT(value)`       | Negation of `value`.                                     |
-| `EMPTY(value)`     | `true` for `''`, `null`, `undefined`, or an empty array. |
-| `NOT_EMPTY(value)` | The inverse of `EMPTY`.                                  |
+| Function | Description |
+| --- | --- |
+| `NOT(value)` | Negation of `value`. |
+| `EMPTY(value)` | `true` for `''`, `null`, `undefined`, or an empty array. |
+| `NOT_EMPTY(value)` | The inverse of `EMPTY`. |
 
 **Numbers**
 
-| Function               | Description                                            |
-| ---------------------- | ------------------------------------------------------ |
-| `SUM(...args)`         | Sum of all arguments. Non-numeric values count as `0`. |
-| `AVG(...args)`         | Average of non-empty values.                           |
-| `MIN(...args)`         | Smallest non-empty value.                              |
-| `MAX(...args)`         | Largest non-empty value.                               |
-| `COUNT(...args)`       | Count of non-empty values.                             |
-| `ROUND(value, places)` | Rounds `value` to `places` decimals.                   |
+| Function | Description |
+| --- | --- |
+| `SUM(...args)` | Sum of all arguments. Non-numeric values count as `0`. |
+| `AVG(...args)` | Average of non-empty values. |
+| `MIN(...args)` | Smallest non-empty value. |
+| `MAX(...args)` | Largest non-empty value. |
+| `COUNT(...args)` | Count of non-empty values. |
+| `ROUND(value, places)` | Rounds `value` to `places` decimals. |
 
 All of the number functions accept multiple arguments **and flatten arrays**, which makes them a natural fit for [wildcard list paths](#expressions-in-lists) like `SUM(items.*.price)`.
 
 **Text**
 
-| Function                                                      | Description                                                            |
-| ------------------------------------------------------------- | ---------------------------------------------------------------------- |
-| `CONCAT(...args)`                                             | Joins all arguments into one string; empty values contribute nothing.  |
-| `LC(value)` / `UC(value)`                                     | Lowercase / uppercase.                                                 |
-| `UCF(value)`                                                  | Uppercase first letter.                                                |
-| `ENCODE_URI(value)` / `DECODE_URI(value)`                     | URI encoding / decoding.                                               |
-| `ENCODE_URI_COMPONENT(value)` / `DECODE_URI_COMPONENT(value)` | URI-component encoding / decoding.                                     |
+| Function | Description |
+| --- | --- |
+| `CONCAT(...args)` | Joins all arguments into one string; empty values contribute nothing. |
+| `LC(value)` / `UC(value)` | Lowercase / uppercase. |
+| `UCF(value)` | Uppercase first letter. |
+| `ENCODE_URI(value)` / `DECODE_URI(value)` | URI encoding / decoding. |
+| `ENCODE_URI_COMPONENT(value)` / `DECODE_URI_COMPONENT(value)` | URI-component encoding / decoding. |
 
 **Dates**
 
-| Function                        | Description                                                                                |
-| ------------------------------- | ------------------------------------------------------------------------------------------ |
-| `TODAY()`                       | Today's date as `YYYY-MM-DD`.                                                              |
-| `NOW()`                         | Current timestamp as an ISO string.                                                        |
-| `AGE(date)`                     | Whole years between `date` and today.                                                      |
+| Function | Description |
+| --- | --- |
+| `TODAY()` | Today's date as `YYYY-MM-DD`. |
+| `NOW()` | Current timestamp as an ISO string. |
+| `AGE(date)` | Whole years between `date` and today. |
 | `DATE_ADD(value, amount, unit)` | Adds an amount of `unit` (`'day'`, `'month'`, …) to a date, preserving the input's format. |
-| `FORMAT_DATE(value, format)`    | Formats a date using the date adapter's format tokens.                                     |
+| `FORMAT_DATE(value, format)` | Formats a date using the date adapter's format tokens. |
 
 ```ts
 defineSchema({
@@ -575,3 +575,23 @@ defineSchema({
 `literal` renders its braces as-is, while `partial` resolves only the label and leaves the help text literal. The `default` key is part of the same system — omit it from an allow-list and computed defaults stop resolving too.
 
 To switch the whole system off, set `$expression.enabled: false` in the config — expression strings then pass through untouched everywhere.
+
+## Troubleshooting
+
+An expression never leaks raw error output into rendered text — problematic results degrade to predictable values:
+
+| Input | Resolves to |
+| --- | --- |
+| Referenced field is `null`, `undefined`, or missing | `''` |
+| Result is `NaN` | `'0'` |
+| Result is `null`, `undefined`, or `[object Object]` | `''` |
+| Expression cannot be parsed | `''` + a dev warning |
+
+### Debugging
+
+Parse and evaluation problems warn in the console during development:
+
+- `Failed to parse expression "..."` — a syntax error; the parser rejected the expression.
+- `Expression error in "...": ...` — parsed fine but threw at evaluation (a missing function, a self-reference, a type error).
+
+Warnings are on by default in development and off in production; set `$expression.debug: false` to silence them entirely.

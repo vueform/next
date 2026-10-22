@@ -223,12 +223,12 @@ To turn change-driven saving off, set `on` to a list without `'change'` — [nav
 
 In a [multi-page form](/guide/multi-page-forms), navigation events make natural save points:
 
-| Trigger  | Fires on                                                                |
-| -------- | ----------------------------------------------------------------------- |
-| `'next'` | A stepped form moves forward (after the current step validated).        |
-| `'back'` | A stepped form moves backward.                                          |
-| `'step'` | The active step changes — covers `next`, `back`, and direct selection.  |
-| `'tab'`  | The active tab changes in a tabbed form.                                 |
+| Trigger | Fires on |
+| --- | --- |
+| `'next'` | A stepped form moves forward (after the current step validated). |
+| `'back'` | A stepped form moves backward. |
+| `'step'` | The active step changes — covers `next`, `back`, and direct selection. |
+| `'tab'` | The active tab changes in a tabbed form. |
 
 ```ts
 autosave: {
@@ -375,12 +375,12 @@ const [Form] = useForm({
 
 The function receives the autosave data ([`transform`](#transforming-autosave-data) result or payload) and the form's [context](/guide/context). Its return value decides what happens next:
 
-| Return value         | Effect                                                                        |
-| -------------------- | ------------------------------------------------------------------------------ |
-| `string`             | Used as the endpoint URL — Vueform performs the built-in request against it.   |
-| `HttpResponse`       | `@autosave-success` fires with this response.                                  |
-| `void` / `undefined` | The save completes silently — no event fires.                                  |
-| `false`              | The save is treated as skipped — no event fires.                               |
+| Return value | Effect |
+| --- | --- |
+| `string` | Used as the endpoint URL — Vueform performs the built-in request against it. |
+| `HttpResponse` | `@autosave-success` fires with this response. |
+| `void` / `undefined` | The save completes silently — no event fires. |
+| `false` | The save is treated as skipped — no event fires. |
 
 Because the example returns the `HttpResponse`, `@autosave-success` fires as usual and downstream listeners — a saved-at indicator, a toast — work unchanged. There doesn't have to be a request at all — persistence is whatever the function does. For browser storage, though, [`local`](#local-drafts) already covers it, loading included.
 
@@ -404,12 +404,12 @@ This makes `@autosave` the conditional sibling of the function endpoint — reac
 
 Autosave fires four form events. Two are the pre-hooks covered earlier; two report outcomes:
 
-| Event               | Fires                                                                                            | Arguments               |
-| ------------------- | ------------------------------------------------------------------------------------------------- | ----------------------- |
-| `@autosave`         | Before a remote save runs — cancel or take it over ([Intercepting](#intercepting-with-autosave)).  | data, context           |
-| `@autosave-restore` | Before a local draft loads on mount — cancel to skip ([Loading the Draft](#loading-the-draft)).    | stored data, context    |
-| `@autosave-success` | After a successful remote save.                                                                    | `HttpResponse`, context |
-| `@autosave-fail`    | When the remote request fails — network error, timeout, non-2xx response.                          | `HttpError`, context    |
+| Event | Fires | Arguments |
+| --- | --- | --- |
+| `@autosave` | Before a remote save runs — cancel or take it over ([Intercepting](#intercepting-with-autosave)). | data, context |
+| `@autosave-restore` | Before a local draft loads on mount — cancel to skip ([Loading the Draft](#loading-the-draft)). | stored data, context |
+| `@autosave-success` | After a successful remote save. | `HttpResponse`, context |
+| `@autosave-fail` | When the remote request fails — network error, timeout, non-2xx response. | `HttpError`, context |
 
 `@autosave-success` is the hook for a saved-at indicator, or for storing the ID the server returned:
 

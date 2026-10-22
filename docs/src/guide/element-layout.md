@@ -69,27 +69,27 @@ messageBag.append('Username is available', 'message')
 
 Each of these is a named [Part](/guide/parts) — the handle you use to target it with the `parts` prop, restyle it via [Classes](/guide/classes), or replace its content with a [Slot](/guide/slots):
 
-| Part                   | What it wraps                                                                                    |
-| ---------------------- | ------------------------------------------------------------------------------------------------ |
-| `root`                 | The outermost wrapper. A `<div>` for plain elements, a `<fieldset>` for containers with a label. |
-| `labelGroup`           | Holds the label, the required indicator, and the help text.                                      |
-| `label`                | The label tag itself (`<label>` for inputs, `<span>` or `<h1>`–`<h6>` for containers).           |
-| `required`             | The required indicator.                                                                          |
-| `help`                 | Help text shown next to the label.                                                               |
-| `elementGroup`         | The column that holds the control, description, errors, and messages.                            |
-| `elementWrapper`       | The wrapper directly around the control.                                                         |
-| `description`          | Description text shown below the control.                                                        |
-| `errors` / `error`     | Validation error container and individual entries.                                               |
-| `messages` / `message` | Info message container and individual entries.                                                   |
+| Part | What it wraps |
+| --- | --- |
+| `root` | The outermost wrapper. A `<div>` for plain elements, a `<fieldset>` for containers with a label. |
+| `labelGroup` | Holds the label, the required indicator, and the help text. |
+| `label` | The label tag itself (`<label>` for inputs, `<span>` or `<h1>`–`<h6>` for containers). |
+| `required` | The required indicator. |
+| `help` | Help text shown next to the label. |
+| `elementGroup` | The column that holds the control, description, errors, and messages. |
+| `elementWrapper` | The wrapper directly around the control. |
+| `description` | Description text shown below the control. |
+| `errors` / `error` | Validation error container and individual entries. |
+| `messages` / `message` | Info message container and individual entries. |
 
 A few parts only appear when the element calls for them:
 
-| Part         | When it appears                                                                                                                                                        |
-| ------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `addonGroup` | Wraps the control together with its [addons](#addons) — rendered when the element has any addon (including the [language addon](#the-language-addon)).                 |
-| `iconGroup`  | Wraps the control together with its [icons](#icons) — rendered when the element has an icon or shows the [loading indicator](#loading-indicator).                      |
-| `panel`      | A tab/step panel wrapper — rendered when the element sits inside a paged container. See [Multi-Page Forms](/guide/multi-page-forms).                                   |
-| `tabs`       | The tab bar of a tabbed container — rendered when the element itself has the `tabbed` prop (e.g. a tabbed `VfGroup`). See [Multi-Page Forms](/guide/multi-page-forms). |
+| Part | When it appears |
+| --- | --- |
+| `addonGroup` | Wraps the control together with its [addons](#addons) — rendered when the element has any addon (including the [language addon](#the-language-addon)). |
+| `iconGroup` | Wraps the control together with its [icons](#icons) — rendered when the element has an icon or shows the [loading indicator](#loading-indicator). |
+| `panel` | A tab/step panel wrapper — rendered when the element sits inside a paged container. See [Multi-Page Forms](/guide/multi-page-forms). |
+| `tabs` | The tab bar of a tabbed container — rendered when the element itself has the `tabbed` prop (e.g. a tabbed `VfGroup`). See [Multi-Page Forms](/guide/multi-page-forms). |
 
 ::: tip
 Each element's full part tree — including its own input-specific parts like `input` — is documented on its component page under the **Parts** tab, with an interactive preview of the structure in different states. See [VfText Parts](/components/VfText#parts) for an example.

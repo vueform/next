@@ -145,27 +145,27 @@ const [Form] = useForm({ schema })
 
 These elements take the full row on mobile and half the row from the `md` breakpoint up:
 
-| Viewport  | Columns         |
-| --------- | --------------- |
-| `≥ 768px` | `6`             |
+| Viewport | Columns |
+| --- | --- |
+| `≥ 768px` | `6` |
 | `< 768px` | `12` (full row) |
 
 There are five breakpoints by default, each one activating at the listed viewport width and staying active for everything wider:
 
 | Breakpoint | Active from |
-| ---------- | ----------- |
-| `sm`       | `≥ 640px`   |
-| `md`       | `≥ 768px`   |
-| `lg`       | `≥ 1024px`  |
-| `xl`       | `≥ 1280px`  |
-| `2xl`      | `≥ 1536px`  |
+| --- | --- |
+| `sm` | `≥ 640px` |
+| `md` | `≥ 768px` |
+| `lg` | `≥ 1024px` |
+| `xl` | `≥ 1280px` |
+| `2xl` | `≥ 1536px` |
 
 Multiple breakpoint keys can be combined — each one takes over once its threshold is reached. So `:columns="{ sm: 6, md: 3 }"` resolves like this:
 
-| Viewport  | Columns         |
-| --------- | --------------- |
-| `≥ 768px` | `3`             |
-| `≥ 640px` | `6`             |
+| Viewport | Columns |
+| --- | --- |
+| `≥ 768px` | `3` |
+| `≥ 640px` | `6` |
 | `< 640px` | `12` (full row) |
 
 Below the smallest defined breakpoint, the element falls back to **full width**. To set a different starting width inside the breakpoint object, use the special `base` key:
@@ -215,11 +215,11 @@ createVueform({
 
 In this mode the breakpoint media queries become `max-width` instead of `min-width`, and `base` becomes the _starting_ width of the layout: viewports above the largest defined breakpoint match no other key. So `:columns="{ base: 3, md: 6, sm: 12 }"` resolves like this:
 
-| Viewport  | Columns |
-| --------- | ------- |
-| `> 768px` | `3`     |
-| `≤ 768px` | `6`     |
-| `≤ 640px` | `12`    |
+| Viewport | Columns |
+| --- | --- |
+| `> 768px` | `3` |
+| `≤ 768px` | `6` |
+| `≤ 640px` | `12` |
 
 This is the same `12 / 6 / 3` layout the mobile-first example produced (give or take a pixel at each boundary) — just authored from the opposite end. Pick whichever direction matches how you think about the design.
 
@@ -1101,11 +1101,11 @@ By default each cell is an independent text input, and the value is an object of
 
 The `mode` prop controls what the cells are:
 
-| Mode             | Cell element                | Row value                        | Use case                            |
-| ---------------- | --------------------------- | -------------------------------- | ----------------------------------- |
-| `auto` (default) | Independent input per cell. | Object of column values.         | Spreadsheet-style data entry.       |
-| `single`         | Radio per cell.             | The selected column's value.     | One choice per row (survey scales). |
-| `multiple`       | Checkbox per cell.          | Array of selected column values. | Any number of choices per row.      |
+| Mode | Cell element | Row value | Use case |
+| --- | --- | --- | --- |
+| `auto` (default) | Independent input per cell. | Object of column values. | Spreadsheet-style data entry. |
+| `single` | Radio per cell. | The selected column's value. | One choice per row (survey scales). |
+| `multiple` | Checkbox per cell. | Array of selected column values. | Any number of choices per row. |
 
 In `single` mode each row becomes a radio group:
 
@@ -1416,12 +1416,12 @@ See the Tokens tab on [VfGrid](/components/VfGrid#tokens) and [VfMatrix](/compon
 
 Finally, the finishing touches. Every element accepts four props for adding vertical breathing room and visual separators above or below itself — the quick way to break a long form into sections without custom CSS or an extra container:
 
-| Prop          | Type          | Description                                     |
-| ------------- | ------------- | ----------------------------------------------- |
-| `spaceTop`    | `1 \| 2 \| 3` | Adds vertical padding above the element.        |
-| `spaceBottom` | `1 \| 2 \| 3` | Adds vertical padding below the element.        |
-| `lineTop`     | `boolean`     | Renders a horizontal divider above the element. |
-| `lineBottom`  | `boolean`     | Renders a horizontal divider below the element. |
+| Prop | Type | Description |
+| --- | --- | --- |
+| `spaceTop` | `1 \| 2 \| 3` | Adds vertical padding above the element. |
+| `spaceBottom` | `1 \| 2 \| 3` | Adds vertical padding below the element. |
+| `lineTop` | `boolean` | Renders a horizontal divider above the element. |
+| `lineBottom` | `boolean` | Renders a horizontal divider below the element. |
 
 ::: usage
 

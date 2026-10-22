@@ -41,12 +41,12 @@ Container elements (`VfGroup`, `VfList`, `VfGrid`, `VfMatrix`) behave differentl
 
 Every input element computes a set of ARIA attributes automatically based on its current state. These are bound to the native control (`<input>`, `<select>`, `<textarea>`) and kept in sync as the element's state changes:
 
-| Attribute          | Derived from                                                      | Example value                      |
-| ------------------ | ----------------------------------------------------------------- | ---------------------------------- |
+| Attribute | Derived from | Example value |
+| --- | --- | --- |
 | `aria-describedby` | Help, hint, and error region IDs (only those currently rendered). | `"vf-email__help vf-email__error"` |
-| `aria-invalid`     | Whether the element has a validation error.                       | `true`                             |
-| `aria-required`    | Whether the element has a `required` rule.                        | `true`                             |
-| `aria-busy`        | Whether the element is running an async validation check.         | `true`                             |
+| `aria-invalid` | Whether the element has a validation error. | `true` |
+| `aria-required` | Whether the element has a `required` rule. | `true` |
+| `aria-busy` | Whether the element is running an async validation check. | `true` |
 
 The `aria-describedby` chain is the key piece. It dynamically points to whichever support regions exist at any given moment. When an element has help text, a hint, **and** a validation error, the input's `aria-describedby` references all three IDs. When only a hint is shown, it references just the hint. When nothing is rendered, the attribute is omitted entirely. This means a screen reader always announces exactly the context that's visible to sighted users — no more, no less.
 
@@ -120,12 +120,12 @@ Form-level messages (success confirmations, informational notices) use a separat
 
 Tabbed and stepped forms implement the [WAI-ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). The rendered markup uses the correct roles and states:
 
-| Part                | Role / attribute                                              |
-| ------------------- | ------------------------------------------------------------- |
-| Tab/step list       | `role="tablist"`                                              |
-| Individual tab/step | `role="tab"`, `aria-selected`, `aria-controls`                |
-| List item wrapper   | `role="none"` (strips semantics from the `<li>`)              |
-| Page panel          | `role="tabpanel"`, `aria-labelledby` pointing back to the tab |
+| Part | Role / attribute |
+| --- | --- |
+| Tab/step list | `role="tablist"` |
+| Individual tab/step | `role="tab"`, `aria-selected`, `aria-controls` |
+| List item wrapper | `role="none"` (strips semantics from the `<li>`) |
+| Page panel | `role="tabpanel"`, `aria-labelledby` pointing back to the tab |
 
 Keyboard behavior follows the roving-tabindex pattern:
 

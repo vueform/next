@@ -39,13 +39,13 @@ app.mount('#app')
 
 Each subpath maps to one config option:
 
-| Entry                    | Provides                                                                    | Config option                                   |
-| ------------------------ | --------------------------------------------------------------------------- | ----------------------------------------------- |
-| `@vueform/ui/modules`    | The built-in [Modules](/guide/modules)                                      | [`modules`](/guide/configuration#modules)       |
-| `@vueform/ui/components` | All [components](/components), also available as individual entries         | [`components`](/guide/configuration#components) |
-| `@vueform/ui/rules`      | The built-in [validation rules](/rules/) | [`rules`](/guide/configuration#rules)           |
-| `@vueform/ui/themes`     | The built-in [Themes](/guide/themes-tokens) and theme helpers               | [`theme`](/guide/configuration#theme)           |
-| `@vueform/ui/locales`    | The shipped [Locales](/guide/locales)                                       | [`locales`](/guide/configuration#locales)       |
+| Entry | Provides | Config option |
+| --- | --- | --- |
+| `@vueform/ui/modules` | The built-in [Modules](/guide/modules) | [`modules`](/guide/configuration#modules) |
+| `@vueform/ui/components` | All [components](/components), also available as individual entries | [`components`](/guide/configuration#components) |
+| `@vueform/ui/rules` | The built-in [validation rules](/rules/) | [`rules`](/guide/configuration#rules) |
+| `@vueform/ui/themes` | The built-in [Themes](/guide/themes-tokens) and theme helpers | [`theme`](/guide/configuration#theme) |
+| `@vueform/ui/locales` | The shipped [Locales](/guide/locales) | [`locales`](/guide/configuration#locales) |
 
 The bare entry registers nothing on its own. Its floor is <!-- @size:entry-core -->`4.26 kB`<!-- /@size --> gzipped, and the smallest _working_ build — core plus the required `model` module — lands at <!-- @size:entry-model -->`11.76 kB`<!-- /@size -->. Everything between that floor and the [full build](#pre-configured-entries) is your choice, made section by section below.
 
@@ -72,8 +72,8 @@ createVueform({
 
 <!-- @bundle-sizes:modules start -->
 
-| Module                                              | Size          |
-| --------------------------------------------------- | ------------- |
+| Module | Size |
+| --- | --- |
 | [`model`](/guide/model) | 7.50&nbsp;kB |
 | [`validation`](/guide/validation) | 5.99&nbsp;kB |
 | [`conditions`](/guide/conditions) | 2.01&nbsp;kB |
@@ -142,8 +142,8 @@ All components together add <!-- @size:components-total-js -->`49.88 kB`<!-- /@s
 
 **Elements**
 
-| Component                          | JS           | CSS           |
-| ---------------------------------- | ------------ | ------------- |
+| Component | JS | CSS |
+| --- | --- | --- |
 | [`VfButton`](/ui/VfButton) | 1.10&nbsp;kB | 1.05&nbsp;kB |
 | [`VfCheckbox`](/ui/VfCheckbox) | 0.75&nbsp;kB | 0.00&nbsp;kB |
 | [`VfCheckboxes`](/ui/VfCheckboxes) | 0.77&nbsp;kB | -0.01&nbsp;kB |
@@ -159,8 +159,8 @@ All components together add <!-- @size:components-total-js -->`49.88 kB`<!-- /@s
 
 **Containers**
 
-| Component                  | JS           | CSS          |
-| -------------------------- | ------------ | ------------ |
+| Component | JS | CSS |
+| --- | --- | --- |
 | [`!VfForm`](/ui/VfForm) | 5.72&nbsp;kB | 0.00&nbsp;kB |
 | [`VfGrid`](/ui/VfGrid) | 2.32&nbsp;kB | 0.00&nbsp;kB |
 | [`VfGroup`](/ui/VfGroup) | 0.47&nbsp;kB | 0.08&nbsp;kB |
@@ -169,8 +169,8 @@ All components together add <!-- @size:components-total-js -->`49.88 kB`<!-- /@s
 
 **Form components**
 
-| Component                        | JS           | CSS          |
-| -------------------------------- | ------------ | ------------ |
+| Component | JS | CSS |
+| --- | --- | --- |
 | [`VfElements`](/ui/VfElements) | 0.13&nbsp;kB | 0.00&nbsp;kB |
 | [`VfLanguages`](/ui/VfLanguages) | 0.38&nbsp;kB | 0.13&nbsp;kB |
 | [`VfNav`](/ui/VfNav) | 0.97&nbsp;kB | 0.07&nbsp;kB |
@@ -179,8 +179,8 @@ All components together add <!-- @size:components-total-js -->`49.88 kB`<!-- /@s
 
 **Layout & internals**
 
-| Component                  | JS           | CSS           |
-| -------------------------- | ------------ | ------------- |
+| Component | JS | CSS |
+| --- | --- | --- |
 | [`VfAddon`](/ui/VfAddon) | 0.31&nbsp;kB | 0.47&nbsp;kB |
 | [`VfCol`](/ui/VfCol) | 0.70&nbsp;kB | 0.00&nbsp;kB |
 | [`VfIcon`](/ui/VfIcon) | 0.13&nbsp;kB | -0.01&nbsp;kB |
@@ -209,8 +209,8 @@ Rules are the cheapest part of the framework: the complete built-in set adds <!-
 ::: details Per-rule sizes
 <!-- @bundle-sizes:rules start -->
 
-| Rule              | Size         |
-| ----------------- | ------------ |
+| Rule | Size |
+| --- | --- |
 | `accepted` | 0.20&nbsp;kB |
 | `after` | 0.41&nbsp;kB |
 | `after_or_equal` | 0.42&nbsp;kB |
@@ -288,8 +288,8 @@ Styling is three separable pieces, each with its own cost:
 
 <!-- @bundle-sizes:themes start -->
 
-| Tokens                                              | Size         |
-| --------------------------------------------------- | ------------ |
+| Tokens | Size |
+| --- | --- |
 | [`origin`](/guide/themes-tokens#available-themes) | 3.95&nbsp;kB |
 | [`material`](/guide/themes-tokens#available-themes) | 3.95&nbsp;kB |
 
@@ -312,8 +312,8 @@ createVueform({
 
 <!-- @bundle-sizes:locales start -->
 
-| Code    | Language     | Size         |
-| ------- | ------------ | ------------ |
+| Code | Language | Size |
+| --- | --- | --- |
 | `de_DE` | German | 1.57&nbsp;kB |
 | `en_US` | English (US) | 1.28&nbsp;kB |
 | `hu_HU` | Hungarian | 1.72&nbsp;kB |

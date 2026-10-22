@@ -83,12 +83,12 @@ A mounted element validates when one of its triggers fires. The form's `validate
 </VfForm>
 ```
 
-| Trigger  | Validates                                                                                               |
-| -------- | ------------------------------------------------------------------------------------------------------- |
-| `change` | the element, on every change to its value                                                                |
-| `blur`   | the element, on its first blur                                                                           |
-| `next`   | the current [page](/guide/multi-page-forms)'s elements, before stepping forward                                                     |
-| `back`   | the current [page](/guide/multi-page-forms)'s elements, before stepping back                                                        |
+| Trigger | Validates |
+| --- | --- |
+| `change` | the element, on every change to its value |
+| `blur` | the element, on its first blur |
+| `next` | the current [page](/guide/multi-page-forms)'s elements, before stepping forward |
+| `back` | the current [page](/guide/multi-page-forms)'s elements, before stepping back |
 | `submit` | every element, from scratch, on **every** submit attempt |
 
 The default is `['blur', 'next']` — an element stays quiet while the user types into it the first time and gets checked when they leave it, or when they move between form steps. The default can be changed app-wide as a `!VfForm` [default](/guide/defaults).
@@ -802,12 +802,12 @@ Errors render without setup — beneath each element, and in the form's own erro
 
 The form-level `errorLevel` prop picks the surfaces:
 
-| Value       | Behavior                                                         |
-| ----------- | ---------------------------------------------------------------- |
-| `'all'`     | Errors show on both the elements and the form (default).         |
-| `'element'` | Errors show only beneath elements.                               |
-| `'form'`    | Errors show only in the form-level block.                        |
-| `'none'`    | Errors render nowhere — validation state is still fully tracked. |
+| Value | Behavior |
+| --- | --- |
+| `'all'` | Errors show on both the elements and the form (default). |
+| `'element'` | Errors show only beneath elements. |
+| `'form'` | Errors show only in the form-level block. |
+| `'none'` | Errors render nowhere — validation state is still fully tracked. |
 
 ```vue
 <VfForm error-level="element">
@@ -932,23 +932,23 @@ const [MyForm] = useForm({
 
 Every element exposes the same validation state through its [context](/guide/context). Leaf elements derive it from their own rules; containers aggregate it from their children — and can combine that with rules of their own.
 
-| Property        | Type       | Description                                                                                                                                                                          |
-| --------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `invalid`       | `boolean`  | At least one rule failed — own or any child's.                                                                                                                                       |
-| `pending`       | `boolean`  | An async rule is currently running — own or a child's.                                                                                                                               |
-| `debouncing`    | `boolean`  | A debounce timer is active — own or a child's.                                                                                                                                       |
-| `busy`          | `boolean`  | `pending` or `debouncing` — blocks form submission.                                                                                                                                  |
-| `validated`     | `boolean`  | All rules (own and children's) have run **against the current value**. Changing a value through any path — typing, `update()`, `load()`, a server write-back — marks the affected results stale and flips it back to `false` until they re-run. |
-| `completed`     | `boolean`  | Validated without errors, or no rules defined.                                                                                                                                       |
-| `success`       | `boolean`  | `completed` after the element has been touched.                                                                                                                                      |
-| `required`      | `boolean`  | An active `required` or `accepted` rule exists.                                                                                                                                      |
-| `dirty`         | `boolean`  | The current value differs from the initial value.                                                                                                                                    |
-| `empty`         | `boolean`  | The value is empty (for containers — every child is empty).                                                                                                                          |
-| `touched`       | `boolean`  | The element has been blurred at least once.                                                                                                                                          |
-| `errors`        | `string[]` | All error messages — rule errors plus `messageBag` errors, including hoisted children's.                                                                                             |
-| `displayErrors` | `string[]` | The errors actually rendered, capped by `maxErrors`.                                                                                                                                 |
-| `ownErrors`     | `string[]` | The element's own errors, excluding hoisted children's.                                                                                                                              |
-| `hasError`      | `boolean`  | `errors` is non-empty.                                                                                                                                                               |
+| Property | Type | Description |
+| --- | --- | --- |
+| `invalid` | `boolean` | At least one rule failed — own or any child's. |
+| `pending` | `boolean` | An async rule is currently running — own or a child's. |
+| `debouncing` | `boolean` | A debounce timer is active — own or a child's. |
+| `busy` | `boolean` | `pending` or `debouncing` — blocks form submission. |
+| `validated` | `boolean` | All rules (own and children's) have run **against the current value**. Changing a value through any path — typing, `update()`, `load()`, a server write-back — marks the affected results stale and flips it back to `false` until they re-run. |
+| `completed` | `boolean` | Validated without errors, or no rules defined. |
+| `success` | `boolean` | `completed` after the element has been touched. |
+| `required` | `boolean` | An active `required` or `accepted` rule exists. |
+| `dirty` | `boolean` | The current value differs from the initial value. |
+| `empty` | `boolean` | The value is empty (for containers — every child is empty). |
+| `touched` | `boolean` | The element has been blurred at least once. |
+| `errors` | `string[]` | All error messages — rule errors plus `messageBag` errors, including hoisted children's. |
+| `displayErrors` | `string[]` | The errors actually rendered, capped by `maxErrors`. |
+| `ownErrors` | `string[]` | The element's own errors, excluding hoisted children's. |
+| `hasError` | `boolean` | `errors` is non-empty. |
 
 ```ts
 formReady((form$) => {
@@ -979,29 +979,29 @@ form$.issues
 
 `issues` is the structured counterpart — one entry per failure:
 
-| Field      | Description                                                                                                                                    |
-| ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `path`     | The element path the failure belongs to (`''` for root-level Validation Schema issues).                                                        |
-| `language` | On translatable elements, the language the failure occurred in.                                                                                |
-| `rule`     | The name of the failing rule. Standard Schema failures have no rule name — element-level schemas report `standard_schema`, the form-level Validation Schema reports `validation_schema`, so schema failures stay distinguishable when processing issues. |
-| `message`  | The resolved, localized message.                                                                                                               |
+| Field | Description |
+| --- | --- |
+| `path` | The element path the failure belongs to (`''` for root-level Validation Schema issues). |
+| `language` | On translatable elements, the language the failure occurred in. |
+| `rule` | The name of the failing rule. Standard Schema failures have no rule name — element-level schemas report `standard_schema`, the form-level Validation Schema reports `validation_schema`, so schema failures stay distinguishable when processing issues. |
+| `message` | The resolved, localized message. |
 
 ## Driving Validation from Code
 
 Every element, every container, the form, and a headless model instance expose the same validation methods:
 
-| Method               | Description                                                                                                                                                                         |
-| -------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| `validate()`         | **Async.** Runs the rules and resolves `true` when everything passes. On containers and the form, children already passing against their current value are skipped — pass `{ force: true }` to re-run everything regardless (what submit does when `validateOn` includes `'submit'`). |
-| `validateSelf()`     | **Async.** Runs only the component's **own** rules — leaving children untouched.                                                                   |
-| `validateChildren()` | **Async.** Containers — validates the **children** only (the incomplete ones by default, all of them with `{ force: true }`) and resolves whether every child passes.               |
-| `validateCurrent()`  | **Async.** Translatable elements only — validates just the active language.                                                                                                         |
-| `unvalidate()`       | Resets validation state — clears rule errors and marks the rules as not having run.                                                                                                 |
-| `invalidate()`       | Marks results as stale so the next validation re-runs them — adds no errors.                                                                                                        |
-| `clearErrors()`      | Clears custom errors from this component's own `messageBag`.                                                                                                                        |
-| `clearMessages()`    | Clears custom messages from this component's own `messageBag`.                                                                                                                      |
-| `clearMessageBag()`  | Clears both.                                                                                                                                                                        |
-| `toStandardSchema()` | Exports the compiled rules as a Standard Schema — covered in the closing section of this chapter.                                                                                   |
+| Method | Description |
+| --- | --- |
+| `validate()` | **Async.** Runs the rules and resolves `true` when everything passes. On containers and the form, children already passing against their current value are skipped — pass `{ force: true }` to re-run everything regardless (what submit does when `validateOn` includes `'submit'`). |
+| `validateSelf()` | **Async.** Runs only the component's **own** rules — leaving children untouched. |
+| `validateChildren()` | **Async.** Containers — validates the **children** only (the incomplete ones by default, all of them with `{ force: true }`) and resolves whether every child passes. |
+| `validateCurrent()` | **Async.** Translatable elements only — validates just the active language. |
+| `unvalidate()` | Resets validation state — clears rule errors and marks the rules as not having run. |
+| `invalidate()` | Marks results as stale so the next validation re-runs them — adds no errors. |
+| `clearErrors()` | Clears custom errors from this component's own `messageBag`. |
+| `clearMessages()` | Clears custom messages from this component's own `messageBag`. |
+| `clearMessageBag()` | Clears both. |
+| `toStandardSchema()` | Exports the compiled rules as a Standard Schema — covered in the closing section of this chapter. |
 
 ```ts
 formReady(async (form$) => {

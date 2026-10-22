@@ -98,14 +98,14 @@ Vueform tests every component in the subtree against `$apply: 'VfText'`: the for
 
 `$apply` accepts several shapes:
 
-| `$apply`                 | Matches                                                                            |
-| ------------------------ | ---------------------------------------------------------------------------------- |
-| `'this'` (or omitted)    | Only the host component.                                                           |
-| `'VfText'`               | Every component of that type.                                                      |
-| `['VfText', 'VfSelect']` | Any of the listed types.                                                           |
-| `'*'`                    | Every component.                                                                   |
-| `'*element'`             | Every element — structural components (`!VfForm`, `VfTabs`, `VfSteps`) are skipped. |
-| `(component) => boolean` | Custom predicate.                                                                  |
+| `$apply` | Matches |
+| --- | --- |
+| `'this'` (or omitted) | Only the host component. |
+| `'VfText'` | Every component of that type. |
+| `['VfText', 'VfSelect']` | Any of the listed types. |
+| `'*'` | Every component. |
+| `'*element'` | Every element — structural components (`!VfForm`, `VfTabs`, `VfSteps`) are skipped. |
+| `(component) => boolean` | Custom predicate. |
 
 Mixing `'this'` into an array also works — `$apply: ['this', 'VfText']` reaches the host plus every text element below it.
 

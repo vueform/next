@@ -427,12 +427,12 @@ Without an installed sanitizer, an allowed area renders its HTML raw with a dev 
 
 ## Choosing a Shape
 
-| Use…                 | When…                                                                                                           |
-| -------------------- | --------------------------------------------------------------------------------------------------------------- |
-| Plain value          | The value is static — and for text, single-language.                                                            |
+| Use… | When… |
+| --- | --- |
+| Plain value | The value is static — and for text, single-language. |
 | Expression (`{...}`) | The value derives from form data — static text mixed with field values, or a bound computed from another field. |
-| Locale map           | The text needs translations in place (text props only).                                                         |
-| Ref                  | The value comes from external state (a store, a composable, an API).                                            |
-| Function             | The value depends on element or form state beyond what `{...}` covers.                                          |
+| Locale map | The text needs translations in place (text props only). |
+| Ref | The value comes from external state (a store, a composable, an API). |
+| Function | The value depends on element or form state beyond what `{...}` covers. |
 
 The shapes are interchangeable — every dynamic prop accepts all of them (locale maps on text props). Pick whichever keeps the call site simplest.

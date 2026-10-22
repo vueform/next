@@ -59,13 +59,13 @@ defineSchema({
 
 The date-aware [rules](/guide/validation) parse and compare through the same adapter. The comparison rules all take the same `date` parameter, which accepts three forms: a fixed date (`after:2026-01-01`), the keywords `today` / `tomorrow` / `yesterday` (`before:today`), or **another element's path** (`after:start_date`):
 
-| Rule                                   | Validates that the value…          | [Format plugin](#format-plugins)?              |
-| -------------------------------------- | ---------------------------------- | ---------------------------------------------- |
-| `date`                                 | …is a valid date.                  | Not needed for standard formats.               |
-| `date_format:FORMAT`                   | …matches the given format exactly. | **Always required.**                           |
-| `date_equals:date`                     | …falls on the given date.          | Only if a compared value is custom-formatted*. |
+| Rule | Validates that the value… | [Format plugin](#format-plugins)? |
+| --- | --- | --- |
+| `date` | …is a valid date. | Not needed for standard formats. |
+| `date_format:FORMAT` | …matches the given format exactly. | **Always required.** |
+| `date_equals:date` | …falls on the given date. | Only if a compared value is custom-formatted*. |
 | `before:date` / `before_or_equal:date` | …is before (or on) the given date. | Only if a compared value is custom-formatted*. |
-| `after:date` / `after_or_equal:date`   | …is after (or on) the given date.  | Only if a compared value is custom-formatted*. |
+| `after:date` / `after_or_equal:date` | …is after (or on) the given date. | Only if a compared value is custom-formatted*. |
 
 _\* "Custom-formatted" means an element that stores its value in a format declared by its `valueFormat` prop. Each side of a comparison is parsed with its own element's format — so with a path parameter like `after:start_date`, a custom format on **either** element requires the plugin._
 
@@ -120,13 +120,13 @@ dob.add(30, 'day').toISODate() // '1990-06-14'
 
 The instance is immutable — every manipulation returns a new instance — and exposes a dayjs-compatible API regardless of which adapter is behind it:
 
-| Group        | Members                                                                                                                                                         |
-| ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Validity     | `isValid()`                                                                                                                                                     |
-| Getters      | `year()`, `month()` (1–12), `date()`, `day()` (0 = Sunday), `hour()`, `minute()`, `second()`, `millisecond()`                                                   |
-| Manipulation | `add(amount, unit)`, `subtract(amount, unit)`, `startOf(unit)`, `endOf(unit)`, `set(unit, value)`                                                               |
-| Comparison   | `isBefore()`, `isAfter()`, `isSame()`, `isSameOrBefore()`, `isSameOrAfter()`, `isBetween()`, `diff(other, unit?)` — each accepting an optional unit granularity |
-| Output       | `toDate()`, `toISOString()`, `toISODate()`, `valueOf()`, `unix()`, `format(tokens)` (plugin), `clone()`                                                         |
+| Group | Members |
+| --- | --- |
+| Validity | `isValid()` |
+| Getters | `year()`, `month()` (1–12), `date()`, `day()` (0 = Sunday), `hour()`, `minute()`, `second()`, `millisecond()` |
+| Manipulation | `add(amount, unit)`, `subtract(amount, unit)`, `startOf(unit)`, `endOf(unit)`, `set(unit, value)` |
+| Comparison | `isBefore()`, `isAfter()`, `isSame()`, `isSameOrBefore()`, `isSameOrAfter()`, `isBetween()`, `diff(other, unit?)` — each accepting an optional unit granularity |
+| Output | `toDate()`, `toISOString()`, `toISODate()`, `valueOf()`, `unix()`, `format(tokens)` (plugin), `clone()` |
 
 Units accept singular and plural forms (`'day'` / `'days'`, `'month'` / `'months'`, …).
 

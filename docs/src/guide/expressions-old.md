@@ -273,13 +273,13 @@ The result must be a boolean; anything else counts as `false`. See [Expression C
 
 The engine supports math, comparison, logical, and membership operators, plus the ternary:
 
-| Category    | Operators                                      |
-| ----------- | ---------------------------------------------- |
-| Math        | `+`, `-`, `*`, `/`, `%`, `^` (power)           |
-| Comparison  | `==`, `!=`, `>`, `>=`, `<`, `<=`               |
-| Logical     | `and` / `AND`, `or` / `OR`, `not` / `NOT`, `!` |
-| Membership  | `in`                                           |
-| Conditional | `cond ? a : b`                                 |
+| Category | Operators |
+| --- | --- |
+| Math | `+`, `-`, `*`, `/`, `%`, `^` (power) |
+| Comparison | `==`, `!=`, `>`, `>=`, `<`, `<=` |
+| Logical | `and` / `AND`, `or` / `OR`, `not` / `NOT`, `!` |
+| Membership | `in` |
+| Conditional | `cond ? a : b` |
 
 Logical operators work in either case — `AND` and `and` are the same operator.
 
@@ -322,11 +322,11 @@ The engine ships a library of helpers, called with parentheses inside a `{...}` 
 
 ### Logic
 
-| Function           | Description                                              |
-| ------------------ | -------------------------------------------------------- |
-| `NOT(value)`       | Negation of `value`.                                     |
-| `EMPTY(value)`     | `true` for `''`, `null`, `undefined`, or an empty array. |
-| `NOT_EMPTY(value)` | The inverse of `EMPTY`.                                  |
+| Function | Description |
+| --- | --- |
+| `NOT(value)` | Negation of `value`. |
+| `EMPTY(value)` | `true` for `''`, `null`, `undefined`, or an empty array. |
+| `NOT_EMPTY(value)` | The inverse of `EMPTY`. |
 
 ::: code-group
 
@@ -350,37 +350,37 @@ defineSchema({
 
 ### Numbers
 
-| Function               | Description                                            |
-| ---------------------- | ------------------------------------------------------ |
-| `SUM(...args)`         | Sum of all arguments. Non-numeric values count as `0`. |
-| `AVG(...args)`         | Average of non-empty values.                           |
-| `MIN(...args)`         | Smallest non-empty value.                              |
-| `MAX(...args)`         | Largest non-empty value.                               |
-| `COUNT(...args)`       | Count of non-empty values.                             |
-| `ROUND(value, places)` | Rounds `value` to `places` decimals.                   |
+| Function | Description |
+| --- | --- |
+| `SUM(...args)` | Sum of all arguments. Non-numeric values count as `0`. |
+| `AVG(...args)` | Average of non-empty values. |
+| `MIN(...args)` | Smallest non-empty value. |
+| `MAX(...args)` | Largest non-empty value. |
+| `COUNT(...args)` | Count of non-empty values. |
+| `ROUND(value, places)` | Rounds `value` to `places` decimals. |
 
 All of them accept multiple arguments **and flatten arrays**, which makes them a natural fit for [wildcard list paths](#expressions-in-lists) like `SUM(items.*.amount)`.
 
 ### Text
 
-| Function                                                      | Description                                                           |
-| ------------------------------------------------------------- | --------------------------------------------------------------------- |
-| `CONCAT(...args)`                                             | Joins all arguments into one string; empty values contribute nothing. |
-| `LC(value)`                                                   | Lowercase.                                                            |
-| `UC(value)`                                                   | Uppercase.                                                            |
-| `UCF(value)`                                                  | Uppercase first letter.                                               |
-| `ENCODE_URI(value)` / `DECODE_URI(value)`                     | URI encoding / decoding.                                              |
-| `ENCODE_URI_COMPONENT(value)` / `DECODE_URI_COMPONENT(value)` | URI-component encoding / decoding.                                    |
+| Function | Description |
+| --- | --- |
+| `CONCAT(...args)` | Joins all arguments into one string; empty values contribute nothing. |
+| `LC(value)` | Lowercase. |
+| `UC(value)` | Uppercase. |
+| `UCF(value)` | Uppercase first letter. |
+| `ENCODE_URI(value)` / `DECODE_URI(value)` | URI encoding / decoding. |
+| `ENCODE_URI_COMPONENT(value)` / `DECODE_URI_COMPONENT(value)` | URI-component encoding / decoding. |
 
 ### Dates
 
-| Function                        | Description                                                                                |
-| ------------------------------- | ------------------------------------------------------------------------------------------ |
-| `TODAY()`                       | Today's date as `YYYY-MM-DD`.                                                              |
-| `NOW()`                         | Current timestamp as an ISO string.                                                        |
-| `AGE(date)`                     | Whole years between `date` and today.                                                      |
+| Function | Description |
+| --- | --- |
+| `TODAY()` | Today's date as `YYYY-MM-DD`. |
+| `NOW()` | Current timestamp as an ISO string. |
+| `AGE(date)` | Whole years between `date` and today. |
 | `DATE_ADD(value, amount, unit)` | Adds an amount of `unit` (`'day'`, `'month'`, …) to a date, preserving the input's format. |
-| `FORMAT_DATE(value, format)`    | Formats a date using the date adapter's format tokens.                                     |
+| `FORMAT_DATE(value, format)` | Formats a date using the date adapter's format tokens. |
 
 ::: usage model
 
@@ -790,12 +790,12 @@ To switch the whole system off, set `$expression.enabled: false` in the config �
 
 ## Edge Cases
 
-| Input                                               | Resolves to |
-| --------------------------------------------------- | ----------- |
-| Referenced field is `null`, `undefined`, or missing | `''`        |
-| Result is `NaN`                                     | `'0'`       |
-| Result is `null`, `undefined`, or `[object Object]` | `''`        |
-| Expression cannot be parsed                         | Left as-is  |
+| Input | Resolves to |
+| --- | --- |
+| Referenced field is `null`, `undefined`, or missing | `''` |
+| Result is `NaN` | `'0'` |
+| Result is `null`, `undefined`, or `[object Object]` | `''` |
+| Expression cannot be parsed | Left as-is |
 
 Expressions can span multiple lines inside one `{...}` block, so longer logic doesn't have to be squeezed onto one line.
 

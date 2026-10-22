@@ -65,11 +65,11 @@ const [MyForm] = useForm({ schema }, model)
 
 Alternatively you can pass plainer model shapes to `!useForm`:
 
-| You pass         | The form                                                                 |
-| ---------------- | ------------------------------------------------------------------------ |
-| `ref`            | Two-way syncs it, exactly like any `v-model`.                            |
-| `reactive`       | Syncs form changes back into its keys, preserving the object's identity. |
-| `object` (plain) | Seeds the initial values — no syncing back.                              |
+| You pass | The form |
+| --- | --- |
+| `ref` | Two-way syncs it, exactly like any `v-model`. |
+| `reactive` | Syncs form changes back into its keys, preserving the object's identity. |
+| `object` (plain) | Seeds the initial values — no syncing back. |
 
 These are fine when the form's data is just another piece of component state. What they lack is what `!useModel` adds: none of them is type-checked against the schema, and none carries the [Model API](#the-model-api).
 

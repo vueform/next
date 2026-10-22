@@ -115,10 +115,10 @@ const [Form] = useForm({ schema })
 
 :::
 
-| Element | `path`            | `dataPath`      | Model                         |
-| ------- | ----------------- | --------------- | ----------------------------- |
-| Company | `billing.company` | `company`       | `{ company: ... }`            |
-| City    | `shipping.city`   | `shipping.city` | `{ shipping: { city: ... } }` |
+| Element | `path` | `dataPath` | Model |
+| --- | --- | --- | --- |
+| Company | `billing.company` | `company` | `{ company: ... }` |
+| City | `shipping.city` | `shipping.city` | `{ shipping: { city: ... } }` |
 
 The APIs are forgiving about the difference: `find()` looks the path up in the element tree first and falls back to matching by data path, so `find('billing.company')` and `find('company')` both resolve the same element. [Condition](/guide/conditions) targets and `@prop` references go through the same lookup, and [expression](/guide/expressions) `{...}` references read the model first and fall back to it — either spelling works everywhere. Prefer the **tree path**: it's the complete address (a data-less container like `billing` has no other), and it's the one the typed `find()` autocompletes.
 
@@ -196,14 +196,14 @@ The part after `@` is itself a dot path into the context, so nested props (`@mod
 
 The same paths appear across the API — learn them once, use them everywhere:
 
-| API                                                            | Example                               |
-| -------------------------------------------------------------- | ------------------------------------- |
-| [`find()`](/guide/context#finding-elements)                    | `form$.find('address.city')`          |
-| `get()` / `set()`                                              | `form$.set('address.city', 'Berlin')` |
-| [Conditions](/guide/conditions)                                | `conditions: [['plan', '==', 'Pro']]` |
-| [Expressions](/guide/expressions)                              | `default: '{price * quantity}'`       |
-| [Rule params](/guide/validation#rules-with-element-references) | `rules: 'required\|same:password'`    |
-| [`conditionsTrigger`](/guide/conditions#async-conditions)      | `conditionsTrigger: ['username']`     |
+| API | Example |
+| --- | --- |
+| [`find()`](/guide/context#finding-elements) | `form$.find('address.city')` |
+| `get()` / `set()` | `form$.set('address.city', 'Berlin')` |
+| [Conditions](/guide/conditions) | `conditions: [['plan', '==', 'Pro']]` |
+| [Expressions](/guide/expressions) | `default: '{price * quantity}'` |
+| [Rule params](/guide/validation#rules-with-element-references) | `rules: 'required\|same:password'` |
+| [`conditionsTrigger`](/guide/conditions#async-conditions) | `conditionsTrigger: ['username']` |
 
 When the form is typed from a `!defineSchema` result, TypeScript knows the valid paths — `find()`, `get()`, and `set()` autocomplete them, and a matched path types its result:
 

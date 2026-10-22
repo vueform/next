@@ -58,11 +58,11 @@ The input shows one language at a time; typing writes to the entry of the elemen
 
 Languages are a record of codes (the model keys) to display labels (what the switcher shows). They can be set at three levels — the most specific wins:
 
-| Level   | Where                               | Use when                           |
-| ------- | ----------------------------------- | ---------------------------------- |
-| Global  | `createVueform({ languages })`      | All forms share one set.           |
-| Form    | `languages` on `!VfForm` / `useForm` | A specific form differs.           |
-| Element | `languages` on the element          | One element differs from its form. |
+| Level | Where | Use when |
+| --- | --- | --- |
+| Global | `createVueform({ languages })` | All forms share one set. |
+| Form | `languages` on `!VfForm` / `useForm` | A specific form differs. |
+| Element | `languages` on the element | One element differs from its form. |
 
 ```ts
 createVueform({

@@ -84,10 +84,10 @@ None needed — the CSS ships with the components: each one imports exactly the 
 
 Two built-in themes ship today:
 
-| Name         | Identifier | Description                                      |
-| ------------ | ---------- | ------------------------------------------------ |
-| **Origin**   | `origin`   | Carries forward the look and feel of Vueform v1. |
-| **Material** | `material` | A Material Design–inspired look.                 |
+| Name | Identifier | Description |
+| --- | --- | --- |
+| **Origin** | `origin` | Carries forward the look and feel of Vueform v1. |
+| **Material** | `material` | A Material Design–inspired look. |
 
 The identifier is how a theme is selected in either setup: it names the pre-configured entry point (`@vueform/ui/identifier`) as well as the theme's export from `@vueform/ui/themes` (`import { identifier } from '@vueform/ui/themes'`).
 

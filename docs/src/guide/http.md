@@ -32,14 +32,14 @@ Called with no argument, `useHttp()` resolves the app's configuration by injecti
 
 Each shorthand returns a `Promise<HttpResponse<T>>`:
 
-| Method                             | Signature                                      |
-| ---------------------------------- | ---------------------------------------------- |
-| `$http.get(url, config?)`          | GET request, no body.                          |
-| `$http.post(url, data?, config?)`  | POST with optional body.                       |
-| `$http.put(url, data?, config?)`   | PUT with optional body.                        |
-| `$http.patch(url, data?, config?)` | PATCH with optional body.                      |
-| `$http.delete(url, config?)`       | DELETE request, no body.                       |
-| `$http.request(config)`            | Full request driven by an `HttpRequestConfig`. |
+| Method | Signature |
+| --- | --- |
+| `$http.get(url, config?)` | GET request, no body. |
+| `$http.post(url, data?, config?)` | POST with optional body. |
+| `$http.put(url, data?, config?)` | PUT with optional body. |
+| `$http.patch(url, data?, config?)` | PATCH with optional body. |
+| `$http.delete(url, config?)` | DELETE request, no body. |
+| `$http.request(config)` | Full request driven by an `HttpRequestConfig`. |
 
 The last argument is a partial `HttpRequestConfig` overriding the [defaults](#configuring-defaults) for that one call:
 
@@ -166,15 +166,15 @@ try {
 }
 ```
 
-| `reason`    | When                                                                                      |
-| ----------- | ----------------------------------------------------------------------------------------- |
-| `'http'`    | The server responded with a non-`2xx` status.                                             |
-| `'network'` | The request never reached the server (DNS, offline, CORS, …).                             |
-| `'timeout'` | The configured `timeout` elapsed.                                                         |
-| `'abort'`   | The request was [cancelled](#aborting-requests) via an `AbortSignal`.                     |
-| `'blocked'` | The target origin isn't allowed by [`allowOrigins`](/guide/security#request-origins).     |
-| `'ssr'`     | The request was attempted during [server-side rendering](/guide/ssr#http-is-client-side). |
-| `'unknown'` | Catch-all for unexpected adapter failures.                                                |
+| `reason` | When |
+| --- | --- |
+| `'http'` | The server responded with a non-`2xx` status. |
+| `'network'` | The request never reached the server (DNS, offline, CORS, …). |
+| `'timeout'` | The configured `timeout` elapsed. |
+| `'abort'` | The request was [cancelled](#aborting-requests) via an `AbortSignal`. |
+| `'blocked'` | The target origin isn't allowed by [`allowOrigins`](/guide/security#request-origins). |
+| `'ssr'` | The request was attempted during [server-side rendering](/guide/ssr#http-is-client-side). |
+| `'unknown'` | Catch-all for unexpected adapter failures. |
 
 `error.config` is safe to hand to an error reporter — credential-bearing headers such as `Authorization` and `Cookie` arrive as `'[redacted]'`, so a token attached by an interceptor never ends up in a log.
 
