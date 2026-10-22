@@ -987,7 +987,6 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Element {#props-button}
 
@@ -996,6 +995,7 @@ Configure the component's behavior and appearance with these props.
 | [`variant`](!code#props.variant "'filled' \| 'outlined' \| 'text' \| 'link'") | `'filled'` | The visual variant of the button. |
 | [`severity`](!code#props.severity "DProp<'primary' \| 'secondary' \| 'success' \| 'info' \| 'warn' \| 'help' \| 'danger' \| 'contrast', TContext>") | `'secondary'` | The color severity of the button. |
 | [`size`](!code#props.size "'medium' \| 'small'") | `'medium'` | The size of the button. |
+| [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
 | [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | `false` | Whether the element is disabled. |
 | [`text`](!code#props.text "TProp<string, TContext>") | — | The label text displayed on the button. |

@@ -1571,7 +1571,6 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Input {#props-matrix}
 
@@ -1623,6 +1622,7 @@ Configure the component's behavior and appearance with these props.
 | [`colsKey`](!code#props.colsKey "string \| ((data: any) => any)") | `'cols'` | The key or function that resolves the column definitions from the `endpoint` response. Defaults to `'cols'`. |
 | [`rowsKey`](!code#props.rowsKey "string \| ((data: any) => any)") | `'rows'` | The key or function that resolves the row definitions from the `endpoint` response. Defaults to `'rows'`. |
 | [`transformEndpoint`](!code#props.transformEndpoint "(data: any) => any[] \| Record<string, any>") | — | Transforms data received from the `endpoint` before the column and row definitions are extracted. |
+| [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
 | [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |
 | [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | — | Whether the element is disabled. |

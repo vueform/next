@@ -20,7 +20,7 @@ interface SecurityModule {
    * Filters a schema-reachable prop bag (schema entries, `parts` bags, grid
    * cell `attrs`) down to entries safe to bind: the built-in denylist
    * (`innerHTML`/`outerHTML`, prototype keys) plus the entries matching
-   * `$security.banProps` (strings or RegExps), dropped in every value form with
+   * `$security.banAttrs` (strings or RegExps), dropped in every value form with
    * a dev warning. Returns the same reference when nothing needs stripping.
    * Filtering is a module feature: without the `security` module registered,
    * bags pass through unchanged.
@@ -76,6 +76,18 @@ interface SecurityModule {
    * @param name The component name.
    */
   allowsComponent: (name: string) => boolean
+
+  /**
+   * Whether a `path@prop` / `@prop` reference may resolve the given prop path,
+   * per `$security.safePropRefs`. Fail-closed: with the module registered and
+   * the option unset, every prop reference is denied. Consulted by structured
+   * conditions and by expression engines' `PROP()` / `SELF()` resolution.
+   * Warns once per denied prop in dev.
+   *
+   * @param prop The referenced prop path (the part after `@`, e.g.
+   *   `'selectedLabel'` or `'model.0'`).
+   */
+  allowsPropRef: (prop: string) => boolean
 
   /**
    * Whether an HTTP request URL is permitted by `$security.allowOrigins`.

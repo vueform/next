@@ -53,10 +53,11 @@ interface BaseElementProps<
   detached?: boolean
 
   /**
-   * Controls which props allow dynamic expression resolution. Set to `false`
-   * to disable all expression evaluation, `true` to enable for all
-   * expressionable props, or an array of prop keys to enable selectively.
+   * Disables expression resolution for this element. Applies to the element
+   * itself only (container elements don't cascade it to their children), and a
+   * form-level `noExpressions` cannot be overridden by setting it to `false`
+   * here.
    */
-  expressions?: ExpressionsProp
+  noExpressions?: boolean
 }
 ```

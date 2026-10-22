@@ -238,11 +238,10 @@ interface FormProps<
   tokens?: ThemeTokens
 
   /**
-   * Controls which props allow dynamic expression resolution. Set to `false` to
-   * disable all expression evaluation, `true` to enable for all expressionable
-   * props, or an array of prop keys to enable selectively.
+   * Disables expression resolution for the form and every element in it.
+   * Elements cannot override it with their own `noExpressions: false`.
    */
-  expressions?: ExpressionsProp
+  noExpressions?: boolean
 
   /**
    * Form-level expression constants. Each value is a TProp that is resolved and

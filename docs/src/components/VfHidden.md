@@ -106,17 +106,12 @@ Configure the component's behavior and appearance with these props.
 | [`type`](!code#props.type "string") | `'hidden'` | The element type identifier. |
 | [`id`](!code#props.id "TProp<string, TContext>") | — | The HTML `id` attribute for the input element. |
 
-### Layout {#props-layout}
-
-| Prop | Default | Description |
-| --- | --- | --- |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
-
 ### Input {#props-hidden}
 
 | Prop | Default | Description |
 | --- | --- | --- |
 | [`meta`](!code#props.meta "boolean") | `false` | When true the element stores metadata only and renders nothing to the DOM — not even a hidden input. |
+| [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |
 
 ### Data {#props-data}

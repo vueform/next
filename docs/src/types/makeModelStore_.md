@@ -40,7 +40,7 @@ function makeModelStore(options: ModelStoreOptions = {}): {
   consumeValueChanged: () => boolean
   attach: (context$: any) => void
   onRelease: (cb: (context$: any) => void) => () => void
-  release: () => void
+  release: (context$?: any) => void
   submit: () => Promise<any>
   destroy: () => void
 }

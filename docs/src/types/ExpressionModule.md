@@ -38,6 +38,17 @@ interface ExpressionModule {
   usedPaths: (expressionChain: string, path?: string) => string[]
 
   /**
+   * Whether `$expression.whitelist` allows resolving expressions for the given
+   * prop key. An unset whitelist allows every key; string members match the
+   * key exactly, RegExp members as written. Always `false` on the inert
+   * surface. `noExpressions` is the caller's concern — this is the whitelist
+   * verdict only.
+   *
+   * @param key The expressionable prop key.
+   */
+  allows: (key: string) => boolean
+
+  /**
    * Warns (dev-only, once per app) that an expression engine is required. No-op
    * when the expression module is registered and enabled (built-in path adapter
    * or a plugin engine).

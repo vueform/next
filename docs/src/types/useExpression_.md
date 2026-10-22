@@ -20,11 +20,13 @@ function useExpression(): {
   resolve: <T extends string | undefined>(value: T) => Resolved<T>
 
   /**
-   * Checks whether expression resolution is allowed for the given prop key.
+   * Checks whether expression resolution is allowed for the given prop key:
+   * `false` when the form or the element sets `noExpressions`, otherwise the
+   * `$expression.whitelist` verdict (unset allows every key).
    *
    * @param key The expressionable prop key to check.
    */
-  allowed: (key: ExpressionableKeys) => boolean
+  allowed: (key: string) => boolean
 
   /**
    * Extracts the element paths referenced inside an expression chain string.
@@ -43,7 +45,7 @@ function useExpression(): {
    *   `undefined`.
    */
   resolveIfAllowed: <T extends string | undefined>(
-    key: ExpressionableKeys,
+    key: string,
     value: T
   ) => Resolved<T>
 

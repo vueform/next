@@ -90,7 +90,6 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Input {#props-radiobutton}
 
@@ -99,6 +98,7 @@ Configure the component's behavior and appearance with these props.
 | [`radioName`](!code#props.radioName "TProp<string, TContext>") | — | Overrides the HTML `name` attribute for the radio input. |
 | [`text`](!code#props.text "TProp<string, TContext>") | — | The label text displayed next to the radio button. |
 | [`value`](!code#props.value "TRadioValue \| boolean") | `true` | The value submitted when this radio is selected. Also drives the model type (as `value \| null`). May be an object or array when the radios list is built from complex item values.<br><br>Includes a naked `boolean` arm alongside `TRadioValue` so the erased schema surface (and blueprint defaults) still accept `true` / `false` literals. Concrete values continue to infer into `TRadioValue`. |
+| [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
 | [`defaultValue`](!code#props.defaultValue "T") | — | The default/initial value of the element. |
 | [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |

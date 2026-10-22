@@ -376,7 +376,6 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Input {#props-colorpicker}
 
@@ -386,6 +385,7 @@ Configure the component's behavior and appearance with these props.
 | [`defaultColor`](!code#props.defaultColor "any") | `'ff0000'` | Initial color to display when value is not defined and the format is `hex`. |
 | [`defaultRgb`](!code#props.defaultRgb "{ r: number; g: number; b: number }") | `{ r: 255, g: 0, b: 0 }` | Initial color to display when value is not defined and the format is `rgb`. |
 | [`defaultHsb`](!code#props.defaultHsb "{ h: number; s: number; b: number }") | `{ h: 100, s: 0, b: 0 }` | Initial color to display when value is not defined and the format is `hsb`. |
+| [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
 | [`defaultValue`](!code#props.defaultValue "T") | — | The default/initial value of the element. |
 | [`sensitive`](!code#props.sensitive "boolean") | `false` | Whether the element holds sensitive data (passwords, payment details, …). Sensitive values are excluded from locally stored autosave drafts. On a container, the whole subtree is excluded. |

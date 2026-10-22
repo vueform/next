@@ -629,7 +629,6 @@ Configure the component's behavior and appearance with these props.
 | --- | --- | --- |
 | [`loading`](!code#props.loading "boolean") | `false` | Whether the form is in a loading state. |
 | [`stacked`](!code#props.stacked "boolean") | `false` | Whether to render child elements in a stacked (wrapped row) layout. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Component {#props-form}
 
@@ -662,6 +661,7 @@ Configure the component's behavior and appearance with these props.
 | [`successMessage`](!code#props.successMessage "TProp<string, TContext>") | — | Message displayed after successful form submission. |
 | [`resetOnSuccess`](!code#props.resetOnSuccess "boolean") | `false` | Whether to reset the form after successful submission. |
 | [`clearOnSuccess`](!code#props.clearOnSuccess "boolean") | `false` | Whether to clear the form after successful submission. |
+| [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for the form and every element in it. Elements cannot override it with their own `noExpressions: false`. |
 | [`consts`](!code#props.consts "Record<string, TProp>") | — | Form-level expression constants. Each value is a TProp that is resolved and merged into the expression evaluation scope. Names already registered in `config.$expression.consts` keep the config value — the form-level entry is ignored. |
 | [`dark`](!code#props.dark "boolean") | — | Forces the form into dark or light mode regardless of the environment.<br><br>**Requires `build.scopedDarkMode: true` in the `createVueform` config.** |
 | [`tabbed`](!code#props.tabbed "boolean") | `false` | Whether to render the form in a tabbed layout. |

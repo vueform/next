@@ -50,7 +50,7 @@ type UseItemsSourceOptions = {
    * The expressionable prop key checked against the expression allow list when
    * the source is an endpoint URL. Defaults to `'items'`.
    */
-  key?: ExpressionableKeys
+  key?: string
 
   /**
    * Whether to resolve the source immediately on setup. Defaults to `true`.

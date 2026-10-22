@@ -9,11 +9,6 @@ type ExpressionTrackingOptions = {
   store: ModelStore
 
   /**
-   * The (possibly partial) Vueform configuration.
-   */
-  config: VueformConfig
-
-  /**
    * Resolves the languages used for translatable templates (one tracked
    * template per language). A getter so mounted hosts can hand over their
    * reactive `languages` without eager evaluation.
@@ -29,10 +24,10 @@ type ExpressionTrackingOptions = {
   consts?: () => Record<string, any> | undefined
 
   /**
-   * Resolves the host-level expression allow-list (the form's `expressions`
-   * prop), consulted between the node's own `expressions` prop and the config
-   * trigger list.
+   * Resolves the host-level kill-switch (the form's `noExpressions` prop).
+   * When it reports `true`, no node tracks — a form's `noExpressions` cannot
+   * be overridden by its elements.
    */
-  expressions?: () => ExpressionsProp | undefined
+  noExpressions?: () => boolean | undefined
 }
 ```

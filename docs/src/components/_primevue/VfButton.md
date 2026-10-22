@@ -495,7 +495,6 @@ Configure the component's behavior and appearance with these props.
 | [`spaceBottom`](!code#props.spaceBottom "number") | — | Adds vertical spacing (padding) above the element. The value maps to a spacing token (1-3): `1` = `var(--vf-space-1)`, .... |
 | [`lineTop`](!code#props.lineTop "boolean") | `false` | Renders a horizontal line (border) above the element. |
 | [`lineBottom`](!code#props.lineBottom "boolean") | `false` | Renders a horizontal line (border) below the element. |
-| [`expressions`](!code#props.expressions "ExpressionsProp") | — | Controls which props allow dynamic expression resolution. Set to `false` to disable all expression evaluation, `true` to enable for all expressionable props, or an array of prop keys to enable selectively. |
 
 ### Element {#props-button}
 
@@ -504,6 +503,7 @@ Configure the component's behavior and appearance with these props.
 | [`severity`](!code#props.severity "DProp<'secondary' \| 'success' \| 'info' \| 'warn' \| 'help' \| 'danger' \| 'contrast', TContext>") | `'secondary'` | The color severity of the button. |
 | [`badge`](!code#props.badge "TProp<string, TContext>") | — | Value of the badge displayed on the button. |
 | [`badgeSeverity`](!code#props.badgeSeverity "DProp<'secondary' \| 'info' \| 'success' \| 'warn' \| 'danger' \| 'contrast', TContext>") | — | Severity type of the badge. |
+| [`noExpressions`](!code#props.noExpressions "boolean") | `false` | Disables expression resolution for this element. Applies to the element itself only (container elements don't cascade it to their children), and a form-level `noExpressions` cannot be overridden by setting it to `false` here. |
 | [`description`](!code#props.description "TProp<string, TContext>") | — | A description text displayed below the element. |
 | [`disabled`](!code#props.disabled "ConditionalProp<TContext>") | — | Whether the element is disabled. |
 | [`fluid`](!code#props.fluid "boolean") | `false` | Whether the button spans the full width of its container. |

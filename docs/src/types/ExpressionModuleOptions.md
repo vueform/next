@@ -4,17 +4,26 @@
  */
 interface ExpressionModuleOptions {
   /**
-   * Whether the expression system is enabled. When `false`, `createExpression`
-   * returns the inert passthrough surface (`installed: false`) even when an
-   * adapter is configured.
+   * Whether the expression system is enabled. Defaults to `true` (with or
+   * without a plugin adapter). When `false`, `createExpression` returns the
+   * inert passthrough surface (`installed: false`) and all expression
+   * resolution is disabled, even when an adapter is configured.
    */
   enabled?: boolean
 
   /**
-   * Prop keys that allow expression resolution. When set to an array, only
-   * listed keys are resolved. Defaults to all expressionable keys.
+   * The prop keys that resolve expressions. Unset, every expressionable prop
+   * resolves. An array restricts resolution to the listed keys — strings match
+   * exactly, RegExps as written.
    */
-  trigger?: ExpressionableKeys[]
+  whitelist?: ExpressionWhitelistProp
+
+  /**
+   * Whether forms may define their own expression constants via the `consts`
+   * prop. Defaults to `true`; when `false`, a form's `consts` prop has no
+   * effect (only `$expression.consts` entries are available).
+   */
+  localConsts?: boolean
 
   /**
    * Whether to log expression parse/evaluation warnings.
