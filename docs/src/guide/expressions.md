@@ -456,10 +456,25 @@ So far every reference has read an element's **value**. Two more reference forms
 
 ### Element Props
 
-The `@` shorthand reads element **props** — anything on the element's [context](/guide/context):
+The `@` shorthand reads element **props** — properties on the element's [context](/guide/context):
 
 - `path@prop` — a prop of the element at `path`, e.g. `country@selectedLabel`.
 - `@prop` — a prop of the **current** element, e.g. `@label`.
+
+A prop must be allowlisted in [`$security.safePropRefs`](/guide/configuration#security) before it resolves — unlisted references render as empty, with a dev warning naming the missing entry:
+
+```ts
+app.use(
+  createVueform({
+    plugins: [exprEval()],
+    $security: {
+      safePropRefs: ['selectedLabel'], // [!code highlight]
+    },
+  })
+)
+```
+
+With `selectedLabel` listed, an expression can read it off another element:
 
 ```ts
 defineSchema({
@@ -476,9 +491,9 @@ defineSchema({
 })
 ```
 
-The model holds `us`, but the note shows _United States_ — the select's `selectedLabel` prop instead of its value. Any context property is reachable, with dot paths drilling deeper (`@model.city`), `[n]` index segments (`@model[0]`), and targets like `settings@available`, which tells whether another element's [conditions](/guide/conditions) are met.
+The model holds `us`, but the note shows _United States_ — the select's `selectedLabel` prop instead of its value. Any listed context property is reachable the same way, with dot paths drilling deeper (`@model.city`), `[n]` index segments (`@model[0]`), and targets like `settings@available`, which tells whether another element's [conditions](/guide/conditions) are met. Nested paths need a pattern that covers them, such as `model.*` — see [Prop References](/guide/security#prop-references) for the full syntax `safePropRefs` accepts.
 
-The shorthand desugars to the `PROP("path", "prop")` and `SELF("prop")` functions, which you can also call directly. A literal `@` inside a quoted string — an email address, say — is left alone.
+The shorthand desugars to the `PROP("path", "prop")` and `SELF("prop")` functions, which you can also call directly and which pass through the same allowlist. A literal `@` inside a quoted string — an email address, say — is left alone.
 
 ### Constants
 
@@ -523,6 +538,8 @@ Form-level constants are [dynamic props](/guide/dynamic-props) — they can be l
 If a name is already registered in `$expression.consts`, the config value is used. The form-level entry is ignored.
 :::
 
+Form-level constants can be disabled app-wide with [`$expression.localConsts: false`](/guide/configuration#expression) — `consts` props then have no effect, and only `$expression.consts` entries remain available.
+
 ## Controlling Resolution
 
 Sometimes a string should stay literal — user-generated content, or a label that documents the expression syntax itself. Braces can be escaped one by one, or resolution can be switched off at the element, form, or app level.
@@ -549,11 +566,11 @@ label: 'Hello \\{literal} from {user}'
 
 ### Restriction Levels
 
-Resolution can be restricted at three levels, and the most specific one wins:
+Resolution can be restricted at three levels:
 
-1. **Element** — the `expressions` prop. `false` disables the element's expression resolution entirely, an array of prop keys (`['label', 'help']`) allows only those.
-2. **Form** — the same `expressions` prop on the form applies to every child element.
-3. **Global** — `$expression.trigger` in the [config](/guide/configuration#expression) takes the same array of allowed prop keys for the whole app.
+1. **Element** — the `no-expressions` prop disables the element's expression resolution entirely. It applies to that element alone — a container's `no-expressions` does not cascade to its children.
+2. **Form** — `no-expressions` on the form disables resolution for the form and **every element** in it. An element cannot opt back in under it.
+3. **Global** — `$expression.whitelist` in the [config](/guide/configuration#expression) lists the prop keys that resolve for the whole app — when it isn't set, every expressionable prop resolves. Members are exact strings or RegExps (`/^lab/` covers `label`).
 
 ```ts
 defineSchema({
@@ -561,18 +578,27 @@ defineSchema({
   literal: {
     type: 'text',
     label: 'Hello {name}',
-    expressions: false, // [!code highlight]
+    noExpressions: true, // [!code highlight]
   },
-  partial: {
+  greeting: {
     type: 'text',
     label: 'Hello {name}',
     help: 'Hello {name}',
-    expressions: ['label'], // [!code highlight]
   },
 })
 ```
 
-`literal` renders its braces as-is, while `partial` resolves only the label and leaves the help text literal. The `default` key is part of the same system — omit it from an allow-list and computed defaults stop resolving too.
+`literal` renders its braces as-is, while `greeting` resolves both. With a global whitelist the resolved set narrows app-wide:
+
+```ts
+createVueform({
+  $expression: {
+    whitelist: ['label'], // [!code highlight]
+  },
+})
+```
+
+Now `greeting` resolves only its label and leaves the help text literal. The `default` key is part of the same system — omit it from the whitelist and computed defaults stop resolving too.
 
 To switch the whole system off, set `$expression.enabled: false` in the config — expression strings then pass through untouched everywhere.
 

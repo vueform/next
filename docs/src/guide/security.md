@@ -15,7 +15,8 @@ The protections Vueform itself provides live in one place: the `security` module
 | [`allowHtml`](#html-sanitization) | `[]` | The areas where strings may render as **HTML** — `'content'`, `'grid'`, `'slots'`. |
 | [`sanitizer`](#the-sanitize-step) | — | The sanitization engine every allowed HTML area renders through. No built-in one — the [DOMPurify plugin](/plugins/dompurify) provides it; an identity function is the conscious opt-out. |
 | [`allowComponents`](#components-from-schemas) | `[]` | The component names a schema string may resolve to. |
-| [`banProps`](#banning-props) | `[]` | Attribute keys (strings or RegExps, e.g. `/^on/i`) to drop from schema-reachable attribute bags. Only `innerHTML`/`outerHTML` and prototype keys are built in. |
+| [`banAttrs`](#banning-attributes) | `[]` | Attribute keys (strings or RegExps, e.g. `/^on/i`) to drop from schema-reachable attribute bags. Only `innerHTML`/`outerHTML` and prototype keys are built in. |
+| [`safePropRefs`](#prop-references) | `[]` | The element props `path@prop` / `@prop` references may resolve in conditions and expressions. Unset, no prop reference resolves. |
 | [`allowOrigins`](#request-origins) | `[]` | Cross-origin destinations requests may target. Own origin allowed by default. |
 | [`encrypt`](#draft-encryption) / [`decrypt`](#draft-encryption) | — | Ciphers applied to persisted values, such as local autosave drafts. |
 
@@ -402,16 +403,16 @@ Treat `allowComponents` as a contract with your schema authors: only the compone
 | --- | --- |
 | `slots` / grid cell strings, `VfContent` content | Text always renders escaped; HTML only through [`allowHtml`](#html-sanitization), always sanitized. |
 | `component`, `template`, `layout` name strings | Resolved only through [`allowComponents`](#components-from-schemas). |
-| `parts` bags, grid cell `attrs`, undeclared schema keys (form entries, flat list prototypes, grid cell / matrix column schemas) | Filtered before reaching the DOM: `innerHTML`/`outerHTML` and prototype keys are always dropped; everything else — including inline `on*` handlers and `srcdoc` — is app policy via [`banProps`](#banning-props), dropped in every value form. |
+| `parts` bags, grid cell `attrs`, undeclared schema keys (form entries, flat list prototypes, grid cell / matrix column schemas) | Filtered before reaching the DOM: `innerHTML`/`outerHTML` and prototype keys are always dropped; everything else — including inline `on*` handlers and `srcdoc` — is app policy via [`banAttrs`](#banning-attributes), dropped in every value form. |
 | `tokens`, grid `widths`, matrix `gridTemplateColumns` | Values that could break out of a scoped CSS rule are dropped. |
 | `redirect`, button `href` / `to`, file `url` | Scheme-validated — `javascript:` and other script-bearing schemes never reach a navigation sink. |
 | `autosave.local.key` | Forced under the `vueform:` storage namespace. |
 
-### Banning Props
+### Banning Attributes
 
-The prop filtering hardcodes only the entries no app can ever want from data: `innerHTML`/`outerHTML` (an attribute bag as an HTML sink) and prototype keys (`__proto__`, `constructor`, `prototype`). **Everything else is your policy**, declared through `banProps` — including inline event handlers.
+The prop filtering hardcodes only the entries no app can ever want from data: `innerHTML`/`outerHTML` (an attribute bag as an HTML sink) and prototype keys (`__proto__`, `constructor`, `prototype`). **Everything else is your policy**, declared through `banAttrs` — including inline event handlers.
 
-::: warning Configure `banProps` when schemas are untrusted
+::: warning Configure `banAttrs` when schemas are untrusted
 If your schemas come from a semi-trusted source (CMS, form builder, database), configure at least:
 
 ```ts
@@ -419,7 +420,7 @@ createVueform({
   $security: {
     // Ban on* keys — except element props your schemas legitimately
     // use, carved out with a negative lookahead (here: onTrue/onFalse).
-    banProps: [/^on(?!True$|False$)/, 'srcdoc'],
+    banAttrs: [/^on(?!True$|False$)/, 'srcdoc'],
   },
 })
 ```
@@ -427,35 +428,66 @@ createVueform({
 The `on*` pattern stops string-valued `onclick`/`onerror`/… entries from becoming live inline handlers via `setAttribute`, and `srcdoc` closes the iframe HTML sink. Element vocabularies have legitimate `on*`-named props (`onLabel` / `onIcon` on the PrimeVue toggle elements, for example) — list each one you use in the lookahead, anchored with `$`, rather than widening the pattern; an unlisted prop fails safe by being dropped, and the dev warning tells you which one to add. Without any of this, only `innerHTML`/`outerHTML` and prototype keys are blocked by default. Every dropped entry warns in development, naming the key.
 :::
 
-A `banProps` entry is dropped from every filtered surface — schema entries themselves (form entries, group children, flat list prototypes, grid cell / matrix column schemas), `parts` bags, and grid cell `attrs` — **in every value form** (for `style`, that covers both the string and the object binding, since both are JSON-expressible). String entries match case-insensitively; RegExp entries are tested as written, so add the `i` flag yourself. Both forms are checked against the key's original spelling **and** its camelized form — Vue camelizes spread keys when matching a component's declared props, so a ban on `onLabel` also catches a schema author writing `on-label`:
+A `banAttrs` entry is dropped from every filtered surface — schema entries themselves (form entries, group children, flat list prototypes, grid cell / matrix column schemas), `parts` bags, and grid cell `attrs` — **in every value form** (for `style`, that covers both the string and the object binding, since both are JSON-expressible). String entries match case-insensitively; RegExp entries are tested as written, so add the `i` flag yourself. Both forms are checked against the key's original spelling **and** its camelized form — Vue camelizes spread keys when matching a component's declared props, so a ban on `onLabel` also catches a schema author writing `on-label`:
 
 ```ts
 createVueform({
   $security: {
-    banProps: [/^on/i, 'srcdoc', 'style'], // also: no schema-supplied styling
-    // banProps: [/^on/i, 'srcdoc', 'style', 'id', 'name'], // + DOM clobbering
+    banAttrs: [/^on/i, 'srcdoc', 'style'], // also: no schema-supplied styling
+    // banAttrs: [/^on/i, 'srcdoc', 'style', 'id', 'name'], // + DOM clobbering
   },
 })
 ```
 
 Note that a RegExp like `/^on/i` matches in every value form too: developer-written **function** listeners inside `parts` bags are also dropped, since the filter cannot tell trusted from untrusted objects once they merge. Keep function listeners in template code (never filtered), or scope the pattern tighter if you rely on them in `parts`.
 
-`banProps` only ever tightens: the built-in denylist applies regardless and cannot be relaxed.
+`banAttrs` only ever tightens: the built-in denylist applies regardless and cannot be relaxed.
 
 #### Turning Off Schema Channels
 
-Because schema entries pass through the same filter, `banProps` doubles as a per-channel kill-switch: listing a prop name removes that **entire channel** from schemas, with no filter to trust and nothing to bypass. Your own template code is unaffected — props written in SFCs never pass through schema resolution, so `parts`, `slots`, or `tokens` set in your components keep working while the same keys arriving in schema JSON are dropped:
+Because schema entries pass through the same filter, `banAttrs` doubles as a per-channel kill-switch: listing a prop name removes that **entire channel** from schemas, with no filter to trust and nothing to bypass. Your own template code is unaffected — props written in SFCs never pass through schema resolution, so `parts`, `slots`, or `tokens` set in your components keep working while the same keys arriving in schema JSON are dropped:
 
 ```ts
 createVueform({
   $security: {
     // Schemas describe elements and data — nothing presentational.
-    banProps: ['style', 'parts', 'attrs', 'slots', 'tokens'],
+    banAttrs: ['style', 'parts', 'attrs', 'slots', 'tokens'],
   },
 })
 ```
 
 Combined with the defaults — HTML dead without [`allowHtml`](#html-sanitization), component names dead without [`allowComponents`](#components-from-schemas), cross-origin requests dead without [`allowOrigins`](#request-origins) — this closes every presentation channel a schema has.
+
+### Prop References
+
+[Conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props) can read element **props** through the `path@prop` / `@prop` reference form. With the security module registered, these references are gated by `safePropRefs`, and the gate fails closed — unset is the same as `[]`, so no prop reference resolves until its prop is listed. A denied reference resolves as `undefined` (the condition evaluates unmet, the expression renders empty) with a dev warning naming the prop.
+
+Each entry is a pattern over the prop part of the reference (everything after `@`, with `[n]` index access counting as a nesting level):
+
+| Pattern | Allows |
+| --- | --- |
+| `'propName'` | The flat reference only (`some_element@propName`, `@propName`) — no nesting. |
+| `'propName.*'` | One nested level (`@propName.foo`), never the flat form. |
+| `'propName.*.*'` | One **or** two nested levels — trailing `*` segments are optional. |
+| `'propName.*.foo.*'` | Static segments midway must be present — `@propName.x.foo` and `@propName.x.foo.y` resolve, `@propName.x` does not. |
+| `'propName.**'` | Any nesting depth (at least one level), never the flat form. |
+| `'*propName'` / `'propName*'` | Any prop name ending / starting with `propName`; combines with the nesting forms (`'*Label.*'`). |
+| `'*'` | Every prop, flat references only. |
+| `'**'` | Every prop at every depth — the explicit opt-out. |
+
+```ts
+createVueform({
+  $security: {
+    // Conditions / expressions may read labels, any `selected*` prop,
+    // and one level under `meta` — nothing else.
+    safePropRefs: ['label', 'selected*', 'meta.*'],
+  },
+})
+```
+
+An entry may also be a RegExp, tested as written against the full prop path (index access normalized to dots, so `@model[0]` tests as `model.0`) — anchor it yourself, like a `banAttrs` pattern.
+
+Prop references are gated because they read the live element context, not just form data — an untrusted schema could otherwise walk `@form$`, `@parent` or deep internals and leak values into rendered text or conditions. Value references (`{other_field}` and `[path, operator, value]` conditions without `@`) are not affected.
 
 What stays **code-trust**, and must never be built from untrusted input:
 
