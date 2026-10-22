@@ -156,10 +156,10 @@ describe('Security: noop surface in production', () => {
   describe('ciphers', () => {
     /**
      * Threat: ciphers configured without the module — production would persist
-     * autosave drafts in plaintext while the config claims they are encrypted.
+     * drafts in plaintext while the config claims they are encrypted.
      *
      * Measure: discovered intent fails closed — the noop ciphers throw, and
-     * autosave's existing error handling turns that into "nothing persisted"
+     * the draft cycle's existing error handling turns that into "nothing persisted"
      * (encrypt) / "draft discarded" (decrypt) instead of plaintext storage.
      *
      * Verified red→green: the identity ciphers ran in production before the
@@ -171,8 +171,8 @@ describe('Security: noop surface in production', () => {
         $security: { encrypt: (v: string) => v, decrypt: (v: string) => v },
       } as any)
 
-      expect(() => sec.encrypt('data', 'autosave:local')).toThrowError()
-      expect(() => sec.decrypt('data', 'autosave:local')).toThrowError()
+      expect(() => sec.encrypt('data', 'draft')).toThrowError()
+      expect(() => sec.decrypt('data', 'draft')).toThrowError()
     })
 
     /**
@@ -183,8 +183,8 @@ describe('Security: noop surface in production', () => {
       prod()
       const sec = noopSecurity({ $security: {} } as any)
 
-      expect(sec.encrypt('data', 'autosave:local')).toBe('data')
-      expect(sec.decrypt('data', 'autosave:local')).toBe('data')
+      expect(sec.encrypt('data', 'draft')).toBe('data')
+      expect(sec.decrypt('data', 'draft')).toBe('data')
     })
   })
 

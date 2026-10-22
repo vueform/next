@@ -6,7 +6,13 @@ import type { EndpointHandler } from '#src/types'
 /**
  * Global options for the autosave module (the `$autosave` config object).
  */
-export interface AutosaveModuleOptions {}
+export interface AutosaveModuleOptions {
+  /**
+   * The default storage backend for drafts, used by every form whose `draft`
+   * config doesn't set its own `storage`. Defaults to `localStorage`.
+   */
+  storage?: DraftStorage
+}
 
 /**
  * Trigger options for the form's autosave behavior.
@@ -19,63 +25,82 @@ export type AutosaveOnOptions = 'change' | 'next' | 'back' | 'step' | 'tab'
 export type AutosaveOnProp = (AutosaveOnOptions | (string & {}))[]
 
 /**
- * A storage backend for local autosave — the `localStorage` slice of the Web
- * Storage API, so `localStorage`, `sessionStorage`, and custom adapters all
- * qualify.
+ * A storage backend for drafts — the `localStorage` slice of the Web Storage
+ * API, so `localStorage`, `sessionStorage`, and custom adapters all qualify.
  */
-export type AutosaveStorage = {
+export type DraftStorage = {
   getItem: (key: string) => string | null
   setItem: (key: string, value: string) => void
   removeItem: (key: string) => void
 }
 
 /**
- * Configuration of the local half of autosave. `true` enables it with the
- * defaults (`localStorage` under a key derived from the form's `name`).
+ * Configuration object of the form's draft behavior.
  */
-export type AutosaveLocalProp =
-  | boolean
-  | {
-      /**
-       * The storage key. Defaults to `vueform:{form name}` — without a key or a
-       * form `name`, local autosave is disabled with a dev warning.
-       */
-      key?: string
+export type DraftConfig = {
+  /**
+   * The storage key. Defaults to `vueform:{form name}` — without a key or a
+   * form `name`, drafts are disabled with a dev warning.
+   */
+  key?: string
 
-      /**
-       * The storage backend. Defaults to `localStorage`.
-       */
-      storage?: AutosaveStorage
+  /**
+   * The storage backend. Defaults to the app-level `$autosave.storage`, then
+   * `localStorage`.
+   */
+  storage?: DraftStorage
 
-      /**
-       * Whether a stored draft is loaded back into the form on mount. Defaults
-       * to `true`. When `false`, drafts can still be loaded manually via
-       * `loadAutosaved()`.
-       */
-      load?: boolean
+  /**
+   * Whether a stored draft is restored into the form on mount. Defaults to
+   * `true`. When `false`, drafts can still be restored manually via
+   * `restoreDraft()`.
+   */
+  restore?: boolean
 
-      /**
-       * Whether the stored draft is cleared on successful submit. Defaults to
-       * `true`.
-       */
-      clear?: boolean
+  /**
+   * Whether the stored draft is discarded on successful submit. Defaults to
+   * `true`.
+   */
+  discardOnSuccess?: boolean
 
-      /**
-       * Whether the app-level `$security` cipher is applied to this form's
-       * draft. Defaults to `true` — and storing drafts with no cipher
-       * configured warns in dev: plaintext drafts must be a conscious choice.
-       * Set `false` to knowingly store this form's draft as plaintext (and
-       * silence the warning); registering identity `$security` ciphers is the
-       * app-wide equivalent.
-       */
-      encrypt?: boolean
-    }
+  /**
+   * Whether the app-level `$security` cipher is applied to this form's draft.
+   * Defaults to `true` — and storing drafts with no cipher configured warns in
+   * dev: plaintext drafts must be a conscious choice. Set `false` to knowingly
+   * store this form's draft as plaintext (and silence the warning);
+   * registering identity `$security` ciphers is the app-wide equivalent.
+   */
+  encrypt?: boolean
+
+  /**
+   * Whether values of elements marked `sensitive` are stored in the draft.
+   * Defaults to `false` — sensitive values are stripped by data path before
+   * the draft is written. Set `true` to knowingly store them too.
+   */
+  sensitive?: boolean
+
+  /**
+   * Debounce delay in milliseconds applied to change-triggered draft saves,
+   * bounding the synchronous model serialization work while the user types.
+   * It also caps staleness: continuous typing flushes a save at least this
+   * often. Defaults to `1000`. Navigation events always save immediately.
+   */
+  debounce?: number
+}
 
 /**
- * Configuration object of the form's autosave behavior, covering the remote
- * endpoint, the local draft mirror, and the remote scheduling options.
+ * Configuration of the form's draft behavior: the model is saved to storage on
+ * every action (change and page navigation, regardless of validity), restored
+ * on mount, and discarded on successful submit. `true` enables drafts with the
+ * defaults (`localStorage` under a key derived from the form's `name`).
  */
-export type AutosaveProp<TContext = any> = {
+export type DraftProp = boolean | DraftConfig
+
+/**
+ * Configuration object of the form's remote autosave behavior: the `endpoint`
+ * with its scheduling options.
+ */
+export type AutosaveConfig<TContext = any> = {
   /**
    * The remote target — an endpoint URL (expressions are resolved) or an async
    * handler function.
@@ -86,14 +111,6 @@ export type AutosaveProp<TContext = any> = {
    * The HTTP method for endpoint requests. Defaults to `'POST'`.
    */
   method?: RequestMethod
-
-  /**
-   * The local draft mirror. Saves the form's model to storage on every action
-   * (change and page navigation, undebounced and regardless of validity), loads
-   * it back on mount (`load: false` to disable), and clears it on successful
-   * submit (`clear: false` to keep it).
-   */
-  local?: AutosaveLocalProp
 
   /**
    * Form events that trigger a remote save (e.g. `change`, `next`, `step`,
@@ -123,9 +140,18 @@ export type AutosaveProp<TContext = any> = {
   invalid?: boolean
 
   /**
+   * Whether values of elements marked `sensitive` are sent in remote saves.
+   * Defaults to `false` — sensitive values are stripped by data path from the
+   * autosaved payload. Set `true` to knowingly send them too. Regular submits
+   * are unaffected: they always carry the full payload.
+   */
+  sensitive?: boolean
+
+  /**
    * Further transforms the data a remote save sends. Receives the form's
-   * payload (with `transformPayload` already applied) and returns the data to
-   * send. Local drafts are unaffected.
+   * payload (with `transformPayload` already applied and sensitive values
+   * stripped unless `sensitive: true`) and returns the data to send. Drafts
+   * are unaffected.
    */
   transform?: (
     data: Record<string, any>,
@@ -134,14 +160,26 @@ export type AutosaveProp<TContext = any> = {
 }
 
 /**
- * Configuration options for `makeAutosave`, wiring one form's autosave
- * behavior.
+ * Configuration of the form's remote autosave behavior. A string is shorthand
+ * for `{ endpoint }`.
+ */
+export type AutosaveProp<TContext = any> = string | AutosaveConfig<TContext>
+
+/**
+ * Configuration options for `makeAutosave`, wiring one form's autosave and
+ * draft behavior.
  */
 export type MakeAutosaveOptions = {
   /**
-   * The autosave configuration object. When undefined, autosave is disabled.
+   * The remote autosave configuration. When undefined, remote autosave is
+   * disabled.
    */
   autosave: Ref<AutosaveProp | undefined>
+
+  /**
+   * The draft configuration. When undefined or `false`, drafts are disabled.
+   */
+  draft: Ref<DraftProp | undefined>
 
   /**
    * The form's submission payload (with `transformPayload` applied).
@@ -155,7 +193,8 @@ export type MakeAutosaveOptions = {
 
   /**
    * Data paths of elements marked `sensitive` — their values are stripped from
-   * locally stored drafts.
+   * stored drafts and remote autosave payloads (unless the respective config
+   * sets `sensitive: true`).
    */
   sensitivePaths: ComputedRef<string[]>
 
@@ -181,12 +220,12 @@ export type MakeAutosaveOptions = {
   invalid: ComputedRef<boolean>
 
   /**
-   * The form's `name` prop, used as the default local storage key.
+   * The form's `name` prop, used as the default draft storage key.
    */
   name: Ref<string | undefined>
 
   /**
-   * Loads data into the form's model (used to restore local drafts).
+   * Loads data into the form's model (used to restore drafts).
    *
    * @param data The data to load into the form's model.
    */
@@ -208,6 +247,16 @@ export type MakeAutosaveOptions = {
    */
   fire: {
     /**
+     * Fires the autosaveResponse event when an autosave request receives a
+     * response, successful or not.
+     *
+     * @param e The event name.
+     * @param response The HTTP response the autosave request received.
+     * @param form$ The form context.
+     */
+    (e: 'autosaveResponse', response: HttpResponse, form$: any): any
+
+    /**
      * Fires the autosaveSuccess event after a successful save request.
      *
      * @param e The event name.
@@ -224,6 +273,33 @@ export type MakeAutosaveOptions = {
      * @param form$ The form context.
      */
     (e: 'autosaveFail', error: HttpError, form$: any): any
+
+    /**
+     * Fires the autosaved event after a save completed without failing.
+     *
+     * @param e The event name.
+     * @param response The HTTP response, or `undefined` when the save produced
+     *   none (e.g. a handler function returning nothing).
+     * @param form$ The form context.
+     */
+    (e: 'autosaved', response: HttpResponse | undefined, form$: any): any
+
+    /**
+     * Fires the draftSaved event after a draft was written to storage.
+     *
+     * @param e The event name.
+     * @param data The stored draft data.
+     * @param form$ The form context.
+     */
+    (e: 'draftSaved', data: Record<string, any>, form$: any): any
+
+    /**
+     * Fires the draftDiscarded event after the stored draft was removed.
+     *
+     * @param e The event name.
+     * @param form$ The form context.
+     */
+    (e: 'draftDiscarded', form$: any): any
   }
 
   /**
@@ -241,14 +317,32 @@ export type MakeAutosaveOptions = {
     (e: 'autosave', data: Record<string, any>, form$: any): Promise<any>
 
     /**
-     * Fires the autosaveRestore pre-hook event before a stored draft is loaded
-     * back into the form.
+     * Fires the saveDraft pre-hook event before a draft is written to storage.
+     *
+     * @param e The event name.
+     * @param data The draft data about to be stored.
+     * @param form$ The form context.
+     */
+    (e: 'saveDraft', data: Record<string, any>, form$: any): Promise<any>
+
+    /**
+     * Fires the restoreDraft pre-hook event before a stored draft is restored
+     * into the form on mount.
      *
      * @param e The event name.
      * @param data The stored draft data about to be restored.
      * @param form$ The form context.
      */
-    (e: 'autosaveRestore', data: Record<string, any>, form$: any): Promise<any>
+    (e: 'restoreDraft', data: Record<string, any>, form$: any): Promise<any>
+
+    /**
+     * Fires the discardDraft pre-hook event before the stored draft is
+     * discarded on successful submit.
+     *
+     * @param e The event name.
+     * @param form$ The form context.
+     */
+    (e: 'discardDraft', form$: any): Promise<any>
   }
 
   /**
@@ -269,44 +363,53 @@ export type MakeAutosaveOptions = {
 }
 
 /**
- * One form's wired autosave behavior: the manual trigger and the local draft
- * methods, exposed on the form's context.
+ * One form's wired autosave and draft behavior: the manual remote trigger and
+ * the draft methods, exposed on the form's context.
  */
 export type AutosaveInstance = {
   /**
-   * Performs an autosave immediately: writes the local draft (when `local` is
-   * configured) and runs the remote save (when `endpoint` is configured). The
-   * validity gate applies as configured; pass `invalid` to override the
-   * config's `invalid` prop for this one call — `true` sends even while the
+   * Performs a remote autosave immediately (when `autosave` is configured).
+   * The validity gate applies as configured; pass `invalid` to override the
+   * config's `invalid` option for this one call — `true` sends even while the
    * form is invalid, `false` enforces the gate. A gated call while the form is
-   * invalid still writes the local draft and defers the remote save.
+   * invalid defers the save: it runs as soon as the form becomes valid.
    *
    * @param options Per-call overrides (`invalid`).
    */
   autosave: (options?: { invalid?: boolean }) => Promise<void>
 
   /**
-   * Removes the locally stored draft, if any.
+   * Resolves the stored draft data without loading it into the form, or
+   * `undefined` when there's nothing (valid) stored (async because a
+   * configured `$security.decrypt` may be).
    */
-  clearAutosaved: () => void
+  getDraft: () => Promise<Record<string, any> | undefined>
 
   /**
-   * Loads the stored draft into the form, resolving whether a draft was found
-   * and loaded (async because a configured `$security.decrypt` may be). Unlike
-   * the automatic load on mount, a manual call fires no `autosaveRestore`
-   * pre-hook — calling it _is_ the consent.
+   * Restores the stored draft into the form, resolving whether a draft was
+   * found and restored (async because a configured `$security.decrypt` may
+   * be). Unlike the automatic restore on mount, a manual call fires no
+   * `restoreDraft` pre-hook — calling it _is_ the consent.
    */
-  loadAutosaved: () => Promise<boolean>
+  restoreDraft: () => Promise<boolean>
+
+  /**
+   * Removes the stored draft, if any. Unlike the automatic discard on
+   * successful submit, a manual call fires no `discardDraft` pre-hook —
+   * calling it _is_ the consent.
+   */
+  discardDraft: () => void
 }
 
 /**
- * The autosave module: wires interval, event, and local-draft saving for a form
- * from its `autosave` configuration object.
+ * The autosave module: wires remote interval and event saving, and the draft
+ * mirror, for a form from its `autosave` and `draft` configuration.
  */
 export interface AutosaveModule {
   /**
-   * Wires a form's autosave behavior from the given options. Must be called
-   * within a component setup context (registers lifecycle hooks and watchers).
+   * Wires a form's autosave and draft behavior from the given options. Must be
+   * called within a component setup context (registers lifecycle hooks and
+   * watchers).
    *
    * @param options The form-specific autosave wiring options.
    */

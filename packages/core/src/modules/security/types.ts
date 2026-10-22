@@ -13,7 +13,7 @@ export interface SecurityModuleOptions {
   sanitizer?: SecuritySanitizer
 
   /**
-   * Encrypts values before features persist them (e.g. local autosave drafts).
+   * Encrypts values before features persist them (e.g. stored drafts).
    * There is no built-in cipher — bring a scheme whose key lives outside the
    * stored data, such as a session-delivered key held in memory. When omitted,
    * values are stored as-is.
@@ -23,7 +23,7 @@ export interface SecurityModuleOptions {
   /**
    * The inverse of `encrypt`, applied when persisted values are read back. A
    * `decrypt` that throws marks the stored value unreadable — features treat it
-   * as absent (e.g. autosave discards the draft).
+   * as absent (e.g. the stored draft is discarded).
    */
   decrypt?: SecurityCipher
 
@@ -136,7 +136,7 @@ export type SecuritySanitizer = (html: string) => string
 
 /**
  * An app-provided encryption or decryption function. Receives the value and a
- * purpose tag identifying the call site (e.g. `'autosave:local'`), so one
+ * purpose tag identifying the call site (e.g. `'draft'`), so one
  * implementation can serve every feature that encrypts — branching per purpose
  * if it ever needs to. May be async (Web Crypto).
  */
@@ -256,7 +256,7 @@ export interface SecurityModule {
    * calling feature's purpose tag. Identity when no cipher is configured.
    *
    * @param value The plaintext value.
-   * @param purpose The call-site tag (e.g. `'autosave:local'`).
+   * @param purpose The call-site tag (e.g. `'draft'`).
    */
   encrypt: SecurityCipher
 
@@ -265,7 +265,7 @@ export interface SecurityModule {
    * calling feature's purpose tag. Identity when no cipher is configured.
    *
    * @param value The stored value.
-   * @param purpose The call-site tag (e.g. `'autosave:local'`).
+   * @param purpose The call-site tag (e.g. `'draft'`).
    */
   decrypt: SecurityCipher
 }

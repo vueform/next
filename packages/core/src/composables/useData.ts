@@ -121,7 +121,7 @@ type UseDataOptions = {
 
   /**
    * Whether the element holds sensitive data, excluded from locally stored
-   * autosave drafts.
+   * drafts.
    */
   sensitive?: Ref<boolean | undefined>
 
@@ -937,7 +937,7 @@ export function useData(options: UseDataOptions) {
 
   /**
    * Data paths holding sensitive data (`sensitive: true`) within this element's
-   * subtree — excluded from locally stored autosave drafts.
+   * subtree — excluded from locally stored drafts.
    */
   const sensitivePaths = computed<string[]>(() => {
     if (options.sensitive?.value) return ownDataPaths.value

@@ -205,7 +205,7 @@ export type MakeDataOptions<C extends MakeDataConfig = {}> = {
 
     /**
      * Whether the element holds sensitive data, excluded from locally stored
-     * autosave drafts.
+     * drafts.
      */
     sensitive?: boolean
 

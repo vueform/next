@@ -10,7 +10,7 @@ import { createForm, flushPromises } from '../../helpers'
 const { autosave: _autosave, ...modulesWithoutAutosave } = modules as any
 
 describe('Autosave without the autosave module', () => {
-  it('should be inert and warn when the autosave prop is set', async () => {
+  it('should be inert and warn when the autosave or draft prop is set', async () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     const calls: any[] = []
@@ -44,8 +44,8 @@ describe('Autosave without the autosave module', () => {
         }),
         autosave: {
           endpoint: '/api/autosave',
-          local: { storage },
         },
+        draft: { storage },
       },
       {
         modules: modulesWithoutAutosave,
@@ -62,12 +62,13 @@ describe('Autosave without the autosave module', () => {
     // nothing saved anywhere, context methods are no-ops
     expect(Object.keys(store)).toHaveLength(0)
     expect(calls).toHaveLength(0)
-    expect(await form$.loadAutosaved()).toBe(false)
-    expect(form$.clearAutosaved()).toBeUndefined()
+    expect(await form$.restoreDraft()).toBe(false)
+    expect(await form$.getDraft()).toBeUndefined()
+    expect(form$.discardDraft()).toBeUndefined()
     await expect(form$.autosave()).resolves.toBeUndefined()
 
     expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('requires the `autosave` module')
+      expect.stringContaining('require the `autosave` module')
     )
 
     warnSpy.mockRestore()

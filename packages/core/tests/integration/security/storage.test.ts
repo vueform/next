@@ -6,9 +6,9 @@ import {
 } from '@vueform/core'
 import * as modules from '@vueform/core/modules'
 /**
- * # Persistence security (autosave storage)
+ * # Persistence security (draft storage)
  *
- * Threat model: local autosave writes the form model — potentially PII — into
+ * Threat model: drafts write the form model — potentially PII — into
  * localStorage, on a device the app doesn't control (shared browsers, stolen
  * disks, backups). The storage key is schema-reachable and localStorage is a
  * shared namespace, and drafts read back from storage are untrusted data. The
@@ -67,13 +67,13 @@ const { security: _security, ...modulesWithoutSecurity } = modules as any
 describe('Security: persistence', () => {
   describe('storage keys are namespaced', () => {
     /**
-     * Threat: `autosave: { local: { key: "access_token" } }` — a schema
+     * Threat: `draft: { key: "access_token" }` — a schema
      * addressing an arbitrary localStorage entry, clobbering the host app's
      * session token on every keystroke (and reading whatever was stored there
      * back into the form).
      *
      * Measure: custom keys are forced under the `vueform:` prefix, so the
-     * autosave cycle can only ever touch Vueform's own namespace.
+     * draft cycle can only ever touch Vueform's own namespace.
      *
      * Verified red→green: the un-prefixed key was written before the fix.
      */
@@ -86,7 +86,7 @@ describe('Security: persistence', () => {
         schema: defineSchema({
           name: { type: 'text', default: 'John' },
         }),
-        autosave: { local: { storage, key: 'access_token' } },
+        draft: { storage, key: 'access_token' },
       })
 
       await nextTick()
@@ -113,7 +113,7 @@ describe('Security: persistence', () => {
         schema: defineSchema({
           name: { type: 'text', default: 'John' },
         }),
-        autosave: { local: { storage, key: 'vueform:my-draft' } },
+        draft: { storage, key: 'vueform:my-draft' },
       })
 
       await nextTick()
@@ -131,7 +131,7 @@ describe('Security: persistence', () => {
      * names, addresses, anything the form collects.
      *
      * Measure: drafts pass through the app-level `$security.encrypt` cipher
-     * before storage, with the `'autosave:local'` purpose tag so one cipher
+     * before storage, with the `'draft'` purpose tag so one cipher
      * implementation can serve every persisting feature. (Migrated from the
      * autosave suite.)
      */
@@ -145,7 +145,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          autosave: { local: { storage } },
+          draft: { storage },
         },
         {
           $security: {
@@ -166,7 +166,7 @@ describe('Security: persistence', () => {
       expect(store['vueform:draft_form']).toBe(
         reverse(JSON.stringify({ name: 'Jane' }))
       )
-      expect(purposes).toContain('autosave:local')
+      expect(purposes).toContain('draft')
     })
 
     /**
@@ -186,7 +186,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          autosave: { local: { storage } },
+          draft: { storage },
         },
         {
           $security: {
@@ -219,7 +219,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          autosave: { local: { storage, load: false } },
+          draft: { storage, restore: false },
         },
         {
           $security: {
@@ -231,12 +231,13 @@ describe('Security: persistence', () => {
 
       await flushPromises()
 
-      expect(await form$.loadAutosaved()).toBe(true)
+      expect(await form$.restoreDraft()).toBe(true)
       await nextTick()
       expect(name.value).toBe('Stored')
 
       name.update('Jane')
-      await form$.autosave()
+      ;(form$ as any).fire('step')
+      await flushPromises()
 
       expect(store['vueform:draft_form']).toBe(
         reverse(JSON.stringify({ name: 'Jane' }))
@@ -246,10 +247,10 @@ describe('Security: persistence', () => {
     /**
      * Threat: none — the per-form escape hatch must stay deliberate and local.
      *
-     * Measure: `local.encrypt: false` skips the app-level cipher for that form
+     * Measure: `draft.encrypt: false` skips the app-level cipher for that form
      * only. (Migrated from the autosave suite.)
      */
-    it('should skip the cipher when local.encrypt is false', async () => {
+    it('should skip the cipher when draft.encrypt is false', async () => {
       const { store, storage } = mockStorage({
         'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
       })
@@ -260,7 +261,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          autosave: { local: { storage, encrypt: false } },
+          draft: { storage, encrypt: false },
         },
         {
           $security: {
@@ -275,7 +276,8 @@ describe('Security: persistence', () => {
       expect(name.value).toBe('Stored')
 
       name.update('Jane')
-      await form$.autosave()
+      ;(form$ as any).fire('step')
+      await flushPromises()
 
       expect(store['vueform:draft_form']).toBe(JSON.stringify({ name: 'Jane' }))
     })
@@ -288,7 +290,7 @@ describe('Security: persistence', () => {
      * plaintext is a decision, not a default that goes unnoticed. (Migrated
      * from the autosave suite.)
      */
-    it('should warn when local drafts are stored without configured ciphers', async () => {
+    it('should warn when drafts are stored without configured ciphers', async () => {
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
       const { storage } = mockStorage()
 
@@ -297,13 +299,13 @@ describe('Security: persistence', () => {
         schema: defineSchema({
           name: { type: 'text', default: 'John' },
         }),
-        autosave: { local: { storage } },
+        draft: { storage },
       })
 
       await flushPromises()
 
       expect(warnSpy).toHaveBeenCalledWith(
-        expect.stringContaining('storing drafts in plaintext')
+        expect.stringContaining('stored in plaintext')
       )
 
       warnSpy.mockRestore()
@@ -325,7 +327,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          autosave: { local: { storage } },
+          draft: { storage },
         },
         {
           $security: {
@@ -345,10 +347,10 @@ describe('Security: persistence', () => {
     /**
      * Threat: none — the per-form opt-out variant.
      *
-     * Measure: `local.encrypt: false` also counts as a conscious decision.
+     * Measure: `draft.encrypt: false` also counts as a conscious decision.
      * (Migrated from the autosave suite.)
      */
-    it('should not warn when the form opts out with local.encrypt false', async () => {
+    it('should not warn when the form opts out with draft.encrypt false', async () => {
       const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
       const { storage } = mockStorage()
 
@@ -357,7 +359,7 @@ describe('Security: persistence', () => {
         schema: defineSchema({
           name: { type: 'text', default: 'John' },
         }),
-        autosave: { local: { storage, encrypt: false } },
+        draft: { storage, encrypt: false },
       })
 
       await flushPromises()
@@ -386,7 +388,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          autosave: { local: { storage } },
+          draft: { storage },
         },
         {
           $security: {
@@ -411,7 +413,7 @@ describe('Security: persistence', () => {
      * Measure: a write sequence counter drops stale writes. (Migrated from the
      * autosave suite.)
      */
-    it('should not land an in-flight write after clearAutosaved', async () => {
+    it('should not land an in-flight write after discardDraft', async () => {
       const { store, storage } = mockStorage()
 
       let release!: (value: string) => void
@@ -423,7 +425,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          autosave: { local: { storage } },
+          draft: { storage },
         },
         {
           $security: {
@@ -438,7 +440,7 @@ describe('Security: persistence', () => {
       name.update('Jane')
       await nextTick()
 
-      form$.clearAutosaved()
+      form$.discardDraft()
       release('done')
       await flushPromises()
 
@@ -462,7 +464,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          autosave: { local: { storage } },
+          draft: { storage },
         },
         {
           modules: modulesWithoutSecurity,
@@ -505,13 +507,13 @@ describe('Security: persistence', () => {
           name: { type: 'text', default: 'John' },
           password: { type: 'text', sensitive: true, default: 'secret' },
         }),
-        autosave: { local: { storage } },
+        draft: { storage },
       })
 
       await nextTick()
 
       name.update('Jane')
-      await nextTick()
+      await flushPromises()
 
       expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
     })
@@ -555,13 +557,13 @@ describe('Security: persistence', () => {
             },
           },
         }),
-        autosave: { local: { storage } },
+        draft: { storage },
       })
 
       await nextTick()
 
       name.update('Jane')
-      await nextTick()
+      await flushPromises()
 
       expect(JSON.parse(store['vueform:draft_form'])).toEqual({
         name: 'Jane',
@@ -570,13 +572,13 @@ describe('Security: persistence', () => {
     })
 
     /**
-     * Threat: the manual save path skipping the stripping the automatic one
-     * applies.
+     * Threat: the navigation save path skipping the stripping the
+     * change-triggered one applies.
      *
-     * Measure: `form$.autosave()` strips the same way. (Migrated from the
+     * Measure: navigation-event saves strip the same way. (Migrated from the
      * autosave suite.)
      */
-    it('should strip sensitive values from manual autosave() drafts', async () => {
+    it('should strip sensitive values from navigation-triggered drafts', async () => {
       const { store, storage } = mockStorage()
 
       const { form$ } = createForm({
@@ -585,26 +587,26 @@ describe('Security: persistence', () => {
           name: { type: 'text', default: 'John' },
           password: { type: 'text', sensitive: true, default: 'secret' },
         }),
-        autosave: { local: { storage } },
+        draft: { storage },
       })
 
       await nextTick()
 
-      form$.autosave()
+      ;(form$ as any).fire('step')
       await flushPromises()
 
       expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'John' })
     })
 
     /**
-     * Threat: none — a scoping check. Remote autosave posts to the app's own
-     * server over its authenticated channel; stripping there would silently
-     * lose data the server is meant to hold.
+     * Threat: autosave shipping passwords and card data to the server on every
+     * keystroke — values the user never chose to submit yet, landing in logs
+     * and intermediate storage.
      *
-     * Measure: only the LOCAL draft is stripped; remote saves carry the full
-     * data. (Migrated from the autosave suite.)
+     * Measure: `sensitive: true` values are stripped from remote autosave
+     * payloads by default, same as from drafts. Regular submits are unaffected.
      */
-    it('should keep sensitive values in remote autosave data', async () => {
+    it('should strip sensitive values from remote autosave data by default', async () => {
       const { adapter, calls } = mockAdapter()
       const { store, storage } = mockStorage()
 
@@ -619,8 +621,8 @@ describe('Security: persistence', () => {
           }),
           autosave: {
             endpoint: '/api/autosave',
-            local: { storage },
           },
+          draft: { storage },
         },
         { $http: { adapter } }
       )
@@ -635,9 +637,82 @@ describe('Security: persistence', () => {
 
       expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
       expect(calls).toHaveLength(1)
+      expect(calls[0].data).toEqual({ name: 'Jane' })
+
+      vi.useRealTimers()
+    })
+
+    /**
+     * Threat: none — the deliberate opt-in. An app autosaving to its own
+     * authenticated server may legitimately need the full model.
+     *
+     * Measure: `autosave.sensitive: true` keeps sensitive values in the remote
+     * payload. The draft stays stripped unless it opts in itself.
+     */
+    it('should send sensitive values when autosave.sensitive is true', async () => {
+      const { adapter, calls } = mockAdapter()
+      const { store, storage } = mockStorage()
+
+      vi.useFakeTimers()
+
+      const { name } = createForm(
+        {
+          name: 'draft_form',
+          schema: defineSchema({
+            name: { type: 'text', default: 'John' },
+            password: { type: 'text', sensitive: true, default: 'secret' },
+          }),
+          autosave: {
+            endpoint: '/api/autosave',
+            sensitive: true,
+          },
+          draft: { storage },
+        },
+        { $http: { adapter } }
+      )
+
+      await nextTick()
+
+      name.update('Jane')
+      await nextTick()
+
+      vi.advanceTimersByTime(1000)
+      await flushPromises()
+
+      // the opt-in is per target: the draft stays stripped
+      expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
+      expect(calls).toHaveLength(1)
       expect(calls[0].data).toEqual({ name: 'Jane', password: 'secret' })
 
       vi.useRealTimers()
+    })
+
+    /**
+     * Threat: none — the draft-side opt-in variant.
+     *
+     * Measure: `draft.sensitive: true` stores sensitive values in the draft.
+     */
+    it('should store sensitive values when draft.sensitive is true', async () => {
+      const { store, storage } = mockStorage()
+
+      const { name } = createForm({
+        name: 'draft_form',
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+          password: { type: 'text', sensitive: true, default: 'secret' },
+        }),
+        draft: { storage, sensitive: true },
+      })
+
+      await nextTick()
+
+      name.update('Jane')
+      await flushPromises()
+
+      expect(JSON.parse(store['vueform:draft_form'])).toEqual({
+        name: 'Jane',
+        password: 'secret',
+      })
     })
   })
 
@@ -659,7 +734,7 @@ describe('Security: persistence', () => {
         schema: defineSchema({
           name: { type: 'text', default: 'John' },
         }),
-        autosave: { local: { storage } },
+        draft: { storage },
       })
 
       await flushPromises()

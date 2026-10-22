@@ -3,46 +3,47 @@ import { computed, onMounted, onUnmounted, unref, watch } from 'vue'
 import { useHttp, useSecurity } from '#src/composables'
 import type { VueformInstance } from '#src/helpers'
 import { HttpError, type HttpResponse } from '#src/modules/http'
-import { debounce, isFileValue, unset, warn, isDev, isProd } from '#src/utils'
+import {
+  clone,
+  debounce,
+  isFileValue,
+  unset,
+  warn,
+  isDev,
+  isProd,
+} from '#src/utils'
 
 import type {
   AutosaveInstance,
   AutosaveModule,
-  AutosaveStorage,
+  DraftStorage,
   MakeAutosaveOptions,
 } from './types'
 
 /**
- * Navigation events that trigger an immediate local draft save. Fixed by design
- * — the local mirror saves on every action, regardless of validity.
+ * Navigation events that trigger an immediate draft save. Fixed by design —
+ * drafts save on every action, regardless of validity.
  */
-const LOCAL_NAV_SAVE_EVENTS = ['next', 'back', 'step', 'tab']
+const DRAFT_NAV_SAVE_EVENTS = ['next', 'back', 'step', 'tab']
 
 /**
- * Debounce applied to change-triggered local saves, bounding the synchronous
- * model serialization work while the user types. Fixed by design.
+ * Default debounce applied to change-triggered draft saves (`draft.debounce`).
  */
-const LOCAL_SAVE_DEBOUNCE = 1000
+const DEFAULT_DRAFT_DEBOUNCE = 1000
 
 /**
- * Upper bound on local draft staleness: when this much time has passed since
- * the last write, a change saves immediately instead of debouncing — so
- * continuous typing can't postpone the draft indefinitely.
- */
-const LOCAL_SAVE_MAX_WAIT = 1000
-
-/**
- * Creates an autosave instance from the given app config (`$autosave` is
- * currently reserved). The returned module's `makeAutosave` wires one form's
- * autosave behavior: remote saves to `endpoint` on the configured events and
+ * Creates an autosave instance from the given app config (`$autosave` may
+ * provide the default draft `storage`). The returned module's `makeAutosave`
+ * wires one form's
+ * saving behavior: remote autosaves to `endpoint` on the configured events and
  * interval (deferred while the form is invalid unless `invalid: true` — a
- * skipped save runs when the form becomes valid), and a `local` draft mirror
- * that saves the model to storage on every action, loads it back on mount, and
- * clears it on successful submit.
+ * skipped save runs when the form becomes valid), and a `draft` mirror that
+ * saves the model to storage on every action, restores it on mount, and
+ * discards it on successful submit.
  *
- * @param vueform The Vueform instance; its config (`$autosave` is reserved;
- *   `$security` is peeked at to warn when local drafts would be stored without
- *   any cipher).
+ * @param vueform The Vueform instance; its config (`$autosave.storage` is the
+ *   default draft storage; `$security` is peeked at to warn when drafts would
+ *   be stored without any cipher).
  */
 export function createAutosave(vueform: VueformInstance): AutosaveModule {
   const appConfig = vueform.config
@@ -73,12 +74,19 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       on,
     } = options
 
-    /**
-     * The current autosave configuration object.
-     */
-    const config = computed(() => unref(options.autosave))
-
     // ============== REMOTE ================
+
+    /**
+     * The current autosave configuration object. A string prop is shorthand
+     * for `{ endpoint }`.
+     */
+    const config = computed(() => {
+      const value = unref(options.autosave)
+
+      if (!value) return undefined
+
+      return typeof value === 'string' ? { endpoint: value } : value
+    })
 
     const endpoint = computed(() =>
       typeof config.value?.endpoint === 'string'
@@ -88,19 +96,27 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     /**
      * The data a remote save sends: the form's payload (with `transformPayload`
-     * applied), further shaped by `transform` when defined.
+     * applied), with `sensitive` element values stripped by data path (unless
+     * `sensitive: true`), further shaped by `transform` when defined. Regular
+     * submits are unaffected — they always carry the full payload.
      */
     const remoteData = computed(() => {
+      let data = payload.value
+
+      const sensitive = sensitivePaths.value
+
+      if (sensitive.length && config.value?.sensitive !== true) {
+        data = clone(data)
+        sensitive.forEach((path) => unset(data, path))
+      }
+
       const transform = config.value?.transform
 
-      if (transform) {
-        return transform(payload.value, form$)
-      }
-      return payload.value
+      return transform ? transform(data, form$) : data
     })
 
     let intervalTimer: ReturnType<typeof setInterval> | undefined
-    let cancelLocalSave: (() => void) | undefined
+    let cancelDraftSave: (() => void) | undefined
     let registeredHandlers: {
       event: string
       handler: (...args: any[]) => any
@@ -116,8 +132,9 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     /**
      * Performs the built-in autosave request to the given URL, firing
-     * `autosaveFail` on `HttpError`. Returns the response, or `undefined` when
-     * the request failed.
+     * `autosaveResponse` (when a response was received) and `autosaveFail` on
+     * `HttpError`. Returns the response, or `undefined` when the request
+     * failed.
      */
     const sendRequest = async (
       url: string
@@ -144,6 +161,10 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
             pendingSave = true
           }
 
+          if (error.response) {
+            fire('autosaveResponse', error.response, form$)
+          }
+
           fire('autosaveFail', error, form$)
           return undefined
         }
@@ -153,7 +174,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     /**
      * Performs a remote save, handling the pre-hook event, handler functions,
-     * and URL-based requests with success/fail events.
+     * and URL-based requests with the response/success/fail/autosaved events.
      */
     const save = async () => {
       const target = config.value?.endpoint
@@ -174,12 +195,19 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       if (autosaveResponse === false) return
 
       let response: HttpResponse | undefined
+      let failed = false
+
+      const request = async (url: string) => {
+        response = await sendRequest(url)
+        failed = response === undefined
+      }
 
       if (autosaveResponse !== true && autosaveResponse !== undefined) {
-        response =
-          typeof autosaveResponse === 'string'
-            ? await sendRequest(autosaveResponse)
-            : (autosaveResponse as HttpResponse)
+        if (typeof autosaveResponse === 'string') {
+          await request(autosaveResponse)
+        } else {
+          response = autosaveResponse as HttpResponse
+        }
       } else if (isFunction) {
         const fnResult = await target(remoteData.value, form$)
 
@@ -188,7 +216,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
         if (typeof fnResult === 'string') {
           // A returned string is used as the endpoint URL — the built-in
           // request is performed against it (same as the submit endpoint).
-          response = await sendRequest(fnResult)
+          await request(fnResult)
         } else if (
           fnResult &&
           typeof fnResult === 'object' &&
@@ -197,12 +225,17 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
           response = fnResult as HttpResponse
         }
       } else if (endpoint.value) {
-        response = await sendRequest(endpoint.value)
+        await request(endpoint.value)
       }
 
+      if (failed) return
+
       if (response) {
+        fire('autosaveResponse', response, form$)
         fire('autosaveSuccess', response, form$)
       }
+
+      fire('autosaved', response, form$)
     }
 
     /**
@@ -220,24 +253,24 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       return blocked
     }
 
-    // =============== LOCAL ================
+    // =============== DRAFT ================
 
     let warnedMissingKey = false
     let warnedFileValue = false
     let warnedUnencryptedDrafts = false
 
     /**
-     * Warns once when local drafts are about to be persisted without any
-     * `$security` ciphers configured — storing plaintext must be a conscious
-     * choice, not a silent default. Register real ciphers, opt out app-wide
-     * with identity functions, or opt this form out with `local.encrypt: false`
-     * (each silences this warning).
+     * Warns once when drafts are about to be persisted without any `$security`
+     * ciphers configured — storing plaintext must be a conscious choice, not a
+     * silent default. Register real ciphers, opt out app-wide with identity
+     * functions, or opt this form out with `draft.encrypt: false` (each
+     * silences this warning).
      */
     const warnUnencryptedDrafts = () => {
       if (warnedUnencryptedDrafts || isProd()) return
 
       if (
-        localConfig.value?.encrypt === false ||
+        draftConfig.value?.encrypt === false ||
         appConfig.$security?.encrypt ||
         appConfig.$security?.decrypt
       )
@@ -246,29 +279,31 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       warnedUnencryptedDrafts = true
 
       warn(
-        'Local autosave is storing drafts in plaintext — no `$security` ciphers are configured. Provide real ones via `createVueform({ $security: { encrypt, decrypt } })`, or consciously opt out by registering identity functions (`encrypt: (v) => v, decrypt: (v) => v`) or setting `autosave.local.encrypt: false` on this form.'
+        'Drafts are being stored in plaintext — no `$security` ciphers are configured. Provide real ones via `createVueform({ $security: { encrypt, decrypt } })`, or consciously opt out by registering identity functions (`encrypt: (v) => v, decrypt: (v) => v`) or setting `draft.encrypt: false` on this form.'
       )
     }
 
     /**
-     * The resolved local configuration, or `undefined` when local autosave is
-     * disabled.
+     * The resolved draft configuration, or `undefined` when drafts are
+     * disabled. `true` enables drafts with the defaults.
      */
-    const localConfig = computed(() => {
-      const local = config.value?.local
+    const draftConfig = computed(() => {
+      const value = unref(options.draft)
 
-      if (!local) return undefined
+      if (!value) return undefined
 
-      return typeof local === 'object' ? local : {}
+      return value === true ? {} : value
     })
 
     /**
-     * The local storage backend. `undefined` in non-browser environments
-     * without a custom storage.
+     * The draft storage backend: the form's `draft.storage`, the app-level
+     * `$autosave.storage`, then `localStorage`. `undefined` in non-browser
+     * environments without a custom storage.
      */
-    const localStorageBackend = computed<AutosaveStorage | undefined>(() => {
-      if (!localConfig.value) return undefined
-      if (localConfig.value.storage) return localConfig.value.storage
+    const draftStorage = computed<DraftStorage | undefined>(() => {
+      if (!draftConfig.value) return undefined
+      if (draftConfig.value.storage) return draftConfig.value.storage
+      if (appConfig.$autosave?.storage) return appConfig.$autosave.storage
       if (typeof window === 'undefined' || !window.localStorage)
         return undefined
 
@@ -276,16 +311,16 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     })
 
     /**
-     * The local storage key: the configured `key` or the form's `name`. Local
-     * autosave is disabled (with a dev warning) when neither is set.
+     * The draft storage key: the configured `key` or the form's `name`. Drafts
+     * are disabled (with a dev warning) when neither is set.
      */
-    const localKey = computed(() => {
-      if (!localConfig.value) return undefined
+    const draftKey = computed(() => {
+      if (!draftConfig.value) return undefined
 
-      // Custom keys are namespace-enforced: `local.key` is schema data, and
+      // Custom keys are namespace-enforced: `draft.key` is schema data, and
       // without the prefix a schema could read or clobber arbitrary
-      // localStorage entries (`access_token`, …) through the autosave cycle.
-      const custom = localConfig.value.key
+      // localStorage entries (`access_token`, …) through the draft cycle.
+      const custom = draftConfig.value.key
       const key =
         (custom &&
           (custom.startsWith('vueform:') ? custom : `vueform:${custom}`)) ??
@@ -296,7 +331,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
         if (isDev()) {
           warn(
-            'Local autosave requires the form to have a `name` (or `autosave.local.key` to be set); local autosave is disabled.'
+            'Drafts require the form to have a `name` (or `draft.key` to be set); drafts are disabled.'
           )
         }
       }
@@ -305,113 +340,125 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     })
 
     /**
-     * Whether the local draft mirror is active.
+     * Whether the draft mirror is active.
      */
-    const localActive = () => !!(localStorageBackend.value && localKey.value)
+    const draftActive = () => !!(draftStorage.value && draftKey.value)
 
-    // Files/Blobs can't be JSON-serialized — they are stripped from local
-    // drafts (with a one-time dev warning). Values of `sensitive` elements are
-    // stripped by data path.
-    const serializeLocal = () => {
+    /**
+     * The model snapshot a draft stores. Files/Blobs can't be JSON-serialized —
+     * they are stripped (with a one-time dev warning). Values of `sensitive`
+     * elements are stripped by data path, unless `draft.sensitive: true`.
+     */
+    const draftData = (): Record<string, any> => {
       const json = JSON.stringify(model.value, (_key, value) => {
         if (isFileValue(value)) {
           if (!warnedFileValue && isDev()) {
             warnedFileValue = true
-            warn('File values are not stored by local autosave.')
+            warn('File values are not stored in drafts.')
           }
           return undefined
         }
         return value
       })
 
-      const sensitive = sensitivePaths.value
-
-      if (!sensitive.length) return json
-
       const data = JSON.parse(json)
 
-      sensitive.forEach((path) => unset(data, path))
+      if (draftConfig.value?.sensitive !== true) {
+        sensitivePaths.value.forEach((path) => unset(data, path))
+      }
 
-      return JSON.stringify(data)
+      return data
     }
 
     /**
-     * Monotonic counter invalidating in-flight local writes: an async cipher
-     * must not land a stale draft over a newer write or a clear.
+     * Monotonic counter invalidating in-flight draft writes: an async cipher
+     * must not land a stale draft over a newer write or a discard.
      */
-    let localWriteSeq = 0
+    let draftWriteSeq = 0
 
     /**
-     * Writes the current model snapshot to local storage, encrypted by the
-     * security module's cipher when one is configured (`$security.encrypt`) and
-     * the form hasn't opted out (`local.encrypt: false`). The snapshot is taken
-     * synchronously; a save superseded while encrypting is dropped.
+     * Writes the current model snapshot to storage, encrypted by the security
+     * module's cipher when one is configured (`$security.encrypt`) and the
+     * form hasn't opted out (`draft.encrypt: false`). Fires the `saveDraft`
+     * pre-hook (a handler returning `false` cancels the write) and `draftSaved`
+     * once the write lands. The snapshot is taken synchronously; a save
+     * superseded while encrypting is dropped.
      */
-    const saveLocal = async () => {
-      if (!localActive()) return
+    const saveDraft = async () => {
+      if (!draftActive()) return
 
-      const seq = ++localWriteSeq
+      // The write claims its sequence before any await — a discard or newer
+      // save arriving during the pre-hook or encryption invalidates it.
+      const seq = ++draftWriteSeq
+      const data = draftData()
+
+      if ((await fireAsync('saveDraft', data, form$)) === false) return
+
+      if (seq !== draftWriteSeq) return
 
       try {
-        const serialized = serializeLocal()
+        const serialized = JSON.stringify(data)
 
         const stored =
-          localConfig.value?.encrypt === false
+          draftConfig.value?.encrypt === false
             ? serialized
-            : await security.encrypt(serialized, 'autosave:local')
+            : await security.encrypt(serialized, 'draft')
 
-        if (seq !== localWriteSeq) return
+        if (seq !== draftWriteSeq) return
 
-        localStorageBackend.value!.setItem(localKey.value!, stored)
+        draftStorage.value!.setItem(draftKey.value!, stored)
+        fire('draftSaved', data, form$)
       } catch (error) {
         if (isDev()) {
-          warn('Local autosave failed to write.', error)
+          warn('Draft failed to save.', error)
         }
       }
     }
 
     /**
-     * Removes the locally stored draft, if any, invalidating in-flight writes.
+     * Removes the stored draft, if any, invalidating in-flight writes and
+     * firing `draftDiscarded`.
      */
-    const clearAutosaved = () => {
-      if (!localActive()) return
+    const discardDraft = () => {
+      if (!draftActive()) return
 
-      localWriteSeq++
-      localStorageBackend.value!.removeItem(localKey.value!)
+      draftWriteSeq++
+      draftStorage.value!.removeItem(draftKey.value!)
+      fire('draftDiscarded', form$)
     }
 
     /**
-     * Reads, decrypts (unless the form opted out with `local.encrypt: false`),
+     * Reads, decrypts (unless the form opted out with `draft.encrypt: false`),
      * and parses the stored draft, removing unreadable entries — a throwing
-     * `$security.decrypt` counts as corrupt, same as invalid JSON. Returns
+     * `$security.decrypt` counts as corrupt, same as invalid JSON. Resolves
      * `undefined` when there's nothing (valid) stored.
      */
-    const readStored = async (): Promise<Record<string, any> | undefined> => {
-      if (!localActive()) return undefined
+    const getDraft = async (): Promise<Record<string, any> | undefined> => {
+      if (!draftActive()) return undefined
 
-      const stored = localStorageBackend.value!.getItem(localKey.value!)
+      const stored = draftStorage.value!.getItem(draftKey.value!)
 
       if (stored == null) return undefined
 
       try {
         return JSON.parse(
-          localConfig.value?.encrypt === false
+          draftConfig.value?.encrypt === false
             ? stored
-            : await security.decrypt(stored, 'autosave:local')
+            : await security.decrypt(stored, 'draft')
         )
       } catch {
-        localStorageBackend.value!.removeItem(localKey.value!)
+        draftStorage.value!.removeItem(draftKey.value!)
         return undefined
       }
     }
 
     /**
-     * Loads the stored draft into the form, resolving whether a draft was found
-     * and loaded. Unlike the automatic load on mount, a manual call fires no
-     * `autosaveRestore` pre-hook — calling it _is_ the consent.
+     * Restores the stored draft into the form, resolving whether a draft was
+     * found and restored. Unlike the automatic restore on mount, a manual call
+     * fires no `restoreDraft` pre-hook — calling it _is_ the consent.
      */
-    const loadAutosaved = async (): Promise<boolean> => {
-      const data = await readStored()
+    const restoreDraft = async (): Promise<boolean> => {
+      const data = await getDraft()
 
       if (data === undefined) return false
 
@@ -421,19 +468,31 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     }
 
     /**
-     * Loads a stored draft back into the form on mount, unless loading is
-     * disabled (`load: false`) or an `autosaveRestore` handler cancels it.
+     * Restores a stored draft back into the form on mount, unless restoring is
+     * disabled (`restore: false`) or a `restoreDraft` handler cancels it.
      */
-    const autoLoad = async () => {
-      if (localConfig.value?.load === false) return
+    const autoRestore = async () => {
+      if (draftConfig.value?.restore === false) return
 
-      const data = await readStored()
+      const data = await getDraft()
 
       if (data === undefined) return
 
-      if ((await fireAsync('autosaveRestore', data, form$)) === false) return
+      if ((await fireAsync('restoreDraft', data, form$)) === false) return
 
       load(data)
+    }
+
+    /**
+     * Discards the stored draft after a successful submit, unless a
+     * `discardDraft` handler cancels it.
+     */
+    const discardOnSuccess = async () => {
+      if (!draftActive()) return
+
+      if ((await fireAsync('discardDraft', form$)) === false) return
+
+      discardDraft()
     }
 
     // ============== WIRING ================
@@ -445,8 +504,8 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       registeredHandlers.forEach(({ event, handler }) => off(event, handler))
       registeredHandlers = []
       pendingSave = false
-      cancelLocalSave?.()
-      cancelLocalSave = undefined
+      cancelDraftSave?.()
+      cancelDraftSave = undefined
 
       if (intervalTimer !== undefined) {
         clearInterval(intervalTimer)
@@ -455,19 +514,17 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     }
 
     /**
-     * Initializes all autosave mechanisms: the remote interval timer and event
-     * listeners, and the local mirror's fixed event listeners.
+     * Initializes all saving mechanisms: the remote interval timer and event
+     * listeners, and the draft mirror's fixed event listeners.
      */
     const init = () => {
       cleanup()
 
-      const conf = config.value
-
-      if (!conf) return
-
       // ------------- remote -------------
 
-      if (conf.endpoint) {
+      const conf = config.value
+
+      if (conf?.endpoint) {
         const events = conf.on ?? ['change']
         const intervalMs = Number(conf.interval ?? 0)
 
@@ -507,46 +564,57 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
         })
       }
 
-      // ------------- local --------------
+      // ------------- draft --------------
 
-      if (conf.local) {
+      if (draftConfig.value) {
         warnUnencryptedDrafts()
 
-        let lastLocalSave = 0
+        // The debounce bounds the serialization work while typing; the same
+        // value caps staleness — when that much time has passed since the last
+        // write, a change saves immediately instead of debouncing, so
+        // continuous typing can't postpone the draft indefinitely.
+        const debounceMs = Number(
+          draftConfig.value.debounce ?? DEFAULT_DRAFT_DEBOUNCE
+        )
 
-        const saveLocalNow = () => {
-          lastLocalSave = Date.now()
-          saveLocal()
+        let lastDraftSave = 0
+
+        const saveDraftNow = () => {
+          lastDraftSave = Date.now()
+          saveDraft()
         }
 
-        const debouncedLocalSave = debounce(saveLocalNow, LOCAL_SAVE_DEBOUNCE)
-        cancelLocalSave = debouncedLocalSave.cancel
+        const debouncedDraftSave = debounce(saveDraftNow, debounceMs)
+        cancelDraftSave = debouncedDraftSave.cancel
 
-        const handleLocalChange = () => {
-          if (Date.now() - lastLocalSave >= LOCAL_SAVE_MAX_WAIT) {
-            debouncedLocalSave.cancel()
-            saveLocalNow()
+        const handleDraftChange = () => {
+          if (Date.now() - lastDraftSave >= debounceMs) {
+            debouncedDraftSave.cancel()
+            saveDraftNow()
           } else {
-            debouncedLocalSave()
+            debouncedDraftSave()
           }
         }
 
-        on('change', handleLocalChange)
-        registeredHandlers.push({ event: 'change', handler: handleLocalChange })
+        on('change', handleDraftChange)
+        registeredHandlers.push({ event: 'change', handler: handleDraftChange })
 
-        LOCAL_NAV_SAVE_EVENTS.forEach((e) => {
+        DRAFT_NAV_SAVE_EVENTS.forEach((e) => {
           const handler = () => {
-            debouncedLocalSave.cancel()
-            saveLocalNow()
+            debouncedDraftSave.cancel()
+            saveDraftNow()
           }
 
           on(e, handler)
           registeredHandlers.push({ event: e, handler })
         })
 
-        if (localConfig.value?.clear !== false) {
-          on('success', clearAutosaved)
-          registeredHandlers.push({ event: 'success', handler: clearAutosaved })
+        if (draftConfig.value.discardOnSuccess !== false) {
+          on('success', discardOnSuccess)
+          registeredHandlers.push({
+            event: 'success',
+            handler: discardOnSuccess,
+          })
         }
       }
     }
@@ -555,13 +623,13 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     onMounted(() => {
       init()
-      autoLoad()
+      autoRestore()
     })
     onUnmounted(cleanup)
 
     // ============== WATCHERS ==============
 
-    watch(config, init, { deep: true })
+    watch([config, draftConfig], init, { deep: true })
 
     // Pending saves flush on the invalid→valid transition — both saves the
     // validity gate skipped and failed saves awaiting retry.
@@ -573,29 +641,30 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     })
 
     /**
-     * Performs an autosave immediately: writes the local draft (when `local` is
-     * configured) and runs the remote save (when `endpoint` is configured). The
-     * validity gate applies as configured unless the call's `invalid` option
-     * overrides the config for this one save. A gated call while the form is
-     * invalid still writes the local draft and leaves the remote save pending.
+     * Performs a remote autosave immediately (when `autosave` is configured).
+     * The validity gate applies as configured unless the call's `invalid`
+     * option overrides the config for this one save. A gated call while the
+     * form is invalid leaves the save pending: it runs as soon as the form
+     * becomes valid.
      */
     const autosave = async (options?: { invalid?: boolean }): Promise<void> => {
+      if (!config.value?.endpoint) return
+
       const allowInvalid = options?.invalid ?? config.value?.invalid
 
       if (!allowInvalid && invalid.value) {
         pendingSave = true
-
-        await saveLocal()
         return
       }
 
-      await Promise.all([saveLocal(), save()])
+      await save()
     }
 
     return {
       autosave,
-      clearAutosaved,
-      loadAutosaved,
+      getDraft,
+      restoreDraft,
+      discardDraft,
     }
   }
 

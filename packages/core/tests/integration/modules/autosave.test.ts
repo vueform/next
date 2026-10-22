@@ -2153,357 +2153,241 @@ describe('Autosave transform', () => {
 })
 
 // =============================================================================
-// LOCAL
+// STRING SHORTHAND
 // =============================================================================
 
-describe('Autosave local', () => {
-  it('should save the model to storage on change without delay', async () => {
-    const { store, storage } = mockStorage()
-
-    const { name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await nextTick()
-
-    name.update('Jane')
-    await nextTick()
-
-    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
+describe('Autosave string shorthand', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
   })
 
-  it('should debounce rapid changes after the first immediate save', async () => {
-    vi.useFakeTimers()
-    const { store, storage } = mockStorage()
-
-    const { name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await nextTick()
-
-    // the first change writes immediately
-    name.update('Jane')
-    await nextTick()
-    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
-
-    // a rapid follow-up is debounced
-    name.update('Janet')
-    await nextTick()
-    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
-
-    vi.advanceTimersByTime(1000)
-    await nextTick()
-    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Janet' })
-
+  afterEach(() => {
     vi.useRealTimers()
   })
 
-  it('should flush a local save within the max wait while typing continuously', async () => {
-    vi.useFakeTimers()
-    const writes: string[] = []
-    const { store, storage } = mockStorage()
-    const countingStorage = {
-      ...storage,
-      setItem: (key: string, value: string) => {
-        writes.push(value)
-        storage.setItem(key, value)
+  it('should treat a string autosave prop as the endpoint', async () => {
+    const { adapter, calls } = mockAdapter()
+
+    const { name } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: '/api/autosave',
       },
-    }
-
-    const { name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage: countingStorage } },
-    })
-
-    await nextTick()
-
-    name.update('v0')
-    await nextTick()
-    expect(writes).toHaveLength(1)
-
-    // continuous typing: a change every 50ms for 1.5s never pauses long
-    // enough for the debounce, but the max wait flushes mid-burst
-    for (let i = 1; i <= 30; i++) {
-      vi.advanceTimersByTime(50)
-      name.update(`v${i}`)
-      await nextTick()
-    }
-
-    expect(writes.length).toBeGreaterThanOrEqual(2)
-
-    // the trailing debounce writes the final state once typing pauses
-    vi.advanceTimersByTime(1000)
-    await nextTick()
-    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'v30' })
-
-    vi.useRealTimers()
-  })
-
-  it('should save on navigation events', async () => {
-    const { store, storage } = mockStorage()
-
-    const { form$ } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await nextTick()
-
-    fireNav(form$, 'step')
-    await nextTick()
-
-    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'John' })
-  })
-
-  it('should save while the form is invalid', async () => {
-    const { store, storage } = mockStorage()
-
-    const { form$, name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', rules: 'required' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await nextTick()
-
-    await form$.validate()
-    await nextTick()
-    expect(form$.invalid).toBe(true)
-
-    name.update('')
-    await nextTick()
-
-    expect('vueform:draft_form' in store).toBe(true)
-  })
-
-  it('should use a custom key when set', async () => {
-    const { store, storage } = mockStorage()
-
-    const { name } = createForm({
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage, key: 'my-draft' } },
-    })
-
-    await nextTick()
-
-    name.update('Jane')
-    await nextTick()
-
-    expect(JSON.parse(store['vueform:my-draft'])).toEqual({ name: 'Jane' })
-  })
-
-  it('should warn and disable local autosave without a name or key', async () => {
-    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
-    const { store, storage } = mockStorage()
-
-    const { name } = createForm({
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await nextTick()
-
-    name.update('Jane')
-    await nextTick()
-
-    expect(Object.keys(store)).toHaveLength(0)
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('Local autosave requires')
+      { $http: { adapter } }
     )
 
-    warnSpy.mockRestore()
-  })
-
-  it('should restore a stored draft on mount', async () => {
-    const { storage } = mockStorage({
-      'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
-    })
-
-    const { name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await flushPromises()
-
-    expect(name.value).toBe('Stored')
-  })
-
-  it('should skip restore when an autosaveRestore handler returns false', async () => {
-    const { store, storage } = mockStorage({
-      'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
-    })
-
-    const { name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-      onAutosaveRestore: () => false,
-    })
-
-    await flushPromises()
-
-    expect(name.value).toBe('John')
-    expect('vueform:draft_form' in store).toBe(true)
-  })
-
-  it('should skip the automatic load when load is false', async () => {
-    const { storage } = mockStorage({
-      'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
-    })
-
-    const { name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage, load: false } },
-    })
-
-    await flushPromises()
-
-    expect(name.value).toBe('John')
-  })
-
-  it('should load a stored draft manually via loadAutosaved', async () => {
-    const { storage } = mockStorage({
-      'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
-    })
-
-    const { form$, name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage, load: false } },
-    })
-
-    await flushPromises()
-    expect(name.value).toBe('John')
-
-    expect(await form$.loadAutosaved()).toBe(true)
     await nextTick()
 
-    expect(name.value).toBe('Stored')
-  })
-
-  it('should return false from loadAutosaved when nothing is stored', async () => {
-    const { storage } = mockStorage()
-
-    const { form$ } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage, load: false } },
-    })
-
-    await flushPromises()
-
-    expect(await form$.loadAutosaved()).toBe(false)
-  })
-
-  it('should remove a corrupt stored draft without restoring', async () => {
-    const { store, storage } = mockStorage({
-      'vueform:draft_form': '{not json',
-    })
-
-    const { name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await flushPromises()
-
-    expect(name.value).toBe('John')
-    expect('vueform:draft_form' in store).toBe(false)
-  })
-
-  it('should clear the stored draft on successful submit', async () => {
-    const { store, storage } = mockStorage({
-      'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
-    })
-
-    const { form$ } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await flushPromises()
-
-    form$.fire('success', {} as any)
+    name.update('Jane')
     await nextTick()
 
-    expect('vueform:draft_form' in store).toBe(false)
-  })
-
-  it('should keep the stored draft on success when clear is false', async () => {
-    const { store, storage } = mockStorage({
-      'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
-    })
-
-    const { form$ } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage, clear: false } },
-    })
-
+    vi.advanceTimersByTime(1000)
     await flushPromises()
 
-    form$.fire('success', {} as any)
-    await nextTick()
+    expect(calls).toHaveLength(1)
+    expect(calls[0].url).toBe('/api/autosave')
+    expect(calls[0].method).toBe('POST')
+  })
+})
 
-    expect('vueform:draft_form' in store).toBe(true)
+// =============================================================================
+// RESPONSE + AUTOSAVED EVENTS
+// =============================================================================
+
+describe('Autosave response and autosaved events', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
   })
 
-  it('should save both targets immediately via the autosave method', async () => {
-    const { adapter, calls } = mockAdapter()
-    const { store, storage } = mockStorage()
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  it('should fire autosaveResponse and autosaved after a successful save', async () => {
+    const { adapter } = mockAdapter({ data: { saved: true } })
+    const responseHandler = vi.fn()
+    const autosavedHandler = vi.fn()
 
     const { form$ } = createForm(
       {
-        name: 'draft_form',
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          interval: 5000,
+        },
+      },
+      { $http: { adapter } }
+    )
+
+    form$.on('autosaveResponse', responseHandler)
+    form$.on('autosaved', autosavedHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
+
+    expect(responseHandler).toHaveBeenCalledTimes(1)
+    expect(responseHandler.mock.calls[0][0]).toMatchObject({
+      data: { saved: true },
+      status: 200,
+    })
+    expect(autosavedHandler).toHaveBeenCalledTimes(1)
+    expect(autosavedHandler.mock.calls[0][0]).toMatchObject({ status: 200 })
+    expect(autosavedHandler.mock.calls[0][1]).toMatchObject({ uid: form$.uid })
+  })
+
+  it('should fire autosaveResponse with the error response on failure', async () => {
+    const errorResponse = {
+      data: { message: 'nope' },
+      status: 500,
+      statusText: 'Server Error',
+      headers: {},
+      config: {} as any,
+    }
+    const failAdapter: HttpAdapter = async () => {
+      throw new HttpError(
+        'Server error',
+        { url: '/api/autosave' } as any,
+        'http',
+        errorResponse
+      )
+    }
+    const responseHandler = vi.fn()
+    const autosavedHandler = vi.fn()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          interval: 5000,
+        },
+      },
+      { $http: { adapter: failAdapter } }
+    )
+
+    form$.on('autosaveResponse', responseHandler)
+    form$.on('autosaved', autosavedHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
+
+    expect(responseHandler).toHaveBeenCalledTimes(1)
+    expect(responseHandler.mock.calls[0][0]).toBe(errorResponse)
+    // a failed save never counts as autosaved
+    expect(autosavedHandler).not.toHaveBeenCalled()
+  })
+
+  it('should not fire autosaveResponse when a failure carries no response', async () => {
+    const failAdapter: HttpAdapter = async () => {
+      throw new HttpError(
+        'Network error',
+        { url: '/api/autosave' } as any,
+        'network'
+      )
+    }
+    const responseHandler = vi.fn()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          interval: 5000,
+        },
+      },
+      { $http: { adapter: failAdapter } }
+    )
+
+    form$.on('autosaveResponse', responseHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
+
+    expect(responseHandler).not.toHaveBeenCalled()
+  })
+
+  it('should fire autosaved with undefined when a handler function returns void', async () => {
+    const autosavedHandler = vi.fn()
+    const successHandler = vi.fn()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: () => {},
+          interval: 5000,
+        },
+      },
+      {}
+    )
+
+    form$.on('autosaved', autosavedHandler)
+    form$.on('autosaveSuccess', successHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
+
+    expect(autosavedHandler).toHaveBeenCalledTimes(1)
+    expect(autosavedHandler.mock.calls[0][0]).toBeUndefined()
+    expect(successHandler).not.toHaveBeenCalled()
+  })
+
+  it('should not fire autosaved when a handler function returns false', async () => {
+    const autosavedHandler = vi.fn()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: () => false,
+          interval: 5000,
+        },
+      },
+      {}
+    )
+
+    form$.on('autosaved', autosavedHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
+
+    expect(autosavedHandler).not.toHaveBeenCalled()
+  })
+})
+
+// =============================================================================
+// MANUAL METHOD
+// =============================================================================
+
+describe('Autosave method', () => {
+  it('should save remotely immediately via the autosave method', async () => {
+    const { adapter, calls } = mockAdapter()
+
+    const { form$ } = createForm(
+      {
         schema: defineSchema({
           name: { type: 'text', default: 'John', rules: 'required' },
         }),
         autosave: {
           endpoint: '/api/autosave',
           on: [],
-          local: { storage, load: false },
         },
       },
       { $http: { adapter } }
@@ -2514,11 +2398,10 @@ describe('Autosave local', () => {
     await form$.autosave()
     await flushPromises()
 
-    expect('vueform:draft_form' in store).toBe(true)
     expect(calls).toHaveLength(1)
   })
 
-  it('should respect the validity gate on manual autosave by default', async () => {
+  it('should not write a draft via the autosave method', async () => {
     const { adapter, calls } = mockAdapter()
     const { store, storage } = mockStorage()
 
@@ -2526,12 +2409,55 @@ describe('Autosave local', () => {
       {
         name: 'draft_form',
         schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          on: [],
+        },
+        draft: { storage, restore: false },
+      },
+      { $http: { adapter } }
+    )
+
+    await flushPromises()
+
+    await form$.autosave()
+    await flushPromises()
+
+    expect(calls).toHaveLength(1)
+    expect(Object.keys(store)).toHaveLength(0)
+  })
+
+  it('should be a no-op without an endpoint', async () => {
+    const { adapter, calls } = mockAdapter()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+      },
+      { $http: { adapter } }
+    )
+
+    await flushPromises()
+
+    await expect(form$.autosave()).resolves.toBeUndefined()
+    expect(calls).toHaveLength(0)
+  })
+
+  it('should respect the validity gate on manual autosave by default', async () => {
+    const { adapter, calls } = mockAdapter()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
           name: { type: 'text', rules: 'required' },
         }),
         autosave: {
           endpoint: '/api/autosave',
           on: [],
-          local: { storage, load: false },
         },
       },
       { $http: { adapter } }
@@ -2546,8 +2472,6 @@ describe('Autosave local', () => {
     await form$.autosave()
     await flushPromises()
 
-    // local always writes; the remote save is held back by the gate
-    expect('vueform:draft_form' in store).toBe(true)
     expect(calls).toHaveLength(0)
   })
 
@@ -2641,64 +2565,5 @@ describe('Autosave local', () => {
 
     // held back, not dropped — the manual save flushes on the transition
     expect(calls).toHaveLength(1)
-  })
-
-  it('should expose clearAutosaved on the form context', async () => {
-    const { store, storage } = mockStorage()
-
-    const { form$, name } = createForm({
-      name: 'draft_form',
-      schema: defineSchema({
-        name: { type: 'text', default: 'John' },
-      }),
-      autosave: { local: { storage } },
-    })
-
-    await nextTick()
-
-    name.update('Jane')
-    await nextTick()
-    expect('vueform:draft_form' in store).toBe(true)
-
-    form$.clearAutosaved()
-    expect('vueform:draft_form' in store).toBe(false)
-  })
-
-  it('should work alongside a remote endpoint', async () => {
-    const { adapter, calls } = mockAdapter()
-    const { store, storage } = mockStorage()
-
-    vi.useFakeTimers()
-
-    const { name } = createForm(
-      {
-        name: 'draft_form',
-        schema: defineSchema({
-          name: { type: 'text', default: 'John' },
-        }),
-        autosave: {
-          endpoint: '/api/autosave',
-          interval: 5000,
-          on: [],
-          local: { storage },
-        },
-      },
-      { $http: { adapter } }
-    )
-
-    await nextTick()
-
-    name.update('Jane')
-    await nextTick()
-
-    // local saved immediately, remote waits for the interval
-    expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
-    expect(calls).toHaveLength(0)
-
-    vi.advanceTimersByTime(5000)
-    await flushPromises()
-    expect(calls).toHaveLength(1)
-
-    vi.useRealTimers()
   })
 })

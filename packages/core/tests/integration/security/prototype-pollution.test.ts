@@ -198,7 +198,7 @@ describe('Security: prototype pollution', () => {
         schema: defineSchema({
           name: { type: 'text', default: 'John' },
         }),
-        autosave: { local: { storage } },
+        draft: { storage },
       })
 
       await flushPromises()

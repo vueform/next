@@ -11,15 +11,16 @@ import type {
 // Never mutated — shared by every caller.
 const inertInstance: AutosaveInstance = {
   autosave: async () => undefined,
-  clearAutosaved: () => undefined,
-  loadAutosaved: async () => false,
+  getDraft: async () => undefined,
+  restoreDraft: async () => false,
+  discardDraft: () => undefined,
 }
 
 /**
  * The inert autosave surface used when the `autosave` module is not registered
- * — the `autosave` prop has no effect (with a one-time dev warning when it is
- * set) and the form context methods (`autosave`, `clearAutosaved`,
- * `loadAutosaved`) are no-ops.
+ * — the `autosave` and `draft` props have no effect (with a one-time dev
+ * warning when either is set) and the form context methods (`autosave`,
+ * `getDraft`, `restoreDraft`, `discardDraft`) are no-ops.
  */
 export const noopAutosave: AutosaveModule = {
   makeAutosave: (options: MakeAutosaveOptions) => {
@@ -27,13 +28,13 @@ export const noopAutosave: AutosaveModule = {
       let warned = false
 
       watch(
-        () => unref(options.autosave),
+        () => !!unref(options.autosave) || !!unref(options.draft),
         (value) => {
           if (!value || warned) return
           warned = true
 
           warn(
-            'The `autosave` prop requires the `autosave` module; register it via `createVueform({ modules: { autosave } })`.'
+            'The `autosave` and `draft` props require the `autosave` module; register it via `createVueform({ modules: { autosave } })`.'
           )
         },
         { immediate: true }

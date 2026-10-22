@@ -63,7 +63,7 @@ import type { VueformPlugin } from './definePlugin'
  */
 export interface VueformModules {
   /**
-   * The autosave module for interval, event, and local-draft form saving.
+   * The autosave module for remote interval/event form saving and drafts.
    */
   autosave?: VueformModule<AutosaveModule>
 
@@ -223,7 +223,7 @@ export interface VueformConfig {
   modules: VueformModules
 
   /**
-   * Global autosave module options (reserved).
+   * Global autosave module options (e.g. the default draft `storage`).
    */
   $autosave: AutosaveModuleOptions
 

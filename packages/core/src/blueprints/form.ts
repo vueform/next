@@ -40,7 +40,7 @@ import {
   getAttachedValidationSchema,
   type DefineEvents,
 } from '#src/helpers'
-import type { AutosaveProp } from '#src/modules/autosave'
+import type { AutosaveProp, DraftProp } from '#src/modules/autosave'
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
@@ -276,13 +276,19 @@ export interface FormProps<
   focusError?: boolean
 
   /**
-   * The autosave configuration object: a remote `endpoint` (URL or handler
-   * function) with its scheduling options (`on`, `interval`, `delay`,
-   * `invalid`, `method`, `transform`), and/or a `local` draft mirror that saves
-   * the model to storage on every action, restores it on mount, and clears it
-   * on successful submit.
+   * The remote autosave configuration: an endpoint URL, or an object with an
+   * `endpoint` (URL or handler function) and its scheduling options (`on`,
+   * `interval`, `delay`, `invalid`, `method`, `transform`).
    */
   autosave?: AutosaveProp
+
+  /**
+   * The draft configuration: `true`, or an object with `key`, `storage`,
+   * `restore`, `discardOnSuccess`, `encrypt` and `debounce`. Drafts save the
+   * model to storage on every action, restore it on mount, and are discarded
+   * on successful submit.
+   */
+  draft?: DraftProp
 
   /**
    * Whether the form should display a default submit button
@@ -509,6 +515,47 @@ export interface FormEmits<TContext = any>
   load: [value: any, context$: TContext]
 
   /**
+   * Emitted before a draft is written to storage. Return `false` to cancel the
+   * write.
+   *
+   * @param data The draft data about to be stored.
+   * @param context$ The form's component context.
+   */
+  saveDraft: [data: Record<string, any>, context$: TContext]
+
+  /**
+   * Emitted after a draft was written to storage.
+   *
+   * @param data The stored draft data.
+   * @param context$ The form's component context.
+   */
+  draftSaved: [data: Record<string, any>, context$: TContext]
+
+  /**
+   * Emitted before a stored draft is restored into the form on mount. Return
+   * `false` to skip the restore (the stored draft is kept).
+   *
+   * @param data The stored draft data about to be restored.
+   * @param context$ The form's component context.
+   */
+  restoreDraft: [data: Record<string, any>, context$: TContext]
+
+  /**
+   * Emitted before the stored draft is discarded on successful submit. Return
+   * `false` to keep the draft.
+   *
+   * @param context$ The form's component context.
+   */
+  discardDraft: [context$: TContext]
+
+  /**
+   * Emitted after the stored draft was removed.
+   *
+   * @param context$ The form's component context.
+   */
+  draftDiscarded: [context$: TContext]
+
+  /**
    * Emitted before the autosave request is sent. Return `false` to cancel, a
    * `string` to use as the endpoint URL, or an `HttpResponse` to use as the
    * result without making a request.
@@ -519,13 +566,23 @@ export interface FormEmits<TContext = any>
   autosave: [payload: Record<string, any>, context$: TContext]
 
   /**
-   * Emitted before a locally stored autosave draft is restored into the form on
-   * mount. Return `false` to skip the restore (the stored draft is kept).
+   * Emitted after an autosave completed without failing — including handler
+   * function saves that produce no HTTP response.
    *
-   * @param data The stored draft data about to be loaded.
+   * @param response The HTTP response from the autosave, or `undefined` when
+   *   the save produced none.
    * @param context$ The form's component context.
    */
-  autosaveRestore: [data: Record<string, any>, context$: TContext]
+  autosaved: [response: HttpResponse | undefined, context$: TContext]
+
+  /**
+   * Emitted whenever an autosave request receives an HTTP response, successful
+   * or not.
+   *
+   * @param response The HTTP response the autosave received.
+   * @param context$ The form's component context.
+   */
+  autosaveResponse: [response: HttpResponse, context$: TContext]
 
   /**
    * Emitted after a successful autosave operation.
@@ -1113,8 +1170,9 @@ function setup(
   const json = computed(() => props.json)
   const base64 = computed(() => props.base64)
 
-  const { autosave, clearAutosaved, loadAutosaved } = useAutosave({
+  const { autosave, getDraft, restoreDraft, discardDraft } = useAutosave({
     autosave: toRef(() => props.autosave),
+    draft: toRef(() => props.draft),
     payload,
     model,
     sensitivePaths,
@@ -1663,8 +1721,9 @@ function setup(
     submit,
     abort,
     autosave,
-    clearAutosaved,
-    loadAutosaved,
+    getDraft,
+    restoreDraft,
+    discardDraft,
     on,
     off,
     fire,
