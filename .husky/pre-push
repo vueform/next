@@ -1,0 +1,89 @@
+# Auto-sync a push that would otherwise be rejected because the branch moved —
+# in practice a workflow (deploy-docs, task, benchmark, visual-baselines,
+# release) pushing regenerated artifacts back: `docs:gen` output under
+# docs/src, size measurements (size.json + README size sections), benchmark
+# results, visual screenshots and registry files. (`pnpm api` extraction is
+# NOT among them — it writes to the git-ignored .vueform/, so it never
+# appears in commits.) Conflicts with such commits are always
+# deterministically regenerable content, so they resolve mechanically: rebase
+# with conflicted hunks taken from the LOCAL side (a local regen ran over
+# newer sources than the bot's), then push the rebased branch from inside
+# this hook. The original push is then aborted — its commits are already
+# upstream, so the "failed to push" git prints after our final note is
+# expected noise. The hook never regenerates or commits anything itself: if
+# the auto-resolved merge leaves regenerated files slightly interleaved, the
+# triggered deploy's own regen + push-back normalizes them (deploy-docs.yml,
+# "Commit regenerated content").
+#
+# Auto-sync only engages when the incoming commits touch nothing but the
+# paths the CI workflows push back (the allowlist below). Anything else
+# upstream is genuine divergence that a human should resolve, so the push is
+# aborted instead. `packages/*/package.json` (the release version commits) is
+# deliberately NOT allowlisted.
+#
+# Caveat: within the allowlisted paths, `-X theirs` resolves every conflicted
+# hunk to the local side — a hand edit made upstream inside e.g. docs/src
+# that conflicts with local work would be overridden (the rebase prints which
+# files it touched).
+
+# The inner push below must not re-enter this hook.
+[ -n "$VUEFORM_AUTOSYNC_PUSH" ] && exit 0
+
+remote="$1"
+
+# Only engage for a push of the current branch with a configured upstream;
+# anything else (tags, deletes, detached HEAD) passes through untouched.
+current=$(git symbolic-ref --quiet HEAD) || exit 0
+git rev-parse --abbrev-ref --symbolic-full-name '@{u}' >/dev/null 2>&1 || exit 0
+pushing_current=''
+while read -r lref _lsha _rref _rsha; do
+  [ "$lref" = "$current" ] && pushing_current=1
+done
+[ -n "$pushing_current" ] || exit 0
+
+git fetch --quiet "$remote" || exit 0
+behind=$(git rev-list --count 'HEAD..@{u}' 2>/dev/null) || exit 0
+[ "${behind:-0}" -gt 0 ] || exit 0
+
+# Everything the incoming commits changed must be CI-regenerated content
+# (keep this list in sync with the workflows' push-back path lists).
+foreign=''
+while IFS= read -r f; do
+  [ -n "$f" ] || continue
+  case "$f" in
+    docs/src/*) ;;
+    packages/*/size.json) ;;
+    packages/*/README.md) ;;
+    README.md) ;;
+    benchmark/results/*) ;;
+    packages/*/tests/visual/screenshots/*) ;;
+    packages/*/registry/*) ;;
+    *) foreign="$f"; break;;
+  esac
+done <<EOF
+$(git diff --name-only 'HEAD...@{u}')
+EOF
+
+if [ -n "$foreign" ]; then
+  echo "pre-push: upstream has changes outside CI-regenerated paths ($foreign) — genuine divergence, pull/rebase manually" >&2
+  exit 1
+fi
+
+echo "pre-push: upstream moved ($behind commit(s), regenerated content only) — rebasing (conflicts resolve to local) and pushing"
+
+git -c rebase.autoStash=true pull --quiet --rebase -X theirs "$remote" || {
+  git rebase --abort >/dev/null 2>&1 || true
+  echo "pre-push: auto-sync rebase failed and was aborted — pull and resolve manually" >&2
+  exit 1
+}
+
+# An autostash of uncommitted work can pop with conflicts even when the
+# rebase itself succeeded — never push from a tree with conflict markers.
+if [ -n "$(git ls-files -u)" ]; then
+  echo "pre-push: rebase done but restoring your uncommitted changes conflicted — resolve, then push again" >&2
+  exit 1
+fi
+
+VUEFORM_AUTOSYNC_PUSH=1 git push --quiet "$remote" || exit 1
+echo "pre-push: rebased branch pushed — the original push is superseded; the error git prints below is expected"
+exit 1
