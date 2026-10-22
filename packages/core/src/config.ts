@@ -30,7 +30,9 @@ const defaultConfig = defineConfig({
   $locale: {},
   $model: {},
   $router: {},
-  $security: {},
+  $security: {
+    allowProps: ['**'],
+  },
   $theme: {},
   $validation: {},
   devtools: true,

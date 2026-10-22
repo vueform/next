@@ -706,7 +706,7 @@ createVueform({
 ### `!$security`
 
 - Type: `SecurityModuleOptions`
-- Default: `{}` (unset options are equivalent to empty lists — every gate denies by default)
+- Default: `{}`
 
 Options for the [security module](/guide/security):
 
@@ -718,7 +718,7 @@ Options for the [security module](/guide/security):
 | `allowOrigins` | `string[]` | `[]` | Additional **cross-origin** destinations requests may target, as absolute origins. The app's own origin and the `$http.baseURL` origin always pass; everything else is rejected before the request is sent unless listed. Wildcards: `'https://*.example.com'` (any subdomain, never the apex) and `'https://example.com:*'` (any port); `['*']` removes the restriction. |
 | `allowHtml` | `('content' \| 'grid' \| 'slots')[]` | `[]` | The areas where strings may render as HTML: `VfContent`'s `content`, grid string cells, and [`slots`](/guide/slots#string-content) entries. An area not listed renders its strings as escaped text with a dev warning. |
 | `allowComponents` | `string[]` | `[]` | The globally registered component names a schema string may resolve to — in `slots` entries, the [`template`](/guide/templates#by-name) prop, the `layout` prop, and an element's `component` key (form entries, flat list prototypes, grid cell and matrix column schemas alike). A name outside the list is ignored with a dev warning; `Vf*` names derived from `type` are exempt. |
-| `allowProps` | `(string \| RegExp)[]` | `[]` | The element prop paths `path@prop` / `@prop` references may resolve in [conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props). **Fail-closed** — empty by default, so no prop reference resolves until listed. Patterns support nesting levels (`'meta.*'`, `'props.**'`), name wildcards (`'selected*'`), `'**'` as the full opt-out, and RegExp entries tested against the full prop path. See [Prop References](/guide/security#prop-references). |
+| `allowProps` | `(string \| RegExp)[]` | `['**']` | The element prop paths `path@prop` / `@prop` references may resolve in [conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props). Patterns support nesting levels (`'meta.*'`, `'props.**'`), name wildcards (`'selected*'`), `'**'` as the full opt-out, and RegExp entries tested against the full prop path. See [Prop References](/guide/security#prop-references). |
 | `banAttrs` | `(string \| RegExp)[]` | `[]` | Keys dropped (in every value form) from schema-reachable prop bags — schema entries, `parts` bags, grid cell `attrs`. Strings match case-insensitively, RegExps test the original key. Only `innerHTML`/`outerHTML` and prototype keys are always dropped; **configure at least `[/^on/i, 'srcdoc']` when schemas are untrusted**. Dropped entries warn in development. See [Banning Attributes](/guide/security#banning-attributes). |
 
 HTML rendering and component names are gated because schemas often come from outside the app — see [Untrusted Schemas](/guide/security#untrusted-schemas):

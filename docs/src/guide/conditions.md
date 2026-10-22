@@ -548,21 +548,7 @@ By default a condition compares the referenced element's **value**. Appending `@
 [elementPath@propName, operator, value]
 ```
 
-Props must be allowlisted in [`$security.allowProp`](/guide/configuration#security) before they can be referenced. A prop that isn't listed never resolves — the condition evaluates as unmet, with a dev warning naming the missing entry:
-
-```ts
-app.use(
-  createVueform({
-    $security: {
-      allowProp: ['available', 'label', 'model.**'], // [!code highlight]
-    },
-  })
-)
-```
-
-See [Prop References](/guide/security#prop-references) for the full pattern syntax `allowProp` accepts.
-
-With that allowlist in place, conditions can read the listed properties, with dot paths drilling deeper into them:
+Any context property works, with dot paths drilling deeper into it:
 
 ```ts
 // Whether another element is currently available
@@ -578,7 +564,7 @@ conditions: [['address@model.country', '==', 'US']]
 conditions: [['tags@model.length', '>', 0]]
 ```
 
-Property paths aren't a special condition form — they work with every operator, inside AND/OR groups, and under `{ not: ... }`, anywhere a `[path, operator, value]` condition is accepted. The same `path@prop` syntax is available in [expressions](/guide/expressions), governed by the same allowlist.
+Property paths aren't a special condition form — they work with every operator, inside AND/OR groups, and under `{ not: ... }`, anywhere a `[path, operator, value]` condition is accepted. The same `path@prop` syntax is available in [expressions](/guide/expressions).
 
 ## Evaluation Details
 

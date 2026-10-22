@@ -24,7 +24,7 @@ The draft is stored under the key `vueform:{name}`, which is why `local` require
 
 The mirror's saving behavior is fixed — there's nothing to schedule:
 
-- **It saves on every action.** Page navigations save immediately. Changes save on a fixed ~300 ms debounce that keeps rapid typing smooth.
+- **It saves on every action.** Page navigations save immediately. Changes save on a fixed one-second debounce.
 - **It saves regardless of validity.** A half-filled, invalid form is exactly what a draft is.
 - **It stores the raw model, not the payload.** Loading a draft reproduces the form's full state, including values behind unmet [conditions](/guide/conditions).
 
