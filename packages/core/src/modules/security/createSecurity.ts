@@ -436,19 +436,19 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     return undefined
   }
 
-  // Unlike the other gates, prop references limit only once the option is set
-  // (like `$expression.whitelist`): an unset `allowProps` resolves
-  // every `path@prop` / `@prop` reference, while an array restricts resolution
-  // to the listed patterns (`[]` denies all). String entries compile to
-  // wildcard patterns once; RegExp entries test the full prop path as written
-  // (rebuilt without the stateful `g` / `y` flags, like `banAttrs`). Invalid
-  // entries are dropped with a warning rather than silently never matching.
-  const allowProps = own(options, 'allowProps')
+  // Prop references fail closed like the other gates: the stock config ships
+  // `allowProps: []` and an unset option means the same, so no `path@prop` /
+  // `@prop` reference resolves until its prop is listed. String entries
+  // compile to wildcard patterns once; RegExp entries test the full prop path
+  // as written (rebuilt without the stateful `g` / `y` flags, like
+  // `banAttrs`). Invalid entries are dropped with a warning rather than
+  // silently never matching.
+  const allowProps = own(options, 'allowProps') ?? []
 
   const propRefPatterns: PropRefPattern[] = []
   const propRefRegexps: RegExp[] = []
 
-  for (const entry of allowProps ?? []) {
+  for (const entry of allowProps) {
     if (entry instanceof RegExp) {
       propRefRegexps.push(
         new RegExp(entry.source, entry.flags.replace(/[gy]/g, ''))
@@ -473,8 +473,6 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
 
   const allowsProp = (prop: string): boolean => {
     if (typeof prop !== 'string' || !prop) return false
-
-    if (allowProps == null) return true
 
     // `[n]` index access reads as nesting (`model[0]` → `model.0`), matching
     // how engines resolve the prop path.

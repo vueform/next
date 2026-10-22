@@ -27,8 +27,9 @@ export interface ExpressionModuleOptions {
   enabled?: boolean
 
   /**
-   * The prop keys that resolve expressions. Unset, every expressionable prop
-   * resolves. An array restricts resolution to the listed keys — strings match
+   * The prop keys that resolve expressions. The stock config ships `['*']`
+   * (every expressionable prop resolves, as does unset); your own array
+   * replaces it and restricts resolution to the listed keys — strings match
    * exactly (`*` spans any characters: `'*'`, `'*Label'`, `'label*'`), RegExps
    * as written.
    */

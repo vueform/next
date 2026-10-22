@@ -16,7 +16,7 @@ The protections Vueform itself provides live in one place: the `security` module
 | [`sanitizer`](#the-sanitize-step) | — | The sanitization engine every allowed HTML area renders through. No built-in one — the [DOMPurify plugin](/plugins/dompurify) provides it; an identity function is the conscious opt-out. |
 | [`allowComponents`](#components-from-schemas) | `[]` | The component names a schema string may resolve to. |
 | [`banAttrs`](#banning-attributes) | `[]` | Attribute keys (strings or RegExps, e.g. `/^on/i`) to drop from schema-reachable attribute bags. Only `innerHTML`/`outerHTML` and prototype keys are built in. |
-| [`safePropRefs`](#prop-references) | `[]` | The element props `path@prop` / `@prop` references may resolve in conditions and expressions. Unset, no prop reference resolves. |
+| [`allowProps`](#prop-references) | `[]` | The element prop paths `path@prop` / `@prop` references may resolve in conditions and expressions. Empty by default, so no prop reference resolves until listed. |
 | [`allowOrigins`](#request-origins) | `[]` | Cross-origin destinations requests may target. Own origin allowed by default. |
 | [`encrypt`](#draft-encryption) / [`decrypt`](#draft-encryption) | — | Ciphers applied to persisted values, such as local autosave drafts. |
 
@@ -460,7 +460,7 @@ Combined with the defaults — HTML dead without [`allowHtml`](#html-sanitizatio
 
 ### Prop References
 
-[Conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props) can read element **props** through the `path@prop` / `@prop` reference form. With the security module registered, these references are gated by `safePropRefs`, and the gate fails closed — unset is the same as `[]`, so no prop reference resolves until its prop is listed. A denied reference resolves as `undefined` (the condition evaluates unmet, the expression renders empty) with a dev warning naming the prop.
+[Conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props) can read element **props** through the `path@prop` / `@prop` reference form. With the security module registered, these references are gated by `allowProps`, and the gate fails closed — the default is `[]` (unset means the same), so no prop reference resolves until its prop is listed (`'**'` allows everything). A denied reference resolves as `undefined` (the condition evaluates unmet, the expression renders empty) with a dev warning naming the prop.
 
 Each entry is a pattern over the prop part of the reference (everything after `@`, with `[n]` index access counting as a nesting level):
 
@@ -480,7 +480,7 @@ createVueform({
   $security: {
     // Conditions / expressions may read labels, any `selected*` prop,
     // and one level under `meta` — nothing else.
-    safePropRefs: ['label', 'selected*', 'meta.*'],
+    allowProps: ['label', 'selected*', 'meta.*'],
   },
 })
 ```
@@ -527,4 +527,5 @@ See [Encrypting Drafts](/guide/autosave#encrypting-drafts) for a complete Web Cr
 - Install `@vueform/dompurify` whenever you list an area in `$security.allowHtml` — without an engine, HTML renders escaped rather than unsanitized.
 - Keep `allowHtml` to the areas that actually need markup, and reserve the identity-`sanitizer` opt-out for schemas you fully control.
 - Keep `allowComponents` to purpose-built slot, template, and layout components — never expose general application components to schema authors.
+- Keep `$security.allowProps` to the props your schemas legitimately reference — it's empty by default, and `'**'` (everything) belongs only in apps whose schemas you fully control.
 - Encrypt locally persisted autosave drafts via the `$security` ciphers when forms carry sensitive data, and mark secrets `sensitive` so they are never stored at all.

@@ -120,38 +120,36 @@ describe('Security: noop surface in production', () => {
     })
   })
 
-  describe('`allowProp`', () => {
+  describe('`allowsProp`', () => {
     /**
-     * Threat: `allowProps` configured without the module — production
-     * would resolve every prop reference while the config claims they are
-     * restricted. Presence is the intent, not length: an explicit `[]` means
-     * "deny every prop reference".
+     * Threat: `allowProps` populated without the module — production would
+     * resolve every prop reference while the config claims only the listed
+     * ones do.
      *
      * Measure: discovered intent fails closed — no prop reference resolves
      * until the module is registered.
      */
-    it('should deny prop references when allowProps is configured', () => {
+    it('should deny prop references when allowProps is populated', () => {
       prod()
-      const listed = noopSecurity({
+      const sec = noopSecurity({
         $security: { allowProps: ['label'] },
       } as any)
-      const empty = noopSecurity({
-        $security: { allowProps: [] },
-      } as any)
 
-      expect(listed.allowsProp('label')).toBe(false)
-      expect(empty.allowsProp('label')).toBe(false)
+      expect(sec.allowsProp('label')).toBe(false)
     })
 
     /**
-     * Threat: none — unset means no limiting at all (the gate's documented
-     * semantics), so permissive behavior is the configured behavior.
+     * Threat: none — the stock config ships `allowProps: []`, so an empty or
+     * unset list carries no intent of its own, and the module family's
+     * absent-feature rule applies: nothing is enforced.
      */
-    it('should allow prop references when allowProps is not configured', () => {
+    it('should allow prop references when allowProps is empty or unset', () => {
       prod()
-      const sec = noopSecurity({ $security: {} } as any)
+      const unset = noopSecurity({ $security: {} } as any)
+      const empty = noopSecurity({ $security: { allowProps: [] } } as any)
 
-      expect(sec.allowsProp('label')).toBe(true)
+      expect(unset.allowsProp('label')).toBe(true)
+      expect(empty.allowsProp('label')).toBe(true)
     })
   })
 

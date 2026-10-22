@@ -45,9 +45,9 @@ export function noopSecurity(config: VueformConfig): SecurityModule {
     options?.allowOrigins?.length && !options.allowOrigins.includes('*')
   )
   const banAttrsConfigured = !!options?.banAttrs?.length
-  // Presence is the intent, not length: an explicit `[]` means "deny every
-  // prop reference" (unset means no limiting at all).
-  const allowPropsConfigured = options?.allowProps != null
+  // Length is the intent, not presence: the stock config ships
+  // `allowProps: []` (deny-all), so only a populated list reads like policy.
+  const allowPropsConfigured = !!options?.allowProps?.length
   const allowHtmlConfigured = !!options?.allowHtml?.length
   const allowComponentsConfigured = !!options?.allowComponents?.length
 

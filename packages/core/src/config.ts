@@ -15,7 +15,9 @@ const defaultConfig = defineConfig({
   },
   $date: {},
   $devtools: {},
-  $expression: {},
+  $expression: {
+    whitelist: ['*'],
+  },
   $http: {
     defaultMethod: 'GET',
     base64: false,

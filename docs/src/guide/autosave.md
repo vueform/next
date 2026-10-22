@@ -98,7 +98,7 @@ autosave: {
 },
 ```
 
-A custom `key` is namespaced like a derived one — without the `vueform:` prefix it gets it added, so a schema-supplied key can never address a foreign storage entry. `storage` accepts anything with the Web Storage shape — `sessionStorage`, or a custom `{ getItem, setItem, removeItem }` adapter over IndexedDB or a native bridge.
+A custom `key` is namespaced like a derived one — without the `vueform:` prefix it gets it added, so a schema-supplied key can never address a foreign storage entry. `storage` accepts anything with the [Web Storage](https://developer.mozilla.org/en-US/docs/Web/API/Web_Storage_API) shape — `sessionStorage`, or a custom `{ getItem, setItem, removeItem }` adapter over IndexedDB or a native bridge.
 
 ### Sensitive Values
 

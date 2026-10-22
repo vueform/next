@@ -548,19 +548,19 @@ By default a condition compares the referenced element's **value**. Appending `@
 [elementPath@propName, operator, value]
 ```
 
-Props must be allowlisted in [`$security.safePropRefs`](/guide/configuration#security) before they can be referenced. A prop that isn't listed never resolves — the condition evaluates as unmet, with a dev warning naming the missing entry:
+Props must be allowlisted in [`$security.allowProp`](/guide/configuration#security) before they can be referenced. A prop that isn't listed never resolves — the condition evaluates as unmet, with a dev warning naming the missing entry:
 
 ```ts
 app.use(
   createVueform({
     $security: {
-      safePropRefs: ['available', 'label', 'model.**'], // [!code highlight]
+      allowProp: ['available', 'label', 'model.**'], // [!code highlight]
     },
   })
 )
 ```
 
-See [Prop References](/guide/security#prop-references) for the full pattern syntax `safePropRefs` accepts.
+See [Prop References](/guide/security#prop-references) for the full pattern syntax `allowProp` accepts.
 
 With that allowlist in place, conditions can read the listed properties, with dot paths drilling deeper into them:
 

@@ -461,14 +461,14 @@ The `@` shorthand reads element **props** — properties on the element's [conte
 - `path@prop` — a prop of the element at `path`, e.g. `country@selectedLabel`.
 - `@prop` — a prop of the **current** element, e.g. `@label`.
 
-A prop must be allowlisted in [`$security.safePropRefs`](/guide/configuration#security) before it resolves — unlisted references render as empty, with a dev warning naming the missing entry:
+A prop must be allowlisted in [`$security.allowProp`](/guide/configuration#security) before it resolves — unlisted references render as empty, with a dev warning naming the missing entry:
 
 ```ts
 app.use(
   createVueform({
     plugins: [exprEval()],
     $security: {
-      safePropRefs: ['selectedLabel'], // [!code highlight]
+      allowProp: ['selectedLabel'], // [!code highlight]
     },
   })
 )
@@ -491,7 +491,7 @@ defineSchema({
 })
 ```
 
-The model holds `us`, but the note shows _United States_ — the select's `selectedLabel` prop instead of its value. Any listed context property is reachable the same way, with dot paths drilling deeper (`@model.city`), `[n]` index segments (`@model[0]`), and targets like `settings@available`, which tells whether another element's [conditions](/guide/conditions) are met. Nested paths need a pattern that covers them, such as `model.*` — see [Prop References](/guide/security#prop-references) for the full syntax `safePropRefs` accepts.
+The model holds `us`, but the note shows _United States_ — the select's `selectedLabel` prop instead of its value. Any listed context property is reachable the same way, with dot paths drilling deeper (`@model.city`), `[n]` index segments (`@model[0]`), and targets like `settings@available`, which tells whether another element's [conditions](/guide/conditions) are met. Nested paths need a pattern that covers them, such as `model.*` — see [Prop References](/guide/security#prop-references) for the full syntax `allowProp` accepts.
 
 The shorthand desugars to the `PROP("path", "prop")` and `SELF("prop")` functions, which you can also call directly and which pass through the same allowlist. A literal `@` inside a quoted string — an email address, say — is left alone.
 

@@ -3,11 +3,11 @@ import { defineSchema } from '@vueform/core'
 import { createForm } from '../../helpers'
 
 /**
- * `$security.allowProps` — the gate over `path@prop` / `@prop`
- * references in conditions and expressions. Unset, every prop reference
- * resolves (the option only limits once it is set, like
- * `$expression.whitelist`); an array restricts resolution to the listed
- * patterns, with `[]` denying every prop reference.
+ * `$security.allowProps` — the fail-closed gate over `path@prop` / `@prop`
+ * references in conditions and expressions. The stock config ships `[]` and
+ * the shared test helper opts out with `['**']`; these suites pass their own
+ * policy (an explicit `undefined` exercises the unset state, which denies like
+ * `[]`).
  */
 const makeForm = (
   schema: Record<string, any>,
@@ -24,10 +24,10 @@ describe('allowProps', () => {
       dep: { type: 'text', conditions: [['source@label', '==', 'Src']] },
     }
 
-    it('should evaluate prop-ref conditions when unset', () => {
+    it('should resolve prop-ref conditions as unmet when unset', () => {
       const { dep } = makeForm(schema, undefined)
 
-      expect(dep.available).toBe(true)
+      expect(dep.available).toBe(false)
     })
 
     it('should resolve prop-ref conditions as unmet with an empty list', () => {
@@ -56,7 +56,7 @@ describe('allowProps', () => {
   })
 
   describe('expressions', () => {
-    it('should resolve PROP references when unset', () => {
+    it('should resolve PROP references to empty when unset', () => {
       const { el } = makeForm(
         {
           source: { type: 'text', label: 'Src' },
@@ -65,7 +65,7 @@ describe('allowProps', () => {
         undefined
       )
 
-      expect(el.help).toBe('Src')
+      expect(el.help).toBe('')
     })
 
     it('should resolve PROP references to empty with an empty list', () => {
