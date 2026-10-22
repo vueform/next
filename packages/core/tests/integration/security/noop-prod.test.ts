@@ -3,7 +3,7 @@ import { getSecurityModule, type VueformConfig } from '@vueform/core'
  * # Misconfiguration containment — production
  *
  * Threat model: a modular setup configures `$security` policies
- * (`allowOrigins`, `banProps`, ciphers) but forgets to register the `security`
+ * (`allowOrigins`, `banAttrs`, ciphers) but forgets to register the `security`
  * module. In development the inert noop surface warns and stays permissive so
  * the app remains workable while the console names the fix. Those warnings are
  * compiled out of production builds — so in production the same
@@ -87,7 +87,7 @@ describe('Security: noop surface in production', () => {
 
   describe('`sanitizeProps`', () => {
     /**
-     * Threat: `banProps` configured without the module — production would
+     * Threat: `banAttrs` configured without the module — production would
      * spread attribute bags unfiltered while the config claims they are
      * banned.
      *
@@ -98,10 +98,10 @@ describe('Security: noop surface in production', () => {
      * Verified red→green: bags passed through in production before the
      * fail-closed change.
      */
-    it('should empty attribute bags when banProps is configured', () => {
+    it('should empty attribute bags when banAttrs is configured', () => {
       prod()
       const sec = noopSecurity({
-        $security: { banProps: ['style'] },
+        $security: { banAttrs: ['style'] },
       } as any)
 
       expect(sec.sanitizeProps({ style: 'color: red', class: 'x' })).toEqual({})
@@ -111,7 +111,7 @@ describe('Security: noop surface in production', () => {
      * Threat: none — no intent, no filtering. Bags pass through unchanged
      * (attribute filtering is the module's feature).
      */
-    it('should pass bags through when banProps is not configured', () => {
+    it('should pass bags through when banAttrs is not configured', () => {
       prod()
       const sec = noopSecurity({ $security: {} } as any)
       const bag = { class: 'x' }
@@ -206,7 +206,7 @@ describe('Security: noop surface in production', () => {
       const sec = noopSecurity({
         $security: {
           allowOrigins: ['https://api.example.com'],
-          banProps: ['style'],
+          banAttrs: ['style'],
         },
       } as any)
 

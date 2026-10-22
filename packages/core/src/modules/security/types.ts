@@ -88,7 +88,40 @@ export interface SecurityModuleOptions {
    * `['id', 'name']` (DOM clobbering), or `['parts', 'slots', 'tokens']` (no
    * schema-driven presentation at all). Dropped entries warn in development.
    */
-  banProps?: (string | RegExp)[]
+  banAttrs?: (string | RegExp)[]
+
+  /**
+   * The element props that `path@prop` / `@prop` references (in conditions and
+   * expressions) may resolve. **Fail-closed**: unset is equivalent to `[]`, so
+   * once the security module is registered no prop reference resolves until
+   * its prop is listed. A denied reference resolves as `undefined` (conditions
+   * evaluate unmet) with a dev warning.
+   *
+   * Each entry is a pattern over the prop part of a reference (the part after
+   * `@`, with `[n]` index segments read as nesting):
+   *
+   * - `'propName'` — the flat reference (`some_element@propName`, `@propName`)
+   *   resolves; nested access does not.
+   * - `'propName.*'` — one nested level resolves (`@propName.foo`), the flat
+   *   form does not.
+   * - `'propName.*.*'` — one **or** two nested levels resolve (trailing `*`
+   *   segments are optional), never the flat form. Static segments may appear
+   *   midway (`'propName.*.foo.*'` — the static segment must be present, so
+   *   `@propName.x.foo` and `@propName.x.foo.y` resolve, `@propName.x` does
+   *   not).
+   * - `'propName.**'` — any nesting depth resolves (at least one level), never
+   *   the flat form.
+   * - `'*propName'` / `'propName*'` — any prop name ending / starting with
+   *   `propName`; combines with the nesting forms (`'*Label.*'`).
+   * - `'*'` — every prop, flat references only (no nesting).
+   * - `'**'` — every prop at every depth, flat included (the explicit
+   *   opt-out).
+   *
+   * An entry may also be a RegExp, tested as written against the full prop
+   * path (`[n]` index access normalized to dots, e.g. `model.0`) — anchor it
+   * yourself.
+   */
+  safePropRefs?: (string | RegExp)[]
 }
 
 /**
@@ -139,7 +172,7 @@ export interface SecurityModule {
    * Filters a schema-reachable prop bag (schema entries, `parts` bags, grid
    * cell `attrs`) down to entries safe to bind: the built-in denylist
    * (`innerHTML`/`outerHTML`, prototype keys) plus the entries matching
-   * `$security.banProps` (strings or RegExps), dropped in every value form with
+   * `$security.banAttrs` (strings or RegExps), dropped in every value form with
    * a dev warning. Returns the same reference when nothing needs stripping.
    * Filtering is a module feature: without the `security` module registered,
    * bags pass through unchanged.
@@ -195,6 +228,18 @@ export interface SecurityModule {
    * @param name The component name.
    */
   allowsComponent: (name: string) => boolean
+
+  /**
+   * Whether a `path@prop` / `@prop` reference may resolve the given prop path,
+   * per `$security.safePropRefs`. Fail-closed: with the module registered and
+   * the option unset, every prop reference is denied. Consulted by structured
+   * conditions and by expression engines' `PROP()` / `SELF()` resolution.
+   * Warns once per denied prop in dev.
+   *
+   * @param prop The referenced prop path (the part after `@`, e.g.
+   *   `'selectedLabel'` or `'model.0'`).
+   */
+  allowsPropRef: (prop: string) => boolean
 
   /**
    * Whether an HTTP request URL is permitted by `$security.allowOrigins`.

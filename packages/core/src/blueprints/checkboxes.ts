@@ -187,6 +187,5 @@ export const defaults = defineDefaults<CheckboxesProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
 })

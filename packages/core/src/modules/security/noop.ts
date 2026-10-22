@@ -22,7 +22,8 @@ const EMPTY_PROPS = Object.freeze({})
  *   slot HTML is inserted with the platform's own `innerHTML` semantics, so
  *   `<script>` elements stay inert regardless.)
  * - **Configured intent without the module** (`allowHtml`, `allowComponents`,
- *   `allowOrigins` entries, `banProps`, ciphers — a config that reads like
+ *   `allowOrigins` entries, `banAttrs`, `safePropRefs`, ciphers — a config
+ *   that reads like
  *   policy): in development the surface stays permissive so the app remains
  *   workable, and `createVueform()`'s orphan-`$security`-options warning names
  *   the fix at startup. In production the same state **fails closed** instead —
@@ -43,7 +44,8 @@ export function noopSecurity(config: VueformConfig): SecurityModule {
   const originsConfigured = !!(
     options?.allowOrigins?.length && !options.allowOrigins.includes('*')
   )
-  const banPropsConfigured = !!options?.banProps?.length
+  const banAttrsConfigured = !!options?.banAttrs?.length
+  const safePropRefsConfigured = !!options?.safePropRefs?.length
   const allowHtmlConfigured = !!options?.allowHtml?.length
   const allowComponentsConfigured = !!options?.allowComponents?.length
 
@@ -67,11 +69,12 @@ export function noopSecurity(config: VueformConfig): SecurityModule {
     sanitizeProps: (props) =>
       // Fail closed in production: emptied bags also empty schema entries
       // through `useSchema`, so the broken state is unmissable.
-      banPropsConfigured && isProd() ? (EMPTY_PROPS as typeof props) : props,
+      banAttrsConfigured && isProd() ? (EMPTY_PROPS as typeof props) : props,
     sanitizeCss: (value) => (value != null ? String(value) : undefined),
     sanitizeUrl: (url) => (typeof url === 'string' ? url : undefined),
     allowsHtml: () => !allowHtmlConfigured || isDev(),
     allowsComponent: () => !allowComponentsConfigured || isDev(),
+    allowsPropRef: () => !safePropRefsConfigured || isDev(),
     allowsOrigin: () => !originsConfigured || isDev(),
     encrypt: cipher,
     decrypt: cipher,

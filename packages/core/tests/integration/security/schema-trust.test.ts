@@ -9,7 +9,7 @@ import * as modules from '@vueform/core/modules'
  * arbitrary registered components, no HTML sinks through attribute bags.
  * `innerHTML`/`outerHTML` and prototype keys are blocked unconditionally;
  * inline event handlers and other channels are the app's policy via
- * `$security.banProps` (documented hardening baseline: `[/^on/i, 'srcdoc']`).
+ * `$security.banAttrs` (documented hardening baseline: `[/^on/i, 'srcdoc']`).
  * Functions cannot travel through JSON, so function-valued props remain the
  * developer-code trust boundary.
  */
@@ -135,12 +135,12 @@ describe('Security: untrusted-schema containment', () => {
      * string-valued inline handler that Vue would set via `setAttribute`,
      * creating live script from pure data.
      *
-     * Measure: inline handlers are the app's policy — a `banProps` RegExp entry
+     * Measure: inline handlers are the app's policy — a `banAttrs` RegExp entry
      * (`/^on/i`, the documented hardening baseline) strips `on*` keys from
      * every parts source before the `v-bind` spread, with a dev warning naming
      * the dropped key.
      */
-    test('it should strip on* keys from `parts` with a banProps pattern', async () => {
+    test('it should strip on* keys from `parts` with a banAttrs pattern', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
       const { form } = createForm(
@@ -153,7 +153,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: { banProps: [/^on/i] } }
+        { $security: { banAttrs: [/^on/i] } }
       )
 
       await nextTick()
@@ -193,7 +193,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: { banProps: [/^on/i] } }
+        { $security: { banAttrs: [/^on/i] } }
       )
 
       await nextTick()
@@ -206,15 +206,15 @@ describe('Security: untrusted-schema containment', () => {
     })
 
     /**
-     * Threat: without a `banProps` policy, an app might assume inline handlers
+     * Threat: without a `banAttrs` policy, an app might assume inline handlers
      * are still blocked by a built-in `on*` rule.
      *
      * Measure: only `innerHTML`/`outerHTML` and prototype keys are built in —
-     * an `onclick` string passes through unless the app configures `banProps`.
+     * an `onclick` string passes through unless the app configures `banAttrs`.
      * This test pins the deliberate default so a future change is a conscious
      * one.
      */
-    test('it should pass on* keys through without a banProps policy', async () => {
+    test('it should pass on* keys through without a banAttrs policy', async () => {
       const { form } = createForm({
         schema: defineSchema({
           el: {
@@ -264,20 +264,20 @@ describe('Security: untrusted-schema containment', () => {
     })
 
     /**
-     * Threat: `$security.banProps` escalation — a schema attr bag carrying a
+     * Threat: `$security.banAttrs` escalation — a schema attr bag carrying a
      * `style` entry. Inline styles can't inject selectors, but they can plant
      * tracking beacons (`background: url(//evil/?probe)`) and reposition the
      * element over other UI (`position: fixed` overlay redressing). Unlike
      * `on*` handlers, both the string form and the object form are
      * JSON-expressible, so a value-type test alone can't close the vector.
      *
-     * Measure: keys listed in `$security.banProps` are dropped in **every**
+     * Measure: keys listed in `$security.banAttrs` are dropped in **every**
      * value form — string and object alike — from attribute bags.
      *
-     * Verified red→green: both forms reached the DOM before `banProps`
+     * Verified red→green: both forms reached the DOM before `banAttrs`
      * enforcement landed.
      */
-    test('it should drop `banProps` keys in every value form from `parts`', async () => {
+    test('it should drop `banAttrs` keys in every value form from `parts`', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
       const { form } = createForm(
@@ -306,7 +306,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: { banProps: ['style'] } }
+        { $security: { banAttrs: ['style'] } }
       )
 
       await nextTick()
@@ -320,7 +320,7 @@ describe('Security: untrusted-schema containment', () => {
     })
 
     /**
-     * Threat: over-blocking — without the `banProps: ['style']` escalation,
+     * Threat: over-blocking — without the `banAttrs: ['style']` escalation,
      * style bindings in `parts` are ordinary developer-facing Vue API (both the
      * string and the object form) and must keep working, or the filter taxes
      * every app for a presentation-severity vector that hardened apps opt into
@@ -329,7 +329,7 @@ describe('Security: untrusted-schema containment', () => {
      * Measure: `style` is not on the built-in denylist; unlisted, it passes in
      * both forms.
      */
-    test('it should keep style bindings when `style` is not in `banProps`', async () => {
+    test('it should keep style bindings when `style` is not in `banAttrs`', async () => {
       const { form } = createForm({
         schema: defineSchema({
           a: {
@@ -353,14 +353,14 @@ describe('Security: untrusted-schema containment', () => {
     })
 
     /**
-     * Threat: a misread of `banProps` as the whole policy — if listing extra
+     * Threat: a misread of `banAttrs` as the whole policy — if listing extra
      * keys could somehow stand in for the built-in denylist, a configured app
      * might weaken the core guarantees.
      *
      * Measure: the built-in denylist (`innerHTML`/`outerHTML`, prototype keys)
-     * applies always and is not relaxable; `banProps` only ever adds to it.
+     * applies always and is not relaxable; `banAttrs` only ever adds to it.
      */
-    test('it should keep the built-in denylist with `banProps` configured', async () => {
+    test('it should keep the built-in denylist with `banAttrs` configured', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
       const { form } = createForm(
@@ -377,7 +377,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: { banProps: ['data-x'] } }
+        { $security: { banAttrs: ['data-x'] } }
       )
 
       await nextTick()
@@ -393,7 +393,7 @@ describe('Security: untrusted-schema containment', () => {
      * are legitimate (functions cannot come from JSON) and must keep firing,
      * and benign attributes must pass.
      *
-     * Measure: without a `banProps` policy nothing `on*`-shaped is dropped;
+     * Measure: without a `banAttrs` policy nothing `on*`-shaped is dropped;
      * functions and ordinary attributes flow through.
      */
     test('it should keep function listeners and benign attrs in `parts`', async () => {
@@ -434,7 +434,7 @@ describe('Security: untrusted-schema containment', () => {
      * documented API.
      *
      * Measure: schema entry props are attr-sanitized before they reach the
-     * component — with the documented `banProps: [/^on/i]` hardening in place,
+     * component — with the documented `banAttrs: [/^on/i]` hardening in place,
      * the handler never lands.
      */
     test('it should not turn undeclared schema keys into live handlers', async () => {
@@ -450,7 +450,7 @@ describe('Security: untrusted-schema containment', () => {
             } as any,
           }),
         },
-        { $security: { banProps: [/^on/i] } }
+        { $security: { banAttrs: [/^on/i] } }
       )
 
       await nextTick()
@@ -472,7 +472,7 @@ describe('Security: untrusted-schema containment', () => {
      * the grid schema.
      *
      * Measure: cell attrs pass through the same filter as `parts`, honoring the
-     * configured `banProps` policy.
+     * configured `banAttrs` policy.
      */
     test('it should strip dangerous keys from grid cell attrs', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -497,7 +497,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: { banProps: [/^on/i] } }
+        { $security: { banAttrs: [/^on/i] } }
       )
 
       await nextTick()
@@ -569,7 +569,7 @@ describe('Security: untrusted-schema containment', () => {
      * closes for form-level entries.
      *
      * Measure: the flat prototype passes through the same attribute-bag filter
-     * before the spread, honoring the configured `banProps` policy.
+     * before the spread, honoring the configured `banAttrs` policy.
      */
     test('it should filter flat list prototypes like schema entries', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
@@ -591,7 +591,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: { banProps: [/^on/i] } }
+        { $security: { banAttrs: [/^on/i] } }
       )
 
       await nextTick()
@@ -671,7 +671,7 @@ describe('Security: untrusted-schema containment', () => {
      * schema object, the same fallthrough vector at the grid level.
      *
      * Measure: cell schemas pass through the attribute-bag filter when the cell
-     * is resolved, honoring the configured `banProps` policy.
+     * is resolved, honoring the configured `banAttrs` policy.
      */
     test('it should filter grid cell schemas like schema entries', async () => {
       const { form } = createForm(
@@ -692,7 +692,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: { banProps: [/^on/i] } }
+        { $security: { banAttrs: [/^on/i] } }
       )
 
       await nextTick()
@@ -708,7 +708,7 @@ describe('Security: untrusted-schema containment', () => {
      * into the cell element's props — the same vector at the matrix level.
      *
      * Measure: column schemas pass through the attribute-bag filter before the
-     * spread, honoring the configured `banProps` policy.
+     * spread, honoring the configured `banAttrs` policy.
      */
     test('it should filter matrix column schemas like schema entries', async () => {
       const { form } = createForm(
@@ -731,7 +731,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: { banProps: [/^on/i] } }
+        { $security: { banAttrs: [/^on/i] } }
       )
 
       await nextTick()
@@ -865,7 +865,7 @@ describe('Security: untrusted-schema containment', () => {
     })
   })
 
-  describe('`banProps` as a schema channel kill-switch', () => {
+  describe('`banAttrs` as a schema channel kill-switch', () => {
     /**
      * Threat: a hardened app that wants no schema-driven presentation at all —
      * filters are denylists an auditor has to trust, while a disabled channel
@@ -875,7 +875,7 @@ describe('Security: untrusted-schema containment', () => {
      * listing a channel name (`parts`, `slots`) removes the entire channel from
      * schemas.
      *
-     * Verified red→green: covered by the `banProps` enforcement red-run — the
+     * Verified red→green: covered by the `banAttrs` enforcement red-run — the
      * same mechanism, applied at the schema-entry surface.
      */
     test('it should strip banned channels from schema entries', async () => {
@@ -892,7 +892,7 @@ describe('Security: untrusted-schema containment', () => {
             } as any,
           }),
         },
-        { $security: { banProps: ['parts', 'slots'] } }
+        { $security: { banAttrs: ['parts', 'slots'] } }
       )
 
       await nextTick()
@@ -906,7 +906,7 @@ describe('Security: untrusted-schema containment', () => {
     /**
      * Threat: over-blocking — the kill-switch must be scoped to schemas. Props
      * written in the developer's own templates never pass through schema
-     * resolution, so the same `banProps` config must leave them untouched, or
+     * resolution, so the same `banAttrs` config must leave them untouched, or
      * hardened apps would lose core template API.
      *
      * Measure: SFC-passed `parts` keep working under the exact config that
@@ -918,7 +918,7 @@ describe('Security: untrusted-schema containment', () => {
       })
 
       const app = mountApp(App, {}, {
-        $security: { banProps: ['parts', 'slots'] },
+        $security: { banAttrs: ['parts', 'slots'] },
       } as any)
 
       await nextTick()
@@ -930,12 +930,12 @@ describe('Security: untrusted-schema containment', () => {
   describe('without the security module', () => {
     /**
      * Threat: none — this documents the module boundary. Attribute filtering
-     * (the built-in denylist and `banProps` alike) is the security module's
+     * (the built-in denylist and `banAttrs` alike) is the security module's
      * feature: a modular setup that omits the module gets its attribute bags
-     * exactly as written, and a configured-but-unenforced `banProps` warns
+     * exactly as written, and a configured-but-unenforced `banAttrs` warns
      * once, like the ciphers and `allowOrigins`.
      */
-    test('it should leave attribute bags unfiltered and warn about banProps', async () => {
+    test('it should leave attribute bags unfiltered and warn about banAttrs', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
       const { form } = createForm(
@@ -950,7 +950,7 @@ describe('Security: untrusted-schema containment', () => {
         },
         {
           modules: modulesWithoutSecurity,
-          $security: { banProps: ['style'] },
+          $security: { banAttrs: ['style'] },
         }
       )
 

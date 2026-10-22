@@ -186,5 +186,4 @@ export const defaults = defineDefaults<ContentProps>()({
   type: 'content',
   layout: true,
   conditions: undefined,
-  expressions: undefined,
 })

@@ -13,14 +13,3 @@ export interface ModelPropsWithDefaultValue<
    */
   defaultValue?: T
 }
-
-/**
- * Props for the element's default/initial value (PrimeVue `defaultValue`
- * naming).
- *
- * @deprecated Use `ModelPropsWithDefaultValue` instead.
- */
-export type DefaultValueProps<T = any> = Pick<
-  ModelPropsWithDefaultValue<T>,
-  'defaultValue'
->

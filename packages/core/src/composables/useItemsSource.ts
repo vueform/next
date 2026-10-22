@@ -13,7 +13,6 @@ import { useContext, useFormContext } from '#src/contexts'
 import type { ItemsProp } from '#src/features'
 import type { ConditionsTriggerProp } from '#src/modules/conditions'
 import type { HttpResponse } from '#src/modules/http'
-import type { ExpressionableKeys } from '#src/types'
 import {
   debounce,
   isPlainObject,
@@ -77,7 +76,7 @@ type UseItemsSourceOptions = {
    * The expressionable prop key checked against the expression allow list when
    * the source is an endpoint URL. Defaults to `'items'`.
    */
-  key?: ExpressionableKeys
+  key?: string
 
   /**
    * Whether to resolve the source immediately on setup. Defaults to `true`.

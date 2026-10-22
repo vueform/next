@@ -1,4 +1,12 @@
-import { definePlugin, defineSchema } from '@vueform/core'
+import {
+  createVueformFactory,
+  definePlugin,
+  defineSchema,
+  expression,
+  model,
+  own,
+  pathExpressionAdapter,
+} from '@vueform/core'
 import { nextTick } from 'vue'
 
 import { createForm } from '../../helpers'
@@ -442,6 +450,134 @@ describe('Plugins', () => {
       expect(configFn).toHaveBeenCalledTimes(1)
       expect(configFn.mock.calls[0][0]).toHaveProperty('plugins')
       expect(configFn.mock.calls[0][0]).toHaveProperty('locales')
+    })
+  })
+
+  describe('config hook defaults layering', () => {
+    const makeAdapter = () => (() => ({})) as any
+
+    const pluginAdapter = makeAdapter()
+
+    const createEntry = () =>
+      createVueformFactory({
+        modules: { model, expression },
+        $expression: { adapter: pathExpressionAdapter },
+      })
+
+    const adapterPlugin = (adapter: any) =>
+      definePlugin(() => ({
+        config(config) {
+          const options = config.$expression ?? {}
+
+          config.$expression = {
+            ...options,
+            adapter: own(options, 'adapter') ?? adapter,
+          }
+        },
+      }))()
+
+    test('entry defaults should fill when nothing else sets them', () => {
+      const vueform = createEntry()({})
+
+      expect(vueform.config.$expression?.adapter).toBe(pathExpressionAdapter)
+    })
+
+    test('a plugin fill should replace an entry-baked default', () => {
+      const vueform = createEntry()({
+        plugins: [adapterPlugin(pluginAdapter)],
+      })
+
+      expect(vueform.config.$expression?.adapter).toBe(pluginAdapter)
+    })
+
+    test('config hooks should not see entry-baked defaults', () => {
+      let seen: any = 'untouched'
+
+      createEntry()({
+        plugins: [
+          definePlugin(() => ({
+            config(config) {
+              seen = config.$expression?.adapter
+            },
+          }))(),
+        ],
+      })
+
+      expect(seen).toBeUndefined()
+    })
+
+    test('an app-set value should win over a plugin fill', () => {
+      const appAdapter = makeAdapter()
+
+      const vueform = createEntry()({
+        $expression: { adapter: appAdapter },
+        plugins: [adapterPlugin(pluginAdapter)],
+      })
+
+      expect(vueform.config.$expression?.adapter).toBe(appAdapter)
+    })
+
+    test('an app-set value equal to the baked default should win', () => {
+      const vueform = createEntry()({
+        $expression: { adapter: pathExpressionAdapter },
+        plugins: [adapterPlugin(pluginAdapter)],
+      })
+
+      expect(vueform.config.$expression?.adapter).toBe(pathExpressionAdapter)
+    })
+
+    test('the first plugin to fill should win over a later one', () => {
+      const firstAdapter = makeAdapter()
+
+      const vueform = createEntry()({
+        plugins: [adapterPlugin(firstAdapter), adapterPlugin(pluginAdapter)],
+      })
+
+      expect(vueform.config.$expression?.adapter).toBe(firstAdapter)
+    })
+
+    test('a plugin-registered module should win over an entry-baked one', () => {
+      const pluginModule = { create: () => ({ marker: 'plugin' }) }
+      const entryModule = { create: () => ({ marker: 'entry' }) }
+
+      const vueform = createVueformFactory({
+        modules: { model, custom: entryModule } as any,
+      })({
+        plugins: [
+          definePlugin(() => ({
+            config(config) {
+              config.modules = {
+                ...config.modules,
+                custom: own(config.modules as any, 'custom') ?? pluginModule,
+              } as any
+            },
+          }))(),
+        ],
+      })
+
+      expect((vueform.modules as any).custom.marker).toBe('plugin')
+    })
+
+    test('custom entry option bags should defer like the known ones', () => {
+      const vueform = createVueformFactory({
+        modules: { model },
+        $custom: { flag: 'entry', other: 'entry' },
+      } as any)({
+        plugins: [
+          definePlugin(() => ({
+            config(config: any) {
+              const bag = config.$custom ?? {}
+
+              config.$custom = { ...bag, flag: own(bag, 'flag') ?? 'plugin' }
+            },
+          }))(),
+        ],
+      })
+
+      expect((vueform.config as any).$custom).toEqual({
+        flag: 'plugin',
+        other: 'entry',
+      })
     })
   })
 

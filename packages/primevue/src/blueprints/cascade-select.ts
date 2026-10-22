@@ -326,7 +326,6 @@ export const defaults = defineDefaults<CascadeSelectProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   optionsDebounce: 300,
   untrackOn: undefined,

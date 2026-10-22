@@ -2200,7 +2200,7 @@ describe('Autosave local', () => {
     await nextTick()
     expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
 
-    vi.advanceTimersByTime(100)
+    vi.advanceTimersByTime(300)
     await nextTick()
     expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Janet' })
 
@@ -2244,7 +2244,7 @@ describe('Autosave local', () => {
     expect(writes.length).toBeGreaterThanOrEqual(2)
 
     // the trailing debounce writes the final state once typing pauses
-    vi.advanceTimersByTime(100)
+    vi.advanceTimersByTime(300)
     await nextTick()
     expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'v30' })
 

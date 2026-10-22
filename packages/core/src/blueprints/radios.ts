@@ -181,6 +181,5 @@ export const defaults = defineDefaults<RadiosProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
 })

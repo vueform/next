@@ -133,5 +133,4 @@ export const defaults = defineDefaults<HiddenProps>()({
   maxErrors: 1,
   meta: false,
   conditions: undefined,
-  expressions: undefined,
 })

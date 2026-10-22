@@ -3,6 +3,7 @@ import {
   hasLocaleModule,
   useDate,
   useLocale,
+  useSecurity,
   type DateUnit,
   type DateInstance,
   type FormContext,
@@ -29,6 +30,15 @@ function expressionError(vueform?: VueformInstance): string {
   return vueform && hasLocaleModule(vueform)
     ? useLocale(vueform).t('expression_error')
     : 'Error'
+}
+
+// Whether `safePropRefs` allows reading the referenced prop — the security
+// module's gate over `path@prop` / `@prop` (and the desugared PROP / SELF)
+// references. Without an owning instance there is no policy to consult.
+function allowsPropRef(ctx: ExpressionFunctionContext, prop: string): boolean {
+  if (!ctx.vueform) return true
+
+  return useSecurity(ctx.vueform).allowsPropRef(prop)
 }
 
 // Resolves a dot-path prop on an element context. `[n]` index segments are
@@ -215,6 +225,8 @@ export const UCF = defineFunction(() => (value: any) => {
 })
 
 export const PROP = defineFunction((ctx) => (path: string, prop: string) => {
+  if (!allowsPropRef(ctx, prop)) return undefined
+
   // Read form$ from the live eval context — expression is app-scoped, so
   // form$ is bound per resolve() rather than at provider creation.
   // The expression pipeline rewrites numeric and wildcard path segments
@@ -227,6 +239,8 @@ export const PROP = defineFunction((ctx) => (path: string, prop: string) => {
 })
 
 export const SELF = defineFunction((ctx) => (prop: string) => {
+  if (!allowsPropRef(ctx, prop)) return undefined
+
   const el$ = ctx.el$
   if (!el$) return undefined
 

@@ -730,5 +730,4 @@ export const defaults = defineDefaults<GridProps>()({
   // unless `nested` is set, mirroring the schema walk's `nested !== true`.
   nested: false,
   conditions: undefined,
-  expressions: undefined,
 })

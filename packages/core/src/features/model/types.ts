@@ -183,10 +183,3 @@ export interface ModelEmits<T = any, TContext = LooseContext> {
    */
   clear: [context$: TContext]
 }
-
-/**
- * Props for the element's default/initial value.
- *
- * @deprecated Use `ModelPropsWithDefault` instead.
- */
-export type DefaultProps<T = any> = Pick<ModelPropsWithDefault<T>, 'default'>

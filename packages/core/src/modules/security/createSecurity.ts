@@ -9,6 +9,11 @@ import {
   warn,
 } from '#src/utils'
 
+import {
+  compilePropRefPattern,
+  matchesPropRef,
+  type PropRefPattern,
+} from './safePropRefs'
 import type {
   SecurityHtmlArea,
   SecurityModule,
@@ -171,17 +176,17 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
         return value
       }
 
-  const banProps = own(options, 'banProps') ?? []
+  const banAttrs = own(options, 'banAttrs') ?? []
 
   const bannedKeys: ReadonlySet<string> = new Set(
-    banProps
+    banAttrs
       .filter((entry): entry is string => typeof entry === 'string')
       .map((key) => key.toLowerCase())
   )
 
   // Rebuilt without global/sticky flags: those make `test` stateful across
   // keys, and config-held instances may be frozen (no `lastIndex` writes).
-  const bannedPatterns: readonly RegExp[] = banProps
+  const bannedPatterns: readonly RegExp[] = banAttrs
     .filter((entry): entry is RegExp => entry instanceof RegExp)
     .map((entry) => new RegExp(entry.source, entry.flags.replace(/[gy]/g, '')))
 
@@ -191,7 +196,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
    * are hardcoded: `innerHTML`/`outerHTML` keys turn a `v-bind` spread into an
    * HTML sink, and prototype keys would re-point objects. Everything else —
    * inline event handlers (`onclick`, …), `srcdoc`, DOM-clobbering ids — is the
-   * app's policy via `$security.banProps`: string entries match
+   * app's policy via `$security.banAttrs`: string entries match
    * case-insensitively, RegExp entries as written (add `i` yourself, e.g.
    * `/^on/i`); both are checked against the original key spelling and its
    * camelized form. Entries are dropped in every value form.
@@ -223,7 +228,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
   // Verdicts are memoized per instance: `parts` bags re-filter on proxy
   // access, so the same keys recur constantly and pattern bans shouldn't
   // re-run for each. Per instance, not global — the verdict depends on this
-  // app's `banProps`. Capped because untrusted schemas mint the key names:
+  // app's `banAttrs`. Capped because untrusted schemas mint the key names:
   // a flood of unique keys resets the cache instead of growing it.
   const verdictCache = new Map<string, boolean>()
 
@@ -265,7 +270,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
       if (isDangerousProp(key)) {
         if (isDev()) {
           warn(
-            `the \`${key}\` prop was removed from a schema-reachable bag — \`innerHTML\`/\`outerHTML\`, prototype keys, and entries matching \`$security.banProps\` never reach the DOM.`
+            `the \`${key}\` attr was removed from a schema-reachable bag — \`innerHTML\`/\`outerHTML\`, prototype keys, and entries matching \`$security.banAttrs\` never reach the DOM.`
           )
         }
         continue
@@ -331,6 +336,62 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     }
 
     return undefined
+  }
+
+  // Prop references fail closed like the other gates: an unset `safePropRefs`
+  // is `[]`, so no `path@prop` / `@prop` reference resolves until its prop is
+  // listed. String entries compile to wildcard patterns once; RegExp entries
+  // test the full prop path as written (rebuilt without the stateful `g` / `y`
+  // flags, like `banAttrs`). Invalid entries are dropped with a warning rather
+  // than silently never matching.
+  const safePropRefs = own(options, 'safePropRefs') ?? []
+
+  const propRefPatterns: PropRefPattern[] = []
+  const propRefRegexps: RegExp[] = []
+
+  for (const entry of safePropRefs) {
+    if (entry instanceof RegExp) {
+      propRefRegexps.push(
+        new RegExp(entry.source, entry.flags.replace(/[gy]/g, ''))
+      )
+      continue
+    }
+
+    if (typeof entry !== 'string' || !entry) continue
+
+    const pattern = compilePropRefPattern(entry)
+
+    if (pattern) {
+      propRefPatterns.push(pattern)
+    } else if (isDev()) {
+      warn(
+        `\`$security.safePropRefs\` entry \`${entry}\` is not a valid pattern and was ignored. \`**\` may only stand alone or as the final segment, and segments must not be empty.`
+      )
+    }
+  }
+
+  const rejectedPropRefs = new Set<string>()
+
+  const allowsPropRef = (prop: string): boolean => {
+    if (typeof prop !== 'string' || !prop) return false
+
+    // `[n]` index access reads as nesting (`model[0]` → `model.0`), matching
+    // how engines resolve the prop path.
+    const normalized = prop.replace(/\[(\d+)\]/g, '.$1')
+    const segments = normalized.split('.')
+
+    if (propRefPatterns.some((p) => matchesPropRef(p, segments))) return true
+
+    if (propRefRegexps.some((r) => r.test(normalized))) return true
+
+    if (isDev() && !rejectedPropRefs.has(prop)) {
+      rejectedPropRefs.add(prop)
+      warn(
+        `\`@${prop}\` is not covered by \`$security.safePropRefs\`, so the prop reference will not resolve. Add a matching pattern to allow it.`
+      )
+    }
+
+    return false
   }
 
   // The gates fail closed; `allowsComponent` warns once per rejected name
@@ -461,6 +522,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     sanitizeUrl,
     allowsHtml,
     allowsComponent,
+    allowsPropRef,
     allowsOrigin,
     encrypt: own(options, 'encrypt') ?? identity,
     decrypt: own(options, 'decrypt') ?? identity,

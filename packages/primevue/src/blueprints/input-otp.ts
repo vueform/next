@@ -208,7 +208,6 @@ export const defaults = defineDefaults<InputOtpProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   length: 4,
   untrackOn: undefined,

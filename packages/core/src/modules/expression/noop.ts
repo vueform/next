@@ -53,6 +53,7 @@ export const noopExpression: ExpressionModule = {
   installed: false,
   resolve,
   usedPaths: () => [],
+  allows: () => false,
   warn,
   makeExpressionTracking: () => noopTracking,
 }

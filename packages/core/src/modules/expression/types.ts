@@ -1,29 +1,42 @@
 import type { MaybeRef, Ref } from 'vue'
 
-import { type VueformInstance, type VueformConfig } from '#src/helpers'
+import { type VueformInstance } from '#src/helpers'
 import type { ModelNode, ModelStore, SchemaIndex } from '#src/modules/model'
-import type {
-  ExpressionableKeys,
-  ExpressionsProp,
-  LanguagesProp,
-} from '#src/types'
+import type { LanguagesProp } from '#src/types'
 import type { getComponentDef } from '#src/utils'
+
+/**
+ * The `$expression.whitelist` option: the prop keys that resolve expressions.
+ * String members match the key exactly; RegExp members are tested as written
+ * (anchor them yourself, e.g. `/^label$/`).
+ */
+export type ExpressionWhitelistProp = (string | RegExp)[]
+
 /**
  * Configuration options for the expression module (`config.$expression`).
  */
 export interface ExpressionModuleOptions {
   /**
-   * Whether the expression system is enabled. When `false`, `createExpression`
-   * returns the inert passthrough surface (`installed: false`) even when an
-   * adapter is configured.
+   * Whether the expression system is enabled. Defaults to `true` (with or
+   * without a plugin adapter). When `false`, `createExpression` returns the
+   * inert passthrough surface (`installed: false`) and all expression
+   * resolution is disabled, even when an adapter is configured.
    */
   enabled?: boolean
 
   /**
-   * Prop keys that allow expression resolution. When set to an array, only
-   * listed keys are resolved. Defaults to all expressionable keys.
+   * The prop keys that resolve expressions. Unset, every expressionable prop
+   * resolves. An array restricts resolution to the listed keys — strings match
+   * exactly, RegExps as written.
    */
-  trigger?: ExpressionableKeys[]
+  whitelist?: ExpressionWhitelistProp
+
+  /**
+   * Whether forms may define their own expression constants via the `consts`
+   * prop. Defaults to `true`; when `false`, a form's `consts` prop has no
+   * effect (only `$expression.consts` entries are available).
+   */
+  localConsts?: boolean
 
   /**
    * Whether to log expression parse/evaluation warnings.
@@ -114,6 +127,17 @@ export interface ExpressionModule {
   usedPaths: (expressionChain: string, path?: string) => string[]
 
   /**
+   * Whether `$expression.whitelist` allows resolving expressions for the given
+   * prop key. An unset whitelist allows every key; string members match the
+   * key exactly, RegExp members as written. Always `false` on the inert
+   * surface. `noExpressions` is the caller's concern — this is the whitelist
+   * verdict only.
+   *
+   * @param key The expressionable prop key.
+   */
+  allows: (key: string) => boolean
+
+  /**
    * Warns (dev-only, once per app) that an expression engine is required. No-op
    * when the expression module is registered and enabled (built-in path adapter
    * or a plugin engine).
@@ -143,11 +167,6 @@ export type ExpressionTrackingOptions = {
   store: ModelStore
 
   /**
-   * The (possibly partial) Vueform configuration.
-   */
-  config: VueformConfig
-
-  /**
    * Resolves the languages used for translatable templates (one tracked
    * template per language). A getter so mounted hosts can hand over their
    * reactive `languages` without eager evaluation.
@@ -163,11 +182,11 @@ export type ExpressionTrackingOptions = {
   consts?: () => Record<string, any> | undefined
 
   /**
-   * Resolves the host-level expression allow-list (the form's `expressions`
-   * prop), consulted between the node's own `expressions` prop and the config
-   * trigger list.
+   * Resolves the host-level kill-switch (the form's `noExpressions` prop).
+   * When it reports `true`, no node tracks — a form's `noExpressions` cannot
+   * be overridden by its elements.
    */
-  expressions?: () => ExpressionsProp | undefined
+  noExpressions?: () => boolean | undefined
 }
 
 /**

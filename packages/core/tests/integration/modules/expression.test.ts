@@ -260,19 +260,19 @@ describe('Expressions', () => {
     })
   })
 
-  describe('Expressions prop', () => {
-    it('should disable expressions when false on element', () => {
+  describe('noExpressions prop', () => {
+    it('should disable expressions when set on element', () => {
       const { el } = createForm({
         schema: defineSchema({
           name: { type: 'text', default: 'World' },
-          el: { type: 'text', label: 'Hello {name}', expressions: false },
+          el: { type: 'text', label: 'Hello {name}', noExpressions: true },
         }),
       })
 
       expect(el.label).toBe('Hello {name}')
     })
 
-    it('should resolve all expressions when true (default)', () => {
+    it('should resolve all expressions by default', () => {
       const { el } = createForm({
         schema: defineSchema({
           name: { type: 'text', default: 'World' },
@@ -288,21 +288,36 @@ describe('Expressions', () => {
       expect(el.help).toBe('Help World')
     })
 
-    it('should selectively enable expressions for specific props on element', () => {
-      const { el } = createForm({
+    it('should not affect sibling elements when set on one element', () => {
+      const { el, other } = createForm({
         schema: defineSchema({
           name: { type: 'text', default: 'World' },
-          el: {
-            type: 'text',
-            label: 'Hello {name}',
-            help: 'Help {name}',
-            expressions: ['label'],
+          el: { type: 'text', label: 'Hello {name}', noExpressions: true },
+          other: { type: 'text', label: 'Hello {name}' },
+        }),
+      })
+
+      expect(el.label).toBe('Hello {name}')
+      expect(other.label).toBe('Hello World')
+    })
+
+    it('should not cascade from a container to its children', () => {
+      const { form$ } = createForm({
+        schema: defineSchema({
+          name: { type: 'text', default: 'World' },
+          wrapper: {
+            type: 'group',
+            noExpressions: true,
+            label: 'Group {name}',
+            schema: {
+              child: { type: 'text', label: 'Hello {name}' },
+            },
           },
         }),
       })
 
-      expect(el.label).toBe('Hello World')
-      expect(el.help).toBe('Help {name}')
+      expect(form$.find('wrapper')?.label).toBe('Group {name}')
+      expect(form$.find('wrapper.child')?.label).toBe('Hello World')
     })
 
     it('should disable expressions for all elements via form-level prop', () => {
@@ -311,30 +326,38 @@ describe('Expressions', () => {
           name: { type: 'text', default: 'World' },
           el: { type: 'text', label: 'Hello {name}' },
         }),
-        expressions: false,
+        noExpressions: true,
       })
 
       expect(el.label).toBe('Hello {name}')
     })
 
-    it('should selectively enable expressions via form-level prop', () => {
+    it('should not let an element override the form-level prop', () => {
       const { el } = createForm({
         schema: defineSchema({
           name: { type: 'text', default: 'World' },
-          el: {
-            type: 'text',
-            label: 'Hello {name}',
-            help: 'Help {name}',
-          },
+          el: { type: 'text', label: 'Hello {name}', noExpressions: false },
         }),
-        expressions: ['label'],
+        noExpressions: true,
       })
 
-      expect(el.label).toBe('Hello World')
-      expect(el.help).toBe('Help {name}')
+      expect(el.label).toBe('Hello {name}')
     })
 
-    it('should restrict expressions via config-level trigger array', () => {
+    it('should disable default-value tracking on the element', () => {
+      const { target } = createForm({
+        schema: defineSchema({
+          source: { type: 'text', default: 'hello' },
+          target: { type: 'text', default: '{source}', noExpressions: true },
+        }),
+      })
+
+      expect(target.model).toBe('{source}')
+    })
+  })
+
+  describe('Whitelist config', () => {
+    it('should restrict expressions to the listed keys', () => {
       const { el } = createForm(
         {
           schema: defineSchema({
@@ -347,7 +370,44 @@ describe('Expressions', () => {
           }),
         },
         {
-          $expression: { trigger: ['label'] },
+          $expression: { whitelist: ['label'] },
+        }
+      )
+
+      expect(el.label).toBe('Hello World')
+      expect(el.help).toBe('Help {name}')
+    })
+
+    it('should gate default-value tracking through the whitelist', () => {
+      const { target } = createForm(
+        {
+          schema: defineSchema({
+            source: { type: 'text', default: 'hello' },
+            target: { type: 'text', default: '{source}' },
+          }),
+        },
+        {
+          $expression: { whitelist: ['label'] },
+        }
+      )
+
+      expect(target.model).toBe('{source}')
+    })
+
+    it('should match RegExp members against the key', () => {
+      const { el } = createForm(
+        {
+          schema: defineSchema({
+            name: { type: 'text', default: 'World' },
+            el: {
+              type: 'text',
+              label: 'Hello {name}',
+              help: 'Help {name}',
+            },
+          }),
+        },
+        {
+          $expression: { whitelist: [/^lab/] },
         }
       )
 
@@ -543,7 +603,7 @@ describe('Expressions', () => {
     it('should not resolve consts when expressions are disabled', () => {
       const { el } = createForm({
         schema: defineSchema({
-          el: { type: 'text', label: 'Hello {name}', expressions: false },
+          el: { type: 'text', label: 'Hello {name}', noExpressions: true },
         }),
         consts: {
           name: 'Alice',
@@ -551,6 +611,43 @@ describe('Expressions', () => {
       })
 
       expect(el.label).toBe('Hello {name}')
+    })
+
+    it('should ignore form consts when localConsts is disabled', () => {
+      const { el } = createForm(
+        {
+          schema: defineSchema({
+            el: { type: 'text', label: 'Hello {name}' },
+          }),
+          consts: {
+            name: 'Alice',
+          },
+        },
+        {
+          $expression: { localConsts: false },
+        }
+      )
+
+      // The const is withheld, so the reference resolves empty.
+      expect(el.label).toBe('Hello ')
+    })
+
+    it('should keep config consts when localConsts is disabled', () => {
+      const { el } = createForm(
+        {
+          schema: defineSchema({
+            el: { type: 'text', label: 'Hello {name}' },
+          }),
+          consts: {
+            name: 'Nobody',
+          },
+        },
+        {
+          $expression: { localConsts: false, consts: { name: 'Alice' } },
+        }
+      )
+
+      expect(el.label).toBe('Hello Alice')
     })
 
     it('should keep config consts when the form defines the same name', () => {

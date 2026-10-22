@@ -887,7 +887,6 @@ function setup(
 
   expressionTracking.activate({
     store: rootModel.store,
-    config,
     languages: () => languages.value,
     consts: () => resolvedConsts.value,
     noExpressions: () => props.noExpressions,

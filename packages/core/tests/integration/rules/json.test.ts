@@ -10,7 +10,7 @@ describe('json', () => {
           type: 'text',
           rules: 'json',
           default: '{"key":"value"}',
-          expressions: [],
+          noExpressions: true,
         },
       }),
     })

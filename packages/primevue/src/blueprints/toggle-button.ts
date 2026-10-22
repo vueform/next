@@ -244,7 +244,6 @@ export const defaults = defineDefaults<ToggleButtonProps>()({
   maxErrors: 1,
   modelValue: undefined,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

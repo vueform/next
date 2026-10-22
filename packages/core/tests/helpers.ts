@@ -41,6 +41,7 @@ const makeTestVueform = (config: UserConfig = {}) => {
     plugins: [exprEval(), ...(config.plugins ?? [])],
     $date: { adapter: nativeDateAdapter, ...config.$date },
     $http: { adapter: fetchHttpAdapter, ...config.$http },
+    $security: { safePropRefs: ['**'], ...config.$security },
   } as any)
 }
 

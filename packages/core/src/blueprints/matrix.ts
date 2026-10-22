@@ -1447,7 +1447,6 @@ export const defaults = defineDefaults<MatrixProps>()({
   rowHeaders: true,
   colHeaders: true,
   conditions: undefined,
-  expressions: undefined,
   mode: 'auto',
   showRequired: undefined,
   addIcon: '$add',

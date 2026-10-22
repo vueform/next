@@ -262,7 +262,6 @@ export const defaults = defineDefaults<ColorPickerProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   format: 'hex',
   defaultColor: 'ff0000',

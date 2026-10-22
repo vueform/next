@@ -228,7 +228,6 @@ export const defaults = defineDefaults<SliderProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

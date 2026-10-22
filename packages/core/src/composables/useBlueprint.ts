@@ -1089,7 +1089,7 @@ function useParts(props: Record<string, any>): Parts {
 
     // `parts` is a schema-reachable attribute bag: strip HTML sinks
     // (`innerHTML`/`outerHTML`), prototype keys, and entries matching
-    // `$security.banProps` before the bag hits a `v-bind` spread. Clean bags
+    // `$security.banAttrs` before the bag hits a `v-bind` spread. Clean bags
     // (the common case) return the same reference. Non-object results carry
     // no attributes.
     return bag != null && typeof bag === 'object'

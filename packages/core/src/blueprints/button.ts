@@ -140,7 +140,6 @@ export const defaults = defineDefaults<ButtonProps>()({
   type: 'button',
   layout: true,
   conditions: undefined,
-  expressions: undefined,
   download: undefined,
   iconPos: 'left',
   severity: 'secondary',

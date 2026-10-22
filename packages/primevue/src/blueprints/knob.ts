@@ -187,7 +187,6 @@ export const defaults = defineDefaults<KnobProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

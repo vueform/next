@@ -268,15 +268,15 @@ describe('Security: slot content', () => {
     })
 
     /**
-     * Threat: none — a scope boundary. `banProps` governs prop **bags**
+     * Threat: none — a scope boundary. `banAttrs` governs prop **bags**
      * (`parts`, cell `attrs`, schema entries); slot HTML is governed solely by
      * the sanitizer's policy (`sanitizeOptions: { FORBID_ATTR: [...] }` for
      * attribute bans inside sanitized HTML).
      *
-     * Measure: a `banProps` entry does not reach into slot markup — the HTML
+     * Measure: a `banAttrs` entry does not reach into slot markup — the HTML
      * renders per the sanitizer's verdict, `style` attribute included.
      */
-    test('it should not apply `banProps` to slot HTML', async () => {
+    test('it should not apply `banAttrs` to slot HTML', async () => {
       const { form } = createForm(
         {
           schema: defineSchema({
@@ -293,7 +293,7 @@ describe('Security: slot content', () => {
           $security: {
             allowHtml: ['slots'],
             sanitizer: (html: string) => html,
-            banProps: ['style'],
+            banAttrs: ['style'],
           },
         }
       )

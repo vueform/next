@@ -16,6 +16,7 @@ import {
 import { useDate } from '#src/composables'
 import type { VueformInstance } from '#src/helpers'
 import { getExpressionModule } from '#src/modules/expression'
+import { getSecurityModule } from '#src/modules/security'
 import type { FormContext } from '#src/types'
 import {
   alwaysTrue as alwaysAvailable,
@@ -255,6 +256,13 @@ export function createConditions(vueform: VueformInstance): ConditionsModule {
       return false
 
     if (propPath) {
+      // Prop references are the security module's policy (`safePropRefs`):
+      // a denied prop never reads, and the condition evaluates unmet. Resolved
+      // lazily — module instantiation order at app creation is undefined.
+      if (!getSecurityModule(vueform).allowsPropRef(propPath)) {
+        return false
+      }
+
       actual = getByPath(other$, propPath)
     } else {
       if (!unref(other$.dataPath)) {

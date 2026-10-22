@@ -198,26 +198,6 @@ export type AddonProp<TContext = any> =
 export type HeadingProp = 1 | 2 | 3 | 4 | 5 | 6
 
 /**
- * Prop keys that support expression syntax (e.g. template interpolation or
- * dynamic evaluation).
- */
-export type ExpressionableKeys =
-  | 'default'
-  | 'label'
-  | 'help'
-  | 'description'
-  | 'placeholder'
-  | 'text'
-  | 'addon'
-  | (string & {}) // @todo: list all
-
-/**
- * Controls expression resolution: `false` disables it, `true` enables it for
- * all expressionable props, an array enables it for the listed keys only.
- */
-export type ExpressionsProp = boolean | ExpressionableKeys[]
-
-/**
  * A string containing a `{...}` expression, accepted by expressionable props
  * (e.g. `default: '{source}'`) and resolved by the expression module at
  * runtime.

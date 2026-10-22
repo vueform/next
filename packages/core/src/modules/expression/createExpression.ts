@@ -38,22 +38,17 @@ const HAS_UNESCAPED_BRACE_RE = /(?:^|[^\\])\{/
 function makeTracking(
   index: SchemaIndex,
   options: ExpressionTrackingOptions,
-  expression: Pick<ExpressionModule, 'resolve' | 'usedPaths'>
+  expression: Pick<ExpressionModule, 'resolve' | 'usedPaths' | 'allows'>
 ): ExpressionTracker {
-  const { store, config } = options
+  const { store } = options
 
-  // Node `expressions` > host allow-list > config trigger > allowed.
+  // The host's (form's) `noExpressions` can never be overridden by a node;
+  // then the node's own `noExpressions`, then the config whitelist decide
+  // whether the `default` key tracks.
   const expressionsAllowed = (node: ModelNode): boolean => {
-    const allowList =
-      node.props.expressions ??
-      options.expressions?.() ??
-      config.$expression?.trigger ??
-      true
+    if (options.noExpressions?.() || node.props.noExpressions) return false
 
-    return (
-      allowList === true ||
-      (Array.isArray(allowList) && allowList.includes('default'))
-    )
+    return expression.allows('default')
   }
 
   const isTemplate = (value: any): value is string =>
@@ -199,7 +194,7 @@ function makeTracking(
 // Binds a tracking surface to the owning instance's `resolve` / `usedPaths`,
 // so trackers always evaluate through the engine that created them.
 function makeTrackingFactory(
-  expression: Pick<ExpressionModule, 'resolve' | 'usedPaths'>
+  expression: Pick<ExpressionModule, 'resolve' | 'usedPaths' | 'allows'>
 ): ExpressionModule['makeExpressionTracking'] {
   return (index?: SchemaIndex): ExpressionTracking => {
     const trackable = (
@@ -449,11 +444,42 @@ export function createExpression(vueform: VueformInstance): ExpressionModule {
 
   const warn = () => {}
 
+  // `$expression.whitelist` compiles once: strings match keys exactly; RegExp
+  // entries test as written, rebuilt without the stateful `g` / `y` flags
+  // (config-held instances may be frozen — no `lastIndex` writes). Unset
+  // allows every key.
+  const whitelist = options.whitelist
+
+  const whitelistKeys = new Set<string>()
+  const whitelistPatterns: RegExp[] = []
+
+  if (Array.isArray(whitelist)) {
+    for (const entry of whitelist) {
+      if (typeof entry === 'string') {
+        whitelistKeys.add(entry)
+      } else if (entry instanceof RegExp) {
+        whitelistPatterns.push(
+          new RegExp(entry.source, entry.flags.replace(/[gy]/g, ''))
+        )
+      }
+    }
+  }
+
+  const allows = (key: string): boolean =>
+    whitelist == null ||
+    whitelistKeys.has(key) ||
+    whitelistPatterns.some((pattern) => pattern.test(key))
+
   return {
     installed: true,
     resolve,
     usedPaths,
+    allows,
     warn,
-    makeExpressionTracking: makeTrackingFactory({ resolve, usedPaths }),
+    makeExpressionTracking: makeTrackingFactory({
+      resolve,
+      usedPaths,
+      allows,
+    }),
   }
 }

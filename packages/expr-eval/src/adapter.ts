@@ -232,6 +232,11 @@ export const exprEvalAdapter: ExpressionAdapter = (
     data?: Record<string, any>,
     context$?: any
   ): string | undefined {
+    // Evaluation can re-enter (a custom function may trigger a nested
+    // `resolve`), so the previous context is restored, never cleared.
+    const prevEl$ = evalContext.el$
+    const prevForm$ = evalContext.form$
+
     evalContext.el$ = context$
     // Expression is app-scoped; bind the active form from the resolve context
     // (element.form$ or the form context itself when resolving at form level).
@@ -286,8 +291,8 @@ export const exprEvalAdapter: ExpressionAdapter = (
 
       return String((parsed as any).evaluate(evalData))
     } finally {
-      evalContext.el$ = undefined
-      evalContext.form$ = undefined
+      evalContext.el$ = prevEl$
+      evalContext.form$ = prevForm$
     }
   }
 
@@ -436,4 +441,4 @@ export const exprEvalAdapter: ExpressionAdapter = (
 /**
  * @deprecated Use `exprEvalAdapter`.
  */
-export const $expression = exprEvalAdapter
+// export const $expression = exprEvalAdapter

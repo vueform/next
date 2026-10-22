@@ -2,9 +2,6 @@ import { computed } from 'vue'
 
 import { useElementContext, useFormContext } from '#src/contexts'
 import { getExpressionModule } from '#src/modules/expression'
-import type { ExpressionableKeys } from '#src/types'
-
-import { useConfig } from './useConfig'
 
 /**
  * Expression resolve result: `string` when the input is a string, otherwise
@@ -41,28 +38,27 @@ export function useExpression() {
 
   const el$ = useElementContext()
   const form$ = useFormContext()
-  const config = useConfig()
 
-  const allowList = computed(
+  // The form's `noExpressions` can never be overridden by an element; an
+  // element's own applies to itself only (containers don't cascade).
+  const noExpressions = computed(
     () =>
-      (el$?.props as any)?.expressions ??
-      (form$?.props as any)?.expressions ??
-      config.$expression?.trigger ??
-      true
+      (form$?.props as any)?.noExpressions === true ||
+      (el$?.props as any)?.noExpressions === true
   )
 
   /**
-   * Checks whether expression resolution is allowed for the given prop key.
+   * Checks whether expression resolution is allowed for the given prop key:
+   * `false` when the form or the element sets `noExpressions`, otherwise the
+   * `$expression.whitelist` verdict (unset allows every key).
    *
    * @param key The expressionable prop key to check.
    */
-  const allowed = (key: ExpressionableKeys) => {
+  const allowed = (key: string) => {
     if (!installed) return false
+    if (noExpressions.value) return false
 
-    return (
-      allowList.value === true ||
-      (Array.isArray(allowList.value) && allowList.value.includes(key))
-    )
+    return expression.allows(key)
   }
 
   /**
@@ -84,6 +80,7 @@ export function useExpression() {
 
     let data = form$?.model
     const consts = form$?.resolvedConsts
+
     if (consts && data) {
       data = { ...consts, ...data }
     }
@@ -100,7 +97,7 @@ export function useExpression() {
    *   `undefined`.
    */
   function resolveIfAllowed<T extends string | undefined>(
-    key: ExpressionableKeys,
+    key: string,
     value: T
   ): Resolved<T> {
     return (allowed(key) ? resolve(value) : value) as Resolved<T>

@@ -195,7 +195,6 @@ export const defaults = defineDefaults<CheckboxProps>()({
   trueValue: true,
   falseValue: false,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

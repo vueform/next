@@ -184,7 +184,6 @@ export const defaults = defineDefaults<RatingProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   untrackOn: undefined,
 })

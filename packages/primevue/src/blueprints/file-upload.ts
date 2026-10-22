@@ -370,7 +370,6 @@ export const defaults = defineDefaults<FileUploadProps>()({
   bail: true,
   maxErrors: 1,
   conditions: undefined,
-  expressions: undefined,
   showRequired: undefined,
   showUploadButton: undefined,
   mode: 'advanced',

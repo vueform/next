@@ -280,7 +280,6 @@ export function makeEngine(options: {
 
   const trackingExpressions = expressionTracking.activate({
     store,
-    config,
     languages: () => languages,
   })
 
