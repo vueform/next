@@ -570,7 +570,7 @@ Resolution can be restricted at three levels:
 
 1. **Element** — the `no-expressions` prop disables the element's expression resolution entirely. It applies to that element alone — a container's `no-expressions` does not cascade to its children.
 2. **Form** — `no-expressions` on the form disables resolution for the form and **every element** in it. An element cannot opt back in under it.
-3. **Global** — `$expression.whitelist` in the [config](/guide/configuration#expression) lists the prop keys that resolve for the whole app — when it isn't set, every expressionable prop resolves. Members are exact strings or RegExps (`/^lab/` covers `label`).
+3. **Global** — `$expression.whitelist` in the [config](/guide/configuration#expression) lists the prop keys that resolve for the whole app. It defaults to `['*']` (every expressionable prop resolves), and your own array replaces that — only the listed keys resolve. Members are exact strings where a `*` spans any characters (`'label*'` covers `label` and `labelAddon`) or RegExps (`/^lab/` covers `label`).
 
 ```ts
 defineSchema({
