@@ -139,9 +139,9 @@ describe('Security: noop surface in production', () => {
     })
 
     /**
-     * Threat: none — the stock config ships `allowProps: []`, so an empty or
-     * unset list carries no intent of its own, and the module family's
-     * absent-feature rule applies: nothing is enforced.
+     * Threat: none — unset and `[]` are the gate's default deny-all semantics
+     * anyway, so an empty list carries no intent of its own, and the module
+     * family's absent-feature rule applies: nothing is enforced.
      */
     it('should allow prop references when allowProps is empty or unset', () => {
       prod()

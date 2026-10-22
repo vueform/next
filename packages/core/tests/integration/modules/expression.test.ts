@@ -415,6 +415,28 @@ describe('Expressions', () => {
       expect(el.help).toBe('Help {name}')
     })
 
+    it('should deny every key when unset', () => {
+      const { el } = createForm(
+        {
+          schema: defineSchema({
+            name: { type: 'text', default: 'World' },
+            el: {
+              type: 'text',
+              label: 'Hello {name}',
+              help: 'Help {name}',
+            },
+          }),
+        },
+        {
+          // Overrides the default config's `['*']`; unset fails closed.
+          $expression: { whitelist: undefined },
+        }
+      )
+
+      expect(el.label).toBe('Hello {name}')
+      expect(el.help).toBe('Help {name}')
+    })
+
     it('should match every key with a standalone `*`', () => {
       const { el } = createForm(
         {

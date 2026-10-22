@@ -449,8 +449,9 @@ export function createExpression(vueform: VueformInstance): ExpressionModule {
   // that a `*` in the entry spans any characters (`'*'` matches every key,
   // `'*Label'` / `'label*'` match suffixes / prefixes); RegExp entries test as
   // written, rebuilt without the stateful `g` / `y` flags (config-held
-  // instances may be frozen — no `lastIndex` writes). Unset allows every key
-  // (the stock config ships `['*']`, which compiles to the same).
+  // instances may be frozen — no `lastIndex` writes). The gate fails closed:
+  // unset denies every key, like `$security.allowProps` — the default config
+  // ships `['*']` so expressions resolve everywhere out of the box.
   const whitelist = options.whitelist
 
   const whitelistKeys = new Set<string>()
@@ -475,7 +476,6 @@ export function createExpression(vueform: VueformInstance): ExpressionModule {
   }
 
   const allows = (key: string): boolean =>
-    whitelist == null ||
     whitelistKeys.has(key) ||
     whitelistPatterns.some((pattern) => pattern.test(key))
 

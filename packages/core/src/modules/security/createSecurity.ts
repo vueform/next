@@ -436,13 +436,12 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     return undefined
   }
 
-  // Prop references fail closed like the other gates: the stock config ships
-  // `allowProps: []` and an unset option means the same, so no `path@prop` /
-  // `@prop` reference resolves until its prop is listed. String entries
-  // compile to wildcard patterns once; RegExp entries test the full prop path
-  // as written (rebuilt without the stateful `g` / `y` flags, like
-  // `banAttrs`). Invalid entries are dropped with a warning rather than
-  // silently never matching.
+  // Prop references fail closed like the other gates: an unset `allowProps`
+  // is `[]`, so no `path@prop` / `@prop` reference resolves until its prop is
+  // listed. String entries compile to wildcard patterns once; RegExp entries
+  // test the full prop path as written (rebuilt without the stateful `g` / `y`
+  // flags, like `banAttrs`). Invalid entries are dropped with a warning rather
+  // than silently never matching.
   const allowProps = own(options, 'allowProps') ?? []
 
   const propRefPatterns: PropRefPattern[] = []

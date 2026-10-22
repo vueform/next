@@ -4,10 +4,9 @@ import { createForm } from '../../helpers'
 
 /**
  * `$security.allowProps` — the fail-closed gate over `path@prop` / `@prop`
- * references in conditions and expressions. The stock config ships `[]` and
- * the shared test helper opts out with `['**']`; these suites pass their own
- * policy (an explicit `undefined` exercises the unset state, which denies like
- * `[]`).
+ * references in conditions and expressions. The shared test helper opts out
+ * with `['**']`; these suites pass their own policy (an explicit `undefined`
+ * exercises the unset state, which denies like `[]`).
  */
 const makeForm = (
   schema: Record<string, any>,

@@ -27,9 +27,10 @@ export interface ExpressionModuleOptions {
   enabled?: boolean
 
   /**
-   * The prop keys that resolve expressions. The stock config ships `['*']`
-   * (every expressionable prop resolves, as does unset); your own array
-   * replaces it and restricts resolution to the listed keys — strings match
+   * The prop keys that resolve expressions. **Fail-closed**: unset is
+   * equivalent to `[]`, so no key resolves until listed — the default config
+   * ships `['*']` (every expressionable prop resolves), and your own array
+   * replaces it, restricting resolution to the listed keys. Strings match
    * exactly (`*` spans any characters: `'*'`, `'*Label'`, `'label*'`), RegExps
    * as written.
    */
@@ -132,10 +133,11 @@ export interface ExpressionModule {
 
   /**
    * Whether `$expression.whitelist` allows resolving expressions for the given
-   * prop key. An unset whitelist allows every key; string members match the
-   * key exactly (`*` spans any characters), RegExp members as written. Always
-   * `false` on the inert surface. `noExpressions` is the caller's concern —
-   * this is the whitelist verdict only.
+   * prop key. Fail-closed: an unset whitelist denies every key (the default
+   * config ships `['*']`, allowing all); string members match the key exactly
+   * (`*` spans any characters), RegExp members as written. Always `false` on
+   * the inert surface. `noExpressions` is the caller's concern — this is the
+   * whitelist verdict only.
    *
    * @param key The expressionable prop key.
    */

@@ -460,7 +460,7 @@ Combined with the defaults — HTML dead without [`allowHtml`](#html-sanitizatio
 
 ### Prop References
 
-[Conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props) can read element **props** through the `path@prop` / `@prop` reference form. With the security module registered, these references are gated by `allowProps`, and the gate fails closed — the default is `[]` (unset means the same), so no prop reference resolves until its prop is listed (`'**'` allows everything). A denied reference resolves as `undefined` (the condition evaluates unmet, the expression renders empty) with a dev warning naming the prop.
+[Conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props) can read element **props** through the `path@prop` / `@prop` reference form. With the security module registered, these references are gated by `allowProps`, and the gate fails closed — unset is the same as `[]`, so no prop reference resolves until its prop is listed (`'**'` allows everything). A denied reference resolves as `undefined` (the condition evaluates unmet, the expression renders empty) with a dev warning naming the prop.
 
 Each entry is a pattern over the prop part of the reference (everything after `@`, with `[n]` index access counting as a nesting level):
 

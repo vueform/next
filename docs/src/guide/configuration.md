@@ -621,7 +621,7 @@ Options for the [expression](/guide/expressions) system:
 | Field | Default | Description |
 | --- | --- | --- |
 | `enabled` | `true` | Turns the expression system off entirely when `false`. |
-| `whitelist` | `['*']` | The prop keys where expressions resolve — exact strings (`*` spans any characters: `'*'`, `'label*'`, `'*Label'`) or RegExps tested against the key. |
+| `whitelist` | `['*']` | The prop keys where expressions resolve — exact strings (`*` spans any characters: `'*'`, `'label*'`, `'*Label'`) or RegExps tested against the key. Your array replaces the permissive default; unset denies every key. |
 | `localConsts` | `true` | Whether forms may define their own constants — when `false`, a form's `consts` prop has no effect. |
 | `functions` | `{}` | Custom expression functions keyed by name. |
 | `consts` | `{}` | Custom expression constants keyed by name. |
