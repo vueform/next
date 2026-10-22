@@ -22,7 +22,8 @@ function useExpression(): {
   /**
    * Checks whether expression resolution is allowed for the given prop key:
    * `false` when the form or the element sets `noExpressions`, otherwise the
-   * `$expression.whitelist` verdict (unset allows every key).
+   * `$expression.whitelist` verdict (unset denies every key; the default
+   * config ships `['*']`).
    *
    * @param key The expressionable prop key to check.
    */

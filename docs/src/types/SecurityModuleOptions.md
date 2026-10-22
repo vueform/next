@@ -93,11 +93,11 @@ interface SecurityModuleOptions {
 
   /**
    * The element prop paths that `path@prop` / `@prop` references (in
-   * conditions and expressions) may resolve. **Fail-closed**: the stock config
-   * ships `[]` and unset means the same, so once the security module is
-   * registered no prop reference resolves until its prop is listed (`'**'`
-   * allows everything). A denied reference resolves as `undefined` (conditions
-   * evaluate unmet) with a dev warning.
+   * conditions and expressions) may resolve. **Fail-closed**: unset is
+   * equivalent to `[]`, so once the security module is registered no prop
+   * reference resolves until its prop is listed (`'**'` allows everything). A
+   * denied reference resolves as `undefined` (conditions evaluate unmet) with
+   * a dev warning.
    *
    * Each entry is a pattern over the prop part of a reference (the part after
    * `@`, with `[n]` index segments read as nesting):

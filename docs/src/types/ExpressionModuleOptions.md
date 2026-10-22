@@ -12,9 +12,10 @@ interface ExpressionModuleOptions {
   enabled?: boolean
 
   /**
-   * The prop keys that resolve expressions. The stock config ships `['*']`
-   * (every expressionable prop resolves, as does unset); your own array
-   * replaces it and restricts resolution to the listed keys — strings match
+   * The prop keys that resolve expressions. **Fail-closed**: unset is
+   * equivalent to `[]`, so no key resolves until listed — the default config
+   * ships `['*']` (every expressionable prop resolves), and your own array
+   * replaces it, restricting resolution to the listed keys. Strings match
    * exactly (`*` spans any characters: `'*'`, `'*Label'`, `'label*'`), RegExps
    * as written.
    */

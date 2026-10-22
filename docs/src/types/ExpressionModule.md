@@ -39,10 +39,11 @@ interface ExpressionModule {
 
   /**
    * Whether `$expression.whitelist` allows resolving expressions for the given
-   * prop key. An unset whitelist allows every key; string members match the
-   * key exactly (`*` spans any characters), RegExp members as written. Always
-   * `false` on the inert surface. `noExpressions` is the caller's concern —
-   * this is the whitelist verdict only.
+   * prop key. Fail-closed: an unset whitelist denies every key (the default
+   * config ships `['*']`, allowing all); string members match the key exactly
+   * (`*` spans any characters), RegExp members as written. Always `false` on
+   * the inert surface. `noExpressions` is the caller's concern — this is the
+   * whitelist verdict only.
    *
    * @param key The expressionable prop key.
    */
