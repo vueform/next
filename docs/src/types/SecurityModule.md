@@ -79,15 +79,15 @@ interface SecurityModule {
 
   /**
    * Whether a `path@prop` / `@prop` reference may resolve the given prop path,
-   * per `$security.safePropRefs`. Fail-closed: with the module registered and
-   * the option unset, every prop reference is denied. Consulted by structured
-   * conditions and by expression engines' `PROP()` / `SELF()` resolution.
-   * Warns once per denied prop in dev.
+   * per `$security.allowProps`. Fail-closed: with the module registered and
+   * the option empty or unset, every prop reference is denied. Consulted by
+   * structured conditions and by expression engines' `PROP()` / `SELF()`
+   * resolution. Warns once per denied prop in dev.
    *
    * @param prop The referenced prop path (the part after `@`, e.g.
    *   `'selectedLabel'` or `'model.0'`).
    */
-  allowsPropRef: (prop: string) => boolean
+  allowsProp: (prop: string) => boolean
 
   /**
    * Whether an HTTP request URL is permitted by `$security.allowOrigins`.

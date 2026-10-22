@@ -92,10 +92,11 @@ interface SecurityModuleOptions {
   banAttrs?: (string | RegExp)[]
 
   /**
-   * The element props that `path@prop` / `@prop` references (in conditions and
-   * expressions) may resolve. **Fail-closed**: unset is equivalent to `[]`, so
-   * once the security module is registered no prop reference resolves until
-   * its prop is listed. A denied reference resolves as `undefined` (conditions
+   * The element prop paths that `path@prop` / `@prop` references (in
+   * conditions and expressions) may resolve. **Fail-closed**: the stock config
+   * ships `[]` and unset means the same, so once the security module is
+   * registered no prop reference resolves until its prop is listed (`'**'`
+   * allows everything). A denied reference resolves as `undefined` (conditions
    * evaluate unmet) with a dev warning.
    *
    * Each entry is a pattern over the prop part of a reference (the part after
@@ -122,6 +123,6 @@ interface SecurityModuleOptions {
    * path (`[n]` index access normalized to dots, e.g. `model.0`) — anchor it
    * yourself.
    */
-  safePropRefs?: (string | RegExp)[]
+  allowProps?: (string | RegExp)[]
 }
 ```

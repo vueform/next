@@ -14,7 +14,7 @@
  *   slot HTML is inserted with the platform's own `innerHTML` semantics, so
  *   `<script>` elements stay inert regardless.)
  * - **Configured intent without the module** (`allowHtml`, `allowComponents`,
- *   `allowOrigins` entries, `banAttrs`, `safePropRefs`, ciphers — a config
+ *   `allowOrigins` entries, `banAttrs`, `allowProps`, ciphers — a config
  *   that reads like
  *   policy): in development the surface stays permissive so the app remains
  *   workable, and `createVueform()`'s orphan-`$security`-options warning names
