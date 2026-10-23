@@ -135,10 +135,9 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     }[] = []
 
     /**
-     * Whether a save is pending: skipped by the validity gate, or rejected by
-     * the server as invalid data (422) and awaiting retry. Flushed
-     * automatically when the form becomes valid — only ever set while the gate
-     * is active (`invalid` not enabled).
+     * Whether a save was skipped by the validity gate and awaits the form
+     * becoming valid. Flushed automatically on the invalid→valid transition —
+     * only ever set while the gate is active (`invalid` not enabled).
      */
     let pendingSave = false
 
@@ -148,21 +147,6 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
      * land (or fire events) after a newer save already reported.
      */
     let inFlight: AbortController | null = null
-
-    /**
-     * Marks a rejected-as-invalid-data save (422) for retry: under the
-     * validity gate the form turning valid is the retry signal, so the save is
-     * left pending (flushed on the next invalid→valid transition, unless a
-     * later save supersedes it). Every other failure says nothing about the
-     * data and is retried by the next trigger or interval tick instead; with
-     * `invalid: true`, validity never governs sending, so no failure is
-     * coupled to it.
-     */
-    const queueInvalidRetry = (status: number | null) => {
-      if (!config.value?.invalid && status === 422) {
-        pendingSave = true
-      }
-    }
 
     /**
      * Performs the built-in autosave request to the given URL, aborting the
@@ -193,8 +177,6 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
           // was called) — its outcome belongs to nobody, so no events fire.
           if (error.reason === 'abort') return undefined
 
-          queueInvalidRetry(error.status || null)
-
           if (error.response) {
             fire('autosaveResponse', error.response, form$)
           }
@@ -223,9 +205,11 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     /**
      * Judges a save's response the way a submission's is judged: a 2xx status
      * fires `autosaveResponse` + `autosaveSuccess`, any other fires
-     * `autosaveResponse` + `autosaveFail` — a 422 as reason `'invalid'`,
-     * joining the validity gate's retry queue. No response at all (a handler
-     * that returned nothing) settles silently.
+     * `autosaveResponse` + `autosaveFail` — a 422 as reason `'invalid'`. A
+     * server rejection gets no validity-coupled retry: the client already
+     * judged that data valid, so the form turning valid again says nothing
+     * new. No response at all (a handler that returned nothing) settles
+     * silently.
      */
     const settle = (response: HttpResponse | undefined) => {
       if (!response) return
@@ -235,8 +219,6 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       const status = response.status
 
       if (typeof status === 'number' && (status < 200 || status >= 300)) {
-        queueInvalidRetry(status)
-
         fire(
           'autosaveFail',
           {
@@ -276,7 +258,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
       if (!target) return
 
-      // A running save supersedes any pending retry.
+      // A running save supersedes any pending gated save.
       pendingSave = false
 
       const isFunction = typeof target === 'function'
@@ -624,7 +606,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     /**
      * Aborts the autosave that's underway or queued — the in-flight request, a
-     * running change debounce, and a pending gated retry. Everything settles
+     * running change debounce, and a deferred gated save. Everything settles
      * silently, firing no fail event. Autosaving itself stays on — the
      * triggers and the interval keep arming future saves.
      */
@@ -782,8 +764,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     watch([config, draftConfig], init, { deep: true })
 
-    // Pending saves flush on the invalid→valid transition — both saves the
-    // validity gate skipped and failed saves awaiting retry.
+    // Saves the validity gate skipped flush on the invalid→valid transition.
     watch(invalid, (isInvalid) => {
       if (isInvalid || !pendingSave || !config.value?.endpoint) return
 

@@ -477,7 +477,7 @@ export type AutosaveInstance = {
 
   /**
    * Aborts the autosave that's underway or queued — the in-flight request, a
-   * running change debounce, and a pending gated retry. Everything settles
+   * running change debounce, and a deferred gated save. Everything settles
    * silently, firing no fail event. Autosaving itself stays on — the triggers
    * and the interval keep arming future saves.
    */

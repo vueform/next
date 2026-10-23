@@ -1528,7 +1528,7 @@ describe('Autosave retry after failure', () => {
     return { adapter, calls, succeed: () => (fail = false) }
   }
 
-  it('should retry a gated save rejected with 422 once the form becomes valid', async () => {
+  it('should not retry a 422 on the invalid→valid transition', async () => {
     const { adapter, calls, succeed } = togglingAdapter(422)
 
     const { form$, name } = createForm(
@@ -1547,7 +1547,8 @@ describe('Autosave retry after failure', () => {
 
     await nextTick()
 
-    // the server rejects the (client-side valid) data as invalid
+    // the server rejects data the client judged valid — its validation missed
+    // something the server enforces, so revalidating client-side proves nothing
     vi.advanceTimersByTime(5000)
     await flushPromises()
     expect(calls).toHaveLength(1)
@@ -1563,7 +1564,11 @@ describe('Autosave retry after failure', () => {
     await flushPromises()
     expect(form$.invalid).toBe(false)
 
-    // retried on the invalid→valid transition, before the next interval tick
+    // no transition retry — recovery is the next trigger or interval tick
+    expect(calls).toHaveLength(1)
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
     expect(calls).toHaveLength(2)
   })
 
@@ -1650,49 +1655,6 @@ describe('Autosave retry after failure', () => {
     // the next interval tick retries as usual
     vi.advanceTimersByTime(5000)
     await flushPromises()
-    expect(calls).toHaveLength(2)
-  })
-
-  it('should not retry when a later save supersedes the 422', async () => {
-    const { adapter, calls, succeed } = togglingAdapter(422)
-
-    const { form$, name } = createForm(
-      {
-        schema: defineSchema({
-          name: { type: 'text', default: 'John', rules: 'required' },
-        }),
-        autosave: {
-          endpoint: '/api/autosave',
-          interval: 5000,
-          on: [],
-        },
-      },
-      { $http: { adapter } }
-    )
-
-    await nextTick()
-
-    vi.advanceTimersByTime(5000)
-    await flushPromises()
-    expect(calls).toHaveLength(1)
-
-    // the next interval tick succeeds, superseding the pending retry
-    succeed()
-    vi.advanceTimersByTime(5000)
-    await flushPromises()
-    expect(calls).toHaveLength(2)
-
-    name.update('')
-    await form$.validate()
-    await nextTick()
-    expect(form$.invalid).toBe(true)
-
-    name.update('Jane')
-    await form$.validate()
-    await flushPromises()
-    expect(form$.invalid).toBe(false)
-
-    // no pending retry left — the transition alone doesn't save
     expect(calls).toHaveLength(2)
   })
 })

@@ -193,6 +193,8 @@ Each autosave is a `POST` request sent through the [HTTP module](/guide/http), s
 
 Otherwise autosave runs independently of `submit()`. The form's `endpoint`, `method`, success messages, redirects — none of them apply to autosave requests, which fire their own [events](#observing-saves) instead.
 
+Saves don't pile up either. Starting a new save aborts the request still in flight, so on a slow connection a stale response can never land — or report — after a newer save's.
+
 The `autosave: '…'` string is shorthand for `AutosaveConfig` object with only `endpoint` set. The object form takes further options — the next sections cover them one by one, and [Autosave Options](#autosave-options) lists them all.
 
 ### Event Triggers
@@ -329,6 +331,12 @@ await form$.autosave({ invalid: true }) // send even while the form is invalid
 
 The returned promise resolves when everything settles, with the usual [events](#observing-saves) firing along the way.
 
+The remote side also has a brake. `abortAutosave()` cancels whatever save is underway or queued — the in-flight request, a running change debounce, a deferred gated save — and everything settles silently, firing no fail event, just like a request superseded by a newer save. Autosaving itself stays on, with the triggers and the [interval](#interval-saves) arming future saves as usual:
+
+```ts
+form$.abortAutosave()
+```
+
 To make manual saving the only saving, empty the triggers on either side:
 
 ```ts
@@ -405,9 +413,9 @@ The function receives the autosave data ([`transform`](#transforming-autosave-da
 | Return value | Effect |
 | --- | --- |
 | `string` | Used as the endpoint URL — Vueform performs the built-in request against it. |
-| `HttpResponse` | Used as the result and always treated as a success, whatever its status — `@autosave-success` fires with it. The fail path belongs to the built-in request, so a handler wanting `@autosave-fail` semantics handles its own errors. |
-| `void` / `undefined` | The save counts as completed silently — only `@autosaved` fires, with no response. |
-| `false` | The save is treated as canceled — no event fires. |
+| `HttpResponse` | Used as the result and judged by status like any response — `@autosave-success` fires on a 2xx, `@autosave-fail` on anything else. |
+| `void` / `undefined` | The save settles silently — no event fires. Return the response when listeners should hear about the save. |
+| `false` | The save is canceled — no event fires. |
 
 Because the example returns the `HttpResponse`, `@autosave-success` fires as usual and downstream listeners — a saved-at indicator, a toast — work unchanged. There doesn't have to be a request at all — persistence is whatever the function does. For browser storage, though, [`draft`](#drafts) already covers it, restoring included.
 
@@ -436,6 +444,7 @@ Drafts and remote saves fire their own form events — [cancelable](/guide/event
 | `@save-draft` | Before each automatic draft write — return `false` to skip the write. | draft data, context |
 | `@draft-saved` | After a draft write landed in storage. | draft data, context |
 | `@restore-draft` | Before the automatic restore on mount — return `false` to skip ([Restoring the Draft](#restoring-the-draft)). | stored data, context |
+| `@draft-restored` | After a stored draft was restored into the form, automatically or manually. | restored data, context |
 | `@discard-draft` | Before the automatic discard on successful submit — return `false` to keep the draft. | context |
 | `@draft-discarded` | After the stored draft was removed, automatically or manually. | context |
 
@@ -445,11 +454,10 @@ The pattern to remember — verb-first events are cancelable pre-hooks on the au
 | --- | --- | --- |
 | `@autosave` | Before a remote save runs — cancel or take it over ([Intercepting](#intercepting-with-autosave)). | payload, context |
 | `@autosave-response` | Whenever a save receives an HTTP response — success and error statuses alike. | `HttpResponse`, context |
-| `@autosave-success` | After a successful remote save. | `HttpResponse`, context |
-| `@autosave-fail` | When the request fails — network error, timeout, non-2xx response. | `HttpError`, context |
-| `@autosaved` | After a save completed without failing — even one that produced no response. | `HttpResponse` or `undefined`, context |
+| `@autosave-success` | When a save's response came back with a 2xx status. | `AutosaveSuccess` result, context |
+| `@autosave-fail` | When a save fails — a request error, or a response with any other status. | `AutosaveFail` result, context |
 
-On a successful request the order is `@autosave` → `@autosave-response` → `@autosave-success` → `@autosaved`. On a failed one it's `@autosave` → `@autosave-response` → `@autosave-fail`, with `@autosave-response` skipped when there's no response at all, as in a network failure.
+The outcomes carry the same result shapes submission's events do — `data`, `status`, and the full `response` on success; `reason`, `status`, `message`, `data`, and `response` on failure. On a successful save the order is `@autosave` → HTTP request → `@autosave-response` → `@autosave-success`. On a failed one it's `@autosave` → HTTP request → `@autosave-response` → `@autosave-fail`, with `@autosave-response` skipped when there's no response at all, as in a network failure. An [aborted](#saving-manually) save fires nothing.
 
 `@autosave-success` is the hook for a saved-at indicator, or for storing the ID the server returned:
 
@@ -463,7 +471,7 @@ const savedAt = ref<Date>()
 const [Form] = useForm({
   schema,
   autosave: '/api/drafts',
-  onAutosaveSuccess: (response, form$) => {
+  onAutosaveSuccess: (result, form$) => {
     savedAt.value = new Date()
   },
 })
@@ -475,7 +483,7 @@ const [Form] = useForm({
 </template>
 ```
 
-`@autosave-fail` is where a warning banner or your own retry queue goes — though some recovery is built in. An [interval](#interval-saves) reattempts failures on schedule, and a gated save rejected with `422` is [retried when the form becomes valid](#the-validity-gate). A failed autosave doesn't affect the form otherwise — no errors appear on elements.
+`@autosave-fail` is where a warning banner or your own retry queue goes, with the result's `reason` telling the categories apart — `'network'`, `'timeout'`, `'http'`, `'invalid'` for a `422`, and so on. Some recovery is built in, though. An [interval](#interval-saves) reattempts failures on schedule, and a gated save rejected as `'invalid'` is [retried when the form becomes valid](#the-validity-gate). A failed autosave doesn't affect the form otherwise — no errors appear on elements.
 
 ## Disabling Autosave
 
