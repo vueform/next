@@ -31,7 +31,9 @@ function useTokens(
   tokenClass: string
 
   /**
-   * The CSS text for scoped token custom properties on this component instance.
+   * The CSS text for scoped token custom properties on this component
+   * instance — a base rule plus a browser-resolved dark-mode block, so the
+   * text is identical between server and client renders.
    */
   tokenCss: ComputedRef<string>
 }

@@ -1705,7 +1705,6 @@
   "flatOptionItemAliases",
   "getAttachedValidationSchema",
   "getAutosaveModule",
-  "getCSS",
   "getConditionsModule",
   "getDateModule",
   "getDevtoolsModule",

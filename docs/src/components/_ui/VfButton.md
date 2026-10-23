@@ -1106,7 +1106,7 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 | [`tokens`](!code#context.tokens "CSSProperties") | Reactive inline style object with resolved theme token CSS custom properties. |
 | [`tokenClass`](!code#context.tokenClass "string") | A unique CSS class scoped to this component instance, used to target the injected token style rule. |
-| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this component instance. |
+| [`tokenCss`](!code#context.tokenCss "string") | The CSS text for scoped token custom properties on this component instance — a base rule plus a browser-resolved dark-mode block, so the text is identical between server and client renders. |
 | [`nonce`](!code#context.nonce "string \| undefined") | Unique security nonce for injecting scoped styles. |
 | [`viewLoaded`](!code#context.viewLoaded "boolean") | Whether the element's view has been loaded (used for lazy rendering optimization). |
 | [`$el`](!code#context.$el "HTMLElement \| null") | Reference to the component's root DOM element. |
