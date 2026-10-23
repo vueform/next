@@ -752,7 +752,7 @@ export function useSubmission(options: UseSubmissionOptions) {
           return result.value
         }
       } else {
-        throw new Error(error)
+        throw error
       }
     } finally {
       submitting.value = false

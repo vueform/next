@@ -2522,8 +2522,8 @@ describe('Autosave abort', () => {
   const slowAdapter = (delay: number) => {
     const calls: { aborted: boolean }[] = []
 
-    const adapter: HttpAdapter = (config) =>
-      new Promise((resolve, reject) => {
+    const adapter: HttpAdapter = <T = any>(config: HttpRequestConfig) =>
+      new Promise<HttpResponse<T>>((resolve, reject) => {
         const call = { aborted: false }
         calls.push(call)
 
@@ -2534,7 +2534,7 @@ describe('Autosave abort', () => {
 
         setTimeout(() => {
           resolve({
-            data: { saved: true },
+            data: { saved: true } as T,
             status: 200,
             statusText: 'OK',
             headers: {},

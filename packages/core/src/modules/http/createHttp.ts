@@ -34,6 +34,7 @@ export function createHttp(vueform: VueformInstance): HttpModule {
     adapter,
     defaultMethod,
     requestType,
+    responseType,
     baseURL,
     timeout,
     headers,
@@ -48,6 +49,7 @@ export function createHttp(vueform: VueformInstance): HttpModule {
   const defaults: Partial<HttpRequestConfig> = {
     method: defaultMethod || 'GET',
     requestType: requestType || 'json',
+    responseType: responseType || 'json',
     baseURL,
     timeout,
     headers: headers || {},

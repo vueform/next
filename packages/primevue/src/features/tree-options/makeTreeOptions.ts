@@ -8,6 +8,9 @@ import {
   equals,
   isThenable,
   debounce,
+  isServer,
+  isDev,
+  warn,
   type makeData,
   type makeElement,
   type makeInput,
@@ -217,6 +220,8 @@ export const makeTreeOptions = defineFeature(
         const source = unref(props.options)
 
         if (typeof source === 'string') {
+          if (isServer) return
+
           const url = expression.resolveIfAllowed('items', source)
           if (!url) return
 
@@ -232,6 +237,13 @@ export const makeTreeOptions = defineFeature(
               resolvedItems.value = applyTransform(response.data)
               resolving.value = false
             })
+            .catch((error: unknown) => {
+              resolving.value = false
+
+              if (isDev()) {
+                warn('Failed to load options from endpoint.', error)
+              }
+            })
           return
         }
 
@@ -239,11 +251,24 @@ export const makeTreeOptions = defineFeature(
           const result = source(context$)
 
           if (isThenable(result)) {
+            if (isServer) {
+              Promise.resolve(result).catch(() => {})
+              return
+            }
+
             resolving.value = true
-            Promise.resolve(result).then((resolved) => {
-              resolvedItems.value = applyTransform(resolved)
-              resolving.value = false
-            })
+            Promise.resolve(result)
+              .then((resolved) => {
+                resolvedItems.value = applyTransform(resolved)
+                resolving.value = false
+              })
+              .catch((error: unknown) => {
+                resolving.value = false
+
+                if (isDev()) {
+                  warn('Failed to resolve options from function source.', error)
+                }
+              })
             return
           }
 
