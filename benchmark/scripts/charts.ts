@@ -67,7 +67,8 @@ type Results = Record<string, CaseSamples> & {
 }
 
 /**
- * Smallest 1/2/5×10^k step whose `Y_INTERVALS` multiples cover `max`.
+ * Smallest 1/2/5×10^k step whose `Y_INTERVALS` multiples cover `max`; the
+ * chart then drops trailing intervals the data never reaches.
  */
 function niceStep(max: number): number {
   if (max <= 0) return 1
@@ -118,8 +119,10 @@ function renderChart(
     Object.keys(series[mode] ?? {}).map(Number)
   )
   const maxN = Math.max(...ns)
-  const step = niceStep(Math.max(...values))
-  const top = step * Y_INTERVALS
+  const maxValue = Math.max(...values)
+  const step = niceStep(maxValue)
+  const yIntervals = Math.max(1, Math.ceil(maxValue / step))
+  const top = step * yIntervals
 
   const parts: string[] = [
     `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" font-family="-apple-system, 'Segoe UI', Helvetica, Arial, sans-serif">`,
@@ -147,8 +150,8 @@ function renderChart(
   })
 
   // Horizontal gridlines and y tick labels.
-  for (let i = 0; i <= Y_INTERVALS; i++) {
-    const y = PLOT.y1 - (i / Y_INTERVALS) * (PLOT.y1 - PLOT.y0)
+  for (let i = 0; i <= yIntervals; i++) {
+    const y = PLOT.y1 - (i / yIntervals) * (PLOT.y1 - PLOT.y0)
     parts.push(
       `<line x1="${PLOT.x0}" y1="${y}" x2="${PLOT.x1}" y2="${y}" stroke="${theme.grid}" stroke-width="1"/>`,
       `<text x="${PLOT.x0 - 8}" y="${y + 4}" font-size="11" fill="${theme.text}" text-anchor="end">${formatTick(i * step)}</text>`

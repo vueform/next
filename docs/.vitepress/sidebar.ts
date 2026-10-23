@@ -93,8 +93,9 @@ export default {
       items: [
         { text: 'Code-Splitting', link: '/guide/code-splitting' },
         { text: 'Testing', link: '/guide/testing' },
-        { text: 'Security', link: '/guide/security' },
         { text: 'SSR', link: '/guide/ssr' },
+        { text: 'Vapor', link: '/guide/vapor' },
+        { text: 'Security', link: '/guide/security' },
         { text: 'Accessibility', link: '/guide/accessibility' },
         { text: 'Performance', link: '/guide/performance' },
       ],
@@ -128,6 +129,7 @@ export default {
         { text: 'definePreset', link: '/api/helpers/definePreset' },
         { text: 'definePlugin', link: '/api/helpers/definePlugin' },
         { text: 'createEvents', link: '/api/helpers/createEvents' },
+        { text: 'createVueform', link: '/api/helpers/createVueform' },
         {
           text: 'createVueformFactory',
           link: '/api/helpers/createVueformFactory',

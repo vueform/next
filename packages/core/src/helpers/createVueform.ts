@@ -769,5 +769,13 @@ export function createVueformFactory<
  * Creates a Vueform Vue plugin instance from user-provided configuration merged
  * with the core defaults. The `model` module must be registered; everything
  * else is optional.
+ *
+ * @param config The user-provided configuration.
  */
-export const createVueform = createVueformFactory<'model'>(defaultConfig)
+export function createVueform(
+  config: UserConfig & {
+    modules: { model: NonNullable<VueformModules['model']> }
+  }
+): VueformInstance {
+  return createVueformFactory<'model'>(defaultConfig)(config)
+}
