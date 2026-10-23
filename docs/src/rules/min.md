@@ -1,8 +1,8 @@
 # min
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Size](/rules/#size)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[max](/rules/max) · [between](/rules/between) · [size](/rules/size)<!-- /@rule:related --> |

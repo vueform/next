@@ -1,8 +1,8 @@
 # not_in
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Membership](/rules/#membership)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[in](/rules/in)<!-- /@rule:related --> |

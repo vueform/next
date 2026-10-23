@@ -1,8 +1,8 @@
 # in
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Membership](/rules/#membership)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[not_in](/rules/not_in) · [in_array](/rules/in_array)<!-- /@rule:related --> |

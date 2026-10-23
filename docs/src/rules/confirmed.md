@@ -1,8 +1,8 @@
 # confirmed
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Cross-field](/rules/#cross-field)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[same](/rules/same)<!-- /@rule:related --> |

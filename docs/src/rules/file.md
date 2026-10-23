@@ -1,8 +1,8 @@
 # file
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[File](/rules/#file)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[image](/rules/image) · [mimes](/rules/mimes) · [mimetypes](/rules/mimetypes)<!-- /@rule:related --> |

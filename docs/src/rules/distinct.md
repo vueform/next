@@ -1,8 +1,8 @@
 # distinct
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Array](/rules/#array)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[array](/rules/array) · [in_array](/rules/in_array)<!-- /@rule:related --> |

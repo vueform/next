@@ -1,8 +1,8 @@
 # boolean
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Type](/rules/#type)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[accepted](/rules/accepted)<!-- /@rule:related --> |

@@ -1,8 +1,8 @@
 # captcha
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Other](/rules/#other)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->—<!-- /@rule:related --> |

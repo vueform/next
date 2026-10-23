@@ -1,8 +1,8 @@
 # not_regex
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Pattern](/rules/#pattern)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[regex](/rules/regex)<!-- /@rule:related --> |

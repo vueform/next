@@ -1,8 +1,8 @@
 # string
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Type](/rules/#type)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[numeric](/rules/numeric) · [alpha](/rules/alpha)<!-- /@rule:related --> |

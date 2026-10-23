@@ -1,8 +1,8 @@
 # in_array
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Cross-field](/rules/#cross-field)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[in](/rules/in) · [distinct](/rules/distinct)<!-- /@rule:related --> |

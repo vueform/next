@@ -1,8 +1,8 @@
 # digits_between
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Size](/rules/#size)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[digits](/rules/digits) · [between](/rules/between)<!-- /@rule:related --> |

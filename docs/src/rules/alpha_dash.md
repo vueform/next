@@ -1,8 +1,8 @@
 # alpha_dash
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[alpha](/rules/alpha) · [alpha_num](/rules/alpha_num)<!-- /@rule:related --> |

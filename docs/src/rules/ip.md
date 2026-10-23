@@ -1,8 +1,8 @@
 # ip
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[ipv4](/rules/ipv4) · [ipv6](/rules/ipv6)<!-- /@rule:related --> |

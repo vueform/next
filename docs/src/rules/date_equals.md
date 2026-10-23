@@ -1,8 +1,8 @@
 # date_equals
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Date](/rules/#date)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[date_format](/rules/date_format) · [after](/rules/after) · [before](/rules/before)<!-- /@rule:related --> |

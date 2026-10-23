@@ -1,8 +1,8 @@
 # filled
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Presence](/rules/#presence)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[required](/rules/required) · [nullable](/rules/nullable)<!-- /@rule:related --> |

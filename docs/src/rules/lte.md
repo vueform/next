@@ -1,8 +1,8 @@
 # lte
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Comparison](/rules/#comparison)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[lt](/rules/lt) · [gt](/rules/gt) · [gte](/rules/gte)<!-- /@rule:related --> |

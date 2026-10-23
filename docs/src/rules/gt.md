@@ -1,8 +1,8 @@
 # gt
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Comparison](/rules/#comparison)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[gte](/rules/gte) · [lt](/rules/lt) · [lte](/rules/lte)<!-- /@rule:related --> |

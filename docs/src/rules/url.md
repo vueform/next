@@ -1,8 +1,8 @@
 # url
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[email](/rules/email) · [ip](/rules/ip)<!-- /@rule:related --> |

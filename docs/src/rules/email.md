@@ -1,8 +1,8 @@
 # email
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[String Format](/rules/#string-format)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[url](/rules/url) · [regex](/rules/regex)<!-- /@rule:related --> |

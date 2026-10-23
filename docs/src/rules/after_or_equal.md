@@ -1,8 +1,8 @@
 # after_or_equal
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Date](/rules/#date)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[after](/rules/after) · [before](/rules/before) · [before_or_equal](/rules/before_or_equal)<!-- /@rule:related --> |

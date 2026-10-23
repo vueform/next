@@ -1,8 +1,8 @@
 # digits
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Size](/rules/#size)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[digits_between](/rules/digits_between) · [numeric](/rules/numeric) · [integer](/rules/integer)<!-- /@rule:related --> |

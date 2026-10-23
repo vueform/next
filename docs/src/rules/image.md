@@ -1,8 +1,8 @@
 # image
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[File](/rules/#file)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[file](/rules/file) · [dimensions](/rules/dimensions) · [mimes](/rules/mimes)<!-- /@rule:related --> |

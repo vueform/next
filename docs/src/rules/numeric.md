@@ -1,8 +1,8 @@
 # numeric
 
-<div class="rule-meta">
+<div class="api-meta">
 
-| | |
+|  |  |
 | --- | --- |
 | **Category** | <!-- @rule:category -->[Type](/rules/#type)<!-- /@rule:category --> |
 | **Related** | <!-- @rule:related -->[integer](/rules/integer) · [digits](/rules/digits)<!-- /@rule:related --> |
