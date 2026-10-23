@@ -63,7 +63,15 @@ const [MyForm] = useForm({ schema }, model)
 
 `!useModel` translates the schema to model shape: each element becomes a key in the model, typed by its model shape. The second argument accepts a seed of initial values, type-checked against the schema — known keys are offered as autocomplete and wrong value types surface as compile errors, while extra keys are deliberately tolerated, so data carrying more than the form shows (a server row, say) can seed it as-is.
 
-Alternatively you can pass plainer model shapes to `!useForm`:
+::: tip
+
+`useModel` and `useForm` depend on setup context, so as long as you are using them inside `<script setup>` you are fine. If you want to use them outside of it [follow this guide](/guide/vueform-instance#outside-a-setup-context).
+
+:::
+
+## Other Model Shapes
+
+`!useForm` also accepts plainer model shapes in place of a `!useModel` instance:
 
 | You pass | The form |
 | --- | --- |
@@ -73,16 +81,7 @@ Alternatively you can pass plainer model shapes to `!useForm`:
 
 These are fine when the form's data is just another piece of component state. What they lack is what `!useModel` adds: none of them is type-checked against the schema, and none carries the [Model API](#the-model-api).
 
-
-::: tip
-
-`useModel` and `useForm` depend on setup context, so as long as you are using them inside `<script setup>` you are fine. If you want to use them outside of it [follow this guide](/guide/vueform-instance#outside-a-setup-context).
-
-:::
-
-### Inline Forms
-
-Inline forms — built without `!useForm` — accept the same model shapes, including `!useModel` as a `v-model` on `!VfForm` directly:
+Every shape can also arrive as a `v-model` on `!VfForm` — `!useModel` included:
 
 ```vue
 <script setup lang="ts">
@@ -98,9 +97,9 @@ const model = useModel({}, { name: 'John' })
 </template>
 ```
 
-The first argument stays an empty object: the form's shape is defined inline by the template, so there is nothing to type the model against — typing is what inline usage gives up. The instance still carries the full [Model API](#the-model-api).
+This is the route for [inline forms](/guide/rendering#inline-forms), which have no `!useForm` to hand a model to. The first argument stays an empty object there — the form's shape is defined inline by the template, so there is nothing to type the model against, and typing is what inline usage gives up. The instance still carries the full [Model API](#the-model-api).
 
-It also works one level down, on individual elements — whether they sit inside a form or stand alone:
+The binding goes one level further down, onto individual elements — whether they sit inside a form or stand alone:
 
 ```vue
 <script setup lang="ts">
@@ -114,7 +113,7 @@ const name = ref('John')
 </template>
 ```
 
-Element binding comes with two caveats. It moves the plain value, so a `!useModel` instance can't be bound here — `!VfForm` is the only place that attaches one. And each value should reach exactly one `v-model`: an element bound inside a bound form would be written from two directions at once.
+Past this point you have left the model, though — element binding moves the plain value, so a `!useModel` instance can't be bound here, and `!VfForm` is the only place that attaches one. Each value should also reach exactly one `v-model`: an element bound inside a bound form would be written from two directions at once.
 
 ## The Model API
 
@@ -206,7 +205,29 @@ To learn more about using `!useForm` and `!useModel` outside of a setup context,
 
 ## DevTools
 
-The `@vueform/devtools` plugin registers a **Vueform** inspector in [Vue DevTools](https://devtools.vuejs.org/): every mounted form with its elements on the left, the selected node's live data, state, and validation on the right — the same members you'd read from the [Context](/guide/context), without writing a single `console.log`. Install the package and register its plugin:
+The `@vueform/devtools` plugin registers a **Vueform** inspector in [Vue DevTools](https://devtools.vuejs.org/): every mounted form with its elements on the left, the selected node's live data, state, and validation on the right — the same members you'd read from the [Context](/guide/context), without writing a single `console.log`. Install the package:
+
+::: code-group
+
+```bash [npm]
+npm install -D @vueform/devtools
+```
+
+```bash [pnpm]
+pnpm add -D @vueform/devtools
+```
+
+```bash [yarn]
+yarn add -D @vueform/devtools
+```
+
+```bash [bun]
+bun add -D @vueform/devtools
+```
+
+:::
+
+Then register its plugin:
 
 ```ts
 import { createVueform } from '@vueform/ui'
