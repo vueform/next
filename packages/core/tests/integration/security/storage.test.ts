@@ -219,7 +219,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          draft: { storage, restore: false },
+          draft: { storage, restore: false, on: ['step'] },
         },
         {
           $security: {
@@ -261,7 +261,7 @@ describe('Security: persistence', () => {
           schema: defineSchema({
             name: { type: 'text', default: 'John' },
           }),
-          draft: { storage, encrypt: false },
+          draft: { storage, encrypt: false, on: ['step'] },
         },
         {
           $security: {
@@ -587,7 +587,7 @@ describe('Security: persistence', () => {
           name: { type: 'text', default: 'John' },
           password: { type: 'text', sensitive: true, default: 'secret' },
         }),
-        draft: { storage },
+        draft: { storage, on: ['step'] },
       })
 
       await nextTick()

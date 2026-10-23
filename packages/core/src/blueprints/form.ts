@@ -40,13 +40,18 @@ import {
   getAttachedValidationSchema,
   type DefineEvents,
 } from '#src/helpers'
-import type { AutosaveProp, DraftProp } from '#src/modules/autosave'
+import type {
+  AutosaveFail,
+  AutosaveProp,
+  AutosaveSuccess,
+  DraftProp,
+} from '#src/modules/autosave'
 import type {
   ConditionalProp,
   ConditionsTriggerProp,
 } from '#src/modules/conditions'
 import { getExpressionModule } from '#src/modules/expression'
-import { HttpError, type HttpResponse } from '#src/modules/http'
+import type { HttpResponse } from '#src/modules/http'
 import {
   getModelModule,
   type ModelInstance,
@@ -541,6 +546,15 @@ export interface FormEmits<TContext = any>
   restoreDraft: [data: Record<string, any>, context$: TContext]
 
   /**
+   * Emitted after a stored draft was restored into the form, by the automatic
+   * restore on mount or a manual `restoreDraft()` call.
+   *
+   * @param data The restored draft data.
+   * @param context$ The form's component context.
+   */
+  draftRestored: [data: Record<string, any>, context$: TContext]
+
+  /**
    * Emitted before the stored draft is discarded on successful submit. Return
    * `false` to keep the draft.
    *
@@ -566,18 +580,7 @@ export interface FormEmits<TContext = any>
   autosave: [payload: Record<string, any>, context$: TContext]
 
   /**
-   * Emitted after an autosave completed without failing — including handler
-   * function saves that produce no HTTP response.
-   *
-   * @param response The HTTP response from the autosave, or `undefined` when
-   *   the save produced none.
-   * @param context$ The form's component context.
-   */
-  autosaved: [response: HttpResponse | undefined, context$: TContext]
-
-  /**
-   * Emitted whenever an autosave request receives an HTTP response, successful
-   * or not.
+   * Emitted whenever an autosave receives an HTTP response, successful or not.
    *
    * @param response The HTTP response the autosave received.
    * @param context$ The form's component context.
@@ -585,20 +588,21 @@ export interface FormEmits<TContext = any>
   autosaveResponse: [response: HttpResponse, context$: TContext]
 
   /**
-   * Emitted after a successful autosave operation.
+   * Emitted when an autosave's response has a 2xx status.
    *
-   * @param response The HTTP response from the autosave request.
+   * @param result The success result.
    * @param context$ The form's component context.
    */
-  autosaveSuccess: [response: HttpResponse, context$: TContext]
+  autosaveSuccess: [result: AutosaveSuccess, context$: TContext]
 
   /**
-   * Emitted when an autosave request fails due to a network or server error.
+   * Emitted when an autosave fails — a request error, or a response with a
+   * non-2xx status.
    *
-   * @param error The HTTP error that caused the failure.
+   * @param result The failure result.
    * @param context$ The form's component context.
    */
-  autosaveFail: [error: HttpError, context$: TContext]
+  autosaveFail: [result: AutosaveFail, context$: TContext]
 
   /**
    * Emitted to update the v-model binding.
@@ -1170,21 +1174,27 @@ function setup(
   const json = computed(() => props.json)
   const base64 = computed(() => props.base64)
 
-  const { autosave, saveDraft, getDraft, restoreDraft, discardDraft } =
-    useAutosave({
-      autosave: toRef(() => props.autosave),
-      draft: toRef(() => props.draft),
-      payload,
-      model,
-      sensitivePaths,
-      invalid,
-      headers,
-      json,
-      base64,
-      name,
-      load,
-      ...bridgedEvents,
-    })
+  const {
+    autosave,
+    abortAutosave,
+    saveDraft,
+    getDraft,
+    restoreDraft,
+    discardDraft,
+  } = useAutosave({
+    autosave: toRef(() => props.autosave),
+    draft: toRef(() => props.draft),
+    payload,
+    model,
+    sensitivePaths,
+    invalid,
+    headers,
+    json,
+    base64,
+    name,
+    load,
+    ...bridgedEvents,
+  })
 
   // ================ REFS ================
 
@@ -1722,6 +1732,7 @@ function setup(
     submit,
     abort,
     autosave,
+    abortAutosave,
     saveDraft,
     getDraft,
     restoreDraft,

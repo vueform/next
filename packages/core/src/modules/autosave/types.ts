@@ -1,6 +1,6 @@
 import type { ComputedRef, Ref } from 'vue'
 
-import type { HttpError, HttpResponse, RequestMethod } from '#src/modules/http'
+import type { HttpResponse, RequestMethod } from '#src/modules/http'
 import type { EndpointHandler } from '#src/types'
 
 /**
@@ -180,6 +180,88 @@ export type AutosaveConfig<TContext = any> = {
 export type AutosaveProp<TContext = any> = string | AutosaveConfig<TContext>
 
 /**
+ * Result passed to the `autosaveSuccess` event when a save's response has a
+ * 2xx status — the same shape as a submission's success result.
+ */
+export interface AutosaveSuccess {
+  /**
+   * The result type discriminator, always 'success'.
+   */
+  type: 'success'
+
+  /**
+   * The response data returned by the server.
+   */
+  data: any
+
+  /**
+   * The HTTP status code of the response.
+   */
+  status: number
+
+  /**
+   * The full HTTP response object.
+   */
+  response: HttpResponse
+
+  /**
+   * The form context instance at the time of the save.
+   */
+  context$: any
+}
+
+/**
+ * Result passed to the `autosaveFail` event when a save fails — a request
+ * error, or a response with a non-2xx status. The same shape as a submission's
+ * fail result, with two differences: `reason` includes `'invalid'` (a 422 —
+ * autosave has no separate server-invalid event) and never `'abort'` (an
+ * aborted or superseded save settles silently).
+ */
+export interface AutosaveFail {
+  /**
+   * The result type discriminator, always 'fail'.
+   */
+  type: 'fail'
+
+  /**
+   * The category of the failure.
+   */
+  reason:
+    | 'network'
+    | 'invalid'
+    | 'timeout'
+    | 'http'
+    | 'blocked'
+    | 'ssr'
+    | 'unknown'
+
+  /**
+   * The HTTP status code, or null if no response was received.
+   */
+  status: number | null
+
+  /**
+   * A human-readable error message describing the failure.
+   */
+  message: string
+
+  /**
+   * The response data if available, or null.
+   */
+  data: any | null
+
+  /**
+   * The HTTP response object if available, or null.
+   */
+  response: HttpResponse | null
+
+  /**
+   * The form context instance at the time of the save.
+   */
+  context$: any
+}
+
+/**
  * Configuration options for `makeAutosave`, wiring one form's autosave and
  * draft behavior.
  */
@@ -271,32 +353,23 @@ export type MakeAutosaveOptions = {
     (e: 'autosaveResponse', response: HttpResponse, form$: any): any
 
     /**
-     * Fires the autosaveSuccess event after a successful save request.
+     * Fires the autosaveSuccess event when a save's response has a 2xx status.
      *
      * @param e The event name.
-     * @param response The HTTP response from the autosave request.
+     * @param result The success result.
      * @param form$ The form context.
      */
-    (e: 'autosaveSuccess', response: HttpResponse, form$: any): any
+    (e: 'autosaveSuccess', result: AutosaveSuccess, form$: any): any
 
     /**
-     * Fires the autosaveFail event after a failed save request.
+     * Fires the autosaveFail event when a save fails — a request error, or a
+     * response with a non-2xx status.
      *
      * @param e The event name.
-     * @param error The HTTP error that caused the failure.
+     * @param result The failure result.
      * @param form$ The form context.
      */
-    (e: 'autosaveFail', error: HttpError, form$: any): any
-
-    /**
-     * Fires the autosaved event after a save completed without failing.
-     *
-     * @param e The event name.
-     * @param response The HTTP response, or `undefined` when the save produced
-     *   none (e.g. a handler function returning nothing).
-     * @param form$ The form context.
-     */
-    (e: 'autosaved', response: HttpResponse | undefined, form$: any): any
+    (e: 'autosaveFail', result: AutosaveFail, form$: any): any
 
     /**
      * Fires the draftSaved event after a draft was written to storage.
@@ -306,6 +379,16 @@ export type MakeAutosaveOptions = {
      * @param form$ The form context.
      */
     (e: 'draftSaved', data: Record<string, any>, form$: any): any
+
+    /**
+     * Fires the draftRestored event after a stored draft was loaded into the
+     * form, by the automatic restore on mount or a manual `restoreDraft()`.
+     *
+     * @param e The event name.
+     * @param data The restored draft data.
+     * @param form$ The form context.
+     */
+    (e: 'draftRestored', data: Record<string, any>, form$: any): any
 
     /**
      * Fires the draftDiscarded event after the stored draft was removed.
@@ -391,6 +474,13 @@ export type AutosaveInstance = {
    * @param options Per-call overrides (`invalid`).
    */
   autosave: (options?: { invalid?: boolean }) => Promise<void>
+
+  /**
+   * Aborts the in-flight autosave request, if any. The aborted save settles
+   * silently — no fail event fires. Scheduled saves (a running debounce, the
+   * interval, a pending gated retry) are unaffected.
+   */
+  abortAutosave: () => void
 
   /**
    * Saves the current model snapshot to storage immediately, bypassing the

@@ -67,6 +67,7 @@ describe('Autosave without the autosave module', () => {
     expect(await form$.getDraft()).toBeUndefined()
     expect(form$.discardDraft()).toBeUndefined()
     await expect(form$.autosave()).resolves.toBeUndefined()
+    expect(form$.abortAutosave()).toBeUndefined()
 
     expect(warnSpy).toHaveBeenCalledWith(
       expect.stringContaining('require the `autosave` module')

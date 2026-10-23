@@ -11,6 +11,7 @@ import type {
 // Never mutated — shared by every caller.
 const inertInstance: AutosaveInstance = {
   autosave: async () => undefined,
+  abortAutosave: () => undefined,
   saveDraft: async () => false,
   getDraft: async () => undefined,
   restoreDraft: async () => false,
@@ -21,7 +22,8 @@ const inertInstance: AutosaveInstance = {
  * The inert autosave surface used when the `autosave` module is not registered
  * — the `autosave` and `draft` props have no effect (with a one-time dev
  * warning when either is set) and the form context methods (`autosave`,
- * `saveDraft`, `getDraft`, `restoreDraft`, `discardDraft`) are no-ops.
+ * `abortAutosave`, `saveDraft`, `getDraft`, `restoreDraft`, `discardDraft`)
+ * are no-ops.
  */
 export const noopAutosave: AutosaveModule = {
   makeAutosave: (options: MakeAutosaveOptions) => {

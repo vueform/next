@@ -142,50 +142,133 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     let pendingSave = false
 
     /**
-     * Performs the built-in autosave request to the given URL, firing
-     * `autosaveResponse` (when a response was received) and `autosaveFail` on
-     * `HttpError`. Returns the response, or `undefined` when the request
-     * failed.
+     * The in-flight built-in request's abort controller. A new save aborts the
+     * previous request first — on a slow connection, a stale response must not
+     * land (or fire events) after a newer save already reported.
+     */
+    let inFlight: AbortController | null = null
+
+    /**
+     * Marks a rejected-as-invalid-data save (422) for retry: under the
+     * validity gate the form turning valid is the retry signal, so the save is
+     * left pending (flushed on the next invalid→valid transition, unless a
+     * later save supersedes it). Every other failure says nothing about the
+     * data and is retried by the next trigger or interval tick instead; with
+     * `invalid: true`, validity never governs sending, so no failure is
+     * coupled to it.
+     */
+    const queueInvalidRetry = (status: number | null) => {
+      if (!config.value?.invalid && status === 422) {
+        pendingSave = true
+      }
+    }
+
+    /**
+     * Performs the built-in autosave request to the given URL, aborting the
+     * previous in-flight request first. Fires `autosaveResponse` (when a
+     * response was received) and `autosaveFail` on `HttpError` — except an
+     * aborted request, which settles silently. Returns the response, or
+     * `undefined` when the request failed.
      */
     const sendRequest = async (
       url: string
     ): Promise<HttpResponse | undefined> => {
+      inFlight?.abort()
+      const controller = (inFlight = new AbortController())
+
       try {
         return await $http.request({
           url,
           method: config.value?.method ?? 'POST',
           data: remoteData.value,
           headers: headers.value,
+          signal: controller.signal,
           requestType: json.value ? 'json' : 'form',
           base64: base64.value,
         })
       } catch (error: any) {
         if (error instanceof HttpError) {
-          // Under the validity gate, a 422 means the server rejected the data
-          // itself — the form turning valid is the retry signal, so the save
-          // is left pending (flushed on the next invalid→valid transition,
-          // unless a later save supersedes it). Every other failure says
-          // nothing about the data and is retried by the next trigger or
-          // interval tick instead; with `invalid: true`, validity never
-          // governs sending, so no failure is coupled to it.
-          if (!config.value?.invalid && error.status === 422) {
-            pendingSave = true
-          }
+          // An aborted save was superseded by a newer one (or abortAutosave()
+          // was called) — its outcome belongs to nobody, so no events fire.
+          if (error.reason === 'abort') return undefined
+
+          queueInvalidRetry(error.status || null)
 
           if (error.response) {
             fire('autosaveResponse', error.response, form$)
           }
 
-          fire('autosaveFail', error, form$)
+          fire(
+            'autosaveFail',
+            {
+              type: 'fail',
+              reason: error.status === 422 ? 'invalid' : error.reason,
+              status: error.status || null,
+              message: error.message,
+              data: error.response?.data ?? null,
+              response: error.response || null,
+              context$: form$,
+            },
+            form$
+          )
           return undefined
         }
         throw error
+      } finally {
+        if (inFlight === controller) inFlight = null
       }
     }
 
     /**
+     * Judges a save's response the way a submission's is judged: a 2xx status
+     * fires `autosaveResponse` + `autosaveSuccess`, any other fires
+     * `autosaveResponse` + `autosaveFail` — a 422 as reason `'invalid'`,
+     * joining the validity gate's retry queue. No response at all (a handler
+     * that returned nothing) settles silently.
+     */
+    const settle = (response: HttpResponse | undefined) => {
+      if (!response) return
+
+      fire('autosaveResponse', response, form$)
+
+      const status = response.status
+
+      if (typeof status === 'number' && (status < 200 || status >= 300)) {
+        queueInvalidRetry(status)
+
+        fire(
+          'autosaveFail',
+          {
+            type: 'fail',
+            reason: status === 422 ? 'invalid' : 'http',
+            status,
+            message: `Request failed with status ${status}`,
+            data: response.data ?? null,
+            response,
+            context$: form$,
+          },
+          form$
+        )
+
+        return
+      }
+
+      fire(
+        'autosaveSuccess',
+        {
+          type: 'success',
+          data: response.data,
+          status,
+          response,
+          context$: form$,
+        },
+        form$
+      )
+    }
+
+    /**
      * Performs a remote save, handling the pre-hook event, handler functions,
-     * and URL-based requests with the response/success/fail/autosaved events.
+     * and URL-based requests with the response/success/fail events.
      */
     const save = async () => {
       const target = config.value?.endpoint
@@ -241,12 +324,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
       if (failed) return
 
-      if (response) {
-        fire('autosaveResponse', response, form$)
-        fire('autosaveSuccess', response, form$)
-      }
-
-      fire('autosaved', response, form$)
+      settle(response)
     }
 
     /**
@@ -497,7 +575,8 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     /**
      * Restores the stored draft into the form, resolving whether a draft was
      * found and restored. Unlike the automatic restore on mount, a manual call
-     * fires no `restoreDraft` pre-hook — calling it _is_ the consent.
+     * fires no `restoreDraft` pre-hook — calling it _is_ the consent
+     * (`draftRestored` still fires).
      */
     const restoreDraft = async (): Promise<boolean> => {
       const data = await getDraft()
@@ -505,6 +584,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       if (data === undefined) return false
 
       load(data)
+      fire('draftRestored', data, form$)
 
       return true
     }
@@ -512,6 +592,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     /**
      * Restores a stored draft back into the form on mount, unless restoring is
      * disabled (`restore: false`) or a `restoreDraft` handler cancels it.
+     * Fires `draftRestored` once the draft is loaded.
      */
     const autoRestore = async () => {
       if (draftConfig.value?.restore === false) return
@@ -523,6 +604,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       if ((await fireAsync('restoreDraft', data, form$)) === false) return
 
       load(data)
+      fire('draftRestored', data, form$)
     }
 
     /**
@@ -540,12 +622,24 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     // ============== WIRING ================
 
     /**
-     * Removes all previously registered event handlers and clears the interval.
+     * Aborts the in-flight autosave request, if any. The aborted save settles
+     * silently — no fail event fires. Scheduled saves (a running debounce, the
+     * interval, a pending gated retry) are unaffected.
+     */
+    const abortAutosave = () => {
+      inFlight?.abort()
+      inFlight = null
+    }
+
+    /**
+     * Removes all previously registered event handlers, clears the interval,
+     * and aborts the in-flight request.
      */
     const cleanup = () => {
       registeredHandlers.forEach(({ event, handler }) => off(event, handler))
       registeredHandlers = []
       pendingSave = false
+      abortAutosave()
       cancelDraftSave?.()
       cancelDraftSave = undefined
 
@@ -713,6 +807,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     return {
       autosave,
+      abortAutosave,
       saveDraft,
       getDraft,
       restoreDraft,

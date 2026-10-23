@@ -206,7 +206,7 @@ describe('Draft saving', () => {
     vi.useRealTimers()
   })
 
-  it('should save on navigation events', async () => {
+  it('should save on navigation events when listed in on', async () => {
     const { store, storage } = mockStorage()
 
     const { form$ } = createForm({
@@ -214,7 +214,7 @@ describe('Draft saving', () => {
       schema: defineSchema({
         name: { type: 'text', default: 'John' },
       }),
-      draft: { storage },
+      draft: { storage, on: ['change', 'step'] },
     })
 
     await nextTick()
@@ -428,7 +428,7 @@ describe('Draft save triggers', () => {
     expect(JSON.parse(store['vueform:draft_form'])).toEqual({ name: 'Jane' })
   })
 
-  it('should not save on next or back by default, step covers navigation', async () => {
+  it('should not save on navigation events by default', async () => {
     const writes: string[] = []
     const { storage } = mockStorage()
     const countingStorage = {
@@ -449,15 +449,13 @@ describe('Draft save triggers', () => {
 
     await nextTick()
 
-    // `next`/`back` alone don't trigger — `step` fires on the same navigation
+    // the default is change-only — navigation triggers are opt-in
     fireNav(form$, 'next')
     fireNav(form$, 'back')
+    fireNav(form$, 'step')
+    fireNav(form$, 'tab')
     await flushPromises()
     expect(writes).toHaveLength(0)
-
-    fireNav(form$, 'step')
-    await flushPromises()
-    expect(writes).toHaveLength(1)
   })
 
   it('should not double save when on lists step alongside next or back', async () => {
@@ -730,6 +728,57 @@ describe('Draft restoring', () => {
     await nextTick()
 
     expect(name.value).toBe('Stored')
+  })
+
+  it('should fire draftRestored after the automatic restore', async () => {
+    const { storage } = mockStorage({
+      'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
+    })
+    const restoredHandler = vi.fn()
+
+    const { form$ } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+      draft: { storage },
+    })
+
+    form$.on('draftRestored', restoredHandler)
+    await flushPromises()
+
+    expect(restoredHandler).toHaveBeenCalledTimes(1)
+    expect(restoredHandler.mock.calls[0][0]).toEqual({ name: 'Stored' })
+    expect(restoredHandler.mock.calls[0][1]).toMatchObject({ uid: form$.uid })
+  })
+
+  it('should fire draftRestored after a manual restoreDraft', async () => {
+    const { storage } = mockStorage({
+      'vueform:draft_form': JSON.stringify({ name: 'Stored' }),
+    })
+    const restoredHandler = vi.fn()
+    const restoreHandler = vi.fn()
+
+    const { form$ } = createForm({
+      name: 'draft_form',
+      schema: defineSchema({
+        name: { type: 'text', default: 'John' },
+      }),
+      draft: { storage, restore: false },
+    })
+
+    form$.on('restoreDraft', restoreHandler)
+    form$.on('draftRestored', restoredHandler)
+    await flushPromises()
+
+    expect(restoredHandler).not.toHaveBeenCalled()
+
+    expect(await form$.restoreDraft()).toBe(true)
+
+    // the manual call skips the pre-hook but still reports the restore
+    expect(restoreHandler).not.toHaveBeenCalled()
+    expect(restoredHandler).toHaveBeenCalledTimes(1)
+    expect(restoredHandler.mock.calls[0][0]).toEqual({ name: 'Stored' })
   })
 
   it('should return false from restoreDraft when nothing is stored', async () => {

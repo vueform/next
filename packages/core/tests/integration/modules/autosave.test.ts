@@ -1124,7 +1124,14 @@ describe('Autosave pre-hook event', () => {
 
     expect(calls).toHaveLength(0)
     expect(autosaveSuccessHandler).toHaveBeenCalledTimes(1)
-    expect(autosaveSuccessHandler.mock.calls[0][0]).toBe(customResponse)
+    expect(autosaveSuccessHandler.mock.calls[0][0]).toMatchObject({
+      type: 'success',
+      status: 200,
+      data: { id: 42 },
+    })
+    expect(autosaveSuccessHandler.mock.calls[0][0].response).toBe(
+      customResponse
+    )
   })
 })
 
@@ -1252,7 +1259,14 @@ describe('Autosave function prop', () => {
     await flushPromises()
 
     expect(autosaveSuccessHandler).toHaveBeenCalledTimes(1)
-    expect(autosaveSuccessHandler.mock.calls[0][0]).toBe(customResponse)
+    expect(autosaveSuccessHandler.mock.calls[0][0]).toMatchObject({
+      type: 'success',
+      status: 201,
+      data: { id: 99 },
+    })
+    expect(autosaveSuccessHandler.mock.calls[0][0].response).toBe(
+      customResponse
+    )
   })
 
   it('should not fire autosaveSuccess when function returns void', async () => {
@@ -1379,7 +1393,14 @@ describe('Autosave fail event', () => {
     await flushPromises()
 
     expect(failHandler).toHaveBeenCalledTimes(1)
-    expect(failHandler.mock.calls[0][0]).toBe(error)
+    expect(failHandler.mock.calls[0][0]).toMatchObject({
+      type: 'fail',
+      reason: 'network',
+      status: null,
+      message: 'Network error',
+      data: null,
+      response: null,
+    })
     expect(failHandler.mock.calls[0][1]).toMatchObject({ uid: form$.uid })
   })
 
@@ -2237,7 +2258,7 @@ describe('Autosave string shorthand', () => {
 // RESPONSE + AUTOSAVED EVENTS
 // =============================================================================
 
-describe('Autosave response and autosaved events', () => {
+describe('Autosave response events', () => {
   beforeEach(() => {
     vi.useFakeTimers()
   })
@@ -2246,10 +2267,10 @@ describe('Autosave response and autosaved events', () => {
     vi.useRealTimers()
   })
 
-  it('should fire autosaveResponse and autosaved after a successful save', async () => {
+  it('should fire autosaveResponse and autosaveSuccess after a successful save', async () => {
     const { adapter } = mockAdapter({ data: { saved: true } })
     const responseHandler = vi.fn()
-    const autosavedHandler = vi.fn()
+    const successHandler = vi.fn()
 
     const { form$ } = createForm(
       {
@@ -2265,7 +2286,7 @@ describe('Autosave response and autosaved events', () => {
     )
 
     form$.on('autosaveResponse', responseHandler)
-    form$.on('autosaved', autosavedHandler)
+    form$.on('autosaveSuccess', successHandler)
     await nextTick()
 
     vi.advanceTimersByTime(5000)
@@ -2276,9 +2297,13 @@ describe('Autosave response and autosaved events', () => {
       data: { saved: true },
       status: 200,
     })
-    expect(autosavedHandler).toHaveBeenCalledTimes(1)
-    expect(autosavedHandler.mock.calls[0][0]).toMatchObject({ status: 200 })
-    expect(autosavedHandler.mock.calls[0][1]).toMatchObject({ uid: form$.uid })
+    expect(successHandler).toHaveBeenCalledTimes(1)
+    expect(successHandler.mock.calls[0][0]).toMatchObject({
+      type: 'success',
+      status: 200,
+      data: { saved: true },
+    })
+    expect(successHandler.mock.calls[0][1]).toMatchObject({ uid: form$.uid })
   })
 
   it('should fire autosaveResponse with the error response on failure', async () => {
@@ -2298,7 +2323,7 @@ describe('Autosave response and autosaved events', () => {
       )
     }
     const responseHandler = vi.fn()
-    const autosavedHandler = vi.fn()
+    const failHandler = vi.fn()
 
     const { form$ } = createForm(
       {
@@ -2314,7 +2339,7 @@ describe('Autosave response and autosaved events', () => {
     )
 
     form$.on('autosaveResponse', responseHandler)
-    form$.on('autosaved', autosavedHandler)
+    form$.on('autosaveFail', failHandler)
     await nextTick()
 
     vi.advanceTimersByTime(5000)
@@ -2322,8 +2347,101 @@ describe('Autosave response and autosaved events', () => {
 
     expect(responseHandler).toHaveBeenCalledTimes(1)
     expect(responseHandler.mock.calls[0][0]).toBe(errorResponse)
-    // a failed save never counts as autosaved
-    expect(autosavedHandler).not.toHaveBeenCalled()
+    expect(failHandler).toHaveBeenCalledTimes(1)
+    expect(failHandler.mock.calls[0][0]).toMatchObject({
+      type: 'fail',
+      reason: 'http',
+      status: 500,
+      data: { message: 'nope' },
+    })
+    expect(failHandler.mock.calls[0][0].response).toBe(errorResponse)
+  })
+
+  it('should fire autosaveFail when a returned response has a non-2xx status', async () => {
+    const successHandler = vi.fn()
+    const failHandler = vi.fn()
+    const errorResponse: HttpResponse = {
+      data: { message: 'nope' },
+      status: 500,
+      statusText: 'Server Error',
+      headers: {},
+      config: {} as any,
+    }
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: () => errorResponse,
+          interval: 5000,
+        },
+      },
+      {}
+    )
+
+    form$.on('autosaveSuccess', successHandler)
+    form$.on('autosaveFail', failHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
+
+    expect(successHandler).not.toHaveBeenCalled()
+    expect(failHandler).toHaveBeenCalledTimes(1)
+    expect(failHandler.mock.calls[0][0]).toMatchObject({
+      type: 'fail',
+      reason: 'http',
+      status: 500,
+      data: { message: 'nope' },
+    })
+    expect(failHandler.mock.calls[0][0].response).toBe(errorResponse)
+  })
+
+  it('should report a 422 failure with reason invalid', async () => {
+    const errorResponse: HttpResponse = {
+      data: { errors: { name: ['Required'] } },
+      status: 422,
+      statusText: 'Unprocessable Entity',
+      headers: {},
+      config: {} as any,
+    }
+    const failAdapter: HttpAdapter = async () => {
+      throw new HttpError(
+        'Validation failed',
+        { url: '/api/autosave' } as any,
+        'http',
+        errorResponse
+      )
+    }
+    const failHandler = vi.fn()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          interval: 5000,
+        },
+      },
+      { $http: { adapter: failAdapter } }
+    )
+
+    form$.on('autosaveFail', failHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
+
+    expect(failHandler).toHaveBeenCalledTimes(1)
+    expect(failHandler.mock.calls[0][0]).toMatchObject({
+      type: 'fail',
+      reason: 'invalid',
+      status: 422,
+    })
   })
 
   it('should not fire autosaveResponse when a failure carries no response', async () => {
@@ -2358,9 +2476,10 @@ describe('Autosave response and autosaved events', () => {
     expect(responseHandler).not.toHaveBeenCalled()
   })
 
-  it('should fire autosaved with undefined when a handler function returns void', async () => {
-    const autosavedHandler = vi.fn()
+  it('should settle silently when a handler function returns void', async () => {
+    const responseHandler = vi.fn()
     const successHandler = vi.fn()
+    const failHandler = vi.fn()
 
     const { form$ } = createForm(
       {
@@ -2375,20 +2494,23 @@ describe('Autosave response and autosaved events', () => {
       {}
     )
 
-    form$.on('autosaved', autosavedHandler)
+    form$.on('autosaveResponse', responseHandler)
     form$.on('autosaveSuccess', successHandler)
+    form$.on('autosaveFail', failHandler)
     await nextTick()
 
     vi.advanceTimersByTime(5000)
     await flushPromises()
 
-    expect(autosavedHandler).toHaveBeenCalledTimes(1)
-    expect(autosavedHandler.mock.calls[0][0]).toBeUndefined()
+    expect(responseHandler).not.toHaveBeenCalled()
     expect(successHandler).not.toHaveBeenCalled()
+    expect(failHandler).not.toHaveBeenCalled()
   })
 
-  it('should not fire autosaved when a handler function returns false', async () => {
-    const autosavedHandler = vi.fn()
+  it('should settle silently when a handler function returns false', async () => {
+    const responseHandler = vi.fn()
+    const successHandler = vi.fn()
+    const failHandler = vi.fn()
 
     const { form$ } = createForm(
       {
@@ -2403,13 +2525,140 @@ describe('Autosave response and autosaved events', () => {
       {}
     )
 
-    form$.on('autosaved', autosavedHandler)
+    form$.on('autosaveResponse', responseHandler)
+    form$.on('autosaveSuccess', successHandler)
+    form$.on('autosaveFail', failHandler)
     await nextTick()
 
     vi.advanceTimersByTime(5000)
     await flushPromises()
 
-    expect(autosavedHandler).not.toHaveBeenCalled()
+    expect(responseHandler).not.toHaveBeenCalled()
+    expect(successHandler).not.toHaveBeenCalled()
+    expect(failHandler).not.toHaveBeenCalled()
+  })
+})
+
+// =============================================================================
+// ABORT
+// =============================================================================
+
+describe('Autosave abort', () => {
+  beforeEach(() => {
+    vi.useFakeTimers()
+  })
+
+  afterEach(() => {
+    vi.useRealTimers()
+  })
+
+  /**
+   * An adapter whose requests resolve after `delay` ms unless their signal
+   * aborts first — then they reject with an abort HttpError, like the real
+   * fetch adapter.
+   */
+  const slowAdapter = (delay: number) => {
+    const calls: { aborted: boolean }[] = []
+
+    const adapter: HttpAdapter = (config) =>
+      new Promise((resolve, reject) => {
+        const call = { aborted: false }
+        calls.push(call)
+
+        config.signal?.addEventListener('abort', () => {
+          call.aborted = true
+          reject(new HttpError('Aborted', config, 'abort'))
+        })
+
+        setTimeout(() => {
+          resolve({
+            data: { saved: true },
+            status: 200,
+            statusText: 'OK',
+            headers: {},
+            config,
+          })
+        }, delay)
+      })
+
+    return { adapter, calls }
+  }
+
+  it('should abort the in-flight request when a new save starts', async () => {
+    const { adapter, calls } = slowAdapter(10000)
+    const successHandler = vi.fn()
+    const failHandler = vi.fn()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          interval: 5000,
+        },
+      },
+      { $http: { adapter } }
+    )
+
+    form$.on('autosaveSuccess', successHandler)
+    form$.on('autosaveFail', failHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000) // first save sent
+    await flushPromises()
+
+    vi.advanceTimersByTime(5000) // second save aborts the first
+    await flushPromises()
+
+    expect(calls).toHaveLength(2)
+    expect(calls[0].aborted).toBe(true)
+    expect(calls[1].aborted).toBe(false)
+
+    vi.advanceTimersByTime(10000) // second request resolves
+    await flushPromises()
+
+    expect(successHandler).toHaveBeenCalledTimes(1)
+    expect(failHandler).not.toHaveBeenCalled()
+  })
+
+  it('should abort the in-flight request silently via abortAutosave()', async () => {
+    const { adapter, calls } = slowAdapter(10000)
+    const responseHandler = vi.fn()
+    const successHandler = vi.fn()
+    const failHandler = vi.fn()
+
+    const { form$ } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          interval: 5000,
+        },
+      },
+      { $http: { adapter } }
+    )
+
+    form$.on('autosaveResponse', responseHandler)
+    form$.on('autosaveSuccess', successHandler)
+    form$.on('autosaveFail', failHandler)
+    await nextTick()
+
+    vi.advanceTimersByTime(5000) // save sent
+    await flushPromises()
+
+    expect(calls).toHaveLength(1)
+
+    form$.abortAutosave()
+    await flushPromises()
+
+    expect(calls[0].aborted).toBe(true)
+    expect(responseHandler).not.toHaveBeenCalled()
+    expect(successHandler).not.toHaveBeenCalled()
+    expect(failHandler).not.toHaveBeenCalled()
   })
 })
 
