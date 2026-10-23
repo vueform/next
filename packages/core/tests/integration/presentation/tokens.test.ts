@@ -225,5 +225,92 @@ describe('Tokens', () => {
         '--vf-elements-gutter-y:var(--vf-gutter)'
       )
     })
+
+    it('should not emit a dark block when the mode is pinned by the `dark` prop', () => {
+      const form = createForm2({
+        schema,
+        dark: true,
+        tokens: { inputColor: 'blue', dark: { inputColor: 'red' } },
+      })
+
+      const css = getTokenCss(form)
+
+      expect(css).toContain('--vf-input-color:red')
+      expect(css).not.toContain('@media')
+      expect(css).not.toContain('--vf-input-color:blue')
+    })
+  })
+
+  describe('dark mode without an explicit `dark` prop', () => {
+    it('should emit both variants and let the browser pick via a media query', () => {
+      const form = createForm2({
+        schema,
+        tokens: { inputColor: 'blue', dark: { inputColor: 'red' } },
+      })
+
+      const css = getTokenCss(form)
+
+      expect(css).toContain('--vf-input-color:blue')
+      expect(css).toContain('@media (prefers-color-scheme: dark)')
+      expect(css).toContain('--vf-input-color:red')
+    })
+
+    it('should scope the dark block under the configured selector', () => {
+      const form = createForm2(
+        {
+          schema,
+          tokens: { inputColor: 'blue', dark: { inputColor: 'red' } },
+        },
+        { darkMode: '.dark' }
+      )
+
+      const css = getTokenCss(form)
+
+      expect(css).toContain(':root.dark .vf-t-')
+      expect(css).toContain('--vf-input-color:red')
+      expect(css).not.toContain('@media')
+    })
+
+    it('should keep tokens identical in both modes out of the dark block', () => {
+      const form = createForm2({
+        schema,
+        tokens: { gutter: '120px', dark: { inputColor: 'red' } },
+      })
+
+      const css = getTokenCss(form)
+
+      expect(css.match(/--vf-gutter:120px/g)).toHaveLength(1)
+      expect(css).toContain('--vf-input-color:red')
+    })
+
+    it('should emit no dark block without dark differences', () => {
+      const form = createForm2({ schema, tokens: { gutter: '120px' } })
+
+      const css = getTokenCss(form)
+
+      expect(css).toContain('--vf-gutter:120px')
+      expect(css).not.toContain('@media')
+      expect(css).not.toContain(':root')
+    })
+
+    it('should reset a dependent to `inherit` when its dark definition lives on `:root`', () => {
+      const form = createForm2(
+        { schema, tokens: { gutter: '120px' } },
+        {
+          tokens: {
+            gutter: '1rem',
+            elementsGutterY: '$gutter',
+            dark: { elementsGutterY: '2rem' },
+          },
+        }
+      )
+
+      const css = getTokenCss(form)
+
+      // Light rule re-declares the dependent against the override; the dark
+      // block must hand it back to the global dark `:root` value.
+      expect(css).toContain('--vf-elements-gutter-y:var(--vf-gutter)')
+      expect(css).toContain('--vf-elements-gutter-y:inherit')
+    })
   })
 })

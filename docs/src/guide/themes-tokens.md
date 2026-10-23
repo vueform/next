@@ -241,8 +241,6 @@ createVueform({
 
 The selector is matched against `<html>` itself — the block becomes `:root.dark`, not a descendant rule — which fits the class-on-`html` convention of Tailwind and most theme switchers, and `'[data-theme="dark"]'` works the same way. The option reference lives at [`darkMode`](/guide/configuration#darkmode).
 
-One caveat applies to live switching. The global block is pure CSS and follows any selector, but scoped `tokens.dark` overrides switch through a JS watcher that observes only the `class` and `data-theme` attributes of `<html>` — a selector on any other attribute leaves scoped dark overrides stuck in one mode.
-
 Any `tokens` map — the config option, a theme, a `tokens` prop — takes a `dark` block of its own:
 
 ```ts
@@ -257,18 +255,6 @@ createVueform({
 ```
 
 How the light and dark values relate differs by level. Globally, a light override never reaches into dark mode — the theme's own `dark` block still wins there — so a token the theme also defines under `dark` (the gray scale, for instance) needs both overrides. On forms and elements it's the reverse — the light override stays in effect in dark mode too, and the `dark` block only layers on top.
-
-### Per-Form Dark Mode
-
-The `dark` prop on `!VfForm` forces a single form dark (`true`) or light (`false`) regardless of the environment — a dark sidebar form in a light app, or a side-by-side preview of both modes. It requires `build.scopedDarkMode`, which emits extra `.vf-dark` and `.vf-light` CSS blocks re-declaring every token (class names configurable via `build.darkClass` and `build.lightClass`):
-
-```ts
-createVueform({
-  build: { scopedDarkMode: true },
-})
-```
-
-With the blocks in place, `<VfForm dark>` renders dark anywhere, and the form's own `tokens.dark` follows the prop as well. The CSS cost and the full option table live at [`build`](/guide/configuration#build).
 
 ## Custom Tokens
 

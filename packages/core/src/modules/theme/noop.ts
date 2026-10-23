@@ -8,6 +8,7 @@ let warnedMissingModule = false
 
 // Never mutated — shared by every caller.
 const emptyTokens = computed<CSSProperties>(() => ({}))
+const emptyTokenCss = computed(() => '')
 
 function warnMissingModule(tokens: unknown) {
   const hasTokens = !!tokens && Object.keys(tokens).length > 0
@@ -33,5 +34,9 @@ export const noopTheme: ThemeModule = {
   makeTokens: (tokens) => {
     warnMissingModule(toValue(tokens))
     return emptyTokens
+  },
+  makeTokenCss: (tokens) => {
+    warnMissingModule(toValue(tokens))
+    return emptyTokenCss
   },
 }

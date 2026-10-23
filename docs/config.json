@@ -56,7 +56,8 @@
     "UC",
     "UCF",
     "PROP",
-    "SELF"
+    "SELF",
+    "getCSS"
   ],
   "coreComponents": [
     "VfCol",

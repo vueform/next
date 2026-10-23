@@ -39,4 +39,24 @@ export interface ThemeModule {
     tokens: MaybeRefOrGetter<Record<string, any>>,
     dark?: MaybeRefOrGetter<boolean | undefined>
   ) => ComputedRef<CSSProperties>
+
+  /**
+   * Creates the reactive scoped CSS text for a `tokens` prop: a base rule on
+   * `tokenClass` plus, when `dark` is `undefined`, a dark-mode block resolved
+   * by the browser — a `prefers-color-scheme` media query for
+   * `darkMode: 'system'`, a `:root<selector>`-prefixed rule otherwise. Because
+   * no JavaScript dark detection is involved, the text is identical on server
+   * and client, so per-instance dark tokens can't cause hydration mismatches.
+   *
+   * An explicit `dark` value pins the mode and emits a single rule.
+   *
+   * @param tokens The theme tokens object (or a getter/ref to one).
+   * @param dark Optional explicit dark-mode override for this component.
+   * @param tokenClass The instance's scoped token class the rules target.
+   */
+  makeTokenCss: (
+    tokens: MaybeRefOrGetter<Record<string, any>>,
+    dark: MaybeRefOrGetter<boolean | undefined>,
+    tokenClass: string
+  ) => ComputedRef<string>
 }

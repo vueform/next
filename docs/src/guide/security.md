@@ -10,7 +10,7 @@ These guarantees cover the client. Validation, file checks, and authorization st
 
 ## The Security Module
 
-Every protection in this chapter is one module, `security`, configured through the `$security` config key. Pre-configured entries like `@vueform/ui/origin` register it out of the box; in a [modular setup](/guide/modules) you register it yourself:
+Every protection in this chapter is one module, `security`, configured through the `$security` config key. Pre-configured entries like `@vueform/ui/origin` register it out of the box; in a [modular setup](/guide/code-splitting#modular-setup) you register it yourself:
 
 ```ts
 import { createVueform } from '@vueform/ui'
@@ -28,7 +28,7 @@ The full `$security` option reference lives in [configuration](/guide/configurat
 
 Leaving the module out is the deliberate, wholesale opt-out. HTML renders unsanitized in every area, any registered component name resolves, requests are unrestricted, URLs and CSS values pass unchecked, and persisted values are stored as-is. Prototype-key guards apply even then — they are invariants, not policy — and slot HTML goes in with the platform's `innerHTML` semantics, so a `<script>` element stays inert regardless.
 
-Configuring `$security` policy without the module is a misconfiguration, not an opt-out. Development warns at `createVueform()` and stays permissive so the app remains workable; production **fails closed** — HTML escapes, component names stop resolving, requests are blocked, schema prop bags come back empty, and the ciphers throw so nothing persists in plaintext. A misconfigured app can never ship looking enforced while it isn't. (`allowOrigins: ['*']` doesn't count as policy — permissive is exactly what it configures.)
+Configuring `$security` policy without the module is a misconfiguration, not an opt-out. Development warns at `createVueform()` and stays permissive so the app remains workable; production **fails closed** — HTML escapes, component names stop resolving, requests are blocked, schema prop bags come back empty, and the ciphers throw so nothing persists in plaintext. A misconfigured app can never ship looking enforced while it isn't. The one exception is `allowOrigins: ['*']` — it asks for no restriction at all, so on its own it doesn't signal intended protections and doesn't trigger the fail-closed regime.
 
 ## HTML Sanitization
 

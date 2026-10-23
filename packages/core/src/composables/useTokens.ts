@@ -1,4 +1,4 @@
-import { computed, toRef, useId, type MaybeRefOrGetter } from 'vue'
+import { toRef, useId, type MaybeRefOrGetter } from 'vue'
 
 import { getThemeModule } from '#src/modules/theme'
 
@@ -20,7 +20,7 @@ export function useTokens(
   dark?: MaybeRefOrGetter<boolean | undefined>
 ) {
   const config = useConfig()
-  const { makeTokens } = getThemeModule()
+  const { makeTokens, makeTokenCss } = getThemeModule()
 
   /**
    * Reactive inline style object with resolved theme token CSS custom
@@ -40,13 +40,11 @@ export function useTokens(
   const tokenClass = `vf-t-${useId().replace(/:/g, '-')}`
 
   /**
-   * The CSS text for scoped token custom properties on this component instance.
+   * The CSS text for scoped token custom properties on this component
+   * instance — a base rule plus a browser-resolved dark-mode block, so the
+   * text is identical between server and client renders.
    */
-  const tokenCss = computed(() => {
-    const entries = Object.entries(tokens.value)
-    if (!entries.length) return ''
-    return `.${tokenClass}{${entries.map(([k, v]) => `${k}:${v}`).join(';')}}`
-  })
+  const tokenCss = makeTokenCss(source, dark, tokenClass)
 
   return {
     tokens,

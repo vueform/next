@@ -149,7 +149,7 @@ How dark mode is detected — the OS preference, or a selector matched against `
 
 `styleId` is the `id` of the injected `<style>` tag and of `getStyleTag()`'s output. On the client an existing tag with that id is reused, so two instances on one page need distinct ids — development warns when the contents differ. See [SSR](/guide/ssr#style-injection) for where the tag ends up in server-rendered apps.
 
-`scopedDarkMode` additionally emits `darkClass` / `lightClass` blocks that re-declare every root token, which is what makes the form-level `dark` prop work.
+`scopedDarkMode` additionally emits `darkClass` / `lightClass` blocks that re-declare every root token, pinning any subtree wrapped in one of those classes to that mode.
 
 ### `nonce`
 
@@ -163,7 +163,7 @@ A CSP nonce applied to every `<style>` tag Vueform injects and to `getStyleTag()
 - Type: `boolean`
 - Default: `true`
 
-When the app provides `@unhead/vue`, the generated stylesheet goes through it. Otherwise — or with `false` — a `<style>` tag is injected into `<head>` directly. See [SSR](/guide/ssr#style-injection).
+When the app provides [`@unhead/vue`](https://unhead.unjs.io/docs/vue/head/guides/get-started/installation), the generated stylesheet goes through it. Otherwise — or with `false` — a `<style>` tag is injected into `<head>` directly. See [SSR](/guide/ssr#style-injection).
 
 ## Classes
 

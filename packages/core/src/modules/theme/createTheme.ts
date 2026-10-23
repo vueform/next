@@ -451,6 +451,67 @@ export function createTheme(vueform: VueformInstance): ThemeModule {
     }
   }
 
+  /**
+   * Resolves a `tokens` prop into a flat map of `--vf-*` declarations for one
+   * mode: base entries, `dark` overrides merged in when `dark` is true, and
+   * dependents of overridden tokens re-declared against that mode's graph.
+   */
+  const resolveTokenStyle = (
+    raw: Record<string, any> | undefined | null,
+    dark: boolean
+  ): Record<string, string> => {
+    const style: Record<string, string> = {}
+
+    if (!raw) return style
+
+    // Token maps are schema-reachable and their declarations are
+    // interpolated into rendered `<style>` text — refuse keys/values that
+    // could break out of the scoped rule.
+    const assign = (key: string, value: string) => {
+      const normalized = normalizeThemeKey(key)
+
+      if (
+        !isSafeThemeKey(normalized) ||
+        getSecurityModule(vueform).sanitizeCss(value) === undefined
+      ) {
+        if (isDev()) {
+          warn(
+            `token \`${key}\` was dropped — token keys must normalize to plain \`--vf-*\` names and values must not contain \`{\` or \`}\`.`
+          )
+        }
+        return
+      }
+
+      style[normalized] = value
+    }
+
+    for (const [key, value] of Object.entries(raw)) {
+      if (key === 'dark' || key === 'css') continue
+
+      if (typeof value === 'number') {
+        assign(key, String(value))
+      } else if (typeof value === 'string') {
+        assign(key, resolveValue(value))
+      }
+    }
+
+    if (dark && raw.dark && typeof raw.dark === 'object') {
+      for (const [key, value] of Object.entries(raw.dark)) {
+        if (typeof value === 'number') {
+          assign(key, String(value))
+        } else if (typeof value === 'string') {
+          assign(key, resolveValue(value))
+        }
+      }
+    }
+
+    if (Object.keys(style).length) {
+      emitDependents(style, dark)
+    }
+
+    return style
+  }
+
   const makeTokens = (
     tokens: MaybeRefOrGetter<Record<string, any>>,
     dark?: MaybeRefOrGetter<boolean | undefined>
@@ -460,62 +521,75 @@ export function createTheme(vueform: VueformInstance): ThemeModule {
       return explicit !== undefined ? explicit : globalIsDark.value
     }) as ComputedRef<boolean>
 
-    return computed<CSSProperties>(() => {
-      const raw = toValue(tokens)
-      const style: Record<string, string> = {}
-
-      if (!raw) return style
-
-      // Token maps are schema-reachable and their declarations are
-      // interpolated into rendered `<style>` text — refuse keys/values that
-      // could break out of the scoped rule.
-      const assign = (key: string, value: string) => {
-        const normalized = normalizeThemeKey(key)
-
-        if (
-          !isSafeThemeKey(normalized) ||
-          getSecurityModule(vueform).sanitizeCss(value) === undefined
-        ) {
-          if (isDev()) {
-            warn(
-              `token \`${key}\` was dropped — token keys must normalize to plain \`--vf-*\` names and values must not contain \`{\` or \`}\`.`
-            )
-          }
-          return
-        }
-
-        style[normalized] = value
-      }
-
-      for (const [key, value] of Object.entries(raw)) {
-        if (key === 'dark' || key === 'css') continue
-
-        if (typeof value === 'number') {
-          assign(key, String(value))
-        } else if (typeof value === 'string') {
-          assign(key, resolveValue(value))
-        }
-      }
-
-      if (isDark.value && raw.dark && typeof raw.dark === 'object') {
-        for (const [key, value] of Object.entries(raw.dark)) {
-          if (typeof value === 'number') {
-            assign(key, String(value))
-          } else if (typeof value === 'string') {
-            assign(key, resolveValue(value))
-          }
-        }
-      }
-
-      if (Object.keys(style).length) {
-        emitDependents(style, isDark.value)
-      }
-
-      return style
-    })
+    return computed<CSSProperties>(() =>
+      resolveTokenStyle(toValue(tokens), isDark.value)
+    )
   }
+
+  const formatRule = (decls: Record<string, string>): string =>
+    Object.entries(decls)
+      .map(([k, v]) => `${k}:${v}`)
+      .join(';')
+
+  const makeTokenCss = (
+    tokens: MaybeRefOrGetter<Record<string, any>>,
+    dark: MaybeRefOrGetter<boolean | undefined>,
+    tokenClass: string
+  ): ComputedRef<string> =>
+    computed(() => {
+      const raw = toValue(tokens)
+      const explicit = toValue(dark)
+
+      // An explicit `dark` prop pins the mode, so one resolved set suffices.
+      if (explicit !== undefined) {
+        const body = formatRule(resolveTokenStyle(raw, explicit))
+        return body ? `.${tokenClass}{${body}}` : ''
+      }
+
+      // Without an explicit mode, both variants are emitted and the browser
+      // picks — never `globalIsDark`, which is `false` on the server, so the
+      // CSS text stays identical between server and client renders.
+      const light = resolveTokenStyle(raw, false)
+      const darkStyle = resolveTokenStyle(raw, true)
+
+      // The dark block carries only what differs from the base rule. A key the
+      // base rule declares but the dark set doesn't (a dependent whose dark
+      // definition is a concrete value on `:root`) is reset to `inherit`, so
+      // the scoped light `var()` can't shadow the global dark value.
+      const darkDiff: Record<string, string> = {}
+
+      for (const [key, value] of Object.entries(darkStyle)) {
+        if (light[key] !== value) darkDiff[key] = value
+      }
+      for (const key of Object.keys(light)) {
+        if (!(key in darkStyle)) darkDiff[key] = 'inherit'
+      }
+
+      const parts: string[] = []
+
+      const base = formatRule(light)
+      if (base) parts.push(`.${tokenClass}{${base}}`)
+
+      const darkBody = formatRule(darkDiff)
+      if (darkBody) {
+        const rule = `.${tokenClass}{${darkBody}}`
+        // Mirror the global theme CSS: `'system'` resolves in a media query,
+        // a subselector under `:root<selector>`. The media-query rule wins
+        // over the base rule by source order, the selector rule by
+        // specificity. Scoped `.vf-dark` / `.vf-light` wrapper classes are
+        // not reflected here — the JS resolution never saw them either.
+        parts.push(
+          config.darkMode === undefined || config.darkMode === 'system'
+            ? `@media (prefers-color-scheme: dark){${rule}}`
+            : `:root${config.darkMode} ${rule}`
+        )
+      }
+
+      return parts.join('\n')
+    })
 
   return {
     makeTokens,
+    makeTokenCss,
   }
 }
