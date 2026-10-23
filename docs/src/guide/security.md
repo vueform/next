@@ -259,8 +259,8 @@ The default icon tokens are static `data:image/svg+xml` URLs shipped with the pa
 ```ts
 createVueform({
   tokens: {
-    iconAdd: 'url("/icons/add.svg")',
-    iconRemove: 'url("/icons/remove.svg")',
+    iconAdd: 'url("/icons/icon-add.svg")',
+    iconRemove: 'url("/icons/icon-remove.svg")',
   },
 })
 ```

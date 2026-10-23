@@ -28,6 +28,7 @@
     "@vue/tsconfig": "catalog:",
     "@vueform/tsconfig": "workspace:*",
     "@vueform/utils": "workspace:*",
+    "fflate": "catalog:",
     "tsx": "catalog:"
   }
 }
