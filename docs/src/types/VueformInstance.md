@@ -37,6 +37,12 @@ interface VueformInstance {
   readonly $http: HttpInstance
 
   /**
+   * `useDate` bound to this instance — parses values through this instance's
+   * date adapter, for code outside components.
+   */
+  readonly $date: (value?: any, format?: string) => DateInstance
+
+  /**
    * `useModel` bound to this instance — for code with no component context.
    */
   readonly useModel: typeof useModel
