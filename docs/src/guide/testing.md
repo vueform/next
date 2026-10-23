@@ -1,286 +1,173 @@
+---
+outline: [2,3]
+---
+
 # Testing
 
-A Vueform form is a Vue component, so the established Vue testing stack applies — there's no Vueform-specific framework to learn. This chapter shows the patterns that work best in practice: mounting a form with the Vueform plugin installed, driving it through its public context, and asserting on the data, the validation state, and the submission result.
+A form's data layer — values, rules, conditions, payload, submission — runs without a component, so most form logic is testable with no DOM and no mount. Mounting is for what only the rendered form does — inputs, error display, focus, button actions. There is no Vueform-specific test framework to learn; any runner that can drive a Vue component works, and the examples here use [Vitest](https://vitest.dev/) with [Vue Test Utils](https://test-utils.vuejs.org/).
 
-The examples use [Vitest](https://vitest.dev/) and [Vue Test Utils](https://test-utils.vuejs.org/), which is the recommended combination. The same patterns transfer to Jest or any other test runner that can drive a Vue component.
+## Testing Without a Component
 
-## Setup
-
-Install the test runner, the Vue testing utility, and a DOM environment:
-
-::: code-group
-
-```bash [npm]
-npm install -D vitest @vue/test-utils @vitejs/plugin-vue happy-dom
-```
-
-```bash [pnpm]
-pnpm add -D vitest @vue/test-utils @vitejs/plugin-vue happy-dom
-```
-
-:::
-
-Point Vitest at `happy-dom` (or `jsdom`) so Vueform's render output has a DOM to mount into:
+`!useModel` depends on a setup context, which a test file doesn't have — so create a Vueform instance with `createVueform()` and build the model from the instance instead, no app and no mount required (see [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context) for why this route exists):
 
 ```ts
-// vitest.config.ts
-import { defineConfig } from 'vitest/config'
-import vue from '@vitejs/plugin-vue'
+import { createVueform } from '@vueform/ui/origin'
 
-export default defineConfig({
-  plugins: [vue()],
-  test: {
-    environment: 'happy-dom',
-    globals: true,
-  },
+const vueform = createVueform()
+
+const schema = {
+  name: { type: 'text' },
+  email: { type: 'text', rules: 'required|email' },
+}
+
+test('accepts the data once the email is fixed', async () => {
+  const model = vueform.useModel({ schema }, { email: 'not-an-email' })
+
+  expect(await model.validate()).toBe(false)
+  expect(model.errors.email).toHaveLength(1)
+
+  model.set('email', 'jane@example.com')
+
+  expect(await model.validate()).toBe(true)
+  expect(model.payload).toEqual({ name: null, email: 'jane@example.com' })
 })
 ```
+
+Everything validation, conditions, and payload projection do applies at this tier — [Validation Without a Form](/guide/validation#validation-without-a-form) covers the validation side, and the members are the [Model API](/guide/model#the-model-api).
+
+Submission is headless-testable too. Give the model an `endpoint` and `model.submit()` runs the real submission engine against the instance's HTTP layer, so the adapter stub from [Stubbing the HTTP Adapter](#stubbing-the-http-adapter) plugs into `createVueform()` here the same way.
 
 ## Mounting a Form
 
-The simplest way to render a Vueform form in a test is to mount `!VfForm` directly with the schema as a prop and install `createVueform` as a global plugin:
+Mounting needs a DOM environment in the test runner — point Vitest's `environment` at `happy-dom` or `jsdom`. The form itself mounts like any Vue component, with `createVueform()` installed as a global plugin to register the components, rules, modules, theme, and locale. A small helper keeps that to one line per test:
 
 ```ts
 import { mount } from '@vue/test-utils'
 import { createVueform } from '@vueform/ui/origin'
 import { VfForm } from '@vueform/ui/components'
-import { defineSchema } from '@vueform/ui'
-
-const schema = defineSchema({
-  name: { type: 'text' },
-  email: { type: 'text', rules: ['required', 'email'] },
-  save: { type: 'button', text: 'Save', action: 'submit' },
-})
-
-const wrapper = mount(VfForm, {
-  props: { schema },
-  global: {
-    plugins: [createVueform()],
-  },
-})
-
-const form$ = wrapper.vm
-```
-
-`wrapper.vm` is the form's [Context](/guide/context) — the same object you'd get from a `ref` in application code. Every assertion in the rest of this chapter is made through it.
-
-For repeated use, wrap this in a helper:
-
-```ts
-import { mount } from '@vue/test-utils'
-import { createVueform } from '@vueform/ui/origin'
-import { VfForm } from '@vueform/ui/components'
-import type { FormSchema } from '@vueform/ui'
+import type { FormSchema, UserConfig } from '@vueform/ui'
 
 export function mountForm(
   schema: FormSchema,
-  model?: Record<string, any>,
-  props?: Record<string, any>
+  props: Record<string, any> = {},
+  config: UserConfig = {}
 ) {
   const wrapper = mount(VfForm, {
-    props: { schema, modelValue: model, ...props },
-    global: {
-      plugins: [createVueform()],
-    },
+    props: { schema, ...props },
+    global: { plugins: [createVueform(config)] },
   })
 
   return { wrapper, form$: wrapper.vm }
 }
 ```
 
-## Asserting on the Model
+`wrapper.vm` is the form's [context](/guide/context#form-context) — every member the context carries is on it. Initial values go in through the `modelValue` prop, where a plain object seeds the form and a `!useModel` instance attaches, like [any other model shape](/guide/model#other-model-shapes). The `config` argument exists because several sections below pass test-specific options — an HTTP stub, `nativeEmit`, `lazy`.
 
-The form's current values live on `form$.model`. Read it directly, and use `form$.find()` to drive individual elements:
+That last one matters for DOM assertions. With the global [`lazy`](/guide/configuration#lazy) option on (the default), elements in inactive steps or tabs defer rendering their DOM until the browser goes idle — and where `requestIdleCallback` is missing, as in most DOM shims, idle means a 300 ms timeout. Visible elements render at mount, so most tests never notice; tests asserting on inactive pages should pass `lazy: false` in the test config.
+
+## Asserting Through the Context
+
+The context is the fastest assertion surface — read `form$.data`, write through element contexts, and check validation state without touching the DOM:
 
 ```ts
-test('updates the model when an element changes', async () => {
-  const { form$ } = mountForm(schema, { name: 'John' })
+const schema = {
+  name: { type: 'text' },
+  email: { type: 'text', rules: 'required|email' },
+}
 
-  expect(form$.model.name).toBe('John')
+test('reports the broken email', async () => {
+  const { form$ } = mountForm(schema, { modelValue: { email: 'broken' } })
 
   form$.find('name').update('Jane')
+  expect(form$.data.name).toBe('Jane')
 
-  expect(form$.model.name).toBe('Jane')
+  await form$.validate()
+
+  expect(form$.invalid).toBe(true)
+  expect(form$.errors.email).toHaveLength(1) // form errors, keyed by path
+  expect(form$.find('email').errors).toHaveLength(1) // the element's own string[]
 })
 ```
 
-For DOM-driven changes, dispatch an input event and let Vueform's two-way binding do the rest:
+`validate({ force: true })`, the skip-if-already-passing behavior, and the `busy` flag for async rules are covered in [Driving Validation from Code](/guide/validation#driving-validation-from-code).
+
+## Asserting Through the DOM
+
+For what the user actually sees, drive the form through Vue Test Utils' DOM helpers. `setValue()` on an input updates the model through the element's own binding, and clicking a submit button runs the same `submit()` lifecycle as calling it. One timing rule applies — the context updates synchronously, but the DOM updates on Vue's next flush, so await `nextTick()` (or `flushPromises()`) before reading rendered output:
 
 ```ts
-test('updates the model when the user types', async () => {
+import { nextTick } from 'vue'
+
+test('renders the error message', async () => {
   const { wrapper, form$ } = mountForm(schema)
 
-  const input = wrapper.find('input[name="name"]')
-  await input.setValue('Jane')
+  await wrapper.find('input[name="email"]').setValue('broken')
 
-  expect(form$.model.name).toBe('Jane')
+  await form$.validate()
+  await nextTick()
+
+  expect(wrapper.find('.vf-error').exists()).toBe(true)
 })
 ```
 
-## Asserting on Validation
-
-`form$.validate()` validates every element and resolves with `true` when everything passed. Afterwards `form$.invalid` reflects the final state, and `form$.errors` holds the error messages keyed by element path:
+Selectors like `.vf-error` come from the theme's [class map](/guide/classes), so they couple the test to the theme. The robust alternative is a stable `data-testid` set through a [part](/guide/parts):
 
 ```ts
-test('reports the email rule when the value is invalid', async () => {
-  const { form$ } = mountForm(schema, { email: 'not-an-email' })
+const schema = {
+  email: { type: 'text', parts: { input: { 'data-testid': 'email-input' } } },
+}
 
-  const valid = await form$.validate()
-
-  expect(valid).toBe(false)
-  expect(form$.invalid).toBe(true)
-  expect(form$.errors.email[0]).toContain('valid email address')
-})
+wrapper.find('[data-testid="email-input"]')
 ```
 
-Per-element checks work the same way through the element context, where `errors` is a plain array of the element's own messages:
-
-```ts
-test('exposes errors on the element context', async () => {
-  const { form$ } = mountForm(schema, { email: '' })
-  const email$ = form$.find('email')
-
-  await email$.validate()
-
-  expect(email$.invalid).toBe(true)
-  expect(email$.errors[0]).toMatch(/required/i)
-})
-```
-
-Elements that already validated without errors against their current value are skipped on subsequent `validate()` calls. Pass `validate({ force: true })` to re-run everything regardless — useful for rules whose outcome can change without the value changing, like async server checks.
-
-When using async rules, `form$.busy` is `true` while any element is debouncing or awaiting an async check — await `validate()` and that flag resolves to `false` again before your assertion runs.
+To apply test IDs app-wide instead of per element, set the part through [defaults](/guide/defaults) or presets. Element `id` attributes come from Vue's `useId()` by default and are stable per mount order; snapshot tests that need a fixed scheme can swap the generator via the [`uid`](/guide/configuration#uid) option.
 
 ## Asserting on Submission
 
-`form$.submit()` runs the full submission lifecycle and resolves with a discriminated [`SubmitResult`](/guide/submit#submit-result). Branch on `result.type` to assert the outcome.
-
-A failed client-side validation short-circuits before any request is made, so testing the `invalid` branch needs no endpoint and no network mocking:
+`form$.submit()` resolves with a `SubmitResult` — branch on its `type`, and see [the result](/guide/submit#the-result) for the four shapes. A client-side validation failure short-circuits before any request, so the `invalid` branch needs no endpoint and no stub:
 
 ```ts
-test('short-circuits with an invalid result when validation fails', async () => {
-  const { form$ } = mountForm(schema, { email: 'broken' })
+test('never reaches the network when invalid', async () => {
+  const { form$ } = mountForm(schema, { modelValue: { email: 'broken' } })
 
   const result = await form$.submit()
 
-  expect(result?.type).toBe('invalid')
-
-  if (result?.type === 'invalid') {
-    expect(result.errors.email).toBeDefined()
-  }
+  expect(result).toMatchObject({ type: 'invalid', source: 'client' })
 })
 ```
 
-A `success` result only exists when a request was actually made — through the `endpoint` prop or a `@submit` handler returning a response. A valid form with no endpoint configured resolves with `undefined` after validating. So the success-path test gives the form an endpoint and swaps the HTTP adapter for a stub (covered in depth [below](#mocking-http)):
+A valid form without an `endpoint` resolves with `undefined` — there is nothing to send to — so a success-path test needs an endpoint plus a stubbed transport.
+
+### Stubbing the HTTP Adapter
+
+Replace `$http.adapter` in the test's `createVueform()` config. Only the transport is swapped — defaults, interceptors, origin policy, and error classification still run, exactly as [Switching the Adapter](/guide/http#switching-the-adapter) describes. A `vi.fn()` adapter doubles as a spy on what was sent:
 
 ```ts
-import type { HttpAdapter } from '@vueform/ui'
+import type { HttpRequestConfig, HttpResponse } from '@vueform/ui'
 
-const mockAdapter: HttpAdapter = async (config) => ({
-  data: { ok: true },
-  status: 200,
-  statusText: 'OK',
-  headers: {},
-  config,
-})
-
-test('submits the form when the data is valid', async () => {
-  const wrapper = mount(VfForm, {
-    props: {
-      schema,
-      modelValue: { name: 'Jane', email: 'jane@example.com' },
-      endpoint: '/api/subscribe',
-    },
-    global: {
-      plugins: [createVueform({ $http: { adapter: mockAdapter } })],
-    },
+const adapter = vi.fn(
+  async (config: HttpRequestConfig): Promise<HttpResponse> => ({
+    data: { ok: true },
+    status: 200,
+    statusText: 'OK',
+    headers: {},
+    config,
   })
-
-  const result = await wrapper.vm.submit()
-
-  expect(result?.type).toBe('success')
-  expect(result?.data).toEqual({ ok: true })
-})
-```
-
-The submit button can be exercised through the DOM too — find it and trigger a click. The form runs the same lifecycle either way, so assertions on `form$.submitting`, `form$.invalid`, or the resolved data are identical.
-
-## Mocking `$http`
-
-When a test should not hit the network — for example a form whose submission posts to an API, or a [`VfSelect`](/components/VfSelect) that loads options — replace the **adapter** via the `$http` config. The adapter is the low-level function that performs the actual fetch; all higher-level methods (`get`, `post`, etc.), interceptors, and error classification remain intact:
-
-```ts
-import { mount } from '@vue/test-utils'
-import { createVueform } from '@vueform/ui/origin'
-import { VfForm } from '@vueform/ui/components'
-import type { HttpAdapter } from '@vueform/ui'
-
-const mockAdapter: HttpAdapter = async (config) => ({
-  data: {},
-  status: 200,
-  statusText: 'OK',
-  headers: {},
-  config,
-})
-
-function mountWithMockHttp(schema, model) {
-  return mount(VfForm, {
-    props: { schema, modelValue: model },
-    global: {
-      plugins: [
-        createVueform({
-          $http: { adapter: mockAdapter },
-        }),
-      ],
-    },
-  })
-}
-```
-
-You can vary the response based on `config.url` or `config.method`:
-
-```ts
-const mockAdapter: HttpAdapter = async (config) => ({
-  data: config.url === '/users' ? [{ id: 1, name: 'Jane' }] : {},
-  status: 200,
-  statusText: 'OK',
-  headers: {},
-  config,
-})
-```
-
-### Spying on Requests
-
-Wrap the adapter in `vi.fn()` to also assert on _what_ was sent. The adapter receives the final, fully merged `HttpRequestConfig` — URL, method, payload, headers — so a single spy verifies the whole request pipeline:
-
-```ts
-import type { HttpResponse } from '@vueform/ui'
+)
 
 test('posts the payload to the endpoint', async () => {
-  const adapter = vi.fn(
-    async (config): Promise<HttpResponse> => ({
-      data: { ok: true },
-      status: 200,
-      statusText: 'OK',
-      headers: {},
-      config,
-    })
-  )
-
-  const wrapper = mount(VfForm, {
-    props: {
-      schema,
+  const { form$ } = mountForm(
+    schema,
+    {
       modelValue: { name: 'Jane', email: 'jane@example.com' },
       endpoint: '/api/subscribe',
     },
-    global: {
-      plugins: [createVueform({ $http: { adapter } })],
-    },
-  })
+    { $http: { adapter } }
+  )
 
-  await wrapper.vm.submit()
+  const result = await form$.submit()
 
-  expect(adapter).toHaveBeenCalledTimes(1)
+  expect(result?.type).toBe('success')
   expect(adapter).toHaveBeenCalledWith(
     expect.objectContaining({
       url: '/api/subscribe',
@@ -291,25 +178,46 @@ test('posts the payload to the endpoint', async () => {
 })
 ```
 
-To simulate failures, throw an `HttpError` from the adapter — that's what the built-in `fetchHttpAdapter` does on non-`2xx` statuses, and the form classifies it into an `invalid` (`422`) or `fail` result exactly as in production. A response the adapter _returns_ always counts as success, whatever its status code. See [HTTP](/guide/http#switching-the-adapter) for the full adapter contract and [`$http`](/guide/configuration#http) for the other options you can set alongside it.
+The `data` the adapter receives is the plain payload object, alongside `requestType: 'form'` (`'json'` with the `json` prop) — encoding it into `FormData` is the real adapter's job, so a stub asserts on plain objects.
 
-## DOM Assertions
+To simulate the other outcomes, mirror what the built-in adapter does:
 
-For tests that should verify what the user actually sees — visible labels, rendered error messages, the state of a button — use Vue Test Utils' DOM helpers against the same wrapper:
+| To get | Make the stub |
+| --- | --- |
+| `fail` with reason `'http'` | Return a response with a non-`2xx` status. |
+| `invalid` with source `'server'` | Throw `new HttpError(message, config, 'http', response)` where `response.status` is `422`. |
+| `fail` with another reason | Throw an `HttpError` with that `reason` — `'network'`, `'timeout'`, and the rest. |
+
+One policy survives the stub. The [origin check](/guide/security#request-origins) runs before any adapter, so relative endpoint URLs always pass but an absolute one must be allowed via `$security.allowOrigins` in the test config, or the attempt fails with reason `'blocked'` without the stub ever being called.
+
+## Asserting on Events
+
+By default Vueform calls `on*` listeners directly instead of going through Vue's `emit()`, so `wrapper.emitted()` records none of Vueform's events. Assert with spies instead — pass any `on*` handler as a mount prop, or subscribe with `form$.on()` as [Subscribing from Code](/guide/event-handlers#subscribing-from-code) describes:
 
 ```ts
-test('renders the email error message in the DOM', async () => {
-  const { wrapper, form$ } = mountForm(schema, { email: '' })
+test('fires success', async () => {
+  const onSuccess = vi.fn()
 
-  await form$.validate()
+  const { form$ } = mountForm(
+    schema,
+    {
+      modelValue: { email: 'jane@example.com' },
+      endpoint: '/api/subscribe',
+      onSuccess,
+    },
+    { $http: { adapter } } // the stub from above
+  )
 
-  const errors = wrapper.findAll('.vf-error')
-  expect(errors.some((e) => /required/i.test(e.text()))).toBe(true)
+  await form$.submit()
+
+  expect(onSuccess).toHaveBeenCalledWith(
+    expect.objectContaining({ type: 'success' })
+  )
 })
 ```
 
-The class names used in `find` / `findAll` selectors come from the resolved [class map](/guide/classes#class-keys). Targeting class names couples the test to the theme — if that matters, add a stable `data-testid` attribute through the [`parts`](/guide/parts) prop (e.g. `parts: { input: { 'data-testid': 'email-input' } }`), app-wide via [defaults](/guide/defaults), and select on that instead.
+Setting `nativeEmit: true` in the test config makes `wrapper.emitted()` work, with the trade-offs described in [Falling Back to Native Vue Emits](/guide/event-handlers#falling-back-to-native-vue-emits) — and a test config that diverges from the app's is no longer testing the app's behavior.
 
-## End-to-End Testing
+## End-to-End Tests
 
-End-to-end tools like [Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/) need no special Vueform integration. Once your app is running, a Vueform form is just rendered DOM — selectors, input events, network mocks, and screenshot assertions all behave like they do against any Vue UI. The unit-test patterns above (asserting on the model after typing, waiting for validation, inspecting submission outcomes) translate directly into E2E flows.
+[Playwright](https://playwright.dev/) and [Cypress](https://www.cypress.io/) need no Vueform integration — a running Vueform form is plain DOM, driven and asserted like any other page. The `data-testid` parts approach from [above](#asserting-through-the-dom) is what keeps E2E selectors stable across theme and template changes.

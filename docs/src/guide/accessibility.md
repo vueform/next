@@ -4,185 +4,136 @@ outline: [2,3]
 
 # Accessibility
 
-Vueform UI renders native HTML inputs and handles the surrounding accessibility wiring — label association, ARIA state reflection, live error announcements, keyboard navigation, and focus management — so the defaults work with screen readers, keyboard-only workflows, and other assistive technologies out of the box. This chapter explains what's provided automatically and how to influence it when you need to.
+Vueform renders native controls and wires everything assistive technology needs around them — accessible names, descriptions, ARIA state, live error announcements, and keyboard patterns — without being asked. What's left to you is small. Give elements meaningful names, and keep the wiring intact when you replace markup.
 
 ## Labels
 
-Every input element gets a programmatic label, even when you don't set one yourself.
+Every control gets a programmatic name. When an element has a `label`, the layout renders it as a `<label>` with a `for` attribute pointing at the control's `id`, so clicking it focuses the input and screen readers announce it.
 
-When you pass a `label` prop, `VfLayout` renders a `<label>` element with a `for` attribute pointing to the input's `id`. The browser's native label association takes care of the rest — clicking the label focuses the input, and screen readers announce it:
+When no label group renders — there is no `label`, or `hideLabel` is set — a screen-reader-only `<label for>` is rendered instead, carrying the element's **`genericName`**. This happens regardless of `placeholder` or `floating`, so even a bare `<VfText name="email" />` announces "email". The `genericName` resolves to the first available of `displayName`, `label`, `floating`, `floatLabel`, `ifta`, `placeholder`, and `name`.
 
-```vue
-<VfText name="email" label="Email" />
-```
-
-```html
-<label for="vf-email" id="vf-email__label">Email</label>
-<input id="vf-email" type="text" … />
-```
-
-When there's **no label** — no `label`, no `floating`, no `placeholder` — Vueform still creates one, but hides it visually. A screen-reader-only `<label>` with `class="sr-only"` is rendered, using the element's resolved `genericName` as its text. The `genericName` is derived from the first available value in this order: `displayName`, `label`, `floating`, `floatLabel`, `ifta`, `placeholder`, `name`. So even a bare `<VfText name="email" />` still announces "email" to assistive technologies.
-
-To control what screen readers announce for a labelless input, set `displayName`:
+Set `displayName` to control what's announced for a labelless control:
 
 ```vue
 <VfText name="q" display-name="Search query" />
 ```
 
-### Container Labels
+Its second job — the `{attribute}` placeholder in error messages — is covered in [the display name](/guide/validation#the-display-name).
 
-Container elements (`VfGroup`, `VfList`, `VfGrid`, `VfMatrix`) behave differently. When a container has a `label`, `VfLayout` renders it as a `<fieldset>` instead of a `<div>`. The label text is linked via `aria-labelledby` to group the children under a common heading. When no label is set, the fieldset gets an `aria-label` with the container's `genericName`, so the group boundary is still announced.
+`!VfCheckbox` and `!VfRadio` follow the same rule with their `text` prop — visible text renders as a `<label for>`, and without it a screen-reader-only label carries the `genericName`. An icon-only `!VfButton` — an `icon` and no `text` — gets an `aria-label` from its `genericName`.
 
-### Choice Group Labels
+### Groups
 
-`VfRadios` and `VfCheckboxes` mark their options container with `role="radiogroup"` / `role="group"`. With a `label`, the group is linked to it via `aria-labelledby` (the label renders as a `<span>` — a `<label for>` would have nothing to point at, since the group has many inputs); without one, the group carries an `aria-label` with the element's `genericName`. Group-level state (`aria-required`, `aria-invalid`, `aria-describedby` to the error region) lives on the group container, while each option keeps its own `<label for>` association.
+Containers — `!VfGroup`, `!VfList`, `!VfGrid`, `!VfMatrix` — with a `label` render their root as a `<fieldset>` named by the label through `aria-labelledby`; with `hideLabel` the fieldset carries the `genericName` as `aria-label` instead. A container **without** a label renders a plain `<div>` with no group semantics, so set a label — hidden if needed — to get the group boundary announced. The fieldset also carries `aria-describedby` pointing at the container's help, description, and error regions, and `!VfList` additionally marks its rows as a `role="list"` of `listitem`s. Container labels can render as heading tags — see [headings](/guide/element-layout#headings).
+
+`!VfRadios` and `!VfCheckboxes` put `role="radiogroup"` / `role="group"` on their options wrapper. The group is named by its label — rendered as a `<span>`, since there is no single input a `<label for>` could point at — or by an `aria-label` carrying the `genericName`. Group-level `aria-describedby` (help, description, errors), `aria-invalid`, and `aria-required` sit on the wrapper, while each option keeps its own `<label for>` association. When the items are grouped, each group renders as a `<fieldset>` with a `<legend>`.
+
+`!VfMatrix` cells are named by their row and column headers — each cell's input carries `aria-labelledby="<rowId> <colId>"` — and get a `displayName` of `"<row> / <column>"`, so error messages name the cell. Headers hidden from view still render as screen-reader-only text, keeping the naming intact.
 
 ## ARIA Attributes
 
-Every input element computes a set of ARIA attributes automatically based on its current state. These are bound to the native control (`<input>`, `<select>`, `<textarea>`) and kept in sync as the element's state changes:
+The native control carries state attributes computed from the element and kept in sync:
 
-| Attribute | Derived from | Example value |
-| --- | --- | --- |
-| `aria-describedby` | Help, hint, and error region IDs (only those currently rendered). | `"vf-email__help vf-email__error"` |
-| `aria-invalid` | Whether the element has a validation error. | `true` |
-| `aria-required` | Whether the element has a `required` rule. | `true` |
-| `aria-busy` | Whether the element is running an async validation check. | `true` |
+| Attribute | Meaning |
+| --- | --- |
+| `aria-describedby` | The ids of the help, description, and error regions currently rendered. Omitted when none render, and when the element has `layout: false`. |
+| `aria-invalid` | The element has an error. |
+| `aria-required` | An active `required` or `accepted` rule applies — a [conditional rule](/guide/validation#conditional-rules) toggles it. |
+| `aria-busy` | An async rule is [pending or debouncing](/guide/validation#in-flight-state). |
 
-The `aria-describedby` chain is the key piece. It dynamically points to whichever support regions exist at any given moment. When an element has help text, a hint, **and** a validation error, the input's `aria-describedby` references all three IDs. When only a hint is shown, it references just the hint. When nothing is rendered, the attribute is omitted entirely. This means a screen reader always announces exactly the context that's visible to sighted users — no more, no less.
+The `aria-describedby` chain tracks what's visible, so a screen reader hears exactly the context a sighted user sees — never a stale or hidden region. Help lives in the label group, so it joins the chain only while the label renders.
 
-For translatable elements, the active language indicator is included in the `aria-describedby` chain as well, so screen readers announce which language variant the user is editing.
+Translatable inputs additionally get `lang` set to the language being edited, and their chain starts with a screen-reader-only polite live region announcing the editing language — see [multilingual inputs](/guide/multilingual-inputs).
+
+The required indicator next to the label is `aria-hidden` — `aria-required` already conveys the requirement. Where the indicator appears is governed by [required indicators](/guide/validation#required-indicators).
+
+`!VfText` and `!VfTextarea` default `autocomplete` to the element's `name` whenever it spells a valid HTML autofill token — in kebab, snake, camel, or Pascal case, so `given_name` and `givenName` both resolve to `given-name` — giving autofill and WCAG 1.3.5 (Identify Input Purpose) support for free. Any other name renders no `autocomplete` at all, since browsers ignore invalid tokens. `inputmode` is available as a plain prop.
 
 ### ARIA vs. Styling Attributes
 
-ARIA attributes serve assistive technology; styling hooks are a separate aspect served by `data-*` [modifier attributes](/guide/parts#modifiers). When one state projects into both worlds, both attributes are emitted from the same source: an invalid input carries `aria-invalid` **and** `data-invalid`, a loading button carries `aria-busy` **and** `data-loading`. The duplication is deliberate — CSS keys on the `data-*` side, so removing or customizing a styling hook never silently changes what screen readers announce, and vice versa. The one exception is the native `disabled` attribute, which serves both aspects at once wherever the element supports it natively; only controls without a native attribute (a `VfButton` rendering an anchor via `href`/`to`) split it into `aria-disabled` plus `data-disabled`.
+ARIA attributes serve assistive technology, while `data-*` [state attributes](/guide/parts#state-attributes) serve CSS — one state projecting into both worlds emits both from the same source, like `aria-invalid` alongside `data-invalid`, or `aria-busy` alongside `data-loading`. Native `disabled` serves both at once; only a `!VfButton` rendered as an anchor (`href` or `to`) splits it into `aria-disabled` plus `data-disabled`.
 
 ### Overriding ARIA Attributes
 
-Computed ARIA attributes are regular attributes on the element's DOM parts, so overrides go through [Parts](/guide/parts) — the parts bindings are applied after the computed bindings, so your value wins:
+Computed ARIA attributes are ordinary part attributes. Part overrides merge after the computed values, so your value wins while every attribute you don't touch keeps resolving — the mechanics live in [parts](/guide/parts):
 
-::: code-group
-
-```ts [Schema]
-defineSchema({
+```ts
+{
   email: {
     type: 'text',
     label: 'Email',
-    'part:input': {
-      'aria-describedby': 'my-custom-description',
-    },
+    'part:input': { 'aria-describedby': 'signup-terms' },
   },
-})
+}
 ```
 
-```vue [Template]
-<VfText
-  name="email"
-  label="Email"
-  :part:input="{ 'aria-describedby': 'my-custom-description' }"
-/>
-```
+## Announcements
 
-:::
+Element errors render in a `role="alert"` region, so they're announced the moment they appear — and since the control's `aria-describedby` references the region's id, a user who returns to the field hears the error again in context.
 
-Attributes you don't override still resolve automatically.
+The form-level error summary has `role="alert"`, `aria-live="assertive"`, `aria-atomic="true"`, and `tabindex="-1"`. It exists whenever the form shows form-level errors — an `errorLevel` of `'form'` or `'all'` without `hideErrors`, see [where errors render](/guide/validation#where-errors-render) — and collapses to screen-reader-only while empty, so the live region is registered before the first error arrives. Form messages use `role="status"` with `aria-live="polite"` instead, announced at the next pause rather than interrupting.
 
-### Autofill and Input Modes
+A repeater's empty-state `placeholder` is a `role="status"` region the add button's `aria-describedby` points at — see [empty state](/guide/repeaters#empty-state).
 
-Text-like elements support the `autocomplete` and `inputmode` attributes. When `autocomplete` isn't set and the element's `name` is a valid HTML autofill token (`email`, `tel`, `postal-code`, …), the name is used automatically — fields collecting user data get autofill and WCAG 1.3.5 (Identify Input Purpose) support out of the box. Any other name renders no `autocomplete` at all, since browsers ignore invalid tokens.
+### Screen-Reader Text
 
-## Error Announcements
+Every string Vueform announces without a visible counterpart is a locale tag:
 
-Validation errors are announced at two levels, both using ARIA live regions so screen readers pick them up without requiring the user to navigate to them.
+| Tag | English value |
+| --- | --- |
+| `sr_editing_language` | Editing language |
+| `sr_step_error` | Please fix errors to move to the next step |
+| `sr_step_loading` | Processing data, please wait... |
+| `sr_list_add` | Add item |
+| `sr_list_remove` | Remove item {index} |
+| `sr_list_sort` | Reorder item {index} |
+| `sr_matrix_add` | Add row |
+| `sr_matrix_remove` | Remove row {index} |
+| `sr_matrix_sort` | Reorder row {index} |
+| `sr_file_remove` | Remove file {index} |
 
-### Element Errors
-
-Each element's error container is rendered with `role="alert"`. When validation fails and errors appear in the DOM, assistive technologies announce them immediately:
-
-```html
-<div id="vf-email__error" role="alert" class="vf-errors">
-  <div class="vf-error">
-    The email field must be a valid email address.
-  </div>
-</div>
-```
-
-The error region's `id` is referenced by the input's `aria-describedby`, so a screen reader user who re-reads the input also hears the error in context.
-
-### Form Errors
-
-`!VfForm` renders a form-level error summary with `role="alert"`, `aria-live="assertive"`, and `aria-atomic="true"`. When `showErrors` is enabled and validation fails, the summary is announced as a whole. When no errors are present, the container collapses to `sr-only` — it stays in the DOM so the live region is registered, but nothing is visible or announced.
-
-Form-level messages (success confirmations, informational notices) use a separate container with `role="status"` and `aria-live="polite"`, so they're announced at the next convenient pause rather than interrupting the user.
+`{index}` is 1-based. Translate or reword these like any other tag — see [writing a locale](/guide/locales#writing-a-locale). The list and matrix add / remove tags apply only while no visible `addLabel` / `removeLabel` text is set ([labels and icons](/guide/repeaters#labels-and-icons)); sort handles and the file remove button always use theirs.
 
 ## Keyboard Navigation
 
 ### Tabs and Steps
 
-Tabbed and stepped forms implement the [WAI-ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/). The rendered markup uses the correct roles and states:
+`!VfTabs` and `!VfSteps` implement the [WAI-ARIA Tabs pattern](https://www.w3.org/WAI/ARIA/apg/patterns/tabs/):
 
-| Part | Role / attribute |
+| Part | Markup |
 | --- | --- |
-| Tab/step list | `role="tablist"` |
-| Individual tab/step | `role="tab"`, `aria-selected`, `aria-controls` |
-| List item wrapper | `role="none"` (strips semantics from the `<li>`) |
-| Page panel | `role="tabpanel"`, `aria-labelledby` pointing back to the tab |
+| Tab list | `role="tablist"` |
+| List item | `role="none"` |
+| Tab button | `role="tab"`, `aria-selected`, `aria-controls` |
+| Page panel | `role="tabpanel"`, `aria-labelledby`, `tabindex="0"`, `hidden` while inactive |
 
-Keyboard behavior follows the roving-tabindex pattern:
+The tab list keeps a single tab stop — a roving tabindex landing on the selected tab. Arrow Right / Down moves to the next tab and Arrow Left / Up to the previous one, both wrapping around the ends; Home and End jump to the first and last. The arrows move **focus** only — Enter (or Space, natively on the button) **selects** the focused page, the pattern's manual activation mode. Pages hidden by [conditions](/guide/conditions) are skipped.
 
-- **Tab** moves focus into the tab list, landing on the selected tab.
-- **Arrow Right / Arrow Down** moves to the next tab.
-- **Arrow Left / Arrow Up** moves to the previous tab.
-- **Home** moves to the first tab; **End** moves to the last.
-- Arrow keys wrap around — pressing Right on the last tab focuses the first.
-
-Only the focused (or selected) tab has `tabindex="0"`; all others have `tabindex="-1"`. This keeps a single tab stop in the tab list so keyboard users can move past it efficiently.
-
-For stepped forms, `VfSteps` also reflects `aria-disabled` on steps the user hasn't unlocked yet, preventing confusion about which steps are reachable.
+Steps the user hasn't reached yet carry `aria-disabled`, and in a sequential stepper selecting them does nothing — see [multi-page forms](/guide/multi-page-forms) for how steps unlock.
 
 ### Step Navigation
 
-`VfNav` (the back / next / finish navigation bar) reflects loading and error state through ARIA attributes on its buttons:
+On `!VfNav`, the back button carries `aria-disabled` on the first page, and next / finish carry `aria-busy` and `aria-disabled` while the current page is loading — its elements are validating, or a step event is in progress. A screen-reader-only `role="status"` region announces the processing or fix-errors message meanwhile, and on the last reached page next / finish point at it with `aria-describedby`.
 
-- `aria-busy` and `aria-disabled` are set to `true` while the form is loading or validating.
-- `aria-describedby` points to a `role="status"` screen-reader-only region that announces whether the step has errors or is loading. This region only appears when relevant and is read by assistive technologies without visual clutter.
+The form-level language selector (`!VfLanguages`) renders plain buttons with `aria-current` on the active language and `aria-invalid` on languages holding errors — deliberately without a tablist keyboard contract.
 
-## Focus Management
+## Focus
 
-Every input element exposes `focus()` and `blur()` methods on its [context](/guide/context). Elements that support blur-based validation (`validateOn: 'blur'`) trigger validation automatically when the input loses focus — no extra wiring needed.
+Every element with a layout exposes `focus(scroll?)` on its [context](/guide/context). It focuses the first focusable node inside the element, optionally scrolling to it first, and resolves `true` when something received focus. There is no `blur()` counterpart.
 
-The pager system manages focus across pages: each resolved page exposes `focus()`, `blur()`, and `keydown()` handlers. When arrow keys move the selection in the tab list, the corresponding tab button receives DOM focus so keyboard and ARIA state stay in sync.
+On a failed submit the form focuses the first invalid element, and a blocked step does the same — the props controlling it live at [scroll and focus](/guide/validation#scroll-and-focus) and [scrolling and focus](/guide/multi-page-forms#scrolling-and-focus).
 
-## Checkboxes and Radios
+Decorative content is kept out of the way:
 
-`VfCheckbox` and `VfRadio` always have a label associated with their input — either the visible `text` prop rendered as a `<label>` with a `for` attribute, or a screen-reader-only `<label>` with the `genericName` when no `text` is provided:
+- Icons (`!VfIcon`) and the loading spinner are `aria-hidden`, and so is the empty label column kept for horizontal alignment.
+- `!VfFile`'s native input is visually hidden but keyboard-focusable, so the file picker stays operable.
+- `!VfHidden` renders an `<input type="hidden">`, or nothing at all with `meta`.
 
-```html
-<!-- With text -->
-<input type="checkbox" id="vf-terms" … />
-<label for="vf-terms">I agree to the terms</label>
+## Custom Markup
 
-<!-- Without text -->
-<input type="checkbox" id="vf-terms" … />
-<label for="vf-terms" class="sr-only">terms</label>
-```
+Replacing a component's markup through a [template](/guide/templates) or a [slot](/guide/slots) hands you the ARIA wiring the original rendered. All of it rides in each part's `bindings` resolver on the context — call the part's key and spread the result, and the computed attributes keep flowing into your markup. Classes are not part of the bag; bind `context.classes.input` separately. The full surface a template binds is covered in [bindings](/guide/templates#bindings).
 
-Both types set `aria-describedby`, `aria-invalid`, and `aria-required` on the native `<input>`, following the same state-driven logic as text inputs.
-
-## Required Indicator
-
-When an element has a `label` and a `required` validation rule, Vueform appends a `*` indicator to the label. This indicator is marked with `aria-hidden="true"` so screen readers don't announce the raw asterisk — they already know the field is required from `aria-required="true"` on the input.
-
-## Hidden and Decorative Elements
-
-A few elements produce content that isn't meaningful to assistive technologies:
-
-- `VfHidden` renders an `<input type="hidden">` (or nothing at all with `meta: true`). Hidden inputs are ignored by screen readers by design.
-- Placeholder labels used for horizontal layout alignment are marked `aria-hidden="true"` so they don't confuse screen reader navigation.
-- The file input in `VfFile` is styled as `sr-only` — visually hidden but still keyboard-focusable, so the native file picker works as expected.
-
-## Custom Templates
-
-When you [rewire a template](/guide/templates), you take on responsibility for the ARIA attributes that template previously rendered. The element's ARIA bags are available part-keyed on the [context](/guide/context) as `a11yBindings`, and they fold — together with the part's classes, `data-*` modifiers, and `parts` overrides — into the part's single `bindings` bag (a replacement slot receives its own part's resolved bag as a `bindings` prop directly). Each key holds a ready-to-spread bag of attributes for that DOM part, so one `v-bind` carries everything:
+The `label`, `help`, `description`, and `errors` bags carry the ids — and the errors region's `role="alert"` — that `aria-describedby` and `aria-labelledby` point at. A replaced region must spread its bag or the relationship breaks; slot replacements receive the resolved bag as their `bindings` prop.
 
 ```vue
 <!-- MyTextTemplate.vue -->
@@ -195,14 +146,16 @@ defineProps<{ context: ContextOf<'VfText'> }>()
 <template>
   <VfLayout>
     <input
-      :name="context.name"
       :id="context.id"
       :value="context.value"
-      v-bind="context.bindings.input"
+      :class="context.classes.input"
+      v-bind="context.bindings.input()"
       @input="context.handleInput"
+      @focus="context.handleFocus"
+      @blur="context.handleBlur"
     />
   </VfLayout>
 </template>
 ```
 
-Besides `input`, the bags cover the layout-rendered parts too — `label`, `help`, `description`, and `errors` each carry the `id` (and `role` for the errors region) that the input's `aria-describedby` points at. If your template replaces one of those regions, spread the matching bag onto your replacement so the id relationships stay intact. If you skip the bindings, the input loses its connection to those regions and screen readers won't announce errors, help text, or the required state.
+Ids derive from the `uid` generator — the element's own id, plus `__label`, `__help`, `__description`, and `__error` suffixes for its regions. For deterministic ids in audits and snapshots, see [uid](/guide/configuration#uid).

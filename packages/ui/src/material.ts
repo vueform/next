@@ -24,9 +24,12 @@ import { material as theme } from '#src/themes'
 export const createVueform = createVueformFactory(
   defineConfig({
     ...defaultConfig,
-    $date: { adapter: nativeDateAdapter },
-    $http: { adapter: fetchHttpAdapter },
-    $expression: { adapter: pathExpressionAdapter },
+    $date: { ...defaultConfig.$date, adapter: nativeDateAdapter },
+    $http: { ...defaultConfig.$http, adapter: fetchHttpAdapter },
+    $expression: {
+      ...defaultConfig.$expression,
+      adapter: pathExpressionAdapter,
+    },
     components,
     rules,
     modules,

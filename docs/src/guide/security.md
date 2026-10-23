@@ -4,25 +4,13 @@ outline: [2,3]
 
 # Security
 
-Vueform provides defense-in-depth on the client — CSP-compatible style injection, HTML sanitization, schema gating, and draft encryption — but a client-side library cannot replace server-side protections. Security is a shared responsibility: Vueform handles the layers it controls, and documents exactly what your server and CSP policy need to cover for the rest.
+A schema is data that describes rendering, and it often comes from outside the app — a CMS, an API response, a form builder's output. Vueform's guarantee is that such data never escalates into code — strings render as text unless an area is explicitly opted into HTML, component names resolve only from an allowlist, and requests stay on your own origin.
+
+These guarantees cover the client. Validation, file checks, and authorization still belong to your server — the [last section](#server-side-responsibilities) names exactly what.
 
 ## The Security Module
 
-The protections Vueform itself provides live in one place: the `security` module, configured through the `$security` config key:
-
-| Option | Default | Controls |
-| --- | --- | --- |
-| [`allowHtml`](#html-sanitization) | `[]` | The areas where strings may render as **HTML** — `'content'`, `'grid'`, `'slots'`. |
-| [`sanitizer`](#the-sanitize-step) | — | The sanitization engine every allowed HTML area renders through. No built-in one — the [DOMPurify plugin](/plugins/dompurify) provides it; an identity function is the conscious opt-out. |
-| [`allowComponents`](#components-from-schemas) | `[]` | The component names a schema string may resolve to. |
-| [`banAttrs`](#banning-attributes) | `[]` | Attribute keys (strings or RegExps, e.g. `/^on/i`) to drop from schema-reachable attribute bags. Only `innerHTML`/`outerHTML` and prototype keys are built in. |
-| [`allowProps`](#prop-references) | `[]` | The element prop paths `path@prop` / `@prop` references may resolve in conditions and expressions. Empty by default, so no prop reference resolves until listed. |
-| [`allowOrigins`](#request-origins) | `[]` | Cross-origin destinations requests may target. Own origin allowed by default. |
-| [`encrypt`](#draft-encryption) / [`decrypt`](#draft-encryption) | — | Ciphers applied to persisted values, such as local autosave drafts. |
-
-The headline guarantee these add up to, with the module registered: **a string from a schema renders as HTML only in an area you listed in `allowHtml`, and always through the `sanitizer`** — with unsanitized HTML requiring the explicit identity-sanitizer opt-out. Everything else renders as escaped text.
-
-Pre-configured entries like `@vueform/ui/origin` register the module out of the box. In a [modular setup](/guide/modules) it must be registered explicitly. **The security module is the security**: deliberately omitting it opts out of every protection wholesale, the same way an absent `validation` module counts everything valid — HTML renders unsanitized in every area, any registered component name resolves, requests are unrestricted, URLs and CSS values pass unchecked, drafts are stored as-is. (Prototype-key guards always apply — they are invariants, not policy — and slot HTML is inserted with the platform's own `innerHTML` semantics, so `<script>` elements stay inert regardless.) Configuring `$security` policies without the module is a different case — a misconfiguration: in development they warn and stay inert; in production they **fail closed** — HTML escapes, components stop resolving, requests are blocked, prop bags are emptied, drafts are not persisted — so the config can never ship looking enforced while it isn't:
+Every protection in this chapter is one module, `security`, configured through the `$security` config key. Pre-configured entries like `@vueform/ui/origin` register it out of the box; in a [modular setup](/guide/modules) you register it yourself:
 
 ```ts
 import { createVueform } from '@vueform/ui'
@@ -31,250 +19,30 @@ import { model, security } from '@vueform/ui/modules'
 createVueform({
   modules: { model, security },
   $security: {
-    // options
+    // policy options
   },
 })
 ```
 
-The rest of this chapter — CSP, HTTP, server-side validation — is the shared-responsibility side: what your policies and your server need to cover.
+The full `$security` option reference lives in [configuration](/guide/configuration#security); this chapter introduces each option where its protection comes up.
 
-## Content Security Policy
+Leaving the module out is the deliberate, wholesale opt-out. HTML renders unsanitized in every area, any registered component name resolves, requests are unrestricted, URLs and CSS values pass unchecked, and persisted values are stored as-is. Prototype-key guards apply even then — they are invariants, not policy — and slot HTML goes in with the platform's `innerHTML` semantics, so a `<script>` element stays inert regardless.
 
-Vueform is designed to work under strict Content Security Policies. This section documents exactly what Vueform needs from your CSP — nothing more.
-
-### Scripts
-
-Vueform injects no `<script>` tags, uses no `eval()`, no `new Function()`, and no string-argument `setTimeout`. Your `script-src` directive is unaffected by Vueform.
-
-### Style Tag Nonce
-
-Vueform injects a `<style id="vueform-theme">` tag at runtime containing CSS custom properties ([theme tokens](/guide/themes-tokens#tokens)) and [grid](/guide/form-structure#the-12-column-grid) utility classes. Components additionally render their own small `<style>` tags where styling is per-instance: [token overrides](/guide/themes-tokens#per-form-and-per-element-tokens) on a form or element, and the cell layout of a `VfGrid` or `VfMatrix`. Under a strict `style-src-elem` policy, all of these need a nonce.
-
-Pass it once through the [`nonce`](/guide/configuration#nonce) config option and it's applied everywhere:
-
-```ts
-createVueform({
-  locales: { en_US },
-  nonce: document.querySelector('meta[name="csp-nonce"]')
-           ?.getAttribute('content') ?? undefined,
-})
-```
-
-The global `<style id="vueform-theme">` tag is injected three different ways depending on the environment, and the nonce is applied in each:
-
-| Path | How the nonce is applied |
-| --- | --- |
-| `@unhead/vue` available (Nuxt, or manual install) | Passed in `head.push({ style: [{ nonce }] })`. |
-| DOM fallback (no Unhead) | Set via `style.setAttribute('nonce', nonce)`. |
-| SSR via `getStyleTag()` | Included as a `nonce` attribute in the returned HTML string. |
-
-Per-instance `<style>` tags are rendered by the components themselves — in the browser and in SSR output alike — with the same `nonce` attribute.
-
-::: tip Nuxt
-In Nuxt, Vueform doesn't insert the `<style id="vueform-theme">` tag itself — it hands the CSS to Unhead (always present there), which renders it into `<head>`. If the [nuxt-security](https://nuxt-security.vercel.app/) module manages your CSP, it adds its per-request nonce to every head-rendered tag — Vueform's included — so you don't set Vueform's `nonce` option at all. Without such a module, pass your server's nonce through Vueform's `nonce` config option as in any other app.
-:::
-
-### Inline Style Attributes
-
-Vueform does not use inline `style` attributes on DOM elements — in the browser or in SSR output. Per-instance token overrides and grid layouts are injected via nonce'd `<style>` tags, and prop-driven styling is carried by classes, never `:style` bindings. The only styles set at runtime (such as the autogrow height of a textarea) go through the [CSSOM](https://developer.mozilla.org/en-US/docs/Web/API/CSS_Object_Model), which CSP does not restrict. No `style-src-attr 'unsafe-inline'` is required.
-
-### Theme Icon Data URIs
-
-The default theme tokens use `data:image/svg+xml,...` URLs for [icons](/guide/themes-tokens#icons) (add, remove, sort, loading spinner, select caret, choice checkmarks, step indicators). These are static, hardcoded values shipped with the package — not user-controlled. Your CSP needs `data:` in the directive that governs image sources:
-
-```
-img-src 'self' data:;
-```
-
-If your policy forbids `data:` entirely, override the icon tokens with same-origin asset paths in your theme configuration:
-
-```ts
-createVueform({
-  locales: { en_US },
-  tokens: {
-    iconAdd: 'url("/icons/add.svg")',
-    iconRemove: 'url("/icons/remove.svg")',
-    iconSort: 'url("/icons/sort.svg")',
-    iconLoading: 'url("/icons/loading.svg")',
-  },
-})
-```
-
-See [Themes & Tokens](/guide/themes-tokens) for the full list of icon tokens and how to customize them.
-
-### CSP Requirements Summary
-
-Vueform requires exactly two additions to your existing policy:
-
-| Directive | Required value | Reason |
-| --- | --- | --- |
-| `style-src-elem` | `'nonce-{SERVER_NONCE}'` | The injected `<style id="vueform-theme">` tag. |
-| `img-src` | `data:` | Default theme icons use inline SVG data URIs. |
-
-Everything else — `script-src`, `connect-src`, `default-src`, `font-src`, `form-action` — depends on your application, not Vueform.
-
-## Secure HTTP Communication
-
-Vueform's HTTP module (`$http`) handles form submissions, autosave, and any manual requests you make through `useHttp()`. The security-relevant configuration lives in the `$http` config block and its interceptors. See [HTTP Requests](/guide/http) for the full API.
-
-### CSRF Tokens
-
-Attach a CSRF token to every request using a global request interceptor:
-
-```ts
-createVueform({
-  locales: { en_US },
-  $http: {
-    onRequest: [(config) => {
-      config.headers = {
-        ...config.headers,
-        'X-CSRF-TOKEN':
-          document.querySelector('meta[name="csrf-token"]')
-            ?.getAttribute('content') ?? '',
-      }
-      return config
-    }],
-  },
-})
-```
-
-This covers form submissions, autosave, and any manual `$http.get()` / `$http.post()` calls — they all flow through the same interceptor chain.
-
-An interceptor attaches its header to **every** request, whatever the destination. What keeps those headers from ever leaving your own origins is the default-deny [`allowOrigins`](#request-origins) policy: a request to a foreign host is blocked before the adapter runs, interceptor headers and all.
-
-### Authentication Headers
-
-The same pattern works for Bearer tokens:
-
-```ts
-createVueform({
-  locales: { en_US },
-  $http: {
-    onRequest: [(config) => {
-      const token = localStorage.getItem('auth_token')
-      if (token) {
-        config.headers = {
-          ...config.headers,
-          Authorization: `Bearer ${token}`,
-        }
-      }
-      return config
-    }],
-  },
-})
-```
-
-### Cross-Origin Credentials
-
-For cookie-based authentication with a cross-origin API, enable `withCredentials` so the browser includes cookies in requests:
-
-```ts
-createVueform({
-  locales: { en_US },
-  $http: {
-    withCredentials: true,
-  },
-})
-```
-
-This maps to `credentials: 'include'` on the underlying `fetch()` call.
-
-### Request Origins
-
-Interceptors attach credentials to **every** request, and a form's `endpoint` (or an element's `items` URL) is an ordinary prop — so in an app whose schemas come from outside, a crafted `endpoint` would receive your tokens along with the submission.
-
-Vueform therefore **denies cross-origin requests by default**. Anything on the app's own origin passes untouched — relative URLs, absolute URLs spelling out the current origin, and the origin of a configured [`$http.baseURL`](/guide/configuration#http). Reaching any other host is a decision the app states explicitly:
-
-```ts
-createVueform({
-  $http: { baseURL: 'https://api.example.com' }, // trusted implicitly
-  $security: {
-    allowOrigins: ['https://cdn.example.com'], // additional destinations
-  },
-})
-```
-
-A blocked request never leaves the browser: it rejects with an `HttpError` carrying `reason: 'blocked'` before the adapter runs. The check happens after your interceptors, so it covers every request the HTTP module makes, whichever adapter is configured.
-
-| `allowOrigins` | Effect |
-| --- | --- |
-| unset / `[]` (default) | The app's own origin and `$http.baseURL` only. |
-| `['https://cdn.example.com']` | The above, plus the listed origins. |
-| `['https://*.example.com']` | Any subdomain of `example.com` (at any depth) over `https` — never the apex `example.com` itself, and never another scheme. |
-| `['https://example.com:*']` | That exact host on any port (including the scheme default). |
-| `['*']` | No restriction. |
-
-::: warning
-A subdomain wildcard covers subdomains only: `https://*.example.com` does **not** match plain `https://example.com` — list the apex separately if you need both. The wildcard is valid only in the subdomain or port position (`https://*.example.com`, `https://example.com:*`); any other placement is ignored with a development warning.
-:::
-
-::: tip
-`baseURL` is trusted because it is your own configuration, and a schema can only reach it through a _relative_ URL — which is allowed regardless. The attack this blocks is an **absolute** URL in a schema, which bypasses `baseURL` entirely and so is still judged against the list.
-:::
-
-::: warning
-Vueform's HTTP stack is **client-side**: during [SSR](/guide/ssr) the built-in fetch adapter refuses to send requests, and no origin is trusted implicitly outside a browser — nothing passes without being listed. Make requests from the browser, or use your framework's own server-side data fetching.
-:::
-
-::: tip
-Prefer attaching credentials in an interceptor that checks the destination, rather than baking a static `Authorization` value into `$http.headers`: a closure-held token doesn't travel with the config object into error reporters and devtools snapshots.
-:::
-
-### What HTTP Security Cannot Cover
-
-`HttpError`s carry the request config so you can inspect failures — with `Authorization`, `Proxy-Authorization`, `Cookie` and `Set-Cookie` headers redacted, so a `fail` result forwarded to an error reporter doesn't ship credentials.
-
-::: warning
-Because of the redaction, don't replay a failed request by reusing `error.config` verbatim (`$http.request(error.config)`) — it would go out with the literal string `[redacted]` as its credentials. Re-issue the request through the original call instead, so your interceptors re-attach fresh headers.
-:::
-
-Beyond that, JavaScript running in your page is inside the trust boundary. Code that can mutate `createVueform`'s config, register its own interceptors, or read a closure-held token could equally call `fetch` directly, replace the sanitizer, or read the DOM — no client-side library can defend against it, and Vueform doesn't pretend to. Its guarantees are about **data** — schemas, form input, server responses, stored drafts — never escalating into code.
-
-## Server-Side Validation
-
-Client-side validation is a UX convenience — it provides instant feedback and prevents unnecessary round trips. It is not a security boundary. Every validation rule enforced on the client must be duplicated on the server.
-
-Vueform makes the feedback loop seamless: when the server rejects a submission with a `422` response carrying field-level errors, map them back onto elements with the `setInvalid` prop:
-
-::: code-group
-
-```ts [Schema]
-import { defineSchema, useForm } from '@vueform/ui'
-
-const schema = defineSchema({
-  email: { type: 'text', label: 'Email', rules: 'required|email' },
-  password: { type: 'text', label: 'Password', rules: 'required' },
-})
-
-const [MyForm] = useForm({
-  schema,
-  endpoint: '/api/register',
-  setInvalid: true,
-})
-```
-
-```vue [Template]
-<VfForm endpoint="/api/register" set-invalid>
-  <VfText name="email" label="Email" rules="required|email" />
-  <VfText name="password" label="Password" rules="required" />
-</VfForm>
-```
-
-:::
-
-The error map is expected keyed by element path (e.g. `{ email: ['Already taken'] }`) — by default it's read from the response's `errors` key, falling back to the whole response body. Use the `transformServerInvalid` prop to adapt any other shape (`(data) => data?.validationErrors || {}`). See [Server Validation Errors](/guide/submit#server-validation-errors) for the full lifecycle.
+Configuring `$security` policy without the module is a misconfiguration, not an opt-out. Development warns at `createVueform()` and stays permissive so the app remains workable; production **fails closed** — HTML escapes, component names stop resolving, requests are blocked, schema prop bags come back empty, and the ciphers throw so nothing persists in plaintext. A misconfigured app can never ship looking enforced while it isn't. (`allowOrigins: ['*']` doesn't count as policy — permissive is exactly what it configures.)
 
 ## HTML Sanitization
 
-Most strings in Vueform — labels, placeholders, hints, button captions — render through Vue's text interpolation, which escapes HTML automatically: a `<script>` tag in a label shows up as literal text, never as executable code. Rendering a string **as HTML** happens in exactly three places, and each is an area you opt into with `$security.allowHtml`:
+Most strings — labels, placeholders, help texts, button captions — go through Vue's text interpolation and render escaped, so a `<script>` tag in a label shows up as literal text. Rendering a string **as HTML** happens in exactly three areas, each opted into through `$security.allowHtml`:
 
-| Area | What it covers |
+| Area | Covers |
 | --- | --- |
-| `'content'` | `VfContent`'s `content` prop. |
-| `'slots'` | HTML strings in [`slots`](#slot-content) entries. |
-| `'grid'` | String cells in a [grid](/guide/form-structure#the-12-column-grid). |
+| `'content'` | `!VfContent`'s `content` prop. |
+| `'slots'` | String [`slots`](/guide/slots#string-content) entries. |
+| `'grid'` | String grid [cells](/guide/form-structure#cells). |
 
 ```ts
+import dompurify from '@vueform/dompurify'
+
 createVueform({
   plugins: [dompurify()],
   $security: {
@@ -283,224 +51,146 @@ createVueform({
 })
 ```
 
-An area you don't list renders its strings as **escaped text** — tags visible, nothing silently dropped, and immediately visible on the page. There is no per-element opt-in to pair with this: the app config is the only authority, so no schema entry can grant itself HTML rendering. (Strings without markup skip the check entirely — they render the same either way.)
+An unlisted area renders markup as escaped text — tags visible, nothing silently dropped, so a missing entry is diagnosable at a glance. The app config is the only authority; no schema entry can grant itself HTML rendering. Strings without markup never consult the gate — they render the same either way.
 
 ### The Sanitize Step
 
-Strings in an allowed area pass through the sanitizer immediately before rendering — **after** localization and [expression](/guide/expressions) resolution, so what the sanitizer inspects is the final markup, including any values interpolated out of form data.
+HTML in an allowed area always passes through `$security.sanitizer`, after localization and [expression](/guide/expressions) resolution, so the sanitizer sees the final markup — including values interpolated out of form data. That ordering is what makes a template like `'Welcome, {name}!'` safe, whatever `{name}` carries in.
 
-Like the [ciphers](#draft-encryption), there is no built-in engine, and there is no on/off switch — HTML in an allowed area **always** passes through `$security.sanitizer`:
+There is no built-in engine and no on/off switch — what renders depends entirely on what `sanitizer` holds:
 
 | `sanitizer` | Result |
 | --- | --- |
-| An engine (the [DOMPurify plugin](#installing-dompurify), or your own) | Sanitized HTML renders. |
-| Unset, in development | Raw HTML renders with a one-time warning naming the fix. |
-| Unset, in production | The HTML area renders **empty** — unsanitizable HTML never ships. |
-| `(html) => html` — the identity function | Raw HTML renders: the conscious, greppable opt-out for trusted schemas. |
+| An engine — the [DOMPurify plugin](/plugins/dompurify) or your own | Sanitized HTML renders. |
+| Unset, in development | Raw HTML renders, with a one-time warning naming the fix. |
+| Unset, in production | The area renders **empty** — unsanitizable HTML never ships. |
+| `(html) => html` | Raw HTML renders — the conscious, greppable opt-out for fully trusted schemas. |
 
-::: tip
-The order matters more than it looks. A template like `content: 'Welcome, {name}!'` is harmless on its own — the danger is what `{name}` carries in. Sanitizing the resolved result is what makes user input safe here, not sanitizing the template.
-:::
+A custom engine is a single `SecuritySanitizer` function, `(html: string) => string`, set as `$security.sanitizer` — and a sanitizer you set yourself wins over the plugin's. The DOMPurify plugin's own options (`sanitizeOptions`, `sanitizeInit`) are covered on [its page](/plugins/dompurify).
 
-### Installing DOMPurify
-
-The `@vueform/dompurify` plugin wires DOMPurify into the sanitization step so every string the pipeline sanitizes is stripped of unsafe markup before it reaches the DOM. It uses [isomorphic-dompurify](https://github.com/kkomelin/isomorphic-dompurify) under the hood, so it works in both browser and SSR environments without extra configuration:
-
-```ts
-import { createVueform } from '@vueform/ui'
-import { en_US } from '@vueform/ui/locales'
-import security from '@vueform/dompurify'
-
-app.use(
-  createVueform({
-    locales: { en_US },
-    plugins: [security()],
-  })
-)
-```
-
-With the plugin in place, a `content` value like `<img src=x onerror=alert(1)>` is sanitized to `<img src="x">` before rendering.
-
-### Customizing DOMPurify
-
-The plugin extends the `$security` options with two keys for fine-tuning:
-
-```ts
-createVueform({
-  locales: { en_US },
-  plugins: [security()],
-  $security: {
-    sanitizeOptions: {
-      ALLOWED_TAGS: ['b', 'i', 'em', 'strong', 'a'],
-      ALLOWED_ATTR: ['href', 'target'],
-    },
-    sanitizeInit: (DOMPurify) => {
-      DOMPurify.addHook('afterSanitizeAttributes', (node) => {
-        if (node.tagName === 'A') {
-          node.setAttribute('rel', 'noopener noreferrer')
-        }
-      })
-      return DOMPurify
-    },
-  },
-})
-```
-
-| Option | Purpose |
-| --- | --- |
-| `sanitizeOptions` | Passed directly to `DOMPurify.sanitize()` as the config object. |
-| `sanitizeInit` | Receives the DOMPurify instance before first use — add hooks, set global config, etc. |
-
-### Custom Sanitizer
-
-If you prefer a different sanitizer (sanitize-html, or a custom implementation), the engine is a single `SecuritySanitizer` function — raw HTML in, safe HTML out:
-
-```ts
-import type { SecuritySanitizer } from '@vueform/core'
-
-const mySanitizer: SecuritySanitizer = (html) => {
-  // Your sanitization logic
-  return sanitizedHtml
-}
-
-createVueform({
-  locales: { en_US },
-  $security: { allowHtml: ['content'], sanitizer: mySanitizer },
-})
-```
-
-::: warning
-Sanitization covers the strings Vueform itself renders. If you write custom templates that use `v-html` with arbitrary content, you are responsible for sanitizing that content yourself.
-:::
+These gates cover the strings Vueform renders. HTML you render yourself through `v-html` in [custom templates](/guide/templates) is yours to sanitize.
 
 ## Untrusted Schemas
 
-A schema describes rendering, not just data — and schemas frequently come from outside the app: a JSON document from a CMS, an API response, a form builder. Everything a schema can reach is therefore gated so that a crafted document cannot escalate from _data_ into _code_.
-
-### Components From Schemas
-
-A schema can name a component as a string — in a [`slots`](/guide/slots#the-slots-prop) entry, in the [`template`](/guide/templates#by-name) or [`layout`](/guide/templates#the-standard-layout) prop, or as an element's `component` key. Without a gate, a crafted schema could mount anything registered in the app, with props of its choosing.
-
-`$security.allowComponents` is the allowlist those strings resolve against:
+A schema reaches more than text — component names, attribute bags, element props, URLs, CSS values. Each of those surfaces is gated, so a crafted document stays data no matter what it spells. For an app loading schemas from outside, the baseline looks like this, and the subsections below explain it line by line:
 
 ```ts
 createVueform({
+  plugins: [dompurify()],
   $security: {
-    allowComponents: ['MyOption', 'MyTextTemplate'],
+    allowHtml: ['content'],
+    allowComponents: ['MyOption'],
+    banAttrs: [/^on/i, 'srcdoc'],
+    allowProps: ['label'],
   },
 })
 ```
 
-A name outside the list never resolves: a slot string renders as text, a `template` or `layout` prop falls back to the standard rendering, and an element `component` falls back to the `Vf*` component derived from its `type`. (Slot strings are only treated as candidate component names when they are shaped like one — PascalCase or kebab-case; anything else is content and never consults the list.) Built-in `Vf*` names derived from `type` are exempt — they are the element vocabulary itself. Development warns once per rejected name, so a missing entry is easy to spot without flooding the console.
+### Component Names
 
-::: tip
-Treat `allowComponents` as a contract with your schema authors: only the components listed there are part of the schema's vocabulary. Keep the list to purpose-built slot, template, and layout components rather than exposing general application components.
-:::
+A schema names components as strings — in [`slots`](/guide/slots#string-content) entries, the [`template`](/guide/templates#by-name) and [`layout`](/guide/templates#the-standard-layout) props, an element's `component` key, and the `component` key of schema addons (`addonBefore` / `addonAfter`). `$security.allowComponents` is the allowlist those strings resolve against. It's empty by default, so no name resolves until listed; built-in `Vf*` names derived from an element's `type` are exempt — they are the element vocabulary itself.
 
-### What Else Is Gated
-
-| Schema surface | Treatment |
-| --- | --- |
-| `slots` / grid cell strings, `VfContent` content | Text always renders escaped; HTML only through [`allowHtml`](#html-sanitization), always sanitized. |
-| `component`, `template`, `layout` name strings | Resolved only through [`allowComponents`](#components-from-schemas). |
-| `parts` bags, grid cell `attrs`, undeclared schema keys (form entries, flat list prototypes, grid cell / matrix column schemas) | Filtered before reaching the DOM: `innerHTML`/`outerHTML` and prototype keys are always dropped; everything else — including inline `on*` handlers and `srcdoc` — is app policy via [`banAttrs`](#banning-attributes), dropped in every value form. |
-| `tokens`, grid `widths`, matrix `gridTemplateColumns` | Values that could break out of a scoped CSS rule are dropped. |
-| `redirect`, button `href` / `to`, file `url` | Scheme-validated — `javascript:` and other script-bearing schemes never reach a navigation sink. |
-| `draft.key` | Forced under the `vueform:` storage namespace. |
+A rejected name falls back instead of failing. A slot string renders as content, `template` and `layout` fall back to the standard rendering, and `component` falls back to the `Vf*` element derived from `type` — with a one-time dev warning per rejected name. A slot string only consults the list when it's shaped like a component name **and** names a registered component; anything else is content. Keep the list to purpose-built slot, template, and layout components rather than exposing general application components.
 
 ### Banning Attributes
 
-The prop filtering hardcodes only the entries no app can ever want from data: `innerHTML`/`outerHTML` (an attribute bag as an HTML sink) and prototype keys (`__proto__`, `constructor`, `prototype`). **Everything else is your policy**, declared through `banAttrs` — including inline event handlers.
+Schema-reachable prop bags pass a filter before binding — schema entries themselves (form entries, group children, flat list prototypes, grid cell and matrix column schemas, addon schemas), [`parts`](/guide/parts) bags, and grid cell `attrs`. Only `innerHTML` / `outerHTML` and prototype keys are dropped unconditionally. Everything else — inline `on*` handlers, `srcdoc`, DOM-clobbering `id` / `name` — is your policy, declared through `banAttrs`; for untrusted schemas, configure at least `[/^on/i, 'srcdoc']` as in the baseline above.
 
-::: warning Configure `banAttrs` when schemas are untrusted
-If your schemas come from a semi-trusted source (CMS, form builder, database), configure at least:
+String entries match case-insensitively, RegExp entries as written — add the `i` flag yourself. Both are tested against the original key and its camelized form, so a ban on `onLabel` also catches a schema spelling it `on-label`. A banned key is dropped in every value form, and each drop warns in development naming the key.
 
-```ts
-createVueform({
-  $security: {
-    // Ban on* keys — except element props your schemas legitimately
-    // use, carved out with a negative lookahead (here: onTrue/onFalse).
-    banAttrs: [/^on(?!True$|False$)/, 'srcdoc'],
-  },
-})
-```
-
-The `on*` pattern stops string-valued `onclick`/`onerror`/… entries from becoming live inline handlers via `setAttribute`, and `srcdoc` closes the iframe HTML sink. Element vocabularies have legitimate `on*`-named props (`onLabel` / `onIcon` on the PrimeVue toggle elements, for example) — list each one you use in the lookahead, anchored with `$`, rather than widening the pattern; an unlisted prop fails safe by being dropped, and the dev warning tells you which one to add. Without any of this, only `innerHTML`/`outerHTML` and prototype keys are blocked by default. Every dropped entry warns in development, naming the key.
-:::
-
-A `banAttrs` entry is dropped from every filtered surface — schema entries themselves (form entries, group children, flat list prototypes, grid cell / matrix column schemas), `parts` bags, and grid cell `attrs` — **in every value form** (for `style`, that covers both the string and the object binding, since both are JSON-expressible). String entries match case-insensitively; RegExp entries are tested as written, so add the `i` flag yourself. Both forms are checked against the key's original spelling **and** its camelized form — Vue camelizes spread keys when matching a component's declared props, so a ban on `onLabel` also catches a schema author writing `on-label`:
+Some element vocabularies have legitimate `on*`-named props — `onTrue` / `onFalse`, or `onLabel` / `onIcon` on PrimeVue toggles. Carve them out with a negative lookahead instead of widening the ban:
 
 ```ts
-createVueform({
-  $security: {
-    banAttrs: [/^on/i, 'srcdoc', 'style'], // also: no schema-supplied styling
-    // banAttrs: [/^on/i, 'srcdoc', 'style', 'id', 'name'], // + DOM clobbering
-  },
-})
+banAttrs: [/^on(?!True$|False$)/, 'srcdoc']
 ```
 
-Note that a RegExp like `/^on/i` matches in every value form too: developer-written **function** listeners inside `parts` bags are also dropped, since the filter cannot tell trusted from untrusted objects once they merge. Keep function listeners in template code (never filtered), or scope the pattern tighter if you rely on them in `parts`.
+A RegExp like `/^on/i` also drops developer-written **function** listeners inside `parts` bags — the filter can't tell trusted objects from untrusted ones once they merge. Keep listeners in template code, which is never filtered.
 
-`banAttrs` only ever tightens: the built-in denylist applies regardless and cannot be relaxed.
-
-#### Turning Off Schema Channels
-
-Because schema entries pass through the same filter, `banAttrs` doubles as a per-channel kill-switch: listing a prop name removes that **entire channel** from schemas, with no filter to trust and nothing to bypass. Your own template code is unaffected — props written in SFCs never pass through schema resolution, so `parts`, `slots`, or `tokens` set in your components keep working while the same keys arriving in schema JSON are dropped:
+Because schema entries pass the same filter, listing a prop name turns that whole channel off for schemas while template usage keeps working — props written in your SFCs never go through schema resolution. For schemas that should carry no presentation at all:
 
 ```ts
-createVueform({
-  $security: {
-    // Schemas describe elements and data — nothing presentational.
-    banAttrs: ['style', 'parts', 'attrs', 'slots', 'tokens'],
-  },
-})
+banAttrs: ['style', 'parts', 'attrs', 'slots', 'tokens']
 ```
 
-Combined with the defaults — HTML dead without [`allowHtml`](#html-sanitization), component names dead without [`allowComponents`](#components-from-schemas), cross-origin requests dead without [`allowOrigins`](#request-origins) — this closes every presentation channel a schema has.
+`banAttrs` only ever tightens; the built-in denylist applies regardless and can't be relaxed.
 
 ### Prop References
 
-[Conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props) can read element **props** through the `path@prop` / `@prop` reference form. With the security module registered, these references are gated by `allowProps`, and the gate fails closed — unset is the same as `[]`, so no prop reference resolves until its prop is listed (`'**'` allows everything). A denied reference resolves as `undefined` (the condition evaluates unmet, the expression renders empty) with a dev warning naming the prop.
+[Conditions](/guide/conditions#referencing-element-properties) and [expressions](/guide/expressions#element-props) can read element props through the `path@prop` / `@prop` reference form. Unlike value references, these read the live element context — an untrusted schema could otherwise walk `@form$` or deep internals and leak values into rendered text — so `allowProps` gates which prop paths resolve.
 
-Each entry is a pattern over the prop part of the reference (everything after `@`, with `[n]` index access counting as a nesting level):
+The default config ships `allowProps: ['**']`, so every reference resolves until you set the option yourself; setting it replaces the default (the `$security` merge is shallow). A reference outside your list resolves as `undefined` — the condition counts as unmet, the expression renders empty — with a dev warning naming the prop.
+
+Each entry is a pattern over the prop part of the reference, with `[n]` index access counting as a nesting level:
 
 | Pattern | Allows |
 | --- | --- |
-| `'propName'` | The flat reference only (`some_element@propName`, `@propName`) — no nesting. |
+| `'propName'` | The flat reference only (`@propName`), no nesting. |
 | `'propName.*'` | One nested level (`@propName.foo`), never the flat form. |
 | `'propName.*.*'` | One **or** two nested levels — trailing `*` segments are optional. |
-| `'propName.*.foo.*'` | Static segments midway must be present — `@propName.x.foo` and `@propName.x.foo.y` resolve, `@propName.x` does not. |
-| `'propName.**'` | Any nesting depth (at least one level), never the flat form. |
-| `'*propName'` / `'propName*'` | Any prop name ending / starting with `propName`; combines with the nesting forms (`'*Label.*'`). |
+| `'propName.*.foo.*'` | Static segments midway must be present — `@propName.x.foo` resolves, `@propName.x` doesn't. |
+| `'propName.**'` | Any nesting depth, at least one level. |
+| `'*propName'` / `'propName*'` | Any prop name ending / starting with `propName`; combines with the nesting forms. |
 | `'*'` | Every prop, flat references only. |
-| `'**'` | Every prop at every depth — the explicit opt-out. |
+| `'**'` | Every prop at every depth — the default. |
+
+```ts
+allowProps: ['label', 'selected*', 'meta.*']
+```
+
+An entry may also be a RegExp, tested against the full prop path with index access normalized to dots (`@model[0]` tests as `model.0`) — anchor it yourself. An invalid string pattern is ignored with a dev warning rather than silently never matching.
+
+Value references — `{field}` interpolation and `[path, operator, value]` conditions without `@` — read form data, not props, and aren't affected.
+
+### Always-On Guards
+
+Three guards have no option — with the module registered, they always apply:
+
+| Guard | What it covers |
+| --- | --- |
+| CSS values | `tokens`, grid `widths` / `minWidth` / `maxWidth`, matrix `gridTemplateColumns` and column widths — a value containing `{` or `}` is dropped, since it could break out of its scoped rule. |
+| URLs | Form `redirect` (`http` / `https`), button `href` / `to` (`http` / `https` / `mailto` / `tel`), file `url` (`http` / `https` / `blob`) — any other scheme never reaches the sink, obfuscations like `java\tscript:` included; relative URLs pass. |
+| Storage keys | A custom `draft.key` is forced under the `vueform:` namespace — see [draft options](/guide/autosave#draft-options). |
+
+Like everything above, these are the module's features — [without it](#the-security-module) the values pass unchecked.
+
+### What Stays Code-Trust
+
+Function-valued props — a function `endpoint`, `transformResponse`, event handlers, function `parts` — can't travel through JSON, so only your own code supplies them; no gate is needed. The `endpoint`, `method`, and `headers` props are plumbing for your API — with untrusted schemas, pin where they may point via [`allowOrigins`](#request-origins).
+
+JavaScript running in your page sits inside the trust boundary. Code that can swap the sanitizer could equally call `fetch` or read the DOM directly — no client-side library defends against hostile code, and Vueform's guarantees are about **data** (schemas, input, responses, drafts), never about code.
+
+## Request Origins
+
+[Interceptors](/guide/http#interceptors) attach credentials to every request, and a form's `endpoint` — or an element's endpoint-loaded `items` — is an ordinary prop. In an app whose schemas come from outside, a crafted absolute URL would receive your tokens along with the data.
+
+Vueform therefore denies cross-origin requests by default. The app's own origin passes untouched — relative URLs, and absolute URLs spelling out the current origin — and in the browser the origin of `$http.baseURL` is trusted implicitly. Anything else is a decision the app states by listing it:
 
 ```ts
 createVueform({
+  $http: { baseURL: 'https://api.example.com' }, // trusted implicitly
   $security: {
-    // Conditions / expressions may read labels, any `selected*` prop,
-    // and one level under `meta` — nothing else.
-    allowProps: ['label', 'selected*', 'meta.*'],
+    allowOrigins: ['https://cdn.example.com'],
   },
 })
 ```
 
-An entry may also be a RegExp, tested as written against the full prop path (index access normalized to dots, so `@model[0]` tests as `model.0`) — anchor it yourself, like a `banAttrs` pattern.
+| `allowOrigins` | Effect |
+| --- | --- |
+| unset / `[]` | Own origin and `$http.baseURL` only — the default. |
+| `['https://cdn.example.com']` | The above, plus the listed origins. |
+| `['https://*.example.com']` | Any subdomain of `example.com`, at any depth, over `https` — never the apex itself, never another scheme. |
+| `['https://example.com:*']` | That exact host on any port, the scheme default included. |
+| `['*']` | No restriction. |
 
-Prop references are gated because they read the live element context, not just form data — an untrusted schema could otherwise walk `@form$`, `@parent` or deep internals and leak values into rendered text or conditions. Value references (`{other_field}` and `[path, operator, value]` conditions without `@`) are not affected.
+A wildcard is valid only in the subdomain or port position; any other placement is ignored with a dev warning. Trusting `baseURL` costs nothing — a schema can only reach it through a relative URL, and an absolute URL bypasses `baseURL` entirely, so it's still judged against the list.
 
-What stays **code-trust**, and must never be built from untrusted input:
+The check runs after your interceptors and before the adapter, so it covers every request the HTTP module makes, whichever adapter is configured. A blocked request never leaves the browser — it rejects with an `HttpError` whose `reason` is `'blocked'` (see [error handling](/guide/http#error-handling)).
 
-- Function-valued props (`endpoint` as a function, `transformResponse`, event handlers, function `parts`) — functions cannot travel through JSON, so these can only come from your own code.
-- The `endpoint`, `method`, and `headers` props themselves. They are plumbing for your API; if your schemas are untrusted, pin the destinations with [`allowOrigins`](#request-origins).
-
-::: warning
-These gates are the security module's features. In a [modular setup](/guide/modules) without the `security` module registered, nothing here is enforced — schemas can do all of the above. Omitting the module is the deliberate, wholesale opt-out for trusted environments; configuring any `$security` policy without the module warns in development and fails closed in production.
-:::
+Outside a browser nothing is trusted implicitly — not even `baseURL` — so absolute URLs must be listed. The built-in fetch adapter [refuses SSR requests](/guide/ssr#http-is-client-side) outright anyway; this guards server-capable custom adapters.
 
 ## Draft Encryption
 
-The security module's persistence capability is a pair of app-provided ciphers — `$security.encrypt` and `$security.decrypt` — applied by features that persist values, currently form [drafts](/guide/autosave#encrypting-drafts). There is deliberately no built-in cipher — any key Vueform could generate on the device would sit right next to the ciphertext it protects. Bring a scheme whose key lives outside the stored data, typically delivered per user after login and held only in memory:
+`$security.encrypt` and `decrypt` are app-provided ciphers applied to values Vueform persists — currently form [drafts](/guide/autosave#encrypting-drafts). There is deliberately no built-in cipher, because any key generated on the device would sit next to the ciphertext it protects. Bring a scheme whose key lives outside the stored data — typically delivered per user after login and held only in memory:
 
 ```ts
 let key: CryptoKey // import after login; memory only, never storage
@@ -531,34 +221,62 @@ createVueform({
 })
 ```
 
-Both functions may be sync or async, and both receive a `purpose` tag naming the call site (e.g. `'draft'`), so one implementation can serve every feature that encrypts, branching per purpose if it ever needs to. Configure them as a pair — one without the other can't round-trip persisted values and warns in dev. A `decrypt` that throws marks the stored value unreadable, and the feature treats it as absent (autosave discards the draft).
+Both functions may be sync or async, and both receive a `purpose` tag naming the call site (`'draft'`), so one implementation can serve every feature that encrypts. Configure them as a pair — one without the other can't round-trip persisted values and warns in dev. A `decrypt` that throws marks the stored value unreadable, and the feature treats it as absent.
 
-Until the ciphers are configured, persisted values are written as plaintext and every form persisting plaintext drafts warns in dev — storing unencrypted must be a conscious choice, not a silent default. To knowingly skip encryption, register identity ciphers — the no-op pair records the decision and silences the warning:
+Until the ciphers are configured, drafts are written as plaintext with a dev warning — the identity-cipher opt-out and the per-form `draft.encrypt: false` flag are covered in [encrypting drafts](/guide/autosave#encrypting-drafts).
+
+Encryption protects data **at rest**. Values that must never touch the disk at all belong under [`sensitive`](/guide/autosave#sensitive-values).
+
+## Content Security Policy
+
+Vueform injects no `<script>` tags and uses no `eval`, `new Function`, or string-argument `setTimeout`, so your `script-src` directive is untouched. What a strict policy does need to account for is two things — the `<style>` tags Vueform renders and the default icon images.
+
+### Style Tag Nonce
+
+Vueform injects a `<style id="vueform-theme">` tag holding the theme tokens and grid utilities, and components render small per-instance `<style>` tags of their own — token overrides on forms, element layouts, and buttons, and the cell layout of grids and matrices. Under a strict `style-src-elem` policy, all of them need a nonce.
+
+Pass it once through the [`nonce`](/guide/configuration#nonce) config option and every injection path and every per-instance tag carries it:
 
 ```ts
 createVueform({
-  $security: {
-    encrypt: (value) => value,
-    decrypt: (value) => value,
+  nonce: document
+    .querySelector('meta[name="csp-nonce"]')
+    ?.getAttribute('content') ?? undefined,
+})
+```
+
+How each delivery path applies it — Unhead, the DOM fallback, `getStyleTag()` on the server — is covered in [style injection](/guide/ssr#style-injection). In Nuxt, Unhead renders the tag, so a CSP module like nuxt-security that nonces head-rendered tags covers Vueform's too.
+
+### Inline Styles
+
+Vueform sets no `style` attributes, in browser or SSR output — per-instance styling goes through the nonce'd tags and classes, and runtime-only styles such as a textarea's autogrow height go through the CSSOM, which CSP doesn't restrict. No `style-src-attr 'unsafe-inline'` is needed.
+
+### Icon Data URIs
+
+The default icon tokens are static `data:image/svg+xml` URLs shipped with the package, so `img-src` needs `data:`. If your policy forbids it, override the `icon*` tokens with same-origin assets:
+
+```ts
+createVueform({
+  tokens: {
+    iconAdd: 'url("/icons/add.svg")',
+    iconRemove: 'url("/icons/remove.svg")',
   },
 })
 ```
 
-A single form can also opt its own draft out of the app-wide ciphers — see [encrypting drafts](/guide/autosave#encrypting-drafts) for the per-form flag and the rest of the draft-side mechanics.
+The full token list lives under [primitives](/guide/themes-tokens#primitives).
 
-Storage keys are namespaced — a custom `draft.key` is forced under the `vueform:` prefix, so a schema can't address an unrelated localStorage entry.
+In total, Vueform asks exactly two things of your policy — everything else depends on your app, not Vueform:
 
-Know what encryption buys — protection for data **at rest**, against stolen hardware, disk backups, and storage scraped outside your app. Code running on your origin can use the in-memory key just like your app does, so [`sensitive`](/guide/autosave#sensitive-values) elements — stripped from drafts entirely — remain the answer for values that should never touch the disk.
+| Directive | Value | Reason |
+| --- | --- | --- |
+| `style-src-elem` | `'nonce-…'` | Every `<style>` tag Vueform injects or renders. |
+| `img-src` | `data:` | The default icon tokens are inline SVG data URIs. |
 
-## Best Practices
+## Server-Side Responsibilities
 
-- Set the `nonce` config option when your app enforces a strict CSP.
-- Allow `img-src data:` for the default theme icons, or replace the icon tokens with same-origin assets.
-- Attach CSRF and authentication tokens via `$http` interceptors, and pin your API origins with `$security.allowOrigins` when schemas come from outside the app.
-- Mirror every client-side validation rule on the server.
-- Validate and sanitize uploaded files server-side — client-side `accept` and `maxSize` constraints are UX, not enforcement.
-- Install `@vueform/dompurify` whenever you list an area in `$security.allowHtml` — without an engine, HTML renders escaped rather than unsanitized.
-- Keep `allowHtml` to the areas that actually need markup, and reserve the identity-`sanitizer` opt-out for schemas you fully control.
-- Keep `allowComponents` to purpose-built slot, template, and layout components — never expose general application components to schema authors.
-- Keep `$security.allowProps` to the props your schemas legitimately reference — it's empty by default, and `'**'` (everything) belongs only in apps whose schemas you fully control.
-- Encrypt locally persisted autosave drafts via the `$security` ciphers when forms carry sensitive data, and mark secrets `sensitive` so they are never stored at all.
+Client-side validation is UX, not a boundary — instant feedback and fewer round trips, nothing an attacker can't skip. Mirror every rule on the server, and map a rejected submission's `422` errors back onto elements as described in [when the server rejects](/guide/submit#when-the-server-rejects).
+
+File constraints are UX in the same way. `accept` and `maxSize` shape the picker and catch mistakes; the server must validate and sanitize every upload it stores.
+
+Authorization and CSRF protection are server decisions too. The client's share — attaching tokens to requests — is one [interceptor](/guide/http#interceptors).

@@ -49,10 +49,7 @@ export default {
       items: [
         { text: 'Locales', link: '/guide/locales' },
         { text: 'Translating Props', link: '/guide/translating-props' },
-        {
-          text: 'Multilingual Inputs',
-          link: '/guide/multilingual-inputs',
-        },
+        { text: 'Multilingual Inputs', link: '/guide/multilingual-inputs' },
       ],
     },
     {

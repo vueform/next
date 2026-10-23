@@ -77,10 +77,7 @@
   },
   "--vf-bg-disabled": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L216",
-    "popover": [
-      "Background of disabled inputs, choices, and buttons.",
-      "$github"
-    ]
+    "popover": ["Background of disabled inputs and choices.", "$github"]
   },
   "--vf-black": {
     "github": "https://github.com/vueform/next/blob/main/packages/core/src/tokens/index.ts#L47",
@@ -3765,6 +3762,9 @@
   },
   "createRule": {
     "link": "/api/helpers/createRule"
+  },
+  "createVueform": {
+    "link": "/api/helpers/createVueform"
   },
   "createVueformFactory": {
     "link": "/api/helpers/createVueformFactory"

@@ -247,7 +247,7 @@ conditions: async (context$) => {
 
 While the promise is pending the condition counts as unmet, and a rejected promise stays unmet (with a dev warning). Async conditions re-run with **every model change**, but they are **debounced** so a burst of keystrokes triggers one evaluation instead of dozens. Two props tune this:
 
-- `conditionsTrigger` — replaces "any model change" as the re-evaluation trigger. Accepts an array of element [paths](/guide/elements-paths) to watch, a `ref`, or a function that receives the element's context and returns what to watch — a single value or an array, observed deeply, with re-evaluation running whenever it changes.
+- `conditionsTrigger` — replaces "any model change" as the re-evaluation trigger. Accepts an array of element [paths](/guide/element-paths) to watch, a `ref`, or a function that receives the element's context and returns what to watch — a single value or an array, observed deeply, with re-evaluation running whenever it changes.
 - `conditionsDebounce` — the debounce delay in milliseconds. Defaults to the global `$conditions.debounce` config (`300`).
 
 ```ts

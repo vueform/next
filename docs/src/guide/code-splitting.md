@@ -4,20 +4,27 @@ outline: [2,3]
 
 # Code-Splitting
 
-Vueform is built so that its bundle cost is a choice. A schema names element types and validation rules as strings — `{ type: 'text', rules: 'required|email' }` — and strings resolve at runtime, so no bundler can look at your forms and work out which parts to drop. Instead of pretending tree-shaking works where it can't, Vueform makes the boundary explicit: **what you register is what you bundle**, and every part is importable on its own.
+A schema names element types and validation rules as strings — `{ type: 'text', rules: 'required|email' }` — and strings resolve at runtime, so no bundler can look at your forms and work out which parts they use. Vueform makes the boundary explicit instead. **What you register is what you bundle**, and every registrable part — component, module, rule, theme, locale — is importable on its own.
 
-A **pre-configured entry** like `@vueform/ui/origin` registers everything: every component, module and rule, a [theme](/guide/themes-tokens), a locale. This chapter is about the alternative for when bundle size matters: a **modular setup** that starts from a bare core and registers only what your app uses — everything you leave out never makes it into the bundle.
+## Pre-Configured Entries
 
-The sections below walk through the parts one by one — [Modules](#modules), [Components](#components), [Rules](#rules), [Theme](#theme), [Locales](#locales) — with the measured size of each, and close with what the familiar [pre-configured entries](#pre-configured-entries) cost for comparison.
+A single `createVueform` import from a pre-configured entry such as `@vueform/ui/origin` registers everything — all components, modules, and validation rules, the entry's [theme](/guide/themes-tokens#choosing-a-theme), the `en_US` locale set active, and default adapters for HTTP, dates, and expressions.
+
+Every size in this chapter is the **gzipped** amount the item adds to a production Vite build with default settings, measured with <!-- @size:measured-with -->`@vueform/ui@2.0.0-0.7`<!-- /@size --> by the repository's size suite (`pnpm size`); all published numbers are for the regular virtual-DOM builds. In tables with a **Total** row, each row shows what removing that one item saves, while the Total is measured directly — items share code, so the Total can exceed the sum of the rows, and values near zero or slightly negative are compression noise. CSS only counts in builds that register the `theme` module, so module, rule, and locale rows are JS-only.
 
 ## Modular Setup
 
-Import `createVueform` from the bare `@vueform/ui` entry and each part from its own subpath. Registering _everything_, as this example does, produces the exact same build as `@vueform/ui/origin` — the point is what you leave out:
+A modular setup starts from the bare `@vueform/ui` entry, whose `createVueform` registers nothing by itself, and imports each part from its own subpath. This example registers everything, so every line of it is one thing you can leave out:
 
-```ts nolink=createVueform
+```ts
 import { createApp } from 'vue'
 import App from './App.vue'
-import { createVueform } from '@vueform/ui'
+import {
+  createVueform,
+  fetchHttpAdapter,
+  nativeDateAdapter,
+  pathExpressionAdapter,
+} from '@vueform/ui'
 import { en_US } from '@vueform/ui/locales'
 import * as components from '@vueform/ui/components'
 import * as modules from '@vueform/ui/modules'
@@ -32,6 +39,9 @@ app.use(createVueform({
   components,
   modules,
   rules,
+  $http: { adapter: fetchHttpAdapter },
+  $date: { adapter: nativeDateAdapter },
+  $expression: { adapter: pathExpressionAdapter },
 }))
 
 app.mount('#app')
@@ -41,23 +51,31 @@ Each subpath maps to one config option:
 
 | Entry | Provides | Config option |
 | --- | --- | --- |
-| `@vueform/ui/modules` | The built-in [Modules](/guide/modules) | [`modules`](/guide/configuration#modules) |
-| `@vueform/ui/components` | All [components](/components), also available as individual entries | [`components`](/guide/configuration#components) |
-| `@vueform/ui/rules` | The built-in [validation rules](/rules/) | [`rules`](/guide/configuration#rules) |
-| `@vueform/ui/themes` | The built-in [Themes](/guide/themes-tokens) and theme helpers | [`theme`](/guide/configuration#theme) |
-| `@vueform/ui/locales` | The shipped [Locales](/guide/locales) | [`locales`](/guide/configuration#locales) |
+| `@vueform/ui/modules` | The built-in [modules](/guide/modules). | [`modules`](/guide/configuration#modules) |
+| `@vueform/ui/components` | All [components](/components), each also importable from its own entry. | [`components`](/guide/configuration#components) |
+| `@vueform/ui/rules` | The built-in [validation rules](/rules/). | [`rules`](/guide/configuration#rules) |
+| `@vueform/ui/themes` | The built-in [themes](/guide/themes-tokens). | [`theme`](/guide/configuration#theme) |
+| `@vueform/ui/locales` | The shipped [locales](/guide/locales). | [`locales`](/guide/configuration#locales) |
 
-The bare entry registers nothing on its own. Its floor is <!-- @size:entry-core -->`4.26 kB`<!-- /@size --> gzipped, and the smallest _working_ build — core plus the required `model` module — lands at <!-- @size:entry-model -->`11.76 kB`<!-- /@size -->. Everything between that floor and the [full build](#pre-configured-entries) is your choice, made section by section below.
+### What the Bare Entry Leaves Out
 
-Note that only what's **registered through the config** — components, modules, rules, locales — needs these explicit choices. Everything you import by name in code — `defineSchema`, `useForm`, composables, helpers — tree-shakes like any ES module.
+The bare entry registers no components, modules, rules, theme, or locale — and it also wires no adapters, the part of the example above that's easiest to forget. Each adapter matters once its module is registered, and each costs only when wired:
 
-::: info How sizes are measured
-Every size in this chapter is the **gzipped** amount the item adds to a production Vite build (default settings, esbuild minification), measured by the repository's [bundle-size suite](https://github.com/vueform/next/tree/main/bundle-size) with <!-- @size:measured-with -->`@vueform/ui@2.0.0-0.7`<!-- /@size -->. In tables with a **Total** row, each individual row shows what removing that item saves, while the Total is measured directly with everything registered — items share code, so the Total can exceed the sum of the rows. Values near zero (even slightly negative) are compression noise.
-:::
+- Without `$http.adapter`, every request the `http` module makes rejects with a "No `http` adapter is configured" error.
+- Without `$date.adapter`, the `date` module throws on first use.
+- Without `$expression.adapter`, expressions stay inert — even plain `{path}` interpolation — with a development warning.
+
+All three defaults ship in `@vueform/ui`, as in the example. Swapping in custom ones is covered in [adapters and plugins](/guide/modules#adapters-and-plugins).
+
+### The Required Module
+
+`model` is the one module the bare entry can't run without. The bare `createVueform`'s type doesn't accept a config without `modules.model`, and a config that slips one past TypeScript throws at `createVueform()`. The bare entry itself is <!-- @size:entry-core -->`4.26 kB`<!-- /@size --> gzipped, and the smallest working build — core plus `model` — lands at <!-- @size:entry-model -->`11.76 kB`<!-- /@size -->.
+
+Only what's registered through the config needs these explicit choices. Anything you import by name — `defineSchema`, `useForm`, composables, helpers — tree-shakes like any ES module.
 
 ## Modules
 
-[Modules](/guide/modules) are Vueform's features — validation, conditions, HTTP, theming — packaged as self-contained units. In a modular setup you register the ones your app uses under `modules`:
+[Modules](/guide/modules) package Vueform's features — validation, conditions, HTTP, theming — as self-contained units, registered under `modules`:
 
 ```ts
 import { createVueform } from '@vueform/ui'
@@ -68,7 +86,7 @@ createVueform({
 })
 ```
 
-`model` is the one module Vueform cannot run without — the data layer itself — and TypeScript enforces it: the bare entry's `createVueform` doesn't accept a config without `modules.model`. Every other module is optional and degrades predictably when left out — conditions count as met, validation counts as valid, and so on. See [Leaving a Module Out](/guide/modules#leaving-a-module-out) for what each absence means.
+Every module except `model` is optional and degrades predictably when left out — see [leaving a module out](/guide/modules#leaving-a-module-out) for what each absence means.
 
 <!-- @bundle-sizes:modules start -->
 
@@ -91,7 +109,7 @@ createVueform({
 
 ## Components
 
-Components resolve through the same runtime registry the schema uses, so unused ones can only stay out of the bundle by not being registered. Cherry-pick them by importing each one from its own entry:
+A schema resolves its components by name through Vue's global registry — `type: 'text'` renders the component registered as `VfText` — so unused components only stay out of the bundle by not being registered. Cherry-pick them by importing each from its own entry:
 
 ```ts
 import { createVueform } from '@vueform/ui'
@@ -102,41 +120,46 @@ import VfLayout from '@vueform/ui/components/VfLayout'
 import VfAddon from '@vueform/ui/components/VfAddon'
 import VfIcon from '@vueform/ui/components/VfIcon'
 import VfText from '@vueform/ui/components/VfText'
-import VfButton from '@vueform/ui/components/VfButton'
 
 createVueform({
   modules: { model },
-  components: {
-    VfForm,
-    VfElements,
-    VfLayout,
-    VfAddon,
-    VfIcon,
-    VfText,
-    VfButton,
-  },
+  components: { VfForm, VfElements, VfLayout, VfAddon, VfIcon, VfText },
 })
 ```
 
-The `@vueform/ui/components` barrel is the all-in counterpart — `import * as components` registers everything, as in the full setup above.
+`@vueform/ui/components` is the all-in barrel — `import * as components` registers everything, as in the [full setup](#modular-setup).
 
-No CSS imports are needed: each component's entry carries exactly the stylesheet chunks its markup needs, which is why the tables below have a CSS column. Shared chunks are counted once, under whichever component pulls them in first — see [Themes & Tokens](/guide/themes-tokens#choosing-a-theme) for how styling ships.
+Importing a component's default entry brings in everything that component needs:
+
+- **The component** — ready to register through `components`.
+- **Its stylesheets** — exactly the chunks its markup needs, with chunks shared between components bundled once, so there are no CSS imports to manage; see [choosing a theme](/guide/themes-tokens#choosing-a-theme) for how styling ships.
+- **Its type registrations** — the component joins Vue's `GlobalComponents`, so it type-checks in templates without a local import, and an element joins the `ControlRegistry`, so its schema `type` and props — `text` for `!VfText` — are known to schema-based forms.
+
+When you want less than that, each entry has two leaner variants:
+
+| Entry | Ships |
+| --- | --- |
+| `!@vueform/ui/components/VfText` | The component with its stylesheets. |
+| `!@vueform/ui/components/VfText/unstyled` | The component without CSS, type registrations kept — for bringing your own styles. |
+| `!@vueform/ui/components/VfText/raw` | No CSS and no global type registration (`ControlRegistry`, `GlobalComponents`). |
+
+Under the `vapor` export condition every one of these entries resolves to its vapor build — see [Vapor](/guide/vapor).
 
 ### Internal Components
 
-Vueform components render each other through the registry too, so a trimmed set must include the internals your forms reach, not just the element types you write:
+Components render each other by name too, so a trimmed set must include the internals your forms reach, not just the element types you write:
 
-- **Always**: `!VfForm` renders its schema through `VfElements`, and every element wraps itself in `VfLayout`, which renders `VfAddon` and `VfIcon`. These five are the fixed companions of any form.
+- Always — `!VfForm` renders its schema through `VfElements`, and elements render inside `VfLayout`, which renders `VfAddon` and `VfIcon`.
 - `VfCheckboxes` and `VfRadios` render a `VfCheckbox` / `VfRadio` per item.
 - `VfFile`, `VfList`, `VfMatrix`, and `VfNav` render `VfButton`.
 - [Multi-page forms](/guide/multi-page-forms) need `VfSteps` or `VfTabs`, plus `VfNav`.
-- [Multilingual forms](/guide/multilingual-inputs) need `VfLanguages`.
+- [Multilingual inputs](/guide/multilingual-inputs) need `VfLanguages`.
 
 A component that's rendered but not registered surfaces as Vue's "Failed to resolve component" warning in development, with nothing rendered in its place.
 
 ### Component Sizes
 
-All components together add <!-- @size:components-total-js -->`49.88 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`6.58 kB`<!-- /@size --> of CSS, both gzipped — the per-component numbers below are what each contributes on top of the rest:
+All components together add <!-- @size:components-total-js -->`49.88 kB`<!-- /@size --> of JS and <!-- @size:components-total-css -->`6.58 kB`<!-- /@size --> of CSS, both gzipped — each row below is what that component adds on top of the rest:
 
 <!-- @bundle-sizes:components start -->
 
@@ -144,54 +167,54 @@ All components together add <!-- @size:components-total-js -->`49.88 kB`<!-- /@s
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| [`VfButton`](/ui/VfButton) | 1.10&nbsp;kB | 1.05&nbsp;kB |
-| [`VfCheckbox`](/ui/VfCheckbox) | 0.75&nbsp;kB | 0.00&nbsp;kB |
-| [`VfCheckboxes`](/ui/VfCheckboxes) | 0.77&nbsp;kB | -0.01&nbsp;kB |
-| [`VfContent`](/ui/VfContent) | 0.26&nbsp;kB | 0.04&nbsp;kB |
-| [`VfField`](/ui/VfField) | 0.36&nbsp;kB | 0.00&nbsp;kB |
-| [`VfFile`](/ui/VfFile) | 1.59&nbsp;kB | 0.04&nbsp;kB |
-| [`VfHidden`](/ui/VfHidden) | 0.27&nbsp;kB | 0.00&nbsp;kB |
-| [`VfRadio`](/ui/VfRadio) | 0.64&nbsp;kB | 0.00&nbsp;kB |
-| [`VfRadios`](/ui/VfRadios) | 0.59&nbsp;kB | 0.00&nbsp;kB |
-| [`VfSelect`](/ui/VfSelect) | 0.42&nbsp;kB | 0.12&nbsp;kB |
-| [`VfText`](/ui/VfText) | 0.42&nbsp;kB | 0.09&nbsp;kB |
-| [`VfTextarea`](/ui/VfTextarea) | 0.46&nbsp;kB | 0.04&nbsp;kB |
+| [`VfButton`](/components/VfButton) | 1.10&nbsp;kB | 1.05&nbsp;kB |
+| [`VfCheckbox`](/components/VfCheckbox) | 0.75&nbsp;kB | 0.00&nbsp;kB |
+| [`VfCheckboxes`](/components/VfCheckboxes) | 0.77&nbsp;kB | -0.01&nbsp;kB |
+| [`VfContent`](/components/VfContent) | 0.26&nbsp;kB | 0.04&nbsp;kB |
+| [`VfField`](/components/VfField) | 0.36&nbsp;kB | 0.00&nbsp;kB |
+| [`VfFile`](/components/VfFile) | 1.59&nbsp;kB | 0.04&nbsp;kB |
+| [`VfHidden`](/components/VfHidden) | 0.27&nbsp;kB | 0.00&nbsp;kB |
+| [`VfRadio`](/components/VfRadio) | 0.64&nbsp;kB | 0.00&nbsp;kB |
+| [`VfRadios`](/components/VfRadios) | 0.59&nbsp;kB | 0.00&nbsp;kB |
+| [`VfSelect`](/components/VfSelect) | 0.42&nbsp;kB | 0.12&nbsp;kB |
+| [`VfText`](/components/VfText) | 0.42&nbsp;kB | 0.09&nbsp;kB |
+| [`VfTextarea`](/components/VfTextarea) | 0.46&nbsp;kB | 0.04&nbsp;kB |
 
 **Containers**
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| [`!VfForm`](/ui/VfForm) | 5.72&nbsp;kB | 0.00&nbsp;kB |
-| [`VfGrid`](/ui/VfGrid) | 2.32&nbsp;kB | 0.00&nbsp;kB |
-| [`VfGroup`](/ui/VfGroup) | 0.47&nbsp;kB | 0.08&nbsp;kB |
-| [`VfList`](/ui/VfList) | 1.58&nbsp;kB | 0.17&nbsp;kB |
-| [`VfMatrix`](/ui/VfMatrix) | 4.08&nbsp;kB | 0.18&nbsp;kB |
+| [`VfForm`](/components/VfForm) | 5.77&nbsp;kB | 0.00&nbsp;kB |
+| [`VfGrid`](/components/VfGrid) | 2.32&nbsp;kB | 0.00&nbsp;kB |
+| [`VfGroup`](/components/VfGroup) | 0.47&nbsp;kB | 0.08&nbsp;kB |
+| [`VfList`](/components/VfList) | 1.58&nbsp;kB | 0.17&nbsp;kB |
+| [`VfMatrix`](/components/VfMatrix) | 4.08&nbsp;kB | 0.18&nbsp;kB |
 
 **Form components**
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| [`VfElements`](/ui/VfElements) | 0.13&nbsp;kB | 0.00&nbsp;kB |
-| [`VfLanguages`](/ui/VfLanguages) | 0.38&nbsp;kB | 0.13&nbsp;kB |
-| [`VfNav`](/ui/VfNav) | 0.97&nbsp;kB | 0.07&nbsp;kB |
-| [`VfSteps`](/ui/VfSteps) | 0.17&nbsp;kB | 0.63&nbsp;kB |
-| [`VfTabs`](/ui/VfTabs) | 0.12&nbsp;kB | 0.12&nbsp;kB |
+| [`VfElements`](/components/VfElements) | 0.13&nbsp;kB | 0.00&nbsp;kB |
+| [`VfLanguages`](/components/VfLanguages) | 0.38&nbsp;kB | 0.13&nbsp;kB |
+| [`VfNav`](/components/VfNav) | 0.97&nbsp;kB | 0.07&nbsp;kB |
+| [`VfSteps`](/components/VfSteps) | 0.17&nbsp;kB | 0.63&nbsp;kB |
+| [`VfTabs`](/components/VfTabs) | 0.12&nbsp;kB | 0.12&nbsp;kB |
 
 **Layout & internals**
 
 | Component | JS | CSS |
 | --- | --- | --- |
-| [`VfAddon`](/ui/VfAddon) | 0.31&nbsp;kB | 0.47&nbsp;kB |
-| [`VfCol`](/ui/VfCol) | 0.70&nbsp;kB | 0.00&nbsp;kB |
-| [`VfIcon`](/ui/VfIcon) | 0.13&nbsp;kB | -0.01&nbsp;kB |
-| [`VfLayout`](/ui/VfLayout) | 3.02&nbsp;kB | 0.55&nbsp;kB |
-| [`VfRow`](/ui/VfRow) | 0.26&nbsp;kB | 0.00&nbsp;kB |
+| [`VfAddon`](/components/VfAddon) | 0.31&nbsp;kB | 0.47&nbsp;kB |
+| [`VfCol`](/components/VfCol) | 0.70&nbsp;kB | 0.00&nbsp;kB |
+| [`VfIcon`](/components/VfIcon) | 0.13&nbsp;kB | -0.01&nbsp;kB |
+| [`VfLayout`](/components/VfLayout) | 3.02&nbsp;kB | 0.55&nbsp;kB |
+| [`VfRow`](/components/VfRow) | 0.26&nbsp;kB | 0.00&nbsp;kB |
 
 <!-- @bundle-sizes:components end -->
 
 ## Rules
 
-Validation rules follow the same pattern: a rule referenced by name — `rules: 'required|email'` in a schema — must be registered under `rules`, or validation throws pointing at the missing name. Register only what your forms use:
+A rule referenced by name — `rules: 'required|email'` — must be registered under `rules`, or validation throws naming the missing rule:
 
 ```ts
 import { createVueform } from '@vueform/ui'
@@ -204,87 +227,11 @@ createVueform({
 })
 ```
 
-Rules are the cheapest part of the framework: the complete built-in set adds <!-- @size:rules-total -->`3.19 kB`<!-- /@size --> gzipped, a single rule between <!-- @size:rules-min -->`0.17 kB`<!-- /@size --> and <!-- @size:rules-max -->`0.60 kB`<!-- /@size -->. Unless you're chasing every kilobyte, `import * as rules` is a perfectly reasonable default — trimming pays off in the other sections first. Rules only run when the `validation` module is registered; without it, they're dead weight.
-
-::: details Per-rule sizes
-<!-- @bundle-sizes:rules start -->
-
-| Rule | Size |
-| --- | --- |
-| `accepted` | 0.20&nbsp;kB |
-| `after` | 0.41&nbsp;kB |
-| `after_or_equal` | 0.42&nbsp;kB |
-| `alpha` | 0.19&nbsp;kB |
-| `alpha_dash` | 0.20&nbsp;kB |
-| `alpha_num` | 0.19&nbsp;kB |
-| `array` | 0.17&nbsp;kB |
-| `before` | 0.41&nbsp;kB |
-| `before_or_equal` | 0.42&nbsp;kB |
-| `between` | 0.22&nbsp;kB |
-| `boolean` | 0.19&nbsp;kB |
-| `captcha` | 0.19&nbsp;kB |
-| `confirmed` | 0.20&nbsp;kB |
-| `date` | 0.23&nbsp;kB |
-| `date_equals` | 0.19&nbsp;kB |
-| `date_format` | 0.25&nbsp;kB |
-| `different` | 0.25&nbsp;kB |
-| `digits` | 0.20&nbsp;kB |
-| `digits_between` | 0.22&nbsp;kB |
-| `dimensions` | 0.60&nbsp;kB |
-| `distinct` | 0.21&nbsp;kB |
-| `email` | 0.29&nbsp;kB |
-| `file` | 0.23&nbsp;kB |
-| `filled` | 0.18&nbsp;kB |
-| `gt` | 0.28&nbsp;kB |
-| `gte` | 0.29&nbsp;kB |
-| `image` | 0.29&nbsp;kB |
-| `in` | 0.19&nbsp;kB |
-| `in_array` | 0.24&nbsp;kB |
-| `integer` | 0.19&nbsp;kB |
-| `ip` | 0.46&nbsp;kB |
-| `ipv4` | 0.25&nbsp;kB |
-| `ipv6` | 0.40&nbsp;kB |
-| `json` | 0.20&nbsp;kB |
-| `lt` | 0.28&nbsp;kB |
-| `lte` | 0.29&nbsp;kB |
-| `max` | 0.21&nbsp;kB |
-| `mimes` | 0.27&nbsp;kB |
-| `mimetypes` | 0.26&nbsp;kB |
-| `min` | 0.21&nbsp;kB |
-| `not_in` | 0.19&nbsp;kB |
-| `not_regex` | 0.42&nbsp;kB |
-| `nullable` | 0.17&nbsp;kB |
-| `numeric` | 0.22&nbsp;kB |
-| `regex` | 0.41&nbsp;kB |
-| `required` | 0.18&nbsp;kB |
-| `same` | 0.24&nbsp;kB |
-| `size` | 0.20&nbsp;kB |
-| `string` | 0.17&nbsp;kB |
-| `timezone` | 0.21&nbsp;kB |
-| `url` | 0.45&nbsp;kB |
-| `uuid` | 0.20&nbsp;kB |
-| **Total** | 3.19&nbsp;kB |
-
-<!-- @bundle-sizes:rules end -->
-
-:::
+Rules are the cheapest part of the framework. The complete built-in set adds <!-- @size:rules-total -->`3.19 kB`<!-- /@size --> gzipped and a single rule costs between <!-- @size:rules-min -->`0.17 kB`<!-- /@size --> and <!-- @size:rules-max -->`0.60 kB`<!-- /@size -->, so `import * as rules` is a reasonable default — trimming pays off in the other sections first. Rules only run with the `validation` module registered. Each rule's measured size is listed on its [reference page](/rules/), in the **Bundle size** row.
 
 ## Theme
 
-Styling is three separable pieces, each with its own cost:
-
-1. **The `theme` module** — converts tokens to CSS variables and injects them into the page (<!-- @size:module-theme -->`2.06 kB`<!-- /@size --> gzipped, in the [Modules](#modules) table).
-2. **The theme's tokens** — the JS token map passed to the `theme` option, selecting the look:
-
-   ```ts
-   import { createVueform } from '@vueform/ui'
-   import { material as theme } from '@vueform/ui/themes'
-
-   createVueform({
-     theme,
-     // ...
-   })
-   ```
+The cost of styling splits three ways. The `theme` module (<!-- @size:module-theme -->`2.06 kB`<!-- /@size --> gzipped, in the [modules](#modules) table) converts the theme's tokens to CSS variables and injects them. The theme itself contributes its token map, selected through the `theme` option — see [choosing a theme](/guide/themes-tokens#choosing-a-theme):
 
 <!-- @bundle-sizes:themes start -->
 
@@ -295,20 +242,11 @@ Styling is three separable pieces, each with its own cost:
 
 <!-- @bundle-sizes:themes end -->
 
-3. **The stylesheets** — ship with the components themselves (the CSS column of the [component tables](#component-sizes)), never as a separate import. The CSS is identical across themes; only the token values differ.
+The third piece — the component stylesheets — ships with the components themselves and is already counted in the CSS column of the [component tables](#component-sizes).
 
 ## Locales
 
-The bare entry registers no locale — you provide every locale your app offers and leave out the rest. When only one is registered it becomes the active one automatically:
-
-```ts
-import { createVueform } from '@vueform/ui'
-import { de_DE } from '@vueform/ui/locales'
-
-createVueform({
-  locales: { de_DE },
-})
-```
+The bare entry registers no locale, so ship only the ones your app offers — registration and how the active locale is picked are covered in [registering locales](/guide/locales#registering-locales).
 
 <!-- @bundle-sizes:locales start -->
 
@@ -320,20 +258,8 @@ createVueform({
 
 <!-- @bundle-sizes:locales end -->
 
-Registered locales are resolved by the `locale` **module** (<!-- @size:module-locale -->`0.28 kB`<!-- /@size --> gzipped, in the [Modules](#modules) table) — without it, built-in strings show their raw tags. See [Locales](/guide/locales) for the full localization story.
+Locale strings resolve through the `locale` module (<!-- @size:module-locale -->`0.28 kB`<!-- /@size --> gzipped, in the [modules](#modules) table) — see [leaving a module out](/guide/modules#leaving-a-module-out) for what its absence means.
 
-## Pre-Configured Entries
+## The Full Bundle
 
-The pre-configured entries — `@vueform/ui/origin` and `@vueform/ui/material` — bundle the [modular setup](#modular-setup) with everything registered behind a single import: all components, all modules, all validation rules, the [theme](/guide/themes-tokens) the entry is named after, and the `en_US` locale:
-
-```ts nolink=createVueform
-import { createApp } from 'vue'
-import App from './App.vue'
-import { createVueform } from '@vueform/ui/origin'
-
-const app = createApp(App)
-app.use(createVueform())
-app.mount('#app')
-```
-
-Everything registered means everything bundled: a pre-configured entry adds <!-- @size:entry-full -->`92.83 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`86.25 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.58 kB`<!-- /@size --> of CSS. That is the ceiling: the complete framework, every element type, every rule, fully styled. If that's fine for your app — as it often is for form-heavy ones — there's nothing wrong with staying on a pre-configured entry: a modular setup registering everything produces the same build, just with more imports.
+Registering everything, as the [pre-configured entries](#pre-configured-entries) do, adds <!-- @size:entry-full -->`92.83 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`86.25 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.58 kB`<!-- /@size --> of CSS. That's the ceiling the sections above chip away at; the floor — core plus `model` — is <!-- @size:entry-model -->`11.76 kB`<!-- /@size -->. Everything between the two is a choice you make per part.

@@ -50,7 +50,7 @@ const [Form] = useForm({ schema })
 
 Every prop that displays text resolves expressions — `label`, `placeholder`, `help`, `description`, and the rest of the [dynamic props](/guide/dynamic-props).
 
-The path between the braces is an [element path](/guide/element-paths). Dot segments walk into nested structures — `user.name` reaches an element inside a group, `items.0.price` a field in a list's first row. <!-- @todo: this information should be rather mentioned more generally in Element Paths because it applies to all the places where element paths are used: Both the element's [tree path and its data path](/guide/element-paths#tree-path-vs-data-path) resolve; **prefer the tree path**, the element's full address in the form. -->
+The path between the braces is an [element path](/guide/element-paths). Dot segments walk into nested structures — `user.name` reaches an element inside a group, `items.0.price` a field in a list's first row. Both the element's [tree path and its data path](/guide/element-paths#tree-path-vs-data-path) resolve — prefer the tree path, the element's full address in the form.
 
 A reference is live. Whenever a referenced element's value changes, every string that mentions it updates, so the bio label above rewrites itself with each keystroke in the name field. An empty, `null`, or missing value resolves to an empty string rather than printing `null` or `undefined` into the text.
 

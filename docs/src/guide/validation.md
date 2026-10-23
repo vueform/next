@@ -708,7 +708,7 @@ const [MyForm] = useForm({
 
 ### Multilingual Messages
 
-Anywhere a message is accepted, a [locale-keyed object](/guide/dynamic-props#locale-map) works in place of the string — in `ruleMessages`, in `!createRule`'s `message` option, and in a check's returned string:
+Anywhere a message is accepted, a [locale-keyed object](/guide/translating-props#locale-maps) works in place of the string — in `ruleMessages`, in `!createRule`'s `message` option, and in a check's returned string:
 
 ```ts
 defineSchema({

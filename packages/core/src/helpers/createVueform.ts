@@ -505,6 +505,10 @@ export function createVueformFactory<
       // Module option bags are shallow-merged so a per-app override
       // (e.g. `$http: { baseURL }`) doesn't drop preset-baked adapters
       // (`$date.adapter`, `$http.adapter`).
+      $autosave: {
+        ...defaultOptions.$autosave,
+        ...userConfig.$autosave,
+      },
       $conditions: {
         ...defaultOptions.$conditions,
         ...userConfig.$conditions,

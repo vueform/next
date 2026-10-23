@@ -211,7 +211,7 @@ export const semantic = {
   textDisabled: '$gray400',
 
   /**
-   * Background of disabled inputs, choices, and buttons.
+   * Background of disabled inputs and choices.
    */
   bgDisabled: '$gray100',
 
