@@ -84,7 +84,7 @@ const [Form] = useForm({ schema })
 
 ## HTML Content
 
-Content containing markup renders as HTML out of the box, sanitized before rendering (an installed sanitizer is required — see [the sanitize step](/guide/security#the-sanitize-step)). An app restricts this through [`$security.allowHtml`](/guide/security#html-sanitization) — once set it is an allowlist, and without the `content` area on it the markup renders as escaped text. The decision belongs to the app config, not to the schema, so a schema from an untrusted source can't turn HTML rendering on for itself.
+Content containing markup renders as HTML by default — to restrict this or set up sanitization, see [HTML sanitization](/guide/security#html-sanitization).
 
 ::: usage center nomodel
 

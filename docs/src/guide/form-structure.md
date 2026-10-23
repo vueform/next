@@ -585,7 +585,8 @@ Like a group, a grid writes its children into the parent's data, and `nested` co
 
 ### Cells
 
-A cell in the `grid` array is an element schema object, a string, or `null` for an empty cell. String cells resolve `{...}` [expressions](/guide/expressions) and render as plain text — they render as HTML only when `grid` is listed in `$security.allowHtml`, sanitized as [HTML sanitization](/guide/security#html-sanitization) describes.
+A cell in the `grid` array is an element schema object, a string, or `null` for an empty cell. String cells resolve `{...}` [expressions](/guide/expressions) and render as HTML by default — to restrict this or set up sanitization, see [HTML sanitization](/guide/security#html-sanitization).
+
 
 Besides its element schema, an object cell takes a handful of layout keys — `colspan`, `rowspan`, `align`, `valign`, and `attrs` (HTML attributes for the cell wrapper) — with `content` carrying the text of a non-element cell. The same props go on `!VfCol` in templates:
 

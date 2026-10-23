@@ -59,18 +59,11 @@ createVueform({
 
 ### The Sanitize Step
 
-HTML in an allowed area always passes through `$security.sanitizer`, after localization and [expression](/guide/expressions) resolution, so the sanitizer sees the final markup — including values interpolated out of form data. That ordering is what makes a template like `'Welcome, {name}!'` safe, whatever `{name}` carries in.
+HTML in an allowed area always passes through [`$security.sanitizer`](/guide/configuration#security), after localization and [expression](/guide/expressions) resolution, so the sanitizer sees the final markup — including values interpolated out of form data. That ordering is what makes a template like `'Welcome, {name}!'` safe, whatever `{name}` carries in.
 
-There is no built-in engine and no on/off switch — what renders depends entirely on what `sanitizer` holds:
+There is no built-in engine — sanitization happens only when a `sanitizer` is installed, typically the [DOMPurify plugin](/plugins/dompurify). Once `allowHtml` is set, a sanitizer is required — missing one warns in development and fails closed in production, rendering the allowed areas empty. To render raw HTML on purpose for a fully trusted schema, set `$security.sanitizer: (html) => html`.
 
-| `sanitizer` | Result |
-| --- | --- |
-| An engine — the [DOMPurify plugin](/plugins/dompurify) or your own | Sanitized HTML renders. |
-| Unset, in development | Raw HTML renders, with a one-time warning naming the fix. |
-| Unset, in production | The area renders **empty** — unsanitizable HTML never ships. |
-| `(html) => html` | Raw HTML renders — the conscious, greppable opt-out for fully trusted schemas. |
-
-A custom engine is a single `SecuritySanitizer` function, `(html: string) => string`, set as `$security.sanitizer` — and a sanitizer you set yourself wins over the plugin's. The DOMPurify plugin's own options (`sanitizeOptions`, `sanitizeInit`) are covered on [its page](/plugins/dompurify).
+A custom engine is a single `SecuritySanitizer` function, `(html: string) => string`, set as [`$security.sanitizer`](/guide/configuration#security) — and a sanitizer you set yourself wins over the plugin's. The DOMPurify plugin's own options (`sanitizeOptions`, `sanitizeInit`) are covered on [its page](/plugins/dompurify).
 
 These gates cover the strings Vueform renders. HTML you render yourself through `v-html` in [custom templates](/guide/templates) is yours to sanitize.
 

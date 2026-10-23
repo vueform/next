@@ -94,12 +94,11 @@ A string entry needs no component. Plain text renders as text, with [expressions
 
 A string shaped like a component name — PascalCase or kebab-case — that names a globally registered component resolves to that component, but only when the name is listed in `$security.allowComponents`. Anything else renders as text, and a registered but unlisted name warns once in development.
 
-HTML renders only when `$security.allowHtml` lists `'slots'`, and always through the `$security.sanitizer` engine — typically the [DOMPurify plugin](/plugins/dompurify); without an engine, development renders raw with a one-time warning and production renders empty, as [security](/guide/security#html-sanitization) details. When `'slots'` isn't listed, HTML renders as escaped text, tags visible, with no warning.
+HTML renders by default — to restrict this or set up sanitization, see [HTML sanitization](/guide/security#html-sanitization).
 
 ```ts
 createVueform({
   $security: {
-    allowHtml: ['slots'],
     allowComponents: ['MyOption'],
   },
 })
