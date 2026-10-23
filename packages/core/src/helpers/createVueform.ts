@@ -2,12 +2,14 @@ import { isReactive, isRef, ref, type App } from 'vue'
 
 import {
   shouldApplyPlugin,
+  useDate,
   useForm,
   useHttp,
   type useModel,
 } from '#src/composables'
 import { defaultConfig } from '#src/config'
 import { createVueformContext } from '#src/contexts'
+import type { DateInstance } from '#src/modules/date'
 import type { HttpInstance } from '#src/modules/http'
 import { getLocaleModule, type LocaleModule } from '#src/modules/locale'
 import type {
@@ -86,6 +88,12 @@ export interface VueformInstance {
    * components.
    */
   readonly $http: HttpInstance
+
+  /**
+   * `useDate` bound to this instance — parses values through this instance's
+   * date adapter, for code outside components.
+   */
+  readonly $date: (value?: any, format?: string) => DateInstance
 
   /**
    * `useModel` bound to this instance — for code with no component context.
@@ -617,6 +625,8 @@ export function createVueformFactory<
       get $http() {
         return ($http ??= useHttp(vueform))
       },
+
+      $date: (value?: any, format?: string) => useDate(value, format, vueform),
 
       useModel: ((options, seed) =>
         modules.model.make(options, seed)) as typeof useModel,

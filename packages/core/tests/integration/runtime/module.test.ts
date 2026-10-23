@@ -1,11 +1,13 @@
 import {
   createVueform,
+  date as dateModule,
   getLocaleModule,
   hasExpressionModule,
   hasLocaleModule,
   hasRouterModule,
   hasThemeModule,
   model,
+  nativeDateAdapter,
   NotInstalledError,
   locale as localeModule,
   useLocale,
@@ -103,6 +105,21 @@ describe('Module resolution', () => {
     // Lazily created once, then stable — it carries its own interceptor scope.
     expect(vueform.$http).toBe(vueform.$http)
     expect(typeof vueform.$http.request).toBe('function')
+  })
+
+  it('exposes $date on the instance — useDate bound to it', () => {
+    const vueform = createVueform({
+      modules: { model, date: dateModule },
+      components,
+      $date: { adapter: nativeDateAdapter },
+    } as any)
+
+    expect(vueform.$date('1990-05-15').year()).toBe(1990)
+    expect(vueform.$date().isValid()).toBe(true)
+
+    // Without the date module the member throws at call, not at access.
+    const bare = makeInstance({ en_US }, 'en_US')
+    expect(() => bare.$date()).toThrow('date')
   })
 
   it('runs plugin install hooks with the app and the instance on install', () => {
