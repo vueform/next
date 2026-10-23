@@ -49,7 +49,7 @@ The required indicator next to the label is `aria-hidden` — `aria-required` al
 
 `!VfText` and `!VfTextarea` default `autocomplete` to the element's `name` whenever it spells a valid HTML autofill token — in kebab, snake, camel, or Pascal case, so `given_name` and `givenName` both resolve to `given-name` — giving autofill and WCAG 1.3.5 (Identify Input Purpose) support for free. Any other name renders no `autocomplete` at all, since browsers ignore invalid tokens. `inputmode` is available as a plain prop.
 
-### ARIA vs. Styling Attributes
+### ARIA vs Styling Attributes
 
 ARIA attributes serve assistive technology, while `data-*` [state attributes](/guide/parts#state-attributes) serve CSS — one state projecting into both worlds emits both from the same source, like `aria-invalid` alongside `data-invalid`, or `aria-busy` alongside `data-loading`. Native `disabled` serves both at once; only a `!VfButton` rendered as an anchor (`href` or `to`) splits it into `aria-disabled` plus `data-disabled`.
 
