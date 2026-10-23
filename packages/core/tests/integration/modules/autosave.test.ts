@@ -2660,6 +2660,81 @@ describe('Autosave abort', () => {
     expect(successHandler).not.toHaveBeenCalled()
     expect(failHandler).not.toHaveBeenCalled()
   })
+
+  it('should cancel a pending debounced save', async () => {
+    const { adapter, calls } = mockAdapter()
+
+    const { form$, name } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', default: 'John' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          debounce: 1000,
+        },
+      },
+      { $http: { adapter } }
+    )
+
+    await nextTick()
+
+    name.update('Jane')
+    await nextTick()
+
+    form$.abortAutosave()
+
+    vi.advanceTimersByTime(5000)
+    await flushPromises()
+
+    expect(calls).toHaveLength(0)
+
+    // autosaving stays armed — the next change saves as usual
+    name.update('Joe')
+    await nextTick()
+    vi.advanceTimersByTime(1000)
+    await flushPromises()
+
+    expect(calls).toHaveLength(1)
+  })
+
+  it('should drop a pending gated retry', async () => {
+    const { adapter, calls } = mockAdapter()
+
+    const { form$, name } = createForm(
+      {
+        schema: defineSchema({
+          name: { type: 'text', rules: 'required' },
+        }),
+        autosave: {
+          endpoint: '/api/autosave',
+          debounce: 500,
+        },
+      },
+      { $http: { adapter } }
+    )
+
+    await nextTick()
+
+    await form$.validate()
+    await nextTick()
+    expect(form$.invalid).toBe(true)
+
+    // gated at debounce time — the save is deferred
+    name.update('John')
+    await nextTick()
+    vi.advanceTimersByTime(500)
+    await flushPromises()
+    expect(calls).toHaveLength(0)
+
+    form$.abortAutosave()
+
+    // the transition to valid no longer flushes anything
+    await form$.validate()
+    await flushPromises()
+    expect(form$.invalid).toBe(false)
+    expect(calls).toHaveLength(0)
+  })
 })
 
 // =============================================================================

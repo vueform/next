@@ -127,6 +127,7 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     })
 
     let intervalTimer: ReturnType<typeof setInterval> | undefined
+    let cancelRemoteSave: (() => void) | undefined
     let cancelDraftSave: (() => void) | undefined
     let registeredHandlers: {
       event: string
@@ -622,13 +623,16 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     // ============== WIRING ================
 
     /**
-     * Aborts the in-flight autosave request, if any. The aborted save settles
-     * silently — no fail event fires. Scheduled saves (a running debounce, the
-     * interval, a pending gated retry) are unaffected.
+     * Aborts the autosave that's underway or queued — the in-flight request, a
+     * running change debounce, and a pending gated retry. Everything settles
+     * silently, firing no fail event. Autosaving itself stays on — the
+     * triggers and the interval keep arming future saves.
      */
     const abortAutosave = () => {
       inFlight?.abort()
       inFlight = null
+      cancelRemoteSave?.()
+      pendingSave = false
     }
 
     /**
@@ -638,8 +642,8 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
     const cleanup = () => {
       registeredHandlers.forEach(({ event, handler }) => off(event, handler))
       registeredHandlers = []
-      pendingSave = false
       abortAutosave()
+      cancelRemoteSave = undefined
       cancelDraftSave?.()
       cancelDraftSave = undefined
 
@@ -681,6 +685,8 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
             },
             Number(conf.debounce ?? 1000)
           )
+
+          cancelRemoteSave = debouncedSave.cancel
 
           on('change', debouncedSave)
           registeredHandlers.push({ event: 'change', handler: debouncedSave })
