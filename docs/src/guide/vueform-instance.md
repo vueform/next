@@ -120,7 +120,7 @@ const form = vueform.useForm({ schema })
 
 `!vueform.useModel` and `!vueform.useForm` are the [`useModel`](/guide/model) and [`useForm`](/guide/rendering) composables bound to **this instance**: same signature, same typing, but the instance is already known, so nothing has to be injected.
 
-`!vueform.$http` and `!vueform.$locale` solve the same problem for the two modules code outside components most often needs. They mirror the `!$http` and `!$locale` a component finds on its context:
+`!vueform.$http` and `!vueform.$locale` solve the same problem for the modules code outside components most often needs — they mirror the `!$http` and `!$locale` a component finds on its context — and `!vueform.$date` is [`useDate`](/guide/date#usedate) bound the same way:
 
 ```ts
 // stores/countries.ts
@@ -128,9 +128,10 @@ import { vueform } from '@/vueform'
 
 const { data } = await vueform.$http.get('/api/countries')
 const label = vueform.$locale.t('steps_next')
+const expires = vueform.$date().add(30, 'day')
 ```
 
-Without the corresponding module registered they behave like their in-component counterparts — `$http` requests reject, `$locale` returns raw tags — rather than failing at access.
+Without the corresponding module registered, `$http` and `$locale` behave like their in-component counterparts — requests reject, translations return raw tags — rather than failing at access, while `$date` throws when called, since date work without an adapter has no sensible fallback.
 
 ## Styles on the Server
 

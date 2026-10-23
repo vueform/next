@@ -4,11 +4,11 @@ outline: [2,3]
 
 # Dates
 
-Dates show up all over a form — a condition that compares against _today_, a rule that demands a birth date in the past, an expression that computes a deadline. All of it runs through one **date layer**, a small adapter-based module with a consistent date API. The built-in native adapter handles standard formats with zero dependencies; when you need custom format parsing and formatting, a date plugin (Day.js, date-fns, or Luxon) swaps in underneath and everything on top keeps working.
+Dates show up all over a form — a condition that compares against _today_, a rule that demands a birth date in the past, an [expression](/guide/expressions) that computes a deadline. All of it runs through one **date layer**, a small adapter-based module with a consistent date API. The built-in native adapter handles standard formats with zero dependencies; when you need custom format parsing and formatting, a date plugin ([Day.js](/plugins/dayjs), [date-fns](/plugins/date-fns), or [Luxon](/plugins/luxon)) swaps in underneath and everything on top keeps working.
 
 ## The Date Adapter
 
-The module itself is thin — a `make(value, format?)` factory that parses a value into a `DateInstance`. The parsing and math behind it come from the configured **adapter** (`$date.adapter`), and `@vueform/ui` wires in the dependency-free `nativeDateAdapter` by default. It understands:
+The module itself is thin — a `make(value, format?)` factory that parses a value into a `DateInstance`. The parsing and math behind it come from the configured [**adapter**](/guide/configuration#date), and the default entry wires in the dependency-free native adapter based on [`Date`](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Date) by default. It understands:
 
 - `Date` objects and timestamps
 - `YYYY-MM-DD` strings (parsed as local dates)
@@ -57,7 +57,7 @@ The `before`, `after`, and `today` [condition operators](/guide/conditions#date-
 
 The date-aware [rules](/guide/validation) parse and compare through the same adapter. The comparison rules all take the same `date` parameter, which accepts three forms: a fixed date (`after:2026-01-01`), the keywords `today` / `tomorrow` / `yesterday` (`before:today`), or **another element's path** (`after:start_date`):
 
-| Rule | Validates that the value… | [Format plugin](#format-plugins)? |
+| Rule | Validates that the value… | Format plugin? |
 | --- | --- | --- |
 | `date` | …is a valid date. | Not needed for standard formats. |
 | `date_format:FORMAT` | …matches the given format exactly. | **Always required.** |
@@ -116,19 +116,37 @@ today.diff(dob, 'year')        // the age in whole years
 dob.add(30, 'day').toISODate() // '1990-06-14'
 ```
 
-In component setup it finds the app's adapter by itself. Outside a component — in a custom rule or an expression function — pass the Vueform instance as the third argument; rule and function contexts carry it as `vueform`:
+In component setup it finds the app's adapter by itself. Outside a setup context the same function is available on the Vueform instance as `!vueform.$date`, already bound to that instance's adapter. Custom rules and expression functions receive the instance in their context as `vueform`:
 
 ```ts
-import { createRule, useDate } from '@vueform/ui'
+import { createRule } from '@vueform/ui'
 
 const workday = createRule('workday', (value, { vueform }) => {
-  const day = useDate(value, undefined, vueform).day()
+  const day = vueform.$date(value).day()
 
   return day !== 0 && day !== 6
 })
 ```
 
-The instance is immutable — every manipulation returns a new instance — and exposes a dayjs-compatible API regardless of which adapter is behind it:
+In a store, a route guard or a plain script, use the instance returned by `createVueform`:
+
+```ts
+// vueform.ts
+import { createVueform } from '@vueform/ui/origin'
+
+export const vueform = createVueform({
+  // your configuration
+})
+
+// stores/orders.ts
+import { vueform } from '@/vueform'
+
+const deadline = vueform.$date(order.deadline)
+```
+
+Keeping a reference to the instance for exactly this purpose is covered in [outside a setup context](/guide/vueform-instance#outside-a-setup-context).
+
+The instance is immutable — every manipulation returns a new instance — and exposes a [dayjs-compatible API](https://day.js.org/docs/en/installation/installation) regardless of which adapter is behind it:
 
 | Group | Members |
 | --- | --- |
@@ -142,7 +160,7 @@ Units accept singular and plural forms (`'day'` / `'days'`, `'month'` / `'months
 
 ## Custom Adapters
 
-An adapter is a factory returning the `make` function — take a value (and optional format), return a `DateInstance`. Wire your own under `$date.adapter` to route all date handling through an in-house implementation:
+An adapter is a factory returning the `make` function — take a value (and optional format), return Vueform's `DateInstance`. Wire your own under [`$date.adapter`](/guide/configuration#date) to route all date handling through an in-house implementation:
 
 ```ts
 import { createVueform, type DateAdapter, type DateInstance } from '@vueform/ui/origin'
