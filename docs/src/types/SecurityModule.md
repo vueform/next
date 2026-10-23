@@ -91,8 +91,10 @@ interface SecurityModule {
 
   /**
    * Whether an HTTP request URL is permitted by `$security.allowOrigins`.
-   * Always `true` when the option is unset; purely relative URLs are always
-   * allowed. Consulted by the HTTP module before sending any request.
+   * Fail-closed: when the option is unset, cross-origin requests are denied —
+   * only relative URLs, the page's own origin, and (in the browser) the
+   * `$http.baseURL` origin pass. Consulted by the HTTP module before sending
+   * any request.
    *
    * @param url The request URL, resolved or as passed to the HTTP module.
    */
