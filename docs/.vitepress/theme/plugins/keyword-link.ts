@@ -61,6 +61,47 @@ const globalPattern = (() => {
   return parts.length > 0 ? new RegExp(parts.join('|'), 'g') : null
 })()
 
+// Keywords shaped like composable names (`useHttp`, `useForm`, …). When such a
+// keyword is immediately followed by a call — `useHttp()`, `useHttp(opts)` —
+// the whole call expression becomes one link, not just the keyword.
+const CALL_NAME_RE = /^use[A-Z]/
+
+function buildCallPattern(names: string[]): RegExp | null {
+  if (names.length === 0) return null
+  return new RegExp(
+    `${NOT_AFTER_IDENT}(${names.map(escapeRe).join('|')})\\(`,
+    'g'
+  )
+}
+
+const globalCallPattern = buildCallPattern(
+  sortedKeywords.filter((k) => CALL_NAME_RE.test(k))
+)
+
+/**
+ * Index right after the `)` closing the paren at `openIdx`, skipping string
+ * literals, or -1 when the call does not close within `text` (e.g. a
+ * multi-line call — those fall back to keyword-only linking).
+ */
+function findCallEnd(text: string, openIdx: number): number {
+  let depth = 0
+  for (let i = openIdx; i < text.length; i++) {
+    const ch = text[i]
+    if (ch === "'" || ch === '"' || ch === '`') {
+      i++
+      while (i < text.length && text[i] !== ch) {
+        if (text[i] === '\\') i++
+        i++
+      }
+      if (i >= text.length) return -1
+      continue
+    }
+    if (ch === '(') depth++
+    else if (ch === ')' && --depth === 0) return i + 1
+  }
+  return -1
+}
+
 interface BlockLinkDirective {
   nolink?: true | Set<string>
   link?: Set<string>
@@ -141,6 +182,7 @@ function processLine(line: Element, block?: BlockLinkDirective) {
   // Fast path – no directives at all → use the pre-built global pattern
   if (!unlinkMatch && !linkMatch && !block) {
     if (!globalPattern) return
+    wrapCallExpressions(line, extendedMap, globalCallPattern)
     line.children = linkifyKeywords(line.children, extendedMap, globalPattern)
     return
   }
@@ -203,6 +245,11 @@ function processLine(line: Element, block?: BlockLinkDirective) {
   }
   if (patternParts.length === 0) return
   const pattern = new RegExp(patternParts.join('|'), 'g')
+  wrapCallExpressions(
+    line,
+    effectiveMap,
+    buildCallPattern(names.filter((k) => CALL_NAME_RE.test(k)))
+  )
   line.children = linkifyKeywords(line.children, effectiveMap, pattern)
 }
 
@@ -388,6 +435,149 @@ function isContextClassPart(
   return !!(nextEntry?.variants && nextEntry.variants[cls])
 }
 
+/**
+ * Wraps whole call expressions of call-shaped keywords (`useHttp(...)`) in a
+ * single `<a class="keyword-link">` spanning every highlight token the call
+ * consists of. Runs before `linkifyKeywords`: the wrapped tokens then sit
+ * inside an `<a>` element, which the per-span pass leaves alone, so the
+ * keyword does not get a second, nested link.
+ */
+function wrapCallExpressions(
+  line: Element,
+  map: Record<string, KeywordEntry>,
+  pattern: RegExp | null
+) {
+  if (!pattern) return
+  const lineText = collectText(line.children)
+  pattern.lastIndex = 0
+
+  const ranges: { start: number; end: number; name: string }[] = []
+  let m: RegExpExecArray | null
+  while ((m = pattern.exec(lineText)) !== null) {
+    const end = findCallEnd(lineText, m.index + m[1].length)
+    if (end === -1) continue
+    ranges.push({ start: m.index, end, name: m[1] })
+    pattern.lastIndex = end
+  }
+  if (ranges.length === 0) return
+
+  const pieces = splitChildrenAt(
+    line.children,
+    ranges.flatMap((r) => [r.start, r.end])
+  )
+
+  const result: ElementContent[] = []
+  let anchor: Element | null = null
+  let ri = 0
+  for (const piece of pieces) {
+    while (ranges[ri] && piece.start >= ranges[ri].end) {
+      if (anchor) finishCallAnchor(anchor, map[ranges[ri].name])
+      anchor = null
+      ri++
+    }
+    const range = ranges[ri]
+    if (range && piece.start >= range.start && piece.end <= range.end) {
+      if (!anchor) {
+        anchor = makeCallAnchor(map[range.name], range.name, map)
+        result.push(anchor)
+      }
+      anchor.children.push(piece.node)
+    } else {
+      // Outside every range, or an unsplittable node straddling a range
+      // boundary — left in place; a straddled range degrades to the normal
+      // keyword-only linking.
+      result.push(piece.node)
+    }
+  }
+  if (anchor && ranges[ri]) finishCallAnchor(anchor, map[ranges[ri].name])
+
+  line.children = result
+}
+
+/**
+ * Flattens line children into `(node, start, end)` pieces measured in text
+ * offsets, splitting single-text-child spans at the given offsets so range
+ * boundaries can fall between pieces. Nodes with nested markup are kept whole.
+ */
+function splitChildrenAt(
+  children: ElementContent[],
+  offsets: number[]
+): { node: ElementContent; start: number; end: number }[] {
+  const pieces: { node: ElementContent; start: number; end: number }[] = []
+  let pos = 0
+  for (const child of children) {
+    const len =
+      child.type === 'text'
+        ? child.value.length
+        : child.type === 'element'
+          ? collectText(child.children).length
+          : 0
+    if (child.type !== 'element' || child.tagName !== 'span') {
+      pieces.push({ node: child, start: pos, end: pos + len })
+      pos += len
+      continue
+    }
+    const text = textOf(child)
+    if (text === null) {
+      pieces.push({ node: child, start: pos, end: pos + len })
+      pos += len
+      continue
+    }
+    const cuts = offsets
+      .filter((o) => o > pos && o < pos + len)
+      .sort((a, b) => a - b)
+    let segStart = pos
+    for (const cut of [...cuts, pos + len]) {
+      if (cut === segStart) continue
+      pieces.push({
+        node: cloneWithText(child, text.slice(segStart - pos, cut - pos)),
+        start: segStart,
+        end: cut,
+      })
+      segStart = cut
+    }
+    pos += len
+  }
+  return pieces
+}
+
+function makeCallAnchor(
+  entry: KeywordEntry,
+  name: string,
+  map: Record<string, KeywordEntry>
+): Element {
+  const isExternal =
+    entry.link?.startsWith('http://') || entry.link?.startsWith('https://')
+
+  const props: Record<string, string> = {
+    class: isExternal ? 'keyword-link keyword-link-external' : 'keyword-link',
+  }
+  if (entry.link) {
+    props.href = entry.link
+    if (isExternal) {
+      props.target = '_blank'
+      props.rel = 'noopener noreferrer'
+    }
+  }
+  const blocks = contextualPopover(entry, name, map, null, ['Go to definition'])
+  props['data-popover'] = JSON.stringify(blocks ?? [])
+
+  return { type: 'element', tagName: 'a', properties: props, children: [] }
+}
+
+function finishCallAnchor(anchor: Element, entry: KeywordEntry | undefined) {
+  const isExternal =
+    entry?.link?.startsWith('http://') || entry?.link?.startsWith('https://')
+  if (isExternal) {
+    anchor.children.push({
+      type: 'element',
+      tagName: 'span',
+      properties: { class: 'keyword-link-ext-icon', 'aria-hidden': 'true' },
+      children: [],
+    })
+  }
+}
+
 function linkifyKeywords(
   children: ElementContent[],
   map: Record<string, KeywordEntry>,
@@ -515,18 +705,31 @@ function cloneWithText(original: Element, text: string): Element {
 
 function splitByPattern(
   text: string,
-  pattern: RegExp
-): { text: string; match: boolean }[] {
+  pattern: RegExp,
+  callMap?: Record<string, KeywordEntry>
+): { text: string; match: boolean; name?: string }[] {
   pattern.lastIndex = 0
-  const parts: { text: string; match: boolean }[] = []
+  const parts: { text: string; match: boolean; name?: string }[] = []
   let last = 0
   let m: RegExpExecArray | null
 
   while ((m = pattern.exec(text)) !== null) {
     if (m.index > last)
       parts.push({ text: text.slice(last, m.index), match: false })
-    parts.push({ text: m[0], match: true })
-    last = m.index + m[0].length
+    let end = m.index + m[0].length
+    let matched = m[0]
+    // Call-shaped keyword followed by a call → the whole expression is one
+    // match; `name` keeps the bare keyword for map lookup and popovers.
+    if (callMap?.[matched] && CALL_NAME_RE.test(matched) && text[end] === '(') {
+      const callEnd = findCallEnd(text, end)
+      if (callEnd !== -1) {
+        matched = text.slice(m.index, callEnd)
+        end = callEnd
+      }
+    }
+    parts.push({ text: matched, match: true, name: m[0] })
+    pattern.lastIndex = end
+    last = end
   }
 
   if (last < text.length) parts.push({ text: text.slice(last), match: false })
@@ -748,7 +951,7 @@ export function inlineKeywordLink(md: any) {
       return defaultRender(tokens, idx, options, env, self)
     }
 
-    const parts = splitByPattern(content, globalPattern)
+    const parts = splitByPattern(content, globalPattern, extendedMap)
     if (parts.length === 1 && !parts[0].match) {
       return defaultRender(tokens, idx, options, env, self)
     }
@@ -756,7 +959,7 @@ export function inlineKeywordLink(md: any) {
     const nolinkNames: Set<string> = env?._nolinkNames ?? new Set()
 
     if (parts.length === 1 && parts[0].match) {
-      const name = parts[0].text
+      const name = parts[0].name ?? parts[0].text
       const entry = extendedMap[name]
       if (
         entry &&
@@ -764,7 +967,7 @@ export function inlineKeywordLink(md: any) {
         !nolinkNames.has(name)
       ) {
         const { attrs, extIcon } = anchorParts(entry, name, null)
-        return `<a ${attrs.join(' ')}><code${self.renderAttrs(token)}>${escapeHtml(name)}${extIcon}</code></a>`
+        return `<a ${attrs.join(' ')}><code${self.renderAttrs(token)}>${escapeHtml(parts[0].text)}${extIcon}</code></a>`
       }
     }
 
@@ -795,7 +998,8 @@ export function inlineKeywordLink(md: any) {
         continue
       }
 
-      const entry = extendedMap[part.text]
+      const name = part.name ?? part.text
+      const entry = extendedMap[name]
       const context = prevClass
       prevClass = classContextOf(part)
 
@@ -811,9 +1015,9 @@ export function inlineKeywordLink(md: any) {
       if (
         entry &&
         (entry.link || entry.popover?.length) &&
-        !nolinkNames.has(part.text)
+        !nolinkNames.has(name)
       ) {
-        const { attrs, extIcon } = anchorParts(entry, part.text, context)
+        const { attrs, extIcon } = anchorParts(entry, name, context)
         const display = escaped ? displayKeyword(part.text) : part.text
         html += `<a ${attrs.join(' ')}>${escapeHtml(display)}${extIcon}</a>`
       } else {
