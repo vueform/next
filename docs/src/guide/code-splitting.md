@@ -135,7 +135,7 @@ Importing a component's default entry brings in everything that component needs:
 - **Its stylesheets** — exactly the chunks its markup needs, with chunks shared between components bundled once, so there are no CSS imports to manage; see [choosing a theme](/guide/themes-tokens#choosing-a-theme) for how styling ships.
 - **Its type registrations** — the component joins Vue's `GlobalComponents`, so it type-checks in templates without a local import, and an element joins the `ControlRegistry`, so its schema `type` and props — `text` for `!VfText` — are known to schema-based forms.
 
-When you want less than that, each entry has two leaner variants:
+When you want less than that, each entry has two leaner variants: <a id="component-entries"></a>
 
 | Entry | Ships |
 | --- | --- |
@@ -149,7 +149,7 @@ Under the `vapor` export condition every one of these entries resolves to its va
 
 Components render each other by name too, so a trimmed set must include the internals your forms reach, not just the element types you write:
 
-- Always — `!VfForm` renders its schema through `VfElements`, and elements render inside `VfLayout`, which renders `VfAddon` and `VfIcon`.
+- Always — `VfForm` renders its schema through `VfElements`, and elements render inside `VfLayout`, which renders `VfAddon` and `VfIcon`.
 - `VfCheckboxes` and `VfRadios` render a `VfCheckbox` / `VfRadio` per item.
 - `VfFile`, `VfList`, `VfMatrix`, and `VfNav` render `VfButton`.
 - [Multi-page forms](/guide/multi-page-forms) need `VfSteps` or `VfTabs`, plus `VfNav`.
@@ -242,7 +242,7 @@ The cost of styling splits three ways. The `theme` module (<!-- @size:module-the
 
 <!-- @bundle-sizes:themes end -->
 
-The third piece — the component stylesheets — ships with the components themselves and is already counted in the CSS column of the [component tables](#component-sizes).
+The third piece — the component stylesheets — ships with the components themselves and is already counted in the CSS column of the [component tables](#component-sizes). To leave it out and bring your own styles, import the components through their [`/unstyled` entries](#component-entries).
 
 ## Locales
 
