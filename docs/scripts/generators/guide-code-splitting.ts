@@ -39,7 +39,9 @@ const METRIC: keyof Size = 'gzip'
 
 type Kind = 'modules' | 'components' | 'rules' | 'themes' | 'locales'
 
-const KINDS: Kind[] = ['modules', 'components', 'rules', 'themes', 'locales']
+// `rules` has no table region in the guide — per-rule sizes live on each
+// rule's reference page; the chapter only uses the inline `rules-*` stats.
+const KINDS: Kind[] = ['modules', 'components', 'themes', 'locales']
 
 /**
  * Per-row sizes of one table kind, keyed by the name in the row's first cell.

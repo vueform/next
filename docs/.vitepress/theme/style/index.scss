@@ -100,7 +100,7 @@ html:not(.dark) .dark-only {
   // Meta tables on api reference pages
   .api-meta {
     table {
-      margin: 8px 0 16px;
+      margin: 16px 0 16px;
     }
 
     tr {
@@ -112,6 +112,14 @@ html:not(.dark) .dark-only {
       padding: 2px 32px 2px 0;
       white-space: nowrap;
       border: none;
+    }
+  }
+
+  // Listing tables on the plugins overview page: the plugin-name column
+  // stays on one line
+  .plugin-index {
+    td:first-child {
+      white-space: nowrap;
     }
   }
 
