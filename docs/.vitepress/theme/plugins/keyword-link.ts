@@ -61,10 +61,11 @@ const globalPattern = (() => {
   return parts.length > 0 ? new RegExp(parts.join('|'), 'g') : null
 })()
 
-// Keywords shaped like composable names (`useHttp`, `useForm`, …). When such a
-// keyword is immediately followed by a call — `useHttp()`, `useHttp(opts)` —
-// the whole call expression becomes one link, not just the keyword.
-const CALL_NAME_RE = /^use[A-Z]/
+// Keywords shaped like factory/composable names (`useHttp`, `createVueform`,
+// `defineElement`, …). When such a keyword is immediately followed by a call —
+// `useHttp()`, `createVueform(opts)` — the whole call expression becomes one
+// link, not just the keyword.
+const CALL_NAME_RE = /^(?:use|create|make|resolve|define|extend)[A-Z]/
 
 function buildCallPattern(names: string[]): RegExp | null {
   if (names.length === 0) return null
