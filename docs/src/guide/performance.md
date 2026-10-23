@@ -139,10 +139,10 @@ When something outside the form needs the data live, hand the form a `!useModel`
 
 ### Prefer Structured Conditions for Logic
 
-An [expression](/guide/expressions) is re-parsed every time it evaluates, while a structured [condition](/guide/conditions) like `['status', '==', 'active']` compares a declared path directly, with no parsing step. Use structured conditions for show/hide logic and a [function prop](/guide/dynamic-props#functions) for computed text in code, and keep expressions for what they're uniquely good at — definitions that must survive serialization.
+An [expression](/guide/expressions) is re-parsed every time it evaluates, while a [structured condition](/guide/conditions#operators) like `['status', '==', 'active']` compares a declared path directly, with no parsing step. Use structured conditions for show/hide logic and a [function prop](/guide/dynamic-props#functions) for computed text in code, and keep expressions for what they're uniquely good at — definitions that must survive serialization.
 
 ### Vapor Mode
 
-Vapor mode is worth it for update-heavy forms — [Replacing All Values](#replacing-all-values) quantifies the gain, while mount cost is [unchanged](#rendering). The opt-in — two switches in the app's build — is covered in [vapor](/guide/vapor).
+Vapor mode is worth it for update-heavy forms — [Replacing All Values](#replacing-all-values) quantifies the gain, while mount cost is [unchanged](#rendering). The opt-in — two switches in the app's build — is covered in [Vapor](/guide/vapor) chapter.
 
 What a form costs to load — bundle size rather than runtime — is a separate topic, covered in [code-splitting](/guide/code-splitting).
