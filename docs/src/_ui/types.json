@@ -738,6 +738,7 @@
   "SecurityCipher",
   "SecurityHtmlArea",
   "SecurityModule",
+  "SecurityModuleCipher",
   "SecurityModuleOptions",
   "SecuritySanitizer",
   "SelectApi",

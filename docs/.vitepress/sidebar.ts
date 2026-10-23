@@ -127,10 +127,6 @@ export default {
         { text: 'definePlugin', link: '/api/helpers/definePlugin' },
         { text: 'createEvents', link: '/api/helpers/createEvents' },
         { text: 'createVueform', link: '/api/helpers/createVueform' },
-        {
-          text: 'createVueformFactory',
-          link: '/api/helpers/createVueformFactory',
-        },
         // @generated:helpers-end
       ],
     },
@@ -146,7 +142,6 @@ export default {
         { text: 'useLocale', link: '/api/composables/useLocale' },
         { text: 'useModel', link: '/api/composables/useModel' },
         { text: 'useSecurity', link: '/api/composables/useSecurity' },
-        { text: 'useSubmission', link: '/api/composables/useSubmission' },
         {
           text: 'useTemplateContext',
           link: '/api/composables/useTemplateContext',

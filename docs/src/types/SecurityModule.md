@@ -68,20 +68,21 @@ interface SecurityModule {
 
   /**
    * Whether a component name string may resolve to the globally registered
-   * component of that name (`$security.allowComponents`). Warns once per name
-   * in dev when it rejects. Callers consult it only for strings intended as
-   * component names (explicit `component` / `template` / `layout` props, or
-   * slot strings shaped like a component name), so a miss is always worth
-   * surfacing.
+   * component of that name — `true` for every name while
+   * `$security.allowComponents` is unset, pure membership once it is set
+   * (then warning once per rejected name in dev). Callers consult it only for
+   * strings intended as component names (explicit `component` / `template` /
+   * `layout` props, or slot strings shaped like a component name), so a miss
+   * is always worth surfacing.
    *
    * @param name The component name.
    */
   allowsComponent: (name: string) => boolean
 
   /**
-   * Whether a `path@prop` / `@prop` reference may resolve the given prop path,
-   * per `$security.allowProps`. Fail-closed: with the module registered and
-   * the option empty or unset, every prop reference is denied. Consulted by
+   * Whether a `path@prop` / `@prop` reference may resolve the given prop path
+   * — `true` for every path while `$security.allowProps` is unset, pure
+   * pattern membership once it is set (`[]` denies everything). Consulted by
    * structured conditions and by expression engines' `PROP()` / `SELF()`
    * resolution. Warns once per denied prop in dev.
    *
@@ -91,11 +92,11 @@ interface SecurityModule {
   allowsProp: (prop: string) => boolean
 
   /**
-   * Whether an HTTP request URL is permitted by `$security.allowOrigins`.
-   * Fail-closed: when the option is unset, cross-origin requests are denied —
-   * only relative URLs, the page's own origin, and (in the browser) the
-   * `$http.baseURL` origin pass. Consulted by the HTTP module before sending
-   * any request.
+   * Whether an HTTP request URL is permitted by `$security.allowOrigins` —
+   * `true` for every URL while the option is unset. Once it is set,
+   * cross-origin requests are denied — only relative URLs, the page's own
+   * origin, (in the browser) the `$http.baseURL` origin, and the listed
+   * origins pass. Consulted by the HTTP module before sending any request.
    *
    * @param url The request URL, resolved or as passed to the HTTP module.
    */
@@ -104,19 +105,25 @@ interface SecurityModule {
   /**
    * Encrypts a value with the configured `$security.encrypt`, passing the
    * calling feature's purpose tag. Identity when no cipher is configured.
+   * Resolves `undefined` when the cipher state fails closed (a
+   * half-configured pair in production, or configured ciphers without the
+   * module) — the feature must treat the value as unpersistable.
    *
    * @param value The plaintext value.
    * @param purpose The call-site tag (e.g. `'draft'`).
    */
-  encrypt: SecurityCipher
+  encrypt: SecurityModuleCipher
 
   /**
    * Decrypts a value with the configured `$security.decrypt`, passing the
    * calling feature's purpose tag. Identity when no cipher is configured.
+   * Resolves `undefined` when the cipher state fails closed (a
+   * half-configured pair in production, or configured ciphers without the
+   * module) — the feature must treat the stored value as unreadable.
    *
    * @param value The stored value.
    * @param purpose The call-site tag (e.g. `'draft'`).
    */
-  decrypt: SecurityCipher
+  decrypt: SecurityModuleCipher
 }
 ```

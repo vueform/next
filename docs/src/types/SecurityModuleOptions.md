@@ -19,14 +19,17 @@ interface SecurityModuleOptions {
    * Encrypts values before features persist them (e.g. stored drafts).
    * There is no built-in cipher — bring a scheme whose key lives outside the
    * stored data, such as a session-delivered key held in memory. When omitted,
-   * values are stored as-is.
+   * values are stored as-is, silently. Configure the ciphers as a pair: one
+   * without the other warns in development and fails closed in production
+   * (both ciphers resolve `undefined`, so nothing persists through the broken
+   * pair).
    */
   encrypt?: SecurityCipher
 
   /**
    * The inverse of `encrypt`, applied when persisted values are read back. A
    * `decrypt` that throws marks the stored value unreadable — features treat it
-   * as absent (e.g. the stored draft is discarded).
+   * as absent (e.g. the stored draft is skipped).
    */
   decrypt?: SecurityCipher
 
@@ -44,19 +47,22 @@ interface SecurityModuleOptions {
   /**
    * The globally registered component names a string may resolve to — in
    * `slots` entries, the `template` prop, the `layout` prop, and the schema
-   * `component` key. Empty by default, so no name resolves; a name outside the
-   * list is ignored with a dev warning. Built-in `Vf*` names derived from an
-   * element's `type` are exempt (they are the element vocabulary itself).
+   * `component` key. Unset, every registered name resolves. Setting the
+   * option turns it into an allowlist (`[]` resolves nothing): a name outside
+   * the list is ignored with a dev warning. Built-in `Vf*` names derived from
+   * an element's `type` are exempt (they are the element vocabulary itself).
    */
   allowComponents?: string[]
 
   /**
    * The **cross-origin** destinations HTTP requests may target, as absolute
-   * origins (e.g. `'https://api.example.com'`). Unset is equivalent to `[]`:
-   * requests to the app's own origin — relative URLs, and absolute URLs
-   * spelling out the current origin — always pass, while everything else is
-   * rejected before the request is sent unless its origin is listed. `['*']`
-   * opts out of the restriction entirely.
+   * origins (e.g. `'https://api.example.com'`). Unset, any origin may be
+   * targeted. Setting the option turns it into an allowlist: requests to the
+   * app's own origin — relative URLs, and absolute URLs spelling out the
+   * current origin — always pass, while everything else is rejected before
+   * the request is sent unless its origin is listed (`[]` restricts to the
+   * own origin alone). A `'*'` entry is the explicit spelling of the unset
+   * default.
    *
    * Two wildcard forms are supported: `'https://*.example.com'` matches any
    * subdomain (at any depth, never the apex host itself), and
@@ -74,12 +80,14 @@ interface SecurityModuleOptions {
    * Keys to drop from every schema-reachable prop bag — schema entries
    * themselves (form entries, group children, flat list prototypes, grid cell /
    * matrix column schemas), `parts` bags, and grid cell `attrs` — **in every
-   * value form**. String entries match case-insensitively; RegExp entries as
-   * written (add the `i` flag yourself, e.g. `/^on/i`). Both are checked
-   * against the original key spelling and its camelized form — Vue camelizes
-   * spread keys when matching declared component props, so a ban on `onLabel`
-   * also catches `on-label`. Slot HTML is not a prop bag: its attributes are
-   * the sanitizer's domain (`sanitizeOptions`).
+   * value form**. Unset, nothing is banned beyond the built-in invariants
+   * below. String entries match case-insensitively in both their original and
+   * camelized spelling; RegExp entries as written (add the `i` flag yourself,
+   * e.g. `/^on/i`). Keys are checked in both spellings too — Vue camelizes
+   * spread keys when matching declared component props, so `inputMode` and
+   * `input-mode` ban each other whichever spelling the config or the schema
+   * uses. Slot HTML is not a prop bag: its attributes are the sanitizer's
+   * domain (`sanitizeOptions`).
    *
    * Only a minimal set is banned regardless of this option and cannot be
    * relaxed: prototype keys and `innerHTML` / `outerHTML` — the entries that
@@ -97,11 +105,11 @@ interface SecurityModuleOptions {
 
   /**
    * The element prop paths that `path@prop` / `@prop` references (in
-   * conditions and expressions) may resolve. **Fail-closed**: unset is
-   * equivalent to `[]`, so once the security module is registered no prop
-   * reference resolves until its prop is listed (`'**'` allows everything). A
+   * conditions and expressions) may resolve. Unset, every reference resolves.
+   * Setting the option turns it into an allowlist (`[]` resolves nothing): a
    * denied reference resolves as `undefined` (conditions evaluate unmet) with
-   * a dev warning.
+   * a dev warning. A `'**'` entry is the explicit spelling of the unset
+   * default.
    *
    * Each entry is a pattern over the prop part of a reference (the part after
    * `@`, with `[n]` index segments read as nesting):
@@ -121,7 +129,7 @@ interface SecurityModuleOptions {
    *   `propName`; combines with the nesting forms (`'*Label.*'`).
    * - `'*'` — every prop, flat references only (no nesting).
    * - `'**'` — every prop at every depth, flat included (the explicit
-   *   opt-out).
+   *   spelling of the unset default).
    *
    * An entry may also be a RegExp, tested as written against the full prop
    * path (`[n]` index access normalized to dots, e.g. `model.0`) — anchor it

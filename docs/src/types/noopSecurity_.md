@@ -13,18 +13,18 @@
  *   (Prototype-key guards still apply — they are invariants, not policy — and
  *   slot HTML is inserted with the platform's own `innerHTML` semantics, so
  *   `<script>` elements stay inert regardless.)
- * - **Configured intent without the module** (`allowHtml`, `allowComponents`,
- *   `allowOrigins` entries, `banAttrs`, `allowProps`, ciphers — a config
- *   that reads like
- *   policy): in development the surface stays permissive so the app remains
- *   workable, and `createVueform()`'s orphan-`$security`-options warning names
- *   the fix at startup. In production the same state **fails closed** instead —
- *   HTML escapes, components don't resolve, requests are blocked, prop bags
- *   come back empty, ciphers throw — and the misconfiguration can never ship
- *   looking enforced while it isn't. (`allowOrigins: ['*']` and an
- *   `allowProps` list containing `'**'` are not intent to restrict:
- *   permissive behavior is exactly their configured semantics. `allowHtml` is
- *   the opposite — unset allows every area, so its mere presence is intent.)
+ * - **Configured intent without the module**: every policy option defaults
+ *   open, so for each of them — `allowHtml`, `allowComponents`,
+ *   `allowOrigins`, `banAttrs`, `allowProps`, the ciphers — mere presence is
+ *   the intent, `[]` and permissive spellings (`['*']`, `['**']`) included:
+ *   whoever touches the policy cares about it. In development the surface
+ *   stays permissive so the app remains workable, and `createVueform()`'s
+ *   orphan-`$security`-options warning names the fix at startup. In
+ *   production the same state **fails closed** instead — HTML escapes,
+ *   components don't resolve, requests stay on the app's own origin, prop
+ *   bags come back empty, prop references don't resolve, ciphers resolve
+ *   `undefined` — and the misconfiguration can never ship looking enforced
+ *   while it isn't.
  *
  * Normal operation is identical in both environments; only the misconfiguration
  * state differs.
