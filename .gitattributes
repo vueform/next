@@ -1,0 +1,24 @@
+# CI-regenerated artifacts: during a rebase (pull.rebase is on, and VS Code's
+# Sync pulls BEFORE pushing, so the .husky/pre-push hook never sees that
+# flow), conflicts in these paths are always deterministic generator output —
+# the local side ran over newer sources than the bot's, so the `regenlocal`
+# merge driver takes the local version of the file outright and the pull
+# completes without stopping. Anything the deploy regen finds off afterwards
+# is normalized by its own push-back (deploy-docs.yml, "Commit regenerated
+# content"). Paths outside this list keep ordinary merge behavior, so genuine
+# conflicts still stop the rebase. Keep the list in sync with the workflows'
+# push-back path lists and .husky/pre-push; packages/*/package.json (release
+# version commits) is deliberately NOT listed.
+#
+# The driver itself lives in local git config (one-time per clone; linked
+# worktrees share it):
+#   git config merge.regenlocal.driver 'cp -- %B %A'
+# During a rebase %B is the commit being replayed (the LOCAL work) — this
+# direction assumes rebase pulls; a true `git merge` would flip it.
+docs/src/** merge=regenlocal
+packages/*/size.json merge=regenlocal
+packages/*/README.md merge=regenlocal
+/README.md merge=regenlocal
+benchmark/results/** merge=regenlocal
+packages/*/tests/visual/screenshots/** merge=regenlocal
+packages/*/registry/** merge=regenlocal
