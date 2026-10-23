@@ -10,8 +10,8 @@
 # push-back path lists and .husky/pre-push; packages/*/package.json (release
 # version commits) is deliberately NOT listed.
 #
-# The driver itself lives in local git config (one-time per clone; linked
-# worktrees share it):
+# The driver itself lives in local git config — set automatically on every
+# `pnpm install` by scripts/prepare.mjs (linked worktrees share it):
 #   git config merge.regenlocal.driver 'cp -- %B %A'
 # During a rebase %B is the commit being replayed (the LOCAL work) — this
 # direction assumes rebase pulls; a true `git merge` would flip it.

@@ -15,6 +15,14 @@
 # triggered deploy's own regen + push-back normalizes them (deploy-docs.yml,
 # "Commit regenerated content").
 #
+# NOTE: git runs pre-push only for refs that pass the client-side
+# fast-forward check against the remote-tracking ref, so this hook fires only
+# when the upstream move isn't fetched yet (the typical forgot-to-pull case).
+# Once the clone already knows about it (autofetch, a manual fetch), a plain
+# push is rejected before any hook runs — the pull path then does the
+# auto-resolve instead, via the regenlocal merge driver that .gitattributes
+# wires onto the same paths.
+#
 # Auto-sync only engages when the incoming commits touch nothing but the
 # paths the CI workflows push back (the allowlist below). Anything else
 # upstream is genuine divergence that a human should resolve, so the push is
