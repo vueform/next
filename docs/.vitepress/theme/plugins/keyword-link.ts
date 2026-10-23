@@ -78,6 +78,14 @@ const globalCallPattern = buildCallPattern(
   sortedKeywords.filter((k) => CALL_NAME_RE.test(k))
 )
 
+// `function useHttp(...)` is a declaration, not a call — leave it to
+// keyword-only linking.
+const DECLARATION_BEFORE_RE = /\bfunction\s+$/
+
+function isDeclaration(text: string, matchStart: number): boolean {
+  return DECLARATION_BEFORE_RE.test(text.slice(0, matchStart))
+}
+
 /**
  * Index right after the `)` closing the paren at `openIdx`, skipping string
  * literals, or -1 when the call does not close within `text` (e.g. a
@@ -128,7 +136,15 @@ interface BlockLinkDirective {
  *
  * Uses the `root` hook so it runs **after** `vueSfcHighlight`.
  */
-export function keywordLink(): ShikiTransformer {
+export function keywordLink(options?: {
+  /**
+   * Wrap whole call expressions of call-shaped keywords (`useHttp(...)`) in a
+   * single link. Off for type snippets, where `useHttp(...)` is the rendered
+   * signature itself, not a call.
+   */
+  wrapCalls?: boolean
+}): ShikiTransformer {
+  const wrapCalls = options?.wrapCalls !== false
   return {
     name: 'keyword-link',
     root(hast) {
@@ -160,7 +176,7 @@ export function keywordLink(): ShikiTransformer {
       for (const line of codeEl.children) {
         if (line.type !== 'element') continue
         if (block?.nolink === true) continue
-        processLine(line, block)
+        processLine(line, block, wrapCalls)
       }
     },
   }
@@ -170,7 +186,11 @@ export function keywordLink(): ShikiTransformer {
 // Line processing
 // ---------------------------------------------------------------------------
 
-function processLine(line: Element, block?: BlockLinkDirective) {
+function processLine(
+  line: Element,
+  block?: BlockLinkDirective,
+  wrapCalls = true
+) {
   const lineText = collectText(line.children)
 
   const unlinkMatch = lineText.match(UNLINK_RE)
@@ -182,7 +202,7 @@ function processLine(line: Element, block?: BlockLinkDirective) {
   // Fast path – no directives at all → use the pre-built global pattern
   if (!unlinkMatch && !linkMatch && !block) {
     if (!globalPattern) return
-    wrapCallExpressions(line, extendedMap, globalCallPattern)
+    if (wrapCalls) wrapCallExpressions(line, extendedMap, globalCallPattern)
     line.children = linkifyKeywords(line.children, extendedMap, globalPattern)
     return
   }
@@ -245,11 +265,13 @@ function processLine(line: Element, block?: BlockLinkDirective) {
   }
   if (patternParts.length === 0) return
   const pattern = new RegExp(patternParts.join('|'), 'g')
-  wrapCallExpressions(
-    line,
-    effectiveMap,
-    buildCallPattern(names.filter((k) => CALL_NAME_RE.test(k)))
-  )
+  if (wrapCalls) {
+    wrapCallExpressions(
+      line,
+      effectiveMap,
+      buildCallPattern(names.filter((k) => CALL_NAME_RE.test(k)))
+    )
+  }
   line.children = linkifyKeywords(line.children, effectiveMap, pattern)
 }
 
@@ -454,6 +476,7 @@ function wrapCallExpressions(
   const ranges: { start: number; end: number; name: string }[] = []
   let m: RegExpExecArray | null
   while ((m = pattern.exec(lineText)) !== null) {
+    if (isDeclaration(lineText, m.index)) continue
     const end = findCallEnd(lineText, m.index + m[1].length)
     if (end === -1) continue
     ranges.push({ start: m.index, end, name: m[1] })
@@ -551,6 +574,9 @@ function makeCallAnchor(
 
   const props: Record<string, string> = {
     class: isExternal ? 'keyword-link keyword-link-external' : 'keyword-link',
+    // The bare keyword, so self-link unwrapping in popovers can match it even
+    // though the anchor's text is the whole call expression.
+    'data-keyword': name,
   }
   if (entry.link) {
     props.href = entry.link
@@ -720,7 +746,12 @@ function splitByPattern(
     let matched = m[0]
     // Call-shaped keyword followed by a call → the whole expression is one
     // match; `name` keeps the bare keyword for map lookup and popovers.
-    if (callMap?.[matched] && CALL_NAME_RE.test(matched) && text[end] === '(') {
+    if (
+      callMap?.[matched] &&
+      CALL_NAME_RE.test(matched) &&
+      text[end] === '(' &&
+      !isDeclaration(text, m.index)
+    ) {
       const callEnd = findCallEnd(text, end)
       if (callEnd !== -1) {
         matched = text.slice(m.index, callEnd)
@@ -882,7 +913,10 @@ function anchorParts(
     entry.link?.startsWith('http://') || entry.link?.startsWith('https://')
 
   const cls = isExternal ? 'keyword-link keyword-link-external' : 'keyword-link'
-  const attrs: string[] = [`class="${cls}"`]
+  const attrs: string[] = [
+    `class="${cls}"`,
+    `data-keyword="${escapeHtml(keywordName)}"`,
+  ]
 
   if (entry.link) {
     attrs.push(`href="${escapeHtml(entry.link)}"`)

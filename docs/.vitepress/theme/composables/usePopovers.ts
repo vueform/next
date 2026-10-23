@@ -324,7 +324,7 @@ function unwrapSelfLinks(container: HTMLElement, keywordName: string) {
   container
     .querySelectorAll<HTMLAnchorElement>('a.keyword-link')
     .forEach((a) => {
-      if (a.textContent?.trim() === keywordName) {
+      if ((a.dataset.keyword || a.textContent?.trim()) === keywordName) {
         a.replaceWith(...Array.from(a.childNodes))
       }
     })
@@ -348,7 +348,7 @@ async function showPopoverForLink(link: HTMLElement, level: number) {
   const entry = ensurePopoverLevel(level)
   entry.content.innerHTML = html
 
-  const selfKeyword = link.textContent?.trim()
+  const selfKeyword = link.dataset.keyword || link.textContent?.trim()
   if (selfKeyword) unwrapSelfLinks(entry.content, selfKeyword)
 
   positionPopover(link, entry)

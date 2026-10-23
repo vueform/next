@@ -127,7 +127,7 @@ export function typeSnippetsPlugin(): Plugin {
     return hl.codeToHtml(code, {
       lang: 'typescript',
       themes: { light: 'github-light', dark: 'github-dark' },
-      transformers: [keywordLink()],
+      transformers: [keywordLink({ wrapCalls: false })],
     })
   }
 
@@ -243,7 +243,7 @@ export function typeSnippetsPlugin(): Plugin {
       lang: 'typescript',
       themes: { light: 'github-light', dark: 'github-dark' },
       transformers: [
-        keywordLink(),
+        keywordLink({ wrapCalls: false }),
         stripPrefixTransformer(DECL_PREFIX.length),
         prependLabelTransformer('(property) '),
       ],
@@ -265,7 +265,7 @@ export function typeSnippetsPlugin(): Plugin {
       lang: 'typescript',
       themes: { light: 'github-light', dark: 'github-dark' },
       transformers: [
-        keywordLink(),
+        keywordLink({ wrapCalls: false }),
         stripPrefixTransformer(VALUE_PREFIX.length),
       ],
     })
