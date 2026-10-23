@@ -91,32 +91,23 @@ type MakeAutosaveOptions = {
     (e: 'autosaveResponse', response: HttpResponse, form$: any): any
 
     /**
-     * Fires the autosaveSuccess event after a successful save request.
+     * Fires the autosaveSuccess event when a save's response has a 2xx status.
      *
      * @param e The event name.
-     * @param response The HTTP response from the autosave request.
+     * @param result The success result.
      * @param form$ The form context.
      */
-    (e: 'autosaveSuccess', response: HttpResponse, form$: any): any
+    (e: 'autosaveSuccess', result: AutosaveSuccess, form$: any): any
 
     /**
-     * Fires the autosaveFail event after a failed save request.
+     * Fires the autosaveFail event when a save fails — a request error, or a
+     * response with a non-2xx status.
      *
      * @param e The event name.
-     * @param error The HTTP error that caused the failure.
+     * @param result The failure result.
      * @param form$ The form context.
      */
-    (e: 'autosaveFail', error: HttpError, form$: any): any
-
-    /**
-     * Fires the autosaved event after a save completed without failing.
-     *
-     * @param e The event name.
-     * @param response The HTTP response, or `undefined` when the save produced
-     *   none (e.g. a handler function returning nothing).
-     * @param form$ The form context.
-     */
-    (e: 'autosaved', response: HttpResponse | undefined, form$: any): any
+    (e: 'autosaveFail', result: AutosaveFail, form$: any): any
 
     /**
      * Fires the draftSaved event after a draft was written to storage.
@@ -126,6 +117,16 @@ type MakeAutosaveOptions = {
      * @param form$ The form context.
      */
     (e: 'draftSaved', data: Record<string, any>, form$: any): any
+
+    /**
+     * Fires the draftRestored event after a stored draft was loaded into the
+     * form, by the automatic restore on mount or a manual `restoreDraft()`.
+     *
+     * @param e The event name.
+     * @param data The restored draft data.
+     * @param form$ The form context.
+     */
+    (e: 'draftRestored', data: Record<string, any>, form$: any): any
 
     /**
      * Fires the draftDiscarded event after the stored draft was removed.

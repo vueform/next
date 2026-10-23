@@ -16,6 +16,13 @@ type AutosaveInstance = {
   autosave: (options?: { invalid?: boolean }) => Promise<void>
 
   /**
+   * Aborts the in-flight autosave request, if any. The aborted save settles
+   * silently — no fail event fires. Scheduled saves (a running debounce, the
+   * interval, a pending gated retry) are unaffected.
+   */
+  abortAutosave: () => void
+
+  /**
    * Saves the current model snapshot to storage immediately, bypassing the
    * debounce (async because a configured `$security.encrypt` may be). Unlike
    * the automatic saves, a manual call fires no `saveDraft` pre-hook — calling
