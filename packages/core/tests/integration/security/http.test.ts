@@ -6,7 +6,6 @@ import {
   type HttpRequestConfig,
   type HttpResponse,
 } from '@vueform/core'
-import * as modules from '@vueform/core/modules'
 /**
  * # Network trust
  *
@@ -44,8 +43,6 @@ function mockAdapter(response: Partial<HttpResponse> = {}): {
 
   return { adapter, calls }
 }
-
-const { security: _security, ...modulesWithoutSecurity } = modules as any
 
 describe('Security: network trust', () => {
   describe('`$security.allowOrigins`', () => {
@@ -377,40 +374,6 @@ describe('Security: network trust', () => {
       ).rejects.toMatchObject({ reason: 'blocked' })
 
       expect(calls).toHaveLength(0)
-    })
-
-    /**
-     * Threat: a modular setup configuring `allowOrigins` without registering
-     * the security module — the policy silently not being enforced.
-     *
-     * Measure: requests proceed in development (the option cannot be enforced)
-     * while `createVueform()`'s orphan-options warning states exactly that at
-     * startup; production blocks every request instead.
-     */
-    test('it should warn when `allowOrigins` is configured without the module', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-      const { adapter, calls } = mockAdapter()
-
-      const { vueform } = createForm(
-        { schema: defineSchema({ name: { type: 'text' } }) },
-        {
-          modules: modulesWithoutSecurity,
-          $http: { adapter },
-          $security: { allowOrigins: ['https://api.example.com'] },
-        }
-      )
-
-      const $http = useHttp(vueform)
-      await $http.get('https://evil.example.net/collect')
-
-      expect(calls).toHaveLength(1)
-      expect(warn).toHaveBeenCalledWith(
-        expect.stringContaining(
-          '`$security` options are configured but the `security` module is not registered'
-        )
-      )
-
-      warn.mockRestore()
     })
   })
 

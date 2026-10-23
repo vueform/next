@@ -146,8 +146,9 @@ export function blueprint<TProps extends ContentProps<string>>(
   /**
    * Whether the content renders as HTML.
    *
-   * `$security.allowHtml: ['content']` must list the area, so no schema entry
-   * can grant itself HTML rendering. When refused, the markup renders as
+   * Markup renders as HTML out of the box; a configured `$security.allowHtml`
+   * must list the `content` area, and only the app config decides — no schema
+   * entry can grant itself HTML rendering. When refused, the markup renders as
    * escaped text instead. Markup-free content never consults the gate — it
    * renders identically either way.
    */

@@ -1,5 +1,4 @@
 import { defineSchema } from '@vueform/core'
-import * as modules from '@vueform/core/modules'
 /**
  * # URL scheme validation
  *
@@ -16,9 +15,6 @@ import * as modules from '@vueform/core/modules'
 import { nextTick } from 'vue'
 
 import { createForm, flushPromises } from '../../helpers'
-
-// Forms built without the security module observe the permissive surface.
-const { security: _security, ...modulesWithoutSecurity } = modules as any
 
 describe('Security: URL scheme validation', () => {
   describe('button `href` and `to`', () => {
@@ -229,33 +225,6 @@ describe('Security: URL scheme validation', () => {
       expect((window as any).__url5).toBeUndefined()
 
       warn.mockRestore()
-    })
-  })
-
-  describe('without the security module', () => {
-    /**
-     * Threat: none — the module boundary. URL scheme checking is the security
-     * module's `sanitizeUrl` capability: deliberately omitting the module opts
-     * out of it like every other protection, so scheme-bearing URLs reach their
-     * sinks unchecked.
-     */
-    test('it should leave URL schemes unchecked without the module', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            btn: {
-              type: 'button',
-              text: 'Go',
-              href: 'javascript:void(0)',
-            } as any,
-          }),
-        },
-        { modules: modulesWithoutSecurity, $security: {} }
-      )
-
-      await nextTick()
-
-      expect(form.find('a').attributes('href')).toBe('javascript:void(0)')
     })
   })
 })

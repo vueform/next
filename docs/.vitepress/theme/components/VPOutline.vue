@@ -14,7 +14,7 @@ import {
 import { useActiveTab } from '../composables/useActiveTab'
 
 const { activeTabSlug, tabs } = useActiveTab()
-const { theme } = useData()
+const { frontmatter, theme } = useData()
 
 const container = ref()
 const marker = ref()
@@ -44,7 +44,20 @@ function serializeHeader(el) {
   return ret.trim()
 }
 
-function buildTree(data) {
+// Resolves the page's outline range the same way the default theme does,
+// so untabbed pages behave as before. null means the outline is disabled.
+function resolveRange() {
+  const outline = frontmatter.value.outline ?? theme.value.outline
+  if (outline === false) return null
+  const levels =
+    (typeof outline === 'object' && !Array.isArray(outline)
+      ? outline.level
+      : outline) || 2
+  if (levels === 'deep') return [2, 6]
+  return typeof levels === 'number' ? [levels, levels] : levels
+}
+
+function buildTree(data, min, max) {
   const result = []
   const stack = []
 
@@ -67,7 +80,7 @@ function buildTree(data) {
       continue
     }
 
-    if (node.level < 2 || node.level > 3) continue
+    if (node.level < min || node.level > max) continue
 
     if (parent) parent.children.push(node)
     else result.push(node)
@@ -79,11 +92,15 @@ function buildTree(data) {
 }
 
 function getHeaders() {
-  if (!tabs.length) return []
-
   const els = [
     ...document.querySelectorAll('.VPDoc :is(h1, h2, h3, h4, h5, h6)'),
-  ].filter((el) => el.id && el.hasChildNodes())
+  ].filter(
+    (el) =>
+      el.id &&
+      el.hasChildNodes() &&
+      // Headings rendered by live demos stay out of the outline.
+      !el.closest('.vp-usage, .vp-example-wrapper')
+  )
 
   const items = els.map((el) => ({
     element: el,
@@ -93,6 +110,11 @@ function getHeaders() {
     id: el.id,
   }))
 
+  if (!tabs.length) {
+    const range = resolveRange()
+    return range ? buildTree(items, range[0], range[1]) : []
+  }
+
   const slug = activeTabSlug.value
 
   return tabs.map((tab) => {
@@ -101,7 +123,7 @@ function getHeaders() {
       (item) => item.title.toLowerCase() !== tab.title.toLowerCase()
     )
     const isCurrentTab = tab.slug === slug
-    const children = isCurrentTab ? buildTree(withoutTabHeading) : []
+    const children = isCurrentTab ? buildTree(withoutTabHeading, 2, 3) : []
     const panel = document.querySelector(
       `.vp-tab-panel[data-slug="${tab.slug}"]`
     )
@@ -289,7 +311,7 @@ const VPOutlineItems = defineComponent({
 
 <template>
   <div
-    v-if="activeTabSlug && filteredHeaders.length"
+    v-if="filteredHeaders.length"
     ref="container"
     class="vp-outline has-outline"
   >

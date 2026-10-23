@@ -29,8 +29,10 @@ const EMPTY_PROPS = Object.freeze({})
  *   the fix at startup. In production the same state **fails closed** instead —
  *   HTML escapes, components don't resolve, requests are blocked, prop bags
  *   come back empty, ciphers throw — and the misconfiguration can never ship
- *   looking enforced while it isn't. (`allowOrigins: ['*']` is not intent to
- *   restrict: permissive behavior is exactly its configured semantics.)
+ *   looking enforced while it isn't. (`allowOrigins: ['*']` and an
+ *   `allowProps` list containing `'**'` are not intent to restrict:
+ *   permissive behavior is exactly their configured semantics. `allowHtml` is
+ *   the opposite — unset allows every area, so its mere presence is intent.)
  *
  * Normal operation is identical in both environments; only the misconfiguration
  * state differs.
@@ -46,9 +48,16 @@ export function noopSecurity(config: VueformConfig): SecurityModule {
   )
   const banAttrsConfigured = !!options?.banAttrs?.length
   // Length is the intent, not presence: unset and `[]` are the gate's default
-  // deny-all semantics anyway, so only a populated list reads like policy.
-  const allowPropsConfigured = !!options?.allowProps?.length
-  const allowHtmlConfigured = !!options?.allowHtml?.length
+  // deny-all semantics anyway, so only a populated list reads like policy —
+  // and a list containing `'**'` asks for no restriction at all (the default
+  // config ships it as baseline), so it carries no intent either.
+
+  const allowPropsConfigured =
+    !!options?.allowProps?.length && !options.allowProps.includes('**')
+
+  // For `allowHtml` presence IS the intent: unset allows every area, so any
+  // configured list — `[]` included — reads like policy.
+  const allowHtmlConfigured = !!options?.allowHtml
   const allowComponentsConfigured = !!options?.allowComponents?.length
 
   const cipher = (value: string) => {

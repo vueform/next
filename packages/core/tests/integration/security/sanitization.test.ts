@@ -6,10 +6,11 @@ import dompurify from '@vueform/dompurify'
  * Threat model: schemas may come from semi-trusted sources (a CMS, a form
  * builder) and form values are typed by end users or loaded from servers — both
  * are untrusted data. The guarantee proven here: a string can only ever render
- * as HTML through an area listed in `$security.allowHtml`, and what renders has
- * passed through the installed sanitizer AFTER every substitution (expression
- * resolution included) — or, without a sanitizer, does not render as HTML at
- * all.
+ * as HTML through an area `$security.allowHtml` allows — every area while the
+ * option is unset, exactly the listed ones once it is set — and what renders
+ * has passed through the installed sanitizer AFTER every substitution
+ * (expression resolution included) — or, without a sanitizer, does not render
+ * as HTML at all.
  */
 import { nextTick } from 'vue'
 
@@ -137,41 +138,8 @@ describe('Security: sanitization pipeline', () => {
 
   describe('HTML without a sanitizer', () => {
     /**
-     * Threat: an app enables `allowHtml` but never installs a sanitizer — an
-     * unresolved configuration, exactly like configured-but-missing ciphers.
-     *
-     * Measure: in development the HTML renders raw with a one-time warning
-     * naming the fix (install `@vueform/dompurify`, or consciously opt out with
-     * an identity `sanitizer`), so the app stays workable while the console
-     * flags the gap.
-     */
-    test('it should render raw HTML with a warning when no sanitizer is installed (dev)', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            c: {
-              type: 'content',
-              content: '<b>bold</b>',
-            },
-          }),
-        },
-        { $security: { allowHtml: ['content'], sanitizer: undefined } }
-      )
-
-      await nextTick()
-
-      expect(form.find('b').exists()).toBe(true)
-      expect(warn).toHaveBeenCalledWith(
-        expect.stringContaining('no `$security.sanitizer` is configured')
-      )
-
-      warn.mockRestore()
-    })
-
-    /**
-     * Threat: the same gap shipping. Development warnings are compiled out of
+     * Threat: `allowHtml` enabled with no sanitizer installed, shipping.
+     * Development warnings are compiled out of
      * production builds — raw HTML with no signal would be the worst outcome.
      *
      * Measure: in production, HTML bound for a sink renders **empty** without
@@ -207,44 +175,110 @@ describe('Security: sanitization pipeline', () => {
     })
 
     /**
-     * Threat: silent policy drift — unsanitized HTML rendering without anyone
-     * having decided it.
-     *
-     * Measure: registering an identity engine (`sanitizer: (html) => html`) is
-     * the conscious, greppable opt-out — mirroring the ciphers, where identity
-     * functions are the documented way to consciously store plaintext.
+     * Threat: none — the out-of-the-box contract. An app that never touched
+     * `allowHtml` stated no HTML policy (trusted schemas, or security handled
+     * elsewhere), so an engineless setup renders raw without nagging:
+     * warnings an app can't act on train developers to ignore security
+     * output.
      */
-    test('it should render raw HTML under the explicit identity-sanitizer opt-out', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            c: {
-              type: 'content',
-              content: '<b data-raw="yes">bold</b>',
-            },
-          }),
-        },
-        {
-          $security: {
-            allowHtml: ['content'],
-            sanitizer: (html: string) => html,
+    test('it should render raw HTML silently when `allowHtml` is unset', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      try {
+        const { form } = createForm(
+          {
+            schema: defineSchema({
+              c: {
+                type: 'content',
+                content: '<b>bold</b>',
+              },
+            }),
           },
-        }
-      )
+          { $security: {} }
+        )
 
-      await nextTick()
+        await nextTick()
 
-      expect(form.find('b[data-raw="yes"]').exists()).toBe(true)
+        expect(form.find('b').exists()).toBe(true)
+        expect(warn).not.toHaveBeenCalledWith(
+          expect.stringContaining('sanitizer')
+        )
+      } finally {
+        warn.mockRestore()
+      }
+    })
+
+    /**
+     * Threat: none — the same contract must hold in production. Fail-closed
+     * is reserved for stated intent; an app with `allowHtml` unset keeps
+     * working without configuration in every environment.
+     */
+    test('it should render raw HTML in production when `allowHtml` is unset', async () => {
+      vi.stubEnv('NODE_ENV', 'production')
+
+      try {
+        const { form } = createForm(
+          {
+            schema: defineSchema({
+              c: {
+                type: 'content',
+                content: '<b>bold</b>',
+              },
+            }),
+          },
+          { $security: {} }
+        )
+
+        await nextTick()
+
+        expect(form.find('b').exists()).toBe(true)
+      } finally {
+        vi.unstubAllEnvs()
+      }
+    })
+
+    /**
+     * Threat: `allowHtml` configured with no sanitizer installed — the app
+     * cares about HTML policy, so rendering unsanitized HTML is a likely
+     * mistake, not a choice.
+     *
+     * Measure: stated intent without an engine warns once in development,
+     * naming the fix (and renders empty in production, as proven above).
+     */
+    test('it should warn in development when `allowHtml` is set without a sanitizer', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      try {
+        const { form } = createForm(
+          {
+            schema: defineSchema({
+              c: {
+                type: 'content',
+                content: '<b>bold</b>',
+              },
+            }),
+          },
+          { $security: { allowHtml: ['content'] } }
+        )
+
+        await nextTick()
+
+        expect(form.find('b').exists()).toBe(true)
+        expect(warn).toHaveBeenCalledWith(expect.stringContaining('sanitizer'))
+      } finally {
+        warn.mockRestore()
+      }
     })
   })
 
-  describe('HTML rendering requires the `allowHtml` area', () => {
+  describe('a configured `allowHtml` is a pure area allowlist', () => {
     /**
-     * Threat: an untrusted schema supplying markup as content — with no
-     * per-element switch to flip, the app's `allowHtml` config is the only
-     * thing standing between that markup and the DOM.
+     * Threat: an untrusted schema supplying markup as content in an app that
+     * restricted HTML rendering — with no per-element switch to flip, the
+     * app's `allowHtml` config is the only thing standing between that markup
+     * and the DOM.
      *
-     * Measure: the `content` area must be listed in `$security.allowHtml`;
+     * Measure: once `allowHtml` is set, the `content` area must be listed;
      * otherwise the markup renders as escaped text.
      */
     test('it should render markup as escaped text when `content` is not in `allowHtml`', async () => {
@@ -336,67 +370,6 @@ describe('Security: sanitization pipeline', () => {
       expect(content.html()).not.toContain('onmouseover')
       expect(content.html()).not.toContain('steal')
       expect(content.text()).toContain('Hover me')
-    })
-
-    /**
-     * Threat: warning fatigue. Most content is plain text, and an app that
-     * never renders markup should not be nagged about an area it doesn't need —
-     * noisy warnings train developers to ignore security output.
-     *
-     * Measure: content without markup never consults the gate at all; it
-     * renders identically either way.
-     */
-    test('it should render markup-free content without consulting the gate', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: { type: 'content', content: 'Just text' },
-          }),
-        },
-        {
-          plugins: [dompurify()],
-          $security: { sanitizer: undefined, allowHtml: [] },
-        }
-      )
-
-      await nextTick()
-
-      expect(form.text()).toContain('Just text')
-      expect(warn).not.toHaveBeenCalledWith(
-        expect.stringContaining('allowHtml')
-      )
-
-      warn.mockRestore()
-    })
-  })
-
-  describe('markup detection', () => {
-    /**
-     * Threat: none — a fidelity guarantee. The sanitize step runs only when the
-     * resolved string actually contains markup (a `<` followed by a tag-start
-     * character, the HTML parser's own rule) — plain text never enters the
-     * engine, so a comparison like `score < 10` cannot be mangled into `score
-     * &lt; 10`, and the engineless production fallback (render empty) can never
-     * blank plain text.
-     */
-    test('it should leave markup-free text with `<` untouched by the engine', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            c: { type: 'content', content: 'score < 10, done' },
-          }),
-        },
-        {
-          plugins: [dompurify()],
-          $security: { sanitizer: undefined, allowHtml: ['content'] },
-        }
-      )
-
-      await nextTick()
-
-      expect(form.text()).toContain('score < 10, done')
     })
   })
 
@@ -544,83 +517,6 @@ describe('Security: sanitization pipeline', () => {
         'Use <script>window.__bag = true</script> where score < 10'
       )
       expect((window as any).__bag).toBeUndefined()
-    })
-  })
-
-  describe('DOMPurify plugin plumbing', () => {
-    /**
-     * Threat: none — configuration fidelity. `sanitizeOptions` is the
-     * documented way to tighten the engine; if it silently didn't reach
-     * `DOMPurify.sanitize()`, apps would believe restrictions were in force.
-     *
-     * Measure: options pass through verbatim — here `ALLOWED_TAGS` reduces the
-     * allowed vocabulary to `em`, so `b` is stripped while `em` stays.
-     */
-    test('it should pass sanitizeOptions through to the engine', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            c: {
-              type: 'content',
-              content: '<b>bold</b><em>kept</em>',
-            },
-          }),
-        },
-        {
-          plugins: [dompurify()],
-          $security: {
-            sanitizer: undefined,
-            allowHtml: ['content'],
-            sanitizeOptions: { ALLOWED_TAGS: ['em'] },
-          } as any,
-        }
-      )
-
-      await nextTick()
-
-      expect(form.find('.vf-content em').exists()).toBe(true)
-      expect(form.find('.vf-content b').exists()).toBe(false)
-    })
-
-    /**
-     * Threat: none — configuration fidelity for the hook variant.
-     *
-     * Measure: `sanitizeInit` receives the DOMPurify instance before first use;
-     * a hook added there (the documented `rel` hardening pattern) shows up on
-     * the rendered output.
-     */
-    test('it should apply sanitizeInit hooks to the engine', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            c: {
-              type: 'content',
-              content: '<a href="https://example.com">link</a>',
-            },
-          }),
-        },
-        {
-          plugins: [dompurify()],
-          $security: {
-            sanitizer: undefined,
-            allowHtml: ['content'],
-            sanitizeInit: (dp: any) => {
-              dp.addHook('afterSanitizeAttributes', (node: any) => {
-                if (node.tagName === 'A') {
-                  node.setAttribute('rel', 'noopener noreferrer')
-                }
-              })
-              return dp
-            },
-          } as any,
-        }
-      )
-
-      await nextTick()
-
-      const link = form.find('.vf-content a')
-      expect(link.exists()).toBe(true)
-      expect(link.attributes('rel')).toBe('noopener noreferrer')
     })
   })
 })

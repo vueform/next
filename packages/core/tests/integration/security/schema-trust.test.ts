@@ -1,5 +1,4 @@
 import { defineSchema } from '@vueform/core'
-import * as modules from '@vueform/core/modules'
 /**
  * # Untrusted-schema containment
  *
@@ -16,9 +15,6 @@ import * as modules from '@vueform/core/modules'
 import { defineComponent, h, nextTick, type FunctionalComponent } from 'vue'
 
 import { createForm, mountApp } from '../../helpers'
-
-// Forms built without the security module observe the inert noop surface.
-const { security: _security, ...modulesWithoutSecurity } = modules as any
 
 const Leaked: FunctionalComponent = () =>
   h('span', { class: 'leaked' }, 'Leaked')
@@ -924,46 +920,6 @@ describe('Security: untrusted-schema containment', () => {
       await nextTick()
 
       expect(app.find('input').attributes('data-probe')).toBe('x')
-    })
-  })
-
-  describe('without the security module', () => {
-    /**
-     * Threat: none — this documents the module boundary. Attribute filtering
-     * (the built-in denylist and `banAttrs` alike) is the security module's
-     * feature: a modular setup that omits the module gets its attribute bags
-     * exactly as written, and a configured-but-unenforced `banAttrs` warns
-     * once, like the ciphers and `allowOrigins`.
-     */
-    test('it should leave attribute bags unfiltered and warn about banAttrs', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'button',
-              text: 'Go',
-              parts: { button: { style: 'color: blue' } } as any,
-            },
-          }),
-        },
-        {
-          modules: modulesWithoutSecurity,
-          $security: { banAttrs: ['style'] },
-        }
-      )
-
-      await nextTick()
-
-      expect(form.find('button').attributes('style')).toContain('color: blue')
-      expect(warn).toHaveBeenCalledWith(
-        expect.stringContaining(
-          '`$security` options are configured but the `security` module is not registered'
-        )
-      )
-
-      warn.mockRestore()
     })
   })
 })

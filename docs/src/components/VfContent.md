@@ -84,7 +84,7 @@ const [Form] = useForm({ schema })
 
 ## HTML Content
 
-Content containing markup renders as HTML when the app lists the `content` area in [`$security.allowHtml`](/guide/security#html-sanitization) — the decision belongs to the app config, not to the schema, so a schema from an untrusted source can't turn HTML rendering on for itself. Without that area the markup renders as escaped text, and with it the content is sanitized before rendering (an installed sanitizer is required — see [the sanitize step](/guide/security#the-sanitize-step)).
+Content containing markup renders as HTML out of the box, sanitized before rendering (an installed sanitizer is required — see [the sanitize step](/guide/security#the-sanitize-step)). An app restricts this through [`$security.allowHtml`](/guide/security#html-sanitization) — once set it is an allowlist, and without the `content` area on it the markup renders as escaped text. The decision belongs to the app config, not to the schema, so a schema from an untrusted source can't turn HTML rendering on for itself.
 
 ::: usage center nomodel
 
@@ -386,7 +386,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The wrapper around `root` with `display: contents` when the element is a step or a tab.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-panel` |
@@ -395,7 +395,7 @@ The wrapper around `root` with `display: contents` when the element is a step or
 
 The element's root wrapper.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` `<fieldset>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element` `.vf-space-top-1?` `.vf-space-top-2?` `.vf-space-top-3?` `.vf-space-bottom-1?` `.vf-space-bottom-2?` `.vf-space-bottom-3?` `.vf-line-top?` `.vf-line-bottom?` |
@@ -404,7 +404,7 @@ The element's root wrapper.
 
 The container holding the label and required indicator.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label-group` |
@@ -413,7 +413,7 @@ The container holding the label and required indicator.
 
 The label element, associated with the control via `for`.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<label>` `<span>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-label` |
@@ -422,7 +422,7 @@ The label element, associated with the control via `for`.
 
 The required indicator.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-required` |
@@ -431,7 +431,7 @@ The required indicator.
 
 The container wrapping the input and related UI.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-group` |
@@ -440,7 +440,7 @@ The container wrapping the input and related UI.
 
 The wrapper directly around the input control.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-element-wrapper` |
@@ -449,7 +449,7 @@ The wrapper directly around the input control.
 
 The help text area.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-help` |
@@ -458,7 +458,7 @@ The help text area.
 
 The description text area.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-description` |
@@ -467,7 +467,7 @@ The description text area.
 
 The validation errors container.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-errors` |
@@ -476,7 +476,7 @@ The validation errors container.
 
 An individual validation error.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-error` |
@@ -485,7 +485,7 @@ An individual validation error.
 
 The info messages container.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-messages` |
@@ -494,7 +494,7 @@ The info messages container.
 
 An individual info message.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 | **Classes** <a class="vp-info-hint" data-popover='[{"type":"text","content":"CSS classes applied to this part. A <code>?</code> suffix means the class is conditionally applied."}]'></a> | `.vf-message` |

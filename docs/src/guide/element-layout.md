@@ -96,9 +96,31 @@ These names are the keys you target with [parts](/guide/parts) and [classes](/gu
 
 `label` is a [`TProp`](/guide/dynamic-props) — a plain string, a locale map, an expression, a ref, or a function of the element's [context](/guide/context):
 
-```ts
-email: { type: 'text', label: 'Email address' },
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText name="email" label="Email address" />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  email: { type: 'text', label: 'Email address' },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 What tag it renders depends on the element. Field elements get a `<label>` whose `for` points at the control, so clicking it focuses the input. Containers turn their root into a `<fieldset>` named by the label through `aria-labelledby`. The naming details live in [accessibility](/guide/accessibility#labels).
 
@@ -108,16 +130,40 @@ A `label` slot alone is enough to render the label part — no `label` prop need
 
 On containers — `!VfGroup`, `!VfList`, `!VfGrid`, `!VfMatrix` — `heading: 1`–`6` renders the label as an `<h1>`–`<h6>` tag:
 
-```ts
-shipping: {
-  type: 'group',
-  label: 'Shipping',
-  heading: 2,
-  schema: {
-    city: { type: 'text', label: 'City' },
-  },
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfGroup name="shipping" label="Shipping" :heading="2">
+    <VfText name="city" label="City" />
+  </VfGroup>
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  shipping: {
+    type: 'group',
+    label: 'Shipping',
+    heading: 2, // [!code highlight]
+    schema: {
+      city: { type: 'text', label: 'City' },
+    },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 Use it when a container opens a section of the form, so the label doubles as the section's heading. Separating the sections visually is covered in [spacing & dividers](/guide/form-structure#spacing-dividers).
 
@@ -129,15 +175,43 @@ Use it when a container opens a section of the form, so the label doubles as the
 
 `help` renders directly below the label, inside the label group. `description` renders below the control. The split follows their jobs — help explains what the field is for, description guides filling it in. Both are `TProp`s:
 
-```ts
-password: {
-  type: 'text',
-  inputType: 'password',
-  label: 'Password',
-  help: 'At least 12 characters',
-  description: 'Use a mix of letters, numbers, and symbols.',
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText
+    name="password"
+    input-type="password"
+    label="Password"
+    help="At least 12 characters"
+    description="Use a mix of letters, numbers, and symbols."
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  password: {
+    type: 'text',
+    inputType: 'password',
+    label: 'Password',
+    help: 'At least 12 characters', // [!code highlight]
+    description: 'Use a mix of letters, numbers, and symbols.', // [!code highlight]
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 As with the label, a `help` or `description` slot alone renders its part. While they render, both are referenced from the control's `aria-describedby`, so screen readers announce them with the field — see [ARIA attributes](/guide/accessibility#aria-attributes).
 
@@ -157,13 +231,45 @@ Everything about what shows and when belongs to validation — [where errors ren
 
 `!VfText`, `!VfTextarea`, `!VfSelect`, and `!VfField` accept `iconBefore` and `iconAfter`, rendered inside the control area:
 
-```ts
-search: {
-  type: 'text',
-  label: 'Search',
-  iconBefore: 'fa-solid fa-magnifying-glass',
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText
+    name="search"
+    label="Search"
+    icon-before="fa-solid fa-magnifying-glass"
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  search: {
+    type: 'text',
+    label: 'Search',
+    iconBefore: 'fa-solid fa-magnifying-glass', // [!code highlight]
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+```vue [Live]
+<VfForm>
+  <VfText name="search" label="Search" icon-before="magnifying-glass" />
+</VfForm>
+```
+
+:::
 
 Both are [`DProp`s](/guide/dynamic-props), so a ref or context function can switch the icon with state. The string goes through the configured [`icon`](/guide/configuration#icon) resolver — identity by default, so a CSS class works as-is — and `$`-prefixed names map through the [`icons`](/guide/configuration#icons) map first.
 
@@ -173,46 +279,135 @@ Both are [`DProp`s](/guide/dynamic-props), so a ref or context function can swit
 
 Its shape is the `iconLoading` token — an SVG `url()` applied as a CSS mask, so only the shape matters. The color follows the surrounding text, the size comes from the `iconWidth` / `iconHeight` tokens, and Vueform spins it:
 
-```ts
-username: {
-  type: 'text',
-  label: 'Username',
-  loading: true,
-  tokens: {
-    iconLoading: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 1.5A6.5 6.5 0 1 0 14.5 8' fill='none' stroke='currentColor' stroke-width='2'/%3E%3C/svg%3E")`,
-  },
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText
+    name="username"
+    label="Username"
+    loading
+    :tokens="{
+      iconLoading: `url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cpath d=%22M8 1.5A6.5 6.5 0 1 0 14.5 8%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22/%3E%3C/svg%3E')`,
+    }"
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  username: {
+    type: 'text',
+    label: 'Username',
+    loading: true,
+    tokens: {
+      iconLoading: `url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 16 16%22%3E%3Cpath d=%22M8 1.5A6.5 6.5 0 1 0 14.5 8%22 fill=%22none%22 stroke=%22currentColor%22 stroke-width=%222%22/%3E%3C/svg%3E')`, // [!code highlight]
+    },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 ## Addons
 
 The same four elements take `addonBefore` and `addonAfter` — content beside the control for prefixes, units, or inline actions. An addon can be a string, a locale map, an element schema, an array of any of those, or a function, and string addons also resolve `{...}` [expressions](/guide/expressions):
 
-```ts
-price: {
-  type: 'text',
-  label: 'Price',
-  addonBefore: '$',
-  addonAfter: ['.00', 'USD'],
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText
+    name="price"
+    label="Price"
+    addon-before="$"
+    :addon-after="['.00', 'USD']"
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  price: {
+    type: 'text',
+    label: 'Price',
+    addonBefore: '$', // [!code highlight]
+    addonAfter: ['.00', 'USD'], // [!code highlight]
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 ### Element Addons
 
 An addon given as an element schema renders a real element. The supported types are `text`, `select`, `checkbox`, `radio`, and `button`:
 
-```ts
-amount: {
-  type: 'text',
-  label: 'Amount',
-  addonAfter: {
-    type: 'select',
-    name: 'currency',
-    items: ['USD', 'EUR', 'GBP'],
-    rules: 'required',
-  },
-},
+::: usage model
+
+```vue [Preview]
+<VfForm>
+  <VfText
+    name="amount"
+    label="Amount"
+    :addon-after="{
+      type: 'select',
+      name: 'currency',
+      default: 'USD',
+      items: ['USD', 'EUR', 'GBP'],
+      rules: 'required',
+    }"
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  amount: {
+    type: 'text',
+    label: 'Amount',
+    addonAfter: {
+      type: 'select',
+      name: 'currency', // [!code highlight]
+      default: 'USD',
+      items: ['USD', 'EUR', 'GBP'],
+      rules: 'required',
+    },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 The addon is a full member of the form:
 
@@ -224,26 +419,59 @@ The addon is a full member of the form:
 
 A function receives the element's [context](/guide/context) and re-runs reactively. It can return a string, a locale map, or an array of addon items:
 
-```ts
-bio: {
-  type: 'textarea',
-  label: 'Bio',
-  rules: 'max:160',
-  addonAfter: (el$) => `${160 - (el$.value?.length ?? 0)}`,
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfTextarea
+    name="bio"
+    label="Bio"
+    rules="max:160"
+    :addon-after="(el$) => `${160 - (el$.value?.length ?? 0)}`"
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  bio: {
+    type: 'textarea',
+    label: 'Bio',
+    rules: 'max:160',
+    addonAfter: (el$) => `${160 - (el$.value?.length ?? 0)}`, // [!code highlight]
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 ### Addon Slots
 
 The `addon-before` and `addon-after` slots replace that whole side of the control, and the matching prop is ignored while the slot is present. Wrap the content in `!VfAddon` to keep the addon styling:
 
-```vue
-<VfText name="website" label="Website">
-  <template #addon-before>
-    <VfAddon>https://</VfAddon>
-  </template>
-</VfText>
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText name="website" label="Website">
+    <template #addon-before>
+      <VfAddon>https://</VfAddon>
+    </template>
+  </VfText>
+</VfForm>
 ```
+
+:::
 
 Elements placed in the slot are not hoisted automatically — prefer an [element addon](#element-addons), or set `hoist` on them yourself.
 
@@ -269,25 +497,27 @@ Every content part has a matching slot — `label`, `required`, `help`, `descrip
 
 A slot replaces its entire part, including the attributes the ARIA wiring depends on — spread `bindings` (and keep `for` and `id` on the label) so the connection to the control survives:
 
-```vue
-<VfText name="email" label="Email">
-  <template #label="{ label, for: forId, id, bindings }">
-    <label :for="forId" :id v-bind="bindings">
-      {{ label }} <em>(work address preferred)</em>
-    </label>
-  </template>
-</VfText>
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText name="email" label="Email">
+    <template #label="{ label, for: forId, id, bindings }">
+      <label :for="forId" :id v-bind="bindings">
+        {{ label }} <em>(work address preferred)</em>
+      </label>
+    </template>
+  </VfText>
+</VfForm>
 ```
+
+:::
 
 Passing slots from a schema and typing them with `!defineSlot` is covered in [slots](/guide/slots), and each element's full slot list with exact scopes is on its reference page under the **Slots** tab.
 
 ## Removing the Layout
 
-`layout: false` renders the control alone — no label, help, description, required marker, errors, or messages:
-
-```ts
-qty: { type: 'text', inputType: 'number', layout: false },
-```
+`layout: false` renders the control alone — no label, help, description, required marker, errors, or messages.
 
 What belongs to the control stays — icons, the loading spinner, addons, and the language addon still render. The element still registers, validates, and keeps `aria-invalid`, `aria-required`, and `aria-busy` on its control; `aria-describedby` is dropped, since nothing remains to describe it. There is no error block either, so pair it with form-level errors — see [where errors render](/guide/validation#where-errors-render).
 

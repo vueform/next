@@ -426,6 +426,7 @@ function collectModuleCSS(
  * caller.
  *
  * @param defaultOptions The entry's default configuration.
+ * @private
  */
 export function createVueformFactory<
   TRequired extends keyof VueformModules = never,

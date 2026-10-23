@@ -28,17 +28,21 @@ The full `$security` option reference lives in [configuration](/guide/configurat
 
 Leaving the module out is the deliberate, wholesale opt-out. HTML renders unsanitized in every area, any registered component name resolves, requests are unrestricted, URLs and CSS values pass unchecked, and persisted values are stored as-is. Prototype-key guards apply even then — they are invariants, not policy — and slot HTML goes in with the platform's `innerHTML` semantics, so a `<script>` element stays inert regardless.
 
-Configuring `$security` policy without the module is a misconfiguration, not an opt-out. Development warns at `createVueform()` and stays permissive so the app remains workable; production **fails closed** — HTML escapes, component names stop resolving, requests are blocked, schema prop bags come back empty, and the ciphers throw so nothing persists in plaintext. A misconfigured app can never ship looking enforced while it isn't. The one exception is `allowOrigins: ['*']` — it asks for no restriction at all, so on its own it doesn't signal intended protections and doesn't trigger the fail-closed regime.
+Configuring `$security` policy without the module is a misconfiguration, not an opt-out. Development warns at `createVueform()` and stays permissive so the app remains workable; production **fails closed** — HTML escapes, component names stop resolving, requests are blocked, schema prop bags come back empty, and the ciphers throw so nothing persists in plaintext. A misconfigured app can never ship looking enforced while it isn't. The exceptions are `allowOrigins: ['*']` and an `allowProps` list containing `'**'` — each asks for no restriction at all, so on its own it doesn't signal intended protections and doesn't trigger the fail-closed regime.
+
+Every guarantee in this chapter is pinned by an [adversarial test suite](https://github.com/vueform/next/tree/main/packages/core/tests/integration/security) that attacks the gates — hostile schemas, polluted prototypes, smuggled URL schemes, forged server responses — rather than trusting the happy path.
 
 ## HTML Sanitization
 
-Most strings — labels, placeholders, help texts, button captions — go through Vue's text interpolation and render escaped, so a `<script>` tag in a label shows up as literal text. Rendering a string **as HTML** happens in exactly three areas, each opted into through `$security.allowHtml`:
+Most strings — labels, placeholders, help texts, button captions — go through Vue's text interpolation and render escaped, so a `<script>` tag in a label shows up as literal text. Rendering a string **as HTML** happens in exactly three areas:
 
 | Area | Covers |
 | --- | --- |
-| `'content'` | `!VfContent`'s `content` prop. |
+| `'content'` | `VfContent`'s `content` prop. |
 | `'slots'` | String [`slots`](/guide/slots#string-content) entries. |
 | `'grid'` | String grid [cells](/guide/form-structure#cells). |
+
+All three render HTML out of the box. `$security.allowHtml` is the restriction — once set, it is a pure allowlist, and an area left off it renders markup as escaped text, tags visible, nothing silently dropped, so a tightened area is diagnosable at a glance:
 
 ```ts
 import dompurify from '@vueform/dompurify'
@@ -46,12 +50,12 @@ import dompurify from '@vueform/dompurify'
 createVueform({
   plugins: [dompurify()],
   $security: {
-    allowHtml: ['content'],
+    allowHtml: ['content'], // slot and grid strings now render escaped
   },
 })
 ```
 
-An unlisted area renders markup as escaped text — tags visible, nothing silently dropped, so a missing entry is diagnosable at a glance. The app config is the only authority; no schema entry can grant itself HTML rendering. Strings without markup never consult the gate — they render the same either way.
+`allowHtml: []` escapes everywhere. The app config is the only authority — no schema entry can grant itself HTML rendering — and strings without markup never consult the gate; they render the same either way.
 
 ### The Sanitize Step
 

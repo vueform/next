@@ -521,6 +521,7 @@ export function defaultTransformResponse(data: any) {
  * hooks; everything here is component-free.
  *
  * @param options The host accessors and hooks the flow runs against.
+ * @private
  */
 export function useSubmission(options: UseSubmissionOptions) {
   const { context$, http: $http, fire, fireAsync } = options

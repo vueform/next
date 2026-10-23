@@ -10,7 +10,9 @@ A long form reads better in pages, and Vueform offers two kinds — **tabs** the
 
 Set `tabbed` on `!VfForm` and each direct child becomes a tab, labeled by its `page` prop:
 
-```vue
+::: usage w-xl
+
+```vue [Preview]
 <VfForm tabbed>
   <VfGroup name="profile" page="Profile">
     <VfText name="name" label="Name" />
@@ -21,13 +23,46 @@ Set `tabbed` on `!VfForm` and each direct child becomes a tab, labeled by its `p
 </VfForm>
 ```
 
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  profile: {
+    type: 'group',
+    page: 'Profile', // [!code highlight]
+    schema: {
+      name: { type: 'text', label: 'Name' },
+    },
+  },
+  billing: {
+    type: 'group',
+    page: 'Billing', // [!code highlight]
+    schema: {
+      company: { type: 'text', label: 'Company' },
+    },
+  },
+})
+
+const [Form] = useForm({ schema, tabbed: true }) // [!code highlight]
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
+
 Any tab can be selected at any time, and switching never validates — tabs suit settings screens and edit forms, where the user jumps to whatever they came to change. A `!VfGroup` takes `tabbed` too, for tabs inside a form; see [tabbed groups](/guide/form-structure#tabbed-groups).
 
 ## Stepped Forms
 
 Set `stepped` instead and the form becomes a wizard — a progress indicator (`!VfSteps`) appears above the pages and a navigation bar (`!VfNav`) with Back, Next, and Finish below them:
 
-```vue
+::: usage w-xl
+
+```vue [Preview]
 <VfForm stepped endpoint="/api/signup">
   <VfGroup name="account" page="Account">
     <VfText name="email" label="Email" rules="required|email" />
@@ -37,6 +72,48 @@ Set `stepped` instead and the form becomes a wizard — a progress indicator (`!
   </VfGroup>
 </VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  account: {
+    type: 'group',
+    page: 'Account',
+    schema: {
+      email: { type: 'text', label: 'Email', rules: 'required|email' },
+    },
+  },
+  address: {
+    type: 'group',
+    page: 'Address',
+    schema: {
+      city: { type: 'text', label: 'City' },
+    },
+  },
+})
+
+const [Form] = useForm({ schema, stepped: true, endpoint: '/api/signup' }) // [!code highlight]
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+```vue [Live]
+<VfForm stepped hide-errors>
+  <VfGroup name="account" page="Account">
+    <VfText name="email" label="Email" rules="required|email" />
+  </VfGroup>
+  <VfGroup name="address" page="Address">
+    <VfText name="city" label="City" />
+  </VfGroup>
+</VfForm>
+```
+
+:::
 
 Steps unlock in order. Next unlocks the following step, and the indicator lets the user click back to any step already reached — but never ahead. On the last available step Finish replaces Next and submits the form, with the full [submission](/guide/submit) lifecycle, endpoint and result events included.
 
@@ -117,11 +194,56 @@ Tabs never validate on switch — a failed submit simply opens the tab holding t
 | `nav` | `true` | `false` hides the whole navigation bar — for fully custom controls. |
 | `navPos` | `'auto'` | `'left'` / `'center'` / `'right'` pack the buttons to one side, `'fluid'` stretches them; `'auto'` follows the theme's `navJustify` token (`space-between` by default). |
 
-```vue
+Here Back is hidden on the first step and the buttons pack to the right:
+
+::: usage nomodel w-xl
+
+```vue [Preview]
 <VfForm stepped :back="false" nav-pos="right">
-  <!-- pages -->
+  <VfGroup name="details" page="Details">
+    <VfText name="title" label="Title" />
+  </VfGroup>
+  <VfGroup name="summary" page="Summary">
+    <VfText name="notes" label="Notes" />
+  </VfGroup>
 </VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  details: {
+    type: 'group',
+    page: 'Details',
+    schema: {
+      title: { type: 'text', label: 'Title' },
+    },
+  },
+  summary: {
+    type: 'group',
+    page: 'Summary',
+    schema: {
+      notes: { type: 'text', label: 'Notes' },
+    },
+  },
+})
+
+const [Form] = useForm({
+  schema,
+  stepped: true,
+  back: false, // [!code highlight]
+  navPos: 'right', // [!code highlight]
+})
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 ### Scrolling and Focus
 

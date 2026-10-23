@@ -4,11 +4,13 @@
 export interface SecurityModuleOptions {
   /**
    * The sanitization engine (e.g. the DOMPurify wrapper). Like the ciphers,
-   * there is no built-in one, and HTML rendering in `allowHtml` areas always
-   * passes through it. Without an engine, HTML renders raw with a dev warning
-   * in development and renders **empty** in production — install
-   * `@vueform/dompurify`, or consciously opt out of sanitization by registering
-   * an identity function (`sanitizer: (html) => html`).
+   * there is no built-in one, and HTML rendering in allowed areas always
+   * passes through it. Without an engine, `allowHtml` decides the fallback:
+   * unset, HTML renders raw with no warning, in production too; set — stated
+   * intent — HTML renders raw with a dev warning in development and renders
+   * **empty** in production. Install `@vueform/dompurify`, or consciously opt
+   * out of sanitization by registering an identity function
+   * (`sanitizer: (html) => html`).
    */
   sanitizer?: SecuritySanitizer
 
@@ -28,11 +30,13 @@ export interface SecurityModuleOptions {
   decrypt?: SecurityCipher
 
   /**
-   * The areas where strings may render as **HTML**. Empty by default: plain
-   * text strings always render (escaped), and HTML-looking strings in an area
-   * not listed here render escaped. HTML in an allowed area always passes
-   * through `sanitizeHtml` — the `sanitizer` engine, or its fallback (raw + dev
-   * warning in development, empty in production).
+   * The areas where strings may render as **HTML**. Unset, every area may —
+   * HTML renders out of the box. Setting the option turns it into an
+   * allowlist: an area not listed renders HTML-looking strings escaped
+   * (`[]` escapes everywhere), and plain text strings always render. HTML in
+   * an allowed area always passes through `sanitizeHtml` — the `sanitizer`
+   * engine, or its fallback (raw + dev warning in development, empty in
+   * production).
    */
   allowHtml?: SecurityHtmlArea[]
 
@@ -159,9 +163,10 @@ export type SecurityHtmlArea = 'content' | 'grid' | 'slots'
 export interface SecurityModule {
   /**
    * Sanitizes an HTML string for an HTML sink. With a `$security.sanitizer`
-   * engine, its output. Without one — like an unconfigured cipher, a state the
-   * app should resolve — the string passes through raw with a one-time dev
-   * warning in development, and comes back **empty** in production
+   * engine, its output. Without one, `$security.allowHtml` decides: unset —
+   * no stated HTML policy — the string passes through raw, silently, in
+   * production too; set, the string passes through raw with a one-time dev
+   * warning in development and comes back **empty** in production
    * (unsanitizable HTML never ships). Register an identity `sanitizer` to
    * consciously opt out. Returns an empty string for non-string input.
    *
@@ -209,10 +214,10 @@ export interface SecurityModule {
   sanitizeUrl: (url: unknown, schemes: string[]) => string | undefined
 
   /**
-   * Whether strings in the given area may render as HTML — pure
-   * `$security.allowHtml` membership. A refusal renders the string escaped.
-   * Sanitization is not this gate's concern: HTML that passes always renders
-   * through `sanitizeHtml`.
+   * Whether strings in the given area may render as HTML — `true` for every
+   * area while `$security.allowHtml` is unset, pure membership once it is
+   * set. A refusal renders the string escaped. Sanitization is not this
+   * gate's concern: HTML that passes always renders through `sanitizeHtml`.
    *
    * @param area The HTML area (`'content'`, `'grid'`, or `'slots'`).
    */

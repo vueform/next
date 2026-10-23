@@ -228,7 +228,7 @@ function matchesPropRef(pattern: PropRefPattern, segments: string[]): boolean {
  * `sanitizeHtml` / `sanitizeProps` capabilities, the `allowHtml` /
  * `allowComponents` / `allowOrigins` policy gates, and the `encrypt` /
  * `decrypt` ciphers. Unset capabilities behave as passthroughs; the gates fail
- * closed.
+ * closed, except `allowHtml`, which allows every area until set.
  *
  * @param vueform The Vueform instance whose config to read.
  */
@@ -252,27 +252,34 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
   // `Object.prototype.sanitizer` from a polluted prototype must never
   // install itself as the engine.
   const sanitizer = own(options, 'sanitizer')
+  const allowHtmlOption = own(options, 'allowHtml')
 
-  // HTML bound for an HTML sink always passes through here. No engine is the
-  // unconfigured state (like ciphers): development renders raw with a
-  // warning naming the fix; production renders empty — unsanitizable HTML
-  // never ships. An identity `sanitizer` is the conscious opt-out.
+  // HTML bound for an HTML sink always passes through here. With no engine,
+  // `allowHtml` decides what that means. Unset, the app stated no HTML
+  // policy — likely trusted schemas — so HTML passes through raw, silently,
+  // in production too: everything works without configuration. A configured
+  // `allowHtml` is stated intent, and HTML rendering without an engine is
+  // then a likely mistake: development renders raw with a warning naming the
+  // fix; production renders empty — unsanitizable HTML never ships. An
+  // identity `sanitizer` is the conscious opt-out.
   const sanitizeHtml = sanitizer
     ? (value?: string) => (typeof value === 'string' ? sanitizer(value) : '')
-    : (value?: string) => {
-        if (typeof value !== 'string') return ''
+    : !allowHtmlOption
+      ? (value?: string) => (typeof value === 'string' ? value : '')
+      : (value?: string) => {
+          if (typeof value !== 'string') return ''
 
-        if (isProd()) return ''
+          if (isProd()) return ''
 
-        if (!missingEngineWarned) {
-          missingEngineWarned = true
-          warn(
-            'HTML is rendering without a sanitizer — no `$security.sanitizer` is configured (in production it renders empty instead). Install `@vueform/dompurify`, or consciously opt out of sanitization by registering an identity function (`sanitizer: (html) => html`).'
-          )
+          if (!missingEngineWarned) {
+            missingEngineWarned = true
+            warn(
+              'HTML is rendering without a sanitizer — `$security.allowHtml` is configured but no `$security.sanitizer` is (in production the allowed areas render empty instead). Install `@vueform/dompurify`, or consciously opt out of sanitization by registering an identity function (`sanitizer: (html) => html`).'
+            )
+          }
+
+          return value
         }
-
-        return value
-      }
 
   const banAttrs = own(options, 'banAttrs') ?? []
 
@@ -492,14 +499,17 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     return false
   }
 
-  // The gates fail closed; `allowsComponent` warns once per rejected name
-  // so a missing allowlist entry is diagnosable without flooding the
-  // console on every re-render.
-  const allowHtml = new Set(own(options, 'allowHtml') ?? [])
+  // `allowHtml` is the one gate that defaults open: unset means every area
+  // may render HTML, and setting the option — even to `[]` — turns it into a
+  // membership gate over the listed areas. `allowComponents` fails closed;
+  // `allowsComponent` warns once per rejected name so a missing allowlist
+  // entry is diagnosable without flooding the console on every re-render.
+  const allowHtml = new Set(allowHtmlOption ?? [])
   const allowComponents = new Set(own(options, 'allowComponents') ?? [])
   const rejectedComponents = new Set<string>()
 
-  const allowsHtml = (area: SecurityHtmlArea) => allowHtml.has(area)
+  const allowsHtml = (area: SecurityHtmlArea) =>
+    !allowHtmlOption || allowHtml.has(area)
 
   const allowsComponent = (name: string) => {
     if (allowComponents.has(name)) return true

@@ -14,9 +14,9 @@ import {
  * like `red}[data-secret]{background:url(…)` would close the scoped rule and
  * inject arbitrary selectors, enabling attribute-selector exfiltration of typed
  * input values. The guarantees: declarations that could break out of their rule
- * are dropped (never rendered), the SSR style-tag string cannot be closed early
- * by CSS content, and every injected `<style>` tag carries the configured CSP
- * nonce.
+ * are dropped (never rendered), and the SSR style-tag string cannot be closed
+ * early by CSS content. (Nonce plumbing — a deployment guarantee, not an attack
+ * surface — is covered in `integration/presentation/csp-nonce.test.ts`.)
  */
 import { nextTick } from 'vue'
 
@@ -178,52 +178,7 @@ describe('Security: CSS injection containment', () => {
     })
   })
 
-  describe('style tags carry the CSP nonce', () => {
-    /**
-     * Threat: not an attack but a deployment guarantee — under a strict
-     * `style-src-elem` policy, any Vueform style tag missing the nonce is
-     * silently dropped by the browser and the form renders unstyled.
-     *
-     * Measure: per-instance `<style>` tags rendered by components carry the
-     * configured `nonce` attribute (pre-existing guarantee, proven here).
-     */
-    test('it should render per-instance style tags with the configured nonce', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'text',
-              label: 'Foo',
-              tokens: { primary: 'red' } as any,
-            },
-          }),
-        },
-        { nonce: 'test-nonce-123' } as any
-      )
-
-      await nextTick()
-
-      const style = form.find('style')
-      expect(style.exists()).toBe(true)
-      expect(style.attributes('nonce')).toBe('test-nonce-123')
-    })
-  })
-
   describe('the global theme stylesheet', () => {
-    /**
-     * Threat: none — the module boundary. CSS containment is the security
-     * module's `sanitizeCss` capability: without the module, token values reach
-     * the stylesheet as written (the deliberate wholesale opt-out).
-     */
-    test('it should leave CSS values unchecked without the module', () => {
-      const vueform = createVueform({
-        modules: { model, theme },
-        tokens: { probe: 'red } * { background: blue ' },
-      } as any)
-
-      expect(vueform.getStyleTag()).toContain('background: blue')
-    })
-
     /**
      * Threat: a global `tokens` config value carrying `{`/`}` — the theme
      * stylesheet interpolates declarations verbatim, so a brace could close the
@@ -291,84 +246,6 @@ describe('Security: CSS injection containment', () => {
       const inner = tag.slice(tag.indexOf('>') + 1, tag.lastIndexOf('</style>'))
       expect(inner).not.toContain('</')
       expect(inner).toContain('probe')
-    })
-
-    /**
-     * Threat: a deployment guarantee, not an attack — under strict
-     * `style-src-elem`, a theme tag missing the nonce is dropped by the browser
-     * and the form renders unstyled, pushing apps to weaken CSP.
-     *
-     * Measure: the nonce reaches all three injection paths. Path 1 — the SSR
-     * string carries it as an attribute.
-     */
-    test('it should include the nonce in the SSR style tag', () => {
-      const vueform = createVueform({
-        modules: { model, security, theme },
-        nonce: 'ssr-nonce-2',
-        tokens: { primary: 'red' },
-      } as any)
-
-      expect(vueform.getStyleTag()).toContain('nonce="ssr-nonce-2"')
-    })
-
-    /**
-     * Measure continued: path 2 — with no Unhead present, the module falls back
-     * to inserting a `<style>` element into `document.head` and sets the nonce
-     * via `setAttribute`.
-     */
-    test('it should set the nonce on the DOM-injected theme tag', async () => {
-      createForm(
-        {
-          schema: defineSchema({ name: { type: 'text' } }),
-        },
-        {
-          nonce: 'dom-nonce-3',
-          tokens: { primary: 'red' },
-          build: { styleId: 'vf-freeze-probe-dom' },
-        } as any
-      )
-
-      const tag = document.getElementById('vf-freeze-probe-dom')
-      expect(tag).not.toBeNull()
-      expect(tag!.getAttribute('nonce')).toBe('dom-nonce-3')
-      expect(tag!.textContent).toContain('--vf-primary')
-    })
-
-    /**
-     * Measure continued: path 3 — when Unhead is installed (Nuxt), the CSS is
-     * handed to `head.push()` with the nonce in the style entry instead of
-     * touching the DOM.
-     */
-    test('it should pass the nonce to Unhead when present', async () => {
-      const push = vi.fn()
-
-      createForm(
-        {
-          schema: defineSchema({ name: { type: 'text' } }),
-        },
-        {
-          nonce: 'head-nonce-4',
-          tokens: { primary: 'red' },
-          build: { styleId: 'vf-probe-unhead' },
-        } as any,
-        {
-          global: {
-            provide: { usehead: { push } },
-          },
-        }
-      )
-
-      expect(push).toHaveBeenCalledWith(
-        expect.objectContaining({
-          style: [
-            expect.objectContaining({
-              id: 'vf-probe-unhead',
-              nonce: 'head-nonce-4',
-            }),
-          ],
-        })
-      )
-      expect(document.getElementById('vf-probe-unhead')).toBeNull()
     })
   })
 })

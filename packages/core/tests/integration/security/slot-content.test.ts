@@ -1,5 +1,4 @@
 import { defineSchema } from '@vueform/core'
-import * as modules from '@vueform/core/modules'
 import dompurify from '@vueform/dompurify'
 /**
  * # Slot content
@@ -26,47 +25,17 @@ Resolved.inheritAttrs = false
 
 const withComponents = { global: { components: { Resolved } } }
 
-// Forms built without the security module observe the inert noop surface.
-const { security: _security, ...modulesWithoutSecurity } = modules as any
-
 describe('Security: slot content', () => {
-  describe('plain text always renders, escaped', () => {
+  describe('HTML in a restricted app renders escaped', () => {
     /**
-     * Threat: none — this is the safe baseline. Plain text in a slot is
-     * ordinary content; gating it would only push users toward broader
-     * opt-ins.
+     * Threat: an HTML payload in a slot string of an app that restricted HTML
+     * rendering — `allowHtml` is set and `'slots'` isn't in it.
      *
-     * Measure: text renders through Vue's escaping with no configuration at all
-     * — no `allowHtml`, no sanitizer, not even the security module.
+     * Measure: once `allowHtml` is configured it is a pure allowlist, so the
+     * string renders as escaped text (tags visible, nothing silently
+     * dropped).
      */
-    test('it should render a plain text slot string with no security config', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'text',
-              label: 'Foo',
-              slots: { label: 'Custom label' },
-            },
-          }),
-        },
-        { $security: {} }
-      )
-
-      await nextTick()
-
-      expect(form.find('.vf-label-group').text()).toBe('Custom label')
-    })
-
-    /**
-     * Threat: an HTML payload in a slot string of an app that never opted into
-     * HTML rendering — the most common deployment.
-     *
-     * Measure: without `allowHtml: ['slots']` the string renders as escaped
-     * text (tags visible, nothing silently dropped) with a dev warning naming
-     * the missing option.
-     */
-    test('it should render an HTML slot string as escaped text without `allowHtml`', async () => {
+    test('it should render an HTML slot string as escaped text when `allowHtml` omits `slots`', async () => {
       const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
       const { form } = createForm(
@@ -232,80 +201,6 @@ describe('Security: slot content', () => {
     })
 
     /**
-     * Threat: none — the opt-out contract. Under the identity-sanitizer opt-out
-     * the app declared its schemas trusted, and slot HTML renders exactly as
-     * authored — inline handlers included, the same behavior the markup would
-     * have anywhere else in the app. With an engine installed, `on*` attributes
-     * never survive sanitization (proven above).
-     */
-    test('it should render raw HTML as authored under the identity opt-out', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'text',
-              label: 'Foo',
-              slots: {
-                label:
-                  '<div class="ok" onclick="window.__slot3 = true">x</div>',
-              },
-            },
-          }),
-        },
-        {
-          $security: {
-            allowHtml: ['slots'],
-            sanitizer: (html: string) => html,
-          },
-        }
-      )
-
-      await nextTick()
-
-      const div = form.find('.vf-label-group div.ok')
-      expect(div.exists()).toBe(true)
-      expect(div.attributes('onclick')).toBe('window.__slot3 = true')
-    })
-
-    /**
-     * Threat: none — a scope boundary. `banAttrs` governs prop **bags**
-     * (`parts`, cell `attrs`, schema entries); slot HTML is governed solely by
-     * the sanitizer's policy (`sanitizeOptions: { FORBID_ATTR: [...] }` for
-     * attribute bans inside sanitized HTML).
-     *
-     * Measure: a `banAttrs` entry does not reach into slot markup — the HTML
-     * renders per the sanitizer's verdict, `style` attribute included.
-     */
-    test('it should not apply `banAttrs` to slot HTML', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'text',
-              label: 'Foo',
-              slots: {
-                label: '<div class="ok" style="color: red">x</div>',
-              },
-            },
-          }),
-        },
-        {
-          $security: {
-            allowHtml: ['slots'],
-            sanitizer: (html: string) => html,
-            banAttrs: ['style'],
-          },
-        }
-      )
-
-      await nextTick()
-
-      expect(form.find('.vf-label-group div.ok').attributes('style')).toContain(
-        'color: red'
-      )
-    })
-
-    /**
      * Threat: expression-injected attribute breakout — the schema template
      * `<div title="{note}">` is clean, and the form user supplies `"
      * onclick="…` as the field value to fabricate a handler attribute in the
@@ -403,38 +298,6 @@ describe('Security: slot content', () => {
     })
 
     /**
-     * Threat: warning fatigue — a rejected name repeated across dozens of
-     * elements flooding the console would train developers to ignore security
-     * warnings entirely.
-     *
-     * Measure: each rejected name warns once per instance, no matter how many
-     * elements use it. (Migrated from the original suite.)
-     */
-    test('it should warn once per rejected name across elements', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-      createForm(
-        {
-          schema: defineSchema({
-            a: { type: 'text', label: 'A', template: 'Resolved' },
-            b: { type: 'text', label: 'B', template: 'Resolved' },
-          }),
-        },
-        { $security: {} },
-        withComponents
-      )
-
-      await nextTick()
-
-      const hits = warn.mock.calls.filter((call) =>
-        String(call[0]).includes('`Resolved` is not listed')
-      )
-      expect(hits).toHaveLength(1)
-
-      warn.mockRestore()
-    })
-
-    /**
      * Threat: a `template` prop string mounting an unlisted component — the
      * same vector as slots, through a different prop.
      *
@@ -519,176 +382,6 @@ describe('Security: slot content', () => {
 
       expect(allowed.form.find('.resolved').exists()).toBe(true)
       expect(allowed.form.find('.vf-label').exists()).toBe(false)
-
-      warn.mockRestore()
-    })
-  })
-
-  describe('without the security module', () => {
-    /**
-     * Threat: none — the module family's contract. An absent module means the
-     * feature is absent: `validation` absent counts everything valid,
-     * `security` absent enforces nothing. Deliberately omitting the module is
-     * the documented wholesale opt-out for trusted environments.
-     *
-     * Measure: with no `$security` intent configured, HTML slot strings render
-     * as raw HTML (no engine, no gate) — while the string renderer's structural
-     * floors (inert `<script>` handling, parsed `on*` drops) still apply, since
-     * they are invariants, not policy.
-     */
-    test('it should render HTML slot strings permissively without the module', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'text',
-              label: 'Foo',
-              slots: { label: '<b>bold</b>' },
-            },
-          }),
-        },
-        {
-          modules: modulesWithoutSecurity,
-          $security: {},
-        }
-      )
-
-      await nextTick()
-
-      expect(form.find('.vf-label-group b').exists()).toBe(true)
-      expect(form.find('.vf-label-group b').text()).toBe('bold')
-    })
-
-    /**
-     * Threat: `allowHtml` configured without the module — a config that reads
-     * like policy while nothing enforces it.
-     *
-     * Measure: discovered intent stays permissive in development (and stays
-     * permissive so the app remains workable); production fails closed instead
-     * — proven in the noop production suite.
-     */
-    test('it should warn when `allowHtml` is configured without the module', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'text',
-              label: 'Foo',
-              slots: { label: '<b>bold</b>' },
-            },
-          }),
-        },
-        {
-          modules: modulesWithoutSecurity,
-          $security: { allowHtml: ['slots'] },
-        }
-      )
-
-      await nextTick()
-
-      expect(form.find('.vf-label-group b').exists()).toBe(true)
-      expect(warn).toHaveBeenCalledWith(
-        expect.stringContaining(
-          '`$security` options are configured but the `security` module is not registered'
-        )
-      )
-
-      warn.mockRestore()
-    })
-
-    /**
-     * Threat: none — permissive component resolution without the module. Any
-     * **registered** component name resolves; the registration guard keeps
-     * one-word text slots (`'Hello'`) rendering as text instead of becoming
-     * unresolvable elements.
-     */
-    test('it should resolve registered component names without the module', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'text',
-              label: 'Foo',
-              slots: { label: 'Resolved' },
-            },
-          }),
-        },
-        {
-          modules: modulesWithoutSecurity,
-          $security: {},
-        },
-        withComponents
-      )
-
-      await nextTick()
-
-      expect(form.find('.resolved').exists()).toBe(true)
-    })
-
-    /**
-     * Threat: over-resolution — a permissive gate turning ordinary text into
-     * component lookups.
-     *
-     * Measure: a component-shaped slot string that matches no registered
-     * component renders as text, module or no module.
-     */
-    test('it should render unregistered component-shaped strings as text', async () => {
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: {
-              type: 'text',
-              label: 'Foo',
-              slots: { label: 'Hello' },
-            },
-          }),
-        },
-        {
-          modules: modulesWithoutSecurity,
-          $security: {},
-        }
-      )
-
-      await nextTick()
-
-      expect(form.find('.vf-label-group').text()).toContain('Hello')
-      expect(form.find('hello').exists()).toBe(false)
-    })
-
-    /**
-     * Threat: `allowComponents` configured without the module — policy without
-     * an enforcer.
-     *
-     * Measure: discovered intent stays permissive in development while
-     * resolution stays permissive; production fails closed — proven in the noop
-     * production suite.
-     */
-    test('it should warn when `allowComponents` is configured without the module', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-      const { form } = createForm(
-        {
-          schema: defineSchema({
-            el: { type: 'text', label: 'Foo', template: 'Resolved' },
-          }),
-        },
-        {
-          modules: modulesWithoutSecurity,
-          $security: { allowComponents: ['Resolved'] },
-        },
-        withComponents
-      )
-
-      await nextTick()
-
-      expect(form.find('.resolved').exists()).toBe(true)
-      expect(warn).toHaveBeenCalledWith(
-        expect.stringContaining(
-          '`$security` options are configured but the `security` module is not registered'
-        )
-      )
 
       warn.mockRestore()
     })

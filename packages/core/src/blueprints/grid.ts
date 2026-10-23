@@ -201,8 +201,9 @@ export type ResolvedCell = {
    * What the cell mounts: the resolved element component for schema cells (an
    * explicit `component` allowed by `$security.allowComponents`, or the `Vf*`
    * name derived from `type`), the content component for string cells (plain
-   * text escaped; HTML via `$security.allowHtml: ['grid']`, sanitized after
-   * expression resolution), or `null` for an empty cell.
+   * text escaped; HTML sanitized after expression resolution, unless a
+   * configured `$security.allowHtml` omits `'grid'`), or `null` for an empty
+   * cell.
    */
   component: string | Component | null
 
@@ -564,8 +565,8 @@ export function blueprint<TProps extends GridProps<string>>(
   /**
    * Renders a string cell through the shared string-content pipeline: `{...}`
    * expressions resolve against the form data, then the result renders as
-   * escaped text — or as sanitized HTML when `$security.allowHtml` lists the
-   * `grid` area.
+   * sanitized HTML — or as escaped text when a configured
+   * `$security.allowHtml` omits the `grid` area.
    */
   const toCellContent = (str: string): Component =>
     makeFromString(str, { htmlArea: 'grid', exprKey: 'grid' })

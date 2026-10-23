@@ -10,10 +10,33 @@ A form lays its elements out on a 12-column grid, and an element that doesn't de
 
 The form, every group, and every list row lay their children on a 12-column grid. The `columns` prop sets how many of those columns an element occupies, and an element without it takes the full row:
 
-```ts
-first_name: { type: 'text', label: 'First name', columns: 6 },
-last_name: { type: 'text', label: 'Last name', columns: 6 },
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText name="first_name" label="First name" :columns="6" />
+  <VfText name="last_name" label="Last name" :columns="6" />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  first_name: { type: 'text', label: 'First name', columns: 6 },
+  last_name: { type: 'text', label: 'Last name', columns: 6 },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 The two fields render side by side, each taking half the row. Elements fill a row left to right and wrap to a new one once the next width would push the total past 12 — nothing ever overflows. The column count is fixed at twelve, while the gaps between columns and rows come from the `gutter` token family — see [primitives](/guide/themes-tokens#primitives).
 
@@ -21,10 +44,33 @@ The two fields render side by side, each taking half the row. Elements fill a ro
 
 A plain number applies at every viewport size. An object keyed by breakpoint names sets a width per viewport instead, mobile-first — each key applies from its threshold up, until a larger key takes over:
 
-```ts
-first_name: { type: 'text', label: 'First name', columns: { md: 6 } },
-last_name: { type: 'text', label: 'Last name', columns: { md: 6 } },
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText name="first_name" label="First name" :columns="{ md: 6 }" />
+  <VfText name="last_name" label="Last name" :columns="{ md: 6 }" />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  first_name: { type: 'text', label: 'First name', columns: { md: 6 } },
+  last_name: { type: 'text', label: 'Last name', columns: { md: 6 } },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 On phones each field takes the full row; from `md` up they sit side by side. Five breakpoints are defined by default:
 
@@ -77,10 +123,33 @@ columns: { md: { container: 6, label: 4 } }
 
 A `label` width between 1 and 11 moves the label beside the control, taking that many of the element's twelve columns while the control takes the rest:
 
-```ts
-first_name: { type: 'text', label: 'First name', columns: { label: 4 } },
-last_name: { type: 'text', label: 'Last name', columns: { label: 4 } },
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText name="first_name" label="First name" :columns="{ label: 4 }" />
+  <VfText name="last_name" label="Last name" :columns="{ label: 4 }" />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  first_name: { type: 'text', label: 'First name', columns: { label: 4 } },
+  last_name: { type: 'text', label: 'Last name', columns: { label: 4 } },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 Paired with a breakpoint — `columns: { md: { label: 4 } }` — labels stay on top on phones and move beside the control on wider screens. An element with horizontal columns but no label renders an empty placeholder in the label column, so its control still lines up with its labeled siblings. Under `dir="rtl"` the layout mirrors on its own, with the label on the right.
 
@@ -90,22 +159,126 @@ The classes behind horizontal and vertical labels are produced by the `label` co
 
 `wrapper` narrows the control itself while the element keeps its full width. Unlike `container` — which frees the remaining columns and lets the next element move up beside it — a wrapper-narrowed element still owns its row, and its description and error messages still span it:
 
-```ts
-age: { type: 'text', label: 'Age', columns: { wrapper: 2 } },
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText name="age" label="Age" :columns="{ wrapper: 2 }" />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  age: { type: 'text', label: 'Age', columns: { wrapper: 2 } },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 ## Dynamic Column Widths
 
 `columns` also accepts a function. It receives the element's [context](/guide/context#context-from-argument), returns any of the forms above, and re-runs reactively whenever something it read changes:
 
-```ts
-country: { type: 'select', label: 'Country', items: ['US', 'Other'] },
-city: {
-  type: 'text',
-  label: 'City',
-  columns: ({ form$ }) => (form$?.model.country === 'US' ? 6 : 12), // [!code highlight]
-},
+::: usage w-xl
+
+```vue [Preview]
+<VfForm>
+  <VfSelect
+    name="country"
+    :columns="({ model }) => model === 'US' ? 4 : 6"
+  />
+  <VfSelect
+    name="state"
+    :columns="4"
+    :conditions="[['country', '==', 'US']]"
+  />
+  <VfText
+    name="city"
+    :columns="({ form$ }) => form$.model.country === 'US' ? 4 : 6"
+  />
+</VfForm>
 ```
+
+```vue [Template]
+<VfForm>
+  <VfSelect
+    name="country"
+    label="Country"
+    placeholder="Select a country"
+    :items="{ US: 'United States', nonUS: 'Outside of US' }"
+    :columns="(el$) => el$.model === 'US' ? 4 : 6"
+  />
+  <VfSelect name="state" label="State" placeholder="Select state" :columns="4" :items="{
+    AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California', CO: 'Colorado',
+    CT: 'Connecticut', DE: 'Delaware', DC: 'District Of Columbia', FL: 'Florida', GA: 'Georgia',
+    HI: 'Hawaii', ID: 'Idaho', IL: 'Illinois', IN: 'Indiana', IA: 'Iowa', KS: 'Kansas', KY: 'Kentucky',
+    LA: 'Louisiana', ME: 'Maine', MD: 'Maryland', MA: 'Massachusetts', MI: 'Michigan', MN: 'Minnesota',
+    MS: 'Mississippi', MO: 'Missouri', MT: 'Montana', NE: 'Nebraska', NV: 'Nevada', NH: 'New Hampshire',
+    NJ: 'New Jersey', NM: 'New Mexico', NY: 'New York', NC: 'North Carolina', ND: 'North Dakota',
+    OH: 'Ohio', OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina',
+    SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia',
+    WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming'
+  }" :conditions="[['country', '==', 'US']]" />
+  <VfText name="city" label="City" :columns="({ form$ }) => form$.model.country === 'US' ? 4 : 6" />
+</VfForm>
+```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  country: {
+    type: 'select',
+    label: 'Country',
+    placeholder: 'Select a country',
+    items: { US: 'United States', nonUS: 'Outside of US' },
+    columns: ({ model }) => model === 'US' ? 4 : 6,
+  },
+  state: {
+    type: 'select',
+    label: 'State',
+    placeholder: 'Select state',
+    columns: 4,
+    items: {
+      AL: 'Alabama', AK: 'Alaska', AZ: 'Arizona', AR: 'Arkansas', CA: 'California', CO: 'Colorado',
+      CT: 'Connecticut', DE: 'Delaware', DC: 'District Of Columbia', FL: 'Florida', GA: 'Georgia',
+      HI: 'Hawaii', ID: 'Idaho', IL: 'Illinois', IN: 'Indiana', IA: 'Iowa', KS: 'Kansas', KY: 'Kentucky',
+      LA: 'Louisiana', ME: 'Maine', MD: 'Maryland', MA: 'Massachusetts', MI: 'Michigan', MN: 'Minnesota',
+      MS: 'Mississippi', MO: 'Missouri', MT: 'Montana', NE: 'Nebraska', NV: 'Nevada', NH: 'New Hampshire',
+      NJ: 'New Jersey', NM: 'New Mexico', NY: 'New York', NC: 'North Carolina', ND: 'North Dakota',
+      OH: 'Ohio', OK: 'Oklahoma', OR: 'Oregon', PA: 'Pennsylvania', RI: 'Rhode Island', SC: 'South Carolina',
+      SD: 'South Dakota', TN: 'Tennessee', TX: 'Texas', UT: 'Utah', VT: 'Vermont', VA: 'Virginia',
+      WA: 'Washington', WV: 'West Virginia', WI: 'Wisconsin', WY: 'Wyoming'
+    },
+    conditions: [['country', '==', 'US']],
+  },
+  city: {
+    type: 'text',
+    label: 'City',
+    columns: ({ form$ }) => form$.model.country === 'US' ? 4 : 6,
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 An [expression](/guide/expressions) string does the same and survives serialization. It's written bare — braces are optional — and resolves against the form data, with `@model` reading the element's own value. A string can also sit inside breakpoint keys or the `container` / `label` / `wrapper` keys:
 
@@ -119,16 +292,41 @@ Operators like these need the expression engine — the [`@vueform/expr-eval`](/
 
 `!VfGroup` wraps elements that belong together. Its children lay out on the group's own 12-column grid, while the group itself is sized by its own `columns` on the parent's:
 
-```ts
-name: {
-  type: 'group',
-  label: 'Name',
-  schema: {
-    first: { type: 'text', columns: 6 },
-    last: { type: 'text', columns: 6 },
-  },
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfGroup name="name" label="Name">
+    <VfText name="first" :columns="6" />
+    <VfText name="last" :columns="6" />
+  </VfGroup>
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  name: {
+    type: 'group',
+    label: 'Name',
+    schema: {
+      first: { type: 'text', columns: 6 },
+      last: { type: 'text', columns: 6 },
+    },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 The group adds one `label`, `help`, and `description` for the whole set — a labeled group renders as a `<fieldset>`, covered in [label](/guide/element-layout#label) — and one place for props that should cover every child. `conditions` on the group makes the whole branch appear and disappear together, and `disabled` cascades to every element inside. The `heading` prop promotes the label to an `<h1>`–`<h6>` section heading — see [headings](/guide/element-layout#headings). A group standing in for one logical field can collect its children's errors under its own label with `hoist` — see [hoisting errors](/guide/validation#hoisting-errors).
 
@@ -136,18 +334,51 @@ The group adds one `label`, `help`, and `description` for the whole set — a la
 
 By default a group is purely visual — its children write straight into the parent's data level, as if the group weren't there. `nested: true` makes the group own a sub-object under its name:
 
-```ts
-address: {
-  type: 'group',
-  label: 'Address',
-  nested: true, // [!code highlight]
-  schema: {
-    street: { type: 'text', label: 'Street' },
-    city: { type: 'text', label: 'City' },
-    zip: { type: 'text', label: 'ZIP' },
-  },
-},
+::: usage model
+
+```vue [Preview]
+<VfGroup name="address" label="Address" :heading="2" nested>
+  <VfText name="street" label="Street" />
+  <VfText name="city" label="City" :columns="6" />
+  <VfText name="zip" label="ZIP" :columns="6" />
+</VfGroup>
 ```
+
+```vue [Template]
+<VfGroup name="address" label="Address" :heading="2" nested>
+  <VfText name="street" label="Street" default="Main St 1" />
+  <VfText name="city" label="City" default="Springfield" :columns="6" />
+  <VfText name="zip" label="ZIP" default="12345" :columns="6" />
+</VfGroup>
+```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  address: {
+    type: 'group',
+    label: 'Address',
+    nested: true, // [!code highlight]
+    heading: 2,
+    schema: {
+      street: { type: 'text', label: 'Street', default: 'Main St 1' },
+      city: { type: 'text', label: 'City', default: 'Springfield', columns: 6 },
+      zip: { type: 'text', label: 'ZIP', default: '12345', columns: 6 },
+    },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 The model becomes `{ address: { street, city, zip } }` instead of three top-level keys. Nested and non-nested groups mix freely at any depth. A non-nested group is the case where an element's tree path and data path diverge — see [element paths](/guide/element-paths) — and how the model assembles from the tree is covered in [model](/guide/model).
 
@@ -155,17 +386,43 @@ The model becomes `{ address: { street, city, zip } }` instead of three top-leve
 
 `wrap: true` draws a bordered, padded container around the whole group, label included, while `innerWrap: true` boxes only the children and leaves the label outside:
 
-```ts
-address: {
-  type: 'group',
-  label: 'Address',
-  wrap: true, // [!code highlight]
-  schema: {
-    street: { type: 'text', label: 'Street' },
-    city: { type: 'text', label: 'City' },
-  },
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfGroup name="address" label="Address" :heading="2" wrap>
+    <VfText name="street" label="Street" />
+    <VfText name="city" label="City" />
+  </VfGroup>
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  address: {
+    type: 'group',
+    label: 'Address',
+    wrap: true, // [!code highlight]
+    heading: 2,
+    schema: {
+      street: { type: 'text', label: 'Street' },
+      city: { type: 'text', label: 'City' },
+    },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 The box's look comes from the `groupWrapped*` tokens — see the [`VfGroup` tokens](/components/VfGroup#tokens).
 
@@ -173,17 +430,43 @@ The box's look comes from the `groupWrapped*` tokens — see the [`VfGroup` toke
 
 `stacked` swaps the group's grid for a wrapping flex row, so children sit side by side at their natural width — the layout for buttons and other intrinsically sized elements:
 
-```ts
-actions: {
-  type: 'group',
-  stacked: true, // [!code highlight]
-  schema: {
-    save: { type: 'button', text: 'Save' },
-    preview: { type: 'button', text: 'Preview' },
-    cancel: { type: 'button', text: 'Cancel', severity: 'secondary' },
-  },
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfGroup name="actions" stacked>
+    <VfButton name="save" text="Save" severity="primary" />
+    <VfButton name="preview" text="Preview" />
+    <VfButton name="cancel" text="Cancel" variant="text" />
+  </VfGroup>
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  actions: {
+    type: 'group',
+    stacked: true, // [!code highlight]
+    schema: {
+      save: { type: 'button', text: 'Save', severity: 'primary' },
+      preview: { type: 'button', text: 'Preview' },
+      cancel: { type: 'button', text: 'Cancel', variant: 'text' },
+    },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 `!VfForm` takes `stacked` too, applying the same layout to its direct children, and `!VfCheckboxes` / `!VfRadios` have their own `stacked`, which lines up their options in a row.
 
@@ -191,66 +474,112 @@ actions: {
 
 `tabbed` turns the group's direct children into tabs, with each child's `page` prop supplying the tab label. A tab that should hold several elements is itself a group:
 
-```ts
-settings: {
-  type: 'group',
-  label: 'Settings',
-  tabbed: true, // [!code highlight]
-  schema: {
-    profile: {
-      type: 'group',
-      page: 'Profile',
-      schema: {
-        name: { type: 'text', label: 'Name' },
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfGroup name="settings" label="Settings" :heading="2" tabbed>
+    <VfGroup name="profile" page="Profile">
+      <VfText name="name" label="Name" />
+    </VfGroup>
+    <VfGroup name="security" page="Security">
+      <VfText name="password" input-type="password" label="Password" />
+    </VfGroup>
+  </VfGroup>
+</VfForm>
+```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  settings: {
+    type: 'group',
+    label: 'Settings',
+    tabbed: true, // [!code highlight]
+    heading: 2,
+    schema: {
+      profile: {
+        type: 'group',
+        page: 'Profile',
+        schema: {
+          name: { type: 'text', label: 'Name' },
+        },
       },
-    },
-    security: {
-      type: 'group',
-      page: 'Security',
-      schema: {
-        password: { type: 'text', inputType: 'password', label: 'Password' },
+      security: {
+        type: 'group',
+        page: 'Security',
+        schema: {
+          password: { type: 'text', inputType: 'password', label: 'Password' },
+        },
       },
     },
   },
-},
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
 ```
+
+:::
 
 Groups only tab — the sequential `stepped` wizard is a form-level mode, covered in [multi-page forms](/guide/multi-page-forms). Conditions on a tab's element remove the whole tab (see [conditional pages](/guide/conditions#conditional-pages)), and the pager, the page metadata, and the `tab` / `beforeTab` events work exactly as on a tabbed form.
 
 ## Grid Layout
 
-The 12-column grid is one-dimensional — each row is independent, so column edges don't line up across rows. `!VfGrid` is a real two-dimensional CSS grid in which every cell shares the same column tracks. Its `grid` prop takes a 2D array — each inner array a row, each item a cell:
+The 12-column grid is one-dimensional — each row is independent, so column edges don't line up across rows. `!VfGrid` is a real two-dimensional CSS grid in which every cell shares the same column tracks. Its `grid` prop takes a 2D array — each inner array a row, each item a cell — and in templates the same block is built from components, with `!VfRow` inside `!VfGrid`, `!VfCol` inside `!VfRow`, and elements inside `!VfCol`:
 
-```ts
-contact: {
-  type: 'grid',
-  grid: [
-    [
-      { type: 'text', name: 'first_name', placeholder: 'First name' },
-      { type: 'text', name: 'last_name', placeholder: 'Last name' },
-    ],
-    [
-      { type: 'text', name: 'email', placeholder: 'Email' },
-      { type: 'text', name: 'phone', placeholder: 'Phone' },
-    ],
-  ],
-},
+::: usage
+
+```vue [Template]
+<VfForm>
+  <VfGrid name="contact">
+    <VfRow>
+      <VfCol><VfText name="first_name" placeholder="First name" /></VfCol>
+      <VfCol><VfText name="last_name" placeholder="Last name" /></VfCol>
+    </VfRow>
+    <VfRow>
+      <VfCol><VfText name="email" placeholder="Email" /></VfCol>
+      <VfCol><VfText name="phone" placeholder="Phone" /></VfCol>
+    </VfRow>
+  </VfGrid>
+</VfForm>
 ```
 
-In templates the same block is built from components — `!VfRow` inside `!VfGrid`, `!VfCol` inside `!VfRow`, elements inside `!VfCol`:
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
 
-```vue
-<VfGrid name="contact">
-  <VfRow>
-    <VfCol><VfText name="first_name" placeholder="First name" /></VfCol>
-    <VfCol><VfText name="last_name" placeholder="Last name" /></VfCol>
-  </VfRow>
-  <VfRow>
-    <VfCol><VfText name="email" placeholder="Email" /></VfCol>
-    <VfCol><VfText name="phone" placeholder="Phone" /></VfCol>
-  </VfRow>
-</VfGrid>
+const schema = defineSchema({
+  contact: {
+    type: 'grid',
+    grid: [
+      [
+        { type: 'text', name: 'first_name', placeholder: 'First name' },
+        { type: 'text', name: 'last_name', placeholder: 'Last name' },
+      ],
+      [
+        { type: 'text', name: 'email', placeholder: 'Email' },
+        { type: 'text', name: 'phone', placeholder: 'Phone' },
+      ],
+    ],
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
 ```
+
+:::
 
 Like a group, a grid writes its children into the parent's data, and `nested` collects them under the grid's own key.
 
@@ -260,18 +589,54 @@ A cell in the `grid` array is an element schema object, a string, or `null` for 
 
 Besides its element schema, an object cell takes a handful of layout keys — `colspan`, `rowspan`, `align`, `valign`, and `attrs` (HTML attributes for the cell wrapper) — with `content` carrying the text of a non-element cell. The same props go on `!VfCol` in templates:
 
-```ts
-contact: {
-  type: 'grid',
-  grid: [
-    [
-      { type: 'text', name: 'first_name', placeholder: 'First name' },
-      { type: 'text', name: 'last_name', placeholder: 'Last name' },
-    ],
-    [{ type: 'textarea', name: 'bio', placeholder: 'Bio', colspan: 2 }], // [!code highlight]
-  ],
-},
+::: usage
+
+```vue [Template]
+<VfForm>
+  <VfGrid name="contact">
+    <VfRow>
+      <VfCol>
+        <VfText name="first_name" placeholder="First name" />
+      </VfCol>
+      <VfCol>
+        <VfText name="last_name" placeholder="Last name" />
+      </VfCol>
+    </VfRow>
+    <VfRow>
+      <VfCol :colspan="2">
+        <VfTextarea name="bio" placeholder="Bio" />
+      </VfCol>
+    </VfRow>
+  </VfGrid>
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  contact: {
+    type: 'grid',
+    grid: [
+      [
+        { type: 'text', name: 'first_name', placeholder: 'First name' },
+        { type: 'text', name: 'last_name', placeholder: 'Last name' },
+      ],
+      [{ type: 'textarea', name: 'bio', placeholder: 'Bio', colspan: 2 }],
+    ],
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 An element cell without a `name` gets a position-derived one (`{grid}_{row}_{col}`), so name the cells whose data matters. The rest of the grid surface lives on its [reference page](/components/VfGrid) — column and row headers (`colHeaders`, `rowHeaders`, and `header` on `!VfCol`), column `widths` (numbers are pixels, strings any CSS track value), grid-wide `align` / `valign` (defaulting to `left` / `baseline`), and `scrollable` with `minWidth` / `maxWidth`.
 
@@ -279,14 +644,39 @@ An element cell without a `name` gets a position-derived one (`{grid}_{row}_{col
 
 `!VfMatrix` is the grid's structured sibling — instead of placing cells one by one, you define `cols` and `rows` and it renders an input at every intersection, with headers along both axes. It's the element for survey scales, schedules, and scoring tables:
 
-```ts
-schedule: {
-  type: 'matrix',
-  label: 'Schedule',
-  cols: { morning: 'Morning', evening: 'Evening' },
-  rows: { monday: 'Monday', tuesday: 'Tuesday' },
-},
+::: usage model
+
+```vue [Preview]
+<VfForm>
+  <VfMatrix
+    name="schedule"
+    :cols="{ morning: 'Morning', evening: 'Evening' }"
+    :rows="{ monday: 'Monday', tuesday: 'Tuesday' }"
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  schedule: {
+    type: 'matrix',
+    cols: { morning: 'Morning', evening: 'Evening' },
+    rows: { monday: 'Monday', tuesday: 'Tuesday' },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 Each cell is a text input by default, and the value is an object keyed by row value, each row an object keyed by column value — `{ monday: { morning: '', evening: '' }, … }`. With `rows` omitted (and no `endpoint`) or given as a number, the matrix becomes a dynamic add/remove repeater whose value is an array — see [matrix repeater](/guide/repeaters#matrix-repeater).
 
@@ -300,15 +690,45 @@ The `mode` prop decides what the cells are and what each row's value becomes:
 | `single` | A radio per cell | The chosen column's value |
 | `multiple` | A checkbox per cell | An array of the chosen columns' values |
 
-```ts
-survey: {
-  type: 'matrix',
-  label: 'How satisfied are you with…',
-  mode: 'single', // [!code highlight]
-  cols: { bad: 'Bad', ok: 'OK', great: 'Great' },
-  rows: { support: 'Support', pricing: 'Pricing' },
-},
+::: usage model
+
+```vue [Preview]
+<VfForm>
+  <VfMatrix
+    name="survey"
+    label="How satisfied are you with…"
+    :heading="2"
+    mode="single"
+    :cols="{ bad: 'Bad', ok: 'OK', great: 'Great' }"
+    :rows="{ support: 'Support', pricing: 'Pricing' }"
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  survey: {
+    type: 'matrix',
+    label: 'How satisfied are you with…',
+    heading: 2,
+    mode: 'single', // [!code highlight]
+    cols: { bad: 'Bad', ok: 'OK', great: 'Great' },
+    rows: { support: 'Support', pricing: 'Pricing' },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 The element types behind each mode are configurable — see [matrixTypes](/guide/configuration#matrixtypes).
 
@@ -316,21 +736,53 @@ The element types behind each mode are configurable — see [matrixTypes](/guide
 
 A column in the detailed format — `{ value, label, schema }` — puts a custom element in that column's cells. `schema.type` is optional and falls back to the mode's cell type, and every other key passes through to the cell element:
 
-```ts
-availability: {
-  type: 'matrix',
-  label: 'Availability',
-  cols: [
-    {
-      value: 'status',
-      label: 'Status',
-      schema: { type: 'select', items: ['Free', 'Busy'] }, // [!code highlight]
-    },
-    { value: 'note', label: 'Note' },
-  ],
-  rows: { monday: 'Monday' },
-},
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfMatrix
+    name="availability"
+    :cols="[
+      {
+        value: 'status',
+        label: 'Status',
+        schema: { type: 'select', items: ['Free', 'Busy'] },
+      },
+      { value: 'note', label: 'Note' },
+    ]"
+    :rows="{ monday: 'Monday' }"
+  />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  availability: {
+    type: 'matrix',
+    cols: [
+      {
+        value: 'status',
+        label: 'Status',
+        schema: { type: 'select', items: ['Free', 'Busy'] }, // [!code highlight]
+      },
+      { value: 'note', label: 'Note' },
+    ],
+    rows: { monday: 'Monday' },
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 Matrix cells always render without their element layout — no label or error block per cell. Conditional columns and rows ([conditional matrix rows and columns](/guide/conditions#conditional-matrix-rows-and-columns)), loading `cols` / `rows` from an `endpoint`, per-column width limits, `scrollable` with sticky headers, and row sorting are covered on the [reference page](/components/VfMatrix).
 
@@ -338,19 +790,57 @@ Matrix cells always render without their element layout — no label or error bl
 
 `tabular` on `!VfGrid` or `!VfMatrix` renders the element as a bordered table — shared cell borders, header backgrounds, and rounded outer corners:
 
-```ts
-order: {
-  type: 'grid',
-  tabular: true, // [!code highlight]
-  colHeaders: true,
-  rowHeaders: true,
-  grid: [
-    ['Product', 'Qty'],
-    ['Standard license', { type: 'text', name: 'standard_qty' }],
-    ['Extended license', { type: 'text', name: 'extended_qty' }],
-  ],
-},
+::: usage
+
+```vue [Template]
+<VfForm>
+  <VfGrid name="order" tabular col-headers row-headers>
+    <VfRow>
+      <VfCol>Product</VfCol>
+      <VfCol>Qty</VfCol>
+      <VfCol>Price</VfCol>
+    </VfRow>
+    <VfRow>
+      <VfCol>Standard license</VfCol>
+      <VfCol><VfText name="standard_qty" :layout="false" /></VfCol>
+      <VfCol>$59</VfCol>
+    </VfRow>
+    <VfRow>
+      <VfCol>Extended license</VfCol>
+      <VfCol><VfText name="extended_qty" :layout="false" /></VfCol>
+      <VfCol>$179</VfCol>
+    </VfRow>
+  </VfGrid>
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  order: {
+    type: 'grid',
+    tabular: true, // [!code highlight]
+    colHeaders: true,
+    rowHeaders: true,
+    grid: [
+      ['Product', 'Qty', 'Price'],
+      ['Standard license', { type: 'text', name: 'standard_qty' }, '$59'],
+      ['Extended license', { type: 'text', name: 'extended_qty' }, '$179'],
+    ],
+  },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 In tabular mode, element cells from a `grid` array drop their layout so inputs fill the cell — matrix cells render without layout in every mode. Elements placed inside `!VfCol` in a template don't get this automatically — add `:layout="false"` to them yourself, as [removing the layout](/guide/element-layout#removing-the-layout) describes. The table's look comes from the `tabular*` tokens, listed for [`VfGrid`](/components/VfGrid#tokens) and [`VfMatrix`](/components/VfMatrix#tokens), with the override mechanism in [overriding tokens](/guide/themes-tokens#overriding-tokens).
 
@@ -363,9 +853,32 @@ Sections often need separating without a full group around them. Four props avai
 | `spaceTop` / `spaceBottom` | `1`, `2`, or `3` | Padding above / below the element |
 | `lineTop` / `lineBottom` | `boolean` | A horizontal rule above / below the element |
 
-```ts
-phone: { type: 'text', label: 'Phone', spaceBottom: 2 },
-address: { type: 'text', label: 'Address', spaceTop: 2, lineTop: true },
+::: usage
+
+```vue [Preview]
+<VfForm>
+  <VfText name="phone" label="Phone" :space-bottom="2" />
+  <VfText name="address" label="Address" :space-top="2" line-top />
+</VfForm>
 ```
+
+```vue [Schema]
+<script setup lang="ts">
+import { defineSchema, useForm } from '@vueform/ui'
+
+const schema = defineSchema({
+  phone: { type: 'text', label: 'Phone', spaceBottom: 2 },
+  address: { type: 'text', label: 'Address', spaceTop: 2, lineTop: true },
+})
+
+const [Form] = useForm({ schema })
+</script>
+
+<template>
+  <Form />
+</template>
+```
+
+:::
 
 The values `1`–`3` map to the `space1`–`space3` tokens (`1rem` / `2rem` / `3rem` by default — see [primitives](/guide/themes-tokens#primitives)), and any other value adds nothing. The line is a 1px border on the element itself in the `elementLineColor` token, and since the spacing is padding inside that border, `lineTop` plus `spaceTop` puts the space between the line and the content. When a section needs more than a line — a shared label, a box — reach for a [group](#grouping-elements).

@@ -5,67 +5,16 @@ import { defineSchema } from '@vueform/core'
  *
  * Threat model: validation rules are declared in schema strings and executed
  * against end-user input. Client-side validation is UX, not a security boundary
- * — but it must not be _weaker_ than declared (a rule silently accepting
- * everything), must not crash on hostile input (uncaught exceptions out of
- * `validate()`/`submit()`), and must not burn quadratic CPU on crafted values
- * (regex denial of service).
+ * — but it must not crash on hostile input (uncaught exceptions out of
+ * `validate()`/`submit()`) and must not burn quadratic CPU on crafted values
+ * (regex denial of service). Rule mechanics — pattern fidelity, tokenizing,
+ * fail-closed malformed patterns — are covered by each rule's own suite in
+ * `tests/integration/rules/`.
  */
 import { createForm } from '../../helpers'
 
 describe('Security: validation integrity', () => {
-  describe('`regex` / `not_regex` rules', () => {
-    /**
-     * Threat: the historical bug this suite pins down forever — the rule
-     * compiled the USER'S VALUE as the pattern and tested it against itself, so
-     * `rules: 'regex:/^[0-9]{4}$/'` accepted absolutely anything: a silent,
-     * total validation bypass.
-     *
-     * Measure: the developer's pattern param is compiled and the value is only
-     * ever the test subject.
-     *
-     * Verified red→green: before the fix, the non-matching value below passed
-     * validation.
-     */
-    test('it should validate against the developer pattern, not the value', async () => {
-      const { code } = createForm({
-        schema: defineSchema({
-          code: { type: 'text', rules: 'regex:/^[0-9]{4}$/' },
-        }),
-      })
-
-      code.update('not-a-code')
-      await code.validate()
-      expect(code.invalid).toBe(true)
-
-      code.update('1234')
-      await code.validate()
-      expect(code.invalid).toBe(false)
-    })
-
-    /**
-     * Threat: patterns containing `:` and `,` — the rule-string tokenizer
-     * splits on those, and a mangled pattern would mean a rule that never
-     * matches what the developer wrote.
-     *
-     * Measure: the regex special-case re-joins the pattern verbatim, so
-     * real-world patterns (times, lists) work.
-     */
-    test('it should support patterns containing colons and commas', async () => {
-      const { time } = createForm({
-        schema: defineSchema({
-          time: { type: 'text', rules: 'regex:/^\\d{2}:\\d{2}$/' },
-        }),
-      })
-
-      time.update('12:34')
-      await time.validate()
-      expect(time.invalid).toBe(false)
-
-      time.update('12-34')
-      await time.validate()
-      expect(time.invalid).toBe(true)
-    })
-
+  describe('hostile values against regex rules', () => {
     /**
      * Threat: a hostile value shaped like a malformed regex (`/(/`) — under the
      * old code this compiled the value and threw an uncaught `SyntaxError` out
@@ -86,74 +35,6 @@ describe('Security: validation integrity', () => {
       code.update('/(/')
       await expect(code.validate()).resolves.not.toThrow()
       expect(code.invalid).toBe(true)
-    })
-
-    /**
-     * Threat: a malformed developer pattern silently degrading to
-     * match-everything (`new RegExp('')`), which is how the old code failed.
-     *
-     * Measure: an uncompilable or missing pattern fails CLOSED — nothing
-     * validates through a broken rule — with a dev warning naming it.
-     */
-    test('it should fail closed on a malformed pattern', async () => {
-      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
-
-      const { code } = createForm({
-        schema: defineSchema({
-          code: { type: 'text', rules: 'regex:not-a-pattern' },
-        }),
-      })
-
-      code.update('anything')
-      await code.validate()
-      expect(code.invalid).toBe(true)
-      expect(warn).toHaveBeenCalledWith(expect.stringContaining('fails closed'))
-
-      warn.mockRestore()
-    })
-
-    /**
-     * Threat: same bypass through the inverted rule.
-     *
-     * Measure: `not_regex` honors the pattern and fails closed identically.
-     */
-    test('it should honor the pattern in `not_regex`', async () => {
-      const { nick } = createForm({
-        schema: defineSchema({
-          nick: { type: 'text', rules: 'not_regex:/admin/' },
-        }),
-      })
-
-      nick.update('admin')
-      await nick.validate()
-      expect(nick.invalid).toBe(true)
-
-      nick.update('user')
-      await nick.validate()
-      expect(nick.invalid).toBe(false)
-    })
-
-    /**
-     * Threat: none — configuration fidelity. The documented `pattern=` prefix
-     * form must deliver the same pattern; a tokenizer regression here would
-     * silently change which rule the developer actually declared.
-     *
-     * Measure: `regex:pattern=/…/` behaves identically to the bare form.
-     */
-    test('it should support the pattern= prefix form', async () => {
-      const { code } = createForm({
-        schema: defineSchema({
-          code: { type: 'text', rules: 'regex:pattern=/^[0-9]{4}$/' },
-        }),
-      })
-
-      code.update('12a4')
-      await code.validate()
-      expect(code.invalid).toBe(true)
-
-      code.update('1234')
-      await code.validate()
-      expect(code.invalid).toBe(false)
     })
   })
 
