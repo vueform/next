@@ -6,9 +6,7 @@ outline: [2,3]
 
 Every request Vueform makes — [submissions](/guide/submit), [autosave](/guide/autosave), items loaded from an endpoint — goes through one built-in HTTP layer. The same layer is exposed to your application as `useHttp`, so your own requests share the base URL, headers, interceptors, and error handling that Vueform's internal ones use.
 
-The default transport is a dependency-free [Fetch](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) adapter. When you'd rather route traffic through Axios, ofetch, or an in-house client, you [swap the adapter](#switching-the-adapter) underneath and everything on top keeps working unchanged.
-
-The module is browser-only. During [SSR](/guide/ssr#http-is-client-side) the built-in adapter refuses to send requests — a server-side request rejects with an `!HttpError` whose `reason` is `'ssr'` — so data a page needs before it renders belongs in your framework's own data-fetching layer.
+Underneath, the actual transport is a swappable adapter — dependency-free Fetch by default, your own client when you want one.
 
 ## Basic Usage
 
@@ -26,7 +24,25 @@ const loadUsers = async () => {
 </script>
 ```
 
-Called with no argument, `useHttp()` resolves the app's configuration by injection, so it belongs in `<script setup>`. Outside a setup context — a store, a route guard, a plain script — pass your `createVueform` instance as `useHttp(vueform)`, the same pattern [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context) describes for the other composables.
+Called with no argument, `useHttp()` resolves the app's configuration by injection, so it belongs in `<script setup>`. Outside a setup context — a store, a route guard, a plain script — the same client is available on the instance returned by `createVueform` as `!vueform.$http`:
+
+```ts
+// vueform.ts
+import { createVueform } from '@vueform/ui/origin'
+
+export const vueform = createVueform({
+  // your configuration
+})
+
+// stores/countries.ts
+import { vueform } from '@/vueform'
+
+const { data } = await vueform.$http.get('/api/countries')
+```
+
+Keeping a reference to the instance for exactly this purpose is covered in [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context).
+
+The module is browser-only. During [SSR](/guide/ssr#http-is-client-side) the built-in adapter refuses to send requests, so data a page needs before it renders belongs in your framework's own data-fetching layer.
 
 ## Request Methods
 
@@ -85,7 +101,7 @@ Pass the response data type as a generic for end-to-end typing:
 type User = { id: number; name: string }
 
 const { data } = await $http.get<User[]>('/api/users')
-//      ^? User[]
+//          ^| data@"User[]""
 ```
 
 ## Configuring Defaults
@@ -241,7 +257,7 @@ onMounted(async () => {
 
 ## Switching the Adapter
 
-The **adapter** is the function that actually performs a request. It takes an `HttpRequestConfig`, returns a `Promise<HttpResponse>`, and throws an `HttpError` on failure. The `@vueform/ui` presets wire in the Fetch-based `fetchHttpAdapter` by default; replace it under `$http.adapter` to route everything through your own client:
+The **adapter** is the function that actually performs a request. It takes an `HttpRequestConfig`, returns a `Promise<HttpResponse>`, and throws an `HttpError` on failure. The `@vueform/ui` presets wire in `fetchHttpAdapter`, based on the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), by default; replace it under `$http.adapter` to route everything through your own client:
 
 ```ts
 import { createVueform, type HttpAdapter } from '@vueform/ui/origin'
