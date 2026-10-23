@@ -6,9 +6,10 @@
 interface SecurityModule {
   /**
    * Sanitizes an HTML string for an HTML sink. With a `$security.sanitizer`
-   * engine, its output. Without one — like an unconfigured cipher, a state the
-   * app should resolve — the string passes through raw with a one-time dev
-   * warning in development, and comes back **empty** in production
+   * engine, its output. Without one, `$security.allowHtml` decides: unset —
+   * no stated HTML policy — the string passes through raw, silently, in
+   * production too; set, the string passes through raw with a one-time dev
+   * warning in development and comes back **empty** in production
    * (unsanitizable HTML never ships). Register an identity `sanitizer` to
    * consciously opt out. Returns an empty string for non-string input.
    *
@@ -56,10 +57,10 @@ interface SecurityModule {
   sanitizeUrl: (url: unknown, schemes: string[]) => string | undefined
 
   /**
-   * Whether strings in the given area may render as HTML — pure
-   * `$security.allowHtml` membership. A refusal renders the string escaped.
-   * Sanitization is not this gate's concern: HTML that passes always renders
-   * through `sanitizeHtml`.
+   * Whether strings in the given area may render as HTML — `true` for every
+   * area while `$security.allowHtml` is unset, pure membership once it is
+   * set. A refusal renders the string escaped. Sanitization is not this
+   * gate's concern: HTML that passes always renders through `sanitizeHtml`.
    *
    * @param area The HTML area (`'content'`, `'grid'`, or `'slots'`).
    */

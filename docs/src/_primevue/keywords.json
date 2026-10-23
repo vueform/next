@@ -3883,9 +3883,6 @@
   "createVueform": {
     "link": "/api/helpers/createVueform"
   },
-  "createVueformFactory": {
-    "link": "/api/helpers/createVueformFactory"
-  },
   "defineComputedSchema": {
     "link": "/api/helpers/defineComputedSchema"
   },
@@ -3930,9 +3927,6 @@
   },
   "useSecurity": {
     "link": "/api/composables/useSecurity"
-  },
-  "useSubmission": {
-    "link": "/api/composables/useSubmission"
   },
   "useTemplateContext": {
     "link": "/api/composables/useTemplateContext"

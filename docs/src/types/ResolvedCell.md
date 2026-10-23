@@ -14,8 +14,9 @@ type ResolvedCell = {
    * What the cell mounts: the resolved element component for schema cells (an
    * explicit `component` allowed by `$security.allowComponents`, or the `Vf*`
    * name derived from `type`), the content component for string cells (plain
-   * text escaped; HTML via `$security.allowHtml: ['grid']`, sanitized after
-   * expression resolution), or `null` for an empty cell.
+   * text escaped; HTML sanitized after expression resolution, unless a
+   * configured `$security.allowHtml` omits `'grid'`), or `null` for an empty
+   * cell.
    */
   component: string | Component | null
 

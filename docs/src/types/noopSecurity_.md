@@ -21,8 +21,10 @@
  *   the fix at startup. In production the same state **fails closed** instead —
  *   HTML escapes, components don't resolve, requests are blocked, prop bags
  *   come back empty, ciphers throw — and the misconfiguration can never ship
- *   looking enforced while it isn't. (`allowOrigins: ['*']` is not intent to
- *   restrict: permissive behavior is exactly its configured semantics.)
+ *   looking enforced while it isn't. (`allowOrigins: ['*']` and an
+ *   `allowProps` list containing `'**'` are not intent to restrict:
+ *   permissive behavior is exactly their configured semantics. `allowHtml` is
+ *   the opposite — unset allows every area, so its mere presence is intent.)
  *
  * Normal operation is identical in both environments; only the misconfiguration
  * state differs.
