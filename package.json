@@ -32,7 +32,7 @@
     "pg:preview": "tsx scripts/playground/preview.ts",
     "pg:re": "tsx scripts/playground/re.ts",
     "pg:up": "tsx scripts/playground/up.ts",
-    "prepare": "node scripts/prepare.mjs",
+    "prepare": "node scripts/prepare.ts",
     "quick": "vpr :quick",
     "re": "pnpm clean && pnpm install",
     "registry": "tsx scripts/registry.ts",

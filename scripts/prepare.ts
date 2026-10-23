@@ -9,6 +9,9 @@
  * degrades gracefully — git falls back to ordinary conflicts. Linked
  * worktrees share the clone's config, so one run covers them.
  *
+ * Runs with plain `node` (native type stripping), never tsx: a bootstrap
+ * script must not depend on the node_modules it is wiring up.
+ *
  * Deliberately a no-op in CI: the workflows commit and push regenerated
  * artifacts under their own push discipline, and neither the lint hooks nor
  * the pre-push auto-sync may interfere with the bot's git operations.
@@ -17,7 +20,7 @@ import { spawnSync } from 'node:child_process'
 
 if (process.env.CI) process.exit(0)
 
-const run = (cmd, args) =>
+const run = (cmd: string, args: string[]) =>
   spawnSync(cmd, args, {
     shell: process.platform === 'win32',
     stdio: 'inherit',
