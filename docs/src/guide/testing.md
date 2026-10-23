@@ -8,12 +8,12 @@ A form's data layer — values, rules, conditions, payload, submission — runs 
 
 ## Testing Without a Component
 
-`!useModel` depends on a setup context, which a test file doesn't have — so create a Vueform instance with `createVueform()` and build the model from the instance instead, no app and no mount required (see [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context) for why this route exists):
+`useModel` depends on a setup context, which a test file doesn't have — so create a Vueform instance with `createVueform()` and build the model from the instance instead, no app and no mount required (see [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context) for why this route exists):
 
 ```ts
 import { createVueform } from '@vueform/ui/origin'
 
-const vueform = createVueform()
+const { useModel } = createVueform()
 
 const schema = {
   name: { type: 'text' },
@@ -21,7 +21,7 @@ const schema = {
 }
 
 test('accepts the data once the email is fixed', async () => {
-  const model = vueform.useModel({ schema }, { email: 'not-an-email' })
+  const model = useModel({ schema }, { email: 'not-an-email' })
 
   expect(await model.validate()).toBe(false)
   expect(model.errors.email).toHaveLength(1)
@@ -61,7 +61,9 @@ export function mountForm(
 }
 ```
 
-`wrapper.vm` is the form's [context](/guide/context#form-context) — every member the context carries is on it. Initial values go in through the `modelValue` prop, where a plain object seeds the form and a `!useModel` instance attaches, like [any other model shape](/guide/model#other-model-shapes). The `config` argument exists because several sections below pass test-specific options — an HTTP stub, `nativeEmit`, `lazy`.
+`wrapper.vm` is the form's [context](/guide/context#form-context) — every member the context carries is on it.
+
+`mountForm`'s two optional arguments, `props` and `config`, are the knobs the rest of this chapter turns. `props` is forwarded to `!VfForm` as mount props — passing `modelValue: { email: '...' }` seeds initial values with a plain object, and passing a `!useModel` instance attaches it, like [any other model shape](/guide/model#other-model-shapes). `config` becomes the `createVueform()` configuration, which is where later sections put test-specific options — an HTTP stub, `nativeEmit`, `lazy`.
 
 That last one matters for DOM assertions. With the global [`lazy`](/guide/configuration#lazy) option on (the default), elements in inactive steps or tabs defer rendering their DOM until the browser goes idle — and where `requestIdleCallback` is missing, as in most DOM shims, idle means a 300 ms timeout. Visible elements render at mount, so most tests never notice; tests asserting on inactive pages should pass `lazy: false` in the test config.
 
@@ -120,7 +122,7 @@ const schema = {
 wrapper.find('[data-testid="email-input"]')
 ```
 
-To apply test IDs app-wide instead of per element, set the part through [defaults](/guide/defaults) or presets. Element `id` attributes come from Vue's `useId()` by default and are stable per mount order; snapshot tests that need a fixed scheme can swap the generator via the [`uid`](/guide/configuration#uid) option.
+To apply test IDs app-wide instead of per element, set the part through [defaults](/guide/defaults) or presets. Element `id` attributes come from Vue's [`useId()`](https://vuejs.org/api/composition-api-helpers.html#useid) by default and are stable per mount order; snapshot tests that need a fixed scheme can swap the generator via the [`uid`](/guide/configuration#uid) option.
 
 ## Asserting on Submission
 
@@ -188,7 +190,18 @@ To simulate the other outcomes, mirror what the built-in adapter does:
 | `invalid` with source `'server'` | Throw `new HttpError(message, config, 'http', response)` where `response.status` is `422`. |
 | `fail` with another reason | Throw an `HttpError` with that `reason` — `'network'`, `'timeout'`, and the rest. |
 
-One policy survives the stub. The [origin check](/guide/security#request-origins) runs before any adapter, so relative endpoint URLs always pass but an absolute one must be allowed via `$security.allowOrigins` in the test config, or the attempt fails with reason `'blocked'` without the stub ever being called.
+One policy survives the stub. The [origin check](/guide/security#request-origins) runs before any adapter, so relative endpoint URLs always pass but an absolute one must be allowed via `$security.allowOrigins` in the test config, or the attempt fails with reason `'blocked'` without the stub ever being called:
+
+```ts
+mountForm(
+  schema,
+  { endpoint: 'https://api.example.com/subscribe' },
+  {
+    $http: { adapter }, // the stub from above
+    $security: { allowOrigins: ['https://api.example.com'] },
+  }
+)
+```
 
 ## Asserting on Events
 
