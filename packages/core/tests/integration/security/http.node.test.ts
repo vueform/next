@@ -54,19 +54,19 @@ describe('Security: request origins outside a browser', () => {
   /**
    * Threat: a server-capable custom adapter combined with the browser's
    * same-origin affordance being absent — there is no page origin on the
-   * server, so nothing can be trusted implicitly. An "allow all when nothing is
-   * configured" reading would make the origin policy silently nonexistent in
-   * exactly the environment with no other guard.
+   * server, so once `allowOrigins` is set nothing can be trusted implicitly.
+   * (Unset still means no origin policy anywhere, server included.)
    *
-   * Measure: outside a browser the policy fails closed — with no `allowOrigins`
-   * entries, every absolute URL is denied. Relative URLs still pass (they
-   * cannot address a host by themselves).
-   *
-   * Verified red→green: absolute URLs passed on the server before the
-   * fail-closed change.
+   * Measure: outside a browser a set policy fails closed — with an empty
+   * `allowOrigins`, every absolute URL is denied. Relative URLs still pass
+   * (they cannot address a host by themselves).
    */
-  it('should deny absolute URLs on the server with no allowlist', () => {
-    const sec = makeSecurity({ $security: {} })
+  it('should deny absolute URLs on the server with an empty allowlist', () => {
+    const unset = makeSecurity({ $security: {} })
+
+    expect(unset.allowsOrigin('https://api.example.com/save')).toBe(true)
+
+    const sec = makeSecurity({ $security: { allowOrigins: [] } })
 
     expect(sec.allowsOrigin('https://api.example.com/save')).toBe(false)
     expect(sec.allowsOrigin('/save')).toBe(true)
@@ -87,7 +87,7 @@ describe('Security: request origins outside a browser', () => {
    */
   it('should not trust the baseURL origin on the server', () => {
     const sec = makeSecurity({
-      $security: {},
+      $security: { allowOrigins: [] },
       $http: { baseURL: 'https://api.example.com' },
     })
 

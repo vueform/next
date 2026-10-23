@@ -133,28 +133,23 @@ draft: {
 
 ### Encrypting Drafts
 
-Drafts are stored as plaintext until the app configures the `$security` ciphers, so every form persisting them warns in dev:
-
-_`!Drafts are being stored in plaintext — no '$security' ciphers are configured. Provide real ones via 'createVueform({ $security: { encrypt, decrypt } })'', or consciously opt out by registering identity functions ('encrypt: (v) => v, decrypt: (v) => v') or setting 'draft.encrypt: false' on this form.`_
-
-Storing unencrypted must be a conscious choice, not a silent default. During development the quickest way to acknowledge it is the app-wide opt-out — identity ciphers that store values as they are:
+Drafts are stored as plaintext by default. To encrypt them at rest, configure the `$security.encrypt` / `decrypt` ciphers — [draft encryption](/guide/security#draft-encryption) walks you through the complete setup:
 
 ```ts
 createVueform({
   $security: {
-    encrypt: (value) => value,
-    decrypt: (value) => value,
+    encrypt: async (value) => { /* ... */ },
+    decrypt: async (value) => { /* ... */ },
   },
 })
 ```
-
-Before going to production, replace the stubs with a real cipher pair — [draft encryption](/guide/security#draft-encryption) walks you through the complete setup.
 
 What the ciphers mean for drafts:
 
 - Because `decrypt` may be async, `restoreDraft()` and `getDraft()` resolve as Promises.
 - A `decrypt` that **throws** — no key yet, a rotated session, someone else's draft — marks the draft unreadable. It's discarded like a corrupt one, and nothing loads.
-- Opt a single harmless form out with `draft: { encrypt: false }` ([Options](#draft-options)) — its draft is written and read as plaintext, warning-free. Flipping the flag later leaves the old draft unreadable, which counts as no draft.
+- Configure the ciphers as a pair. One without the other warns in development and fails closed in production — no draft is written, and a stored one reads as absent (it stays in storage for when the configuration is fixed).
+- Opt a single form out with `draft: { encrypt: false }` ([Options](#draft-options)) — its draft is written and read as plaintext. Flipping the flag later leaves the old draft unreadable, which counts as no draft.
 
 Encryption protects the draft **at rest** — values that should never be persisted at all belong under [`sensitive`](#sensitive-values).
 

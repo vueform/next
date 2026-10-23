@@ -450,8 +450,8 @@ export function createExpression(vueform: VueformInstance): ExpressionModule {
   // `'*Label'` / `'label*'` match suffixes / prefixes); RegExp entries test as
   // written, rebuilt without the stateful `g` / `y` flags (config-held
   // instances may be frozen — no `lastIndex` writes). The gate fails closed:
-  // unset denies every key, like `$security.allowProps` — the default config
-  // ships `['*']` so expressions resolve everywhere out of the box.
+  // unset denies every key — the default config ships `['*']` so expressions
+  // resolve everywhere out of the box.
   const whitelist = options.whitelist
 
   const whitelistKeys = new Set<string>()

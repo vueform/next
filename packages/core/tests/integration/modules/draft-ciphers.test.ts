@@ -206,10 +206,11 @@ describe('draft ciphers', () => {
   })
 
   /**
-   * Storing drafts with no ciphers configured warns in dev — plaintext is a
-   * decision, not a default that goes unnoticed.
+   * Storing drafts with no ciphers configured is the silent default —
+   * encryption is opt-in, and an app that never touched the ciphers must not
+   * be nagged about them.
    */
-  it('should warn when drafts are stored without configured ciphers', async () => {
+  it('should not warn when drafts are stored without configured ciphers', async () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { storage } = mockStorage()
 
@@ -223,18 +224,16 @@ describe('draft ciphers', () => {
 
     await flushPromises()
 
-    expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('stored in plaintext')
-    )
+    expect(warnSpy).not.toHaveBeenCalled()
 
     warnSpy.mockRestore()
   })
 
   /**
-   * The deliberate opt-outs must not nag — registering identity ciphers (a
-   * conscious opt-out) silences the plaintext warning.
+   * Identity ciphers are a valid configured pair — they run like any other,
+   * with nothing to warn about.
    */
-  it('should not warn when identity ciphers are registered as a conscious opt-out', async () => {
+  it('should not warn when identity ciphers are registered', async () => {
     const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
     const { storage } = mockStorage()
 

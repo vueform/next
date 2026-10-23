@@ -135,7 +135,7 @@ Every `window` or `document` access inside Vueform is either environment-guarded
 
 The built-in fetch adapter refuses to send during SSR. It throws an `HttpError` with reason `'ssr'` — "HTTP requests are not available during SSR" — so a `submit()` on the server resolves to a fail result and an autosave fails with the same reason; the reason table lives in [error handling](/guide/http#error-handling). The refusal exists because a response can't arrive before `renderToString` finishes — the result would miss the HTML and callbacks would run after the response was already sent. A setup-time `!useHttp` request in your own code hits it too — guard it with [`isClient`](#your-own-code) or move it to `onMounted`.
 
-The refusal belongs to the fetch adapter, not to the HTTP module itself. A custom adapter — axios, ofetch, your own — can send from the server, where the origin policy fails closed instead — `baseURL` isn't trusted implicitly and absolute URLs pass only when listed in [`allowOrigins`](/guide/security#request-origins).
+The refusal belongs to the fetch adapter, not to the HTTP module itself. A custom adapter — axios, ofetch, your own — can send from the server, where a configured origin policy fails closed instead — once [`allowOrigins`](/guide/security#request-origins) is set, `baseURL` isn't trusted implicitly and absolute URLs pass only when listed.
 
 Data a page needs in its server HTML comes from your framework's own data fetching — Nuxt's `useFetch`, a route loader — and goes into the form via `load()`, as [inside the form flow](/guide/http#inside-the-form-flow) shows.
 

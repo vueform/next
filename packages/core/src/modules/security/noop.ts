@@ -21,18 +21,18 @@ const EMPTY_PROPS = Object.freeze({})
  *   (Prototype-key guards still apply — they are invariants, not policy — and
  *   slot HTML is inserted with the platform's own `innerHTML` semantics, so
  *   `<script>` elements stay inert regardless.)
- * - **Configured intent without the module** (`allowHtml`, `allowComponents`,
- *   `allowOrigins` entries, `banAttrs`, `allowProps`, ciphers — a config
- *   that reads like
- *   policy): in development the surface stays permissive so the app remains
- *   workable, and `createVueform()`'s orphan-`$security`-options warning names
- *   the fix at startup. In production the same state **fails closed** instead —
- *   HTML escapes, components don't resolve, requests are blocked, prop bags
- *   come back empty, ciphers throw — and the misconfiguration can never ship
- *   looking enforced while it isn't. (`allowOrigins: ['*']` and an
- *   `allowProps` list containing `'**'` are not intent to restrict:
- *   permissive behavior is exactly their configured semantics. `allowHtml` is
- *   the opposite — unset allows every area, so its mere presence is intent.)
+ * - **Configured intent without the module**: every policy option defaults
+ *   open, so for each of them — `allowHtml`, `allowComponents`,
+ *   `allowOrigins`, `banAttrs`, `allowProps`, the ciphers — mere presence is
+ *   the intent, `[]` and permissive spellings (`['*']`, `['**']`) included:
+ *   whoever touches the policy cares about it. In development the surface
+ *   stays permissive so the app remains workable, and `createVueform()`'s
+ *   orphan-`$security`-options warning names the fix at startup. In
+ *   production the same state **fails closed** instead — HTML escapes,
+ *   components don't resolve, requests stay on the app's own origin, prop
+ *   bags come back empty, prop references don't resolve, ciphers resolve
+ *   `undefined` — and the misconfiguration can never ship looking enforced
+ *   while it isn't.
  *
  * Normal operation is identical in both environments; only the misconfiguration
  * state differs.
@@ -43,36 +43,38 @@ export function noopSecurity(config: VueformConfig): SecurityModule {
   const options = config.$security
 
   const ciphersConfigured = !!(options?.encrypt || options?.decrypt)
-  const originsConfigured = !!(
-    options?.allowOrigins?.length && !options.allowOrigins.includes('*')
-  )
-  const banAttrsConfigured = !!options?.banAttrs?.length
-  // Length is the intent, not presence: unset and `[]` are the gate's default
-  // deny-all semantics anyway, so only a populated list reads like policy —
-  // and a list containing `'**'` asks for no restriction at all (the default
-  // config ships it as baseline), so it carries no intent either.
-
-  const allowPropsConfigured =
-    !!options?.allowProps?.length && !options.allowProps.includes('**')
-
-  // For `allowHtml` presence IS the intent: unset allows every area, so any
-  // configured list — `[]` included — reads like policy.
+  const originsConfigured = !!options?.allowOrigins
+  const banAttrsConfigured = !!options?.banAttrs
+  const allowPropsConfigured = !!options?.allowProps
   const allowHtmlConfigured = !!options?.allowHtml
-  const allowComponentsConfigured = !!options?.allowComponents?.length
+  const allowComponentsConfigured = !!options?.allowComponents
 
-  const cipher = (value: string) => {
-    if (!ciphersConfigured) return value
+  // Fail closed in production: refusing to persist (or hand over) plaintext
+  // despite configured ciphers — `undefined` makes the feature treat the
+  // value as unpersistable / unreadable. (The dev-time diagnosis lives in
+  // `createVueform`'s orphan-`$security`-options warning.)
+  const cipher = (value: string) =>
+    ciphersConfigured && isProd() ? undefined : value
 
-    // Fail closed in production: refusing to persist plaintext despite
-    // configured ciphers. (The dev-time diagnosis lives in `createVueform`'s
-    // orphan-`$security`-options warning.)
-    if (isProd()) {
-      throw new Error(
-        '[Vueform error]: `$security.encrypt` / `decrypt` are configured but the `security` module is not registered — refusing to persist values unencrypted. Register it via `createVueform({ modules: { security } })`.'
-      )
+  // Fail closed to the app's own origin: relative URLs and absolute URLs
+  // spelling out the page origin still pass — blocking those would break
+  // even same-origin submits, which no misconfiguration regime should.
+  const allowsOrigin = (url: string) => {
+    if (!originsConfigured || isDev()) return true
+
+    if (!/^[a-zA-Z][a-zA-Z0-9+.-]*:/.test(url) && !url.startsWith('//')) {
+      return true
     }
 
-    return value
+    if (typeof window === 'undefined') return false
+
+    try {
+      return (
+        new URL(url, window.location.href).origin === window.location.origin
+      )
+    } catch {
+      return false
+    }
   }
 
   return {
@@ -86,7 +88,7 @@ export function noopSecurity(config: VueformConfig): SecurityModule {
     allowsHtml: () => !allowHtmlConfigured || isDev(),
     allowsComponent: () => !allowComponentsConfigured || isDev(),
     allowsProp: () => !allowPropsConfigured || isDev(),
-    allowsOrigin: () => !originsConfigured || isDev(),
+    allowsOrigin,
     encrypt: cipher,
     decrypt: cipher,
   }

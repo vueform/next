@@ -41,7 +41,7 @@ describe('Security: untrusted-schema containment', () => {
             el: { type: 'text', component: 'Leaked', label: 'Foo' } as any,
           }),
         },
-        { $security: {} },
+        { $security: { allowComponents: [] } },
         withComponents
       )
 
@@ -89,7 +89,7 @@ describe('Security: untrusted-schema containment', () => {
             el: { component: 'Leaked', label: 'Foo' } as any,
           }),
         },
-        { $security: {} },
+        { $security: { allowComponents: [] } },
         withComponents
       )
 
@@ -109,14 +109,14 @@ describe('Security: untrusted-schema containment', () => {
      *
      * Measure: `Vf*` names derived from `type` are exempt from the allowlist.
      */
-    test('it should keep rendering `type`-derived elements with no allowlist', async () => {
+    test('it should keep rendering `type`-derived elements with an empty allowlist', async () => {
       const { form } = createForm(
         {
           schema: defineSchema({
             el: { type: 'text', label: 'Foo' },
           }),
         },
-        { $security: {} }
+        { $security: { allowComponents: [] } }
       )
 
       await nextTick()
@@ -197,6 +197,39 @@ describe('Security: untrusted-schema containment', () => {
       expect(form.find('input').attributes('on-click')).toBeUndefined()
       expect((window as any).__kebab1).toBeUndefined()
       expect(warn).toHaveBeenCalledWith(expect.stringContaining('`on-click`'))
+
+      warn.mockRestore()
+    })
+
+    /**
+     * Threat: spelling mismatch between config and schema — a ban written in
+     * kebab-case (`input-mode`) with the schema spelling the key camelCase, or
+     * the reverse.
+     *
+     * Measure: string entries are stored in both their original and camelized
+     * spelling and keys are tried in both too, so either spelling bans the
+     * other.
+     */
+    test('it should ban both spellings whichever one the entry uses', async () => {
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            el: {
+              type: 'text',
+              label: 'Foo',
+              parts: { input: { inputMode: 'none' } } as any,
+            },
+          }),
+        },
+        { $security: { banAttrs: ['input-mode'] } }
+      )
+
+      await nextTick()
+
+      expect(form.find('input').attributes('inputmode')).toBeUndefined()
+      expect(warn).toHaveBeenCalledWith(expect.stringContaining('`inputMode`'))
 
       warn.mockRestore()
     })
@@ -629,7 +662,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: {} },
+        { $security: { allowComponents: [] } },
         withComponents
       )
 
@@ -765,7 +798,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: {} },
+        { $security: { allowComponents: [] } },
         withComponents
       )
 
@@ -824,7 +857,7 @@ describe('Security: untrusted-schema containment', () => {
             },
           }),
         },
-        { $security: {} },
+        { $security: { allowComponents: [] } },
         withComponents
       )
 

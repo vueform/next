@@ -3,15 +3,7 @@ import { computed, onMounted, onUnmounted, unref, watch } from 'vue'
 import { useHttp, useSecurity } from '#src/composables'
 import type { VueformInstance } from '#src/helpers'
 import { HttpError, type HttpResponse } from '#src/modules/http'
-import {
-  clone,
-  debounce,
-  isFileValue,
-  unset,
-  warn,
-  isDev,
-  isProd,
-} from '#src/utils'
+import { clone, debounce, isFileValue, unset, warn, isDev } from '#src/utils'
 
 import type {
   AutosaveInstance,
@@ -329,31 +321,6 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
 
     let warnedMissingKey = false
     let warnedFileValue = false
-    let warnedUnencryptedDrafts = false
-
-    /**
-     * Warns once when drafts are about to be persisted without any `$security`
-     * ciphers configured — storing plaintext must be a conscious choice, not a
-     * silent default. Register real ciphers, opt out app-wide with identity
-     * functions, or opt this form out with `draft.encrypt: false` (each
-     * silences this warning).
-     */
-    const warnUnencryptedDrafts = () => {
-      if (warnedUnencryptedDrafts || isProd()) return
-
-      if (
-        draftConfig.value?.encrypt === false ||
-        appConfig.$security?.encrypt ||
-        appConfig.$security?.decrypt
-      )
-        return
-
-      warnedUnencryptedDrafts = true
-
-      warn(
-        'Drafts are being stored in plaintext — no `$security` ciphers are configured. Provide real ones via `createVueform({ $security: { encrypt, decrypt } })`, or consciously opt out by registering identity functions (`encrypt: (v) => v, decrypt: (v) => v`) or setting `draft.encrypt: false` on this form.'
-      )
-    }
 
     /**
      * The resolved draft configuration, or `undefined` when drafts are
@@ -468,6 +435,10 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
             ? serialized
             : await security.encrypt(serialized, 'draft')
 
+        // A fail-closed cipher state (misconfigured `$security`, in
+        // production) resolves `undefined`: nothing is persisted.
+        if (stored == null) return false
+
         if (seq !== draftWriteSeq) return false
 
         draftStorage.value!.setItem(draftKey.value!, stored)
@@ -544,11 +515,17 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       if (stored == null) return undefined
 
       try {
-        return JSON.parse(
+        const decrypted =
           draftConfig.value?.encrypt === false
             ? stored
             : await security.decrypt(stored, 'draft')
-        )
+
+        // A fail-closed cipher state resolves `undefined`: the draft is
+        // unreadable, but it is a misconfiguration, not corruption — the
+        // stored value is kept for when the configuration is fixed.
+        if (decrypted == null) return undefined
+
+        return JSON.parse(decrypted)
       } catch {
         draftStorage.value!.removeItem(draftKey.value!)
         return undefined
@@ -691,8 +668,6 @@ export function createAutosave(vueform: VueformInstance): AutosaveModule {
       // ------------- draft --------------
 
       if (draftConfig.value) {
-        warnUnencryptedDrafts()
-
         const draftEvents = draftConfig.value.on ?? DEFAULT_DRAFT_SAVE_EVENTS
 
         // The debounce bounds the serialization work while typing; the same

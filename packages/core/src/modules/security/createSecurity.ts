@@ -226,9 +226,11 @@ function matchesPropRef(pattern: PropRefPattern, segments: string[]): boolean {
 /**
  * Creates a security instance from the given app config (`$security`): the
  * `sanitizeHtml` / `sanitizeProps` capabilities, the `allowHtml` /
- * `allowComponents` / `allowOrigins` policy gates, and the `encrypt` /
- * `decrypt` ciphers. Unset capabilities behave as passthroughs; the gates fail
- * closed, except `allowHtml`, which allows every area until set.
+ * `allowComponents` / `allowProps` / `allowOrigins` policy gates, and the
+ * `encrypt` / `decrypt` ciphers. Every policy option defaults open: unset, a
+ * gate allows everything and a capability passes values through. Setting an
+ * option turns it into the stated policy — an allowlist (or, for `banAttrs`,
+ * a banlist) enforced as written.
  *
  * @param vueform The Vueform instance whose config to read.
  */
@@ -239,10 +241,17 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
 
   // A half-configured cipher pair can't round-trip persisted values: encrypt
   // without decrypt makes every stored value unreadable, decrypt without
-  // encrypt feeds plaintext to the decryptor.
-  if (!!own(options, 'encrypt') !== !!own(options, 'decrypt') && isDev()) {
+  // encrypt feeds plaintext to the decryptor. Development warns and stays
+  // workable; production fails closed — both ciphers resolve `undefined`, so
+  // nothing persists through the broken pair and nothing unreadable is handed
+  // to features.
+  const encryptOption = own(options, 'encrypt')
+  const decryptOption = own(options, 'decrypt')
+  const halfConfiguredCiphers = !!encryptOption !== !!decryptOption
+
+  if (halfConfiguredCiphers && isDev()) {
     warn(
-      `\`$security.${own(options, 'encrypt') ? 'encrypt' : 'decrypt'}\` is configured without \`${own(options, 'encrypt') ? 'decrypt' : 'encrypt'}\`; persisted values can't round-trip. Define both.`
+      `\`$security.${encryptOption ? 'encrypt' : 'decrypt'}\` is configured without \`${encryptOption ? 'decrypt' : 'encrypt'}\`; persisted values can't round-trip (in production both ciphers fail closed). Define both.`
     )
   }
 
@@ -283,10 +292,13 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
 
   const banAttrs = own(options, 'banAttrs') ?? []
 
+  // Each string entry is stored in its original and its camelized spelling,
+  // and keys are tried in both too, so `input-mode` and `inputMode` ban each
+  // other regardless of which spelling the config or the schema uses.
   const bannedKeys: ReadonlySet<string> = new Set(
     banAttrs
       .filter((entry): entry is string => typeof entry === 'string')
-      .map((key) => key.toLowerCase())
+      .flatMap((key) => [key.toLowerCase(), toCamelCase(key).toLowerCase()])
   )
 
   // Rebuilt without global/sticky flags: those make `test` stateful across
@@ -302,9 +314,10 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
    * HTML sink, and prototype keys would re-point objects. Everything else —
    * inline event handlers (`onclick`, …), `srcdoc`, DOM-clobbering ids — is the
    * app's policy via `$security.banAttrs`: string entries match
-   * case-insensitively, RegExp entries as written (add `i` yourself, e.g.
-   * `/^on/i`); both are checked against the original key spelling and its
-   * camelized form. Entries are dropped in every value form.
+   * case-insensitively in both their original and camelized spelling, RegExp
+   * entries as written (add `i` yourself, e.g. `/^on/i`); keys are checked in
+   * their original and camelized spelling too. Entries are dropped in every
+   * value form.
    */
   const hasBans = bannedKeys.size > 0 || bannedPatterns.length > 0
 
@@ -443,13 +456,14 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     return undefined
   }
 
-  // Prop references fail closed like the other gates: an unset `allowProps`
-  // is `[]`, so no `path@prop` / `@prop` reference resolves until its prop is
-  // listed. String entries compile to wildcard patterns once; RegExp entries
-  // test the full prop path as written (rebuilt without the stateful `g` / `y`
-  // flags, like `banAttrs`). Invalid entries are dropped with a warning rather
-  // than silently never matching.
-  const allowProps = own(options, 'allowProps') ?? []
+  // Prop references default open like the other gates: unset, every
+  // `path@prop` / `@prop` reference resolves; a set list — `[]` included — is
+  // the allowlist references resolve against. String entries compile to
+  // wildcard patterns once; RegExp entries test the full prop path as written
+  // (rebuilt without the stateful `g` / `y` flags, like `banAttrs`). Invalid
+  // entries are dropped with a warning rather than silently never matching.
+  const allowPropsOption = own(options, 'allowProps')
+  const allowProps = allowPropsOption ?? []
 
   const propRefPatterns: PropRefPattern[] = []
   const propRefRegexps: RegExp[] = []
@@ -480,6 +494,8 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
   const allowsProp = (prop: string): boolean => {
     if (typeof prop !== 'string' || !prop) return false
 
+    if (!allowPropsOption) return true
+
     // `[n]` index access reads as nesting (`model[0]` → `model.0`), matching
     // how engines resolve the prop path.
     const normalized = prop.replace(/\[(\d+)\]/g, '.$1')
@@ -499,19 +515,22 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     return false
   }
 
-  // `allowHtml` is the one gate that defaults open: unset means every area
-  // may render HTML, and setting the option — even to `[]` — turns it into a
-  // membership gate over the listed areas. `allowComponents` fails closed;
-  // `allowsComponent` warns once per rejected name so a missing allowlist
+  // Both gates default open: unset means every area may render HTML and
+  // every registered name may resolve. Setting an option — even to `[]` —
+  // turns it into a membership gate over the listed entries. A set
+  // `allowComponents` warns once per rejected name so a missing allowlist
   // entry is diagnosable without flooding the console on every re-render.
   const allowHtml = new Set(allowHtmlOption ?? [])
-  const allowComponents = new Set(own(options, 'allowComponents') ?? [])
+  const allowComponentsOption = own(options, 'allowComponents')
+  const allowComponents = new Set(allowComponentsOption ?? [])
   const rejectedComponents = new Set<string>()
 
   const allowsHtml = (area: SecurityHtmlArea) =>
     !allowHtmlOption || allowHtml.has(area)
 
   const allowsComponent = (name: string) => {
+    if (!allowComponentsOption) return true
+
     if (allowComponents.has(name)) return true
 
     if (isDev() && !rejectedComponents.has(name)) {
@@ -524,15 +543,17 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     return false
   }
 
-  // Cross-origin requests are denied by default (an unset `allowOrigins` is
-  // equivalent to `[]`): the app's own origin needs no permission, and
-  // anything beyond it is a deliberate decision the app states by listing
-  // it. Listed origins are normalized once (scheme + host + port); wildcard
-  // entries (`https://*.example.com`, `https://example.com:*`) compile to
-  // patterns; invalid entries are dropped with a warning rather than
-  // silently never matching. `'*'` opts out entirely.
-  const allowOriginsOption = own(options, 'allowOrigins') ?? []
-  const unrestrictedOrigins = allowOriginsOption.includes('*')
+  // Requests default open: unset, any origin may be targeted. A set list —
+  // `[]` included — restricts requests to the app's own origin (which needs
+  // no permission) plus the listed ones; anything beyond that is a deliberate
+  // decision the app states by listing it. Listed origins are normalized once
+  // (scheme + host + port); wildcard entries (`https://*.example.com`,
+  // `https://example.com:*`) compile to patterns; invalid entries are dropped
+  // with a warning rather than silently never matching. A `'*'` entry is the
+  // explicit spelling of the unset default.
+  const allowOriginsOption = own(options, 'allowOrigins')
+  const unrestrictedOrigins =
+    !allowOriginsOption || allowOriginsOption.includes('*')
   const allowedOrigins = new Set<string>()
   const originPatterns: OriginPattern[] = []
 
@@ -553,7 +574,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
       if (base !== '\0') allowedOrigins.add(base)
     }
 
-    for (const entry of allowOriginsOption) {
+    for (const entry of allowOriginsOption ?? []) {
       if (entry.includes('*')) {
         const pattern = parseOriginPattern(entry)
 
@@ -619,9 +640,14 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     )
   }
 
-  // Plain identity — not the noop's, whose ciphers warn about an unregistered
-  // module (here the module is registered, just without that cipher).
+  // Plain identity — both ciphers unset is the no-encryption default, not a
+  // misconfiguration. A half-configured pair fails closed in production: both
+  // ciphers resolve `undefined`, so the consuming feature treats the value as
+  // unpersistable / unreadable instead of passing plaintext through one side.
   const identity = (value: string) => value
+  const closedCipher = () => undefined
+
+  const failClosedCiphers = halfConfiguredCiphers && isProd()
 
   return {
     sanitizeHtml,
@@ -632,7 +658,7 @@ export function createSecurity(vueform: VueformInstance): SecurityModule {
     allowsComponent,
     allowsProp,
     allowsOrigin,
-    encrypt: own(options, 'encrypt') ?? identity,
-    decrypt: own(options, 'decrypt') ?? identity,
+    encrypt: failClosedCiphers ? closedCipher : (encryptOption ?? identity),
+    decrypt: failClosedCiphers ? closedCipher : (decryptOption ?? identity),
   }
 }

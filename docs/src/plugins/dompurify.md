@@ -45,7 +45,7 @@ createVueform({
 
 ## Usage
 
-Registering the plugin installs DOMPurify as the security module's sanitize engine (`$security.sanitizer`) — HTML rendered in the areas the security policy allows passes through it from then on. A `sanitizer` already set in the config wins over the plugin. The policy itself — which areas may render HTML and the rest of the `$security` options — is documented in the [Security](/guide/security) guide.
+Registering the plugin installs DOMPurify as the [security module](/guide/security#the-security-module)'s sanitize engine ([`$security.sanitizer`](/guide/configuration#security)) — HTML rendered in the areas the security policy allows passes through it from then on. A `sanitizer` already set in the config wins over the plugin. The policy itself — which areas may render HTML and the rest of the `$security` options — is documented in the [Security](/guide/security) guide.
 
 Two `$security` options, available only with this plugin, configure the engine:
 
@@ -53,7 +53,7 @@ Two `$security` options, available only with this plugin, configure the engine:
 createVueform({
   plugins: [dompurify()],
   $security: {
-    sanitizeOptions: { ALLOWED_TAGS: ['b', 'i', 'a'] }, // [!code highlight]
+    sanitizeOptions: { ALLOWED_TAGS: ['b', 'i', 'a'] },
     sanitizeInit: (DOMPurify) => {
       DOMPurify.addHook('afterSanitizeAttributes', (node) => { /* ... */ })
       return DOMPurify

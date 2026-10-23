@@ -190,7 +190,7 @@ To simulate the other outcomes, mirror what the built-in adapter does:
 | `invalid` with source `'server'` | Throw `new HttpError(message, config, 'http', response)` where `response.status` is `422`. |
 | `fail` with another reason | Throw an `HttpError` with that `reason` — `'network'`, `'timeout'`, and the rest. |
 
-One policy survives the stub. The [origin check](/guide/security#request-origins) runs before any adapter, so relative endpoint URLs always pass but an absolute one must be allowed via `$security.allowOrigins` in the test config, or the attempt fails with reason `'blocked'` without the stub ever being called:
+One policy can survive the stub. The [origin check](/guide/security#request-origins) runs before any adapter, so when the config under test sets [`$security.allowOrigins`](/guide/configuration#security), an absolute endpoint outside the list fails with reason `'blocked'` without the stub ever being called — list the origin in the test config (or leave the option out of it):
 
 ```ts
 mountForm(

@@ -240,11 +240,32 @@ describe('Security: slot content', () => {
     })
   })
 
-  describe('component names resolve only through `allowComponents`', () => {
+  describe('a configured `allowComponents` is a pure name allowlist', () => {
+    /**
+     * Threat: none — the out-of-the-box contract. With `allowComponents`
+     * unset, a registered component name in a slot string resolves.
+     */
+    test('it should resolve a registered component name when `allowComponents` is unset', async () => {
+      const { form } = createForm(
+        {
+          schema: defineSchema({
+            el: { type: 'text', label: 'Foo', slots: { label: 'Resolved' } },
+          }),
+        },
+        { $security: {} },
+        withComponents
+      )
+
+      await nextTick()
+
+      expect(form.find('.resolved').text()).toBe('Resolved')
+    })
+
     /**
      * Threat: a schema mounting any globally registered component — admin
      * panels, router links, anything never meant to be reachable from a form
-     * definition.
+     * definition — in an app that restricted resolution by setting
+     * `allowComponents`.
      *
      * Measure: only strings shaped like a component name (PascalCase or
      * kebab-case) consult the `$security.allowComponents` gate at all; an
@@ -260,7 +281,7 @@ describe('Security: slot content', () => {
             el: { type: 'text', label: 'Foo', slots: { label: 'Resolved' } },
           }),
         },
-        { $security: {} },
+        { $security: { allowComponents: [] } },
         withComponents
       )
 
@@ -313,7 +334,7 @@ describe('Security: slot content', () => {
             el: { type: 'text', label: 'Foo', template: 'Resolved' },
           }),
         },
-        { $security: {} },
+        { $security: { allowComponents: [] } },
         withComponents
       )
 
@@ -359,7 +380,7 @@ describe('Security: slot content', () => {
             el: { type: 'text', label: 'Foo', layout: 'Resolved' },
           }),
         },
-        { $security: {} },
+        { $security: { allowComponents: [] } },
         withComponents
       )
 

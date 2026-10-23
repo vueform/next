@@ -350,21 +350,13 @@ A per-instance `template` still wins over the default. `:template="null"` restor
 
 ### By Name
 
-A serialized schema can't carry a component — only its **name**. A string `template` resolves against the app's global registrations, in two steps — register the component and allow its name in the [`$security` config](/guide/configuration#security):
+A serialized schema can't carry a component — only its **name**. A string `template` resolves against the app's global registrations:
 
 ```ts
 app.component('MyTextTemplate', MyTextTemplate)
-
-app.use(
-  createVueform({
-    $security: {
-      allowComponents: ['MyTextTemplate'],
-    },
-  })
-)
 ```
 
-From then on a schema entry renders through it with `template: 'MyTextTemplate'`. The allowlist is what keeps an untrusted schema from instantiating arbitrary application components — what happens to an unlisted name, and the dev warning it raises, is covered in [component names](/guide/security#component-names).
+From then on a schema entry renders through it with `template: 'MyTextTemplate'`. When schemas come from outside the app, set [`$security.allowComponents`](/guide/configuration#security) to restrict which names may resolve — the allowlist is what keeps an untrusted schema from instantiating arbitrary application components. What happens to an unlisted name, and the dev warning it raises, is covered in [component names](/guide/security#component-names).
 
 ## Resolution Order
 

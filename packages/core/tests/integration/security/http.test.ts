@@ -47,21 +47,36 @@ function mockAdapter(response: Partial<HttpResponse> = {}): {
 describe('Security: network trust', () => {
   describe('`$security.allowOrigins`', () => {
     /**
-     * Threat: the default posture. A schema from a CMS or form builder supplies
-     * an absolute `endpoint` pointing at an attacker's host; every submission
-     * (and, with a global auth interceptor, the app's tokens) goes there. An
-     * app that never considered this question should not be exposed to it.
-     *
-     * Measure: cross-origin requests are denied out of the box — an unset
-     * `allowOrigins` is equivalent to `[]`, so reaching beyond the app's own
-     * origin is something an app opts into, not out of.
+     * Threat: none — the out-of-the-box contract. With `allowOrigins` unset,
+     * the app stated no origin policy and requests go anywhere.
      */
-    test('it should deny cross-origin requests by default', async () => {
+    test('it should allow cross-origin requests when `allowOrigins` is unset', async () => {
       const { adapter, calls } = mockAdapter()
 
       const { vueform } = createForm(
         { schema: defineSchema({ name: { type: 'text' } }) },
         { $http: { adapter } }
+      )
+
+      await useHttp(vueform).get('https://other.example.net/data')
+
+      expect(calls).toHaveLength(1)
+    })
+
+    /**
+     * Threat: a schema from a CMS or form builder supplies an absolute
+     * `endpoint` pointing at an attacker's host; every submission (and, with
+     * a global auth interceptor, the app's tokens) goes there.
+     *
+     * Measure: once `allowOrigins` is set — `[]` being the tightest form —
+     * reaching beyond the app's own origin requires a listed entry.
+     */
+    test('it should deny cross-origin requests when `allowOrigins` is set', async () => {
+      const { adapter, calls } = mockAdapter()
+
+      const { vueform } = createForm(
+        { schema: defineSchema({ name: { type: 'text' } }) },
+        { $http: { adapter }, $security: { allowOrigins: [] } }
       )
 
       await expect(
@@ -77,14 +92,14 @@ describe('Security: network trust', () => {
      * addressed relatively or spelled out in full.
      *
      * Measure: relative URLs and absolute URLs on the current origin both pass
-     * with no configuration.
+     * under the tightest possible list.
      */
-    test('it should allow the app own origin without configuration', async () => {
+    test('it should allow the app own origin with an empty allowlist', async () => {
       const { adapter, calls } = mockAdapter()
 
       const { vueform } = createForm(
         { schema: defineSchema({ name: { type: 'text' } }) },
-        { $http: { adapter } }
+        { $http: { adapter }, $security: { allowOrigins: [] } }
       )
 
       const $http = useHttp(vueform)
@@ -111,7 +126,10 @@ describe('Security: network trust', () => {
 
       const { vueform } = createForm(
         { schema: defineSchema({ name: { type: 'text' } }) },
-        { $http: { adapter, baseURL: 'https://api.example.com' } }
+        {
+          $http: { adapter, baseURL: 'https://api.example.com' },
+          $security: { allowOrigins: [] },
+        }
       )
 
       const $http = useHttp(vueform)

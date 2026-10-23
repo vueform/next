@@ -92,19 +92,11 @@ A few rules govern how entries resolve:
 
 A string entry needs no component. Plain text renders as text, with [expressions](/guide/expressions) resolved and kept live — `'Ships to {country}'` follows the model as it changes. Resolution honors `no-expressions` and the `slots` key of `$expression.whitelist` — see [restriction levels](/guide/expressions#restriction-levels).
 
-A string shaped like a component name — PascalCase or kebab-case — that names a globally registered component resolves to that component, but only when the name is listed in `$security.allowComponents`. Anything else renders as text, and a registered but unlisted name warns once in development.
+A string shaped like a component name — PascalCase or kebab-case — that names a globally registered component resolves to that component. Anything else renders as text. Setting [`$security.allowComponents`](/guide/configuration#security) restricts which names may resolve — once set it is an allowlist, and a registered but unlisted name renders as text with a once-per-name dev warning.
 
 HTML renders by default — to restrict this or set up sanitization, see [HTML sanitization](/guide/security#html-sanitization).
 
-```ts
-createVueform({
-  $security: {
-    allowComponents: ['MyOption'],
-  },
-})
-```
-
-The gates exist because a schema can arrive from outside the app, and a string is the only entry shape that can — component objects and functions come from your own code and are never gated. What else a schema can reach, banning the `slots` key outright with `banAttrs`, and running without the security module are covered in [security](/guide/security#untrusted-schemas).
+The gates cover strings only, because strings are the only entry shape a schema from outside the app can carry — component objects and functions come from your own code and are never gated. What else a schema can reach, banning the `slots` key outright with `banAttrs`, and running without the security module are covered in [security](/guide/security#untrusted-schemas).
 
 ### App-Wide Slots
 

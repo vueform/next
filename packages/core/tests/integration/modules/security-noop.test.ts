@@ -46,19 +46,22 @@ describe('Security module: noop surface in production', () => {
      * `allowOrigins` configured without the module — in production there is no
      * warning, and permissive behavior would mean every request flows
      * unrestricted while the config claims otherwise. Discovered intent fails
-     * closed — every request is refused until the module is registered.
+     * closed to the app's own origin — relative URLs and the page origin still
+     * pass (blocking those would break even same-origin submits), everything
+     * cross-origin is refused until the module is registered.
      *
      * Verified red→green: the noop allowed all requests in production before
      * the fail-closed change.
      */
-    it('should block requests when allowOrigins is configured', () => {
+    it('should block cross-origin requests when allowOrigins is configured', () => {
       prod()
       const sec = noopSecurity({
         $security: { allowOrigins: ['https://api.example.com'] },
       } as any)
 
       expect(sec.allowsOrigin('https://api.example.com/save')).toBe(false)
-      expect(sec.allowsOrigin('/save')).toBe(false)
+      expect(sec.allowsOrigin('/save')).toBe(true)
+      expect(sec.allowsOrigin(`${window.location.origin}/save`)).toBe(true)
     })
 
     /**
@@ -73,17 +76,19 @@ describe('Security module: noop surface in production', () => {
     })
 
     /**
-     * No over-blocking of the explicit opt-out. `['*']` means "no restriction"
-     * — the noop's permissive behavior already IS the configured semantics, so
-     * there is nothing to fail closed about.
+     * Presence is the intent, the permissive spelling included: unset already
+     * means "no restriction", so writing `['*']` says the app cares about this
+     * policy — and a policy the module never enforces fails closed like any
+     * other.
      */
-    it('should allow requests when allowOrigins is `["*"]`', () => {
+    it('should fail closed when allowOrigins is `["*"]`', () => {
       prod()
       const sec = noopSecurity({
         $security: { allowOrigins: ['*'] },
       } as any)
 
-      expect(sec.allowsOrigin('https://anywhere.example.net/x')).toBe(true)
+      expect(sec.allowsOrigin('https://anywhere.example.net/x')).toBe(false)
+      expect(sec.allowsOrigin('/save')).toBe(true)
     })
   })
 
@@ -137,30 +142,30 @@ describe('Security module: noop surface in production', () => {
     })
 
     /**
-     * Unset and `[]` are the gate's default deny-all semantics anyway, so an
-     * empty list carries no intent of its own, and the module family's
-     * absent-feature rule applies: nothing is enforced.
+     * No intent without the option: an unset `allowProps` means no prop
+     * policy, and the module family's absent-feature rule applies — nothing
+     * is enforced.
      */
-    it('should allow prop references when allowProps is empty or unset', () => {
+    it('should allow prop references when allowProps is unset', () => {
       prod()
       const unset = noopSecurity({ $security: {} } as any)
-      const empty = noopSecurity({ $security: { allowProps: [] } } as any)
 
       expect(unset.allowsProp('label')).toBe(true)
-      expect(empty.allowsProp('label')).toBe(true)
     })
 
     /**
-     * `'**'` asks for no restriction at all, and the default config ships
-     * `allowProps: ['**']` as baseline, so every module-less app carries it in
-     * its merged config. Reading it as intent would fail every such app closed
-     * in production.
+     * Presence is the intent, permissive spellings included: unset already
+     * allows everything, so `[]` (deny all) and `['**']` (the explicit
+     * spelling of the default) both say the app cares about this policy — and
+     * a policy the module never enforces fails closed like any other.
      */
-    it('should allow prop references when allowProps contains `**`', () => {
+    it('should fail closed when allowProps is set, whatever it holds', () => {
       prod()
-      const sec = noopSecurity({ $security: { allowProps: ['**'] } } as any)
+      const empty = noopSecurity({ $security: { allowProps: [] } } as any)
+      const all = noopSecurity({ $security: { allowProps: ['**'] } } as any)
 
-      expect(sec.allowsProp('label')).toBe(true)
+      expect(empty.allowsProp('label')).toBe(false)
+      expect(all.allowsProp('label')).toBe(false)
     })
   })
 
@@ -168,21 +173,21 @@ describe('Security module: noop surface in production', () => {
     /**
      * Ciphers configured without the module — production would persist drafts
      * in plaintext while the config claims they are encrypted. Discovered
-     * intent fails closed — the noop ciphers throw, and the draft cycle's
-     * existing error handling turns that into "nothing persisted" (encrypt) /
-     * "draft discarded" (decrypt) instead of plaintext storage.
+     * intent fails closed — the noop ciphers resolve `undefined`, and the
+     * draft cycle turns that into "nothing persisted" (encrypt) / "draft
+     * unreadable, kept in storage" (decrypt) instead of plaintext.
      *
      * Verified red→green: the identity ciphers ran in production before the
      * fail-closed change.
      */
-    it('should refuse to run when ciphers are configured', () => {
+    it('should resolve undefined when ciphers are configured', () => {
       prod()
       const sec = noopSecurity({
         $security: { encrypt: (v: string) => v, decrypt: (v: string) => v },
       } as any)
 
-      expect(() => sec.encrypt('data', 'draft')).toThrowError()
-      expect(() => sec.decrypt('data', 'draft')).toThrowError()
+      expect(sec.encrypt('data', 'draft')).toBeUndefined()
+      expect(sec.decrypt('data', 'draft')).toBeUndefined()
     })
 
     /**

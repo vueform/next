@@ -395,11 +395,11 @@ App-wide interceptors nest inside instance-registered ones — instance request 
 | `sanitizer` | `(html: string) => string` | — | The HTML sanitization engine. See [HTML sanitization](/guide/security#html-sanitization). |
 | `encrypt` | `(value, purpose) => string \| Promise<string>` | — | Encrypts values before features persist them. See [draft encryption](/guide/security#draft-encryption). |
 | `decrypt` | same as `encrypt` | — | The inverse, applied when persisted values are read back. |
-| `allowOrigins` | `string[]` | `[]` | The cross-origin destinations requests may target. See [request origins](/guide/security#request-origins). |
+| `allowOrigins` | `string[]` | — | The origins requests may target — unset, any; set, the app's own origin plus the listed ones. See [request origins](/guide/security#request-origins). |
 | `allowHtml` | `SecurityHtmlArea[]` | — | The areas where strings may render as HTML — unset, all of them; set, only the listed ones. See [HTML sanitization](/guide/security#html-sanitization). |
-| `allowComponents` | `string[]` | `[]` | The registered component names a schema string may resolve to. See [component names](/guide/security#component-names). |
-| `allowProps` | `(string \| RegExp)[]` | `['**']` | The prop paths `path@prop` references may resolve. See [prop references](/guide/security#prop-references). |
-| `banAttrs` | `(string \| RegExp)[]` | — | Keys dropped from every schema-reachable prop bag. Strings match case-insensitively, and every entry is checked against both the original and the camelized key. See [banning attributes](/guide/security#banning-attributes). |
+| `allowComponents` | `string[]` | — | The registered component names a schema string may resolve to — unset, all of them; set, only the listed ones. See [component names](/guide/security#component-names). |
+| `allowProps` | `(string \| RegExp)[]` | — | The prop paths `path@prop` references may resolve — unset, all of them; set, only the matching ones. See [prop references](/guide/security#prop-references). |
+| `banAttrs` | `(string \| RegExp)[]` | — | Keys dropped from every schema-reachable prop bag — unset, none beyond the built-in invariants. Strings match case-insensitively, and every entry is checked against both the original and the camelized key. See [banning attributes](/guide/security#banning-attributes). |
 
 What to configure when schemas come from untrusted sources is covered in [security](/guide/security#untrusted-schemas).
 

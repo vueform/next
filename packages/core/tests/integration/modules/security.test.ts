@@ -1,4 +1,4 @@
-import { defineSchema } from '@vueform/core'
+import { defineSchema, getSecurityModule } from '@vueform/core'
 import dompurify from '@vueform/dompurify'
 /**
  * # Security module — option semantics
@@ -374,7 +374,7 @@ describe('slot content semantics', () => {
           b: { type: 'text', label: 'B', template: 'Resolved' },
         }),
       },
-      { $security: {} },
+      { $security: { allowComponents: [] } },
       withComponents
     )
 
@@ -430,6 +430,29 @@ describe('cipher configuration is validated', () => {
     )
 
     warnSpy.mockRestore()
+  })
+
+  /**
+   * In production the half-configured pair fails closed instead of warning:
+   * both ciphers resolve `undefined`, so nothing persists through the broken
+   * pair (the draft cycle treats `undefined` as unpersistable / unreadable).
+   */
+  test('it should fail both ciphers closed in production when half-configured', async () => {
+    vi.stubEnv('NODE_ENV', 'production')
+
+    try {
+      const { vueform } = createForm(
+        { schema: defineSchema({ name: { type: 'text', default: 'John' } }) },
+        { $security: { encrypt: (value: string) => value } }
+      )
+
+      const sec = getSecurityModule(vueform)
+
+      expect(sec.encrypt('data', 'draft')).toBeUndefined()
+      expect(sec.decrypt('data', 'draft')).toBeUndefined()
+    } finally {
+      vi.unstubAllEnvs()
+    }
   })
 
   /** No false alarms on a correct configuration. */

@@ -295,7 +295,7 @@ describe('Security: prototype pollution', () => {
     /**
      * Threat: the same gadget against the allowlists — a polluted
      * `Object.prototype.allowHtml`/`allowComponents` widening a restriction
-     * the config imposed (an empty `allowHtml`) or granting resolution rights
+     * the config imposed (empty allowlists) or granting resolution rights
      * nothing in the config granted.
      *
      * Measure: own-property reads; inherited allowlists are invisible.
@@ -310,7 +310,7 @@ describe('Security: prototype pollution', () => {
         const vueform = createVueform({
           modules: { model, security },
           plugins: [dompurify()],
-          $security: { allowHtml: [] },
+          $security: { allowHtml: [], allowComponents: [] },
         } as any)
 
         const sec = getSecurityModule(vueform)
