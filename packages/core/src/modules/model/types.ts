@@ -593,7 +593,7 @@ export type ModelInstance<TSchema = FormSchema> = {
   /**
    * Subscribes a listener to a model event — the data events (`change`,
    * `load`, `reset`, `clear`) or any submission event (`submit`, `success`,
-   * `fail`, `clientInvalid`, `serverInvalid`, `cancelled`, `response`,
+   * `fail`, `clientInvalid`, `serverInvalid`, `canceled`, `response`,
    * `invalid`, `valid`) —
    * returning an unsubscribe function. While a form has the instance attached,
    * the form mirrors its events into the instance, so these listeners keep

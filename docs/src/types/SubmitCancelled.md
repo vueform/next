@@ -1,15 +1,15 @@
 ```ts
 /**
- * Result returned when form submission is cancelled before sending a request.
+ * Result returned when form submission is canceled before sending a request.
  */
-interface SubmitCancelled {
+interface SubmitCanceled {
   /**
-   * The result type discriminator, always 'cancelled'.
+   * The result type discriminator, always 'canceled'.
    */
-  type: 'cancelled'
+  type: 'canceled'
 
   /**
-   * The reason the submission was cancelled (e.g. form was invalid, disabled,
+   * The reason the submission was canceled (e.g. form was invalid, disabled,
    * or already submitting).
    */
   reason: 'loading' | 'disabled' | 'submitting' | 'prevented' | 'unknown'

@@ -1429,7 +1429,7 @@ export function createValidation(vueform: VueformInstance) {
       for (const state of states) {
         clearTimeout(state.timer.value)
         if (state.rejectPending) {
-          state.rejectPending(new Error('cancelled'))
+          state.rejectPending(new Error('canceled'))
           state.rejectPending = undefined
         }
         state.scope?.stop()
@@ -1508,7 +1508,7 @@ export function createValidation(vueform: VueformInstance) {
       clearTimeout(state.timer.value)
       state.timer.value = undefined
       if (state.rejectPending) {
-        state.rejectPending(new Error('cancelled'))
+        state.rejectPending(new Error('canceled'))
         state.rejectPending = undefined
       }
 
@@ -1535,7 +1535,7 @@ export function createValidation(vueform: VueformInstance) {
 
         state.status.value = 'pending'
         return rawResult.then((result) => {
-          if (runId !== state.runId) throw new Error('cancelled')
+          if (runId !== state.runId) throw new Error('canceled')
           applyResult(state, result)
           return result === true
         })
@@ -1602,7 +1602,7 @@ export function createValidation(vueform: VueformInstance) {
               valid = false
             }
           } catch (error) {
-            if (error instanceof Error && error.message === 'cancelled') {
+            if (error instanceof Error && error.message === 'canceled') {
               languageValid = false
               valid = false
             } else {
@@ -1642,7 +1642,7 @@ export function createValidation(vueform: VueformInstance) {
           const result = runUnit(state, value, false)
           if (isThenable(result)) await result
         } catch (error) {
-          if (!(error instanceof Error) || error.message !== 'cancelled')
+          if (!(error instanceof Error) || error.message !== 'canceled')
             throw error
         }
       }
@@ -1920,7 +1920,7 @@ export function createValidation(vueform: VueformInstance) {
       for (const state of statesOf(owner.id)) {
         clearTimeout(state.timer.value)
         if (state.rejectPending) {
-          state.rejectPending(new Error('cancelled'))
+          state.rejectPending(new Error('canceled'))
           state.rejectPending = undefined
         }
         state.raw.value = undefined

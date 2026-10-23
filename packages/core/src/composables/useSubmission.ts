@@ -147,13 +147,13 @@ export interface SubmissionEmits<TContext = any> {
   success: [result: SubmitSuccess]
 
   /**
-   * Emitted when form submission is cancelled before sending a request (e.g.
+   * Emitted when form submission is canceled before sending a request (e.g.
    * the form is invalid, loading, disabled, already submitting, or a `submit`
    * handler / `endpoint` function returned `false`).
    *
-   * @param result The cancelled result object.
+   * @param result The canceled result object.
    */
-  cancelled: [result: SubmitCancelled]
+  canceled: [result: SubmitCanceled]
 }
 
 /**
@@ -314,16 +314,16 @@ export interface SubmitFail {
 }
 
 /**
- * Result returned when form submission is cancelled before sending a request.
+ * Result returned when form submission is canceled before sending a request.
  */
-export interface SubmitCancelled {
+export interface SubmitCanceled {
   /**
-   * The result type discriminator, always 'cancelled'.
+   * The result type discriminator, always 'canceled'.
    */
-  type: 'cancelled'
+  type: 'canceled'
 
   /**
-   * The reason the submission was cancelled (e.g. form was invalid, disabled,
+   * The reason the submission was canceled (e.g. form was invalid, disabled,
    * or already submitting).
    */
   reason: 'loading' | 'disabled' | 'submitting' | 'prevented' | 'unknown'
@@ -341,7 +341,7 @@ export type SubmitResult =
   | SubmitSuccess
   | SubmitInvalid
   | SubmitFail
-  | SubmitCancelled
+  | SubmitCanceled
 
 /**
  * Configuration options for `useSubmission`: the host-independent accessors and
@@ -455,7 +455,7 @@ export type UseSubmissionOptions = {
   /**
    * Returns a cancellation reason from host state (e.g. `loading`/`disabled`),
    * or undefined when the host allows submission. An in-flight submission is
-   * always cancelled regardless.
+   * always canceled regardless.
    */
   cancelReason?: () => 'loading' | 'disabled' | undefined
 
@@ -516,7 +516,7 @@ export function defaultTransformResponse(data: any) {
  * The host-independent submission flow shared by the form blueprint and
  * `useModel`: cancellation guards, the submit-time validation floor, the
  * `submit` event / endpoint dispatch chain, request encoding, and the
- * success / fail / server-invalid / cancelled result handling with their
+ * success / fail / server-invalid / canceled result handling with their
  * events. Hosts contribute state and UX through the options' accessors and
  * hooks; everything here is component-free.
  *
@@ -565,12 +565,12 @@ export function useSubmission(options: UseSubmissionOptions) {
 
     if (cancelReason !== undefined || submitting.value) {
       result.value = {
-        type: 'cancelled',
+        type: 'canceled',
         reason: cancelReason ?? 'submitting',
         context$,
       }
 
-      fire('cancelled', result.value)
+      fire('canceled', result.value)
 
       return result.value
     }
@@ -614,12 +614,12 @@ export function useSubmission(options: UseSubmissionOptions) {
 
       if (submitResponse === false) {
         result.value = {
-          type: 'cancelled',
+          type: 'canceled',
           reason: 'prevented',
           context$,
         }
 
-        fire('cancelled', result.value)
+        fire('canceled', result.value)
 
         return result.value
       }
@@ -633,12 +633,12 @@ export function useSubmission(options: UseSubmissionOptions) {
 
         if (endpointResult === false) {
           result.value = {
-            type: 'cancelled',
+            type: 'canceled',
             reason: 'prevented',
             context$,
           }
 
-          fire('cancelled', result.value)
+          fire('canceled', result.value)
 
           return result.value
         }

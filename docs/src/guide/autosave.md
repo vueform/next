@@ -27,11 +27,11 @@ The mirror runs on its own — there's nothing to schedule:
 - **It stores the raw model, not the payload.** Restoring a draft reproduces the form's full state, including values behind unmet [conditions](/guide/conditions).
 - **It skips what shouldn't persist.** [Sensitive values](#sensitive-values) and `File` values are stripped before the draft is written.
 
-Each of these behaviors is tunable — in place of `true`, `draft` accepts a `DraftConfig` config object, whose keys the rest of this section walks through and [Options](#draft-options) collects in one place.
+Each of these behaviors is tunable — in place of `true`, `draft` accepts a `DraftConfig` object, whose keys the rest of this section walks through and [Draft Options](#draft-options) collects in one place.
 
 ### Saving Triggers
 
-The `on` option lists the events that save the draft, defaulting to `['change']` — the draft is written shortly after the form's data changes:
+The `on` option lists the events that save the draft, defaulting to `['change']` — the draft is written after the form's data changes:
 
 | Trigger | Fires on |
 | --- | --- |
@@ -213,7 +213,7 @@ In a [multi-page form](/guide/multi-page-forms) the navigation triggers make nat
 
 ### Interval Saves
 
-`interval` adds a periodic timer in milliseconds — off by default — for saving on a fixed schedule instead of, or on top of, [event-driven](#event-triggers) saves:
+`interval` adds a periodic timer in milliseconds — off by default — for saving on a fixed schedule instead of, or on top of, event-driven saves:
 
 ```ts
 autosave: {
@@ -302,7 +302,7 @@ defineSchema({
 })
 ```
 
-On a container the flag covers the entire subtree — a `sensitive` group or object excludes every element inside it. Restoring a draft leaves stripped elements untouched. `File` values can't be serialized, so they're stripped from drafts too, with a dev warning.
+On a container the flag covers the entire subtree — a `sensitive` [group](/guide/form-structure#grouping-elements) excludes every element inside it. Restoring a draft leaves stripped elements untouched. `File` values can't be serialized, so they're stripped from drafts too, with a dev warning.
 
 Each prop can opt back in with its own `sensitive: true` — `draft: { sensitive: true }` stores the values, `autosave: { sensitive: true }` sends them. Submission is unaffected either way and always carries the full payload.
 
@@ -312,7 +312,7 @@ Drafts persist form data — potentially personal data — to the user's disk. M
 
 ## Saving Manually
 
-Both kinds of saving have an on-demand method on the [form context](/guide/context#form-context) — a "Save now" button, a `beforeunload` handler:
+Both kinds of saving have an on-demand method — a "Save now" button, a `beforeunload` handler:
 
 ```ts
 await form$.saveDraft() // draft write
@@ -344,7 +344,7 @@ const [Form, form$] = useForm({
 
 ## Transforming Autosave Data
 
-Remote saves send the form's payload — the same data submission would send, [`transformPayload`](/guide/submit#transforming-the-payload) included, minus [sensitive values](#sensitive-values). `transform` shapes that data further, for autosave requests only:
+Remote saves send the form's [payload](/guide/submit#what-gets-sent) — the same data submission would send, [`transformPayload`](/guide/submit#transforming-the-payload) included, minus [sensitive values](#sensitive-values). `transform` shapes that data further, for autosave requests only:
 
 ```ts
 const [Form] = useForm({
@@ -407,7 +407,7 @@ The function receives the autosave data ([`transform`](#transforming-autosave-da
 | `string` | Used as the endpoint URL — Vueform performs the built-in request against it. |
 | `HttpResponse` | Used as the result and always treated as a success, whatever its status — `@autosave-success` fires with it. The fail path belongs to the built-in request, so a handler wanting `@autosave-fail` semantics handles its own errors. |
 | `void` / `undefined` | The save counts as completed silently — only `@autosaved` fires, with no response. |
-| `false` | The save is treated as cancelled — no event fires. |
+| `false` | The save is treated as canceled — no event fires. |
 
 Because the example returns the `HttpResponse`, `@autosave-success` fires as usual and downstream listeners — a saved-at indicator, a toast — work unchanged. There doesn't have to be a request at all — persistence is whatever the function does. For browser storage, though, [`draft`](#drafts) already covers it, restoring included.
 

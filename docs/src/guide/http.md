@@ -171,7 +171,7 @@ try {
 | `'http'` | The server responded with a non-`2xx` status. |
 | `'network'` | The request never reached the server (DNS, offline, CORS, …). |
 | `'timeout'` | The configured `timeout` elapsed. |
-| `'abort'` | The request was [cancelled](#aborting-requests) via an `AbortSignal`. |
+| `'abort'` | The request was [canceled](#aborting-requests) via an `AbortSignal`. |
 | `'blocked'` | The target origin isn't allowed by [`allowOrigins`](/guide/security#request-origins). |
 | `'ssr'` | The request was attempted during [server-side rendering](/guide/ssr#http-is-client-side). |
 | `'unknown'` | Catch-all for unexpected adapter failures. |

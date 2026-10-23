@@ -118,7 +118,7 @@ export const clone: Command = {
       )
 
       if (!picked) {
-        out.log('Cancelled.')
+        out.log('Canceled.')
         return
       }
 

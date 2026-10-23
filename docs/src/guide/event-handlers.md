@@ -210,7 +210,7 @@ app.use(
 ```
 
 ::: warning
-With `nativeEmit: true`, template and schema handlers lose their return-value powers — `submit`, `beforeNext`, etc. can no longer be cancelled or made async from an `@event` handler.
+With `nativeEmit: true`, template and schema handlers lose their return-value powers — `submit`, `beforeNext`, etc. can no longer be canceled or made async from an `@event` handler.
 :::
 
 Programmatic listeners are unaffected: `on()`, `off()`, `onBefore()`, and `onAfter()` operate on Vueform's listener registry, which stays in place — including cancellation from those listeners.

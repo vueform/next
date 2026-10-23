@@ -119,7 +119,7 @@ export const copy: Command = {
       )
 
       if (!selection) {
-        out.log('Cancelled.')
+        out.log('Canceled.')
         return
       }
     }

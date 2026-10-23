@@ -3,7 +3,7 @@
  * The host-independent submission flow shared by the form blueprint and
  * `useModel`: cancellation guards, the submit-time validation floor, the
  * `submit` event / endpoint dispatch chain, request encoding, and the
- * success / fail / server-invalid / cancelled result handling with their
+ * success / fail / server-invalid / canceled result handling with their
  * events. Hosts contribute state and UX through the options' accessors and
  * hooks; everything here is component-free.
  *

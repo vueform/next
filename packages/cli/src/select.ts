@@ -2,7 +2,7 @@
  * Dependency-free interactive list pickers (arrow keys + enter) for TTY
  * sessions. `selectFrom` resolves with the chosen item's name,
  * `multiSelectFrom` with an array of names (enter with nothing toggled picks
- * the highlighted item); both resolve with null when cancelled.
+ * the highlighted item); both resolve with null when canceled.
  */
 export function canSelect() {
   return process.stdin.isTTY === true && process.stdout.isTTY === true
@@ -69,7 +69,7 @@ function pick(
       resolve(value)
     }
 
-    // Returns true when the picker finished (resolved or cancelled).
+    // Returns true when the picker finished (resolved or canceled).
     const handleKey = (key: string) => {
       if (key === '\x03' || key === 'q' || key === '\x1b') {
         done(null)

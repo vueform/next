@@ -63,7 +63,7 @@ export const view: Command = {
       )
 
       if (!name) {
-        out.log('Cancelled.')
+        out.log('Canceled.')
         return
       }
     }

@@ -441,7 +441,7 @@ describe('Form Submission', () => {
 
       const result = await form$.submit()
 
-      expect(result).toEqual(oc({ type: 'cancelled', reason: 'prevented' }))
+      expect(result).toEqual(oc({ type: 'canceled', reason: 'prevented' }))
     })
 
     it('should support function endpoint that returns a URL string', async () => {

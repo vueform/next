@@ -111,7 +111,7 @@ type UseSubmissionOptions = {
   /**
    * Returns a cancellation reason from host state (e.g. `loading`/`disabled`),
    * or undefined when the host allows submission. An in-flight submission is
-   * always cancelled regardless.
+   * always canceled regardless.
    */
   cancelReason?: () => 'loading' | 'disabled' | undefined
 

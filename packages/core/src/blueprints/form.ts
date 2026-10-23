@@ -642,7 +642,7 @@ export interface FormExpose extends BaseComponentExpose, FormApi {}
 export type {
   SubmissionEmits,
   SubmissionProps,
-  SubmitCancelled,
+  SubmitCanceled,
   SubmitClientInvalid,
   SubmitFail,
   SubmitInvalid,

@@ -237,7 +237,7 @@ function makeModel(
     'clientInvalid',
     'serverInvalid',
     'success',
-    'cancelled',
+    'canceled',
     'change',
     'reset',
     'clear',

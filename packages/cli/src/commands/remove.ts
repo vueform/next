@@ -109,7 +109,7 @@ export const remove: Command = {
       )
 
       if (picked == null) {
-        out.log('Cancelled.')
+        out.log('Canceled.')
         return
       }
 

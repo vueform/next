@@ -1,7 +1,7 @@
 # `useSubmission`
 
 <!-- #region description -->
-The host-independent submission flow shared by the form blueprint and `useModel`: cancellation guards, the submit-time validation floor, the `submit` event / endpoint dispatch chain, request encoding, and the success / fail / server-invalid / cancelled result handling with their events. Hosts contribute state and UX through the options' accessors and hooks; everything here is component-free.
+The host-independent submission flow shared by the form blueprint and `useModel`: cancellation guards, the submit-time validation floor, the `submit` event / endpoint dispatch chain, request encoding, and the success / fail / server-invalid / canceled result handling with their events. Hosts contribute state and UX through the options' accessors and hooks; everything here is component-free.
 <!-- #endregion description -->
 
 <!--@include: ../../types/useSubmission.md-->
@@ -52,7 +52,7 @@ The properties of the options object passed to the composable.
 | [`validationDisabled?`](!code#options.validationDisabled "() => boolean") | Whether the host has disabled the submit-time validation floor (the form's `disableValidation()`). Omitted, validation always runs. |
 | [`transformServerInvalid?`](!code#options.transformServerInvalid "() => ((data: any, context$: any) => Record<string, any>) \| undefined") | The server-error transform; `defaultTransformServerInvalid` when undefined. |
 | [`transformResponse?`](!code#options.transformResponse "() => ((data: any, context$: any) => any) \| undefined") | The response transform; `defaultTransformResponse` when undefined. |
-| [`cancelReason?`](!code#options.cancelReason "() => 'disabled' \| 'loading' \| undefined") | Returns a cancellation reason from host state (e.g. `loading`/`disabled`), or undefined when the host allows submission. An in-flight submission is always cancelled regardless. |
+| [`cancelReason?`](!code#options.cancelReason "() => 'disabled' \| 'loading' \| undefined") | Returns a cancellation reason from host state (e.g. `loading`/`disabled`), or undefined when the host allows submission. An in-flight submission is always canceled regardless. |
 | [`onClientInvalid?`](!code#options.onClientInvalid "() => void \| Promise<void>") | Runs after a client-side validation failure (e.g. focus/scroll to the first error). |
 | [`applyServerErrors?`](!code#options.applyServerErrors "(errors: Record<string, string[]>) => void \| Promise<void>") | Applies 422 server errors to the host's error surface (element message bags on a mounted form; the instance's server errors headlessly). Only called when `setInvalid()` is true. |
 | [`onSuccess?`](!code#options.onSuccess "(result: SubmitSuccess) => void \| Promise<void>") | Runs right after the `success` event, before `setResponse` is applied (the form shows its success message and runs reset/clear-on-success here). |

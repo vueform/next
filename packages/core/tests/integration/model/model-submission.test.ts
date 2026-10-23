@@ -133,20 +133,20 @@ describe('useModel submission', () => {
   it('supports a function endpoint and prevented cancellation', async () => {
     const vueform = makeVueform()
 
-    const cancelled: any[] = []
+    const canceled: any[] = []
 
     const model$ = vueform.useModel({
       schema: { name: { type: 'text' } } as any,
       endpoint: () => false as const,
-      onCancelled: (result) => {
-        cancelled.push(result)
+      onCanceled: (result) => {
+        canceled.push(result)
       },
     })
 
     const result = await model$.submit()
 
-    expect(result).toEqual(oc({ type: 'cancelled', reason: 'prevented' }))
-    expect(cancelled).toHaveLength(1)
+    expect(result).toEqual(oc({ type: 'canceled', reason: 'prevented' }))
+    expect(canceled).toHaveLength(1)
   })
 
   it('returns a client-invalid result with path-keyed errors and skips the request', async () => {

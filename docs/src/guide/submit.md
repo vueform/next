@@ -142,7 +142,7 @@ When both sides define submission props — e.g. `endpoint` — the form's are i
 
 Every trigger — a submit button, `form$.submit()`, `model.submit()` — funnels into one sequence:
 
-1. **Gates** — a form that is loading, disabled, or already submitting doesn't start another attempt. The call resolves with a `cancelled` result and goes no further. See [Gates](#gates).
+1. **Gates** — a form that is loading, disabled, or already submitting doesn't start another attempt. The call resolves with a `canceled` result and goes no further. See [Gates](#gates).
 2. **Validation** — the floor that always runs, no matter how the form otherwise validates. If the form comes out invalid, the call resolves with a client-side `invalid` result before any network traffic, and the first invalid element is scrolled into view and focused, unless [disabled](/guide/validation#scroll-and-focus). See [When Validation Fails](#when-validation-fails).
 3. **The `@submit` event** — fires with the [payload](#what-gets-sent) about to be sent. A handler can observe it, cancel the attempt, or take the request over entirely. See [Owning the Request](#owning-the-request).
 4. **The request** — unless a handler took over, the payload is sent to the `endpoint`. What's in the payload and how it's encoded have their own sections — [What Gets Sent](#what-gets-sent) and [Request Format](#request-format).
@@ -150,7 +150,7 @@ Every trigger — a submit button, `form$.submit()`, `model.submit()` — funnel
 6. **Result events** — `@response` fires with the raw response, then the outcome's own event follows. See [Result Events](#result-events).
 7. **Post-success actions** — on `success`, the configured follow-ups run in a fixed order — message, reset or clear, response application, scroll, redirect. See [After Success](#after-success).
 
-The four words naming the outcomes — `success`, `invalid`, `fail`, `cancelled` — are the chapter's vocabulary. Every attempt that has somewhere to send the data ends in exactly one of them, readable from the resolved result, the result events, and the form's state alike.
+The four words naming the outcomes — `success`, `invalid`, `fail`, `canceled` — are the chapter's vocabulary. Every attempt that has somewhere to send the data ends in exactly one of them, readable from the resolved result, the result events, and the form's state alike.
 
 ## Submission State
 
@@ -169,7 +169,7 @@ Read them via the form context ([`form$` / `formReady`](/guide/context#form-cont
 
 ## Gates
 
-Three states stop a submission before it starts. Each resolves `submit()` with a [`cancelled`](#the-result) result carrying the matching reason and fires the `@cancelled` event — no validation, no request:
+Three states stop a submission before it starts. Each resolves `submit()` with a [`canceled`](#the-result) result carrying the matching reason and fires the `@canceled` event — no validation, no request:
 
 | State | Cancel reason | When |
 | --- | --- | --- |
@@ -343,7 +343,7 @@ Headlessly, `set-invalid` has no elements to decorate — on a `!useModel` insta
 
 ## The Result
 
-Every `submit()` call resolves with a result object describing how the attempt ended — a `SubmitResult`, the discriminated union of `SubmitSuccess`, `SubmitInvalid`, `SubmitFail`, and `SubmitCancelled`. Branch on `type`:
+Every `submit()` call resolves with a result object describing how the attempt ended — a `SubmitResult`, the discriminated union of `SubmitSuccess`, `SubmitInvalid`, `SubmitFail`, and `SubmitCanceled`. Branch on `type`:
 
 ```ts
 const result = await form$.submit()
@@ -352,7 +352,7 @@ switch (result?.type) {
   case 'success':   /* 2xx */ break
   case 'invalid':   /* validation said no — client or server */ break
   case 'fail':      /* network, timeout, abort, other HTTP errors */ break
-  case 'cancelled': /* a gate or a handler stopped it */ break
+  case 'canceled': /* a gate or a handler stopped it */ break
 }
 ```
 
@@ -401,15 +401,15 @@ result.response // the HttpResponse, or null
 | `'network'` | The request got no response — connection refused, DNS failure, offline. |
 | `'timeout'` | The request timed out. |
 | `'http'` | The server responded with a non-`2xx` status other than `422`. |
-| `'abort'` | [`abort()`](#aborting) cancelled the in-flight request. |
+| `'abort'` | [`abort()`](#aborting) canceled the in-flight request. |
 | `'blocked'` | The target origin isn't allowed by [`allowOrigins`](/guide/security#request-origins). |
 | `'ssr'` | The request was attempted during server-side rendering. |
 | `'unknown'` | Anything that fits none of the above. |
 <!-- @todo: unknown could be just a plain `undefined` -->
 
-### `cancelled`
+### `canceled`
 
-A [gate](#gates) or a handler stopped the attempt before any request was made (`SubmitCancelled`).
+A [gate](#gates) or a handler stopped the attempt before any request was made (`SubmitCanceled`).
 
 ```ts
 result.reason // 'loading' | 'disabled' | 'submitting' | 'prevented' | 'unknown'
@@ -432,7 +432,7 @@ Awaiting `submit()` is one way to learn the outcome; the other is listening on t
 | `@clientInvalid` | Validation failed on the client — nothing was sent. | `SubmitClientInvalid` |
 | `@serverInvalid` | The server responded with `422`. | `SubmitServerInvalid` |
 | `@fail` | The request failed — network, timeout, abort, any other non-`2xx` status. | `SubmitFail` |
-| `@cancelled` | A [gate](#gates) blocked the attempt, or a handler returned `false`. | `SubmitCancelled` |
+| `@canceled` | A [gate](#gates) blocked the attempt, or a handler returned `false`. | `SubmitCanceled` |
 
 `@response` always precedes the outcome event, handing you the raw `HttpResponse` before any classification — and it only fires when a response was actually received, so never for aborted requests or client-side failures.
 
@@ -448,7 +448,7 @@ import type {
   SubmitClientInvalid,
   SubmitServerInvalid,
   SubmitFail,
-  SubmitCancelled,
+  SubmitCanceled,
 } from '@vueform/ui'
 
 const [MyForm] = useForm({
@@ -459,7 +459,7 @@ const [MyForm] = useForm({
   onClientInvalid: (result: SubmitClientInvalid) => {},
   onServerInvalid: (result: SubmitServerInvalid) => {},
   onFail: (result: SubmitFail) => {},
-  onCancelled: (result: SubmitCancelled) => {},
+  onCanceled: (result: SubmitCanceled) => {},
 })
 ```
 
@@ -471,7 +471,7 @@ const [MyForm] = useForm({
   @client-invalid="handleClientInvalid"
   @server-invalid="handleServerInvalid"
   @fail="handleFail"
-  @cancelled="handleCancelled"
+  @canceled="handleCanceled"
 />
 ```
 
@@ -647,7 +647,7 @@ onSubmit: (payload, context$) => {
 }
 ```
 
-**Returning `false`** cancels the attempt — the endpoint is never called and `submit()` resolves with a [`cancelled`](#the-result) result (reason `'prevented'`):
+**Returning `false`** cancels the attempt — the endpoint is never called and `submit()` resolves with a [`canceled`](#the-result) result (reason `'prevented'`):
 
 ```ts
 onSubmit: async (payload, context$) => {

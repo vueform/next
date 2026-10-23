@@ -241,7 +241,7 @@ try {
 | `'http'` | The server responded with a non-`2xx` status. |
 | `'network'` | The request never reached the server (DNS, offline, CORS, …). |
 | `'timeout'` | The configured `timeout` elapsed. |
-| `'abort'` | The request was cancelled via an `AbortSignal`. |
+| `'abort'` | The request was canceled via an `AbortSignal`. |
 | `'unknown'` | Catch-all for unexpected adapter failures. |
 
 ::: tip

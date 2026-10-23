@@ -64,12 +64,12 @@ interface SubmissionEmits<TContext = any> {
   success: [result: SubmitSuccess]
 
   /**
-   * Emitted when form submission is cancelled before sending a request (e.g.
+   * Emitted when form submission is canceled before sending a request (e.g.
    * the form is invalid, loading, disabled, already submitting, or a `submit`
    * handler / `endpoint` function returned `false`).
    *
-   * @param result The cancelled result object.
+   * @param result The canceled result object.
    */
-  cancelled: [result: SubmitCancelled]
+  canceled: [result: SubmitCanceled]
 }
 ```
