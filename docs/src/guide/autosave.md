@@ -245,7 +245,7 @@ This form saves every 30 seconds, two seconds after the user stops typing, and i
 
 While the form is invalid, every remote save is held back — interval ticks, change saves, and navigation saves alike. The gate is on by default, so out of the box no invalid data ever leaves the form.
 
-Held back, not dropped. A save blocked by the gate is **deferred** and runs as soon as the form becomes valid again — fix the one failing field and it fires immediately on its own, no manual retrigger needed. A save the server rejected with **`422`** joins the same queue — the data was the problem, so it retries when the form becomes valid.
+Held back, not dropped. A save blocked by the gate is **deferred** and runs as soon as the form becomes valid again — fix the one failing field and it fires immediately on its own, no manual retrigger needed. The deferral is silent — no request goes out, so no [events](#observing-saves) fire, not even the `@autosave` pre-hook.
 
 To save regardless of validation state — say, the backend accepts partial drafts — set `invalid`:
 
@@ -483,7 +483,7 @@ const [Form] = useForm({
 </template>
 ```
 
-`@autosave-fail` is where a warning banner or your own retry queue goes, with the result's `reason` telling the categories apart — `'network'`, `'timeout'`, `'http'`, `'invalid'` for a `422`, and so on. Some recovery is built in, though. An [interval](#interval-saves) reattempts failures on schedule, and a gated save rejected as `'invalid'` is [retried when the form becomes valid](#the-validity-gate). A failed autosave doesn't affect the form otherwise — no errors appear on elements.
+`@autosave-fail` is where a warning banner or your own retry queue goes, with the result's `reason` telling the categories apart — `'network'`, `'timeout'`, `'http'`, `'invalid'` for a `422`, and so on. Some recovery is built in, though — an [interval](#interval-saves) reattempts failures on schedule, and the next trigger sends the latest data anyway. A failed autosave doesn't affect the form otherwise — no errors appear on elements.
 
 ## Disabling Autosave
 
