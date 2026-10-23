@@ -16,9 +16,10 @@ type AutosaveInstance = {
   autosave: (options?: { invalid?: boolean }) => Promise<void>
 
   /**
-   * Aborts the in-flight autosave request, if any. The aborted save settles
-   * silently — no fail event fires. Scheduled saves (a running debounce, the
-   * interval, a pending gated retry) are unaffected.
+   * Aborts the autosave that's underway or queued — the in-flight request, a
+   * running change debounce, and a deferred gated save. Everything settles
+   * silently, firing no fail event. Autosaving itself stays on — the triggers
+   * and the interval keep arming future saves.
    */
   abortAutosave: () => void
 
