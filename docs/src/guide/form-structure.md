@@ -731,7 +731,7 @@ const [Form] = useForm({ schema })
 
 :::
 
-The element types behind each mode are configurable — see [matrixTypes](/guide/configuration#matrixtypes).
+The element types behind each mode are configurable — see [matrixTypes](/guide/configuration#matrixTypes).
 
 ### Custom Cell Types
 

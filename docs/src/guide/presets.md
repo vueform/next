@@ -185,7 +185,7 @@ messages: {
 
 Now the same element resolves `ruleMessages` to `{ email: … }` alone. `$merge: false` covers every key the preset sets, `classes` included — it replaces `classes` coming from defaults and earlier presets. The component's built-in classes are unaffected, since they aren't part of the prop.
 
-A plain-object prop set directly on the component merges on top of the resolved result, unless [`mergeObjectProps`](/guide/configuration#mergeobjectprops) is `false`. How `class`, `classes`, and `reclass` from presets combine with every other class source is covered in [override priority](/guide/classes#override-priority).
+A plain-object prop set directly on the component merges on top of the resolved result, unless [`mergeObjectProps`](/guide/configuration#mergeObjectProps) is `false`. How `class`, `classes`, and `reclass` from presets combine with every other class source is covered in [override priority](/guide/classes#override-priority).
 
 ## Multi-Rule Presets
 

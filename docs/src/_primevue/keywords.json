@@ -3874,9 +3874,6 @@
   "VfTreeSelect": {
     "link": "/components/VfTreeSelect"
   },
-  "createEvents": {
-    "link": "/api/helpers/createEvents"
-  },
   "createRule": {
     "link": "/api/helpers/createRule"
   },

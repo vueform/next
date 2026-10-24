@@ -110,7 +110,7 @@ The resolved `headers` carries both keys:
 }
 ```
 
-Primitives, arrays, and non-plain values (Dates, Files, refs) are replaced outright — the local value wins whole. And if you'd rather objects replaced too, set the [`mergeObjectProps`](/guide/configuration#mergeobjectprops) config option to `false` — locally passed objects then override defaults entirely (arrays and primitives already do).
+Primitives, arrays, and non-plain values (Dates, Files, refs) are replaced outright — the local value wins whole. And if you'd rather objects replaced too, set the [`mergeObjectProps`](/guide/configuration#mergeObjectProps) config option to `false` — locally passed objects then override defaults entirely (arrays and primitives already do).
 
 ::: tip
 If global merging isn't precise enough — you want overrides scoped to one form or subtree instead of the whole app — reach for [Presets](/guide/presets). They apply the same kind of prop bundles, but opt-in and cascade-controlled.
@@ -174,7 +174,7 @@ For any component instance, props resolve from lowest to highest priority:
 5. **[Presets](/guide/presets)** — from the component's `presets` prop or inherited from an ancestor.
 6. **Local props** — what you write on the component.
 
-Local props win for primitives and arrays; plain objects shallow-merge downward through the chain (unless [`mergeObjectProps`](/guide/configuration#mergeobjectprops) is `false`); `class` / `classes` merge everywhere; `presets` arrays concatenate.
+Local props win for primitives and arrays; plain objects shallow-merge downward through the chain (unless [`mergeObjectProps`](/guide/configuration#mergeObjectProps) is `false`); `class` / `classes` merge everywhere; `presets` arrays concatenate.
 
 ## TypeScript
 

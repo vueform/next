@@ -157,7 +157,7 @@ createVueform({
 })
 ```
 
-The difference from `reclass['*element']` is scope. `layoutClasses` replaces only the layout's contribution — an element's own `root` value (`vf-text`) still merges in, and a static value on a functional key stays callable — while `reclass` replaces the key's entire base value. The option reference is at [configuration](/guide/configuration#layoutclasses).
+The difference from `reclass['*element']` is scope. `layoutClasses` replaces only the layout's contribution — an element's own `root` value (`vf-text`) still merges in, and a static value on a functional key stays callable — while `reclass` replaces the key's entire base value. The option reference is at [configuration](/guide/configuration#layoutClasses).
 
 ## Override Priority
 
@@ -183,4 +183,4 @@ createVueform({
 })
 ```
 
-Both options are documented in [configuration](/guide/configuration#classhelpers).
+Both options are documented in [configuration](/guide/configuration#classHelpers).

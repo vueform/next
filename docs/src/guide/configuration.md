@@ -58,7 +58,7 @@ createVueform({
 })
 ```
 
-The same replacement applies to `locales` — registration and the active-locale consequence are covered in [locales](/guide/locales#registering-locales). `breakpoints` and `matrixTypes` replace too, so adding to them means re-listing the defaults ([breakpoints](#breakpoints), [matrixTypes](#matrixtypes)).
+The same replacement applies to `locales` — registration and the active-locale consequence are covered in [locales](/guide/locales#registering-locales). `breakpoints` and `matrixTypes` replace too, so adding to them means re-listing the defaults ([breakpoints](#breakpoints), [matrixTypes](#matrixTypes)).
 
 ## Registries
 
@@ -454,4 +454,4 @@ Switches component events from Vueform's event system to native Vue emits. The t
 - Type: `boolean`
 - Default: `true`
 
-`false` switches the `@vueform/devtools` inspector off even in development. See [model](/guide/model#devtools).
+`false` switches the `@vueform/devtools` inspector off even in development. See [model](/guide/model#DevTools).

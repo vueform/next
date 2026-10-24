@@ -24,3 +24,7 @@ The arguments accepted by the composable.
 | [`seed?`](!code#params.seed "Record<string, any>") | Initial (partial) data cloned over the schema defaults. |
 
 <!-- #endregion params -->
+
+## Return
+
+Return shape... `.on` events should be listed

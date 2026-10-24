@@ -3757,9 +3757,6 @@
   "VfTextarea": {
     "link": "/components/VfTextarea"
   },
-  "createEvents": {
-    "link": "/api/helpers/createEvents"
-  },
   "createRule": {
     "link": "/api/helpers/createRule"
   },

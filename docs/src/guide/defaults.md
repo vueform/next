@@ -88,7 +88,7 @@ createVueform({
 <VfForm endpoint="/api/save" :headers="{ Authorization: 'Bearer xyz' }" />
 ```
 
-This form's requests carry both headers — `Authorization` from the instance and `X-App-Version` from the default. To make local objects replace defaults instead, set [`mergeObjectProps: false`](/guide/configuration#mergeobjectprops).
+This form's requests carry both headers — `Authorization` from the instance and `X-App-Version` from the default. To make local objects replace defaults instead, set [`mergeObjectProps: false`](/guide/configuration#mergeObjectProps).
 
 ### Merging `presets`
 

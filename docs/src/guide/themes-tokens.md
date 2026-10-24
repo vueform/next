@@ -239,7 +239,7 @@ createVueform({
 })
 ```
 
-The selector is matched against `<html>` itself — the block becomes `:root.dark`, not a descendant rule — which fits the class-on-`html` convention of Tailwind and most theme switchers, and `'[data-theme="dark"]'` works the same way. The option reference lives at [`darkMode`](/guide/configuration#darkmode).
+The selector is matched against `<html>` itself — the block becomes `:root.dark`, not a descendant rule — which fits the class-on-`html` convention of Tailwind and most theme switchers, and `'[data-theme="dark"]'` works the same way. The option reference lives at [`darkMode`](/guide/configuration#darkMode).
 
 Any `tokens` map — the config option, a theme, a `tokens` prop — takes a `dark` block of its own:
 

@@ -125,7 +125,6 @@ export default {
         { text: 'defineSlot', link: '/api/helpers/defineSlot' },
         { text: 'definePreset', link: '/api/helpers/definePreset' },
         { text: 'definePlugin', link: '/api/helpers/definePlugin' },
-        { text: 'createEvents', link: '/api/helpers/createEvents' },
         { text: 'createVueform', link: '/api/helpers/createVueform' },
         // @generated:helpers-end
       ],

@@ -153,6 +153,7 @@ export type DefineEvents<T extends Record<string, any>> = ReturnType<
  *
  * @param external Optional external listener surface (native emit / raw prop
  *   handlers) appended after the registered callbacks.
+ * @private
  */
 export function createEvents<
   T extends Record<string, any>,
