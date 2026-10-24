@@ -443,7 +443,7 @@ What a theme's token definitions add to the bundle.
 | Theme | JS |
 | --- | --- |
 | `material` | 3.95&nbsp;kB |
-| `origin` | 3.95&nbsp;kB |
+| `primary` | 3.95&nbsp;kB |
 
 </details>
 
@@ -453,7 +453,7 @@ What a theme's token definitions add to the bundle.
 | Theme | JS |
 | --- | --- |
 | `material` | 3.38&nbsp;kB |
-| `origin` | 3.36&nbsp;kB |
+| `primary` | 3.36&nbsp;kB |
 
 </details>
 
@@ -463,7 +463,7 @@ What a theme's token definitions add to the bundle.
 | Theme | JS |
 | --- | --- |
 | `material` | 17.40&nbsp;kB |
-| `origin` | 17.39&nbsp;kB |
+| `primary` | 17.39&nbsp;kB |
 
 </details>
 

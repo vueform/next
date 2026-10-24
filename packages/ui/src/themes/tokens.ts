@@ -1,2 +1,2 @@
-export * from './origin'
+export * from './primary'
 export * from './material'

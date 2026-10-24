@@ -127,7 +127,7 @@ The page's **name** is its element's `name` — the key navigation methods and e
 
 Pages that aren't selected keep their values and validation state — the form owns all of them, the pager only decides what's on screen. Off-screen pages also render lazily, which is what makes paging the biggest performance lever for large forms; see [performance](/guide/performance#split-large-forms-into-pages). Resetting the form — `form$.reset()` or `resetOnSuccess` — also returns it to the first page and clears step progress.
 
-In a [modular setup](/guide/code-splitting#components) the paging components must be registered — `!VfTabs` for tabs, `!VfSteps` and `!VfNav` for steps.
+In a [Modular Setup](/guide/code-splitting#modular-setup) the paging components must be registered — `!VfTabs` for tabs, `!VfSteps` and `!VfNav` for steps.
 
 ### Page Labels
 

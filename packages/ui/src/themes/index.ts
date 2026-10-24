@@ -1,9 +1,9 @@
 import type { CompleteTheme, InferThemeTokens } from '@vueform/core'
 
-import type { origin } from './tokens'
+import type { primary } from './tokens'
 
 declare module '@vueform/core' {
-  interface ThemeTokens extends InferThemeTokens<typeof origin> {}
+  interface ThemeTokens extends InferThemeTokens<typeof primary> {}
 }
 
 /**
@@ -17,7 +17,7 @@ declare module '@vueform/core' {
  *
  * @param theme The complete theme definition.
  */
-export function defineTheme<T extends CompleteTheme<typeof origin>>(
+export function defineTheme<T extends CompleteTheme<typeof primary>>(
   theme: T
 ): T {
   return theme

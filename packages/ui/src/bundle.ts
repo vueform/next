@@ -13,11 +13,11 @@ import * as components from '#src/components'
 import defaultConfig from '#src/config'
 import * as modules from '#src/modules/modules'
 import * as rules from '#src/rules'
-import { origin as theme } from '#src/themes'
+import { primary as theme } from '#src/themes'
 
 /**
  * Creates a pre-configured Vueform plugin with all components, rules, modules,
- * the default (Origin) theme, and the `en_US` locale registered by default.
+ * the default (Primary) theme, and the `en_US` locale registered by default.
  * Every config option is optional; app `tokens` merge on top of the default
  * theme, and a `theme` replaces it wholesale.
  */

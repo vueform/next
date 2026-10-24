@@ -53,7 +53,7 @@ export const originComponentTokens = {
   ...controls,
 }
 
-export const origin = {
+export const primary = {
   ...primitives,
   ...semantic,
   ...originComponentTokens,

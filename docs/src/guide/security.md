@@ -16,9 +16,10 @@ Schemas increasingly come from AI assistants, CMS fields, and API responses rath
 
 Vueform therefore treats the schema as untrustable by design. Every surface it can reach has a gate, a misconfigured policy [fails closed in production](#the-security-module), and each guarantee is pinned by an [adversarial test suite](#adversarial-testing). Locking down is a config change you make today, not a rewrite you start after an incident.
 
+
 ## The Security Module
 
-Every protection in this chapter is one module, `security`, configured through the  [`$security`](/guide/configuration#security) config key. [Pre-configured](/guide/code-splitting#pre-configured-entries) entries register it out of the box; in a [modular setup](/guide/code-splitting#modular-setup) you register it yourself:
+Every protection in this chapter is one module, `security`, configured through the  [`$security`](/guide/configuration#security) config key. The [Full Bundle](/guide/code-splitting#the-full-bundle) registers it out of the box; in a [Modular Setup](/guide/code-splitting#modular-setup) you register it yourself:
 
 ```ts
 import { createVueform } from '@vueform/ui'

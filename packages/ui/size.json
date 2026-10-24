@@ -222,11 +222,11 @@
         "brotli": 37913
       }
     },
-    "theme+origin": {
+    "theme+primary": {
       "group": "theme",
-      "item": "origin",
+      "item": "primary",
       "base": "themes-base",
-      "description": "themes-base plus the origin theme tokens",
+      "description": "themes-base plus the primary theme tokens",
       "themed": true,
       "files": [
         {

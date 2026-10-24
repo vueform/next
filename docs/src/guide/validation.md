@@ -657,7 +657,7 @@ The transitions are handled for you — when a condition turns **on**, the rule 
 
 ## Multilingual Rules
 
-On a [translatable element](/guide/multilingual-inputs), a single rule set validates every language. To validate languages differently, key the rules by language code:
+On a [translatable element](/guide/i18n#translatable-elements), a single rule set validates every language. To validate languages differently, key the rules by language code:
 
 ```ts
 defineSchema({
@@ -676,7 +676,7 @@ Each language's entry takes the full `rules` spec — string, array, custom rule
 
 ## Error Messages
 
-Every built-in rule ships with a [localized](/guide/locales) default message that fills in the element's display name and the rule's parameters — `min:5` on a text element produces _"The Name must be at least 5 characters."_ Custom rules carry the message they were defined with. When the wording isn't right for a field or an app, override it per rule with `ruleMessages`.
+Every built-in rule ships with a [localized](/guide/i18n) default message that fills in the element's display name and the rule's parameters — `min:5` on a text element produces _"The Name must be at least 5 characters."_ Custom rules carry the message they were defined with. When the wording isn't right for a field or an app, override it per rule with `ruleMessages`.
 
 ### Element and Form Messages
 
@@ -708,7 +708,7 @@ const [MyForm] = useForm({
 
 ### Multilingual Messages
 
-Anywhere a message is accepted, a [locale-keyed object](/guide/translating-props#locale-maps) works in place of the string — in `ruleMessages`, in `!createRule`'s `message` option, and in a check's returned string:
+Anywhere a message is accepted, a [locale-keyed object](/guide/i18n#locale-maps) works in place of the string — in `ruleMessages`, in `!createRule`'s `message` option, and in a check's returned string:
 
 ```ts
 defineSchema({
@@ -736,7 +736,7 @@ With every surface in play, a failing rule resolves its message top-down and the
 5. The rule's locale tag — e.g. `rule_required_error`
 6. The fallback `rule_default_error` tag
 
-At every step, the resolved value passes through the [Locale](/api/modules/locale) module, so any of them can also be a locale **tag** pointing at a key in the locale file. Resolution happens at **read time** — switching the locale re-renders every error in the new language without re-running a single check.
+At every step, the resolved value passes through the [`i18n`](/guide/i18n) module, so any of them can also be a locale **tag** pointing at a key in the locale file. Resolution happens at **read time** — switching the locale re-renders every error in the new language without re-running a single check.
 
 ::: info
 [Standard Schema](#validating-with-zod-and-standard-schema) failures carry their messages from the schema library itself and skip this chain entirely.
@@ -765,7 +765,7 @@ app.use(
 )
 ```
 
-A custom rule can also point at a specific tag directly — pass the tag as its `message`, and the locale module looks it up (an unknown tag is used verbatim as the message):
+A custom rule can also point at a specific tag directly — pass the tag as its `message`, and the [`i18n`](/guide/i18n) module looks it up (an unknown tag is used verbatim as the message):
 
 ```ts
 const lowercase = createRule('lowercase', (value) => {

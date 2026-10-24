@@ -4,11 +4,11 @@ outline: [2,3]
 
 # Modules
 
-Everything Vueform does beyond its data layer — validation, conditions, HTTP, dates, locales, theming — is a **module**, an implementation the core looks up by key on the [Vueform Instance](/guide/vueform-instance) instead of importing directly. The core only defines the interface each key must satisfy, so whatever is registered under a key is what runs. That makes modules dependency injection at the framework level, and the lever for two things — bundle size, because unused modules stay out of the build, and control, because any built-in behavior can be replaced without touching the rest.
+Everything Vueform does beyond its data layer — validation, conditions, HTTP, dates, locales, theming — is a **module**, an implementation the core looks up by key on the [Vueform Instance](/guide/vueform-instance) instead of importing directly. The core only defines the interface each key must satisfy, so whatever is registered under a key is what runs. That makes modules **dependency injection** at the framework level, and the lever for two things — bundle size, because unused modules stay out of the build, and control, because any built-in behavior can be replaced without touching the rest.
 
 ## Registering Modules
 
-The [pre-configured entries](/guide/code-splitting#pre-configured-entries) (e.g. `@vueform/ui/origin`) register every built-in module, so there is nothing to do there. The bare `@vueform/ui` entry in [modular setup](/guide/code-splitting#modular-setup) registers none, and you pass them under the `modules` config option yourself:
+The [Full Bundle](/guide/code-splitting#the-full-bundle) registers every built-in module, so there is nothing to do there. The bare `@vueform/ui` entry in [Modular Setup](/guide/code-splitting#modular-setup) registers none, and you pass them under the `modules` config option yourself:
 
 ```ts
 import { createVueform } from '@vueform/ui'
@@ -19,9 +19,9 @@ createVueform({
 })
 ```
 
-The rest of a bare setup — components, rules, adapters, and what each part costs — is covered in [code-splitting](/guide/code-splitting#modular-setup).
+The rest of a Modular Setup — components, rules, adapters, and what each part costs — is covered in [code-splitting](/guide/code-splitting#modular-setup).
 
-`modules` merges per key over the entry's set, so on a pre-configured entry passing one key replaces only that module and keeps every other built-in — the mechanism [swapping a module](/guide/in-depth-modules#swapping-a-module) builds on.
+`modules` merges per key over the entry's set, so on the Full Bundle passing one key replaces only that module and keeps every other built-in — the mechanism [swapping a module](/guide/in-depth-modules#swapping-a-module) builds on.
 
 Each module reads its options from a `$`-prefixed config key named after it — `$http`, `$conditions`, `$security`, and so on — listed in [configuration](/guide/configuration#module-options). A non-empty `$<name>` object in your config without a registered `<name>` module warns in development, since the options read as if they were in effect.
 
@@ -38,7 +38,7 @@ Most modules are documented where their feature lives, so the table links each o
 | [`autosave`](/guide/autosave) | Remote autosave and local drafts | The `autosave` and `draft` props have no effect (warns once in dev), and the form's autosave and draft methods no-op. |
 | [`http`](/guide/http) | Network requests | Every request rejects with a "not registered" error. |
 | [`date`](/guide/date) | Date parsing and comparison | `useDate()`, date conditions, date rules, and date expression functions throw. |
-| [`locale`](/guide/locales) | Framework strings and localization | Built-in strings show their raw tags, locale maps fall back to their first entry, and switching the locale warns in dev. |
+| [`i18n`](/guide/i18n) | Framework strings and localization | Built-in strings show their raw tags, locale maps fall back to their first entry, and switching the locale warns in dev. |
 | [`theme`](/guide/themes-tokens) | Token CSS generation, injection, and dark mode | No token CSS is generated or injected — a `tokens` prop warns once in dev. |
 | [`router`](/guide/multi-page-forms#browser-history) | Browser-history sync for multi-page forms | Navigation doesn't touch the URL — warns once in dev when history tracking is enabled. |
 | [`security`](/guide/security) | HTML/component gating, sanitization, origin policy, ciphers | Nothing is enforced — see [the security module](/guide/security#the-security-module). |

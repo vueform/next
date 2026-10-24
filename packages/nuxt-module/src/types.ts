@@ -65,11 +65,11 @@ export interface SharedModuleOptions<TComponentName extends string = string> {
 export interface UiModuleOptions extends SharedModuleOptions<UiComponentName> {
   adapter: 'ui'
   /**
-   * A built-in theme name (`origin`, `material`) — or a module specifier whose
+   * A built-in theme name (`primary`, `material`) — or a module specifier whose
    * default export is the token map (`~/themes/midnight`, a package name, or a
    * path relative to the project root).
    */
-  theme?: 'origin' | 'material' | (string & {})
+  theme?: 'primary' | 'material' | (string & {})
 }
 
 export interface PrimeVueModuleOptions extends SharedModuleOptions<PrimeVueComponentName> {

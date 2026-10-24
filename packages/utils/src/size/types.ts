@@ -135,7 +135,7 @@ export interface Results {
 export interface SizeConfig {
   /**
    * Named export of `<pkg>/themes` registered by the full-featured entries
-   * (adapters). Defaults to `origin`.
+   * (adapters). Defaults to `primary`.
    */
   defaultTheme?: string
   /**

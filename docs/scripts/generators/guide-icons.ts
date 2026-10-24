@@ -34,7 +34,7 @@ interface AdapterSource {
 }
 
 const ADAPTERS: AdapterSource[] = [
-  { name: 'ui', module: '@vueform/ui/themes', themes: ['origin', 'material'] },
+  { name: 'ui', module: '@vueform/ui/themes', themes: ['primary', 'material'] },
   { name: 'primevue', module: '@vueform/primevue/themes', themes: ['theme'] },
 ]
 

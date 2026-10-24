@@ -26,35 +26,26 @@ The tag's id is configurable via [`build.styleId`](/guide/configuration#build), 
 
 ## Choosing a Theme
 
-The entry you import `createVueform` from picks the theme — `@vueform/ui/origin` bundles Origin, `@vueform/ui/material` bundles Material:
+The entry you import `!createVueform` from picks the theme. The [Full Bundle](/guide/code-splitting#the-full-bundle) (`@vueform/ui/bundle`) — the entry the rest of the docs import from — ships the default theme, and importing from a theme-named entry bundles that theme instead:
 
 ```ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/material'
 
 app.use(createVueform())
 ```
 
-The `theme` option replaces the entry's bundled theme wholesale, `dark` block included:
+In a [Modular Setup](/guide/code-splitting#modular-setup) no entry picks for you — import the token map from `@vueform/ui/themes` and pass it as the `theme` option.
 
-```ts
-import { createVueform } from '@vueform/ui/origin'
-import { material as theme } from '@vueform/ui/themes'
-
-app.use(createVueform({ theme }))
-```
-
-In a [modular setup](/guide/code-splitting#modular-setup) the `theme` option is the only way a theme gets in, and the `theme` module from `@vueform/ui/modules` must be registered — without it no CSS is generated or injected, and `tokens` props warn once in dev.
-
-There are no CSS imports to manage in either setup — each component entry carries its own stylesheet chunks, while `<link>` and CDN setups use the flattened `@vueform/ui/theme.css`. Bundle sizes live in [code-splitting](/guide/code-splitting#theme).
+There are no CSS imports to manage in either setup — each component entry carries its own stylesheet chunks, while `<link>` and CDN setups use the flattened `@vueform/ui/theme.css`. Bundle sizes and CSS-free imports live in [Code-Splitting](/guide/code-splitting#theme).
 
 ### Available Themes
 
 | Name | Identifier | Description |
 | --- | --- | --- |
-| Origin | `origin` | Vueform's default look. |
-| Material | `material` | In progress — currently shares Origin's token set as a placeholder. |
+| Default | `primary` | Vueform's default look. |
+| Material | `material` | In progress — currently shares the default token set as a placeholder. |
 
-The identifier names both the pre-configured entry (`@vueform/ui/origin`) and the theme's export from `@vueform/ui/themes`.
+The identifier names the theme's export from `@vueform/ui/themes`. The default theme ships in the [Full Bundle](/guide/code-splitting#the-full-bundle) itself (`@vueform/ui/bundle`), and every other theme gets a Full Bundle entry of its own (`@vueform/ui/{identifier}`).
 
 ## Overriding Tokens
 
@@ -69,7 +60,7 @@ createVueform({
 })
 ```
 
-Top-level keys replace the theme's value, omitted keys keep it, and a `dark` block merges separately with the theme's own `dark` block. The option works the same on a pre-configured entry and next to a `theme` option in a modular setup, and its reference entry lives at [`tokens`](/guide/configuration#tokens).
+Top-level keys replace the theme's value, omitted keys keep it, and a `dark` block merges separately with the theme's own `dark` block. The option works the same on the [Full Bundle](/guide/code-splitting#the-full-bundle) and next to a `theme` option in a [Modular Setup](/guide/code-splitting#modular-setup), and its reference entry lives at [`tokens`](/guide/configuration#tokens).
 
 ## Token Tiers
 
@@ -297,9 +288,9 @@ When overrides grow into a reusable look shared across apps, package them as a t
 `!extendTheme` layers overrides on top of an existing theme and returns a new one without mutating the base — the same merge the `tokens` option performs, for when the result should live in its own module:
 
 ```ts
-import { extendTheme, origin } from '@vueform/ui/themes'
+import { extendTheme, primary } from '@vueform/ui/themes'
 
-export const corporate = extendTheme(origin, {
+export const corporate = extendTheme(primary, {
   brand: '#0f766e',
   radius: '0px',
   dark: {

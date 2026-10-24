@@ -232,7 +232,7 @@ export function adapterFullEntry(
   const all = adapterComponents(pkgDir)
   return createVueformEntry({
     pkg,
-    theme: config.defaultTheme ?? 'origin',
+    theme: config.defaultTheme ?? 'primary',
     shell: pkg === '@vueform/primevue' ? PV_SHELL : undefined,
     componentImports: all
       .map((name) => `import ${name} from '${pkg}/components/${name}'`)
@@ -249,7 +249,7 @@ export function adapterScenarios(
 ): Scenario[] {
   const isPv = pkg === '@vueform/primevue'
   const shell = isPv ? PV_SHELL : undefined
-  const defaultTheme = config.defaultTheme ?? 'origin'
+  const defaultTheme = config.defaultTheme ?? 'primary'
   const all = adapterComponents(pkgDir)
 
   // PrimeVue-only reference scenarios, deduplicated by module set: many Vf

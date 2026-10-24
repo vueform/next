@@ -6,15 +6,15 @@ outline: [2,3]
 
 A schema names element types and validation rules as strings — `{ type: 'text', rules: 'required|email' }` — and strings resolve at runtime, so no bundler can look at your forms and work out which parts they use. Vueform makes the boundary explicit instead. **What you register is what you bundle**, and every registrable part — component, module, rule, theme, locale — is importable on its own.
 
-## Pre-Configured Entries
+## The Full Bundle
 
-A single `createVueform` import from a pre-configured entry such as `@vueform/ui/origin` registers everything — all components, modules, and validation rules, the entry's [theme](/guide/themes-tokens#choosing-a-theme), the `en_US` locale set active, and default adapters for HTTP, dates, and expressions.
+The **Full Bundle** is Vueform with nothing left to assemble. A single `!createVueform` import from `@vueform/ui/bundle` registers everything — all components, modules, and validation rules, the [default theme](/guide/themes-tokens#choosing-a-theme), the `en_US` locale set active, and default adapters for HTTP, dates, and expressions.
 
 Every size in this chapter is the **gzipped** amount the item adds to a production Vite build with default settings, measured with <!-- @size:measured-with -->`@vueform/ui@2.0.0-0.7`<!-- /@size --> by the repository's size suite (`pnpm size`); all published numbers are for the regular virtual-DOM builds. In tables with a **Total** row, each row shows what removing that one item saves, while the Total is measured directly — items share code, so the Total can exceed the sum of the rows, and values near zero or slightly negative are compression noise. CSS only counts in builds that register the `theme` module, so module, rule, and locale rows are JS-only.
 
 ## Modular Setup
 
-A modular setup starts from the bare `@vueform/ui` entry, whose `createVueform` registers nothing by itself, and imports each part from its own subpath. This example registers everything, so every line of it is one thing you can leave out:
+A **Modular Setup** starts from the bare `@vueform/ui` entry, whose `createVueform` registers nothing by itself, and imports each part from its own subpath. This example registers everything, so every line of it is one thing you can leave out:
 
 ```ts
 import { createApp } from 'vue'
@@ -29,7 +29,7 @@ import { en_US } from '@vueform/ui/locales'
 import * as components from '@vueform/ui/components'
 import * as modules from '@vueform/ui/modules'
 import * as rules from '@vueform/ui/rules'
-import { origin as theme } from '@vueform/ui/themes'
+import { primary as theme } from '@vueform/ui/themes'
 
 const app = createApp(App)
 
@@ -55,7 +55,7 @@ Each subpath maps to one config option:
 | `@vueform/ui/components` | All [components](/components), each also importable from its own entry. | [`components`](/guide/configuration#components) |
 | `@vueform/ui/rules` | The built-in [validation rules](/rules/). | [`rules`](/guide/configuration#rules) |
 | `@vueform/ui/themes` | The built-in [themes](/guide/themes-tokens). | [`theme`](/guide/configuration#theme) |
-| `@vueform/ui/locales` | The shipped [locales](/guide/locales). | [`locales`](/guide/configuration#locales) |
+| `@vueform/ui/locales` | The shipped [locales](/guide/i18n#locales). | [`locales`](/guide/configuration#locales) |
 
 ### What the Bare Entry Leaves Out
 
@@ -100,7 +100,7 @@ Every module except `model` is optional and degrades predictably when left out �
 | [`expression`](/guide/expressions) | 1.25&nbsp;kB |
 | [`router`](/guide/multi-page-forms#browser-history) | 0.59&nbsp;kB |
 | [`http`](/guide/http) | 0.97&nbsp;kB |
-| [`locale`](/guide/locales) | 0.28&nbsp;kB |
+| [`i18n`](/guide/i18n) | 0.28&nbsp;kB |
 | [`security`](/guide/security) | 1.60&nbsp;kB |
 | [`date`](/guide/date) | 0.14&nbsp;kB |
 | **Total** | 23.64&nbsp;kB |
@@ -153,7 +153,7 @@ Components render each other by name too, so a trimmed set must include the inte
 - `VfCheckboxes` and `VfRadios` render a `VfCheckbox` / `VfRadio` per item.
 - `VfFile`, `VfList`, `VfMatrix`, and `VfNav` render `VfButton`.
 - [Multi-page forms](/guide/multi-page-forms) need `VfSteps` or `VfTabs`, plus `VfNav`.
-- [Multilingual inputs](/guide/multilingual-inputs) need `VfLanguages`.
+- [Multilingual inputs](/guide/i18n#multilingual-inputs) need `VfLanguages`.
 
 A component that's rendered but not registered surfaces as Vue's "Failed to resolve component" warning in development, with nothing rendered in its place.
 
@@ -237,7 +237,7 @@ The cost of styling splits three ways. The `theme` module (<!-- @size:module-the
 
 | Tokens | Size |
 | --- | --- |
-| [`origin`](/guide/themes-tokens#available-themes) | 3.95&nbsp;kB |
+| [`primary`](/guide/themes-tokens#available-themes) | 3.95&nbsp;kB |
 | [`material`](/guide/themes-tokens#available-themes) | 3.95&nbsp;kB |
 
 <!-- @bundle-sizes:themes end -->
@@ -246,7 +246,7 @@ The third piece — the component stylesheets — ships with the components them
 
 ## Locales
 
-The bare entry registers no locale, so ship only the ones your app offers — registration and how the active locale is picked are covered in [registering locales](/guide/locales#registering-locales).
+The bare entry registers no locale, so ship only the ones your app offers — registration and how the active locale is picked are covered in [registering locales](/guide/i18n#locales).
 
 <!-- @bundle-sizes:locales start -->
 
@@ -258,8 +258,8 @@ The bare entry registers no locale, so ship only the ones your app offers — re
 
 <!-- @bundle-sizes:locales end -->
 
-Locale strings resolve through the `locale` module (<!-- @size:module-locale -->`0.28 kB`<!-- /@size --> gzipped, in the [modules](#modules) table) — see [leaving a module out](/guide/modules#leaving-a-module-out) for what its absence means.
+Locale strings resolve through the `i18n` module (<!-- @size:module-i18n -->`0.28 kB`<!-- /@size --> gzipped, in the [modules](#modules) table) — see [leaving a module out](/guide/modules#leaving-a-module-out) for what its absence means.
 
-## The Full Bundle
+## What the Full Bundle Costs
 
-Registering everything, as the [pre-configured entries](#pre-configured-entries) do, adds <!-- @size:entry-full -->`92.83 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`86.25 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.58 kB`<!-- /@size --> of CSS. That's the ceiling the sections above chip away at; the floor — core plus `model` — is <!-- @size:entry-model -->`11.76 kB`<!-- /@size -->. Everything between the two is a choice you make per part.
+Registering everything, as the [Full Bundle](#the-full-bundle) does, adds <!-- @size:entry-full -->`92.83 kB`<!-- /@size --> gzipped to a production build — <!-- @size:entry-full-js -->`86.25 kB`<!-- /@size --> of JS and <!-- @size:entry-full-css -->`6.58 kB`<!-- /@size --> of CSS. That's the ceiling the sections above chip away at; the floor — core plus `model` — is <!-- @size:entry-model -->`11.76 kB`<!-- /@size -->. Everything between the two is a choice you make per part.

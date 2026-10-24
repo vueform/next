@@ -10,7 +10,7 @@ outline: [2,3]
 
 ```ts
 import { createApp } from 'vue'
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import App from './App.vue'
 
 const vueform = createVueform()
@@ -18,7 +18,7 @@ const vueform = createVueform()
 createApp(App).use(vueform).mount('#app')
 ```
 
-The entry decides what the instance starts with. [Pre-configured entries](/guide/code-splitting#pre-configured-entries) bundle every component, module, and rule, while with [modular setup](/guide/code-splitting#modular-setup) entry starts empty.
+The entry decides what the instance starts with. The [Full Bundle](/guide/code-splitting#the-full-bundle) starts with every component, module, and rule, while a bare entry in [Modular Setup](/guide/code-splitting#modular-setup) starts empty.
 
 What the instance holds:
 
@@ -28,7 +28,7 @@ What the instance holds:
 | `modules` | The created [modules](/guide/modules). |
 | `defaults` | The merged per-component [defaults](/guide/defaults), built on first read. |
 | `globals` | The [globals](/guide/globals), built on first read. |
-| `!useForm()`, `!useModel()`, `!useHttp()`, `!useLocale()`, `!useDate()`, `!useSecurity()` | The composables, bound to this instance — [outside a setup context](#outside-a-setup-context). |
+| `!useForm()`, `!useModel()`, `!useHttp()`, `!useI18n()`, `!useDate()`, `!useSecurity()` | The composables, bound to this instance — [outside a setup context](#outside-a-setup-context). |
 | `getCSS()`, `getStyleTag()` | CSS extraction — [styles on the server](#styles-on-the-server). |
 | `install` | Vue's plugin hook, called by `app.use()` — [two phases](#two-phases). |
 
@@ -79,7 +79,7 @@ vueform.modules // the created modules
 
 The injection resolves inside component `setup()` and inside `app.runWithContext()`. Anywhere else it throws a `NotInstalledError`, deliberately without a fallback, so a call can never silently read another app's — or, under SSR, another request's — instance.
 
-The setup-bound composables — `useForm`, `useModel`, `useHttp`, `useLocale`, `useDate`, `useSecurity` — find the instance exactly this way, which is what makes them setup-bound in the first place.
+The setup-bound composables — `useForm`, `useModel`, `useHttp`, `useI18n`, `useDate`, `useSecurity` — find the instance exactly this way, which is what makes them setup-bound in the first place.
 
 ## Outside a Setup Context
 
@@ -89,7 +89,7 @@ Keep a reference. Create the instance in its own module and import it from `main
 
 ```ts
 // vueform.ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 
 export const vueform = createVueform({
   // your configuration
@@ -100,7 +100,7 @@ export const vueform = createVueform({
 
 ### Instance-Bound Composables
 
-The same six composables live on the instance, pre-bound — `!vueform.useForm`, `!vueform.useModel`, `!vueform.useHttp`, `!vueform.useLocale`, `!vueform.useDate`, and `!vueform.useSecurity`. Same names, same signatures, same typing — the only difference is that nothing is resolved by injection:
+The same six composables live on the instance, pre-bound — `!vueform.useForm`, `!vueform.useModel`, `!vueform.useHttp`, `!vueform.useI18n`, `!vueform.useDate`, and `!vueform.useSecurity`. Same names, same signatures, same typing — the only difference is that nothing is resolved by injection:
 
 ```ts
 import { vueform } from '@/vueform'
@@ -109,11 +109,11 @@ const model = vueform.useModel({ schema }, payload)
 await model.validate()
 
 const { data } = await vueform.useHttp().get('/api/countries')
-const next = vueform.useLocale().t('steps_next') // 'Next'
+const next = vueform.useI18n().t('steps_next') // 'Next'
 const due = vueform.useDate(order.deadline).add(30, 'day')
 ```
 
-Each gives what its setup-bound twin would — `useHttp()` creates an http client over this instance's http module, `useLocale()` and `useSecurity()` return their module, [`useDate()`](/guide/date#useDate) parses through its date adapter, and [`useModel()`](/guide/model#external-model) / [`useForm()`](/guide/context#form-context) build models and forms that belong to this instance.
+Each gives what its setup-bound twin would — `useHttp()` creates an http client over this instance's http module, `useI18n()` and `useSecurity()` return their module, [`useDate()`](/guide/date#useDate) parses through its date adapter, and [`useModel()`](/guide/model#external-model) / [`useForm()`](/guide/context#form-context) build models and forms that belong to this instance.
 
 ## Styles on the Server
 

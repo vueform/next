@@ -27,7 +27,7 @@ import {
   resolvePackageDir,
 } from './utils'
 
-const UI_THEMES = ['origin', 'material'] as const
+const UI_THEMES = ['primary', 'material'] as const
 
 interface AdapterPreset {
   pkg: string
@@ -46,7 +46,7 @@ const PRESETS: Record<AdapterName, AdapterPreset> = {
     pkg: '@vueform/ui',
     transpile: ['@vueform/core', '@vueform/ui'],
     themeImport(options, rootDir) {
-      const theme = (options as UiModuleOptions).theme ?? 'origin'
+      const theme = (options as UiModuleOptions).theme ?? 'primary'
       if ((UI_THEMES as readonly string[]).includes(theme)) {
         return `import { ${theme} as theme } from '@vueform/ui/themes'`
       }

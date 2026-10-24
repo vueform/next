@@ -54,7 +54,7 @@ export interface AdapterOptions {
 
 /**
  * Theme names: every raw token map in `src/themes` that has a matching
- * top-level entry (`src/<name>.ts`) — e.g. `origin`, `material`.
+ * top-level entry (`src/<name>.ts`) — e.g. `primary`, `material`.
  */
 export function themeNames(srcAbs: string): string[] {
   const themesAbs = resolve(srcAbs, 'themes')

@@ -11,7 +11,7 @@ Every app-wide setting — registered components and modules, theming, grid and 
 The config object is `createVueform`'s single argument:
 
 ```ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 
 app.use(
   createVueform({
@@ -21,7 +21,7 @@ app.use(
 )
 ```
 
-The pre-configured entries — `@vueform/ui/origin` and `@vueform/ui/material` — register every built-in component, module, and rule, their theme, the `en_US` locale set active, and three adapters — `fetchHttpAdapter` for `$http`, `nativeDateAdapter` for `$date`, and `pathExpressionAdapter` for `$expression`. What that convenience costs in bundle size is covered in [code-splitting](/guide/code-splitting#pre-configured-entries).
+The [Full Bundle](/guide/code-splitting#the-full-bundle) (`@vueform/ui/bundle`) registers every built-in component, module, and rule, its theme, the `en_US` locale set active, and three adapters — `fetchHttpAdapter` for `$http`, `nativeDateAdapter` for `$date`, and `pathExpressionAdapter` for `$expression`. What that convenience costs in bundle size is covered in [code-splitting](/guide/code-splitting#what-the-full-bundle-costs).
 
 The bare `@vueform/ui` entry starts from the core defaults alone — no components, modules, rules, theme, locale, or adapters. Only `modules.model` is mandatory; the bare `createVueform`'s type demands it, and the call throws without it. The full wiring of a hand-picked setup lives in [code-splitting](/guide/code-splitting#modular-setup).
 
@@ -49,7 +49,7 @@ The merge runs once, inside `createVueform()`. Your keys go over the entry's, th
 The last row matters most for `rules` and `locales` — your object replaces the entry's built-ins instead of adding to them. To extend, spread the subpath export:
 
 ```ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import * as rules from '@vueform/ui/rules'
 import { phone } from './rules'
 
@@ -58,28 +58,28 @@ createVueform({
 })
 ```
 
-The same replacement applies to `locales` — registration and the active-locale consequence are covered in [locales](/guide/locales#registering-locales). `breakpoints` and `matrixTypes` replace too, so adding to them means re-listing the defaults ([breakpoints](#breakpoints), [matrixTypes](#matrixTypes)).
+The same replacement applies to `locales` — registration and the active-locale consequence are covered in [locales](/guide/i18n#locales). `breakpoints` and `matrixTypes` replace too, so adding to them means re-listing the defaults ([breakpoints](#breakpoints), [matrixTypes](#matrixTypes)).
 
 ## Registries
 
 ### `components`
 
 - Type: `Record<string, VueformComponent>`
-- Default: `{}` — the pre-configured entries pre-register every built-in
+- Default: `{}` — the [Full Bundle](/guide/code-splitting#the-full-bundle) pre-registers every built-in
 
 Every entry is registered globally with `app.component()` at install, and a schema `type` resolves to a component by that name — `type: 'my-input'` renders `VfMyInput`, so the registration key is the name. Your entries add new names or replace a built-in under the same name. Registration instead of auto-import is deliberate — schema types are strings resolved at runtime, invisible to any bundler, as [code-splitting](/guide/code-splitting) explains. Building and registering your own components is covered in [components](/guide/components).
 
 ### `modules`
 
 - Type: `VueformModules`
-- Default: `{}` — the pre-configured entries register every built-in
+- Default: `{}` — the [Full Bundle](/guide/code-splitting#the-full-bundle) registers every built-in
 
 Module definitions created with `defineModule`, keyed by module name. `model` is the one required entry on the bare entry. Registering and leaving modules out is covered in [modules](/guide/modules), and replacing one in [in-depth modules](/guide/in-depth-modules#swapping-a-module).
 
 ### `rules`
 
 - Type: `Record<string, RuleDefinition>`
-- Default: `{}` — the pre-configured entries register the built-in catalog
+- Default: `{}` — the [Full Bundle](/guide/code-splitting#the-full-bundle) registers the built-in catalog
 
 Validation rules available to every form by name. Your object replaces the entry's catalog, so spread the built-ins when extending — see [how options merge](#how-options-merge). Authoring rules with `createRule` and typing them through the `CustomRules` augmentation is covered in [validation](/guide/validation#registering-rules-globally).
 
@@ -288,42 +288,42 @@ Semantic icon names behind `$`-prefixed icon props. `$add` looks up `icons.add` 
 
 ## Internationalization
 
-The locale module reads these top-level keys, and each of them can be overridden per app through the `$locale` options bag under [module options](#module-options).
+The i18n module reads these top-level keys, and each of them can be overridden per app through the `$i18n` options bag under [module options](#module-options).
 
 ### `locales`
 
 - Type: `LocalesProp`
-- Default: `{}` (`{ en_US }` on the pre-configured entries)
+- Default: `{}` (`{ en_US }` on the [Full Bundle](/guide/code-splitting#the-full-bundle))
 
-The registered locale definitions keyed by locale code. Your map replaces the entry's — see [locales](/guide/locales#registering-locales).
+The registered locale definitions keyed by locale code. Your map replaces the entry's — see [locales](/guide/i18n#locales).
 
 ### `!locale`
 
 - Type: `string | Ref<string>`
-- Default: `''` (`'en_US'` on the pre-configured entries)
+- Default: `''` (`'en_US'` on the [Full Bundle](/guide/code-splitting#the-full-bundle))
 
-The active locale key. It's never required — when empty, the first registered key is active, however many are registered. A ref binds two-way. See [locales](/guide/locales#changing-the-active-locale).
+The active locale key. It's never required — when empty, the first registered key is active, however many are registered. A ref binds two-way. See [locales](/guide/i18n#changing-the-active-locale).
 
 ### `fallbackLocale`
 
 - Type: `string`
 - Default: `''` (no fallback)
 
-The locale consulted when a tag is missing from the active one. See [locales](/guide/locales#fallback-locale).
+The locale consulted when a tag is missing from the active one. See [locales](/guide/i18n#fallback-locale).
 
 ### `localeParamPattern`
 
 - Type: `RegExp`
 - Default: `/\{(\w+)\}/g`
 
-The pattern matching parameter placeholders in locale messages. The first capture group is the parameter name, and the pattern always runs globally. See [locales](/guide/locales#parameters).
+The pattern matching parameter placeholders in locale messages. The first capture group is the parameter name, and the pattern always runs globally. See [locales](/guide/i18n#parameters).
 
 ### `languages`
 
 - Type: `Record<string, string | Record<string, string>>`
 - Default: `{}`
 
-The languages available to multilingual inputs — keys are the codes stored in the model, values the (localizable) labels. A form's own `languages` prop takes precedence. See [multilingual inputs](/guide/multilingual-inputs#configuring-available-languages).
+The languages available to multilingual inputs — keys are the codes stored in the model, values the (localizable) labels. A form's own `languages` prop takes precedence. See [multilingual inputs](/guide/i18n#available-languages).
 
 ### `ruleMessageTag`
 
@@ -346,7 +346,7 @@ Each module reads its options from the config key named after it with a `$` pref
 
 ### `!$date`
 
-`adapter` is the date backend the [date module](/guide/date#the-date-adapter) requires — it throws on first use without one, and the pre-configured entries wire `nativeDateAdapter`. Writing your own is covered in [custom adapters](/guide/date#custom-adapters).
+`adapter` is the date backend the [date module](/guide/date#the-date-adapter) requires — it throws on first use without one, and the [Full Bundle](/guide/code-splitting#the-full-bundle) wires `nativeDateAdapter`. Writing your own is covered in [custom adapters](/guide/date#custom-adapters).
 
 ### `!$expression`
 
@@ -358,7 +358,7 @@ Each module reads its options from the config key named after it with a `$` pref
 | `functions` | — | Custom expression functions. See [custom functions](/guide/expressions#custom-functions). |
 | `consts` | — | Global expression constants. See [constants](/guide/expressions#constants). |
 | `debug` | on in development | Warnings are logged unless set to `false`. See [debugging](/guide/expressions#debugging). |
-| `adapter` | `pathExpressionAdapter` on the pre-configured entries | The expression engine. Without one the module stays inert with a dev warning. See [expr-eval](/plugins/expr-eval). |
+| `adapter` | `pathExpressionAdapter` on the [Full Bundle](/guide/code-splitting#the-full-bundle) | The expression engine. Without one the module stays inert with a dev warning. See [expr-eval](/plugins/expr-eval). |
 
 ### `!$http`
 
@@ -376,13 +376,13 @@ The defaults every request picks up — Vueform's own and your `useHttp()` calls
 | `defaultMethod` | `RequestMethod` | `'GET'` | Method when none is specified. |
 | `onRequest` | `RequestInterceptor[]` | — | App-wide request interceptors. |
 | `onResponse` | `ResponseInterceptor[]` | — | App-wide response interceptors. |
-| `adapter` | `HttpAdapter` | `fetchHttpAdapter` on the pre-configured entries | The transport. Without one every request rejects. |
+| `adapter` | `HttpAdapter` | `fetchHttpAdapter` on the [Full Bundle](/guide/code-splitting#the-full-bundle) | The transport. Without one every request rejects. |
 
 App-wide interceptors nest inside instance-registered ones — instance request → config request → adapter → config response → instance response — as [HTTP](/guide/http#interceptors) details. Per-request config overrides these defaults, and headers merge — see [HTTP](/guide/http#configuring-defaults).
 
-### `!$locale`
+### `!$i18n`
 
-`locales`, `locale`, `fallbackLocale`, and `localeParamPattern` override the [top-level keys](#internationalization) of the same name, and `adapter` (`LocaleAdapter`) replaces the whole locale backend. See [locales](/guide/locales#custom-locale-backend).
+`locales`, `locale`, `fallbackLocale`, and `localeParamPattern` override the [top-level keys](#internationalization) of the same name, and `adapter` (`I18nAdapter`) replaces the whole i18n backend. See [i18n](/guide/i18n#custom-i18n-backend).
 
 ### `!$router`
 
