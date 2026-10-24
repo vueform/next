@@ -24,7 +24,7 @@ const loadUsers = async () => {
 </script>
 ```
 
-Called with no argument, `useHttp()` resolves the app's configuration by injection, so it belongs in `<script setup>`. Outside a setup context — a store, a route guard, a plain script — the same client is available on the instance returned by `createVueform` as `!vueform.$http`:
+Called with no argument, `useHttp()` resolves the app's configuration by injection, so it belongs in `<script setup>`. Outside a setup context — a store, a route guard, a plain script — the same composable is available bound to the instance returned by `createVueform` as `!vueform.useHttp`:
 
 ```ts
 // vueform.ts
@@ -37,7 +37,7 @@ export const vueform = createVueform({
 // stores/countries.ts
 import { vueform } from '@/vueform'
 
-const { data } = await vueform.$http.get('/api/countries')
+const { data } = await vueform.useHttp().get('/api/countries')
 ```
 
 Keeping a reference to the instance for exactly this purpose is covered in [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context).

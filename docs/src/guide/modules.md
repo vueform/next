@@ -25,7 +25,7 @@ The rest of a bare setup — components, rules, adapters, and what each part cos
 
 Each module reads its options from a `$`-prefixed config key named after it — `$http`, `$conditions`, `$security`, and so on — listed in [configuration](/guide/configuration#module-options). A non-empty `$<name>` object in your config without a registered `<name>` module warns at `createVueform()` in development, since the options read as if they were in effect.
 
-Modules are created once inside `createVueform()` onto `vueform.modules`, and `vueform.module()` can add one later until the instance is installed — see [two phases](/guide/vueform-instance#two-phases) and [registering after creation](/guide/vueform-instance#registering-after-creation).
+Modules are created once inside `createVueform()` onto `vueform.modules` — see [two phases](/guide/vueform-instance#two-phases).
 
 ## The Built-in Modules
 
@@ -73,11 +73,11 @@ When an adapter slot covers your need, fill it instead of replacing the module �
 
 ## Reaching a Module
 
-Inside components, use the module composables, which resolve the app's instance by injection — `useHttp()` returns an `HttpInstance` from the http module, `useLocale()` and `useSecurity()` return their module, and `useDate()` creates a `DateInstance`. Each module's chapter owns its usage. Outside a setup context, pass the instance explicitly (`useHttp(vueform)`) or use `vueform.$http` / `$locale` / `$date` — see [outside a setup context](/guide/vueform-instance#outside-a-setup-context).
+Inside components, use the module composables, which resolve the app's instance by injection — `useHttp()` returns an `HttpInstance` from the http module, `useLocale()` and `useSecurity()` return their module, and `useDate()` creates a `DateInstance`. Each module's chapter owns its usage. Outside a setup context, pass the instance explicitly (`useHttp(vueform)`) or call the same composables bound to the instance — `vueform.useHttp()` / `useLocale()` / `useDate()` / `useSecurity()` — see [outside a setup context](/guide/vueform-instance#outside-a-setup-context).
 
 Every module also has a doorway function — `getConditionsModule(vueform?)`, `getLocaleModule(vueform?)`, and so on, exported from `@vueform/ui` — returning the registered module or its inert stand-in. `getDateModule` and `getModelModule` throw instead, since those two have no stand-in. The matching `has<Name>Module(vueform?)` tells whether one is registered, which is the check for code that should behave differently when a capability is absent — custom elements, plugins.
 
-Raw access is `vueform.modules.<name>` (`useVueformContext().modules.<name>` in a component), which is `undefined` for unregistered modules.
+Raw access is `vueform.modules.<name>` (`useVueform().modules.<name>` in a component), which is `undefined` for unregistered modules.
 
 ## Swapping a Module
 

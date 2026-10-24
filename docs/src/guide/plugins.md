@@ -51,8 +51,6 @@ Passing the factory uncalled (`plugins: [myPlugin]`) is silently ignored, becaus
 
 Plugins run in a fixed order. Plugins bundled by the entry run first (the PrimeVue entry ships two), then the `plugins` array in order, and nested `plugins` run depth-first, right after their parent. Every hook follows this order, so a `config` hook sees everything earlier hooks wrote — which is how a downstream plugin layers on an upstream one.
 
-An existing instance can also take a plugin before it's installed — `vueform.use(myPlugin())`. It is not equivalent to the option. `use()` pushes the plugin and merges its `props` / `emits`, but its `config` hook never runs, a `globals` hook is missed when the globals were already read, and it throws once the instance is installed — see [registering after creation](/guide/vueform-instance#registering-after-creation). Prefer the option.
-
 ## Targeting Components
 
 `apply` decides where `props`, `emits`, and `extend` attach:

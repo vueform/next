@@ -752,7 +752,7 @@ function resolveMessage(options: {
 }): string {
   const { unit, raw, ctx, params, type, vueform, el$, form$ } = options
   const config = vueform.config
-  const locale = vueform.$locale
+  const locale = vueform.useLocale()
   const ruleOptions = unit.options as RuleOptions<any> | undefined
 
   const messageParams = {
@@ -895,7 +895,7 @@ function makeValidationSchemaRunner(options: {
 
     const start = () => {
       if (hasLocaleModule(vueform)) {
-        watch(vueform.$locale.locale, () => {
+        watch(vueform.useLocale().locale, () => {
           dirty.value = true
           run()
         })
@@ -955,7 +955,7 @@ function makeValidationSchemaRunner(options: {
   const messages = (path: string): string[] => buckets.value[path] ?? []
 
   const issuesFor = (path: string, language?: string): Issue[] => {
-    const locale = vueform.$locale
+    const locale = vueform.useLocale()
     return messages(path).map((message) => ({
       path,
       language,

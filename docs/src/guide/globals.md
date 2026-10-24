@@ -123,7 +123,7 @@ Globals accumulate in a fixed order:
 
 1. Vueform's built-ins. The only one is `defaultBreakpoint`, a `ComputedRef<string>` resolving to `'base'` — the breakpoint under which the layout resolves unprefixed values.
 2. The app's `globals` hook.
-3. Each plugin's hook in registration order — plugins bundled by the entry, then the `plugins` option, then `vueform.use()` calls. Nested `plugins` run depth-first, each right after its parent.
+3. Each plugin's hook in registration order — plugins bundled by the entry, then the `plugins` option. Nested `plugins` run depth-first, each right after its parent.
 
 A name that already exists is overridden — the later value wins. In development, Vueform warns about each override (`Global "x" is defined more than once — the later value wins`), because two sources claiming one name is usually a collision. When the override is intentional, silence it with `globalWarns: false` in the config. Production never logs.
 

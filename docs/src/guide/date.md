@@ -116,13 +116,13 @@ today.diff(dob, 'year')        // the age in whole years
 dob.add(30, 'day').toISODate() // '1990-06-14'
 ```
 
-In component setup it finds the app's adapter by itself. Outside a setup context the same function is available on the Vueform instance as `!vueform.$date`, already bound to that instance's adapter. Custom rules and expression functions receive the instance in their context as `vueform`:
+In component setup it finds the app's adapter by itself. Outside a setup context the same function is available on the Vueform instance as `!vueform.useDate`, already bound to that instance's adapter. Custom rules and expression functions receive the instance in their context as `vueform`:
 
 ```ts
 import { createRule } from '@vueform/ui'
 
 const workday = createRule('workday', (value, { vueform }) => {
-  const day = vueform.$date(value).day()
+  const day = vueform.useDate(value).day()
 
   return day !== 0 && day !== 6
 })
@@ -141,7 +141,7 @@ export const vueform = createVueform({
 // stores/orders.ts
 import { vueform } from '@/vueform'
 
-const deadline = vueform.$date(order.deadline)
+const deadline = vueform.useDate(order.deadline)
 ```
 
 Keeping a reference to the instance for exactly this purpose is covered in [outside a setup context](/guide/vueform-instance#outside-a-setup-context).

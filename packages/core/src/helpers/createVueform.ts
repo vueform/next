@@ -5,13 +5,12 @@ import {
   useDate,
   useForm,
   useHttp,
+  useLocale,
   type useModel,
+  useSecurity,
 } from '#src/composables'
 import { defaultConfig } from '#src/config'
 import { createVueformContext } from '#src/contexts'
-import type { DateInstance } from '#src/modules/date'
-import type { HttpInstance } from '#src/modules/http'
-import { getLocaleModule, type LocaleModule } from '#src/modules/locale'
 import type {
   ComponentNames,
   NormalizedPresetDefinition,
@@ -79,21 +78,28 @@ export interface VueformInstance {
   readonly globals: VueformGlobals
 
   /**
-   * The locale module bound to this instance — for code outside components.
+   * `useLocale` bound to this instance — returns the instance's locale module,
+   * for code outside components.
    */
-  readonly $locale: LocaleModule
+  readonly useLocale: typeof useLocale
 
   /**
-   * An http instance bound to this Vueform instance — for code outside
-   * components.
+   * `useHttp` bound to this instance — creates an http instance over this
+   * instance's http module, for code outside components.
    */
-  readonly $http: HttpInstance
+  readonly useHttp: typeof useHttp
 
   /**
    * `useDate` bound to this instance — parses values through this instance's
    * date adapter, for code outside components.
    */
-  readonly $date: (value?: any, format?: string) => DateInstance
+  readonly useDate: typeof useDate
+
+  /**
+   * `useSecurity` bound to this instance — returns the instance's security
+   * module, for code outside components.
+   */
+  readonly useSecurity: typeof useSecurity
 
   /**
    * `useModel` bound to this instance — for code with no component context.
@@ -570,7 +576,6 @@ export function createVueformFactory<
         definition.create({ vueform })
     }
 
-    let $http: HttpInstance | undefined
     let $defaults: VueformDefaults | undefined
     let $globals: VueformGlobals | undefined
 
@@ -598,15 +603,14 @@ export function createVueformFactory<
         return $globals
       },
 
-      get $locale() {
-        return getLocaleModule(vueform)
-      },
+      useLocale: (() => useLocale(vueform)) as typeof useLocale,
 
-      get $http() {
-        return ($http ??= useHttp(vueform))
-      },
+      useHttp: (() => useHttp(vueform)) as typeof useHttp,
 
-      $date: (value?: any, format?: string) => useDate(value, format, vueform),
+      useDate: ((value?: any, format?: string) =>
+        useDate(value, format, vueform)) as typeof useDate,
+
+      useSecurity: (() => useSecurity(vueform)) as typeof useSecurity,
 
       useModel: ((options, seed) =>
         modules.model.make(options, seed)) as typeof useModel,

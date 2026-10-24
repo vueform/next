@@ -97,29 +97,32 @@ describe('Module resolution', () => {
     expect(seen).toEqual(['en_US', 'de_DE', 'en_US'])
   })
 
-  it('exposes $locale and a per-instance $http on the instance', () => {
+  it('exposes useLocale and useHttp bound to the instance', () => {
     const vueform = makeInstance({ en_US }, 'en_US')
 
-    expect(vueform.$locale).toBe(getLocaleModule(vueform))
-    expect(vueform.$locale.locale.value).toBe('en_US')
-    // Lazily created once, then stable — it carries its own interceptor scope.
-    expect(vueform.$http).toBe(vueform.$http)
-    expect(typeof vueform.$http.request).toBe('function')
+    expect(vueform.useLocale()).toBe(getLocaleModule(vueform))
+    expect(vueform.useLocale().locale.value).toBe('en_US')
+    // Each call creates a fresh consumer with its own interceptor scope,
+    // mirroring the `useHttp()` composable.
+    expect(vueform.useHttp()).not.toBe(vueform.useHttp())
+    expect(typeof vueform.useHttp().request).toBe('function')
+    // The security module falls back to its noop stand-in when unregistered.
+    expect(typeof vueform.useSecurity().sanitizeHtml).toBe('function')
   })
 
-  it('exposes $date on the instance — useDate bound to it', () => {
+  it('exposes useDate on the instance — useDate bound to it', () => {
     const vueform = createVueform({
       modules: { model, date: dateModule },
       components,
       $date: { adapter: nativeDateAdapter },
     } as any)
 
-    expect(vueform.$date('1990-05-15').year()).toBe(1990)
-    expect(vueform.$date().isValid()).toBe(true)
+    expect(vueform.useDate('1990-05-15').year()).toBe(1990)
+    expect(vueform.useDate().isValid()).toBe(true)
 
     // Without the date module the member throws at call, not at access.
     const bare = makeInstance({ en_US }, 'en_US')
-    expect(() => bare.$date()).toThrow('date')
+    expect(() => bare.useDate()).toThrow('date')
   })
 
   it('runs plugin install hooks with the app and the instance on install', () => {

@@ -27,7 +27,7 @@ The bare `@vueform/ui` entry starts from the core defaults alone — no componen
 
 A config authored outside the call — in a shared file, say — keeps its typing with [`defineConfig`](/api/helpers/defineConfig). Its type is `UserConfig`, in which every key is optional and `build` / `modules` are partial one level down; every other object-valued option, such as `matrixTypes`, must be passed whole.
 
-The resolved object is available as `vueform.config` on the instance and through `useConfig()` inside components — see [vueform instance](/guide/vueform-instance#the-vueform-context).
+The resolved object is available as `vueform.config` on the instance and through `useConfig()` inside components — see [vueform instance](/guide/vueform-instance#accessing-the-instance).
 
 In development the resolved config is deep-frozen once installed (except the `components`, `plugins`, `modules`, `globals`, and `rules` branches), so writing to it after `app.use()` throws. Config changes belong in a plugin's `config` hook, before install — see [plugins](/guide/plugins#modifying-global-configuration).
 
@@ -88,7 +88,7 @@ Validation rules available to every form by name. Your object replaces the entry
 - Type: `VueformPlugin[]`
 - Default: `[]`
 
-Plugins applied at creation, in array order, after any plugins the entry ships (the PrimeVue entry ships two). `vueform.use()` appends more before install. See [plugins](/guide/plugins#registering-plugins).
+Plugins applied at creation, in array order, after any plugins the entry ships (the PrimeVue entry ships two). See [plugins](/guide/plugins#registering-plugins).
 
 ## Component Props
 

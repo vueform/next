@@ -80,7 +80,7 @@ An SSR server is a long-lived process. Anything in module scope survives from on
 
 - **Form state** — values, errors, view state — lives in the component tree of the app that renders it. A fresh app per request means a fresh form.
 - **Instance state** — registered modules, the active locale, app-wide interceptors — lives on the object `createVueform()` returns.
-- Composables reach the instance only through the app's provide/inject, and throw a `NotInstalledError` outside one rather than fall back — see [the Vueform context](/guide/vueform-instance#the-vueform-context).
+- Composables reach the instance only through the app's provide/inject, and throw a `NotInstalledError` outside one rather than fall back — see [`useVueform`](/guide/vueform-instance#accessing-the-instance).
 
 One user's input can therefore never surface in another user's HTML. A vueform instance shared at module scope still can't leak form data, but it shares the active locale and every other piece of instance state between requests — the module-scope pattern from [outliving components](/guide/model#outliving-components) is browser-only. The per-request factory is also where per-request config belongs. A CSP nonce generated for the current response goes into `createVueform({ nonce })` inside the factory, which is one more reason the instance can't be a module-scope singleton under a strict CSP — see [style tag nonce](/guide/security#style-tag-nonce).
 

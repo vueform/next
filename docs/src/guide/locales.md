@@ -115,7 +115,7 @@ createVueform({
 })
 ```
 
-Outside a setup context — a store, a route guard — the same module is available as `vueform.$locale` on the [instance](/guide/vueform-instance#outside-a-setup-context), or by passing the instance to `useLocale(vueform)`. Inside [event handlers](/guide/event-handlers) and [dynamic prop](/guide/dynamic-props) functions, the received context carries it as `$locale`. On an SSR server the active locale lives on the instance, so a module-scope instance would share it across requests — see [cross-request state](/guide/ssr#cross-request-state).
+Outside a setup context — a store, a route guard — the same module is available as `vueform.useLocale()` on the [instance](/guide/vueform-instance#outside-a-setup-context), or by passing the instance to `useLocale(vueform)`. Inside [event handlers](/guide/event-handlers) and [dynamic prop](/guide/dynamic-props) functions, the received context carries it as `$locale`. On an SSR server the active locale lives on the instance, so a module-scope instance would share it across requests — see [cross-request state](/guide/ssr#cross-request-state).
 
 ## Translating in Your Code
 
@@ -178,4 +178,4 @@ createVueform({
 })
 ```
 
-Once installed, everything that reads strings goes through it — components, validation messages, the expression engine's error text, `useLocale()`, and `vueform.$locale` alike. The rest of the `$locale` keys mirror the top-level options for module-scoped overrides — see [configuration](/guide/configuration#internationalization).
+Once installed, everything that reads strings goes through it — components, validation messages, the expression engine's error text, `useLocale()`, and `vueform.useLocale()` alike. The rest of the `$locale` keys mirror the top-level options for module-scoped overrides — see [configuration](/guide/configuration#internationalization).
