@@ -209,7 +209,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The root steps container element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -217,7 +217,7 @@ The root steps container element.
 
 The ordered list element containing all steps.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ol>` |
 
@@ -225,7 +225,7 @@ The ordered list element containing all steps.
 
 Each step wrapper. Receives the step's resolved page.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
 
@@ -233,7 +233,7 @@ Each step wrapper. Receives the step's resolved page.
 
 The step content element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
 <!-- @parts-end -->

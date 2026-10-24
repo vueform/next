@@ -233,7 +233,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The root navigation element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -241,7 +241,7 @@ The root navigation element.
 
 The back button element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
 
@@ -249,7 +249,7 @@ The back button element.
 
 The next button element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
 
@@ -257,7 +257,7 @@ The next button element.
 
 The finish button element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | [`<VfButton>`](./VfButton.md) |
 
@@ -265,7 +265,7 @@ The finish button element.
 
 The screen-reader-only loading indicator element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<span>` |
 <!-- @parts-end -->

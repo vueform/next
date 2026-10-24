@@ -216,7 +216,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The root language selector element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -224,7 +224,7 @@ The root language selector element.
 
 The language list element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
 
@@ -232,7 +232,7 @@ The language list element.
 
 Each language wrapper. Receives whether this option is currently selected and whether this language has validation errors.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
 
@@ -240,7 +240,7 @@ Each language wrapper. Receives whether this option is currently selected and wh
 
 The language button element.
 
-|  |  |
+| | |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<button>` |
 <!-- @parts-end -->
