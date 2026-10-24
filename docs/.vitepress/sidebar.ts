@@ -30,6 +30,7 @@ export default {
         { text: 'Autosave', link: '/guide/autosave' },
         { text: 'HTTP', link: '/guide/http' },
         { text: 'Date', link: '/guide/date' },
+        { text: 'I18n', link: '/guide/i18n' },
       ],
     },
     {
@@ -42,15 +43,6 @@ export default {
         { text: 'Form Structure', link: '/guide/form-structure' },
         { text: 'Multi-Page Forms', link: '/guide/multi-page-forms' },
         { text: 'Repeaters', link: '/guide/repeaters' },
-      ],
-    },
-    {
-      text: 'I18n',
-      collapsed: false,
-      items: [
-        { text: 'Locales', link: '/guide/locales' },
-        { text: 'Translating Props', link: '/guide/translating-props' },
-        { text: 'Multilingual Inputs', link: '/guide/multilingual-inputs' },
       ],
     },
     {
@@ -140,9 +132,10 @@ export default {
         { text: 'useDate', link: '/api/composables/useDate' },
         { text: 'useForm', link: '/api/composables/useForm' },
         { text: 'useHttp', link: '/api/composables/useHttp' },
-        { text: 'useLocale', link: '/api/composables/useLocale' },
+        { text: 'useI18n', link: '/api/composables/useI18n' },
         { text: 'useModel', link: '/api/composables/useModel' },
         { text: 'useSecurity', link: '/api/composables/useSecurity' },
+        { text: 'useVueform', link: '/api/composables/useVueform' },
         // @generated:composables-end
       ],
     },

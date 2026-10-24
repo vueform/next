@@ -1,6 +1,6 @@
 import { computed, toRef, useId } from 'vue'
 
-import { useDynamicProp, type Pager, useLocale } from '#src/composables'
+import { useDynamicProp, type Pager, useI18n } from '#src/composables'
 import { useFormContext } from '#src/contexts'
 import { defineDefaults, type DefineEvents } from '#src/helpers'
 import type {
@@ -126,7 +126,7 @@ export function blueprint<TProps extends NavProps>(
     throw new Error('<VfNav> must be used inside a <VfForm> component')
   }
 
-  const { t } = useLocale()
+  const { t } = useI18n()
 
   const uid = useId()
 

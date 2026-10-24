@@ -181,7 +181,7 @@ export const useUserStore = defineStore('user', () => {
 ```
 
 ```ts [vueform.ts]
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 
 export const vueform = createVueform()
 ```

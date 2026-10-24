@@ -1,7 +1,7 @@
 <script setup lang="ts" generic="const TMultiple extends boolean = false">
 import { inputAria } from '#src/a11y'
 import { defaults, blueprint, type FileListItem } from '#src/blueprints/file'
-import { useBlueprint, useLocale } from '#src/composables'
+import { useBlueprint, useI18n } from '#src/composables'
 import { defineEvents } from '#src/helpers'
 
 import type { VfFileEmits, VfFileProps, VfFileSlots } from './types'
@@ -30,7 +30,7 @@ const classes = useClasses({
   remove: 'vf-file-remove',
 })
 
-const { t } = useLocale()
+const { t } = useI18n()
 
 const bindings = useBindings(
   {

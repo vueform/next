@@ -1,6 +1,6 @@
 import {
   mergeClass,
-  useLocale,
+  useI18n,
   type BaseComponentExpose,
   type DefineEvents,
   type LooseRequired,
@@ -61,7 +61,7 @@ export function blueprint<TProps extends LayoutProps>(
 
   const { el$, useLabelTag: useLabelTagBase, tokenCss, tokenClass } = base
 
-  const { tags } = useLocale()
+  const { tags } = useI18n()
 
   // ================ REFS ================
 

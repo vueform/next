@@ -295,8 +295,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfCascadeSelectModifiers,
-  VfCascadeSelectA11y,
+  VfCascadeSelectBindings,
   VfCloneNameExpose,
   CascadeSelectApi<TProps>
 > {}
@@ -369,17 +368,8 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -387,20 +377,21 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-cascade-select',
-}))
+})
 
-useModifiers(({ help, hasError }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const {
   id,
@@ -491,7 +482,8 @@ declare module 'vue' {
         :loading="loading || resolving"
         :invalid
         fluid
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        :class="classes.input"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"

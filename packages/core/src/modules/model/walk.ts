@@ -98,10 +98,10 @@ function genericNameOf(
     if (typeof value === 'string' && value) return value
 
     if (isPlainObject(value)) {
-      // Locale-keyed prop objects resolve through the locale module; without
+      // Locale-keyed prop objects resolve through the i18n module; without
       // it the inert surface falls back to the first entry.
       const localized = vueform
-        .useLocale()
+        .useI18n()
         .localize(value as Record<string, string>)
       if (typeof localized === 'string' && localized) return localized
     }

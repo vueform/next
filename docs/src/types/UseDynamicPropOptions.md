@@ -22,7 +22,7 @@ type UseDynamicPropOptions<V = any, T = any> = {
   default?: any
 
   /**
-   * Whether to localize the resolved value through the locale module.
+   * Whether to localize the resolved value through the i18n module.
    */
   localize?: boolean
 

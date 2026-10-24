@@ -174,8 +174,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfTextareaModifiers,
-  VfTextareaA11y,
+  VfTextareaBindings,
   VfCloneNameExpose,
   TextareaApi<TProps>
 > {}
@@ -216,16 +215,12 @@ const slots = defineSlots<VfCloneNameSlots<TTranslate, TLanguages>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -233,17 +228,18 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-textarea',
-}))
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(tInputAria())
+  tInputAria(api)
+)
 
 const {
   value,
@@ -322,8 +318,9 @@ declare module 'vue' {
         :readonly
         :invalid
         fluid
+        :class="classes.input"
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"

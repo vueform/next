@@ -62,7 +62,7 @@ These components render inside an element's layout. Reach for them when overridi
 
 ## Form Parts
 
-These components render inside `VfForm` through its slots — override the matching slot to customize them. Stepped and tabbed forms are covered in [multi-page forms](/guide/multi-page-forms), the language switcher in [multilingual inputs](/guide/multilingual-inputs).
+These components render inside `VfForm` through its slots — override the matching slot to customize them. Stepped and tabbed forms are covered in [multi-page forms](/guide/multi-page-forms), the language switcher in [multilingual inputs](/guide/i18n#multilingual-inputs).
 
 | Component | Description |
 | --- | --- |

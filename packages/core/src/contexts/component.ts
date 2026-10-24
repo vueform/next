@@ -6,7 +6,7 @@ import {
   useGlobals,
   getResolvedProps,
   useHttp,
-  useLocale,
+  useI18n,
 } from '#src/composables'
 import { useFormContext } from '#src/contexts'
 import { createContext } from '#src/helpers'
@@ -114,7 +114,7 @@ export function createComponentContext(): UnknownComponent {
   // Placed on the raw object below, so `opaque` applies (see its docblock);
   // `form$` is itself a context proxy and passes through untouched.
   const $config = opaque(useConfig())
-  const $locale = opaque(useLocale())
+  const $i18n = opaque(useI18n())
   const $globals = opaque(useGlobals())
   const $http = opaque(useHttp())
 
@@ -126,7 +126,7 @@ export function createComponentContext(): UnknownComponent {
   const raw: Record<string | symbol, any> = {
     form$,
     $config,
-    $locale,
+    $i18n,
     $globals,
     $http,
     [READY]: () => {

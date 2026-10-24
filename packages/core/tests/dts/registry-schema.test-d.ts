@@ -34,7 +34,7 @@ describe('ContextOf — wide + narrowed by TEntry', () => {
     expectTypeOf<WideSelect>().toHaveProperty('props')
     expectTypeOf<WideSelect>().toHaveProperty('model')
     expectTypeOf<WideSelect>().toHaveProperty('$config')
-    expectTypeOf<WideSelect>().toHaveProperty('$locale')
+    expectTypeOf<WideSelect>().toHaveProperty('$i18n')
     expectTypeOf<WideSelect>().toHaveProperty('$globals')
   })
 
@@ -67,12 +67,12 @@ describe('ContextOf — wide + narrowed by TEntry', () => {
     type WideForm = ContextOf<'VfForm'>
     expectTypeOf<WideForm>().toHaveProperty('find')
     expectTypeOf<WideForm>().toHaveProperty('$config')
-    expectTypeOf<WideForm>().toHaveProperty('$locale')
+    expectTypeOf<WideForm>().toHaveProperty('$i18n')
     expectTypeOf<WideForm>().toHaveProperty('$globals')
 
     type WideAddon = ContextOf<'VfAddon'>
     expectTypeOf<WideAddon>().toHaveProperty('$config')
-    expectTypeOf<WideAddon>().toHaveProperty('$locale')
+    expectTypeOf<WideAddon>().toHaveProperty('$i18n')
     expectTypeOf<WideAddon>().toHaveProperty('$globals')
   })
 

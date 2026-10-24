@@ -10,7 +10,7 @@
       "path": "VfInputText.vue",
       "target": "{componentsDir}/VfInputText.vue",
       "kind": "component",
-      "hash": "sha256:567e82fc47488c6af6633e55d032a1668a07c4fb9d722f2aeaab37e4ad211ea8"
+      "hash": "sha256:e46b92c2c6511f0e0e542d1f44a4ba1ab08ec647f00070a01723752a3cf0c2cc"
     }
   ],
   "imports": [
@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfInputText.vue",
     "blueprint": "input-text",
-    "hash": "sha256:50b6408712b76497810a0c3bed65d6dac1b9ae9f865eb633120b8a7f582dbf80",
+    "hash": "sha256:27b1922f7c57ca50ba2a19610c38146de1ea22b69774f16a7701c153e790ad5a",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

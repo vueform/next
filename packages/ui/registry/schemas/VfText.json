@@ -10,7 +10,7 @@
       "path": "VfText.vue",
       "target": "{componentsDir}/VfText.vue",
       "kind": "component",
-      "hash": "sha256:87265be0939f66907b23b4846bf6dc04ce0ee67b044020a8f7db274e9df212d6"
+      "hash": "sha256:4901afdeea50bef7b17ad3ce0d2fa36b4d2791eaa73f895f2e9ac008da861a69"
     }
   ],
   "imports": [
@@ -26,7 +26,7 @@
   "clone": {
     "path": "VfText.vue",
     "blueprint": "text",
-    "hash": "sha256:0ebd0cc06f90e8a1bd369792852d0f3a6cdbb38859e7e9d915d345cad57cc118",
+    "hash": "sha256:d0838899eaaf390dadd722267fac7b8a746cc1f30574c0721a4cc664528544c9",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

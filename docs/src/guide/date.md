@@ -22,7 +22,7 @@ What it deliberately _doesn't_ do is format tokens. `format('DD/MM/YYYY')` and f
 The format-capable adapters ship as plugins wrapping the library you already use — [Day.js](/plugins/dayjs), [date-fns](/plugins/date-fns), or [Luxon](/plugins/luxon):
 
 ```ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import dayjs from '@vueform/date-dayjs'
 
 createVueform({
@@ -132,7 +132,7 @@ In a store, a route guard or a plain script, use the instance returned by `creat
 
 ```ts
 // vueform.ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 
 export const vueform = createVueform({
   // your configuration
@@ -163,7 +163,7 @@ Units accept singular and plural forms (`'day'` / `'days'`, `'month'` / `'months
 An adapter is a factory returning the `make` function — take a value (and optional format), return Vueform's `DateInstance`. Wire your own under [`$date.adapter`](/guide/configuration#date) to route all date handling through an in-house implementation:
 
 ```ts
-import { createVueform, type DateAdapter, type DateInstance } from '@vueform/ui/origin'
+import { createVueform, type DateAdapter, type DateInstance } from '@vueform/ui/bundle'
 
 const myAdapter: DateAdapter = (options) => {
   return (value, format): DateInstance => {

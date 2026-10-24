@@ -44,33 +44,25 @@ const props = withDefaults(
 const events = defineEvents<VfTextEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfTextSlots<TTranslate, TLanguages>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-text',
   input: 'vf-input vf-text-input',
-}))
+})
 
-useModifiers(({ help, hasError }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(tInputAria())
+  tInputAria(api)
+)
 
 const {
   value,
@@ -110,7 +102,8 @@ defineExpose(expose)
         :inputmode
         :disabled
         :readonly="readonly || undefined"
-        v-bind="bindings.input"
+        :class="classes.input"
+        v-bind="bindings.input()"
         :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"

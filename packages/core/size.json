@@ -281,11 +281,11 @@
         "brotli": 33517
       }
     },
-    "module+locale": {
+    "module+i18n": {
       "group": "module",
-      "item": "locale",
+      "item": "i18n",
       "base": "model",
-      "description": "model plus the locale module",
+      "description": "model plus the i18n module",
       "themed": false,
       "files": [
         {

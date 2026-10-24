@@ -7,7 +7,7 @@ import {
   type WatchStopHandle,
 } from 'vue'
 
-import { useConfig, useLocale } from '#src/composables'
+import { useConfig, useI18n } from '#src/composables'
 import { useFormContext } from '#src/contexts'
 import type { makeElement } from '#src/features'
 import { defineFeature } from '#src/helpers'
@@ -43,7 +43,7 @@ export const makeMultilingual = defineFeature(
     ({ props, deps }: makeMultilingualOptions) => {
       const form$ = useFormContext() as any
       const config = useConfig()
-      const { localizeObject } = useLocale()
+      const { localizeObject } = useI18n()
 
       let watchFormLanguage: WatchStopHandle | undefined
 

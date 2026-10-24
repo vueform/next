@@ -26,10 +26,10 @@ interface VueformInstance {
   readonly globals: VueformGlobals
 
   /**
-   * `useLocale` bound to this instance — returns the instance's locale module,
+   * `useI18n` bound to this instance — returns the instance's i18n module,
    * for code outside components.
    */
-  readonly useLocale: typeof useLocale
+  readonly useI18n: typeof useI18n
 
   /**
    * `useHttp` bound to this instance — creates an http instance over this

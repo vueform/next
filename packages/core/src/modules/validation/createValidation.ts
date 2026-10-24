@@ -20,7 +20,7 @@ import {
   hasConditionsModule,
   type ConditionalProp,
 } from '#src/modules/conditions'
-import { hasLocaleModule } from '#src/modules/locale'
+import { hasI18nModule } from '#src/modules/i18n'
 import {
   type FormContext,
   type StandardSchemaV1,
@@ -738,7 +738,7 @@ function makeRuleContext(options: {
 }
 
 // Called at read time so a locale switch re-renders without re-running the
-// check — and so the locale module doorway resolves the instance current at
+// check — and so the i18n module doorway resolves the instance current at
 // read time, not the one present when the validator was created.
 function resolveMessage(options: {
   unit: Unit
@@ -752,7 +752,7 @@ function resolveMessage(options: {
 }): string {
   const { unit, raw, ctx, params, type, vueform, el$, form$ } = options
   const config = vueform.config
-  const locale = vueform.useLocale()
+  const locale = vueform.useI18n()
   const ruleOptions = unit.options as RuleOptions<any> | undefined
 
   const messageParams = {
@@ -894,8 +894,8 @@ function makeValidationSchemaRunner(options: {
     watching = true
 
     const start = () => {
-      if (hasLocaleModule(vueform)) {
-        watch(vueform.useLocale().locale, () => {
+      if (hasI18nModule(vueform)) {
+        watch(vueform.useI18n().locale, () => {
           dirty.value = true
           run()
         })
@@ -955,7 +955,7 @@ function makeValidationSchemaRunner(options: {
   const messages = (path: string): string[] => buckets.value[path] ?? []
 
   const issuesFor = (path: string, language?: string): Issue[] => {
-    const locale = vueform.useLocale()
+    const locale = vueform.useI18n()
     return messages(path).map((message) => ({
       path,
       language,

@@ -36,8 +36,8 @@
     "./dist/components/*/styled.js",
     "./dist/vapor/components/*/styles.js",
     "./dist/vapor/components/*/styled.js",
-    "./dist/vapor/full.js",
-    "./dist/full.js"
+    "./dist/vapor/bundle.js",
+    "./dist/bundle.js"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
@@ -134,16 +134,16 @@
       "types": "./dist/components/*/unstyled.d.ts",
       "import": "./dist/vapor/components/*/unstyled.js"
     },
-    "./vapor/full": {
-      "dev": "./src/full.ts",
-      "types": "./dist/full.d.ts",
-      "import": "./dist/vapor/full.js"
+    "./vapor/bundle": {
+      "dev": "./src/bundle.ts",
+      "types": "./dist/bundle.d.ts",
+      "import": "./dist/vapor/bundle.js"
     },
-    "./full": {
-      "dev": "./src/full.ts",
-      "types": "./dist/full.d.ts",
-      "vapor": "./dist/vapor/full.js",
-      "import": "./dist/full.js"
+    "./bundle": {
+      "dev": "./src/bundle.ts",
+      "types": "./dist/bundle.d.ts",
+      "vapor": "./dist/vapor/bundle.js",
+      "import": "./dist/bundle.js"
     }
   },
   "publishConfig": {
@@ -216,14 +216,14 @@
         "types": "./dist/components/*/unstyled.d.ts",
         "import": "./dist/vapor/components/*/unstyled.js"
       },
-      "./vapor/full": {
-        "types": "./dist/full.d.ts",
-        "import": "./dist/vapor/full.js"
+      "./vapor/bundle": {
+        "types": "./dist/bundle.d.ts",
+        "import": "./dist/vapor/bundle.js"
       },
-      "./full": {
-        "types": "./dist/full.d.ts",
-        "vapor": "./dist/vapor/full.js",
-        "import": "./dist/full.js"
+      "./bundle": {
+        "types": "./dist/bundle.d.ts",
+        "vapor": "./dist/vapor/bundle.js",
+        "import": "./dist/bundle.js"
       }
     },
     "access": "public"
@@ -278,7 +278,7 @@
       "pv"
     ],
     "playground": {
-      "entry": "full",
+      "entry": "bundle",
       "vaporInterop": true,
       "deps": {
         "@primeuix/themes": "^2.0.3",

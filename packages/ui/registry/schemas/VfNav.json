@@ -10,7 +10,7 @@
       "path": "VfNav.vue",
       "target": "{componentsDir}/VfNav.vue",
       "kind": "component",
-      "hash": "sha256:0047dcf1eaf2335f71db8414ae9ccc3f823ab64efdacb18ae6d9df855afb8d43"
+      "hash": "sha256:4496ffd8dbecddfdb1cd3820238e1837dbab15514c9d8520266657ed48191857"
     }
   ],
   "imports": [

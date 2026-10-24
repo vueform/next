@@ -10,19 +10,19 @@
       "path": "VfForm.vue",
       "target": "{componentsDir}/VfForm.vue",
       "kind": "component",
-      "hash": "sha256:0f026c7e8fd3e213e727bc95ef60138802a58311e128e99b67e4b3021b2b24a5"
+      "hash": "sha256:8f210d4d0c97e7dea58f843c7f27c0afd7c29d207bf8c026e9d74cc3b46938db"
     },
     {
       "path": "FormNav.vue",
       "target": "{componentsDir}/FormNav.vue",
       "kind": "component",
-      "hash": "sha256:0d92fd21092439396b428812f7660de1271c26f0d2c869d6e9aaf5c240a392e4"
+      "hash": "sha256:74f936d04090a638065648ccd9361b8fe88c6f589c56c5e71ab324feb8c76271"
     },
     {
       "path": "FormStep.vue",
       "target": "{componentsDir}/FormStep.vue",
       "kind": "component",
-      "hash": "sha256:c007e7d9dcb352c51e7dd3b0683c798cf2604aec37b25cd5191857e2bb8dd368"
+      "hash": "sha256:5d1872b79d1183ba5b3d0f40eed3e1f4d6c76a2d8e0fcc880221ee7777194725"
     }
   ],
   "imports": [

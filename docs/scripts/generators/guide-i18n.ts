@@ -7,7 +7,7 @@ const DOCS_ROOT = path.resolve(SCRIPT_DIR, '..', '..')
 const ROOT = path.resolve(DOCS_ROOT, '..')
 // Extracted by scripts/api-extractor — run `pnpm api` at the monorepo root first
 const LOCALES_JSON = path.join(ROOT, '.vueform/api/core/locales.json')
-const TARGET_FILE = path.join(DOCS_ROOT, 'src/guide/locales.md')
+const TARGET_FILE = path.join(DOCS_ROOT, 'src/guide/i18n.md')
 
 const START_MARKER = '<!-- #region available-locales -->'
 const END_MARKER = '<!-- #endregion available-locales -->'

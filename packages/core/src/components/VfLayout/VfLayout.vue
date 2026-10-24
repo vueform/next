@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 
 import { defaults, blueprint } from '#src/blueprints/layout'
-import { useBlueprint, useLayoutClasses, useLocale } from '#src/composables'
+import { useBlueprint, useLayoutClasses, useI18n } from '#src/composables'
 import { defineEvents } from '#src/helpers'
 import { VfPassthrough } from '#src/tools'
 import type { HeadingProp } from '#src/types'
@@ -89,7 +89,7 @@ const {
   helperClasses,
 } = api
 
-const { t } = useLocale()
+const { t } = useI18n()
 
 const rootProps = computed(() => {
   if (el$.props.layout !== false) return undefined

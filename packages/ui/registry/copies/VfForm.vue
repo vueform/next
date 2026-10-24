@@ -31,66 +31,49 @@ const props = withDefaults(defineProps<VfFormProps<TSchema>>(), defaults)
 const events = defineEvents<VfFormEmits<TSchema>>()
 const slots = defineSlots<VfFormSlots<TSchema>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 const config = useConfig()
 
-useClasses(({ props, tokenClass, tokenCss, showErrors, errors }) => ({
-  root: {
+const classes = useClasses({
+  root: () => ({
     'vf-form': true,
-    [tokenClass]: !!tokenCss.value,
+    [api.tokenClass]: !!api.tokenCss.value,
     [config.build.darkClass]: props.dark === true,
     [config.build.lightClass]: props.dark === false,
-  },
-  // Functional on purpose: the entry reads the form-level `errors` aggregate,
-  // which must resolve in the part's own render effect — never inside the
-  // merged classes computed, where elements' vapor dynamic prop sources would
-  // pick it up as a dependency and close a reactive cycle (errors -> element
-  // validation -> element props -> form bindings) that Vue 3.6's dirty-check
-  // walk cannot terminate on.
+  }),
   errors: () => ({
     'vf-form-errors-wrapper': true,
-    'sr-only': !showErrors.value || Object.keys(errors.value).length === 0,
+    'sr-only':
+      !api.showErrors.value || Object.keys(api.errors.value).length === 0,
   }),
   errorList: 'vf-form-errors',
   error: 'vf-form-error',
   messages: 'vf-form-messages-wrapper',
   messageList: 'vf-form-messages',
   message: 'vf-form-message',
-}))
+})
 
-useModifiers(({ props }) => ({
-  root: {
-    'data-stacked': props.stacked ? '' : undefined,
-  },
-}))
-
-useA11y(({ errorsId, messagesId }) => ({
-  errors: {
-    id: errorsId.value,
+const bindings = useBindings({
+  root: () => ({
+    'data-stacked': api.props.stacked ? '' : undefined,
+  }),
+  errors: () => ({
+    id: api.errorsId.value,
     role: 'alert',
     'aria-live': 'assertive',
     'aria-atomic': 'true',
     tabindex: -1,
-  },
-  messages: {
-    id: messagesId.value,
+  }),
+  messages: () => ({
+    id: api.messagesId.value,
     role: 'status',
     'aria-live': 'polite',
     'aria-atomic': 'true',
     tabindex: -1,
-  },
-}))
+  }),
+})
 
 const {
   multilingual,
@@ -131,7 +114,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <form v-else v-bind="bindings.root" @submit.prevent>
+    <form v-else :class="classes.root" v-bind="bindings.root()" @submit.prevent>
       <slot name="content" :context>
         <component v-if="outlets?.content" :is="outlets.content" :context />
         <template v-else>
@@ -149,13 +132,14 @@ defineExpose(expose)
                 :id="errorsId"
                 :bindings="bindings.errors()"
               />
-              <div v-else v-bind="bindings.errors()">
-                <ul v-bind="bindings.errorList">
+              <div v-else :class="classes.errors" v-bind="bindings.errors()">
+                <ul :class="classes.errorList" v-bind="bindings.errorList()">
                   <template v-for="(fieldErrors, path) in errors" :key="path">
                     <li
                       v-for="(error, i) in fieldErrors"
                       :key="`${path}-${i}`"
-                      v-bind="bindings.error"
+                      :class="classes.error"
+                      v-bind="bindings.error()"
                     >
                       <slot name="error" :error :path>
                         <component
@@ -180,21 +164,29 @@ defineExpose(expose)
               name="messages"
               :messages
               :id="messagesId"
-              :bindings="bindings.messages"
+              :bindings="bindings.messages()"
             >
               <component
                 v-if="outlets?.messages"
                 :is="outlets.messages"
                 :messages
                 :id="messagesId"
-                :bindings="bindings.messages"
+                :bindings="bindings.messages()"
               />
-              <div v-else v-bind="bindings.messages">
-                <ul v-bind="bindings.messageList">
+              <div
+                v-else
+                :class="classes.messages"
+                v-bind="bindings.messages()"
+              >
+                <ul
+                  :class="classes.messageList"
+                  v-bind="bindings.messageList()"
+                >
                   <li
                     v-for="(message, i) in messages"
                     :key="i"
-                    v-bind="bindings.message"
+                    :class="classes.message"
+                    v-bind="bindings.message()"
                   >
                     <slot name="message" :message>
                       <component
@@ -219,7 +211,7 @@ defineExpose(expose)
             :language
             :invalid-languages
             :select="selectLanguage"
-            :bindings="bindings.languages"
+            :bindings="bindings.languages()"
           >
             <component
               v-if="outlets.languages"
@@ -228,7 +220,7 @@ defineExpose(expose)
               :language
               :invalid-languages
               :select="selectLanguage"
-              :bindings="bindings.languages"
+              :bindings="bindings.languages()"
             >
               <template v-if="outlets.language" #default="slotProps">
                 <slot name="language" v-bind="slotProps">
@@ -242,7 +234,7 @@ defineExpose(expose)
               :language
               :invalid-languages
               :select="selectLanguage"
-              v-bind="bindings.languages"
+              v-bind="bindings.languages()"
             >
               <template v-if="outlets.language" #default="slotProps">
                 <slot name="language" v-bind="slotProps">
@@ -256,13 +248,13 @@ defineExpose(expose)
             v-if="tabbed"
             name="tabs"
             :pager="tabs"
-            :bindings="bindings.tabs"
+            :bindings="bindings.tabs()"
           >
             <component
               v-if="outlets?.tabs"
               :is="outlets?.tabs"
               :pager="tabs"
-              :bindings="bindings.tabs"
+              :bindings="bindings.tabs()"
             >
               <template v-if="outlets.tab" #default="slotProps">
                 <slot name="tab" v-bind="slotProps">
@@ -274,7 +266,7 @@ defineExpose(expose)
                 </slot>
               </template>
             </component>
-            <VfTabs v-else :pager="tabs" v-bind="bindings.tabs">
+            <VfTabs v-else :pager="tabs" v-bind="bindings.tabs()">
               <template v-if="outlets.tab" #default="slotProps">
                 <slot name="tab" v-bind="slotProps">
                   <component
@@ -291,13 +283,13 @@ defineExpose(expose)
             v-if="stepped && progress"
             name="steps"
             :pager="steps"
-            :bindings="bindings.steps"
+            :bindings="bindings.steps()"
           >
             <component
               v-if="outlets?.steps"
               :is="outlets?.steps"
               :pager="steps"
-              :bindings="bindings.steps"
+              :bindings="bindings.steps()"
             >
               <template v-if="slots.step || outlets?.step" #default="slotProps">
                 <slot name="step" v-bind="slotProps">
@@ -309,7 +301,7 @@ defineExpose(expose)
                 </slot>
               </template>
             </component>
-            <VfSteps v-else :pager="steps" v-bind="bindings.steps">
+            <VfSteps v-else :pager="steps" v-bind="bindings.steps()">
               <template v-if="slots.step || outlets?.step" #default="slotProps">
                 <slot name="step" v-bind="slotProps">
                   <component
@@ -351,7 +343,7 @@ defineExpose(expose)
             :finish="finishLabel"
             :hide-back="!back"
             :position="navPos"
-            v-bind="bindings.nav"
+            v-bind="bindings.nav()"
           >
             <component
               :is="outlets?.nav || 'VfNav'"
@@ -361,7 +353,7 @@ defineExpose(expose)
               :finish="finishLabel"
               :hide-back="!back"
               :position="navPos"
-              v-bind="bindings.nav"
+              v-bind="bindings.nav()"
             >
               <template #back="slotProps">
                 <slot name="back" v-bind="slotProps">

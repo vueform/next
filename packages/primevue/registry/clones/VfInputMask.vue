@@ -18,7 +18,6 @@ import {
   type LanguagesProp,
   tInputAria,
   vdomPrime,
-  classCompat,
   type AddonGroupParts,
   type AddonsParts,
   type AddonsSlots,
@@ -176,8 +175,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfInputMaskModifiers,
-  VfInputMaskA11y,
+  VfInputMaskBindings,
   VfCloneNameExpose,
   InputMaskApi<TProps>
 > {}
@@ -217,16 +215,12 @@ const slots = defineSlots<VfCloneNameSlots<TTranslate, TLanguages>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -234,20 +228,21 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-input-mask',
-}))
+})
 
-useModifiers(({ help, hasError }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(tInputAria())
+  tInputAria(api)
+)
 
 const {
   value,
@@ -320,6 +315,7 @@ declare module 'vue' {
         :readonly
         :invalid
         fluid
+        :class="classes.input || undefined"
         v-tooltip:[tooltipModifiers]="tooltipValue"
         v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"

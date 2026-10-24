@@ -12,7 +12,7 @@ Pass a `globals` hook to `createVueform`. It receives a `!GlobalsHookContext` �
 
 ```ts
 import { ref } from 'vue'
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 
 app.use(
   createVueform({
@@ -71,7 +71,7 @@ Flipping the ref locks every consumer at once — the next section wires a field
 
 ### From a Context
 
-Every Vueform component's [context](/guide/context) carries the globals as `$globals`, alongside `$config`, `$locale`, and `$http`. Anything that receives a context reads globals without a setup — [event handlers and function props](/guide/context#context-from-argument), [functional conditions](/guide/conditions#functional-conditions), slot and template code:
+Every Vueform component's [context](/guide/context) carries the globals as `$globals`, alongside `$config`, `$i18n`, and `$http`. Anything that receives a context reads globals without a setup — [event handlers and function props](/guide/context#context-from-argument), [functional conditions](/guide/conditions#functional-conditions), slot and template code:
 
 ```ts
 {

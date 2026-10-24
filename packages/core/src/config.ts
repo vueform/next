@@ -27,7 +27,7 @@ const defaultConfig = defineConfig({
     withCredentials: false,
     headers: {},
   },
-  $locale: {},
+  $i18n: {},
   $model: {},
   $router: {},
   $security: {},

@@ -6,7 +6,7 @@
 
 import {
   useBlueprint,
-  useLocale,
+  useI18n,
   useFormContext,
   defineEvents,
 } from '@vueform/ui'
@@ -16,6 +16,7 @@ import {
   type VfNavEmits,
   type VfNavProps,
   type VfNavSlots,
+  type VfNavBindings,
 } from '@vueform/ui/components/VfNav'
 
 import '@vueform/ui/nav.css'
@@ -27,61 +28,42 @@ const props = withDefaults(defineProps<VfNavProps>(), defaults)
 const events = defineEvents<VfNavEmits>()
 const slots = defineSlots<VfNavSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-nav',
   back: 'vf-nav-back',
   next: 'vf-nav-next',
   finish: 'vf-nav-finish',
-}))
+})
 
-useModifiers(({ props, loading }) => ({
-  root: {
-    'data-position': props.position || undefined,
+const forward = (): VfNavBindings['next'] => ({
+  'data-loading': api.loading.value ? '' : undefined,
+  'aria-busy': api.loading.value || undefined,
+  'aria-disabled': api.loading.value || undefined,
+  'aria-describedby': api.describedby.value,
+})
+
+const bindings = useBindings({
+  root: () => ({
+    'data-position': api.props.position || undefined,
     'data-no-back':
-      !props.pager.previousPage && !!props.hideBack ? '' : undefined,
-  },
-  next: {
-    'data-loading': loading.value ? '' : undefined,
-  },
-  finish: {
-    'data-loading': loading.value ? '' : undefined,
-  },
-}))
-
-useA11y(({ props, loading, describedby, statusId }) => {
-  const forward = {
-    'aria-busy': loading.value || undefined,
-    'aria-disabled': loading.value || undefined,
-    'aria-describedby': describedby.value,
-  }
-
-  return {
-    back: {
-      'aria-disabled': !props.pager.previousPage || undefined,
-    },
-    next: forward,
-    finish: forward,
-    srOnlyLoading: {
-      id: statusId.value,
-      role: 'status',
-    },
-  }
+      !api.props.pager.previousPage && !!api.props.hideBack ? '' : undefined,
+  }),
+  back: () => ({
+    'aria-disabled': !api.props.pager.previousPage || undefined,
+  }),
+  next: forward,
+  finish: forward,
+  srOnlyLoading: () => ({
+    id: api.statusId.value,
+    role: 'status',
+  }),
 })
 
 const form$ = useFormContext()
-const { t } = useLocale()
+const { t } = useI18n()
 const { hideBack } = propRefs
 const { backLabel, loading, nextLabel, finishLabel, fluid } = api
 
@@ -91,7 +73,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else v-bind="bindings.root">
+    <div v-else :class="classes.root" v-bind="bindings.root()">
       <template v-if="pager.previousPage || !hideBack">
         <slot
           name="back"
@@ -100,7 +82,7 @@ defineExpose(expose)
           :pager
           :disabled="!pager.previousPage"
           :fluid
-          :bindings="bindings.back"
+          :bindings="bindings.back()"
           :back="pager.back"
         >
           <component
@@ -111,7 +93,7 @@ defineExpose(expose)
             :pager
             :disabled="!pager.previousPage"
             :fluid
-            :bindings="bindings.back"
+            :bindings="bindings.back()"
             :back="pager.back"
           />
           <VfButton
@@ -123,7 +105,8 @@ defineExpose(expose)
             name="back"
             :fluid
             :disabled="!pager.previousPage"
-            v-bind="bindings.back"
+            :class="classes.back"
+            v-bind="bindings.back()"
             @click="pager.back"
           >
             <slot name="back-text" :label="backLabel" :pager :form$>
@@ -151,7 +134,7 @@ defineExpose(expose)
           :loading
           :fluid
           :disabled="loading"
-          :bindings="bindings.next"
+          :bindings="bindings.next()"
           :next="pager.next"
         >
           <component
@@ -163,7 +146,7 @@ defineExpose(expose)
             :loading
             :fluid
             :disabled="loading"
-            :bindings="bindings.next"
+            :bindings="bindings.next()"
             :next="pager.next"
           />
           <VfButton
@@ -176,7 +159,8 @@ defineExpose(expose)
             severity="primary"
             :fluid
             :disabled="loading"
-            v-bind="bindings.next"
+            :class="classes.next"
+            v-bind="bindings.next()"
             @click="pager.next"
           >
             <slot name="next-text" :label="nextLabel" :pager :form$>
@@ -204,7 +188,7 @@ defineExpose(expose)
           :loading
           :disabled="loading"
           :fluid
-          :bindings="bindings.finish"
+          :bindings="bindings.finish()"
           :finish="pager.finish"
         >
           <component
@@ -216,7 +200,7 @@ defineExpose(expose)
             :loading
             :disabled="loading"
             :fluid
-            :bindings="bindings.finish"
+            :bindings="bindings.finish()"
             :finish="pager.finish"
           />
           <VfButton
@@ -229,7 +213,8 @@ defineExpose(expose)
             severity="primary"
             :fluid
             :disabled="loading"
-            v-bind="bindings.finish"
+            :class="classes.finish"
+            v-bind="bindings.finish()"
             @click="pager.finish"
           >
             <slot name="finish-text" :label="finishLabel" :pager :form$>
@@ -251,7 +236,7 @@ defineExpose(expose)
       <span
         v-if="pager.invalid || pager.loading"
         class="sr-only"
-        v-bind="bindings.srOnlyLoading"
+        v-bind="bindings.srOnlyLoading()"
       >
         <template v-if="pager.loading">
           {{ t('sr_step_loading') }}

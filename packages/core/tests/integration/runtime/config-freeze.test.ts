@@ -79,13 +79,13 @@ describe('Config freeze', () => {
       } as any
     )
 
-    expect(vueform.useLocale().t('vf_freeze_probe')).toBe('Alpha')
+    expect(vueform.useI18n().t('vf_freeze_probe')).toBe('Alpha')
 
     // `config.locale` is a ref — exempt from the deep freeze — so switching
     // must keep working after install.
-    vueform.useLocale().setLocale('bb')
+    vueform.useI18n().setLocale('bb')
     await nextTick()
 
-    expect(vueform.useLocale().t('vf_freeze_probe')).toBe('Beta')
+    expect(vueform.useI18n().t('vf_freeze_probe')).toBe('Beta')
   })
 })

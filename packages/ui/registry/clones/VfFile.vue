@@ -8,7 +8,7 @@
 import {
   inputAria,
   useBlueprint,
-  useLocale,
+  useI18n,
   defineEvents,
   type ClassValue,
   type DefineElementContext,
@@ -115,10 +115,10 @@ export interface VfCloneNameSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * The file item's resolved bindings (classes, part overrides); apply with
+     * The file item's resolved bindings (part overrides); apply with
      * `v-bind`.
      */
-    bindings: VfFileBindings['item']
+    bindings: VfFileResolvedBindings['item']
 
     /**
      * Callback to remove a file by index.
@@ -145,10 +145,10 @@ export interface VfCloneNameSlots<
     disabled: boolean
 
     /**
-     * The remove button's resolved bindings (classes, part overrides,
-     * localized aria-label); apply with `v-bind`.
+     * The remove button's resolved bindings (part overrides, localized
+     * aria-label); apply with `v-bind`.
      */
-    bindings: VfFileBindings['remove']
+    bindings: VfFileResolvedBindings['remove']
 
     /**
      * Callback to remove a file by index.
@@ -185,10 +185,10 @@ export interface VfCloneNameSlots<
     type: 'file' | 'string' | 'object'
 
     /**
-     * The file name element's resolved bindings (classes, part overrides);
-     * apply with `v-bind`.
+     * The file name element's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfFileBindings['name']
+    bindings: VfFileResolvedBindings['name']
   }) => VNode[]
 
   /**
@@ -208,10 +208,10 @@ export interface VfCloneNameSlots<
     text?: string
 
     /**
-     * The add button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The add button's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfFileBindings['add']
+    bindings: VfFileResolvedBindings['add']
 
     /**
      * Callback to open the native file picker.
@@ -300,7 +300,7 @@ export interface VfCloneNameClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  item: (file: FileListItem, index: number) => ClassValue
+  item: ClassValue
 
   /**
    * The file name text or link.
@@ -308,7 +308,7 @@ export interface VfCloneNameClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  name: (file: FileListItem, index: number) => ClassValue
+  name: ClassValue
 
   /**
    * The remove button for a file entry.
@@ -316,7 +316,7 @@ export interface VfCloneNameClasses extends FileClasses {
    * @param file The file entry.
    * @param index The file's zero-based index.
    */
-  remove: (file: FileListItem, index: number) => ClassValue
+  remove: ClassValue
 
   /**
    * The hidden file `<input>` tag.
@@ -351,8 +351,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfFileModifiers,
-  VfFileA11y,
+  VfFileBindings,
   VfCloneNameExpose,
   FileApi<TProps>
 > {}
@@ -386,17 +385,8 @@ const slots = defineSlots<VfCloneNameSlots<TMultiple>>()
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -404,28 +394,28 @@ const {
  *
  * @see https://ui.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-file',
   input: 'sr-only',
   list: 'vf-file-list',
-  item: () => 'vf-file-item',
-  name: () => 'vf-file-name',
-  remove: () => 'vf-file-remove',
-}))
+  item: 'vf-file-item',
+  name: 'vf-file-name',
+  remove: 'vf-file-remove',
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const { t } = useI18n()
+
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
+    remove: (_file: FileListItem, index: number) => ({
+      'aria-label': t('sr_file_remove', { index: index + 1 }),
+    }),
   },
-}))
-
-const { t } = useLocale()
-
-useA11y(inputAria(), () => ({
-  remove: (_file: FileListItem, index: number) => ({
-    'aria-label': t('sr_file_remove', { index: index + 1 }),
-  }),
-}))
+  inputAria(api)
+)
 
 const { accept, multiple, capture, add } = propRefs
 
@@ -457,11 +447,7 @@ import type {
   ResolvedBindings,
 } from '@vueform/ui'
 
-type VfFileBindings = ResolvedBindings<
-  VfCloneNameParts,
-  VfFileModifiers,
-  VfFileA11y
->
+type VfFileResolvedBindings = ResolvedBindings<VfCloneNameParts, VfFileBindings>
 
 type EntryProps<TEntry> = VfCloneNameProps<EntryMultipleOf<TEntry>>
 
@@ -489,7 +475,7 @@ declare module 'vue' {
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div v-if="hasFiles" v-bind="bindings.list">
+      <div v-if="hasFiles" :class="classes.list" v-bind="bindings.list()">
         <template v-for="(file, index) in fileList" :key="index">
           <slot
             name="file"
@@ -516,7 +502,11 @@ declare module 'vue' {
               :bindings="bindings.item(file, index)"
               :remove="handleRemove"
             />
-            <div v-else v-bind="bindings.item(file, index)">
+            <div
+              v-else
+              :class="classes.item"
+              v-bind="bindings.item(file, index)"
+            >
               <template v-if="file.removable">
                 <slot
                   name="remove"
@@ -539,6 +529,7 @@ declare module 'vue' {
                     :icon="removeIcon"
                     :disabled
                     :layout="false"
+                    :class="classes.remove"
                     v-bind="bindings.remove(file, index)"
                     @click="handleRemove(index)"
                   />
@@ -566,11 +557,16 @@ declare module 'vue' {
                   :href="file.url"
                   target="_blank"
                   rel="noopener noreferrer"
+                  :class="classes.name"
                   v-bind="bindings.name(file, index)"
                 >
                   {{ file.name }}
                 </a>
-                <span v-else v-bind="bindings.name(file, index)">
+                <span
+                  v-else
+                  :class="classes.name"
+                  v-bind="bindings.name(file, index)"
+                >
                   {{ file.name }}
                 </span>
               </slot>
@@ -583,7 +579,7 @@ declare module 'vue' {
           name="add"
           :disabled
           :text
-          :bindings="bindings.add"
+          :bindings="bindings.add()"
           :trigger-file-input
         >
           <component
@@ -591,7 +587,7 @@ declare module 'vue' {
             :is="outlets.add"
             :disabled
             :text
-            :bindings="bindings.add"
+            :bindings="bindings.add()"
             :trigger-file-input
           />
           <VfButton
@@ -601,7 +597,7 @@ declare module 'vue' {
             :icon="addIcon"
             :disabled
             @click="triggerFileInput"
-            v-bind="bindings.add"
+            v-bind="bindings.add()"
           />
         </slot>
         <input
@@ -611,7 +607,8 @@ declare module 'vue' {
           :multiple
           :accept
           :capture
-          v-bind="bindings.input"
+          :class="classes.input"
+          v-bind="bindings.input()"
           :ref="(el) => (inputRef = el)"
           @blur="handleBlur"
           @focus="handleFocus"

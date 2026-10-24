@@ -10,7 +10,7 @@
       "path": "VfAutoComplete.vue",
       "target": "{componentsDir}/VfAutoComplete.vue",
       "kind": "component",
-      "hash": "sha256:15de82c4a98ecd0d07e725e78dd2acc45ec41fe053f1984c22dd80b543adad53"
+      "hash": "sha256:5477ff33b5f7b3f78e91e20902f757bf0b06d949de92648efe1412cf0b49eda3"
     }
   ],
   "imports": [
@@ -24,7 +24,7 @@
   "clone": {
     "path": "VfAutoComplete.vue",
     "blueprint": "auto-complete",
-    "hash": "sha256:100cd3196a64875f74d8e25f9815084b535db08c06d5b78fb9fb38705032d02b",
+    "hash": "sha256:4e1ff6c9645a596e76af0d658364775a33c42160de751fdaa27376430e791ba1",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -30,7 +30,7 @@ import {
   type SubmissionProps,
   useExpression,
   useHttp,
-  useLocale,
+  useI18n,
   useTokens,
 } from '#src/composables'
 import { createFormContext, createContainerContext } from '#src/contexts'
@@ -750,7 +750,7 @@ function setup(
   const form$ = createFormContext()
   const $el = useCurrentElement()
   const expression = useExpression()
-  const { localizeObject } = useLocale()
+  const { localizeObject } = useI18n()
   const context$ = form$ as any
 
   /**

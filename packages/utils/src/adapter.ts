@@ -28,10 +28,11 @@ export interface AdapterOptions {
    */
   external?: (string | RegExp)[]
   /**
-   * Also emit minified IIFE bundles for `<script>`/CDN use, one per theme
-   * (every `src/themes/<name>.ts` with a matching `src/<name>.ts` entry):
-   * `dist/<name>.global.js` with its stylesheet beside it as `dist/<name>.css`,
-   * everything bundled except `vue` (global `Vue`).
+   * Also emit minified IIFE bundles for `<script>`/CDN use: the default entry
+   * (`src/bundle.ts`) as `dist/vueform.global.js`, plus one per named theme
+   * (every `src/themes/<name>.ts` with a matching `src/<name>.ts` entry) as
+   * `dist/<name>.global.js` — each with its stylesheet beside it as
+   * `dist/<label>.css`, everything bundled except `vue` (global `Vue`).
    */
   cdn?: boolean
   /**
@@ -88,8 +89,9 @@ export function exportedVaporEntries(root: string, srcAbs: string): string[] {
 }
 
 /**
- * Runs the CDN builds after the main bundle is written: one minified IIFE
- * bundle per theme (`dist/<theme>.global.js` + `dist/<theme>.css`), with
+ * Runs the CDN builds after the main bundle is written: the default entry as
+ * `dist/vueform.global.js` plus one minified IIFE bundle per named theme
+ * (`dist/<theme>.global.js`), each with its stylesheet beside it, with
  * everything bundled — components, theme, styles — except `vue`, consumed as
  * the global `Vue`.
  */
@@ -104,17 +106,19 @@ export function cdnBuild(
       const { build } = await import('vite')
       const { default: Vue } = await import('@vitejs/plugin-vue')
 
-      // Theme-entry packages (ui) get one bundle per theme; single-entry
-      // packages (primevue) bundle `src/full.ts` as `vueform.global.js`.
+      // The default entry (`src/bundle.ts`) builds as `vueform.global.js`,
+      // plus one bundle per named theme entry (ui's `src/material.ts` →
+      // `material.global.js`); primevue only has the default.
       const themes = themeNames(srcAbs)
-      const bundles = themes.length
-        ? themes.map((theme) => ({
-            label: theme,
-            entry: resolve(srcAbs, `${theme}.ts`),
-          }))
-        : existsSync(resolve(srcAbs, 'full.ts'))
-          ? [{ label: 'vueform', entry: resolve(srcAbs, 'full.ts') }]
-          : []
+      const bundles = [
+        ...(existsSync(resolve(srcAbs, 'bundle.ts'))
+          ? [{ label: 'vueform', entry: resolve(srcAbs, 'bundle.ts') }]
+          : []),
+        ...themes.map((theme) => ({
+          label: theme,
+          entry: resolve(srcAbs, `${theme}.ts`),
+        })),
+      ]
 
       for (const { label, entry } of bundles) {
         await build({

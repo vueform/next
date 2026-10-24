@@ -10,7 +10,7 @@
       "path": "VfCheckboxGroup.vue",
       "target": "{componentsDir}/VfCheckboxGroup.vue",
       "kind": "component",
-      "hash": "sha256:0c6cde919caceebdaa62d8f5fa01478b8b573d246eee2ec2f7d49916c6ad8366"
+      "hash": "sha256:d3eaf0dc485e76a7d9f20739b81d241c961b45ba22e12ccaffa7c48baaab5ebd"
     }
   ],
   "imports": [
@@ -25,7 +25,7 @@
   "clone": {
     "path": "VfCheckboxGroup.vue",
     "blueprint": "checkbox-group",
-    "hash": "sha256:38cef2f850468e0e2620382a8bf3979e9e89a8a7266a00aa23d589b080da83ef",
+    "hash": "sha256:bb71a26f188dff6acd098b8a8605cae14c761ebaef891e577237b12893515d98",
     "docs": "How to customize the clone:\nhttps://primevue.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -113,10 +113,10 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioButtonSlots<
 
     /**
      * The default slot's own part is the wrapper (the fallback's top-level
-     * element): its resolved classes, part overrides, and alignment
-     * modifiers; apply with `v-bind`.
+     * element): its resolved part overrides and alignment modifiers; apply
+     * with `v-bind`.
      */
-    bindings: VfRadioButtonBindings['wrapper']
+    bindings: VfRadioButtonResolvedBindings['wrapper']
 
     /**
      * Handles the input's blur event.
@@ -170,10 +170,10 @@ export interface VfCloneNameSlots<TRadioValue = any> extends RadioButtonSlots<
     genericName: string
 
     /**
-     * The text element's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The text element's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfRadioButtonBindings['text']
+    bindings: VfRadioButtonResolvedBindings['text']
   }) => VNode[]
 }
 
@@ -262,8 +262,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfRadioButtonModifiers,
-  VfRadioButtonA11y,
+  VfRadioButtonBindings,
   VfCloneNameExpose,
   RadioButtonApi<TProps>
 > {}
@@ -298,17 +297,8 @@ const slots = defineSlots<VfCloneNameSlots<TRadioValue>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 const radioValue = propRefs.value as Ref<TRadioValue> // @todo: look into if it's possible to remove this from all comps
 
@@ -338,26 +328,27 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-radio-button',
   wrapper: 'vf-choice-wrapper',
   text: 'vf-choice-text',
-}))
+})
 
-useModifiers(({ props, hasError, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    wrapper: () => ({
+      'data-align': api.props.align || undefined,
+      'data-aligned': api.props.aligned ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  wrapper: {
-    'data-align': props.align || undefined,
-    'data-aligned': props.aligned ? '' : undefined,
-  },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 defineExpose(expose)
 </script>
@@ -369,10 +360,9 @@ import type {
   ResolvedBindings,
 } from '@vueform/primevue'
 
-type VfRadioButtonBindings = ResolvedBindings<
+type VfRadioButtonResolvedBindings = ResolvedBindings<
   VfCloneNameParts,
-  VfRadioButtonModifiers,
-  VfRadioButtonA11y
+  VfRadioButtonBindings
 >
 
 type EntryProps<TEntry> = VfCloneNameProps<EntryPropOr<TEntry, 'value', true>>
@@ -409,7 +399,7 @@ declare module 'vue' {
         :disabled
         :input-ref="inputRef"
         :text
-        :bindings="bindings.wrapper"
+        :bindings="bindings.wrapper()"
         :handle-blur
         :handle-focus
         :handle-input
@@ -425,13 +415,13 @@ declare module 'vue' {
           :disabled
           :input-ref="inputRef"
           :text
-          :bindings="bindings.wrapper"
+          :bindings="bindings.wrapper()"
           :handle-blur
           :handle-focus
           :handle-input
           :handle-model-update
         />
-        <div v-else v-bind="bindings.wrapper">
+        <div v-else :class="classes.wrapper" v-bind="bindings.wrapper()">
           <RadioButton
             v-model="value"
             :name="inputName"
@@ -440,7 +430,8 @@ declare module 'vue' {
             :disabled
             :readonly
             :invalid
-            v-bind="{ ...bindings.input, ...forwardProps }"
+            :class="classes.input"
+            v-bind="{ ...forwardProps, ...bindings.input() }"
             :ref="(el) => (inputRef = el)"
             @blur="handleBlur"
             @focus="handleFocus"
@@ -454,16 +445,21 @@ declare module 'vue' {
               <component :is="slot" v-bind="scope" />
             </template>
           </RadioButton>
-          <slot name="text" :text :id :generic-name :bindings="bindings.text">
+          <slot name="text" :text :id :generic-name :bindings="bindings.text()">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :bindings="bindings.text"
+              :bindings="bindings.text()"
             />
-            <label v-else-if="text" :for="id" v-bind="bindings.text">
+            <label
+              v-else-if="text"
+              :for="id"
+              :class="classes.text"
+              v-bind="bindings.text()"
+            >
               {{ text }}
             </label>
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>

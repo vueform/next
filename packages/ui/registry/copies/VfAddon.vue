@@ -31,9 +31,9 @@ const { api, context, expose, outlets, bindings, useClasses } = useBlueprint(
   slots
 )
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-addon',
-}))
+})
 
 const { resolved } = api
 
@@ -43,7 +43,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else v-bind="{ ...bindings.root, ...attrs }">
+    <div v-else :class="classes.root" v-bind="{ ...bindings.root(), ...attrs }">
       <component
         v-if="resolved && typeof resolved === 'object'"
         :is="resolved.component"

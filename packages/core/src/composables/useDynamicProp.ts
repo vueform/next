@@ -13,7 +13,7 @@ import { containsHtml, normalize, resolveIcon, toKebabCase } from '#src/utils'
 
 import { useConfig } from '.'
 import { useExpression } from './useExpression'
-import { useLocale } from './useLocale'
+import { useI18n } from './useI18n'
 import { useSecurity } from './useSecurity'
 
 /**
@@ -117,7 +117,7 @@ type UseDynamicPropOptions<V = any, T = any> = {
   default?: any
 
   /**
-   * Whether to localize the resolved value through the locale module.
+   * Whether to localize the resolved value through the i18n module.
    */
   localize?: boolean
 
@@ -279,7 +279,7 @@ function resolveDynamicPropHelpers(
     config: options.icon ? useConfig() : undefined,
     sanitize: options.sanitize ? useSecurity().sanitizeHtml : undefined,
     sanitizeUrl: options.safeUrl ? useSecurity().sanitizeUrl : undefined,
-    localize: options.localize ? useLocale().localize : undefined,
+    localize: options.localize ? useI18n().localize : undefined,
   }
 }
 
@@ -429,7 +429,7 @@ export function useDynamicPropFactory(): MakeDynamicPropFn {
   const expression = useExpression()
   const config = useConfig()
   const { sanitizeHtml, sanitizeUrl } = useSecurity()
-  const { localize } = useLocale()
+  const { localize } = useI18n()
   const defaultContext$ = useComponentContext()
 
   /**

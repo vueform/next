@@ -1,1 +1,1 @@
-import '@vueform/primevue/full'
+import '@vueform/primevue/bundle'

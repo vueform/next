@@ -274,8 +274,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfTreeSelectModifiers,
-  VfTreeSelectA11y,
+  VfTreeSelectBindings,
   VfCloneNameExpose,
   TreeSelectApi<TProps>
 > {}
@@ -315,16 +314,12 @@ const slots = defineSlots<VfCloneNameSlots<TOptions, TSelectionMode, TModel>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -332,21 +327,23 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-tree-select',
-}))
+})
 
-useModifiers(({ empty, placeholder, help, hasError }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+      'data-placeholder':
+        api.empty.value && !!api.placeholder.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
-  },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const {
   value,
@@ -435,7 +432,8 @@ declare module 'vue' {
         :loading="loading || resolving"
         :invalid
         fluid
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        :class="classes.input"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"

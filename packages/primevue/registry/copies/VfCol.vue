@@ -22,23 +22,27 @@ const props = withDefaults(defineProps<VfColProps>(), defaults)
 const events = defineEvents<VfColEmits>()
 const slots = defineSlots<VfColSlots>()
 
-const { api, context, expose, outlets, bindings, useClasses, useModifiers } =
-  useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses(({ colHeader, rowHeader }) => ({
-  root: {
+const classes = useClasses({
+  root: () => ({
     'vf-grid-cell': true,
-    'vf-grid-col-header': colHeader.value,
-    'vf-grid-row-header': rowHeader.value,
-  },
-}))
+    'vf-grid-col-header': api.colHeader.value,
+    'vf-grid-row-header': api.rowHeader.value,
+  }),
+})
 
-useModifiers(({ align, valign }) => ({
-  root: {
-    'data-align': align.value || undefined,
-    'data-valign': valign.value || undefined,
-  },
-}))
+const bindings = useBindings({
+  root: () => ({
+    'data-align': api.align.value || undefined,
+    'data-valign': api.valign.value || undefined,
+  }),
+})
 
 const { cell, cellCss, colspan, rowspan, nonce, uid } = api
 
@@ -50,6 +54,7 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <div
       v-if="!template"
+      :class="classes.root"
       :data-col-id="uid"
       :data-col="cell?.col"
       :data-row="cell?.row"
@@ -59,7 +64,7 @@ defineExpose(expose)
       :data-row-end="cell?.rowEnd"
       :data-colspan="colspan"
       :data-rowspan="rowspan"
-      v-bind="bindings.root"
+      v-bind="bindings.root()"
     >
       <slot>
         <component v-if="outlets?.default" :is="outlets.default" />

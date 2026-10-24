@@ -17,7 +17,7 @@ A custom Vite SSR app uses the standard Vue SSR structure from [Vite's SSR guide
 ```ts
 // src/app.ts — shared between the server and client entries
 import { createSSRApp } from 'vue'
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import App from './App.vue'
 
 export function createApp() {

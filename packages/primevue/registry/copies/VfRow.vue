@@ -29,9 +29,9 @@ const { api, context, expose, outlets, bindings, useClasses } = useBlueprint(
   slots
 )
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-grid-row',
-}))
+})
 
 const { uid } = api
 
@@ -41,7 +41,12 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else :data-row-id="uid" v-bind="bindings.root">
+    <div
+      v-else
+      :data-row-id="uid"
+      :class="classes.root"
+      v-bind="bindings.root()"
+    >
       <slot>
         <component v-if="outlets?.default" :is="outlets.default" />
       </slot>

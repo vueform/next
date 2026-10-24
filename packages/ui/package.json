@@ -37,16 +37,16 @@
     "./dist/components/*/styled.js",
     "./dist/vapor/components/*/styles.js",
     "./dist/vapor/components/*/styled.js",
-    "./dist/vapor/origin.js",
+    "./dist/vapor/bundle.js",
     "./dist/vapor/material.js",
-    "./dist/origin.js",
+    "./dist/bundle.js",
     "./dist/material.js"
   ],
   "main": "./dist/index.js",
   "module": "./dist/index.js",
   "types": "./dist/index.d.ts",
-  "unpkg": "./dist/origin.global.js",
-  "jsdelivr": "./dist/origin.global.js",
+  "unpkg": "./dist/vueform.global.js",
+  "jsdelivr": "./dist/vueform.global.js",
   "imports": {
     "#src": "./src/index.ts",
     "#src/*": [
@@ -137,21 +137,21 @@
       "types": "./dist/components/*/unstyled.d.ts",
       "import": "./dist/vapor/components/*/unstyled.js"
     },
-    "./vapor/origin": {
-      "dev": "./src/origin.ts",
-      "types": "./dist/origin.d.ts",
-      "import": "./dist/vapor/origin.js"
+    "./vapor/bundle": {
+      "dev": "./src/bundle.ts",
+      "types": "./dist/bundle.d.ts",
+      "import": "./dist/vapor/bundle.js"
     },
     "./vapor/material": {
       "dev": "./src/material.ts",
       "types": "./dist/material.d.ts",
       "import": "./dist/vapor/material.js"
     },
-    "./origin": {
-      "dev": "./src/origin.ts",
-      "types": "./dist/origin.d.ts",
-      "vapor": "./dist/vapor/origin.js",
-      "import": "./dist/origin.js"
+    "./bundle": {
+      "dev": "./src/bundle.ts",
+      "types": "./dist/bundle.d.ts",
+      "vapor": "./dist/vapor/bundle.js",
+      "import": "./dist/bundle.js"
     },
     "./material": {
       "dev": "./src/material.ts",
@@ -230,18 +230,18 @@
         "types": "./dist/components/*/unstyled.d.ts",
         "import": "./dist/vapor/components/*/unstyled.js"
       },
-      "./vapor/origin": {
-        "types": "./dist/origin.d.ts",
-        "import": "./dist/vapor/origin.js"
+      "./vapor/bundle": {
+        "types": "./dist/bundle.d.ts",
+        "import": "./dist/vapor/bundle.js"
       },
       "./vapor/material": {
         "types": "./dist/material.d.ts",
         "import": "./dist/vapor/material.js"
       },
-      "./origin": {
-        "types": "./dist/origin.d.ts",
-        "vapor": "./dist/vapor/origin.js",
-        "import": "./dist/origin.js"
+      "./bundle": {
+        "types": "./dist/bundle.d.ts",
+        "vapor": "./dist/vapor/bundle.js",
+        "import": "./dist/bundle.js"
       },
       "./material": {
         "types": "./dist/material.d.ts",
@@ -289,7 +289,7 @@
   "vueform": {
     "group": "adapters",
     "playground": {
-      "entry": "origin",
+      "entry": "bundle",
       "head": [
         "<link rel=\"stylesheet\" href=\"https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css\" />"
       ]

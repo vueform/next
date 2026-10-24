@@ -41,7 +41,7 @@ HTTP adapters replace the built-in fetch adapter behind form submits, uploads, a
 
 ## I18n
 
-I18n bridges connect Vueform's locale system to the app's translation library — see the [locales](/guide/locales) guide.
+I18n bridges connect Vueform's locale system to the app's translation library — see the [i18n](/guide/i18n) guide.
 
 | Plugin | Description |
 | --- | --- |

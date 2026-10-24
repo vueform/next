@@ -222,8 +222,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfSelectButtonModifiers,
-  VfSelectButtonA11y,
+  VfSelectButtonBindings,
   VfCloneNameExpose,
   SelectButtonApi<TProps>
 > {}
@@ -297,17 +296,8 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -315,18 +305,19 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(({ props }) => ({
+const classes = useClasses({
   root: 'vf-select-button',
-  input: props.layout === false ? props.class : null,
-}))
+  input: () => (props.layout === false ? props.class : null),
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const {
   value,
@@ -407,7 +398,8 @@ declare module 'vue' {
         :invalid
         :multiple
         fluid
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        :class="classes.input"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @focusin="handleFocus"
         @focusout="handleBlur"

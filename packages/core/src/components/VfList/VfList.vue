@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defaults, blueprint } from '#src/blueprints/list'
-import { useBlueprint, useLocale } from '#src/composables'
+import { useBlueprint, useI18n } from '#src/composables'
 import { defineEvents } from '#src/helpers'
 
 import type { VfListEmits, VfListProps, VfListSlots } from './types'
@@ -59,7 +59,7 @@ const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
   slots
 )
 
-const { t } = useLocale()
+const { t } = useI18n()
 
 const classes = useClasses({
   root: 'vf-list',

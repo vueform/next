@@ -45,7 +45,7 @@ watchEffect(() => history.replaceState({}, '', store.serialize()))
 
 const previewOptions = {
   headHTML: `
-    <link rel="stylesheet" href="/playground/origin.css">
+    <link rel="stylesheet" href="/playground/vueform.css">
     <style>body { padding: 16px; }</style>
   `,
   customCode: {
@@ -54,7 +54,7 @@ const previewOptions = {
       window.Vue = Vue
       await new Promise(resolve => {
         const s = document.createElement('script')
-        s.src = '/playground/origin.global.js'
+        s.src = '/playground/vueform.global.js'
         s.onload = resolve
         document.head.appendChild(s)
       })

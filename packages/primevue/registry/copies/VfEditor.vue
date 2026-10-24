@@ -49,40 +49,32 @@ const props = withDefaults(
 const events = defineEvents<VfEditorEmits<TTranslate, TLanguages>>()
 const slots = defineSlots<VfEditorSlots<TTranslate, TLanguages>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-editor',
-  input: {
+  input: () => ({
     'vf-editor-input': true,
     'vf-editor-loading': !api.ready.value,
     [api.editorClass.value]: !!api.editorCss.value,
-  },
-  placeholder: {
+  }),
+  placeholder: () => ({
     'vf-editor-placeholder': true,
     [api.editorClass.value]: !!api.editorCss.value,
-  },
+  }),
   placeholderContent: 'vf-editor-placeholder-content',
   placeholderToolbar: 'vf-editor-placeholder-toolbar',
-}))
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const { editorStyle } = propRefs
 
@@ -121,8 +113,15 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else :languages="false">
-      <div v-if="!ready" v-bind="bindings.placeholder">
-        <div v-bind="bindings.placeholderToolbar">
+      <div
+        v-if="!ready"
+        :class="classes.placeholder"
+        v-bind="bindings.placeholder()"
+      >
+        <div
+          :class="classes.placeholderToolbar"
+          v-bind="bindings.placeholderToolbar()"
+        >
           <span />
           <span />
           <span />
@@ -131,7 +130,8 @@ defineExpose(expose)
           <span />
         </div>
         <div
-          v-bind="bindings.placeholderContent"
+          :class="classes.placeholderContent"
+          v-bind="bindings.placeholderContent()"
           :style="editorStyle"
           data-editor-placeholder-content
         />
@@ -144,7 +144,8 @@ defineExpose(expose)
         :readonly
         :invalid
         :modules
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        :class="classes.input"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @load="handleLoad"
         @value-change="handleInput"

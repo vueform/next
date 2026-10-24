@@ -57,7 +57,7 @@ For the official PrimeVue examples, visit [InputMask](https://v4.primevue.org/in
 
 ## Localized Mask
 
-The `mask` and `placeholder` props can be localized by passing an object keyed by locale. The displayed mask follows the form's active [locale](/guide/locales):
+The `mask` and `placeholder` props can be localized by passing an object keyed by locale. The displayed mask follows the form's active [locale](/guide/i18n):
 
 ::: usage
 
@@ -88,7 +88,7 @@ The `mask` and `placeholder` props can be localized by passing an object keyed b
   :space-bottom="1"
   :columns="{ label: 5 }"
   icon-after="cog"
-  @change="(n, o, { $locale }) => $locale.set(n)"
+  @change="(n, o, { $i18n }) => $i18n.set(n)"
 />
 <VfInputMask
   name="phone"
@@ -122,7 +122,7 @@ const schema = defineSchema({
     spaceBottom: 1,
     iconAfter: 'cog',
     columns: { label: 5 },
-    onChange: (n, o, { $locale }) => $locale.set(n),
+    onChange: (n, o, { $i18n }) => $i18n.set(n),
   },
   phone: {
     type: 'input-mask',

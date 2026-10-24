@@ -3919,8 +3919,8 @@
   "useHttp": {
     "link": "/api/composables/useHttp"
   },
-  "useLocale": {
-    "link": "/api/composables/useLocale"
+  "useI18n": {
+    "link": "/api/composables/useI18n"
   },
   "useModel": {
     "link": "/api/composables/useModel"

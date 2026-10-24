@@ -1,8 +1,8 @@
 import {
   hasDateModule,
-  hasLocaleModule,
+  hasI18nModule,
   useDate,
-  useLocale,
+  useI18n,
   useSecurity,
   type DateUnit,
   type DateInstance,
@@ -27,8 +27,8 @@ export type ExpressionFunctionContext = {
 // The translated error placeholder, or plain 'Error' when the locale module
 // is not registered (the noop surface would render the raw tag).
 function expressionError(vueform?: VueformInstance): string {
-  return vueform && hasLocaleModule(vueform)
-    ? useLocale(vueform).t('expression_error')
+  return vueform && hasI18nModule(vueform)
+    ? useI18n(vueform).t('expression_error')
     : 'Error'
 }
 

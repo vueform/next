@@ -128,10 +128,10 @@ export interface VfCloneNameSlots<
 
     /**
      * The default slot's own part is the wrapper (the fallback's top-level
-     * element): its resolved classes, part overrides, and alignment
-     * modifiers; apply with `v-bind`.
+     * element): its resolved part overrides and alignment modifiers; apply
+     * with `v-bind`.
      */
-    bindings: VfCheckboxBindings['wrapper']
+    bindings: VfCheckboxResolvedBindings['wrapper']
 
     /**
      * Handler for the input's blur event.
@@ -175,10 +175,10 @@ export interface VfCloneNameSlots<
     genericName: string
 
     /**
-     * The text element's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The text element's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: VfCheckboxBindings['text']
+    bindings: VfCheckboxResolvedBindings['text']
   }) => VNode[]
 }
 
@@ -267,8 +267,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfCheckboxModifiers,
-  VfCheckboxA11y,
+  VfCheckboxBindings,
   VfCloneNameExpose,
   CheckboxApi<TProps>
 > {}
@@ -306,17 +305,8 @@ const slots = defineSlots<VfCloneNameSlots<TTrueValue, TFalseValue>>()
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 const trueValue = propRefs.trueValue as Ref<TTrueValue>
 const falseValue = propRefs.falseValue as Ref<TFalseValue>
@@ -343,27 +333,28 @@ const {
  *
  * @see https://ui.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-checkbox',
   wrapper: 'vf-choice-wrapper',
   input: 'vf-choice-input',
   text: 'vf-choice-text',
-}))
+})
 
-useModifiers(({ props, hasError, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    wrapper: () => ({
+      'data-align': api.props.align || undefined,
+      'data-aligned': api.props.aligned ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  wrapper: {
-    'data-align': props.align || undefined,
-    'data-aligned': props.aligned ? '' : undefined,
-  },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 defineExpose(expose)
 </script>
@@ -375,10 +366,9 @@ import type {
   ResolvedBindings,
 } from '@vueform/ui'
 
-type VfCheckboxBindings = ResolvedBindings<
+type VfCheckboxResolvedBindings = ResolvedBindings<
   VfCloneNameParts,
-  VfCheckboxModifiers,
-  VfCheckboxA11y
+  VfCheckboxBindings
 >
 
 type EntryProps<TEntry> = VfCloneNameProps<
@@ -422,7 +412,7 @@ declare module 'vue' {
         :disabled
         :input-ref="inputRef"
         :text
-        :bindings="bindings.wrapper"
+        :bindings="bindings.wrapper()"
         :handle-blur
         :handle-focus
         :handle-model-update
@@ -438,12 +428,12 @@ declare module 'vue' {
           :disabled
           :input-ref="inputRef"
           :text
-          :bindings="bindings.wrapper"
+          :bindings="bindings.wrapper()"
           :handle-blur
           :handle-focus
           :handle-model-update
         />
-        <div v-else v-bind="bindings.wrapper">
+        <div v-else :class="classes.wrapper" v-bind="bindings.wrapper()">
           <input
             type="checkbox"
             v-model="value"
@@ -453,22 +443,28 @@ declare module 'vue' {
             :true-value
             :false-value
             :disabled
-            v-bind="bindings.input"
+            :class="classes.input"
+            v-bind="bindings.input()"
             @blur="handleBlur"
             @focus="handleFocus"
             @change="handleInput"
             :ref="(el) => (inputRef = el)"
           />
-          <slot name="text" :text :id :generic-name :bindings="bindings.text">
+          <slot name="text" :text :id :generic-name :bindings="bindings.text()">
             <component
               v-if="outlets?.text"
               :is="outlets.text"
               :text
               :id
               :generic-name
-              :bindings="bindings.text"
+              :bindings="bindings.text()"
             />
-            <label v-else-if="text" :for="id" v-bind="bindings.text">
+            <label
+              v-else-if="text"
+              :for="id"
+              :class="classes.text"
+              v-bind="bindings.text()"
+            >
               {{ text }}
             </label>
             <label v-else class="sr-only" :for="id">{{ genericName }}</label>

@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defaults, blueprint } from '#src/blueprints/nav'
-import { useBlueprint, useLocale } from '#src/composables'
+import { useBlueprint, useI18n } from '#src/composables'
 import { useFormContext } from '#src/contexts'
 import { defineEvents } from '#src/helpers'
 
@@ -48,7 +48,7 @@ const bindings = useBindings({
 })
 
 const form$ = useFormContext()
-const { t } = useLocale()
+const { t } = useI18n()
 const { hideBack } = propRefs
 const { backLabel, loading, nextLabel, finishLabel, fluid } = api
 

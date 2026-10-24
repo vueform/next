@@ -31,7 +31,7 @@ To make the control look like a built-in, give it the theme's input classes. `vf
 
 The [`options`](/components/VfField#options) prop passes arbitrary data into `context.options`, which is how one slot component is parameterized per schema entry.
 
-Everything else the element layout offers comes along with the same props as on `!VfText` — [addons](/guide/element-layout#addons), icons, help, description, columns. Translation works too. With `translate: true` the model becomes locale-keyed while `context.value` keeps reading and writing the active language, so the slot doesn't change — see [multilingual inputs](/guide/multilingual-inputs).
+Everything else the element layout offers comes along with the same props as on `!VfText` — [addons](/guide/element-layout#addons), icons, help, description, columns. Translation works too. With `translate: true` the model becomes locale-keyed while `context.value` keeps reading and writing the active language, so the slot doesn't change — see [multilingual inputs](/guide/i18n#multilingual-inputs).
 
 ### Model Shape
 

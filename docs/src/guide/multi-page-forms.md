@@ -185,7 +185,7 @@ Tabs never validate on switch — a failed submit simply opens the tab holding t
 
 ### Navigation Bar Options
 
-`nextLabel`, `backLabel`, and `finishLabel` set the button captions. They're text props whose defaults come from the locale (`steps_next`, `steps_back`, `steps_finish`), so translations belong in the [locale](/guide/locales) file rather than on every form. The rest of the bar's chrome is three booleans and a position:
+`nextLabel`, `backLabel`, and `finishLabel` set the button captions. They're text props whose defaults come from the locale (`steps_next`, `steps_back`, `steps_finish`), so translations belong in the [locale](/guide/i18n#writing-a-locale) file rather than on every form. The rest of the bar's chrome is three booleans and a position:
 
 | Prop | Default | Effect |
 | --- | --- | --- |

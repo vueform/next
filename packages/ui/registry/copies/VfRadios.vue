@@ -61,16 +61,12 @@ const slots =
     >
   >()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 const {
   items,
@@ -84,34 +80,28 @@ const {
   handleBlur,
 } = api
 
-useClasses(({ props }) => ({
+const classes = useClasses({
   root: 'vf-radios vf-choices',
-  wrapper: [props.layout === false ? props.class : null, 'vf-choices-group'],
-  // No default styling yet; the functional defs are the mode signal that
-  // keys these bindings as per-group/per-item resolvers.
-  group: () => null,
-  groupLabel: () => null,
-  item: () => null,
-}))
+  wrapper: () => [
+    props.layout === false ? props.class : null,
+    'vf-choices-group',
+  ],
+})
 
-useModifiers(({ props, invalid, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    // Zero-arg resolver: aggregate reads resolve at the wrapper's own render effect.
+    wrapper: () => ({
+      'data-stacked': api.props.stacked ? '' : undefined,
+      'data-aligned': api.props.aligned ? '' : undefined,
+      'data-invalid': api.invalid.value ? '' : undefined,
+    }),
   },
-  // Functional on purpose: the bag reads aggregate validation state, which
-  // must resolve in the wrapper's own render effect — never inside the merged
-  // modifiers computed. Children's vapor dynamic prop sources subscribe to
-  // that computed, so an eager `invalid` read closes a reactive cycle
-  // (invalid -> children's validation -> child props -> this component's
-  // bindings) that Vue 3.6's dirty-check walk cannot terminate on.
-  wrapper: () => ({
-    'data-stacked': props.stacked ? '' : undefined,
-    'data-aligned': props.aligned ? '' : undefined,
-    'data-invalid': invalid.value ? '' : undefined,
-  }),
-}))
-
-useA11y(choicesAria({ role: 'radiogroup' }))
+  choicesAria(api, { role: 'radiogroup' })
+)
 
 defineExpose(expose)
 </script>
@@ -123,6 +113,7 @@ defineExpose(expose)
       <div
         @focusin="handleFocus"
         @focusout="handleBlur"
+        :class="classes.wrapper"
         v-bind="bindings.wrapper()"
       >
         <slot :items :groups :grouped :disabled :label :radio-name="path">

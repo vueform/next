@@ -158,7 +158,7 @@ export type FormContext = ContextOf<'VfForm'>
 
 /**
  * Returns the full public context of a registered component — the
- * `defineExpose` shape from `useBlueprint`, plus `$config`, `$locale`, and
+ * `defineExpose` shape from `useBlueprint`, plus `$config`, `$i18n`, and
  * `$globals` injected by `createComponentContext` on every component.
  *
  * Pass a props payload as `TEntry` to narrow prop-generic components the same

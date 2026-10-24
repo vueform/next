@@ -43,7 +43,7 @@ The native control carries state attributes computed from the element and kept i
 
 The `aria-describedby` chain tracks what's visible, so a screen reader hears exactly the context a sighted user sees — never a stale or hidden region. Help lives in the label group, so it joins the chain only while the label renders.
 
-Translatable inputs additionally get `lang` set to the language being edited, and their chain starts with a screen-reader-only polite live region announcing the editing language — see [multilingual inputs](/guide/multilingual-inputs).
+Translatable inputs additionally get `lang` set to the language being edited, and their chain starts with a screen-reader-only polite live region announcing the editing language — see [multilingual inputs](/guide/i18n#multilingual-inputs).
 
 The required indicator next to the label is `aria-hidden` — `aria-required` already conveys the requirement. Where the indicator appears is governed by [required indicators](/guide/validation#required-indicators).
 
@@ -92,7 +92,7 @@ Every string Vueform announces without a visible counterpart is a locale tag:
 | `sr_matrix_sort` | Reorder row {index} |
 | `sr_file_remove` | Remove file {index} |
 
-`{index}` is 1-based. Translate or reword these like any other tag — see [writing a locale](/guide/locales#writing-a-locale). The list and matrix add / remove tags apply only while no visible `addLabel` / `removeLabel` text is set ([labels and icons](/guide/repeaters#labels-and-icons)); sort handles and the file remove button always use theirs.
+`{index}` is 1-based. Translate or reword these like any other tag — see [writing a locale](/guide/i18n#writing-a-locale). The list and matrix add / remove tags apply only while no visible `addLabel` / `removeLabel` text is set ([labels and icons](/guide/repeaters#labels-and-icons)); sort handles and the file remove button always use theirs.
 
 ## Keyboard Navigation
 

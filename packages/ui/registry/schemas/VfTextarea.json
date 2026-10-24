@@ -10,11 +10,10 @@
       "path": "VfTextarea.vue",
       "target": "{componentsDir}/VfTextarea.vue",
       "kind": "component",
-      "hash": "sha256:6c26f9fb57cbd400275fc6a9813365503bf30fb51a286f6498ab9e6ded3a1fc1"
+      "hash": "sha256:2de18ccbcab2134225bc5b381cdb8b1c9972ca20b5d5d3648e28c568b88ecdfe"
     }
   ],
   "imports": [
-    "vue",
     "@vueform/ui",
     "@vueform/ui/components/VfTextarea",
     "@vueform/ui/textarea.css",
@@ -27,7 +26,7 @@
   "clone": {
     "path": "VfTextarea.vue",
     "blueprint": "textarea",
-    "hash": "sha256:81bd10a199ffebdf05d9824d6a0adc44eb0697ad2f2586ce09866c466108fe5a",
+    "hash": "sha256:3f0ce0ee94a3c2fa0ee5fe98050786b8c42f768844bbdbda97f881e3c650c8e8",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

@@ -33,9 +33,9 @@ const { context, expose, outlets, bindings, useClasses } = useBlueprint(
   slots
 )
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-elements',
-}))
+})
 
 defineExpose(expose)
 </script>
@@ -43,7 +43,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else v-bind="bindings.root">
+    <div v-else :class="classes.root" v-bind="bindings.root()">
       <slot>
         <component v-if="outlets?.default" :is="outlets.default" />
       </slot>

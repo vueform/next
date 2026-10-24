@@ -129,8 +129,7 @@ export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfToggleButtonModifiers,
-  VfToggleButtonA11y,
+  VfToggleButtonBindings,
   VfCloneNameExpose,
   ToggleButtonApi
 > {}
@@ -166,16 +165,12 @@ const slots = defineSlots<VfCloneNameSlots>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -183,17 +178,18 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-toggle-button',
-}))
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const {
   value,
@@ -254,7 +250,8 @@ declare module 'vue' {
         :off-label
         :on-icon
         :off-icon
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        :class="classes.input"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"

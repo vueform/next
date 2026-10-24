@@ -28,7 +28,7 @@ Called with no argument, `useHttp()` resolves the app's configuration by injecti
 
 ```ts
 // vueform.ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 
 export const vueform = createVueform({
   // your configuration
@@ -109,7 +109,7 @@ const { data } = await $http.get<User[]>('/api/users')
 Application-wide defaults live under the `$http` key of `createVueform`. Every request — Vueform's own and yours — picks them up:
 
 ```ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 
 app.use(
   createVueform({
@@ -260,7 +260,7 @@ onMounted(async () => {
 The **adapter** is the function that actually performs a request. It takes an `HttpRequestConfig`, returns a `Promise<HttpResponse>`, and throws an `HttpError` on failure. The `@vueform/ui` presets wire in `fetchHttpAdapter`, based on the native [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API), by default; replace it under `$http.adapter` to route everything through your own client:
 
 ```ts
-import { createVueform, type HttpAdapter } from '@vueform/ui/origin'
+import { createVueform, type HttpAdapter } from '@vueform/ui/bundle'
 
 const customAdapter: HttpAdapter = async (config) => {
   const response = await myClient.request({

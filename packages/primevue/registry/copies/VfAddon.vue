@@ -27,14 +27,12 @@ const events = defineEvents<VfAddonEmits>()
 const slots = defineSlots<VfAddonSlots>()
 const attrs = useAttrs()
 
-const { api, context, expose, outlets, bindings, useClasses } = useBlueprint(
+const { api, context, expose, outlets, bindings } = useBlueprint(
   blueprint,
   props,
   events,
   slots
 )
-
-useClasses(() => ({}))
 
 const { resolved } = api
 
@@ -44,7 +42,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <InputGroupAddon v-else v-bind="{ ...bindings.root, ...attrs }">
+    <InputGroupAddon v-else v-bind="{ ...bindings.root(), ...attrs }">
       <component
         v-if="resolved && typeof resolved === 'object'"
         :is="resolved.component"

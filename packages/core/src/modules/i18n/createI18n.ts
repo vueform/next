@@ -4,26 +4,26 @@ import type { VueformInstance } from '#src/helpers'
 import type { en_US } from '#src/locales'
 import { typedEntries } from '#src/utils'
 
-import type { LocaleModule, LocaleModuleOptions } from './types'
+import type { I18nModule, I18nModuleOptions } from './types'
 
 export type LocaleTag = keyof typeof en_US | (string & {})
 
 /**
- * Creates a locale instance from the given app config (uses the top-level
+ * Creates an i18n instance from the given app config (uses the top-level
  * `locales`, `fallbackLocale`, `locale`, and `localeParamPattern` keys, with
- * `$locale` overrides applied on top).
+ * `$i18n` overrides applied on top).
  *
  * @param config The app config.
  */
-export function createLocale(vueform: VueformInstance): LocaleModule {
+export function createI18n(vueform: VueformInstance): I18nModule {
   const { config } = vueform
 
-  const options: LocaleModuleOptions = {
+  const options: I18nModuleOptions = {
     locales: config.locales,
     fallbackLocale: config.fallbackLocale,
     locale: config.locale,
     localeParamPattern: config.localeParamPattern,
-    ...config.$locale,
+    ...config.$i18n,
   }
 
   if (options.adapter) {

@@ -83,7 +83,7 @@ bun add @vueform/expr-eval
 Register it in `createVueform`:
 
 ```ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import exprEval from '@vueform/expr-eval'
 
 app.use(
@@ -407,7 +407,7 @@ defineSchema({
 Register your own functions under `$expression.functions`. The `defineFunction` helper types the factory — the outer function runs once at startup, the inner one on every evaluation:
 
 ```ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import exprEval, { defineFunction } from '@vueform/expr-eval'
 
 const SLUGIFY = defineFunction(() => (value: string) =>

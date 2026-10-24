@@ -1,9 +1,44 @@
-```ts
+import { type MaybeRef, type WritableComputedRef } from 'vue'
+
+import type { LocalesProp } from '#src/types'
+
+import type { LocaleTag } from './createI18n'
+
 /**
- * The locale module instance providing translation, localization, and locale
+ * Configuration options for the i18n module (`config.$i18n`).
+ */
+export interface I18nModuleOptions {
+  /**
+   * Registered locale definitions keyed by locale name.
+   */
+  locales?: LocalesProp
+
+  /**
+   * Fallback locale key used when a translation is missing.
+   */
+  fallbackLocale?: string
+
+  /**
+   * Active locale key (or a ref to one).
+   */
+  locale?: MaybeRef<string>
+
+  /**
+   * Pattern used to interpolate `{param}` placeholders in messages.
+   */
+  localeParamPattern?: RegExp
+
+  /**
+   * Custom locale implementation replacing the built-in translator.
+   */
+  adapter?: I18nAdapter
+}
+
+/**
+ * The i18n module instance providing translation, localization, and locale
  * switching.
  */
-interface LocaleModule {
+export interface I18nModule {
   /**
    * The currently active locale key (readable and writable).
    */
@@ -81,4 +116,8 @@ interface LocaleModule {
     obj: Record<string, string | Record<string, string>>
   ) => Record<string, string>
 }
-```
+
+/**
+ * A factory that produces a `I18nModule` instance.
+ */
+export type I18nAdapter = (options: I18nModuleOptions) => I18nModule

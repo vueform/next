@@ -2,7 +2,7 @@ import { computed } from 'vue'
 
 import { warn, isProd } from '#src/utils'
 
-import type { LocaleModule } from './types'
+import type { I18nModule } from './types'
 
 let warnedSetLocale = false
 
@@ -16,7 +16,7 @@ function warnSetLocale() {
   warnedSetLocale = true
 
   warn(
-    'Switching the locale requires the `locale` module; register it via `createVueform({ modules: { locale } })`.'
+    'Switching the locale requires the `i18n` module; register it via `createVueform({ modules: { i18n } })`.'
   )
 }
 
@@ -33,12 +33,12 @@ function localize(msg?: string | Record<string, string>): string {
 }
 
 /**
- * The inert locale surface used when the `locale` module is not registered —
+ * The inert locale surface used when the `i18n` module is not registered —
  * behaves as if localization weren't there: translation tags resolve to their
  * raw tag string, locale maps fall back to their first entry, and locale
  * switching warns in dev.
  */
-export const noopLocale: LocaleModule = {
+export const noopI18n: I18nModule = {
   locale: computed({
     get: () => '',
     set: warnSetLocale,

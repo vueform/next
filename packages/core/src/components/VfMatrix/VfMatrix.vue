@@ -5,7 +5,7 @@ import {
   normalizeSourceItems,
   resolveItemProp,
 } from '#src/blueprints/matrix'
-import { useBlueprint, useLocale } from '#src/composables'
+import { useBlueprint, useI18n } from '#src/composables'
 import { defineEvents } from '#src/helpers'
 import { isPlainObject } from '#src/utils'
 
@@ -102,7 +102,7 @@ const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
   slots
 )
 
-const { t } = useLocale()
+const { t } = useI18n()
 
 const classes = useClasses({
   root: () => ({

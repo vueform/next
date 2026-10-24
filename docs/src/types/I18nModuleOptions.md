@@ -1,8 +1,8 @@
 ```ts
 /**
- * Configuration options for the locale module (`config.$locale`).
+ * Configuration options for the i18n module (`config.$i18n`).
  */
-interface LocaleModuleOptions {
+interface I18nModuleOptions {
   /**
    * Registered locale definitions keyed by locale name.
    */
@@ -26,6 +26,6 @@ interface LocaleModuleOptions {
   /**
    * Custom locale implementation replacing the built-in translator.
    */
-  adapter?: LocaleAdapter
+  adapter?: I18nAdapter
 }
 ```

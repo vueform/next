@@ -10,7 +10,7 @@
       "path": "VfCheckbox.vue",
       "target": "{componentsDir}/VfCheckbox.vue",
       "kind": "component",
-      "hash": "sha256:a6ec74adcc0a4f79793509291e693afa189c808a76016e3b82a408f90b2ce01f"
+      "hash": "sha256:cd05b0096c15e0ca5cea0300fd95c0e8e6c509662a408e5aab54d76f1b802936"
     }
   ],
   "imports": [
@@ -26,7 +26,7 @@
   "clone": {
     "path": "VfCheckbox.vue",
     "blueprint": "checkbox",
-    "hash": "sha256:14694f7a7369b0967973bcee28f0458e3429329e8bef0e580193656c2a9b8448",
+    "hash": "sha256:1819d8975bc761689c6eb65c9de50de62ecdb5a5ac96bb4f35ec9b6a52bafa11",
     "docs": "How to customize the clone:\nhttps://ui.vueform.com/guide/components#building-on-blueprints"
   },
   "register": {

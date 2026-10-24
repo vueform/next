@@ -28,9 +28,9 @@ const attrs = useAttrs()
 const { context, expose, outlets, bindings, useClasses, propRefs } =
   useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
-  root: 'vf-icon',
-}))
+const classes = useClasses({
+  root: () => ['vf-icon', props.icon],
+})
 
 const { icon } = propRefs
 
@@ -42,9 +42,9 @@ defineExpose(expose)
     <component v-if="outlets.template" :is="outlets.template" :context />
     <i
       v-else-if="icon"
-      :class="icon"
+      :class="classes.root"
       aria-hidden="true"
-      v-bind="{ ...bindings.root, ...attrs }"
+      v-bind="{ ...bindings.root(), ...attrs }"
     />
   </slot>
 </template>

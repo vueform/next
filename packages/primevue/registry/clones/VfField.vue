@@ -183,8 +183,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfFieldModifiers,
-  VfFieldA11y,
+  VfFieldBindings,
   VfCloneNameExpose,
   FieldApi<TProps>
 > {}
@@ -224,7 +223,7 @@ const slots =
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, context, expose, outlets, useClasses, useA11y } = useBlueprint(
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
   blueprint,
   props,
   events,
@@ -237,11 +236,11 @@ const { api, context, expose, outlets, useClasses, useA11y } = useBlueprint(
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+useClasses({
   root: 'vf-field',
-}))
+})
 
-useA11y(inputAria())
+useBindings(inputAria(api))
 
 const { viewLoaded } = api
 

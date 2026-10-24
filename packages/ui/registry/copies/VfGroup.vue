@@ -30,23 +30,30 @@ const props = withDefaults(defineProps<VfGroupProps>(), defaults)
 const events = defineEvents<VfGroupEmits>()
 const slots = defineSlots<VfGroupSlots>()
 
-const { api, context, expose, outlets, bindings, useClasses, useModifiers } =
-  useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses(({ props }) => ({
+const classes = useClasses({
   root: 'vf-group',
-  wrapper: [props.layout === false ? props.class : null, 'vf-group-elements'],
-}))
+  wrapper: () => [
+    props.layout === false ? props.class : null,
+    'vf-group-elements',
+  ],
+})
 
-useModifiers(({ props }) => ({
-  root: {
-    'data-wrapped': props.wrap ? '' : undefined,
-  },
-  wrapper: {
-    'data-stacked': props.stacked ? '' : undefined,
-    'data-wrapped': props.innerWrap ? '' : undefined,
-  },
-}))
+const bindings = useBindings({
+  root: () => ({
+    'data-wrapped': api.props.wrap ? '' : undefined,
+  }),
+  wrapper: () => ({
+    'data-stacked': api.props.stacked ? '' : undefined,
+    'data-wrapped': api.props.innerWrap ? '' : undefined,
+  }),
+})
 
 const { resolvedSchema, label } = api
 
@@ -57,15 +64,20 @@ defineExpose(expose)
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <slot name="wrapper" :resolved-schema :label :bindings="bindings.wrapper">
+      <slot
+        name="wrapper"
+        :resolved-schema
+        :label
+        :bindings="bindings.wrapper()"
+      >
         <component
           v-if="outlets?.wrapper"
           :is="outlets.wrapper"
           :resolved-schema
           :label
-          :bindings="bindings.wrapper"
+          :bindings="bindings.wrapper()"
         />
-        <div v-else v-bind="bindings.wrapper">
+        <div v-else :class="classes.wrapper" v-bind="bindings.wrapper()">
           <slot :resolved-schema>
             <component
               v-if="outlets?.default"

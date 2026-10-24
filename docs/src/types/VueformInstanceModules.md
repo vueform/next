@@ -8,7 +8,7 @@ interface VueformInstanceModules {
   http?: HttpModule
   date?: DateModule
   devtools?: DevtoolsModule
-  locale?: LocaleModule
+  i18n?: I18nModule
   security?: SecurityModule
   theme?: ThemeModule
   router?: RouterModule

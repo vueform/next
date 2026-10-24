@@ -30,7 +30,7 @@ const ROOT_DIR = path.resolve(DOCS_DIR, '..')
 const PARALLEL = [
   'guide-tokens',
   'guide-icons',
-  'guide-locales',
+  'guide-i18n',
   'guide-code-splitting',
   'guide-benchmark',
   'reference-composables',

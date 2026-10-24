@@ -24,9 +24,9 @@ interface VueformModules {
   devtools?: VueformModule<DevtoolsModule>
 
   /**
-   * The locale module for translation and localization.
+   * The i18n module for translation and localization.
    */
-  locale?: VueformModule<LocaleModule>
+  i18n?: VueformModule<I18nModule>
 
   /**
    * The security module for HTML sanitization.

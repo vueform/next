@@ -4,12 +4,12 @@ import { nextTick } from 'vue'
 
 import { createForm, flushPromises } from '../../helpers'
 
-// Locale's doorway is inject-based (per app), so unlike globals-based modules
+// The i18n module's doorway is inject-based (per app), so unlike globals-based modules
 // this is testable per form — but a fresh file keeps it symmetric with the
 // other module-absence suites.
-const { locale: _locale, ...modulesWithoutLocale } = modules as any
+const { i18n: _i18n, ...modulesWithoutI18n } = modules as any
 
-describe('Forms without the locale module', () => {
+describe('Forms without the i18n module', () => {
   it('should render with raw tags and first-entry locale maps', async () => {
     const { form$, name } = createForm(
       {
@@ -21,7 +21,7 @@ describe('Forms without the locale module', () => {
           },
         }),
       },
-      { modules: modulesWithoutLocale }
+      { modules: modulesWithoutI18n }
     )
 
     await nextTick()
@@ -45,15 +45,15 @@ describe('Forms without the locale module', () => {
           name: { type: 'text' },
         }),
       },
-      { modules: modulesWithoutLocale }
+      { modules: modulesWithoutI18n }
     )
 
     await nextTick()
 
-    form$.find('name')?.$locale.set('de_DE')
+    form$.find('name')?.$i18n.set('de_DE')
 
     expect(warnSpy).toHaveBeenCalledWith(
-      expect.stringContaining('requires the `locale` module')
+      expect.stringContaining('requires the `i18n` module')
     )
 
     warnSpy.mockRestore()

@@ -17,9 +17,9 @@ import { origin as theme } from '#src/themes'
 
 /**
  * Creates a pre-configured Vueform plugin with all components, rules, modules,
- * the Origin theme, and the `en_US` locale registered by default. Every config
- * option is optional; app `tokens` merge on top of the Origin theme, and a
- * `theme` replaces it wholesale.
+ * the default (Origin) theme, and the `en_US` locale registered by default.
+ * Every config option is optional; app `tokens` merge on top of the default
+ * theme, and a `theme` replaces it wholesale.
  */
 export const createVueform = createVueformFactory(
   defineConfig({

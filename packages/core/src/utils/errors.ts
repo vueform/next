@@ -9,7 +9,7 @@ export class NotInstalledError extends Error {
         'No Vueform instance in context. Call this inside a component setup ' +
           'of an app that installed Vueform. Outside components, use your ' +
           'instance directly (e.g. `vueform.useModel(...)`, ' +
-          '`getLocaleModule(vueform)`); composables that bind to a component ' +
+          '`getI18nModule(vueform)`); composables that bind to a component ' +
           '(e.g. `useConditions`) are setup-only.'
     )
     this.name = 'NotInstalledError'

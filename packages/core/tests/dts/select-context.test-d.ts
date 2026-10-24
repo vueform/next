@@ -67,9 +67,9 @@ describe('VfSelect expose — factory API lives on VfSelectExpose; context unwra
     expectTypeOf<SelectContext>().toHaveProperty('fireAsync')
     expectTypeOf<SelectContext>().toHaveProperty('hasListeners')
     expectTypeOf<SelectContext>().toHaveProperty('$config')
-    expectTypeOf<SelectContext>().toHaveProperty('$locale')
+    expectTypeOf<SelectContext>().toHaveProperty('$i18n')
     expectTypeOf<SelectContext>().toHaveProperty('$globals')
-    expectTypeOf<SelectContext['$locale']>().toHaveProperty('set')
+    expectTypeOf<SelectContext['$i18n']>().toHaveProperty('set')
     expectTypeOf<SelectContext['$config']>().toHaveProperty('modules')
     expectTypeOf<SelectContext['$globals']>().toHaveProperty(
       'defaultBreakpoint'

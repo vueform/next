@@ -224,7 +224,7 @@ const [Form] = useForm({ schema })
 
 ## Localized Props
 
-The `text` and `tooltip` props can be localized by passing an object keyed by locale. The displayed value follows the form's active [locale](/guide/locales):
+The `text` and `tooltip` props can be localized by passing an object keyed by locale. The displayed value follows the form's active [locale](/guide/i18n):
 
 ::: usage center nomodel
 
@@ -265,7 +265,7 @@ The `text` and `tooltip` props can be localized by passing an object keyed by lo
   default-value="en_US"
   float-label="Locale"
   float="on"
-  @change="(n, o, { $locale }) => $locale.set(n)"
+  @change="(n, o, { $i18n }) => $i18n.set(n)"
 />
 ```
 
@@ -295,7 +295,7 @@ const schema = defineSchema({
     defaultValue: 'en_US',
     floatLabel: 'Locale',
     float: 'on',
-    onChange: (n, o, { $locale }) => $locale.set(n),
+    onChange: (n, o, { $i18n }) => $i18n.set(n),
   },
 })
 

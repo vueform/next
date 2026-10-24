@@ -33,28 +33,25 @@ const props = withDefaults(defineProps<VfToggleButtonProps>(), defaults)
 const events = defineEvents<VfToggleButtonEmits>()
 const slots = defineSlots<VfToggleButtonSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-toggle-button',
-}))
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const {
   value,
@@ -92,7 +89,8 @@ defineExpose(expose)
         :off-label
         :on-icon
         :off-icon
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        :class="classes.input"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"

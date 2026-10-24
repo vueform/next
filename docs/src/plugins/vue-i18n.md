@@ -15,5 +15,5 @@ Vue I18n integration that connects Vueform's locale system to vue-i18n.
 ## Installation
 
 ::: info Coming soon
-`@vueform/vue-i18n` is not published yet — it's planned for an upcoming release. Until then, translations go through Vueform's own locale system, documented in the [locales](/guide/locales) guide.
+`@vueform/vue-i18n` is not published yet — it's planned for an upcoming release. Until then, translations go through Vueform's own locale system, documented in the [i18n](/guide/i18n) guide.
 :::

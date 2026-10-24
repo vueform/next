@@ -24,30 +24,22 @@ const props = withDefaults(defineProps<VfLanguagesProps>(), defaults)
 const events = defineEvents<VfLanguagesEmits>()
 const slots = defineSlots<VfLanguagesSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-languages',
   list: 'vf-languages-wrapper',
   wrapper: 'vf-language-wrapper',
   language: 'vf-language',
-}))
+})
 
-useModifiers(() => ({
+const bindings = useBindings({
   wrapper: (selected: boolean, invalid: boolean) => ({
     'data-selected': selected ? '' : undefined,
     'data-invalid': invalid ? '' : undefined,
   }),
-}))
+})
 
 const { languages, language, invalidLanguages } = propRefs
 const { handleSelect } = api
@@ -58,15 +50,16 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <div v-else v-bind="bindings.root">
+    <div v-else :class="classes.root" v-bind="bindings.root()">
       <!-- Plain buttons on purpose: tablist roles are a keyboard contract
         (roving tabindex, arrow keys) this component does not implement yet.
         aria-current marks the active language without promising tab
         semantics. -->
-      <ul v-bind="bindings.list">
+      <ul :class="classes.list" v-bind="bindings.list()">
         <li
           v-for="(label, value) in languages"
           :key="value"
+          :class="classes.wrapper"
           v-bind="
             bindings.wrapper(
               language === value,
@@ -78,7 +71,8 @@ defineExpose(expose)
             type="button"
             :aria-current="language === value || undefined"
             :aria-invalid="invalidLanguages?.has(value as string) || undefined"
-            v-bind="bindings.language"
+            :class="classes.language"
+            v-bind="bindings.language()"
             @click="handleSelect(value as string)"
           >
             <slot :language :languages :value :label>

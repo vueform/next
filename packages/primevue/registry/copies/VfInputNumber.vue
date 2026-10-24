@@ -33,31 +33,28 @@ const props = withDefaults(defineProps<VfInputNumberProps>(), defaults)
 const events = defineEvents<VfInputNumberEmits>()
 const slots = defineSlots<VfInputNumberSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-text-number',
-}))
+})
 
-useModifiers(({ help, hasError }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const {
   value,
@@ -122,8 +119,9 @@ defineExpose(expose)
         :suffix
         :mode
         fluid
+        :class="classes.input"
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @focus="handleFocus"
         @blur="handleBlur"

@@ -41,9 +41,9 @@ interface VueformConfig {
   $http: HttpModuleOptions
 
   /**
-   * Global locale module options (e.g. a custom locale provider).
+   * Global i18n module options (e.g. a custom locale provider).
    */
-  $locale: LocaleModuleOptions
+  $i18n: I18nModuleOptions
 
   /**
    * Global model module options.

@@ -36,31 +36,28 @@ const props = withDefaults(defineProps<VfKnobProps>(), defaults)
 const events = defineEvents<VfKnobEmits>()
 const slots = defineSlots<VfKnobSlots>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses(({ props }) => ({
-  root: {
+const classes = useClasses({
+  root: () => ({
     'vf-knob': true,
     'vf-centered': !!props.centered,
-  },
-}))
+  }),
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const {
   value,
@@ -100,7 +97,8 @@ defineExpose(expose)
         :min
         :max
         :step
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        :class="classes.input"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @change="handleInput"
       />

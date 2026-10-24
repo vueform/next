@@ -1,5 +1,5 @@
 {
-  "entry": "full",
+  "entry": "bundle",
   "schema": {
     "text": { "type": "input-text", "component": "VfInputText" },
     "select": { "itemsProp": "options" },

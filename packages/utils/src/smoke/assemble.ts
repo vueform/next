@@ -144,8 +144,8 @@ export interface SmokeConfig {
    */
   dependencies?: string[]
   /**
-   * The exports subpath `createVueform` comes from (e.g. `origin` →
-   * `@vueform/ui/origin`), re-exported through the generated
+   * The exports subpath `createVueform` comes from (e.g. `bundle` →
+   * `@vueform/ui/bundle`), re-exported through the generated
    * `smoke/adapter.ts` so the fixture shells stay adapter-free. Omit when
    * the package root exports it.
    */
@@ -203,7 +203,7 @@ function readSmokeConfig(adapterDir: string, adapter: string): SmokeConfig {
   if (config.entry !== undefined && typeof config.entry !== 'string') {
     throw new SmokeError(
       `tests/smoke/config.json of "${adapter}": "entry" must be an exports ` +
-        `subpath string (e.g. "origin").`
+        `subpath string (e.g. "bundle").`
     )
   }
   return config

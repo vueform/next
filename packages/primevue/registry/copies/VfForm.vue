@@ -58,93 +58,66 @@ const props = withDefaults(defineProps<VfFormProps<TSchema>>(), defaults)
 const events = defineEvents<VfFormEmits<TSchema>>()
 const slots = defineSlots<VfFormSlots<TSchema>>()
 
-const {
-  api,
-  parts,
-  classes,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 const config = useConfig()
 
-useClasses(
-  ({ props, tokenClass, tokenCss, showErrors, errors, messages, pager }) => ({
-    root: {
-      'vf-form': true,
-      [tokenClass]: !!tokenCss.value,
-      [config.build.darkClass]: props.dark === true,
-      [config.build.lightClass]: props.dark === false,
-    },
-    // Functional on purpose (same for `messages` below): the entries read
-    // form-level aggregates, which must resolve in the part's own render
-    // effect — never inside the merged classes computed, where elements' vapor
-    // dynamic prop sources would pick them up as dependencies and close a
-    // reactive cycle (errors -> element validation -> element props -> form
-    // bindings) that Vue 3.6's dirty-check walk cannot terminate on.
-    errors: () => [
-      'vf-form-errors-wrapper',
-      {
-        'sr-only': !showErrors.value || Object.keys(errors.value).length === 0,
-      },
-    ],
-    errorList: 'vf-form-errors',
-    error: 'vf-form-error',
-    messages: () => [
-      'vf-form-messages-wrapper',
-      {
-        'sr-only': !messages.value.length,
-      },
-    ],
-    messageList: 'vf-form-messages',
-    message: 'vf-form-message',
-    languages: 'vf-form-languages',
-    tab: () => null,
-    step: () => null,
-    stepItem: () => null,
-    stepPanel: () => null,
-    vStepPanel: () => '',
-    stepInner: (page: ResolvedPage) => ({
-      'p-step': true,
-      'p-step-active': page.name === pager.value?.page,
-    }),
-    stepHeader: () => 'p-step-header',
-    stepNumber: () => 'p-step-number',
-    stepIcon: (page: ResolvedPage) => ({
-      [page.meta?.icon]: !!page.meta?.icon,
-    }),
-    stepTitle: () => 'p-step-title',
-  })
-)
+const classes = useClasses({
+  root: () => ({
+    'vf-form': true,
+    [api.tokenClass]: !!api.tokenCss.value,
+    [config.build.darkClass]: props.dark === true,
+    [config.build.lightClass]: props.dark === false,
+  }),
+  errors: () => ({
+    'vf-form-errors-wrapper': true,
+    'sr-only':
+      !api.showErrors.value || Object.keys(api.errors.value).length === 0,
+  }),
+  errorList: 'vf-form-errors',
+  error: 'vf-form-error',
+  messages: () => ({
+    'vf-form-messages-wrapper': true,
+    'sr-only': !api.messages.value.length,
+  }),
+  messageList: 'vf-form-messages',
+  message: 'vf-form-message',
+  languages: 'vf-form-languages',
+  step: () => null,
+  stepItem: () => null,
+  stepPanel: () => null,
+  stepInner: (page: ResolvedPage) => ({
+    'p-step': true,
+    'p-step-active': page.name === api.pager.value?.page,
+  }),
+  stepHeader: () => 'p-step-header',
+  stepNumber: () => 'p-step-number',
+  stepIcon: (page: ResolvedPage) => ({
+    [page.meta?.icon]: !!page.meta?.icon,
+  }),
+  stepTitle: (_page: ResolvedPage) => 'p-step-title',
+})
 
-useModifiers(({ props }) => ({
-  root: {
-    'data-stacked': props.stacked ? '' : undefined,
-  },
-}))
-
-useA11y(({ errorsId, messagesId }) => ({
-  errors: {
-    id: errorsId.value,
+const bindings = useBindings({
+  root: () => ({
+    'data-stacked': api.props.stacked ? '' : undefined,
+  }),
+  errors: () => ({
+    id: api.errorsId.value,
     role: 'alert',
     'aria-live': 'assertive',
     'aria-atomic': 'true',
     tabindex: -1,
-  },
-  messages: {
-    id: messagesId.value,
+  }),
+  messages: () => ({
+    id: api.messagesId.value,
     role: 'status',
     'aria-live': 'polite',
     'aria-atomic': 'true',
     tabindex: -1,
-  },
-}))
+  }),
+})
 
 const {
   multilingual,
@@ -318,7 +291,7 @@ defineExpose(expose)
 <template>
   <slot name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
-    <form v-else v-bind="bindings.root" @submit.prevent>
+    <form v-else :class="classes.root" v-bind="bindings.root()" @submit.prevent>
       <slot name="content" :context>
         <div
           :id="`${uid}-head`"
@@ -335,11 +308,11 @@ defineExpose(expose)
           :is="tabbed ? Tabs : stepped ? Stepper : VfPassthrough"
           :linear="stepped ? true : undefined"
           :value="pager?.page"
-          v-bind="tabbed ? bindings.tabsContainer : bindings.stepsContainer"
+          v-bind="tabbed ? bindings.tabsContainer() : bindings.stepsContainer()"
           @update:value="pager?.select"
         >
           <Teleport :to="`#${uid}-head`" defer :disabled="!tabbed && !stepped">
-            <div v-bind="bindings.errors()">
+            <div :class="classes.errors" v-bind="bindings.errors()">
               <slot name="errors" :errors :id="errorsId">
                 <component
                   v-if="outlets?.errors"
@@ -347,12 +320,17 @@ defineExpose(expose)
                   :errors
                   :id="errorsId"
                 />
-                <ul v-else v-bind="bindings.errorList">
+                <ul
+                  v-else
+                  :class="classes.errorList"
+                  v-bind="bindings.errorList()"
+                >
                   <template v-for="(fieldErrors, path) in errors" :key="path">
                     <li
                       v-for="(error, i) in fieldErrors"
                       :key="`${path}-${i}`"
-                      v-bind="bindings.error"
+                      :class="classes.error"
+                      v-bind="bindings.error()"
                     >
                       <slot name="error" :error :path>
                         <component
@@ -371,7 +349,7 @@ defineExpose(expose)
               </slot>
             </div>
 
-            <div v-bind="bindings.messages()">
+            <div :class="classes.messages" v-bind="bindings.messages()">
               <slot name="messages" :messages :id="messagesId">
                 <component
                   v-if="outlets?.messages"
@@ -379,11 +357,16 @@ defineExpose(expose)
                   :messages
                   :id="messagesId"
                 />
-                <ul v-else v-bind="bindings.messageList">
+                <ul
+                  v-else
+                  :class="classes.messageList"
+                  v-bind="bindings.messageList()"
+                >
                   <li
                     v-for="(message, i) in messages"
                     :key="i"
-                    v-bind="bindings.message"
+                    :class="classes.message"
+                    v-bind="bindings.message()"
                   >
                     <slot name="message" :message>
                       <component
@@ -406,7 +389,7 @@ defineExpose(expose)
               :languages
               :language
               :invalid-languages
-              :bindings="bindings.languages"
+              :bindings="bindings.languages()"
             >
               <component
                 v-if="outlets?.languages"
@@ -414,7 +397,7 @@ defineExpose(expose)
                 :languages
                 :language
                 :invalid-languages
-                :bindings="bindings.languages"
+                :bindings="bindings.languages()"
               />
               <VfSelectButton
                 v-else
@@ -424,7 +407,8 @@ defineExpose(expose)
                 name="__language___"
                 :options="languages"
                 detached
-                v-bind="bindings.languages"
+                :class="classes.languages"
+                v-bind="bindings.languages()"
                 :part:input="inputPart"
               />
             </slot>
@@ -434,15 +418,15 @@ defineExpose(expose)
             v-if="tabbed"
             name="tabs"
             :pager="tabs"
-            :bindings="bindings.tabs"
+            :bindings="bindings.tabs()"
           >
             <component
               v-if="outlets?.tabs"
               :is="outlets?.tabs"
               :pager="tabs"
-              :bindings="bindings.tabs"
+              :bindings="bindings.tabs()"
             />
-            <TabList v-else v-bind="bindings.tabs">
+            <TabList v-else v-bind="bindings.tabs()">
               <template v-for="page in tabs.pages" :key="page.name">
                 <slot name="tab" :page :bindings="bindings.tab(page)">
                   <component
@@ -453,7 +437,12 @@ defineExpose(expose)
                   >
                     {{ page.label }}
                   </component>
-                  <Tab v-else :value="page.name" v-bind="bindings.tab(page)">
+                  <Tab
+                    v-else
+                    :value="page.name"
+                    :class="classes.tab?.(page)"
+                    v-bind="bindings.tab(page)"
+                  >
                     {{ page.label }}
                   </Tab>
                 </slot>
@@ -465,13 +454,13 @@ defineExpose(expose)
             v-if="stepped && progress"
             name="steps"
             :pager="steps"
-            :bindings="bindings.steps"
+            :bindings="bindings.steps()"
           >
             <component
               v-if="outlets?.steps"
               :is="outlets?.steps"
               :pager="steps"
-              :bindings="bindings.steps"
+              :bindings="bindings.steps()"
             />
             <template v-else-if="vertical">
               <template v-for="page in steps.pages" :key="page.name">
@@ -485,10 +474,14 @@ defineExpose(expose)
                   <StepItem
                     v-else
                     :value="page.name"
+                    :class="classes.stepItem?.(page)"
                     v-bind="bindings.stepItem(page)"
                   >
-                    <FormStep :page :classes :parts />
-                    <StepPanel v-bind="bindings.stepPanel(page)">
+                    <FormStep :page :classes :bindings />
+                    <StepPanel
+                      :class="classes.stepPanel?.(page)"
+                      v-bind="bindings.stepPanel(page)"
+                    >
                       <!-- Elements are teleported here from the single
                         render location below when this page is active -->
                       <div
@@ -503,7 +496,7 @@ defineExpose(expose)
                         :finish-label
                         :back
                         :slots="outlets"
-                        :parts
+                        :bindings
                         :classes
                         :position="navPos"
                       />
@@ -512,7 +505,7 @@ defineExpose(expose)
                 </slot>
               </template>
             </template>
-            <StepList v-else v-bind="bindings.steps">
+            <StepList v-else v-bind="bindings.steps()">
               <template v-for="page in steps.pages" :key="page.name">
                 <slot name="step" :page :bindings="bindings.step(page)">
                   <component
@@ -525,7 +518,7 @@ defineExpose(expose)
                     v-else
                     :page
                     :classes
-                    :parts
+                    :bindings
                     :divider="page.name !== pager?.lastPage"
                   />
                 </slot>
@@ -552,7 +545,7 @@ defineExpose(expose)
                       ? StepPanels
                       : VfPassthrough
                 "
-                v-bind="tabbed ? bindings.tabPanels : bindings.stepPanels"
+                v-bind="tabbed ? bindings.tabPanels() : bindings.stepPanels()"
               >
                 <component
                   v-if="outlets?.elements"
@@ -560,7 +553,7 @@ defineExpose(expose)
                   :resolved-schema
                   :pager
                 />
-                <VfElements v-else v-bind="bindings.elements">
+                <VfElements v-else v-bind="bindings.elements()">
                   <slot :resolved-schema>
                     <component
                       v-if="outlets?.default"
@@ -589,7 +582,7 @@ defineExpose(expose)
             :finish-label
             :back
             :slots="outlets"
-            :parts
+            :bindings
             :classes
             :position="navPos"
           />

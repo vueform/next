@@ -113,8 +113,7 @@ export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfContentModifiers,
-  VfContentA11y,
+  VfContentBindings,
   VfCloneNameExpose,
   ContentApi
 > {}
@@ -143,8 +142,12 @@ const slots = defineSlots<VfCloneNameSlots>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const { api, context, expose, outlets, useClasses, useModifiers } =
-  useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -152,17 +155,17 @@ const { api, context, expose, outlets, useClasses, useModifiers } =
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+useClasses({
   root: 'vf-content',
-}))
+})
 
-useModifiers(({ props, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
-    'data-align': props.align || undefined,
-    'data-aligned': props.aligned ? '' : undefined,
-  },
-}))
+useBindings({
+  root: () => ({
+    'data-align-label': !api.help.value ? '' : undefined,
+    'data-align': api.props.align || undefined,
+    'data-aligned': api.props.aligned ? '' : undefined,
+  }),
+})
 
 const { viewLoaded, content, isHtml, tag } = api
 

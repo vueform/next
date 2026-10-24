@@ -356,7 +356,7 @@ export type RuleContext = {
   form$?: FormContext
 
   /**
-   * The Vueform instance the rule runs under: its `config`, `$locale`, and the
+   * The Vueform instance the rule runs under: its `config`, `$i18n`, and the
    * module doorways (`getDateModule(vueform)`, `useDate(v, f, vueform)`).
    */
   vueform: VueformInstance

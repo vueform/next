@@ -1,44 +1,9 @@
-import { type MaybeRef, type WritableComputedRef } from 'vue'
-
-import type { LocalesProp } from '#src/types'
-
-import type { LocaleTag } from './createLocale'
-
+```ts
 /**
- * Configuration options for the locale module (`config.$locale`).
- */
-export interface LocaleModuleOptions {
-  /**
-   * Registered locale definitions keyed by locale name.
-   */
-  locales?: LocalesProp
-
-  /**
-   * Fallback locale key used when a translation is missing.
-   */
-  fallbackLocale?: string
-
-  /**
-   * Active locale key (or a ref to one).
-   */
-  locale?: MaybeRef<string>
-
-  /**
-   * Pattern used to interpolate `{param}` placeholders in messages.
-   */
-  localeParamPattern?: RegExp
-
-  /**
-   * Custom locale implementation replacing the built-in translator.
-   */
-  adapter?: LocaleAdapter
-}
-
-/**
- * The locale module instance providing translation, localization, and locale
+ * The i18n module instance providing translation, localization, and locale
  * switching.
  */
-export interface LocaleModule {
+interface I18nModule {
   /**
    * The currently active locale key (readable and writable).
    */
@@ -116,8 +81,4 @@ export interface LocaleModule {
     obj: Record<string, string | Record<string, string>>
   ) => Record<string, string>
 }
-
-/**
- * A factory that produces a `LocaleModule` instance.
- */
-export type LocaleAdapter = (options: LocaleModuleOptions) => LocaleModule
+```

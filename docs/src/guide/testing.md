@@ -11,7 +11,7 @@ A form's data layer — values, rules, conditions, payload, submission — runs 
 `useModel` depends on a setup context, which a test file doesn't have — so create a Vueform instance with `createVueform()` and build the model from the instance instead, no app and no mount required (see [Outside a Setup Context](/guide/vueform-instance#outside-a-setup-context) for why this route exists):
 
 ```ts
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 
 const { useModel } = createVueform()
 
@@ -43,7 +43,7 @@ Mounting needs a DOM environment in the test runner — point Vitest's `environm
 
 ```ts
 import { mount } from '@vue/test-utils'
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import { VfForm } from '@vueform/ui/components'
 import type { FormSchema, UserConfig } from '@vueform/ui'
 

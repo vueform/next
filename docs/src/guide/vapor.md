@@ -34,7 +34,7 @@ A vapor app is mounted with `createVaporApp` instead of `createApp`, and Vueform
 ```ts
 // main.ts
 import { createVaporApp } from 'vue'
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import App from './App.vue'
 
 const app = createVaporApp(App)

@@ -5,7 +5,7 @@ import {
   useDate,
   useForm,
   useHttp,
-  useLocale,
+  useI18n,
   type useModel,
   useSecurity,
 } from '#src/composables'
@@ -78,10 +78,10 @@ export interface VueformInstance {
   readonly globals: VueformGlobals
 
   /**
-   * `useLocale` bound to this instance — returns the instance's locale module,
+   * `useI18n` bound to this instance — returns the instance's i18n module,
    * for code outside components.
    */
-  readonly useLocale: typeof useLocale
+  readonly useI18n: typeof useI18n
 
   /**
    * `useHttp` bound to this instance — creates an http instance over this
@@ -511,9 +511,9 @@ export function createVueformFactory<
         ...defaultOptions.$http,
         ...userConfig.$http,
       },
-      $locale: {
-        ...defaultOptions.$locale,
-        ...userConfig.$locale,
+      $i18n: {
+        ...defaultOptions.$i18n,
+        ...userConfig.$i18n,
       },
       $model: {
         ...defaultOptions.$model,
@@ -603,7 +603,7 @@ export function createVueformFactory<
         return $globals
       },
 
-      useLocale: (() => useLocale(vueform)) as typeof useLocale,
+      useI18n: (() => useI18n(vueform)) as typeof useI18n,
 
       useHttp: (() => useHttp(vueform)) as typeof useHttp,
 

@@ -555,7 +555,7 @@ const [MyForm] = useForm({
 
 ## Multilingual
 
-The `multilingual` prop renders a language switcher above the form. The `languages` prop defines the available languages as a `{ code: label }` map. Elements with `translate` store per-language values in the model. See [Multilingual Inputs](/guide/multilingual-inputs) for details.
+The `multilingual` prop renders a language switcher above the form. The `languages` prop defines the available languages as a `{ code: label }` map. Elements with `translate` store per-language values in the model. See [Multilingual Inputs](/guide/i18n#multilingual-inputs) for details.
 
 ::: usage model
 

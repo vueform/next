@@ -33,33 +33,25 @@ const props = withDefaults(
 const events = defineEvents<VfFileUploadEmits<TMultiple>>()
 const slots = defineSlots<VfFileUploadSlots<TMultiple>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-file-upload',
-  wrapper: {
+  wrapper: () => ({
     'vf-file-upload-wrapper': true,
     'vf-basic': props.mode === 'basic',
-  },
-}))
+  }),
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const { multiple, showUploadButton, mode } = propRefs
 
@@ -91,7 +83,7 @@ defineExpose(expose)
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div v-bind="bindings.wrapper">
+      <div :class="classes.wrapper" v-bind="bindings.wrapper()">
         <FileUpload
           :name
           :disabled
@@ -103,7 +95,8 @@ defineExpose(expose)
           :mode
           :show-upload-button
           :input-id="id"
-          v-bind="{ ...bindings.input, ...forwardProps }"
+          :class="classes.input"
+          v-bind="{ ...forwardProps, ...bindings.input() }"
           :ref="(el) => (inputRef = el)"
           @select="handleSelect"
           @remove="handleRemoveFile"
@@ -126,12 +119,12 @@ defineExpose(expose)
             </slot>
           </template>
         </FileUpload>
-        <slot name="button" :upload :bindings="bindings.button">
+        <slot name="button" :upload :bindings="bindings.button()">
           <component
             v-if="outlets?.button"
             :is="outlets.button"
             :upload
-            :bindings="bindings.button"
+            :bindings="bindings.button()"
           />
           <VfButton
             v-else-if="showUpload"
@@ -139,7 +132,7 @@ defineExpose(expose)
             text="Upload"
             :layout="false"
             severity="secondary"
-            v-bind="bindings.button"
+            v-bind="bindings.button()"
             @click="upload"
           />
         </slot>

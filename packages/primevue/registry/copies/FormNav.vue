@@ -2,8 +2,8 @@
 import type { Pager, TProp } from '@vueform/primevue'
 import type { NavPosProp } from '@vueform/primevue/blueprints/nav'
 import type {
+  VfFormBindingResolvers,
   VfFormClasses,
-  VfFormParts,
 } from '@vueform/primevue/components/VfForm'
 
 defineOptions({ name: 'VfFormNav' })
@@ -15,7 +15,7 @@ defineProps<{
   finishLabel?: TProp
   back: boolean
   classes: Pick<VfFormClasses, 'nav'>
-  parts: Partial<Pick<VfFormParts, 'nav'>>
+  bindings: Pick<VfFormBindingResolvers, 'nav'>
   /**
    * Prop-based slot components from the form blueprint.
    */
@@ -48,7 +48,7 @@ defineProps<{
     :hide-back="!back"
     :position
     :class="classes.nav"
-    v-bind="parts.nav"
+    v-bind="bindings.nav()"
   >
     <template v-if="slots?.back" #back="slotProps">
       <component :is="slots?.back" v-bind="slotProps" />

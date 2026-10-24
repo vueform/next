@@ -18,7 +18,7 @@ import type {
   ExpressionModuleOptions,
 } from '#src/modules/expression'
 import type { HttpModule, HttpModuleOptions } from '#src/modules/http'
-import type { LocaleModule, LocaleModuleOptions } from '#src/modules/locale'
+import type { I18nModule, I18nModuleOptions } from '#src/modules/i18n'
 import type { ModelModule, ModelModuleOptions } from '#src/modules/model'
 import type {
   RouterModule,
@@ -83,9 +83,9 @@ export interface VueformModules {
   devtools?: VueformModule<DevtoolsModule>
 
   /**
-   * The locale module for translation and localization.
+   * The i18n module for translation and localization.
    */
-  locale?: VueformModule<LocaleModule>
+  i18n?: VueformModule<I18nModule>
 
   /**
    * The security module for HTML sanitization.
@@ -133,7 +133,7 @@ export interface VueformInstanceModules {
   http?: HttpModule
   date?: DateModule
   devtools?: DevtoolsModule
-  locale?: LocaleModule
+  i18n?: I18nModule
   security?: SecurityModule
   theme?: ThemeModule
   router?: RouterModule
@@ -254,9 +254,9 @@ export interface VueformConfig {
   $http: HttpModuleOptions
 
   /**
-   * Global locale module options (e.g. a custom locale provider).
+   * Global i18n module options (e.g. a custom locale provider).
    */
-  $locale: LocaleModuleOptions
+  $i18n: I18nModuleOptions
 
   /**
    * Global model module options.

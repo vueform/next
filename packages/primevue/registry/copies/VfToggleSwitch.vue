@@ -43,37 +43,29 @@ const props = withDefaults(
 const events = defineEvents<VfToggleSwitchEmits<TTrueValue, TFalseValue>>()
 const slots = defineSlots<VfToggleSwitchSlots<TTrueValue, TFalseValue>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-toggle-switch',
-  handle: {
+  handle: () => ({
     'vf-toggle-switch-handle': true,
     [api.onIcon.value!]: api.checked.value && api.onIcon.value,
     [api.offIcon.value!]: !api.checked.value && api.offIcon.value,
-  },
-}))
+  }),
+})
 
-useModifiers(({ hasError, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-  },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const trueValue = propRefs.trueValue as Ref<TTrueValue>
 const falseValue = propRefs.falseValue as Ref<TFalseValue>
@@ -117,7 +109,8 @@ defineExpose(expose)
         :disabled
         :readonly
         :invalid
-        v-bind="{ ...forwardProps, ...bindings.input }"
+        :class="classes.input"
+        v-bind="{ ...forwardProps, ...bindings.input() }"
         :ref="(el) => (inputRef = el)"
         @blur="handleBlur"
         @focus="handleFocus"
@@ -131,15 +124,15 @@ defineExpose(expose)
           <component :is="slot" v-bind="scope" />
         </template>
         <template #handle="scope">
-          <slot name="handle" v-bind="scope" :bindings="bindings.handle">
+          <slot name="handle" v-bind="scope" :bindings="bindings.handle()">
             <component
               v-if="outlets.handle"
               :is="outlets.handle"
               v-bind="scope"
-              :bindings="bindings.handle"
+              :bindings="bindings.handle()"
             />
             <template v-else>
-              <i v-bind="bindings.handle" />
+              <i :class="classes.handle" v-bind="bindings.handle()" />
             </template>
           </slot>
         </template>

@@ -94,15 +94,10 @@ export interface VfCloneNameSlots<TMultiple extends boolean = boolean>
     upload: () => void
 
     /**
-     * The upload button's resolved bindings (classes, part overrides); apply
-     * with `v-bind`.
+     * The upload button's resolved bindings (part overrides); apply with
+     * `v-bind`.
      */
-    bindings: PartBindings<
-      'button',
-      VfCloneNameParts,
-      VfFileUploadModifiers,
-      VfFileUploadA11y
-    >
+    bindings: PartBindings<'button', VfCloneNameParts, VfFileUploadBindings>
   }) => VNode[]
 }
 
@@ -184,8 +179,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfFileUploadModifiers,
-  VfFileUploadA11y,
+  VfFileUploadBindings,
   VfCloneNameExpose,
   FileUploadApi<TProps>
 > {}
@@ -216,17 +210,8 @@ const slots = defineSlots<VfCloneNameSlots<TMultiple>>()
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -234,21 +219,22 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-file-upload',
-  wrapper: {
+  wrapper: () => ({
     'vf-file-upload-wrapper': true,
     'vf-basic': props.mode === 'basic',
-  },
-}))
+  }),
+})
 
-useModifiers(({ hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const { multiple, showUploadButton, mode } = propRefs
 
@@ -305,7 +291,7 @@ declare module 'vue' {
   <slot v-if="viewLoaded" name="template" :context>
     <component v-if="outlets.template" :is="outlets.template" :context />
     <VfLayout v-else>
-      <div v-bind="bindings.wrapper">
+      <div :class="classes.wrapper" v-bind="bindings.wrapper()">
         <FileUpload
           :name
           :disabled
@@ -317,7 +303,8 @@ declare module 'vue' {
           :mode
           :show-upload-button
           :input-id="id"
-          v-bind="{ ...bindings.input, ...forwardProps }"
+          :class="classes.input"
+          v-bind="{ ...forwardProps, ...bindings.input() }"
           :ref="(el) => (inputRef = el)"
           @select="handleSelect"
           @remove="handleRemoveFile"
@@ -340,12 +327,12 @@ declare module 'vue' {
             </slot>
           </template>
         </FileUpload>
-        <slot name="button" :upload :bindings="bindings.button">
+        <slot name="button" :upload :bindings="bindings.button()">
           <component
             v-if="outlets?.button"
             :is="outlets.button"
             :upload
-            :bindings="bindings.button"
+            :bindings="bindings.button()"
           />
           <VfButton
             v-else-if="showUpload"
@@ -353,7 +340,7 @@ declare module 'vue' {
             text="Upload"
             :layout="false"
             severity="secondary"
-            v-bind="bindings.button"
+            v-bind="bindings.button()"
             @click="upload"
           />
         </slot>

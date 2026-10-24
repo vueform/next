@@ -132,8 +132,7 @@ export interface VfCloneNameContext extends DefineElementContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfButtonModifiers,
-  VfButtonA11y,
+  VfButtonBindings,
   VfCloneNameExpose,
   ButtonApi
 > {}
@@ -166,16 +165,8 @@ const PvButton = vdomPrime(PrimeButton)
  *
  * @see https://primevue.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
 /**
  * The element's own classes, per part — reactive via the callback's api
@@ -183,30 +174,28 @@ const {
  *
  * @see https://primevue.vueform.com/guide/classes
  */
-useClasses(() => ({
+useClasses({
   root: 'vf-button',
-  button: [
+  button: () => [
     props.layout === false ? props.class : null,
     {
       [api.tokenClass]: !!api.tokenCss.value,
     },
   ],
-}))
+})
 
-useModifiers(
-  ({ props, severity, icon, text, href, loading, disabled }, { fluid }) => ({
-    button: {
-      'data-severity': severity.value,
-      'data-align': props.align || undefined,
-      'data-fluid': fluid.value ? '' : undefined,
-      'data-loading': loading.value ? '' : undefined,
-      'data-icon-only': !!icon.value && !text.value ? '' : undefined,
-      // Anchor mode has no native `disabled` attribute, so the styling state
-      // needs its own marker there; `<button>` keeps `:disabled`.
-      'data-disabled': href.value && disabled.value ? '' : undefined,
-    },
-  })
-)
+const bindings = useBindings({
+  button: () => ({
+    'data-severity': api.severity.value,
+    'data-align': api.props.align || undefined,
+    'data-fluid': api.props.fluid ? '' : undefined,
+    'data-loading': api.loading.value ? '' : undefined,
+    'data-icon-only': !!api.icon.value && !api.text.value ? '' : undefined,
+    // Anchor mode has no native `disabled` attribute, so the styling state
+    // needs its own marker there; `<button>` keeps `:disabled`.
+    'data-disabled': api.href.value && api.disabled.value ? '' : undefined,
+  }),
+})
 
 const { target, rel, download, fluid } = propRefs
 
@@ -274,7 +263,7 @@ declare module 'vue' {
         :badge
         :badge-severity="badgeSeverity"
         v-tooltip:[tooltipModifiers]="tooltipValue"
-        v-bind="{ ...bindings.button, ...attrs }"
+        v-bind="{ ...bindings.button(), ...attrs }"
         @click="handleClick"
       >
         <template

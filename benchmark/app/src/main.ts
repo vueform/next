@@ -1,4 +1,4 @@
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import { createApp, createVaporApp, nextTick, type VaporComponent } from 'vue'
 
 import App from './App.vue'

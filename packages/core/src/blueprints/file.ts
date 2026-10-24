@@ -3,7 +3,7 @@ import { computed, toRef } from 'vue'
 import {
   useDynamicProp,
   useFeatures,
-  useLocale,
+  useI18n,
   useSecurity,
 } from '#src/composables'
 import { useComponentContext } from '#src/contexts'
@@ -271,7 +271,7 @@ export function blueprint<TProps extends FileProps<string>>(
   events: DefineEvents<FileEmits>
 ) {
   const context$ = useComponentContext()
-  const { t } = useLocale()
+  const { t } = useI18n()
   const $security = useSecurity()
 
   const api = useFeatures(props, events)

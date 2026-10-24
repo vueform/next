@@ -1,6 +1,6 @@
 import { computed } from 'vue'
 
-import { useExpression, useLocale, useSecurity } from '#src/composables'
+import { useExpression, useI18n, useSecurity } from '#src/composables'
 import { defineDefaults, resolveAddon, type DefineEvents } from '#src/helpers'
 import type {
   BaseComponentEmits,
@@ -84,7 +84,7 @@ export function blueprint<TProps extends AddonProps>(
   _events: DefineEvents<AddonEmits>
 ) {
   const $security = useSecurity()
-  const { localize } = useLocale()
+  const { localize } = useI18n()
   const expression = useExpression()
 
   /**

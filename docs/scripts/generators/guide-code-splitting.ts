@@ -255,7 +255,7 @@ function collectStats(
 
   const moduleSize = (name: string) =>
     kinds.get('modules')?.items.get(name)?.['Size']
-  set('module-locale', moduleSize('locale'))
+  set('module-i18n', moduleSize('i18n'))
   set('module-theme', moduleSize('theme'))
 
   const env = results.environment

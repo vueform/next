@@ -24,7 +24,6 @@ import {
   type VfTextareaProps,
   type VfTextareaSlots,
 } from '@vueform/ui/components/VfTextarea'
-import type { WritableComputedRef } from 'vue'
 
 import '@vueform/ui/textarea.css'
 import '@vueform/ui/input.css'
@@ -45,34 +44,32 @@ const props = withDefaults(
 const events = defineEvents<VfTextareaEmits>()
 const slots = defineSlots<VfTextareaSlots<TTranslate, TLanguages>>()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-textarea',
   input: 'vf-input vf-textarea-input',
-}))
+})
 
-useModifiers(({ props, hasError }) => ({
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-    'data-resizable': props.resize ? '' : undefined,
-    'data-autogrow': props.autogrow ? '' : undefined,
+const bindings = useBindings(
+  {
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+      'data-resizable': api.props.resize ? '' : undefined,
+      'data-autogrow': api.props.autogrow ? '' : undefined,
+    }),
   },
-}))
-
-useA11y(tInputAria())
+  tInputAria(api)
+)
 
 const {
   id,
+  value,
   autocomplete,
   loading,
   readonly,
@@ -88,11 +85,6 @@ const {
   handleBlur,
   handleInput,
 } = api
-
-// The deferred generic value type cannot be related to the native textarea
-// value union while the SFC generics are unbound — at runtime it is always
-// the active-language scalar.
-const value = api.value as WritableComputedRef<string | number | null>
 
 defineExpose(expose)
 </script>
@@ -111,7 +103,8 @@ defineExpose(expose)
         :disabled
         :readonly="readonly || undefined"
         :rows="props.rows"
-        v-bind="bindings.input"
+        :class="classes.input"
+        v-bind="bindings.input()"
         :ref="(el) => (inputRef = el)"
         @keydown="handleKeydown"
         @keyup="handleKeyup"

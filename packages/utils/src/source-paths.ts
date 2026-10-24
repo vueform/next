@@ -10,7 +10,7 @@
  * installed packages, which keeps them usable standalone (e.g. StackBlitz).
  *
  * Unlike the runtime aliases, vapor playgrounds get a `/vapor` twin for every
- * entry (`@vueform/ui/vapor/origin` → `src/origin.ts`): the vapor/vdom split
+ * entry (`@vueform/ui/vapor/bundle` → `src/bundle.ts`): the vapor/vdom split
  * only exists in the built dist, and tsconfig patterns cannot express the
  * strip-and-re-resolve the dev plugin does at runtime.
  */

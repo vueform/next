@@ -390,7 +390,7 @@ const [Form] = useForm({ schema })
 
 ## Translatable
 
-When the form has multiple [languages](/guide/multilingual-inputs) configured, the textarea can hold per-language values. The default can be provided as a locale-keyed object.
+When the form has multiple [languages](/guide/i18n#available-languages) configured, the textarea can hold per-language values. The default can be provided as a locale-keyed object.
 
 ::: usage model
 

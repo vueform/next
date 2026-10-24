@@ -1,16 +1,16 @@
 import {
   createVueform,
   date as dateModule,
-  getLocaleModule,
+  getI18nModule,
   hasExpressionModule,
-  hasLocaleModule,
+  hasI18nModule,
   hasRouterModule,
   hasThemeModule,
   model,
   nativeDateAdapter,
   NotInstalledError,
-  locale as localeModule,
-  useLocale,
+  i18n as i18nModule,
+  useI18n,
   useModel,
 } from '@vueform/core'
 import * as components from '@vueform/core/components'
@@ -22,7 +22,7 @@ import { mount } from '../../helpers'
 
 const makeInstance = (locales: Record<string, any>, locale: string) =>
   createVueform({
-    modules: { model, locale: localeModule },
+    modules: { model, i18n: i18nModule },
     components,
     locales,
     locale,
@@ -32,8 +32,8 @@ describe('Module resolution', () => {
   it('resolves instances at creation — no app.use needed', () => {
     const vueform = makeInstance({ en_US }, 'en_US')
 
-    expect(vueform.modules.locale).toBeDefined()
-    expect(getLocaleModule(vueform).locale.value).toBe('en_US')
+    expect(vueform.modules.i18n).toBeDefined()
+    expect(getI18nModule(vueform).locale.value).toBe('en_US')
     // Headless model creation works right after createVueform().
     const model$ = vueform.useModel({
       schema: { name: { type: 'text' } } as any,
@@ -49,17 +49,17 @@ describe('Module resolution', () => {
     )
 
     // Creating b must not affect what a resolves explicitly.
-    expect(getLocaleModule(a).locale.value).toBe('en_US')
-    expect(getLocaleModule(b).locale.value).toBe('de_DE')
-    expect(getLocaleModule(b).t('vf_test_tag')).toBe('Deutsch')
-    expect(getLocaleModule(a).t('vf_test_tag')).toBe('vf_test_tag')
+    expect(getI18nModule(a).locale.value).toBe('en_US')
+    expect(getI18nModule(b).locale.value).toBe('de_DE')
+    expect(getI18nModule(b).t('vf_test_tag')).toBe('Deutsch')
+    expect(getI18nModule(a).t('vf_test_tag')).toBe('vf_test_tag')
   })
 
   it('throws outside component setup instead of guessing an instance', () => {
     makeInstance({ en_US }, 'en_US')
 
     // No ambient tier: creating instances never makes a zero-arg call resolve.
-    expect(() => getLocaleModule()).toThrow(NotInstalledError)
+    expect(() => getI18nModule()).toThrow(NotInstalledError)
     expect(() =>
       useModel({ schema: { name: { type: 'text' } } as any })
     ).toThrow(NotInstalledError)
@@ -67,13 +67,13 @@ describe('Module resolution', () => {
 
   it('keeps explicit resolution stable when another instance is created (SSR interleaving)', () => {
     const a = makeInstance({ en_US }, 'en_US')
-    const localeOfA = getLocaleModule(a)
+    const i18nOfA = getI18nModule(a)
 
     // Simulates a second request creating its instance mid-render of the first.
     makeInstance({ de_DE: {} as any }, 'de_DE')
 
-    expect(getLocaleModule(a)).toBe(localeOfA)
-    expect(getLocaleModule(a).locale.value).toBe('en_US')
+    expect(getI18nModule(a)).toBe(i18nOfA)
+    expect(getI18nModule(a).locale.value).toBe('en_US')
   })
 
   it('resolves the owning app inside component setup regardless of creation order', () => {
@@ -81,7 +81,7 @@ describe('Module resolution', () => {
 
     const Probe = defineComponent({
       setup() {
-        seen.push(useLocale().locale.value)
+        seen.push(useI18n().locale.value)
         return () => h('div')
       },
     })
@@ -97,11 +97,11 @@ describe('Module resolution', () => {
     expect(seen).toEqual(['en_US', 'de_DE', 'en_US'])
   })
 
-  it('exposes useLocale and useHttp bound to the instance', () => {
+  it('exposes useI18n and useHttp bound to the instance', () => {
     const vueform = makeInstance({ en_US }, 'en_US')
 
-    expect(vueform.useLocale()).toBe(getLocaleModule(vueform))
-    expect(vueform.useLocale().locale.value).toBe('en_US')
+    expect(vueform.useI18n()).toBe(getI18nModule(vueform))
+    expect(vueform.useI18n().locale.value).toBe('en_US')
     // Each call creates a fresh consumer with its own interceptor scope,
     // mirroring the `useHttp()` composable.
     expect(vueform.useHttp()).not.toBe(vueform.useHttp())
@@ -150,21 +150,19 @@ describe('Module resolution', () => {
     const vueform = makeInstance({ en_US }, 'en_US')
 
     // The config keeps the user's shape: what was registered.
-    expect(vueform.config.modules.locale).toBe(localeModule)
+    expect(vueform.config.modules.i18n).toBe(i18nModule)
     expect(vueform.config.modules.model).toBe(model)
     // The instance carries what `create()` produced.
-    expect(vueform.modules.locale).toBe(getLocaleModule(vueform))
-    expect(typeof vueform.modules.locale?.t).toBe('function')
+    expect(vueform.modules.i18n).toBe(getI18nModule(vueform))
+    expect(typeof vueform.modules.i18n?.t).toBe('function')
   })
 
   it('rejects a registered module that is not a defineModule() definition', () => {
     expect(() =>
       createVueform({
-        modules: { model, locale: { install: () => {} } },
+        modules: { model, i18n: { install: () => {} } },
       } as any)
-    ).toThrow(
-      'Module "locale" must be a definition created with defineModule()'
-    )
+    ).toThrow('Module "i18n" must be a definition created with defineModule()')
   })
 
   it('serves the noop surface when the module is absent from the resolved instance', () => {
@@ -173,11 +171,11 @@ describe('Module resolution', () => {
       locales: { en_US },
     } as any)
 
-    expect(hasLocaleModule(bare)).toBe(false)
+    expect(hasI18nModule(bare)).toBe(false)
     expect(hasExpressionModule(bare)).toBe(false)
     expect(hasRouterModule(bare)).toBe(false)
     expect(hasThemeModule(bare)).toBe(false)
-    expect(getLocaleModule(bare).t('vf_test_tag')).toBe('vf_test_tag')
+    expect(getI18nModule(bare).t('vf_test_tag')).toBe('vf_test_tag')
   })
 })
 
@@ -208,10 +206,10 @@ describe('Orphan module options', () => {
     const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
 
     createVueform({
-      modules: { model, locale: localeModule },
+      modules: { model, i18n: i18nModule },
       locales: { en_US },
       locale: 'en_US',
-      $locale: { fallback: 'en_US' },
+      $i18n: { fallback: 'en_US' },
     } as any)
 
     expect(warn).not.toHaveBeenCalledWith(

@@ -1,10 +1,10 @@
 ```ts
 /**
- * Returns the locale module for translation and localization. Setup-only when
+ * Returns the i18n module for translation and localization. Setup-only when
  * called without `vueform`.
  *
  * @param vueform The Vueform instance to resolve from. Required outside a
  *   component context.
  */
-function useLocale(vueform?: VueformInstance): LocaleModule
+function useI18n(vueform?: VueformInstance): I18nModule
 ```

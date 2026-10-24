@@ -38,7 +38,7 @@ import {
   type DefineEvents,
   type VueformConfig,
 } from '#src/helpers'
-import type { LocaleModule } from '#src/modules/locale'
+import type { I18nModule } from '#src/modules/i18n'
 import { getSecurityModule } from '#src/modules/security'
 import {
   type ClassesProp,
@@ -630,7 +630,7 @@ export type ForwardsConfig = {
 /**
  * Unified public component context: factory API and event helpers at the root,
  * plus resolved `props` / `parts` / `classes` / `outlets` / `bindings`.
- * `$config`, `$locale`, and `$globals` are always present. `parts` is the
+ * `$config`, `$i18n`, and `$globals` are always present. `parts` is the
  * part-override surface (`Parts`), not a bag: overrides render through
  * `bindings.X()` (the `TParts` vocabulary types the resolver arguments), and
  * `parts.x()` answers what the user overrode.
@@ -689,10 +689,10 @@ export type BlueprintContext<
       $config: VueformConfig
 
       /**
-       * The locale module instance, or its inert surface when the `locale`
+       * The i18n module instance, or its inert surface when the `i18n`
        * module is not registered.
        */
-      $locale: LocaleModule
+      $i18n: I18nModule
 
       /**
        * Form-level layout globals derived from the Vueform configuration.

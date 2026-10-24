@@ -88,34 +88,27 @@ const slots =
     >
   >()
 
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  propRefs,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, propRefs, useClasses, useBindings } =
+  useBlueprint(blueprint, props, events, slots)
 
-useClasses(() => ({
+const classes = useClasses({
   root: 'vf-select',
   input: 'vf-input vf-select-input',
-}))
+})
 
-useModifiers(({ empty, placeholder, help, hasError }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    input: () => ({
+      'data-invalid': api.hasError.value ? '' : undefined,
+      'data-placeholder':
+        api.empty.value && !!api.placeholder.value ? '' : undefined,
+    }),
   },
-  input: {
-    'data-invalid': hasError.value ? '' : undefined,
-    'data-placeholder': empty.value && !!placeholder.value ? '' : undefined,
-  },
-}))
-
-useA11y(inputAria())
+  inputAria(api)
+)
 
 const {
   id,
@@ -151,7 +144,8 @@ defineExpose(expose)
         :disabled
         :multiple
         :ref="(el) => (inputRef = el)"
-        v-bind="bindings.input"
+        :class="classes.input"
+        v-bind="bindings.input()"
         @blur="handleBlur"
         @focus="handleFocus"
         @change="handleInput"

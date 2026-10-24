@@ -4,7 +4,7 @@
  * server-render suite runs it under plain Node, the hydration suite over DOM.
  */
 import { defineSchema } from '@vueform/ui'
-import { createVueform } from '@vueform/ui/origin'
+import { createVueform } from '@vueform/ui/bundle'
 import { createSSRApp } from 'vue'
 
 export const schema = defineSchema({

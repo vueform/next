@@ -214,7 +214,7 @@ export interface VfCloneNameSlots<
      * The group fieldset's resolved bindings (part overrides for this group's
      * fieldset element); apply with `v-bind`.
      */
-    bindings: VfCheckboxesBindings['group']
+    bindings: VfCheckboxesResolvedBindings['group']
   }) => VNode[]
 
   /**
@@ -250,7 +250,7 @@ export interface VfCloneNameSlots<
      * The item's resolved bindings (part overrides for this item's VfCheckbox
      * child); apply with `v-bind`.
      */
-    bindings: VfCheckboxesBindings['item']
+    bindings: VfCheckboxesResolvedBindings['item']
   }) => VNode[]
 
   /**
@@ -381,8 +381,7 @@ export interface VfCloneNameContext<
   VfCloneNameSlots,
   VfCloneNameParts,
   VfCloneNameClasses,
-  VfCheckboxesModifiers,
-  VfCheckboxesA11y,
+  VfCheckboxesBindings,
   VfCloneNameExpose,
   CheckboxesApi<TProps>
 > {}
@@ -453,16 +452,12 @@ const slots =
  *
  * @see https://ui.vueform.com/guide/components#extending-the-logic
  */
-const {
-  api,
-  context,
-  expose,
-  outlets,
-  bindings,
-  useClasses,
-  useModifiers,
-  useA11y,
-} = useBlueprint(blueprint, props, events, slots)
+const { api, context, expose, outlets, useClasses, useBindings } = useBlueprint(
+  blueprint,
+  props,
+  events,
+  slots
+)
 
 const {
   items,
@@ -482,32 +477,27 @@ const {
  *
  * @see https://ui.vueform.com/guide/classes
  */
-useClasses(({ props }) => ({
+const classes = useClasses({
   root: 'vf-checkboxes vf-choices',
-  wrapper: [props.layout === false ? props.class : null, 'vf-choices-group'],
-  group: () => null,
-  groupLabel: () => null,
-  item: () => null,
-}))
+  wrapper: () => [
+    props.layout === false ? props.class : null,
+    'vf-choices-group',
+  ],
+})
 
-useModifiers(({ props, invalid, help }) => ({
-  root: {
-    'data-align-label': !help.value ? '' : undefined,
+const bindings = useBindings(
+  {
+    root: () => ({
+      'data-align-label': !api.help.value ? '' : undefined,
+    }),
+    wrapper: () => ({
+      'data-stacked': api.props.stacked ? '' : undefined,
+      'data-aligned': api.props.aligned ? '' : undefined,
+      'data-invalid': api.invalid.value ? '' : undefined,
+    }),
   },
-  // Functional on purpose: the bag reads aggregate validation state, which
-  // must resolve in the wrapper's own render effect — never inside the merged
-  // modifiers computed. Children's vapor dynamic prop sources subscribe to
-  // that computed, so an eager `invalid` read closes a reactive cycle
-  // (invalid -> children's validation -> child props -> this component's
-  // bindings) that Vue 3.6's dirty-check walk cannot terminate on.
-  wrapper: () => ({
-    'data-stacked': props.stacked ? '' : undefined,
-    'data-aligned': props.aligned ? '' : undefined,
-    'data-invalid': invalid.value ? '' : undefined,
-  }),
-}))
-
-useA11y(choicesAria({ role: 'group' }))
+  choicesAria(api, { role: 'group' })
+)
 
 defineExpose(expose)
 </script>
@@ -522,10 +512,9 @@ import type {
   ResolvedBindings,
 } from '@vueform/ui'
 
-type VfCheckboxesBindings = ResolvedBindings<
+type VfCheckboxesResolvedBindings = ResolvedBindings<
   VfCloneNameParts,
-  VfCheckboxesModifiers,
-  VfCheckboxesA11y
+  VfCheckboxesBindings
 >
 
 type EntryProps<TEntry> = VfCloneNameProps<
@@ -569,6 +558,7 @@ declare module 'vue' {
       <div
         @focusin="handleFocus"
         @focusout="handleBlur"
+        :class="classes.wrapper"
         v-bind="bindings.wrapper()"
       >
         <slot :items :groups :grouped :disabled :label :checkbox-name="path">

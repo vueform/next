@@ -26,7 +26,7 @@ A plain value is used as-is. A string may carry `{...}` blocks that resolve agai
 
 The separate `string` member is why typed props take expressions too. A `DProp<number>` accepts `6` or a string that resolves to a number, and the pipeline [converts it back](#coercion) to the declared type.
 
-`TProp` adds one more shape, the [locale map](/guide/translating-props#locale-maps) — an object keyed by locale code from which the active locale picks its entry. The shape, its fallback chain, and examples live in [translating props](/guide/translating-props#locale-maps).
+`TProp` adds one more shape, the [locale map](/guide/i18n#locale-maps) — an object keyed by locale code from which the active locale picks its entry. The shape, its fallback chain, and examples live in [translating props](/guide/i18n#locale-maps).
 
 The rule of thumb separating the two is simple. Text a person reads is a `TProp`, while values the framework consumes — icons, numeric bounds, severities — are `DProp`s, because there's nothing to translate. Reference tables show the exact type per prop, e.g. `TProp<string, TContext>` on [`!VfForm`'s `successMessage`](/components/VfForm#props.successMessage), and both types are importable from `@vueform/ui` for your own prop interfaces.
 
@@ -85,7 +85,7 @@ Every shape resolves through the same ordered steps inside one `computed`, and t
 
 1. **Unwrap.** A ref is read. If the prop is `undefined`, the component's own default (if any) takes over and nothing else runs — step buttons, for example, fall back to the `steps_next` / `steps_back` / `steps_finish` locale tags.
 2. **Call.** A function is called with the [context](/guide/context).
-3. **Localize** (`TProp` only). An object picks its locale entry through the [resolution chain](/guide/translating-props#the-resolution-chain), and plain strings pass through.
+3. **Localize** (`TProp` only). An object picks its locale entry through the [resolution chain](/guide/i18n#the-resolution-chain), and plain strings pass through.
 4. **Resolve expressions.** A string containing `{` is resolved against the form's data — unless the element or form sets `noExpressions`, or the [`$expression.whitelist`](/guide/configuration#expression) excludes the prop. The whitelist key is the prop's **kebab-case** name (`success-message`, `icon-before`). See [restriction levels](/guide/expressions#restriction-levels).
 5. **Sanitize** (`!VfContent`'s `content` only). A resolved string containing markup goes through the security module's sanitizer — see [HTML sanitization](/guide/security#html-sanitization).
 6. **Check URLs.** `redirect` accepts `http` / `https`, and a button's `href` / `to` accept `http` / `https` / `mailto` / `tel`. Relative URLs pass, while any other scheme resolves to `undefined` with a dev warning — see [always-on guards](/guide/security#always-on-guards).
