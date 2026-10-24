@@ -694,7 +694,7 @@ Once an attempt classifies as [`success`](#success), the configured follow-ups r
 <VfForm endpoint="/api/register" success-message="Registration complete!" />
 ```
 
-Like several props in this section, it's a [dynamic prop](/guide/dynamic-props) — a static string, a function receiving the form's [context](/guide/context), an [expression](/guide/expressions), or a [locale map](/guide/i18n#locale-maps):
+Like several props in this section, it's a [dynamic prop](/guide/dynamic-props) — a static string, a function receiving the form's [context](/guide/context), an [expression](/guide/expressions), or a [Locale Map](/guide/i18n#locale-maps):
 
 ```vue
 <!-- Function -->

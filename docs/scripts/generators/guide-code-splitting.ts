@@ -435,7 +435,7 @@ function main(): void {
 
     if (!fs.existsSync(page)) {
       console.log(
-        `[code-splitting] ${adapter}: no ${path.relative(ROOT, page)}, skipped`
+        `[Code-Splitting] ${adapter}: no ${path.relative(ROOT, page)}, skipped`
       )
       continue
     }
@@ -456,7 +456,7 @@ function main(): void {
     content = inline.content
 
     for (const key of inline.unknown) {
-      console.warn(`[code-splitting] ${adapter}: no stat for @size:${key}`)
+      console.warn(`[Code-Splitting] ${adapter}: no stat for @size:${key}`)
     }
 
     let rows = 0
@@ -469,7 +469,7 @@ function main(): void {
 
       for (const name of update.unknown) {
         console.warn(
-          `[code-splitting] ${adapter}: no measured size for ${kind} row "${name}", left as is`
+          `[Code-Splitting] ${adapter}: no measured size for ${kind} row "${name}", left as is`
         )
       }
 
@@ -478,7 +478,7 @@ function main(): void {
       )
       if (missing.length) {
         console.warn(
-          `[code-splitting] ${adapter}: measured but not in the ${kind} tables: ${missing.join(', ')}`
+          `[Code-Splitting] ${adapter}: measured but not in the ${kind} tables: ${missing.join(', ')}`
         )
       }
     }
@@ -486,7 +486,7 @@ function main(): void {
     fs.writeFileSync(page, content)
 
     console.log(
-      `[code-splitting] ${adapter}: ${rows} sizes from packages/${adapter}'s size.json → ${path.relative(ROOT, page)}`
+      `[Code-Splitting] ${adapter}: ${rows} sizes from packages/${adapter}'s size.json → ${path.relative(ROOT, page)}`
     )
   }
 }

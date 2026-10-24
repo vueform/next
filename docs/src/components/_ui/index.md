@@ -1,6 +1,6 @@
 # Components
 
-Vueform's components all carry the `Vf` prefix and each has its own reference page with usage examples and the full props, context, events, slots, parts, and tokens reference. Elements work two ways — as components in an [inline form](/guide/rendering#inline-forms) or as entries in a [schema](/guide/rendering#schema-based-forms), where the `type` string resolves to the component name (`type: 'text'` renders `VfText`). To bundle only the components you use, see [code-splitting](/guide/code-splitting#components).
+Vueform's components all carry the `Vf` prefix and each has its own reference page with usage examples and the full props, context, events, slots, parts, and tokens reference. Elements work two ways — as components in an [inline form](/guide/rendering#inline-forms) or as entries in a [schema](/guide/rendering#schema-based-forms), where the `type` string resolves to the component name (`type: 'text'` renders `VfText`). To bundle only the components you use, see [Code-Splitting](/guide/code-splitting#components).
 
 ## Text Inputs
 

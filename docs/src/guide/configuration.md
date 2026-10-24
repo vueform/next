@@ -21,9 +21,9 @@ app.use(
 )
 ```
 
-The [Full Bundle](/guide/code-splitting#the-full-bundle) (`@vueform/ui/bundle`) registers every built-in component, module, and rule, its theme, the `en_US` locale set active, and three adapters — `fetchHttpAdapter` for `$http`, `nativeDateAdapter` for `$date`, and `pathExpressionAdapter` for `$expression`. What that convenience costs in bundle size is covered in [code-splitting](/guide/code-splitting#what-the-full-bundle-costs).
+The [Full Bundle](/guide/code-splitting#the-full-bundle) (`@vueform/ui/bundle`) registers every built-in component, module, and rule, its theme, the `en_US` locale set active, and three adapters — `fetchHttpAdapter` for `$http`, `nativeDateAdapter` for `$date`, and `pathExpressionAdapter` for `$expression`. What that convenience costs in bundle size is covered in [Code-Splitting](/guide/code-splitting#what-the-full-bundle-costs).
 
-The bare `@vueform/ui` entry starts from the core defaults alone — no components, modules, rules, theme, locale, or adapters. Only `modules.model` is mandatory; the bare `createVueform`'s type demands it, and the call throws without it. The full wiring of a hand-picked setup lives in [code-splitting](/guide/code-splitting#modular-setup).
+The bare `@vueform/ui` entry starts from the core defaults alone — no components, modules, rules, theme, locale, or adapters. Only `modules.model` is mandatory; the bare `createVueform`'s type demands it, and the call throws without it. The full wiring of a hand-picked setup lives in [Code-Splitting](/guide/code-splitting#modular-setup).
 
 A config authored outside the call — in a shared file, say — keeps its typing with [`defineConfig`](/api/helpers/defineConfig). Its type is `UserConfig`, in which every key is optional and `build` / `modules` are partial one level down; every other object-valued option, such as `matrixTypes`, must be passed whole.
 
@@ -67,7 +67,7 @@ The same replacement applies to `locales` — registration and the active-locale
 - Type: `Record<string, VueformComponent>`
 - Default: `{}` — the [Full Bundle](/guide/code-splitting#the-full-bundle) pre-registers every built-in
 
-Every entry is registered globally with `app.component()` at install, and a schema `type` resolves to a component by that name — `type: 'my-input'` renders `VfMyInput`, so the registration key is the name. Your entries add new names or replace a built-in under the same name. Registration instead of auto-import is deliberate — schema types are strings resolved at runtime, invisible to any bundler, as [code-splitting](/guide/code-splitting) explains. Building and registering your own components is covered in [components](/guide/components).
+Every entry is registered globally with `app.component()` at install, and a schema `type` resolves to a component by that name — `type: 'my-input'` renders `VfMyInput`, so the registration key is the name. Your entries add new names or replace a built-in under the same name. Registration instead of auto-import is deliberate — schema types are strings resolved at runtime, invisible to any bundler, as [Code-Splitting](/guide/code-splitting) explains. Building and registering your own components is covered in [components](/guide/components).
 
 ### `modules`
 

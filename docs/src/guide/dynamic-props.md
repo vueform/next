@@ -26,7 +26,7 @@ A plain value is used as-is. A string may carry `{...}` blocks that resolve agai
 
 The separate `string` member is why typed props take expressions too. A `DProp<number>` accepts `6` or a string that resolves to a number, and the pipeline [converts it back](#coercion) to the declared type.
 
-`TProp` adds one more shape, the [locale map](/guide/i18n#locale-maps) — an object keyed by locale code from which the active locale picks its entry. The shape, its fallback chain, and examples live in [translating props](/guide/i18n#locale-maps).
+`TProp` adds one more shape, the [Locale Map](/guide/i18n#locale-maps) — an object keyed by locale code from which the active locale picks its entry. The shape, its fallback chain, and examples live in [translating props](/guide/i18n#locale-maps).
 
 The rule of thumb separating the two is simple. Text a person reads is a `TProp`, while values the framework consumes — icons, numeric bounds, severities — are `DProp`s, because there's nothing to translate. Reference tables show the exact type per prop, e.g. `TProp<string, TContext>` on [`!VfForm`'s `successMessage`](/components/VfForm#props.successMessage), and both types are importable from `@vueform/ui` for your own prop interfaces.
 

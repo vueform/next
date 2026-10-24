@@ -19,9 +19,9 @@ createVueform({
 })
 ```
 
-The rest of a Modular Setup — components, rules, adapters, and what each part costs — is covered in [code-splitting](/guide/code-splitting#modular-setup).
+The rest of a Modular Setup — components, rules, adapters, and what each part costs — is covered in [Code-Splitting](/guide/code-splitting#modular-setup).
 
-`modules` merges per key over the entry's set, so on the Full Bundle passing one key replaces only that module and keeps every other built-in — the mechanism [swapping a module](/guide/in-depth-modules#swapping-a-module) builds on.
+`modules` merges per key over the entry's set, so on the [Full Bundle](/guide/code-splitting#the-full-bundle) passing one key replaces only that module and keeps every other built-in — the mechanism [swapping a module](/guide/in-depth-modules#swapping-a-module) builds on.
 
 Each module reads its options from a `$`-prefixed config key named after it — `$http`, `$conditions`, `$security`, and so on — listed in [configuration](/guide/configuration#module-options). A non-empty `$<name>` object in your config without a registered `<name>` module warns in development, since the options read as if they were in effect.
 

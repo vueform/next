@@ -1,6 +1,6 @@
 # Components
 
-Vueform's components all carry the `Vf` prefix and each has its own reference page with usage examples and the full props, context, events, slots, and parts reference. Most elements wrap a PrimeVue widget and forward its entire API — the original props, events, and slots keep working as PrimeVue documents them, while Vueform adds data binding, validation, conditions, and layout on top. Elements work two ways — as components in an [inline form](/guide/rendering#inline-forms) or as entries in a [schema](/guide/rendering#schema-based-forms), where the `type` string resolves to the component name (`type: 'date-picker'` renders `VfDatePicker`). To bundle only the components you use, see [code-splitting](/guide/code-splitting#components).
+Vueform's components all carry the `Vf` prefix and each has its own reference page with usage examples and the full props, context, events, slots, and parts reference. Most elements wrap a PrimeVue widget and forward its entire API — the original props, events, and slots keep working as PrimeVue documents them, while Vueform adds data binding, validation, conditions, and layout on top. Elements work two ways — as components in an [inline form](/guide/rendering#inline-forms) or as entries in a [schema](/guide/rendering#schema-based-forms), where the `type` string resolves to the component name (`type: 'date-picker'` renders `VfDatePicker`). To bundle only the components you use, see [Code-Splitting](/guide/code-splitting#components).
 
 ## Text Inputs
 

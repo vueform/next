@@ -1,6 +1,6 @@
 # Rules
 
-All built-in validation rules are registered automatically and referenced by name in the [rule language](/guide/validation#the-rule-language). To include only the ones you use, see [code-splitting](/guide/code-splitting#rules). Each rule has its own page with usage examples, parameters, behavior, and error messages.
+All built-in validation rules are registered automatically and referenced by name in the [rule language](/guide/validation#the-rule-language). To include only the ones you use, see [Code-Splitting](/guide/code-splitting#rules). Each rule has its own page with usage examples, parameters, behavior, and error messages.
 
 ## Presence
 

@@ -145,4 +145,4 @@ An [expression](/guide/expressions) is re-parsed every time it evaluates, while 
 
 Vapor mode is worth it for update-heavy forms — [Replacing All Values](#replacing-all-values) quantifies the gain, while mount cost is [unchanged](#rendering). The opt-in — two switches in the app's build — is covered in [Vapor](/guide/vapor) chapter.
 
-What a form costs to load — bundle size rather than runtime — is a separate topic, covered in [code-splitting](/guide/code-splitting).
+What a form costs to load — bundle size rather than runtime — is a separate topic, covered in [Code-Splitting](/guide/code-splitting).

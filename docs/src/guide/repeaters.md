@@ -191,7 +191,7 @@ Replacing the array from code works the same way. `set`, `update`, and `load` re
 
 ### Empty State
 
-`placeholder` renders a message whenever the list has no rows — whether it started with `initial: 0` or the user removed them all. It's a translatable text prop, so it takes [locale maps](/guide/i18n#locale-maps) too. The rendered placeholder is a `status` region the add button points at via `aria-describedby`, so screen readers announce the empty state together with the button.
+`placeholder` renders a message whenever the list has no rows — whether it started with `initial: 0` or the user removed them all. It's a translatable text prop, so it takes [Locale Maps](/guide/i18n#locale-maps) too. The rendered placeholder is a `status` region the add button points at via `aria-describedby`, so screen readers announce the empty state together with the button.
 
 The `#placeholder` slot replaces it. Its `bindings` carry that `id` and `role` (plus [part](/guide/parts) overrides) and must be applied with `v-bind` to keep the button's description intact. The default styling class is not among them, so bring your own:
 
