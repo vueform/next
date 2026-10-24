@@ -28,6 +28,12 @@ import readline from 'node:readline'
 import { fileURLToPath } from 'node:url'
 
 import {
+  discoverPackages,
+  extractFilterFlag,
+  filterMatchesPackage,
+  type PackageInfo,
+} from './runner'
+import {
   createPaint,
   createRows,
   createRunLog,
@@ -54,18 +60,8 @@ const updateSnapshots = process.argv.find((arg) =>
 )
 
 // --filter <pkg> / -F / -f: run only that one package (by package name, dir
-// name, or bare name without the @vueform/ scope).
-function parseFilter(): string | undefined {
-  const argv = process.argv.slice(2)
-  for (let i = 0; i < argv.length; i++) {
-    const arg = argv[i]
-    if (arg === '--filter' || arg === '-F' || arg === '-f') return argv[i + 1]
-    const match = arg.match(/^(?:--filter|-F|-f)=(.*)$/)
-    if (match) return match[1]
-  }
-  return undefined
-}
-const filter = parseFilter()
+// name, bare name without the @vueform/ scope, or vueform.alias — e.g. pv).
+const { filter } = extractFilterFlag(process.argv.slice(2))
 
 export interface TestRunnerOptions {
   /**
@@ -91,11 +87,6 @@ export interface TestRunnerOptions {
    * errors log when something fails (the visual suites' choice).
    */
   logs?: 'full' | 'errors-only'
-}
-
-interface Pkg {
-  dir: string
-  name: string
 }
 
 interface WarnEntry {
@@ -140,16 +131,9 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
     // No totals yet.
   }
 
-  let packages: Pkg[] = fs
-    .readdirSync(path.join(repoRoot, 'packages'))
-    .flatMap((dir) => {
-      const manifest = path.join(repoRoot, 'packages', dir, 'package.json')
-      if (!fs.existsSync(manifest)) return []
-      const pkg = JSON.parse(fs.readFileSync(manifest, 'utf8'))
-      return pkg.scripts?.[opts.script]
-        ? [{ dir, name: pkg.name as string }]
-        : []
-    })
+  let packages: PackageInfo[] = discoverPackages().filter(
+    (pkg) => pkg.scripts[opts.script]
+  )
 
   if (!packages.length) {
     console.error(`No package has a "${opts.script}" script.`)
@@ -157,14 +141,11 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
   }
 
   if (filter !== undefined) {
-    const match = packages.find(
-      ({ dir, name }) =>
-        name === filter || dir === filter || name === `@vueform/${filter}`
-    )
+    const match = packages.find((pkg) => filterMatchesPackage(filter, pkg))
     if (!match) {
       console.error(
         `No package matching "${filter}" has a "${opts.script}" script ` +
-          `(available: ${packages.map(({ dir }) => dir).join(', ')}).`
+          `(available: ${packages.map(({ id }) => id).join(', ')}).`
       )
       process.exit(1)
     }
@@ -323,9 +304,9 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
     return errors
   }
 
-  function runPackage(pkg: Pkg): Promise<void> {
+  function runPackage(pkg: PackageInfo): Promise<void> {
     return new Promise((resolve) => {
-      const jsonFile = path.join(resultsDir, `${pkg.dir}.json`)
+      const jsonFile = path.join(resultsDir, `${pkg.id}.json`)
       const playwright = opts.kind === 'playwright'
       const args = playwright
         ? [
@@ -379,7 +360,7 @@ export async function runTestRunner(opts: TestRunnerOptions): Promise<void> {
 
       child.on('close', (code) => {
         untrackChild(child)
-        if (!playwright) state.warns = extractWarns(state.output, pkg.dir)
+        if (!playwright) state.warns = extractWarns(state.output, pkg.id)
 
         let passed = 0
         let failed = 0

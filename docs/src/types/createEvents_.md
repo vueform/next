@@ -53,22 +53,6 @@ function createEvents<
   off: EventListener<TEvents>
 
   /**
-   * Registers a callback that runs before the main event listeners.
-   *
-   * @param e The event name.
-   * @param callback The handler to invoke before the event fires.
-   */
-  onBefore: EventListener<TEvents>
-
-  /**
-   * Registers a callback that runs after the main event listeners.
-   *
-   * @param e The event name.
-   * @param callback The handler to invoke after the event fires.
-   */
-  onAfter: EventListener<TEvents>
-
-  /**
    * Whether any callback is currently registered for the given event.
    *
    * @param e The event name.

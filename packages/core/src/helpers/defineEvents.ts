@@ -62,8 +62,7 @@ type ListenerSignature<K extends string, TArgs extends any[]> =
   (e: K, callback: (...args: TArgs) => any) => void
 
 /**
- * Builds a typed listener registration signature (`on`, `off`, `onBefore`,
- * `onAfter`) from an event-name-to-argument-tuple map.
+ * Builds a typed listener registration signature (`on`, `off`) from an event-name-to-argument-tuple map.
  */
 export type FeatureListener<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
@@ -98,16 +97,6 @@ export type FeatureEvents<TEvents extends Record<string, any[]>> = {
    * Removes a previously registered event callback.
    */
   off: FeatureListener<TEvents>
-
-  /**
-   * Registers a callback that runs before the main event listeners.
-   */
-  onBefore: FeatureListener<TEvents>
-
-  /**
-   * Registers a callback that runs after the main event listeners.
-   */
-  onAfter: FeatureListener<TEvents>
 
   /**
    * Whether any callback is currently registered for the given event.
@@ -150,8 +139,7 @@ type ExternalEvents = {
 }
 
 /**
- * The return type of `defineEvents`, providing fire, on, off, onBefore, and
- * onAfter methods.
+ * The return type of `defineEvents`, providing fire, on and off methods.
  */
 export type DefineEvents<T extends Record<string, any>> = ReturnType<
   typeof defineEvents<T>
@@ -303,37 +291,37 @@ export function createEvents<
     })
   }
 
-  /**
-   * Registers a callback that runs before the main event listeners.
-   *
-   * @param e The event name.
-   * @param callback The handler to invoke before the event fires.
-   */
-  const onBefore: EventListener<TEvents> = (e, callback) => {
-    const event = toKebabCase(String(e))
+  // /**
+  //  * Registers a callback that runs before the main event listeners.
+  //  *
+  //  * @param e The event name.
+  //  * @param callback The handler to invoke before the event fires.
+  //  */
+  // const onBefore: EventListener<TEvents> = (e, callback) => {
+  //   const event = toKebabCase(String(e))
 
-    if (!befores.value[event]) {
-      befores.value[event] = []
-    }
+  //   if (!befores.value[event]) {
+  //     befores.value[event] = []
+  //   }
 
-    befores.value[event].push(callback)
-  }
+  //   befores.value[event].push(callback)
+  // }
 
-  /**
-   * Registers a callback that runs after the main event listeners.
-   *
-   * @param e The event name.
-   * @param callback The handler to invoke after the event fires.
-   */
-  const onAfter: EventListener<TEvents> = (e, callback) => {
-    const event = toKebabCase(String(e))
+  // /**
+  //  * Registers a callback that runs after the main event listeners.
+  //  *
+  //  * @param e The event name.
+  //  * @param callback The handler to invoke after the event fires.
+  //  */
+  // const onAfter: EventListener<TEvents> = (e, callback) => {
+  //   const event = toKebabCase(String(e))
 
-    if (!afters.value[event]) {
-      afters.value[event] = []
-    }
+  //   if (!afters.value[event]) {
+  //     afters.value[event] = []
+  //   }
 
-    afters.value[event].push(callback)
-  }
+  //   afters.value[event].push(callback)
+  // }
 
   /**
    * Whether any callback is currently registered for the given event.
@@ -359,8 +347,8 @@ export function createEvents<
     fireAsync,
     on,
     off,
-    onBefore,
-    onAfter,
+    // onBefore,
+    // onAfter,
     hasListeners,
     eventInProgress,
   }

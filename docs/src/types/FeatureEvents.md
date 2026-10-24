@@ -26,16 +26,6 @@ type FeatureEvents<TEvents extends Record<string, any[]>> = {
   off: FeatureListener<TEvents>
 
   /**
-   * Registers a callback that runs before the main event listeners.
-   */
-  onBefore: FeatureListener<TEvents>
-
-  /**
-   * Registers a callback that runs after the main event listeners.
-   */
-  onAfter: FeatureListener<TEvents>
-
-  /**
    * Whether any callback is currently registered for the given event.
    *
    * @param e The event name.

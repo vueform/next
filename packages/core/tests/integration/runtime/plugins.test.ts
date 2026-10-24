@@ -246,8 +246,6 @@ describe('Plugins', () => {
       expect(receivedApi.fireAsync).toBeInstanceOf(Function)
       expect(receivedApi.on).toBeInstanceOf(Function)
       expect(receivedApi.off).toBeInstanceOf(Function)
-      expect(receivedApi.onBefore).toBeInstanceOf(Function)
-      expect(receivedApi.onAfter).toBeInstanceOf(Function)
     })
 
     test('should be able to listen to events via api.on', async () => {
@@ -279,40 +277,40 @@ describe('Plugins', () => {
       expect(changeSpy.mock.calls[0][1]).toBe(null)
     })
 
-    test('should support onBefore/on/onAfter ordering', async () => {
-      const order: string[] = []
+    // test('should support onBefore/on/onAfter ordering', async () => {
+    //   const order: string[] = []
 
-      const { text } = createForm(
-        {
-          schema: defineSchema({
-            text: { type: 'text' },
-          }),
-        },
-        {
-          plugins: [
-            definePlugin(() => ({
-              apply: 'VfText',
-              extend(props, api) {
-                api.onBefore('change', () => {
-                  order.push('before')
-                })
-                api.on('change', () => {
-                  order.push('on')
-                })
-                api.onAfter('change', () => {
-                  order.push('after')
-                })
-              },
-            }))(),
-          ],
-        }
-      )
+    //   const { text } = createForm(
+    //     {
+    //       schema: defineSchema({
+    //         text: { type: 'text' },
+    //       }),
+    //     },
+    //     {
+    //       plugins: [
+    //         definePlugin(() => ({
+    //           apply: 'VfText',
+    //           extend(props, api) {
+    //             api.onBefore('change', () => {
+    //               order.push('before')
+    //             })
+    //             api.on('change', () => {
+    //               order.push('on')
+    //             })
+    //             api.onAfter('change', () => {
+    //               order.push('after')
+    //             })
+    //           },
+    //         }))(),
+    //       ],
+    //     }
+    //   )
 
-      text.update('value')
-      await nextTick()
+    //   text.update('value')
+    //   await nextTick()
 
-      expect(order).toEqual(['before', 'on', 'after'])
-    })
+    //   expect(order).toEqual(['before', 'on', 'after'])
+    // })
 
     test('should be able to fire events from the api', () => {
       const spy = vi.fn()

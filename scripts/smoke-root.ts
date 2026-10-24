@@ -13,8 +13,9 @@
  * scripts, their own dependsOn having packed already).
  *
  * Flags: `--filter <pkg>` / `-F` / `-f` runs a single adapter (package
- * name, dir name, or bare name); everything else (`--env`/`-E`,
- * `--sequential`, …) is forwarded to each adapter's CLI untouched.
+ * name, dir name, bare name or `vueform.alias`, e.g. `pv`); everything else
+ * (`--env`/`-E`, `--sequential`, …) is forwarded to each adapter's CLI
+ * untouched.
  */
 import { spawn, spawnSync } from 'node:child_process'
 import fs from 'node:fs'
@@ -37,6 +38,7 @@ export const bold = (t: string) => paint('1', t)
 interface Pkg {
   dir: string
   name: string
+  aliases: string[]
 }
 
 export interface SmokeRootOptions {
@@ -148,15 +150,24 @@ export async function runSmokeRoot(opts: SmokeRootOptions): Promise<void> {
       const manifest = path.join(repoRoot, 'packages', dir, 'package.json')
       if (!fs.existsSync(manifest)) return []
       const pkg = JSON.parse(fs.readFileSync(manifest, 'utf8'))
-      return pkg.scripts?.[opts.script]
-        ? [{ dir, name: pkg.name as string }]
-        : []
+      if (!pkg.scripts?.[opts.script]) return []
+      const alias = pkg.vueform?.alias
+      return [
+        {
+          dir,
+          name: pkg.name as string,
+          aliases: Array.isArray(alias) ? alias : alias ? [alias] : [],
+        },
+      ]
     })
 
   if (filter !== undefined) {
     const match = packages.find(
-      ({ dir, name }) =>
-        name === filter || dir === filter || name === `@vueform/${filter}`
+      ({ dir, name, aliases }) =>
+        name === filter ||
+        dir === filter ||
+        name === `@vueform/${filter}` ||
+        aliases.includes(filter)
     )
     if (!match) {
       console.error(

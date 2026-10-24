@@ -2,12 +2,12 @@
  * Monorepo check (`pnpm check`): one live row per gate — oxlint, stylelint,
  * eslint, lslint, fmt, then every typecheck leg (per package + root/node via
  * `:typecheck:root`, docs, benchmark) — each row running its vp task, so
- * vite-plus caching fully applies. Failing rows show their issue count;
- * output goes to `.vueform/check/logs` with an error-log link at the end.
+ * vite-plus caching fully applies. `--filter <pkg>` / `-F` / `-f` (package
+ * name, dir name, bare name or `vueform.alias`, e.g. `pv`) narrows the
+ * typecheck legs to that one package while the lint and fmt gates still run
+ * in full. Failing rows show their issue count; output goes to
+ * `.vueform/check/logs` with an error-log link at the end.
  */
-import fs from 'node:fs'
-import path from 'node:path'
-
 import type { RunRow } from './terminal'
 
 const {
@@ -17,7 +17,10 @@ const {
   issuesDetail,
   runRows,
 } = await import('./terminal')
-const { discoverPackages, repoRoot } = await import('./runner')
+const { extractFilterFlag } = await import('./runner')
+const { typecheckLegs } = await import('./typecheck-legs')
+
+const { filter } = extractFilterFlag(process.argv.slice(2))
 
 const lintRow = (name: string, task: string): RunRow => ({
   name,
@@ -39,10 +42,6 @@ const typecheckRow = (name: string, task: string): RunRow => ({
   }),
 })
 
-const typecheckPackages = discoverPackages().filter(
-  (pkg) => pkg.scripts.typecheck
-)
-
 const rows: RunRow[] = [
   lintRow('oxlint', ':oxlint'),
   lintRow('stylelint', ':stylelint'),
@@ -57,16 +56,7 @@ const rows: RunRow[] = [
       fail: code !== 0,
     }),
   },
-  ...typecheckPackages.map((pkg) =>
-    typecheckRow(pkg.id, `:typecheck:${pkg.id}`)
-  ),
-  typecheckRow('root', ':typecheck:root'),
-  ...(fs.existsSync(path.join(repoRoot, 'docs'))
-    ? [typecheckRow('docs', ':typecheck:docs')]
-    : []),
-  ...(fs.existsSync(path.join(repoRoot, 'benchmark'))
-    ? [typecheckRow('benchmark', ':typecheck:benchmark')]
-    : []),
+  ...typecheckLegs(filter).map(({ id, task }) => typecheckRow(id, task)),
 ]
 
 const ok = await runRows({

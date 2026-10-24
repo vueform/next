@@ -46,7 +46,7 @@
     "test-smoke": "tsx scripts/test-smoke.ts",
     "test-smoke-types": "tsx scripts/test-smoke-types.ts",
     "test-visual": "tsx scripts/test-visual.ts",
-    "typecheck": "vpr :typecheck"
+    "typecheck": "tsx scripts/typecheck.ts"
   },
   "devDependencies": {
     "@arethetypeswrong/cli": "catalog:",

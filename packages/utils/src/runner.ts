@@ -231,6 +231,50 @@ export function matchTasks(tasks: Task[], selector: string): Task[] {
   )
 }
 
+/**
+ * `--filter <value>` / `-F` / `-f` (space or `=` form) parsed out of argv: the
+ * filter value (undefined when the flag is absent) plus the remaining args,
+ * for runners that forward everything else untouched.
+ */
+export function extractFilterFlag(argv: string[]): {
+  filter: string | undefined
+  rest: string[]
+} {
+  let filter: string | undefined
+  const rest: string[] = []
+  for (let i = 0; i < argv.length; i++) {
+    const arg = argv[i]
+    if (arg === '--filter' || arg === '-F' || arg === '-f') {
+      filter = argv[++i]
+      continue
+    }
+    const match = arg.match(/^(?:--filter|-F|-f)=(.*)$/)
+    if (match) {
+      filter = match[1]
+      continue
+    }
+    rest.push(arg)
+  }
+  return { filter, rest }
+}
+
+/**
+ * Whether a `--filter` value names the package: directory id, published name,
+ * bare name without the `@vueform/` scope, or a `vueform.alias` entry (e.g.
+ * `pv` for primevue).
+ */
+export function filterMatchesPackage(
+  filter: string,
+  pkg: Pick<PackageInfo, 'id' | 'name' | 'aliases'>
+): boolean {
+  return (
+    pkg.name === filter ||
+    pkg.id === filter ||
+    pkg.name === `@vueform/${filter}` ||
+    pkg.aliases.includes(filter)
+  )
+}
+
 // Slate blue of the logo's left wing (#34495e), as 24-bit truecolor.
 const slate = (text: string) => color('38;2;52;73;94', text)
 

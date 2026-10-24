@@ -15,8 +15,6 @@ function defineEvents<
   ) => Promise<any>
   on: EventListener<TEvents>
   off: EventListener<TEvents>
-  onBefore: EventListener<TEvents>
-  onAfter: EventListener<TEvents>
   hasListeners: (e: keyof TEvents & string) => boolean
   eventInProgress: Ref<boolean, boolean>
 }

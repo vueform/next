@@ -1,7 +1,6 @@
 ```ts
 /**
- * Builds a typed listener registration signature (`on`, `off`, `onBefore`,
- * `onAfter`) from an event-name-to-argument-tuple map.
+ * Builds a typed listener registration signature (`on`, `off`) from an event-name-to-argument-tuple map.
  */
 type FeatureListener<TEvents extends Record<string, any[]>> =
   UnionToIntersection<
