@@ -16,6 +16,7 @@
     "locale",
     "forwards",
     "date",
+    "devtools",
     "autosave",
     "blueprint",
     "conditions",

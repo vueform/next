@@ -449,7 +449,7 @@ Element views mount at browser idle (`requestIdleCallback`, or a 300 ms timeout 
 
 Switches component events from Vueform's event system to native Vue emits. The trade-offs are covered in [event handlers](/guide/event-handlers#falling-back-to-native-vue-emits).
 
-### `devtools`
+### `!devtools`
 
 - Type: `boolean`
 - Default: `true`
