@@ -26,21 +26,28 @@ interface VueformInstance {
   readonly globals: VueformGlobals
 
   /**
-   * The locale module bound to this instance — for code outside components.
+   * `useLocale` bound to this instance — returns the instance's locale module,
+   * for code outside components.
    */
-  readonly $locale: LocaleModule
+  readonly useLocale: typeof useLocale
 
   /**
-   * An http instance bound to this Vueform instance — for code outside
-   * components.
+   * `useHttp` bound to this instance — creates an http instance over this
+   * instance's http module, for code outside components.
    */
-  readonly $http: HttpInstance
+  readonly useHttp: typeof useHttp
 
   /**
    * `useDate` bound to this instance — parses values through this instance's
    * date adapter, for code outside components.
    */
-  readonly $date: (value?: any, format?: string) => DateInstance
+  readonly useDate: typeof useDate
+
+  /**
+   * `useSecurity` bound to this instance — returns the instance's security
+   * module, for code outside components.
+   */
+  readonly useSecurity: typeof useSecurity
 
   /**
    * `useModel` bound to this instance — for code with no component context.
@@ -58,26 +65,6 @@ interface VueformInstance {
    * @param app The Vue application instance to install into.
    */
   readonly install: (app: App, ...options: any[]) => any
-
-  /**
-   * Registers a module implementation before Vueform is installed. Throws if
-   * called after installation.
-   *
-   * @param name The module key to register.
-   * @param module The module implementation.
-   */
-  readonly module: <T extends keyof VueformModules>(
-    name: T,
-    module: NonNullable<VueformModules[T]>
-  ) => void
-
-  /**
-   * Registers a Vueform plugin before installation. Throws if called after
-   * installation.
-   *
-   * @param plugin The plugin to register.
-   */
-  readonly use: (plugin: VueformPlugin) => void
 
   /**
    * Returns all generated CSS (grid and theme variables) for SSR or manual

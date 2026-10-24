@@ -3927,5 +3927,8 @@
   },
   "useSecurity": {
     "link": "/api/composables/useSecurity"
+  },
+  "useVueform": {
+    "link": "/api/composables/useVueform"
   }
 }

@@ -198,7 +198,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The root tabs container element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 
@@ -206,7 +206,7 @@ The root tabs container element.
 
 The tab list element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<ul>` |
 
@@ -214,7 +214,7 @@ The tab list element.
 
 Each tab wrapper. Receives the resolved page data.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<li>` |
 
@@ -222,7 +222,7 @@ Each tab wrapper. Receives the resolved page data.
 
 The tab button element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<button>` |
 <!-- @parts-end -->

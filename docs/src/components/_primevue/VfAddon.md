@@ -133,7 +133,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The root wrapper element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 <!-- @parts-end -->

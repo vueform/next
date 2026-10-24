@@ -1,7 +1,9 @@
 ```ts
 /**
- * Returns the Vueform instance of the calling component's app. Setup-only —
- * throws `NotInstalledError` outside a component context.
+ * Returns the Vueform instance of the injecting app (component setup /
+ * `app.runWithContext`). Throws `NotInstalledError` outside a component context
+ * — there is deliberately no ambient fallback, so a call can never silently
+ * read another instance's (or, under SSR, another request's) modules.
  */
 function useVueform(): VueformInstance
 ```
