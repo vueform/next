@@ -17,7 +17,7 @@ Each resolves the app's [Vueform Instance](/guide/vueform-instance) by [injectio
 Some modules separate the feature from the engine behind it. The engine is a slot in the module's `$`-options, so you can change what powers a feature while the module, its consumers, and its types stay as they are. The slots come in three kinds:
 
 - **Required engines** — [`$http.adapter`](/guide/http#switching-the-adapter), [`$date.adapter`](/guide/date#custom-adapters), and [`$expression.adapter`](/guide/expressions#the-expression-engine). These modules ship no default engine. The [Full Bundle](/guide/code-splitting#the-full-bundle) wires `fetchHttpAdapter`, `nativeDateAdapter`, and `pathExpressionAdapter`, while a [Modular Setup](/guide/code-splitting#modular-setup) has to wire them itself. Without one, requests reject, dates throw, and expressions stay inert with a dev warning.
-- **Replacement backends** — [`$i18n.adapter`](/guide/i18n#custom-i18n-backend) and [`$router.adapter`](/guide/multi-page-forms#browser-history). These modules have a built-in implementation, and the adapter — a function from the module's options to the full module surface — replaces it wholesale.
+- **Replacement backends** — [`$i18n.adapter`](/guide/i18n#custom-I18n-backend) and [`$router.adapter`](/guide/multi-page-forms#browser-history). These modules have a built-in implementation, and the adapter — a function from the module's options to the full module surface — replaces it wholesale.
 - **Capability engines** — [`$security.sanitizer`](/guide/security#html-sanitization) and `$security.encrypt` / `decrypt`. None is built in. Without a sanitizer, HTML renders raw — silently while `allowHtml` is unset; with it set, with a dev warning in development and rendering empty in production.
 
 A plugin's `config` hook runs before the modules are created, so a plugin can fill a slot — or register a whole module. [`@vueform/expr-eval`](/plugins/expr-eval) sets the expression engine and [`@vueform/dompurify`](/plugins/dompurify) sets `$security.sanitizer` for instance. The hook itself is covered in [plugins](/guide/plugins#extending-the-registries).
@@ -69,7 +69,7 @@ createVueform({
 })
 ```
 
-Override on the returned object rather than spreading it into a new one — some surfaces expose getters (the i18n module's `tags`), and a spread freezes them to their current value.
+Override on the returned object rather than spreading it into a new one — some surfaces expose getters (the `i18n` module's `tags`), and a spread freezes them to their current value.
 
 A module that depends on another resolves it at call time with `get<Name>Module(vueform)`, never inside `create`. Modules are created in key order, so anything read in `create` may not exist yet, while call-time lookups make registration order irrelevant. A definition without a `create` function throws at `createVueform()`.
 

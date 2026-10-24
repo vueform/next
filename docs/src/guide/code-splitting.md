@@ -8,7 +8,7 @@ A schema names element types and validation rules as strings — `{ type: 'text'
 
 ## The Full Bundle
 
-The **Full Bundle** is Vueform with nothing left to assemble. A single `!createVueform` import from `@vueform/ui/bundle` registers everything — all components, modules, and validation rules, the [default theme](/guide/themes-tokens#choosing-a-theme), the `en_US` locale set active, and default adapters for HTTP, dates, and expressions.
+The **Full Bundle** is Vueform with nothing left to assemble. A single `!createVueform` import from `@vueform/ui/bundle` registers everything — all components, modules, and validation rules, the [default theme](/guide/themes-tokens#choosing-a-theme), the `en_US` locale, and default adapters for HTTP, dates, and expressions.
 
 Every size in this chapter is the **gzipped** amount the item adds to a production Vite build with default settings, measured with <!-- @size:measured-with -->`@vueform/ui@2.0.0-0.7`<!-- /@size --> by the repository's size suite (`pnpm size`); all published numbers are for the regular virtual-DOM builds. In tables with a **Total** row, each row shows what removing that one item saves, while the Total is measured directly — items share code, so the Total can exceed the sum of the rows, and values near zero or slightly negative are compression noise. CSS only counts in builds that register the `theme` module, so module, rule, and locale rows are JS-only.
 

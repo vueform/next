@@ -477,7 +477,7 @@ Elements placed in the slot are not hoisted automatically — prefer an [element
 
 ### The Language Addon
 
-A translatable element (`translate: true`) automatically renders its per-element language switcher after its after-addons, and the `language` slot replaces it. Its configuration and behavior are covered in [multilingual inputs](/guide/i18n#per-element-language-switcher).
+A translatable element (`translate: true`) automatically renders its per-element language switcher after its after-addons, and the `language` slot replaces it. Its configuration and behavior are covered in [multilingual inputs](/guide/i18n#language-switchers).
 
 ## Slots
 

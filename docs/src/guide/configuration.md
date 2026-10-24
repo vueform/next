@@ -21,7 +21,7 @@ app.use(
 )
 ```
 
-The [Full Bundle](/guide/code-splitting#the-full-bundle) (`@vueform/ui/bundle`) registers every built-in component, module, and rule, its theme, the `en_US` locale set active, and three adapters — `fetchHttpAdapter` for `$http`, `nativeDateAdapter` for `$date`, and `pathExpressionAdapter` for `$expression`. What that convenience costs in bundle size is covered in [Code-Splitting](/guide/code-splitting#what-the-full-bundle-costs).
+The [Full Bundle](/guide/code-splitting#the-full-bundle) (`@vueform/ui/bundle`) registers every built-in component, module, and rule, its theme, the `en_US` locale, and three adapters — `fetchHttpAdapter` for `$http`, `nativeDateAdapter` for `$date`, and `pathExpressionAdapter` for `$expression`. What that convenience costs in bundle size is covered in [Code-Splitting](/guide/code-splitting#what-the-full-bundle-costs).
 
 The bare `@vueform/ui` entry starts from the core defaults alone — no components, modules, rules, theme, locale, or adapters. Only `modules.model` is mandatory; the bare `createVueform`'s type demands it, and the call throws without it. The full wiring of a hand-picked setup lives in [Code-Splitting](/guide/code-splitting#modular-setup).
 
@@ -288,7 +288,7 @@ Semantic icon names behind `$`-prefixed icon props. `$add` looks up `icons.add` 
 
 ## Internationalization
 
-The i18n module reads these top-level keys, and each of them can be overridden per app through the `$i18n` options bag under [module options](#module-options).
+The `i18n` module reads these top-level keys, and each of them can be overridden per app through the `$i18n` options bag under [module options](#module-options).
 
 ### `locales`
 
@@ -300,7 +300,7 @@ The registered locale definitions keyed by locale code. Your map replaces the en
 ### `!locale`
 
 - Type: `string | Ref<string>`
-- Default: `''` (`'en_US'` on the [Full Bundle](/guide/code-splitting#the-full-bundle))
+- Default: `''`
 
 The active locale key. It's never required — when empty, the first registered key is active, however many are registered. A ref binds two-way. See [locales](/guide/i18n#changing-the-active-locale).
 
@@ -382,7 +382,7 @@ App-wide interceptors nest inside instance-registered ones — instance request 
 
 ### `!$i18n`
 
-`locales`, `locale`, `fallbackLocale`, and `localeParamPattern` override the [top-level keys](#internationalization) of the same name, and `adapter` (`I18nAdapter`) replaces the whole i18n backend. See [i18n](/guide/i18n#custom-i18n-backend).
+`locales`, `locale`, `fallbackLocale`, and `localeParamPattern` override the [top-level keys](#internationalization) of the same name, and `adapter` (`I18nAdapter`) replaces the whole i18n backend. See [I18n](/guide/i18n#custom-I18n-backend).
 
 ### `!$router`
 

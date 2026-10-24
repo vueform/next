@@ -35,6 +35,5 @@ export const createVueform = createVueformFactory(
     modules,
     theme,
     locales: { en_US },
-    locale: 'en_US',
   })
 )
