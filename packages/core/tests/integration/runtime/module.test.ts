@@ -162,11 +162,6 @@ describe('Module resolution', () => {
     ).toThrow(
       'Module "locale" must be a definition created with defineModule()'
     )
-
-    const vueform = createVueform({ modules: { model } } as any)
-    expect(() => vueform.module('locale', {} as any)).toThrow(
-      'Module "locale" must be a definition created with defineModule()'
-    )
   })
 
   it('serves the noop surface when the module is absent from the resolved instance', () => {

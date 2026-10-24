@@ -43,25 +43,6 @@ describe('Plugin props/emits never mutate the shared component definitions', () 
     expect((VfTextarea.emits ?? []).includes('nestedEvent')).toBe(false)
   })
 
-  it('leaves the imported definition untouched for vueform.use() after creation', () => {
-    const vueform = createVueform({ modules: { model }, components } as any)
-
-    vueform.use(
-      definePlugin(() => ({
-        apply: 'VfText',
-        props: { lateProp: { type: Boolean } },
-        emits: ['lateEvent'],
-      }))()
-    )
-
-    const instanceText = vueform.config.components.VfText as any
-    expect(instanceText.props.lateProp).toBeDefined()
-    expect(instanceText.emits).toContain('lateEvent')
-
-    expect(Object.keys(VfText.props ?? {})).toEqual(propsBefore)
-    expect([...(VfText.emits ?? [])]).toEqual(emitsBefore)
-  })
-
   it("does not leak one instance's extensions into another", () => {
     const a = createVueform({
       modules: { model },

@@ -113,26 +113,6 @@ export interface VueformInstance {
   readonly install: (app: App, ...options: any[]) => any
 
   /**
-   * Registers a module implementation before Vueform is installed. Throws if
-   * called after installation.
-   *
-   * @param name The module key to register.
-   * @param module The module implementation.
-   */
-  readonly module: <T extends keyof VueformModules>(
-    name: T,
-    module: NonNullable<VueformModules[T]>
-  ) => void
-
-  /**
-   * Registers a Vueform plugin before installation. Throws if called after
-   * installation.
-   *
-   * @param plugin The plugin to register.
-   */
-  readonly use: (plugin: VueformPlugin) => void
-
-  /**
    * Returns all generated CSS (grid and theme variables) for SSR or manual
    * injection.
    */
@@ -445,11 +425,6 @@ export function createVueformFactory<
     const userConfig = (args[0] ?? {}) as UserConfig
 
     /**
-     * Whether the instance has been installed into at least one app.
-     */
-    let $installed = false
-
-    /**
      * The apps this instance is installed into.
      */
     const installedApps = new WeakSet<App>()
@@ -668,49 +643,9 @@ export function createVueformFactory<
           )
         })
 
-        $installed = true
-
         if (isDev()) {
           freezeConfigDev(config)
         }
-      },
-
-      /**
-       * Registers a module implementation before Vueform is installed. Throws
-       * if called after installation.
-       *
-       * @param name The module key to register.
-       * @param module The module implementation.
-       */
-      module: <T extends keyof VueformModules>(
-        name: T,
-        module: NonNullable<VueformModules[T]>
-      ) => {
-        if ($installed) {
-          throw new Error(
-            'Cannot register a module after Vueform has been installed'
-          )
-        }
-
-        config.modules[name] = module
-        instantiate(name, module)
-      },
-
-      /**
-       * Registers a Vueform plugin before installation. Throws if called after
-       * installation.
-       *
-       * @param plugin The plugin to register.
-       */
-      use: (plugin: VueformPlugin) => {
-        if ($installed) {
-          throw new Error(
-            'Cannot register a plugin after Vueform has been installed'
-          )
-        }
-
-        config.plugins.push(plugin)
-        applyPluginPropsAndEmits(plugin, config.components, clonedComponents)
       },
 
       /**
