@@ -222,7 +222,7 @@ export default definePlugin(() => ({
 
 Rules created with `!createRule` become available by name in every `rules` prop, exactly as if the app had [registered them](/guide/validation#registering-rules-globally). Components added to `components` need a `name` and behave like built-ins — and because plugin `props` / `emits` merge after every `config` hook, other plugins can target them too; [components](/guide/components) covers building them. The merged component [defaults](/guide/defaults) are built lazily from the final config, so writes here count.
 
-Modules and adapter slots are registries too. The modules are created after the `config` hooks run, so a plugin can fill `$http.adapter`, `$date.adapter`, or `$expression.adapter`, or add an entry to `config.modules`. The official plugins work exactly this way — `@vueform/expr-eval` fills the expression adapter only when unset, and `@vueform/devtools` registers its module. See [adapters and plugins](/guide/modules#adapters-and-plugins).
+Modules and adapter slots are registries too. The modules are created after the `config` hooks run, so a plugin can fill `$http.adapter`, `$date.adapter`, or `$expression.adapter`, or add an entry to `config.modules`. The official plugins work exactly this way — `@vueform/expr-eval` fills the expression adapter only when unset, and `@vueform/devtools` registers its module. See [adapters and plugins](/guide/in-depth-modules#adapters-and-plugins).
 
 Every other config key is listed in [configuration](/guide/configuration).
 

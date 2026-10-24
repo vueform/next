@@ -65,7 +65,7 @@ The bare entry registers no components, modules, rules, theme, or locale — and
 - Without `$date.adapter`, the `date` module throws on first use.
 - Without `$expression.adapter`, expressions stay inert — even plain `{path}` interpolation — with a development warning.
 
-All three defaults ship in `@vueform/ui`, as in the example. Swapping in custom ones is covered in [adapters and plugins](/guide/modules#adapters-and-plugins).
+All three defaults ship in `@vueform/ui`, as in the example. Swapping in custom ones is covered in [adapters and plugins](/guide/in-depth-modules#adapters-and-plugins).
 
 ### The Required Module
 

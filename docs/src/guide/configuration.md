@@ -74,7 +74,7 @@ Every entry is registered globally with `app.component()` at install, and a sche
 - Type: `VueformModules`
 - Default: `{}` — the pre-configured entries register every built-in
 
-Module definitions created with `defineModule`, keyed by module name. `model` is the one required entry on the bare entry. Registering, leaving out, and swapping modules is covered in [modules](/guide/modules).
+Module definitions created with `defineModule`, keyed by module name. `model` is the one required entry on the bare entry. Registering and leaving modules out is covered in [modules](/guide/modules), and replacing one in [in-depth modules](/guide/in-depth-modules#swapping-a-module).
 
 ### `rules`
 

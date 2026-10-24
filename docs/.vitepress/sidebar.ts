@@ -24,6 +24,7 @@ export default {
       text: 'Modules',
       collapsed: false,
       items: [
+        { text: 'Modules', link: '/guide/modules' },
         { text: 'Conditions', link: '/guide/conditions' },
         { text: 'Expressions', link: '/guide/expressions' },
         { text: 'Autosave', link: '/guide/autosave' },
@@ -32,7 +33,7 @@ export default {
       ],
     },
     {
-      text: 'In-Depth View',
+      text: 'Rendering',
       collapsed: false,
       items: [
         { text: 'Themes & Tokens', link: '/guide/themes-tokens' },
@@ -77,11 +78,11 @@ export default {
       text: 'Under the Hood',
       collapsed: false,
       items: [
-        { text: 'Dynamic Props', link: '/guide/dynamic-props' },
-        { text: 'Event Handlers', link: '/guide/event-handlers' },
-        { text: 'Element Paths', link: '/guide/element-paths' },
         { text: 'Vueform Instance', link: '/guide/vueform-instance' },
-        { text: 'Modules', link: '/guide/modules' },
+        { text: 'In-Depth Modules', link: '/guide/in-depth-modules' },
+        { text: 'Dynamic Props', link: '/guide/dynamic-props' },
+        { text: 'Element Paths', link: '/guide/element-paths' },
+        { text: 'Event Handlers', link: '/guide/event-handlers' },
       ],
     },
     {
