@@ -8,7 +8,7 @@ Every element in a form is addressed by a **path** — its `name`, prefixed by t
 
 ## Names Become Paths
 
-A top-level element's path is its `name`. Each container element it sits in prefixes its own name — one segment per level, nesting arbitrarily deep:
+A top-level element's path is its `name`. Every container around an element prepends its own name — one segment per level, at any depth:
 
 ```ts
 {
@@ -59,13 +59,13 @@ The two diverge at flat containers. A `VfGroup` or `VfGrid` without `nested` wri
 | **Company** | `billing.company` | `company` |
 | **City** | `shipping.city` | `shipping.city` |
 
-The model this schema produces is `{ company, shipping: { city } }`. A flat container (`nested: false` – the default) owns **no level of data** itself, so it has no data path — it can only be targeted by its tree path.
+The model this schema produces is `{ company, shipping: { city } }`. A flat container (`nested: false` *– the default*) owns **no level of data** itself, so it has no data path — it can only be targeted by its tree path.
 
-### Which Spelling Resolves
+### Which Path Resolves?
 
-Both spellings work everywhere an element reference is accepted — `form$.find()` / `.get()` / `.set()`, [condition](/guide/conditions) targets, [expression](/guide/expressions) references, rule parameters, [`conditionsTrigger`](/guide/conditions#async-conditions), and the error keys `setInvalid` applies after a [server validation error](/guide/validation#server-validation-errors). In the previous example `find('billing.company')` and `find('company')` return the same element. Use whichever spelling fits your mental model.
+Both `path` and `dataPath` work everywhere an element reference is accepted — `form$.find()` / `.get()` / `.set()`, [condition](/guide/conditions) targets, [expression](/guide/expressions) references, rule parameters, [`conditionsTrigger`](/guide/conditions#async-conditions), and the error keys `setInvalid` applies after a [server validation error](/guide/validation#server-validation-errors). In the previous example `find('billing.company')` and `find('company')` return the same element. Use whichever fits your mental model.
 
-A common convention is to split by what the reference points at. References about **data** — a condition comparing another field's value, an expression interpolating one — read naturally as data paths, since they mirror the model's shape. References about an **element** — `form$.find()` / `.get()` / `.set()`, and any `@prop` reference in conditions or expressions — take the tree path, the element's complete address, which is also what [typed paths](#typed-paths) suggest for them.
+A common convention is to split by what the reference **points at**. References about **data** — a condition comparing another field's value, an expression interpolating one — read naturally as data paths, since they mirror the model's shape. References about an **element** — `form$.find()` / `.get()` / `.set()`, and any `@prop` reference in conditions or expressions — take the tree path, the element's complete address, which is also what [typed paths](#typed-paths) suggest for them.
 
 ### Unique Data Paths
 
@@ -89,7 +89,7 @@ A `*` segment stands for the current row's index, filled from the referencing el
 
 Wildcards resolve in [conditions](/guide/conditions#conditions-in-repeated-rows), [expressions](/guide/expressions#expressions-in-lists), and [rule parameters](/guide/validation#referencing-other-elements) — each use has its own example at its home. `find()`, `get()`, `set()`, and `conditionsTrigger` take concrete paths only.
 
-Outside the list, only expressions give `*` a meaning — aggregate functions expand it over every existing row, as in `SUM(items.*.price)`. A condition outside the list that uses `*` matches no element and stays unmet.
+Outside the list, only expressions give `*` a meaning — [aggregate functions](/guide/expressions#numbers) expand it over every existing row, as in `SUM(items.*.price)`. A condition outside the list that uses `*` matches no element and stays unmet.
 
 ## Prop Paths
 

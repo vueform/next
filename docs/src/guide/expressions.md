@@ -338,7 +338,7 @@ The engine ships a library of helpers, called with parentheses inside a `{...}` 
 
 ### Built-in Functions
 
-**Logic**
+#### Logic
 
 | Function | Description |
 | --- | --- |
@@ -346,7 +346,7 @@ The engine ships a library of helpers, called with parentheses inside a `{...}` 
 | `EMPTY(value)` | `true` for `''`, `null`, `undefined`, or an empty array. |
 | `NOT_EMPTY(value)` | The inverse of `EMPTY`. |
 
-**Numbers**
+#### Numbers
 
 | Function | Description |
 | --- | --- |
@@ -359,7 +359,7 @@ The engine ships a library of helpers, called with parentheses inside a `{...}` 
 
 All of the number functions accept multiple arguments **and flatten arrays**, which makes them a natural fit for [wildcard list paths](#expressions-in-lists) like `SUM(items.*.price)`.
 
-**Text**
+#### Text
 
 | Function | Description |
 | --- | --- |
@@ -369,7 +369,7 @@ All of the number functions accept multiple arguments **and flatten arrays**, wh
 | `ENCODE_URI(value)` / `DECODE_URI(value)` | URI encoding / decoding. |
 | `ENCODE_URI_COMPONENT(value)` / `DECODE_URI_COMPONENT(value)` | URI-component encoding / decoding. |
 
-**Dates**
+#### Dates
 
 | Function | Description |
 | --- | --- |
