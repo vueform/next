@@ -136,16 +136,13 @@ export default {
       items: [
         // @generated:composables-start
         { text: 'useClasses', link: '/api/composables/useClasses' },
+        { text: 'useContext', link: '/api/composables/useContext' },
         { text: 'useDate', link: '/api/composables/useDate' },
         { text: 'useForm', link: '/api/composables/useForm' },
         { text: 'useHttp', link: '/api/composables/useHttp' },
         { text: 'useLocale', link: '/api/composables/useLocale' },
         { text: 'useModel', link: '/api/composables/useModel' },
         { text: 'useSecurity', link: '/api/composables/useSecurity' },
-        {
-          text: 'useTemplateContext',
-          link: '/api/composables/useTemplateContext',
-        },
         // @generated:composables-end
       ],
     },

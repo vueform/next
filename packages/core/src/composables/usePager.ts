@@ -10,7 +10,7 @@ import {
   type MaybeRef,
 } from 'vue'
 
-import { useContext } from '#src/contexts'
+import { useComponentContext } from '#src/contexts'
 import {
   defineEvents,
   type EventListener,
@@ -454,7 +454,7 @@ export function usePager(options: UsePagesOptions): Pager {
   const { on, off, fire, fireAsync, eventInProgress } =
     defineEvents<PagerEmits>()
 
-  const context$ = useContext()
+  const context$ = useComponentContext()
   const config = useConfig()
   const validation = getValidationModule()
   const makeDynamicProp = useDynamicPropFactory()

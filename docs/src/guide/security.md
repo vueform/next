@@ -4,7 +4,7 @@ outline: [2,3]
 
 # Security
 
-A schema is data that describes rendering, and it often comes from outside the app — a CMS, an API response, a form builder's output. Out of the box nothing is restricted — the right default when schemas are your own code. When they aren't, every surface a schema can reach locks down with one [`$security`](/guide/configuration#security) config option, and Vueform's guarantee is that a set option is enforced exactly as written — strings render as text outside the allowed HTML areas, component names resolve only from the allowlist, and requests stay on the origins you name.
+A schema is data that describes rendering, and it often comes from outside the app — a CMS, an API response, a form builder's output. Out of the box nothing is restricted — the right default when schemas are your own code. When they aren't, every surface a schema can reach locks down with one [`$security`](/guide/configuration#security) option, and Vueform's guarantee is that a set option is enforced exactly as written — strings render as text outside the allowed HTML areas, component names resolve only from the allowlist, and requests stay on the origins you name.
 
 These guarantees cover the client. Validation, file checks, and authorization still belong to your server — the [last section](#server-side-responsibilities) names exactly what.
 

@@ -155,7 +155,7 @@ const $http = useHttp(vueform)
 const [MyForm, form$] = useForm({ schema }, model, vueform)
 ```
 
-`useLocale(vueform)`, `useDate(value, format, vueform)`, and `useSecurity(vueform)` follow the same shape — each composable's API page documents the parameter. `useModel` has no such parameter, which is why the instance carries `vueform.useModel`. Composables that bind to a component — `useConditions`, `useTemplateContext` — stay setup-only, instance or not.
+`useLocale(vueform)`, `useDate(value, format, vueform)`, and `useSecurity(vueform)` follow the same shape — each composable's API page documents the parameter. `useModel` has no such parameter, which is why the instance carries `vueform.useModel`. Composables that bind to a component — `useConditions`, `useContext` — stay setup-only, instance or not.
 
 ## Styles on the Server
 

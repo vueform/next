@@ -1,6 +1,6 @@
 import { toRef, type MaybeRef, type Ref } from 'vue'
 
-import { useContext, useFormContext } from '#src/contexts'
+import { useComponentContext, useFormContext } from '#src/contexts'
 import {
   getConditionsModule,
   type ConditionalProp,
@@ -62,7 +62,7 @@ export function useConditions(
   options: UseConditionsOptions = {}
 ): Ref<boolean> {
   const module = getConditionsModule()
-  const context$ = options.context$ ?? useContext()
+  const context$ = options.context$ ?? useComponentContext()
   const form$ = useFormContext() ?? context$?.form$
   const model = options.model ?? toRef(() => form$?.model)
 

@@ -3793,6 +3793,9 @@
   "useClasses": {
     "link": "/api/composables/useClasses"
   },
+  "useContext": {
+    "link": "/api/composables/useContext"
+  },
   "useDate": {
     "link": "/api/composables/useDate"
   },
@@ -3810,8 +3813,5 @@
   },
   "useSecurity": {
     "link": "/api/composables/useSecurity"
-  },
-  "useTemplateContext": {
-    "link": "/api/composables/useTemplateContext"
   }
 }

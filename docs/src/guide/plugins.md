@@ -121,7 +121,7 @@ The `props` argument is the instance's raw Vue props — what was passed plus ea
 
 The `api` argument is the component's internal API, not the public context. Reactive members stay refs — an element's value reads as `api.value.value` — and the event helpers are merged in (`on`, `off`, `onBefore`, `onAfter`, `fire`, `fireAsync`), which makes `api.on()` the plugin's way to react to component events — see [hooks for plugins](/guide/event-handlers#hooks-for-plugins).
 
-What `api` lacks are the template-facing members. `classes`, `parts`, `bindings`, `outlets`, and the resolved `props` are not on it. Calling `!useTemplateContext` inside `extend` returns the component's public context, which serves the resolved props right away and receives the rest once setup finishes — so read those lazily, in a computed, watcher, or lifecycle hook.
+What `api` lacks are the template-facing members. `classes`, `parts`, `bindings`, `outlets`, and the resolved `props` are not on it. Calling `!useContext` inside `extend` returns the component's public context, which serves the resolved props right away and receives the rest once setup finishes — so read those lazily, in a computed, watcher, or lifecycle hook.
 
 ### Returning Extra Properties
 

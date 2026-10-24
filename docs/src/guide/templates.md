@@ -101,7 +101,7 @@ const { update, handleInput } = props.context // methods are stable
 
 A template can only rely on props the host declares. A prop of its own is declared on the host through a plugin — see [adding props and emits](/guide/plugins#adding-props-and-emits).
 
-Components nested inside the template reach the host without prop drilling via [`!useTemplateContext`](/api/composables/useTemplateContext), whose home is [context](/guide/context). It returns the **nearest** Vueform component, so content placed inside `<VfLayout>` gets the layout's context, not the element's — pass `context` down as a prop there.
+Components nested inside the template reach the host without prop drilling via [`!useContext`](/api/composables/useContext), whose home is [context](/guide/context). It returns the **nearest** Vueform component, so content placed inside `<VfLayout>` gets the layout's context, not the element's — pass `context` down as a prop there.
 
 ### Bindings
 

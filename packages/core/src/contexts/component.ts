@@ -46,7 +46,7 @@ const READY: unique symbol = Symbol('context-ready')
  */
 const VUE_RAW = '__v_raw'
 
-const [_useContext, provideComponentContext] =
+const [_useComponentContext, provideComponentContext] =
   createContext<UnknownComponent>('vueform-component')
 
 /**
@@ -205,8 +205,8 @@ export function markContextReady(context: any) {
  *
  * @context
  */
-export function useContext(): UnknownComponent {
-  const context$ = _useContext()
+export function useComponentContext(): UnknownComponent {
+  const context$ = _useComponentContext()
 
   if (!context$) {
     throw new Error('Component context is not available')

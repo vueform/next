@@ -6,7 +6,7 @@ import {
   usePager,
   useSchema,
 } from '#src/composables'
-import { useContext } from '#src/contexts'
+import { useComponentContext } from '#src/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -134,7 +134,7 @@ export function blueprint<TProps extends GroupProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<GroupEmits>
 ) {
-  const context$ = useContext()
+  const context$ = useComponentContext()
 
   const api = useFeatures(props, events)
     .use(makeElement())

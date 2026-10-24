@@ -17,7 +17,7 @@ import {
   useSecurity,
   useComponentFactory,
 } from '#src/composables'
-import { useContext } from '#src/contexts'
+import { useComponentContext } from '#src/contexts'
 import {
   makeElement,
   makeDisabled,
@@ -770,7 +770,7 @@ export function blueprint<TProps extends MatrixProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<MatrixEmits>
 ) {
-  const context$ = useContext()
+  const context$ = useComponentContext()
   const config = useConfig()
   const $security = useSecurity()
   const { makeFromSchema } = useComponentFactory()

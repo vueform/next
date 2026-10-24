@@ -1,6 +1,6 @@
 import { computed, ref, toValue, watch, type MaybeRefOrGetter } from 'vue'
 
-import { useContext } from '#src/contexts'
+import { useComponentContext } from '#src/contexts'
 import type { makeData, makeInteraction } from '#src/features'
 import { defineFeature, type FeatureEvents } from '#src/helpers'
 import type { LooseContext, ReturnsOf } from '#src/types'
@@ -149,7 +149,7 @@ const isTextLike = (el: Element) =>
 export const makeInput = defineFeature(
   (config?: MakeInputConfig) =>
     ({ deps, events }: MakeInputOptions) => {
-      const context$ = useContext()
+      const context$ = useComponentContext()
 
       // ================ REFS ================
 

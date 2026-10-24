@@ -15,7 +15,7 @@ import {
 } from 'vue'
 
 import {
-  useContext,
+  useComponentContext,
   useFormContext,
   type ContainerContext,
 } from '#src/contexts'
@@ -322,7 +322,7 @@ export function useData(options: UseDataOptions) {
     form$?.index
   )
   const modelModule = getModelModule()
-  const context$ = useContext()
+  const context$ = useComponentContext()
   const instance = useCurrentInstance()
   const componentScope = getCurrentScope()
   const { makeElementValidation } = getValidationModule()

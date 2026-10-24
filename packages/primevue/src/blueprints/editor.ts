@@ -30,7 +30,7 @@ import {
   type InputEmits,
   type ValidationEmits,
   type TranslatableModelApi,
-  useContext,
+  useComponentContext,
   aliasProps,
   type TValidationProps,
   type TranslateProps,
@@ -194,7 +194,7 @@ export function blueprint<TProps extends EditorProps<string>>(
   events: DefineEvents<EditorEmits>
 ) {
   const config = useConfig()
-  const context$ = useContext()
+  const context$ = useComponentContext()
 
   const api = useFeatures(
     aliasProps(props, {

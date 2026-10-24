@@ -1,4 +1,4 @@
-import { defineSchema, useTemplateContext } from '@vueform/core'
+import { defineSchema, useContext } from '@vueform/core'
 import {
   defineComponent,
   h,
@@ -16,7 +16,7 @@ import {
 import { createForm } from '../../helpers'
 
 // A custom template reaches its host two ways: the `context` prop and
-// `useTemplateContext()`. Both hand out the same public context object — the component
+// `useContext()`. Both hand out the same public context object — the component
 // context proxy. Reactive members read unwrapped and can be assigned (the
 // proxy writes the underlying ref), a destructured member is a snapshot, and
 // `toRef(context, key)` is a live, writable ref. The input element can be
@@ -28,7 +28,7 @@ const Tpl = markRaw(
   defineComponent({
     props: { context: { type: Object, required: true } },
     setup: (props) => {
-      const ctx = useTemplateContext('VfText')
+      const ctx = useContext('VfText')
       const live = toRef(props.context, 'value')
       const snapshot = props.context.value
 
@@ -52,7 +52,7 @@ const mountText = async () => {
   return result
 }
 
-describe('useTemplateContext', () => {
+describe('useContext', () => {
   it('should return the same context object the template receives as a prop', async () => {
     const { form } = await mountText()
     const tpl = form.findComponent(Tpl)
@@ -76,15 +76,15 @@ describe('useTemplateContext', () => {
 })
 
 describe('writing context members', () => {
-  it('should write the value through the prop, useTemplateContext, and a toRef', async () => {
+  it('should write the value through the prop, useContext, and a toRef', async () => {
     const { form, el } = await mountText()
     const context = form.findComponent(Tpl).props('context') as any
 
     context.value = 'via-prop'
     expect(el.value).toBe('via-prop')
 
-    seen.ctx.value = 'via-useTemplateContext'
-    expect(el.value).toBe('via-useTemplateContext')
+    seen.ctx.value = 'via-useContext'
+    expect(el.value).toBe('via-useContext')
 
     seen.live.value = 'via-toRef'
     expect(el.value).toBe('via-toRef')
@@ -118,13 +118,13 @@ describe('writing context members', () => {
   })
 })
 
-describe('useTemplateContext from nested components', () => {
+describe('useContext from nested components', () => {
   const nested: Record<string, any> = {}
 
   const Helper = defineComponent({
     props: { where: { type: String, required: true } },
     setup: (props) => {
-      nested[props.where] = useTemplateContext('VfText') as any
+      nested[props.where] = useContext('VfText') as any
       return () => h('span')
     },
   })

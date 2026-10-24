@@ -4,7 +4,7 @@ outline: [2,3]
 
 # Dynamic Props
 
-A dynamic prop resolves its value while the form runs, not when you write it. The same `label` can be a plain string in one form, an expression mixing in another field's value in the next, a ref driven from a store, or a function of the element's live state. Component reference tables mark these props with two types — `DProp` and `TProp` — and whatever shape you pass runs through one reactive pipeline and lands on the component's context as a plain resolved value.
+A dynamic prop resolves its value while the form runs, not when you write it. The same `label` can be a plain string in one form, an expression mixing in another field's value in the next, a ref driven from a store, or a function of the element's live state. Component reference tables mark these props with two types — the **dynamic prop** (`DProp`) and its translatable **text prop** variant (`TProp`) — and whatever shape you pass runs through one reactive pipeline and lands on the component's context as a plain resolved value.
 
 ## The Two Types
 
@@ -26,25 +26,30 @@ A plain value is used as-is. A string may carry `{...}` blocks that resolve agai
 
 The separate `string` member is why typed props take expressions too. A `DProp<number>` accepts `6` or a string that resolves to a number, and the pipeline [converts it back](#coercion) to the declared type.
 
-`TProp` adds one more shape, the **locale map** — an object keyed by locale code from which the active locale picks its entry. The shape, its fallback chain, and examples live in [translating props](/guide/translating-props#locale-maps).
+`TProp` adds one more shape, the [locale map](/guide/translating-props#locale-maps) — an object keyed by locale code from which the active locale picks its entry. The shape, its fallback chain, and examples live in [translating props](/guide/translating-props#locale-maps).
 
 The rule of thumb separating the two is simple. Text a person reads is a `TProp`, while values the framework consumes — icons, numeric bounds, severities — are `DProp`s, because there's nothing to translate. Reference tables show the exact type per prop, e.g. `TProp<string, TContext>` on [`!VfForm`'s `successMessage`](/components/VfForm#props.successMessage), and both types are importable from `@vueform/ui` for your own prop interfaces.
 
 ## Refs
 
-Reach for a ref when the value comes from state outside the form — a store, a composable, an API response:
+Reach for a ref when the value comes from state outside the form — a store, a composable, an API response. It drops straight into a schema entry, keeping the prop live where the definition would otherwise read as static data:
 
 ```vue
 <script setup lang="ts">
 import { ref } from 'vue'
+import { defineSchema, useForm } from '@vueform/ui'
 
 const label = ref('Email')
+
+const schema = defineSchema({
+  email: { type: 'text', label },
+})
+
+const [MyForm] = useForm({ schema })
 </script>
 
 <template>
-  <VfForm>
-    <VfText name="email" :label="label" />
-  </VfForm>
+  <MyForm />
 </template>
 ```
 
@@ -52,7 +57,7 @@ A `computed` works the same, since it's a ref. Writing to the ref re-resolves th
 
 ## Functions
 
-Reach for a function when the value depends on runtime state that `{...}` can't express — the element's own validation state, the pager position, anything on the context. The function receives the owning component's [context](/guide/context#context-from-argument) as its argument. On an element it receives the element's `el$`; on the form-level props (`successMessage`, `redirect`, `nextLabel` / `backLabel` / `finishLabel`) it receives `form$`.
+Reach for a function when the value needs logic that `{...}` can't carry — arbitrary JavaScript beyond the expression language's operator set, calls into your own or a library's code, or values captured from the surrounding scope (an import, a component-local variable) that no path or `@prop` reference can address. The function receives the owning component's [context](/guide/context#context-from-argument) as its argument.
 
 ```ts
 {
@@ -68,7 +73,7 @@ Reach for a function when the value depends on runtime state that `{...}` can't 
 }
 ```
 
-The function runs inside a `computed`, so it re-runs whenever a reactive value it reads changes, and only then. Its return value continues down the pipeline — a returned string still resolves `{...}` blocks, and on typed props it's still coerced.
+The function runs inside a `computed`, so it re-runs whenever a reactive value it reads changes, and only then. Its return value continues down the [pipeline](#resolution-pipeline) — a returned string still resolves `{...}` blocks, and on typed props it's still coerced.
 
 The context parameter is typed per component, in templates and in schemas alike — inside a `defineSchema` text entry, the `el$` above is a `VfTextContext`. The `any` default of `TContext` applies only when you use the bare `DProp<T>` / `TProp<T>` in your own types.
 
@@ -78,10 +83,10 @@ For dynamic text, choosing between a function and an expression is also a perfor
 
 Every shape resolves through the same ordered steps inside one `computed`, and the result is exposed on the component's context under the prop's own name — `el$.label` is the resolved string, while `el$.props.label` holds the raw input.
 
-1. **Unwrap.** A ref is read. If the prop is `undefined`, the component's own default takes over and nothing else runs — step buttons, for example, fall back to the `steps_next` / `steps_back` / `steps_finish` locale tags.
-2. **Call.** A function is called with the context.
+1. **Unwrap.** A ref is read. If the prop is `undefined`, the component's own default (if any) takes over and nothing else runs — step buttons, for example, fall back to the `steps_next` / `steps_back` / `steps_finish` locale tags.
+2. **Call.** A function is called with the [context](/guide/context).
 3. **Localize** (`TProp` only). An object picks its locale entry through the [resolution chain](/guide/translating-props#the-resolution-chain), and plain strings pass through.
-4. **Resolve expressions.** A string containing `{` is resolved against the form's data — unless the element or form sets `noExpressions`, or the `$expression.whitelist` excludes the prop. The whitelist key is the prop's **kebab-case** name (`success-message`, `icon-before`). See [restriction levels](/guide/expressions#restriction-levels).
+4. **Resolve expressions.** A string containing `{` is resolved against the form's data — unless the element or form sets `noExpressions`, or the [`$expression.whitelist`](/guide/configuration#expression) excludes the prop. The whitelist key is the prop's **kebab-case** name (`success-message`, `icon-before`). See [restriction levels](/guide/expressions#restriction-levels).
 5. **Sanitize** (`!VfContent`'s `content` only). A resolved string containing markup goes through the security module's sanitizer — see [HTML sanitization](/guide/security#html-sanitization).
 6. **Check URLs.** `redirect` accepts `http` / `https`, and a button's `href` / `to` accept `http` / `https` / `mailto` / `tel`. Relative URLs pass, while any other scheme resolves to `undefined` with a dev warning — see [always-on guards](/guide/security#always-on-guards).
 7. **Fall back.** A result of `''` — an expression whose referenced field is empty, an empty locale entry — falls back to the component's default, just like an `undefined` prop in step 1.
@@ -98,8 +103,6 @@ Each prop declares its target, so the last step differs per prop:
 - **Icons** go through the icon resolver, [below](#icons).
 - **Props that render as a string** — `label`, `help`, `successMessage`, `redirect`, page labels, rule messages — are stringified.
 - **Everything else** is normalized, so canonical numeric strings become numbers (`'5'` → `5`, while `'5.0'` and `'007'` stay strings).
-
-Number- and date-typed dynamic props currently exist only in the `@vueform/primevue` integration — a slider's `min` / `max` / `step` and a date picker's `minDate` / `maxDate`. There, `max: '{income}'` makes the slider's upper bound follow the `income` field, with the resolved string coerced back to a number.
 
 Only an `undefined` prop — raw or held in a ref — and a `''` resolution fall back to the default. A function that returns `undefined` skips the fallback, so string props resolve to `''` and the rest to `undefined`.
 

@@ -1,6 +1,6 @@
 import { onBeforeUnmount, watch } from 'vue'
 
-import { useContext } from '#src/contexts'
+import { useComponentContext } from '#src/contexts'
 import type { makeElement } from '#src/features'
 import { defineFeature } from '#src/helpers'
 import type { ReturnsOf } from '#src/types'
@@ -24,7 +24,7 @@ type MakeStaticOptions = {
  * @param options Factory options containing resolved dependencies.
  */
 export const makeStatic = defineFeature(() => ({ deps }: MakeStaticOptions) => {
-  const context$ = useContext()
+  const context$ = useComponentContext()
   const { path, container } = deps
 
   if (container) {

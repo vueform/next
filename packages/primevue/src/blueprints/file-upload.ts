@@ -9,7 +9,7 @@ import {
   makeInput,
   makeForwards,
   makeProvider,
-  useContext,
+  useComponentContext,
   type BaseElementClasses,
   type BaseElementEmits,
   type BaseElementExpose,
@@ -223,7 +223,7 @@ export function blueprint<TProps extends FileUploadProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<FileUploadEmits>
 ) {
-  const context$ = useContext()
+  const context$ = useComponentContext()
 
   const api = useFeatures(
     aliasProps(props, {

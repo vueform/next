@@ -6,7 +6,7 @@ import {
   useLocale,
   useSecurity,
 } from '#src/composables'
-import { useContext } from '#src/contexts'
+import { useComponentContext } from '#src/contexts'
 import {
   makeData,
   makeElement,
@@ -270,7 +270,7 @@ export function blueprint<TProps extends FileProps<string>>(
   props: LooseRequired<TProps>,
   events: DefineEvents<FileEmits>
 ) {
-  const context$ = useContext()
+  const context$ = useComponentContext()
   const { t } = useLocale()
   const $security = useSecurity()
 

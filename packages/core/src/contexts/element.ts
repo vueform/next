@@ -1,4 +1,4 @@
-import { useContext } from '#src/contexts'
+import { useComponentContext } from '#src/contexts'
 import { createContext } from '#src/helpers'
 import type { UnknownElement } from '#src/types'
 
@@ -9,7 +9,7 @@ const [_useElementContext, provideElementContext] =
  * Creates and provides the element context from the current component context.
  */
 export function createElementContext(): UnknownElement {
-  const el$ = useContext()
+  const el$ = useComponentContext()
 
   provideElementContext(el$)
 

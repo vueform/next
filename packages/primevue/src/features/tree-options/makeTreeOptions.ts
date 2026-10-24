@@ -3,7 +3,7 @@ import {
   useConditionalList,
   useExpression,
   useFormContext,
-  useContext,
+  useComponentContext,
   useHttp,
   equals,
   isThenable,
@@ -145,7 +145,7 @@ export const makeTreeOptions = defineFeature(
   () =>
     ({ props, deps }: MakeTreeOptionsOptions) => {
       const form$ = useFormContext()
-      const context$ = useContext()
+      const context$ = useComponentContext()
       const expression = useExpression()
       const $http = useHttp()
 

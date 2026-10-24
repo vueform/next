@@ -9,7 +9,7 @@ import {
   type Ref,
 } from 'vue'
 
-import { useContext, useFormContext } from '#src/contexts'
+import { useComponentContext, useFormContext } from '#src/contexts'
 import type { ItemsProp } from '#src/features'
 import type { ConditionsTriggerProp } from '#src/modules/conditions'
 import type { HttpResponse } from '#src/modules/http'
@@ -96,7 +96,7 @@ export function useItemsSource(options: UseItemsSourceOptions) {
   const { props, key = 'items', immediate = true } = options
 
   const form$ = useFormContext()
-  const context$ = useContext()
+  const context$ = useComponentContext()
   const expression = useExpression()
   const $http = useHttp()
 
