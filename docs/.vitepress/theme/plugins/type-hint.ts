@@ -18,6 +18,7 @@ interface Hint {
 }
 
 const HINT_RE = /^[ \t]*\/\/[ \t]*([\^<])(\d*)(\||\?)(.*)$/
+const BLANK_RE = /^[ \t]*\/\/[ \t]*\.[ \t]*$/
 
 /**
  * Static caret hints in fenced code. Annotation lines are stripped and a widget
@@ -36,9 +37,11 @@ const HINT_RE = /^[ \t]*\/\/[ \t]*([\^<])(\d*)(\||\?)(.*)$/
  * `name@"type"` (optional `kind:` prefix). Entries are separated by `|`. Prefix
  * `*` to select that row. `^?` is a type chip. Using `<` instead of `^` (`<|`,
  * `<?`) places the widget to the right of the caret instead of below it; an
- * optional pixel gap goes between the marker and the mark (`<16|` — space
- * between caret and panel, default 1rem). Neither type-checks the fence — the
- * payload is authored by hand.
+ * optional character gap goes between the marker and the mark (`<4|` — 4
+ * characters of space between caret and panel, default 0.5rem). A line that is
+ * exactly `//.` renders as an empty line — padding that survives the trailing
+ * trim, e.g. room below a right-placed panel. Neither type-checks the fence —
+ * the payload is authored by hand.
  */
 export function typeHint(): ShikiTransformer {
   return {
@@ -61,6 +64,10 @@ export function typeHint(): ShikiTransformer {
 
       for (let i = 0; i < lines.length; i++) {
         const text = collectText(lines[i].children)
+        if (BLANK_RE.test(text)) {
+          lines[i].children = []
+          continue
+        }
         const match = text.match(HINT_RE)
         if (!match) continue
 
@@ -263,7 +270,7 @@ function renderHint(hint: Hint): Element {
             `type-hint-panel type-hint-panel-${hint.kind}` +
             (hint.placement === 'right' ? ' type-hint-panel-right' : ''),
           ...(hint.gap !== undefined && {
-            style: `--type-hint-gap: ${hint.gap}px`,
+            style: `--type-hint-gap: ${hint.gap}ch`,
           }),
         },
         children: panelChildren,

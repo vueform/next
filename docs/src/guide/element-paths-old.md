@@ -224,7 +224,7 @@ const schema = defineSchema({
 const [Form, form$] = useForm({ schema })
 
 form$?.find('')
-//           <22|*text:name@"name"|text:address@"address"|text:address.city@"address.city"
+//           <3|*text:name@"name"|text:address@"address"|text:address.city@"address.city"
 ```
 
 <br />
