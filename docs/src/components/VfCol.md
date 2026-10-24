@@ -308,6 +308,17 @@ Reactive properties and methods accessible on the component's [Context](/guide/c
 | [`parts`](!code#context.parts "object") | The resolved DOM attribute overrides for internal elements. |
 | [`nonce`](!code#context.nonce "string \| undefined") | Unique security nonce for injecting scoped styles. |
 
+### Events {#section-events}
+
+| Name | Description |
+| --- | --- |
+| [`fire()`](!code#context.fire "(e: string, ...args: any[]) => any") | Fires an event synchronously, invoking before, main, and after listeners in order. |
+| [`fireAsync()`](!code#context.fireAsync "(e: string, ...args: any[]) => Promise<any>") | Fires an event asynchronously, awaiting each callback and short-circuiting when any returns `false`. |
+| [`on()`](!code#context.on "(e: string, callback: (...args: any[]) => any) => void") | Subscribes a callback to a specific event. |
+| [`off()`](!code#context.off "(e: string, callback: (...args: any[]) => any) => void") | Removes a previously registered event callback. |
+| [`onBefore()`](!code#context.onBefore "(e: string, callback: (...args: any[]) => any) => void") | Registers a callback that runs before the main event listeners. |
+| [`onAfter()`](!code#context.onAfter "(e: string, callback: (...args: any[]) => any) => void") | Registers a callback that runs after the main event listeners. |
+
 ### Accessibility {#section-a11y}
 
 | Name | Description |
@@ -359,7 +370,7 @@ DOM attribute overrides targeting internal elements. See [Parts](/guide/parts) f
 
 The root column element.
 
-| | |
+|  |  |
 | --- | --- |
 | **Element** <a class="vp-info-hint" data-popover='[{"type":"text","content":"The HTML tag or Vue component rendered by this part."}]'></a> | `<div>` |
 <!-- @parts-end -->

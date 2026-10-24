@@ -108,6 +108,11 @@ const COMMON_GROUPS_SET = new Set(
   CONTEXT_GROUPS.filter((g) => g.common).map((g) => g.id)
 )
 
+// Members `useBlueprint` puts on every component context besides the
+// blueprint's own returns: the resolved props/parts/classes surfaces and the
+// `defineEvents` helpers. They never appear in the extracted jsons, so they
+// are filled in here; a blueprint's own entry (e.g. the form's bridged
+// `fire` / `fireAsync`) wins over these.
 const STANDARD_EXPOSED: Record<string, { type: string; description: string }> =
   {
     props: {
@@ -122,6 +127,34 @@ const STANDARD_EXPOSED: Record<string, { type: string; description: string }> =
     classes: {
       type: 'object',
       description: 'The resolved CSS class map for the component.',
+    },
+    fire: {
+      type: '(e: string, ...args: any[]) => any',
+      description:
+        'Fires an event synchronously, invoking before, main, and after listeners in order.',
+    },
+    fireAsync: {
+      type: '(e: string, ...args: any[]) => Promise<any>',
+      description:
+        'Fires an event asynchronously, awaiting each callback and short-circuiting when any returns `false`.',
+    },
+    on: {
+      type: '(e: string, callback: (...args: any[]) => any) => void',
+      description: 'Subscribes a callback to a specific event.',
+    },
+    off: {
+      type: '(e: string, callback: (...args: any[]) => any) => void',
+      description: 'Removes a previously registered event callback.',
+    },
+    onBefore: {
+      type: '(e: string, callback: (...args: any[]) => any) => void',
+      description:
+        'Registers a callback that runs before the main event listeners.',
+    },
+    onAfter: {
+      type: '(e: string, callback: (...args: any[]) => any) => void',
+      description:
+        'Registers a callback that runs after the main event listeners.',
     },
   }
 

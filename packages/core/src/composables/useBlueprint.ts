@@ -1772,8 +1772,15 @@ export function useBlueprint<
   const propRefs = createPropRefs(props)
 
   // Event helpers and `props` must be on `api` before `useClasses` so
-  // factories and the public context receive them.
-  Object.assign(api, events, { props })
+  // factories and the public context receive them. Helpers only fill gaps —
+  // a blueprint's own member wins (the form returns bridged `fire` /
+  // `fireAsync` that mirror events into an attached model instance).
+  for (const key of Object.keys(events)) {
+    if (!(key in api)) {
+      ;(api as Record<string, any>)[key] = events[key]
+    }
+  }
+  Object.assign(api, { props })
 
   const {
     classes,

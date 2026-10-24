@@ -783,7 +783,7 @@ function setup(
    */
   const attachedModelEvents = modelModule.getModelEvents(props.modelValue)
 
-  const { on, off, fire: fireOwn, fireAsync: fireOwnAsync } = events
+  const { on, fire: fireOwn, fireAsync: fireOwnAsync } = events
 
   /**
    * Fires a form event, mirrored into the attached instance's emitter.
@@ -1737,8 +1737,6 @@ function setup(
     getDraft,
     restoreDraft,
     discardDraft,
-    on,
-    off,
     fire,
     fireAsync,
     find,
