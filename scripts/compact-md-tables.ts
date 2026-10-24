@@ -6,7 +6,7 @@
  * fenced code blocks are skipped, everything else passes through verbatim.
  *
  * Files to rewrite come as arguments; with none, every `.md` under
- * `docs/src/guide` is processed. Changed files are rewritten in place and
+ * `docs/src` is processed. Changed files are rewritten in place and
  * listed; unchanged files are left alone.
  */
 import * as fs from 'node:fs'
@@ -97,8 +97,8 @@ function compactTables(source: string): string {
   return out.join('\n')
 }
 
-function listGuideFiles(): string[] {
-  const dir = path.join(root, 'docs/src/guide')
+function listDocsFiles(): string[] {
+  const dir = path.join(root, 'docs/src')
   return fs
     .readdirSync(dir, { recursive: true, encoding: 'utf8' })
     .filter((f) => f.endsWith('.md'))
@@ -108,7 +108,7 @@ function listGuideFiles(): string[] {
 const files = process.argv.slice(2).filter((f) => f.endsWith('.md'))
 const targets = files.length
   ? files.map((f) => path.resolve(f))
-  : listGuideFiles()
+  : listDocsFiles()
 
 for (const file of targets) {
   const source = fs.readFileSync(file, 'utf8')

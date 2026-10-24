@@ -1136,7 +1136,7 @@ function generatePartsSection(
     sections.push('')
     sections.push(desc)
     sections.push('')
-    sections.push('| | |')
+    sections.push('|  |  |')
     sections.push('| --- | --- |')
     sections.push(...rows)
     sections.push('')

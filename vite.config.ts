@@ -506,11 +506,11 @@ export default defineConfig({
         command: 'tsx scripts/compact-md-tables.ts',
         cache: {
           input: [
-            'docs/src/guide/**/*.md',
+            'docs/src/**/*.md',
             'scripts/compact-md-tables.ts',
             'pnpm-lock.yaml',
           ],
-          output: ['docs/src/guide/**/*.md'],
+          output: ['docs/src/**/*.md'],
         },
       },
       ':stylelint': {
