@@ -104,6 +104,8 @@ Each prop declares its target, so the last step differs per prop:
 - **Props that render as a string** — `label`, `help`, `successMessage`, `redirect`, page labels, rule messages — are stringified.
 - **Everything else** is normalized, so canonical numeric strings become numbers (`'5'` → `5`, while `'5.0'` and `'007'` stay strings).
 
+Coercion is what closes the expression round trip on typed props — on a `DProp<number>`, the string `'{income}'` resolves against the referenced field and comes back as a number.
+
 Only an `undefined` prop — raw or held in a ref — and a `''` resolution fall back to the default. A function that returns `undefined` skips the fallback, so string props resolve to `''` and the rest to `undefined`.
 
 ### Icons
@@ -112,30 +114,11 @@ Icon props are `DProp<string>`. A `$`-prefixed name (`$add`, `$remove`, `$sort`)
 
 ## Where Each Type Appears
 
-The table below is the complete set — anything not listed is a plain prop, and the component's prop table is authoritative.
-
-| Prop | Type | On |
-| --- | --- | --- |
-| `label`, `help`, `description`, `displayName` | `TProp<string>` | every element |
-| `placeholder` | `TProp<string>` | `!VfText`, `!VfTextarea`, `!VfSelect`; also `!VfList`'s empty-state text |
-| `text` | `TProp<string>` | `!VfCheckbox`, `!VfRadio`, `!VfButton`, `!VfFile` |
-| `content` | `TProp<string>` | `!VfContent` |
-| `addLabel`, `removeLabel` | `TProp<string>` | `!VfList`, `!VfMatrix` |
-| `successMessage`, `redirect` | `TProp<string>` | `!VfForm` |
-| `nextLabel`, `backLabel`, `finishLabel` | `TProp<string>` | `!VfForm` (multi-page); `next`, `back`, `finish` on `!VfNav` |
-| page labels (the `page` prop's label) | `TProp<string>` | elements in stepped/tabbed forms — see [page labels](/guide/multi-page-forms#page-labels) |
-| `ruleMessages` values | `TProp<string>` | elements and `!VfForm` — see [error messages](/guide/validation#element-and-form-messages) |
-| `href`, `to` | `TProp<string>` | `!VfButton` |
-| `iconBefore`, `iconAfter` | `DProp<string>` | `!VfText`, `!VfTextarea`, `!VfSelect`, `!VfField` |
-| `icon` | `DProp<string>` | `!VfButton` |
-| `addIcon`, `removeIcon`, `sortIcon` | `DProp<string>` | `!VfList`, `!VfMatrix` (`!VfFile` has add/remove) |
-| `severity` | `DProp<'primary' \| …>` | `!VfButton` |
-
-The PrimeVue integration adds its own — text props like `info`, `tooltip`, `floatLabel`, `ifta`, `badge`, and `mask` are `TProp`s, while its typed bounds are `DProp`s (`min` / `max` / `step` and `fileLimit` / `maxFileSize` as `DProp<number>`, `minDate` / `maxDate` as `DProp<string | Date>`).
+Which props are dynamic varies per component, and there is no list to memorize — each component's reference page marks them. A prop typed `DProp` or `TProp` in its **Props** tab resolves through the pipeline above, and everything else is a plain prop. [`!VfText`'s props](/components/VfText#props), for example, mark `label` and `placeholder` as `TProp`s and `iconBefore` as a `DProp<string>` among others.
 
 ### Props With Their Own Shapes
 
-A few props accept similar shapes through their own mechanism, so they aren't `DProp`s and don't follow the pipeline above:
+A few props carry neither type yet accept similar shapes through their own mechanism, so they don't follow the pipeline above:
 
 - `columns` takes a number, a breakpoint object, a function, or a bare expression, but no ref — see [dynamic column widths](/guide/form-structure#dynamic-column-widths).
 - `conditions`, and conditional `disabled` / `readonly`, follow the condition formats — see [conditions](/guide/conditions#disabled-and-readonly).
