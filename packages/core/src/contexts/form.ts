@@ -19,8 +19,6 @@ export function createFormContext(): FormContext {
 /**
  * Injects the nearest ancestor form's context, providing access to form state,
  * submission, validation, and child elements.
- *
- * @context
  */
 export function useFormContext(): FormContext | undefined {
   return _useFormContext()

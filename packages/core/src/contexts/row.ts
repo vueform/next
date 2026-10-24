@@ -37,8 +37,6 @@ export function createRowContext(options: RowContext): RowContext {
 /**
  * Injects the nearest ancestor row's context, providing the row index, column
  * sizes, and parent grid state.
- *
- * @context
  */
 export function useRowContext(): RowContext | undefined {
   return _useRowContext()

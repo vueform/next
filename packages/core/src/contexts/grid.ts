@@ -62,8 +62,6 @@ export function createGridContext(options: GridContext): GridContext {
 /**
  * Injects the nearest ancestor grid's context, providing access to inline grid
  * state, cells, and layout refresh.
- *
- * @context
  */
 export function useGridContext(): GridContext | undefined {
   return _useGridContext()

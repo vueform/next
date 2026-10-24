@@ -202,8 +202,6 @@ export function markContextReady(context: any) {
 /**
  * Injects the nearest ancestor's component context, throwing if none is
  * available.
- *
- * @context
  */
 export function useComponentContext(): UnknownComponent {
   const context$ = _useComponentContext()

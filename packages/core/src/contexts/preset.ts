@@ -26,8 +26,6 @@ export function createPresetContext(presets: PresetContext): PresetContext {
 /**
  * Injects the preset context containing the normalized preset definitions for
  * the current component scope.
- *
- * @context
  */
 export function usePresetContext(): PresetContext | undefined {
   return _usePresetContext()
